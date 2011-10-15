@@ -1323,8 +1323,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		result.add(accountItems);
 
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
+		Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
+		moreItems.add("", "Add more accounts");
 		actions.add(moreItems);
 		return null;
 	}
