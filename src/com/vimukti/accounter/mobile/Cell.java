@@ -28,6 +28,9 @@ public class Cell {
 
 	@Override
 	public String toString() {
-		return String.valueOf(value);
+		if (value == null) {
+			return "";
+		}
+		return value.toString();
 	}
 }
