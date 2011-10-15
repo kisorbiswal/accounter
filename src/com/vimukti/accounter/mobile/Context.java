@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,10 +9,10 @@ import java.util.Map;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 
 public class Context {
 
@@ -162,8 +163,11 @@ public class Context {
 					numbers.add(parseInt);
 				}
 				if (StringUtils.isDate(string)) {
-					Date d = new Date(string);
-					dates.add(d);
+					SimpleDateFormat dateFormat = new SimpleDateFormat(
+							"dd/MM/yyyy");
+					dateFormat.parse(string);
+					Date date = dateFormat.parse(string);
+					dates.add(date);
 				}
 				strings.add(string);
 			}
@@ -259,7 +263,7 @@ public class Context {
 		return (List<T>) selectedRecords.get(name);
 	}
 
-	public Address getAddress() {
+	public ClientAddress getAddress() {
 		// TODO Auto-generated method stub
 		return null;
 	}
