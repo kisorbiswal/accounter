@@ -25,20 +25,20 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement("name", false, true));
+		list.add(new Requirement("incomeaccount", false, true));
+		list.add(new Requirement("vatCode", false, true));
+		list.add(new Requirement("expenseAccount", false, true));
 		list.add(new Requirement("iSellthis", true, true));
 		list.add(new Requirement("description", true, true));
 		list.add(new Requirement("price", true, true));
-		list.add(new Requirement("incomeaccount", false, true));
 		list.add(new Requirement("isTaxable", true, true));
 		list.add(new Requirement("isCommisionItem", true, true));
 		list.add(new Requirement("cost", true, true));
 		list.add(new Requirement("itemgroup", true, true));
-		list.add(new Requirement("vatCode", false, true));
 		list.add(new Requirement("active", true, true));
 		list.add(new Requirement("buyservice", true, true));
 		list.add(new Requirement("purchaseDescription", true, true));
 		list.add(new Requirement("purchasePrice", true, true));
-		list.add(new Requirement("expenseAccount", false, true));
 		list.add(new Requirement("preferedSupplier", true, true));
 		list.add(new Requirement("supplierServiceNo", true, true));
 
