@@ -245,7 +245,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setPaymentMethod(paymentMethod);
 		customer.setPaymentTerm(paymentTerms);
 		customer.setCustomerGroup(customerGroup);
-		customer.setShippingMethod(shippingMethod);
+		if (preferences.isDoProductShipMents())
+			customer.setShippingMethod(shippingMethod);
 		if (preferences.isTrackTax()) {
 			if (countryPreferences.isVatAvailable()) {
 				customer.setTAXCode(taxCode);
@@ -442,9 +443,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = preferredShippingMethodRequirement(context, list, selection);
-		if (result != null) {
-			return result;
+		if (preferences.isDoProductShipMents()) {
+			result = preferredShippingMethodRequirement(context, list,
+					selection);
+			if (result != null) {
+				return result;
+			}
 		}
 		result = customerGroupRequirement(context, list, selection);
 		if (result != null) {
