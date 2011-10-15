@@ -16,7 +16,6 @@ import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -290,7 +289,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = phoneRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, PHONE,
+				"Enter Phone Number");
 		if (result != null) {
 			return result;
 		}
@@ -301,7 +301,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = deliveryDateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, DELIVERY_DATE,
+				"Enter the " + DELIVERY_DATE, selection);
 
 		if (result != null) {
 			return result;
@@ -349,36 +350,6 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		result.add(actions);
 
 		return result;
-	}
-
-	private Result deliveryDateRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(DELIVERY_DATE);
-		Date dueDate = (Date) req.getValue();
-		if (dueDate != null)
-			return null;
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(DELIVERY_DATE)) {
-			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			dueDate = date;
-			req.setValue(dueDate);
-		}
-		if (selection == dueDate) {
-			context.setAttribute(INPUT_ATTR, DELIVERY_DATE);
-			return date(context, DELIVERY_DATE, dueDate);
-		}
-
-		Record dueDateRecord = new Record(dueDate);
-		dueDateRecord.add("Name", DELIVERY_DATE);
-		dueDateRecord.add("Value", dueDate.toString());
-		list.add(dueDateRecord);
-		return null;
-
 	}
 
 }
