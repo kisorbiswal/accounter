@@ -109,7 +109,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 	}
 
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -244,6 +244,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			}
 			description = desc;
 			descriptionReq.setValue(description);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null && selection == DESCRIPTION) {
 			context.setAttribute(INPUT_ATTR, DESCRIPTION);
@@ -296,13 +297,14 @@ public class NewVATItemCommand extends AbstractVATCommand {
 	}
 
 	private Record createVATReturnBoxRecord(VATReturnBox vatReturnBox) {
-		Record record = new Record(VAT_RETURN_BOX);
+		Record record = new Record(vatReturnBox);
 		record.add("Name", vatReturnBox.getName());
 		return record;
 	}
 
 	private Result createVATItem(Context context) {
 		TAXItem taxItem = new TAXItem();
+		taxItem.setCompany(context.getCompany());
 
 		String name = (String) get(NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
