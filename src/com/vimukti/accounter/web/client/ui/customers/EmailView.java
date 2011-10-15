@@ -67,7 +67,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		AccounterConstants constants = Global.get().constants();
 
-		fromAddcombo = new EmailCombo(Accounter.constants().from());
+		fromAddcombo = new EmailCombo(Accounter.constants().from(), false);
 		ArrayList<String> toAdd = fromAddcombo.getToAddress();
 
 		from = toAdd.get(0);
