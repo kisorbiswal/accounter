@@ -252,7 +252,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				list.add(taxcodeRecord);
 			}
 		}
-		result = stringOptionalRequirement(context, list, selection, NUMBER,
+		result = numberOptionalRequirement(context, list, selection, NUMBER,
 				"Enter Credit Note No");
 		if (result != null) {
 			return result;
@@ -263,7 +263,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, PHONE,
+		result = numberOptionalRequirement(context, list, selection, PHONE,
 				"Enter Phone Number");
 		if (result != null) {
 			return result;
