@@ -641,12 +641,16 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				if (this.transaction.isDebitTransaction()) {
 					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 						return this.itemBackUp.getIncomeAccount();
-					} else if (this.transaction.getType() == Transaction.TYPE_WRITE_CHECK
-							&& ((WriteCheck) this.transaction).getCustomer() != null) {
-
-						return this.itemBackUp.getIncomeAccount();
-
-					} else {
+					}
+					// else if (this.transaction.getType() ==
+					// Transaction.TYPE_WRITE_CHECK
+					// && ((WriteCheck) this.transaction).getCustomer() != null)
+					// {
+					//
+					// return this.itemBackUp.getIncomeAccount();
+					//
+					// }
+					else {
 
 						return this.itemBackUp.getExpenseAccount();
 					}
@@ -663,12 +667,16 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				if (this.transaction.isDebitTransaction()) {
 					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 						return this.item.getIncomeAccount();
-					} else if (this.transaction.getType() == Transaction.TYPE_WRITE_CHECK
-							&& ((WriteCheck) this.transaction).getCustomer() != null) {
-
-						return this.item.getIncomeAccount();
-
-					} else {
+					}
+					// else if (this.transaction.getType() ==
+					// Transaction.TYPE_WRITE_CHECK
+					// && ((WriteCheck) this.transaction).getCustomer() != null)
+					// {
+					//
+					// return this.item.getIncomeAccount();
+					//
+					// }
+					else {
 
 						return this.item.getExpenseAccount();
 					}
