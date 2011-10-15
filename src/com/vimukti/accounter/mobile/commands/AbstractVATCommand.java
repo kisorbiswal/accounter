@@ -160,8 +160,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected Result accountRequirement(Context context, String string) {
-		Requirement accountReq = get(string);
+	protected Result accountRequirement(Context context, String name) {
+		Requirement accountReq = get(name);
 		Account account = context.getSelection(ACCOUNTS);
 		if (account != null) {
 			accountReq.setValue(account);
@@ -216,7 +216,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		Requirement taxRateReq = get(AMOUNT);
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(AMOUNT)) {
-			double amount = context.getInteger();
+			double amount = Double.parseDouble(context.getNumber());
 			taxRateReq.setValue(amount);
 			context.setAttribute(INPUT_ATTR, "default");
 		}

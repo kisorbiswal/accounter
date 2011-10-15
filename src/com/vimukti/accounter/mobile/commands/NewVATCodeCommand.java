@@ -191,14 +191,14 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		Requirement nameReq = get(NAME);
 		String name = (String) nameReq.getValue();
-		if (name == selection) {
+		if (NAME == selection) {
 			context.setAttribute(INPUT_ATTR, NAME);
 			return text(context, "Please Enter the VAT Code Name.", name);
 		}
 
 		ResultList list = new ResultList("values");
 
-		Record nameRecord = new Record(name);
+		Record nameRecord = new Record(NAME);
 		nameRecord.add(INPUT_ATTR, "Name");
 		nameRecord.add("Value", name);
 		list.add(nameRecord);
@@ -210,17 +210,13 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		Requirement isTaxableReq = get(IS_TAXABLE);
 		Boolean isTaxable = (Boolean) isTaxableReq.getValue();
-		String taxableString = "";
-		if (isTaxable) {
-			taxableString = "Taxable";
-		} else {
-			taxableString = "Tax exempt";
-		}
-		if (selection == taxableString) {
+
+		if (selection == IS_TAXABLE) {
 			context.setAttribute(INPUT_ATTR, IS_TAXABLE);
 			isTaxable = !isTaxable;
 			isTaxableReq.setValue(isTaxable);
 		}
+		String taxableString = "";
 		if (isTaxable) {
 			taxableString = "Taxable";
 		} else {
@@ -235,22 +231,22 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		if (isTaxable) {
 			Requirement salesVatItemReq = get(VATITEM_FOR_SALES);
 			TAXItem salesTaxItem = (TAXItem) salesVatItemReq.getValue();
-			if (salesTaxItem == selection) {
+			if (VATITEM_FOR_SALES == selection) {
 				context.setAttribute(INPUT_ATTR, VATITEM_FOR_SALES);
 				return getVatItemForSaleResult(context);
 			}
-			Record salesTaxItemRecord = new Record(salesTaxItem);
+			Record salesTaxItemRecord = new Record(VATITEM_FOR_SALES);
 			salesTaxItemRecord.add("Name", "Sales Vat Item");
 			salesTaxItemRecord.add("Value", salesTaxItem.getName());
 			list.add(salesTaxItemRecord);
 
 			Requirement purchaseVatItemReq = get(VATITEM_FOR_PURCHASE);
 			TAXItem purchaseTaxItem = (TAXItem) purchaseVatItemReq.getValue();
-			if (purchaseTaxItem == selection) {
+			if (VATITEM_FOR_PURCHASE == selection) {
 				context.setAttribute(INPUT_ATTR, VATITEM_FOR_PURCHASE);
 				return getVatItemForPurchseResult(context);
 			}
-			Record purchaseTaxItemRecord = new Record(purchaseTaxItem);
+			Record purchaseTaxItemRecord = new Record(VATITEM_FOR_PURCHASE);
 			purchaseTaxItemRecord.add("Name", "Purchase Vat Item");
 			purchaseTaxItemRecord.add("Value", purchaseTaxItem.getName());
 			list.add(purchaseTaxItemRecord);
@@ -258,17 +254,13 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		Requirement isActiveReq = get(IS_ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
-		String activeString = "";
-		if (isActive) {
-			activeString = "This Item is Active";
-		} else {
-			activeString = "This Item is InActive";
-		}
-		if (selection == activeString) {
+
+		if (selection == IS_ACTIVE) {
 			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
 			isActive = !isActive;
 			isActiveReq.setValue(isActive);
 		}
+		String activeString = "";
 		if (isActive) {
 			activeString = "This Item is Active";
 		} else {
@@ -375,12 +367,12 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 			description = desc;
 			descriptionReq.setValue(description);
 		}
-		if (selection == description) {
+		if (selection == DESCRIPTION) {
 			context.setAttribute(INPUT_ATTR, DESCRIPTION);
 			return text(context, "Description", description);
 		}
 
-		Record descRecord = new Record(description);
+		Record descRecord = new Record(DESCRIPTION);
 		descRecord.add("Name", "Description");
 		descRecord.add("Value", description);
 		list.add(descRecord);

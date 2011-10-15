@@ -62,7 +62,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		list.add(new Requirement(VAT_RETURN, false, true));
 		list.add(new Requirement(PURCHASE_ACCOUNT, false, true));
 		// }
-		list.add(new Requirement(ADDRESS, true, true));
+		list.add(new Requirement(VAT_AGENCY_ADDRESS, true, true));
 		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement(FAX, true, true));
 		list.add(new Requirement(EMAIL, true, true));
@@ -145,7 +145,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		if (contactsReq.getDefaultValue() == null) {
 			contactsReq.setDefaultValue(new HashSet<Contact>());
 		}
-		Requirement addressReq = get(ADDRESS);
+		Requirement addressReq = get(VAT_AGENCY_ADDRESS);
 		if (addressReq.getDefaultValue() == null) {
 			addressReq.setDefaultValue(new Address());
 		}
@@ -175,7 +175,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		Account salesAccount = get(SALES_ACCOUNT).getValue();
 		salesAccount = (Account) context.getHibernateSession().merge(
 				salesAccount);
-		Address address = (Address) get(ADDRESS).getValue();
+		Address address = (Address) get(VAT_AGENCY_ADDRESS).getValue();
 		String phone = (String) get(PHONE).getValue();
 		String fax = (String) get(FAX).getValue();
 		String email = (String) get(EMAIL).getValue();
@@ -215,20 +215,23 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		markDone();
 		Result result = new Result();
-		result.add("Tax Agency was created Successfully.");
+		result.add(getConstants().taxAgencyCreated());
 
 		return result;
 	}
 
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_CONTACTS:
-				return contact(context, "Enter the Contact Details",
+				return contact(
+						context,
+						getMessages().pleaseEnter(
+								getConstants().contactDetails()),
 						VAT_AGENCY_CONTACT, null);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
@@ -242,25 +245,26 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		Requirement nameReq = get(NAME);
 		String name = (String) nameReq.getValue();
-		if (name == selection) {
+		if (NAME == selection) {
 			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the Tax Agency Name.", name);
+			return text(context,
+					getMessages().pleaseEnter(getConstants().taxAgency()), name);
 		}
 
 		Requirement paymentTermReq = get(PAYMENT_TERM);
 		PaymentTerms paymentTerm = (PaymentTerms) paymentTermReq.getValue();
-		if (paymentTerm == selection) {
+		if (PAYMENT_TERM == selection) {
 			context.setAttribute(INPUT_ATTR, PAYMENT_TERM);
 			return getPaymentTermsResult(context);
 		}
 
 		Requirement salesAccountReq = get(SALES_ACCOUNT);
 		Account salesAccount = (Account) salesAccountReq.getValue();
-		if (salesAccount == selection) {
+		if (SALES_ACCOUNT == selection) {
 			context.setAttribute(INPUT_ATTR, SALES_ACCOUNT);
 			return getSalesAccountResult(context);
 		}
-		Requirement addressReq = get(ADDRESS);
+		Requirement addressReq = get(VAT_AGENCY_ADDRESS);
 		if (selection == "Address") {
 			Address oldAddress = addressReq.getValue();
 			Result result = address(context, "Address", VAT_AGENCY_ADDRESS,
@@ -272,17 +276,17 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		ResultList list = new ResultList("values");
 
-		Record nameRecord = new Record(name);
+		Record nameRecord = new Record(NAME);
 		nameRecord.add(INPUT_ATTR, "Name");
 		nameRecord.add("Value", name);
 		list.add(nameRecord);
 
-		Record paymentTermRecord = new Record(paymentTerm);
+		Record paymentTermRecord = new Record(PAYMENT_TERM);
 		paymentTermRecord.add(INPUT_ATTR, "Payment Term");
 		paymentTermRecord.add("Value", paymentTerm.getName());
 		list.add(paymentTermRecord);
 
-		Record salesAccountRecord = new Record(salesAccount);
+		Record salesAccountRecord = new Record(SALES_ACCOUNT);
 		salesAccountRecord.add(INPUT_ATTR, "Sales Liability Account");
 		salesAccountRecord.add("Value", salesAccount.getName());
 		list.add(salesAccountRecord);
@@ -290,14 +294,14 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
 			Requirement purchseAccountReq = get(PURCHASE_ACCOUNT);
 			Account purchaseAccount = (Account) purchseAccountReq.getValue();
-			if (purchaseAccount == selection) {
+			if (PURCHASE_ACCOUNT == selection) {
 				context.setAttribute(INPUT_ATTR, PURCHASE_ACCOUNT);
 				return getPurchaseAccountResult(context);
 			}
 
 			Requirement vatReturnReq = get(VAT_RETURN);
 			String vatReturn = (String) vatReturnReq.getValue();
-			if (vatReturn == selection) {
+			if (VAT_RETURN == selection) {
 				context.setAttribute(INPUT_ATTR, SALES_ACCOUNT);
 				return getVatReturnResult(context);
 			}
@@ -352,23 +356,19 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		Requirement isActiveReq = get(IS_ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
+
+		if (selection == IS_ACTIVE) {
+			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
+			isActive = !isActive;
+			isActiveReq.setValue(isActive);
+		}
 		String activeString = "";
 		if (isActive) {
 			activeString = "This Agency is Active";
 		} else {
 			activeString = "This Agency is InActive";
 		}
-		if (selection == activeString) {
-			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		if (isActive) {
-			activeString = "This Agency is Active";
-		} else {
-			activeString = "This Agency is InActive";
-		}
-		Record isActiveRecord = new Record(activeString);
+		Record isActiveRecord = new Record(IS_ACTIVE);
 		isActiveRecord.add("Name", "");
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
@@ -413,14 +413,15 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			}
 			website = input;
 			websiteReq.setValue(website);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
-		if (selection != null && selection == website) {
+		if (selection != null && selection == WEBSITE) {
 			context.setAttribute(INPUT_ATTR, WEBSITE);
 			return text(context, "Website", website);
 		}
 
-		Record websiteRecord = new Record(website);
+		Record websiteRecord = new Record(WEBSITE);
 		websiteRecord.add("Name", "Website");
 		websiteRecord.add("Value", website != null ? website : "");
 		list.add(websiteRecord);
@@ -440,14 +441,15 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			}
 			email = input;
 			emailReq.setValue(email);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
-		if (selection != null && selection == email) {
+		if (selection != null && selection == EMAIL) {
 			context.setAttribute(INPUT_ATTR, EMAIL);
 			return text(context, "Email", email);
 		}
 
-		Record emailRecord = new Record(email);
+		Record emailRecord = new Record(EMAIL);
 		emailRecord.add("Name", "Email");
 		emailRecord.add("Value", email != null ? email : "");
 		list.add(emailRecord);
@@ -467,14 +469,15 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			}
 			fax = input;
 			faxReq.setValue(fax);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
-		if (selection != null && selection == fax) {
+		if (selection != null && selection == FAX) {
 			context.setAttribute(INPUT_ATTR, FAX);
 			return text(context, "Fax", fax);
 		}
 
-		Record faxRecord = new Record(fax);
+		Record faxRecord = new Record(FAX);
 		faxRecord.add("Name", "Fax");
 		faxRecord.add("Value", fax != null ? fax : "");
 		list.add(faxRecord);
@@ -491,17 +494,19 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			String input = context.getSelection(PHONE);
 			if (input == null) {
 				input = context.getString();
+				input = input == null ? context.getNumber() : input;
 			}
 			phone = input;
 			phoneReq.setValue(phone);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
-		if (selection != null && selection == phone) {
+		if (selection != null && selection == PHONE) {
 			context.setAttribute(INPUT_ATTR, PHONE);
 			return text(context, "Phone", phone);
 		}
 
-		Record phoneRecord = new Record(phone);
+		Record phoneRecord = new Record(PHONE);
 		phoneRecord.add("Name", "Phone");
 		phoneRecord.add("Value", phone != null ? phone : "");
 		list.add(phoneRecord);

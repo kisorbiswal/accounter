@@ -28,6 +28,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractCommand extends Command {
@@ -75,6 +76,7 @@ public abstract class AbstractCommand extends Command {
 
 	private IGlobal global;
 	private AccounterConstants constants;
+	private AccounterMessages messages;
 
 	public AbstractCommand() {
 		try {
@@ -83,6 +85,7 @@ public abstract class AbstractCommand extends Command {
 			e.printStackTrace();
 		}
 		constants = global.constants();
+		messages = global.messages();
 	}
 
 	protected Company getCompany() {
@@ -978,5 +981,9 @@ public abstract class AbstractCommand extends Command {
 
 	protected AccounterConstants getConstants() {
 		return constants;
+	}
+
+	protected AccounterMessages getMessages() {
+		return messages;
 	}
 }

@@ -4939,4 +4939,8 @@ public interface AccounterConstants extends Constants {
 	public String amountToUseMustLessthanTotalCredits();
 
 	public String Ledgers();
+
+	public String taxAgencyCreated();
+
+	public String pleaseEnterTheContactDetails();
 }
