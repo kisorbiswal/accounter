@@ -406,8 +406,8 @@ public class SalesOrderView extends
 						transactionTotalNonEditableText);
 				prodAndServiceForm2.setStyleName("boldtext");
 			} else {
-				prodAndServiceForm2.setFields(taxCodeSelect,
-						salesTaxTextNonEditable, dummyItem,
+				prodAndServiceForm2.setFields(taxCodeSelect, netAmountLabel,
+						dummyItem, salesTaxTextNonEditable, dummyItem,
 						transactionTotalNonEditableText);
 				prodAndServiceForm2.setStyleName("boldtext");
 			}
@@ -1417,6 +1417,6 @@ public class SalesOrderView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
