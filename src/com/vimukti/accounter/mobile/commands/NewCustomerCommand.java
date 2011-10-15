@@ -334,7 +334,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			activeString = "This customer is InActive";
 		}
 		Record isActiveRecord = new Record(activeString);
-		isActiveRecord.add("Name", "");
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 

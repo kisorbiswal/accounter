@@ -11,12 +11,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.IAccounterServerCore;
-
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.Vendor;
-
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;

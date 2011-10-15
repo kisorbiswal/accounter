@@ -7,8 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.http.client.protocol.ClientContext;
-
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -50,7 +48,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int ITEMS_TO_SHOW = 5;
 	protected static final int CUSTOMERS_TO_SHOW = 5;
-	private static final int PAYMENTTERMS_TO_SHOW = 5;
+	private static final int PAYMENTTERMS_TO_SHOW = 3;
 	private static final int CONTACTS_TO_SHOW = 5;
 	protected static final String PAYMENT_TERMS = "paymentTerms";
 	protected static final int ACCOUNTS_TO_SHOW = 5;

@@ -52,13 +52,8 @@ public class NewItemGroupCommand extends AbstractTransactionCommand {
 
 		ClientItemGroup group = new ClientItemGroup();
 		group.setName(get(ITEMGROUP_NAME).getValue().toString());
-
-		Session session = context.getHibernateSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(group);
-		transaction.commit();
+		create(group, context);
 		markDone();
-
 		Result result = new Result();
 		result.add(" ItemGroup was created successfully.");
 

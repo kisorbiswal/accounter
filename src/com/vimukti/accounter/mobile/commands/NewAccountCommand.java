@@ -3,17 +3,13 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 
 /**
  * 
@@ -95,8 +91,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createNewAccount(Context context) {
-		
-		Account account = new Account();
+
+		ClientAccount account = new ClientAccount();
 
 		String accType = (String) get(ACCOUNT_TYPE).getValue();
 		String accname = (String) get(ACCOUNT_NAME).getValue();
@@ -109,20 +105,15 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		String comment = get(COMMENTS).getValue();
 
 		account.setDefault(true);
-		account.setCompany(context.getCompany());
 		account.setType(getAccTypes().indexOf(accType) + 1);
 		account.setName(accname);
 		account.setNumber(String.valueOf(accountNum));
 		account.setOpeningBalance(openingBal);
 		account.setIsActive(isActive);
-		account.setAsOf(new FinanceDate(asOf));
+		account.setAsOf(asOf.getTime());
 		account.setConsiderAsCashAccount(isCashAcount);
 		account.setComment(comment);
-		Session session = context.getHibernateSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(account);
-		transaction.commit();
-
+		create(account, context);
 		markDone();
 
 		Result result = new Result();
