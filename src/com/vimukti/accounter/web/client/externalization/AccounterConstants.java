@@ -2471,6 +2471,8 @@ public interface AccounterConstants extends Constants {
 	public String payment();
 
 	public String paymentDate();
+	
+	public String payDate();
 
 	public String paymentDocuments();
 
@@ -2481,8 +2483,12 @@ public interface AccounterConstants extends Constants {
 	public String paymentList();
 
 	public String paymentMethod();
+	
+	public String payMethod();
 
 	public String paymentNo();
+	
+	public String payNo();
 
 	public String paymentReceived();
 
