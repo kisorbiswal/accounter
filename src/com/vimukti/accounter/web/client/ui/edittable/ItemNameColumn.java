@@ -19,7 +19,7 @@ public abstract class ItemNameColumn extends
 	public abstract ListFilter<ClientItem> getItemsFilter();
 
 	@Override
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		return itemsList;
 	}
@@ -43,7 +43,7 @@ public abstract class ItemNameColumn extends
 			if (getPreferences().isTrackTax()
 					&& getPreferences().isTaxPerDetailLine()) {
 				row.setTaxCode(newValue.getTaxCode() != 0 ? newValue
-						.getTaxCode() : 0);
+						.getTaxCode() : row.getTaxCode());
 			}
 		}
 	}

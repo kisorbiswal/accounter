@@ -181,6 +181,8 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 	public void setValue(C value) {
 		if (value != null) {
 			textBox.setText(dropDown.getDisplayValue(value));
+		} else {
+			textBox.setText("");
 		}
 		this.value = value;
 	}
