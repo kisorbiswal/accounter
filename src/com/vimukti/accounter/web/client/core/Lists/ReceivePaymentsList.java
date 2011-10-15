@@ -22,6 +22,8 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	String number;
 
 	String customerName;
+	
+	private String checkNumber;
 
 	String paymentMethodName;
 
@@ -154,6 +156,14 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	 */
 	public void setAmountPaid(final Double amountPaid) {
 		this.amountPaid = amountPaid;
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 
 }

@@ -36,6 +36,8 @@ public class PaymentsList implements IsSerializable, Serializable {
 
 	String paymentNumber;
 
+	private String checkNumber;
+
 	int status;
 
 	ClientFinanceDate issuedDate;
@@ -46,15 +48,16 @@ public class PaymentsList implements IsSerializable, Serializable {
 
 	Double amountPaid = 0D;
 	boolean isVoided;
-//	boolean isDeleted;
+
+	// boolean isDeleted;
 
 	public boolean isDeleted() {
 		return this.status == ClientTransaction.STATUS_DELETED;
 	}
 
-//	public void setDeleted(boolean isDeleted) {
-//		this.isDeleted = isDeleted;
-//	}
+	// public void setDeleted(boolean isDeleted) {
+	// this.isDeleted = isDeleted;
+	// }
 
 	int payBillType;
 
@@ -207,6 +210,14 @@ public class PaymentsList implements IsSerializable, Serializable {
 	 */
 	public void setAmountPaid(Double amountPaid) {
 		this.amountPaid = amountPaid;
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 
 }
