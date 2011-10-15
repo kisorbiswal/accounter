@@ -210,8 +210,8 @@ public class NewVendorPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -345,8 +345,8 @@ public class NewVendorPaymentView extends
 
 			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 				String value;
-				if (checkNo.getValue().toString().equalsIgnoreCase(
-						Accounter.constants().toBePrinted())) {
+				if (checkNo.getValue().toString()
+						.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
 					value = String.valueOf(Accounter.constants().toBePrinted());
 				} else {
 					value = String.valueOf(checkNo.getValue());
@@ -474,8 +474,8 @@ public class NewVendorPaymentView extends
 			vendorCombo.setValue("");
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(payForm.validate());
@@ -540,8 +540,8 @@ public class NewVendorPaymentView extends
 					}
 
 					amountText
-							.setAmount(getAmountInTransactionCurrency(DataUtils
-									.isValidAmount(amount + "") ? amount : 0.0));
+							.setAmount(DataUtils.isValidAmount(amount + "") ? amount
+									: 0.0);
 
 					adjustBalance();
 
