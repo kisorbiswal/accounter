@@ -323,22 +323,26 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		addressRecord.add("Value", address);
 		list.add(addressRecord);
 
-		Result result = phoneRequirement(context, list, selection);
+		Result result = stringOptionalRequirement(context, list, selection,
+				PHONE, "Enter Phone Number");
 		if (result != null) {
 			return result;
 		}
 
-		result = faxRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, FAX,
+				"Enter Fax number");
 		if (result != null) {
 			return result;
 		}
 
-		result = emailRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, EMAIL,
+				"Enter Email");
 		if (result != null) {
 			return result;
 		}
 
-		result = websiteRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, WEBSITE,
+				"Enter Web Address");
 		if (result != null) {
 			return result;
 		}
@@ -398,119 +402,6 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		result.add(actions);
 
 		return result;
-	}
-
-	private Result websiteRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement websiteReq = get(WEBSITE);
-		String website = (String) websiteReq.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(WEBSITE)) {
-			String input = context.getSelection(WEBSITE);
-			if (input == null) {
-				input = context.getString();
-			}
-			website = input;
-			websiteReq.setValue(website);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		if (selection != null && selection == WEBSITE) {
-			context.setAttribute(INPUT_ATTR, WEBSITE);
-			return text(context, "Website", website);
-		}
-
-		Record websiteRecord = new Record(WEBSITE);
-		websiteRecord.add("Name", "Website");
-		websiteRecord.add("Value", website != null ? website : "");
-		list.add(websiteRecord);
-		return null;
-	}
-
-	private Result emailRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement emailReq = get(EMAIL);
-		String email = (String) emailReq.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(EMAIL)) {
-			String input = context.getSelection(EMAIL);
-			if (input == null) {
-				input = context.getString();
-			}
-			email = input;
-			emailReq.setValue(email);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		if (selection != null && selection == EMAIL) {
-			context.setAttribute(INPUT_ATTR, EMAIL);
-			return text(context, "Email", email);
-		}
-
-		Record emailRecord = new Record(EMAIL);
-		emailRecord.add("Name", "Email");
-		emailRecord.add("Value", email != null ? email : "");
-		list.add(emailRecord);
-		return null;
-	}
-
-	private Result faxRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement faxReq = get(FAX);
-		String fax = (String) faxReq.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(FAX)) {
-			String input = context.getSelection(FAX);
-			if (input == null) {
-				input = context.getString();
-			}
-			fax = input;
-			faxReq.setValue(fax);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		if (selection != null && selection == FAX) {
-			context.setAttribute(INPUT_ATTR, FAX);
-			return text(context, "Fax", fax);
-		}
-
-		Record faxRecord = new Record(FAX);
-		faxRecord.add("Name", "Fax");
-		faxRecord.add("Value", fax != null ? fax : "");
-		list.add(faxRecord);
-		return null;
-	}
-
-	private Result phoneRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement phoneReq = get(PHONE);
-		String phone = (String) phoneReq.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PHONE)) {
-			String input = context.getSelection(PHONE);
-			if (input == null) {
-				input = context.getString();
-				input = input == null ? context.getNumber() : input;
-			}
-			phone = input;
-			phoneReq.setValue(phone);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		if (selection != null && selection == PHONE) {
-			context.setAttribute(INPUT_ATTR, PHONE);
-			return text(context, "Phone", phone);
-		}
-
-		Record phoneRecord = new Record(PHONE);
-		phoneRecord.add("Name", "Phone");
-		phoneRecord.add("Value", phone != null ? phone : "");
-		list.add(phoneRecord);
-		return null;
 	}
 
 	private Result purchaseAccountRequirement(Context context) {
