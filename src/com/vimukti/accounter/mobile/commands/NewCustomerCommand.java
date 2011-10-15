@@ -141,7 +141,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(" Account is ready to create with following values.");
+		makeResult.add(" Customer is ready to create with following values.");
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
