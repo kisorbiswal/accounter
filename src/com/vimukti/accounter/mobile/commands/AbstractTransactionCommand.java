@@ -2,12 +2,13 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.Address;
@@ -20,7 +21,6 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.Quantity;
-import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
@@ -94,7 +94,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String PHONE = "phone";
 	private int transactionType;
 
-	protected Result itemsRequirement(Context context) {
+	protected Result itemsRequirement(Context context, Result result,
+			ResultList actions) {
 		Requirement transItemsReq = get(ITEMS);
 		List<Item> items = context.getSelections(ITEMS);
 		if (items != null && items.size() > 0) {
@@ -150,6 +151,36 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (!transItemsReq.isDone()) {
 			return items(context);
 		}
+
+		Object selection = context.getSelection("transactionItems");
+		if (selection != null) {
+			result = transactionItem(context, (TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		selection = context.getSelection(ACTIONS);
+		ActionNames actionName = (ActionNames) selection;
+		if (actionName != null && actionName == ActionNames.ADD_MORE_ITEMS) {
+			return items(context);
+		}
+
+		result.add("Items:-");
+		ResultList itemsList = new ResultList("transactionItems");
+		List<TransactionItem> transItems = transItemsReq.getValue();
+		for (TransactionItem item : transItems) {
+			Record itemRec = new Record(item);
+			itemRec.add("Name", item.getItem().getName());
+			itemRec.add(", Total", item.getLineTotal());
+			itemRec.add(", VatCode", item.getVATfraction());
+			itemsList.add(itemRec);
+		}
+		result.add(itemsList);
+
+		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
+		moreItems.add("", "Add more items");
+		actions.add(moreItems);
 		return null;
 	}
 
@@ -1174,10 +1205,45 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return bankAccounts;
 	}
 
-	protected Result accountsRequirement(Context context,
-			String requiremenrtLabel, ListFilter<Account> listFilter) {
-		Requirement transItemsReq = get(requiremenrtLabel);
-		List<Account> accounts = context.getSelections(requiremenrtLabel);
+	protected Result itemsAndAccountsRequirement(Context context,
+			Result makeResult, ResultList actions) {
+		Result result = itemsRequirement(context, makeResult, actions);
+		if (result != null) {
+			return result;
+		}
+		result = accountsRequirement(context, makeResult,
+				new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						if (account.getType() != Account.TYPE_CASH
+								&& account.getType() != Account.TYPE_BANK
+								&& account.getType() != Account.TYPE_INVENTORY_ASSET
+								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != Account.TYPE_INCOME
+								&& account.getType() != Account.TYPE_OTHER_INCOME
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != Account.TYPE_OTHER_ASSET
+								&& account.getType() != Account.TYPE_EQUITY
+								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				}, actions);
+		if (result != null) {
+			return result;
+		}
+		return null;
+	}
+
+	protected Result accountsRequirement(Context context, Result result,
+			ListFilter<Account> listFilter, ResultList actions) {
+		Requirement transItemsReq = get(ACCOUNTS);
+		List<Account> accounts = context.getSelections(ACCOUNTS);
 
 		if (accounts != null && accounts.size() > 0) {
 			for (Account account : accounts) {
@@ -1213,15 +1279,55 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		if (!transItemsReq.isDone()) {
-			return accountItems(context, requiremenrtLabel, listFilter);
+			return accountItems(context, ACCOUNTS, listFilter);
 		}
+
+		Object selection = context.getSelection("accountItems");
+		if (selection != null) {
+			result = transactionAccountItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		selection = context.getSelection(ACTIONS);
+		ActionNames actionName = (ActionNames) selection;
+		if (actionName != null && actionName == ActionNames.ADD_MORE_ACCOUNTS) {
+			return accounts(context, "accounts", listFilter);
+		}
+
+		List<TransactionItem> accountTransItems = transItemsReq.getValue();
+		ResultList accountItems = new ResultList("accountItems");
+		result.add("Account Transaction Items:-");
+		for (TransactionItem item : accountTransItems) {
+			Record itemRec = new Record(item);
+			itemRec.add("Name", item.getAccount().getName());
+			itemRec.add("Amount", item.getUnitPrice());
+			itemRec.add("Discount", item.getDiscount());
+			itemRec.add("Total", item.getLineTotal());
+			accountItems.add(itemRec);
+		}
+		result.add(accountItems);
+
+		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
+		moreItems.add("", "Add more items");
+		actions.add(moreItems);
 		return null;
 	}
 
 	protected Result accountItems(Context context, String label,
 			ListFilter<Account> listFilter) {
 		Result result = context.makeResult();
-		Set<Account> accounts = getAccounts(context.getCompany(), listFilter);
+		Set<Account> accounts2 = getAccounts(context.getCompany(), listFilter);
+		List<Account> accounts = new ArrayList<Account>(accounts2);
+		Collections.sort(accounts, new Comparator<Account>() {
+
+			@Override
+			public int compare(Account o1, Account o2) {
+				return o1.getName().compareToIgnoreCase(o2.getName());
+			}
+		});
 		ResultList list = new ResultList(label);
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
@@ -1256,7 +1362,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		result.add(list);
 		CommandList commands = new CommandList();
-		commands.add("Create New Account");
+		commands.add("Add Account");
 		result.add(commands);
 		return result;
 	}
@@ -1762,7 +1868,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		this.transactionType = transactionType;
 	}
 
-	protected Result taxCodeRequirement(Context context) {
+	protected Result taxCodeRequirement(Context context, ResultList list) {
 		Requirement taxCodeRequirement = get(TAXCODE);
 		TAXCode taxCode = context.getSelection(TAXCODE);
 		if (taxCode != null) {
@@ -1771,6 +1877,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (!taxCodeRequirement.isDone()) {
 			return taxCode(context, null);
 		}
+
+		TAXCode value = taxCodeRequirement.getValue();
+		Object selection = context.getSelection("values");
+		if (value == selection) {
+			return taxCode(context, taxCode);
+		}
+		Record taxcodeRecord = new Record(value);
+		taxcodeRecord.add("", "Tax Code Name");
+		taxcodeRecord.add("", value.getName());
+		taxcodeRecord.add("", "Purchase Tax Rate");
+		taxcodeRecord.add("", value.getPurchaseTaxRate());
+		list.add(taxcodeRecord);
 		return null;
 	}
 
