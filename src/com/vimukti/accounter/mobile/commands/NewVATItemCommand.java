@@ -153,7 +153,8 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		nameRecord.add("Value", name);
 		list.add(nameRecord);
 
-		Result result = descriptionRequirement(context, list, selection);
+		Result result = stringOptionalRequirement(context, list, selection,
+				DESCRIPTION, "Enter Discription");
 		if (result != null) {
 			return result;
 		}
@@ -230,33 +231,6 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		result.add(actions);
 
 		return result;
-	}
-
-	private Result descriptionRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement descriptionReq = get(DESCRIPTION);
-		String description = (String) descriptionReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(DESCRIPTION)) {
-			String desc = context.getSelection(TEXT);
-			if (desc == null) {
-				desc = context.getString();
-			}
-			description = desc;
-			descriptionReq.setValue(description);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		if (selection != null && selection == DESCRIPTION) {
-			context.setAttribute(INPUT_ATTR, DESCRIPTION);
-			return text(context, "Description", description);
-		}
-
-		Record descRecord = new Record(DESCRIPTION);
-		descRecord.add("Name", "Description");
-		descRecord.add("Value", description);
-		list.add(descRecord);
-		return null;
 	}
 
 	private Result getVatReturnBoxResult(Context context) {
