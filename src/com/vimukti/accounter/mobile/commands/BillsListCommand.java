@@ -35,7 +35,7 @@ public class BillsListCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+		Result result = context.makeResult();
 
 		result = createOptionalResult(context);
 		if (result != null) {
