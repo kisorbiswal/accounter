@@ -569,15 +569,26 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Result createSupplierRequirement(Context context) {
-		Requirement supplierReq = get("supplier");
+	protected Result createSupplierRequirement(Context context,
+			ResultList list, String requirementName) {
+		Requirement supplierReq = get(requirementName);
 		Vendor vendor = context.getSelection("suppliers");
+
 		if (vendor != null) {
 			supplierReq.setValue(vendor);
 		}
-		if (!supplierReq.isDone()) {
+
+		Vendor value = supplierReq.getValue();
+		Object selection = context.getSelection("values");
+		if (!supplierReq.isDone() || (value == selection)) {
 			return vendors(context);
 		}
+
+		Record supplierRecord = new Record(value);
+		supplierRecord.add("", "Supplier");
+		supplierRecord.add("", value.getName());
+		list.add(supplierRecord);
+
 		return null;
 	}
 
