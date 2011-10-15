@@ -15,6 +15,8 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class Company implements IAccounterServerCore {
 
@@ -27,6 +29,7 @@ public class Company implements IAccounterServerCore {
 	public static final int ACCOUNTING_TYPE_UK = 1;
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
 	public static final int ACCOUNTING_TYPE_OTHER = 3;
+	private ICountryPreferences countryPreferences;
 
 	public static final String UK = "UK";
 
@@ -538,6 +541,19 @@ public class Company implements IAccounterServerCore {
 	 */
 	public CompanyPreferences getPreferences() {
 		return preferences;
+	}
+
+	/**
+	 * 
+	 * @return the country preferences
+	 */
+	public ICountryPreferences getCountryPreferences() {
+		if (countryPreferences == null) {
+			countryPreferences = CountryPreferenceFactory
+					.get(this.registeredAddress.getCountryOrRegion());
+		}
+		return countryPreferences;
+
 	}
 
 	/**
