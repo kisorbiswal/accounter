@@ -1062,22 +1062,18 @@ public abstract class AbstractCommand extends Command {
 		return record;
 	}
 
-	protected Result activeRequirement(Context context, Object selection,
-			ResultList list) {
-		Requirement isActiveReq = get(ACTIVE);
+	protected Result booleanOptionalRequirement(Context context,
+			Object selection, ResultList list, String reqName,
+			String trueString, String falseString) {
+		Requirement isActiveReq = get(reqName);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == ACTIVE) {
+		if (selection == reqName) {
 			isActive = !isActive;
 			isActiveReq.setValue(isActive);
 		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This account is Active";
-		} else {
-			activeString = "This account is InActive";
-		}
-		Record isActiveRecord = new Record(ACTIVE);
-		isActiveRecord.add(":", activeString);
+
+		Record isActiveRecord = new Record(reqName);
+		isActiveRecord.add("", isActive ? trueString : falseString);
 		list.add(isActiveRecord);
 		return null;
 	}
@@ -1201,18 +1197,18 @@ public abstract class AbstractCommand extends Command {
 		ResultList supplierList = new ResultList("accounts");
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
-		List<ClientAccount> skipVendors = new ArrayList<ClientAccount>();
+		List<ClientAccount> skipAccounts = new ArrayList<ClientAccount>();
 		if (last != null) {
 			supplierList.add(createAccountRecord((ClientAccount) last));
-			skipVendors.add((ClientAccount) last);
+			skipAccounts.add((ClientAccount) last);
 		}
-		List<ClientAccount> vendors = getClientCompany().getAccounts();
+		List<ClientAccount> accounts = getClientCompany().getAccounts();
 
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
 
 		List<ClientAccount> pagination = pagination(context, selection,
-				actions, vendors, skipVendors, VALUES_TO_SHOW);
+				actions, accounts, skipAccounts, VALUES_TO_SHOW);
 
 		for (ClientAccount account : pagination) {
 			supplierList.add(createAccountRecord(account));

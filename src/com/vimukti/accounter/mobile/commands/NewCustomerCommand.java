@@ -314,28 +314,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		selection = context.getSelection("values");
-
-		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		String activeString = "";
-		if (isActive) {
-			activeString = "This customer is Active";
-		} else {
-			activeString = "This customer is InActive";
-		}
-		if (selection == activeString) {
-			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		if (isActive) {
-			activeString = "This customer is Active";
-		} else {
-			activeString = "This customer is InActive";
-		}
-		Record isActiveRecord = new Record(activeString);
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
+		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
+				"This customer is Active", "This customer is InActive");
 
 		Result result = dateOptionalRequirement(context, list,
 				CUSTOMER_SINCEDATE, "Enter CustomerSinceDate", selection);
