@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -489,9 +488,8 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
-				amtText
-						.setAmount(getAmountInTransactionCurrency(transactionTotal
-								.doubleValue()));
+				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
+						.doubleValue()));
 			}
 
 		}
@@ -518,24 +516,24 @@ public class WriteChequeView extends
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()
 				&& transactionVendorItemTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable, accounterConstants
-					.blankTransaction());
+			result.addError(transactionVendorAccountTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 			result.add(transactionVendorItemTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
 
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
@@ -1150,8 +1148,8 @@ public class WriteChequeView extends
 		double total = transactionVendorAccountTable.getGrandTotal()
 				+ transactionVendorItemTable.getGrandTotal();
 		this.amtText.setAmount(getAmountInTransactionCurrency(total));
-		amtText.setValue(DataUtils.getAmountAsString(total));
-		totalTxt.setValue(DataUtils.getAmountAsString(total));
+		// amtText.setValue(DataUtils.getAmountAsString(total));
+		// totalTxt.setValue(DataUtils.getAmountAsString(total));
 		double grandTotal = transactionVendorAccountTable.getLineTotal()
 				+ transactionVendorItemTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {
@@ -1160,7 +1158,7 @@ public class WriteChequeView extends
 							- grandTotal));
 		}
 		netAmount.setAmount(getAmountInTransactionCurrency(grandTotal));
-
+		totalTxt.setAmount(getAmountInTransactionCurrency(total));
 	}
 
 	// @Override
@@ -1406,8 +1404,7 @@ public class WriteChequeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1432,12 +1429,12 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		vendorItemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		vendorItemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
