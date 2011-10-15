@@ -37,8 +37,10 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		case 4:
 			return receivePayment.getPaymentMethodName();
 		case 5:
-			return amountAsString(receivePayment.getAmountPaid());
+			return receivePayment.getCheckNumber();
 		case 6:
+			return amountAsString(receivePayment.getAmountPaid());
+		case 7:
 			if (!receivePayment.isVoided())
 				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
@@ -64,7 +66,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		return new String[] { customerConstants.type(),
 				customerConstants.paymentDate(), customerConstants.no(),
 				Accounter.messages().customerName(Global.get().Customer()),
-				customerConstants.paymentMethod(),
+				customerConstants.payMethod(), customerConstants.checkNo(),
 				customerConstants.amountPaid(), customerConstants.voided()
 		// , ""
 		};
@@ -75,7 +77,8 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE,
 		// ListGrid.COLUMN_TYPE_IMAGE
 		};
 	}
@@ -87,7 +90,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	}
 
 	protected void onClick(ReceivePaymentsList obj, int row, int col) {
-		if (col == 6 && !obj.isVoided()) {
+		if (col == 7 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
 		// else if (col == 7) {
@@ -101,7 +104,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	private void showWarningDialog(final ReceivePaymentsList obj, final int col) {
 		String msg = null;
-		if (col == 6 && !obj.isVoided()) {
+		if (col == 7 && !obj.isVoided()) {
 			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 7) {
@@ -125,7 +128,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 					@Override
 					public boolean onYesClick() {
 
-						if (col == 6)
+						if (col == 7)
 							voidTransaction(obj);
 						// else if (col == 7)
 						// deleteTransaction(obj);
@@ -137,8 +140,8 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	}
 
 	protected void voidTransaction(final ReceivePaymentsList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
-				.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	protected void deleteTransaction(final ReceivePaymentsList obj) {
@@ -168,21 +171,18 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 4)
-			return 150;
+		if (index == 4 || index == 5 || index == 6)
+			return 100;
 		else if (index == 0)
 			return 150;
 		else if (index == 1)
-			return 100;
+			return 90;
 
 		else if (index == 2)
 			return 50;
 
-		else if (index == 5)
-			return 100;
-
-		else if (index == 6)
-			return 80;
+		else if (index == 7)
+			return 40;
 
 		return -1;
 	}
@@ -227,6 +227,11 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			return paymentMethod1.compareTo(paymentMethod2);
 
 		case 5:
+			String checkNumber1 = obj1.getCheckNumber().toLowerCase();
+			String checkNumber2 = obj2.getCheckNumber().toLowerCase();
+			return checkNumber1.compareTo(checkNumber2);
+
+		case 6:
 			Double amt1 = obj1.getAmountPaid();
 			Double amt2 = obj2.getAmountPaid();
 			return amt1.compareTo(amt2);
@@ -234,7 +239,6 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		}
 		return 0;
 	}
-
 
 	public AccounterCoreType getType() {
 		return null;
