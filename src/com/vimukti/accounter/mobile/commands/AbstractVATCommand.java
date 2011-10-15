@@ -238,22 +238,6 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected Result nameRequirement(Context context) {
-		Requirement nameReq = get(NAME);
-		String input = (String) context.getAttribute("input");
-		if (input != null && input.equals(NAME)) {
-			input = context.getString();
-			nameReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!nameReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the Name.", null);
-		}
-
-		return null;
-	}
-
 	protected int getCompanyType(Context context) {
 		return context.getCompany().getAccountingType();
 	}
