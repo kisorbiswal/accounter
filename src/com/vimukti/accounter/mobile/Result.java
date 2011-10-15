@@ -38,4 +38,8 @@ public class Result {
 		return resultParts;
 	}
 
+	public void addAll(List<Object> resultParts2) {
+		resultParts.addAll(resultParts2);
+	}
+
 }
