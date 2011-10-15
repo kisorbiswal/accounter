@@ -125,7 +125,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = createOptionalResult(context, list, actions);
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -229,7 +229,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context, ResultList list,
-			ResultList actions) {
+			ResultList actions, Result makeResult) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
@@ -290,6 +290,6 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		finish.add("", "Finish to create Bill.");
 		actions.add(finish);
 
-		return result;
+		return makeResult;
 	}
 }
