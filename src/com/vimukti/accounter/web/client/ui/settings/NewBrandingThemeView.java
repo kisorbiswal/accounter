@@ -317,7 +317,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		brandingTheme.setContactDetails(String.valueOf(contactDetailsArea
 				.getValue()));
 		brandingTheme.setLogoAlignmentType(getLogoType());
- 
+
 		// for setting the selected templetes
 		String invoice = invoiceCombo.getValue().toString().isEmpty() ? messages
 				.classicTemplate()
@@ -411,7 +411,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		vPanel1.add(invoiceTempImage);
 
 		invVal = templatesList.get(0);
-		invoiceCombo.setValue(templatesList.get(0));
+		invoiceCombo.setComboItem(templatesList.get(0));
 		invoiceCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -431,7 +431,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		creditMemoCombo = new TemplateCombo(messages.creditNoteTemplete(),
 				"Credit.html");
 		templatesList = creditMemoCombo.getTempletes();
-		creditMemoCombo.setValue(templatesList.get(0));
+		creditMemoCombo.setComboItem(templatesList.get(0));
 		creditVal = templatesList.get(0);
 		crediteForm.setFields(creditMemoCombo);
 
