@@ -116,8 +116,9 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 6 && !obj.isVoided()) {
-			if (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
-					|| obj.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
+			if (obj.getType() == ClientTransaction.TYPE_ENTER_BILL
+					&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
+							.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
 				Accounter.showError(accounterErrors.billPaidSoYouCantVoid());
 				// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 			} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
