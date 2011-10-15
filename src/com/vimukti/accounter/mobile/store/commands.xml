@@ -265,7 +265,6 @@
 	<command clazz="BillsListCommand" name="BillsList">
 		<alias>Bills</alias>
 		<alias>BillsList</alias>
-		<alias>Bill</alias>
 	</command>
 	<command clazz="NewVATCodeCommand" name="New VAT Code">
 		<alias>Create VAT Code</alias>
