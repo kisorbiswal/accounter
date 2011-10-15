@@ -1010,6 +1010,7 @@ public class VendorManager extends Manager {
 						vendorPaymentsList
 								.setVoided(object[10] != null ? (Boolean) object[10]
 										: false);
+						vendorPaymentsList.setCheckNumber((String) object[11]);
 
 						queryResult.add(vendorPaymentsList);
 					}

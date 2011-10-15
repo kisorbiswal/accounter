@@ -447,7 +447,7 @@ public class CustomerManager extends Manager {
 					paymentsList
 							.setPayBillType(object[10] != null ? (Integer) object[10]
 									: 0);
-
+					paymentsList.setCheckNumber((String) object[11]);
 					queryResult.add(paymentsList);
 					// }
 				}
