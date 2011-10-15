@@ -60,6 +60,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+		setDetaultValues();
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
 		if (process != null) {
@@ -109,6 +110,10 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		return null;
+	}
+
+	private void setDetaultValues() {
+		get(DATE).setDefaultValue(new Date());
 	}
 
 	private void completeProcess(Context context) {
