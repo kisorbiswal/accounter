@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
@@ -16,6 +17,22 @@ public class TransactionDiscountColumn extends
 	@Override
 	protected double getAmount(ClientTransactionItem row) {
 		return row.getDiscount();
+	}
+
+	@Override
+	protected String getValue(ClientTransactionItem row) {
+		double amount = getAmount(row);
+		return DataUtils.getAmountAsString(amount);
+	}
+
+	@Override
+	public void setValue(ClientTransactionItem row, String value) {
+		try {
+			double amount = DataUtils.getAmountStringAsDouble(value);
+			setAmount(row, amount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
