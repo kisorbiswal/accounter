@@ -30,7 +30,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (message == null || message.isEmpty()) {
 
 		}
-
 		Command command = null;
 		Result lastResult = session.getLastResult();
 		if (lastResult instanceof PatternResult) {
@@ -91,7 +90,11 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		}
 		char ch = input.charAt(0);
 		// Finding the Command for Input
-		String commandString = commands.get(ch - 97);
+		int index = ch - 97;//If ch is number
+		if (index < 0) {
+			return null;
+		}
+		String commandString = commands.get(index);
 		if (commandString == null) {
 			return null;
 		}
