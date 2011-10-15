@@ -47,7 +47,7 @@ public class BalanceSheetReportCommand extends
 	@Override
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
-		if (getCompany().getPreferences().getUseAccountNumbers() == true)
+		if (getClientCompany().getPreferences().getUseAccountNumbers() == true)
 			trialRecord.add("Category Number", record.getAccountNumber());
 		else
 			return null;

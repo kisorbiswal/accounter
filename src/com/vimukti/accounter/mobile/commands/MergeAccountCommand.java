@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 
 /**
  * 
@@ -71,7 +72,7 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 			Object selection) {
 		Object accountObj = context.getSelection(ACCOUNT_TO);
 		Requirement accToRequirement = get(ACCOUNT_TO);
-		Account account = (Account) accToRequirement.getValue();
+		ClientAccount account = (ClientAccount) accToRequirement.getValue();
 		if (selection == account) {
 			return accounts(context, account);
 		}
@@ -82,7 +83,7 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 			Object selection) {
 		Object accountObj = context.getSelection(ACCOUNT_FROM);
 		Requirement accFromRequirement = get(ACCOUNT_FROM);
-		Account account = (Account) accFromRequirement.getValue();
+		ClientAccount account = (ClientAccount) accFromRequirement.getValue();
 
 		if (selection == account) {
 			return accounts(context, account);
@@ -91,20 +92,20 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result accounts(Context context, Account account) {
-		List<Account> accounts = getAccounts();
+	private Result accounts(Context context, ClientAccount account) {
+		List<ClientAccount> accounts = getAccounts();
 		Result result = context.makeResult();
 		result.add("Select account");
 
 		ResultList list = new ResultList("accountslist");
 		int num = 0;
 		if (account != null) {
-			list.add(createAccoountRecord(account));
+			list.add(createAccountRecord(account));
 			num++;
 		}
-		for (Account acc : accounts) {
+		for (ClientAccount acc : accounts) {
 			if (acc != account) {
-				list.add(createAccoountRecord(acc));
+				list.add(createAccountRecord(acc));
 				num++;
 			}
 			if (num == ACCOUNTS_TO_SHOW) {
@@ -113,19 +114,6 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 		}
 		result.add(list);
 		return result;
-	}
-
-	private Record createAccoountRecord(Account account) {
-		Record record = new Record(account);
-		record.add("Name", account.getName());
-		record.add("AccoountNumber", account.getNumber());
-		record.add("Balance", account.getOpeningBalance());
-		return record;
-	}
-
-	private List<Account> getAccounts() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

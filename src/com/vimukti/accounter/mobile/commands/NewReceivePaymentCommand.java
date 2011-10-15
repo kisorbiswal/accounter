@@ -21,6 +21,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class NewReceivePaymentCommand extends AbstractTransactionCommand {
@@ -199,7 +200,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
 		if (last != null) {
-			list.add(creatItemRecord((Item) last));
+			list.add(createItemRecord((ClientItem) last));
 			num++;
 		}
 		Requirement itemsReq = get("items");

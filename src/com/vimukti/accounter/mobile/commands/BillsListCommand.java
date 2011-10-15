@@ -64,8 +64,8 @@ public class BillsListCommand extends AbstractTransactionCommand {
 		result.add("Bills and Expenses List");
 		ResultList billsListData = new ResultList("billsList");
 		int num = 0;
-		List<BillsList> bills = getBills(viewType, context.getCompany());
-		List<BillsList> expenses = getExpenses(viewType, context.getCompany());
+		List<BillsList> bills = getBills(viewType);
+		List<BillsList> expenses = getExpenses(viewType);
 		for (BillsList bill : bills) {
 			billsListData.add(createBillRecord(bill));
 			num++;

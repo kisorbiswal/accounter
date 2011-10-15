@@ -10,13 +10,7 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.IAccounterServerCore;
-import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
@@ -28,9 +22,17 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.OperationContext;
 
 public abstract class AbstractCommand extends Command {
 	protected static final String INPUT_ATTR = "input";
@@ -89,11 +91,6 @@ public abstract class AbstractCommand extends Command {
 		}
 		constants = global.constants();
 		messages = global.messages();
-	}
-
-	protected Company getCompany() {
-		return null;
-
 	}
 
 	protected <T> List<T> pagination(Context context, ActionNames selection,
@@ -313,14 +310,15 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result addressProcess(Context context) {
 		String message = (String) context.getAttribute(ADDRESS_MESSAGE_ATTR);
-		Address address = (Address) context.getAttribute(OLD_ADDRESS_ATTR);
+		ClientAddress address = (ClientAddress) context
+				.getAttribute(OLD_ADDRESS_ATTR);
 		String requirementName = (String) context
 				.getAttribute(REQUIREMENT_NAME);
 		return address(context, message, requirementName, address);
 	}
 
 	protected Result address(Context context, String message,
-			String requirementName, Address oldAddress) {
+			String requirementName, ClientAddress oldAddress) {
 		context.setAttribute(PROCESS_ATTR, ADDRESS_PROCESS);
 		context.setAttribute(ADDRESS_MESSAGE_ATTR, message);
 		context.setAttribute(OLD_ADDRESS_ATTR, oldAddress);
@@ -416,19 +414,14 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	private Record createTaxCodeRecord(TAXCode taxCode) {
+	private Record createTaxCodeRecord(ClientTAXCode taxCode) {
 		Record record = new Record(taxCode);
 		record.add("", taxCode.getName() + "-" + taxCode.getSalesTaxRate());
 		return record;
 	}
 
-	private List<TAXCode> getTaxCodes(Company company) {
-		return new ArrayList<TAXCode>(company.getTaxCodes());
-
-	}
-
-	protected Result taxCode(Context context, TAXCode oldTaxCode) {
-		List<TAXCode> codes = getTaxCodes(context.getCompany());
+	protected Result taxCode(Context context, ClientTAXCode oldTaxCode) {
+		List<ClientTAXCode> codes = getClientCompany().getTaxCodes();
 
 		Result result = context.makeResult();
 		result.add("Select Taxcode");
@@ -442,10 +435,10 @@ public abstract class AbstractCommand extends Command {
 
 		List<Record> actions = new ArrayList<Record>();
 
-		List<TAXCode> pagination = pagination(context, selection, actions,
-				codes, new ArrayList<TAXCode>(), TAXCODE_TO_SHOW);
+		List<ClientTAXCode> pagination = pagination(context, selection,
+				actions, codes, new ArrayList<ClientTAXCode>(), TAXCODE_TO_SHOW);
 
-		for (TAXCode term : pagination) {
+		for (ClientTAXCode term : pagination) {
 			list.add(createTaxCodeRecord(term));
 		}
 
@@ -466,7 +459,8 @@ public abstract class AbstractCommand extends Command {
 	 */
 	protected Result contactProcess(Context context) {
 		String message = (String) context.getAttribute(CONTACT_ATTR);
-		Contact contact = (Contact) context.getAttribute(OLD_CONTACT_ATTR);
+		ClientContact contact = (ClientContact) context
+				.getAttribute(OLD_CONTACT_ATTR);
 		String requirementName = (String) context
 				.getAttribute(REQUIREMENT_NAME);
 		return contact(context, message, requirementName, contact);
@@ -481,7 +475,7 @@ public abstract class AbstractCommand extends Command {
 	 * @return {@link Result}
 	 */
 	protected Result contact(Context context, String message,
-			String requirementName, Contact oldContact) {
+			String requirementName, ClientContact oldContact) {
 		context.setAttribute(PROCESS_ATTR, CONTACT_PROCESS);
 		context.setAttribute(CONTACT_ATTR, message);
 		context.setAttribute(OLD_CONTACT_ATTR, oldContact);
@@ -493,11 +487,11 @@ public abstract class AbstractCommand extends Command {
 			context.removeAttribute(CONTACT_LINE_ATTR);
 			if (lineAttr.equals("contactName")) {
 				if (oldContact == null) {
-					oldContact = new Contact();
+					oldContact = new ClientContact();
 					Requirement requirement = get(requirementName);
-					Set<Contact> contacts = requirement.getValue();
+					Set<ClientContact> contacts = requirement.getValue();
 					if (contacts == null) {
-						contacts = new HashSet<Contact>();
+						contacts = new HashSet<ClientContact>();
 						requirement.setValue(contacts);
 					}
 					contacts.add(oldContact);
@@ -594,13 +588,13 @@ public abstract class AbstractCommand extends Command {
 	protected Result createSupplierRequirement(Context context,
 			ResultList list, String requirementName) {
 		Requirement supplierReq = get(requirementName);
-		Vendor vendor = context.getSelection("suppliers");
+		ClientVendor vendor = context.getSelection("suppliers");
 
 		if (vendor != null) {
 			supplierReq.setValue(vendor);
 		}
 
-		Vendor value = supplierReq.getValue();
+		ClientVendor value = supplierReq.getValue();
 		Object selection = context.getSelection("values");
 		if (!supplierReq.isDone() || (value == selection)) {
 			return vendors(context);
@@ -620,20 +614,20 @@ public abstract class AbstractCommand extends Command {
 		ResultList supplierList = new ResultList("suppliers");
 
 		Object last = context.getLast(RequirementType.VENDOR);
-		List<Vendor> skipVendors = new ArrayList<Vendor>();
+		List<ClientVendor> skipVendors = new ArrayList<ClientVendor>();
 		if (last != null) {
-			supplierList.add(createVendorRecord((Vendor) last));
-			skipVendors.add((Vendor) last);
+			supplierList.add(createVendorRecord((ClientVendor) last));
+			skipVendors.add((ClientVendor) last);
 		}
-		List<Vendor> vendors = getVendors(true, context.getCompany());
+		List<ClientVendor> vendors = getVendors(true);
 
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
 
-		List<Vendor> pagination = pagination(context, selection, actions,
+		List<ClientVendor> pagination = pagination(context, selection, actions,
 				vendors, skipVendors, VENDORS_TO_SHOW);
 
-		for (Vendor vendor : pagination) {
+		for (ClientVendor vendor : pagination) {
 			supplierList.add(createVendorRecord(vendor));
 		}
 
@@ -652,7 +646,7 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	private Record createVendorRecord(Vendor last) {
+	private Record createVendorRecord(ClientVendor last) {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
 		record.add(" ,Balance", last.getBalance());
@@ -763,12 +757,13 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	protected List<Vendor> getVendors(boolean isActive, Company company) {
+	protected List<ClientVendor> getVendors(boolean isActive) {
 
-		ArrayList<Vendor> vendors = new ArrayList<Vendor>(company.getVendors());
-		ArrayList<Vendor> result = new ArrayList<Vendor>();
+		ArrayList<ClientVendor> vendors = new ArrayList<ClientVendor>(
+				getClientCompany().getVendors());
+		ArrayList<ClientVendor> result = new ArrayList<ClientVendor>();
 		if (!vendors.isEmpty())
-			for (Vendor vendor : vendors) {
+			for (ClientVendor vendor : vendors) {
 				if (isActive) {
 					if (vendor.isActive()) {
 						result.add(vendor);
@@ -890,6 +885,21 @@ public abstract class AbstractCommand extends Command {
 		// } catch (AccounterException e) {
 		// e.printStackTrace();
 		// }
+	}
+
+	protected void create(IAccounterCore coreObject, Context context) {
+		try {
+			String clientClassSimpleName = coreObject.getObjectType()
+					.getClientClassSimpleName();
+
+			OperationContext opContext = new OperationContext(context
+					.getCompany().getID(), coreObject, context.getUser()
+					.getEmail());
+			opContext.setArg2(clientClassSimpleName);
+			new FinanceTool().create(opContext);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected Result isActiveRequirement(Context context, Object selection) {

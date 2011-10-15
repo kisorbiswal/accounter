@@ -4,12 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
@@ -20,6 +16,13 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCashSales;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCashSaleCommand extends AbstractTransactionCommand {
@@ -65,8 +68,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("phone", true, true));
 		list.add(new Requirement("memo", true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
-		Company company = getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			list.add(new Requirement("tax", false, true));
 		}
 	}
@@ -145,9 +147,9 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 	private void completeProcess(Context context) {
 
 		Company company = context.getCompany();
-		CashSales cashSale = new CashSales();
+		ClientCashSales cashSale = new ClientCashSales();
 		Date date = get(DATE).getValue();
-		cashSale.setDate(new FinanceDate(date));
+		cashSale.setDate(date.getTime());
 
 		cashSale.setType(Transaction.TYPE_CASH_SALES);
 
@@ -155,8 +157,8 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		cashSale.setNumber(number);
 
 		// FIXME
-		List<TransactionItem> items = get("items").getValue();
-		List<TransactionItem> accounts = get("accounts").getValue();
+		List<ClientTransactionItem> items = get("items").getValue();
+		List<ClientTransactionItem> accounts = get("accounts").getValue();
 		accounts.addAll(items);
 		cashSale.setTransactionItems(accounts);
 
@@ -164,19 +166,19 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		// TODO Class
 
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			TAXCode taxCode = get("tax").getValue();
-			for (TransactionItem item : items) {
-				item.setTaxCode(taxCode);
+			ClientTAXCode taxCode = get("tax").getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
 			}
 		}
 
 		Customer customer = get("customer").getValue();
-		cashSale.setCustomer(customer);
+		cashSale.setCustomer(customer.getID());
 
-		Contact contact = get("contact").getValue();
+		ClientContact contact = get("contact").getValue();
 		cashSale.setContact(contact);
 
-		Address billTo = get("billTo").getValue();
+		ClientAddress billTo = get("billTo").getValue();
 		cashSale.setBillingAddress(billTo);
 
 		// TODO Payments
@@ -188,12 +190,12 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 		String paymentMethod = get("paymentMethod").getValue();
 		cashSale.setPaymentMethod(paymentMethod);
-		Account account = get("depositOrTransferTo").getValue();
-		cashSale.setDepositIn(account);
+		ClientAccount account = get("depositOrTransferTo").getValue();
+		cashSale.setDepositIn(account.getID());
 		// if (context.getCompany())
-		TAXCode taxCode = get("tax").getValue();
-		cashSale.setTaxTotal(getTaxTotal(accounts, company, taxCode));
-		cashSale.setTotal(getTransactionTotal(accounts, company));
+		ClientTAXCode taxCode = get("tax").getValue();
+		cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
+		// cashSale.setTotal(getTransactionTotal(accounts, company));
 		create(cashSale, context);
 
 	}
@@ -209,10 +211,10 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
 				return accountItems(context, "accounts",
-						new ListFilter<Account>() {
+						new ListFilter<ClientAccount>() {
 
 							@Override
-							public boolean filter(Account account) {
+							public boolean filter(ClientAccount account) {
 								return true;
 							}
 						});
@@ -230,7 +232,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -241,7 +243,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("accountItems");
 		if (selection != null) {
 			Result result = transactionAccountItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -265,7 +267,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		list.add(accountRec);
 
 		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
+		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 
 		selection = context.getSelection("values");
 		if (customer == selection) {

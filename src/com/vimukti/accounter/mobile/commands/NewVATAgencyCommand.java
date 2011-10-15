@@ -23,6 +23,8 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 
 public class NewVATAgencyCommand extends AbstractVATCommand {
@@ -266,7 +268,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		}
 		Requirement addressReq = get(VAT_AGENCY_ADDRESS);
 		if (selection == "Address") {
-			Address oldAddress = addressReq.getValue();
+			ClientAddress oldAddress = addressReq.getValue();
 			Result result = address(context, "Address", VAT_AGENCY_ADDRESS,
 					oldAddress);
 			if (result != null) {
@@ -352,7 +354,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		selection = context.getSelection(VAT_AGENCY_CONTACT);
 		if (selection != null) {
 			Result contact = contact(context, "vat agency contact",
-					VAT_AGENCY_CONTACT, (Contact) selection);
+					VAT_AGENCY_CONTACT, (ClientContact) selection);
 			if (contact != null) {
 				return contact;
 			}

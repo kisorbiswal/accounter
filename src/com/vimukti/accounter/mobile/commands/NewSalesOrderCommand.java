@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 
 public class NewSalesOrderCommand extends AbstractTransactionCommand {
 
@@ -203,7 +204,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
+		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 
 		ResultList list = new ResultList("values");
 

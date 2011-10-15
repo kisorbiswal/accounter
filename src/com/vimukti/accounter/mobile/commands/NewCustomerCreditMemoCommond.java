@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
@@ -18,6 +17,9 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
@@ -59,8 +61,7 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 		list.add(new Requirement("reasonForIssuue", true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
 		list.add(new Requirement("deliveryDate", true, true));
-		Company company = getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			list.add(new Requirement("tax", false, true));
 		}
 	}
@@ -82,13 +83,14 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context, null, new ListFilter<Account>() {
+		result = accountsRequirement(context, null,
+				new ListFilter<ClientAccount>() {
 
-			@Override
-			public boolean filter(Account e) {
-				return true;
-			}
-		}, null);
+					@Override
+					public boolean filter(ClientAccount e) {
+						return true;
+					}
+				}, null);
 		if (result == null) {
 			return result;
 		}
@@ -135,18 +137,18 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 		String number = get("number").getValue();
 		creditMemo.setNumber(number);
 
-		List<TransactionItem> items = get("items").getValue();
-		List<TransactionItem> accounts = get("accounts").getValue();
+		List<ClientTransactionItem> items = get("items").getValue();
+		List<ClientTransactionItem> accounts = get("accounts").getValue();
 		accounts.addAll(items);
-		creditMemo.setTransactionItems(accounts);
+		// creditMemo.setTransactionItems(accounts);
 
 		// TODO Location
 		// TODO Class
 
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			TAXCode taxCode = get("tax").getValue();
-			for (TransactionItem item : items) {
-				item.setTaxCode(taxCode);
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
 			}
 			// TODO if (getCompany().getPreferences().isChargeSalesTax()) {
 			// if (taxCode != null) {
@@ -164,7 +166,7 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 		String memo = get("reasonForIssuue").getValue();
 		creditMemo.setMemo(memo);
 
-		creditMemo.setTotal(getTransactionTotal(accounts, company));
+		// creditMemo.setTotal(getTransactionTotal(accounts));
 		// TODO Discount Date
 		// TODO Estimates
 		// TODO sales Order
@@ -183,10 +185,10 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
 				return accountItems(context, "accounts",
-						new ListFilter<Account>() {
+						new ListFilter<ClientAccount>() {
 
 							@Override
-							public boolean filter(Account e) {
+							public boolean filter(ClientAccount e) {
 								return true;
 							}
 						});
@@ -204,7 +206,7 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -215,7 +217,7 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 		selection = context.getSelection("accountItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -224,7 +226,7 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 
 		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
+		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 
 		selection = context.getSelection("values");
 		if (customer == selection) {
@@ -284,7 +286,7 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 	}
 
 	private Result creditNoRequirement(Context context, ResultList list,
-			Object selection, Customer customer) {
+			Object selection, ClientCustomer customer) {
 		Requirement req = get("creditNumber");
 		String cashSaleNo = (String) req.getValue();
 

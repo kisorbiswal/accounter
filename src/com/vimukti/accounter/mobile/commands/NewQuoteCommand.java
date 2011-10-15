@@ -19,6 +19,9 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 
 public class NewQuoteCommand extends AbstractTransactionCommand {
 
@@ -54,7 +57,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("delivery Date", true, true));
 		list.add(new Requirement("expiration Date", true, false));
 		list.add(new Requirement(MEMO, true, true));
-		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			list.add(new Requirement("tax", false, true));
 		}
 	}
@@ -121,11 +124,11 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		String phone = get("phone").getValue();
 		estimate.setPhone(phone);
 
-		List<TransactionItem> items = get("items").getValue();
+		List<ClientTransactionItem> items = get("items").getValue();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			TAXCode taxCode = get("tax").getValue();
-			for (TransactionItem item : items) {
-				item.setTaxCode(taxCode);
+			ClientTAXCode taxCode = get("tax").getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
 			}
 		}
 		PaymentTerms paymentTerm = get("paymentTerms").getValue();
@@ -140,7 +143,6 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		estimate.setMemo(memo);
 
-		estimate.setTotal(getTransactionTotal(items, company));
 	}
 
 	/**
@@ -171,7 +173,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -181,7 +183,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 
 		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
+		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 		Record custRecord = new Record(customer);
 		custRecord.add("Name", "Customer");
 		custRecord.add("Value", customer.getName());

@@ -143,6 +143,11 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	private List<Activity> getActivityList(Date fromDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private Record createActivityRecord(Activity activity) {
 		Record record = new Record(activity);
 		record.add("ModifiedDate", activity.getTime().toString());

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility_R;
 import com.vimukti.accounter.mobile.CommandList;
@@ -32,10 +33,15 @@ public class ProfitLossReportCommand extends
 				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
 		trialRecord.add("", record.getAmount());
 		trialRecord.add(Utility_R.getCurrentFiscalYearStartDate(getCompany())
-				+ "_" + getLastMonth(new FinanceDate()), record
-				.getTotalAmount());
+				+ "_" + getLastMonth(new FinanceDate()),
+				record.getTotalAmount());
 		trialRecord.add("", record.getTotalAmount());
 		return trialRecord;
+	}
+
+	private Company getCompany() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

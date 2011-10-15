@@ -2,9 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -14,6 +12,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientBank;
 
 /**
  * 
@@ -245,14 +244,14 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		Object bankobj = context.getSelection(BANK_NAME);
 		Requirement bankreq = get(BANK_NAME);
 
-		Bank bank = (Bank) bankreq.getValue();
+		ClientBank bank = (ClientBank) bankreq.getValue();
 
 		if (selection == bank) {
 			return banks(context, bank);
 
 		}
 		if (bankobj != null) {
-			bank = (Bank) bankobj;
+			bank = (ClientBank) bankobj;
 			bankreq.setValue(bank);
 		}
 
@@ -274,9 +273,9 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	 * @param oldBank
 	 * @return
 	 */
-	private Result banks(Context context, Bank oldBank) {
+	private Result banks(Context context, ClientBank oldBank) {
 
-		Set<Bank> banks = getCompany().getBanks();
+		ArrayList<ClientBank> banks = getClientCompany().getBanks();
 		Result result = context.makeResult();
 		result.add("Select Bank Name");
 
@@ -286,7 +285,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 			list.add(createbankRecord(oldBank));
 			num++;
 		}
-		for (Bank bank : banks) {
+		for (ClientBank bank : banks) {
 			if (bank != oldBank) {
 				list.add(createbankRecord(bank));
 				num++;
@@ -309,7 +308,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	 * @param bank
 	 * @return
 	 */
-	private Record createbankRecord(Bank bank) {
+	private Record createbankRecord(ClientBank bank) {
 		Record record = new Record(bank);
 		record.add("Name", BANK_NAME);
 		record.add("Value", bank.getName());

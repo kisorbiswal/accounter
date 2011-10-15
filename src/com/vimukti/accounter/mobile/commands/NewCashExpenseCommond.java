@@ -17,6 +17,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 
 public class NewCashExpenseCommond extends AbstractTransactionCommand {
 
@@ -131,8 +132,8 @@ public class NewCashExpenseCommond extends AbstractTransactionCommand {
 		// ....................
 		cashPurchase.setTransactionItems(accounts);
 		if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
-			cashPurchase.setTotal(getTransactionTotal(accounts,
-					context.getCompany()));
+			// cashPurchase.setTotal(getTransactionTotal(accounts,
+			// context.getCompany()));
 		}
 		create(cashPurchase, context);
 	}
@@ -160,7 +161,7 @@ public class NewCashExpenseCommond extends AbstractTransactionCommand {
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -172,7 +173,7 @@ public class NewCashExpenseCommond extends AbstractTransactionCommand {
 		selection = context.getSelection("accountItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}

@@ -3,16 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.Payee;
-import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -20,6 +10,11 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class WriteCheckCommand extends AbstractTransactionCommand {
@@ -118,28 +113,29 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context, null, new ListFilter<Account>() {
+		result = accountsRequirement(context, null,
+				new ListFilter<ClientAccount>() {
 
-			@Override
-			public boolean filter(Account account) {
-				if (account.getType() != Account.TYPE_CASH
-						&& account.getType() != Account.TYPE_BANK
-						&& account.getType() != Account.TYPE_INVENTORY_ASSET
-						&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-						&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-						&& account.getType() != Account.TYPE_INCOME
-						&& account.getType() != Account.TYPE_OTHER_INCOME
-						&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-						&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-						&& account.getType() != Account.TYPE_OTHER_ASSET
-						&& account.getType() != Account.TYPE_EQUITY
-						&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}, null);
+					@Override
+					public boolean filter(ClientAccount account) {
+						if (account.getType() != ClientAccount.TYPE_CASH
+								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != ClientAccount.TYPE_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& account.getType() != ClientAccount.TYPE_EQUITY
+								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				}, null);
 		if (result != null) {
 			return result;
 		}
@@ -164,24 +160,21 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-
-		Company company = context.getCompany();
-		WriteCheck writeCheck = new WriteCheck();
-		writeCheck.setCompany(company);
-		Payee payee = (Payee) get(PAYEE).getValue();
-		if (payee.getType() == Payee.TYPE_CUSTOMER) {
-			writeCheck.setCustomer((Customer) payee);
-		} else if (payee.getType() == Payee.TYPE_VENDOR) {
-			writeCheck.setVendor((Vendor) payee);
+		ClientWriteCheck writeCheck = new ClientWriteCheck();
+		ClientPayee payee = (ClientPayee) get(PAYEE).getValue();
+		if (payee.getType() == ClientPayee.TYPE_CUSTOMER) {
+			writeCheck.setCustomer(payee.getID());
+		} else if (payee.getType() == ClientPayee.TYPE_VENDOR) {
+			writeCheck.setVendor(payee.getID());
 		} else {
-			writeCheck.setTaxAgency((TAXAgency) payee);
+			writeCheck.setTaxAgency(payee.getID());
 		}
 
-		Account bankAccount = get(BANK_ACCOUNT).getValue();
-		writeCheck.setBankAccount(bankAccount);
+		ClientAccount bankAccount = get(BANK_ACCOUNT).getValue();
+		writeCheck.setBankAccount(bankAccount.getID());
 
 		Date date = get("date").getValue();
-		writeCheck.setDate(new FinanceDate(date));
+		writeCheck.setDate(date.getTime());
 
 		Integer number = get(WRITE_CHECK_NUMBER).getValue();
 		writeCheck.setNumber(String.valueOf(number));
@@ -189,17 +182,16 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		Double amount = get(AMOUNT).getValue();
 		writeCheck.setAmount(amount);
 
-		writeCheck.setType(Transaction.TYPE_WRITE_CHECK);
+		writeCheck.setType(ClientTransaction.TYPE_WRITE_CHECK);
 
-		List<TransactionItem> items = get(ITEMS).getValue();
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		if (get("accounts") != null) {
-			List<TransactionItem> accounts = get("accounts").getValue();
+			List<ClientTransactionItem> accounts = get("accounts").getValue();
 			items.addAll(accounts);
 		}
 		writeCheck.setTransactionItems(items);
 
-		writeCheck.setTotal(getTransactionTotal(items, company));
-
+		updateTotals(writeCheck);
 		String memo = get(MEMO).getValue();
 		writeCheck.setMemo(memo);
 		create(writeCheck, context);
@@ -227,30 +219,30 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 
 		Requirement itemReq = get(ITEMS);
-		List<TransactionItem> transItems = itemReq.getValue();
+		List<ClientTransactionItem> transItems = itemReq.getValue();
 
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
 		}
 		Requirement accountReq = get("accounts");
-		List<TransactionItem> accountTransItems = accountReq.getValue();
+		List<ClientTransactionItem> accountTransItems = accountReq.getValue();
 
 		selection = context.getSelection("accountItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
 		}
 
 		Requirement payeeReq = get(PAYEE);
-		Payee payee = (Payee) payeeReq.getValue();
+		ClientPayee payee = (ClientPayee) payeeReq.getValue();
 
 		selection = context.getSelection("values");
 		if (payee == selection) {
@@ -264,7 +256,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		list.add(payeeRecord);
 
 		Requirement bankReq = get(BANK_ACCOUNT);
-		Account account1 = bankReq.getValue();
+		ClientAccount account1 = bankReq.getValue();
 		selection = context.getSelection("values");
 
 		Record bankRecord = new Record(account1);
@@ -316,9 +308,10 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 		result.add("Items:-");
 		ResultList items = new ResultList("items");
-		for (TransactionItem item : transItems) {
+		for (ClientTransactionItem item : transItems) {
 			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getItem().getName());
+			itemRec.add("Name", getClientCompany().getItem(item.getItem())
+					.getName());
 			itemRec.add("Total", item.getLineTotal());
 			itemRec.add("VatCode", item.getVATfraction());
 			items.add(itemRec);
@@ -327,9 +320,10 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 		result.add("Accounts:-");
 		ResultList accounts = new ResultList("accountItems");
-		for (TransactionItem item : accountTransItems) {
+		for (ClientTransactionItem item : accountTransItems) {
 			Record accountRec = new Record(item);
-			accountRec.add("Name", item.getAccount().getName());
+			accountRec.add("Name",
+					getClientCompany().getAccount(item.getAccount()).getName());
 			accounts.add(accountRec);
 		}
 		result.add(accounts);

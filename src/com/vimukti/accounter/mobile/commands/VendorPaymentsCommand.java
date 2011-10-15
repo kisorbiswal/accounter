@@ -60,8 +60,7 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 		ResultList billsListData = new ResultList("payments");
 		int num = 0;
 
-		List<PaymentsList> payments = getPayments(getType(viewType),
-				context.getCompany());
+		List<PaymentsList> payments = getPayments(getType(viewType));
 
 		for (PaymentsList p : payments) {
 			billsListData.add(createPaymentRecord(p));

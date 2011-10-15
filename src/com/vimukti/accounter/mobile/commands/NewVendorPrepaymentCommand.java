@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 
 /**
  * 
@@ -187,7 +188,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		Requirement bankAccountReeq = get(PAY_FROM);
-		Account account = (Account) bankAccountReeq.getValue();
+		ClientAccount account = (ClientAccount) bankAccountReeq.getValue();
 		list.add(createAccountRecord(account));
 		Requirement amountReq = get(AMOUNT);
 

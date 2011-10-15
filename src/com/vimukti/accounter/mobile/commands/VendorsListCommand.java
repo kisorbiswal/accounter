@@ -2,13 +2,13 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 
 /**
  * 
@@ -69,8 +69,9 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 		ResultList vendorsResult = new ResultList("vendors");
 		result.add("Vendors List");
 		int num = 0;
-		List<Vendor> vendors = getVendors(isActive, context.getCompany());
-		for (Vendor vendor : vendors) {
+		List<ClientVendor> vendors = null;// getVendors(isActive,
+		// context.getCompany());
+		for (ClientVendor vendor : vendors) {
 			vendorsResult.add(createPayeeRecord(vendor));
 			num++;
 			if (num == VENDORS_TO_SHOW) {

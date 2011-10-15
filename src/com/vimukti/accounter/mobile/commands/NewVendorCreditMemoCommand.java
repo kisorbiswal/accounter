@@ -5,15 +5,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.core.VendorCreditMemo;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -21,6 +12,13 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
@@ -99,7 +97,6 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
 
 		setTransactionType(VENDOR_TRANSACTION);
 		result = createSupplierRequirement(context, list, SUPPLIER);
@@ -108,22 +105,22 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		result = itemsAndAccountsRequirement(context, makeResult, actions,
-				new ListFilter<Account>() {
+				new ListFilter<ClientAccount>() {
 
 					@Override
-					public boolean filter(Account account) {
-						if (account.getType() != Account.TYPE_CASH
-								&& account.getType() != Account.TYPE_BANK
-								&& account.getType() != Account.TYPE_INVENTORY_ASSET
-								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != Account.TYPE_INCOME
-								&& account.getType() != Account.TYPE_OTHER_INCOME
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != Account.TYPE_OTHER_ASSET
-								&& account.getType() != Account.TYPE_EQUITY
-								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+					public boolean filter(ClientAccount account) {
+						if (account.getType() != ClientAccount.TYPE_CASH
+								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != ClientAccount.TYPE_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& account.getType() != ClientAccount.TYPE_EQUITY
+								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
 							return true;
 						} else {
 							return false;
@@ -133,8 +130,9 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		CompanyPreferences preferences = context.getCompany().getPreferences();
+		makeResult.add(actions);
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			result = taxCodeRequirement(context, list);
 			if (result != null) {
@@ -156,7 +154,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		get(DATE).setDefaultValue(new Date());
 		get(NUMBER).setDefaultValue("1");
 		get(PHONE).setDefaultValue("");
-		Contact contact = new Contact();
+		ClientContact contact = new ClientContact();
 		contact.setName(null);
 		get(CONTACT).setDefaultValue(contact);
 		get(MEMO).setDefaultValue("");
@@ -180,7 +178,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-
+		selection = context.getSelection("values");
 		Result result = dateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -193,7 +191,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		Requirement supplierReq = get(SUPPLIER);
-		Vendor supplier = (Vendor) supplierReq.getValue();
+		ClientVendor supplier = (ClientVendor) supplierReq.getValue();
 		result = contactRequirement(context, list, selection, supplier);
 		if (result != null) {
 			return result;
@@ -219,24 +217,22 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		Company company = context.getCompany();
-		Session hibernateSession = context.getHibernateSession();
-		VendorCreditMemo vendorCreditMemo = new VendorCreditMemo();
+		ClientVendorCreditMemo vendorCreditMemo = new ClientVendorCreditMemo();
 
 		Date date = get(DATE).getValue();
-		vendorCreditMemo.setDate(new FinanceDate(date));
+		vendorCreditMemo.setDate(date.getTime());
 		String number = get(NUMBER).getValue();
 		vendorCreditMemo.setNumber(number);
 
-		List<TransactionItem> items = get(ITEMS).getValue();
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		if (get("accounts") != null) {
-			List<TransactionItem> accounts = get("accounts").getValue();
+			List<ClientTransactionItem> accounts = get("accounts").getValue();
 			items.addAll(accounts);
 		}
 
 		vendorCreditMemo.setTransactionItems(items);
 
-		Contact contact = get(CONTACT).getValue();
+		ClientContact contact = get(CONTACT).getValue();
 		if (contact != null && contact.getName() != null) {
 			vendorCreditMemo.setContact(contact);
 		}
@@ -244,22 +240,20 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		// TODO Class
 		String phone = get(PHONE).getValue();
 		vendorCreditMemo.setPhone(phone);
-		CompanyPreferences preferences = company.getPreferences();
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			TAXCode taxCode = get(TAXCODE).getValue();
-			for (TransactionItem item : items) {
-				item.setTaxCode(taxCode);
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
 			}
 		}
 
-		Vendor supplier = get(SUPPLIER).getValue();
-		supplier = (Vendor) hibernateSession.merge(supplier);
-		vendorCreditMemo.setVendor(supplier);
-		vendorCreditMemo.setCompany(company);
+		ClientVendor supplier = get(SUPPLIER).getValue();
+		vendorCreditMemo.setVendor(supplier.getID());
 		String memo = get(MEMO).getValue();
 		vendorCreditMemo.setMemo(memo);
-		vendorCreditMemo.setTotal(getTransactionTotal(items, company));
-
+		updateTotals(vendorCreditMemo);
 		create(vendorCreditMemo, context);
 	}
 }

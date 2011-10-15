@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 
 /**
  * 
@@ -76,15 +77,15 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 		result.add("customers List");
 
 		Boolean accountType = (Boolean) context.getAttribute(CUSTOMER_TYPE);
-		List<Customer> customers = getCustomers(context.getCompany(),
-				accountType);
+		List<ClientCustomer> customers = getCustomers(accountType);
 
 		ResultList actions = new ResultList("actions");
 
-		List<Customer> pagination = pagination(context, selection, actions,
-				customers, new ArrayList<Customer>(), VALUES_TO_SHOW);
+		List<ClientCustomer> pagination = pagination(context, selection,
+				actions, customers, new ArrayList<ClientCustomer>(),
+				VALUES_TO_SHOW);
 
-		for (Customer customer : pagination) {
+		for (ClientCustomer customer : pagination) {
 			customerslist.add(createCustomerRecord(customer));
 		}
 

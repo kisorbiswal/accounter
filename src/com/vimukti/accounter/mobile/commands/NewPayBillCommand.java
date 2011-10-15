@@ -20,6 +20,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -192,7 +193,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
 		if (last != null) {
-			list.add(creatItemRecord((Item) last));
+			list.add(createItemRecord((ClientItem) last));
 			num++;
 		}
 		Requirement itemsReq = get("items");

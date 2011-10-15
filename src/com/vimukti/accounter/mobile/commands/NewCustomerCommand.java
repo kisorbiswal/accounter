@@ -30,6 +30,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends AbstractTransactionCommand {
@@ -492,10 +493,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			selection = TAXCODE;
 		}
 		Requirement customerVatCodeReq = get(CUSTOMER_VATCODE);
-		TAXCode vatCode = (TAXCode) customerVatCodeReq.getValue();
+		ClientTAXCode vatCode = (ClientTAXCode) customerVatCodeReq.getValue();
 
 		if (customerVatCodeObj != null) {
-			vatCode = (TAXCode) customerVatCodeObj;
+			vatCode = (ClientTAXCode) customerVatCodeObj;
 			customerVatCodeReq.setValue(vatCode);
 		}
 		if (selection != null) {

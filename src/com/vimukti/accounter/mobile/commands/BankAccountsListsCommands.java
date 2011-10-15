@@ -2,14 +2,14 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 
 public class BankAccountsListsCommands extends AbstractTransactionCommand {
 	private static final String VIEW_TYPE = "viewType";
@@ -57,8 +57,8 @@ public class BankAccountsListsCommands extends AbstractTransactionCommand {
 		result.add("Bank Accounts");
 		ResultList bankAccountsList = new ResultList("bankAccounts");
 		int num = 0;
-		List<BankAccount> accounts = getBankAccounts(context.getCompany());
-		for (BankAccount b : accounts) {
+		List<ClientBankAccount> accounts = getBankAccounts();
+		for (ClientBankAccount b : accounts) {
 			bankAccountsList.add(createExpenseRecord(b));
 			num++;
 			if (num == ACCOUNTS_TO_SHOW) {
@@ -81,14 +81,13 @@ public class BankAccountsListsCommands extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Record createExpenseRecord(BankAccount account) {
+	private Record createExpenseRecord(ClientBankAccount account) {
 		Record record = new Record(account);
 		record.add("No", account.getNumber());
 		record.add("Name", account.getName());
 		record.add("Type", account.getType());
-		record.add("Balance", ((Account) account).getCurrentBalance());
+		record.add("Balance", ((ClientAccount) account).getCurrentBalance());
 		return record;
 	}
-
 
 }

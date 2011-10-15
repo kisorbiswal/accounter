@@ -6,7 +6,6 @@ import org.hibernate.Session;
 
 import com.google.gwt.i18n.server.testing.Gender;
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -16,6 +15,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 
 public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
@@ -378,16 +379,15 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		if (last != null) {
-			expenseAccountsList.add(createAccountRecord((Account) last));
+			expenseAccountsList.add(createAccountRecord((ClientAccount) last));
 		}
 
-		List<Account> expenseAccount = getAccounts(context
-				.getHibernateSession());
+		List<ClientAccount> expenseAccount = getAccounts();
 		for (int i = 0; i < VALUES_TO_SHOW || i < expenseAccount.size(); i++) {
-			Account expAccount = expenseAccount.get(i);
+			ClientAccount expAccount = expenseAccount.get(i);
 			if (expAccount != last) {
 				expenseAccountsList
-						.add(createAccountRecord((Account) expAccount));
+						.add(createAccountRecord((ClientAccount) expAccount));
 			}
 		}
 
@@ -417,11 +417,11 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 	private Result addressRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get(ADDRESS);
-		Address address = (Address) req.getValue();
+		ClientAddress address = (ClientAddress) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("billTo")) {
-			Address input = context.getSelection(ADDRESS);
+			ClientAddress input = context.getSelection(ADDRESS);
 			if (input == null) {
 				input = context.getAddress();
 			}

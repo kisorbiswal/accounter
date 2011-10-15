@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class InactiveItemsListCommand extends ItemsCommand {
 
@@ -13,8 +14,8 @@ public class InactiveItemsListCommand extends ItemsCommand {
 		return null;
 	}
 
-	protected List<Item> getItems(Company company, Boolean isActive) {
-		return super.getItems(company, false);
+	protected List<ClientItem> getItems(Company company, Boolean isActive) {
+		return super.getItems(false);
 	}
 
 }

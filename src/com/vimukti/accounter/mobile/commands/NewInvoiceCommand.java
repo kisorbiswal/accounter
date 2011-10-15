@@ -22,6 +22,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 
 public class NewInvoiceCommand extends AbstractTransactionCommand {
 
@@ -173,8 +175,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		String orderNo = get(ORDER_NO).getValue();
 		invoice.setOrderNum(orderNo);
 
-		invoice.setTotal(getTransactionTotal(items, company));
-
 		// TODO Payments
 
 		String memo = get(MEMO).getValue();
@@ -209,7 +209,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -219,7 +219,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 
 		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
+		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 		Record custRecord = new Record(customer);
 		custRecord.add("Name", "Customer");
 		custRecord.add("Value", customer.getName());

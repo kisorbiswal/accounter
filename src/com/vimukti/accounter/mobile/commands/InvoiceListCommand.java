@@ -90,8 +90,7 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		result.add("Invoices  List");
 		ResultList invoicesListData = new ResultList("invoicesList");
 		int num = 0;
-		List<InvoicesList> invoices = getInvoices(viewType,
-				context.getCompany());
+		List<InvoicesList> invoices = getInvoices(viewType);
 
 		for (InvoicesList inv : invoices) {
 			invoicesListData.add(createInvoiceRecord(inv));

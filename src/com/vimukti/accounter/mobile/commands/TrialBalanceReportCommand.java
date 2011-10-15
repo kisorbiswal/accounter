@@ -49,7 +49,7 @@ public class TrialBalanceReportCommand extends
 		Record trialRecord = new Record(record);
 
 		trialRecord.add("Account Name", record.getAccountName());
-		if (getCompany().getPreferences().getUseAccountNumbers())
+		if (getClientCompany().getPreferences().getUseAccountNumbers())
 			trialRecord.add("Account Number", record.getAccountNumber());
 		else
 			trialRecord.add("", "");

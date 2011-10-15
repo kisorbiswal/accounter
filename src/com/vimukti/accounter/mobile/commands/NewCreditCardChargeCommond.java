@@ -19,6 +19,9 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
@@ -126,8 +129,8 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		}
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
-		creditCardCharge.setTotal(getTransactionTotal(items,
-				context.getCompany()));
+		// creditCardCharge.setTotal(getTransactionTotal(items,
+		// context.getCompany()));
 		create(creditCardCharge, context);
 	}
 
@@ -141,13 +144,14 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
-				accountItems(context, "accounts", new ListFilter<Account>() {
+				accountItems(context, "accounts",
+						new ListFilter<ClientAccount>() {
 
-					@Override
-					public boolean filter(Account account) {
-						return true;
-					}
-				});
+							@Override
+							public boolean filter(ClientAccount account) {
+								return true;
+							}
+						});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -162,7 +166,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -174,7 +178,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		selection = context.getSelection("accountItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
-					(TransactionItem) selection);
+					(ClientTransactionItem) selection);
 			if (result != null) {
 				return result;
 			}
@@ -184,7 +188,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 
 		Requirement supplierReq = get("supplier");
-		Vendor supplier = (Vendor) supplierReq.getValue();
+		ClientVendor supplier = (ClientVendor) supplierReq.getValue();
 
 		selection = context.getSelection("values");
 		if (supplier == selection) {

@@ -67,8 +67,7 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 		int num = 0;
 		List<ReceivePaymentsList> receivedPayments = new ArrayList<ReceivePaymentsList>();
 		if (viewType != null) {
-			receivedPayments = getReceivePaymentsList(viewType,
-					context.getCompany());
+			receivedPayments = getReceivePaymentsList(viewType);
 		}
 
 		for (ReceivePaymentsList receivedPayment : receivedPayments) {

@@ -3,14 +3,13 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class ItemsCommand extends AbstractTransactionCommand {
 
@@ -69,9 +68,9 @@ public class ItemsCommand extends AbstractTransactionCommand {
 		ResultList itemResult = new ResultList("items");
 		result.add("Items List");
 		int num = 0;
-		List<Item> items = getItems(context.getCompany(), isActive);
-		for (Item item : items) {
-			itemResult.add(creatItemRecord(item));
+		List<ClientItem> items = getItems(isActive);
+		for (ClientItem item : items) {
+			itemResult.add(createItemRecord(item));
 			num++;
 			if (num == ITEMS_TO_SHOW) {
 				break;
@@ -94,11 +93,12 @@ public class ItemsCommand extends AbstractTransactionCommand {
 
 	}
 
-	protected List<Item> getItems(Company company, Boolean isActive) {
-		ArrayList<Item> items = new ArrayList<Item>(company.getItems());
-		ArrayList<Item> result = new ArrayList<Item>();
+	protected List<ClientItem> getItems(Boolean isActive) {
+		ArrayList<ClientItem> items = new ArrayList<ClientItem>(
+				getClientCompany().getItems());
+		ArrayList<ClientItem> result = new ArrayList<ClientItem>();
 
-		for (Item item : items) {
+		for (ClientItem item : items) {
 			if (isActive) {
 				if (item.isActive()) {
 					result.add(item);

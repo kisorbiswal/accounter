@@ -24,6 +24,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
@@ -108,16 +110,16 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		setTransactionType(ENTERBILL_TRANSACTION);
+		setTransactionType(CUSTOMER_TRANSACTION);
 
 		result = createSupplierRequirement(context, list, VENDOR);
 		if (result != null) {
 			return result;
 		}
 		result = itemsAndAccountsRequirement(context, makeResult, list,
-				new ListFilter<Account>() {
+				new ListFilter<ClientAccount>() {
 					@Override
-					public boolean filter(Account e) {
+					public boolean filter(ClientAccount e) {
 						return true;
 					}
 				});
@@ -205,8 +207,6 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 		enterBill.setTransactionItems(items);
 
-		enterBill.setTotal(getTransactionTotal(items, company));
-
 		Date dueDate = get(DUE_DATE).getValue();
 		enterBill.setDueDate(new FinanceDate(dueDate));
 
@@ -252,7 +252,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = contactRequirement(context, list, selection,
-				(Vendor) get(VENDOR).getValue());
+				(ClientVendor) get(VENDOR).getValue());
 		if (result != null) {
 			return result;
 		}

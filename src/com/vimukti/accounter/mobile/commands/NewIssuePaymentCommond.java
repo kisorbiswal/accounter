@@ -2,7 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IssuePayment;
 import com.vimukti.accounter.core.Transaction;
@@ -14,6 +13,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -60,13 +61,14 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context, null, new ListFilter<Account>() {
+		result = accountsRequirement(context, null,
+				new ListFilter<ClientAccount>() {
 
-			@Override
-			public boolean filter(Account e) {
-				return true;
-			}
-		}, null);
+					@Override
+					public boolean filter(ClientAccount e) {
+						return true;
+					}
+				}, null);
 		if (result != null) {
 			return result;
 		}
@@ -106,10 +108,9 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		result.add("Issue Payments List");
 		ResultList issuePaymentData = new ResultList("Issue Payments List");
 		int num = 0;
-		List<TransactionIssuePayment> issuePaymentTransactionsList = getIssuePaymentTransactionsList(
-				paymentMethod, transactionItem.getAccount().getName(),
-				context.getCompany());
-		for (TransactionIssuePayment est : issuePaymentTransactionsList) {
+		List<ClientTransactionIssuePayment> issuePaymentTransactionsList = getIssuePaymentTransactionsList(
+				paymentMethod, transactionItem.getAccount().getName());
+		for (ClientTransactionIssuePayment est : issuePaymentTransactionsList) {
 			issuePaymentData.add(createIssuePaymentTransactionRecord(est));
 			num++;
 			if (num == ISSUE_PAYMENTS_TO_SHOW) {
@@ -130,7 +131,7 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 	}
 
 	private Record createIssuePaymentTransactionRecord(
-			TransactionIssuePayment est) {
+			ClientTransactionIssuePayment est) {
 		Record record = new Record(est);
 		record.add("Name", est.getName());
 		record.add("Value", est.getAmount());

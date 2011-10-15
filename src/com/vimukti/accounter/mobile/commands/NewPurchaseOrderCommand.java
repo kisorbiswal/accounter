@@ -49,8 +49,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("total", true, true));
 			}
 		});
-		
-		
+
 		list.add(new ObjectListRequirement("items", false, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -62,8 +61,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("total", true, true));
 			}
 		});
-		
-		
+
 		list.add(new Requirement("contact", true, false));
 		list.add(new Requirement("phone", true, true));
 		list.add(new Requirement("billto", true, false));
@@ -88,13 +86,13 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				if (result != null) {
 					return result;
 				}
-			}if (process.equals(ACCOUNTS_PROCESS)) {
+			}
+			if (process.equals(ACCOUNTS_PROCESS)) {
 				result = transactionAccountProcess(context);
 				if (result != null) {
 					return result;
 				}
-			}  
-			else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
 				result = transactionItemProcess(context);
 				if (result != null) {
 					return result;
@@ -139,38 +137,38 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 	 * @param context
 	 */
 	private void completeProcess(Context context) {
-		
+
 		PurchaseOrder newPurchaseOrder = new PurchaseOrder();
 
 		Vendor vendor = get("vendor").getValue();
 		newPurchaseOrder.setVendor(vendor);
 
 		newPurchaseOrder.setPhone((String) get("phone").getValue());
-		
+
 		newPurchaseOrder.setStatus((Integer) get(STATUS).getValue());
 
 		newPurchaseOrder.setNumber((String) get(ORDER_NO).getValue());
-		
-				
+
 		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		newPurchaseOrder.setPaymentTerm(newPaymentTerms);
-		
-	
+
 		Date dueDate = get("duedate").getValue();
 		newPurchaseOrder.setDate(new FinanceDate(dueDate));
-		
+
 		Date receivedDate = get("receiveddate").getValue();
 		newPurchaseOrder.setDate(new FinanceDate(receivedDate));
-		
+
 		Date dispatchDate = get("dispatchdate").getValue();
 		newPurchaseOrder.setDate(new FinanceDate(dispatchDate));
-		
+
 		List<TransactionItem> items = get("items").getValue();
 		newPurchaseOrder.setTransactionItems(items);
-		
-		Set<AccountTransaction> accountTransactionEntriesList = get("accounts").getValue();
-		newPurchaseOrder.setAccountTransactionEntriesList(accountTransactionEntriesList);
-		
+
+		Set<AccountTransaction> accountTransactionEntriesList = get("accounts")
+				.getValue();
+		newPurchaseOrder
+				.setAccountTransactionEntriesList(accountTransactionEntriesList);
+
 		create(newPurchaseOrder, context);
 	}
 
@@ -371,12 +369,12 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList(CONTACTS);
 		int num = 0;
 		if (oldContact != null) {
-			list.add(createContactRecord(oldContact));
+			// list.add(createContactRecord(oldContact));
 			num++;
 		}
 		for (Contact contact : contacts) {
 			if (contact != oldContact) {
-				list.add(createContactRecord(contact));
+				// list.add(createContactRecord(contact));
 				num++;
 			}
 			if (num == CONTACTS_TO_SHOW) {
