@@ -203,7 +203,8 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		nameRecord.add("Value", name);
 		list.add(nameRecord);
 
-		Result result = descriptionRequirement(context, list, selection);
+		Result result = stringOptionalRequirement(context, list, selection,
+				DESCRIPTION, "Enter Description");
 		if (result != null) {
 			return result;
 		}
@@ -352,32 +353,6 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 			}
 		}
 		return vatItmsList;
-	}
-
-	private Result descriptionRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement descriptionReq = get(DESCRIPTION);
-		String description = (String) descriptionReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(DESCRIPTION)) {
-			String desc = context.getSelection(TEXT);
-			if (desc == null) {
-				desc = context.getString();
-			}
-			description = desc;
-			descriptionReq.setValue(description);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		if (selection == DESCRIPTION) {
-			context.setAttribute(INPUT_ATTR, DESCRIPTION);
-			return text(context, "Description", description);
-		}
-
-		Record descRecord = new Record(DESCRIPTION);
-		descRecord.add("Name", "Description");
-		descRecord.add("Value", description);
-		list.add(descRecord);
-		return null;
 	}
 
 }
