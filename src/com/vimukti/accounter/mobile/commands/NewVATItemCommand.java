@@ -101,6 +101,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		VATReturnBox vatReturnBox = context.getSelection(VAT_RETURN_BOXES);
 		if (vatReturnBox != null) {
 			vatReturnBoxReq.setValue(vatReturnBox);
+			context.setAttribute(INPUT_ATTR, "default");
 		}
 		if (!vatReturnBoxReq.isDone()) {
 			return getVatReturnBoxResult(context);

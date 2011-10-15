@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
@@ -17,6 +15,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 
 public abstract class AbstractVATCommand extends AbstractCommand {
@@ -41,6 +40,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		TAXAgency taxAgency = context.getSelection(TAX_AGENCIES);
 		if (taxAgency != null) {
 			taxAgencyReq.setValue(taxAgency);
+			context.setAttribute(INPUT_ATTR, "default");
 		}
 		if (!taxAgencyReq.isDone()) {
 			return getTaxAgencyResult(context);
@@ -100,6 +100,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		TAXItem taxItem = context.getSelection(TAX_ITEMS);
 		if (taxItem != null) {
 			taxItemReq.setValue(taxItem);
+			context.setAttribute(INPUT_ATTR, "default");
 		}
 		if (!taxItemReq.isDone()) {
 			return getTaxItemResult(context);
@@ -116,8 +117,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			taxItemsList.add(createTaxItemRecord((TAXItem) last));
 		}
 
-		List<TAXItem> taxItems = getTaxItems(context.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < taxItems.size(); i++) {
+		List<TAXItem> taxItems = getTaxItems(context);
+		for (int i = 0; i < VALUES_TO_SHOW && i < taxItems.size(); i++) {
 			TAXItem vatItem = taxItems.get(i);
 			if (vatItem != last) {
 				taxItemsList.add(createTaxItemRecord((TAXItem) vatItem));
@@ -141,9 +142,10 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<TAXItem> getTaxItems(Session session) {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<TAXItem> getTaxItems(Context context) {
+		Company company = context.getCompany();
+		Set<TAXItem> taxItems = company.getTaxItems();
+		return new ArrayList<TAXItem>(taxItems);
 	}
 
 	protected Record createTaxItemRecord(TAXItem taxItem) {
@@ -165,6 +167,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		Account account = context.getSelection(ACCOUNTS);
 		if (account != null) {
 			accountReq.setValue(account);
+			context.setAttribute(INPUT_ATTR, "default");
 		}
 		if (!accountReq.isDone()) {
 			return getAccountResult(context);
@@ -181,8 +184,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			accountsList.add(createAccountRecord((Account) last));
 		}
 
-		List<Account> accounts = getAccounts(context.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < accounts.size(); i++) {
+		List<Account> accounts = getAccounts(context);
+		for (int i = 0; i < VALUES_TO_SHOW && i < accounts.size(); i++) {
 			Account salesAccount = accounts.get(i);
 			if (salesAccount != last) {
 				accountsList.add(createAccountRecord((Account) salesAccount));
@@ -206,9 +209,16 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<Account> getAccounts(Session session) {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<Account> getAccounts(Context context) {
+		Company company = context.getCompany();
+		Set<Account> accounts = company.getAccounts();
+		return Utility.filteredList(new ListFilter<Account>() {
+
+			@Override
+			public boolean filter(Account e) {
+				return e.getIsActive();
+			}
+		}, new ArrayList<Account>(accounts));
 	}
 
 	protected Result amountRequirement(Context context) {
@@ -222,7 +232,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		}
 		if (!taxRateReq.isDone()) {
 			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return amount(context, "Please Enter the Tax Rate.", null);
+			return amount(context, "Please Enter the Amount", null);
 		}
 
 		return null;

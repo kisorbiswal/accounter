@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
@@ -16,10 +17,8 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public class VATAdjustmentCommand extends AbstractVATCommand {
 
-	private static final String AMOUNT = null;
-	private static final String IS_INCREASE_VATLINE = null;
-	private static final String MEMO = null;
-	private static final String ADJUSTMENT_ACCOUNT = null;
+	private static final String IS_INCREASE_VATLINE = "isIncreaseVatLine";
+	private static final String ADJUSTMENT_ACCOUNT = "adjustmentAccount";
 
 	@Override
 	public String getId() {
@@ -37,13 +36,19 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
 		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(NUMBER, true, true));
+		list.add(new Requirement(ORDER_NO, true, true));
 		list.add(new Requirement(MEMO, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		Result result = null;
+
+		setOptionalValues();
 
 		result = taxAgencyRequirement(context);
 		if (result != null) {
@@ -73,6 +78,13 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		return createTaxAdjustment(context);
 	}
 
+	private void setOptionalValues() {
+		get(IS_INCREASE_VATLINE).setDefaultValue(true);
+		get(DATE).setDefaultValue(new Date());
+		get(ORDER_NO).setDefaultValue("1");
+		get(MEMO).setDefaultValue(new String());
+	}
+
 	private Result createTaxAdjustment(Context context) {
 		TAXAdjustment taxAdjustment = new TAXAdjustment();
 		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
@@ -83,6 +95,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		String number = get(NUMBER).getValue();
 		String memo = get(MEMO).getValue();
 
+		taxAdjustment.setCompany(context.getCompany());
 		taxAdjustment.setTaxAgency(taxAgency);
 		taxAdjustment.setAdjustmentAccount(account);
 		taxAdjustment.setNetAmount(amount);
@@ -105,7 +118,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 	}
 
 	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -142,7 +155,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 		ResultList list = new ResultList("values");
 
-		Record taxAgencyRecord = new Record(taxAgency);
+		Record taxAgencyRecord = new Record(TAX_AGENCY);
 		taxAgencyRecord.add(INPUT_ATTR, "Tax Agency");
 		taxAgencyRecord.add("Value", taxAgency);
 		list.add(taxAgencyRecord);
@@ -155,18 +168,18 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 				return getTaxItemResult(context);
 			}
 
-			Record taxItemRecord = new Record(taxItem);
+			Record taxItemRecord = new Record(TAX_ITEM);
 			taxItemRecord.add(INPUT_ATTR, "Tax Item");
 			taxItemRecord.add("Value", taxItem);
 			list.add(taxItemRecord);
 		}
 
-		Record accountRecord = new Record(account);
+		Record accountRecord = new Record(ADJUSTMENT_ACCOUNT);
 		accountRecord.add(INPUT_ATTR, "Adjustment Account");
 		accountRecord.add("Value", account);
 		list.add(accountRecord);
 
-		Record amountRecord = new Record(amount);
+		Record amountRecord = new Record(AMOUNT);
 		amountRecord.add(INPUT_ATTR, "Amount");
 		amountRecord.add("Value", amount);
 		list.add(amountRecord);

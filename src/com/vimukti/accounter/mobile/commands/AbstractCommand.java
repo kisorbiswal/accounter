@@ -684,6 +684,7 @@ public abstract class AbstractCommand extends Command {
 			}
 			orderNo = order;
 			req.setValue(orderNo);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
 		if (selection == orderNo) {
