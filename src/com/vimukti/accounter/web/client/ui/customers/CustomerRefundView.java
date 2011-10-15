@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -57,11 +59,9 @@ public class CustomerRefundView extends
 	private CheckboxItem printCheck;
 	private TAXCodeCombo taxCodeSelect;
 
-	private Double refundAmount;
 	private Double endingBalance;
 	private boolean isChecked = false;
 	private Double customerBalanceAmount;
-	private List<ClientAccount> payFromAccounts;
 	private String checkNumber;
 	private ArrayList<DynamicForm> listforms;
 	protected DynamicForm payForm;
@@ -77,8 +77,6 @@ public class CustomerRefundView extends
 	}
 
 	public void initPayFromAccounts() {
-		// payFromSelect.initCombo(payFromAccounts);
-		// getPayFromAccounts();
 		payFromSelect.setAccounts();
 
 		if (transaction != null) {
@@ -106,8 +104,7 @@ public class CustomerRefundView extends
 		addressListOfCustomer = customer.getAddress();
 		super.initBillToCombo();
 		setCustomerBalance(customer.getBalance());
-		// paymentMethodSelected(customer.getPaymentMethod());
-
+		refundAmountChanged(amtText.getAmount());
 	}
 
 	@Override
@@ -132,12 +129,9 @@ public class CustomerRefundView extends
 	@Override
 	protected void createControls() {
 
-		// Label lab1 = new Label(Utility.getTransactionName(transactionType)
-		// + "(" + getTransactionStatus() + ")");
 		Label lab1 = new Label(Accounter.messages().customerRefund(
 				Global.get().Customer()));
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -156,13 +150,11 @@ public class CustomerRefundView extends
 
 		HorizontalPanel totalLabel = new HorizontalPanel();
 		totalLabel.setWidth("100%");
-		// totalLabel.add(lab1);
 		totalLabel.add(labeldateNoLayout);
 		totalLabel.setCellHorizontalAlignment(labeldateNoLayout, ALIGN_RIGHT);
 
 		customerCombo = createCustomerComboItem(customerConstants.payTo());
 
-		// customerCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setTitle(customerConstants.address());
 		billToCombo.setDisabled(true);
@@ -170,18 +162,11 @@ public class CustomerRefundView extends
 		custForm = new DynamicForm();
 
 		custForm.setWidth("100%");
-		// custForm.setFields(customerCombo, billToCombo);
-		custForm.setWidth("100%");
-
-		// custForm.setFields(customerCombo, billToCombo);
-		// custForm.setWidth("100%");
-		// custForm.getCellFormatter().setWidth(0, 0, "150");
 
 		payFromSelect = new PayFromAccountsCombo(customerConstants.payFrom());
 		payFromSelect.setHelpInformation(true);
 		payFromSelect.setRequired(true);
 		payFromSelect.setDisabled(isInViewMode());
-		// payFromSelect.setWidth("100%");
 		payFromSelect.setPopupWidth("500px");
 
 		payFromSelect
@@ -193,7 +178,7 @@ public class CustomerRefundView extends
 						selectedAccount = selectItem;
 
 						setEndingBalance(selectedAccount.getTotalBalance());
-
+						refundAmountChanged(amtText.getAmount());
 					}
 
 				});
@@ -203,44 +188,27 @@ public class CustomerRefundView extends
 		amtText.setRequired(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isInViewMode());
-		amtText.addChangeHandler(new ChangeHandler() {
+		amtText.addBlurHandler(new BlurHandler() {
 
 			@Override
-			public void onChange(ChangeEvent event) {
-				try {
-					Double amount = DataUtils.getAmountStringAsDouble(amtText
-							.getValue().toString());
-					amtText.setAmount(getAmountInTransactionCurrency(amount));
-					Double givenAmount = getAmountInBaseCurrency(amtText
-							.getAmount());
-					if (DecimalUtil.isLessThan(givenAmount, 0)) {
-						// BaseView.errordata.setHTML("<li> "
-						// + FinanceApplication.constants()
-						// .noNegativeAmounts() + ".");
-						// BaseView.commentPanel.setVisible(true);
-						addError(amtText, Accounter.constants()
-								.noNegativeAmounts());
-						// Accounter.showError(FinanceApplication
-						// .constants().noNegativeAmounts());
-						setRefundAmount(0.00D);
+			public void onBlur(BlurEvent event) {
+				Double givenAmount = getAmountInBaseCurrency(amtText
+						.getAmount());
+				if (DecimalUtil.isLessThan(givenAmount, 0)) {
+					addError(amtText, Accounter.constants().noNegativeAmounts());
+					setRefundAmount(0.00D);
 
-					}
+				}
 
-					else if (!DecimalUtil.isLessThan(givenAmount, 0)) {
+				else if (!DecimalUtil.isLessThan(givenAmount, 0)) {
+					try {
 						if (!AccounterValidator.isAmountTooLarge(givenAmount))
 							refundAmountChanged(givenAmount);
-						// BaseView.errordata.setHTML("");
-						// BaseView.commentPanel.setVisible(false);
-
-						setRefundAmount(givenAmount);
-
+					} catch (InvalidEntryException e) {
 					}
 
-				} catch (Exception e) {
-					if (e instanceof InvalidEntryException) {
-						Accounter.showError(e.getMessage());
-					}
-					setRefundAmount(0.00D);
+					setRefundAmount(givenAmount);
+
 				}
 			}
 		});
@@ -248,11 +216,6 @@ public class CustomerRefundView extends
 		setRefundAmount(null);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		// paymentMethodCombo.setWidth(100);
-		// paymentMethodCombo.setComboItem(UIUtils
-		// .getpaymentMethodCheckBy_CompanyType(Accounter.constants()
-		// .check()));
-
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
@@ -261,8 +224,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -275,7 +238,6 @@ public class CustomerRefundView extends
 						}
 					}
 				} else
-					// setCheckNumber();
 					checkNoText.setValue("");
 				checkNoText.setDisabled(false);
 
@@ -299,14 +261,6 @@ public class CustomerRefundView extends
 		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		// refText = createRefereceText();
-		// refText.setWidth(100);
-
-		// payForm = new DynamicForm();
-		// payForm.setWidth("100%");
-		// payForm.setFields(payFromSelect, amtText, paymentMethodCombo,
-		// printCheck, checkNoText);
-		// forms.add(payForm);
 
 		endBalText = new AmountField(customerConstants.endingBalance(), this);
 		endBalText.setHelpInformation(true);
@@ -320,10 +274,6 @@ public class CustomerRefundView extends
 		custBalText.setDisabled(true);
 		setCustomerBalance(null);
 
-		// DynamicForm memoForm = new DynamicForm();
-		// memoForm.setWidth("100%");
-		// memoForm.setFields(memoTextAreaItem, refText);
-		// memoForm.getCellFormatter().setWidth(0, 0, "150");
 		custForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		custForm.setFields(customerCombo, billToCombo, payFromSelect, amtText,
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
@@ -347,8 +297,6 @@ public class CustomerRefundView extends
 		leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
 		leftPanel.add(custForm);
-		// leftPanel.add(payForm);
-		// leftPanel.add(memoForm);
 
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.setWidth("100%");
@@ -371,10 +319,6 @@ public class CustomerRefundView extends
 		mainVLay.add(totalLabel);
 		mainVLay.add(hLay);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			custForm.getCellFormatter().setWidth(0, 1, "300px");
-//			custForm.setWidth("75%");
-//		}
 		this.add(mainVLay);
 
 		setSize("100%", "100%");
@@ -443,8 +387,6 @@ public class CustomerRefundView extends
 		transaction.setIsToBePrinted(isChecked);
 		transaction.setMemo(memoTextAreaItem.getValue().toString());
 
-		// transaction.setReference(refText.getValue().toString());
-
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 
 		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
@@ -493,8 +435,6 @@ public class CustomerRefundView extends
 		if (amountValue == null)
 			amountValue = 0.00D;
 		amtText.setAmount(getAmountInTransactionCurrency(amountValue));
-		// this.refundAmount = amountValue;
-
 	}
 
 	protected void setEndingBalance(Double totalBalance) {
@@ -502,10 +442,7 @@ public class CustomerRefundView extends
 		if (totalBalance == null)
 			totalBalance = 0.0D;
 
-		// if (refundAmount != null)
-		// totalBalance -= refundAmount;
-
-		endBalText.setAmount(getAmountInTransactionCurrency(totalBalance));
+		endBalText.setAmount(totalBalance);
 
 		this.endingBalance = totalBalance;
 
@@ -521,13 +458,6 @@ public class CustomerRefundView extends
 		if (memo != null) {
 			memoTextAreaItem.setValue(memo);
 		}
-
-		// String refString = ((ClientCustomerRefund) transactionObject)
-		// .getReference();
-		//
-		// if (refString != null) {
-		// refText.setValue(refString);
-		// }
 
 	}
 
@@ -594,7 +524,6 @@ public class CustomerRefundView extends
 					.getCustomerBalance()));
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
-			// refText.setValue(customerRefundTobeEdited.getReference());
 
 			this.clientAccounterClass = transaction.getAccounterClass();
 			if (getPreferences().isClassTrackingEnabled()
@@ -624,11 +553,8 @@ public class CustomerRefundView extends
 	public void setCustomerBalance(Double amount) {
 		if (amount == null)
 			amount = 0.0D;
-		//
-		// if (refundAmount != null)
-		// amount += refundAmount;
 
-		custBalText.setAmount(getAmountInTransactionCurrency(amount));
+		custBalText.setAmount(amount);
 
 		this.customerBalanceAmount = amount;
 	}
@@ -636,13 +562,6 @@ public class CustomerRefundView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		// Validations
-		// 1. if(!isPositiveAmount(amt)) ERROR
-		// 2. if(!validCustomerRefundAmount(amt, payFromAccount)) ERROR
-
-		// if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
-		// result.addError(amtText, accounterConstants.invalidNegativeAmount());
-		// }
 		if (isTrackTax()) {
 			if (taxCodeSelect != null)
 				if (!taxCodeSelect.validate()) {
@@ -661,8 +580,8 @@ public class CustomerRefundView extends
 					.valueCannotBe0orlessthan0(Accounter.constants().amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
-				getAmountInBaseCurrency(amtText.getAmount()),
-				payFromSelect.getSelectedValue())) {
+				getAmountInBaseCurrency(amtText.getAmount()), payFromSelect
+						.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
@@ -749,20 +668,6 @@ public class CustomerRefundView extends
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(Accounter.constants().toBePrinted());
 		}
-		// paymentMethodSelected(paymentMethodCombo.getValue().toString());
-		// checkNoText.setValue(((ClientCustomerRefund) transactionObject)
-		// .getCheckNumber());
-		// printCheck.setValue(((ClientCustomerRefund) transactionObject)
-		// .getIsToBePrinted());
-		// if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
-		// checkNoText.setDisabled(true);
-		// }
-		// if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
-		// checkNoText.setDisabled(true);
-		// }
-		// if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
-		// checkNoText.setDisabled(true);
-		// }
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -832,7 +737,6 @@ public class CustomerRefundView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+		refundAmountChanged(amtText.getAmount());
 	}
 }

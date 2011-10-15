@@ -43,15 +43,12 @@ public class NewVendorPaymentView extends
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, vendorBalText;
 	protected double enteredBalance;
-	private DynamicForm vendorForm;
 	private DynamicForm payForm;
 	Double toBeSetEndingBalance = 0.0D;
 	Double toBeSetVendorBalance = 0.0D;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
 			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
-
-	private CheckboxItem thisisVATinclusive;
 
 	boolean isChecked = false;
 
@@ -78,8 +75,6 @@ public class NewVendorPaymentView extends
 		endBalText.setAmount(getAmountInTransactionCurrency(0D));
 		vendorBalText.setAmount(getAmountInTransactionCurrency(0D));
 		memoTextAreaItem.setValue("");
-		// refText.setValue("");
-
 	}
 
 	@Override
@@ -96,7 +91,6 @@ public class NewVendorPaymentView extends
 			ClientVendor vendor = comapny.getVendor(transaction.getVendor());
 			vendorSelected(vendor);
 			billToaddressSelected(transaction.getAddress());
-			// accountSelected(comapny.getAccount(payBillToBeEdited.getPayFrom()));
 			this.payFromAccount = comapny.getAccount(transaction.getPayFrom());
 			if (payFromAccount != null)
 				payFromCombo.setComboItem(payFromAccount);
@@ -141,8 +135,6 @@ public class NewVendorPaymentView extends
 		Label lab1 = new Label(messages.vendorPrePayment(Global.get().Vendor()));
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("50px");
-		// transaction date and number
 
 		transactionDateItem = createTransactionDateItem();
 
@@ -164,10 +156,8 @@ public class NewVendorPaymentView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		// vendor and address
 		vendorCombo = createVendorComboItem(Accounter.constants().payTo());
 
 		billToCombo = createBillToComboItem();
@@ -206,29 +196,8 @@ public class NewVendorPaymentView extends
 		amountText.setWidth(100);
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
-		// amountText.addChangeHandler(new ChangeHandler() {
-		//
-		// @Override
-		// public void onChange(ChangeEvent event) {
-		// if (amountText.getValue() != null) {
-		// if (amountText.getValue().toString().isEmpty())
-		// amountText.setAmount(0.0);
-		// else {
-		// String s = amountText.getValue().toString();
-		// Double d = Double.parseDouble(s);
-		// amountText.setAmount(d);
-		// }
-		// adjustBalance();
-		// }
-		// }
-		//
-		// });
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		// paymentMethodCombo.setWidth(100);
-		// paymentMethodCombo.setDefaultValue(UIUtils
-		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
-		// .constants().check()));
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
 						.check()));
@@ -256,7 +225,6 @@ public class NewVendorPaymentView extends
 					}
 				} else
 
-					// setCheckNumber();
 					checkNo.setValue("");
 				checkNo.setDisabled(false);
 
@@ -265,7 +233,6 @@ public class NewVendorPaymentView extends
 		checkNo = createCheckNumberItem();
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
-		// checkNo.setDisabled(true);
 		checkNo.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -279,12 +246,9 @@ public class NewVendorPaymentView extends
 		payForm.setHeight("90%");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		// refText = createRefereceText();
-		// refText.setWidth(100);
 		payForm.setFields(vendorCombo, billToCombo, payFromCombo, amountText,
 				paymentMethodCombo, printCheck, checkNo, memoTextAreaItem);
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
-		// memo and Reference
 
 		endBalText.setAmount(getAmountInTransactionCurrency(payFromCombo
 				.getSelectedValue() != null ? payFromCombo.getSelectedValue()
@@ -298,8 +262,6 @@ public class NewVendorPaymentView extends
 		leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
 		leftPanel.add(payForm);
-		// leftPanel.add(payForm);
-		// leftPanel.add(memoForm);
 
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.setWidth("100%");
@@ -320,12 +282,6 @@ public class NewVendorPaymentView extends
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);
-
-//		if (UIUtils.isMSIEBrowser()) {
-//			payForm.getCellFormatter().setWidth(0, 1, "300px");
-//			payForm.setWidth("75%");
-//			balForm.getCellFormatter().setWidth(0, 1, "150px");
-//		}
 
 		this.add(mainVLay);
 
@@ -383,7 +339,6 @@ public class NewVendorPaymentView extends
 			if (payFromAccount != null)
 				transaction.setPayFrom(payFromAccount);
 
-			// adjustBalance();
 			transaction.setTotal(enteredBalance);
 
 			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
@@ -407,9 +362,6 @@ public class NewVendorPaymentView extends
 
 			// Setting Memo
 			transaction.setMemo(getMemoTextAreaItem());
-
-			// Setting Ref
-			// transaction.setReference(getRefText());
 
 			transaction.setEndingBalance(toBeSetEndingBalance);
 
@@ -521,16 +473,6 @@ public class NewVendorPaymentView extends
 		if (vendorCombo.getSelectedValue() == null) {
 			vendorCombo.setValue("");
 		}
-		// Validations
-		// 1. is valid transaction date?
-		// 2. is in prevent posting before date?
-		// 3. pay form valid?
-
-		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
-		// {
-		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
-		// }
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate, accounterConstants
 					.invalidateDate());
@@ -540,24 +482,6 @@ public class NewVendorPaymentView extends
 
 		return result;
 	}
-
-	// @Override
-	// public void setViewConfiguration(ViewConfiguration viewConfiguration)
-	// throws Exception {
-	//
-	// super.setViewConfiguration(viewConfiguration);
-	//
-	// if (isEdit && (!transactionObject.isPayBill()))
-	// throw new Exception("Unable to load the Required PayBill....");
-	//
-	// if (viewConfiguration.isInitWithPayee()) {
-	// ClientPayee payee = viewConfiguration.getPayeeObject();
-	//
-	// if (payee == null || (!payee.isVendor()))
-	// throw new Exception("Required Vendor Could Not be Loaded...");
-	// }
-	//
-	// }
 
 	public static NewVendorPaymentView getInstance() {
 
@@ -712,8 +636,7 @@ public class NewVendorPaymentView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+		adjustBalance();
 	}
 
 }
