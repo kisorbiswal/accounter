@@ -83,8 +83,10 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+
+		setDefaultValues(context);
 		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = context.makeResult();
 		if (process != null) {
 			if (process.equals(ADDRESS_PROCESS)) {
 				result = addressProcess(context);
@@ -98,32 +100,32 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
+		// Preparing Result
+		Result makeResult = context.makeResult();
+		makeResult.add("Enter Bill is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
 
-		setTransactionType(VENDOR_TRANSACTION);
+		setTransactionType(ENTERBILL_TRANSACTION);
 
-		result = vendorRequirement(context);
+		result = createSupplierRequirement(context, list, VENDOR);
+		if (result != null) {
+			return result;
+		}
+		result = itemsAndAccountsRequirement(context, makeResult, list,
+				new ListFilter<Account>() {
+					@Override
+					public boolean filter(Account e) {
+						return true;
+					}
+				});
 		if (result != null) {
 			return result;
 		}
 
-		result = accountsRequirement(context, null, new ListFilter<Account>() {
-
-			@Override
-			public boolean filter(Account e) {
-				return true;
-			}
-		}, null);
-		if (result != null) {
-			return result;
-		}
-
-		result = itemsRequirement(context, null, null);
-		if (result != null) {
-			return result;
-		}
-
-		setDefaultValues(context);
-		result = createOptionalResult(context);
+		result = createOptionalResult(context, list, actions);
 		if (result != null) {
 			return result;
 		}
@@ -209,7 +211,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		enterBill.setDueDate(new FinanceDate(dueDate));
 
 		Date deliveryDate = get(DELIVERY_DATE).getValue();
-		//enterBill.setDeliveryDate(new FinanceDate(deliveryDate));
+		// enterBill.setDeliveryDate(new FinanceDate(deliveryDate));
 
 		Contact contact = get(CONTACT).getValue();
 		enterBill.setContact(contact);
@@ -226,7 +228,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 	}
 
-	private Result createOptionalResult(Context context) {
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
@@ -234,8 +237,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
-			case ADD_MORE_ITEMS:
-				return items(context);
+			// case ADD_MORE_ITEMS:
+			// return items(context);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -244,42 +247,12 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		Requirement itemsReq = get(ITEMS);
-		List<TransactionItem> transItems = itemsReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = transactionItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		Requirement accountsReq = get("accounts");
-		List<TransactionItem> accountTransItems = accountsReq.getValue();
-		selection = context.getSelection("accountItems");
-		if (selection != null) {
-			Result result = transactionAccountItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement vendorReq = get(VENDOR);
-		Vendor vendor = (Vendor) vendorReq.getValue();
-		Record vendorRecord = new Record(vendor);
-		vendorRecord.add("Name", VENDOR);
-		vendorRecord.add("Value", vendor.getName());
-
-		list.add(vendorRecord);
 		Result result = dateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		result = contactRequirement(context, list, selection, vendor);
+		result = contactRequirement(context, list, selection,
+				(Vendor) get(VENDOR).getValue());
 		if (result != null) {
 			return result;
 		}
@@ -312,43 +285,11 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = context.makeResult();
-		result.add("Bill is ready to create with following values.");
-		result.add(list);
 
-		result.add("Items:-");
-		ResultList items = new ResultList("items");
-		for (TransactionItem item : transItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getItem().getName());
-			itemRec.add("Total", item.getLineTotal());
-			itemRec.add("VatCode", item.getVATfraction());
-			items.add(itemRec);
-		}
-
-		result.add(items);
-		result.add(":-");
-		ResultList accountItems = new ResultList("accountItems");
-		for (TransactionItem item : accountTransItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getAccount().getName());
-			itemRec.add("Amount", item.getUnitPrice());
-			itemRec.add("Discount", item.getDiscount());
-			itemRec.add("Total", item.getLineTotal());
-			accountItems.add(itemRec);
-		}
-		result.add(accountItems);
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
-		actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Bill.");
 		actions.add(finish);
-		result.add(actions);
 
 		return result;
 	}
-
 }
