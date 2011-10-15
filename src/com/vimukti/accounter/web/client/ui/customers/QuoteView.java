@@ -244,7 +244,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quote.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
 
 		if (isTrackTax()) {
-			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
+			if (vatinclusiveCheck != null) {
+				quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
+			}
 			if (salesTax == null)
 				salesTax = 0.0D;
 			quote.setTaxTotal(this.salesTax);
@@ -422,6 +425,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
+
+		DynamicForm vatForm = new DynamicForm();
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
@@ -429,7 +434,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 						disabletextbox, transactionTotalNonEditableText);
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
-				prodAndServiceForm2.setFields(taxCodeSelect,
+				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
+				prodAndServiceForm2.setFields(netAmountLabel, disabletextbox,
 						salesTaxTextNonEditable, disabletextbox,
 						transactionTotalNonEditableText);
 				prodAndServiceForm2.addStyleName("boldtext");
@@ -448,6 +454,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vPanel.add(prodAndServiceForm2);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(vatForm);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
@@ -641,6 +648,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 						.getAmountAsString(transaction.getTotal()
 								- transaction.getNetAmount()));
 			}
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
@@ -928,7 +939,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void refreshTransactionGrid() {
-
+		customerTransactionTable.updateTotals();
 	}
 
 	@Override

@@ -48,7 +48,6 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
-import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -254,8 +253,7 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber()
-								: "");
+								.getCheckNumber() : "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -296,8 +294,7 @@ public class CreditCardChargeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -305,14 +302,14 @@ public class CreditCardChargeView extends
 						this.taxCodeSelect.setComboItem(taxCode);
 					}
 				}
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
 			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 
-			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
-			}
 			if (transaction.getPayFrom() != 0)
 				payFromAccountSelected(transaction.getPayFrom());
 			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
@@ -336,12 +333,12 @@ public class CreditCardChargeView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initpayFromAccountCombo() {
@@ -410,8 +407,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 		if (!isTaxPerDetailLine())
 			taxCodeSelect = createTaxCodeSelectItem();
-		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
-				Global.get().Vendor()));
+		vendorNameSelect = new VendorCombo(Global.get().messages()
+				.vendorName(Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -529,8 +526,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -542,8 +539,6 @@ public class CreditCardChargeView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
-				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -628,7 +623,7 @@ public class CreditCardChargeView extends
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		DynamicForm vatCheckform = new DynamicForm();
-		// vatCheckform.setFields(vatinclusiveCheck);
+		vatCheckform.setFields(vatinclusiveCheck);
 
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
@@ -659,7 +654,7 @@ public class CreditCardChargeView extends
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
 				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				botPanel.add(form);
 			}
 			botPanel.add(totalForm);
@@ -764,12 +759,14 @@ public class CreditCardChargeView extends
 
 		updateTransaction();
 
-		if (isTrackTax())
+		if (isTrackTax()) {
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
 					.getAmount()));
-		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-		// .getValue());
-
+			if (vatinclusiveCheck != null) {
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
+			}
+		}
 		super.saveAndUpdateView();
 
 		createAlterObject();
@@ -830,11 +827,6 @@ public class CreditCardChargeView extends
 		if (cheqNoText.getValue() != null)
 			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
-		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
-		}
-
 		// setting delivery date
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
@@ -880,15 +872,15 @@ public class CreditCardChargeView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -897,8 +889,8 @@ public class CreditCardChargeView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 			}
 		}
@@ -1057,7 +1049,8 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	private void settabIndexes() {

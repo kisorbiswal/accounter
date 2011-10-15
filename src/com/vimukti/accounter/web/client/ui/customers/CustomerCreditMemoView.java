@@ -142,8 +142,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -261,6 +261,9 @@ public class CustomerCreditMemoView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
+
+		DynamicForm form = new DynamicForm();
+		form.setWidth("100%");
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
@@ -268,10 +271,11 @@ public class CustomerCreditMemoView extends
 						disabletextbox, transactionTotalNonEditableText);
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
+				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
+						disabletextbox, taxTotalNonEditableText,
+						disabletextbox, transactionTotalNonEditableText);
 
-				prodAndServiceForm2.setFields(taxCodeSelect,
-						taxTotalNonEditableText, disabletextbox,
-						transactionTotalNonEditableText);
 			}
 		} else {
 			prodAndServiceForm2.setFields(disabletextbox,
@@ -290,6 +294,7 @@ public class CustomerCreditMemoView extends
 		vpanel.add(prodAndServiceForm2);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(form);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
@@ -391,8 +396,8 @@ public class CustomerCreditMemoView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
@@ -426,11 +431,12 @@ public class CustomerCreditMemoView extends
 		if (isTrackTax()) {
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
 					.getAmount()));
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			if (vatinclusiveCheck != null) {
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
+			}
 			transaction.setTaxTotal(this.salesTax);
 		}
-
 		transaction
 				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
 						.getAmount()));
@@ -484,6 +490,9 @@ public class CustomerCreditMemoView extends
 				taxTotalNonEditableText
 						.setAmount(getAmountInTransactionCurrency(transaction
 								.getTaxTotal()));
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
 			}
 
 			transactionTotalNonEditableText
@@ -803,8 +812,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
-							.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
 
 		}
 
@@ -866,12 +875,12 @@ public class CustomerCreditMemoView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
@@ -886,7 +895,8 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-
+		customerAccountTransactionTable.updateTotals();
+		customerItemTransactionTable.updateTotals();
 	}
 
 	@Override

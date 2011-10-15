@@ -399,6 +399,9 @@ public class SalesOrderView extends
 
 		TextItem dummyItem = new TextItem("");
 		dummyItem.setVisible(false);
+
+		DynamicForm taxForm = new DynamicForm();
+
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
@@ -406,8 +409,9 @@ public class SalesOrderView extends
 						transactionTotalNonEditableText);
 				prodAndServiceForm2.setStyleName("boldtext");
 			} else {
-				prodAndServiceForm2.setFields(taxCodeSelect, netAmountLabel,
-						dummyItem, salesTaxTextNonEditable, dummyItem,
+				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
+				prodAndServiceForm2.setFields(netAmountLabel, dummyItem,
+						salesTaxTextNonEditable, dummyItem,
 						transactionTotalNonEditableText);
 				prodAndServiceForm2.setStyleName("boldtext");
 			}
@@ -420,6 +424,7 @@ public class SalesOrderView extends
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
@@ -714,6 +719,9 @@ public class SalesOrderView extends
 									.getTotal()));
 				}
 			}
+			if (vatinclusiveCheck != null) {
+				vatinclusiveCheck.setValue(transaction.isAmountsIncludeVAT());
+			}
 			initAccounterClass();
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
@@ -850,8 +858,6 @@ public class SalesOrderView extends
 			if (isTaxPerDetailLine()) {
 				transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
 						.getAmount()));
-				// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-				// .getValue());
 			} else {
 				// if (taxCode != null) {
 				// for (ClientTransactionItem record : customerTransactionTable
@@ -861,6 +867,10 @@ public class SalesOrderView extends
 				// }
 				// }
 				transaction.setTaxTotal(this.salesTax);
+			}
+			if (vatinclusiveCheck != null) {
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
 			}
 		}
 
@@ -1376,7 +1386,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-		// customerTransactionTable.refreshAllRecords();
+		customerTransactionTable.updateTotals();
 	}
 
 	@Override
