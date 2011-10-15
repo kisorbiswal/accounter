@@ -22,6 +22,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -1156,6 +1157,86 @@ public abstract class AbstractCommand extends Command {
 	private Record createPaymentTermRecord(ClientPaymentTerms paymentTerm) {
 		Record record = new Record(paymentTerm);
 		record.add("Name", paymentTerm.getName());
+		return record;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param requirementName
+	 * @return {@link Result}
+	 */
+	protected Result accountRequirement(Context context, ResultList list,
+			String requirementName) {
+		Requirement accountReq = get(requirementName);
+		ClientAccount clientAccount = context.getSelection("accounts");
+
+		if (clientAccount != null) {
+			accountReq.setValue(clientAccount);
+		}
+
+		ClientAccount account = accountReq.getValue();
+		Object selection = context.getSelection("values");
+		if (!accountReq.isDone() || (account == selection)) {
+			return accounts(context);
+		}
+
+		Record supplierRecord = new Record(account);
+		supplierRecord.add("", "Account");
+		supplierRecord.add("", account.getName());
+		list.add(supplierRecord);
+
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return {@link Result}
+	 */
+	protected Result accounts(Context context) {
+		Result result = context.makeResult();
+
+		ResultList supplierList = new ResultList("accounts");
+
+		Object last = context.getLast(RequirementType.ACCOUNT);
+		List<ClientAccount> skipVendors = new ArrayList<ClientAccount>();
+		if (last != null) {
+			supplierList.add(createAccountRecord((ClientAccount) last));
+			skipVendors.add((ClientAccount) last);
+		}
+		List<ClientAccount> vendors = getClientCompany().getAccounts();
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<ClientAccount> pagination = pagination(context, selection,
+				actions, vendors, skipVendors, VALUES_TO_SHOW);
+
+		for (ClientAccount account : pagination) {
+			supplierList.add(createAccountRecord(account));
+		}
+
+		int size = supplierList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Account");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create New Account");
+
+		result.add(message.toString());
+		result.add(supplierList);
+		result.add(actions);
+		result.add(commandList);
+		return result;
+	}
+
+	private Record createAccountRecord(ClientAccount last) {
+		Record record = new Record(last);
+		record.add("Name", last.getName());
+		record.add(" ,Balance", last.getCurrentBalance());
 		return record;
 	}
 
