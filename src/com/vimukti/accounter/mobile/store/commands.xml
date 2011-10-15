@@ -505,4 +505,8 @@
 		<alias>add write check</alias>
 	</command>
 
+	<command clazz="NewItemGroupCommand" name="ItemGroup">
+		<alias>New ItemGroup</alias>
+	</command>
+
 </commands>
