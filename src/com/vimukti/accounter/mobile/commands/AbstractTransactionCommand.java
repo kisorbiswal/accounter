@@ -89,6 +89,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String ITEMS = "items";
 	protected static final int VENDOR_TRANSACTION = 2;
 	protected static final int CUSTOMER_TRANSACTION = 1;
+	protected static final int ENTERBILL_TRANSACTION = 3;
 	protected static final String SUPPLIER = "supplier";
 	protected static final String CONTACT = "contact";
 	protected static final String PHONE = "phone";

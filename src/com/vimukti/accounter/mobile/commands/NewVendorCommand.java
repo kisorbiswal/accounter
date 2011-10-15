@@ -84,8 +84,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 		list.add(new Requirement(VENDOR_NAME, false, true));
 
-		// accountingType = getCompany().getAccountingType();
-		// if (getCompany().getPreferences().getUseVendorId())
 		list.add(new Requirement(VENDOR_NUMBER, false, true));
 
 		list.add(new Requirement(ACTIVE, true, true));
@@ -98,7 +96,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(EMAIL, true, true));
 		list.add(new Requirement(WEB_PAGE_ADDRESS, true, true));
 
-		// if (accountingType == ACCOUNTING_TYPE_US)
 		list.add(new Requirement(TRACK_PAYMENTS_FOR_1099, true, true));
 
 		list.add(new ObjectListRequirement(CONTACTS, true, true) {

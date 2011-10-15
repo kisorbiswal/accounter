@@ -1077,4 +1077,5 @@ public abstract class AbstractCommand extends Command {
 	protected AccounterMessages getMessages() {
 		return messages;
 	}
+
 }
