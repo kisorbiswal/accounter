@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
@@ -21,7 +20,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	private static final String NUMBER = "number";
