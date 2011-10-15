@@ -24,7 +24,6 @@ public class NewItemGroupCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(ITEMGROUP_NAME, false, true));
-
 	}
 
 	@Override
