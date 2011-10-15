@@ -309,42 +309,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		// Requirement contactReq = get(CUSTOMER_CONTACT);
-		// Set<Contact> contacts = contactReq.getValue();
-		// selection = context.getSelection(CUSTOMER_CONTACT);
-		// if (selection != null) {
-		// Result contact = contact(context, "customer contact",
-		// CUSTOMER_CONTACT, (Contact) selection);
-		// if (contact != null) {
-		// return contact;
-		// }
-		// }
-		// selection = context.getSelection("values");
-		//
-		// Requirement customerNameReq = get(CUSTOMER_NAME);
-		// String name = (String) customerNameReq.getValue();
-		//
-		// Requirement customerNumReq = get(NUMBER);
-		// String num = (String) customerNumReq.getValue();
-		//
-		// if (selection != null) {
-		// if (selection == "customerName") {
-		// context.setAttribute(INPUT_ATTR, CUSTOMER_NAME);
-		// return text(context, "Enter Customer Name", name);
-		// } else if (selection == "customerNumber") {
-		// return number(context, NUMBER, num);
-		// }
-		// }
-		//
-		// Record nameRecord = new Record("customerName");
-		// nameRecord.add("", "Customer Name");
-		// nameRecord.add("", name);
-		// list.add(nameRecord);
-		//
-		// Record numberRecord = new Record("customerNumber");
-		// numberRecord.add("", "Customer Number");
-		// numberRecord.add("", num);
-		// list.add(numberRecord);
+		selection = context.getSelection("values");
 
 		Requirement isActiveReq = get(IS_ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
@@ -505,27 +470,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		// result = context.makeResult();
-		// result.add("Customer is ready to create with following values.");
-		// result.add(list);
-		// result.add("Contacts:-");
-		// ResultList contactList = new ResultList(CUSTOMER_CONTACT);
-		// if (contacts != null) {
-		// for (Contact item : contacts) {
-		// Record itemRec = new Record(item);
-		// itemRec.add(PRIMARY, item.getVersion());
-		// itemRec.add(CONTACT_NAME, item.getName());
-		// itemRec.add(TITLE, item.getTitle());
-		// itemRec.add(BUSINESS_PHONE, item.getBusinessPhone());
-		// itemRec.add(EMAIL, item.getEmail());
-		// contactList.add(itemRec);
-		// }
-		// }
-		// result.add(contactList);
-		// ResultList actions = new ResultList(ACTIONS);
-		// Record moreItems = new Record(ActionNames.ADD_MORE_CONTACTS);
-		// moreItems.add("", "Add more contacts");
-		// actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Customer.");
 		actions.add(finish);
