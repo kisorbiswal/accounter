@@ -1,27 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.CreditRating;
-import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.CustomerGroup;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.core.ShippingMethod;
-import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -30,6 +15,16 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCreditRating;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientPriceLevel;
+import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
@@ -167,8 +162,15 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		createCustomerObject(context);
+
 		markDone();
-		return createCustomerObject(context);
+
+		result = new Result();
+		result.add(" Customer was created successfully.");
+
+		return result;
+
 	}
 
 	/**
@@ -180,7 +182,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new Date());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new Date());
-		get(ADDRESS).setDefaultValue(new Address());
+		get(ADDRESS).setDefaultValue(new ClientAddress());
 	}
 
 	/**
@@ -188,47 +190,47 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @return
 	 */
-	private Result createCustomerObject(Context context) {
+	private void createCustomerObject(Context context) {
 
-		ICountryPreferences countryPreferences = context.getCompany()
+		ICountryPreferences countryPreferences = getClientCompany()
 				.getCountryPreferences();
-		CompanyPreferences preferences = context.getCompany().getPreferences();
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
 
-		Customer customer = new Customer();
-		customer.setCompany(context.getCompany());
+		ClientCustomer customer = new ClientCustomer();
 		String name = get(CUSTOMER_NAME).getValue();
 		String number = null;
 		if (preferences.getUseCustomerId()) {
 			number = get(NUMBER).getValue().toString();
 		}
-		Set<Contact> contacts = (get(CUSTOMER_CONTACT).getValue());
+		Set<ClientContact> contacts = (get(CUSTOMER_CONTACT).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		Date balancedate = get(BALANCE_ASOF_DATE).getValue();
 		Date customerSincedate = get(CUSTOMER_SINCEDATE).getValue();
 		double balance = get(BALANCE).getValue();
-		Address adress = get(ADDRESS).getValue();
+		ClientAddress adress = get(ADDRESS).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
 		String webaddress = get(WEBADRESS).getValue();
-		SalesPerson salesPerson = get(SALESPERSON).getValue();
-		CreditRating creditRating = get(CREDIT_RATING).getValue();
-		PriceLevel priceLevel = get(PRICE_LEVEL).getValue();
+		ClientSalesPerson salesPerson = get(SALESPERSON).getValue();
+		ClientCreditRating creditRating = get(CREDIT_RATING).getValue();
+		ClientPriceLevel priceLevel = get(PRICE_LEVEL).getValue();
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(BANK_ACCOUNT_NUM).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		PaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
-		CustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
+		ClientPaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
+		ClientCustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
 		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
-		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
-		ShippingMethod shippingMethod = get("Preferred Shipping Method")
+		ClientTAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
+		ClientShippingMethod shippingMethod = get("Preferred Shipping Method")
 				.getValue();
 		// String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
-		HashSet<Address> addresses = new HashSet<Address>();
+		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
 		if (adress != null) {
 			addresses.add(adress);
 		}
@@ -237,8 +239,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			customer.setNumber(number);
 		customer.setContacts(contacts);
 		customer.setBalance(balance);
-		customer.setBalanceAsOf(new FinanceDate(balancedate));
-		customer.setCreatedDate(new Timestamp(customerSincedate.getTime()));
+		if (balancedate != null) {
+			customer.setBalanceAsOf(balancedate.getTime());
+		}
 		customer.setAddress(addresses);
 		customer.setPhoneNo(phoneNum);
 		customer.setFaxNo(faxNum);
@@ -247,43 +250,43 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setBankBranch(bankBranch);
 		customer.setBankName(bankName);
 		customer.setEmail(emailId);
-		customer.setSalesPerson(salesPerson);
-		customer.setPriceLevel(priceLevel);
-		customer.setCreditRating(creditRating);
+		if (salesPerson != null) {
+			customer.setSalesPerson(salesPerson.getID());
+		}
+		if (priceLevel != null) {
+			customer.setPriceLevel(priceLevel.getID());
+		}
+		if (creditRating != null) {
+			customer.setCreditRating(creditRating.getID());
+		}
 		customer.setActive(isActive);
 		customer.setPaymentMethod(paymentMethod);
-		customer.setPaymentTerm(paymentTerms);
-		customer.setCustomerGroup(customerGroup);
-		if (preferences.isDoProductShipMents())
-			customer.setShippingMethod(shippingMethod);
-		if (preferences.isTrackTax()) {
+		if (paymentTerms != null) {
+			customer.setPaymentTerm(paymentTerms.getID());
+		}
+		if (customerGroup != null) {
+			customer.setCustomerGroup(customerGroup.getID());
+		}
+		if (preferences.isDoProductShipMents() && shippingMethod != null)
+			customer.setShippingMethod(shippingMethod.getID());
+		if (preferences.isTrackTax() && taxCode != null) {
 			if (countryPreferences.isVatAvailable()) {
-				customer.setTAXCode(taxCode);
+				customer.setTAXCode(taxCode.getID());
 				customer.setVATRegistrationNumber(vatRegistredNum);
 			}
 			if (countryPreferences.isSalesTaxAvailable()) {
-				customer.setCSTno(cstNum);
+				customer.setCstNumber(cstNum);
 			}
 			if (countryPreferences.isServiceTaxAvailable()) {
-				customer.setServiceTaxRegistrationNo(serviceTaxNum);
+				customer.setServiceTaxRegistrationNumber(serviceTaxNum);
 			}
 			if (countryPreferences.isTDSAvailable()) {
-				customer.setTINNumber(tinNum);
+				customer.setTinNumber(tinNum);
 			}
 			// customer.setPANno(panNum);
 		}
 
-		Session session = context.getHibernateSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(customer);
-		transaction.commit();
-
-		markDone();
-
-		Result result = new Result();
-		result.add(" Customer was created successfully.");
-
-		return result;
+		create(customer, context);
 
 	}
 
@@ -404,9 +407,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		ICountryPreferences countryPreferences = context.getCompany()
+		ICountryPreferences countryPreferences = getClientCompany()
 				.getCountryPreferences();
-		CompanyPreferences preferences = context.getCompany().getPreferences();
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
 
 		result = paymentMethodRequirement(context, list, (String) selection);
 		if (result != null) {
@@ -490,7 +494,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Object customerVatCodeObj = context.getSelection(TAXCODE);
 		if (customerVatCodeObj instanceof ActionNames) {
 			customerVatCodeObj = null;
-			selection = TAXCODE;
+			selection = "vatCode";
 		}
 		Requirement customerVatCodeReq = get(CUSTOMER_VATCODE);
 		ClientTAXCode vatCode = (ClientTAXCode) customerVatCodeReq.getValue();
@@ -535,10 +539,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			selection = CUSTOMER_GROUP;
 		}
 		Requirement customerGroupReq = get(CUSTOMER_GROUP);
-		CustomerGroup customerGroup = (CustomerGroup) customerGroupReq
+		ClientCustomerGroup customerGroup = (ClientCustomerGroup) customerGroupReq
 				.getValue();
 		if (customerGroupObj != null) {
-			customerGroup = (CustomerGroup) customerGroupObj;
+			customerGroup = (ClientCustomerGroup) customerGroupObj;
 			customerGroupReq.setValue(customerGroup);
 		}
 		if (selection != null)
@@ -565,9 +569,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private Result customerGroups(Context context,
-			CustomerGroup oldCustomerGroup) {
-		List<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>(
-				context.getCompany().getCustomerGroups());
+			ClientCustomerGroup oldCustomerGroup) {
+		List<ClientCustomerGroup> customerGroups = getClientCompany()
+				.getCustomerGroups();
 		Result result = context.makeResult();
 		result.add("Select CustomerGroup");
 
@@ -579,11 +583,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		List<Record> actions = new ArrayList<Record>();
 
-		List<CustomerGroup> pagination = pagination(context, selection,
-				actions, customerGroups, new ArrayList<CustomerGroup>(),
+		List<ClientCustomerGroup> pagination = pagination(context, selection,
+				actions, customerGroups, new ArrayList<ClientCustomerGroup>(),
 				CUSTOMERGROUP_TO_SHOW);
 
-		for (CustomerGroup term : pagination) {
+		for (ClientCustomerGroup term : pagination) {
 			list.add(createCustomerGroupRecord(term));
 		}
 
@@ -599,7 +603,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Record createCustomerGroupRecord(CustomerGroup oldCustomerGroup) {
+	private Record createCustomerGroupRecord(
+			ClientCustomerGroup oldCustomerGroup) {
 		Record record = new Record(oldCustomerGroup);
 		record.add("Name", oldCustomerGroup.getName());
 		return record;
@@ -621,9 +626,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			selection = CREDIT_RATING;
 		}
 		Requirement creditRatingReq = get(CREDIT_RATING);
-		CreditRating creditRating = (CreditRating) creditRatingReq.getValue();
+		ClientCreditRating creditRating = (ClientCreditRating) creditRatingReq
+				.getValue();
 		if (crediRatingObj != null) {
-			creditRating = (CreditRating) crediRatingObj;
+			creditRating = (ClientCreditRating) crediRatingObj;
 			creditRatingReq.setValue(creditRating);
 		}
 		if (selection != null)
@@ -649,9 +655,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param string
 	 * @return
 	 */
-	private Result creditRatings(Context context, CreditRating oldCreditRating) {
+	private Result creditRatings(Context context,
+			ClientCreditRating oldCreditRating) {
 
-		List<CreditRating> creditRatings = getCreditRatingsList(context);
+		List<ClientCreditRating> creditRatings = getCreditRatingsList();
 		Result result = context.makeResult();
 		result.add("Select CreditRating");
 
@@ -664,11 +671,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		List<Record> actions = new ArrayList<Record>();
 
-		List<CreditRating> pagination = pagination(context, selection, actions,
-				creditRatings, new ArrayList<CreditRating>(),
+		List<ClientCreditRating> pagination = pagination(context, selection,
+				actions, creditRatings, new ArrayList<ClientCreditRating>(),
 				CREDITRATING_TO_SHOW);
 
-		for (CreditRating term : pagination) {
+		for (ClientCreditRating term : pagination) {
 			list.add(createCreditRatingRecord(term));
 		}
 
@@ -688,7 +695,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param oldCreditRating
 	 * @return
 	 */
-	private Record createCreditRatingRecord(CreditRating oldCreditRating) {
+	private Record createCreditRatingRecord(ClientCreditRating oldCreditRating) {
 		Record record = new Record(oldCreditRating);
 		record.add("Name", oldCreditRating.getName());
 		return record;
@@ -706,10 +713,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		Object priceLevelObj = context.getSelection(PRICE_LEVEL);
 		Requirement priceLevelReq = get(PRICE_LEVEL);
-		PriceLevel priceLevel = (PriceLevel) priceLevelReq.getValue();
+		ClientPriceLevel priceLevel = (ClientPriceLevel) priceLevelReq
+				.getValue();
 
 		if (priceLevelObj != null) {
-			priceLevel = (PriceLevel) priceLevelObj;
+			priceLevel = (ClientPriceLevel) priceLevelObj;
 			priceLevelReq.setValue(priceLevel);
 		}
 		if (selection != null)
@@ -735,10 +743,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param string
 	 * @return
 	 */
-	private Result priceLevels(Context context, PriceLevel oldPriceLevel) {
+	private Result priceLevels(Context context, ClientPriceLevel oldPriceLevel) {
 
-		List<PriceLevel> priceLevels = new ArrayList<PriceLevel>(context
-				.getCompany().getPriceLevels());
+		List<ClientPriceLevel> priceLevels = getClientCompany()
+				.getPriceLevels();
 		Result result = context.makeResult();
 		result.add("Select PriceLevel");
 
@@ -748,7 +756,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			list.add(createCreditRatingRecord(oldPriceLevel));
 			num++;
 		}
-		for (PriceLevel priceLevel : priceLevels) {
+		for (ClientPriceLevel priceLevel : priceLevels) {
 			if (priceLevel != oldPriceLevel) {
 				list.add(createCreditRatingRecord(priceLevel));
 				num++;
@@ -770,7 +778,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param oldPriceLevel
 	 * @return
 	 */
-	private Record createCreditRatingRecord(PriceLevel oldPriceLevel) {
+	private Record createCreditRatingRecord(ClientPriceLevel oldPriceLevel) {
 		Record record = new Record(oldPriceLevel);
 		record.add("Name", oldPriceLevel.getName());
 		return record;
@@ -792,9 +800,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			selection = SALESPERSON;
 		}
 		Requirement salesPersonReq = get(SALESPERSON);
-		SalesPerson salesPerson = (SalesPerson) salesPersonReq.getValue();
+		ClientSalesPerson salesPerson = (ClientSalesPerson) salesPersonReq
+				.getValue();
 		if (salesPersonObj != null) {
-			salesPerson = (SalesPerson) salesPersonObj;
+			salesPerson = (ClientSalesPerson) salesPersonObj;
 			salesPersonReq.setValue(salesPerson);
 		}
 		if (selection != null)
@@ -821,8 +830,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param string
 	 * @return {@link SalesPerson Result}
 	 */
-	protected Result salesPersons(Context context, SalesPerson oldsalesPerson) {
-		List<SalesPerson> salesPersons = getsalePersonsList(context);
+	protected Result salesPersons(Context context,
+			ClientSalesPerson oldsalesPerson) {
+		List<ClientSalesPerson> salesPersons = getClientCompany()
+				.getSalesPersons();
 		Result result = context.makeResult();
 		result.add("Select SalesPerson");
 
@@ -835,10 +846,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		List<Record> actions = new ArrayList<Record>();
 
-		List<SalesPerson> pagination = pagination(context, selection, actions,
-				salesPersons, new ArrayList<SalesPerson>(), SALESPERSON_TO_SHOW);
+		List<ClientSalesPerson> pagination = pagination(context, selection,
+				actions, salesPersons, new ArrayList<ClientSalesPerson>(),
+				SALESPERSON_TO_SHOW);
 
-		for (SalesPerson term : pagination) {
+		for (ClientSalesPerson term : pagination) {
 			list.add(createSalesPersonRecord(term));
 		}
 
@@ -858,16 +870,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param oldsalesPerson
 	 * @return {@link Record}
 	 */
-	private Record createSalesPersonRecord(SalesPerson oldsalesPerson) {
+	private Record createSalesPersonRecord(ClientSalesPerson oldsalesPerson) {
 		Record record = new Record(oldsalesPerson);
 		record.add("Name", SALESPERSON);
 		record.add("value", oldsalesPerson.getName());
 		return record;
-	}
-
-	private List<SalesPerson> getsalePersonsList(Context context) {
-		Set<SalesPerson> salesPersons = context.getCompany().getSalesPersons();
-		return new ArrayList<SalesPerson>(salesPersons);
 	}
 
 	/**
@@ -875,10 +882,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @return
 	 */
-	private List<CreditRating> getCreditRatingsList(Context context) {
-		Set<CreditRating> creditRatings = context.getCompany()
+	private List<ClientCreditRating> getCreditRatingsList() {
+		ArrayList<ClientCreditRating> creditRatings = getClientCompany()
 				.getCreditRatings();
-		return new ArrayList<CreditRating>(creditRatings);
+		return new ArrayList<ClientCreditRating>(creditRatings);
 	}
 
 }

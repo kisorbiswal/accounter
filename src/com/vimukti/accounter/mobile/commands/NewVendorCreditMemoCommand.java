@@ -146,7 +146,9 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 		completeProcess(context);
 		markDone();
-		return null;
+		result = new Result();
+		result.add(" Vendor Credit Memo was created successfully.");
+		return result;
 	}
 
 	private void setDefaultValues(Context context) {
