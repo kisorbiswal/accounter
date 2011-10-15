@@ -2,15 +2,21 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -63,6 +69,17 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
+		list.add(new ObjectListRequirement("accounts", false, true) {
+
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("name", false, true));
+				list.add(new Requirement("desc", true, true));
+				list.add(new Requirement("amount", false, true));
+				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("vatCode", true, true));
+			}
+		});
 	}
 
 	@Override
@@ -82,6 +99,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
+
+		setTransactionType(VENDOR_TRANSACTION);
 
 		result = vendorRequirement(context);
 		if (result != null) {
@@ -105,6 +124,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		setDefaultValues(context);
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -115,11 +135,42 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	private void setDefaultValues(Context context) {
+		get(DATE).setDefaultValue(new Date(System.currentTimeMillis()));
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						Transaction.TYPE_ENTER_BILL, context.getCompany()));
+		get(PHONE).setDefaultValue("");
+		get(CONTACT).setDefaultValue(new Contact());
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
+		for (PaymentTerms p : paymentTerms) {
+			if (p.getName().equals("Due on Receipt")) {
+				get(PAYMENT_TERMS).setDefaultValue(p);
+			}
+		}
+
+		get(DUE_DATE).setDefaultValue(new Date(System.currentTimeMillis()));
+		get(DELIVERY_DATE)
+				.setDefaultValue(new Date(System.currentTimeMillis()));
+
+		Vendor v = (Vendor) get(VENDOR).getValue();
+		Set<Contact> contacts2 = v.getContacts();
+		if (contacts2 != null)
+			for (Contact c : contacts2) {
+				get(CONTACT).setDefaultValue(c);
+			}
+
+		get(MEMO).setDefaultValue(" ");
+	}
+
 	private void completeProcess(Context context) {
 
 		Company company = context.getCompany();
+
 		EnterBill enterBill = new EnterBill();
+
 		Vendor vendor = (Vendor) get(VENDOR).getValue();
+		vendor = (Vendor) context.getHibernateSession().merge(vendor);
 		enterBill.setVendor(vendor);
 		Date date = get(DATE).getValue();
 		if (date != null) {
@@ -131,21 +182,36 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		enterBill.setType(Transaction.TYPE_ENTER_BILL);
 
 		enterBill.setCompany(company);
-		String number = get("number").getValue();
-		if (number != null)
-			enterBill.setNumber(number);
 
 		List<TransactionItem> items = get("items").getValue();
 
+		if (get("accounts") != null) {
+			List<TransactionItem> accounts = get("accounts").getValue();
+			items.addAll(accounts);
+		}
+
+		Session hibernateSession = context.getHibernateSession();
+		for (TransactionItem transactionItem : items) {
+			Item item = transactionItem.getItem();
+			if (item != null) {
+				item = (Item) hibernateSession.merge(item);
+				transactionItem.setItem(item);
+			}
+			Account account = transactionItem.getAccount();
+			if (account != null) {
+				account = (Account) hibernateSession.merge(account);
+				transactionItem.setAccount(account);
+			}
+		}
 		enterBill.setTransactionItems(items);
 
 		enterBill.setTotal(getTransactionTotal(items, company));
 
-		Date dueDate = get("due").getValue();
+		Date dueDate = get(DUE_DATE).getValue();
 		enterBill.setDueDate(new FinanceDate(dueDate));
 
 		Date deliveryDate = get(DELIVERY_DATE).getValue();
-		enterBill.setDueDate(new FinanceDate(deliveryDate));
+		enterBill.setDeliveryDate(new FinanceDate(deliveryDate));
 
 		Contact contact = get(CONTACT).getValue();
 		enterBill.setContact(contact);
@@ -163,8 +229,9 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context) {
-		// context.setAttribute(INPUT_ATTR, "optional");
-
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
@@ -179,7 +246,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		Requirement itemsReq = get("items");
+		Requirement itemsReq = get(ITEMS);
 		List<TransactionItem> transItems = itemsReq.getValue();
 
 		selection = context.getSelection("transactionItems");
@@ -190,7 +257,16 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
-
+		Requirement accountsReq = get("accounts");
+		List<TransactionItem> accountTransItems = accountsReq.getValue();
+		selection = context.getSelection("accountItems");
+		if (selection != null) {
+			Result result = transactionAccountItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
 		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
 
@@ -214,13 +290,13 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = phoneNumberRequirement(context, list, selection);
+		result = phoneRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, "due", DUE_DATE,
-				selection);
+		result = dateOptionalRequirement(context, list, DUE_DATE,
+				"Enter Due date", selection);
 
 		if (result != null) {
 			return result;
@@ -247,8 +323,21 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			itemRec.add("Name", item.getItem().getName());
 			itemRec.add("Total", item.getLineTotal());
 			itemRec.add("VatCode", item.getVATfraction());
+			items.add(itemRec);
 		}
+
 		result.add(items);
+		result.add(":-");
+		ResultList accountItems = new ResultList("accountItems");
+		for (TransactionItem item : accountTransItems) {
+			Record itemRec = new Record(item);
+			itemRec.add("Name", item.getAccount().getName());
+			itemRec.add("Amount", item.getUnitPrice());
+			itemRec.add("Discount", item.getDiscount());
+			itemRec.add("Total", item.getLineTotal());
+			accountItems.add(itemRec);
+		}
+		result.add(accountItems);
 
 		ResultList actions = new ResultList(ACTIONS);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
@@ -262,37 +351,13 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result phoneNumberRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(PHONE);
-		String phoneNumber = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute != null)
-			if (attribute.equals(PHONE)) {
-				String input = context.getSelection(TEXT);
-				if (input == null) {
-					input = context.getString();
-				}
-				phoneNumber = input;
-				req.setValue(phoneNumber);
-			}
-
-		if (selection == phoneNumber) {
-			context.setAttribute(INPUT_ATTR, PHONE);
-			return text(context, "Enter Phone Number", phoneNumber);
-		}
-
-		Record phoneNumberRecord = new Record(phoneNumber);
-		phoneNumberRecord.add("Name", PHONE);
-		phoneNumberRecord.add("Value", phoneNumber);
-		list.add(phoneNumberRecord);
-		return null;
-	}
-
 	private Result deliveryDateRequirement(Context context, ResultList list,
 			Object selection) {
+
 		Requirement req = get(DELIVERY_DATE);
-		Date deliveryDate = (Date) req.getValue();
+		Date dueDate = (Date) req.getValue();
+		if (dueDate != null)
+			return null;
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(DELIVERY_DATE)) {
@@ -300,17 +365,17 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			if (date == null) {
 				date = context.getDate();
 			}
-			deliveryDate = date;
-			req.setValue(deliveryDate);
+			dueDate = date;
+			req.setValue(dueDate);
 		}
-		if (selection == deliveryDate) {
+		if (selection == dueDate) {
 			context.setAttribute(INPUT_ATTR, DELIVERY_DATE);
-			return date(context, "Enter the " + DELIVERY_DATE, deliveryDate);
+			return date(context, DELIVERY_DATE, dueDate);
 		}
 
-		Record dueDateRecord = new Record(deliveryDate);
+		Record dueDateRecord = new Record(dueDate);
 		dueDateRecord.add("Name", DELIVERY_DATE);
-		dueDateRecord.add("Value", deliveryDate.toString());
+		dueDateRecord.add("Value", dueDate.toString());
 		list.add(dueDateRecord);
 		return null;
 
