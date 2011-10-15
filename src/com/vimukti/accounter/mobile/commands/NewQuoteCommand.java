@@ -66,7 +66,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = itemsRequirement(context);
+		result = itemsRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}

@@ -60,14 +60,13 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context, ACCOUNTS,
-				new ListFilter<Account>() {
+		result = accountsRequirement(context, null, new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(Account e) {
-						return true;
-					}
-				});
+			@Override
+			public boolean filter(Account e) {
+				return true;
+			}
+		}, null);
 		if (result != null) {
 			return result;
 		}

@@ -82,19 +82,18 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context, "accounts",
-				new ListFilter<Account>() {
+		result = accountsRequirement(context, null, new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(Account e) {
-						return true;
-					}
-				});
+			@Override
+			public boolean filter(Account e) {
+				return true;
+			}
+		}, null);
 		if (result == null) {
 			return result;
 		}
 
-		result = itemsRequirement(context);
+		result = itemsRequirement(context, null, null);
 		if (result == null) {
 			return result;
 		}

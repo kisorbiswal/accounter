@@ -106,19 +106,18 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context, "accounts",
-				new ListFilter<Account>() {
+		result = accountsRequirement(context, null, new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(Account e) {
-						return true;
-					}
-				});
+			@Override
+			public boolean filter(Account e) {
+				return true;
+			}
+		}, null);
 		if (result != null) {
 			return result;
 		}
 
-		result = itemsRequirement(context);
+		result = itemsRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
@@ -210,7 +209,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		enterBill.setDueDate(new FinanceDate(dueDate));
 
 		Date deliveryDate = get(DELIVERY_DATE).getValue();
-		enterBill.setDeliveryDate(new FinanceDate(deliveryDate));
+		//enterBill.setDeliveryDate(new FinanceDate(deliveryDate));
 
 		Contact contact = get(CONTACT).getValue();
 		enterBill.setContact(contact);

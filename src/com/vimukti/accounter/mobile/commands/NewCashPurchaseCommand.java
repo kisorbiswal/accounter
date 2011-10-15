@@ -89,22 +89,21 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			}
 		}
 		result = context.makeResult();
-		result = createSupplierRequirement(context);
+		result = createSupplierRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
-		result = itemsRequirement(context);
+		result = itemsRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context, "accounts",
-				new ListFilter<Account>() {
+		result = accountsRequirement(context, null, new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(Account e) {
-						return e.getIsActive();
-					}
-				});
+			@Override
+			public boolean filter(Account e) {
+				return e.getIsActive();
+			}
+		}, null);
 		if (result != null) {
 			return result;
 		}
@@ -281,7 +280,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		if (supplier == selection) {
-			return createSupplierRequirement(context);
+			return createSupplierRequirement(context, null, null);
 		}
 
 		Record supplierRecord = new Record(supplier);

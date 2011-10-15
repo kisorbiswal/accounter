@@ -91,50 +91,36 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		setTransactionType(VENDOR_TRANSACTION);
-		result = createSupplierRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = itemsRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = accountsRequirement(context, "accounts",
-				new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(Account account) {
-						if (account.getType() != Account.TYPE_CASH
-								&& account.getType() != Account.TYPE_BANK
-								&& account.getType() != Account.TYPE_INVENTORY_ASSET
-								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != Account.TYPE_INCOME
-								&& account.getType() != Account.TYPE_OTHER_INCOME
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != Account.TYPE_OTHER_ASSET
-								&& account.getType() != Account.TYPE_EQUITY
-								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				});
+		// Preparing Result
+		Result makeResult = context.makeResult();
+		makeResult
+				.add("Suppiler Credit is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		setTransactionType(VENDOR_TRANSACTION);
+		result = createSupplierRequirement(context, list, SUPPLIER);
 		if (result != null) {
 			return result;
 		}
+
+		result = itemsAndAccountsRequirement(context, makeResult, actions);
+		if (result != null) {
+			return result;
+		}
+
 		CompanyPreferences preferences = context.getCompany().getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			result = taxCodeRequirement(context);
+			result = taxCodeRequirement(context, list);
 			if (result != null) {
 				return result;
 			}
 		}
 
-		result = createOptionalRequirement(context);
+		result = createOptionalRequirement(context, list, actions);
 		if (result != null) {
 			return result;
 		}
@@ -154,7 +140,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 	}
 
-	private Result createOptionalRequirement(Context context) {
+	private Result createOptionalRequirement(Context context, ResultList list,
+			ResultList actions) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
@@ -163,108 +150,33 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
-			case ADD_MORE_ITEMS:
-				return items(context);
-			case ADD_MORE_ACCOUNTS:
-				return accounts(context, "accounts", new ListFilter<Account>() {
-
-					@Override
-					public boolean filter(Account account) {
-						if (account.getType() != Account.TYPE_CASH
-								&& account.getType() != Account.TYPE_BANK
-								&& account.getType() != Account.TYPE_INVENTORY_ASSET
-								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != Account.TYPE_INCOME
-								&& account.getType() != Account.TYPE_OTHER_INCOME
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != Account.TYPE_OTHER_ASSET
-								&& account.getType() != Account.TYPE_EQUITY
-								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
+				markDone();
 				return null;
 			default:
 				break;
 			}
 		}
-		Requirement itemsReq = get(ITEMS);
-		List<TransactionItem> transItems = itemsReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = transactionItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		Requirement accountsReq = get("accounts");
-		List<TransactionItem> accountTransItems = accountsReq.getValue();
-		selection = context.getSelection("accountItems");
-		if (selection != null) {
-			Result result = transactionAccountItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		ResultList list = new ResultList("values");
-
-		Requirement supplierReq = get(SUPPLIER);
-		Vendor supplier = (Vendor) supplierReq.getValue();
-
-		selection = context.getSelection("values");
-		if (supplier == selection) {
-			return vendors(context);
-		}
-
-		Record supplierRecord = new Record(supplier);
-		supplierRecord.add("", "Supplier Name");
-		supplierRecord.add("", supplier.getName());
-		list.add(supplierRecord);
 
 		Result result = dateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		CompanyPreferences preferences = context.getCompany().getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			Requirement taxCodeReq = get(TAXCODE);
-			if (taxCodeReq != null) {
-				TAXCode taxCode = (TAXCode) taxCodeReq.getValue();
-				if (taxCode == selection) {
-					return taxCode(context, taxCode);
-				}
-				Record taxcodeRecord = new Record(taxCode);
-				taxcodeRecord.add("", "Tax Code Name");
-				taxcodeRecord.add("", taxCode.getName());
-				taxcodeRecord.add("", "Purchase Tax Rate");
-				taxcodeRecord.add("", taxCode.getPurchaseTaxRate());
-				list.add(taxcodeRecord);
-			}
-		}
-		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter Credit Note No");
+
+		result = creditNoteNoRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
 
+		Requirement supplierReq = get(SUPPLIER);
+		Vendor supplier = (Vendor) supplierReq.getValue();
 		result = contactRequirement(context, list, selection, supplier);
 		if (result != null) {
 			return result;
 		}
 
-		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone Number");
+		result = phoneRequirement(context, list, (String) selection);
 		if (result != null) {
 			return result;
 		}
@@ -275,73 +187,39 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = context.makeResult();
-		result.add("Suppiler Credit is ready to create with following values.");
-		result.add(list);
-		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionItem item : transItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getItem().getName());
-			itemRec.add(", Total", item.getLineTotal());
-			itemRec.add(", VatCode", item.getVATfraction());
-			items.add(itemRec);
-		}
-		result.add(items);
-
-		ResultList accountItems = new ResultList("accountItems");
-		result.add("Account Transaction Items:-");
-		for (TransactionItem item : accountTransItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getAccount().getName());
-			itemRec.add("Amount", item.getUnitPrice());
-			itemRec.add("Discount", item.getDiscount());
-			itemRec.add("Total", item.getLineTotal());
-			accountItems.add(itemRec);
-		}
-		result.add(accountItems);
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
-		actions.add(moreItems);
-		Record moreAccItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
-		moreAccItems.add("", "Add more Accounts");
-		actions.add(moreAccItems);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Supplier Credit.");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return null;
 	}
 
-	// private Result creditNoteNoRequirement(Context context, ResultList list,
-	// Object selection) {
-	// Requirement req = get(NUMBER);
-	// String creditnoteno = (String) req.getValue();
-	//
-	// String attribute = (String) context.getAttribute(INPUT_ATTR);
-	// if (attribute.equals(ORDER_NO)) {
-	// String order = context.getSelection(NUMBER);
-	// if (order == null) {
-	// order = context.getNumber();
-	// }
-	// creditnoteno = order;
-	// req.setValue(creditnoteno);
-	// }
-	//
-	// if (selection == creditnoteno) {
-	// context.setAttribute(INPUT_ATTR, ORDER_NO);
-	// return number(context, "Enter Credit Note No", creditnoteno);
-	// }
-	//
-	// Record creditNoteNoRec = new Record(creditnoteno);
-	// creditNoteNoRec.add("", "Credit Note No");
-	// creditNoteNoRec.add("", creditnoteno);
-	// list.add(creditNoteNoRec);
-	// return null;
-	// }
+	private Result creditNoteNoRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(NUMBER);
+		String creditnoteno = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(ORDER_NO)) {
+			String order = context.getSelection(NUMBER);
+			if (order == null) {
+				order = context.getNumber();
+			}
+			creditnoteno = order;
+			req.setValue(creditnoteno);
+		}
+
+		if (selection == creditnoteno) {
+			context.setAttribute(INPUT_ATTR, ORDER_NO);
+			return number(context, "Enter Credit Note No", creditnoteno);
+		}
+
+		Record creditNoteNoRec = new Record(creditnoteno);
+		creditNoteNoRec.add("", "Credit Note No");
+		creditNoteNoRec.add("", creditnoteno);
+		list.add(creditNoteNoRec);
+		return null;
+	}
 
 	private void completeProcess(Context context) {
 		Company company = context.getCompany();
