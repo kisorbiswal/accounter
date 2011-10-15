@@ -120,14 +120,13 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = salesAccountRequirement(context, list, SALES_ACCOUNT,
-				"Enter VatAgency Name");
+		result = accountRequirement(context, list, SALES_ACCOUNT);
 		if (result != null) {
 			return result;
 		}
 
 		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
-			result = purchaseAccountRequirement(context);
+			result = accountRequirement(context, list, SALES_ACCOUNT);
 			if (result != null) {
 				return result;
 			}
