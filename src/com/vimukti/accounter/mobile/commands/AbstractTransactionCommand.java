@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.Quantity;
+import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
@@ -63,6 +64,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final int PAYEES_TO_SHOW = 5;
 	protected static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
+	protected static final int SHIPPING_TERMS_TO_SHOW = 5;
 	protected static final int BILLS_TO_SHOW = 5;
 	protected static final int ESTIMATES_TO_SHOW = 5;
 	protected static final int INVOICES_TO_SHOW = 5;
@@ -1552,6 +1554,75 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		return initialRecords;
 
+	}
+
+	protected Result preferredShippingMethodRequirement(Context context,
+			ResultList list, Object selection) {
+		Object shippingObj = context.getSelection("Preferred Shipping Method");
+		Requirement shipreq = get("Preferred Shipping Method");
+		ShippingMethod shippingTerm = (ShippingMethod) shipreq.getValue();
+
+		if (shippingObj != null) {
+			shippingTerm = (ShippingMethod) shippingObj;
+			shipreq.setValue(shippingTerm);
+		}
+		if (selection != null)
+			if (selection == "Preferred Shipping Method") {
+				context.setAttribute(INPUT_ATTR, "Preferred Shipping Method");
+				return shippingMethod(context, shippingTerm);
+
+			}
+
+		Record shippingMethodRecord = new Record("Preferred Shipping Method");
+		shippingMethodRecord.add("Name", "Preferred Shipping Method");
+		shippingMethodRecord.add("Value", shippingTerm == null ? ""
+				: shippingTerm.getName() + "-" + shippingTerm.getDescription());
+		list.add(shippingMethodRecord);
+
+		return null;
+	}
+
+	protected Result shippingMethod(Context context,
+			ShippingMethod shippingmethod) {
+		Set<ShippingMethod> shippingMethods = getShippingMethods(context
+				.getCompany());
+		Result result = context.makeResult();
+		result.add("Select Shipping Methods");
+
+		ResultList list = new ResultList("Preferred Shipping Method");
+		int num = 0;
+		if (shippingmethod != null) {
+			list.add(createShippingMethodRecord(shippingmethod));
+			num++;
+		}
+		for (ShippingMethod term : shippingMethods) {
+			if (term != shippingmethod) {
+				list.add(createShippingMethodRecord(term));
+				num++;
+			}
+			if (num == SHIPPING_TERMS_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create Preferred Shipping Method");
+		result.add(commandList);
+		return result;
+	}
+
+	private Set<ShippingMethod> getShippingMethods(Company company) {
+		return company.getShippingMethods();
+	}
+
+	protected Record createShippingMethodRecord(ShippingMethod shippingmethod) {
+		Record record = new Record(shippingmethod);
+		record.add("Name", "Preferred Shipping Method");
+		record.add("Value",
+				shippingmethod == null ? "" : shippingmethod.getName() + "-"
+						+ shippingmethod.getDescription());
+		return record;
 	}
 
 	protected List<Estimate> getEstimates(String viewType, Company company) {
