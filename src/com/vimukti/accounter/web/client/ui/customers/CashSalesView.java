@@ -570,7 +570,7 @@ public class CashSalesView extends
 					.getAmount()));
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
-			transaction.setTaxTotal(salesTax);
+			transaction.setTaxTotal(getAmountInBaseCurrency(salesTax));
 		}
 
 		transaction
