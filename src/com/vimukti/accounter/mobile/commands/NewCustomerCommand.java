@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.Customer;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends AbstractTransactionCommand {
 
@@ -65,9 +67,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final String CST_NUM = "CST number";
 	private static final String SERVICE_TAX_NUM = "Service tax registration no";
 	private static final String TIN_NUM = "Taxpayer identification number";
-	public static final int ACCOUNTING_TYPE_US = 0;
-	public static final int ACCOUNTING_TYPE_UK = 1;
-	public static final int ACCOUNTING_TYPE_INDIA = 2;
 
 	@Override
 	public String getId() {
@@ -79,7 +78,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new Requirement(CUSTOMER_NAME, false, true));
-		// if (getCompany().getPreferences().getUseCustomerId())
 		list.add(new Requirement(NUMBER, false, true));
 		list.add(new ObjectListRequirement(CUSTOMER_CONTACT, true, true) {
 			@Override
@@ -106,25 +104,15 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(BANK_NAME, true, true));
 		list.add(new Requirement(BANK_ACCOUNT_NUM, true, true));
 		list.add(new Requirement(BANK_BRANCH, true, true));
-
-		// int accountingType = getCompany().getAccountingType();
-		// if (accountingType != ACCOUNTING_TYPE_INDIA) {
 		list.add(new Requirement(PAYMENT_METHOD, true, true));
 		list.add(new Requirement(PAYMENT_TERMS, true, true));
 		list.add(new Requirement(CUSTOMER_GROUP, true, true));
-		// }
-		// if (accountingType == ACCOUNTING_TYPE_UK) {
-		// if (getCompany().getPreferences().isRegisteredForVAT()) {
 		list.add(new Requirement(VATREGISTER_NUM, true, true));
 		list.add(new Requirement(CUSTOMER_VATCODE, true, true));
-		// }
-		// }
-		// if (accountingType == ACCOUNTING_TYPE_INDIA) {
 		list.add(new Requirement(PAN_NUM, true, true));
 		list.add(new Requirement(CST_NUM, true, true));
 		list.add(new Requirement(SERVICE_TAX_NUM, true, true));
 		list.add(new Requirement(TIN_NUM, true, true));
-		// }
 	}
 
 	@Override
@@ -171,6 +159,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		return createCustomerObject(context);
 	}
 
+	/**
+	 * Setting the default Values
+	 */
 	private void setDefaultValues() {
 
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
@@ -187,11 +178,15 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result createCustomerObject(Context context) {
 
+		ICountryPreferences countryPreferences = context.getCompany()
+				.getCountryPreferences();
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+
 		Customer customer = new Customer();
 		customer.setCompany(context.getCompany());
 		String name = get(CUSTOMER_NAME).getValue();
 		String number = null;
-		if (context.getCompany().getPreferences().getUseCustomerId()) {
+		if (preferences.getUseCustomerId()) {
 			number = get(NUMBER).getValue().toString();
 		}
 		Set<Contact> contacts = (get(CUSTOMER_CONTACT).getValue());
@@ -215,7 +210,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		CustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
 		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
 		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
-		String panNum = get(PAN_NUM).getValue();
+		// String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
@@ -224,7 +219,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			addresses.add(adress);
 		}
 		customer.setName(name);
-		if (context.getCompany().getPreferences().getUseCustomerId())
+		if (preferences.getUseCustomerId())
 			customer.setNumber(number);
 		customer.setContacts(contacts);
 		customer.setBalance(balance);
@@ -242,23 +237,24 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setPriceLevel(priceLevel);
 		customer.setCreditRating(creditRating);
 		customer.setActive(isActive);
-		int accountingType = context.getCompany().getAccountingType();
-		if (accountingType != ACCOUNTING_TYPE_INDIA) {
-			customer.setPaymentMethod(paymentMethod);
-			customer.setPaymentTerm(paymentTerms);
-			customer.setCustomerGroup(customerGroup);
-		}
-		if (accountingType == ACCOUNTING_TYPE_UK) {
-			if (context.getCompany().getPreferences().isRegisteredForVAT()) {
+		customer.setPaymentMethod(paymentMethod);
+		customer.setPaymentTerm(paymentTerms);
+		customer.setCustomerGroup(customerGroup);
+		if (preferences.isTrackTax()) {
+			if (countryPreferences.isVatAvailable()) {
 				customer.setTAXCode(taxCode);
 				customer.setVATRegistrationNumber(vatRegistredNum);
 			}
-		}
-		if (accountingType == ACCOUNTING_TYPE_INDIA) {
-			customer.setPANno(panNum);
-			customer.setCSTno(cstNum);
-			customer.setServiceTaxRegistrationNo(serviceTaxNum);
-			customer.setTINNumber(tinNum);
+			if (countryPreferences.isSalesTaxAvailable()) {
+				customer.setCSTno(cstNum);
+			}
+			if (countryPreferences.isServiceTaxAvailable()) {
+				customer.setServiceTaxRegistrationNo(serviceTaxNum);
+			}
+			if (countryPreferences.isTDSAvailable()) {
+				customer.setTINNumber(tinNum);
+			}
+			// customer.setPANno(panNum);
 		}
 
 		Session session = context.getHibernateSession();
@@ -281,7 +277,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private Result optionalRequirements(Context context) {
-		// context.setAttribute(INPUT_ATTR, "optional");
 		Object selection = context.getSelection(ACTIONS);
 
 		if (selection != null) {
@@ -360,8 +355,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 
-		int company = context.getCompany().getAccountingType();
-
 		Result result = dateOptionalRequirement(context, list,
 				CUSTOMER_SINCEDATE, "Enter CustomerSinceDate", selection);
 
@@ -407,10 +400,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = priceLevelRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
+		// result = priceLevelRequirement(context, list, selection);
+		// if (result != null) {
+		// return result;
+		// }
 
 		result = creditRatingRequirement(context, list, selection);
 		if (result != null) {
@@ -431,11 +424,13 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		if (company == ACCOUNTING_TYPE_UK || company == ACCOUNTING_TYPE_US) {
-			result = paymentMethodRequirement(context, list, (String) selection);
-			if (result != null) {
-				return result;
-			}
+		ICountryPreferences countryPreferences = context.getCompany()
+				.getCountryPreferences();
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+
+		result = paymentMethodRequirement(context, list, (String) selection);
+		if (result != null) {
+			return result;
 		}
 		result = paymentTermRequirement(context, list, selection);
 		if (result != null) {
@@ -445,37 +440,47 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		if (company == ACCOUNTING_TYPE_US) {
-			result = stringOptionalRequirement(context, list, selection,
-					VATREGISTER_NUM, "Enter vatRegisteration Number ");
+		if (preferences.isTrackTax()) {
+			if (countryPreferences.isVatAvailable()) {
+				result = stringOptionalRequirement(context, list, selection,
+						VATREGISTER_NUM, "Enter vatRegisteration Number ");
+				if (result != null) {
+					return result;
+				}
+			}
+			result = customerVatCodeRequirement(context, list, selection);
 			if (result != null) {
 				return result;
 			}
 		}
-		result = customerVatCodeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		if (company == ACCOUNTING_TYPE_INDIA) {
-			result = stringOptionalRequirement(context, list, selection,
-					PAN_NUM, "Enter Personal Ledger number");
-			if (result != null) {
-				return result;
+
+		if (preferences.isTrackTax()) {
+			// result = stringOptionalRequirement(context, list, selection,
+			// PAN_NUM, "Enter Personal Ledger number");
+			// if (result != null) {
+			// return result;
+			// }
+			if (countryPreferences.isSalesTaxAvailable()) {
+				result = stringOptionalRequirement(context, list, selection,
+						CST_NUM, "Enter CST Number ");
+				if (result != null) {
+					return result;
+				}
 			}
-			result = stringOptionalRequirement(context, list, selection,
-					CST_NUM, "Enter CST Number ");
-			if (result != null) {
-				return result;
+			if (countryPreferences.isServiceTaxAvailable()) {
+				result = stringOptionalRequirement(context, list, selection,
+						SERVICE_TAX_NUM,
+						"Enter Service tax registration Number ");
+				if (result != null) {
+					return result;
+				}
 			}
-			result = stringOptionalRequirement(context, list, selection,
-					SERVICE_TAX_NUM, "Enter Service tax registration Number ");
-			if (result != null) {
-				return result;
-			}
-			result = stringOptionalRequirement(context, list, selection,
-					TIN_NUM, "Enter Taxpayer identification number");
-			if (result != null) {
-				return result;
+			if (countryPreferences.isTDSAvailable()) {
+				result = stringOptionalRequirement(context, list, selection,
+						TIN_NUM, "Enter Taxpayer identification number");
+				if (result != null) {
+					return result;
+				}
 			}
 		}
 
@@ -531,7 +536,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				return taxCode(context, vatCode);
 			}
 		}
-
 		Record customerVatCodeRecord = new Record("vatCode");
 		customerVatCodeRecord.add("Name", "vatCode");
 		customerVatCodeRecord.add(

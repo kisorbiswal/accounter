@@ -286,7 +286,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		list.add(nameRecord);
 
 		Requirement contactReq = get(CONTACTS);
-		List<Contact> contacts = contactReq.getValue();
+		Set<Contact> contacts = contactReq.getValue();
 		selection = context.getSelection(CONTACTS);
 		if (selection != null) {
 			Result contact = contact(context, "vendor contact", CONTACTS,
@@ -311,7 +311,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			activeString = "This Item is InActive";
 		}
 		Record isActiveRecord = new Record(ACTIVE);
-		isActiveRecord.add("Name", "");
+		isActiveRecord.add("Name", "Active ");
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 
