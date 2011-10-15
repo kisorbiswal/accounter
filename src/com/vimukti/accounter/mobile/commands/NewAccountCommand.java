@@ -56,20 +56,27 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
-		result = nameRequirement(context, ACCOUNT_NAME,
+		Result makeResult = context.makeResult();
+		makeResult.add(" Account is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		result = nameRequirement(context, list, ACCOUNT_NAME,
 				"Please Enter the account name ");
 		if (result != null) {
 			return result;
 		}
 
-		result = numberRequirement(context, ACCOUNT_NUMBER,
+		result = numberRequirement(context, list, ACCOUNT_NUMBER,
 				"Please Enter the account number ");
 		if (result != null) {
 			return result;
 		}
 
 		setDefaultValues();
-		result = createOptionalResult(context);
+		result = createOptionalResult(context, list, actions);
 		if (result != null) {
 			return result;
 		}
@@ -123,7 +130,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result createOptionalResult(Context context) {
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions) {
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -136,32 +144,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		ResultList list = new ResultList("values");
+
 		selection = context.getSelection("values");
-		Requirement accNameReq = get(ACCOUNT_NAME);
-		String name = (String) accNameReq.getValue();
-
-		Requirement accounNumberReq = get(ACCOUNT_NUMBER);
-		String num = (String) accounNumberReq.getValue();
-
-		if (selection != null) {
-			if (selection == "accountName") {
-				context.setAttribute(INPUT_ATTR, ACCOUNT_NAME);
-				return text(context, "Enter Account Name", name);
-			} else if (selection == "accountNumber") {
-				return number(context, NUMBER, num);
-			}
-		}
-
-		Record nameRecord = new Record("accountName");
-		nameRecord.add("", "Name");
-		nameRecord.add("", name);
-		list.add(nameRecord);
-
-		Record numberRecord = new Record("accountNumber");
-		numberRecord.add("", "accountNumber");
-		numberRecord.add("", num);
-		list.add(numberRecord);
 
 		Result result = accountTypesRequirement(context, selection, list);
 		if (result != null) {
@@ -193,16 +177,11 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = context.makeResult();
-		result.add(" Account is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Account");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return null;
 
 	}
 

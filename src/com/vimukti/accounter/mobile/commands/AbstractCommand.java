@@ -257,8 +257,8 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Result numberRequirement(Context context, String reqName,
-			String displayString) {
+	protected Result numberRequirement(Context context, ResultList list,
+			String reqName, String displayString) {
 		Requirement customerNumReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(reqName)) {
@@ -269,12 +269,22 @@ public abstract class AbstractCommand extends Command {
 			context.setAttribute(INPUT_ATTR, reqName);
 			return number(context, displayString, null);
 		}
+		Object selection = context.getSelection("values");
+		String num = (String) customerNumReq.getValue();
+		if (selection != null && selection == reqName) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return text(context, "Enter Account Name", num);
+		}
 
+		Record numberRecord = new Record(reqName);
+		numberRecord.add("", reqName);
+		numberRecord.add("", num);
+		list.add(numberRecord);
 		return null;
 	}
 
-	protected Result nameRequirement(Context context, String reqName,
-			String displayString) {
+	protected Result nameRequirement(Context context, ResultList list,
+			String reqName, String displayString) {
 		Requirement requirement = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(reqName)) {
@@ -286,6 +296,18 @@ public abstract class AbstractCommand extends Command {
 			context.setAttribute(INPUT_ATTR, reqName);
 			return text(context, displayString, null);
 		}
+
+		Object selection = context.getSelection("values");
+		String name = requirement.getValue();
+		if (selection != null && selection.equals(reqName)) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return text(context, "Enter Account Name", name);
+		}
+
+		Record nameRecord = new Record(reqName);
+		nameRecord.add("", "Name");
+		nameRecord.add("", name);
+		list.add(nameRecord);
 		return null;
 	}
 

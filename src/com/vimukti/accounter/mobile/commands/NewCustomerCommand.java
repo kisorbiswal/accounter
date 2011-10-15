@@ -139,14 +139,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		result = nameRequirement(context, CUSTOMER_NAME,
+		result = nameRequirement(context, null, CUSTOMER_NAME,
 				"Please enter the  Customer Name");
 		if (result != null) {
 			return result;
 		}
 
 		if (context.getCompany().getPreferences().getUseCustomerId()) {
-			result = numberRequirement(context, NUMBER,
+			result = numberRequirement(context, null, NUMBER,
 					"Please Enter the Customer Number.");
 			if (result != null) {
 				return result;

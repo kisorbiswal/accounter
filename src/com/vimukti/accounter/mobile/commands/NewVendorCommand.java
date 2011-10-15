@@ -151,13 +151,13 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		result = nameRequirement(context, VENDOR_NAME,
+		result = nameRequirement(context, null, VENDOR_NAME,
 				"Please enter the  Vendor Name");
 		if (result != null) {
 			return result;
 		}
 		// if (context.getCompany().getPreferences().getUseVendorId()) {
-		result = numberRequirement(context, VENDOR_NUMBER,
+		result = numberRequirement(context, null, VENDOR_NUMBER,
 				"Please enter the  Vendor Number");
 		if (result != null) {
 			return result;
