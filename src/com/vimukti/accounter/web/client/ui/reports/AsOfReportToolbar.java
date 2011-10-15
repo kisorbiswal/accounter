@@ -163,14 +163,15 @@ public class AsOfReportToolbar extends ReportToolbar {
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, customDate.getDate());
 				dateRangeCombo.setDefaultValue(Accounter.constants().custom());
+				dateRangeCombo.setComboItem(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeCombo.setWidth("200px");
+		// }
 		addItems(report, dateRangeCombo, customDate);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
@@ -188,6 +189,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeCombo.setDefaultValue(defaultDateRange);
+		dateRangeCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 
 	}

@@ -157,6 +157,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 				changeDates(fromItem.getDate(), toItem.getDate());
 				dateRangeCombo.setDefaultValue(Accounter.constants().custom());
+				dateRangeCombo.setComboItem(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
@@ -177,10 +178,10 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeCombo.setWidth("170px");
-//			expenseCombo.setWidth("90px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeCombo.setWidth("170px");
+		// expenseCombo.setWidth("90px");
+		// }
 		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
@@ -206,6 +207,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeCombo.setDefaultValue(defaultDateRange);
+		dateRangeCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 	}
 

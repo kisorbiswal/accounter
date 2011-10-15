@@ -56,8 +56,10 @@ public class BudgetReportToolbar extends ReportToolbar {
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		// TODO Auto-generated method stub
-
+		fromItem.setEnteredDate(startDate);
+		toItem.setEnteredDate(endDate);
+		setStartDate(startDate);
+		setEndDate(endDate);
 	}
 
 	@Override
@@ -204,11 +206,11 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			budgetMonth.setWidth("170px");
-//			budgetYear.setWidth("170px");
-//			budgetCombo.setWidth("90px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// budgetMonth.setWidth("170px");
+		// budgetYear.setWidth("170px");
+		// budgetCombo.setWidth("90px");
+		// }
 		if (budgetToolbarType == TOOLBAR_TYPE_MONTH)
 			addItems(budgetCombo, budgetMonth);
 		else if (budgetToolbarType == TOOLBAR_TYPE_QUATER)

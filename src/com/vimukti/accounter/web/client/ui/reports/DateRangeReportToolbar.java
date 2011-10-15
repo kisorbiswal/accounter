@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -174,6 +173,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 						fromItem.getDate(), toItem.getDate());
 				dateRangeItemCombo.setDefaultValue(Accounter.constants()
 						.custom());
+				dateRangeItemCombo.setComboItem(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 			}
 		});
@@ -193,9 +193,9 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeItemCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeItemCombo.setWidth("200px");
+		// }
 
 		addItems(report, dateRangeItemCombo, fromItem, toItem);
 		add(updateButton);
@@ -221,6 +221,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	public void setDefaultDateRange(String defaultDateRange) {
 		// setSelectedDateRange(defaultDateRange);
 		dateRangeItemCombo.setDefaultValue(defaultDateRange);
+		dateRangeItemCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 
 	}
@@ -228,7 +229,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		// TODO
+		fromItem.setEnteredDate(startDate);
+		toItem.setEnteredDate(endDate);
+		setStartDate(startDate);
+		setEndDate(endDate);
 	}
 
 }

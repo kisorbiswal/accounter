@@ -36,7 +36,9 @@ public class SalesByCustomerDetailReport extends
 					start, end, this);
 		} else if (byCustomerDetail.getName() != null) {
 			Accounter.createReportService().getSalesByCustomerDetailReport(
-					byCustomerDetail.getName(), start, end, this);
+					byCustomerDetail.getName(),
+					byCustomerDetail.getStartDate(),
+					byCustomerDetail.getEndDate(), this);
 		}
 	}
 

@@ -58,8 +58,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 							selectedCusotmer = selectItem;
 							ClientFinanceDate startDate = fromItem.getDate();
 							ClientFinanceDate endDate = toItem.getDate();
-							reportview.makeReportRequest(selectedCusotmer
-									.getID(), startDate, endDate);
+							reportview.makeReportRequest(
+									selectedCusotmer.getID(), startDate,
+									endDate);
 							reportview.removeEmptyStyle();
 
 						}
@@ -67,9 +68,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 					}
 				});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			customerCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// customerCombo.setWidth("200px");
+		// }
 		// customerCombo.setSelectedItem(1);
 		selectedCusotmer = customerCombo.getSelectedValue();
 		customerCombo.setComboItem(selectedCusotmer);
@@ -128,6 +129,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 				changeDates(fromItem.getDate(), toItem.getDate());
 				dateRangeItemCombo.setDefaultValue(Accounter.constants()
 						.custom());
+				dateRangeItemCombo.setComboItem(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
@@ -142,9 +144,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeItemCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeItemCombo.setWidth("200px");
+		// }
 
 		addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
 		add(updateButton);
@@ -173,6 +175,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeItemCombo.setDefaultValue(defaultDateRange);
+		dateRangeItemCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 	}
 

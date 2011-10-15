@@ -39,7 +39,9 @@ public class PurchaseByVendorDetailReport extends
 			return;
 		} else if (byCustomerDetail.getName() != null) {
 			Accounter.createReportService().getPurchasesByVendorDetail(
-					byCustomerDetail.getName(), start, end, this);
+					byCustomerDetail.getName(),
+					byCustomerDetail.getStartDate(),
+					byCustomerDetail.getEndDate(), this);
 		}
 		this.byCustomerDetail = byCustomerDetail.getName();
 	}

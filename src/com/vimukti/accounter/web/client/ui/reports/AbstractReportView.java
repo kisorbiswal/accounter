@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ISorting;
+import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -498,6 +499,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 				public void onItemSelectionChanged(int type,
 						ClientFinanceDate startDate, ClientFinanceDate endDate) {
+					if (data != null && data instanceof BaseReport) {
+						((BaseReport) data).setStartDate(startDate);
+						((BaseReport) data).setEndDate(endDate);
+					}
 					resetReport(startDate, endDate);
 				}
 			};
@@ -533,7 +538,11 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	protected String getPreviousReportDateRange(Object object) {
-		return "";
+		if (object instanceof BaseReport) {
+			return ((BaseReport) object).getDateRange();
+		} else {
+			return "";
+		}
 	}
 
 	protected ClientFinanceDate getPreviousReportStartDate(Object object) {

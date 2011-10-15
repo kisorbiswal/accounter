@@ -145,6 +145,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 				changeDates(fromItem.getDate(), toItem.getDate());
 				dateRangeCombo.setDefaultValue(Accounter.constants().custom());
+				dateRangeCombo.setComboItem(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
@@ -165,10 +166,10 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeCombo.setWidth("200px");
-//			statusCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeCombo.setWidth("200px");
+		// statusCombo.setWidth("200px");
+		// }
 		addItems(statusCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
@@ -198,6 +199,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeCombo.setDefaultValue(defaultDateRange);
+		dateRangeCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 	}
 

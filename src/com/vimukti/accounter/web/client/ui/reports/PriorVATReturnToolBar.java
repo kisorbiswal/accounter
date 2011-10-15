@@ -149,11 +149,11 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 				vatAgencyCombo.addItemThenfireEvent(vatAgency);
 		}
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeCombo.setWidth("200px");
-//			vatAgencyCombo.setWidth("200px");
-//			endingDateCombo.setWidth("150px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeCombo.setWidth("200px");
+		// vatAgencyCombo.setWidth("200px");
+		// endingDateCombo.setWidth("150px");
+		// }
 
 	}
 
@@ -199,6 +199,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeCombo.setDefaultValue(defaultDateRange);
+		dateRangeCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 	}
 
