@@ -17,8 +17,9 @@ public class TransactionDetailByTaxItemReport extends
 
 	@Override
 	public void OnRecordClick(TransactionDetailByTaxItem record) {
-		ReportsRPC.openTransactionView(record.getTransactionType(),
-				record.getTransactionId());
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionId());
 	}
 
 	@Override

@@ -39,8 +39,9 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		record.setStartDate(toolbar.getEndDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getTransactiontype(),
-				record.getTransactionId());
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactiontype(),
+					record.getTransactionId());
 
 	}
 
