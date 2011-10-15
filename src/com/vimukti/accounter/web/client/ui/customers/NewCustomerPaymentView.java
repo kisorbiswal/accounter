@@ -568,8 +568,8 @@ public class NewCustomerPaymentView extends
 					}
 
 					amountText
-							.setAmount(getAmountInTransactionCurrency(DataUtils
-									.isValidAmount(amount + "") ? amount : 0.0));
+							.setAmount(DataUtils.isValidAmount(amount + "") ? amount
+									: 0.0);
 
 					adjustBalance(getAmountInBaseCurrency(amountText
 							.getAmount()));
