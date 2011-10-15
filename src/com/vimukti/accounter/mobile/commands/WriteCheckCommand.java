@@ -113,7 +113,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context, null,
+		result = accountItemsRequirement(context, null,
 				new ListFilter<ClientAccount>() {
 
 					@Override

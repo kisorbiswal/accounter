@@ -95,6 +95,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createNewAccount(Context context) {
+		
 		Account account = new Account();
 
 		String accType = (String) get(ACCOUNT_TYPE).getValue();

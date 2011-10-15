@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.http.client.protocol.ClientContext;
+
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -1243,8 +1245,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
-
-		result = accountsRequirement(context, makeResult, accountFilter,
+		result = accountItemsRequirement(context, makeResult, accountFilter,
 				actions);
 		if (result != null) {
 			return result;
@@ -1252,7 +1253,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected Result accountsRequirement(Context context, Result result,
+	protected Result accountItemsRequirement(Context context, Result result,
 			ListFilter<ClientAccount> listFilter, ResultList actions) {
 		Requirement transItemsReq = get(ACCOUNTS);
 		List<ClientAccount> accounts = context.getSelections(ACCOUNTS);

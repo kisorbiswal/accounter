@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientItemGroup;
 
 public class NewItemGroupCommand extends AbstractTransactionCommand {
 	private static final String ITEMGROUP_NAME = "itemGroupName";
@@ -50,8 +51,7 @@ public class NewItemGroupCommand extends AbstractTransactionCommand {
 
 	private Result createItemGroupObject(Context context) {
 
-		ItemGroup group = new ItemGroup();
-		group.setCompany(context.getCompany());
+		ClientItemGroup group = new ClientItemGroup();
 		group.setName(get(ITEMGROUP_NAME).getValue().toString());
 
 		Session session = context.getHibernateSession();

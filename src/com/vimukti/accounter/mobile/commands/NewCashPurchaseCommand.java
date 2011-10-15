@@ -97,7 +97,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context, null,
+		result = accountItemsRequirement(context, null,
 				new ListFilter<ClientAccount>() {
 
 					@Override
