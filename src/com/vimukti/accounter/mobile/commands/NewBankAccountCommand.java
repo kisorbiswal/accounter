@@ -58,7 +58,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	@Override
 	public Result run(Context context) {
 
-		Result result = accountNumberRequirement(context);
+		Result result = new Result();// numberRequirement(context);
 		if (result == null) {
 			// TODO
 		}
