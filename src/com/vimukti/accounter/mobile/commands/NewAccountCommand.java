@@ -92,7 +92,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 
 		String accType = (String) get(ACCOUNT_TYPE).getValue();
 		String accname = (String) get(ACCOUNT_NAME).getValue();
-		Integer accountNum = (Integer) get(ACCOUNT_NUMBER).getValue();
+		String accountNum = (String) get(ACCOUNT_NUMBER).getValue();
 		double openingBal = (Double) get(OPENINGBALANCE).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
