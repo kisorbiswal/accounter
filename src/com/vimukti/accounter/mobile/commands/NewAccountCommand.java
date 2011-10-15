@@ -76,7 +76,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 
 		setDefaultValues();
-		result = createOptionalResult(context, list, actions);
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -131,7 +131,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context, ResultList list,
-			ResultList actions) {
+			ResultList actions, Result makeResult) {
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -181,7 +181,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		finish.add("", "Finish to create Account");
 		actions.add(finish);
 
-		return null;
+		return makeResult;
 
 	}
 

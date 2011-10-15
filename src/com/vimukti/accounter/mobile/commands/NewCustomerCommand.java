@@ -161,7 +161,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 		}
 		setDefaultValues();
-		result = optionalRequirements(context, list, actions);
+		result = optionalRequirements(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -291,10 +291,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @param actions
 	 * @param list
+	 * @param makeResult
 	 * @return
 	 */
 	private Result optionalRequirements(Context context, ResultList list,
-			ResultList actions) {
+			ResultList actions, Result makeResult) {
 		Object selection = context.getSelection(ACTIONS);
 
 		if (selection != null) {
@@ -528,7 +529,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Customer.");
 		actions.add(finish);
-		return null;
+		return makeResult;
 	}
 
 	/**

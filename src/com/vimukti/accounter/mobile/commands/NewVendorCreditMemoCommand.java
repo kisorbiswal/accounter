@@ -142,7 +142,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = createOptionalRequirement(context, list, actions);
+		result = createOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -163,7 +163,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalRequirement(Context context, ResultList list,
-			ResultList actions) {
+			ResultList actions, Result makeResult) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
@@ -215,35 +215,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		finish.add("", "Finish to create Supplier Credit.");
 		actions.add(finish);
 
-		return null;
+		return makeResult;
 	}
-
-	// private Result creditNoteNoRequirement(Context context, ResultList list,
-	// Object selection) {
-	// Requirement req = get(NUMBER);
-	// String creditnoteno = (String) req.getValue();
-	//
-	// String attribute = (String) context.getAttribute(INPUT_ATTR);
-	// if (attribute.equals(ORDER_NO)) {
-	// String order = context.getSelection(NUMBER);
-	// if (order == null) {
-	// order = context.getNumber();
-	// }
-	// creditnoteno = order;
-	// req.setValue(creditnoteno);
-	// }
-	//
-	// if (selection == creditnoteno) {
-	// context.setAttribute(INPUT_ATTR, ORDER_NO);
-	// return number(context, "Enter Credit Note No", creditnoteno);
-	// }
-	//
-	// Record creditNoteNoRec = new Record(creditnoteno);
-	// creditNoteNoRec.add("", "Credit Note No");
-	// creditNoteNoRec.add("", creditnoteno);
-	// list.add(creditNoteNoRec);
-	// return null;
-	// }
 
 	private void completeProcess(Context context) {
 		Company company = context.getCompany();
