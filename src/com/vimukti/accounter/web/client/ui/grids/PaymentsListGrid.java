@@ -83,9 +83,9 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return 50;
 		else if (index == 5)
 			return 130;
-		else if (index == 6 || index == 7)
+		else if (index == 6)
 			return 80;
-		else if (index == 8)
+		else if (index == 8 || index == 7)
 			return 100;
 
 		return -1;
