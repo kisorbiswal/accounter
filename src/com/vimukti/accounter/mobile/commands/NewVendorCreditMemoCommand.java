@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
@@ -20,6 +21,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	private static final String NUMBER = "number";
@@ -105,7 +107,29 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = itemsAndAccountsRequirement(context, makeResult, actions);
+		result = itemsAndAccountsRequirement(context, makeResult, actions,
+				new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						if (account.getType() != Account.TYPE_CASH
+								&& account.getType() != Account.TYPE_BANK
+								&& account.getType() != Account.TYPE_INVENTORY_ASSET
+								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != Account.TYPE_INCOME
+								&& account.getType() != Account.TYPE_OTHER_INCOME
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != Account.TYPE_OTHER_ASSET
+								&& account.getType() != Account.TYPE_EQUITY
+								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				});
 		if (result != null) {
 			return result;
 		}

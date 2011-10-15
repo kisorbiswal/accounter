@@ -1206,34 +1206,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result itemsAndAccountsRequirement(Context context,
-			Result makeResult, ResultList actions) {
+			Result makeResult, ResultList actions,
+			ListFilter<Account> accountFilter) {
 		Result result = itemsRequirement(context, makeResult, actions);
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context, makeResult,
-				new ListFilter<Account>() {
-
-					@Override
-					public boolean filter(Account account) {
-						if (account.getType() != Account.TYPE_CASH
-								&& account.getType() != Account.TYPE_BANK
-								&& account.getType() != Account.TYPE_INVENTORY_ASSET
-								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != Account.TYPE_INCOME
-								&& account.getType() != Account.TYPE_OTHER_INCOME
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != Account.TYPE_OTHER_ASSET
-								&& account.getType() != Account.TYPE_EQUITY
-								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				}, actions);
+		result = accountsRequirement(context, makeResult, accountFilter,
+				actions);
 		if (result != null) {
 			return result;
 		}
