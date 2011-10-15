@@ -47,7 +47,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		setOptionalValues();
 
-		result = nameRequirement(context);
+		result = nameRequirement(context, null, null, null);
 		if (result != null) {
 			return result;
 		}
