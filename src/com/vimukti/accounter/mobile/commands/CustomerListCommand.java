@@ -1,11 +1,15 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -17,7 +21,7 @@ import com.vimukti.accounter.mobile.ResultList;
  */
 public class CustomerListCommand extends AbstractTransactionCommand {
 
-	private static final String ACTIVE = "active";
+	private static final String CUSTOMER_TYPE = "customerType";
 
 	@Override
 	public String getId() {
@@ -27,7 +31,7 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACTIVE, true, true));
+
 	}
 
 	@Override
@@ -43,56 +47,95 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 	private Result createCustomerListReq(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(ACTIONS);
+		ActionNames selection = context.getSelection(ACTIONS);
 		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
+			switch (selection) {
 			case FINISH:
-				return null;
+				markDone();
+				return new Result();
+			case ACTIVE:
+				context.setAttribute(CUSTOMER_TYPE, true);
+				break;
+			case IN_ACTIVE:
+				context.setAttribute(CUSTOMER_TYPE, false);
+				break;
+			case ALL:
+				context.setAttribute(CUSTOMER_TYPE, false);
+				break;
 			default:
 				break;
 			}
 		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Result result = isActiveRequirement(context, selection);
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-		result = customersList(context, isActive);
-		if (result != null) {
-			return result;
-		}
+		Result result = customersList(context, selection);
 		return result;
 	}
 
-	private Result customersList(Context context, Boolean isActive) {
+	private Result customersList(Context context, ActionNames selection) {
 		Result result = context.makeResult();
-		ResultList customerResult = new ResultList("vendors");
+		ResultList customerslist = new ResultList("customersList");
 		result.add("customers List");
-		int num = 0;
-		List<Customer> customers = getCustomers(context.getCompany(), isActive);
-		for (Customer customer : customers) {
-			customerResult.add(createPayeeRecord(customer));
-			num++;
-			if (num == CUSTOMERS_TO_SHOW) {
-				break;
-			}
+
+		Boolean accountType = (Boolean) context.getAttribute(CUSTOMER_TYPE);
+		List<Customer> customers = getCustomers(context.getCompany(),
+				accountType);
+
+		ResultList actions = new ResultList("actions");
+
+		List<Customer> pagination = pagination(context, selection, actions,
+				customers, new ArrayList<Customer>(), VALUES_TO_SHOW);
+
+		for (Customer customer : pagination) {
+			customerslist.add(createCustomerRecord(customer));
 		}
-		int size = customerResult.size();
+
 		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Customer");
+		if (customerslist.size() > 0) {
+			message.append("Select an Account");
 		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
 
 		result.add(message.toString());
-		result.add(customerResult);
-		result.add(commandList);
-		result.add("Enter for Customer");
+		result.add(customerslist);
 
+		Record inActiveRec = new Record(ActionNames.ACTIVE);
+		inActiveRec.add("", "Active Customers");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.IN_ACTIVE);
+		inActiveRec.add("", "InActive Customers");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.ALL);
+		inActiveRec.add("", "All Accounts");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.FINISH);
+		inActiveRec.add("", "Close");
+		actions.add(inActiveRec);
+
+		result.add(actions);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Add Customer");
+		result.add(commandList);
 		return result;
 
+	}
+
+	private List<Customer> getCustomers(Company company, Boolean isActive) {
+		Set<Customer> customers = company.getCustomers();
+		ArrayList<Customer> result = new ArrayList<Customer>();
+		if (isActive == null) {
+			return new ArrayList<Customer>(customers);
+		}
+		for (Customer customer : customers) {
+			if (isActive) {
+				if (customer.isActive()) {
+					result.add(customer);
+				}
+			} else {
+				if (!customer.isActive()) {
+					result.add(customer);
+				}
+			}
+		}
+		return result;
 	}
 
 }

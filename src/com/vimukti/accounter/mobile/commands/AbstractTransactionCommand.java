@@ -775,21 +775,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected List<Customer> getCustomers(Company company, Boolean isActive) {
-		Set<Customer> customers = company.getCustomers();
-		ArrayList<Customer> result = new ArrayList<Customer>();
-		for (Customer customer : customers) {
-			if (isActive) {
-				if (customer.isActive()) {
-					result.add(customer);
-				}
-			} else {
-				result.add(customer);
-			}
-		}
-		return result;
-	}
-
 	private Set<PaymentTerms> getPaymentTerms(Company company) {
 		return company.getPaymentTerms();
 	}

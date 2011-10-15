@@ -51,13 +51,13 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 			case FINISH:
 				markDone();
 				return null;
-			case ACTIVE_ACCOUNTS:
+			case ACTIVE:
 				context.setAttribute(ACCOUNT_TYPE, true);
 				break;
-			case IN_ACTIVE_ACCOUNTS:
+			case IN_ACTIVE:
 				context.setAttribute(ACCOUNT_TYPE, false);
 				break;
-			case ALL_ACCOUNTS:
+			case ALL:
 				context.setAttribute(ACCOUNT_TYPE, false);
 				break;
 			default:
@@ -101,14 +101,17 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		result.add(message.toString());
 		result.add(accountsList);
 
-		Record inActiveRec = new Record(ActionNames.ACTIVE_ACCOUNTS);
+		Record inActiveRec = new Record(ActionNames.ACTIVE);
 		inActiveRec.add("", "Active Accounts");
 		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.IN_ACTIVE_ACCOUNTS);
+		inActiveRec = new Record(ActionNames.IN_ACTIVE);
 		inActiveRec.add("", "InActive Accounts");
 		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.ALL_ACCOUNTS);
+		inActiveRec = new Record(ActionNames.ALL);
 		inActiveRec.add("", "All Accounts");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.FINISH);
+		inActiveRec.add("", "Close");
 		actions.add(inActiveRec);
 
 		result.add(actions);
