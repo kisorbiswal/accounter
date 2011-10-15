@@ -77,7 +77,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * This is common to all types of TransactionItems. It is used to write any
 	 * description of the TransactionItem which is being used.
 	 */
-	String description;
+	private String description;
 
 	/**
 	 * The quantity of TransactionItem to be used.
@@ -804,6 +804,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public void setUpdateAmount(double updateAmount) {
 		this.updateAmount = updateAmount;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
