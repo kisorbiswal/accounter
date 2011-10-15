@@ -5,7 +5,6 @@
 <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
 <script  type="text/javascript" >
 	$(document).ready(function() {
-	jQuery('body').append('<div id="contact"></div>');
 	jQuery(function(){
 		jQuery('#contact').contactable({
 	recipient: 'test@test.com',
