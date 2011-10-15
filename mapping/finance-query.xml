@@ -607,6 +607,7 @@
 		<return-scalar column="AMOUNT_PAID" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="PAYBILL_TYPE" type="int" />
+		<return-scalar column="CHECK_NUMBER" type="string" />
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -664,7 +665,19 @@
 		END AS AMOUNT_PAID,
 		T.IS_VOID AS
 		ISVOIDED ,
-		PB.PAYBILL_TYPE AS PAYBILL_TYPE
+		PB.PAYBILL_TYPE AS PAYBILL_TYPE,
+		
+		CASE WHEN T.T_TYPE = 2
+			THEN CP.CHECK_NUMBER
+			WHEN T.T_TYPE = 3
+			THEN CCC.CHECK_NUMBER
+			WHEN T.T_TYPE = 5
+			THEN CR.CHECK_NUMBER
+			WHEN T.T_TYPE = 11
+			THEN PB.CHECK_NUMBER
+			WHEN T.T_TYPE = 15
+			THEN WC.CHECK_NUMBER
+		END AS CHECK_NUMBER
 
 		FROM TRANSACTION T
 		LEFT
@@ -757,6 +770,7 @@
 		<return-scalar column="AMOUNT_PAID" type="double" />
 		<return-scalar column="PAYBILL_TYPE" type="int" />
 		<return-scalar column="VOIDED" type="boolean" />
+		<return-scalar column="CHECK_NUMBER" type="string" />
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -782,7 +796,12 @@
 		T.TOTAL AS
 		AMOUNT_PAID,
 		PB.PAYBILL_TYPE AS PAYBILL_TYPE,
-		T.IS_VOID AS VOIDED
+		T.IS_VOID AS VOIDED,
+		CASE WHEN T.T_TYPE = 11
+			THEN PB.CHECK_NUMBER
+			WHEN T.T_TYPE = 15
+			THEN WC.CHECK_NUMBER
+			END AS CHECK_NUMBER
 
 		FROM
 		TRANSACTION T
