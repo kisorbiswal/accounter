@@ -76,7 +76,7 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 			@Override
 			public void actionResult(ClientItem result) {
-				if (result.isActive()) {
+				if (result.isActive() && filter.filter(result)) {
 					selectRow(result);
 				}
 
