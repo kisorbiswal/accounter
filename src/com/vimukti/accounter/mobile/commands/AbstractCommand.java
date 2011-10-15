@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.ServerGlobal;
@@ -96,11 +97,16 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected <T> List<T> pagination(Context context, ActionNames selection,
-			ResultList actions, List<T> records, List<T> skipRecords,
+			List<Record> actions, List<T> records, List<T> skipRecords,
 			int recordsToShow) {
 		if (selection != null && selection == ActionNames.PREV_PAGE) {
 			Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
-			context.setAttribute(RECORDS_START_INDEX, index - recordsToShow * 2);
+			Integer lastPageSize = (Integer) context
+					.getAttribute("LAST_PAGE_SIZE");
+			context.setAttribute(RECORDS_START_INDEX,
+					index
+							- (recordsToShow + (lastPageSize == null ? 0
+									: lastPageSize)));
 		} else if (selection == null || selection != ActionNames.NEXT_PAGE) {
 			context.setAttribute(RECORDS_START_INDEX, 0);
 		}
@@ -122,6 +128,7 @@ public abstract class AbstractCommand extends Command {
 			num++;
 			result.add(r);
 		}
+		context.setAttribute("LAST_PAGE_SIZE", result.size());
 		index += result.size();
 		context.setAttribute(RECORDS_START_INDEX, index);
 
@@ -406,19 +413,22 @@ public abstract class AbstractCommand extends Command {
 
 		ResultList list = new ResultList(TAXCODE);
 
-		int num = 0;
 		if (oldTaxCode != null) {
 			list.add(createTaxCodeRecord(oldTaxCode));
-			num++;
 		}
-		for (TAXCode code : codes) {
-			if (code != oldTaxCode) {
-				list.add(createTaxCodeRecord(code));
-				num++;
-			}
-			if (num == TAXCODE_TO_SHOW) {
-				break;
-			}
+		ActionNames selection = context.getSelection(TAXCODE);
+
+		List<Record> actions = new ArrayList<Record>();
+
+		List<TAXCode> pagination = pagination(context, selection, actions,
+				codes, new ArrayList<TAXCode>(), TAXCODE_TO_SHOW);
+
+		for (TAXCode term : pagination) {
+			list.add(createTaxCodeRecord(term));
+		}
+
+		for (Record record : actions) {
+			list.add(record);
 		}
 		result.add(list);
 		CommandList commands = new CommandList();

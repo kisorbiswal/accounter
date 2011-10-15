@@ -196,6 +196,14 @@ public class Customer extends Payee implements IAccounterServerCore,
 	}
 
 	/**
+	 * 
+	 * @param shippingMethod
+	 */
+	public void setShippingMethod(ShippingMethod shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
+	/**
 	 * @return the paymentTerm
 	 */
 	public PaymentTerms getPaymentTerm() {

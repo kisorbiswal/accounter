@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewVendorCommand extends AbstractTransactionCommand {
 
@@ -183,17 +185,21 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	private Result createVendorObject(Context context) {
 
+		ICountryPreferences countryPreferences = context.getCompany()
+				.getCountryPreferences();
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+
 		Vendor vendor = new Vendor();
 		vendor.setCompany(context.getCompany());
 		String name = get(VENDOR_NAME).getValue();
 		String number = get(VENDOR_NUMBER).getValue().toString();
 
-		ArrayList<Contact> contacts = get(CONTACTS).getValue();
+		Set<Contact> contacts = get(CONTACTS).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		Date balancedate = get(BALANCE_AS_OF).getValue();
 		Date customerSincedate = get(VENDOR_SINCE).getValue();
 		double balance = get(BALANCE).getValue();
-		Set<Address> adress = get(ADDRESS).getValue();
+		ArrayList<Address> adress = get(ADDRESS).getValue();
 		Account account = get(ACCOUNT).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
@@ -215,12 +221,11 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 		if (context.getCompany().getPreferences().getUseVendorId())
 			vendor.setVendorNumber(number);
-
-		vendor.setContacts(new HashSet<Contact>(contacts));
+		vendor.setContacts(contacts);
 		vendor.setBalance(balance);
 		vendor.setBalanceAsOf(new FinanceDate(balancedate));
 		vendor.setCreatedDate(new Timestamp(customerSincedate.getTime()));
-		vendor.setAddress(adress);
+		vendor.setAddress(new HashSet<Address>(adress));
 		vendor.setPhoneNo(phoneNum);
 		vendor.setFaxNo(faxNum);
 		vendor.setWebPageAddress(webaddress);

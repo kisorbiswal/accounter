@@ -208,6 +208,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return deliveryDate;
 	}
 
+	public void setDeliveryDate(FinanceDate deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
 	public FinanceDate getDiscountDate() {
 		return discountDate;
 	}
@@ -652,7 +656,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				this.vendor.updateBalance(session, this, -enterBill.total);
 
 				this.vendor.updateBalance(session, this, this.total);
-				
+
 			}
 
 			/*

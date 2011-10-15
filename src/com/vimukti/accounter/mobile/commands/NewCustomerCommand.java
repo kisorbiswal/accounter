@@ -20,6 +20,7 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -99,6 +100,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(EMAIL, true, true));
 		list.add(new Requirement(WEBADRESS, true, true));
 		list.add(new Requirement(SALESPERSON, true, true));
+		list.add(new Requirement("Preferred Shipping Method", true, true));
 		list.add(new Requirement(PRICE_LEVEL, true, true));
 		list.add(new Requirement(CREDIT_RATING, true, true));
 		list.add(new Requirement(BANK_NAME, true, true));
@@ -142,6 +144,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		
 		if (context.getCompany().getPreferences().getUseCustomerId()) {
 			result = numberRequirement(context, NUMBER,
 					"Please Enter the Customer Number.");
@@ -210,6 +213,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		CustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
 		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
 		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
+		ShippingMethod shippingMethod = get("Preferred Shipping Method")
+				.getValue();
 		// String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
@@ -240,6 +245,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setPaymentMethod(paymentMethod);
 		customer.setPaymentTerm(paymentTerms);
 		customer.setCustomerGroup(customerGroup);
+		customer.setShippingMethod(shippingMethod);
 		if (preferences.isTrackTax()) {
 			if (countryPreferences.isVatAvailable()) {
 				customer.setTAXCode(taxCode);
@@ -436,6 +442,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		result = preferredShippingMethodRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 		result = customerGroupRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -523,6 +533,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Object customerVatCodeObj = context.getSelection(TAXCODE);
+		if (customerVatCodeObj instanceof ActionNames) {
+			customerVatCodeObj = null;
+			selection = TAXCODE;
+		}
 		Requirement customerVatCodeReq = get(CUSTOMER_VATCODE);
 		TAXCode vatCode = (TAXCode) customerVatCodeReq.getValue();
 
@@ -561,6 +575,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Object customerGroupObj = context.getSelection(CUSTOMER_GROUP);
+		if (customerGroupObj instanceof ActionNames) {
+			customerGroupObj = null;
+			selection = CUSTOMER_GROUP;
+		}
 		Requirement customerGroupReq = get(CUSTOMER_GROUP);
 		CustomerGroup customerGroup = (CustomerGroup) customerGroupReq
 				.getValue();
@@ -599,19 +617,23 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add("Select CustomerGroup");
 
 		ResultList list = new ResultList(CUSTOMER_GROUP);
-		int num = 0;
 		if (oldCustomerGroup != null) {
 			list.add(createCustomerGroupRecord(oldCustomerGroup));
-			num++;
 		}
-		for (CustomerGroup customerGroup : customerGroups) {
-			if (customerGroup != oldCustomerGroup) {
-				list.add(createCustomerGroupRecord(customerGroup));
-				num++;
-			}
-			if (num == CUSTOMERGROUP_TO_SHOW) {
-				break;
-			}
+		ActionNames selection = context.getSelection(CUSTOMER_GROUP);
+
+		List<Record> actions = new ArrayList<Record>();
+
+		List<CustomerGroup> pagination = pagination(context, selection,
+				actions, customerGroups, new ArrayList<CustomerGroup>(),
+				CUSTOMERGROUP_TO_SHOW);
+
+		for (CustomerGroup term : pagination) {
+			list.add(createCustomerGroupRecord(term));
+		}
+
+		for (Record record : actions) {
+			list.add(record);
 		}
 		result.add(list);
 
@@ -638,7 +660,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result creditRatingRequirement(Context context, ResultList list,
 			Object selection) {
 
-		CreditRating crediRatingObj = context.getSelection(CREDIT_RATING);
+		Object crediRatingObj = context.getSelection(CREDIT_RATING);
+		if (crediRatingObj instanceof ActionNames) {
+			crediRatingObj = null;
+			selection = CREDIT_RATING;
+		}
 		Requirement creditRatingReq = get(CREDIT_RATING);
 		CreditRating creditRating = (CreditRating) creditRatingReq.getValue();
 		if (crediRatingObj != null) {
@@ -675,19 +701,24 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add("Select CreditRating");
 
 		ResultList list = new ResultList(CREDIT_RATING);
-		int num = 0;
+
 		if (oldCreditRating != null) {
 			list.add(createCreditRatingRecord(oldCreditRating));
-			num++;
 		}
-		for (CreditRating priceLevel : creditRatings) {
-			if (priceLevel != oldCreditRating) {
-				list.add(createCreditRatingRecord(priceLevel));
-				num++;
-			}
-			if (num == CREDITRATING_TO_SHOW) {
-				break;
-			}
+		ActionNames selection = context.getSelection(CREDIT_RATING);
+
+		List<Record> actions = new ArrayList<Record>();
+
+		List<CreditRating> pagination = pagination(context, selection, actions,
+				creditRatings, new ArrayList<CreditRating>(),
+				CREDITRATING_TO_SHOW);
+
+		for (CreditRating term : pagination) {
+			list.add(createCreditRatingRecord(term));
+		}
+
+		for (Record record : actions) {
+			list.add(record);
 		}
 		result.add(list);
 
@@ -801,6 +832,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Object salesPersonObj = context.getSelection(SALESPERSON);
+		if (salesPersonObj instanceof ActionNames) {
+			salesPersonObj = null;
+			selection = SALESPERSON;
+		}
 		Requirement salesPersonReq = get(SALESPERSON);
 		SalesPerson salesPerson = (SalesPerson) salesPersonReq.getValue();
 		if (salesPersonObj != null) {
@@ -837,19 +872,23 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add("Select SalesPerson");
 
 		ResultList list = new ResultList(SALESPERSON);
-		int num = 0;
 		if (oldsalesPerson != null) {
 			list.add(createSalesPersonRecord(oldsalesPerson));
-			num++;
 		}
-		for (SalesPerson salesPerson : salesPersons) {
-			if (salesPerson != oldsalesPerson) {
-				list.add(createSalesPersonRecord(salesPerson));
-				num++;
-			}
-			if (num == SALESPERSON_TO_SHOW) {
-				break;
-			}
+
+		ActionNames selection = context.getSelection(SALESPERSON);
+
+		List<Record> actions = new ArrayList<Record>();
+
+		List<SalesPerson> pagination = pagination(context, selection, actions,
+				salesPersons, new ArrayList<SalesPerson>(), SALESPERSON_TO_SHOW);
+
+		for (SalesPerson term : pagination) {
+			list.add(createSalesPersonRecord(term));
+		}
+
+		for (Record record : actions) {
+			list.add(record);
 		}
 		result.add(list);
 

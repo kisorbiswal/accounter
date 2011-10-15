@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.Address;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.Quantity;
+import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
@@ -52,7 +54,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int ITEMS_TO_SHOW = 5;
 	protected static final int CUSTOMERS_TO_SHOW = 5;
-	private static final int PAYMENTTERMS_TO_SHOW = 0;
+	private static final int PAYMENTTERMS_TO_SHOW = 5;
 	private static final int CONTACTS_TO_SHOW = 5;
 	protected static final String PAYMENT_TERMS = "paymentTerms";
 	protected static final int ACCOUNTS_TO_SHOW = 5;
@@ -620,6 +622,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result paymentTermRequirement(Context context, ResultList list,
 			Object selection) {
 		Object payamentObj = context.getSelection(PAYMENT_TERMS);
+		if (payamentObj instanceof ActionNames) {
+			payamentObj = null;
+			selection = "Payment Terms";
+		}
 		Requirement paymentReq = get("paymentTerms");
 		PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
 
@@ -796,29 +802,36 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result paymentTerms(Context context, PaymentTerms oldPaymentTerms) {
-		Set<PaymentTerms> paymentTerms = getPaymentTerms(context.getCompany());
+		ArrayList<PaymentTerms> paymentTerms = new ArrayList<PaymentTerms>(
+				context.getCompany().getPaymentTerms());
 		Result result = context.makeResult();
 		result.add("Select PaymentTerms");
 
 		ResultList list = new ResultList(PAYMENT_TERMS);
-		int num = 0;
 		if (oldPaymentTerms != null) {
 			list.add(createPaymentTermRecord(oldPaymentTerms));
-			num++;
 		}
-		for (PaymentTerms term : paymentTerms) {
-			if (term != oldPaymentTerms) {
-				list.add(createPaymentTermRecord(term));
-				num++;
-			}
-			if (num == PAYMENTTERMS_TO_SHOW) {
-				break;
-			}
+
+		ActionNames selection = context.getSelection(PAYMENT_TERMS);
+
+		List<Record> actions = new ArrayList<Record>();
+
+		List<PaymentTerms> pagination = pagination(context, selection, actions,
+				paymentTerms, new ArrayList<PaymentTerms>(),
+				PAYMENTTERMS_TO_SHOW);
+
+		for (PaymentTerms term : pagination) {
+			list.add(createPaymentTermRecord(term));
+		}
+
+		for (Record record : actions) {
+			list.add(record);
 		}
 		result.add(list);
 
 		CommandList commandList = new CommandList();
 		commandList.add("Create PaymentTerms");
+
 		result.add(commandList);
 		return result;
 	}
@@ -1582,6 +1595,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result preferredShippingMethodRequirement(Context context,
 			ResultList list, Object selection) {
 		Object shippingObj = context.getSelection("Preferred Shipping Method");
+		if (shippingObj instanceof ActionNames) {
+			shippingObj = null;
+			selection = "Preferred Shipping Method";
+		}
 		Requirement shipreq = get("Preferred Shipping Method");
 		ShippingMethod shippingTerm = (ShippingMethod) shipreq.getValue();
 
@@ -1607,26 +1624,33 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result shippingMethod(Context context,
 			ShippingMethod shippingmethod) {
-		Set<ShippingMethod> shippingMethods = getShippingMethods(context
-				.getCompany());
+		ArrayList<ShippingMethod> shippingMethods = new ArrayList<ShippingMethod>(
+				getShippingMethods(context.getCompany()));
 		Result result = context.makeResult();
 		result.add("Select Shipping Methods");
 
 		ResultList list = new ResultList("Preferred Shipping Method");
-		int num = 0;
 		if (shippingmethod != null) {
 			list.add(createShippingMethodRecord(shippingmethod));
-			num++;
 		}
-		for (ShippingMethod term : shippingMethods) {
-			if (term != shippingmethod) {
-				list.add(createShippingMethodRecord(term));
-				num++;
-			}
-			if (num == SHIPPING_TERMS_TO_SHOW) {
-				break;
-			}
+
+		ActionNames selection = context
+				.getSelection("Preferred Shipping Method");
+
+		List<Record> actions = new ArrayList<Record>();
+
+		List<ShippingMethod> pagination = pagination(context, selection,
+				actions, shippingMethods, new ArrayList<ShippingMethod>(),
+				SHIPPING_TERMS_TO_SHOW);
+
+		for (ShippingMethod term : pagination) {
+			list.add(createShippingMethodRecord(term));
 		}
+
+		for (Record record : actions) {
+			list.add(record);
+		}
+
 		result.add(list);
 
 		CommandList commandList = new CommandList();
