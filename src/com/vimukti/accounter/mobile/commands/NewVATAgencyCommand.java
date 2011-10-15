@@ -323,13 +323,13 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		addressRecord.add("Value", address);
 		list.add(addressRecord);
 
-		Result result = stringOptionalRequirement(context, list, selection,
+		Result result = numberOptionalRequirement(context, list, selection,
 				PHONE, "Enter Phone Number");
 		if (result != null) {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, FAX,
+		result = numberOptionalRequirement(context, list, selection, FAX,
 				"Enter Fax number");
 		if (result != null) {
 			return result;
