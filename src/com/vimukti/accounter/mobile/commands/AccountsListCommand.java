@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -29,16 +30,11 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(ACTIVE, true, true));
-
 	}
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
-		get(ACTIVE).setDefaultValue(Boolean.TRUE);
-		result = createAccountsList(context);
-		markDone();
+		Result result = createAccountsList(context);
 		return result;
 	}
 
@@ -48,89 +44,89 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private Result createAccountsList(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(ACTIONS);
+		ActionNames selection = context.getSelection(ACTIONS);
 		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
+			switch (selection) {
 			case FINISH:
+				markDone();
 				return null;
+			case ACTIVE_ACCOUNTS:
+				context.setAttribute(ACCOUNT_TYPE, true);
+				break;
 			case IN_ACTIVE_ACCOUNTS:
-				return accountsList(context, false);
-
+				context.setAttribute(ACCOUNT_TYPE, false);
+				break;
 			case ALL_ACCOUNTS:
-				return accountsList(context, false);
+				context.setAttribute(ACCOUNT_TYPE, false);
+				break;
 			default:
 				break;
 			}
 		}
-		selection = context.getSelection("values");
-
-		ResultList list = new ResultList("values");
-
-		Result result = activeRequirement(context, selection, list);
-		if (result != null) {
-			return result;
-		}
-
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-		result = accountsList(context, isActive);
-		if (result != null) {
-			return result;
-		}
+		Result result = accountsList(context, selection);
 		return result;
 	}
 
 	/**
 	 * 
 	 * @param context
+	 * @param selection
 	 * @param isActive
 	 * @return
 	 */
-	private Result accountsList(Context context, Boolean isActive) {
+	private Result accountsList(Context context, ActionNames selection) {
+
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("accountsList");
 		result.add("Accounts List");
-		int num = 0;
-		Set<Account> accounts2 = context.getCompany().getAccounts();// getAccounts(isActive,context.getCompany());
-		List<Account> accounts = getAccounts(accounts2, isActive);
-		for (Account account : accounts) {
+
+		Boolean accountType = (Boolean) context.getAttribute(ACCOUNT_TYPE);
+		List<Account> accounts = getAccounts(context.getCompany(), accountType);
+
+		ResultList actions = new ResultList("actions");
+
+		List<Account> pagination = pagination(context, selection, actions,
+				accounts, new ArrayList<Account>(), ACCOUNTS_TO_SHOW);
+
+		for (Account account : pagination) {
 			accountsList.add(createAccountRecord(account));
-			num++;
-			if (num == ACCOUNTS_TO_SHOW) {
-				break;
-			}
 		}
-		int size = accountsList.size();
+
 		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Account");
+		if (accountsList.size() > 0) {
+			message.append("Select an Account");
 		}
-		CommandList commandList = new CommandList();
-		commandList.add("Add Account");
 
 		result.add(message.toString());
 		result.add(accountsList);
-		result.add(commandList);
 
-		ResultList actions = new ResultList("actions");
-		Record inActiveRec = new Record(ActionNames.IN_ACTIVE_ACCOUNTS);
-		inActiveRec.add("", "InActive Accounts");
-		Record finish = new Record(ActionNames.ALL_ACCOUNTS);
-		finish.add("", "All  Accounts");
+		Record inActiveRec = new Record(ActionNames.ACTIVE_ACCOUNTS);
+		inActiveRec.add("", "Active Accounts");
 		actions.add(inActiveRec);
-		actions.add(finish);
+		inActiveRec = new Record(ActionNames.IN_ACTIVE_ACCOUNTS);
+		inActiveRec.add("", "InActive Accounts");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.ALL_ACCOUNTS);
+		inActiveRec.add("", "All Accounts");
+		actions.add(inActiveRec);
+
 		result.add(actions);
 
+		CommandList commandList = new CommandList();
+		commandList.add("Add Account");
+		result.add(commandList);
 		return result;
 
 	}
 
-	private List<Account> getAccounts(Set<Account> accounts2, Boolean isActive) {
+	private List<Account> getAccounts(Company company, Boolean isActive) {
 		List<Account> list = new ArrayList<Account>();
-
-		for (Account a : accounts2) {
+		Set<Account> accounts = company.getAccounts();
+		if (isActive == null) {
+			return new ArrayList<Account>(accounts);
+		}
+		for (Account a : accounts) {
 			if (isActive) {
 				if (a.getIsActive()) {
 					list.add(a);
