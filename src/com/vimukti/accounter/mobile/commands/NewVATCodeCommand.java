@@ -173,7 +173,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 	}
 
 	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -223,7 +223,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 			taxableString = "Tax exempt";
 		}
 
-		Record isTaxableRecord = new Record(taxableString);
+		Record isTaxableRecord = new Record(IS_TAXABLE);
 		isTaxableRecord.add("Name", "Tax");
 		isTaxableRecord.add("Value", taxableString);
 		list.add(isTaxableRecord);
@@ -267,7 +267,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 			activeString = "This Item is InActive";
 		}
 
-		Record isActiveRecord = new Record(activeString);
+		Record isActiveRecord = new Record(IS_ACTIVE);
 		isActiveRecord.add("Name", "");
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
@@ -366,6 +366,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 			}
 			description = desc;
 			descriptionReq.setValue(description);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection == DESCRIPTION) {
 			context.setAttribute(INPUT_ATTR, DESCRIPTION);
