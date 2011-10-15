@@ -457,8 +457,8 @@ public class CreditCardExpenseView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
-				.amountIncludesVat());
+//		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
+//				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -518,6 +518,8 @@ public class CreditCardExpenseView extends
 				addItem();
 			}
 		});
+
+		vatinclusiveCheck = getVATInclusiveCheckBox();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
@@ -571,7 +573,7 @@ public class CreditCardExpenseView extends
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
 				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				botPanel.add(form);
 			}
 			botPanel.add(totalForm);
@@ -732,14 +734,14 @@ public class CreditCardExpenseView extends
 						this.taxCodeSelect.setComboItem(taxCode);
 					}
 				}
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
 			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
-
-			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
-			}
+			
 			if (transaction.getPayFrom() != 0)
 				payFromAccountSelected(transaction.getPayFrom());
 			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
@@ -1146,7 +1148,8 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-		// vendorTransactionTable.refreshAllRecords();
+			vendorAccountTransactionTable.updateTotals();
+			vendorItemTransactionTable.updateTotals();
 	}
 
 	@Override

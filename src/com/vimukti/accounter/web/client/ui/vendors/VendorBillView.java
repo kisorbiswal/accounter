@@ -160,6 +160,9 @@ public class VendorBillView extends
 						this.taxCodeSelect.setComboItem(taxCode);
 					}
 				}
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
 			}
 
 			transactionTotalNonEditableText
@@ -170,9 +173,6 @@ public class VendorBillView extends
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getBalanceDue()));
 
-			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
-			}
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate())
@@ -392,6 +392,8 @@ public class VendorBillView extends
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
+		
+		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
@@ -624,7 +626,7 @@ public class VendorBillView extends
 		if (isTrackTax() && isTrackPaidTax()) {
 			if (!isTaxPerDetailLine()) {
 				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				form.setFields(taxCodeSelect,vatinclusiveCheck);
 				taxPanel.add(form);
 				taxPanel.setCellHorizontalAlignment(form,
 						HasHorizontalAlignment.ALIGN_LEFT);
@@ -1277,6 +1279,8 @@ public class VendorBillView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
+			vendorAccountTransactionTable.updateTotals();
+			vendorItemTransactionTable.updateTotals();
 	}
 
 	@Override

@@ -164,7 +164,7 @@ public class PurchaseOrderView extends
 		amountsForm.setWidth("100%");
 
 		netAmount = createNetAmountLabel();
-
+		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabelforPurchase();
@@ -185,7 +185,7 @@ public class PurchaseOrderView extends
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
 				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				prodAndServiceHLay.add(form);
 
 				// this.taxCode =
@@ -762,7 +762,11 @@ public class PurchaseOrderView extends
 					this.taxCodeSelect
 							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 				}
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
 			}
+
 			purchaseOrderText.setValue(transaction.getPurchaseOrderNumber());
 
 			paymentTermsSelected(company.getPaymentTerms(transaction
@@ -1018,6 +1022,13 @@ public class PurchaseOrderView extends
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal());
 		// transaction.setReference(getRefText());
+
+		if (isTrackTax()) {
+			if (vatinclusiveCheck != null)
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
+
+		}
 	}
 
 	@Override
@@ -1352,6 +1363,8 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
+			vendorAccountTransactionTable.updateTotals();
+			vendorItemTransactionTable.updateTotals();
 	}
 
 	private void settabIndexes() {
