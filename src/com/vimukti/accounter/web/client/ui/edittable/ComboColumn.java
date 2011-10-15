@@ -74,4 +74,10 @@ public abstract class ComboColumn<T, C extends IAccounterCore> extends
 	protected abstract void setValue(T row, C newValue);
 
 	public abstract AbstractDropDownTable<C> getDisplayTable(T row);
+
+	@Override
+	public void updateFromGUI(IsWidget widget, T row) {
+		ComboBox<T, C> box = (ComboBox<T, C>) widget;
+		setValue(row, box.getValue());
+	}
 }

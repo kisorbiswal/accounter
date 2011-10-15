@@ -8,6 +8,13 @@ import com.google.gwt.user.client.ui.TextBox;
 public abstract class TextEditColumn<T> extends EditColumn<T> {
 
 	@Override
+	public void updateFromGUI(IsWidget widget, T row) {
+		TextBox box = (TextBox) widget;
+		String newValue = box.getText().trim();
+		setValue(row, newValue);
+	}
+
+	@Override
 	public void render(IsWidget widget, RenderContext<T> context) {
 		TextBox box = (TextBox) widget;
 		String value = getValue(context.getRow());

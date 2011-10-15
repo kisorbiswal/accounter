@@ -125,4 +125,5 @@ public abstract class CustomerItemTransactionTable extends
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
+
 }

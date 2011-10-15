@@ -23,4 +23,11 @@ public abstract class ImageEditColumn<T> extends EditColumn<T> {
 		return new Image();
 	}
 
+	@Override
+	public void updateFromGUI(IsWidget widget, T row) {
+		
+	}
+
+
+
 }

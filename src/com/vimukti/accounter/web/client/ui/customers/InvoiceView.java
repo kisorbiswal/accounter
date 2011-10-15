@@ -1884,4 +1884,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		customerTransactionTable.add(item);
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		this.customerTransactionTable.updateAmountsFromGUI();
+		
+	}
 }

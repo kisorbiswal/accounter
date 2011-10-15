@@ -50,4 +50,5 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 		flexTable.getCellFormatter().addStyleName(0, flexTable.getCellCount(0),
 				"amount");
 	}
+
 }

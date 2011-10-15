@@ -368,4 +368,10 @@ public class VATPaymentView extends
 
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

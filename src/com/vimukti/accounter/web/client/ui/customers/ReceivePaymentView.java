@@ -1409,4 +1409,10 @@ public class ReceivePaymentView extends
 	protected void refreshTransactionGrid() {
 
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

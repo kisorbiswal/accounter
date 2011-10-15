@@ -281,4 +281,10 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

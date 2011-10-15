@@ -964,4 +964,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		customerTransactionTable.add(item);
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

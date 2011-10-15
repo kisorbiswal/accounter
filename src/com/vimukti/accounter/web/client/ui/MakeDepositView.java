@@ -1267,4 +1267,10 @@ public class MakeDepositView extends
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

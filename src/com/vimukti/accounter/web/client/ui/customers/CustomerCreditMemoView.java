@@ -924,4 +924,10 @@ public class CustomerCreditMemoView extends
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		customerItemTransactionTable.add(item);
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

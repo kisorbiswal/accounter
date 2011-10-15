@@ -1190,4 +1190,10 @@ public class CreditCardExpenseView extends
 		}
 
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

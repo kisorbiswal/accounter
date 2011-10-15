@@ -70,6 +70,15 @@ public abstract class EditTable<R> extends SimplePanel {
 		}
 	}
 
+	public void updateFromGUI(R row) {
+		int index = rows.indexOf(row);
+		index += 1;// for header
+		for (int x = 0; x < columns.size(); x++) {
+			EditColumn<R> column = columns.get(x);
+			IsWidget widget = table.getWidget(index, x);
+			column.updateFromGUI(widget, row);
+		}
+	}
 	/**
 	 * Add a new row
 	 * 
@@ -211,5 +220,14 @@ public abstract class EditTable<R> extends SimplePanel {
 			}
 		}
 	}
+
+	public List<EditColumn<R>> getColumns() {
+		return columns;
+	}
+
+	public FlexTable getTable() {
+		return table;
+	}
+
 
 }

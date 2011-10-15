@@ -1107,4 +1107,10 @@ public class CreditCardChargeView extends
 			taxCodeSelect.setValue("");
 		}
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

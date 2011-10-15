@@ -75,4 +75,10 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 
 	protected abstract void onChangeValue(boolean value, T row);
 
+	@Override
+	public void updateFromGUI(IsWidget widget, T row) {
+		CheckBox box = (CheckBox) widget;
+		onChangeValue(box.getValue(),row);
+	}
+
 }

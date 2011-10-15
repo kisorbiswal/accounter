@@ -714,4 +714,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

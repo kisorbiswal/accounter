@@ -596,4 +596,10 @@ public class JournalEntryView extends
 	public boolean canEdit() {
 		return false;
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

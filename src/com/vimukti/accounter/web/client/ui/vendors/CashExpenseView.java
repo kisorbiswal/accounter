@@ -835,4 +835,10 @@ public class CashExpenseView extends
 		vendorItemTransactionTable.add(item);
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

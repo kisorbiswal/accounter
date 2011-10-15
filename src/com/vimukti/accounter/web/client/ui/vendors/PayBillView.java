@@ -1282,4 +1282,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

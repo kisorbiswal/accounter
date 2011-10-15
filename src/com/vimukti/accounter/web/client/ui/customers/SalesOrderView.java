@@ -1413,4 +1413,10 @@ public class SalesOrderView extends
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		customerTransactionTable.add(item);
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

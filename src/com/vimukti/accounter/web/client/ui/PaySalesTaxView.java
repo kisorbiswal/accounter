@@ -669,4 +669,10 @@ public class PaySalesTaxView extends
 	protected void refreshTransactionGrid() {
 
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

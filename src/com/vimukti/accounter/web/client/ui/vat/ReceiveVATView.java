@@ -732,4 +732,10 @@ public class ReceiveVATView extends
 
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

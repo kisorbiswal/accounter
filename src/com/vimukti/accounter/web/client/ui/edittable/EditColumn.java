@@ -45,4 +45,7 @@ public abstract class EditColumn<R> {
 	public ClientCompanyPreferences getPreferences() {
 		return Accounter.getCompany().getPreferences();
 	}
+
+
+	public abstract void updateFromGUI(IsWidget widget, R row);
 }

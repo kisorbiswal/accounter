@@ -1316,4 +1316,10 @@ public class VendorBillView extends
 		vendorItemTransactionTable.setTaxCode(taxCodeSelect.getSelectedValue()
 				.getID(), true);
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }
