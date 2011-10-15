@@ -237,7 +237,7 @@ public class CashSalesView extends
 				"memoFormAlign");
 
 		taxTotalNonEditableText = createVATTotalNonEditableLabel();
-
+		vatinclusiveCheck = getVATInclusiveCheckBox();
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
@@ -308,21 +308,21 @@ public class CashSalesView extends
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
-
+		DynamicForm taxForm = new DynamicForm();
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		if (isTrackTax()) {
-
+			prodAndServiceForm2.setFields(disabletextbox,
+					taxTotalNonEditableText,disabletextbox, netAmountLabel, disabletextbox,
+					transactionTotalNonEditableText);
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
 						disabletextbox, transactionTotalNonEditableText);
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
-				prodAndServiceForm2.setFields(taxCodeSelect,
-						taxTotalNonEditableText, disabletextbox,
-						transactionTotalNonEditableText);
+				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		} else {
 			prodAndServiceForm2.setFields(disabletextbox,
@@ -334,6 +334,7 @@ public class CashSalesView extends
 		prodAndServiceHLay.setWidth("100%");
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
@@ -716,7 +717,11 @@ public class CashSalesView extends
 					this.taxTotalNonEditableText.setValue(DataUtils
 							.getAmountAsString(transaction.getTaxTotla()));
 				}
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
 			}
+
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
@@ -1018,7 +1023,8 @@ public class CashSalesView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-
+			customerAccountTransactionTable.updateTotals();
+			customerItemTransactionTable.updateTotals();
 	}
 
 	@Override
