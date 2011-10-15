@@ -144,7 +144,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		
+
 		if (context.getCompany().getPreferences().getUseCustomerId()) {
 			result = numberRequirement(context, NUMBER,
 					"Please Enter the Customer Number.");
@@ -381,7 +381,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = stringOptionalRequirement(context, list, selection, FAX,
+		result = numberOptionalRequirement(context, list, selection, FAX,
 				"Enter Fax Number");
 		if (result != null) {
 			return result;
@@ -391,7 +391,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = stringOptionalRequirement(context, list, selection, PHONE,
+		result = numberOptionalRequirement(context, list, selection, PHONE,
 				"Enter Phone Number");
 		if (result != null) {
 			return result;
@@ -420,7 +420,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = stringOptionalRequirement(context, list, selection,
+		result = numberOptionalRequirement(context, list, selection,
 				BANK_ACCOUNT_NUM, "Enter Bank AccountNumber");
 		if (result != null) {
 			return result;
@@ -452,7 +452,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		if (preferences.isTrackTax()) {
 			if (countryPreferences.isVatAvailable()) {
-				result = stringOptionalRequirement(context, list, selection,
+				result = numberOptionalRequirement(context, list, selection,
 						VATREGISTER_NUM, "Enter vatRegisteration Number ");
 				if (result != null) {
 					return result;
@@ -471,14 +471,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			// return result;
 			// }
 			if (countryPreferences.isSalesTaxAvailable()) {
-				result = stringOptionalRequirement(context, list, selection,
+				result = numberOptionalRequirement(context, list, selection,
 						CST_NUM, "Enter CST Number ");
 				if (result != null) {
 					return result;
 				}
 			}
 			if (countryPreferences.isServiceTaxAvailable()) {
-				result = stringOptionalRequirement(context, list, selection,
+				result = numberOptionalRequirement(context, list, selection,
 						SERVICE_TAX_NUM,
 						"Enter Service tax registration Number ");
 				if (result != null) {
@@ -486,7 +486,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				}
 			}
 			if (countryPreferences.isTDSAvailable()) {
-				result = stringOptionalRequirement(context, list, selection,
+				result = numberOptionalRequirement(context, list, selection,
 						TIN_NUM, "Enter Taxpayer identification number");
 				if (result != null) {
 					return result;
