@@ -28,9 +28,9 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -293,7 +293,7 @@ public class ReceivePaymentView extends
 
 	public void setAmountRecieved(Double amountRecieved) {
 		this.amountRecieved = amountRecieved;
-		this.amtText.setAmount(getAmountInTransactionCurrency(amountRecieved));
+		this.amtText.setAmount(amountRecieved);
 	}
 
 	public Double getAmountRecieved() {
@@ -639,8 +639,7 @@ public class ReceivePaymentView extends
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsText
-				.setAmount(getAmountInTransactionCurrency(unusedAmounts));
+		this.unUsedPaymentsText.setAmount(unusedAmounts);
 
 	}
 
@@ -741,8 +740,7 @@ public class ReceivePaymentView extends
 
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
-
-		this.unUsedPayments = (amountRecieved - transactionTotal);
+		this.unUsedPayments = (amountRecieved - getAmountInTransactionCurrency(transactionTotal));
 		setUnusedPayments(unUsedPayments);
 
 		calculateUnusedCredits();
@@ -806,7 +804,8 @@ public class ReceivePaymentView extends
 			try {
 				if (!AccounterValidator.isValidRecievePaymentAmount(
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
-								.toString()), this.transactionTotal)) {
+								.toString()),
+						getAmountInTransactionCurrency(this.transactionTotal))) {
 					result.addError(amtText, Accounter.constants()
 							.recievePaymentTotalAmount());
 				}
