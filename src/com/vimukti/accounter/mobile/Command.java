@@ -3,12 +3,15 @@ package com.vimukti.accounter.mobile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientCompany;
+
 public abstract class Command {
 	MobileConstants constants;
 	MobileMessages messages;
 	List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
+	private ClientCompany clientCompany;
 
 	public Command() {
 		addRequirements(requirements);
@@ -85,6 +88,14 @@ public abstract class Command {
 	public Object getResultObject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setClientCompany(ClientCompany clientCompany) {
+		this.clientCompany = clientCompany;
+	}
+
+	public ClientCompany getClientCompany() {
+		return clientCompany;
 	}
 
 }

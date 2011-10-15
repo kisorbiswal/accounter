@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * Handles the Request from User and Executes corresponding Command
@@ -128,6 +129,9 @@ public class CommandProcessor {
 		context.setInputs(message.getInputs());
 		Result result = null;
 		try {
+			command.setClientCompany(new FinanceTool().getCompanyManager()
+					.getClientCompany(context.getUser().getEmail(),
+							context.getCompany().getID()));
 			result = command.run(context);
 		} catch (Exception e) {
 			e.printStackTrace();
