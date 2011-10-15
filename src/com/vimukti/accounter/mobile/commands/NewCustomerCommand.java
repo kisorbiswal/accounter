@@ -812,7 +812,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Record salesPersonRecord = new Record(SALESPERSON);
 		salesPersonRecord.add("Name", SALESPERSON);
 		salesPersonRecord.add("Value",
-				salesPerson == null ? "" : salesPerson.getName());
+				salesPerson == null ? "" : salesPerson.getFirstName());
 		list.add(salesPersonRecord);
 
 		Result result = new Result();
