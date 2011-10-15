@@ -1156,7 +1156,10 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 .fiscal_panel td:FIRST-CHILD {
 	padding-right:10px;
 }
-.expense_question_link,.boldtext{
+.boldtext{
+	margin:10px 0px 10px 5px;
+}
+.expense_question_link{
 	margin:10px 0px;
 }
 .setup_accounts{
