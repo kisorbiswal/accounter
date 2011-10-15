@@ -60,7 +60,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("contact", true, true));
 		list.add(new Requirement("billTo", true, true));
 		list.add(new Requirement(PHONE, true, true));
-		list.add(new Requirement("memo", true, true));
+		list.add(new Requirement(MEMO, true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
 		list.add(new Requirement("chequeNo", true, true));
 		list.add(new Requirement("deliveryDate", true, true));
@@ -136,8 +136,10 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
+
 		Company company = context.getCompany();
 		CashPurchase cashPurchase = new CashPurchase();
+		cashPurchase.setCompany(company);
 		Date date = get("date").getValue();
 		cashPurchase.setDate(new FinanceDate(date));
 
@@ -148,9 +150,29 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 
 		// FIXME
 		List<TransactionItem> items = get("items").getValue();
-		// List<TransactionItem> accounts = get("accounts").getValue();
-		// accounts.addAll(items);
-		cashPurchase.setTransactionItems(items);
+		for (TransactionItem item : items) {
+			Account account = item.getItem().getIncomeAccount();
+			if (account != null) {
+				account = (Account) context.getHibernateSession()
+						.merge(account);
+				item.getItem().setIncomeAccount(account);
+			} else {
+				account = item.getItem().getExpenseAccount();
+				account = (Account) context.getHibernateSession()
+						.merge(account);
+				item.getItem().setExpenseAccount(account);
+			}
+		}
+
+		List<TransactionItem> accounts = get("accounts").getValue();
+		for (TransactionItem item : accounts) {
+			Account account = item.getAccount();
+			account = (Account) context.getHibernateSession().merge(account);
+			item.setAccount(account);
+		}
+
+		accounts.addAll(items);
+		cashPurchase.setTransactionItems(accounts);
 
 		// TODO Location
 		// TODO Class
@@ -163,6 +185,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 
 		Vendor vendor = get("supplier").getValue();
+		vendor = (Vendor) context.getHibernateSession().merge(vendor);
 		cashPurchase.setVendor(vendor);
 
 		Contact contact = get("contact").getValue();
@@ -178,6 +201,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		String paymentMethod = get("Payment method").getValue();
 		cashPurchase.setPaymentMethod(paymentMethod);
 		Account account = get("depositOrTransferTo").getValue();
+		account = (Account) context.getHibernateSession().merge(account);
 		cashPurchase.setPayFrom(account);
 		String chequeNo = get("chequeNo").getValue();
 		if (paymentMethod.equals(US_CHECK) || paymentMethod.equals(UK_CHECK)) {
@@ -185,7 +209,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 		Date deliveryDate = get("deliveryDate").getValue();
 		// TODO cashPurchase.setD
-		cashPurchase.setTotal(getTransactionTotal(items, company));
+		cashPurchase.setTotal(getTransactionTotal(accounts, company));
 		create(cashPurchase, context);
 
 	}
