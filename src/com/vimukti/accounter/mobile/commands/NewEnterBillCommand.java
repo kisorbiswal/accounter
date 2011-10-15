@@ -1,22 +1,11 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.EnterBill;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -25,6 +14,11 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientEnterBill;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
@@ -108,7 +102,6 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
 
 		setTransactionType(CUSTOMER_TRANSACTION);
 
@@ -116,7 +109,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = itemsAndAccountsRequirement(context, makeResult, list,
+		result = itemsAndAccountsRequirement(context, makeResult, actions,
 				new ListFilter<ClientAccount>() {
 					@Override
 					public boolean filter(ClientAccount e) {
@@ -127,6 +120,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		makeResult.add(actions);
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
@@ -134,18 +128,23 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 
+		result = new Result();
+		result.add("Enter bill created successfully");
 		return result;
 	}
 
 	private void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new Date(System.currentTimeMillis()));
-		get(NUMBER).setDefaultValue(
-				NumberUtils.getNextTransactionNumber(
-						Transaction.TYPE_ENTER_BILL, context.getCompany()));
+		get(NUMBER)
+				.setDefaultValue(
+						NumberUtils.getNextTransactionNumber(
+								ClientTransaction.TYPE_ENTER_BILL,
+								context.getCompany()));
 		get(PHONE).setDefaultValue("");
-		get(CONTACT).setDefaultValue(new Contact());
-		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
-		for (PaymentTerms p : paymentTerms) {
+		get(CONTACT).setDefaultValue(new ClientContact());
+		ArrayList<ClientPaymentTerms> paymentTerms = getClientCompany()
+				.getPaymentsTerms();
+		for (ClientPaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
@@ -155,68 +154,49 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		get(DELIVERY_DATE)
 				.setDefaultValue(new Date(System.currentTimeMillis()));
 
-		Vendor v = (Vendor) get(VENDOR).getValue();
-		Set<Contact> contacts2 = v.getContacts();
-		if (contacts2 != null)
-			for (Contact c : contacts2) {
-				get(CONTACT).setDefaultValue(c);
-			}
-
+		ClientVendor v = (ClientVendor) get(VENDOR).getValue();
+		if (v != null) {
+			Set<ClientContact> contacts2 = v.getContacts();
+			if (contacts2 != null)
+				for (ClientContact c : contacts2) {
+					get(CONTACT).setDefaultValue(c);
+				}
+		}
 		get(MEMO).setDefaultValue(" ");
 	}
 
 	private void completeProcess(Context context) {
 
-		Company company = context.getCompany();
+		ClientEnterBill enterBill = new ClientEnterBill();
 
-		EnterBill enterBill = new EnterBill();
-
-		Vendor vendor = (Vendor) get(VENDOR).getValue();
-		vendor = (Vendor) context.getHibernateSession().merge(vendor);
+		ClientVendor vendor = (ClientVendor) get(VENDOR).getValue();
 		enterBill.setVendor(vendor);
 		Date date = get(DATE).getValue();
 		if (date != null) {
-			enterBill.setDate(new FinanceDate(date));
+			enterBill.setDate(date.getTime());
 		} else {
-			enterBill.setDate(new FinanceDate(System.currentTimeMillis()));
+			enterBill.setDate(System.currentTimeMillis());
 		}
 
-		enterBill.setType(Transaction.TYPE_ENTER_BILL);
+		enterBill.setType(ClientTransaction.TYPE_ENTER_BILL);
 
-		enterBill.setCompany(company);
+		List<ClientTransactionItem> items = get("items").getValue();
 
-		List<TransactionItem> items = get("items").getValue();
+		List<ClientTransactionItem> accounts = get("accounts").getValue();
+		items.addAll(accounts);
 
-		if (get("accounts") != null) {
-			List<TransactionItem> accounts = get("accounts").getValue();
-			items.addAll(accounts);
-		}
-
-		Session hibernateSession = context.getHibernateSession();
-		for (TransactionItem transactionItem : items) {
-			Item item = transactionItem.getItem();
-			if (item != null) {
-				item = (Item) hibernateSession.merge(item);
-				transactionItem.setItem(item);
-			}
-			Account account = transactionItem.getAccount();
-			if (account != null) {
-				account = (Account) hibernateSession.merge(account);
-				transactionItem.setAccount(account);
-			}
-		}
 		enterBill.setTransactionItems(items);
 
 		Date dueDate = get(DUE_DATE).getValue();
-		enterBill.setDueDate(new FinanceDate(dueDate));
+		enterBill.setDueDate(dueDate.getTime());
 
 		Date deliveryDate = get(DELIVERY_DATE).getValue();
 		// enterBill.setDeliveryDate(new FinanceDate(deliveryDate));
 
-		Contact contact = get(CONTACT).getValue();
+		ClientContact contact = get(CONTACT).getValue();
 		enterBill.setContact(contact);
 
-		PaymentTerms paymentTerm = get("paymentTerms").getValue();
+		ClientPaymentTerms paymentTerm = get("paymentTerms").getValue();
 		enterBill.setPaymentTerm(paymentTerm);
 
 		String phone = get(PHONE).getValue();
@@ -224,6 +204,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 		String memo = get(MEMO).getValue();
 		enterBill.setMemo(memo);
+		updateTotals(enterBill);
 		create(enterBill, context);
 
 	}
