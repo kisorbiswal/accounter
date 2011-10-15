@@ -205,7 +205,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = chequeNoRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, CHEQUE_NO,
+				"Enter check Number");
 		if (result != null) {
 			return result;
 		}
