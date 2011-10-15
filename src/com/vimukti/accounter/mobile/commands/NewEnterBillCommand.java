@@ -289,7 +289,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, PHONE,
+		result = numberOptionalRequirement(context, list, selection, PHONE,
 				"Enter Phone Number");
 		if (result != null) {
 			return result;
