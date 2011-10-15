@@ -2,6 +2,8 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +55,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final String TAXCODE = "taxCode";
 	private static final int TAXCODE_TO_SHOW = 5;
 	protected static final int INCOMEACCOUNTS_TO_SHOW = 5;
-	protected static final int VENDORS_TO_SHOW = 5;
+	protected static final int VENDORS_TO_SHOW = 3;
 	protected static final int ITEMGROUPS_TO_SHOW = 5;
 	protected static final String PAYMENT_METHOD = "Payment method";
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
@@ -73,6 +75,8 @@ public abstract class AbstractCommand extends Command {
 
 	private static final String REQUIREMENT_NAME = "requirmentName";
 	private static final String ADDRESS_ACTIONS = "addressActions";
+	private static final String RECORDS_START_INDEX = "recordsStrartIndex";
+	protected static final String PAGENATION = null;
 
 	private IGlobal global;
 	private AccounterConstants constants;
@@ -91,6 +95,50 @@ public abstract class AbstractCommand extends Command {
 	protected Company getCompany() {
 		return null;
 
+	}
+
+	protected <T> List<T> pagination(Context context, ActionNames selection,
+			ResultList actions, List<T> records, List<T> skipRecords,
+			int recordsToShow) {
+		if (selection != null && selection == ActionNames.PREV_PAGE) {
+			Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
+			context.setAttribute(RECORDS_START_INDEX, index - recordsToShow * 2);
+		} else if (selection == null || selection != ActionNames.NEXT_PAGE) {
+			context.setAttribute(RECORDS_START_INDEX, 0);
+		}
+
+		int num = skipRecords.size();
+		Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
+		if (index == null) {
+			index = 0;
+		}
+		List<T> result = new ArrayList<T>();
+		for (int i = index; i < records.size(); i++) {
+			if (num == recordsToShow) {
+				break;
+			}
+			T r = records.get(i);
+			if (skipRecords.contains(r)) {
+				continue;
+			}
+			num++;
+			result.add(r);
+		}
+		index += result.size();
+		context.setAttribute(RECORDS_START_INDEX, index);
+
+		if (records.size() > index) {
+			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
+			inActiveRec.add("", "Next Page");
+			actions.add(inActiveRec);
+		}
+
+		if (index > recordsToShow) {
+			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
+			inActiveRec.add("", "Prev Page");
+			actions.add(inActiveRec);
+		}
+		return result;
 	}
 
 	protected Result text(Context context, String message, String oldText) {
@@ -531,22 +579,23 @@ public abstract class AbstractCommand extends Command {
 		ResultList supplierList = new ResultList("suppliers");
 
 		Object last = context.getLast(RequirementType.VENDOR);
-		int num = 0;
+		List<Vendor> skipVendors = new ArrayList<Vendor>();
 		if (last != null) {
 			supplierList.add(createVendorRecord((Vendor) last));
-			num++;
+			skipVendors.add((Vendor) last);
 		}
 		List<Vendor> vendors = getVendors(true, context.getCompany());
-		if (vendors != null)
-			for (Vendor vendor : vendors) {
-				if (vendor != last) {
-					supplierList.add(createVendorRecord(vendor));
-					num++;
-				}
-				if (num == VENDORS_TO_SHOW) {
-					break;
-				}
-			}
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<Vendor> pagination = pagination(context, selection, actions,
+				vendors, skipVendors, VENDORS_TO_SHOW);
+
+		for (Vendor vendor : pagination) {
+			supplierList.add(createVendorRecord(vendor));
+		}
+
 		int size = supplierList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
@@ -557,8 +606,8 @@ public abstract class AbstractCommand extends Command {
 
 		result.add(message.toString());
 		result.add(supplierList);
+		result.add(actions);
 		result.add(commandList);
-		// result.add("Type for Supplier");
 		return result;
 	}
 
