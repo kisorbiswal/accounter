@@ -639,7 +639,9 @@ public class MakeDepositView extends
 					.getCashBackAmount()));
 			cashBackMemoText.setValue(transaction.getCashBackMemo());
 			cashBackAccountSelect.setValue(transaction.getCashBackAccount());
-			totText.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
+			totText.setValue(DataUtils
+					.getAmountAsString(getAmountInTransactionCurrency(transaction
+							.getTotal())));
 
 			gridView.setRecords(transaction.getTransactionMakeDeposit());
 			initAccounterClass();
@@ -914,9 +916,9 @@ public class MakeDepositView extends
 
 		mainVLay.add(vPanel);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			resetFormView();
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// resetFormView();
+		// }
 
 		this.add(mainVLay);
 
@@ -1271,6 +1273,6 @@ public class MakeDepositView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
