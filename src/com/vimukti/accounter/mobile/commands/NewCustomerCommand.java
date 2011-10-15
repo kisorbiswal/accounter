@@ -3,8 +3,12 @@ package com.vimukti.accounter.mobile.commands;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
@@ -125,12 +129,21 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
 		if (process != null) {
 			if (process.equals(CONTACT_PROCESS)) {
 				result = contactProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+			if (process.equals(ADDRESS_PROCESS)) {
+				result = addressProcess(context);
 				if (result != null) {
 					return result;
 				}
@@ -141,29 +154,30 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		// if (context.getCompany().getPreferences().getUseCustomerId()) {
-		result = numberRequirement(context, NUMBER,
-				"Please Enter the Customer Number.");
-		if (result != null) {
-			return result;
+		if (context.getCompany().getPreferences().getUseCustomerId()) {
+			result = numberRequirement(context, NUMBER,
+					"Please Enter the Customer Number.");
+			if (result != null) {
+				return result;
+			}
 		}
-		// }
-
 		setDefaultValues();
 		result = optionalRequirements(context);
 		if (result != null) {
 			return result;
 		}
-		createCustomerObject(context);
+
 		markDone();
-		return result;
+		return createCustomerObject(context);
 	}
 
 	private void setDefaultValues() {
+
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new Date());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new Date());
+		get(ADDRESS).setDefaultValue(new Address());
 	}
 
 	/**
@@ -171,17 +185,21 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @return
 	 */
-	private void createCustomerObject(Context context) {
+	private Result createCustomerObject(Context context) {
 
 		Customer customer = new Customer();
+		customer.setCompany(context.getCompany());
 		String name = get(CUSTOMER_NAME).getValue();
-		String number = get(NUMBER).getValue();
-		Set<Contact> contacts = get(CUSTOMER_CONTACT).getValue();
+		String number = null;
+		if (context.getCompany().getPreferences().getUseCustomerId()) {
+			number = get(NUMBER).getValue().toString();
+		}
+		Set<Contact> contacts = (get(CUSTOMER_CONTACT).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
-		FinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
-		Timestamp customerSincedate = get(CUSTOMER_SINCEDATE).getValue();
+		Date balancedate = get(BALANCE_ASOF_DATE).getValue();
+		Date customerSincedate = get(CUSTOMER_SINCEDATE).getValue();
 		double balance = get(BALANCE).getValue();
-		Set<Address> adress = get(ADDRESS).getValue();
+		Address adress = get(ADDRESS).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
@@ -194,22 +212,25 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		String bankBranch = get(BANK_BRANCH).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		PaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
-		CustomerGroup customerGroup = get(PAYMENT_TERMS).getValue();
+		CustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
 		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
 		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
 		String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
-
+		HashSet<Address> addresses = new HashSet<Address>();
+		if (adress != null) {
+			addresses.add(adress);
+		}
 		customer.setName(name);
 		if (context.getCompany().getPreferences().getUseCustomerId())
 			customer.setNumber(number);
 		customer.setContacts(contacts);
 		customer.setBalance(balance);
-		customer.setBalanceAsOf(balancedate);
-		customer.setCreatedDate(customerSincedate);
-		customer.setAddress(adress);
+		customer.setBalanceAsOf(new FinanceDate(balancedate));
+		customer.setCreatedDate(new Timestamp(customerSincedate.getTime()));
+		customer.setAddress(addresses);
 		customer.setPhoneNo(phoneNum);
 		customer.setFaxNo(faxNum);
 		customer.setWebPageAddress(webaddress);
@@ -240,7 +261,17 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			customer.setTINNumber(tinNum);
 		}
 
-		create(customer, context);
+		Session session = context.getHibernateSession();
+		Transaction transaction = session.beginTransaction();
+		session.saveOrUpdate(customer);
+		transaction.commit();
+
+		markDone();
+
+		Result result = new Result();
+		result.add(" Customer was created successfully.");
+
+		return result;
 
 	}
 
@@ -275,7 +306,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		list.add(nameRecord);
 
 		Requirement contactReq = get(CUSTOMER_CONTACT);
-		List<Contact> contacts = contactReq.getValue();
+		Set<Contact> contacts = contactReq.getValue();
 		selection = context.getSelection(CUSTOMER_CONTACT);
 		if (selection != null) {
 			Result contact = contact(context, "customer contact",
@@ -286,23 +317,28 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 
-		// Requirement isActiveReq = get(IS_ACTIVE);
-		// Boolean isActive = (Boolean) isActiveReq.getValue();
-		// if (selection == isActive) {
-		// context.setAttribute(INPUT_ATTR, IS_ACTIVE);
-		// isActive = !isActive;
-		// isActiveReq.setValue(isActive);
-		// }
-		// String activeString = "";
-		// if (isActive) {
-		// activeString = "This Item is Active";
-		// } else {
-		// activeString = "This Item is InActive";
-		// }
-		// Record isActiveRecord = new Record(IS_ACTIVE);
-		// isActiveRecord.add("Name", "");
-		// isActiveRecord.add("Value", activeString);
-		// list.add(isActiveRecord);
+		Requirement isActiveReq = get(IS_ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getValue();
+		String activeString = "";
+		if (isActive) {
+			activeString = "This customer is Active";
+		} else {
+			activeString = "This customer is InActive";
+		}
+		if (selection == activeString) {
+			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
+			isActive = !isActive;
+			isActiveReq.setValue(isActive);
+		}
+		if (isActive) {
+			activeString = "This customer is Active";
+		} else {
+			activeString = "This customer is InActive";
+		}
+		Record isActiveRecord = new Record(activeString);
+		isActiveRecord.add("Name", "");
+		isActiveRecord.add("Value", activeString);
+		list.add(isActiveRecord);
 
 		int company = context.getCompany().getAccountingType();
 
@@ -322,23 +358,27 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		// result = billToRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		result = faxNumRequirement(context, list, selection);
+		result = billToRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		result = emailRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, FAX,
+				"Enter Fax Number");
 		if (result != null) {
 			return result;
 		}
-		result = phoneNumRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, EMAIL,
+				"Enter email ");
 		if (result != null) {
 			return result;
 		}
-		result = webAdressRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, PHONE,
+				"Enter Phone Number");
+		if (result != null) {
+			return result;
+		}
+		result = stringOptionalRequirement(context, list, selection, WEBADRESS,
+				"Enter webPageAdress ");
 		if (result != null) {
 			return result;
 		}
@@ -347,24 +387,27 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		// result = priceLevelRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
+		result = priceLevelRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
 		result = creditRatingRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		result = bankNameRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, BANK_NAME,
+				"Enter Bank Name ");
 		if (result != null) {
 			return result;
 		}
-		result = bankAccountNumRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection,
+				BANK_ACCOUNT_NUM, "Enter Bank AccountNumber");
 		if (result != null) {
 			return result;
 		}
-		result = bankBranchRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection,
+				BANK_BRANCH, "Enter bankBranch Name ");
 		if (result != null) {
 			return result;
 		}
@@ -383,7 +426,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		if (company == ACCOUNTING_TYPE_US) {
-			result = vatRegisterationNumRequirement(context, list, selection);
+			result = stringOptionalRequirement(context, list, selection,
+					VATREGISTER_NUM, "Enter vatRegisteration Number ");
 			if (result != null) {
 				return result;
 			}
@@ -393,19 +437,23 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		if (company == ACCOUNTING_TYPE_INDIA) {
-			result = panNumRequirement(context, list, selection);
+			result = stringOptionalRequirement(context, list, selection,
+					PAN_NUM, "Enter Personal Ledger number");
 			if (result != null) {
 				return result;
 			}
-			result = cstNumRequirement(context, list, selection);
+			result = stringOptionalRequirement(context, list, selection,
+					CST_NUM, "Enter CST Number ");
 			if (result != null) {
 				return result;
 			}
-			result = serviceTaxRequirement(context, list, selection);
+			result = stringOptionalRequirement(context, list, selection,
+					SERVICE_TAX_NUM, "Enter Service tax registration Number ");
 			if (result != null) {
 				return result;
 			}
-			result = tinNumRequirement(context, list, selection);
+			result = stringOptionalRequirement(context, list, selection,
+					TIN_NUM, "Enter Taxpayer identification number");
 			if (result != null) {
 				return result;
 			}
@@ -812,6 +860,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 			emailText = order;
 			req.setValue(emailText);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null) {
 			if (selection == "email") {
@@ -847,6 +896,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 			faxNum = order;
 			req.setValue(faxNum);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null) {
 			if (selection == "fax") {
@@ -1100,6 +1150,89 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @param list
 	 * @param selection
+	 * @return
+	 */
+	private Result priceLevelRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Object priceLevelObj = context.getSelection(PRICE_LEVEL);
+		Requirement priceLevelReq = get(PRICE_LEVEL);
+		PriceLevel priceLevel = (PriceLevel) priceLevelReq.getValue();
+
+		if (priceLevelObj != null) {
+			priceLevel = (PriceLevel) priceLevelObj;
+			priceLevelReq.setValue(priceLevel);
+		}
+		if (selection != null)
+			if (selection == PRICE_LEVEL) {
+				context.setAttribute(INPUT_ATTR, PRICE_LEVEL);
+				return priceLevels(context, priceLevel);
+			}
+
+		Record priceLevelRecord = new Record(PRICE_LEVEL);
+		priceLevelRecord.add("Name", PRICE_LEVEL);
+		priceLevelRecord.add("Value",
+				priceLevel == null ? "" : priceLevel.getName());
+		list.add(priceLevelRecord);
+
+		Result result = new Result();
+		result.add(list);
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param string
+	 * @return
+	 */
+	private Result priceLevels(Context context, PriceLevel oldPriceLevel) {
+
+		List<PriceLevel> priceLevels = new ArrayList<PriceLevel>(context
+				.getCompany().getPriceLevels());
+		Result result = context.makeResult();
+		result.add("Select PriceLevel");
+
+		ResultList list = new ResultList(PRICE_LEVEL);
+		int num = 0;
+		if (oldPriceLevel != null) {
+			list.add(createCreditRatingRecord(oldPriceLevel));
+			num++;
+		}
+		for (PriceLevel priceLevel : priceLevels) {
+			if (priceLevel != oldPriceLevel) {
+				list.add(createCreditRatingRecord(priceLevel));
+				num++;
+			}
+			if (num == PRICELEVEL_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create priceLevel");
+		result.add(commandList);
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param oldPriceLevel
+	 * @return
+	 */
+	private Record createCreditRatingRecord(PriceLevel oldPriceLevel) {
+		Record record = new Record(oldPriceLevel);
+		record.add("Name", oldPriceLevel.getName());
+		return record;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 *            ======= >>>>>>> .r9523
 	 * @return {@link Result}
 	 */
 	private Result salesPersonRequirement(Context context, ResultList list,
