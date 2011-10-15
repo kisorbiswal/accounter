@@ -299,11 +299,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		ResultList list = new ResultList("values");
-		String customerName = (String) get(CUSTOMER_NAME).getValue();
-		Record nameRecord = new Record(customerName);
-		nameRecord.add("Name", "customerName");
-		nameRecord.add("Value", customerName);
-		list.add(nameRecord);
 
 		Requirement contactReq = get(CUSTOMER_CONTACT);
 		Set<Contact> contacts = contactReq.getValue();
@@ -316,6 +311,31 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("values");
+
+		Requirement customerNameReq = get(CUSTOMER_NAME);
+		String name = (String) customerNameReq.getValue();
+
+		Requirement customerNumReq = get(NUMBER);
+		String num = (String) customerNumReq.getValue();
+
+		if (selection != null) {
+			if (selection == "customerName") {
+				context.setAttribute(INPUT_ATTR, CUSTOMER_NAME);
+				return text(context, "Enter Customer Name", name);
+			} else if (selection == "customerNumber") {
+				return number(context, NUMBER, num);
+			}
+		}
+
+		Record nameRecord = new Record("customerName");
+		nameRecord.add("", "Customer Name");
+		nameRecord.add("", name);
+		list.add(nameRecord);
+
+		Record numberRecord = new Record("customerNumber");
+		numberRecord.add("", "Customer Number");
+		numberRecord.add("", num);
+		list.add(numberRecord);
 
 		Requirement isActiveReq = get(IS_ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
@@ -485,467 +505,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		actions.add(finish);
 		result.add(actions);
 		return result;
-	}
-
-	/**
-	 * tin Num
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result tinNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(TIN_NUM);
-		String tinNumber = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(TIN_NUM)) {
-			String order = context.getSelection(TIN_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			tinNumber = order;
-			req.setValue(tinNumber);
-		}
-		if (selection != null)
-			if (selection == TIN_NUM) {
-				context.setAttribute(INPUT_ATTR, TIN_NUM);
-				return text(context, "Enter Taxpayer identification number",
-						tinNumber);
-			}
-
-		Record tinNumRecord = new Record(TIN_NUM);
-		tinNumRecord.add("Name", TIN_NUM);
-		tinNumRecord.add("Value", tinNumber);
-		list.add(tinNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * Service Tax Num
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result serviceTaxRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(SERVICE_TAX_NUM);
-		String serviceTaxNumber = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(SERVICE_TAX_NUM)) {
-			String order = context.getSelection(SERVICE_TAX_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			serviceTaxNumber = order;
-			req.setValue(serviceTaxNumber);
-		}
-		if (selection != null)
-			if (selection == SERVICE_TAX_NUM) {
-				context.setAttribute(INPUT_ATTR, SERVICE_TAX_NUM);
-				return text(context, "Enter Service tax registration Number ",
-						serviceTaxNumber);
-			}
-
-		Record serviceTaxRecord = new Record(SERVICE_TAX_NUM);
-		serviceTaxRecord.add("Name", SERVICE_TAX_NUM);
-		serviceTaxRecord.add("Value", serviceTaxNumber);
-		list.add(serviceTaxRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * CST Num
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result cstNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(CST_NUM);
-		String cstNum = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(CST_NUM)) {
-			String order = context.getSelection(CST_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			cstNum = order;
-			req.setValue(cstNum);
-		}
-		if (selection != null)
-			if (selection == CST_NUM) {
-				context.setAttribute(INPUT_ATTR, CST_NUM);
-				return text(context, "Enter CST Number ", cstNum);
-			}
-
-		Record cstNumRecord = new Record(CST_NUM);
-		cstNumRecord.add("Name", CST_NUM);
-		cstNumRecord.add("Value", cstNum);
-		list.add(cstNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * Pan NUmber
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result panNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(PAN_NUM);
-		String panNumber = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PAN_NUM)) {
-			String order = context.getSelection(PAN_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			panNumber = order;
-			req.setValue(panNumber);
-		}
-		if (selection != null)
-			if (selection == PAN_NUM) {
-				context.setAttribute(INPUT_ATTR, PAN_NUM);
-				return text(context, "Enter Personal Ledger number", panNumber);
-			}
-
-		Record panNumRecord = new Record(PAN_NUM);
-		panNumRecord.add("Name", PAN_NUM);
-		panNumRecord.add("Value", panNumber);
-		list.add(panNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result vatRegisterationNumRequirement(Context context,
-			ResultList list, Object selection) {
-
-		Requirement req = get(VATREGISTER_NUM);
-		String vatRegisterationNum = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(VATREGISTER_NUM)) {
-			String order = context.getSelection(VATREGISTER_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			vatRegisterationNum = order;
-			req.setValue(vatRegisterationNum);
-		}
-		if (selection != null)
-			if (selection == "vatRegisterationNum") {
-				context.setAttribute(INPUT_ATTR, VATREGISTER_NUM);
-				return text(context, "Enter vatRegisteration Number ",
-						vatRegisterationNum);
-			}
-
-		Record vatRegisterationNumRecord = new Record("vatRegisterationNum");
-		vatRegisterationNumRecord.add("Name", "vatRegisterationNum");
-		vatRegisterationNumRecord.add("Value", vatRegisterationNum);
-		list.add(vatRegisterationNumRecord);
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result bankBranchRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_BRANCH);
-		String bankBranch = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BANK_BRANCH)) {
-			String order = context.getSelection(BANK_BRANCH);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankBranch = order;
-			req.setValue(bankBranch);
-		}
-		if (selection != null)
-			if (selection == "bankBranch") {
-				context.setAttribute(INPUT_ATTR, BANK_BRANCH);
-				return text(context, "Enter bankBranch Name ", bankBranch);
-			}
-
-		Record bankBranchRecord = new Record("bankBranch");
-		bankBranchRecord.add("Name", "bankBranch");
-		bankBranchRecord.add("Value", bankBranch);
-		list.add(bankBranchRecord);
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result bankAccountNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_ACCOUNT_NUM);
-		String bankAccountNumber = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BANK_ACCOUNT_NUM)) {
-			String order = context.getSelection(BANK_ACCOUNT_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankAccountNumber = order;
-			req.setValue(bankAccountNumber);
-		}
-		if (selection != null)
-			if (selection == BANK_ACCOUNT_NUM) {
-				context.setAttribute(INPUT_ATTR, BANK_ACCOUNT_NUM);
-				return text(context, "Enter bankAccount Number ",
-						bankAccountNumber);
-			}
-
-		Record bankAccountNumRecord = new Record(BANK_ACCOUNT_NUM);
-		bankAccountNumRecord.add("Name", BANK_ACCOUNT_NUM);
-		bankAccountNumRecord.add("Value", bankAccountNumber);
-		list.add(bankAccountNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result bankNameRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_NAME);
-		String bankName = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BANK_NAME)) {
-			String order = context.getSelection(BANK_NAME);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankName = order;
-			req.setValue(bankName);
-		}
-		if (selection != null) {
-			if (selection == BANK_NAME) {
-				context.setAttribute(INPUT_ATTR, BANK_NAME);
-				return text(context, "Enter Bank Name ", bankName);
-			}
-		}
-		Record bankNameRecord = new Record(BANK_NAME);
-		bankNameRecord.add("Name", BANK_NAME);
-		bankNameRecord.add("Value", bankName);
-		list.add(bankNameRecord);
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result webAdressRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(WEBADRESS);
-		String webAdress = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(WEBADRESS)) {
-			String order = context.getSelection(WEBADRESS);
-			if (order == null) {
-				order = context.getString();
-			}
-			webAdress = order;
-			req.setValue(webAdress);
-		}
-		if (selection != null) {
-			if (selection == "webPageAdress") {
-				context.setAttribute(INPUT_ATTR, WEBADRESS);
-				return text(context, "Enter webPageAdress ", webAdress);
-			}
-		}
-		Record balanceRecord = new Record("webPageAdress");
-		balanceRecord.add("Name", "webPageAdress");
-		balanceRecord.add("Value", webAdress);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result emailRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(EMAIL);
-		String emailText = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(EMAIL)) {
-			String order = context.getSelection(EMAIL);
-			if (order == null) {
-				order = context.getString();
-			}
-			emailText = order;
-			req.setValue(emailText);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		if (selection != null) {
-			if (selection == "email") {
-				context.setAttribute(INPUT_ATTR, EMAIL);
-				return text(context, "Enter email ", emailText);
-			}
-		}
-		Record balanceRecord = new Record("email");
-		balanceRecord.add("Name", "email");
-		balanceRecord.add("Value", emailText);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result faxNumRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(FAX);
-		String faxNum = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(FAX)) {
-			String order = context.getSelection(FAX);
-			if (order == null) {
-				order = context.getString();
-			}
-			faxNum = order;
-			req.setValue(faxNum);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		if (selection != null) {
-			if (selection == "fax") {
-				context.setAttribute(INPUT_ATTR, FAX);
-				return text(context, "Enter Fax Number", faxNum);
-			}
-		}
-		Record balanceRecord = new Record("fax");
-		balanceRecord.add("Name", "fax");
-		balanceRecord.add("Value", faxNum);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result phoneNumRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(PHONE);
-		String phone = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PHONE)) {
-			String order = context.getSelection(PHONE);
-			if (order == null) {
-				order = context.getString();
-			}
-			phone = order;
-			req.setValue(phone);
-		}
-		if (selection != null) {
-			if (selection == PHONE) {
-				context.setAttribute(INPUT_ATTR, PHONE);
-				return text(context, "Enter Phone Number", phone);
-			}
-		}
-		Record balanceRecord = new Record(PHONE);
-		balanceRecord.add("Name", PHONE);
-		balanceRecord.add("Value", phone);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return null;
 	}
 
 	/**
@@ -1232,7 +791,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @param list
 	 * @param selection
-	 *            ======= >>>>>>> .r9523
 	 * @return {@link Result}
 	 */
 	private Result salesPersonRequirement(Context context, ResultList list,
