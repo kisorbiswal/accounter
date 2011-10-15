@@ -10,7 +10,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
@@ -229,7 +228,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		Record supplierRecord = new Record(supplier);
-		supplierRecord.add("Supplier Name", supplier.getName());
+		supplierRecord.add("", "Supplier Name");
+		supplierRecord.add("", supplier.getName());
 		list.add(supplierRecord);
 
 		Result result = dateRequirement(context, list, selection);
@@ -245,9 +245,10 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 					return taxCode(context, taxCode);
 				}
 				Record taxcodeRecord = new Record(taxCode);
-				taxcodeRecord.add("Tax Code Name", taxCode.getName());
-				taxcodeRecord.add("Purchase Tax Rate",
-						taxCode.getPurchaseTaxRate());
+				taxcodeRecord.add("", "Tax Code Name");
+				taxcodeRecord.add("", taxCode.getName());
+				taxcodeRecord.add("", "Purchase Tax Rate");
+				taxcodeRecord.add("", taxCode.getPurchaseTaxRate());
 				list.add(taxcodeRecord);
 			}
 		}
@@ -287,6 +288,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		result.add(items);
 
 		ResultList accountItems = new ResultList("accountItems");
+		result.add("Account Transaction Items:-");
 		for (TransactionItem item : accountTransItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("Name", item.getAccount().getName());
@@ -341,6 +343,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 	private void completeProcess(Context context) {
 		Company company = context.getCompany();
+		Session hibernateSession = context.getHibernateSession();
 		VendorCreditMemo vendorCreditMemo = new VendorCreditMemo();
 
 		Date date = get(DATE).getValue();
@@ -354,20 +357,6 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			items.addAll(accounts);
 		}
 
-		Session hibernateSession = context.getHibernateSession();
-		for (TransactionItem transactionItem : items) {
-			Item item = transactionItem.getItem();
-			if (item != null) {
-				item = (Item) hibernateSession.merge(item);
-				transactionItem.setItem(item);
-			}
-			Account account = transactionItem.getAccount();
-			if (account != null) {
-				account = (Account) hibernateSession.merge(account);
-				transactionItem.setAccount(account);
-			}
-		}
-
 		vendorCreditMemo.setTransactionItems(items);
 
 		Contact contact = get(CONTACT).getValue();
@@ -378,22 +367,18 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		// TODO Class
 		String phone = get(PHONE).getValue();
 		vendorCreditMemo.setPhone(phone);
-		CompanyPreferences preferences = context.getCompany().getPreferences();
+		CompanyPreferences preferences = company.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (TransactionItem item : items) {
 				item.setTaxCode(taxCode);
 			}
 		}
-		vendorCreditMemo.setCompany(company);
-		Vendor supplier = get(SUPPLIER).getValue();
-		Account account = supplier.getAccount();
-		if (account != null) {
-			account = (Account) hibernateSession.merge(account);
-			company.setAccountsPayableAccount(account);
-		}
-		vendorCreditMemo.setVendor(supplier);
 
+		Vendor supplier = get(SUPPLIER).getValue();
+		supplier = (Vendor) hibernateSession.merge(supplier);
+		vendorCreditMemo.setVendor(supplier);
+		vendorCreditMemo.setCompany(company);
 		String memo = get(MEMO).getValue();
 		vendorCreditMemo.setMemo(memo);
 		vendorCreditMemo.setTotal(getTransactionTotal(items, company));
