@@ -11,6 +11,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.IAccounterServerCore;
+
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
+
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
@@ -24,6 +30,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -1086,6 +1093,76 @@ public abstract class AbstractCommand extends Command {
 
 	protected AccounterMessages getMessages() {
 		return messages;
+	}
+
+	protected Result paymentTermsRequirement(Context context, ResultList list,
+			String paymentTerm, String string) {
+		Requirement paymentTermsReq = get("paymentTerm");
+		ClientPaymentTerms paymentTerms = context.getSelection("paymentTerm");
+
+		if (paymentTerms != null) {
+			paymentTermsReq.setValue(paymentTerms);
+		}
+
+		ClientPaymentTerms PaymentTerm = paymentTermsReq.getValue();
+		Object selection = context.getSelection("values");
+
+		if (!paymentTermsReq.isDone() || (PaymentTerm == selection)) {
+			return getPaymentTermsResult(context);
+		}
+
+		Record paymentTermsRecord = new Record(PaymentTerm);
+		paymentTermsRecord.add("", "PaymentTerms");
+		paymentTermsRecord.add("", paymentTerms.getName());
+		list.add(paymentTermsRecord);
+
+		return null;
+	}
+
+	private Result getPaymentTermsResult(Context context) {
+		Result result = context.makeResult();
+		ResultList paymentTermsList = new ResultList("paymentTerm");
+
+		Object last = context.getLast(RequirementType.PAYMENT_TERMS);
+		List<ClientPaymentTerms> skipPaymentTermList = new ArrayList<ClientPaymentTerms>();
+		if (last != null) {
+			paymentTermsList
+					.add(createPaymentTermRecord((ClientPaymentTerms) last));
+			skipPaymentTermList.add((ClientPaymentTerms) last);
+		}
+
+		List<ClientPaymentTerms> paymentTerms = getClientCompany()
+				.getPaymentsTerms();
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+		List<ClientPaymentTerms> pagination = pagination(context, selection,
+				actions, paymentTerms, skipPaymentTermList, VALUES_TO_SHOW);
+
+		for (ClientPaymentTerms terms : pagination) {
+			paymentTermsList.add(createPaymentTermRecord(terms));
+		}
+
+		int size = paymentTermsList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Please Select the PaymentTerm");
+		}
+
+		CommandList commandList = new CommandList();
+		commandList.add("create");
+
+		result.add(message.toString());
+		result.add(paymentTermsList);
+		result.add(commandList);
+		result.add("Select the Payment Term");
+
+		return result;
+	}
+
+	private Record createPaymentTermRecord(ClientPaymentTerms paymentTerm) {
+		Record record = new Record(paymentTerm);
+		record.add("Name", paymentTerm.getName());
+		return record;
 	}
 
 }
