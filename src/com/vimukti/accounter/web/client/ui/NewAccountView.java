@@ -495,7 +495,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 
-		mainVLay.add(cashBasisForm);
+		// mainVLay.add(cashBasisForm);
 
 		mainVLay.add(commentsForm);
 		// mainVLay.add(currency);
