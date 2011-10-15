@@ -46,7 +46,6 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 	private static final String IS_ACTIVE = "isActive";
 	private static final String SALES_ACCOUNTS = "salesAccounts";
 	private static final String VAT_RETURNS = "vatReturns";
-	private static final String PAYMENT_TERMS = "paymentTerms";
 	private static final String VAT_AGENCY_ADDRESS = "vatAgencyAddress";
 
 	@Override
@@ -101,20 +100,28 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 				}
 			}
 		}
+		Result makeResult = context.makeResult();
+		makeResult.add("VatAgency  is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
 
 		setOptionalValues();
 
-		result = nameRequirement(context);
+		result = nameRequirement(context, list, NAME, "Enter VatAgency Name");
 		if (result != null) {
 			return result;
 		}
 
-		result = paymentTermsRequirement(context);
+		result = paymentTermsRequirement(context, list, PAYMENT_TERM,
+				"Enter VatAgency Name");
 		if (result != null) {
 			return result;
 		}
 
-		result = salesAccountRequirement(context);
+		result = salesAccountRequirement(context, list, SALES_ACCOUNT,
+				"Enter VatAgency Name");
 		if (result != null) {
 			return result;
 		}
@@ -245,20 +252,20 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 
-		Requirement nameReq = get(NAME);
-		String name = (String) nameReq.getValue();
-		if (NAME == selection) {
-			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context,
-					getMessages().pleaseEnter(getConstants().taxAgency()), name);
-		}
+		// Requirement nameReq = get(NAME);
+		// String name = (String) nameReq.getValue();
+		// if (NAME == selection) {
+		// context.setAttribute(INPUT_ATTR, NAME);
+		// return text(context,
+		// getMessages().pleaseEnter(getConstants().taxAgency()), name);
+		// }
 
-		Requirement paymentTermReq = get(PAYMENT_TERM);
-		PaymentTerms paymentTerm = (PaymentTerms) paymentTermReq.getValue();
-		if (PAYMENT_TERM == selection) {
-			context.setAttribute(INPUT_ATTR, PAYMENT_TERM);
-			return getPaymentTermsResult(context);
-		}
+		// Requirement paymentTermReq = get(PAYMENT_TERM);
+		// PaymentTerms paymentTerm = (PaymentTerms) paymentTermReq.getValue();
+		// if (PAYMENT_TERM == selection) {
+		// context.setAttribute(INPUT_ATTR, PAYMENT_TERM);
+		// return getPaymentTermsResult(context);
+		// }
 
 		Requirement salesAccountReq = get(SALES_ACCOUNT);
 		Account salesAccount = (Account) salesAccountReq.getValue();
@@ -278,15 +285,15 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		ResultList list = new ResultList("values");
 
-		Record nameRecord = new Record(NAME);
-		nameRecord.add(INPUT_ATTR, "Name");
-		nameRecord.add("Value", name);
-		list.add(nameRecord);
-
-		Record paymentTermRecord = new Record(PAYMENT_TERM);
-		paymentTermRecord.add(INPUT_ATTR, "Payment Term");
-		paymentTermRecord.add("Value", paymentTerm.getName());
-		list.add(paymentTermRecord);
+		// Record nameRecord = new Record(NAME);
+		// nameRecord.add(INPUT_ATTR, "Name");
+		// nameRecord.add("Value", name);
+		// list.add(nameRecord);
+		//
+		// Record paymentTermRecord = new Record(PAYMENT_TERM);
+		// paymentTermRecord.add(INPUT_ATTR, "Payment Term");
+		// paymentTermRecord.add("Value", paymentTerm.getName());
+		// list.add(paymentTermRecord);
 
 		Record salesAccountRecord = new Record(SALES_ACCOUNT);
 		salesAccountRecord.add(INPUT_ATTR, "Sales Liability Account");
@@ -453,15 +460,23 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private Result salesAccountRequirement(Context context) {
-		Requirement salesAccountReq = get(SALES_ACCOUNT);
-		Account salesAccount = context.getSelection(SALES_ACCOUNTS);
+	private Result salesAccountRequirement(Context context, ResultList list,
+			String name, String dispalyString) {
+		Requirement salesAccountReq = get(name);
+		Account salesAccount = context.getSelection(name);
 		if (salesAccount != null) {
 			salesAccountReq.setValue(salesAccount);
 		}
-		if (!salesAccountReq.isDone()) {
+
+		Account account = salesAccountReq.getValue();
+		Object selection = context.getSelection("values");
+
+		if (!salesAccountReq.isDone() || (account == selection)) {
 			return getSalesAccountResult(context);
 		}
+		Record paymentTermsRecord = new Record(account);
+		paymentTermsRecord.add("", name);
+		paymentTermsRecord.add("", account.getName());
 		return null;
 	}
 
@@ -470,34 +485,62 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		ResultList salesAccountsList = new ResultList(SALES_ACCOUNTS);
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
+		List<Account> skipAccount = new ArrayList<Account>();
 		if (last != null) {
 			salesAccountsList.add(createAccountRecord((Account) last));
+			skipAccount.add((Account) last);
 		}
 
 		List<Account> salesAccounts = getVatAgencyAccounts(context);
-		for (int i = 0; i < VALUES_TO_SHOW && i < salesAccounts.size(); i++) {
-			Account salesAccount = salesAccounts.get(i);
-			if (salesAccount != last) {
-				salesAccountsList
-						.add(createAccountRecord((Account) salesAccount));
-			}
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<Account> pagination = pagination(context, selection, actions,
+				salesAccounts, skipAccount, VALUES_TO_SHOW);
+
+		for (Account account : pagination) {
+			salesAccountsList.add(createAccountRecord(account));
 		}
 
 		int size = salesAccountsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the Sales Liability Account");
+			message.append("Select a salesAcount");
 		}
-
 		CommandList commandList = new CommandList();
-		commandList.add("create");
+		commandList.add("Create New SaleAcount");
 
 		result.add(message.toString());
 		result.add(salesAccountsList);
+		result.add(actions);
 		result.add(commandList);
-		result.add("Select the Sales Liability Account");
-
 		return result;
+
+		// for (int i = 0; i < VALUES_TO_SHOW && i < salesAccounts.size(); i++)
+		// {
+		// Account salesAccount = salesAccounts.get(i);
+		// if (salesAccount != last) {
+		// salesAccountsList
+		// .add(createAccountRecord((Account) salesAccount));
+		// }
+		// }
+		//
+		// int size = salesAccountsList.size();
+		// StringBuilder message = new StringBuilder();
+		// if (size > 0) {
+		// message.append("Please Select the Sales Liability Account");
+		// }
+		//
+		// CommandList commandList = new CommandList();
+		// commandList.add("create");
+		//
+		// result.add(message.toString());
+		// result.add(salesAccountsList);
+		// result.add(commandList);
+		// result.add("Select the Sales Liability Account");
+		//
+		// return result;
 	}
 
 	private List<Account> getVatAgencyAccounts(Context context) {
@@ -571,64 +614,6 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		vatReturnList.add("VAT 3(Ireland)");
 
 		return vatReturnList;
-	}
-
-	private Result paymentTermsRequirement(Context context) {
-		Requirement paymentTermsReq = get(PAYMENT_TERM);
-		PaymentTerms paymentTerms = context.getSelection(PAYMENT_TERMS);
-		if (paymentTerms != null) {
-			paymentTermsReq.setValue(paymentTerms);
-		}
-		if (!paymentTermsReq.isDone()) {
-			return getPaymentTermsResult(context);
-		}
-		return null;
-	}
-
-	private Result getPaymentTermsResult(Context context) {
-		Result result = context.makeResult();
-		ResultList paymentTermsList = new ResultList(PAYMENT_TERMS);
-
-		Object last = context.getLast(RequirementType.PAYMENT_TERMS);
-		if (last != null) {
-			paymentTermsList.add(createPaymentTermRecord((PaymentTerms) last));
-		}
-
-		List<PaymentTerms> paymentTerms = getPaymentTerms(context);
-		for (int i = 0; i < VALUES_TO_SHOW && i < paymentTerms.size(); i++) {
-			PaymentTerms paymentTerm = paymentTerms.get(i);
-			if (paymentTerm != last) {
-				paymentTermsList
-						.add(createPaymentTermRecord((PaymentTerms) paymentTerm));
-			}
-		}
-
-		int size = paymentTermsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the PaymentTerm");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("create");
-
-		result.add(message.toString());
-		result.add(paymentTermsList);
-		result.add(commandList);
-		result.add("Select the Payment Term");
-
-		return result;
-	}
-
-	private List<PaymentTerms> getPaymentTerms(Context context) {
-		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
-		return new ArrayList<PaymentTerms>(paymentTerms);
-	}
-
-	private Record createPaymentTermRecord(PaymentTerms paymentTerm) {
-		Record record = new Record(paymentTerm);
-		record.add("Name", paymentTerm.getName());
-		return record;
 	}
 
 }
