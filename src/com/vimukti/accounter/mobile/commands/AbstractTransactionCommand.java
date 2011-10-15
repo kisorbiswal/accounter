@@ -1725,23 +1725,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	}
 
-	protected Result accountNumberRequirement(Context context) {
-		Requirement numberReq = get(ACCOUNT_NUMBER);
-		if (numberReq.isDone())
-			return null;
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ACCOUNT_NUMBER)) {
-			Integer num = context.getInteger();
-			if (num != null) {
-				numberReq.setValue(num);
-			}
-		} else {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
-			return number(context, "Please Enter the account number ", null);
-		}
-		return null;
-	}
-
 	protected List<TransactionIssuePayment> getIssuePaymentTransactionsList(
 			String paymentMethod, String accountName, Company company) {
 		return null;
