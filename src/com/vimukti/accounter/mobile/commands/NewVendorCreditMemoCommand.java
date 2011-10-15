@@ -252,7 +252,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				list.add(taxcodeRecord);
 			}
 		}
-		result = creditNoteNoRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, NUMBER,
+				"Enter Credit Note No");
 		if (result != null) {
 			return result;
 		}
@@ -262,7 +263,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = phoneRequirement(context, list, (String) selection);
+		result = stringOptionalRequirement(context, list, selection, PHONE,
+				"Enter Phone Number");
 		if (result != null) {
 			return result;
 		}
@@ -314,32 +316,32 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result creditNoteNoRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(NUMBER);
-		String creditnoteno = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ORDER_NO)) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getNumber();
-			}
-			creditnoteno = order;
-			req.setValue(creditnoteno);
-		}
-
-		if (selection == creditnoteno) {
-			context.setAttribute(INPUT_ATTR, ORDER_NO);
-			return number(context, "Enter Credit Note No", creditnoteno);
-		}
-
-		Record creditNoteNoRec = new Record(creditnoteno);
-		creditNoteNoRec.add("", "Credit Note No");
-		creditNoteNoRec.add("", creditnoteno);
-		list.add(creditNoteNoRec);
-		return null;
-	}
+	// private Result creditNoteNoRequirement(Context context, ResultList list,
+	// Object selection) {
+	// Requirement req = get(NUMBER);
+	// String creditnoteno = (String) req.getValue();
+	//
+	// String attribute = (String) context.getAttribute(INPUT_ATTR);
+	// if (attribute.equals(ORDER_NO)) {
+	// String order = context.getSelection(NUMBER);
+	// if (order == null) {
+	// order = context.getNumber();
+	// }
+	// creditnoteno = order;
+	// req.setValue(creditnoteno);
+	// }
+	//
+	// if (selection == creditnoteno) {
+	// context.setAttribute(INPUT_ATTR, ORDER_NO);
+	// return number(context, "Enter Credit Note No", creditnoteno);
+	// }
+	//
+	// Record creditNoteNoRec = new Record(creditnoteno);
+	// creditNoteNoRec.add("", "Credit Note No");
+	// creditNoteNoRec.add("", creditnoteno);
+	// list.add(creditNoteNoRec);
+	// return null;
+	// }
 
 	private void completeProcess(Context context) {
 		Company company = context.getCompany();
