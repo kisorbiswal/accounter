@@ -298,8 +298,6 @@ public class CashPurchaseView extends
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
-		totalForm.setFields(netAmount, vatTotalNonEditableText,
-				transactionTotalNonEditableText);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -324,6 +322,8 @@ public class CashPurchaseView extends
 		bottompanel.setWidth("100%");
 
 		if (isTrackTax() && isTrackPaidTax()) {
+			totalForm.setFields(netAmount, vatTotalNonEditableText,
+					transactionTotalNonEditableText);
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -357,11 +357,13 @@ public class CashPurchaseView extends
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			memoForm.setStyleName("align-form");
-			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.setWidth("100%");
-			vPanel.add(memoForm);
+			bottomLayout.add(memoForm);
+			
+			totalForm.setFields(
+					transactionTotalNonEditableText);
 
-			bottompanel.add(vPanel);
+			bottomLayout.add(totalForm);
+			bottompanel.add(bottomLayout);
 		}
 
 		VerticalPanel mainVLay = new VerticalPanel();

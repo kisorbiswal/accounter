@@ -274,15 +274,9 @@ public class VendorBillView extends
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (!(isInViewMode() && vendor.getID() == transaction.getVendor()))
 			setPaymentTermsCombo(vendor);
-		if (transaction.getID() == 0)
+		if (transaction.getID() == 0) {
 			getPurchaseOrdersAndItemReceipt();
-		long code = vendor.getTAXCode();
-		if (code == 0 && taxCodeSelect != null) {
-			code = Accounter.getCompany().getDefaultTaxCode();
-			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
-		vendorAccountTransactionTable.setTaxCode(code, false);
-		vendorItemTransactionTable.setTaxCode(code, false);
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		} else {

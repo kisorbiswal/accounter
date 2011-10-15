@@ -391,8 +391,8 @@ public class CustomerCreditMemoView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -690,11 +690,6 @@ public class CustomerCreditMemoView extends
 		this.setCustomer(customer);
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
-		}
-		long taxCode = customer.getTAXCode();
-		if (taxCode != 0) {
-			customerAccountTransactionTable.setTaxCode(taxCode, false);
-			customerItemTransactionTable.setTaxCode(taxCode, false);
 		}
 
 		this.addressListOfCustomer = customer.getAddress();

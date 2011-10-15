@@ -77,14 +77,6 @@ public class VendorCreditMemoView extends
 		else
 			phoneSelect.setValue("");
 		super.vendorSelected(vendor);
-		long code = vendor.getTAXCode();
-		if (code == 0 && taxCodeSelect != null) {
-			code = Accounter.getCompany().getDefaultTaxCode();
-			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
-		}
-		vendorAccountTransactionTable.setTaxCode(code, false);
-		vendorItemTransactionTable.setTaxCode(code, false);
-
 	}
 
 	@Override
@@ -104,7 +96,8 @@ public class VendorCreditMemoView extends
 						.getNetAmount()));
 				vatTotalNonEditableText
 						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTotal() - transaction.getNetAmount()));
+								.getTotal()
+								- transaction.getNetAmount()));
 			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
@@ -120,12 +113,12 @@ public class VendorCreditMemoView extends
 					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		super.initTransactionViewData();
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 
@@ -221,8 +214,8 @@ public class VendorCreditMemoView extends
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle()
-				.setMarginTop(10, Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
+				Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -287,8 +280,8 @@ public class VendorCreditMemoView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -323,7 +316,6 @@ public class VendorCreditMemoView extends
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		totalForm.addStyleName("boldtext");
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		leftVLay.add(vendorForm);
@@ -364,10 +356,14 @@ public class VendorCreditMemoView extends
 			bottomPanel.add(bottomLayout1);
 		} else {
 			memoForm.setStyleName("align-form");
-			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.setWidth("100%");
-			vPanel.add(memoForm);
-			bottomPanel.add(vPanel);
+			bottomLayout1.add(memoForm);
+			
+			totalForm.setFields(transactionTotalNonEditableText);
+
+			bottomLayout1.add(totalForm);
+
+			bottomPanel.add(bottomLayout1);
+
 		}
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -475,13 +471,13 @@ public class VendorCreditMemoView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

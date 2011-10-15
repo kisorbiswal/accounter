@@ -264,9 +264,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		shippingMethodSelected(company.getShippingMethod(customer
 				.getShippingMethod()));
-		if (isTrackTax()) {
-			taxCodeSelected(company.getTAXCode(customer.getTAXCode()));
-		}
 
 		priceLevelSelected(company.getPriceLevel(customer.getPriceLevel()));
 
@@ -279,12 +276,14 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
 		// if (transactionObject == null)
 		initAddressAndContacts();
-		long taxCodeID = customer.getTAXCode();
-		if (taxCodeID == 0)
-			taxCodeID = Accounter.getCompany().getDefaultTaxCode();
-		ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
-		if (taxCode != null) {
-			taxCodeSelected(taxCode);
+		if (isTrackTax()) {
+			long taxCodeID = customer.getTAXCode();
+			if (taxCodeID == 0)
+				taxCodeID = Accounter.getCompany().getDefaultTaxCode();
+			ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
+			if (taxCode != null) {
+				taxCodeSelected(taxCode);
+			}
 		}
 	}
 
@@ -376,12 +375,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		clientContacts.addAll(selectedCutomer.getContacts());
 		for (int j = 0; j < clientContacts.size(); j++) {
 			if (clientContacts.get(j).getTitle().equals(contact.getTitle())
-					&& clientContacts.get(j).getEmail()
-							.equals(contact.getEmail())
-					&& clientContacts.get(j).getDisplayName()
-							.equals(contact.getDisplayName())
-					&& clientContacts.get(j).getBusinessPhone()
-							.equals(contact.getBusinessPhone())) {
+					&& clientContacts.get(j).getEmail().equals(
+							contact.getEmail())
+					&& clientContacts.get(j).getDisplayName().equals(
+							contact.getDisplayName())
+					&& clientContacts.get(j).getBusinessPhone().equals(
+							contact.getBusinessPhone())) {
 				Accounter.showError(Accounter.constants()
 						.youHaveEnteredduplicateContacts());
 				return;
@@ -784,8 +783,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
@@ -942,10 +941,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		long defaultTax = getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-				.getTAXCode() > 0 ? getCustomer().getTAXCode() : defaultTax)
-				: defaultTax);
+		if (isTrackTax()) {
+			long defaultTax = getPreferences().getDefaultTaxCode();
+			transactionItem
+					.setTaxCode(getCustomer() != null ? (getCustomer()
+							.getTAXCode() > 0 ? getCustomer().getTAXCode()
+							: defaultTax) : defaultTax);
+		}
 		// if (zvatCodeid != null)
 		// transactionItem.setVatCode(zvatCodeid);
 
