@@ -927,7 +927,7 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+		customerAccountTransactionTable.updateAmountsFromGUI();
+		customerItemTransactionTable.updateAmountsFromGUI();
 	}
 }

@@ -90,9 +90,8 @@ public class JournalEntryView extends
 		for (ClientEntry entry : allEntries) {
 			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
 				if (entry.getDebit() == 0 && entry.getCredit() == 0) {
-					result.addError(
-							this,
-							Accounter.messages().valueCannotBe0orlessthan0(
+					result.addError(this, Accounter.messages()
+							.valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				}
 			}
@@ -111,8 +110,8 @@ public class JournalEntryView extends
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
@@ -260,8 +259,8 @@ public class JournalEntryView extends
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(transaction);
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
-				grid.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
+				.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -599,7 +598,5 @@ public class JournalEntryView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
 	}
 }

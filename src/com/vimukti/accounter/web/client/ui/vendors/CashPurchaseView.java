@@ -358,9 +358,8 @@ public class CashPurchaseView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
-			
-			totalForm.setFields(
-					transactionTotalNonEditableText);
+
+			totalForm.setFields(transactionTotalNonEditableText);
 
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
@@ -523,12 +522,12 @@ public class CashPurchaseView extends
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 
@@ -941,8 +940,8 @@ public class CashPurchaseView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+		vendorAccountTransactionTable.updateAmountsFromGUI();
+		vendorItemTransactionTable.updateAmountsFromGUI();
 	}
 
 }

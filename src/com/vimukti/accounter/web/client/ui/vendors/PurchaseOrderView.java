@@ -1399,8 +1399,8 @@ public class PurchaseOrderView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+		vendorItemTransactionTable.updateAmountsFromGUI();
+		vendorAccountTransactionTable.updateAmountsFromGUI();
 	}
 
 }

@@ -309,7 +309,8 @@ public class PaySalesTaxView extends
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance() : 0D;
+								.getTotalBalance()
+								: 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -430,10 +431,10 @@ public class PaySalesTaxView extends
 			List<ClientPaySalesTaxEntries> entrylist) {
 		List<ClientPaySalesTaxEntries> filterlist = new ArrayList<ClientPaySalesTaxEntries>();
 		ClientFinanceDate transactionDate;
-		ClientFinanceDate firstDate = new ClientFinanceDate(
-				fillterdate.getYear(), fillterdate.getMonth() - 1, 01);
-		ClientFinanceDate lastDate = new ClientFinanceDate(
-				fillterdate.getYear(), fillterdate.getMonth(), 01);
+		ClientFinanceDate firstDate = new ClientFinanceDate(fillterdate
+				.getYear(), fillterdate.getMonth() - 1, 01);
+		ClientFinanceDate lastDate = new ClientFinanceDate(fillterdate
+				.getYear(), fillterdate.getMonth(), 01);
 		for (ClientPaySalesTaxEntries entry : entrylist) {
 			transactionDate = new ClientFinanceDate(entry.getTransactionDate());
 			if (isAfterDate(transactionDate, firstDate)
@@ -519,8 +520,8 @@ public class PaySalesTaxView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(filterForm.validate());
 		if (grid == null || grid.getRecords().isEmpty()) {
@@ -530,8 +531,8 @@ public class PaySalesTaxView extends
 			result.add(grid.validateGrid());
 
 			if (AccounterValidator.isZeroAmount(totalAmount)) {
-				result.addError(amountText,
-						accounterMessages.shouldNotbeZero(amountText.getName()));
+				result.addError(amountText, accounterMessages
+						.shouldNotbeZero(amountText.getName()));
 			} else if (AccounterValidator.isNegativeAmount(totalAmount)) {
 				result.addError(amountText, accounterMessages
 						.shouldBePositive(amountText.getName()));
@@ -672,7 +673,6 @@ public class PaySalesTaxView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+
 	}
 }

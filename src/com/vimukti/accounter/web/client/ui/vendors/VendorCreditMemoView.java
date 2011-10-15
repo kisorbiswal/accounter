@@ -357,7 +357,7 @@ public class VendorCreditMemoView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout1.add(memoForm);
-			
+
 			totalForm.setFields(transactionTotalNonEditableText);
 
 			bottomLayout1.add(totalForm);
@@ -691,8 +691,8 @@ public class VendorCreditMemoView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+		vendorAccountTransactionTable.updateAmountsFromGUI();
+		vendorItemTransactionTable.updateAmountsFromGUI();
 	}
 
 }
