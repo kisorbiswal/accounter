@@ -58,15 +58,12 @@ public class NewCustomerPaymentView extends
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, customerBalText;
 	protected double enteredBalance;
-	private DynamicForm custForm;
 	private DynamicForm payForm;
 	Double toBeSetEndingBalance;
 	Double toBeSetCustomerBalance;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
 			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
-
-	private CheckboxItem thisisVATinclusive;
 
 	private ArrayList<DynamicForm> listforms;
 	protected String checkNumber = null;
@@ -100,21 +97,10 @@ public class NewCustomerPaymentView extends
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		// Validations
-		// 1. isValidTransactionDate?
-		// 2. isInPreventPostingBeforeDate?
-		// 3. payForm.validate?
-		// 4. isNegativeAmount?
-
-		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
-		// {
-		// result.addError(transactionDateItem,
-		// accounterConstants.invalidateTransactionDate());
-		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(payForm.validate());
@@ -144,8 +130,6 @@ public class NewCustomerPaymentView extends
 		endBalText.setAmount(getAmountInTransactionCurrency(0D));
 		customerBalText.setAmount(getAmountInTransactionCurrency(0D));
 		memoTextAreaItem.setValue("");
-		// refText.setValue("");
-
 	}
 
 	protected void updateTransaction() {
@@ -167,23 +151,17 @@ public class NewCustomerPaymentView extends
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 			String value;
-			if (checkNo.getValue().toString()
-					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+			if (checkNo.getValue().toString().equalsIgnoreCase(
+					Accounter.constants().toBePrinted())) {
 				value = String.valueOf(Accounter.constants().toBePrinted());
 			} else {
 				value = String.valueOf(checkNo.getValue());
 			}
 			transaction.setCheckNumber(value);
-			// transaction.setCheckNumber(checkNo.getValue().toString()
-			// .equalsIgnoreCase(
-			// FinanceApplication.constants()
-			// .toBePrinted()) ? null
-			// : getCheckNoValue());
 		} else {
 			transaction.setCheckNumber("");
 
 		}
-		// transaction.setToBePrinted(isChecked);
 		if (transaction.getID() != 0)
 
 			printCheck.setValue(transaction.isToBePrinted());
@@ -193,15 +171,11 @@ public class NewCustomerPaymentView extends
 		if (transactionDate != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 		transaction.setMemo(getMemoTextAreaItem());
-		// transaction.setReference(getRefText());
 
 		if (toBeSetEndingBalance != null)
 			transaction.setEndingBalance(toBeSetEndingBalance);
 		if (toBeSetCustomerBalance != null)
 			transaction.setCustomerBalance(toBeSetCustomerBalance);
-
-		// if (amountText.getAmount() != null)
-		// transaction.setUnusedAmount(amountText.getAmount());
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 
@@ -221,8 +195,6 @@ public class NewCustomerPaymentView extends
 			this.billingAddress = transaction.getAddress();
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
-			// accountSelected(comapny.getAccount(customerPrePaymentToBeEdited
-			// .getDepositIn()));
 			amountText.setDisabled(true);
 			amountText.setAmount(getAmountInTransactionCurrency(transaction
 					.getTotal()));
@@ -256,11 +228,6 @@ public class NewCustomerPaymentView extends
 				}
 			}
 		}
-		// else if (customerPrePaymentToBeEdited.getCheckNumber() == null) {
-		// checkNo.setValue(FinanceApplication.constants()
-		// .toBePrinted());
-		// printCheck.setValue(true);
-		// }
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
@@ -310,8 +277,7 @@ public class NewCustomerPaymentView extends
 				toBeSetCustomerBalance = getCustomer().getBalance()
 						- enteredBalance;
 			}
-			customerBalText
-					.setAmount(getAmountInTransactionCurrency(toBeSetCustomerBalance));
+			customerBalText.setAmount(toBeSetCustomerBalance);
 
 		}
 		if (depositInAccount != null) {
@@ -330,8 +296,7 @@ public class NewCustomerPaymentView extends
 				toBeSetEndingBalance = toBeSetEndingBalance
 						- transaction.getTotal();
 			}
-			endBalText
-					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
+			endBalText.setAmount(toBeSetEndingBalance);
 
 		}
 	}
@@ -434,10 +399,6 @@ public class NewCustomerPaymentView extends
 		amountText.addBlurHandler(getBlurHandler());
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		// paymentMethodCombo.setWidth(100);
-		// paymentMethodCombo.setDefaultValue(UIUtils
-		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
-		// .constants().check()));
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
 						.check()));
@@ -449,8 +410,8 @@ public class NewCustomerPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -458,8 +419,9 @@ public class NewCustomerPaymentView extends
 							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (isInViewMode()) {
-							checkNo.setValue(((ClientCustomerPrePayment) transaction)
-									.getCheckNumber());
+							checkNo
+									.setValue(((ClientCustomerPrePayment) transaction)
+											.getCheckNumber());
 						}
 					}
 				} else
@@ -493,7 +455,8 @@ public class NewCustomerPaymentView extends
 				memoTextAreaItem);
 		// memo and Reference
 		double amount = depositInCombo.getSelectedValue() != null ? depositInCombo
-				.getSelectedValue().getCurrentBalance() : 0.00;
+				.getSelectedValue().getCurrentBalance()
+				: 0.00;
 		endBalText.setAmount(getAmountInTransactionCurrency(amount));
 
 		payForm.setCellSpacing(5);
@@ -526,12 +489,6 @@ public class NewCustomerPaymentView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);
-
-//		if (UIUtils.isMSIEBrowser()) {
-//			payForm.getCellFormatter().setWidth(0, 1, "300px");
-//			payForm.setWidth("75%");
-//			balForm.getCellFormatter().setWidth(0, 1, "150px");
-//		}
 
 		this.add(mainVLay);
 
@@ -568,9 +525,10 @@ public class NewCustomerPaymentView extends
 	}
 
 	private TextItem createCheckNumberItm() {
-		TextItem checkNoTextItem = new TextItem(
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()) + " " + "No");
+		TextItem checkNoTextItem = new TextItem(UIUtils
+				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+						.check())
+				+ " " + "No");
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}
@@ -654,9 +612,6 @@ public class NewCustomerPaymentView extends
 			return;
 		this.setCustomer(customer);
 		if (customer != null && customerCombo != null) {
-			// AGAIN Search for ClientCustomer by customerId.
-			// customerCombo.setComboItem(getCompany().getCustomer(
-			// customer.getID()));
 			customerCombo.setComboItem(customer);
 		}
 		this.addressListOfCustomer = customer.getAddress();
@@ -859,8 +814,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
-		
+		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
 	}
 
 }
