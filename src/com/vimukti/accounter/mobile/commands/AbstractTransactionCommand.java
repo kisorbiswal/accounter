@@ -217,6 +217,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			} else if (lineAttr.equals("taxCode")) {
 				TAXCode taxCode = context.getSelection(TAXCODE);
 				transactionItem.setTaxCode(taxCode);
+			} else if (lineAttr.equals("description")) {
+				transactionItem.setDescription(context.getString());
 			}
 		} else {
 			Object selection = context.getSelection(ITEM_DETAILS);
@@ -238,6 +240,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 					return taxCode(context, transactionItem.getTaxCode());
 				} else if (selection.equals("tax")) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
+				} else if (selection.equals("description")) {
+					context.setAttribute(ITEM_PROPERTY_ATTR, "description");
+					return number(context, "Enter Description",
+							transactionItem.getDescription());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
@@ -263,7 +269,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				}
 			}
 		}
-
 		ResultList list = new ResultList(ITEM_DETAILS);
 		Record record = new Record("quantity");
 		record.add("", "Quantity");
@@ -300,6 +305,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 			list.add(record);
 		}
+
+		record = new Record("description");
+		record.add("", "Description");
+		record.add("", transactionItem.getDescription());
+		list.add(record);
 
 		Result result = context.makeResult();
 		result.add("Item details");
@@ -353,6 +363,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			} else if (lineAttr.equals("taxCode")) {
 				TAXCode taxCode = context.getSelection(TAXCODE);
 				transactionItem.setTaxCode(taxCode);
+			} else if (lineAttr.equals("description")) {
+				transactionItem.setDescription(context.getString());
 			}
 		} else {
 			Object selection = context.getSelection(ACCOUNT_ITEM_DETAILS);
@@ -370,6 +382,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 					return taxCode(context, transactionItem.getTaxCode());
 				} else if (selection.equals("tax")) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
+				} else if (selection.equals("description")) {
+					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR,
+							"description");
+					return number(context, "Enter Description",
+							transactionItem.getDescription());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
@@ -429,6 +446,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 			list.add(record);
 		}
+
+		record = new Record("description");
+		record.add("", "Description");
+		record.add("", transactionItem.getDescription());
+		list.add(record);
+
 		// TODO NEED TO CALCULATE LINE TOTAL
 		double lineTotal = transactionItem.getUnitPrice()
 				- ((transactionItem.getUnitPrice() * transactionItem
