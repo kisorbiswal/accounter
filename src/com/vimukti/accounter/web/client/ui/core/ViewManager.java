@@ -82,7 +82,7 @@ public class ViewManager extends HorizontalPanel {
 		addStyleName("view_manager");
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.addStyleName("view_manager_body");
-		leftPanel.setWidth("100%");
+		//leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
 		viewHolder.addStyleName("viewholder");
 
