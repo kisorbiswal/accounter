@@ -90,11 +90,11 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		}
 		Result makeResult = context.makeResult();
 		makeResult
-				.add("Credit Card Memo  is ready to create with following values.");
+				.add("Credit Card Expense  is ready to create with following values.");
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+		setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 		result = createSupplierRequirement(context, list, SUPPLIER);
 		if (result != null) {
 			return result;
@@ -185,7 +185,7 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		Date date = get(DATE).getValue();
 		creditCardCharge.setDate(new FinanceDate(date).getDate());
 
-		creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+		creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 
 		String number = get(NUMBER).getValue();
 		creditCardCharge.setNumber(number);
