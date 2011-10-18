@@ -921,43 +921,43 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected Result accounts(Context context, String name,
-			ListFilter<ClientAccount> listFilter) {
-		Result result = context.makeResult();
-		ResultList list = new ResultList(name);
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		int num = 0;
-		if (last != null) {
-			list.add(createAccountRecord((ClientAccount) last));
-			num++;
-		}
-		ArrayList<ClientAccount> transferAccountList = getAccounts(listFilter);
-		if (!transferAccountList.isEmpty())
-			result.add("Select an Account.");
-		if (!transferAccountList.isEmpty()) {
-			for (ClientAccount account : transferAccountList) {
-				if (account != last) {
-					list.add(createAccountRecord(account));
-					num++;
-				}
-				if (num == ACCOUNTS_TO_SHOW) {
-					break;
-				}
-			}
-		}
-
-		CommandList commands = new CommandList();
-		commands.add("Create New Account");
-		if (list.size() > 5) {
-			Record moreAccounts = new Record("More Accounts");
-			moreAccounts.add("", "MORE ACCOUNTS");
-			list.add(moreAccounts);
-		}
-		result.add(list);
-		result.add(commands);
-		return result;
-	}
+	// private Result accounts(Context context, String name,
+	// ListFilter<ClientAccount> listFilter) {
+	// Result result = context.makeResult();
+	// ResultList list = new ResultList(name);
+	//
+	// Object last = context.getLast(RequirementType.ACCOUNT);
+	// int num = 0;
+	// if (last != null) {
+	// list.add(createAccountRecord((ClientAccount) last));
+	// num++;
+	// }
+	// ArrayList<ClientAccount> transferAccountList = getAccounts(listFilter);
+	// if (!transferAccountList.isEmpty())
+	// result.add("Select an Account.");
+	// if (!transferAccountList.isEmpty()) {
+	// for (ClientAccount account : transferAccountList) {
+	// if (account != last) {
+	// list.add(createAccountRecord(account));
+	// num++;
+	// }
+	// if (num == ACCOUNTS_TO_SHOW) {
+	// break;
+	// }
+	// }
+	// }
+	//
+	// CommandList commands = new CommandList();
+	// commands.add("Create New Account");
+	// if (list.size() > 5) {
+	// Record moreAccounts = new Record("More Accounts");
+	// moreAccounts.add("", "MORE ACCOUNTS");
+	// list.add(moreAccounts);
+	// }
+	// result.add(list);
+	// result.add(commands);
+	// return result;
+	// }
 
 	private ArrayList<ClientAccount> getAccounts(
 			ListFilter<ClientAccount> listFilter) {

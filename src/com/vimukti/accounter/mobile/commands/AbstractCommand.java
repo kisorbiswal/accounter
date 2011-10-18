@@ -1472,12 +1472,13 @@ public abstract class AbstractCommand extends Command {
 
 		Object accountObj = context.getSelection(reqName);
 		Requirement accountReq = get(reqName);
-		String account = (String) accountReq.getValue();
 
 		if (accountObj != null) {
-			account = (String) accountObj;
-			accountReq.setValue(account);
+			accountReq.setValue(accountObj);
 		}
+
+		ClientAccount account = accountReq.getValue();
+
 		if (selection != null)
 			if (selection == reqName) {
 				context.setAttribute(INPUT_ATTR, reqName);
@@ -1499,7 +1500,7 @@ public abstract class AbstractCommand extends Command {
 	 * @param oldAccount
 	 * @return
 	 */
-	private Result account(Context context, String oldAccount) {
+	private Result account(Context context, ClientAccount oldAccount) {
 		Result result = context.makeResult();
 		result.add("Select Account");
 		Object last = context.getLast(RequirementType.ACCOUNT);

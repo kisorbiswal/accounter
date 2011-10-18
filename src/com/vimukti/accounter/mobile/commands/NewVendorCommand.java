@@ -366,7 +366,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountsOptionalRequirement(context, list, (String) selection, ACCOUNT);
+		result = accountsOptionalRequirement(context, list, selection, ACCOUNT);
 		if (result != null) {
 			return result;
 		}
