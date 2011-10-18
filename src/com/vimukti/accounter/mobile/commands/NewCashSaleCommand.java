@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -133,7 +134,16 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = depositeOrTransferTo(context, "depositOrTransferTo");
+		result = accountRequirement(context, list, "depositOrTransferTo",
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount account) {
+						return Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+								.contains(account.getType());
+					}
+				});
 		if (result != null) {
 			return result;
 		}
