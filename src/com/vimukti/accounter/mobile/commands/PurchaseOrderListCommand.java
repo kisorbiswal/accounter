@@ -114,7 +114,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Create New Purchase Order");
+		commandList.add("Add PurchaseOrder Command");
 		result.add(commandList);
 
 		return result;
