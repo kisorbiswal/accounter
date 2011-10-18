@@ -7,12 +7,11 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:VerticalPanel horizontalAlignment="ALIGN_CENTER"
-			width="436" height="186">
-			<g:Grid width="195" height="56" cellPadding="5" cellSpacing="10">
+		<g:VerticalPanel horizontalAlignment="ALIGN_CENTER">
+			<g:Grid cellPadding="5" cellSpacing="10">
 				<g:row>
 					<g:customCell>
-						<g:Label ui:field="companyEmailHeaderLabel" styleName="header" />
+						<g:Label ui:field="companyEmailHeaderLabel" />
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="companyEmailTextBox" />
