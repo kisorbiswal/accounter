@@ -69,6 +69,11 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 				if (result != null) {
 					return result;
 				}
+			} else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
+				result = transactionAccountProcess(context);
+				if (result != null) {
+					return result;
+				}
 			}
 		}
 
@@ -100,8 +105,6 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		Object selection = context.getSelection("values");
-
 		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
 		if (result != null) {
 			return result;
