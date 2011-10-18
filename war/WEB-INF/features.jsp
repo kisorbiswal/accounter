@@ -4,13 +4,12 @@
 <head>
 <title>Features | Accounter
 </title>
-<meta content="IE=100" http-equiv="X-UA-Compatible">
-
+<meta content="IE=100" http-equiv="X-UA-Compatible" />
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="../css/vertical-tabs-styles.css?version=<%= version%>">
+<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../css/vertical-tabs-styles.css?version=<%= version%>" />
 <script type="text/javascript" src="/jscripts/vertical-tabs-script.js"></script>
 
 <script type="text/javascript">
@@ -43,7 +42,7 @@
 			<div class="menu-table">
 			   <div class="acc_logo_image">
 			       <div class="logo-image">
-					  <a href="/"><img src="/images/Accounter_logo_title.png"></a>
+					  <a href="/"><img src="/images/Accounter_logo_title.png" alt="Accounter logo" /></a>
 				   </div>
 			   </div>
 			   <div class="menu-bar-login">
@@ -76,10 +75,10 @@
 				<div class="left-side-table" id="mid-left">
 					<div class="left-side-options">
 					  <ul  class="tabContainer">
-				
+				<li>
 	    <!-- The jQuery generated tabs go here -->
 
-		</ul>			
+		</li></ul>			
 					
 					
 				</div>
