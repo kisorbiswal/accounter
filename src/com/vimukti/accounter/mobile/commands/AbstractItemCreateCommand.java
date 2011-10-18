@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
@@ -92,7 +93,29 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 		Boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
-			result = accountRequirement(context, list, INCOME_ACCOUNT);
+			result = accountRequirement(context, list, INCOME_ACCOUNT,
+					new ListFilter<ClientAccount>() {
+
+						@Override
+						public boolean filter(ClientAccount e) {
+							if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+									&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+									&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+									&& e.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
+									&& e.getType() != ClientAccount.TYPE_OTHER_EXPENSE
+									&& e.getType() != ClientAccount.TYPE_EXPENSE
+									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+									&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
+									&& e.getType() != ClientAccount.TYPE_CASH
+									&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
+									&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
+									&& e.getType() != ClientAccount.TYPE_EQUITY) {
+								return true;
+							}
+							return false;
+						}
+					});
 			if (result != null) {
 				return result;
 			}
@@ -113,7 +136,27 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
-			result = accountRequirement(context, list, EXPENSE_ACCOUNT);
+			result = accountRequirement(context, list, EXPENSE_ACCOUNT,
+					new ListFilter<ClientAccount>() {
+
+						@Override
+						public boolean filter(ClientAccount e) {
+							if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+									&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+									&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+									&& e.getType() != ClientAccount.TYPE_INCOME
+									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+									&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
+									&& e.getType() != ClientAccount.TYPE_CASH
+									&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
+									&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
+									&& e.getType() != ClientAccount.TYPE_EQUITY) {
+								return true;
+							}
+							return false;
+						}
+					});
 			if (result != null) {
 				return result;
 			}
