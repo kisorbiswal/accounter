@@ -38,6 +38,13 @@ public class Estimate extends Transaction {
 	Address address;
 
 	/**
+	 * The Shipping Address of the Selected Customer
+	 * 
+	 * @see Address
+	 */
+	Address shippingAdress;
+
+	/**
 	 * This defaults to the chosen Customer's primary contact Business Phone
 	 * number.
 	 * 
@@ -108,6 +115,17 @@ public class Estimate extends Transaction {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	/**
+	 * @return the shippingAdress
+	 */
+	public Address getShippingAdress() {
+		return shippingAdress;
+	}
+
+	public void setShippingAdress(Address shippingAdress) {
+		this.shippingAdress = shippingAdress;
 	}
 
 	public void setPhone(String phone) {

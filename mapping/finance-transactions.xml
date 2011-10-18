@@ -417,6 +417,17 @@
 				<property name="countryOrRegion" column="ESTIMATE_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="ESTIMATE_ADDRESS_IS_SELECTED"></property>
 			</component>
+			<component name="shippingAdress" class="Address" lazy="false">
+				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
+				<property name="address1" column="SHIPPING_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
+			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">

@@ -19,6 +19,8 @@ public class ClientEstimate extends ClientTransaction {
 
 	ClientAddress address;
 
+	private ClientAddress shippingAdress;
+
 	String phone;
 
 	long salesPerson;
@@ -197,6 +199,21 @@ public class ClientEstimate extends ClientTransaction {
 		this.isTurnedToInvoice = isTurnedToInvoice;
 	}
 
+	/**
+	 * @return the shippingAdress
+	 */
+	public ClientAddress getShippingAdress() {
+		return shippingAdress;
+	}
+
+	/**
+	 * @param shippingAdress
+	 *            the shippingAdress to set
+	 */
+	public void setShippingAdress(ClientAddress shippingAdress) {
+		this.shippingAdress = shippingAdress;
+	}
+
 	@Override
 	public String getDisplayName() {
 		return getName();
@@ -268,6 +285,8 @@ public class ClientEstimate extends ClientTransaction {
 		ClientEstimate clientEstimateClone = (ClientEstimate) this.clone();
 		clientEstimateClone.address = this.address.clone();
 		clientEstimateClone.contact = this.contact.clone();
+		clientEstimateClone.shippingAdress = this.shippingAdress.clone();
 		return clientEstimateClone;
 	}
+
 }

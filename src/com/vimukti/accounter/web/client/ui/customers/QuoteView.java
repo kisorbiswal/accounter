@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -36,7 +37,9 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
@@ -72,6 +75,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			vatTotalNonEditableText, salesTaxTextNonEditable;
 	private Double salesTax;
+	private ShipToForm shipToAddress;
 
 	public QuoteView() {
 		super(ClientTransaction.TYPE_ESTIMATE);
@@ -141,6 +145,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		} else
 			billToTextArea.setValue("");
+
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		addresses.addAll(customer.getAddress());
+		shipToAddress.setAddress(addresses);
 
 		this.setCustomer(customer);
 		if (customer != null) {
@@ -238,6 +246,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (billingAddress != null)
 			quote.setAddress(billingAddress);
 
+		if (shippingAddress != null) {
+			quote.setShippingAdress(shippingAddress);
+		}
 		// quote.setReference(this.refText.getValue() != null ? this.refText
 		// .getValue().toString() : "");
 		quote.setPaymentTerm(Utility.getID(paymentTerm));
@@ -313,6 +324,33 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		billToTextArea.setTitle(Accounter.constants().billTo());
 		billToTextArea.setDisabled(true);
 
+		shipToCombo = createShipToComboItem();
+
+		shipToCombo.setHelpInformation(true);
+
+		shipToAddress = new ShipToForm(null);
+		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
+		shipToAddress.businessSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						shippingAddress = shipToAddress.getAddress();
+						if (shippingAddress != null)
+							shipToAddress.setAddres(shippingAddress);
+						else
+							shipToAddress.addrArea.setValue("");
+					}
+				});
+
+		if (transaction != null)
+			shipToAddress.setDisabled(true);
+
 		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
 				this.getAction().getCatagory()));
@@ -358,8 +396,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -471,7 +509,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
 
 		leftVLay.add(custForm);
-
+		if (getCompany().getPreferences().isDoProductShipMents())
+			leftVLay.add(shipToAddress);
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_CENTER);
@@ -770,8 +809,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()
@@ -786,8 +825,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
