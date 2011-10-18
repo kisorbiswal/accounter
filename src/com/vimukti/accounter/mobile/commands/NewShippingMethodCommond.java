@@ -35,7 +35,7 @@ public class NewShippingMethodCommond extends AbstractCommand {
 
 		ResultList list = new ResultList("values");
 
-		result = shppingMethodRequirment(context);
+		result = shppingMethodRequirment(context, list, (String) selection);
 		if (result != null) {
 			return result;
 		}
@@ -91,21 +91,34 @@ public class NewShippingMethodCommond extends AbstractCommand {
 		create(shippingMethod, context);
 	}
 
-	private Result shppingMethodRequirment(Context context) {
-		Requirement requirement = get(SHIPPING_METHOD);
-		String customerName = context.getSelection(TEXT);
-		if (!requirement.isDone()) {
-			if (customerName != null) {
-				requirement.setValue(customerName);
-			} else {
-				return text(context, "Please enter the  Shipping Method", null);
+	private Result shppingMethodRequirment(Context context, ResultList list,
+			String selection) {
+		Requirement req = get(SHIPPING_METHOD);
+		String shippingMethod = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute != null) {
+			if (attribute.equals(SHIPPING_METHOD)) {
+				String order = context.getSelection(NUMBER);
+				if (order == null) {
+					order = context.getString();
+				}
+				shippingMethod = order;
+				req.setValue(shippingMethod);
 			}
 		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(SHIPPING_METHOD)) {
-			requirement.setValue(input);
+
+		if (selection == shippingMethod) {
+			context.setAttribute(INPUT_ATTR, SHIPPING_METHOD);
+			return number(context, "Enter Shipping Method", shippingMethod);
 		}
+
+		Record invoiceNoRec = new Record(shippingMethod);
+		invoiceNoRec.add("Name", "Invoice Number");
+		invoiceNoRec.add("Value", shippingMethod);
+		list.add(invoiceNoRec);
 		return null;
+
 	}
 
 }
