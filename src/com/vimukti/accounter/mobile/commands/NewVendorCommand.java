@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -226,7 +224,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		vendor.setContacts(contacts);
 		vendor.setBalance(balance);
 		vendor.setBalanceAsOf(balancedate.getTime());
-		vendor.setCreatedDate(customerSincedate.getTime());
 		vendor.setAddress(new HashSet<ClientAddress>(adress));
 		vendor.setPhoneNo(phoneNum);
 		vendor.setFaxNo(faxNum);
