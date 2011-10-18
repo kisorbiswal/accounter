@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewMakeDepositCommond extends AbstractTransactionCommand {
@@ -50,8 +51,9 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+		setDefaultValues();
 		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
+		Result result = context.makeResult();
 		if (process != null) {
 			if (process.equals(DEPOSITE_TRANSACTION_PROCESS)) {
 				result = depositTransactionProcess(context);
@@ -60,7 +62,21 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 				}
 			}
 		}
-		result = depositeOrTransferTo(context, TRANSFERED_TO);
+
+		// Preparing result
+		Result makeResult = context.makeResult();
+		makeResult
+				.add("Transfer Funds Transaction is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		setTransactionType(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		result = createSupplierRequirement(context, list, SUPPLIER);
+		if (result != null) {
+			return result;
+		}
+
+		// result = depositeOrTransferTo(context, TRANSFERED_TO);
 		if (result != null) {
 			return result;
 		}
@@ -75,6 +91,12 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		return null;
+	}
+
+	private void setDefaultValues() {
+		get(DATE).setDefaultValue(new Date());
+		get(NUMBER).setDefaultValue("1");
+		get(MEMO).setDefaultValue("");
 	}
 
 	private void completeProcess(Context context) {
