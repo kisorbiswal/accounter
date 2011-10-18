@@ -4,11 +4,11 @@
 <head>
 <title> Contact Us | Accounter
 </title>
-<meta content="IE=100" http-equiv="X-UA-Compatible">
+<meta content="IE=100" http-equiv="X-UA-Compatible" />
 
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet">
+<link type="text/css" href="../css/ss.css" rel="stylesheet" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <script type="text/javascript">
 
@@ -33,13 +33,13 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 						<p class="sites-header">Contact Us</p>
 					</div>
 					<div style="margin:30px;">
-						<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vimukti Technologies Private Limited,<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thirupathi Reddy Plaza,<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plot no.2, 4th floor,<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G- Block Colony, Kapra,<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Road, ECIL, Hyderabad<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Andhra Pradesh, India -500062<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91-9989696513<br>
+						<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vimukti Technologies Private Limited,<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thirupathi Reddy Plaza,<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plot no.2, 4th floor,<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G- Block Colony, Kapra,<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Road, ECIL, Hyderabad<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Andhra Pradesh, India -500062<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91-9989696513<br />
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91-40-42005090
 						</p>	
 					</div>

@@ -1,17 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-        <meta content="IE=100" http-equiv="X-UA-Compatible">
+  <title>Delete company| Accounter
+  </title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible" />
 		<link rel="shortcut icon" href="/images/favicon.ico" />
 		
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css" rel="stylesheet">
+		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
   </head>
   <body>
   <div id="commanContainer">
 	<div>
-		<img src="/images/Accounter_logo_title.png" class="accounterLogo" />
+		<img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="Accounter logo"/>
 	</div>
     <div >
        
@@ -21,21 +24,21 @@
         
 	   <form action="/main/deletecompany" method="post">
 	  	 	<c:if test="${canDeleteFromSingle}">
-            	<input type="radio" name="delete" value="deleteUser" checked>
+            	<input type="radio" name="delete" value="deleteUser" checked />
             		Delete company from this user
             </c:if>
            	<c:if test="${canDeleteFromAll}">
-            <br>
-            <input type="radio" name="delete" value="deleteAllUsers">
+            <br />
+            <input type="radio" name="delete" value="deleteAllUsers" />
             Delete company from all users
             </c:if>
-            <br>
-            <br>
+            <br />
+            <br />
             <div class="company_list_buttons">
-	            <input type="submit" value="Delete" class="allviews-common-button">
-	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/main/companies'">
+	            <input type="submit" value="Delete" class="allviews-common-button" />
+	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/main/companies'" />
             </div>
-        </FORM>
+        </form>
 	    
     </div>
    </div>

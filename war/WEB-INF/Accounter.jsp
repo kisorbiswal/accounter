@@ -10,8 +10,8 @@
 <html>
 
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta content="IE=100" http-equiv="X-UA-Compatible">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta content="IE=100" http-equiv="X-UA-Compatible" />
     <%@ include file="./feedback.jsp" %>
     <script type="text/javascript" charset="utf-8">
   		var is_ssl = ("https:" == document.location.protocol);
@@ -28,13 +28,13 @@
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
        
-	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
+	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>" />
 	 
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
    if( isNative ){ %>
-   <link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>">
+   <link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>" />
    <% } %>
 	
     <!--                                           -->
@@ -171,14 +171,14 @@
   <body>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
-  			alt="Loading" title="Loading">
+  			alt="Loading" title="Loading" />
     		</div>
 
   	<!--add loading indicator while the app is being loaded-->
 	<div id="loadingWrapper" style="visibility:visible">
 	<div id="loading">
 	    <div class="loadingIndicator">
-	        <img src="/images/Main-page-loading-bar.gif" /><br/>
+	        <img src="/images/Main-page-loading-bar.gif" alt="Main page"/><br/>
 	    </div>
 	</div>
 	</div>
@@ -189,7 +189,7 @@
 	
 	<!--<table class="header" id="mainHeader" style="visibility:hidden">
 	   <tr>
-	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
+	      <td width="25%"><img src="/images/Accounter_logo_title.png" alt="Accounter logo"/></td>
 	      <td width="50%"><div class="companyName">${companyName}</div></td>
 	      <td width="25%">
 	        <ul>
@@ -220,9 +220,7 @@
 	</div>
 	
     <!-- OPTIONAL: include this if you want history support -->
-    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
-    <iframe id="__printingFrame" style="width: 0; height: 0; border: 0"></iframe>
-	<iframe id="__printingFrame" style="width: 0; height: 0; border: 0"></iframe>
+    <iframe src="javascript:''" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0"></iframe>
 	 <iframe id="__printingFrame" style="width: 0; height: 0; border: 0">
         </iframe>
         <iframe id="__generatePdfFrame" style="width: 0; height: 0; border: 0">

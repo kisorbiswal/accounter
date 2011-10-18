@@ -1,12 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
   <head>
-        <meta content="IE=100" http-equiv="X-UA-Compatible">
+  <title>Activation | Accounter
+  </title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible" />
 		<link rel="shortcut icon" href="/images/favicon.ico" />
 		
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css" rel="stylesheet">
-		<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+		<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 		<script  type="text/javascript" >
 			$(document).ready(function() {
 				$('#submitButton').click(function() {
@@ -34,10 +38,10 @@
 			});
 			
 		</script>
-  </head>
+    </head>
     <body>
 	    <div id="commanContainer">
-		 <img src="/images/Accounter_logo_title.png" class="accounterLogo" />
+		 <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt= "Accounter logo"/>
 		  <c:if test="${successmessage!=null}">
 			<div id="login_success" class="common-box">
 				<span>${successmessage}</span>
@@ -50,10 +54,10 @@
 			</div>
 			<div>
 			  <label>Enter valid activation code</label>
-			  <input id ="actiovationTextbox" type="text" name="code">
+			  <input id ="actiovationTextbox" type="text" name="code" />
 			</div>
 			<div class="reset-button">
-			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton">
+			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton" />
 			</div>
 		 </form>
 		 <div class="resend-code">

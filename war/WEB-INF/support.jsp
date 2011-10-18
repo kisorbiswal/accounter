@@ -5,12 +5,12 @@
 <head>
 <title>Get Support | Accounter
 </title>
-<meta content="IE=100" http-equiv="X-UA-Compatible">
+<meta content="IE=100" http-equiv="X-UA-Compatible" />
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet">
+<link type="text/css" href="../css/ss.css" rel="stylesheet" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
-<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script  type="text/javascript" >
 $.validator.setDefaults({
 	submitHandler: function() {
@@ -78,7 +78,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 			<div class="menu-table">
 			   <div class="acc_logo_image">
 			       <div class="logo-image">
-					  <a href="/"><img src="/images/Accounter_logo_title.png"></a>
+					  <a href="/"><img src="/images/Accounter_logo_title.png" alt="Accounter logo"></img></a>
 				   </div>
 			   </div>
 			   <div class="menu-bar-login">
@@ -114,14 +114,14 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 					</div>
 					<div id="contact_cont" style="margin-top: 0px;">
 				<div id="contact_content">
-					<b>Our office address:</b><br>
-						<br>
-							&nbsp;&nbsp;&nbsp;Vimukti Technologies Private Limited,<br>
-							&nbsp;&nbsp;&nbsp;Thirupathi Reddy Plaza,<br>
-							&nbsp;&nbsp;&nbsp;Plot no.2, 4th floor,<br>
-							&nbsp;&nbsp;&nbsp;G- Block Colony, Kapra,<br>
-							&nbsp;&nbsp;&nbsp;Main Road, ECIL,<br>
-							&nbsp;&nbsp;&nbsp;Hyderabad -500062<br>
+					<b>Our office address:</b><br />
+						<br />
+							&nbsp;&nbsp;&nbsp;Vimukti Technologies Private Limited,<br />
+							&nbsp;&nbsp;&nbsp;Thirupathi Reddy Plaza,<br />
+							&nbsp;&nbsp;&nbsp;Plot no.2, 4th floor,<br />
+							&nbsp;&nbsp;&nbsp;G- Block Colony, Kapra,<br />
+							&nbsp;&nbsp;&nbsp;Main Road, ECIL,<br />
+							&nbsp;&nbsp;&nbsp;Hyderabad -500062<br />
 				</div>
 				<div id="contact_form_cont" class="contact_form_cont">
 					<form id="contactform" name="contactform" method="post" action="/site/support">
@@ -136,30 +136,30 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 						</c:if>
 							<table>
 							 	<tr>
-									 <td style="width : 100px">Name <span id=red>*</span> </td>
+									 <td style="width : 100px">Name <span class="red">*</span> </td>
 									 <td>
-										<input id="mid-box"  type="text" tabindex="1" name="name">
+										<input id="mid-box"  type="text" tabindex="1" name="name" /> 
 					
 									 </td>
 								</tr>
 								<tr>
-									 <td style="width : 100px">Email <span id=red>*</span> </td>
+									 <td style="width : 100px">Email <span class="red">*</span> </td>
 									 <td>
-										<input id="mid-box1"  type="text" tabindex="2" name="emailId">
+										<input id="mid-box1"  type="text" tabindex="2" name="emailId" />
 					
 									 </td>
 								</tr>
 								<tr>
-									 <td style="width : 100px">Subject <span id=red>*</span> </td>
+									 <td style="width : 100px">Subject <span class="red">*</span> </td>
 									 <td>
-										<input id="mid-box2"  type="text" tabindex="3" name="subject">
+										<input id="mid-box2"  type="text" tabindex="3" name="subject" />
 					
 									 </td>
 								</tr>
 								<tr>
-									 <td style="width : 100px; vertical-align: top;">Message <span id=red>*</span> </td>
+									 <td style="width : 100px; vertical-align: top;">Message <span class="red">*</span> </td>
 									 <td>
-										<textarea class="support_textarea" id="message" name="message" style="margin-top : 10px;" tabindex="4"></textarea>
+										<textarea class="support_textarea" id="message" name="message" style="margin-top : 10px;" rows="" cols="" tabindex="4"></textarea>
 									 </td>
 								</tr>
 								<tr>
@@ -167,7 +167,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 								   <td>
 								      <ul class="signup-submit-button support_send">
 								         <li><span class="signup-submit-left"></span></li>
-								         <li><input id="submitButton"  class="signup-submit-mid" type="submit" value="Send"  tabindex="5"></li>
+								         <li><input id="submitButton"  class="signup-submit-mid" type="submit" value="Send"  tabindex="5" /></li>
 								         <li><span class="signup-submit-right"></span></li>
 								      </ul>
 								   </td>

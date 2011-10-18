@@ -1,15 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 <head>
 <title> Reset Password | Accounter
 </title>
-<meta content="IE=100" http-equiv="X-UA-Compatible">
+<meta content="IE=100" http-equiv="X-UA-Compatible" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet">
-<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 
 <script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
 <script type="text/javascript" >
@@ -77,7 +79,7 @@ $(document).ready(function() {
 </head>
 	<body>
 	<div id="commanContainer">
-		   <img class="accounterLogo" src="/images/Accounter_logo_title.png">
+		   <img class="accounterLogo" src="/images/Accounter_logo_title.png" alt="Accounter logo" />
 		   	<c:if test="${errormessage!=null}">
 			<div id="login_success" class="common-box">
 				<span>${errormessage}</span>
@@ -95,20 +97,20 @@ $(document).ready(function() {
 								<c:if test="${successMessage == null}">
 								<c:if test="${errorMessage == null}">
 								<div class="mid-login-box1">
-							   <div width="100%">
+							   <div >
 								     <div>New Password : </div>
 									 <div>
-										<input id="mid-box"  type="password" name="newPassword" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password">								
+										<input id="mid-box"  type="password" name="newPassword" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password" />								
 									 </div>
 									 <div id="reset_hint_box">
 									 
 									 </div>
 									 <div>Confirm Password : </div>
 									 <div>
-										<input id="mid-box1"  type="password" name="confirmPassword" tabindex="2" value="">
+										<input id="mid-box1"  type="password" name="confirmPassword" tabindex="2" value="" />
 									</div>
 								   <div class="OkButton">
-			  						   <input type="submit" tabindex="6" value="Reset" name="login" class="allviews-common-button" style="width:60px" id="submitButton">
+			  						   <input type="submit" tabindex="6" value="Reset" name="login" class="allviews-common-button" style="width:60px" id="submitButton" />
 			 						 </div>
 								  </div>
 								</c:if>

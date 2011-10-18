@@ -1,16 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-        <meta content="IE=100" http-equiv="X-UA-Compatible">
+  <title>Companies list| Accounter
+  </title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible" />
 		<link rel="shortcut icon" href="/images/favicon.ico" />
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css" rel="stylesheet">
+		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
   </head>
   <body>
   <div id="commanContainer">
 	<div>
-		<img src="/images/Accounter_logo_title.png" class="accounterLogo" />
+		<img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="loading" />
 		
 	</div>
     <div class="company_lists">
@@ -21,7 +24,7 @@
         </c:if>
        <div class="form-box">
       	<div> <a href="/main/createcompany" class="create_new_company">Create New Company </a></div>
-      	<ul>
+      	<ul><li>
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/main/companies?companyId=${company.id}"/>
@@ -40,10 +43,10 @@
 				        <c:set var='companyType' value="OTH"/>
 				    </c:otherwise>
 				</c:choose>
-			   <div class="companies-list"><a href=${url}>${company.companyName} - ${companyType}</a> <a class="delete_company" href=${deleteurl}>Delete</a></div>
+			   <div class="companies-list"><a href= '${url}'>${company.companyName} - ${companyType} </a> <a class="delete_company" href= '${deleteurl}' >Delete</a></div>
 		   </c:forEach>
 	    </c:if>
-	    
+	    </li>
 	   </ul>
 	  </div>
     </div>

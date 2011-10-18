@@ -3,8 +3,7 @@
 <head>
 <title>Free Online Accounting Software. Free Support | Accounter
 </title>
-<meta http-equiv="content-type" 
-		content="text/html;charset=utf-8" />
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>

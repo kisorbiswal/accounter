@@ -296,7 +296,7 @@ p {
 	padding-left: 10px;
 }
 
-#red {
+#red ,.red{
 	color: red;
 }
 

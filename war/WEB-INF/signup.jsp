@@ -1,6 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ 
 <!-- The HTML 4.01 Transitional DOCTYPE declaration-->
 <!-- above set at the top of the file will set     -->
 <!-- the browser's rendering engine into           -->
@@ -13,12 +13,12 @@
 <head>
 <title> Sign up & Trial free | Accounter
 </title>
-<meta content="IE=100" http-equiv="X-UA-Compatible">
+<meta content="IE=100" http-equiv="X-UA-Compatible" />
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet">
-<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
 <script  type="text/javascript" >
 $.validator.setDefaults({
@@ -111,7 +111,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
    if( isNative ){ %>
-   <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>">
+   <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>" />
    <% } %>
    
    
@@ -119,8 +119,8 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 </head>
 <body>
 	<div id="commanContainer" class="signup-container">	
-  <img src="/images/Accounter_logo_title.png" class="accounterLogo" />	
-  <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
+  <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="Accounter Logo" />	
+  <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50" />
   
   <c:if test="${errormessage!=null}">
 	<div id="login_error" class="common-box">
@@ -128,7 +128,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	</div>
   </c:if>
   <div  id="hiddenLoaderDiv" class="hiddenDiv">
-		<img src="/images/icons/loading-indicator.gif" height="50" width="50">
+		<img src="/images/icons/loading-indicator.gif" alt="Loading" height="50" width="50" />
 		<span style="position: absolute; margin: 10px;">Please Wait...</span>
   </div>
   
@@ -139,28 +139,28 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	      <span class="mandatory">All fields are mandatory</span>
 	   </div>
 	   <div style="clear:both" class="check_label">
-	     <label>First Name</label><br>
-		 <input id="mid-box"  type="text" tabindex="4" name="firstName">	
+	     <label>First Name</label><br />
+		 <input id="mid-box"  type="text" tabindex="4" name="firstName" />	
 	   </div>
 	    <div class="check_label">
-	     <label>Last Name</label><br>
-		 <input id="mid-box1"  type="text" tabindex="5" name="lastName">	
+	     <label>Last Name</label><br />
+		 <input id="mid-box1"  type="text" tabindex="5" name="lastName" />	
 	   </div>
 	   <div class="check_label">
-	     <label>Email Address</label><br>
-		 <input id="mid-box2"  type="text" tabindex="6" name="emailId">	
+	     <label>Email Address</label><br />
+		 <input id="mid-box2"  type="text" tabindex="6" name="emailId" />	
 	   </div>
 	   <div class="check_label">
-	     <label>Password</label><br>
-		 <input id="mid-box4"  type="password" tabindex="7" name="password">
+	     <label>Password</label><br />
+		 <input id="mid-box4"  type="password" tabindex="7" name="password" />
 	   </div>
 	   <div class="check_label">
-	     <label>Confirm Password</label><br>
-		 <input id="mid-box5" type="password" tabindex="8" name="confirmPassword">
+	     <label>Confirm Password</label><br />
+		 <input id="mid-box5" type="password" tabindex="8" name="confirmPassword" />
 	   </div>
 	   <div class="check_label">
-	     <label>Phone Number</label><br>
-		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber">
+	     <label>Phone Number</label><br />
+		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber" />
 	   </div>
 	   <div class="check_label">
 	     <label>Country</label>
@@ -408,21 +408,21 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   <div>
 	     <label style="padding-left:5px;">I have read and I accept the<a href="/site/termsandconditions" target="_blank" tabindex="12">Terms of Use</a></label>
-	     <input id="checkbox" type="checkbox" name="agree" tabindex="11" style="float:left" >
+	     <input id="checkbox" type="checkbox" name="agree" tabindex="11" style="float:left" />
 		 
 	   </div>
 	   <div>
-	      <input id="newsletter" type="checkbox" name="newsletter">
-		  <label>Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></label>
+	      <input id="newsletter" type="checkbox" name="newsletter" />
+		  <label>Yes, Subscribe me to Accounter Newsletter <b>(Optional)</b></label>
 	   </div>
 	   <div class="signup-submit">
-	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="Sign Up" tabindex="13" >
+	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="Sign Up" tabindex="13" />
 	   </div>
 	</form>
   </c:if>
   <div class="form-bottom-options">
   <a href="/main/login" id="forget-link1">I already have an account</a>
-  <br><br>
+  <br />
   </div> 
 </div>
 
