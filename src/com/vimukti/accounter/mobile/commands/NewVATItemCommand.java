@@ -45,31 +45,38 @@ public class NewVATItemCommand extends AbstractVATCommand {
 	public Result run(Context context) {
 		Result result = null;
 
+		Result makeResult = context.makeResult();
+		makeResult.add(" Customer is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
 		setOptionalFields();
 
-		result = nameRequirement(context, null, null, null);
+		result = nameRequirement(context, list, NAME, "Enter  VatItem Name");
 		if (result != null) {
 			return result;
 		}
 
-		result = amountRequirement(context, null, null, null);
+		result = amountRequirement(context, list, AMOUNT, "Enter  Amount");
 		if (result != null) {
 			return result;
 		}
 
-		result = taxAgencyRequirement(context, null, null);
+		result = taxAgencyRequirement(context, list, TAX_AGENCY);
 		if (result != null) {
 			return result;
 		}
 
 		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
-			result = vatReturnBoxRequirement(context);
+			result = vatReturnRequirement(context, list, VAT_RETURN);
 			if (result != null) {
 				return result;
 			}
 		}
 
-		result = createOptionalResult(context);
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -94,21 +101,8 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 	}
 
-	private Result vatReturnBoxRequirement(Context context) {
-		Requirement vatReturnBoxReq = get(VAT_RETURN_BOX);
-		ClientVATReturnBox vatReturnBox = context
-				.getSelection(VAT_RETURN_BOXES);
-		if (vatReturnBox != null) {
-			vatReturnBoxReq.setValue(vatReturnBox);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!vatReturnBoxReq.isDone()) {
-			return getVatReturnBoxResult(context);
-		}
-		return null;
-	}
-
-	private Result createOptionalResult(Context context) {
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
@@ -124,155 +118,25 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 		selection = context.getSelection("values");
 
-		Requirement nameReq = get(NAME);
-		String name = (String) nameReq.getValue();
-		if (NAME == selection) {
-			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the Tax Item Name.", name);
-		}
-
-		Requirement taxRateReq = get(AMOUNT);
-		Double taxRate = (Double) taxRateReq.getValue();
-		if (AMOUNT == selection) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return amount(context, "Please Enter the Tax Rate.", taxRate);
-		}
-
-		Requirement taxAgencyrReq = get(TAX_AGENCY);
-		ClientTAXAgency taxAgency = (ClientTAXAgency) taxAgencyrReq.getValue();
-		if (TAX_AGENCY == selection) {
-			context.setAttribute(INPUT_ATTR, TAX_AGENCY);
-			return getTaxAgencyResult(context);
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record nameRecord = new Record(NAME);
-		nameRecord.add(INPUT_ATTR, "Name");
-		nameRecord.add("Value", name);
-		list.add(nameRecord);
-
 		Result result = stringOptionalRequirement(context, list, selection,
 				DESCRIPTION, "Enter Discription");
 		if (result != null) {
 			return result;
 		}
 
-		Record taxRateRecord = new Record(AMOUNT);
-		taxRateRecord.add("Name", "Tax Rate");
-		taxRateRecord.add("Value", taxRate);
-		list.add(taxRateRecord);
-
-		Record taxAgencyRecord = new Record(TAX_AGENCY);
-		taxAgencyRecord.add("Name", "Tax Agency");
-		taxAgencyRecord.add("Value", taxAgency.getName());
-		list.add(taxAgencyRecord);
-
 		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
-			Requirement vatReturnBoxReq = get(VAT_RETURN_BOX);
-			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) vatReturnBoxReq
-					.getValue();
-			if (VAT_RETURN_BOX == selection) {
-				context.setAttribute(INPUT_ATTR, VAT_RETURN_BOX);
-				return getVatReturnBoxResult(context);
-			}
-			Record vatReturnBoxRecord = new Record(VAT_RETURN_BOX);
-			vatReturnBoxRecord.add("Name", "VAT Return Box");
-			vatReturnBoxRecord.add("Value", vatReturnBox.getName());
-			list.add(vatReturnBoxRecord);
-
-			Requirement isPercentageReq = get(IS_PERCENTAGE);
-			Boolean isPercentage = (Boolean) isPercentageReq.getValue();
-
-			if (selection == IS_PERCENTAGE) {
-				context.setAttribute(INPUT_ATTR, IS_PERCENTAGE);
-				isPercentage = !isPercentage;
-				isPercentageReq.setValue(isPercentage);
-			}
-			String percentageString = "";
-			if (isPercentage) {
-				percentageString = "Considerd As Percentage.";
-			} else {
-				percentageString = "Considered As Amount.";
-			}
-			Record isPercentageRecord = new Record(IS_PERCENTAGE);
-			isPercentageRecord.add("Name", "");
-			isPercentageRecord.add("Value", percentageString);
-			list.add(isPercentageRecord);
+			booleanOptionalRequirement(context, selection, list, IS_PERCENTAGE,
+					"Considerd As Percentage.", "Considered As Amount.");
 		}
 
-		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
+		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
+				"This Item is Active", "This Item is InActive");
 
-		if (selection == IS_ACTIVE) {
-			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This Item is Active";
-		} else {
-			activeString = "This Item is InActive";
-		}
-		Record isActiveRecord = new Record(IS_ACTIVE);
-		isActiveRecord.add("Name", "");
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
-
-		result = context.makeResult();
-		result.add("Tax Item is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Tax Item.");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
-	}
-
-	private Result getVatReturnBoxResult(Context context) {
-		Result result = context.makeResult();
-		ResultList vatReturnBoxesList = new ResultList(VAT_RETURN_BOXES);
-
-		Object last = context.getLast(RequirementType.VAT_RETURN_BOX);
-		if (last != null) {
-			vatReturnBoxesList
-					.add(createVATReturnBoxRecord((ClientVATReturnBox) last));
-		}
-
-		List<ClientVATReturnBox> vatReturnBoxes = getVATReturnBoxes();
-		for (int i = 0; i < VALUES_TO_SHOW && i < vatReturnBoxes.size(); i++) {
-			ClientVATReturnBox vatReturnBox = vatReturnBoxes.get(i);
-			if (vatReturnBox != last) {
-				vatReturnBoxesList
-						.add(createVATReturnBoxRecord((ClientVATReturnBox) vatReturnBox));
-			}
-		}
-
-		int size = vatReturnBoxesList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the VAT Return Box");
-		}
-
-		result.add(message.toString());
-		result.add(vatReturnBoxesList);
-		result.add("Select the vatReturnBox");
-
-		return result;
-	}
-
-	private List<ClientVATReturnBox> getVATReturnBoxes() {
-		return new ArrayList<ClientVATReturnBox>(getClientCompany()
-				.getVatReturnBoxes());
-	}
-
-	private Record createVATReturnBoxRecord(ClientVATReturnBox vatReturnBox) {
-		Record record = new Record(vatReturnBox);
-		record.add("Name", vatReturnBox.getName());
-		return record;
+		return makeResult;
 	}
 
 	private Result createVATItem(Context context) {
