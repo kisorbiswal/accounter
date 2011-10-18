@@ -711,7 +711,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result billToRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get("address");
+		Requirement req = get(BILL_TO);
 		ClientAddress billTo = (ClientAddress) req.getValue();
 
 		// String attribute = (String) context.getAttribute(INPUT_ATTR);
@@ -1129,7 +1129,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Result payee(Context context) {
 		Result result = context.makeResult();
-		ResultList payeeList = new ResultList("payees");
+		ResultList payeeList = new ResultList("payee");
 
 		Object last = context.getLast(RequirementType.PAYEE);
 		List<ClientPayee> skipPayee = new ArrayList<ClientPayee>();
