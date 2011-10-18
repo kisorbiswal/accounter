@@ -616,49 +616,64 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected Result customerRequirement(Context context) {
-		Requirement customerReq = get("customer");
+	protected Result customerRequirement(Context context, ResultList list,
+			String requirementName) {
+		Requirement customerReq = get(requirementName);
 		ClientCustomer customer = context.getSelection("customers");
 		if (customer != null) {
 			customerReq.setValue(customer);
 		}
-		if (!customerReq.isDone()) {
+
+		ClientCustomer value = customerReq.getValue();
+		Object selection = context.getSelection("values");
+		if (!customerReq.isDone() || (value == selection)) {
 			return customers(context);
 		}
+
+		Record customerRecord = new Record(value);
+		customerRecord.add("", "Customer");
+		customerRecord.add("", value.getName());
+		list.add(customerRecord);
 		return null;
 	}
 
 	protected Result customers(Context context) {
+
 		Result result = context.makeResult();
-		ResultList customersList = new ResultList("customers");
+
+		ResultList customerList = new ResultList("customers");
 
 		Object last = context.getLast(RequirementType.CUSTOMER);
-		int num = 0;
+		List<ClientCustomer> skipCustomers = new ArrayList<ClientCustomer>();
 		if (last != null) {
-			customersList.add(createCustomerRecord((ClientCustomer) last));
-			num++;
+			customerList.add(createCustomerRecord((ClientCustomer) last));
+			skipCustomers.add((ClientCustomer) last);
 		}
-		ArrayList<ClientCustomer> customers = getClientCompany().getCustomers();
-		for (ClientCustomer customer : customers) {
-			if (customer != last) {
-				customersList.add(createCustomerRecord(customer));
-				num++;
-			}
-			if (num == CUSTOMERS_TO_SHOW) {
-				break;
-			}
+		List<ClientCustomer> customers = getClientCompany().getCustomers();
+
+		ResultList actions = new ResultList("actions");
+
+		ActionNames selection = context.getSelection("actions");
+
+		List<ClientCustomer> pagination = pagination(context, selection,
+				actions, customers, skipCustomers, CUSTOMERS_TO_SHOW);
+
+		for (ClientCustomer vendor : pagination) {
+			customerList.add(createCustomerRecord(vendor));
 		}
-		int size = customersList.size();
+
+		int size = customerList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
 			message.append("Select a Customer");
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create Customer");
+		commandList.add("Create New Customer");
+
 		result.add(message.toString());
-		result.add(customersList);
+		result.add(customerList);
+		result.add(actions);
 		result.add(commandList);
-		// result.add("Type for Customer");
 		return result;
 	}
 
