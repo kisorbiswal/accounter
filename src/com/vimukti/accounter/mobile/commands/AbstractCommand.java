@@ -190,7 +190,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record balanceRecord = new Record("balance");
-		balanceRecord.add("Name", "balance");
+		balanceRecord.add("Name", name);
 		balanceRecord.add("Value", balance);
 		list.add(balanceRecord);
 		Result result = new Result();
@@ -1167,7 +1167,7 @@ public abstract class AbstractCommand extends Command {
 	protected Result accountRequirement(Context context, ResultList list,
 			String requirementName) {
 		Requirement accountReq = get(requirementName);
-		ClientAccount clientAccount = context.getSelection("accounts");
+		ClientAccount clientAccount = context.getSelection(requirementName);
 
 		if (clientAccount != null) {
 			accountReq.setValue(clientAccount);
@@ -1176,7 +1176,7 @@ public abstract class AbstractCommand extends Command {
 		ClientAccount account = accountReq.getValue();
 		Object selection = context.getSelection("values");
 		if (!accountReq.isDone() || (account == selection)) {
-			return accounts(context);
+			return accounts(context, requirementName);
 		}
 
 		Record supplierRecord = new Record(account);
@@ -1283,10 +1283,10 @@ public abstract class AbstractCommand extends Command {
 	 * @param context
 	 * @return {@link Result}
 	 */
-	protected Result accounts(Context context) {
+	protected Result accounts(Context context, String requirementName) {
 		Result result = context.makeResult();
 
-		ResultList supplierList = new ResultList("accounts");
+		ResultList supplierList = new ResultList(requirementName);
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		List<ClientAccount> skipAccounts = new ArrayList<ClientAccount>();
