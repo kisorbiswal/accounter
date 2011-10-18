@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -20,9 +25,17 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  */
 public class InvoiceListCommand extends AbstractTransactionCommand {
 
-	private static final String VIEW_BY = "viewBy";
-	private static final String FROM_DATE = "fromDate";
-	private static final String TO_DATE = "toDate";
+	private static final String CURRENT_VIEW = "Current View";
+	private static final String FROM_DATE = "From";
+	private static final String TO_DATE = "To";
+	private static final String DATE = "Date";
+
+	private static final String OPEN = "Open";
+	private static final String ALL = "All";
+	private static final String VOIDED = "Voided";
+	private static final String OVER_DUE = "OverDue";
+	private static final int ITEMS_TO_VIEW = 4;
+	private static final int DATE_ITEMS_TO_VIEW = 11;
 
 	@Override
 	public String getId() {
@@ -32,13 +45,18 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_BY, true, true));
-		list.add(new Requirement(FROM_DATE, false, true));
-		list.add(new Requirement(TO_DATE, false, true));
+		list.add(new Requirement(CURRENT_VIEW, true, true));
+		list.add(new Requirement(DATE, true, true));
+		list.add(new Requirement(FROM_DATE, true, true));
+		list.add(new Requirement(TO_DATE, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		Result result = null;
 		result = createOptionalResult(context);
 		if (result != null) {
@@ -47,75 +65,151 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	public void setDefaultValues() {
+
+		get(CURRENT_VIEW).setDefaultValue(OPEN);
+		get(DATE).setDefaultValue(ALL);
+		get(FROM_DATE).setDefaultValue(new Date());
+		get(TO_DATE).setDefaultValue(new Date());
+
+	}
+
 	private Result createOptionalResult(Context context) {
 
-		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection(FROM_DATE);
-		ResultList list = new ResultList("invoicesList");
-		Result result = fromDateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = toDateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
+		List<String> viewType = new ArrayList<String>();
+		viewType.add("Open");
+		viewType.add("Over-Due");
+		viewType.add("Voided");
+		viewType.add("All");
 
-		Date fromDate = (Date) get(FROM_DATE).getValue();
-		Date toDate = (Date) get(TO_DATE).getValue();
+		List<String> dateType = new ArrayList<String>();
+		dateType.add("All");
+		dateType.add("This week");
+		dateType.add("This month");
+		dateType.add("Last week");
+		dateType.add("Last month");
+		dateType.add("This financial year");
+		dateType.add("Last financial year");
+		dateType.add("This financial quarter");
+		dateType.add("Last financial quarter");
+		dateType.add("Financial year to date");
+		dateType.add("Custom");
 
-		String viewType = get(VIEW_BY).getValue();
-		result = invoicesList(fromDate, toDate, context, viewType);
-		return null;
-	}
-
-	@Override
-	protected List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add(Accounter.constants().all());
-		list.add(Accounter.constants().open());
-		list.add(Accounter.constants().voided());
-		list.add(Accounter.constants().overDue());
-
-		return list;
-	}
-
-	private Result invoicesList(Date fromDate, Date toDate, Context context,
-			String viewType) {
-		Result result = context.makeResult();
-		result.add("Invoices  List");
-		ResultList invoicesListData = new ResultList("invoicesList");
-		int num = 0;
-		List<InvoicesList> invoices = getInvoices(viewType);
-
-		for (InvoicesList inv : invoices) {
-			invoicesListData.add(createInvoiceRecord(inv));
-			num++;
-			if (num == INVOICES_TO_SHOW) {
+		ResultList resultList = new ResultList("invoicesList");
+		Object selection = context.getSelection(ACTIONS);
+		ActionNames actionNames;
+		if (selection != null) {
+			actionNames = (ActionNames) selection;
+			switch (actionNames) {
+			case FINISH:
+				markDone();
+				return null;
+			default:
 				break;
 			}
 		}
-		int size = invoicesListData.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a invoice");
+
+		selection = context.getSelection("values");
+		Result result = stringListOptionalRequirement(context, resultList,
+				selection, CURRENT_VIEW, "Current View", viewType,
+				"Select View type", ITEMS_TO_VIEW);
+		if (result != null) {
+			return result;
 		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		result = stringListOptionalRequirement(context, resultList, selection,
+				CURRENT_VIEW, "Date", dateType, "Select Date type",
+				DATE_ITEMS_TO_VIEW);
+		if (result != null) {
+			return result;
+		}
+
+		result = dateOptionalRequirement(context, resultList, "From",
+				"Enter From Date", selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = dateOptionalRequirement(context, resultList, "To",
+				"Enter To Date", selection);
+		if (result != null) {
+			return result;
+		}
+
+		return createInvoiceList(context, "", null, null, null);
+
+	}
+
+	private Result createInvoiceList(Context context, String viewType,
+			String date, Date startDate, Date endDate) {
+		Result result = context.makeResult();
+		ResultList resultList = new ResultList("invoicesList");
+		List<InvoicesList> invoices = getInvoices(context.getCompany().getID(),
+				viewType, startDate, endDate);
+		for (InvoicesList invoice : invoices) {
+			resultList.add(createInvoiceListRecord(invoice));
+		}
+
+		StringBuilder message = new StringBuilder();
+		if (resultList.size() > 0) {
+			message.append("Select an Invoice List");
+		}
 
 		result.add(message.toString());
-		result.add(invoicesListData);
-		result.add(commandList);
-		result.add("Type for Invoice");
+		result.add(resultList);
 
+		CommandList commandList = new CommandList();
+		commandList.add("Add Invoice");
+		result.add(commandList);
 		return result;
 	}
 
-	private Record createInvoiceRecord(InvoicesList inv) {
+	private List<InvoicesList> getInvoices(long companyId, String viewType,
+			Date startDate, Date endDate) {
+
+		try {
+			List<InvoicesList> invoices = new FinanceTool()
+					.getInventoryManager().getInvoiceList(companyId,
+							startDate.getTime(), endDate.getTime());
+
+			List<InvoicesList> list = new ArrayList<InvoicesList>(
+					invoices.size());
+			for (InvoicesList invoice : invoices) {
+				if (viewType.equals(OPEN)) {
+					if (invoice.getBalance() != null
+							&& DecimalUtil.isGreaterThan(invoice.getBalance(),
+									0)
+							&& invoice.getDueDate() != null
+							&& (invoice.getStatus() != ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
+							&& !invoice.isVoided()) {
+						list.add(invoice);
+					}
+
+				} else if (viewType.equals(OVER_DUE)) {
+					if (invoice.getBalance() != null
+							&& DecimalUtil.isGreaterThan(invoice.getBalance(),
+									0)
+							&& invoice.getDueDate() != null
+							&& (invoice.getDueDate().compareTo(
+									new ClientFinanceDate()) < 0)
+							&& !invoice.isVoided()) {
+						list.add(invoice);
+					}
+				} else if (viewType.equals(VOIDED)) {
+					if (invoice.isVoided()) {
+						list.add(invoice);
+					}
+				} else if (viewType.equals(ALL)) {
+					list.add(invoice);
+				}
+			}
+
+			return list;
+		} catch (DAOException e) {
+		}
+		return null;
+	}
+
+	private Record createInvoiceListRecord(InvoicesList inv) {
 
 		Record record = new Record(inv);
 
@@ -128,56 +222,6 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		record.add("TotalPrice", inv.getTotalPrice());
 		record.add("Balance", inv.getBalance());
 		return record;
-	}
-
-	private Result toDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement dateReq = get(TO_DATE);
-		Date transDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(TO_DATE)) {
-			Date date = context.getSelection(TO_DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			transDate = date;
-			dateReq.setValue(transDate);
-		}
-		if (selection == transDate) {
-			context.setAttribute(INPUT_ATTR, TO_DATE);
-			return date(context, "Enter to Date", transDate);
-		}
-
-		Record transDateRecord = new Record(transDate);
-		transDateRecord.add("Name", TO_DATE);
-		transDateRecord.add("Value", transDate.toString());
-		list.add(transDateRecord);
-		return null;
-	}
-
-	private Result fromDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement dateReq = get(FROM_DATE);
-		Date transDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(FROM_DATE)) {
-			Date date = context.getSelection(FROM_DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			transDate = date;
-			dateReq.setValue(transDate);
-		}
-		if (selection == transDate) {
-			context.setAttribute(INPUT_ATTR, FROM_DATE);
-			return date(context, "Enter From Date", transDate);
-		}
-
-		Record transDateRecord = new Record(transDate);
-		transDateRecord.add("Name", FROM_DATE);
-		transDateRecord.add("Value", transDate.toString());
-		list.add(transDateRecord);
-		return null;
 	}
 
 }
