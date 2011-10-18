@@ -442,13 +442,13 @@ public class TaxManager extends Manager {
 	}
 
 	public boolean hasFileVAT(TAXAgency vatAgency, FinanceDate startDate,
-			FinanceDate endDate) {
+			FinanceDate endDate, Company company) {
 
 		Criteria criteria = HibernateUtil.getCurrentSession().createCriteria(
 				VATReturn.class);
 
 		List list = criteria.add(Restrictions.ge("VATperiodEndDate", endDate))
-				.list();
+				.add(Restrictions.ge("company", company)).list();
 
 		if (list != null && list.size() > 0 && list.get(0) != null)
 			return true;
@@ -460,7 +460,9 @@ public class TaxManager extends Manager {
 			FinanceDate fromDate, FinanceDate toDate, long companyId)
 			throws DAOException, AccounterException {
 
-		if (hasFileVAT(vatAgency, fromDate, toDate)) {
+		Company company = getCompany(companyId);
+
+		if (hasFileVAT(vatAgency, fromDate, toDate, company)) {
 			throw new AccounterException(
 					AccounterException.ERROR_ILLEGAL_ARGUMENT);
 			// "FileVAT is already done in this period. Choose another VAT period");
@@ -469,8 +471,8 @@ public class TaxManager extends Manager {
 
 		List<Box> boxes = createBoxes(vatAgency);
 
-		assignAmounts(vatAgency, boxes, fromDate, toDate, companyId);
-		adjustAmounts(vatAgency, boxes, fromDate, toDate, companyId);
+		assignAmounts(vatAgency, boxes, fromDate, toDate, company);
+		adjustAmounts(vatAgency, boxes, fromDate, toDate, company);
 
 		// for (Box b : boxes) {
 		// if (b.getName().equals(
@@ -489,11 +491,11 @@ public class TaxManager extends Manager {
 	}
 
 	private void adjustAmounts(TAXAgency vatAgency, List<Box> boxes,
-			FinanceDate fromDate, FinanceDate toDate, long companyId) {
+			FinanceDate fromDate, FinanceDate toDate, Company company) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Company company = getCompany(companyId);
+		// Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery("getTAXAdjustments.by.taxAgencyIdand.Date")
 				.setParameter("fromDate", fromDate)
@@ -594,10 +596,10 @@ public class TaxManager extends Manager {
 	}
 
 	private void assignAmounts(TAXAgency vatAgency, List<Box> boxes,
-			FinanceDate fromDate, FinanceDate toDate, long companyId) {
+			FinanceDate fromDate, FinanceDate toDate, Company company) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
+		// Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery("getTAXRateCalculations.by.taxAgencyIdand.Date")
 				.setParameter("toDate", toDate)
