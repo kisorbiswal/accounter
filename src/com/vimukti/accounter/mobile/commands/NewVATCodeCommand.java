@@ -11,7 +11,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
@@ -208,6 +207,10 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private List<ClientTAXItemGroup> getPurchaseVatItemGroups() {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
@@ -218,6 +221,14 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return vatItmsList;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param actions
+	 * @param makeResult
+	 * @return
+	 */
 	private Result createOptionalRequirement(Context context, ResultList list,
 			ResultList actions, Result makeResult) {
 		// context.setAttribute(INPUT_ATTR, "optional");
@@ -253,6 +264,14 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return makeResult;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param vatitemForSales
+	 * @param dispalyName
+	 * @return
+	 */
 	private Result vatItemForSalesRequirement(Context context, ResultList list,
 			String vatitemForSales, String dispalyName) {
 		Requirement vatItemForSalesReq = get(vatitemForSales);
@@ -274,6 +293,11 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
 	private Result getVatItemForSaleResult(Context context) {
 		Result result = context.makeResult();
 		ResultList vatItemGroupsList = new ResultList(SALES_VAT_ITEMS);
@@ -313,6 +337,10 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private List<ClientTAXItemGroup> getFilteredVATItems() {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXItemGroup> taxItemGroups = new ArrayList<ClientTAXItemGroup>(
