@@ -1156,7 +1156,7 @@ public abstract class AbstractCommand extends Command {
 		return record;
 	}
 
-	protected Result booleanOptionalRequirement(Context context,
+	protected void booleanOptionalRequirement(Context context,
 			Object selection, ResultList list, String reqName,
 			String trueString, String falseString) {
 		Requirement isActiveReq = get(reqName);
@@ -1169,7 +1169,6 @@ public abstract class AbstractCommand extends Command {
 		Record isActiveRecord = new Record(reqName);
 		isActiveRecord.add("", isActive ? trueString : falseString);
 		list.add(isActiveRecord);
-		return null;
 	}
 
 	protected AccounterConstants getConstants() {
@@ -1436,7 +1435,7 @@ public abstract class AbstractCommand extends Command {
 
 		Requirement amountReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
-		
+
 		if (input.equals(reqName)) {
 			amountReq.setValue(context.getNumber());
 			context.setAttribute(INPUT_ATTR, "optional");
