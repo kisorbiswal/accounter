@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
@@ -172,17 +173,22 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		ResultList vatItemGroupsList = new ResultList(PURCHASE_VAT_ITEMS);
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
+		List<ClientTAXItemGroup> clientTAXItemGroup = new ArrayList<ClientTAXItemGroup>();
 		if (last != null) {
 			vatItemGroupsList.add(createTaxItemRecord((ClientTAXItem) last));
+			clientTAXItemGroup.add((ClientTAXItemGroup) last);
 		}
 
 		List<ClientTAXItemGroup> vatItemGroups = getPurchaseVatItemGroups();
-		for (int i = 0; i < VALUES_TO_SHOW && i < vatItemGroups.size(); i++) {
-			ClientTAXItemGroup vatItem = vatItemGroups.get(i);
-			if (vatItem != last) {
-				vatItemGroupsList
-						.add(createTaxItemRecord((ClientTAXItem) vatItem));
-			}
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<ClientTAXItemGroup> pagination = pagination(context, selection,
+				actions, vatItemGroups, clientTAXItemGroup, VALUES_TO_SHOW);
+
+		for (ClientTAXItemGroup terms : pagination) {
+			vatItemGroupsList.add(createTaxItemRecord((ClientTAXItem) terms));
 		}
 
 		int size = vatItemGroupsList.size();
@@ -273,19 +279,23 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		ResultList vatItemGroupsList = new ResultList(SALES_VAT_ITEMS);
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
+		List<ClientTAXItemGroup> vatItemGroup = getPurchaseVatItemGroups();
 		if (last != null) {
 			vatItemGroupsList.add(createTaxItemRecord((ClientTAXItem) last));
+			vatItemGroup.add((ClientTAXItemGroup) last);
 		}
 
 		List<ClientTAXItemGroup> vatItemGroups = getSalesVatItemGroups();
-		for (int i = 0; i < VALUES_TO_SHOW && i < vatItemGroups.size(); i++) {
-			ClientTAXItemGroup vatItemGroup = vatItemGroups.get(i);
-			if (vatItemGroup != last) {
-				vatItemGroupsList
-						.add(createTaxItemRecord((ClientTAXItem) vatItemGroup));
-			}
-		}
 
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<ClientTAXItemGroup> pagination = pagination(context, selection,
+				actions, vatItemGroups, vatItemGroup, VALUES_TO_SHOW);
+
+		for (ClientTAXItemGroup terms : pagination) {
+			vatItemGroupsList.add(createTaxItemRecord((ClientTAXItem) terms));
+		}
 		int size = vatItemGroupsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
