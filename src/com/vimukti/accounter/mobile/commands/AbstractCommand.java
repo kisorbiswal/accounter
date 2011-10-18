@@ -256,7 +256,7 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Result numberRequirement(Context context, ResultList list,
+	protected Result  numberRequirement(Context context, ResultList list,
 			String reqName, String displayString) {
 		Requirement customerNumReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);

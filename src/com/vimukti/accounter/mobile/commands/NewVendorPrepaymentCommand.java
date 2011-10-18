@@ -84,17 +84,17 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = payFromRequirement(context);
+		result = accountRequirement(context, list, PAY_FROM);
 		if (result != null) {
 			return result;
 		}
-		result = amountRequirement(context);
+		result = numberRequirement(context, list, AMOUNT, "Enter Amount");
 		if (result != null) {
 			return result;
 		}
 		Object selection = context.getSelection("values");
 
-		result = paymentMethodRequirement(context, list, selection);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
 		if (result != null) {
 			return result;
 		}
