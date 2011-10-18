@@ -90,7 +90,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		}
 		Result makeResult = context.makeResult();
 		makeResult
-				.add("Credit Card Memo  is ready to create with following values.");
+				.add("Credit Card Charge  is ready to create with following values.");
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
