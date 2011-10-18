@@ -447,7 +447,7 @@ public class SalesOrderView extends
 			leftVLay.add(shipToAddress);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 
