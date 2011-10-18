@@ -282,25 +282,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		if (result != null) {
 			return result;
 		}
-
-		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-
-		if (selection == IS_ACTIVE) {
-			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This Agency is Active";
-		} else {
-			activeString = "This Agency is InActive";
-		}
-		Record isActiveRecord = new Record(IS_ACTIVE);
-		isActiveRecord.add("Name", "");
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
+		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
+				"This Agency is Active", "This Agency is InActive");
 
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Vat Agency.");
