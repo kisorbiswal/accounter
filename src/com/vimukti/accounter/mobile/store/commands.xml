@@ -330,7 +330,7 @@
 		<alias>Create Customer Credit Memo</alias>
 		<alias>Add Customer Credit Memo</alias>
 	</command>
-	<command clazz="NewCashExpenseCommond" name="New Cash Expense">
+	<command clazz="NewCashExpenseCommand" name="New Cash Expense">
 		<alias>Cash Expense</alias>
 	</command>
 	<command clazz="NewLocationCommond" name="New Location">

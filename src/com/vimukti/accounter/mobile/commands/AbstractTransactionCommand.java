@@ -334,10 +334,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			list.add(record);
 		} else {
 			record = new Record("tax");
+			record.add("", "Is Taxable");
 			if (transactionItem.isTaxable()) {
-				record.add("Is Taxable", "True");
+				record.add("", "True");
 			} else {
-				record.add("Is Taxable", "False");
+				record.add("", "False");
 			}
 			list.add(record);
 		}
