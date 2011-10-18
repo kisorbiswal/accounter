@@ -419,7 +419,12 @@
 		<alias>Invoices</alias>
 		<alias>Invoices List</alias>
 	</command>
-
+	<command clazz="SalesOrderListCommand" name="Sales Order List">
+		<alias>Sales Orders</alias>
+	</command>
+	<command clazz="PurchaseOrderListCommand" name="Purchase Order List">
+		<alias>Purchase Orders</alias>
+	</command>
 	<command clazz="NewInviteAUserCommand" name="Invite User">
 		<alias>New User</alias>
 		<alias>Invite User</alias>
@@ -468,10 +473,11 @@
 		<alias>Add JournalEntry Command</alias>
 	</command>
 
-	<command clazz="NewSalesOrderCommand" name="New SalesOrder Command">
-		<alias>New SalesOrder Command</alias>
-		<alias>Create SalesOrder Command</alias>
-		<alias>Add SalesOrder Command</alias>
+	<command clazz="NewSalesOrderCommand" name="New SalesOrder">
+		<alias>New SalesOrder</alias>
+		<alias>Create SalesOrder</alias>
+		<alias>Add SalesOrder</alias>
+		<alias>New Sales Order</alias>
 	</command>
 
 	<command clazz="NewPurchaseOrderCommand" name="New PurchaseOrder Command">
@@ -485,11 +491,6 @@
 
 	<command clazz="VoidTransactionCommand" name="Void Transaction">
 		<alias>Void</alias>
-	</command>
-
-	<command clazz="NewSalesOrderCommand" name="New Sales Order">
-		<alias>Sales</alias>
-		<alias>new sales order</alias>
 	</command>
 
 	<command clazz="SalesPersonsListCommand" name="Sales Person List">
