@@ -79,7 +79,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String US_CHECK = "Check";
 	protected static final String UK_CHECK = "Cheque";
 	protected static final String ACCOUNTS = "accounts";
-	protected static final String BILL_TO = "billTo";
+	protected static final String BILL_TO = "Bill To";
 	protected static final String ITEMS = "items";
 	protected static final int VENDOR_TRANSACTION = 2;
 	protected static final int CUSTOMER_TRANSACTION = 1;
@@ -714,19 +714,19 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Requirement req = get(BILL_TO);
 		ClientAddress billTo = (ClientAddress) req.getValue();
 
-		// String attribute = (String) context.getAttribute(INPUT_ATTR);
-		// if (attribute.equals("billTo")) {
-		// Address input = context.getSelection("address");
-		// if (input == null) {
-		// input = context.getAddress();
-		// }
-		// billTo = input;
-		// req.setValue(billTo);
-		// }
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(BILL_TO)) {
+			ClientAddress input = context.getSelection(ADDRESS);
+			if (input == null) {
+				input = context.getAddress();
+			}
+			billTo = input;
+			req.setValue(billTo);
+		}
 		if (selection != null)
-			if (selection == "Bill To") {
+			if (selection == BILL_TO) {
 				context.setAttribute(INPUT_ATTR, "billTo");
-				return address(context, "Bill To", "address", billTo);
+				return address(context, "Bill To", BILL_TO, billTo);
 			}
 		billTo = req.getValue();
 		Record billToRecord = new Record("Bill To");
