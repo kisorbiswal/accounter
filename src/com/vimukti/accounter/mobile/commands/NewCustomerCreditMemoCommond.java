@@ -78,7 +78,8 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 				}
 			}
 		}
-		// result = customerRequirement(context);
+		result = customerRequirement(context, null, null);
+
 		if (result == null) {
 			return result;
 		}
@@ -230,6 +231,7 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		if (customer == selection) {
+			return customerRequirement(context, null, null);
 			// return customerRequirement(context);
 		}
 

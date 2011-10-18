@@ -92,7 +92,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		result = vendorRequirement(context);
+		result = createSupplierRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
@@ -106,7 +106,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = payFromRequirement(context);
+		result = accounts(context, null, null);
 
 		if (result != null) {
 			return null;

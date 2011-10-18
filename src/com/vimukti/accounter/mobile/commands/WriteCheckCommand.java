@@ -98,12 +98,12 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = payeeRequirement(context);
+		result = payeeRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
 
-		result = bankAccountRequirement(context);
+		result = accounts(context, null, null);
 		if (result != null) {
 			return result;
 		}
@@ -246,7 +246,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		if (payee == selection) {
-			return payeeRequirement(context);
+			return payeeRequirement(context, list, null);
 		}
 
 		Record payeeRecord = new Record(payee);
