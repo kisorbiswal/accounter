@@ -45,9 +45,7 @@
 					</g:row>
 				</g:Grid>
 			</g:HorizontalPanel>
-			<g:HorizontalPanel styleName="setupcancelbutton">
 				<g:Button ui:field="cancelBtn"/>
-			</g:HorizontalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
