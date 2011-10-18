@@ -662,24 +662,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected Result payFromRequirement(Context context) {
-
-		Requirement payFromReq = get(PAY_FROM);
-		ClientAccount account = (ClientAccount) context.getSelection(PAY_FROM);
-
-		if (account != null) {
-
-			payFromReq.setValue(account);
-		}
-
-		if (!payFromReq.isDone()) {
-			return paymentFrom(context, account);
-
-		}
-
-		return null;
-	}
-
 	protected Result paymentTermRequirement(Context context, ResultList list,
 			Object selection) {
 		Object payamentObj = context.getSelection(PAYMENT_TERMS);
@@ -817,10 +799,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 		}
 		return result;
-	}
-
-	private ArrayList<ClientPaymentTerms> getPaymentTerms() {
-		return getClientCompany().getPaymentsTerms();
 	}
 
 	protected Result paymentFrom(Context context, ClientAccount oldAccount) {
@@ -1112,61 +1090,26 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected Result payeeRequirement(Context context) {
-		Requirement payeeReq = get("payee");
-		ClientPayee payee = context.getSelection("payees");
+	protected Result payeeRequirement(Context context, ResultList list,
+			String requirementName) {
+		Requirement payeeReq = get(requirementName);
+		ClientPayee payee = context.getSelection(requirementName);
+
 		if (payee != null) {
 			payeeReq.setValue(payee);
 		}
-		if (!payeeReq.isDone()) {
+
+		ClientPayee value = payeeReq.getValue();
+		Object selection = context.getSelection("values");
+		if (!payeeReq.isDone() || value == selection) {
 			return payee(context);
 		}
+
+		Record record = new Record(requirementName);
+		record.add("", "Payee");
+		record.add("", value.getName());
+		list.add(record);
 		return null;
-	}
-
-	protected Result bankAccountRequirement(Context context) {
-		Requirement bankAccountReq = get("bankAccount");
-		ClientAccount bankAccount = context.getSelection("bankAccounts");
-		if (bankAccount != null) {
-			bankAccountReq.setValue(bankAccount);
-		}
-		if (!bankAccountReq.isDone()) {
-			return bankAccounts(context);
-		}
-
-		return null;
-	}
-
-	private Result bankAccounts(Context context) {
-		Result result = context.makeResult();
-		ResultList accountsList = new ResultList("bankAccounts");
-		result.add("Bank Accounts List");
-		int num = 0;
-		ArrayList<ClientAccount> accounts2 = getClientCompany().getAccounts();
-		List<ClientAccount> accounts = new ArrayList<ClientAccount>(accounts2);
-		for (ClientAccount account : accounts) {
-			if (account.getType() == ClientAccount.TYPE_OTHER_CURRENT_ASSET) {
-				accountsList.add(createAccountRecord(account));
-				num++;
-			}
-			if (num == BANK_ACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = accountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Bank Account");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create Bank Account");
-
-		result.add(message.toString());
-		result.add(accountsList);
-		result.add(commandList);
-
-		return result;
-
 	}
 
 	private Result payee(Context context) {
@@ -1174,21 +1117,23 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		ResultList payeeList = new ResultList("payees");
 
 		Object last = context.getLast(RequirementType.PAYEE);
-		int num = 0;
+		List<ClientPayee> skipPayee = new ArrayList<ClientPayee>();
 		if (last != null) {
 			payeeList.add(createPayeeRecord((ClientPayee) last));
-			num++;
+			skipPayee.add((ClientPayee) last);
 		}
+
 		ArrayList<ClientPayee> payees = getClientCompany().getPayees();
-		for (ClientPayee payee : payees) {
-			if (payee != last) {
-				payeeList.add(createPayeeRecord(payee));
-				num++;
-			}
-			if (num == PAYEES_TO_SHOW) {
-				break;
-			}
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<ClientPayee> pagination = pagination(context, selection, actions,
+				payees, skipPayee, VALUES_TO_SHOW);
+
+		for (ClientPayee payee : pagination) {
+			payeeList.add(createPayeeRecord(payee));
 		}
+
 		int size = payeeList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
@@ -1392,6 +1337,17 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
+	private Record creatAccountRecord(ClientAccount last) {
+		Record record = new Record(last);
+		record.add("Account Name", "Account Name:");
+		record.add("Account Name value", last.getName());
+		record.add("Account Balance", "Current Balance:");
+		record.add("Current Balance", last.getCurrentBalance());
+		record.add("Account Type", "Account Type:");
+		record.add("Account Type Value", getAccountTypeString(last.getType()));
+		return record;
+	}
+
 	public double getTaxTotal(List<ClientTransactionItem> items,
 			ClientTAXCode taxCode) {
 
@@ -1478,18 +1434,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			totalValue = grandTotal;
 		}
 		return totallinetotal;
-	}
-
-	protected Result vendorRequirement(Context context) {
-		Requirement vendReq = get(VENDOR);
-		ClientVendor vendor = context.getSelection("suppliers");
-		if (vendor != null) {
-			vendReq.setValue(vendor);
-		}
-		if (!vendReq.isDone()) {
-			return vendors(context);
-		}
-		return null;
 	}
 
 	protected List<ClientAccount> getAccounts(Boolean isActive) {
