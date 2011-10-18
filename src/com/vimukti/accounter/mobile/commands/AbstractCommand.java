@@ -10,7 +10,6 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.sun.org.apache.regexp.internal.recompile;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -942,7 +941,6 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result viewTypeRequirement(Context context, ResultList list,
 			Object selection) {
-		Object viewType = context.getSelection(VIEW_BY);
 		Requirement viewReq = get(VIEW_BY);
 		String view = viewReq.getValue();
 
@@ -950,8 +948,8 @@ public abstract class AbstractCommand extends Command {
 			return viewTypes(context, view);
 
 		}
-		if (viewType != null) {
-			view = (String) viewType;
+		if (selection != null) {
+			view = (String) selection;
 			viewReq.setValue(view);
 		}
 
