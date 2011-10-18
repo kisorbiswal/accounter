@@ -512,5 +512,19 @@
 	<command clazz="NewItemGroupCommand" name="ItemGroup">
 		<alias>New ItemGroup</alias>
 	</command>
+	<command clazz="VATCodesListCommand" name="TAXCodes List">
+		<alias>TAXCodes</alias>
+		<alias>TaxCodes List</alias>
+		<alias>Codes List</alias>
+		<alias>VAT Codes</alias>
+		<alias>VAT Codes List</alias>
+	</command>
+	<command clazz="VATItemsListCommand" name="VATItems List">
+		<alias>VAT Items</alias>
+		<alias>VATItems</alias>
+		<alias>VAT Items List</alias>
+		<alias>TAX Items</alias>
+		<alias>TAX Items List</alias>
+	</command>
 
 </commands>
