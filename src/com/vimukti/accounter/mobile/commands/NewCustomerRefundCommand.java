@@ -61,7 +61,7 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = depositeOrTransferTo(context, "payfrom");
+		// result = depositeOrTransferTo(context, "payfrom");
 		if (result != null) {
 			return result;
 		}
@@ -70,7 +70,7 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context,null, null);
+		result = paymentMethodRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
