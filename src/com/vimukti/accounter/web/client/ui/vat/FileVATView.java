@@ -76,7 +76,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 					}
 				});
-		taxAgencyCombo.setWidth("200px");
+		//taxAgencyCombo.setWidth("200px");
 		fromDate = new DateItem(Accounter.constants().from());
 		fromDate.setHelpInformation(true);
 		fromDate.setWidth(100);
