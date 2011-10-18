@@ -527,4 +527,8 @@
 		<alias>TAX Items List</alias>
 	</command>
 
+	<command clazz="NewJournalEntryCommand" name="Journal Entry">
+		<alias>New Journal Entry</alias>
+	</command>
+
 </commands>

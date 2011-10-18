@@ -804,13 +804,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected List<ClientCustomer> getCustomers(Boolean isActive) {
 		ArrayList<ClientCustomer> customers = getClientCompany().getCustomers();
 		ArrayList<ClientCustomer> result = new ArrayList<ClientCustomer>();
+		if (isActive == null) {
+			return customers;
+		}
 		for (ClientCustomer customer : customers) {
 			if (isActive) {
 				if (customer.isActive()) {
 					result.add(customer);
 				}
 			} else {
-				result.add(customer);
+				if (!customer.isActive()) {
+					result.add(customer);
+				}
 			}
 		}
 		return result;
