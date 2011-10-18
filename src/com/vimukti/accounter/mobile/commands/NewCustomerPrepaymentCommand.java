@@ -1,30 +1,28 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
-	private static final String INPUT_ATTR = "input";
-	private static final String CUSTOMER_NAME = "customer";
-	private static final String CUSTOMERPREPAYMENT_NUM = "number";
-	private static final String DATE = "date";
-	private static final String ADDRES = "address";
-	private static final String DEPOSITSANDTRANSFERS = "Deposit / Transfer To";
+	private static final String DEPOSITSANDTRANSFERS = "DepositOrTransferTo";
 	private static final String AMOUNT = "Amount";
-	private static final String PAYMENT_MENTHOD = "Payment method";
 	private static final String TOBEPRINTED = "To be printed";
 	private static final String CHEQUE_NUM = "cheque Num";
-	private static final String MEMO = "memo";
-	private static final String BANK_BALANCE = "Bank Balance";
-	private static final String CUSTOMER_BALANCE = "Customer Balance ";
 
 	@Override
 	public String getId() {
@@ -34,9 +32,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
-		list.add(new Requirement(CUSTOMER_NAME, false, true));
-		list.add(new Requirement(CUSTOMERPREPAYMENT_NUM, true, true));
+		list.add(new Requirement(CUSTOMER, false, true));
+		list.add(new Requirement(ORDER_NO, true, true));
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(DEPOSITSANDTRANSFERS, false, true));
 		list.add(new Requirement(AMOUNT, false, true));
@@ -48,42 +45,109 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+		setDefaultValues();
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = context.makeResult();
+		if (process != null) {
+			if (process.equals(ADDRESS_PROCESS)) {
+				result = addressProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		setTransactionType(CUSTOMER_TRANSACTION);
+		Result makeResult = context.makeResult();
+		ResultList actions = new ResultList("actions");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		result = customerRequirement(context, list, CUSTOMER);
+		if (result != null) {
+			return result;
+		}
+		result = accountRequirement(context, list, DEPOSITSANDTRANSFERS,
+				new ListFilter<ClientAccount>() {
 
-		Result result = null;
-
-		// result = customerRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = depositeOrTransferTo(context, "depositOrTransferTo");
-		if (result != null) {
-			return result;
-		}
-
-		result = amountRequireMent(context);
-		if (result != null) {
-			return result;
-		}
-		result = paymentMethodRequirement(context, null, null);
+					@Override
+					public boolean filter(ClientAccount acc) {
+						return Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_CREDIT_CARD,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+								ClientAccount.TYPE_FIXED_ASSET).contains(
+								acc.getType())
+								&& acc.getID() != getClientCompany()
+										.getAccountsReceivableAccountId();
+					}
+				});
 		if (result != null) {
 			return result;
 		}
 
-		result = optionalRequirement(context);
+		result = amountRequirement(context, list, AMOUNT, "Enter Amount");
 		if (result != null) {
 			return result;
 		}
-		return null;
+		result = paymentMethodRequirement(context, list, PAYMENT_MENTHOD);
+		if (result != null) {
+			return result;
+		}
+		makeResult.add(actions);
+		result = createOptionalRequirement(context, list, makeResult, actions);
+		if (result != null) {
+			return result;
+		}
+		completeProcess(context);
+		markDone();
+		result = new Result();
+		result.add("Customer Prepayment was created successfully");
+		return result;
+	}
+
+	private void completeProcess(Context context) {
+		ClientCustomerPrePayment prePayment = new ClientCustomerPrePayment();
+		Date date = get(DATE).getValue();
+		prePayment.setDate(new ClientFinanceDate(date).getDate());
+		String number = get(ORDER_NO).getValue();
+		prePayment.setNumber(number);
+		ClientCustomer customer = get(CUSTOMER).getValue();
+		prePayment.setCustomer(customer.getID());
+		ClientAccount depositIn = get(DEPOSITSANDTRANSFERS).getValue();
+		prePayment.setDepositIn(depositIn.getID());
+		String amount = get(AMOUNT).getValue();
+		prePayment.setTotal(Double.valueOf(amount));
+		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+		prePayment.setPaymentMethod(paymentMethod);
+		String checkNum = get(CHEQUE_NUM).getValue();
+		prePayment.setCheckNumber(checkNum);
+		Boolean tobePrinted = get(TOBEPRINTED).getValue();
+		prePayment.setToBePrinted(tobePrinted);
+		String memo = get(MEMO).getValue();
+		prePayment.setMemo(memo);
+		prePayment.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+		adjustBalance(Double.valueOf(amount), customer, prePayment);
+		create(prePayment, context);
+	}
+
+	private void setDefaultValues() {
+		get(DATE).setDefaultValue(new Date());
+		get(ORDER_NO).setDefaultValue("1");
+		get(TOBEPRINTED).setDefaultValue(true);
+		get(CHEQUE_NUM).setDefaultValue("1");
 	}
 
 	/**
 	 * 
 	 * @param context
+	 * @param actions2
+	 * @param makeResult
+	 * @param list2
 	 * @return
 	 */
-	private Result optionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
+	private Result createOptionalRequirement(Context context, ResultList list,
+			Result makeResult, ResultList actions) {
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
@@ -95,106 +159,56 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement custmerReq = get(CUSTOMER_NAME);
-		Customer customer = (Customer) custmerReq.getValue();
-		Record custRecord = new Record(customer);
-		custRecord.add("Name", "Customer");
-		custRecord.add("Value", customer.getName());
-		list.add(custRecord);
-
-		Requirement transferTo = get(DEPOSITSANDTRANSFERS);
-		Account account = transferTo.getValue();
-		Record accountRec = new Record(account);
-		accountRec.add("Number", "Account No");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account name", "Account Name");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account type", "Account Type");
-		accountRec.add("Account Type", getAccountTypeString(account.getType()));
-		list.add(accountRec);
-
-		Requirement amountReq = get(AMOUNT);
-		Double amount = (Double) amountReq.getValue();
-		if (amount == selection) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context, "Please Enter the Amount", "" + amount);
-		}
-
-		Requirement paymentMethodReq = get(PAYMENT_MENTHOD);
-		String paymentMethod = paymentMethodReq.getValue();
-		if (paymentMethod == selection) {
-			context.setAttribute(INPUT_ATTR, PAYMENT_MENTHOD);
-			return text(context, "Please Enter PaymentMethod", ""
-					+ paymentMethod);
-		}
-		Result result = orderNoRequirement(context, list, selection);
+		Result result = numberRequirement(context, list, ORDER_NO,
+				"Enter Order Number");
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, "date", "Date",
-				selection);
+		result = dateOptionalRequirement(context, list, DATE, "Date", selection);
 		if (result != null) {
 			return result;
 		}
-		Requirement tobePrintedReq = get(TOBEPRINTED);
-		Boolean isTobePrinted = tobePrintedReq.getValue();
-		if (selection == isTobePrinted) {
-			context.setAttribute(INPUT_ATTR, TOBEPRINTED);
-			isTobePrinted = !isTobePrinted;
-			tobePrintedReq.setValue(isTobePrinted);
-		}
-		String tobePrintedString = "";
-		if (isTobePrinted) {
-			tobePrintedString = "This To be Printed is Active";
-		} else {
-			tobePrintedString = "This To be Printed is Active";
-		}
-		Record isTobePrintedRecord = new Record(TOBEPRINTED);
-		isTobePrintedRecord.add("Name", "");
-		isTobePrintedRecord.add("Value", tobePrintedString);
-		list.add(isTobePrintedRecord);
 
-		if (!isTobePrinted) {
-			result = amountOptionalRequirement(context, list, selection,
-					CHEQUE_NUM, "Enter check Number");
-			if (result != null) {
-				return result;
-			}
+		result = numberRequirement(context, list, CHEQUE_NUM,
+				"Enter Check Number");
+		if (result != null) {
+			return result;
 		}
+
+		booleanOptionalRequirement(context, selection, list, TOBEPRINTED,
+				"Printed", "Not Printed");
 		result = stringOptionalRequirement(context, list, selection, MEMO,
 				"Enter Memo");
 		if (result != null) {
 			return result;
 		}
-		ResultList actions = new ResultList(ACTIONS);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Invoice.");
 		actions.add(finish);
-		result.add(actions);
-		return result;
+		return makeResult;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result amountRequireMent(Context context) {
-		Requirement amountReq = get(AMOUNT);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(AMOUNT)) {
-			input = context.getString();
-			amountReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!amountReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return text(context, "Please Enter the  Amount", null);
-		}
+	private void adjustBalance(double amount, ClientCustomer customer,
+			ClientCustomerPrePayment customerPrePayment) {
+		double enteredBalance = amount;
 
-		return null;
+		if (DecimalUtil.isLessThan(enteredBalance, 0)
+				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
+			enteredBalance = 0D;
+		}
+		if (customer != null) {
+			customerPrePayment.setCustomerBalance(customer.getBalance()
+					- enteredBalance);
+
+		}
+		ClientAccount depositIn = getClientCompany().getAccount(
+				customerPrePayment.getDepositIn());
+		if (depositIn.isIncrease()) {
+			customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
+					- enteredBalance);
+		} else {
+			customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
+					+ enteredBalance);
+		}
 	}
-
 }
