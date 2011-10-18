@@ -20,7 +20,10 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -92,7 +95,15 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		result = createSupplierRequirement(context, null, null);
+
+		Result makeResult = context.makeResult();
+		makeResult.add("VatAgency  is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		result = createSupplierRequirement(context, list, VENDOR);
 		if (result != null) {
 			return result;
 		}
@@ -106,16 +117,22 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accounts(context, null, null);
+		result = accountRequirement(context, list, PAY_FROM,
+				new ListFilter<ClientAccount>() {
+					@Override
+					public boolean filter(ClientAccount e) {
+						return true;
+					}
+				});
 
 		if (result != null) {
 			return null;
 		}
-		result = paymentMethodRequirement(context, null, null);
+		result = paymentMethodRequirement(context, list, PAYMENT_MENTHOD);
 		if (result != null) {
 			return result;
 		}
-		result = createOptionalResult(context);
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -155,10 +172,11 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 
 	private Result transactionItems(Context context) throws DAOException {
 
-		Vendor vendor = context.getSelection(VENDOR);
-		long date = context.getSelection(DATE);
+		ClientVendor value = get(VENDOR).getValue();
+		// long date = context.getSelection(DATE);
 		List<PayBillTransactionList> transactionItems = new FinanceTool()
-				.getVendorManager().getTransactionPayBills(vendor.getID());
+				.getVendorManager().getTransactionPayBills(
+						context.getCompany().getID());
 
 		List<TransactionPayBill> records = new ArrayList<TransactionPayBill>();
 		for (PayBillTransactionList billTransactionList : transactionItems) {
@@ -169,8 +187,9 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			transactionPayBill.setOriginalAmount(billTransactionList
 					.getOriginalAmount());
 			transactionPayBill.setAmountDue(billTransactionList.getAmountDue());
-			transactionPayBill.setDiscountDate(new FinanceDate(
-					billTransactionList.getDiscountDate()));
+			// transactionPayBill.setDiscountDate(billTransactionList
+			// .getDiscountDate() != null ? new FinanceDate(
+			// billTransactionList.getDiscountDate()) : "");
 			transactionPayBill.setCashDiscount(billTransactionList
 					.getCashDiscount());
 			transactionPayBill.setAppliedCredits(billTransactionList
@@ -199,9 +218,10 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		Requirement itemsReq = get("items");
 		List<TransactionItem> transItems = itemsReq.getValue();
 		List<Item> availableItems = new ArrayList<Item>();
-		for (TransactionItem transactionItem : transItems) {
-			availableItems.add(transactionItem.getItem());
-		}
+		if (transItems != null)
+			for (TransactionItem transactionItem : transItems) {
+				availableItems.add(transactionItem.getItem());
+			}
 		for (TransactionPayBill item : items) {
 			if (item != last || !availableItems.contains(item)) {
 				list.add(creatItemRecord(item));
@@ -228,7 +248,8 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		return record;
 	}
 
-	private Result createOptionalResult(Context context) {
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
@@ -255,15 +276,6 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement vendorReq = get(VENDOR);
-		Vendor vendor = (Vendor) vendorReq.getValue();
-		Record vendorRecord = new Record(vendor);
-		vendorRecord.add("Name", VENDOR);
-		vendorRecord.add("Value", vendor.getName());
-
-		list.add(vendorRecord);
 
 		Result result = dateOptionalRequirement(context, list, DATE,
 				"Enter date", selection);
@@ -281,9 +293,6 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = context.makeResult();
-		result.add("paybill is  ready to create with following values.");
-		result.add(list);
 
 		result.add("Items:-");
 		ResultList items = new ResultList("transactionItems");
@@ -294,12 +303,11 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 		result.add(items);
 
-		ResultList actions = new ResultList(ACTIONS);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish payment.");
 		actions.add(finish);
-		result.add(actions);
-		return result;
+
+		return makeResult;
 	}
 
 	private Result payBillItems(Context context,
