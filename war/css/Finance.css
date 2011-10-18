@@ -92,7 +92,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
 .portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,#overlay,.dateBoxPopup .datePickerDays,
-.dateBoxPopup .datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker,.setupcancelbutton{
+.dateBoxPopup .datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker{
 	width: 100%;
 }
 .textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.financialDataTitle:FIRST-CHILD,
@@ -158,7 +158,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 	height: 22px;
 }
 .workflowFilterList,.report-toolbar .ibutton,.button-panel,.standard-options .ibutton,.Writecheck_addNew,
-.recoucilation_change button,.skip_start tr td button,.setupcancelbutton button,.setupstartpagepanel button{
+.recoucilation_change button,.skip_start tr td button,.setupstartpagepanel button{
 	float: right !important;
 }
 .view_panel table table tr:last-child td .gwt-Button{
@@ -1204,7 +1204,7 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 .view_panel table table tr:last-child td .gwt-Button{
 	margin:15px;
 }
-.setupcancelbutton button,.setupstartpagepanel button{
+.setupstartpagepanel button{
 	margin:15px;
 }
 .gwt-StackPanel .gwt-StackPanelItem {
