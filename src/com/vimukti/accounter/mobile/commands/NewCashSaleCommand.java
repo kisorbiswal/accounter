@@ -128,7 +128,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list,
+		result = paymentMethodOptionalRequirement(context, list,
 				context.getSelection(PAYMENT_MENTHOD));
 		if (result != null) {
 			return result;
