@@ -52,6 +52,7 @@ body,table,tr,td,th,p{
 
 .gridHeaderBackGround {
 	background: #f2f2f2;
+	font-weight: bold;
 }
 
 .ShiftBottom {
