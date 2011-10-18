@@ -802,44 +802,67 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	protected Result paymentMethodRequirement(Context context) {
-		Requirement paymentMethodReq = get(PAYMENT_METHOD);
-		String paymentMethod = context.getSelection(PAYMENT_METHOD);
+	protected Result paymentMethodRequirement(Context context, ResultList list,
+			String requirementName) {
+		Requirement paymentMethodReq = get(requirementName);
+		String paymentMethod = context.getSelection(requirementName);
+
 		if (paymentMethod != null) {
 			paymentMethodReq.setValue(paymentMethod);
 		}
-		if (!paymentMethodReq.isDone()) {
+
+		String value = paymentMethodReq.getValue();
+		Object selection = context.getSelection("values");
+
+		if (!paymentMethodReq.isDone() || (value == selection)) {
 			return paymentMethod(context, null);
 		}
+
+		Record supplierRecord = new Record(value);
+		supplierRecord.add("", "Payment Method :");
+		supplierRecord.add("", value);
+		list.add(supplierRecord);
+
 		return null;
 	}
 
 	protected Result paymentMethod(Context context, String oldpaymentmethod) {
 		List<String> paymentmethods = getpaymentmethod();
 		Result result = context.makeResult();
-		result.add("Select PaymentMethod");
-
 		ResultList list = new ResultList(PAYMENT_METHOD);
 		Object last = context.getLast(RequirementType.PAYMENT_METHOD);
-		int num = 0;
+
+		List<String> skippayMents = new ArrayList<String>();
+
 		if (last != null) {
 			list.add(createPayMentMethodRecord((String) oldpaymentmethod));
-			num++;
+			skippayMents.add((String) last);
 		}
-		for (String paymentmethod : paymentmethods) {
-			if (paymentmethod != (String) last) {
-				list.add(createPayMentMethodRecord(paymentmethod));
-				num++;
-			}
-			if (num == PAYMENTMETHODS_TO_SHOW) {
-				break;
-			}
+
+		List<String> paymentMethods = paymentmethods;
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<String> pagination = pagination(context, selection, actions,
+				paymentMethods, skippayMents, PAYMENTMETHODS_TO_SHOW);
+
+		for (String paymentMethod : pagination) {
+			list.add(createPayMentMethodRecord(paymentMethod));
 		}
+
+		int size = list.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Payment Method");
+		}
+
+		result.add(message.toString());
 		result.add(list);
-		Record more = new Record("MORE");
-		more.add("", "MORE");
-		list.add(more);
+		result.add(actions);
+
 		return result;
+
 	}
 
 	protected List<String> getstatusmethod() {
