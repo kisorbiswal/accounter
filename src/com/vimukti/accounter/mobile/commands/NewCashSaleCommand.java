@@ -3,12 +3,8 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -17,8 +13,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -60,23 +56,21 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
-		list.add(new Requirement("paymentMethod", false, true));
-		list.add(new Requirement("date", true, true));
-		list.add(new Requirement("number", true, false));
+		list.add(new Requirement(PAYMENT_MENTHOD, false, true));
+		list.add(new Requirement(DATE, true, true));
+		list.add(new Requirement(NUMBER, true, false));
 		list.add(new Requirement("contact", true, true));
-		list.add(new Requirement("billTo", true, true));
-		list.add(new Requirement("phone", true, true));
+		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement("memo", true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
-		if (getClientCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			list.add(new Requirement("tax", false, true));
-		}
+		list.add(new Requirement(TAXCODE, false, true));
 	}
 
 	@Override
 	public Result run(Context context) {
+		setDefaultValues();
 		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
+		Result result = context.makeResult();
 		if (process != null) {
 			if (process.equals(ADDRESS_PROCESS)) {
 				result = addressProcess(context);
@@ -95,22 +89,47 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		result = customerRequirement(context);
-		if (result == null) {
+
+		// Preparing Result
+		Result makeResult = context.makeResult();
+		makeResult.add("Cash sale is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		setTransactionType(CUSTOMER_TRANSACTION);
+		result = customerRequirement(context, list, "customer");
+		if (result != null) {
 			return result;
 		}
 
-		// result = accountsRequirement(context);
-		if (result == null) {
+		result = itemsAndAccountsRequirement(context, makeResult, actions,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount account) {
+						if (account.getType() != ClientAccount.TYPE_CASH
+								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != ClientAccount.TYPE_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& account.getType() != ClientAccount.TYPE_EQUITY
+								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				});
+		if (result != null) {
 			return result;
 		}
-
-		result = itemsRequirement(context, null, null);
-		if (result == null) {
-			return result;
-		}
-
-		result = paymentMethod(context, null);
+		result = paymentMethodRequirement(context, list,
+				context.getSelection(PAYMENT_MENTHOD));
 		if (result != null) {
 			return result;
 		}
@@ -119,29 +138,35 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		Company company = context.getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			Requirement taxReq = get("tax");
-			TAXCode taxcode = context.getSelection(TAXCODE);
-			if (!taxReq.isDone()) {
-				if (taxcode != null) {
-					taxReq.setValue(taxcode);
-				} else {
-					return taxCode(context, null);
-				}
-			}
-			if (taxcode != null) {
-				taxReq.setValue(taxcode);
+		makeResult.add(actions);
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
 			}
 		}
 
-		result = createOptionalResult(context);
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
 		completeProcess(context);
 		markDone();
 		return null;
+	}
+
+	private void setDefaultValues() {
+		get(DATE).setDefaultValue(new Date());
+		get(NUMBER).setDefaultValue("1");
+		get(PHONE).setDefaultValue("");
+		ClientContact contact = new ClientContact();
+		contact.setName(null);
+		get(CONTACT).setDefaultValue(contact);
+		get(MEMO).setDefaultValue("");
+		get(PAYMENT_MENTHOD).setDefaultValue("Cash");
+
 	}
 
 	private void completeProcess(Context context) {
@@ -165,139 +190,79 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		// TODO Location
 		// TODO Class
 
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			ClientTAXCode taxCode = get("tax").getValue();
-			for (ClientTransactionItem item : items) {
-				item.setTaxCode(taxCode.getID());
-			}
-		}
-
-		Customer customer = get("customer").getValue();
+		ClientCustomer customer = get("customer").getValue();
 		cashSale.setCustomer(customer.getID());
 
 		ClientContact contact = get("contact").getValue();
 		cashSale.setContact(contact);
 
-		ClientAddress billTo = get("billTo").getValue();
-		cashSale.setBillingAddress(billTo);
-
 		// TODO Payments
 
-		String phone = get("phone").getValue();
+		String phone = get(PHONE).getValue();
 
 		String memo = get(MEMO).getValue();
 		cashSale.setMemo(memo);
 
-		String paymentMethod = get("paymentMethod").getValue();
+		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
 		cashSale.setPaymentMethod(paymentMethod);
 		ClientAccount account = get("depositOrTransferTo").getValue();
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
 		cashSale.setDepositIn(account.getID());
 		// if (context.getCompany())
-		ClientTAXCode taxCode = get("tax").getValue();
-		cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
-		// cashSale.setTotal(getTransactionTotal(accounts, company));
+		// ClientTAXCode taxCode = get(TAXCODE).getValue();
+		// cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
+		updateTotals(cashSale);
 		create(cashSale, context);
 
 	}
 
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
-			case ADD_MORE_ITEMS:
-				return items(context);
-			case ADD_MORE_ACCOUNTS:
-				return accountItems(context, "accounts",
-						new ListFilter<ClientAccount>() {
-
-							@Override
-							public boolean filter(ClientAccount account) {
-								return true;
-							}
-						});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
+				markDone();
 				return null;
 			default:
 				break;
 			}
 		}
 
-		Requirement itemsReq = get("items");
-		List<TransactionItem> transItems = itemsReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = transactionItem(context,
-					(ClientTransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		Requirement accountReq = get("accounts");
-		List<TransactionItem> accountItem = accountReq.getValue();
-
-		selection = context.getSelection("accountItems");
-		if (selection != null) {
-			Result result = transactionAccountItem(context,
-					(ClientTransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement transferTo = get("depositOrTransferTo");
-		Account account = transferTo.getValue();
-		Record numberRec = new Record(account);
-		numberRec.add("Number", "Account No");
-		numberRec.add("value", account.getNumber());
-		Record nameRec = new Record(account);
-		nameRec.add("Account name", "Account Name");
-		nameRec.add("value", account.getName());
-		Record accountRec = new Record(account);
-		accountRec.add("Account type", "Account Type");
-		accountRec.add("Account Type", getAccountTypeString(account.getType()));
-		list.add(numberRec);
-		list.add(nameRec);
-		list.add(accountRec);
-
-		Requirement custmerReq = get("customer");
-		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
-
-		selection = context.getSelection("values");
-		if (customer == selection) {
-			return customerRequirement(context);
-		}
-
-		// ResultList list = new ResultList("values");
-
-		Record custRecord = new Record(customer);
-		custRecord.add("Name", "Customer");
-		custRecord.add("Value", customer.getName());
-
-		list.add(custRecord);
-
-		Result result = cashSaleDateRequirement(context, list, selection);
+		Result result = dateOptionalRequirement(context, list, DATE,
+				"Enter date", selection);
 		if (result != null) {
 			return result;
 		}
 
+		result = numberOptionalRequirement(context, list, selection, PHONE,
+				"Enter Cash Sale Number");
+		if (result != null) {
+			return result;
+		}
+		Requirement customerReq = get("customer");
+		ClientCustomer customer = customerReq.getValue();
 		result = contactRequirement(context, list, selection, customer);
 		if (result != null) {
 			return result;
 		}
 
-		result = cashSaleNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = phoneRequirement(context, list, (String) selection);
+		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				"Enter Phone Number");
 		if (result != null) {
 			return result;
 		}
@@ -308,29 +273,11 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = context.makeResult();
-		result.add("CashSale is ready to create with following values.");
-		result.add(list);
-		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionItem item : transItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getItem().getName());
-			itemRec.add("Total", item.getLineTotal());
-			itemRec.add("VatCode", item.getVATfraction());
-		}
-		result.add(items);
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
-		actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create CashSale.");
+		finish.add("", "Finish to create Supplier Credit.");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return makeResult;
 	}
 
 	private Result cashSaleNoRequirement(Context context, ResultList list,
