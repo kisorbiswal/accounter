@@ -144,11 +144,9 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = booleanOptionalRequirement(context, selection, list, ACTIVE,
+		booleanOptionalRequirement(context, selection, list, ACTIVE,
 				"This account is Active", "This account is InActive");
-		if (result != null) {
-			return result;
-		}
+
 		result = amountOptionalRequirement(context, list, selection,
 				OPENINGBALANCE, "Opening balance");
 		if (result != null) {
