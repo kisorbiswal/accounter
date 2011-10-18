@@ -2,12 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -16,8 +10,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -26,31 +20,30 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
-public class CustomerQuoteListDialog extends BaseDialog {
-	public DialogGrid grid;
+public class CustomerQuoteListDialog extends
+		BaseDialog<EstimatesAndSalesOrdersList> {
+	public DialogGrid<EstimatesAndSalesOrdersList> grid;
 	private InvoiceView invoiceView;
 	private List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder;
-	private AccounterConstants customerConstants = Accounter.constants();
-	private AccounterConstants financeConstants = GWT
-			.create(AccounterConstants.class);
+	private static AccounterConstants customerConstants = Accounter.constants();
 
 	public ClientCustomer preCustomer;
+	private ClientTAXCode taxCode;
 
 	public CustomerQuoteListDialog(InvoiceView parentView,
 			List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder) {
-		super(Accounter.constants().quotesList(), "");
+		super(customerConstants.quotesList(), "");
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
 		if (getPreferences().isSalesOrderEnabled()
 				&& getPreferences().isDoyouwantEstimates()) {
-			setText(Accounter.constants().quoteAndSalesOrderList());
+			setText(customerConstants.quoteAndSalesOrderList());
 		} else if (getPreferences().isDoyouwantEstimates()) {
-			setText(Accounter.constants().quoteList());
+			setText(customerConstants.quoteList());
 
 		} else if (getPreferences().isSalesOrderEnabled()) {
-			setText(Accounter.constants().salesOrderList());
+			setText(customerConstants.salesOrderList());
 		}
 		createControl();
 		setWidth("600px");
@@ -67,20 +60,19 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		Label infoLabel = null;
 		if (getPreferences().isSalesOrderEnabled()
 				&& getPreferences().isDoyouwantEstimates()) {
-			infoLabel = new Label(Accounter.constants()
-					.selectQuoteOrSalesOrder());
+			infoLabel = new Label(customerConstants.selectQuoteOrSalesOrder());
 		} else if (getPreferences().isDoyouwantEstimates()) {
-			infoLabel = new Label(Accounter.constants().selectQuote());
+			infoLabel = new Label(customerConstants.selectQuote());
 		} else if (getPreferences().isSalesOrderEnabled()) {
-			infoLabel = new Label(Accounter.constants().selectSalesOrder());
+			infoLabel = new Label(customerConstants.selectSalesOrder());
 		}
 		mainLayout.add(infoLabel);
 
-		grid = new DialogGrid(false);
+		grid = new DialogGrid<EstimatesAndSalesOrdersList>(true);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(),
-				Accounter.messages().customerName(Global.get().Customer()),
-				customerConstants.total(), customerConstants.remainingTotal());
+				customerConstants.type(), Accounter.messages().customerName(
+						Global.get().Customer()), customerConstants.total(),
+				customerConstants.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);
 		grid.init();
@@ -88,72 +80,11 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
 
-			@Override
-			public void OnCellDoubleClick(EstimatesAndSalesOrdersList core,
-					int column) {
-				setRecord1(core);
-
-			}
-
-		});
-
-		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
-
 		mainLayout.add(grid);
 
-		HorizontalPanel helpButtonLayout = new HorizontalPanel();
-
-		Button helpButton = new Button(financeConstants.help());
-		helpButton.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.constants().sorryNoHelp());
-
-			}
-
-		});
-		helpButtonLayout.add(helpButton);
-		HorizontalPanel okButtonLayout = new HorizontalPanel();
-		okButtonLayout.setSpacing(3);
-
-		Button okButton = new Button(financeConstants.ok());
-		okButton.setWidth("100px");
-		okButton.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-
-				List<EstimatesAndSalesOrdersList> record = (List<EstimatesAndSalesOrdersList>) grid
-						.getRecords();
-				setRecord(record);
-
-			}
-
-		});
-		okButtonLayout.add(okButton);
-		Button cancelButton = new Button(financeConstants.cancel());
-		cancelButton.setWidth("100px");
-		cancelButton.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				removeFromParent();
-			}
-
-		});
-		okButtonLayout.add(cancelButton);
-		HorizontalPanel buttonLayout = new HorizontalPanel();
-		buttonLayout.setWidth("100%");
-
-		// buttonLayout.add(helpButtonLayout);
-		buttonLayout.add(okButtonLayout);
-		buttonLayout.setCellHorizontalAlignment(okButtonLayout,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-
-		// mainLayout.add(buttonLayout);
 		mainLayout.setSize("100%", "100%");
-
 		setBodyLayout(mainLayout);
 	}
 
@@ -166,21 +97,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				} else {
 					getSalesOrder(rec);
 				}
-
 			}
 
-	}
-
-	private void setRecord1(EstimatesAndSalesOrdersList record) {
-		if (record != null) {
-			if (record.getType() == ClientTransaction.TYPE_ESTIMATE) {
-				getEstimate(record);
-
-			} else {
-				getSalesOrder(record);
-			}
-		}
-		removeFromParent();
 	}
 
 	private void getSalesOrder(EstimatesAndSalesOrdersList record) {
@@ -188,8 +106,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
-						.errorLoadingSalesOrder());
+				Accounter.showError(customerConstants.errorLoadingSalesOrder());
 
 			}
 
@@ -197,14 +114,13 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			public void onResultSuccess(ClientSalesOrder result) {
 				if (invoiceView != null && result != null)
 					invoiceView.selectedSalesOrder(result);
-				return;
-				// removeFromParent();
-
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				record.getTransactionId(), callback);
+
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, record
+				.getTransactionId(), callback);
+
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -212,23 +128,20 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants().errorLoadingQuote());
+				Accounter.showError(customerConstants.errorLoadingQuote());
 
 			}
 
 			@Override
 			public void onResultSuccess(ClientEstimate result) {
-				// super.onSuccess(result);
 				if (invoiceView != null && result != null)
 					invoiceView.selectedQuote(result);
-				return;
-				// removeFromParent();
 
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE, record
+				.getTransactionId(), callback);
 
 	}
 
@@ -243,8 +156,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		}
 	}
 
-	public Object getGridColumnValue(IAccounterCore obj, int index) {
-		EstimatesAndSalesOrdersList estimate = (EstimatesAndSalesOrdersList) obj;
+	public Object getGridColumnValue(EstimatesAndSalesOrdersList estimate,
+			int index) {
 		if (estimate != null) {
 			switch (index) {
 			case 0:
@@ -253,9 +166,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				return estimate.getTransactionNumber();
 			case 2:
 				if (estimate.getType() == ClientTransaction.TYPE_ESTIMATE) {
-					return Accounter.constants().quote();
+					return customerConstants.quote();
 				} else {
-					return Accounter.constants().salesOrder();
+					return customerConstants.salesOrder();
 				}
 			case 3:
 				return estimate.getCustomerName();
@@ -269,14 +182,20 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 	}
 
-	// setTitle(customerConstants.createForm());
-
 	@Override
 	protected boolean onOK() {
-		EstimatesAndSalesOrdersList record = (EstimatesAndSalesOrdersList) grid
-				.getSelection();
-		setRecord1(record);
+		List<EstimatesAndSalesOrdersList> record = (List<EstimatesAndSalesOrdersList>) grid
+				.getSelectedRecords();
+		setRecord(record);
 		return true;
+	}
+
+	public void setTaxCode(ClientTAXCode code) {
+		this.taxCode = code;
+	}
+
+	public ClientTAXCode getTaxCode() {
+		return taxCode;
 	}
 
 	@Override

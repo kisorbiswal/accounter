@@ -1193,7 +1193,7 @@ public class SalesOrderView extends
 		}
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
-		customerTransactionTable.setRecords(itemsList);
+		customerTransactionTable.addRows(itemsList);
 		customerTransactionTable.updateTotals();
 		// if (selectedEstimate == null)
 		// return;

@@ -145,7 +145,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		}
 		firstNametext.setValue(data.getFirstName());
 		lastNametext.setValue(data.getLastName());
-		emailField.setValue(data.getEmail());
+		emailField.setEmail(data.getEmail());
 		// userManagementBox.setValue(takenUser.isCanDoUserManagement());
 		grid.setRecords(getRolePermissionsForUser(data));
 		// if (data.isActive()) {
@@ -209,7 +209,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	private void enableFormItems() {
 		firstNametext.setDisabled(isInViewMode());
 		lastNametext.setDisabled(isInViewMode());
-		emailField.setDisabled(isInViewMode());
+		if (!Accounter.getUser().getEmail().equals(data.getEmail()))
+			emailField.setDisabled(isInViewMode());
 		grid.setDisabled(isInViewMode());
 
 	}

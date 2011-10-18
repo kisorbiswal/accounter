@@ -76,7 +76,7 @@ public class JournalEntryView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = super.validate();
+		ValidationResult result = new ValidationResult();
 		// Validations
 		// 1. is valid memo?
 		// 2. is valid transaction date?

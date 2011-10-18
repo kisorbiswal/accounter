@@ -756,7 +756,7 @@ public class PurchaseOrderView extends
 
 			} else
 				billtoAreaItem.setValue("");
-			if (isTrackTax()) {
+			if (isTrackTax() && isTrackPaidTax()) {
 
 				if (!isTaxPerDetailLine()) {
 					this.taxCodeSelect
@@ -1363,8 +1363,8 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-			vendorAccountTransactionTable.updateTotals();
-			vendorItemTransactionTable.updateTotals();
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	private void settabIndexes() {
