@@ -227,7 +227,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-
+		selection = context.getSelection("values");
 		Result result = dateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
