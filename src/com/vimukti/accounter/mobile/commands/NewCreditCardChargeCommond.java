@@ -94,7 +94,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		setTransactionType(TYPE_CREDIT_CARD_CHARGE);
+		setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 		result = createSupplierRequirement(context, list, SUPPLIER);
 		if (result != null) {
 			return result;
