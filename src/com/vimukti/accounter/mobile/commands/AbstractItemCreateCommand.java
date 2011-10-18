@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.ListFilter;
 
 public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
@@ -37,6 +36,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	private static final String EXPENSE_ACCOUNT = "expenseAccount";
 	private static final String PREFERRED_SUPPLIER = "preferredSupplier";
 	private static final String SERVICE_NO = "supplierServiceNo";
+	protected static final String WEIGHT = "weight";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -57,7 +57,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		list.add(new Requirement(EXPENSE_ACCOUNT, false, true));
 		list.add(new Requirement(PREFERRED_SUPPLIER, true, true));
 		list.add(new Requirement(SERVICE_NO, true, true));
-
+		list.add(new Requirement(WEIGHT, true, true));
 	}
 
 	@Override
@@ -82,16 +82,17 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			return result;
 		}
 
+		Object selection = context.getSelection("values");
+
+		result = booleanOptionalRequirement(context, selection, list,
+				I_SELL_THIS, "I sell this Service", "I don't sell this Service");
+		if (result != null) {
+			return result;
+		}
+
 		Boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
-			result = accountRequirement(context, list, INCOME_ACCOUNT,
-					new ListFilter<ClientAccount>() {
-
-						@Override
-						public boolean filter(ClientAccount e) {
-							return true;
-						}
-					});
+			result = accountRequirement(context, list, INCOME_ACCOUNT);
 			if (result != null) {
 				return result;
 			}
@@ -104,16 +105,15 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			}
 		}
 
+		result = booleanOptionalRequirement(context, selection, list,
+				I_BUY_THIS, "I buy this Service", "I don't buy this Service");
+		if (result != null) {
+			return result;
+		}
+
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
-			result = accountRequirement(context, list, EXPENSE_ACCOUNT,
-					new ListFilter<ClientAccount>() {
-
-						@Override
-						public boolean filter(ClientAccount e) {
-							return true;
-						}
-					});
+			result = accountRequirement(context, list, EXPENSE_ACCOUNT);
 			if (result != null) {
 				return result;
 			}
@@ -134,13 +134,13 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
 		get(IS_COMMISION_ITEM).setDefaultValue(Boolean.TRUE);
 		get(STANDARD_COST).setDefaultValue(0.0D);
-		get(ITEM_GROUP).setDefaultValue("");
+		get(ITEM_GROUP).setDefaultValue(null);
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(I_BUY_THIS).setDefaultValue(Boolean.FALSE);
 		get(PURCHASE_DESCRIPTION).setDefaultValue(" ");
 		get(PURCHASE_PRICE).setDefaultValue(0.0D);
-		get(PREFERRED_SUPPLIER).setDefaultValue("");
-		get(SERVICE_NO).setDefaultValue(1);
+		get(PREFERRED_SUPPLIER).setDefaultValue(null);
+		get(SERVICE_NO).setDefaultValue("1");
 	}
 
 	/**
@@ -171,14 +171,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 		selection = context.getSelection("values");
 
-		Result result = booleanOptionalRequirement(context, selection, list,
-				I_SELL_THIS, "I sell this Service", "I don't sell this Service");
-		if (result != null) {
-			return result;
-		}
-
 		// TODO :check weather it is product or service item
-		result = weightRequirement(context, list, selection);
+		Result result = weightRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
@@ -186,24 +180,17 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		// Boolean iSellThis = get(I_SELL_THIS).getValue();
 		boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
-			Requirement incomeAccountReq = get(INCOME_ACCOUNT);
-			ClientAccount inAccount = (ClientAccount) incomeAccountReq
-					.getValue();
-			if (INCOME_ACCOUNT == selection || inAccount == null) {
-				context.setAttribute(INPUT_ATTR, INCOME_ACCOUNT);
-				Result incomeorExpenseAccountRequirement = accountRequirement(
-						context, list, INCOME_ACCOUNT,
-						new ListFilter<ClientAccount>() {
-
-							@Override
-							public boolean filter(ClientAccount e) {
-								return true;
-							}
-						});
-				if (incomeorExpenseAccountRequirement != null) {
-					return incomeorExpenseAccountRequirement;
-				}
-			}
+			// Requirement incomeAccountReq = get(INCOME_ACCOUNT);
+			// ClientAccount inAccount = (ClientAccount) incomeAccountReq
+			// .getValue();
+			// if (INCOME_ACCOUNT == selection || inAccount == null) {
+			// context.setAttribute(INPUT_ATTR, INCOME_ACCOUNT);
+			// Result incomeorExpenseAccountRequirement = accountRequirement(
+			// context, list, INCOME_ACCOUNT);
+			// if (incomeorExpenseAccountRequirement != null) {
+			// return incomeorExpenseAccountRequirement;
+			// }
+			// }
 
 			result = booleanOptionalRequirement(context, selection, list,
 					IS_COMMISION_ITEM, "This is Commision Item",
@@ -248,30 +235,19 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = booleanOptionalRequirement(context, selection, list,
-				I_BUY_THIS, "I buy this Service", "I don't buy this Service");
-		if (result != null) {
-			return result;
-		}
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
-			Requirement expenseAccountReq = get(EXPENSE_ACCOUNT);
-			ClientAccount exAccount = (ClientAccount) expenseAccountReq
-					.getValue();
-			if (EXPENSE_ACCOUNT == selection || exAccount == null) {
-				context.setAttribute(INPUT_ATTR, EXPENSE_ACCOUNT);
-				Result exResult = accountRequirement(context, list,
-						EXPENSE_ACCOUNT, new ListFilter<ClientAccount>() {
-
-							@Override
-							public boolean filter(ClientAccount e) {
-								return true;
-							}
-						});
-				if (exResult != null) {
-					return exResult;
-				}
-			}
+			// Requirement expenseAccountReq = get(EXPENSE_ACCOUNT);
+			// ClientAccount exAccount = (ClientAccount) expenseAccountReq
+			// .getValue();
+			// if (EXPENSE_ACCOUNT == selection || exAccount == null) {
+			// context.setAttribute(INPUT_ATTR, EXPENSE_ACCOUNT);
+			// Result exResult = accountRequirement(context, list,
+			// EXPENSE_ACCOUNT);
+			// if (exResult != null) {
+			// return exResult;
+			// }
+			// }
 
 			result = stringOptionalRequirement(context, list, selection,
 					PURCHASE_DESCRIPTION, "Enter Purchase Description");
@@ -285,7 +261,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			}
 
 			// for prefferedSupplier
-			result = vendorRequirement(context);
+			result = vendorRequirement(context, list);
 			if (result != null) {
 				return result;
 			}
@@ -312,12 +288,12 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			ResultList list, Object selection) {
 
 		Requirement supplierServiceReq = get(SERVICE_NO);
-		Integer supplierService = (Integer) supplierServiceReq.getValue();
+		String supplierService = (String) supplierServiceReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(SERVICE_NO)) {
-			Integer supSer = context.getSelection(TEXT);
+			String supSer = context.getSelection(TEXT);
 			if (supSer == null) {
-				supSer = context.getInteger();
+				supSer = context.getString();
 			}
 			supplierService = supSer;
 			supplierServiceReq.setValue(supplierService);
@@ -328,7 +304,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 					supplierService.toString());
 		}
 
-		Integer supplierServiceNo = (Integer) get(SERVICE_NO).getValue();
+		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
 		Record supplierServiceNoRec = new Record(SERVICE_NO);
 		supplierServiceNoRec.add("Name", "Supplier Service No.");
 		supplierServiceNoRec.add("Value", supplierServiceNo);
@@ -437,9 +413,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	 * requirement for a vendor from combo
 	 * 
 	 * @param context
+	 * @param list
 	 * @return
 	 */
-	private Result vendorRequirement(Context context) {
+	private Result vendorRequirement(Context context, ResultList list) {
 		Requirement vendorReq = get(PREFERRED_SUPPLIER);
 		ClientVendor vendor = context.getSelection("vendors");
 		if (vendor != null) {
@@ -448,6 +425,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		if (!vendorReq.isDone()) {
 			return vendors(context);
 		}
+		Record supplierRecord = new Record(vendor);
+		supplierRecord.add("", "Preferred Supplier");
+		supplierRecord.add("", vendor != null ? vendor.getName() : "");
+		list.add(supplierRecord);
 		return null;
 	}
 
@@ -517,7 +498,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		String name = (String) get(NAME).getValue();
 
 		// TODO:check weather it is product or service item
-		Integer weight = 0; // (Integer) get("weight").getValue();
+		Integer weight = 0;
+		if (this instanceof NewProductItemCommand) {
+			weight = Integer.parseInt((String) get(WEIGHT).getValue());
+		}
 		Boolean iSellthis = (Boolean) get(I_SELL_THIS).getValue();
 		String description = (String) get(SALES_DESCRIPTION).getValue();
 		double price = (Double) get(SALES_PRICE).getValue();
@@ -551,15 +535,19 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			item.setCommissionItem(isCommisionItem);
 		}
 		item.setStandardCost(cost);
-		item.setTaxCode(vatcode.getID());
+		if (context.getCompany().getPreferences().isClassOnePerTransaction()) {
+			item.setTaxCode(vatcode.getID());
+		}
 		item.setActive(isActive);
 		item.setIBuyThisItem(isBuyservice);
-		item.setItemGroup(itemGroup.getID());
+		if (itemGroup != null)
+			item.setItemGroup(itemGroup.getID());
 		if (isBuyservice) {
 			item.setPurchaseDescription(purchaseDescription);
 			item.setPurchasePrice(purchasePrice);
 			item.setExpenseAccount(expenseAccount.getID());
-			item.setPreferredVendor(preferedSupplier.getID());
+			if (preferedSupplier != null)
+				item.setPreferredVendor(preferedSupplier.getID());
 			item.setVendorItemNumber(supplierServiceNo);
 		}
 		create(item, context);
