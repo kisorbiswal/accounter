@@ -109,7 +109,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context);
+		result = paymentMethodRequirement(context,null, null);
 		if (result != null) {
 			return result;
 		}

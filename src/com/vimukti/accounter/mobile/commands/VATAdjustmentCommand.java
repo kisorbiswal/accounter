@@ -50,12 +50,12 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 		setOptionalValues();
 
-		result = taxAgencyRequirement(context);
+		result = taxAgencyRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
 
-		result = taxItemRequirement(context);
+		result = taxItemRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
@@ -65,7 +65,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = amountRequirement(context);
+		result = amountRequirement(context, null, null, null);
 		if (result != null) {
 			return result;
 		}

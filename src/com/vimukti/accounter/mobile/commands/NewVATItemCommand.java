@@ -52,12 +52,12 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = amountRequirement(context);
+		result = amountRequirement(context, null, null, null);
 		if (result != null) {
 			return result;
 		}
 
-		result = taxAgencyRequirement(context);
+		result = taxAgencyRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}

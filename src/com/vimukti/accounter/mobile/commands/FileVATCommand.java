@@ -34,7 +34,7 @@ public class FileVATCommand extends AbstractVATCommand {
 	public Result run(Context context) {
 		Result result = null;
 
-		result = taxAgencyRequirement(context);
+		result = taxAgencyRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}

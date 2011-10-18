@@ -111,7 +111,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return null;
 		}
-		result = paymentMethodRequirement(context);
+		result = paymentMethodRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}

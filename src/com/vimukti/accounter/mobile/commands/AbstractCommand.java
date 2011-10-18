@@ -1366,6 +1366,7 @@ public abstract class AbstractCommand extends Command {
 
 		Requirement amountReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
+		
 		if (input.equals(reqName)) {
 			amountReq.setValue(context.getNumber());
 			context.setAttribute(INPUT_ATTR, "optional");

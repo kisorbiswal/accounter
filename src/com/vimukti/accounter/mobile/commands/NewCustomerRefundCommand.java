@@ -70,7 +70,7 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context);
+		result = paymentMethodRequirement(context,null, null);
 		if (result != null) {
 			return result;
 		}
