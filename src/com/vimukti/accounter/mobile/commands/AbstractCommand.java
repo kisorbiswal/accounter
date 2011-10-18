@@ -274,7 +274,7 @@ public abstract class AbstractCommand extends Command {
 		String num = (String) customerNumReq.getValue();
 		if (selection != null && selection == reqName) {
 			context.setAttribute(INPUT_ATTR, reqName);
-			return text(context, "Enter Account Name", num);
+			return text(context, displayString, num);
 		}
 
 		Record numberRecord = new Record(reqName);
