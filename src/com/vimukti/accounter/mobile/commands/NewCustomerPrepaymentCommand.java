@@ -51,7 +51,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 
 		Result result = null;
 
-		result = customerRequirement(context);
+		// result = customerRequirement(context);
 		if (result != null) {
 			return result;
 		}
