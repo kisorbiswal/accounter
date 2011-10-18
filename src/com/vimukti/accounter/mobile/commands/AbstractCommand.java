@@ -29,6 +29,8 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -1186,7 +1188,7 @@ public abstract class AbstractCommand extends Command {
 	 * @return {@link Result}
 	 */
 	protected Result accountRequirement(Context context, ResultList list,
-			String requirementName) {
+			String requirementName, ListFilter<ClientAccount> filter) {
 		Requirement accountReq = get(requirementName);
 		ClientAccount clientAccount = context.getSelection(requirementName);
 
@@ -1197,7 +1199,7 @@ public abstract class AbstractCommand extends Command {
 		ClientAccount account = accountReq.getValue();
 		Object selection = context.getSelection("values");
 		if (!accountReq.isDone() || (account == selection)) {
-			return accounts(context, requirementName);
+			return accounts(context, requirementName, filter);
 		}
 
 		Record supplierRecord = new Record(account);
@@ -1302,9 +1304,11 @@ public abstract class AbstractCommand extends Command {
 	/**
 	 * 
 	 * @param context
+	 * @param filter
 	 * @return {@link Result}
 	 */
-	protected Result accounts(Context context, String requirementName) {
+	protected Result accounts(Context context, String requirementName,
+			ListFilter<ClientAccount> filter) {
 		Result result = context.makeResult();
 
 		ResultList supplierList = new ResultList(requirementName);
@@ -1315,8 +1319,8 @@ public abstract class AbstractCommand extends Command {
 			supplierList.add(createAccountRecord((ClientAccount) last));
 			skipAccounts.add((ClientAccount) last);
 		}
-		List<ClientAccount> accounts = getClientCompany().getAccounts();
-
+		List<ClientAccount> accounts = Utility.filteredList(filter,
+				getClientCompany().getAccounts());
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
 

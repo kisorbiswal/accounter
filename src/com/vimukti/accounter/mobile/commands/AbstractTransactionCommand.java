@@ -1392,30 +1392,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	private ArrayList<ClientAccount> getAccounts(ClientCompany company,
-			ListFilter<ClientAccount> listFilter) {
-		ArrayList<ClientAccount> accounts = company.getAccounts();
-		ArrayList<ClientAccount> filtered = new ArrayList<ClientAccount>();
-		for (ClientAccount account : accounts) {
-			if (listFilter.filter(account)) {
-				filtered.add(account);
-			}
-		}
-		return filtered;
-
-	}
-
-	private Record creatAccountRecord(ClientAccount last) {
-		Record record = new Record(last);
-		record.add("Account Name", "Account Name:");
-		record.add("Account Name value", last.getName());
-		record.add("Account Balance", "Current Balance:");
-		record.add("Current Balance", last.getCurrentBalance());
-		record.add("Account Type", "Account Type:");
-		record.add("Account Type Value", getAccountTypeString(last.getType()));
-		return record;
-	}
-
 	public double getTaxTotal(List<ClientTransactionItem> items,
 			ClientTAXCode taxCode) {
 
@@ -1716,10 +1692,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		commandList.add("Create Preferred Shipping Method");
 		result.add(commandList);
 		return result;
-	}
-
-	private ArrayList<ClientShippingMethod> getShippingMethods() {
-		return getClientCompany().getShippingMethods();
 	}
 
 	protected Record createShippingMethodRecord(

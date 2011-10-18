@@ -218,23 +218,6 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		}, new ArrayList<ClientAccount>(accounts));
 	}
 
-	protected Result amountRequirement(Context context) {
-
-		Requirement taxRateReq = get(AMOUNT);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(AMOUNT)) {
-			double amount = Double.parseDouble(context.getNumber());
-			taxRateReq.setValue(amount);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!taxRateReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return amount(context, "Please Enter the Amount", null);
-		}
-
-		return null;
-	}
-
 	protected int getCompanyType(Context context) {
 		return context.getCompany().getAccountingType();
 	}

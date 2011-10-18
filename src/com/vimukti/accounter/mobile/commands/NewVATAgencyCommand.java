@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewVATAgencyCommand extends AbstractVATCommand {
 
@@ -107,13 +109,41 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = accountRequirement(context, list, SALES_ACCOUNT);
+		result = accountRequirement(context, list, SALES_ACCOUNT,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount account) {
+						return account.getIsActive()
+								&& Arrays
+										.asList(ClientAccount.TYPE_INCOME,
+												ClientAccount.TYPE_EXPENSE,
+												ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+												ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+												ClientAccount.TYPE_FIXED_ASSET)
+										.contains(account.getType());
+					}
+				});
 		if (result != null) {
 			return result;
 		}
 
 		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
-			result = accountRequirement(context, list, SALES_ACCOUNT);
+			result = accountRequirement(context, list, PURCHASE_ACCOUNT,
+					new ListFilter<ClientAccount>() {
+
+						@Override
+						public boolean filter(ClientAccount account) {
+							return account.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_INCOME,
+													ClientAccount.TYPE_EXPENSE,
+													ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+													ClientAccount.TYPE_FIXED_ASSET)
+											.contains(account.getType());
+						}
+					});
 			if (result != null) {
 				return result;
 			}

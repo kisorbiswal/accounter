@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
@@ -83,7 +84,14 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 		Boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
-			result = accountRequirement(context, list, INCOME_ACCOUNT);
+			result = accountRequirement(context, list, INCOME_ACCOUNT,
+					new ListFilter<ClientAccount>() {
+
+						@Override
+						public boolean filter(ClientAccount e) {
+							return true;
+						}
+					});
 			if (result != null) {
 				return result;
 			}
@@ -98,7 +106,14 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
-			result = accountRequirement(context, list, EXPENSE_ACCOUNT);
+			result = accountRequirement(context, list, EXPENSE_ACCOUNT,
+					new ListFilter<ClientAccount>() {
+
+						@Override
+						public boolean filter(ClientAccount e) {
+							return true;
+						}
+					});
 			if (result != null) {
 				return result;
 			}
@@ -177,7 +192,14 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			if (INCOME_ACCOUNT == selection || inAccount == null) {
 				context.setAttribute(INPUT_ATTR, INCOME_ACCOUNT);
 				Result incomeorExpenseAccountRequirement = accountRequirement(
-						context, list, INCOME_ACCOUNT);
+						context, list, INCOME_ACCOUNT,
+						new ListFilter<ClientAccount>() {
+
+							@Override
+							public boolean filter(ClientAccount e) {
+								return true;
+							}
+						});
 				if (incomeorExpenseAccountRequirement != null) {
 					return incomeorExpenseAccountRequirement;
 				}
@@ -239,7 +261,13 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			if (EXPENSE_ACCOUNT == selection || exAccount == null) {
 				context.setAttribute(INPUT_ATTR, EXPENSE_ACCOUNT);
 				Result exResult = accountRequirement(context, list,
-						EXPENSE_ACCOUNT);
+						EXPENSE_ACCOUNT, new ListFilter<ClientAccount>() {
+
+							@Override
+							public boolean filter(ClientAccount e) {
+								return true;
+							}
+						});
 				if (exResult != null) {
 					return exResult;
 				}

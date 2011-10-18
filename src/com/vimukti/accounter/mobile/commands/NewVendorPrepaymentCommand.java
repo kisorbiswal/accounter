@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
  * 
@@ -84,7 +85,14 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountRequirement(context, list, PAY_FROM);
+		result = accountRequirement(context, list, PAY_FROM,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						return true;
+					}
+				});
 		if (result != null) {
 			return result;
 		}
@@ -229,5 +237,4 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		list.add(isActiveRecord);
 		return null;
 	}
-
 }
