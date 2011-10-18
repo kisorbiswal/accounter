@@ -2,10 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -118,25 +115,4 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 		return result;
 
 	}
-
-	private List<Customer> getCustomers(Company company, Boolean isActive) {
-		Set<Customer> customers = company.getCustomers();
-		ArrayList<Customer> result = new ArrayList<Customer>();
-		if (isActive == null) {
-			return new ArrayList<Customer>(customers);
-		}
-		for (Customer customer : customers) {
-			if (isActive) {
-				if (customer.isActive()) {
-					result.add(customer);
-				}
-			} else {
-				if (!customer.isActive()) {
-					result.add(customer);
-				}
-			}
-		}
-		return result;
-	}
-
 }
