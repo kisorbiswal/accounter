@@ -323,7 +323,11 @@
 	</command>
 	<command clazz="NewCreditCardChargeCommond" name="New Credit Card Charge">
 		<alias>Credit Card Charge</alias>
+		<alias>Add Credit Card Charge</alias>
+	</command>
+	<command clazz="NewCreditCardExpenseCommand" name="New Credit Card Expense">
 		<alias>Credit Card Expense</alias>
+		<alias>Add Credit Card Expense</alias>
 	</command>
 	<command clazz="NewCustomerCreditMemoCommond" name="New Customer Credit Memo">
 		<alias>New Customer Credit Memo</alias>
