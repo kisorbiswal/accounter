@@ -85,11 +85,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 		Object selection = context.getSelection("values");
 
-		result = booleanOptionalRequirement(context, selection, list,
-				I_SELL_THIS, "I sell this Service", "I don't sell this Service");
-		if (result != null) {
-			return result;
-		}
+		booleanOptionalRequirement(context, selection, list, I_SELL_THIS,
+				"I sell this Service", "I don't sell this Service");
 
 		Boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
@@ -128,11 +125,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			}
 		}
 
-		result = booleanOptionalRequirement(context, selection, list,
-				I_BUY_THIS, "I buy this Service", "I don't buy this Service");
-		if (result != null) {
-			return result;
-		}
+		booleanOptionalRequirement(context, selection, list, I_BUY_THIS,
+				"I buy this Service", "I don't buy this Service");
 
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
@@ -235,18 +229,12 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			// }
 			// }
 
-			result = booleanOptionalRequirement(context, selection, list,
+			booleanOptionalRequirement(context, selection, list,
 					IS_COMMISION_ITEM, "This is Commision Item",
 					"This Item is not Commision Item");
-			if (result != null) {
-				return result;
-			}
 
-			result = booleanOptionalRequirement(context, selection, list,
-					IS_ACTIVE, "Taxable is Active", "Taxable is Inactive");
-			if (result != null) {
-				return result;
-			}
+			booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
+					"Taxable is Active", "Taxable is Inactive");
 
 			result = stringOptionalRequirement(context, list, selection,
 					SALES_DESCRIPTION, "Please enter the description");
@@ -272,11 +260,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = booleanOptionalRequirement(context, selection, list,
-				IS_ACTIVE, "This Item is Active", "This Item is Inactive");
-		if (result != null) {
-			return result;
-		}
+		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
+				"This Item is Active", "This Item is Inactive");
 
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
