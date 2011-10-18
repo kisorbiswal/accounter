@@ -177,8 +177,7 @@ public class VendorManager extends Manager {
 					PayBillTransactionList payBillTransactionList = new PayBillTransactionList();
 					object = (Object[]) iterator.next();
 
-					payBillTransactionList.setTransactionId(Long
-							.parseLong(object[0].toString()));
+					payBillTransactionList.setTransactionId((Long) object[0]);
 					payBillTransactionList.setType((Integer) object[1]);
 					payBillTransactionList.setDueDate(new ClientFinanceDate(
 							(Long) object[2]));
