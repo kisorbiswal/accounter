@@ -88,7 +88,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = numberRequirement(context, list, AMOUNT, "Enter Amount");
+		result = amountRequirement(context, list, AMOUNT, "Enter Amount");
 		if (result != null) {
 			return result;
 		}
@@ -230,22 +230,4 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result amountRequirement(Context context) {
-		Requirement numberReq = get(AMOUNT);
-		if (numberReq.isDone())
-			return null;
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(AMOUNT)) {
-			numberReq.setValue(input);
-			String num = context.getString();
-			if (num != null) {
-				numberReq.setValue(num);
-			}
-		} else {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return text(context, "Please Enter amount ", "");
-		}
-
-		return null;
-	}
 }
