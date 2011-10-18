@@ -9,6 +9,8 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -64,9 +66,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	private static final String TITLE = "Title";
 	private static final String BUSINESS_PHONE = "Business Phone";
 
-	public static final int ACCOUNTING_TYPE_US = 0;
-	public static final int ACCOUNTING_TYPE_UK = 1;
-	public static final int ACCOUNTING_TYPE_INDIA = 2;
 	private int accountingType;
 
 	protected static final String PRIMARY = "Primary";
@@ -125,7 +124,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		accountingType = context.getCompany().getAccountingType();
+		accountingType = getClientCompany().getAccountingType();
 		Object attribute = context.getAttribute(INPUT_ATTR);
 		if (attribute == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
@@ -188,20 +187,20 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	private Result createVendorObject(Context context) {
 
-		ICountryPreferences countryPreferences = getClientCompany()
+		ICountryPreferences countryPreferences = context.getCompany()
 				.getCountryPreferences();
-		ClientCompanyPreferences preferences = getClientCompany()
-				.getPreferences();
+		CompanyPreferences preferences = context.getCompany().getPreferences();
 		ClientVendor vendor = new ClientVendor();
 		String name = get(VENDOR_NAME).getValue();
-		String number = get(VENDOR_NUMBER).getValue().toString();
-
+		String number = null;
+		if (preferences.getUseVendorId()) {
+			number = get(VENDOR_NUMBER).getValue().toString();
+		}
 		Set<ClientContact> contacts = get(CONTACTS).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		Date balancedate = get(BALANCE_AS_OF).getValue();
-		Date customerSincedate = get(VENDOR_SINCE).getValue();
 		double balance = get(BALANCE).getValue();
-		ArrayList<ClientAddress> adress = get(ADDRESS).getValue();
+		ClientAddress adress = get(ADDRESS).getValue();
 		ClientAccount account = get(ACCOUNT).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
@@ -219,12 +218,12 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 		vendor.setName(name);
 
-		if (context.getCompany().getPreferences().getUseVendorId())
+		if (preferences.getUseVendorId())
 			vendor.setVendorNumber(number);
 		vendor.setContacts(contacts);
 		vendor.setBalance(balance);
 		vendor.setBalanceAsOf(balancedate.getTime());
-		vendor.setAddress(new HashSet<ClientAddress>(adress));
+		vendor.setAddress((adress));
 		vendor.setPhoneNo(phoneNum);
 		vendor.setFaxNo(faxNum);
 		vendor.setWebPageAddress(webaddress);
@@ -233,7 +232,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
-		if (accountingType == ACCOUNTING_TYPE_US) {
+		if (accountingType == Company.ACCOUNTING_TYPE_US) {
 			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
@@ -270,9 +269,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
-			// case ADD_MORE_CONTACTS:
-			// return contact(context, "Enter the Contact Details", CONTACTS,
-			// null);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -281,69 +277,16 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		// ResultList list = new ResultList("values");
 		selection = context.getSelection("values");
-		//
-		// String customerName = (String) get(VENDOR_NAME).getValue();
-		// Record nameRecord = new Record(customerName);
-		// nameRecord.add("Name", "customerName");
-		// nameRecord.add("Value", customerName);
-		// list.add(nameRecord);
-		//
-		// Requirement contactReq = get(CONTACTS);
-		// Set<Contact> contacts = contactReq.getValue();
-		// selection = context.getSelection(CONTACTS);
-		// if (selection != null) {
-		// Result contact = contact(context, "vendor contact", CONTACTS,
-		// (ClientContact) selection);
-		// if (contact != null) {
-		// return contact;
-		// }
-		// }
-		// selection = context.getSelection("values");
-		//
-		// Requirement isActiveReq = get(ACTIVE);
-		// Boolean isActive = (Boolean) isActiveReq.getValue();
-		// if (selection == isActive) {
-		// context.setAttribute(INPUT_ATTR, ACTIVE);
-		// isActive = !isActive;
-		// isActiveReq.setValue(isActive);
-		// }
-		// String activeString = "";
-		// if (isActive) {
-		// activeString = "This Item is Active";
-		// } else {
-		// activeString = "This Item is InActive";
-		// }
-		// Record isActiveRecord = new Record(ACTIVE);
-		// isActiveRecord.add("Name", "Active ");
-		// isActiveRecord.add("Value", activeString);
-		// list.add(isActiveRecord);
+
 		booleanOptionalRequirement(context, selection, list, ACTIVE,
 				"This vendor is Active", "This Vendor is InActive");
 
-		if (accountingType == ACCOUNTING_TYPE_US) {
+		if (accountingType == Company.ACCOUNTING_TYPE_US) {
 			booleanOptionalRequirement(context, selection, list,
 					TRACK_PAYMENTS_FOR_1099,
 					"Track payments for 1099 is Active",
 					"Track payments for 1099 is InActive");
-			// Requirement trackPaymentsReq = get(TRACK_PAYMENTS_FOR_1099);
-			// Boolean trackPayments = (Boolean) trackPaymentsReq.getValue();
-			// if (selection == trackPayments) {
-			// context.setAttribute(INPUT_ATTR, ACTIVE);
-			// trackPayments = !trackPayments;
-			// trackPaymentsReq.setValue(trackPayments);
-			// }
-			// String paymentString = "";
-			// if (trackPayments) {
-			// paymentString = "This Item is Active";
-			// } else {
-			// paymentString = "This Item is InActive";
-			// }
-			// Record paymentRecord = new Record(ACTIVE);
-			// paymentRecord.add("Name", "");
-			// paymentRecord.add("Value", paymentString);
-			// list.add(paymentRecord);
 		}
 		Result result = dateOptionalRequirement(context, list, VENDOR_SINCE,
 				VENDOR_SINCE, selection);
@@ -414,7 +357,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list, (String) selection);
+		result = paymentMethodOptionalRequirement(context, list,
+				(String) selection);
 		if (result != null) {
 			return result;
 		}
@@ -438,28 +382,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		// result = context.makeResult();
-		// result.add("Vendor is ready to create with following values.");
-		// result.add(list);
-		// result.add("Contacts:-");
-		// ResultList contactList = new ResultList(CONTACTS);
-		// if (contacts != null) {
-		// for (Contact item : contacts) {
-		// Record itemRec = new Record(item);
-		// itemRec.add(PRIMARY, item.getVersion());
-		// itemRec.add(CONTACT_NAME, item.getName());
-		// itemRec.add(TITLE, item.getTitle());
-		// itemRec.add(BUSINESS_PHONE, item.getBusinessPhone());
-		// itemRec.add(EMAIL, item.getEmail());
-		// contactList.add(itemRec);
-		// }
-		// }
-		// result.add(contactList);
-		// ResultList actions = new ResultList(ACTIONS);
-		// Record moreItems = new Record(ActionNames.ADD_MORE_CONTACTS);
-		// moreItems.add("", "Add more contacts");
-		// actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Vendor.");
 		actions.add(finish);

@@ -710,7 +710,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result billToRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get(BILL_TO);
+		Requirement req = get(ADDRESS);
 		ClientAddress billTo = (ClientAddress) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);

@@ -97,7 +97,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add("VatAgency  is ready to create with following values.");
+		makeResult.add("Paybill  is ready to create with following values.");
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
