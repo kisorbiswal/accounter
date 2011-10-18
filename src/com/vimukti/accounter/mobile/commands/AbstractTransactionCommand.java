@@ -711,7 +711,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result billToRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get(ADDRESS);
+		Requirement req = get(BILL_TO);
 		ClientAddress billTo = (ClientAddress) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
@@ -919,32 +919,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(commandList);
 
 		return result;
-	}
-
-	protected Result depositeOrTransferTo(Context context, String name) {
-		Requirement transferedReq = get(name);
-		ClientAccount account = context.getSelection(name);
-		if (!transferedReq.isDone()) {
-			if (account != null) {
-				transferedReq.setValue(account);
-			} else {
-				return accounts(context, name, new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount account) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(account.getType());
-
-					}
-				});
-			}
-		}
-		if (account != null) {
-			transferedReq.setValue(account);
-
-		}
-		return null;
 	}
 
 	protected Result accounts(Context context, String name,
