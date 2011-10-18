@@ -109,12 +109,12 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context,null, null);
+		result = paymentMethodRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
 
-		result = depositeOrTransferTo(context, "depositOrTransferTo");
+		// result = depositeOrTransferTo(context, "depositOrTransferTo");
 		if (result != null) {
 			return result;
 		}
