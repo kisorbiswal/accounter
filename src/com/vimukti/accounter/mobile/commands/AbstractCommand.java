@@ -10,6 +10,7 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -77,7 +78,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final int ALL = 4;
 	private static final String VAT_RETURNS = "vatReturns";
 	private static final String CONTACT_ACTIONS = "contactActions";
-
+	protected static final String ACCOUNT = "Account";
 	private static final String REQUIREMENT_NAME = "requirmentName";
 	private static final String ADDRESS_ACTIONS = "addressActions";
 	private static final String RECORDS_START_INDEX = "recordsStrartIndex";
@@ -1456,6 +1457,104 @@ public abstract class AbstractCommand extends Command {
 		amountRecord.add("", amount);
 		list.add(amountRecord);
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	protected Result accountsOptionalRequirement(Context context,
+			ResultList list, Object selection, String reqName) {
+
+		Object accountObj = context.getSelection(reqName);
+		Requirement accountReq = get(reqName);
+		String account = (String) accountReq.getValue();
+
+		if (accountObj != null) {
+			account = (String) accountObj;
+			accountReq.setValue(account);
+		}
+		if (selection != null)
+			if (selection == reqName) {
+				context.setAttribute(INPUT_ATTR, reqName);
+				return account(context, account);
+			}
+		Record customerGroupRecord = new Record(reqName);
+		customerGroupRecord.add("Name", reqName);
+		customerGroupRecord.add("Value", account);
+		list.add(customerGroupRecord);
+
+		Result result = new Result();
+		result.add(list);
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param oldAccount
+	 * @return
+	 */
+	private Result account(Context context, String oldAccount) {
+		Result result = context.makeResult();
+		result.add("Select Account");
+		Object last = context.getLast(RequirementType.ACCOUNT);
+		ResultList list = new ResultList(ACCOUNT);
+		List<ClientAccount> skipAccounts = new ArrayList<ClientAccount>();
+		if (oldAccount != null) {
+			list.add(createAccountRecord(oldAccount));
+			skipAccounts.add((ClientAccount) last);
+
+		}
+		List<ClientAccount> accountsList = getAccountsList(context);
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<ClientAccount> pagination = pagination(context, selection,
+				actions, accountsList, skipAccounts, VALUES_TO_SHOW);
+
+		for (ClientAccount account : pagination) {
+			list.add(createAccountRecord(account.getName()));
+		}
+
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create Account");
+		result.add(commandList);
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	private List<ClientAccount> getAccountsList(Context context) {
+		List<ClientAccount> accounts = getClientCompany().getAccounts();
+		List<ClientAccount> list = new ArrayList<ClientAccount>(accounts.size());
+		for (ClientAccount acc : accounts) {
+			if (acc.getIsActive())
+				list.add(acc);
+		}
+		return list;
+	}
+
+	/**
+	 * 
+	 * @param oldAccount
+	 * @return
+	 */
+	private Record createAccountRecord(String oldAccount) {
+		Record record = new Record(oldAccount);
+		record.add("Name", ACCOUNT);
+		record.add("value", oldAccount);
+		return record;
 	}
 
 }
