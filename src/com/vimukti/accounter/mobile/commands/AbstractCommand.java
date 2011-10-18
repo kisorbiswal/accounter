@@ -10,6 +10,7 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.sun.org.apache.regexp.internal.recompile;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -256,7 +257,7 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Result  numberRequirement(Context context, ResultList list,
+	protected Result numberRequirement(Context context, ResultList list,
 			String reqName, String displayString) {
 		Requirement customerNumReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
@@ -778,8 +779,8 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Result paymentMethodOptionalRequirement(Context context, ResultList list,
-			Object selection) {
+	protected Result paymentMethodOptionalRequirement(Context context,
+			ResultList list, Object selection) {
 		Object payamentMethodObj = context.getSelection("Payment method");
 		Requirement paymentMethodReq = get("paymentMethod");
 		String paymentmethod = (String) paymentMethodReq.getValue();
@@ -1348,6 +1349,41 @@ public abstract class AbstractCommand extends Command {
 		record.add("Name", last.getName());
 		record.add(" ,Balance", last.getCurrentBalance());
 		return record;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param reqName
+	 * @param displayName
+	 * @return {@link Result}
+	 */
+	protected Result amountRequirement(Context context, ResultList list,
+			String reqName, String displayName) {
+
+		Requirement amountReq = get(reqName);
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(reqName)) {
+			amountReq.setValue(context.getNumber());
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		if (!amountReq.isDone()) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return number(context, displayName, null);
+		}
+		Object selection = context.getSelection("values");
+		String amount = (String) amountReq.getValue();
+		if (selection != null && selection == reqName) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return text(context, displayName, amount);
+		}
+
+		Record amountRecord = new Record(reqName);
+		amountRecord.add("", reqName);
+		amountRecord.add("", amount);
+		list.add(amountRecord);
+		return null;
 	}
 
 }
