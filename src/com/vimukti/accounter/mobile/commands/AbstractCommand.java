@@ -10,6 +10,7 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.sun.org.apache.regexp.internal.recompile;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -67,13 +68,13 @@ public abstract class AbstractCommand extends Command {
 	protected static final String MEMO = "memo";
 	protected static final String ORDER_NO = "orderNo";
 	protected static final String VIEW_BY = "ViewBy";
-
+	protected static final String VAT_RETURN = "vatReturn";
 	protected static final int STATUS_NOT_ISSUED = 0;
 	protected static final int STATUS_PARTIALLY_PAID = 1;
 	protected static final int STATUS_ISSUED = 2;
 	protected static final int STATUS_VOIDED = 3;
 	protected static final int ALL = 4;
-
+	private static final String VAT_RETURNS = "vatReturns";
 	private static final String CONTACT_ACTIONS = "contactActions";
 
 	private static final String REQUIREMENT_NAME = "requirmentName";
@@ -1184,6 +1185,97 @@ public abstract class AbstractCommand extends Command {
 		list.add(supplierRecord);
 
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param requirementName
+	 * @return {@link Result}
+	 */
+	protected Result vatReturnRequirement(Context context, ResultList list,
+			String requirementName) {
+		Requirement vatReturnReq = get(VAT_RETURN);
+		String vatReturn = context.getSelection(VAT_RETURNS);
+
+		if (vatReturn != null) {
+			vatReturnReq.setValue(vatReturn);
+		}
+
+		String value = vatReturnReq.getValue();
+		Object selection = context.getSelection("values");
+		if (!vatReturnReq.isDone() || (value == selection)) {
+			return getVatReturnResult(context);
+		}
+
+		Record record = new Record(value);
+		record.add("", "VAT Return : ");
+		record.add("", value);
+		list.add(record);
+
+		return null;
+
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return {@link Result}
+	 */
+	protected Result getVatReturnResult(Context context) {
+		Result result = context.makeResult();
+		ResultList vatReturnsList = new ResultList(VAT_RETURNS);
+
+		Object last = context.getLast(RequirementType.VAT_RETURN);
+		if (last != null) {
+			vatReturnsList.add(createVatReturnRecord((String) last));
+		}
+
+		List<String> vatReturns = getVatReturns(context.getHibernateSession());
+		for (int i = 0; i < VALUES_TO_SHOW && i < vatReturns.size(); i++) {
+			String vatReturn = vatReturns.get(i);
+			if (vatReturn != last) {
+				vatReturnsList.add(createVatReturnRecord((String) vatReturn));
+			}
+		}
+
+		int size = vatReturnsList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Please Select the Vat Return");
+		}
+
+		result.add(message.toString());
+		result.add(vatReturnsList);
+		result.add("Select the Vat Return");
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param vatReturn
+	 * @return {@link Record}
+	 */
+	private Record createVatReturnRecord(String vatReturn) {
+		Record record = new Record(vatReturn);
+		record.add("Name", vatReturn);
+		return record;
+	}
+
+	/**
+	 * 
+	 * @param session
+	 * @return {@link List}
+	 */
+	private List<String> getVatReturns(Session session) {
+
+		ArrayList<String> vatReturnList = new ArrayList<String>();
+		vatReturnList.add("UK VAT");
+		vatReturnList.add("VAT 3(Ireland)");
+
+		return vatReturnList;
 	}
 
 	/**
