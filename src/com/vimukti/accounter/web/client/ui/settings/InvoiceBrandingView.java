@@ -449,7 +449,7 @@ public class InvoiceBrandingView<T> extends
 
 		subLayPanel.setStyleName("general-setting-invoice");
 		contactDetailsPanel.setWidth("165px");
-		uploadPanel.setWidth("185px");
+		//uploadPanel.setWidth("185px");
 		allPanel = new HorizontalPanel();
 		allPanel.add(subLayPanel);
 		allPanel.add(contactDetailsPanel);
