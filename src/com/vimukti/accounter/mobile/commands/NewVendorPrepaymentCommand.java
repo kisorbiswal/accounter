@@ -3,13 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.NumberUtils;
-import com.vimukti.accounter.core.PayBill;
-import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -17,6 +11,10 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 
 /**
  * 
@@ -41,7 +39,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(NUMBER, true, true));
-		list.add(new Requirement(VENDOR, false, true));
+		list.add(new Requirement(SUPPLIER, false, true));
 		list.add(new Requirement(PAY_FROM, false, true));
 		list.add(new Requirement(BILL_TO, true, true));
 		list.add(new Requirement(AMOUNT, false, true));
@@ -49,12 +47,15 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(TO_BE_PRINTED, true, true));
 		list.add(new Requirement(CHEQUE_NO, true, true));
 		list.add(new Requirement(MEMO, true, true));
-
 	}
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+		setDefaultValues(context);
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = context.makeResult();
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		if (process != null) {
 			if (process.equals(ADDRESS_PROCESS)) {
@@ -70,10 +71,16 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		result = vendorRequirement(context);
+		Result makeResult = context.makeResult();
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+		makeResult
+				.add("Suppiler Prepayment is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		setTransactionType(VENDOR_TRANSACTION);
+
+		result = createSupplierRequirement(context, list, SUPPLIER);
 		if (result != null) {
 			return result;
 		}
@@ -85,31 +92,32 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context);
+		Object selection = context.getSelection("values");
+
+		result = paymentMethodRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		setDefaultValues(context);
-		result = createOptionalRequirement(context);
+		result = createOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
 		completeProcess(context);
 		markDone();
+		result = new Result();
+		result.add(" Vendor Prepayment was created successfully.");
 		return result;
-
 	}
 
 	private void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new Date());
 
-		get(NUMBER)
-				.setDefaultValue(
-						NumberUtils.getNextTransactionNumber(
-								Transaction.TYPE_RECEIVE_PAYMENT,
-								context.getCompany()));
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_RECEIVE_PAYMENT,
+						context.getCompany()));
 
-		get(BILL_TO).setDefaultValue(new Address());
+		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(TO_BE_PRINTED).setDefaultValue(Boolean.FALSE);
 		get(CHEQUE_NO).setDefaultValue(" ");
 		get(MEMO).setDefaultValue("");
@@ -117,14 +125,13 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 	private void completeProcess(Context context) {
 
-		PayBill paybill = new PayBill();
-		Vendor vendor = (Vendor) get(VENDOR).getValue();
+		ClientPayBill paybill = new ClientPayBill();
+		ClientVendor vendor = (ClientVendor) get(SUPPLIER).getValue();
 
-		vendor = (Vendor) context.getHibernateSession().merge(vendor);
-		paybill.setCompany(context.getCompany());
-		Address billTo = (Address) get(BILL_TO).getValue();
-		Account pay = (Account) get(PAY_FROM).getValue();
-		pay = (Account) context.getHibernateSession().merge(pay);
+		vendor = (ClientVendor) context.getHibernateSession().merge(vendor);
+		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
+		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
+		pay = (ClientAccount) context.getHibernateSession().merge(pay);
 		String amount = (String) get(AMOUNT).getValue();
 		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
 		Boolean toBePrinted = (Boolean) get(TO_BE_PRINTED).getValue();
@@ -132,8 +139,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		String chequeNumber = get(CHEQUE_NO).getValue();
 
 		Date transactionDate = (Date) get(DATE).getValue();
-		paybill.setDate(new FinanceDate(transactionDate));
-		paybill.setType(Transaction.TYPE_PAY_BILL);
+		paybill.setDate(transactionDate.getTime());
+		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
 		paybill.setVendor(vendor);
 		paybill.setAddress(billTo);
 		paybill.setPayFrom(pay);
@@ -146,8 +153,9 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 	}
 
-	private Result createOptionalRequirement(Context context) {
-
+	private Result createOptionalRequirement(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
+		Result result = null;
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
@@ -163,23 +171,14 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		}
 
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
 
-		Requirement vendorReq = get(VENDOR);
-		Vendor vendor = (Vendor) vendorReq.getValue();
-		Record vendorRecord = new Record(vendor);
-		vendorRecord.add("Name", VENDOR);
-		vendorRecord.add("Value", vendor.getName());
-
-		list.add(vendorRecord);
-
-		Result result = dateOptionalRequirement(context, list, DATE,
+		result = dateOptionalRequirement(context, list, DATE,
 				"Enter TransactionDate", selection);
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"TtransactionNumber");
+				"TransactionNumber");
 		if (result != null) {
 			return result;
 		}
@@ -187,20 +186,6 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		Requirement bankAccountReeq = get(PAY_FROM);
-		ClientAccount account = (ClientAccount) bankAccountReeq.getValue();
-		list.add(createAccountRecord(account));
-		Requirement amountReq = get(AMOUNT);
-
-		String amount = (String) amountReq.getValue();
-		list.add(createAmountRecord(amount));
-
-		String method = get(PAYMENT_MENTHOD).getValue();
-
-		Record m = new Record(method);
-		m.add("", PAYMENT_MENTHOD);
-		m.add("", method);
-		list.add(m);
 
 		result = toBePrintedOptionalRequirement(context, list, selection);
 		if (result != null) {
@@ -216,17 +201,11 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = context.makeResult();
-		result.add("Vendor prepayment is ready to creating...");
-		result.add(list);
 
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Bill.");
-		ResultList actions = new ResultList(ACTIONS);
 		actions.add(finish);
-		result.add(actions);
-
-		return result;
+		return makeResult;
 	}
 
 	private Result toBePrintedOptionalRequirement(Context context,
@@ -249,15 +228,6 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		isActiveRecord.add("", activeString);
 		list.add(isActiveRecord);
 		return null;
-	}
-
-	private Record createAmountRecord(String amount2) {
-		Record amountRec = new Record(amount2);
-		amountRec.add("", AMOUNT);
-
-		amountRec.add("", amount2);
-
-		return amountRec;
 	}
 
 	private Result amountRequirement(Context context) {
