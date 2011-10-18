@@ -1,26 +1,20 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 
 public class NewVATAgencyCommand extends AbstractVATCommand {
@@ -28,7 +22,6 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 	private static final String PAYMENT_TERM = "paymentTerm";
 	private static final String SALES_ACCOUNT = "salesLiabilityAccount";
 	private static final String PURCHASE_ACCOUNT = "purchaseLiabilityAccount";
-	private static final String ADDRESS = "address";
 	private static final String PHONE = "phone";
 	private static final String FAX = "fax";
 	private static final String EMAIL = "email";
@@ -39,7 +32,6 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 	protected static final String BUSINESS_PHONE = "businessPhone";
 	protected static final String CONTACT_EMAIL = "contactEmail";
 	private static final String IS_ACTIVE = "isActive";
-	private static final String SALES_ACCOUNTS = "salesAccounts";
 
 	private static final String VAT_AGENCY_ADDRESS = "vatAgencyAddress";
 
@@ -146,11 +138,11 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		}
 		Requirement contactsReq = get(VAT_AGENCY_CONTACT);
 		if (contactsReq.getDefaultValue() == null) {
-			contactsReq.setDefaultValue(new HashSet<Contact>());
+			contactsReq.setDefaultValue(new HashSet<ClientContact>());
 		}
 		Requirement addressReq = get(VAT_AGENCY_ADDRESS);
 		if (addressReq.getDefaultValue() == null) {
-			addressReq.setDefaultValue(new Address());
+			addressReq.setDefaultValue(new ClientAddress());
 		}
 		Requirement phoneReq = get(PHONE);
 		if (phoneReq.getDefaultValue() == null) {
@@ -171,28 +163,26 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 	}
 
 	private Result createVatAgency(Context context) {
-		TAXAgency taxAgency = new TAXAgency();
-		taxAgency.setCompany(context.getCompany());
+		ClientTAXAgency taxAgency = new ClientTAXAgency();
 		String name = get(NAME).getValue();
-		PaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
-		Account salesAccount = get(SALES_ACCOUNT).getValue();
-		salesAccount = (Account) context.getHibernateSession().merge(
-				salesAccount);
-		Address address = (Address) get(VAT_AGENCY_ADDRESS).getValue();
+		ClientPaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
+		ClientAccount salesAccount = get(SALES_ACCOUNT).getValue();
+		ClientAddress address = (ClientAddress) get(VAT_AGENCY_ADDRESS)
+				.getValue();
 		String phone = (String) get(PHONE).getValue();
 		String fax = (String) get(FAX).getValue();
 		String email = (String) get(EMAIL).getValue();
 		String website = (String) get(WEBSITE).getValue();
-		Set<Contact> contacts = get(VAT_AGENCY_CONTACT).getValue();
+		Set<ClientContact> contacts = get(VAT_AGENCY_CONTACT).getValue();
 
-		HashSet<Address> addresses = new HashSet<Address>();
+		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
 		if (address != null) {
 			addresses.add(address);
 		}
 
 		taxAgency.setName(name);
-		taxAgency.setPaymentTerm(paymentTerm);
-		taxAgency.setSalesLiabilityAccount(salesAccount);
+		taxAgency.setPaymentTerm(paymentTerm.getID());
+		taxAgency.setSalesLiabilityAccount(salesAccount.getID());
 		taxAgency.setAddress(addresses);
 		taxAgency.setPhoneNo(phone);
 		taxAgency.setFaxNo(fax);
@@ -200,11 +190,9 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		taxAgency.setWebPageAddress(website);
 		taxAgency.setContacts(contacts);
 		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
-			Account purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
-			purchaseAccount = (Account) context.getHibernateSession().merge(
-					purchaseAccount);
+			ClientAccount purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
 			String vatReturn = get(VAT_RETURN).getValue();
-			taxAgency.setPurchaseLiabilityAccount(purchaseAccount);
+			taxAgency.setPurchaseLiabilityAccount(purchaseAccount.getID());
 			if (vatReturn == "") {
 				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
 			} else if (vatReturn == "UK VAT") {
@@ -289,151 +277,4 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		actions.add(finish);
 		return makeResult;
 	}
-
-	private Result purchaseAccountRequirement(Context context) {
-		Requirement purchaseAccountReq = get(PURCHASE_ACCOUNT);
-		Account purchaseAccount = context.getSelection(PURCHASE_ACCOUNT);
-		if (purchaseAccount != null) {
-			purchaseAccountReq.setValue(purchaseAccount);
-		}
-		if (!purchaseAccountReq.isDone()) {
-			return getPurchaseAccountResult(context);
-		}
-		return null;
-	}
-
-	private Result getPurchaseAccountResult(Context context) {
-		Result result = context.makeResult();
-		ResultList purchseAccountsList = new ResultList(PURCHASE_ACCOUNT);
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		if (last != null) {
-			purchseAccountsList.add(createAccountRecord((Account) last));
-		}
-
-		List<Account> purchseAccounts = getVatAgencyAccounts(context);
-		for (int i = 0; i < VALUES_TO_SHOW && i < purchseAccounts.size(); i++) {
-			Account purchseAccount = purchseAccounts.get(i);
-			if (purchseAccount != last) {
-				purchseAccountsList
-						.add(createAccountRecord((Account) purchseAccount));
-			}
-		}
-
-		int size = purchseAccountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the Purchase Liability Account");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("create");
-
-		result.add(message.toString());
-		result.add(purchseAccountsList);
-		result.add(commandList);
-		result.add("Select the Purchse Liability Account");
-
-		return result;
-	}
-
-	private Result salesAccountRequirement(Context context, ResultList list,
-			String name, String dispalyString) {
-		Requirement salesAccountReq = get(name);
-		Account salesAccount = context.getSelection(name);
-		if (salesAccount != null) {
-			salesAccountReq.setValue(salesAccount);
-		}
-
-		Account account = salesAccountReq.getValue();
-		Object selection = context.getSelection("values");
-
-		if (!salesAccountReq.isDone() || (account == selection)) {
-			return getSalesAccountResult(context);
-		}
-		Record paymentTermsRecord = new Record(account);
-		paymentTermsRecord.add("", name);
-		paymentTermsRecord.add("", account.getName());
-		return null;
-	}
-
-	private Result getSalesAccountResult(Context context) {
-		Result result = context.makeResult();
-		ResultList salesAccountsList = new ResultList(SALES_ACCOUNTS);
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		List<Account> skipAccount = new ArrayList<Account>();
-		if (last != null) {
-			salesAccountsList.add(createAccountRecord((Account) last));
-			skipAccount.add((Account) last);
-		}
-
-		List<Account> salesAccounts = getVatAgencyAccounts(context);
-
-		ResultList actions = new ResultList("actions");
-		ActionNames selection = context.getSelection("actions");
-
-		List<Account> pagination = pagination(context, selection, actions,
-				salesAccounts, skipAccount, VALUES_TO_SHOW);
-
-		for (Account account : pagination) {
-			salesAccountsList.add(createAccountRecord(account));
-		}
-
-		int size = salesAccountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a salesAcount");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create New SaleAcount");
-
-		result.add(message.toString());
-		result.add(salesAccountsList);
-		result.add(actions);
-		result.add(commandList);
-		return result;
-
-		// for (int i = 0; i < VALUES_TO_SHOW && i < salesAccounts.size(); i++)
-		// {
-		// Account salesAccount = salesAccounts.get(i);
-		// if (salesAccount != last) {
-		// salesAccountsList
-		// .add(createAccountRecord((Account) salesAccount));
-		// }
-		// }
-		//
-		// int size = salesAccountsList.size();
-		// StringBuilder message = new StringBuilder();
-		// if (size > 0) {
-		// message.append("Please Select the Sales Liability Account");
-		// }
-		//
-		// CommandList commandList = new CommandList();
-		// commandList.add("create");
-		//
-		// result.add(message.toString());
-		// result.add(salesAccountsList);
-		// result.add(commandList);
-		// result.add("Select the Sales Liability Account");
-		//
-		// return result;
-	}
-
-	private List<Account> getVatAgencyAccounts(Context context) {
-		ArrayList<Account> accounts = new ArrayList<Account>();
-
-		for (Account account : context.getCompany().getAccounts()) {
-			if (account.getIsActive()
-					&& Arrays.asList(ClientAccount.TYPE_INCOME,
-							ClientAccount.TYPE_EXPENSE,
-							ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-							ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-							ClientAccount.TYPE_FIXED_ASSET).contains(
-							account.getType()))
-				accounts.add(account);
-		}
-		return accounts;
-	}
-
 }
