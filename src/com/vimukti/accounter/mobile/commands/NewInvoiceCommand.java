@@ -79,7 +79,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = customerRequirement(context);
+		// result = customerRequirement(context);
 		if (result != null) {
 			return result;
 		}
