@@ -65,7 +65,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 	@Override
 	public Result run(Context context) {
 		Result result = null;
-		result = customerRequirement(context);
+		// result = customerRequirement(context);
 		if (result != null) {
 			return result;
 		}
