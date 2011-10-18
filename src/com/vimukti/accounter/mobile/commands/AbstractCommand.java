@@ -779,7 +779,7 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Result paymentMethodRequirement(Context context, ResultList list,
+	protected Result paymentMethodOptionalRequirement(Context context, ResultList list,
 			Object selection) {
 		Object payamentMethodObj = context.getSelection("Payment method");
 		Requirement paymentMethodReq = get("paymentMethod");
