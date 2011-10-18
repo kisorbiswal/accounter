@@ -780,6 +780,76 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
+	protected Result stringListOptionalRequirement(Context context,
+			ResultList list, Object selection, String requirementName,
+			String displayName, List<String> values, String title,
+			int itemsToView) {
+		Object payamentMethodObj = context.getSelection(requirementName);
+		Requirement paymentMethodReq = get(requirementName);
+		String value = paymentMethodReq.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(requirementName)) {
+			if (payamentMethodObj != null) {
+				value = (String) payamentMethodObj;
+				paymentMethodReq.setValue(value);
+			}
+		}
+		if (selection != null) {
+			if (selection == requirementName) {
+				context.setAttribute(INPUT_ATTR, requirementName);
+				return stringList(context, requirementName, value, values,
+						itemsToView, title);
+
+			}
+		}
+		Record paymentTermRecord = new Record(requirementName);
+		paymentTermRecord.add("", displayName);
+		paymentTermRecord.add("", value);
+		list.add(paymentTermRecord);
+		return null;
+	}
+
+	private Result stringList(Context context, String requirementName,
+			String oldValue, List<String> values, int itemsToView, String title) {
+		Result result = context.makeResult();
+
+		ResultList list = new ResultList(requirementName);
+
+		List<String> skippayMents = new ArrayList<String>();
+
+		if (oldValue != null) {
+			Record record = new Record(oldValue);
+			record.add("", oldValue);
+			list.add(record);
+			skippayMents.add((String) oldValue);
+		}
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<String> pagination = pagination(context, selection, actions,
+				values, skippayMents, itemsToView);
+
+		for (String paymentMethod : pagination) {
+			Record record = new Record(paymentMethod);
+			record.add("", paymentMethod);
+			list.add(record);
+		}
+
+		int size = list.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append(title);
+		}
+
+		result.add(message.toString());
+		result.add(list);
+		result.add(actions);
+
+		return result;
+	}
+
 	protected Result paymentMethodOptionalRequirement(Context context,
 			ResultList list, Object selection) {
 		Object payamentMethodObj = context.getSelection("Payment method");
