@@ -391,7 +391,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = getClientCompany()
 				.getPreferences();
 
-		result = paymentMethodRequirement(context, list, (String) selection);
+		result = paymentMethodOptionalRequirement(context, list,
+				(String) selection);
 		if (result != null) {
 			return result;
 		}
