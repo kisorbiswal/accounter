@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewVendorCommand extends AbstractTransactionCommand {
@@ -88,7 +89,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(VENDOR_SINCE, true, true));
 		list.add(new Requirement(BALANCE, true, true));
 		list.add(new Requirement(BALANCE_AS_OF, true, true));
-		list.add(new Requirement(ADDRESS, true, true));
+		list.add(new Requirement(BILL_TO, true, true));
 		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement(FAX, true, true));
 		list.add(new Requirement(EMAIL, true, true));
@@ -172,6 +173,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+
 		createVendorObject(context);
 		markDone();
 		return result;
@@ -182,7 +184,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		get(VENDOR_SINCE).setDefaultValue(new Date());
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
 		get(BALANCE_AS_OF).setDefaultValue(new Date());
-		get(ADDRESS).setDefaultValue(new ClientAddress());
+		get(BILL_TO).setDefaultValue(new ClientAddress());
 
 	}
 
@@ -190,6 +192,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 		ICountryPreferences countryPreferences = context.getCompany()
 				.getCountryPreferences();
+
 		CompanyPreferences preferences = context.getCompany().getPreferences();
 		ClientVendor vendor = new ClientVendor();
 		String name = get(VENDOR_NAME).getValue();
@@ -201,14 +204,14 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		Date balancedate = get(BALANCE_AS_OF).getValue();
 		double balance = get(BALANCE).getValue();
-		ClientAddress adress = get(ADDRESS).getValue();
+		ClientAddress adress = get(BILL_TO).getValue();
 		ClientAccount account = get(ACCOUNT).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
 		String webaddress = get(WEB_PAGE_ADDRESS).getValue();
-		double creditLimit = get(CREDIT_LIMIT).getValue() == null ? 0 : Double
-				.parseDouble(get(CREDIT_LIMIT).getValue().toString());
+		double creditLimit = (Double) (get(CREDIT_LIMIT).getValue() == null ? 0.0
+				: get(CREDIT_LIMIT).getValue().toString());
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(ACCOUNT_NO).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
@@ -216,6 +219,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 				.getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		ClientPaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
+
 		String vatRegistredNum = get(VAT_REGISTRATION_NUMBER).getValue();
 
 		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
@@ -251,17 +255,18 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (preferences.isDoProductShipMents() && shippingMethod != null)
 			vendor.setShippingMethod(shippingMethod);
 		vendor.setPaymentMethod(paymentMethod);
-		vendor.setPaymentTerms(paymentTerms);
-		vendor.setVendorGroup((Long) get(VENDOR_GROUP).getValue());
+		if (paymentTerms != null)
+			vendor.setPaymentTerms(paymentTerms);
+
+		ClientVendorGroup value = get(VENDOR_GROUP).getValue();
+		if (value != null)
+			vendor.setVendorGroup(value.getID());
 		vendor.setActive(isActive);
-		vendor.setTAXCode((Long) get(VENDOR_VAT_CODE).getValue());
+		if (get(VENDOR_VAT_CODE).getValue() != null)
+			vendor.setTAXCode((Long) get(VENDOR_VAT_CODE).getValue());
 		vendor.setVATRegistrationNumber(vatRegistredNum);
 
-		Session session = context.getHibernateSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(account);
-		transaction.commit();
-
+		create(vendor, context);
 		markDone();
 
 		Result result = new Result();
