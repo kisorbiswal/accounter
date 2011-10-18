@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +37,9 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	protected static final String ACCOUNT = "Account";
 	protected static final String CREDIT_LIMIT = "Credit Limit";
-
+	private static final String CST_NUM = "CST number";
+	private static final String SERVICE_TAX_NUM = "Service tax registration no";
+	private static final String TIN_NUM = "Taxpayer identification number";
 	private static final String PREFERRED_SHIPPING_METHOD = "Preferred Shipping Method";
 	private static final String PAYMENT_METHOD = "paymentMethod";
 	private static final String PAYMENT_TERMS = "paymentTerms";
@@ -206,7 +207,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
 		String webaddress = get(WEB_PAGE_ADDRESS).getValue();
-		double creditLimit = get(CREDIT_LIMIT).getValue();
+		double creditLimit = get(CREDIT_LIMIT).getValue() == null ? 0 : Double
+				.parseDouble(get(CREDIT_LIMIT).getValue().toString());
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(ACCOUNT_NO).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
@@ -216,14 +218,21 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		ClientPaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
 		String vatRegistredNum = get(VAT_REGISTRATION_NUMBER).getValue();
 
-		vendor.setName(name);
+		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
+		if (adress != null) {
+			addresses.add(adress);
+		}
 
+		vendor.setName(name);
 		if (preferences.getUseVendorId())
 			vendor.setVendorNumber(number);
+
+		if (balancedate != null) {
+			vendor.setBalanceAsOf(balancedate.getTime());
+		}
 		vendor.setContacts(contacts);
 		vendor.setBalance(balance);
-		vendor.setBalanceAsOf(balancedate.getTime());
-		vendor.setAddress((adress));
+		vendor.setAddress(addresses);
 		vendor.setPhoneNo(phoneNum);
 		vendor.setFaxNo(faxNum);
 		vendor.setWebPageAddress(webaddress);
@@ -239,7 +248,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		}
 		vendor.setExpenseAccount(account);
 		vendor.setCreditLimit(creditLimit);
-		vendor.setShippingMethod(shippingMethod);
+		if (preferences.isDoProductShipMents() && shippingMethod != null)
+			vendor.setShippingMethod(shippingMethod);
 		vendor.setPaymentMethod(paymentMethod);
 		vendor.setPaymentTerms(paymentTerms);
 		vendor.setVendorGroup((Long) get(VENDOR_GROUP).getValue());
@@ -265,7 +275,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			ResultList actions, Result makeResult) {
 		// context.setAttribute(INPUT_ATTR, "optional");
 		Object selection = context.getSelection(ACTIONS);
-
+		ICountryPreferences countryPreferences = getClientCompany()
+				.getCountryPreferences();
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
@@ -353,6 +366,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		result = accountsOptionalRequirement(context, list, (String) selection, ACCOUNT);
+		if (result != null) {
+			return result;
+		}
 		result = paymentTermRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -362,26 +379,62 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		result = preferredShippingMethodRequirement(context, list, selection);
-		if (result != null) {
-			return result;
+		if (preferences.isDoProductShipMents()) {
+			result = preferredShippingMethodRequirement(context, list,
+					selection);
+			if (result != null) {
+				return result;
+			}
 		}
 
 		result = vendorGroupRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
+		if (preferences.isTrackTax()) {
+			if (countryPreferences.isVatAvailable()) {
+				result = numberOptionalRequirement(context, list, selection,
+						VAT_REGISTRATION_NUMBER,
+						"Enter vat Registeration Number");
+				if (result != null) {
+					return result;
+				}
+				result = VatCodeRequirement(context, list, selection);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		if (preferences.isTrackTax()) {
+			// result = stringOptionalRequirement(context, list, selection,
+			// PAN_NUM, "Enter Personal Ledger number");
+			// if (result != null) {
+			// return result;
+			// }
+			if (countryPreferences.isSalesTaxAvailable()) {
+				result = numberOptionalRequirement(context, list, selection,
+						CST_NUM, "Enter CST Number ");
+				if (result != null) {
+					return result;
+				}
+			}
+			if (countryPreferences.isServiceTaxAvailable()) {
+				result = numberOptionalRequirement(context, list, selection,
+						SERVICE_TAX_NUM,
+						"Enter Service tax registration Number ");
+				if (result != null) {
+					return result;
+				}
+			}
+			if (countryPreferences.isTDSAvailable()) {
+				result = numberOptionalRequirement(context, list, selection,
+						TIN_NUM, "Enter Taxpayer identification number");
+				if (result != null) {
+					return result;
+				}
+			}
+		}
 
-		result = stringOptionalRequirement(context, list, selection,
-				VAT_REGISTRATION_NUMBER, "Enter vat Registeration Number");
-		if (result != null) {
-			return result;
-		}
-		result = VatCodeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Vendor.");
 		actions.add(finish);
