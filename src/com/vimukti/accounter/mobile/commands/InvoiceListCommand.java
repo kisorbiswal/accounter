@@ -14,7 +14,9 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -33,13 +35,25 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 	private static final String OPEN = "Open";
 	private static final String ALL = "All";
 	private static final String VOIDED = "Voided";
-	private static final String OVER_DUE = "OverDue";
+	private static final String OVER_DUE = "Over-Due";
+
+	private static final String THIS_WEEK = "This week";
+	private static final String THIS_MONTH = "This month";
+	private static final String LAST_WEEK = "Last week";
+	private static final String LAST_MONTH = "Last month";
+	private static final String THIS_FINANCIAL_YEAR = "This financial year";
+	private static final String LAST_FINANCIAL_YEAR = "Last financial year";
+	private static final String THIS_FINANCIAL_QUARTER = "This financial quarter";
+	private static final String lAST_FINANCIAL_QUARTER = "Last financial quarter";
+	private static final String FINANCIAL_YEAR_TO_DATE = "Financial year to date";
+	private static final String CUSTOM = "Custom";
 	private static final int ITEMS_TO_VIEW = 4;
 	private static final int DATE_ITEMS_TO_VIEW = 11;
+	private ClientFinanceDate startDate;
+	private ClientFinanceDate endDate;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -58,6 +72,7 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		Result result = null;
+		setDefaultValues();
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -65,7 +80,7 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	public void setDefaultValues() {
+	private void setDefaultValues() {
 
 		get(CURRENT_VIEW).setDefaultValue(OPEN);
 		get(DATE).setDefaultValue(ALL);
@@ -77,25 +92,25 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 	private Result createOptionalResult(Context context) {
 
 		List<String> viewType = new ArrayList<String>();
-		viewType.add("Open");
-		viewType.add("Over-Due");
-		viewType.add("Voided");
-		viewType.add("All");
+		viewType.add(OPEN);
+		viewType.add(OVER_DUE);
+		viewType.add(VOIDED);
+		viewType.add(ALL);
 
 		List<String> dateType = new ArrayList<String>();
-		dateType.add("All");
-		dateType.add("This week");
-		dateType.add("This month");
-		dateType.add("Last week");
-		dateType.add("Last month");
-		dateType.add("This financial year");
-		dateType.add("Last financial year");
-		dateType.add("This financial quarter");
-		dateType.add("Last financial quarter");
-		dateType.add("Financial year to date");
-		dateType.add("Custom");
+		dateType.add(ALL);
+		dateType.add(THIS_WEEK);
+		dateType.add(THIS_MONTH);
+		dateType.add(LAST_WEEK);
+		dateType.add(LAST_MONTH);
+		dateType.add(THIS_FINANCIAL_YEAR);
+		dateType.add(LAST_FINANCIAL_YEAR);
+		dateType.add(THIS_FINANCIAL_QUARTER);
+		dateType.add(lAST_FINANCIAL_QUARTER);
+		dateType.add(FINANCIAL_YEAR_TO_DATE);
+		dateType.add(CUSTOM);
 
-		ResultList resultList = new ResultList("invoicesList");
+		ResultList resultList = new ResultList("values");
 		Object selection = context.getSelection(ACTIONS);
 		ActionNames actionNames;
 		if (selection != null) {
@@ -117,25 +132,31 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = stringListOptionalRequirement(context, resultList, selection,
-				CURRENT_VIEW, "Date", dateType, "Select Date type",
-				DATE_ITEMS_TO_VIEW);
+				DATE, "Date", dateType, "Select Date type", DATE_ITEMS_TO_VIEW);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, resultList, "From",
+		result = dateOptionalRequirement(context, resultList, FROM_DATE,
 				"Enter From Date", selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, resultList, "To",
+		result = dateOptionalRequirement(context, resultList, TO_DATE,
 				"Enter To Date", selection);
 		if (result != null) {
 			return result;
 		}
 
-		return createInvoiceList(context, "", null, null, null);
+		String view = get(CURRENT_VIEW).getValue();
+		String date = get(DATE).getValue();
+		Date fromDate = get(FROM_DATE).getValue();
+		Date toDate = get(TO_DATE).getValue();
+
+		result = createInvoiceList(context, view, date, fromDate, toDate);
+		result.add(resultList);
+		return result;
 
 	}
 
@@ -144,7 +165,7 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		ResultList resultList = new ResultList("invoicesList");
 		List<InvoicesList> invoices = getInvoices(context.getCompany().getID(),
-				viewType, startDate, endDate);
+				viewType, date, startDate, endDate);
 		for (InvoicesList invoice : invoices) {
 			resultList.add(createInvoiceListRecord(invoice));
 		}
@@ -164,13 +185,18 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 	}
 
 	private List<InvoicesList> getInvoices(long companyId, String viewType,
-			Date startDate, Date endDate) {
-
+			String dateType, Date startDate, Date endDate) {
+		List<InvoicesList> invoices;
 		try {
-			List<InvoicesList> invoices = new FinanceTool()
-					.getInventoryManager().getInvoiceList(companyId,
-							startDate.getTime(), endDate.getTime());
 
+			if (dateType != null) {
+				invoices = dateRangeChanged(companyId, dateType);
+			} else {
+				invoices = new FinanceTool().getInventoryManager()
+						.getInvoiceList(companyId,
+								new ClientFinanceDate(startDate),
+								new ClientFinanceDate(endDate));
+			}
 			List<InvoicesList> list = new ArrayList<InvoicesList>(
 					invoices.size());
 			for (InvoicesList invoice : invoices) {
@@ -209,19 +235,174 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
+	public List<InvoicesList> dateRangeChanged(long companyId, String dateRange) {
+		ClientFinanceDate date = new ClientFinanceDate();
+		startDate = getClientCompany().getTransactionStartDate();
+		endDate = getClientCompany().getCurrentFiscalYearEndDate();
+		// getLastandOpenedFiscalYearEndDate();
+		if (dateRange.equals(THIS_WEEK)) {
+			startDate = getWeekStartDate();
+			endDate.setDay(startDate.getDay() + 6);
+			endDate.setMonth(startDate.getMonth());
+			endDate.setYear(startDate.getYear());
+		}
+		if (dateRange.equals(THIS_MONTH)) {
+			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
+					1);
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(new ClientFinanceDate().getDateAsObject());
+			endCal.set(Calendar.DAY_OF_MONTH,
+					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			endDate = new ClientFinanceDate(endCal.getTime());
+
+		}
+		if (dateRange.equals(LAST_WEEK)) {
+			endDate = getWeekStartDate();
+			endDate.setDay(endDate.getDay() - 1);
+			startDate = new ClientFinanceDate(endDate.getDate());
+			startDate.setDay(startDate.getDay() - 6);
+
+		}
+		if (dateRange.equals(LAST_MONTH)) {
+			int day;
+			if (date.getMonth() == 0) {
+				day = getMonthLastDate(11, date.getYear() - 1);
+				startDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
+				endDate = new ClientFinanceDate(date.getYear() - 1, 11, day);
+			} else {
+				day = getMonthLastDate(date.getMonth() - 1, date.getYear());
+				startDate = new ClientFinanceDate(date.getYear(),
+						date.getMonth() - 1, 1);
+				endDate = new ClientFinanceDate(date.getYear(),
+						date.getMonth() - 1, day);
+			}
+		}
+		if (dateRange.equals(THIS_FINANCIAL_YEAR)) {
+			startDate = getClientCompany().getCurrentFiscalYearStartDate();
+			endDate = getClientCompany().getCurrentFiscalYearEndDate();
+		}
+		if (dateRange.equals(LAST_FINANCIAL_YEAR)) {
+
+			startDate = getClientCompany().getCurrentFiscalYearStartDate();
+			startDate.setYear(startDate.getYear() - 1);
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(getClientCompany().getCurrentFiscalYearEndDate()
+					.getDateAsObject());
+			endCal.set(Calendar.DAY_OF_MONTH,
+					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			endDate = new ClientFinanceDate(endCal.getTime());
+			endDate.setYear(endDate.getYear() - 1);
+
+		}
+		if (dateRange.equals(THIS_FINANCIAL_QUARTER)) {
+			startDate = new ClientFinanceDate();
+			endDate = getClientCompany().getCurrentFiscalYearEndDate();
+			// getLastandOpenedFiscalYearEndDate();
+			getCurrentQuarter();
+		}
+		if (dateRange.equals(lAST_FINANCIAL_QUARTER)) {
+			startDate = new ClientFinanceDate();
+			endDate = getClientCompany().getCurrentFiscalYearEndDate();
+			// getLastandOpenedFiscalYearEndDate();
+			getCurrentQuarter();
+			startDate.setYear(startDate.getYear() - 1);
+			endDate.setYear(endDate.getYear() - 1);
+		}
+		if (dateRange.equals(FINANCIAL_YEAR_TO_DATE)) {
+			startDate = getClientCompany().getCurrentFiscalYearStartDate();
+			endDate = new ClientFinanceDate();
+		}
+		try {
+			return new FinanceTool().getInventoryManager().getInvoiceList(
+					companyId, startDate, endDate);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	private Record createInvoiceListRecord(InvoicesList inv) {
 
 		Record record = new Record(inv);
 
-		record.add("Type", inv.getType());
-		record.add("Number", inv.getNumber());
+		// record.add("Number", inv.getNumber());
 		record.add("Date", inv.getDate());
+		record.add("Type", Utility.getTransactionName((inv.getType())));
 		record.add("CustomerName", inv.getCustomerName());
-		record.add("DueDate", inv.getDueDate());
-		record.add("NetPrice", inv.getNetAmount());
-		record.add("TotalPrice", inv.getTotalPrice());
-		record.add("Balance", inv.getBalance());
+		// record.add("DueDate", inv.getDueDate());
+		// record.add("NetPrice", inv.getNetAmount());
+		// record.add("TotalPrice", inv.getTotalPrice());
+		// record.add("Balance", inv.getBalance());
 		return record;
 	}
 
+	public ClientFinanceDate getWeekStartDate() {
+		ClientFinanceDate date = new ClientFinanceDate();
+		int day = date.getDay() % 6;
+		ClientFinanceDate newDate = new ClientFinanceDate();
+		if (day != 1) {
+			newDate.setDay(date.getDay() - day);
+		} else {
+			newDate.setDay(date.getDay());
+		}
+		return newDate;
+	}
+
+	public int getMonthLastDate(int month, int year) {
+		int lastDay;
+		switch (month) {
+		case 0:
+		case 2:
+		case 4:
+		case 6:
+		case 7:
+		case 9:
+		case 11:
+			lastDay = 31;
+			break;
+		case 1:
+			if (year % 4 == 0 && year % 100 == 0)
+				lastDay = 29;
+			else
+				lastDay = 28;
+			break;
+
+		default:
+			lastDay = 30;
+			break;
+		}
+		return lastDay;
+	}
+
+	public void getCurrentQuarter() {
+
+		ClientFinanceDate date = new ClientFinanceDate();
+
+		int currentQuarter;
+		if ((date.getMonth() + 1) % 3 == 0) {
+			currentQuarter = (date.getMonth() + 1) / 3;
+		} else {
+			currentQuarter = ((date.getMonth() + 1) / 3) + 1;
+		}
+		switch (currentQuarter) {
+		case 1:
+			startDate = new ClientFinanceDate(date.getYear(), 0, 1);
+			endDate = new ClientFinanceDate(date.getYear(), 2, 31);
+			break;
+
+		case 2:
+			startDate = new ClientFinanceDate(date.getYear(), 3, 1);
+			endDate = new ClientFinanceDate(date.getYear(), 5, 30);
+			break;
+
+		case 3:
+			startDate = new ClientFinanceDate(date.getYear(), 6, 1);
+			endDate = new ClientFinanceDate(date.getYear(), 8, 30);
+			break;
+		default:
+			startDate = new ClientFinanceDate(date.getYear(), 9, 1);
+			endDate = new ClientFinanceDate(date.getYear(), 11, 31);
+			break;
+		}
+	}
 }
