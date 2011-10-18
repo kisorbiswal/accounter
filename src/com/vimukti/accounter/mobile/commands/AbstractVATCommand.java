@@ -2,12 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -15,6 +10,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 
@@ -37,7 +35,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 	protected Result taxAgencyRequirement(Context context) {
 		Requirement taxAgencyReq = get(TAX_AGENCY);
-		TAXAgency taxAgency = context.getSelection(TAX_AGENCIES);
+		ClientTAXAgency taxAgency = context.getSelection(TAX_AGENCIES);
 		if (taxAgency != null) {
 			taxAgencyReq.setValue(taxAgency);
 			context.setAttribute(INPUT_ATTR, "default");
@@ -54,15 +52,15 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 		Object last = context.getLast(RequirementType.TAXAGENCY);
 		if (last != null) {
-			taxAgenciesList.add(createTaxAgencyRecord((TAXAgency) last));
+			taxAgenciesList.add(createTaxAgencyRecord((ClientTAXAgency) last));
 		}
 
-		List<TAXAgency> taxAgencies = getTaxAgencies(context);
+		List<ClientTAXAgency> taxAgencies = getTaxAgencies();
 		for (int i = 0; i < VALUES_TO_SHOW && i < taxAgencies.size(); i++) {
-			TAXAgency taxAgency = taxAgencies.get(i);
+			ClientTAXAgency taxAgency = taxAgencies.get(i);
 			if (taxAgency != last) {
 				taxAgenciesList
-						.add(createTaxAgencyRecord((TAXAgency) taxAgency));
+						.add(createTaxAgencyRecord((ClientTAXAgency) taxAgency));
 			}
 		}
 
@@ -83,13 +81,13 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<TAXAgency> getTaxAgencies(Context context) {
-		Company company = context.getCompany();
-		Set<TAXAgency> taxAgencies = company.getTaxAgencies();
-		return new ArrayList<TAXAgency>(taxAgencies);
+	protected List<ClientTAXAgency> getTaxAgencies() {
+		ArrayList<ClientTAXAgency> taxAgencies = getClientCompany()
+				.getTaxAgencies();
+		return new ArrayList<ClientTAXAgency>(taxAgencies);
 	}
 
-	protected Record createTaxAgencyRecord(TAXAgency taxAgency) {
+	protected Record createTaxAgencyRecord(ClientTAXAgency taxAgency) {
 		Record record = new Record(taxAgency);
 		record.add("Name", taxAgency.getName());
 		return record;
@@ -97,7 +95,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 	protected Result taxItemRequirement(Context context) {
 		Requirement taxItemReq = get(TAX_ITEM);
-		TAXItem taxItem = context.getSelection(TAX_ITEMS);
+		ClientTAXItem taxItem = context.getSelection(TAX_ITEMS);
 		if (taxItem != null) {
 			taxItemReq.setValue(taxItem);
 			context.setAttribute(INPUT_ATTR, "default");
@@ -114,14 +112,14 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 		if (last != null) {
-			taxItemsList.add(createTaxItemRecord((TAXItem) last));
+			taxItemsList.add(createTaxItemRecord((ClientTAXItem) last));
 		}
 
-		List<TAXItem> taxItems = getTaxItems(context);
+		List<ClientTAXItem> taxItems = getTaxItems();
 		for (int i = 0; i < VALUES_TO_SHOW && i < taxItems.size(); i++) {
-			TAXItem vatItem = taxItems.get(i);
+			ClientTAXItem vatItem = taxItems.get(i);
 			if (vatItem != last) {
-				taxItemsList.add(createTaxItemRecord((TAXItem) vatItem));
+				taxItemsList.add(createTaxItemRecord((ClientTAXItem) vatItem));
 			}
 		}
 
@@ -142,19 +140,18 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<TAXItem> getTaxItems(Context context) {
-		Company company = context.getCompany();
-		Set<TAXItem> taxItems = company.getTaxItems();
-		return new ArrayList<TAXItem>(taxItems);
+	protected List<ClientTAXItem> getTaxItems() {
+		ArrayList<ClientTAXItem> taxItems = getClientCompany().getTaxItems();
+		return new ArrayList<ClientTAXItem>(taxItems);
 	}
 
-	protected Record createTaxItemRecord(TAXItem taxItem) {
+	protected Record createTaxItemRecord(ClientTAXItem taxItem) {
 		Record record = new Record(taxItem);
 		record.add("Name", taxItem.getName());
 		return record;
 	}
 
-	protected Record createAccountRecord(Account account) {
+	protected Record createAccountRecord(ClientAccount account) {
 		Record record = new Record(account);
 		record.add("Number", account.getNumber());
 		record.add("Name", account.getName());
@@ -164,7 +161,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 	protected Result accountRequirement(Context context, String name) {
 		Requirement accountReq = get(name);
-		Account account = context.getSelection(ACCOUNTS);
+		ClientAccount account = context.getSelection(ACCOUNTS);
 		if (account != null) {
 			accountReq.setValue(account);
 			context.setAttribute(INPUT_ATTR, "default");
@@ -181,14 +178,15 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		if (last != null) {
-			accountsList.add(createAccountRecord((Account) last));
+			accountsList.add(createAccountRecord((ClientAccount) last));
 		}
 
-		List<Account> accounts = getAccounts(context);
+		List<ClientAccount> accounts = getAccounts();
 		for (int i = 0; i < VALUES_TO_SHOW && i < accounts.size(); i++) {
-			Account salesAccount = accounts.get(i);
+			ClientAccount salesAccount = accounts.get(i);
 			if (salesAccount != last) {
-				accountsList.add(createAccountRecord((Account) salesAccount));
+				accountsList
+						.add(createAccountRecord((ClientAccount) salesAccount));
 			}
 		}
 
@@ -209,16 +207,15 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<Account> getAccounts(Context context) {
-		Company company = context.getCompany();
-		Set<Account> accounts = company.getAccounts();
-		return Utility.filteredList(new ListFilter<Account>() {
+	protected List<ClientAccount> getAccounts() {
+		ArrayList<ClientAccount> accounts = getClientCompany().getAccounts();
+		return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 			@Override
-			public boolean filter(Account e) {
+			public boolean filter(ClientAccount e) {
 				return e.getIsActive();
 			}
-		}, new ArrayList<Account>(accounts));
+		}, new ArrayList<ClientAccount>(accounts));
 	}
 
 	protected Result amountRequirement(Context context) {

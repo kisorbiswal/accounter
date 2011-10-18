@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 
 public class NewTaxGroupCommand extends AbstractVATCommand {
 
@@ -85,12 +86,12 @@ public class NewTaxGroupCommand extends AbstractVATCommand {
 
 	private Result taxItems(Context context) {
 		Result result = context.makeResult();
-		List<TAXItem> items = getTaxItems();
+		List<ClientTAXItem> items = getTaxItems();
 		ResultList list = new ResultList(TAX_ITEMS_LIST);
 		Object last = context.getLast(RequirementType.TAXITEM);
 		int num = 0;
 		if (last != null) {
-			list.add(creatTaxItemRecord((TAXItem) last));
+			list.add(creatTaxItemRecord((ClientTAXItem) last));
 			num++;
 		}
 		Requirement itemsReq = get(TAX_ITEMS_LIST);
@@ -99,7 +100,7 @@ public class NewTaxGroupCommand extends AbstractVATCommand {
 		for (TAXItem taxItem : transItems) {
 			availableItems.add(taxItem);
 		}
-		for (TAXItem item : items) {
+		for (ClientTAXItem item : items) {
 			if (item != last || !availableItems.contains(item)) {
 				list.add(creatTaxItemRecord(item));
 				num++;
@@ -119,16 +120,11 @@ public class NewTaxGroupCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private Record creatTaxItemRecord(TAXItem taxItem) {
+	private Record creatTaxItemRecord(ClientTAXItem taxItem) {
 		Record record = new Record(taxItem);
 		record.add("Name", taxItem.getName());
 		record.add("Current Rate", taxItem.getTaxRate());
 		return record;
-	}
-
-	private List<TAXItem> getTaxItems() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private Result createOptionalRequirement(Context context) {

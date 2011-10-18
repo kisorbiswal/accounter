@@ -3,9 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -14,6 +11,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 
 public class NewVATCodeCommand extends AbstractVATCommand {
 
@@ -89,7 +89,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 	}
 
 	private Result createTaxCode(Context context) {
-		TAXCode taxCode = new TAXCode(context.getCompany());
+		ClientTAXCode taxCode = new ClientTAXCode();
 
 		String name = get(NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
@@ -101,10 +101,11 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		taxCode.setTaxable(isTaxable);
 		taxCode.setActive(isActive);
 		if (isTaxable) {
-			TAXItem salesVatItem = get(VATITEM_FOR_SALES).getValue();
-			TAXItem purchaseVatItem = get(VATITEM_FOR_PURCHASE).getValue();
-			taxCode.setTAXItemGrpForSales(salesVatItem);
-			taxCode.setTAXItemGrpForPurchases(purchaseVatItem);
+			ClientTAXItem salesVatItem = get(VATITEM_FOR_SALES).getValue();
+			ClientTAXItem purchaseVatItem = get(VATITEM_FOR_PURCHASE)
+					.getValue();
+			taxCode.setTAXItemGrpForSales(salesVatItem.getID());
+			taxCode.setTAXItemGrpForPurchases(purchaseVatItem.getID());
 		}
 
 		create(taxCode, context);
@@ -118,7 +119,8 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 	private Result vatItemForPurchaseRequirement(Context context) {
 		Requirement vatItemForPurchaseReq = get(VATITEM_FOR_PURCHASE);
-		TAXItem vatItemPurchase = context.getSelection(PURCHASE_VAT_ITEMS);
+		ClientTAXItem vatItemPurchase = context
+				.getSelection(PURCHASE_VAT_ITEMS);
 		if (vatItemPurchase != null) {
 			vatItemForPurchaseReq.setValue(vatItemPurchase);
 		}
@@ -134,14 +136,15 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 		if (last != null) {
-			vatItemGroupsList.add(createTaxItemRecord((TAXItem) last));
+			vatItemGroupsList.add(createTaxItemRecord((ClientTAXItem) last));
 		}
 
-		List<TAXItemGroup> vatItemGroups = getPurchaseVatItemGroups(context);
+		List<ClientTAXItemGroup> vatItemGroups = getPurchaseVatItemGroups();
 		for (int i = 0; i < VALUES_TO_SHOW && i < vatItemGroups.size(); i++) {
-			TAXItemGroup vatItem = vatItemGroups.get(i);
+			ClientTAXItemGroup vatItem = vatItemGroups.get(i);
 			if (vatItem != last) {
-				vatItemGroupsList.add(createTaxItemRecord((TAXItem) vatItem));
+				vatItemGroupsList
+						.add(createTaxItemRecord((ClientTAXItem) vatItem));
 			}
 		}
 
@@ -162,9 +165,9 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private List<TAXItemGroup> getPurchaseVatItemGroups(Context context) {
-		List<TAXItemGroup> vatItmsList = new ArrayList<TAXItemGroup>();
-		for (TAXItemGroup vatItem : getFilteredVATItems(context)) {
+	private List<ClientTAXItemGroup> getPurchaseVatItemGroups() {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
+		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
 			if (!vatItem.isSalesType()) {
 				vatItmsList.add(vatItem);
 			}
@@ -231,7 +234,8 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		if (isTaxable) {
 			Requirement salesVatItemReq = get(VATITEM_FOR_SALES);
-			TAXItem salesTaxItem = (TAXItem) salesVatItemReq.getValue();
+			ClientTAXItem salesTaxItem = (ClientTAXItem) salesVatItemReq
+					.getValue();
 			if (VATITEM_FOR_SALES == selection) {
 				context.setAttribute(INPUT_ATTR, VATITEM_FOR_SALES);
 				return getVatItemForSaleResult(context);
@@ -242,7 +246,8 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 			list.add(salesTaxItemRecord);
 
 			Requirement purchaseVatItemReq = get(VATITEM_FOR_PURCHASE);
-			TAXItem purchaseTaxItem = (TAXItem) purchaseVatItemReq.getValue();
+			ClientTAXItem purchaseTaxItem = (ClientTAXItem) purchaseVatItemReq
+					.getValue();
 			if (VATITEM_FOR_PURCHASE == selection) {
 				context.setAttribute(INPUT_ATTR, VATITEM_FOR_PURCHASE);
 				return getVatItemForPurchseResult(context);
@@ -287,7 +292,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 	private Result vatItemForSalesRequirement(Context context) {
 		Requirement vatItemForSalesReq = get(VATITEM_FOR_SALES);
-		TAXItem vatItemSale = context.getSelection(SALES_VAT_ITEMS);
+		ClientTAXItem vatItemSale = context.getSelection(SALES_VAT_ITEMS);
 		if (vatItemSale != null) {
 			vatItemForSalesReq.setValue(vatItemSale);
 		}
@@ -303,15 +308,15 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 		if (last != null) {
-			vatItemGroupsList.add(createTaxItemRecord((TAXItem) last));
+			vatItemGroupsList.add(createTaxItemRecord((ClientTAXItem) last));
 		}
 
-		List<TAXItemGroup> vatItemGroups = getSalesVatItemGroups(context);
+		List<ClientTAXItemGroup> vatItemGroups = getSalesVatItemGroups();
 		for (int i = 0; i < VALUES_TO_SHOW && i < vatItemGroups.size(); i++) {
-			TAXItemGroup vatItemGroup = vatItemGroups.get(i);
+			ClientTAXItemGroup vatItemGroup = vatItemGroups.get(i);
 			if (vatItemGroup != last) {
 				vatItemGroupsList
-						.add(createTaxItemRecord((TAXItem) vatItemGroup));
+						.add(createTaxItemRecord((ClientTAXItem) vatItemGroup));
 			}
 		}
 
@@ -332,12 +337,12 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private List<TAXItemGroup> getFilteredVATItems(Context context) {
-		List<TAXItemGroup> vatItmsList = new ArrayList<TAXItemGroup>();
-		ArrayList<TAXItemGroup> taxItemGroups = new ArrayList<TAXItemGroup>(
-				context.getCompany().getTaxItemGroups());
-		taxItemGroups.addAll(context.getCompany().getTaxItems());
-		for (TAXItemGroup vatItem : context.getCompany().getTaxItems()) {
+	private List<ClientTAXItemGroup> getFilteredVATItems() {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
+		ArrayList<ClientTAXItemGroup> taxItemGroups = new ArrayList<ClientTAXItemGroup>(
+				getClientCompany().getTaxItemGroups());
+		taxItemGroups.addAll(getClientCompany().getTaxItems());
+		for (ClientTAXItemGroup vatItem : getClientCompany().getTaxItems()) {
 			if (vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
@@ -345,9 +350,9 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		return vatItmsList;
 	}
 
-	private List<TAXItemGroup> getSalesVatItemGroups(Context context) {
-		List<TAXItemGroup> vatItmsList = new ArrayList<TAXItemGroup>();
-		for (TAXItemGroup vatItem : getFilteredVATItems(context)) {
+	private List<ClientTAXItemGroup> getSalesVatItemGroups() {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
+		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
 			if (vatItem.isSalesType()) {
 				vatItmsList.add(vatItem);
 			}

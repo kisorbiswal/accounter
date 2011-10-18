@@ -10,7 +10,6 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.sun.org.apache.regexp.internal.recompile;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -1344,7 +1343,7 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	private Record createAccountRecord(ClientAccount last) {
+	protected Record createAccountRecord(ClientAccount last) {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
 		record.add(" ,Balance", last.getCurrentBalance());
