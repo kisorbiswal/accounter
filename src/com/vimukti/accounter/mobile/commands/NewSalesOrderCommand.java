@@ -105,7 +105,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = customerRequirement(context);
+		// result = customerRequirement(context);
 		if (result != null) {
 			return result;
 		}
