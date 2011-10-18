@@ -577,7 +577,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				Global.get().customer()));
 		custNameText.setHelpInformation(true);
 		custNameText.setRequired(true);
-		custNameText.setWidth(100);
+		//custNameText.setWidth(100);
 		custNameText.setDisabled(isInViewMode());
 
 		custNoText = new TextItem(Accounter.messages().customerNumber(
