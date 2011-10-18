@@ -83,6 +83,7 @@ public abstract class AbstractCommand extends Command {
 	private static final String ADDRESS_ACTIONS = "addressActions";
 	private static final String RECORDS_START_INDEX = "recordsStrartIndex";
 	protected static final String PAGENATION = null;
+	protected static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
 
 	private IGlobal global;
 	private AccounterConstants constants;
