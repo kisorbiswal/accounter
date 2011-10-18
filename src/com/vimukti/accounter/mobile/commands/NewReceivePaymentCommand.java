@@ -101,11 +101,11 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context,null, null);
+		result = paymentMethodRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
-		result = depositeOrTransferTo(context, DEPOSITSANDTRANSFERS);
+		// result = depositeOrTransferTo(context, DEPOSITSANDTRANSFERS);
 		if (result != null) {
 			return result;
 		}
