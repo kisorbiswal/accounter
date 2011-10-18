@@ -1420,7 +1420,8 @@ public abstract class AbstractCommand extends Command {
 	protected Record createAccountRecord(ClientAccount last) {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
-		record.add(" ,Balance", last.getCurrentBalance());
+		record.add("Number", last.getNumber());
+		record.add("Balance", last.getCurrentBalance());
 		return record;
 	}
 
@@ -1470,15 +1471,17 @@ public abstract class AbstractCommand extends Command {
 	protected Result accountsOptionalRequirement(Context context,
 			ResultList list, Object selection, String reqName) {
 
-		Object accountObj = context.getSelection(reqName);
-		Requirement accountReq = get(reqName);
+		Object accountObj = context.getSelection(ACCOUNT);
+		if (accountObj instanceof ActionNames) {
+			accountObj = null;
+			selection = reqName;
+		}
 
+		Requirement accountReq = get(reqName);
 		if (accountObj != null) {
 			accountReq.setValue(accountObj);
 		}
-
-		ClientAccount account = accountReq.getValue();
-
+		ClientAccount account = (ClientAccount) accountReq.getValue();
 		if (selection != null)
 			if (selection == reqName) {
 				context.setAttribute(INPUT_ATTR, reqName);
@@ -1486,7 +1489,10 @@ public abstract class AbstractCommand extends Command {
 			}
 		Record customerGroupRecord = new Record(reqName);
 		customerGroupRecord.add("Name", reqName);
-		customerGroupRecord.add("Value", account);
+		customerGroupRecord.add(
+				"Value",
+				account == null ? "" : account.getName() + "-"
+						+ account.getNumber());
 		list.add(customerGroupRecord);
 
 		Result result = new Result();
@@ -1520,7 +1526,7 @@ public abstract class AbstractCommand extends Command {
 				actions, accountsList, skipAccounts, VALUES_TO_SHOW);
 
 		for (ClientAccount account : pagination) {
-			list.add(createAccountRecord(account.getName()));
+			list.add(createAccountRecord(account));
 		}
 
 		result.add(list);
@@ -1545,18 +1551,6 @@ public abstract class AbstractCommand extends Command {
 				list.add(acc);
 		}
 		return list;
-	}
-
-	/**
-	 * 
-	 * @param oldAccount
-	 * @return
-	 */
-	private Record createAccountRecord(String oldAccount) {
-		Record record = new Record(oldAccount);
-		record.add("Name", ACCOUNT);
-		record.add("value", oldAccount);
-		return record;
 	}
 
 }
