@@ -61,6 +61,25 @@ public class InventoryManager extends Manager {
 		}
 	}
 
+	public ArrayList<InvoicesList> getInvoiceList(long companyId,
+			long fromDate, long toDate) throws DAOException {
+
+		List<InvoicesList> invoicesList = null;
+		List<InvoicesList> filteredList = null;
+
+		filteredList = new ArrayList<InvoicesList>();
+		invoicesList = getInvoiceList(companyId);
+		for (InvoicesList list : invoicesList) {
+			if (!list.getDate().before(new ClientFinanceDate(fromDate))
+					&& !list.getDate().after(new ClientFinanceDate(toDate)))
+
+				filteredList.add(list);
+
+		}
+		return new ArrayList<InvoicesList>(filteredList);
+
+	}
+
 	public ArrayList<InvoicesList> getLatestInvoices(long companyId)
 			throws DAOException {
 		try {
