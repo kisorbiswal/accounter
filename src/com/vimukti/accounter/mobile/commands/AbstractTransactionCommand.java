@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -57,7 +56,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String ITEM_DETAILS = "itemdetails";
 	protected static final String ITEM_PROPERTY_ATTR = "itempropertyattr";
 	protected static final String PAYMENT_MENTHOD = "Payment method";
-	private static final int PAYEES_TO_SHOW = 5;
 	protected static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
 	protected static final int SHIPPING_TERMS_TO_SHOW = 5;
@@ -85,6 +83,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int CUSTOMER_TRANSACTION = 1;
 	protected static final int ENTERBILL_TRANSACTION = 3;
 	protected static final String SUPPLIER = "supplier";
+	protected static final String CUSTOMER = "customer";
 	protected static final String CONTACT = "contact";
 	protected static final String PHONE = "phone";
 	private int transactionType;
