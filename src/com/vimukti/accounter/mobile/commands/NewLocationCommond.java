@@ -9,7 +9,7 @@ import com.vimukti.accounter.mobile.Result;
 
 public class NewLocationCommond extends AbstractCommand {
 
-	private static final String LOCATION_NAME = "LOCATION";
+	private static final String LOCATION_NAME = "location";
 
 	@Override
 	public String getId() {
