@@ -105,10 +105,8 @@ public class NewShippingTermCommand extends AbstractTransactionCommand {
 	private void completeProcess(Context context) {
 
 		ShippingTerms newShippingTerm = new ShippingTerms();
-
 		newShippingTerm.setName((String) get("name").getValue());
 		newShippingTerm.setDescription((String) get("description").getValue());
-		// TODO no description added in shipping Terms??
 		create(newShippingTerm, context);
 	}
 

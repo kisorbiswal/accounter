@@ -5,18 +5,16 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
@@ -26,7 +24,6 @@ import com.vimukti.accounter.web.client.core.ListFilter;
  */
 public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
-	private static final String TRANSACTION_DATE = "TransactionDate";
 	private static final String VOUCHER = "Voucher";
 	private static final String ACCOUNT = "Account";
 	private static final String CREDIT = "Credit";
@@ -35,7 +32,6 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 	private static final String OLD_ENTRY_ATTR = "oldEntryAttribute";
 	private static final String ENTRY_PROPERTY_ATTR = "entryPropertyAttr";
 	private static final String ENTRY_DETAILS = "entryDetails";
-	private static final String ENTRIES = "entries";
 
 	@Override
 	public String getId() {
@@ -45,7 +41,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(TRANSACTION_DATE, false, true));
+		list.add(new Requirement(DATE, false, true));
 		list.add(new Requirement(NUMBER, false, true));
 		list.add(new ObjectListRequirement(VOUCHER, false, true) {
 
@@ -77,7 +73,6 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
 
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
@@ -96,15 +91,44 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = entryRequirement(context, makeResult, actions);
-		if (result != null) {
-			return result;
-		}
-		result = createOptionalResult(context, list, actions, makeResult);
+		makeResult.add(actions);
 		if (result != null) {
 			return result;
 		}
 
+		result = createOptionalResult(context, list, actions, makeResult);
+		if (result != null) {
+			return result;
+		}
+		createJournalEntryObject(context);
 		return null;
+	}
+
+	private void createJournalEntryObject(Context context) {
+		ClientJournalEntry entry = new ClientJournalEntry();
+		Date date = get(DATE).getValue();
+		entry.setTransactionDate(date.getTime());
+
+		String number = get(NUMBER).getValue();
+		entry.setNumber(number);
+
+		List<ClientEntry> clientEntries = get(VOUCHER).getValue();
+		entry.setEntry(clientEntries);
+
+		String memo = get(MEMO).getValue();
+		entry.setMemo(memo);
+
+		double totalDebits = 0;
+		double totalCredits = 0;
+		for (ClientEntry item : clientEntries) {
+			totalCredits += item.getCredit();
+			totalDebits += item.getDebit();
+		}
+		entry.setTotal(totalDebits);
+		entry.setDebitTotal(totalDebits);
+		entry.setCreditTotal(totalCredits);
+
+		create(entry, context);
 	}
 
 	private Result entriesProcess(Context context) {
@@ -140,12 +164,14 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 				} else {
 					entry.setCredit(context.getInteger().doubleValue());
 				}
+				entry.setDebit(0);
 			} else if (lineAttr.equals(DEBIT)) {
 				if (context.getDouble() != null) {
 					entry.setDebit(context.getDouble());
 				} else {
 					entry.setDebit(context.getInteger().doubleValue());
 				}
+				entry.setCredit(0);
 			} else if (lineAttr.equals(MEMO)) {
 				entry.setMemo(context.getString());
 			}
@@ -163,8 +189,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
 								@Override
 								public boolean filter(ClientAccount e) {
-									// TODO Auto-generated method stub
-									return false;
+									return true;
 								}
 							});
 				} else if (selection.equals(CREDIT)) {
@@ -172,7 +197,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 					return amount(context, "Please enter the credit amount",
 							entry.getCredit());
 				} else if (selection.equals(DEBIT)) {
-					context.setAttribute(ENTRY_PROPERTY_ATTR, "taxCode");
+					context.setAttribute(ENTRY_PROPERTY_ATTR, DEBIT);
 					return amount(context, "Please enter the debit amount",
 							entry.getDebit());
 				} else if (selection.equals(MEMO)) {
@@ -182,18 +207,6 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 			} else {
 				selection = context.getSelection(ACTIONS);
 				if (selection == ActionNames.FINISH_ITEM) {
-					if (entry.getAccount() == 0) {
-						context.setAttribute(ENTRY_PROPERTY_ATTR, DATE);
-						return accounts(context, ACCOUNT,
-								new ListFilter<ClientAccount>() {
-
-									@Override
-									public boolean filter(ClientAccount e) {
-										// TODO Auto-generated method stub
-										return false;
-									}
-								});
-					}
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_ENTRY_ATTR);
 					return null;
@@ -247,8 +260,13 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(TRANSACTION_DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new Date());
 		get(MEMO).setDefaultValue("");
+		Requirement requirement = get(VOUCHER);
+		Object value = requirement.getValue();
+		if (value == null) {
+			requirement.setValue(new ArrayList<ClientEntry>());
+		}
 	}
 
 	private Result createOptionalResult(Context context, ResultList list,
@@ -270,14 +288,6 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		}
 
 		Result result = null;
-		Requirement entriesReq = get("entries");
-		List<ClientEntry> entries = entriesReq.getValue();
-
-		selection = context.getSelection("entries");
-		if (selection != null) {
-			// TODO
-		}
-
 		result = dateOptionalRequirement(context, list, DATE,
 				"Enter journalEntry Date", selection);
 		if (result != null) {
@@ -289,23 +299,36 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create JournalEntry");
+		actions.add(finish);
+
 		return null;
 	}
 
 	private Result entryRequirement(Context context, Result result,
 			ResultList actions) {
 		Requirement entriesReq = get(VOUCHER);
-		List<ClientEntry> items = context.getSelections(ENTRIES);
-		if (items != null && items.size() > 0) {
-			entriesReq.setValue(items);
+		List<ClientEntry> values = entriesReq.getValue();
+		List<ClientAccount> items = context.getSelections(VOUCHER);
+		if (items != null) {
+			for (ClientAccount account : items) {
+				ClientEntry clientEntry = new ClientEntry();
+				clientEntry.setAccount(account.getID());
+				clientEntry.setMemo("");
+				clientEntry.setEntryDate(new Date().getTime());
+				clientEntry.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
+				values.add(clientEntry);
+			}
 		}
-		if (!entriesReq.isDone()) {
+
+		if (values.size() < 2) {
 			return entries(context);
 		}
 
 		Object selection = context.getSelection("transactionItems");
 		if (selection != null) {
-			result = transactionItem(context, (ClientTransactionItem) selection);
+			result = entry(context, (ClientEntry) selection);
 			if (result != null) {
 				return result;
 			}
@@ -314,78 +337,52 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		selection = context.getSelection(ACTIONS);
 		ActionNames actionName = (ActionNames) selection;
 		if (actionName != null && actionName == ActionNames.ADD_MORE_ITEMS) {
-			return items(context);
+			return entries(context);
 		}
 
+		double totalDebits = 0;
+		double totalCredits = 0;
 		result.add("Items:-");
 		ResultList itemsList = new ResultList("transactionItems");
-		List<ClientTransactionItem> transItems = entriesReq.getValue();
-		for (ClientTransactionItem item : transItems) {
+		List<ClientEntry> transItems = entriesReq.getValue();
+		for (ClientEntry item : transItems) {
 			Record itemRec = new Record(item);
-			itemRec.add("Name", getClientCompany().getItem(item.getItem())
+			itemRec.add("", new ClientFinanceDate(item.getEntryDate()));
+			itemRec.add("", getClientCompany().getAccount(item.getAccount())
 					.getName());
-			itemRec.add(", Total", item.getLineTotal());
-			itemRec.add(", VatCode", item.getVATfraction());
+			itemRec.add("", item.getMemo());
+			itemRec.add("", item.getDebit());
+			itemRec.add("", item.getCredit());
 			itemsList.add(itemRec);
+			totalCredits += item.getCredit();
+			totalDebits += item.getDebit();
 		}
 		result.add(itemsList);
-
+		result.add("Total Debits:" + totalDebits);
+		result.add("Total Credits:" + totalCredits);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
 		moreItems.add("", "Add more items");
-		actions.add(moreItems);
+		Record deleteItems = new Record(ActionNames.ADD_MORE_ITEMS);
+		moreItems.add("", "Delete items");
+		actions.add(deleteItems);
+		if (totalCredits != totalDebits) {
+			result.add("The Debit total and Credit totals must be same");
+			return result;
+		}
+		if (totalCredits == 0) {
+			result.add("Transaction total can not be 0 or less than 0");
+			return result;
+		}
 		return null;
 	}
 
 	private Result entries(Context context) {
-		Result result = context.makeResult();
-		List<ClientEntry> items = new ArrayList<ClientEntry>();// = getItems();
-		ResultList list = new ResultList(ENTRIES);
-		ClientEntry last = (ClientEntry) context.getLast(RequirementType.ENTRY);
-		int num = 0;
-		if (last != null) {
-			list.add(createEntryRecord(last));
-			num++;
-		}
-		Requirement entryReq = get(VOUCHER);
-		List<ClientEntry> entries = entryReq.getValue();
-		if (entries == null) {
-			entries = new ArrayList<ClientEntry>();
-		}
-		List<Long> availableItems = new ArrayList<Long>();
-		for (ClientEntry entry : entries) {
-			// availableItems.add(entry.getItem());
-		}
-		for (ClientEntry item : items) {
-			if (item != last && !availableItems.contains(item.getID())) {
-				list.add(createEntryRecord(item));
-				num++;
+		return accounts(context, VOUCHER, new ListFilter<ClientAccount>() {
+
+			@Override
+			public boolean filter(ClientAccount e) {
+				return true;
 			}
-			if (num == ITEMS_TO_SHOW) {
-				break;
-			}
-		}
-		list.setMultiSelection(true);
-		if (list.size() > 0) {
-			result.add("Slect an Item(s).");
-		} else {
-			result.add("You don't have Items.");
-			Record record = new Record("escape");
-			record.add("", "Skip");
-			ResultList resultList = new ResultList("escape");
-			resultList.add(record);
-			result.add(resultList);
-		}
-
-		result.add(list);
-		CommandList commands = new CommandList();
-		commands.add("Create New Item");
-		result.add(commands);
-		return result;
+		});
 	}
-
-	private Record createEntryRecord(ClientEntry last) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

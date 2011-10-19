@@ -215,7 +215,6 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		ClientCustomer customer = get(PAY_TO).getValue();
-
 		for (ClientAddress adress : customer.getAddress()) {
 			Record record = new Record(adress);
 			record.add("", "Address");

@@ -193,9 +193,4 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		record.add("Name", taxItem.getName());
 		return record;
 	}
-
-	protected int getCompanyType(Context context) {
-		return context.getCompany().getAccountingType();
-	}
-
 }
