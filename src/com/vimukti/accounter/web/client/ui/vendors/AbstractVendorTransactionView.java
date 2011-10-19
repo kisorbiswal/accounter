@@ -552,9 +552,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected TextItem createCheckNumberItem(String title) {
 
 		final TextItem checkNo = new TextItem(title);
-		checkNo.setToolTip(Accounter.messages().giveNoTo(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().no(), title));
+		checkNo.setToolTip(Accounter.messages()
+				.giveNoTo(this.getAction().getViewName())
+				.replace(Accounter.constants().no(), title));
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -735,7 +735,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			vendorCombo.setValue("");
 		}
 
-		if (isTrackTax()) {
+		if (isTrackTax() && isTrackPaidTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
