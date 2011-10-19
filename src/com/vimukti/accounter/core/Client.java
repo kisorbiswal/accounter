@@ -14,6 +14,7 @@ public class Client {
 	private long id;
 	private String firstName;
 	private String lastName;
+	private String fullName;
 	private String emailId;
 	private String password;
 	private boolean isActive;
@@ -162,13 +163,11 @@ public class Client {
 	}
 
 	public String getFullName() {
-		if (firstName == null) {
-			return lastName;
-		} else if (lastName == null) {
-			return firstName;
-		} else {
-			return firstName + " " + lastName;
-		}
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 }
