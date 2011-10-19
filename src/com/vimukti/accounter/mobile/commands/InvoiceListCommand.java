@@ -32,11 +32,6 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 	private static final String TO_DATE = "To";
 	private static final String DATE = "Date";
 
-	private static final String OPEN = "Open";
-	private static final String ALL = "All";
-	private static final String VOIDED = "Voided";
-	private static final String OVER_DUE = "Over-Due";
-
 	private static final String THIS_WEEK = "This week";
 	private static final String THIS_MONTH = "This month";
 	private static final String LAST_WEEK = "Last week";
