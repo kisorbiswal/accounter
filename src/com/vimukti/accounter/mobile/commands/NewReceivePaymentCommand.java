@@ -210,7 +210,6 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		recalculateGridAmounts(payment);
 
 		create(payment, context);
-		context.removeAttribute("isSelected");
 	}
 
 	/**
@@ -488,6 +487,12 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 	private void recalculateGridAmounts(ClientReceivePayment payment) {
 		payment.setTotal(getGridTotal());
+		double toBeSetAmount = 0.0;
+		for (ClientTransactionReceivePayment receivePayment : payment
+				.getTransactionReceivePayment()) {
+			toBeSetAmount += receivePayment.getPayment();
+		}
+		payment.setAmount(toBeSetAmount);
 		payment.setUnUsedPayments(payment.getAmount() - payment.getTotal());
 		setUnusedPayments(payment.getUnUsedPayments(), payment);
 		calculateUnusedCredits(payment);
