@@ -1,10 +1,9 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -12,12 +11,12 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 
 /**
  * 
@@ -90,7 +89,9 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 				new ListFilter<ClientAccount>() {
 					@Override
 					public boolean filter(ClientAccount e) {
-						return true;
+						return Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+								.contains(e.getType());
 					}
 				});
 		if (result != null) {
@@ -125,12 +126,12 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 
 		ClientCustomerRefund customerRefund = new ClientCustomerRefund();
 		Date date = get(DATE).getValue();
-		ClientPayee clientPayee = get(PAY_TO).getValue();
+		ClientCustomer clientcustomer = get(PAY_TO).getValue();
 		ClientAccount account = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		double amount = Double.parseDouble(get(AMOUNT).getValue().toString());
 		boolean istobePrinted = get(TOBEPRINTED).getValue();
-		customerRefund.setPayTo(clientPayee.getID());
+		customerRefund.setPayTo(clientcustomer.getID());
 		customerRefund.setPayFrom(account.getID());
 		customerRefund.setPaymentMethod(paymentMethod);
 		customerRefund.setIsToBePrinted(istobePrinted);
@@ -142,6 +143,12 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 				.getValue().toString());
 		customerRefund.setTotal(amount);
 		customerRefund.setDate(new ClientFinanceDate(date).getDate());
+		double value = Double
+				.parseDouble(get(BANK_BALANCE).getValue() == null ? "0.0"
+						: get(BANK_BALANCE).getValue().toString());
+		double customerbalance = clientcustomer.getBalance();
+		customerRefund.setCustomerBalance(customerbalance + amount);
+		customerRefund.setEndingBalance(value - amount);
 		// if
 		// (context.getCompany().getPreferences().isLocationTrackingEnabled()) {
 		// ClientLocation location = get(LOCATION).getValue();
@@ -207,11 +214,38 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		ClientCustomer customer = get(PAY_TO).getValue();
+
+		for (ClientAddress adress : customer.getAddress()) {
+			Record record = new Record(adress);
+			record.add("", "Address");
+			record.add("", adress.toString());
+			list.add(record);
+		}
+
+		double bankBalance = Double
+				.parseDouble(get(BANK_BALANCE).getValue() == null ? "0.0"
+						: get(BANK_BALANCE).getValue().toString());
+
+		double amount = Double
+				.parseDouble(get(AMOUNT).getValue() == null ? "0.0" : get(
+						AMOUNT).getValue().toString());
+
+		Record bankbalanceRecord = new Record(BANK_BALANCE);
+		bankbalanceRecord.add("", BANK_BALANCE);
+		bankbalanceRecord.add("", bankBalance - amount);
+		list.add(bankbalanceRecord);
+		double customerbalance = customer.getBalance();
+
+		Record customerBalanceRecord = new Record(CUSTOMER_BALANCE);
+		customerBalanceRecord.add("", CUSTOMER_BALANCE);
+		customerBalanceRecord.add("", customerbalance + amount);
+		list.add(customerBalanceRecord);
 
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Customer Refund.");
 		actions.add(finish);
-
 		return makeResult;
 	}
+
 }
