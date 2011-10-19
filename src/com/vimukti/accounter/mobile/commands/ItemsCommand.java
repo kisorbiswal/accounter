@@ -53,7 +53,7 @@ public class ItemsCommand extends AbstractTransactionCommand {
 				context.setAttribute(ITEMS_TYPE, Item.TYPE_SERVICE);
 				break;
 			case PRODUCT_ITEM:
-				context.setAttribute(ITEMS_TYPE, Item.TYPE_INVENTORY_PART);
+				context.setAttribute(ITEMS_TYPE, Item.TYPE_NON_INVENTORY_PART);
 				break;
 			case ALL:
 				context.setAttribute(ITEMS_TYPE, null);
