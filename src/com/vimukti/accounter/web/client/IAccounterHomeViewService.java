@@ -122,7 +122,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public Long getNextCheckNumber(long accountId);
 
 	// To auto generate the next Issue Payement Check number.
-	public Long getNextIssuepaymentCheckNumber(long accountId);
+	public String getNextIssuepaymentCheckNumber(long accountId);
 
 	// To check whether an Account is a Tax Agency Account or not
 	public boolean isTaxAgencyAccount(long accountId);

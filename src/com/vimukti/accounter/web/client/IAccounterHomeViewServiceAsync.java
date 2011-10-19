@@ -140,7 +140,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getNextCheckNumber(long accountId, AsyncCallback<Long> callback);
 
 	public void getNextIssuepaymentCheckNumber(long accountId,
-			AsyncCallback<Long> callback);
+			AsyncCallback<String> callback);
 
 	// To check whether an Account is a Tax Agency Account or not
 	public void isTaxAgencyAccount(long accountId,

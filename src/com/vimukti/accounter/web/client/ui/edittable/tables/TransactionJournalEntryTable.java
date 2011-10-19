@@ -279,6 +279,16 @@ public abstract class TransactionJournalEntryTable extends
 		// Validates account name
 		List<ClientEntry> entrylist = this.getAllRows();
 		for (ClientEntry entry : entrylist) {
+			long accountId = getSelectionAccount(entry);
+			for (ClientEntry entry2 : entrylist) {
+				long accountId2 = getSelectionAccount(entry2);
+				if(!entry.equals(entry2) && accountId == accountId2) {
+					result.addError(this, Accounter.constants()
+							.shouldntSelectSameAccountInMultipleEntries());
+				}
+			}
+		}
+		for (ClientEntry entry : entrylist) {
 			if ((entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT && entry
 					.getAccount() == 0)
 					|| (entry.getType() == ClientEntry.TYPE_VENDOR && entry
@@ -292,6 +302,20 @@ public abstract class TransactionJournalEntryTable extends
 			}
 		}
 		return result;
+	}
+
+	private long getSelectionAccount(ClientEntry entry) {
+		switch (entry.getType()) {
+		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
+			return entry.getAccount();
+		case ClientEntry.TYPE_CUSTOMER:
+			return Accounter.getCompany().getAccountsReceivableAccountId();
+		case ClientEntry.TYPE_VENDOR:
+			return Accounter.getCompany().getAccountsPayableAccount();
+		case ClientEntry.TYPE_VAT:
+			return Accounter.getCompany().getTaxLiabilityAccount();
+		}
+		return 0;
 	}
 
 	private String getTypeAsString(ClientEntry entry, int type) {

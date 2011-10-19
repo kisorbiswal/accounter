@@ -215,7 +215,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 						.getpaymentMethodCheckBy_CompanyType(AccounterClientConstants.PAYMENT_METHOD_CHECK));
 		payMethodSelect.initCombo(payMethodItemList);
 		payMethodSelect.setSelectedItem(0);
-		
+
 		payMethodSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -273,7 +273,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		if (checkNoText != null) {
 			rpcUtilService.getNextIssuepaymentCheckNumber(account.getID(),
-					new AccounterAsyncCallback<Long>() {
+					new AccounterAsyncCallback<String>() {
 
 						public void onException(AccounterException caught) {
 							// UIUtils.logError(
@@ -283,15 +283,14 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 						}
 
-						public void onResultSuccess(Long result) {
+						public void onResultSuccess(String result) {
 
 							if (result == null) {
 								onFailure(null);
 								return;
 							}
-							// setCheckNo(result);
-							// CheckNoText.setValue(getCheckNo());
-							checkNoText.setValue("");
+							setCheckNo(result);
+							checkNoText.setValue(result);
 						}
 
 					});
