@@ -81,6 +81,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("duedate", true, true));
 		list.add(new Requirement("dispatchdate", true, true));
 		list.add(new Requirement("receiveddate", true, true));
+		list.add(new Requirement("memo", true, true));
 
 	}
 
@@ -209,7 +210,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 		newPurchaseOrder.setTransactionItems(items);
-		
+
 		ClientCompanyPreferences preferences = getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
@@ -218,6 +219,11 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
+		updateTotals(newPurchaseOrder);
+
+		String memo = get("memo").getValue();
+		newPurchaseOrder.setMemo(memo);
+
 		create(newPurchaseOrder, context);
 	}
 
@@ -301,7 +307,11 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
+		result = stringOptionalRequirement(context, list, selection, "memo",
+				"Enter Memo");
+		if (result != null) {
+			return result;
+		}
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Item.");
 		actions.add(finish);
