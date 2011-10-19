@@ -10,6 +10,7 @@
 		<alias>Create Invoice</alias>
 		<alias>Add Invoice</alias>
 		<alias>Create New Invoice</alias>
+		<alias>Invoice</alias>
 	</command>
 
 	<command clazz="NewInvoiceCommand" name="New Invoice">
@@ -383,14 +384,14 @@
 		<alias>Add ReceivePayment</alias>
 		<alias>Create Receive Payment</alias>
 	</command>
-	<command clazz="NewQuoteCommand" name="New Quote Command">
+	<command clazz="NewQuoteCommand" name="QuoteCommand">
+		<alias>Estimate</alias>
 		<alias>create Quote</alias>
 		<alias>Add Quote</alias>
 		<alias>New Quote</alias>
 		<alias>Add Estimate</alias>
 		<alias>create Estimate</alias>
 		<alias>New Estimate</alias>
-
 	</command>
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
@@ -482,6 +483,7 @@
 		<alias>Create JournalEntry Command</alias>
 		<alias>Add JournalEntry Command</alias>
 	</command>
+
 
 	<command clazz="NewSalesOrderCommand" name="New SalesOrder">
 		<alias>New SalesOrder</alias>
