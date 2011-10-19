@@ -649,7 +649,7 @@ public class VendorBillView extends
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
