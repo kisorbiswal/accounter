@@ -47,7 +47,6 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-
 		return null;
 	}
 
