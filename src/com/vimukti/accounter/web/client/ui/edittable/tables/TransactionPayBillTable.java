@@ -740,6 +740,8 @@ public abstract class TransactionPayBillTable extends
 					selectedObject.setCashDiscount(cashDiscountDialog
 							.getCashDiscount());
 
+					selectedObject.setDiscountAccount(cashDiscountDialog
+							.getSelectedDiscountAccount().getID());
 					// TODO setAttribute("cashAccount",
 					// cashDiscountDialog.selectedDiscountAccount
 					// .getName(), currentRow);
