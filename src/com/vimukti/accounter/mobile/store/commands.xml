@@ -508,6 +508,7 @@
 	<command clazz="SalesPersonsListCommand" name="Sales Person List">
 		<alias>Sales Person</alias>
 		<alias>sales person list</alias>
+			<alias>salespersons</alias>
 	</command>
 
 	<command clazz="WriteCheckCommand" name="New Write Check Command">
