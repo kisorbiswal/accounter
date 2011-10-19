@@ -86,6 +86,17 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String CUSTOMER = "customer";
 	protected static final String CONTACT = "contact";
 	protected static final String PHONE = "phone";
+
+	protected static final String OPEN = "Open";
+	protected static final String ALL = "All";
+	protected static final String VOIDED = "Voided";
+	protected static final String OVER_DUE = "Over-Due";
+	protected static final String REJECTED = "Rejected";
+	protected static final String ACCEPTED = "Accepted";
+	protected static final String EXPIRED = "Expired";
+	protected static final String ISSUED = "Issued";
+	protected static final String NOT_ISSUED = "Not issued";
+
 	private int transactionType;
 
 	protected Result itemsRequirement(Context context, Result result,
