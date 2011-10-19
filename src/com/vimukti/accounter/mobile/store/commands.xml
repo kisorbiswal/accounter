@@ -337,6 +337,12 @@
 	<command clazz="NewCashExpenseCommand" name="New Cash Expense">
 		<alias>Cash Expense</alias>
 	</command>
+	<command clazz="NewMakeDepositCommond" name="New Make Deposit">
+		<alias>Make Deposit</alias>
+		<alias>Add Make Deposit</alias>
+		<alias>New Transfer Funds</alias>
+		<alias>Add Transfer Funds</alias>
+	</command>
 	<command clazz="NewLocationCommond" name="New Location">
 		<alias>Location</alias>
 	</command>
