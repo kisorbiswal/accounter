@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -804,19 +805,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected List<ClientCustomer> getCustomers(Boolean isActive) {
 		ArrayList<ClientCustomer> customers = getClientCompany().getCustomers();
-		ArrayList<ClientCustomer> result = new ArrayList<ClientCustomer>();
 		if (isActive == null) {
 			return customers;
 		}
+		ArrayList<ClientCustomer> result = new ArrayList<ClientCustomer>();
 		for (ClientCustomer customer : customers) {
-			if (isActive) {
-				if (customer.isActive()) {
-					result.add(customer);
-				}
-			} else {
-				if (!customer.isActive()) {
-					result.add(customer);
-				}
+			if (customer.isActive() == isActive) {
+				result.add(customer);
 			}
 		}
 		return result;
