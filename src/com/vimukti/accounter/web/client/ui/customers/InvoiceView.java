@@ -62,8 +62,6 @@ import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
-import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -386,8 +384,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
-		orderNumText = new IntegerField(this, Accounter.constants()
-				.salesorderno());
+		orderNumText = new TextItem(Accounter.constants().salesorderno());
 		orderNumText.setHelpInformation(true);
 		orderNumText.setWidth(38);
 		if (transaction != null)
@@ -1447,19 +1444,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							.cannotbeearlierthantransactiondate());
 		}
 
-		// FIXME :: do we require orderNumText? if not remove the related code.
-		if (!orderNumText.getValue().equals("")) {
-			if (isNumberCorrect((String) orderNumText.getValue()) == 1) {
-				result.addError(orderNumText, Accounter.constants()
-						.salesOrderNumberGrater0());
-			} else if (isNumberCorrect((String) orderNumText.getValue()) == 2) {
-				result.addError(orderNumText, Accounter.constants()
-						.salesOrderNumberPositive());
-			} else if (isNumberCorrect((String) orderNumText.getValue()) == 3) {
-				result.addError(orderNumText, Accounter.constants()
-						.salesOrderNumberGrater0());
-			}
-		}
 		result.add(customerTransactionTable.validateGrid());
 
 		if (isTrackTax()) {
@@ -1473,35 +1457,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		}
 		return result;
-	}
-
-	private int isNumberCorrect(String value) {
-		try {
-			if (checkIfNotNumber(value)) {
-				throw new NumberFormatException(Accounter.constants()
-						.salesOrderNumber());
-			}
-		} catch (Exception e) {
-			return 1;
-		}
-		try {
-			if (Integer.parseInt(value) < 0) {
-				throw new InvalidEntryException(Accounter.constants()
-						.salesOrderNumberPositive());
-			}
-		} catch (Exception e) {
-			return 2;
-		}
-
-		try {
-			if (Integer.parseInt(value) == 0) {
-				throw new InvalidEntryException(Accounter.constants()
-						.salesOrderNumberGrater0());
-			}
-		} catch (Exception e) {
-			return 3;
-		}
-		return 0;
 	}
 
 	public void setPayments(Double payments) {
