@@ -1098,14 +1098,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result payeeRequirement(Context context, ResultList list,
 			String requirementName) {
 		Requirement payeeReq = get(requirementName);
-		ClientPayee payee = context.getSelection(requirementName);
+		ClientPayee payee = context.getSelection("payee");
 
 		if (payee != null) {
 			payeeReq.setValue(payee);
 		}
 
 		ClientPayee value = payeeReq.getValue();
-		Object selection = context.getSelection("values");
+		Object selection = context.getSelection("Values");
 		if (!payeeReq.isDone() || value == selection) {
 			return payee(context);
 		}

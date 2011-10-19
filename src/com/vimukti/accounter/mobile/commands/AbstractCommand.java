@@ -26,6 +26,8 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientShippingMethod;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -83,7 +85,8 @@ public abstract class AbstractCommand extends Command {
 	private static final String RECORDS_START_INDEX = "recordsStrartIndex";
 	protected static final String PAGENATION = null;
 	protected static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
-
+	private static final String SHIPPING_TERMS = "shippingTerms";
+	private static final String SHIPPING_METHODS = "shippingMethods";
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
@@ -1547,4 +1550,191 @@ public abstract class AbstractCommand extends Command {
 		return list;
 	}
 
+	protected Result statusRequirement(Context context, ResultList list,
+			String reqName) {
+		Requirement statusReq = get(reqName);
+		String statuses = context.getSelection("statusmethods");
+
+		if (statuses != null) {
+			statusReq.setValue(statuses);
+		}
+		String status = statusReq.getValue();
+		Object selection = context.getSelection("values");
+
+		if (!statusReq.isDone() || status == selection) {
+			return statusPrevious(context, null);
+		}
+		Record paymentTermsRecord = new Record(status);
+		paymentTermsRecord.add("", "Status");
+		paymentTermsRecord.add("", status);
+		list.add(paymentTermsRecord);
+
+		return null;
+	}
+
+	private Result statusPrevious(Context context, String oldstatus) {
+		List<String> statusmethods = getstatusmethod();
+		Result result = context.makeResult();
+		result.add("Select Status");
+
+		ResultList list = new ResultList("statusmethods");
+		int num = 0;
+		if (oldstatus != null) {
+			list.add(createStatusMethodRecord(oldstatus));
+			num++;
+		}
+		for (String stats : statusmethods) {
+			if (stats != oldstatus) {
+				list.add(createStatusMethodRecord(stats));
+				num++;
+			}
+		}
+		result.add(list);
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	protected Result shippingTermsRequirement(Context context, ResultList list,
+			Object selection) {
+		Object shippingObj = context.getSelection(SHIPPING_TERMS);
+		Requirement shippingTermsReq = get("shippingTerms");
+		ClientShippingTerms shippingTerm = (ClientShippingTerms) shippingTermsReq
+				.getValue();
+
+		if (selection != null)
+			if (selection == "Shipping Terms") {
+				context.setAttribute(INPUT_ATTR, "Shipping Terms");
+				return shippingTerms(context, shippingTerm);
+			}
+		if (shippingObj != null) {
+			shippingTerm = (ClientShippingTerms) shippingObj;
+			shippingTermsReq.setValue(shippingTerm);
+		}
+
+		Record shippingTermRecord = new Record("Shipping Terms");
+		shippingTermRecord.add("Name", "Shipping Terms");
+		shippingTermRecord.add("Value", shippingTerm.getName());
+		list.add(shippingTermRecord);
+		return null;
+	}
+
+	private Result shippingTerms(Context context,
+			ClientShippingTerms oldshippingTerm) {
+		List<ClientShippingTerms> shippingTerms = getShippingTerms();
+		Result result = context.makeResult();
+		result.add("Select ShippingTerms");
+
+		ResultList list = new ResultList(SHIPPING_TERMS);
+		int num = 0;
+		if (oldshippingTerm != null) {
+			list.add(createShippingTermRecord(oldshippingTerm));
+			num++;
+		}
+		for (ClientShippingTerms term : shippingTerms) {
+			if (term != oldshippingTerm) {
+				list.add(createShippingTermRecord(term));
+				num++;
+			}
+			if (num == VALUES_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create ShippingTerms");
+		result.add(commandList);
+		return result;
+	}
+
+	private Record createShippingTermRecord(ClientShippingTerms oldshippingTerm) {
+		Record record = new Record(oldshippingTerm);
+		record.add("Name", oldshippingTerm.getName());
+		record.add("Desc", oldshippingTerm.getDescription());
+		return record;
+	}
+
+	private List<ClientShippingTerms> getShippingTerms() {
+		// TODO Auto-generated method stub
+		return getClientCompany().getShippingTerms();
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	protected Result shippingMethodRequirement(Context context,
+			ResultList list, Object selection) {
+		Object shippingMethodObj = context.getSelection(SHIPPING_TERMS);
+		Requirement shippingMethodReq = get("shippingTerms");
+		ClientShippingMethod shippingMethods = (ClientShippingMethod) shippingMethodReq
+				.getValue();
+
+		if (selection != null) {
+			if (selection == "Shipping Terms") {
+				context.setAttribute(INPUT_ATTR, "Shipping Terms");
+				return shippingMethods(context, shippingMethods);
+			}
+		}
+		if (shippingMethodObj != null) {
+			shippingMethods = (ClientShippingMethod) shippingMethodObj;
+			shippingMethodReq.setValue(shippingMethods);
+		}
+
+		Record shippingTermRecord = new Record("Shipping Terms");
+		shippingTermRecord.add("Name", "Shipping Terms");
+		shippingTermRecord.add("Value", shippingMethods.getName());
+		list.add(shippingTermRecord);
+		return null;
+	}
+
+	private Result shippingMethods(Context context,
+			ClientShippingMethod oldShippingMethods) {
+		List<ClientShippingMethod> shippingMethods = getShippingMethods();
+		Result result = context.makeResult();
+		result.add("Select Shipping Methods");
+
+		ResultList list = new ResultList(SHIPPING_TERMS);
+		int num = 0;
+		if (oldShippingMethods != null) {
+			list.add(createShippingMethodsRecord(oldShippingMethods));
+			num++;
+		}
+		for (ClientShippingMethod term : shippingMethods) {
+			if (term != oldShippingMethods) {
+				list.add(createShippingMethodsRecord(term));
+				num++;
+			}
+			if (num == VALUES_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create ShippingMethods");
+		result.add(commandList);
+		return result;
+	}
+
+	private Record createShippingMethodsRecord(
+			ClientShippingMethod oldShippingMethods) {
+		Record record = new Record(oldShippingMethods);
+		record.add("Name", oldShippingMethods.getName());
+		record.add("Desc", oldShippingMethods.getDescription());
+		return record;
+	}
+
+	private List<ClientShippingMethod> getShippingMethods() {
+		return getClientCompany().getShippingMethods();
+	}
 }

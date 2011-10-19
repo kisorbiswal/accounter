@@ -19,6 +19,15 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccountTransaction;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
@@ -67,8 +76,8 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("billto", true, false));
 		list.add(new Requirement("date", true, true));
 		list.add(new Requirement("orderno", true, true));
-		list.add(new Requirement("orderorderno", true, true));
-		list.add(new Requirement("paymentterms", true, true));
+		list.add(new Requirement("vendororderno", true, true));
+		list.add(new Requirement("paymentTerms", true, true));
 		list.add(new Requirement("duedate", true, true));
 		list.add(new Requirement("dispatchdate", true, true));
 		list.add(new Requirement("receiveddate", true, true));
@@ -77,7 +86,10 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
 		if (process != null) {
@@ -99,18 +111,52 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
+		Result makeResult = context.makeResult();
+		makeResult
+				.add(" PurchaseOrder is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
 
-		result = VendorRequirement(context);
+		result = createSupplierRequirement(context, list, VENDOR);
 		if (result != null) {
 			return result;
 		}
 
-		result = statusRequirement(context);
+		result = statusRequirement(context, list, STATUS);
 		if (result != null) {
 			return result;
 		}
+		result = itemsAndAccountsRequirement(context, makeResult, actions,
+				new ListFilter<ClientAccount>() {
 
-		result = createOptionalResult(context);
+					@Override
+					public boolean filter(ClientAccount account) {
+						if (account.getType() != ClientAccount.TYPE_CASH
+								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != ClientAccount.TYPE_EXPENSE
+								&& account.getType() != ClientAccount.TYPE_OTHER_EXPENSE
+								&& account.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& account.getType() != ClientAccount.TYPE_EQUITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				});
+		if (result != null) {
+			return result;
+		}
+		setDefaultsValues();
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -120,16 +166,13 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
 	}
 
-	private Result VendorRequirement(Context context) {
-		Requirement vendReq = get("vendor");
-		Vendor vendor = context.getSelection("vendors");
-		if (vendor != null) {
-			vendReq.setValue(vendor);
-		}
-		if (!vendReq.isDone()) {
-			return vendors(context);
-		}
-		return null;
+	private void setDefaultsValues() {
+
+		get("date").setDefaultValue(new Date());
+		get("duedate").setDefaultValue(new Date());
+		get("dispatchdate").setDefaultValue(new Date());
+		get("receiveddate").setDefaultValue(new Date());
+
 	}
 
 	/**
@@ -138,10 +181,11 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 	 */
 	private void completeProcess(Context context) {
 
-		PurchaseOrder newPurchaseOrder = new PurchaseOrder();
+		ClientPurchaseOrder newPurchaseOrder = new ClientPurchaseOrder();
 
-		Vendor vendor = get("vendor").getValue();
-		newPurchaseOrder.setVendor(vendor);
+		ClientVendor vendor = get("vendor").getValue();
+
+		newPurchaseOrder.setVendor(vendor.getID());
 
 		newPurchaseOrder.setPhone((String) get("phone").getValue());
 
@@ -149,26 +193,31 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
 		newPurchaseOrder.setNumber((String) get(ORDER_NO).getValue());
 
-		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
-		newPurchaseOrder.setPaymentTerm(newPaymentTerms);
+		ClientPaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
+		newPurchaseOrder.setPaymentTerm(newPaymentTerms.getID());
 
 		Date dueDate = get("duedate").getValue();
-		newPurchaseOrder.setDate(new FinanceDate(dueDate));
+		newPurchaseOrder.setDate(new FinanceDate(dueDate).getDate());
 
 		Date receivedDate = get("receiveddate").getValue();
-		newPurchaseOrder.setDate(new FinanceDate(receivedDate));
+		newPurchaseOrder.setDate(new FinanceDate(receivedDate).getDate());
 
 		Date dispatchDate = get("dispatchdate").getValue();
-		newPurchaseOrder.setDate(new FinanceDate(dispatchDate));
+		newPurchaseOrder.setDate(new FinanceDate(dispatchDate).getDate());
 
-		List<TransactionItem> items = get("items").getValue();
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		items.addAll(accounts);
 		newPurchaseOrder.setTransactionItems(items);
-
-		Set<AccountTransaction> accountTransactionEntriesList = get("accounts")
-				.getValue();
-		newPurchaseOrder
-				.setAccountTransactionEntriesList(accountTransactionEntriesList);
-
+		
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
 		create(newPurchaseOrder, context);
 	}
 
@@ -176,10 +225,13 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 	 * Creating optional results
 	 * 
 	 * @param context
+	 * @param makeResult
+	 * @param actions
+	 * @param list
 	 * @return
 	 */
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -194,15 +246,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		Requirement vendrReq = get("vendor");
-		Vendor vendor = (Vendor) vendrReq.getValue();
-
-		ResultList list = new ResultList("values");
-
-		Record custRecord = new Record(vendor);
-		custRecord.add("Name", "Vendor");
-		custRecord.add("Value", vendor.getName());
-
-		list.add(custRecord);
+		ClientVendor vendor = (ClientVendor) vendrReq.getValue();
 
 		Result result = contactRequirement(context, list, selection, vendor);
 		if (result != null) {
@@ -213,125 +257,57 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		if (getClientCompany().getPreferences().isDoProductShipMents()) {
+			result = shippingMethodRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
 
-		result = dueDateRequirement(context, list, selection);
+			result = shippingTermsRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+		}
+		result = dateOptionalRequirement(context, list, "duedate",
+				"Enter date", selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = dispatchDateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, "dispatchdate",
+				"Enter dispatchdate", selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = receivedDateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, "receiveddate",
+				"Enter receiveddate", selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = orderNoRequirement(context, list, selection);
+		result = numberOptionalRequirement(context, list, selection, "orderno",
+				"Enter order Number");
+		if (result != null) {
+			return result;
+		}
+		result = numberOptionalRequirement(context, list, selection, "phone",
+				"Enter order Number");
+		if (result != null) {
+			return result;
+		}
+		result = numberOptionalRequirement(context, list, selection,
+				"vendororderno", "Enter vendor order number");
 		if (result != null) {
 			return result;
 		}
 
-		result = vendorOrderNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = context.makeResult();
-		result.add(" Item is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Item.");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return makeResult;
 	}
-
-	private Result receivedDateRequirement(Context context, ResultList list,
-			Object selection) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result dispatchDateRequirement(Context context, ResultList list,
-			Object selection) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result vendorOrderNoRequirement(Context context, ResultList list,
-			Object selection) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * due date requirement
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result dueDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("due");
-		Date dueDate = (Date) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("dueDate")) {
-			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			dueDate = date;
-			req.setValue(dueDate);
-		}
-		if (selection == dueDate) {
-			context.setAttribute(INPUT_ATTR, "dueDate");
-			return date(context, "Due", dueDate);
-		}
-
-		Record dueDateRecord = new Record(dueDate);
-		dueDateRecord.add("Name", "Due Date");
-		dueDateRecord.add("Value", dueDate.toString());
-		list.add(dueDateRecord);
-		return null;
-	}
-
-	// /**
-	// * payment terms requirement
-	// *
-	// * @param context
-	// * @param list
-	// * @param selection
-	// * @return
-	// */
-	// private Result paymentTermRequirement(Context context, ResultList list,
-	// Object selection) {
-	// Object payamentObj = context.getSelection(PAYMENT_TERMS);
-	// Requirement paymentReq = get("paymentTerms");
-	// PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
-	//
-	// if (selection == paymentTerm) {
-	// return paymentTerms(context, paymentTerm);
-	//
-	// }
-	// if (payamentObj != null) {
-	// paymentTerm = (PaymentTerms) payamentObj;
-	// paymentReq.setDefaultValue(paymentTerm);
-	// }
-	//
-	// Record paymentTermRecord = new Record(paymentTerm);
-	// paymentTermRecord.add("Name", "Payment Terms");
-	// paymentTermRecord.add("Value", paymentTerm.getName());
-	// list.add(paymentTermRecord);
-	// return null;
-	// }
 
 	/**
 	 * Contact requirement checking
@@ -391,28 +367,6 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		result.add(commandList);
 
 		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result statusRequirement(Context context) {
-		Requirement statusReq = get(STATUS);
-		if (!statusReq.isDone()) {
-			String string = context.getString();
-			if (string != null) {
-				statusReq.setValue(string);
-			} else {
-				return text(context, "Please select the status", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(NAME)) {
-			statusReq.setValue(input);
-		}
-		return null;
 	}
 
 }
