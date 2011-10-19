@@ -3,14 +3,19 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -19,24 +24,23 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  */
 public class BillsListCommand extends AbstractTransactionCommand {
 
-	private static final String BILLS_VIEW_BY = "BillsViewBy";
+	private static final String BILLS_VIEW_BY = "Current View";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(BILLS_VIEW_BY, true, true));
-
 	}
 
 	@Override
 	public Result run(Context context) {
 		Result result = context.makeResult();
 
+		setDefaultValues();
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -44,57 +48,113 @@ public class BillsListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	private void setDefaultValues() {
+		get(BILLS_VIEW_BY).setDefaultValue(ALL);
+	}
+
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(BILLS_VIEW_BY);
+		List<String> viewType = new ArrayList<String>();
+		viewType.add(NOT_ISSUED);
+		viewType.add(ISSUED);
+		viewType.add(VOIDED);
+		viewType.add(ALL);
 
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
+		ResultList resultList = new ResultList("values");
+		Object selection = context.getSelection(ACTIONS);
+		ActionNames actionNames;
+		if (selection != null) {
+			actionNames = (ActionNames) selection;
+			switch (actionNames) {
+			case FINISH:
+				markDone();
+				return null;
+			default:
+				break;
+			}
+		}
+		selection = context.getSelection("values");
+		Result result = stringListOptionalRequirement(context, resultList,
+				selection, BILLS_VIEW_BY, "Current View", viewType,
+				"Select View type", ITEMS_TO_SHOW);
 		if (result != null) {
 			return result;
 		}
-		String viewType = get(BILLS_VIEW_BY).getValue();
-		result = billsList(context, viewType);
+
+		String view = get(BILLS_VIEW_BY).getValue();
+		result = getBillsList(context, view);
+		result.add(resultList);
 		return result;
+
 	}
 
-	private Result billsList(Context context, String viewType) {
-		Result result = context.makeResult();
-		result.add("Bills and Expenses List");
-		ResultList billsListData = new ResultList("billsList");
-		int num = 0;
-		List<BillsList> bills = getBills(viewType);
-		List<BillsList> expenses = getExpenses(viewType);
-		for (BillsList bill : bills) {
-			billsListData.add(createBillRecord(bill));
-			num++;
-			if (num == BILLS_TO_SHOW) {
-				break;
-			}
-		}
-		num = 0;
-		for (BillsList bill : expenses) {
-			billsListData.add(createBillRecord(bill));
-			num++;
-			if (num == EXPENSES_TO_SHOW) {
-				break;
-			}
-		}
-		int size = billsListData.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Bill or Expense");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
+	private Result getBillsList(Context context, String view) {
 
-		result.add(message.toString());
-		result.add(billsListData);
-		result.add(commandList);
-		result.add("Type for Bill or Expense");
+		try {
+			ArrayList<BillsList> billsList = new FinanceTool()
+					.getVendorManager().getBillsList(false,
+							context.getCompany().getID());
+			ArrayList<BillsList> filterList = filterList(view, billsList);
 
-		return result;
+			Result result = context.makeResult();
+			ResultList resultList = new ResultList("billsList");
+			for (BillsList bill : filterList) {
+				resultList.add(createBillRecord(bill));
+			}
+
+			StringBuilder message = new StringBuilder();
+			if (resultList.size() == 0) {
+				message.append("Add Bill Record");
+			}
+
+			result.add(message.toString());
+			result.add(resultList);
+
+			CommandList commandList = new CommandList();
+			commandList.add("Add a New Bill");
+			result.add(commandList);
+			return result;
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	protected ArrayList<BillsList> filterList(String text,
+			List<BillsList> allRecords) {
+		ArrayList<BillsList> list = new ArrayList<BillsList>();
+		if (text.equalsIgnoreCase(OPEN)) {
+
+			for (BillsList rec : allRecords) {
+				if ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
+						.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO)
+						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
+					if (!rec.isDeleted() && !rec.isVoided())
+						list.add(rec);
+				}
+			}
+
+		} else if (text.equalsIgnoreCase(VOIDED)) {
+			for (BillsList rec : allRecords) {
+				if (rec.isVoided() && !rec.isDeleted()) {
+					list.add(rec);
+				}
+			}
+
+		} else if (text.equalsIgnoreCase(OVER_DUE)) {
+			for (BillsList rec : allRecords) {
+				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
+						&& new ClientFinanceDate().after(rec.getDueDate())
+						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
+					list.add(rec);
+				}
+			}
+
+		}
+		if (text.equalsIgnoreCase(ALL)) {
+			list.addAll(allRecords);
+		}
+		return list;
 	}
 
 	private Record createBillRecord(BillsList bill) {
@@ -109,14 +169,4 @@ public class BillsListCommand extends AbstractTransactionCommand {
 		return rec;
 	}
 
-	@Override
-	protected List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add(Accounter.constants().all());
-		list.add(Accounter.constants().open());
-		list.add(Accounter.constants().Voided());
-		list.add(Accounter.constants().overDue());
-
-		return list;
-	}
 }
