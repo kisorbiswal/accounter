@@ -167,7 +167,6 @@
 			<generator class="native" />
 		</id>
 		<property name="isConfigured" column="IS_CONFIGURED"></property>
-		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
 		<property name="createdDate" column="CREATED_DATE"></property>
 
 		<set name="users" lazy="false" cascade="save-update,delete">
