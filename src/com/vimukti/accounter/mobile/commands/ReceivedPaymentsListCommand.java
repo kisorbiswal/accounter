@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -10,8 +11,19 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
+
+	private static final String CURRENT_VIEW = "currentView";
+	private static String ALL = "all";
+	private static String OPEN = "open";
+	private static String FULLY_APPLIED = "fullyApplied";
+	private static String VOIDED = "voided";
+
+	private static final int STATUS_UNAPPLIED = 0;
+	private static final int STATUS_PARTIALLY_APPLIED = 1;
+	private static final int STATUS_APPLIED = 2;
 
 	@Override
 	public String getId() {
@@ -21,13 +33,12 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_BY, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
-		Result result = context.makeResult();
-		result = createOptionalResult(context);
+
+		Result result = createOptionalResult(context);
 		if (result != null) {
 			return result;
 		}
@@ -35,17 +46,32 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context) {
+
 		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection("viewslist");
-		ResultList list = new ResultList("receivedPayments");
-		Result result = null;
-		result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
+		ActionNames selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			switch (selection) {
+			case FINISH:
+				markDone();
+				return new Result();
+			case OPEN:
+				context.setAttribute(CURRENT_VIEW, "open");
+				break;
+			case VOIDED:
+				context.setAttribute(CURRENT_VIEW, "voided");
+				break;
+			case FULLY_APPLIED:
+				context.setAttribute(CURRENT_VIEW, "fullyApplied");
+				break;
+			case ALL:
+				context.setAttribute(CURRENT_VIEW, null);
+				break;
+			default:
+				break;
+			}
 		}
 
-		String viewType = get(VIEW_BY).getValue();
-		result = receivePaymentsList(context, viewType);
+		Result result = receivePaymentsList(context, selection);
 		return result;
 	}
 
@@ -60,51 +86,108 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 		return list;
 	}
 
-	private Result receivePaymentsList(Context context, String viewType) {
+	private Result receivePaymentsList(Context context, ActionNames selection) {
+
 		Result result = context.makeResult();
 		result.add("Received Payments  List");
 		ResultList receivedPaymentsListData = new ResultList("receivedPayments");
-		int num = 0;
-		List<ReceivePaymentsList> receivedPayments = new ArrayList<ReceivePaymentsList>();
-		if (viewType != null) {
-			receivedPayments = getReceivePaymentsList(viewType);
-		}
 
-		for (ReceivePaymentsList receivedPayment : receivedPayments) {
+		String currentView = (String) context.getAttribute(CURRENT_VIEW);
+		List<ReceivePaymentsList> paymentsLists = getReceivePaymentsList(
+				context, currentView);
+
+		ResultList actions = new ResultList("actions");
+
+		List<ReceivePaymentsList> paginationList = pagination(context,
+				selection, receivedPaymentsListData, paymentsLists,
+				new ArrayList<ReceivePaymentsList>(), VALUES_TO_SHOW);
+
+		for (ReceivePaymentsList receivedPayment : paginationList) {
 			receivedPaymentsListData
 					.add(createReceivePaymentRecord(receivedPayment));
-			num++;
-			if (num == PAYMENTS_TO_SHOW) {
-				break;
-			}
 		}
-		int size = receivedPaymentsListData.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Received Payment");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create Receive Payment");
 
-		result.add(message.toString());
 		result.add(receivedPaymentsListData);
+
+		Record inActiveRec = new Record(ActionNames.OPEN);
+		inActiveRec.add("", "Open Receive Payments");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.VOIDED);
+		inActiveRec.add("", "Voided Receive Payments ");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.FULLY_APPLIED);
+		inActiveRec.add("", "Fully Applied Payments");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.ALL);
+		inActiveRec.add("", "All Payments");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.FINISH);
+		inActiveRec.add("", "Close");
+		actions.add(inActiveRec);
+
+		result.add(actions);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Add ReceivePayment");
 		result.add(commandList);
-		result.add("Type for Received Payment");
 
 		return result;
+	}
+
+	private List<ReceivePaymentsList> getReceivePaymentsList(Context context,
+			String currentView) {
+		FinanceTool tool = new FinanceTool();
+		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
+		try {
+			List<ReceivePaymentsList> receivePaymentsLists = tool
+					.getCustomerManager().getReceivePaymentsList(
+							context.getCompany().getID());
+			if (currentView == null) {
+				return receivePaymentsLists;
+			}
+
+			if (receivePaymentsLists != null) {
+				for (ReceivePaymentsList recievePayment : receivePaymentsLists) {
+					if (currentView.equals(OPEN)) {
+						if ((recievePayment.getStatus() == STATUS_UNAPPLIED || recievePayment
+								.getStatus() == STATUS_PARTIALLY_APPLIED)
+								&& (!recievePayment.isVoided()))
+							result.add(recievePayment);
+						continue;
+					}
+					if (currentView.equals(FULLY_APPLIED)) {
+						if (recievePayment.getStatus() == STATUS_APPLIED
+								&& !recievePayment.isVoided())
+							result.add(recievePayment);
+						continue;
+					}
+					if (currentView.equals(VOIDED)) {
+						if (recievePayment.isVoided()
+								&& !recievePayment.isDeleted())
+							result.add(recievePayment);
+						continue;
+					}
+					if (currentView.equals(ALL)) {
+						result.add(recievePayment);
+					}
+				}
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private Record createReceivePaymentRecord(ReceivePaymentsList receivepayment) {
 
 		Record record = new Record(receivepayment);
 
-		record.add("Type", receivepayment.getType());
 		record.add("PaymentDate", receivepayment.getPaymentDate());
 		record.add("Number", receivepayment.getNumber());
 		record.add("CustomerName", receivepayment.getCustomerName());
 		record.add("PaymentMethod", receivepayment.getPaymentMethodName());
 		record.add("AmountPaid", receivepayment.getAmountPaid());
-		record.add("Voided", receivepayment.isVoided());
 		return record;
 	}
 }

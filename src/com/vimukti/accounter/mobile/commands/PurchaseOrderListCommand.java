@@ -12,12 +12,16 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 
-	private static final String CURRENT_VIEW = "Open";
+	private static final String CURRENT_VIEW = "currentView";
+	private static String OPEN = "open";
+	private static String COMPLETED = "completed";
+	private static String CANCELLED = "cancelled";
 
 	@Override
 	public String getId() {
@@ -42,8 +46,8 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
 
+		context.setAttribute(INPUT_ATTR, "optional");
 		ActionNames selection = context.getSelection(ACTIONS);
 
 		if (selection != null) {
@@ -52,21 +56,22 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 				markDone();
 				return new Result();
 			case OPEN:
-				context.setAttribute(CURRENT_VIEW, Transaction.STATUS_OPEN);
+				context.setAttribute(CURRENT_VIEW, "open");
 				break;
 			case COMPLETED:
-				context.setAttribute(CURRENT_VIEW, Transaction.STATUS_COMPLETED);
+				context.setAttribute(CURRENT_VIEW, "completed");
 				break;
 			case CANCELLED:
-				context.setAttribute(CURRENT_VIEW, Transaction.STATUS_CANCELLED);
+				context.setAttribute(CURRENT_VIEW, "cancelled");
+				break;
+			case ALL:
+				context.setAttribute(CURRENT_VIEW, null);
 				break;
 			default:
 				break;
 			}
-		} else {
-			context.setAttribute(CURRENT_VIEW, Transaction.STATUS_OPEN);
-		}
-
+		} 
+		
 		Result result = purchaseOrderList(context, selection);
 		return result;
 	}
@@ -77,7 +82,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 		ResultList purchaseList = new ResultList("purchaseOrderList");
 		result.add("Sales Order List");
 
-		Integer currentView = (Integer) context.getAttribute(CURRENT_VIEW);
+		String currentView =(String) context.getAttribute(CURRENT_VIEW);
 		List<PurchaseOrdersList> orders = getPurchaseOrder(context, currentView);
 
 		ResultList actions = new ResultList("actions");
@@ -93,13 +98,16 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 		result.add(purchaseList);
 
 		Record inActiveRec = new Record(ActionNames.OPEN);
-		inActiveRec.add("", "Open Purchase Orders");
+		inActiveRec.add("", "Open Orders");
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.COMPLETED);
-		inActiveRec.add("", "Completed  Purchase Orders");
+		inActiveRec.add("", "Completed Orders");
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.CANCELLED);
-		inActiveRec.add("", "Cancelled  Purchase Orders");
+		inActiveRec.add("", "Cancelled Orders");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.ALL);
+		inActiveRec.add("", "All Orders");
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
 		inActiveRec.add("", "Close");
@@ -126,7 +134,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 	}
 
 	private List<PurchaseOrdersList> getPurchaseOrder(Context context,
-			Integer currentView) {
+			String currentView) {
 		FinanceTool tool = new FinanceTool();
 		List<PurchaseOrdersList> purchaseOrders;
 		List<PurchaseOrdersList> result = new ArrayList<PurchaseOrdersList>();
@@ -139,8 +147,21 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 			}
 			if (purchaseOrders != null) {
 				for (PurchaseOrdersList purchaseOrder : purchaseOrders) {
-					if (purchaseOrder.getStatus() == currentView) {
-						result.add(purchaseOrder);
+					if (currentView.equals(OPEN)) {
+						if (purchaseOrder.getStatus() == ClientTransaction.STATUS_OPEN
+								|| purchaseOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
+							result.add(purchaseOrder);
+						continue;
+					}
+					if (currentView.equals(COMPLETED)) {
+						if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
+							result.add(purchaseOrder);
+						continue;
+					}
+					if (currentView.equals(CANCELLED)) {
+						if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
+							result.add(purchaseOrder);
+						continue;
 					}
 				}
 			}

@@ -429,6 +429,9 @@
 	<command clazz="SalesOrderListCommand" name="Sales Order List">
 		<alias>Sales Orders</alias>
 	</command>
+	<command clazz="ReceivedPaymentsListCommand" name="Receive Payments List">
+		<alias>Receive Payments</alias>
+	</command>
 	<command clazz="PurchaseOrderListCommand" name="Purchase Order List">
 		<alias>Purchase Orders</alias>
 	</command>
@@ -492,9 +495,6 @@
 		<alias>New PurchaseOrder Command</alias>
 		<alias>Create PurchaseOrder Command</alias>
 		<alias>Add PurchaseOrder Command</alias>
-	</command>
-
-	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
 	</command>
 
 	<command clazz="VoidTransactionCommand" name="Void Transaction">

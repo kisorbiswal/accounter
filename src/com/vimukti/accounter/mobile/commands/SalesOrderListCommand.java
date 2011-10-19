@@ -17,7 +17,10 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class SalesOrderListCommand extends AbstractTransactionCommand {
 
-	private static final String CURRENT_VIEW = "open";
+	private static final String CURRENT_VIEW = "currentView";
+	private static String OPEN = "open";
+	private static String COMPLETED = "completed";
+	private static String CANCELLED = "cancelled";
 
 	@Override
 	public String getId() {
@@ -51,13 +54,16 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 				markDone();
 				return new Result();
 			case OPEN:
-				context.setAttribute(CURRENT_VIEW, Transaction.STATUS_OPEN);
+				context.setAttribute(CURRENT_VIEW, "open");
 				break;
 			case COMPLETED:
-				context.setAttribute(CURRENT_VIEW, Transaction.STATUS_COMPLETED);
+				context.setAttribute(CURRENT_VIEW, "completed");
 				break;
 			case CANCELLED:
-				context.setAttribute(CURRENT_VIEW, Transaction.STATUS_CANCELLED);
+				context.setAttribute(CURRENT_VIEW, "cancelled");
+				break;
+			case ALL:
+				context.setAttribute(CURRENT_VIEW, null);
 				break;
 			default:
 				break;
@@ -74,7 +80,7 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 		ResultList salesList = new ResultList("salesOrderList");
 		result.add("Sales Order List");
 
-		Integer currentView = (Integer) context.getAttribute(CURRENT_VIEW);
+		String currentView = (String) context.getAttribute(CURRENT_VIEW);
 		List<SalesOrdersList> orders = getSalesOrders(context, currentView);
 
 		ResultList actions = new ResultList("actions");
@@ -122,7 +128,7 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 	}
 
 	private List<SalesOrdersList> getSalesOrders(Context context,
-			Integer currentView) {
+			String currentView) {
 		FinanceTool tool = new FinanceTool();
 		List<SalesOrdersList> salesOrders;
 		List<SalesOrdersList> result = new ArrayList<SalesOrdersList>();
@@ -135,9 +141,24 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 			}
 			if (salesOrders != null) {
 				for (SalesOrdersList salesOrder : salesOrders) {
-					if (salesOrder.getStatus() == currentView) {
-						result.add(salesOrder);
+					if (currentView.equals(OPEN)) {
+						if (salesOrder.getStatus() == Transaction.STATUS_OPEN
+								|| salesOrder.getStatus() == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED) {
+							result.add(salesOrder);
+						}
+						continue;
 					}
+					if (currentView.equals(COMPLETED)) {
+						if (salesOrder.getStatus() == Transaction.STATUS_COMPLETED)
+							result.add(salesOrder);
+						continue;
+					}
+					if (currentView.equals(CANCELLED)) {
+						if (salesOrder.getStatus() == Transaction.STATUS_CANCELLED)
+							result.add(salesOrder);
+						continue;
+					}
+
 				}
 			}
 			return result;
