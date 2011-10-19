@@ -82,11 +82,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 			public void onResultSuccess(T result) {
 				if (result != null) {
-					setComboItem(result);
-					if (handler != null) {
-						handler.selectedComboBoxItem(result);
-						updateComboItem(result);
-					}
+					addItemThenfireEvent(result);
 				} else {
 					onFailure(null);
 				}
@@ -260,5 +256,5 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 	// }
 	//
 	// }
-	
+
 }
