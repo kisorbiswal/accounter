@@ -1,31 +1,39 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.MakeDeposit;
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewMakeDepositCommond extends AbstractTransactionCommand {
 	private static final String TRANSFERED_ACCOUNT = "transferedAccount";
 	private static final String TRANSFERED_TO = "transferedTo";
-	private static final String OLD_DEPOSITE_TRANSACTION_ITEM_ATTR = null;
-	private static final Object DEPOSITE_TRANSACTION_PROCESS = null;
+	private static final String OLD_DEPOSITE_TRANSACTION_ITEM_ATTR = "oldDepositTransctionItemProcess";
+	private static final String DEPOSITE_TRANSACTION_PROCESS = "depositTransactionProcess";
+	private static final String MAKE_DEPOSITE_ACCOUNT_ITEM_DETAILS = "makeAdepositeAccountDetails";
+	private static final String MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR = "makeadepositeaccountitempropertyattr";
 
 	@Override
 	public String getId() {
@@ -37,10 +45,11 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(NUMBER, true, false));
-		list.add(new Requirement(TRANSFERED_TO, false, true));
+		list.add(new Requirement(DEPOSIT_OR_TRANSFER_TO, false, true));
 		list.add(new ObjectListRequirement(TRANSFERED_ACCOUNT, false, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("receivedFrom", true, true));
 				list.add(new Requirement("accountName", false, true));
 				list.add(new Requirement("reference", true, true));
 				list.add(new Requirement("amount", false, true));
@@ -71,26 +80,272 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		setTransactionType(ClientTransaction.TYPE_MAKE_DEPOSIT);
-		result = createSupplierRequirement(context, list, SUPPLIER);
+
+		result = accountRequirement(context, list, DEPOSIT_OR_TRANSFER_TO,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount account) {
+						return account.getIsActive()
+								&& (Arrays
+										.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+												ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+												ClientAccount.TYPE_BANK,
+												ClientAccount.TYPE_EQUITY)
+										.contains(account.getType()));
+					}
+				});
 		if (result != null) {
 			return result;
 		}
 
-		// result = depositeOrTransferTo(context, TRANSFERED_TO);
+		result = makeDepositTransactionAccountsRequirement(context, makeResult,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount account) {
+						return Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+								ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+								ClientAccount.TYPE_EQUITY).contains(
+								account.getType());
+					}
+				}, actions);
 		if (result != null) {
 			return result;
 		}
-		result = transferdAccountRequiremnet(context, TRANSFERED_ACCOUNT);
-		if (result != null) {
-			return result;
-		}
-		result = createOptional(context);
+		makeResult.add(actions);
+		result = createOptional(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
 		completeProcess(context);
 		markDone();
+		result = new Result();
+		result.add(" Make A Deposit Transaction was created successfully.");
+		return result;
+	}
+
+	private Result makeDepositTransactionAccountsRequirement(Context context,
+			Result result, ListFilter<ClientAccount> listFilter,
+			ResultList actions) {
+		Requirement transItemsReq = get(TRANSFERED_ACCOUNT);
+		List<ClientAccount> accounts = context
+				.getSelections(TRANSFERED_ACCOUNT);
+
+		if (accounts != null && accounts.size() > 0) {
+			for (ClientAccount account : accounts) {
+				ClientTransactionMakeDeposit transactionItem = new ClientTransactionMakeDeposit();
+				transactionItem
+						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				transactionItem.setAccount(account.getID());
+				List<ClientTransactionMakeDeposit> transactionItems = transItemsReq
+						.getValue();
+				if (transactionItems == null) {
+					transactionItems = new ArrayList<ClientTransactionMakeDeposit>();
+					transItemsReq.setValue(transactionItems);
+				}
+				transactionItems.add(transactionItem);
+				if (transactionItem.getAmount() == 0) {
+					context.putSelection(MAKE_DEPOSITE_ACCOUNT_ITEM_DETAILS,
+							"amount");
+					Result transactionItemResult = makeADepositAccountItem(
+							context, transactionItem);
+					if (transactionItemResult != null) {
+						return transactionItemResult;
+					}
+				}
+			}
+		}
+
+		if (!transItemsReq.isDone()) {
+			return makeDepositItems(context, TRANSFERED_ACCOUNT, listFilter);
+		}
+
+		Object selection = context.getSelection("accountItems");
+		if (selection != null) {
+			result = transactionAccountItem(context,
+					(ClientTransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		selection = context.getSelection(ACTIONS);
+		ActionNames actionName = (ActionNames) selection;
+		if (actionName != null && actionName == ActionNames.ADD_MORE_ACCOUNTS) {
+			return accounts(context, TRANSFERED_ACCOUNT, listFilter);
+		}
+
+		List<ClientTransactionMakeDeposit> accountTransItems = transItemsReq
+				.getValue();
+		ResultList accountItems = new ResultList("accountItems");
+		result.add("Account Transaction Items:-");
+		for (ClientTransactionMakeDeposit item : accountTransItems) {
+			Record itemRec = new Record(item);
+			itemRec.add("Name", getClientCompany()
+					.getAccount(item.getAccount()).getName());
+			itemRec.add("Amount", item.getAmount());
+			itemRec.add("Reference", item.getReference());
+			itemRec.add("Total", item.getAmount());
+			accountItems.add(itemRec);
+		}
+		result.add(accountItems);
+
+		Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
+		moreItems.add("", "Add more accounts");
+		actions.add(moreItems);
 		return null;
+	}
+
+	private Result makeDepositItems(Context context, String label,
+			ListFilter<ClientAccount> listFilter) {
+		Result result = context.makeResult();
+		ArrayList<ClientAccount> accounts = getAccounts(listFilter);
+		accounts = new ArrayList<ClientAccount>(accounts);
+		Collections.sort(accounts, new Comparator<ClientAccount>() {
+
+			@Override
+			public int compare(ClientAccount o1, ClientAccount o2) {
+				return o1.getName().compareToIgnoreCase(o2.getName());
+			}
+		});
+		ResultList list = new ResultList(label);
+		Object last = context.getLast(RequirementType.ACCOUNT);
+		int num = 0;
+		if (last != null) {
+			list.add(createAccountRecord(context, (ClientAccount) last));
+			num++;
+		}
+		Requirement itemsReq = get(label);
+		List<ClientTransactionMakeDeposit> transItems = itemsReq.getValue();
+		if (transItems == null) {
+			transItems = new ArrayList<ClientTransactionMakeDeposit>();
+		}
+		List<Long> availableAccounts = new ArrayList<Long>();
+		for (ClientTransactionMakeDeposit transactionItem : transItems) {
+			availableAccounts.add(transactionItem.getAccount());
+		}
+		for (ClientAccount account : accounts) {
+			if (account != last || !availableAccounts.contains(account.getID())) {
+				list.add(createAccountRecord(context, account));
+				num++;
+			}
+			if (num == ACCOUNTS_TO_SHOW) {
+				break;
+			}
+		}
+		list.setMultiSelection(true);
+		if (list.size() > 0) {
+			result.add("Slect an Account(s).");
+		} else {
+			result.add("You don't have any Account.");
+		}
+
+		result.add(list);
+		CommandList commands = new CommandList();
+		commands.add("Add Account");
+		result.add(commands);
+		return result;
+	}
+
+	private Result makeADepositAccountItem(Context context,
+			ClientTransactionMakeDeposit transactionItem) {
+		context.setAttribute(PROCESS_ATTR, DEPOSITE_TRANSACTION_PROCESS);
+		context.setAttribute(OLD_DEPOSITE_TRANSACTION_ITEM_ATTR,
+				transactionItem);
+
+		String lineAttr = (String) context
+				.getAttribute(MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR);
+		if (lineAttr != null) {
+			context.removeAttribute(MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR);
+			if (lineAttr.equals("amount")) {
+				if (context.getDouble() != null) {
+					transactionItem.setAmount(context.getDouble());
+				} else {
+					transactionItem.setAmount(context.getInteger()
+							.doubleValue());
+				}
+			} else if (lineAttr.equals("reference")) {
+				if (context.getString() != null) {
+					transactionItem.setReference(context.getString());
+				}
+			}
+		} else {
+			Object selection = context
+					.getSelection(MAKE_DEPOSITE_ACCOUNT_ITEM_DETAILS);
+			if (selection != null) {
+				if (selection.equals("amount")) {
+					context.setAttribute(
+							MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR, "amount");
+					return amount(context, "Enter Amount",
+							transactionItem.getAmount());
+				} else if (selection.equals("reference")) {
+					context.setAttribute(
+							MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR,
+							"reference");
+					return number(context, "Enter Reference",
+							transactionItem.getReference());
+				}
+			} else {
+				selection = context.getSelection(ACTIONS);
+				if (selection == ActionNames.FINISH_ITEM) {
+					if (transactionItem.getAmount() == 0) {
+						context.setAttribute(
+								MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR,
+								"amount");
+						return amount(context, "Enter Amount",
+								transactionItem.getAmount());
+					}
+					context.removeAttribute(PROCESS_ATTR);
+					context.removeAttribute(OLD_DEPOSITE_TRANSACTION_ITEM_ATTR);
+					return null;
+				} else if (selection == ActionNames.DELETE_ITEM) {
+					context.removeAttribute(PROCESS_ATTR);
+					return null;
+				}
+			}
+		}
+		ResultList list = new ResultList(MAKE_DEPOSITE_ACCOUNT_ITEM_DETAILS);
+		Record record = new Record("amount");
+		record.add("", "Amount");
+		record.add("", transactionItem.getAmount());
+		list.add(record);
+
+		record = new Record("reference");
+		record.add("", "Reference");
+		record.add("", transactionItem.getReference());
+		list.add(record);
+
+		// TODO NEED TO CALCULATE LINE TOTAL
+		// double lineTotal = transactionItem.getUnit()
+		// - ((transactionItem.getUnitPrice() * transactionItem
+		// .getDiscount()) / 100);
+		// transactionItem.setLineTotal(lineTotal);
+		Result result = context.makeResult();
+		result.add("Account details");
+		ClientAccount account = getClientCompany().getAccount(
+				transactionItem.getAccount());
+		if (account != null) {
+			result.add("Account Name :" + account.getName());
+		}
+		// double lt = transactionItem.getUnitPrice();
+		// double disc = transactionItem.getDiscount();
+		// transactionItem
+		// .setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+		// * disc / 100)) : lt);
+		result.add("Amount Total :" + transactionItem.getAmount());
+		result.add(list);
+
+		ResultList actions = new ResultList(ACTIONS);
+		record = new Record(ActionNames.DELETE_ITEM);
+		record.add("", "Delete");
+		actions.add(record);
+		record = new Record(ActionNames.FINISH_ITEM);
+		record.add("", "Finish");
+		actions.add(record);
+		result.add(actions);
+		return result;
 	}
 
 	private void setDefaultValues() {
@@ -102,121 +357,102 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 	private void completeProcess(Context context) {
 
 		Company company = context.getCompany();
-		MakeDeposit makeDeposit = new MakeDeposit();
+		ClientMakeDeposit makeDeposit = new ClientMakeDeposit();
 
 		Date date = get(DATE).getValue();
-		makeDeposit.setDate(new FinanceDate(date));
+		makeDeposit.setDate(new FinanceDate(date).getDate());
 
-		makeDeposit.setType(Transaction.TYPE_MAKE_DEPOSIT);
+		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
 
 		String number = get("number").getValue();
 		makeDeposit.setNumber(number);
 
-		List<TransactionItem> items = get(TRANSFERED_TO).getValue();
-		makeDeposit.setTransactionItems(items);
-		List<TransactionMakeDeposit> list = get(TRANSFERED_ACCOUNT).getValue();
+		ClientAccount account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
+		makeDeposit.setDepositIn(account.getID());
+
+		List<ClientTransactionMakeDeposit> list = get(TRANSFERED_ACCOUNT)
+				.getValue();
 		makeDeposit.setTransactionMakeDeposit(list);
-
-		// TODO Location
-		// TODO Class
-
-		makeDeposit.setTotal(getTransactionMakeDepositTotal(list, company));
-
-		// TODO Payments
 
 		String memo = get(MEMO).getValue();
 		makeDeposit.setMemo(memo);
-
-		// TODO Discount Date
-		// TODO Estimates
-		// TODO sales Order
+		caluclateTotals(makeDeposit);
 		create(makeDeposit, context);
 
 	}
 
-	private double getTransactionMakeDepositTotal(
-			List<TransactionMakeDeposit> items, Company company) {
-		Double totallinetotal = 0.0;
-		for (TransactionMakeDeposit citem : items) {
-			Double lineTotalAmt = citem.getAmount();
-			totallinetotal += lineTotalAmt;
+	private void caluclateTotals(ClientMakeDeposit makeDeposit) {
+		List<ClientTransactionMakeDeposit> allrecords = makeDeposit
+				.getTransactionMakeDeposit();
+		double lineTotal = 0.0;
+		double totalTax = 0.0;
+
+		for (ClientTransactionMakeDeposit record : allrecords) {
+
+			int type = record.getType();
+
+			if (type == 0)
+				continue;
+
+			Double lineTotalAmt = record.getAmount();
+			lineTotal += lineTotalAmt;
+
 		}
-		return totallinetotal;
+
+		double grandTotal = totalTax + lineTotal;
+
+		makeDeposit.setTotal(grandTotal);
+
 	}
 
-	private Result createOptional(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+	private Result createOptional(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
-			case ADD_MORE_ACCOUNTS:
-				return accounts(context, TRANSFERED_ACCOUNT,
-						new ListFilter<ClientAccount>() {
-
-							@Override
-							public boolean filter(ClientAccount e) {
-								return true;
-							}
-						});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
+				markDone();
 				return null;
 			default:
 				break;
 			}
 		}
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-		Requirement transferTo = get(TRANSFERED_TO);
-		Account account = transferTo.getValue();
-		Record nameRec = new Record(account);
-		nameRec.add("Account name", "Account Name");
-		nameRec.add("value", account.getName());
-		Record accountRec = new Record(account);
-		accountRec.add("Account type", "Account Type");
-		accountRec.add("Account Type", getAccountTypeString(account.getType()));
-		list.add(nameRec);
-		list.add(accountRec);
-
-		Result result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
+		Result result = dateOptionalRequirement(context, list, DATE,
+				"Enter Date", selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				NUMBER);
-		if (result != null) {
-			return result;
-		}
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				"Enter Make A Deposit Transaction Number");
 		if (result != null) {
 			return result;
 		}
 
-		result = context.makeResult();
-		result.add("MakeDeposite is ready to create with following values.");
-		result.add(list);
+		result = stringOptionalRequirement(context, list, selection, "memo",
+				"Add a memo");
+		if (result != null) {
+			return result;
+		}
 
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
-		actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Transaction.");
+		finish.add("", "Finish to create Make a Deposite.");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return makeResult;
 	}
 
 	private Result depositTransactionProcess(Context context) {
-		TransactionMakeDeposit transactionItem = (TransactionMakeDeposit) context
+		ClientTransactionMakeDeposit transactionItem = (ClientTransactionMakeDeposit) context
 				.getAttribute(OLD_DEPOSITE_TRANSACTION_ITEM_ATTR);
-		Result result = depositTransaction(context, transactionItem);
+		Result result = makeADepositAccountItem(context, transactionItem);
 		if (result == null) {
 			ActionNames actionName = context.getSelection(ACTIONS);
 			if (actionName == ActionNames.DELETE_ITEM) {
@@ -331,5 +567,17 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 	private Result transferedAccount(Context context, String transferedAccount) {
 
 		return null;
+	}
+
+	private Record createAccountRecord(Context context, ClientAccount account) {
+		Record record = new Record(account);
+		record.add("Account Name", "Account Name:");
+		record.add("Account Name value", account.getName());
+		record.add("Account Balance", "Current Balance:");
+		record.add("Current Balance", account.getCurrentBalance());
+		record.add("Account Type", "Account Type:");
+		record.add("Account Type Value",
+				getAccountTypeString(account.getType()));
+		return record;
 	}
 }
