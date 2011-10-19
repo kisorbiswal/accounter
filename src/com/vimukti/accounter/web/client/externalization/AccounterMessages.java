@@ -5,7 +5,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public interface AccounterMessages extends Messages {
-	
+
 	public String userName(String loginUserName);
 
 	public String failedTransaction(String transName);
@@ -29,7 +29,7 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml allHTML();
 
 	public SafeHtml aboutThisFieldHelp();
-	
+
 	public String actionClassNameis(String className);
 
 	public SafeHtml changePasswordHTML();
@@ -870,8 +870,11 @@ public interface AccounterMessages extends Messages {
 
 	public String budgetAddBy();
 
-	public String quarterPeriod(String quarterNo,String startMonth,String endMonth);
+	public String quarterPeriod(String quarterNo, String startMonth,
+			String endMonth);
 
 	public String wareHouseLoadingError(String exp);
+
+	public String thereisNoRecordsTosave(String transactionType);
 
 }
