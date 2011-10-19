@@ -4953,4 +4953,6 @@ public interface AccounterConstants extends Constants {
 	public String pleaseEnterTheContactDetails();
 
 	public String addMemo();
+
+	public String purchaseNumber();
 }

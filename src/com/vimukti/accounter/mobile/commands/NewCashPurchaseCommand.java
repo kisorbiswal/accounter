@@ -264,8 +264,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		Requirement supplierReq = get(SUPPLIER);
 		ClientVendor supplier = (ClientVendor) supplierReq.getValue();
 
-		Result result = dateOptionalRequirement(context, list, "deliveryDate",
-				"Enter date", selection);
+		Result result = dateOptionalRequirement(context, list, DELIVERY_DATE,
+				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
@@ -276,17 +276,17 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter cash purchase number");
+				getMessages().pleaseEnter(getConstants().purchaseNumber()));
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, DATE, "Enter date",
-				selection);
+		result = dateOptionalRequirement(context, list, DATE, getMessages()
+				.pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter phone number");
+				getMessages().pleaseEnter(getConstants().phone()));
 		if (result != null) {
 			return result;
 		}
@@ -297,13 +297,14 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Add a memo");
+				getConstants().addMemo());
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create CashPurchase.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().cashPurchase()));
 		actions.add(finish);
 
 		return makeResult;
