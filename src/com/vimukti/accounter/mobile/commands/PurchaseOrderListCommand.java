@@ -90,12 +90,6 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 			purchaseList.add(createNewPurchaseOrderRecord(purchaseOrdersList));
 		}
 
-		StringBuilder message = new StringBuilder();
-		if (purchaseList.size() > 0) {
-			message.append("Select an Purchase Order");
-		}
-
-		result.add(message.toString());
 		result.add(purchaseList);
 
 		Record inActiveRec = new Record(ActionNames.OPEN);

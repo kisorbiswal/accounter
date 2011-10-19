@@ -89,12 +89,6 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 			salesList.add(createNewSalesOrderRecord(salesOrdersList));
 		}
 
-		StringBuilder message = new StringBuilder();
-		if (salesList.size() > 0) {
-			message.append("Select an Sales Order");
-		}
-
-		result.add(message.toString());
 		result.add(salesList);
 
 		Record inActiveRec = new Record(ActionNames.OPEN);

@@ -80,12 +80,6 @@ public class VATCodesListCommand extends AbstractCommand {
 			vatCodesList.add(createVatCodeRecord(taxCode));
 		}
 
-		StringBuilder message = new StringBuilder();
-		if (vatCodesList.size() > 0) {
-			message.append("Select a TAXCode");
-		}
-
-		result.add(message.toString());
 		result.add(vatCodesList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);

@@ -79,12 +79,6 @@ public class VATItemsListCommand extends AbstractCommand {
 			taxItemsList.add(createVatItemRecord(taxItem));
 		}
 
-		StringBuilder message = new StringBuilder();
-		if (taxItemsList.size() > 0) {
-			message.append("Select a TAXItem");
-		}
-
-		result.add(message.toString());
 		result.add(taxItemsList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
