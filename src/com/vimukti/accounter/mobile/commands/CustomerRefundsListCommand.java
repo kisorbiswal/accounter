@@ -18,14 +18,9 @@ import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class CustomerRefundsListCommand extends AbstractCommand {
+public class CustomerRefundsListCommand extends AbstractTransactionCommand {
 
 	private static final String CURRENT_VIEW = "Current View";
-
-	private static final String ISSUED = "Issued";
-	private static final String NOT_ISSUED = "Not issued";
-	private static final String VOIDED = "Voided";
-	private static final String ALL = "All";
 
 	private static final int ITEMS_TO_SHOW = 4;
 
