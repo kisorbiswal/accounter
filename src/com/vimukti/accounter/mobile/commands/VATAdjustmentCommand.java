@@ -14,6 +14,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class VATAdjustmentCommand extends AbstractVATCommand {
 
@@ -29,9 +31,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(TAX_AGENCY, false, true));
-		// if (isUkCompany()) {
 		list.add(new Requirement(TAX_ITEM, false, true));
-		// }
 		list.add(new Requirement(ADJUSTMENT_ACCOUNT, false, true));
 		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
@@ -48,29 +48,46 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		}
 		Result result = null;
 
+		Result makeResult = context.makeResult();
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().taxAdjustment()));
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
 		setOptionalValues();
 
-		result = taxAgencyRequirement(context, null, null);
+		result = taxAgencyRequirement(context, list, TAX_AGENCY);
 		if (result != null) {
 			return result;
 		}
 
-		result = taxItemRequirement(context, null, null);
+		result = taxItemRequirement(context, list, TAX_ITEM);
 		if (result != null) {
 			return result;
 		}
 
-		result = accountRequirement(context, ADJUSTMENT_ACCOUNT);
+		result = accountRequirement(context, list, ADJUSTMENT_ACCOUNT,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						// TODO Auto-generated method stub
+						return false;
+					}
+				});
 		if (result != null) {
 			return result;
 		}
 
-		result = amountRequirement(context, null, null, null);
+		result = amountRequirement(context, list, AMOUNT, getMessages()
+				.pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
 
-		result = createOptionalRequirement(context);
+		result = createOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -117,7 +134,8 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private Result createOptionalRequirement(Context context) {
+	private Result createOptionalRequirement(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
@@ -132,75 +150,8 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		}
 		selection = context.getSelection("values");
 
-		Requirement taxAgencyrReq = get(TAX_AGENCY);
-		TAXAgency taxAgency = (TAXAgency) taxAgencyrReq.getValue();
-		if (taxAgency == selection) {
-			context.setAttribute(INPUT_ATTR, TAX_AGENCY);
-			return getTaxAgencyResult(context);
-		}
-
-		Requirement accountReq = get(ADJUSTMENT_ACCOUNT);
-		Account account = (Account) accountReq.getValue();
-		if (account == selection) {
-			context.setAttribute(INPUT_ATTR, ADJUSTMENT_ACCOUNT);
-			return getAccountResult(context);
-		}
-
-		Requirement amountReq = get(AMOUNT);
-		Double amount = (Double) amountReq.getValue();
-		if (amount == selection) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context, "Please Enter the Tax Rate.", "" + amount);
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record taxAgencyRecord = new Record(TAX_AGENCY);
-		taxAgencyRecord.add(INPUT_ATTR, "Tax Agency");
-		taxAgencyRecord.add("Value", taxAgency);
-		list.add(taxAgencyRecord);
-
-		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
-			Requirement taxItemReq = get(TAX_ITEM);
-			TAXItem taxItem = (TAXItem) taxItemReq.getValue();
-			if (taxItem == selection) {
-				context.setAttribute(INPUT_ATTR, TAX_ITEM);
-				return getTaxItemResult(context);
-			}
-
-			Record taxItemRecord = new Record(TAX_ITEM);
-			taxItemRecord.add(INPUT_ATTR, "Tax Item");
-			taxItemRecord.add("Value", taxItem);
-			list.add(taxItemRecord);
-		}
-
-		Record accountRecord = new Record(ADJUSTMENT_ACCOUNT);
-		accountRecord.add(INPUT_ATTR, "Adjustment Account");
-		accountRecord.add("Value", account);
-		list.add(accountRecord);
-
-		Record amountRecord = new Record(AMOUNT);
-		amountRecord.add(INPUT_ATTR, "Amount");
-		amountRecord.add("Value", amount);
-		list.add(amountRecord);
-
-		Requirement isIncreaseVatReq = get(IS_INCREASE_VATLINE);
-		Boolean isIncreaseVat = (Boolean) isIncreaseVatReq.getValue();
-		if (selection == isIncreaseVat) {
-			context.setAttribute(INPUT_ATTR, IS_INCREASE_VATLINE);
-			isIncreaseVat = !isIncreaseVat;
-			isIncreaseVatReq.setValue(isIncreaseVat);
-		}
-		String increaseVatString = "";
-		if (isIncreaseVat) {
-			increaseVatString = "Increase VAT line.";
-		} else {
-			increaseVatString = "Decrease VAT line.";
-		}
-		Record isIncreaseVatRecord = new Record(IS_INCREASE_VATLINE);
-		isIncreaseVatRecord.add("Name", "");
-		isIncreaseVatRecord.add("Value", increaseVatString);
-		list.add(isIncreaseVatRecord);
+		booleanOptionalRequirement(context, selection, list,
+				IS_INCREASE_VATLINE, "Increase VAT line.", "Decrease VAT line.");
 
 		Result result = stringOptionalRequirement(context, list, selection,
 				"memo", "Add a memo");
@@ -218,15 +169,10 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = context.makeResult();
-		result.add("Tax Adjustment is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Tax Adjustment.");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return makeResult;
 	}
 }

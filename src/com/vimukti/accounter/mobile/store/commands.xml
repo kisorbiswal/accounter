@@ -292,7 +292,7 @@
 		<alias>Create Tax Group</alias>
 		<alias>Add Tax Group</alias>
 	</command>
-	<command clazz="PayVATCommand" name="Pay VAT">
+	<command clazz="PaySalesTaxCommand" name="Pay VAT">
 		<alias>Pay Tax</alias>
 		<alias>Pay Sales Tax</alias>
 	</command>

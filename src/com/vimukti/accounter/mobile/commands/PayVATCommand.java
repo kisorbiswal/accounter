@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class PayVATCommand extends AbstractVATCommand {
 
@@ -44,14 +45,35 @@ public class PayVATCommand extends AbstractVATCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = context.makeResult();
 
-		result = accountRequirement(context, PAY_FROM);
+		setDefaultValues();
+
+		Result makeResult = context.makeResult();
+		makeResult.add(getMessages().readyToCreate(getConstants().payVAT()));
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		result = accountRequirement(context, list, PAY_FROM,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						// TODO Auto-generated method stub
+						return false;
+					}
+				});
 		if (result != null) {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context,null, null);
+		result = paymentMethodRequirement(context, null, null);
 		if (result != null) {
 			return result;
 		}
@@ -67,6 +89,11 @@ public class PayVATCommand extends AbstractVATCommand {
 		}
 
 		return createPayVat(context);
+	}
+
+	private void setDefaultValues() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private Result createPayVat(Context context) {
@@ -114,13 +141,6 @@ public class PayVATCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 
-		Requirement payFromReq = get(PAY_FROM);
-		Account payFrom = (Account) payFromReq.getValue();
-		if (payFrom == selection) {
-			context.setAttribute(INPUT_ATTR, PAY_FROM);
-			return getAccountResult(context);
-		}
-
 		Requirement paymentMethodReq = get(PAYMENT_METHOD);
 		String paymentMethod = (String) paymentMethodReq.getValue();
 		if (paymentMethod == selection) {
@@ -140,11 +160,6 @@ public class PayVATCommand extends AbstractVATCommand {
 		}
 
 		ResultList list = new ResultList("values");
-
-		Record payFromRecord = new Record(payFrom);
-		payFromRecord.add("Name", "Pay From");
-		payFromRecord.add("Value", payFrom.getName());
-		list.add(payFromRecord);
 
 		Record paymentMethodRecord = new Record(paymentMethod);
 		paymentMethodRecord.add("Name", "Pay Method");
@@ -259,12 +274,6 @@ public class PayVATCommand extends AbstractVATCommand {
 		record.add("Tax Due", payVatBill.getTaxDue());
 		record.add("Amount to pay", payVatBill.getAmountToPay());
 		return record;
-	}
-
-	@Override
-	protected List<ClientAccount> getAccounts() {
-		// TODO Auto-generated method stub
-		return super.getAccounts();
 	}
 
 }

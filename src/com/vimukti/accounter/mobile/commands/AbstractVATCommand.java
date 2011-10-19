@@ -11,11 +11,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public abstract class AbstractVATCommand extends AbstractCommand {
 
@@ -24,8 +21,6 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 	protected static final String TAX_ITEM = "taxItem";
 	private static final String TAX_ITEMS = "taxItems";
-	// protected static final String ACCOUNT = "account";
-	private static final String ACCOUNTS = "accounts";
 	protected static final String AMOUNT = "amount";
 	protected static final String NAME = "name";
 
@@ -45,7 +40,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			String requirementName) {
 
 		Requirement taxAgencyReq = get(requirementName);
-		ClientTAXAgency taxAgency = context.getSelection(requirementName);
+		ClientTAXAgency taxAgency = context.getSelection(TAX_AGENCIES);
 
 		if (taxAgency != null) {
 			taxAgencyReq.setValue(taxAgency);
@@ -124,7 +119,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	protected Result taxItemRequirement(Context context, ResultList list,
 			String requirementName) {
 		Requirement taxItemReq = get(requirementName);
-		ClientTAXItem taxItem = context.getSelection(requirementName);
+		ClientTAXItem taxItem = context.getSelection(TAX_ITEMS);
 
 		if (taxItem != null) {
 			taxItemReq.setValue(taxItem);
@@ -197,73 +192,6 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		Record record = new Record(taxItem);
 		record.add("Name", taxItem.getName());
 		return record;
-	}
-
-	protected Record createAccountRecord(ClientAccount account) {
-		Record record = new Record(account);
-		record.add("Number", account.getNumber());
-		record.add("Name", account.getName());
-		record.add("Type", Utility.getAccountTypeString(account.getType()));
-		return record;
-	}
-
-	protected Result accountRequirement(Context context, String name) {
-		Requirement accountReq = get(name);
-		ClientAccount account = context.getSelection(ACCOUNTS);
-		if (account != null) {
-			accountReq.setValue(account);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!accountReq.isDone()) {
-			return getAccountResult(context);
-		}
-		return null;
-	}
-
-	protected Result getAccountResult(Context context) {
-		Result result = context.makeResult();
-		ResultList accountsList = new ResultList(ACCOUNTS);
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		if (last != null) {
-			accountsList.add(createAccountRecord((ClientAccount) last));
-		}
-
-		List<ClientAccount> accounts = getAccounts();
-		for (int i = 0; i < VALUES_TO_SHOW && i < accounts.size(); i++) {
-			ClientAccount salesAccount = accounts.get(i);
-			if (salesAccount != last) {
-				accountsList
-						.add(createAccountRecord((ClientAccount) salesAccount));
-			}
-		}
-
-		int size = accountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the Account");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("create");
-
-		result.add(message.toString());
-		result.add(accountsList);
-		result.add(commandList);
-		result.add("Select the Account");
-
-		return result;
-	}
-
-	protected List<ClientAccount> getAccounts() {
-		ArrayList<ClientAccount> accounts = getClientCompany().getAccounts();
-		return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-			@Override
-			public boolean filter(ClientAccount e) {
-				return e.getIsActive();
-			}
-		}, new ArrayList<ClientAccount>(accounts));
 	}
 
 	protected int getCompanyType(Context context) {
