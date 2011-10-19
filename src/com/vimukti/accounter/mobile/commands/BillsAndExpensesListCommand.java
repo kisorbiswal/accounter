@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Sai Prasad N
  * 
  */
-public class BillsListCommand extends AbstractTransactionCommand {
+public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 
 	private static final String BILLS_VIEW_BY = "Current View";
 
