@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
@@ -10,7 +11,19 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientLocation;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 
+/**
+ * 
+ * @author Lingarao
+ * 
+ */
 public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 
 	private static final String INPUT_ATTR = "input";
@@ -24,9 +37,10 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 	private static final String CHEQUE_NO = "Cheque No";
 	private static final String MEMO = "Memo";
 	private static final String DATE = "date";
-	private static final String NO = "date";
+	private static final String NO = "Number";
 	private static final String BANK_BALANCE = "Bank Balance";
 	private static final String CUSTOMER_BALANCE = "Customer Balance";
+	private static final String LOCATION = "Location";
 
 	@Override
 	public String getId() {
@@ -54,41 +68,106 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		Result result = null;
 
-		// result = customerRequirement(context);
+		Result makeResult = context.makeResult();
+		makeResult
+				.add(" Customer Refund is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		result = customerRequirement(context, list, PAY_TO);
 		if (result != null) {
 			return result;
 		}
-		// result = depositeOrTransferTo(context, "payfrom");
+		result = accountRequirement(context, list, PAY_FROM,
+				new ListFilter<ClientAccount>() {
+					@Override
+					public boolean filter(ClientAccount e) {
+						return true;
+					}
+				});
 		if (result != null) {
 			return result;
 		}
 
-		result = amountRequireMent(context);
+		result = amountRequirement(context, list, AMOUNT, "Enter amount");
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, null, null);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		if (result != null) {
+			return result;
+		}
+		setdefaultValues();
+		result = optionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
 
-		result = optionalRequirement(context);
-		if (result != null) {
-			return result;
+		createCustomerRefundObject(context);
+
+		markDone();
+
+		result = new Result();
+		result.add(" CustomerRefund was created successfully.");
+
+		return result;
+	}
+
+	private void createCustomerRefundObject(Context context) {
+
+		ClientCustomerRefund customerRefund = new ClientCustomerRefund();
+		Date date = get(DATE).getValue();
+		ClientPayee clientPayee = get(PAY_TO).getValue();
+		ClientAccount account = get(PAY_FROM).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		double amount = Double.parseDouble(get(AMOUNT).getValue().toString());
+		boolean istobePrinted = get(TOBEPRINTED).getValue();
+		customerRefund.setPayTo(clientPayee.getID());
+		customerRefund.setPayFrom(account.getID());
+		customerRefund.setPaymentMethod(paymentMethod);
+		customerRefund.setIsToBePrinted(istobePrinted);
+		if (!istobePrinted) {
+			Double cheqNum = get(CHEQUE_NO).getValue();
+			customerRefund.setCheckNumber(String.valueOf(cheqNum));
 		}
-		return null;
+		customerRefund.setMemo(get(MEMO).getValue() == null ? "" : get(MEMO)
+				.getValue().toString());
+		customerRefund.setTotal(amount);
+		customerRefund.setDate(new ClientFinanceDate(date).getDate());
+		// if
+		// (context.getCompany().getPreferences().isLocationTrackingEnabled()) {
+		// ClientLocation location = get(LOCATION).getValue();
+		// customerRefund.setLocation(location.getID());
+		// }
+		// Class
+		create(customerRefund, context);
+	}
+
+	private void setdefaultValues() {
+		get(TOBEPRINTED).setDefaultValue(Boolean.TRUE);
+		get(AMOUNT).setDefaultValue(Double.valueOf(0.0D));
+		get(DATE).setDefaultValue(new Date());
 	}
 
 	/**
 	 * 
 	 * @param context
+	 * @param makeResult
+	 * @param actions
+	 * @param list
 	 * @return
 	 */
-	private Result optionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+	private Result optionalRequirement(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
+		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -101,41 +180,9 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
 
-		Requirement payto = get(PAY_TO);
-		Customer customer = (Customer) payto.getValue();
-		Record custRecord = new Record(customer);
-		custRecord.add("Name", "Payto");
-		custRecord.add("Value", customer.getName());
-		list.add(custRecord);
-
-		Requirement payFromReq = get(PAY_FROM);
-		Account account = payFromReq.getValue();
-		Record accountRec = new Record(account);
-		accountRec.add("Number", "Account No");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account name", "Account Name");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account type", "Account Type");
-		accountRec.add("Account Type", getAccountTypeString(account.getType()));
-		list.add(accountRec);
-
-		Requirement amountReq = get(AMOUNT);
-		Double amount = (Double) amountReq.getValue();
-		if (amount == selection) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context, "Please Enter the Amount", "" + amount);
-		}
-
-		Requirement paymentMethodReq = get(PAYMENT_METHOD);
-		String paymentMethod = paymentMethodReq.getValue();
-		if (paymentMethod == selection) {
-			context.setAttribute(INPUT_ATTR, PAYMENT_METHOD);
-			return text(context, "Please Enter PaymentMethod", ""
-					+ paymentMethod);
-		}
-		Result result = orderNoRequirement(context, list, selection);
+		Result result = numberOptionalRequirement(context, list, selection, NO,
+				"Enter Order Number");
 		if (result != null) {
 			return result;
 		}
@@ -144,25 +191,11 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		Requirement tobePrintedReq = get(TOBEPRINTED);
-		Boolean isTobePrinted = tobePrintedReq.getValue();
-		if (selection == isTobePrinted) {
-			context.setAttribute(INPUT_ATTR, TOBEPRINTED);
-			isTobePrinted = !isTobePrinted;
-			tobePrintedReq.setValue(isTobePrinted);
-		}
-		String tobePrintedString = "";
-		if (isTobePrinted) {
-			tobePrintedString = "This To be Printed is Active";
-		} else {
-			tobePrintedString = "This To be Printed is Active";
-		}
-		Record isTobePrintedRecord = new Record(TOBEPRINTED);
-		isTobePrintedRecord.add("Name", "");
-		isTobePrintedRecord.add("Value", tobePrintedString);
-		list.add(isTobePrintedRecord);
+		booleanOptionalRequirement(context, selection, list, TOBEPRINTED,
+				"This To be Printed is Active",
+				"This To be Printed is InActive");
 
-		if (!isTobePrinted) {
+		if (!(Boolean) get(TOBEPRINTED).getValue()) {
 			result = amountOptionalRequirement(context, list, selection,
 					CHEQUE_NO, "Enter check Number");
 			if (result != null) {
@@ -174,33 +207,11 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		ResultList actions = new ResultList(ACTIONS);
+
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Customer Refund.");
 		actions.add(finish);
-		result.add(actions);
-		return result;
+
+		return makeResult;
 	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result amountRequireMent(Context context) {
-		Requirement amountReq = get(AMOUNT);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(AMOUNT)) {
-			input = context.getString();
-			amountReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!amountReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return text(context, "Please Enter the  Amount", null);
-		}
-
-		return null;
-	}
-
 }
