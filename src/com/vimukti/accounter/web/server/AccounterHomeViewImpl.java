@@ -874,8 +874,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextCheckNumber;
 	}
 
-	public Long getNextIssuepaymentCheckNumber(long accountId) {
-		Long nextCheckNumber = 0l;
+	public String getNextIssuepaymentCheckNumber(long accountId) {
+		String nextCheckNumber = "l";
 		try {
 
 			nextCheckNumber = getFinanceTool().getNextIssuePaymentCheckNumber(

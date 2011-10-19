@@ -675,7 +675,7 @@ public class FinanceTool {
 		}
 	}
 
-	public Long getNextIssuePaymentCheckNumber(long account, long companyId)
+	public String getNextIssuePaymentCheckNumber(long account, long companyId)
 			throws DAOException {
 		try {
 
@@ -684,10 +684,10 @@ public class FinanceTool {
 					.getNamedQuery("getNextIssuePaymentCheckNumber")
 					.setParameter("accountID", account)
 					.setParameter("companyId", companyId);
-			List list = query.list();
+			String number = (String) query.uniqueResult();
 
-			if (list != null) {
-				return (list.size() > 0) ? ((Long) list.get(0)) + 1 : 1;
+			if (number != null) {
+				return NumberUtils.getStringwithIncreamentedDigit(number);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
