@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewVendorCommand extends AbstractTransactionCommand {
@@ -63,8 +64,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	private static final String CONTACT_NAME = "Contact Name";
 	private static final String TITLE = "Title";
 	private static final String BUSINESS_PHONE = "Business Phone";
-
-	private int accountingType;
 
 	protected static final String PRIMARY = "Primary";
 
@@ -122,7 +121,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		accountingType = getClientCompany().getAccountingType();
 		Object attribute = context.getAttribute(INPUT_ATTR);
 		if (attribute == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
@@ -239,7 +237,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
-		if (accountingType == Company.ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getCountry().equals(
+				CountryPreferenceFactory.UNITED_STATES)) {
 			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
@@ -295,7 +294,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		booleanOptionalRequirement(context, selection, list, ACTIVE,
 				"This vendor is Active", "This Vendor is InActive");
 
-		if (accountingType == Company.ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getCountry().equals(
+				CountryPreferenceFactory.UNITED_STATES)) {
 			booleanOptionalRequirement(context, selection, list,
 					TRACK_PAYMENTS_FOR_1099,
 					"Track payments for 1099 is Active",
