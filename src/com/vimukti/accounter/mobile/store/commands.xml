@@ -13,12 +13,6 @@
 		<alias>Invoice</alias>
 	</command>
 
-	<command clazz="NewInvoiceCommand" name="New Invoice">
-		<alias>Create Invoice</alias>
-		<alias>Add Invoice</alias>
-		<alias>Create New Invoice</alias>
-	</command>
-
 	<command clazz="NewAccountCommand" name="New Account">
 		<alias>Create Account</alias>
 		<alias>Add Account</alias>
