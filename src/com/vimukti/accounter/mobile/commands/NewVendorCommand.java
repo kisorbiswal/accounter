@@ -262,8 +262,9 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (value != null)
 			vendor.setVendorGroup(value.getID());
 		vendor.setActive(isActive);
-		if (get(VENDOR_VAT_CODE).getValue() != null)
-			vendor.setTAXCode((Long) get(VENDOR_VAT_CODE).getValue());
+		ClientTAXCode code = get(VENDOR_VAT_CODE).getValue();
+		if (code != null)
+			vendor.setTAXCode(code.getID());
 		vendor.setVATRegistrationNumber(vatRegistredNum);
 
 		create(vendor, context);
@@ -329,12 +330,12 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, PHONE,
+		result = numberOptionalRequirement(context, list, selection, PHONE,
 				"Enter Phone Number");
 		if (result != null) {
 			return result;
 		}
-		result = stringOptionalRequirement(context, list, selection, FAX,
+		result = numberOptionalRequirement(context, list, selection, FAX,
 				"Enter Fax Number");
 		if (result != null) {
 			return result;
@@ -361,7 +362,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = stringOptionalRequirement(context, list, selection,
+		result = numberOptionalRequirement(context, list, selection,
 				ACCOUNT_NO, "Enter Account Number ");
 		if (result != null) {
 			return result;
