@@ -76,6 +76,9 @@ public class JournalEntryView extends
 
 	@Override
 	public ValidationResult validate() {
+
+		// No need of super class validations.. Because required validations are
+		// doing here only..
 		ValidationResult result = new ValidationResult();
 		// Validations
 		// 1. is valid memo?

@@ -159,7 +159,7 @@ public abstract class TransactionJournalEntryTable extends
 				}
 			}
 
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@SuppressWarnings( {"unchecked" })
 			@Override
 			public AbstractDropDownTable getDisplayTable(ClientEntry row) {
 				switch (row.getType()) {
@@ -272,6 +272,10 @@ public abstract class TransactionJournalEntryTable extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 
+		if (this.getAllRows().size() == 0) {
+			result.addError(this, Accounter.messages().thereisNoRecordsTosave(
+					Accounter.constants().journalEntry()));
+		}
 		// Validates account name
 		List<ClientEntry> entrylist = this.getAllRows();
 		for (ClientEntry entry : entrylist) {
@@ -283,10 +287,8 @@ public abstract class TransactionJournalEntryTable extends
 							.getCustomer() == 0)
 					|| entry.getType() == ClientEntry.TYPE_VAT
 					&& entry.getTaxCode() == 0) {
-				result.addError(
-						this,
-						Accounter.messages().pleaseEnter(
-								getTypeAsString(entry, entry.getType())));
+				result.addError(this, Accounter.messages().pleaseEnter(
+						getTypeAsString(entry, entry.getType())));
 			}
 		}
 		return result;
