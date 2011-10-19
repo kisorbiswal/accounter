@@ -117,12 +117,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// for getting customer contact name
 			String cname = "";
 			String phone = "";
-			String email = "";
 			Customer customer = invoice.getCustomer();
 			Set<Contact> contacts = customer.getContacts();
 			for (Contact contact : contacts) {
 				if (contact.isPrimary()) {
-					cname = contact.getName();
+					cname = contact.getName().trim();
 
 					if (contact.getBusinessPhone().trim().length() > 0)
 						phone = contact.getBusinessPhone();
@@ -504,7 +503,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
 
-		original.append("<img style='width:130px;height:120px' src='file:///");
+		original.append("<img style='width:90px;height:90px' src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("'/>");
