@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -23,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -39,7 +42,9 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
+import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -1828,4 +1833,34 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return vat.doubleValue();
 	}
 
+	protected ArrayList<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
+			long customerId) {
+		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		List<CreditsAndPayments> serverCreditsAndPayments = null;
+		try {
+
+			serverCreditsAndPayments = new FinanceTool().getCustomerManager()
+					.getCustomerCreditsAndPayments(customerId,
+							getClientCompany().getID());
+			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
+				clientCreditsAndPayments.add(new ClientConvertUtil()
+						.toClientObject(creditsAndPayments,
+								ClientCreditsAndPayments.class));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
+	}
+
+	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
+			long customerId, long paymentDate) throws AccounterException {
+		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
+		receivePaymentTransactionList = new FinanceTool()
+				.getTransactionReceivePayments(customerId, paymentDate,
+						getClientCompany().getID());
+		return new ArrayList<ReceivePaymentTransactionList>(
+				receivePaymentTransactionList);
+	}
 }
