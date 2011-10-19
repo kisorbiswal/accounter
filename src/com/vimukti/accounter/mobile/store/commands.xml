@@ -257,7 +257,7 @@
 		<alias>BillPay</alias>
 		<alias>payments</alias>
 	</command>
-	<command clazz="BillsListCommand" name="BillsList">
+	<command clazz="BillsAndExpensesListCommand" name="BillsAndExpensesList">
 		<alias>Bills</alias>
 		<alias>BillsList</alias>
 	</command>
