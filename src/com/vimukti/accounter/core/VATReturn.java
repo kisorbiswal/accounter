@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
@@ -313,6 +314,13 @@ public class VATReturn extends Transaction {
 			box.setCompany(vatReturn.getCompany());
 		}
 		return true;
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(taxAgency.getAccount(), total);
+		return map;
 	}
 
 }

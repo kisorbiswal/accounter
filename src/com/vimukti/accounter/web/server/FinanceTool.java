@@ -29,7 +29,6 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
@@ -55,6 +54,7 @@ import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.Reconciliation;
+import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
@@ -82,6 +82,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
@@ -98,6 +99,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
 import com.vimukti.accounter.web.server.managers.DashboardManager;
@@ -117,6 +119,7 @@ import com.vimukti.accounter.web.server.managers.VendorManager;
  */
 public class FinanceTool {
 
+	private static final Object Double = null;
 	Logger log = Logger.getLogger(FinanceTool.class);
 	private InventoryManager inventoryManager;
 	private FixedAssestManager fixedAssestManager;
@@ -1986,31 +1989,44 @@ public class FinanceTool {
 
 	}
 
-	public List<ClientTransaction> getAllTransactionsOfAccount(long id,
+	public List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		List list = session.getNamedQuery("get.transactions.by.account")
-				.setLong("id", id)
-				.setParameter("startDate", new FinanceDate(startDate))
-				.setParameter("endDate", new FinanceDate(endDate))
-				.setParameter("company", company).list();
-		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
+		List list = session
+				.getNamedQuery("getTransactionsOfAccount")
+				.setLong("companyId", companyId)
+				.setLong("accountId", id)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setLong("openingBalanceAccount",
+						company.getOpeningBalancesAccount().getID()).list();
+		List<ClientReconciliationItem> reconciliationItems = new ArrayList<ClientReconciliationItem>();
 
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext()) {
-			AccountTransaction next = (AccountTransaction) iterator.next();
-			Transaction transaction = next.getTransaction();
-			if (!transaction.isVoid()) {
-				transactions
-						.add((ClientTransaction) new ClientConvertUtil()
-								.toClientObject(transaction, Util
-										.getClientEqualentClass(transaction
-												.getClass())));
-			}
+
+			Object[] objects = (Object[]) iterator.next();
+
+			Transaction trasnaction = (Transaction) session.get(
+					Transaction.class, (Long) objects[0]);
+
+			ReconciliationItem reconciliationItem = new ReconciliationItem(
+					trasnaction);
+
+			Double amount = (Double) objects[1];
+
+			reconciliationItem.setAmount(amount);
+
+			reconciliationItems
+					.add((ClientReconciliationItem) new ClientConvertUtil()
+							.toClientObject(reconciliationItem, Util
+									.getClientEqualentClass(reconciliationItem
+											.getClass())));
+
 		}
-		return transactions;
+		return reconciliationItems;
 	}
 
 	/**
@@ -2029,8 +2045,10 @@ public class FinanceTool {
 		ClientConvertUtil convertUtil = new ClientConvertUtil();
 		while (iterator.hasNext()) {
 			Reconciliation next = (Reconciliation) iterator.next();
-			reconciliationsList.add(convertUtil.toClientObject(next,
-					ClientReconciliation.class));
+			Hibernate.initialize(next.getItems());
+			ClientReconciliation clientObject = convertUtil.toClientObject(
+					next, ClientReconciliation.class);
+			reconciliationsList.add(clientObject);
 		}
 		return reconciliationsList;
 

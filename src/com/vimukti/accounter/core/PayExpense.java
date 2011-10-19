@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -125,6 +126,13 @@ public class PayExpense extends Transaction {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(getCompany().getAccountsPayableAccount(), total);
+		return map;
 	}
 
 }

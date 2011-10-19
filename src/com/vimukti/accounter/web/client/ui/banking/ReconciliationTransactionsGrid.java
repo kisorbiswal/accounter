@@ -10,13 +10,12 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
 
@@ -25,11 +24,11 @@ import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
  * 
  */
 public class ReconciliationTransactionsGrid extends
-		CellTable<ClientTransaction> {
+		CellTable<ClientReconciliationItem> {
 
 	private AccounterConstants constants = Accounter.constants();
-	private ListDataProvider<ClientTransaction> dataProvider = new ListDataProvider<ClientTransaction>();
-	private SelectionChangedHandler<ClientTransaction> clearedTransactionCallback;
+	private ListDataProvider<ClientReconciliationItem> dataProvider = new ListDataProvider<ClientReconciliationItem>();
+	private SelectionChangedHandler<ClientReconciliationItem> clearedTransactionCallback;
 	private ReconciliationView view;
 
 	/**
@@ -41,7 +40,7 @@ public class ReconciliationTransactionsGrid extends
 	 */
 	public ReconciliationTransactionsGrid(
 			ReconciliationView view,
-			SelectionChangedHandler<ClientTransaction> clearedTransactionCallback) {
+			SelectionChangedHandler<ClientReconciliationItem> clearedTransactionCallback) {
 		this.clearedTransactionCallback = clearedTransactionCallback;
 		this.view = view;
 		initColumns();
@@ -51,76 +50,64 @@ public class ReconciliationTransactionsGrid extends
 
 	private void initColumns() {
 
-		TextColumn<ClientTransaction> date = new TextColumn<ClientTransaction>() {
+		TextColumn<ClientReconciliationItem> date = new TextColumn<ClientReconciliationItem>() {
 
 			@Override
-			public String getValue(ClientTransaction object) {
-				return object.getDate().toString();
+			public String getValue(ClientReconciliationItem object) {
+				return object.getTransactionDate().toString();
 			}
 		};
 
-		TextColumn<ClientTransaction> transaction = new TextColumn<ClientTransaction>() {
+		TextColumn<ClientReconciliationItem> transaction = new TextColumn<ClientReconciliationItem>() {
 
 			@Override
-			public String getValue(ClientTransaction object) {
-				return Utility.getTransactionName(object.getType());
+			public String getValue(ClientReconciliationItem object) {
+				return Utility.getTransactionName(object.getTransationType());
 			}
 		};
 
-		TextColumn<ClientTransaction> transactionID = new TextColumn<ClientTransaction>() {
+		TextColumn<ClientReconciliationItem> transactionID = new TextColumn<ClientReconciliationItem>() {
 
 			@Override
-			public String getValue(ClientTransaction object) {
-				return String.valueOf(object.getNumber());
+			public String getValue(ClientReconciliationItem object) {
+				return String.valueOf(object.getTransactionNo());
 			}
 		};
 
-		TextColumn<ClientTransaction> debit = new TextColumn<ClientTransaction>() {
+		TextColumn<ClientReconciliationItem> debit = new TextColumn<ClientReconciliationItem>() {
 
 			@Override
-			public String getValue(ClientTransaction object) {
+			public String getValue(ClientReconciliationItem object) {
 				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-				if (UIUtils.isMoneyOut(object, getBankAccount().getID())) {
-					if (object.isMakeDeposit()) {
-						double total = 0.0;
-						List<ClientTransactionMakeDeposit> transactionMakeDeposit = object
-								.getTransactionMakeDeposit();
-						for (ClientTransactionMakeDeposit deposit : transactionMakeDeposit) {
-							if (deposit.getAccount() == getBankAccount()
-									.getID()) {
-								total += deposit.getAmount();
-							}
-						}
-						return DataUtils.getAmountAsString(total);
-					}
-					return DataUtils.getAmountAsString(object.getTotal());
+				if (DecimalUtil.isLessThan(object.getAmount(), 0.00D)) {
+					return DataUtils.getAmountAsString(-object.getAmount());
 				}
 				return "";
 			}
 		};
 
-		TextColumn<ClientTransaction> credit = new TextColumn<ClientTransaction>() {
+		TextColumn<ClientReconciliationItem> credit = new TextColumn<ClientReconciliationItem>() {
 
 			@Override
-			public String getValue(ClientTransaction object) {
+			public String getValue(ClientReconciliationItem object) {
 				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-				if (UIUtils.isMoneyIn(object, getBankAccount().getID())) {
-					return DataUtils.getAmountAsString(object.getTotal());
+				if (DecimalUtil.isGreaterThan(object.getAmount(), 0.00D)) {
+					return DataUtils.getAmountAsString(object.getAmount());
 				}
 				return "";
 			}
 		};
 
-		CheckBoxColumn<ClientTransaction> clearCheckbox = new CheckBoxColumn<ClientTransaction>() {
+		CheckBoxColumn<ClientReconciliationItem> clearCheckbox = new CheckBoxColumn<ClientReconciliationItem>() {
 
 			@Override
-			public void update(int index, ClientTransaction object,
+			public void update(int index, ClientReconciliationItem object,
 					Boolean value) {
 				clearedTransactionCallback.selectionChanged(object, value);
 			}
 
 			@Override
-			public Boolean getValue(ClientTransaction object) {
+			public Boolean getValue(ClientReconciliationItem object) {
 				return false;
 			}
 		};
@@ -143,7 +130,7 @@ public class ReconciliationTransactionsGrid extends
 		return view.getData().getAccount();
 	}
 
-	public void setData(List<ClientTransaction> data) {
+	public void setData(List<ClientReconciliationItem> data) {
 		this.dataProvider.setList(data);
 		this.setRowCount(data.size());
 		this.setPageSize(this.getRowCount());

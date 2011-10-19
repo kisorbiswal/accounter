@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
@@ -507,11 +508,19 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public final void transactionFailed(Throwable caught) {
 		String transName = Utility.getTransactionName(transactionType);
-		if (caught.getMessage() != null)
-			Accounter.showError(caught.getMessage());
-		else
-			Accounter.showError(Accounter.messages().failedTransaction(
-					transName));
+		AccounterException exception = (AccounterException) caught;
+		String message = null;
+		if (caught.getMessage() != null) {
+			message = caught.getMessage();
+		}
+		if (exception.getErrorCode() != 0) {
+			int errorCode = exception.getErrorCode();
+			message = AccounterExceptions.getErrorString(errorCode);
+		} else {
+			message = Accounter.messages().failedTransaction(transName);
+		}
+
+		Accounter.showError(message);
 		// SC
 		// .logWarn("Failed Transaction" + transName + " " + caught != null ?
 		// caught
@@ -893,6 +902,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
 		transactionFailed(exception);
 	}
 

@@ -38,4 +38,6 @@ public interface AccounterErrors extends Constants {
 
 	String billPaidSoYouCantVoid();
 
+	String transactionReconcilied();
+
 }

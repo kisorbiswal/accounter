@@ -945,4 +945,8 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		this.version = version;
 	}
 
+	public double getEffectingAmount() {
+		return !DecimalUtil.isEquals(this.debit, 0.0) ? -(this.total = this.debit)
+				: (this.total = this.credit);
+	}
 }

@@ -393,7 +393,7 @@ public class WriteCheck extends Transaction {
 					AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS);
 			// "You can't void or edit because it has been deposited from Undeposited Funds");
 		}
-
+		checkForReconciliation((Transaction) clientObject);
 		return true;
 	}
 

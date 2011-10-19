@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -2077,7 +2077,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientTransaction> getAllTransactionsOfAccount(long id,
+	public List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
 		return getFinanceTool().getAllTransactionsOfAccount(id, startDate,

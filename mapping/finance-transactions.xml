@@ -41,7 +41,8 @@
 		<property name="isDeposited" column="IS_DEPOSITED"></property>
 		<property name="total" column="TOTAL"></property>
 		<property name="netAmount" column="NET_AMOUNT"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" not-null="true"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
@@ -62,7 +63,8 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="PayVATEntries" />
 		</set>
-		<many-to-one name="creditsAndPayments" class="CreditsAndPayments" column="CREDITS_AND_PAYMENTS_ID" cascade="delete">
+		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
+			column="CREDITS_AND_PAYMENTS_ID" cascade="delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<many-to-one name="accounterClass" class="AccounterClass"
@@ -74,8 +76,10 @@
 		<many-to-one name="location" class="Location" column="LOCATION_ID">
 		</many-to-one>
 
-		<many-to-one name="reconciliation" class="Reconciliation" column="RECONCILIATION_ID">
-		</many-to-one>
+		<set name="reconciliationItems" inverse="true">
+			<key column="TRANSACTION_ID" />
+			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
+		</set>
 
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
@@ -986,7 +990,7 @@
 			</many-to-one> <many-to-one name="journalEntry" class="JournalEntry" lazy="false" 
 			cascade="save-update,delete" column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
 	</class>
-	
+
 
 	<class name="Entry" table="ENTRY">
 		<id name="id" column="ID">

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
@@ -279,4 +280,15 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		return flag;
 	}
 
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		if (cashBackAccount != null) {
+			map.put(cashBackAccount, cashBackAmount);
+		}
+		for (TransactionMakeDeposit deposit : transactionMakeDeposit) {
+			map.put(deposit.getEffectingAccount(), deposit.getAmount());
+		}
+		return map;
+	}
 }

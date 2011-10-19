@@ -1,7 +1,9 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -491,5 +493,13 @@ public class CustomerCreditMemo extends Transaction implements
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		map.put(creditsAndPayments.getPayee().getAccount(),
+				creditsAndPayments.getEffectingAmount());
+		return map;
 	}
 }

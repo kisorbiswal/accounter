@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.dom.client.TableSectionElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,21 +15,18 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-public class DropDownTable<T> extends CellTable<T> {
+public abstract class DropDownTable<T> extends CellTable<T> {
 
 	public FlexTable body;
-	private int nofCols;
 	private RowFormatter rowFormatter;
 	private CellFormatter cellFormatter;
-	private int cols = 1;
-	private String addNewText;
 	private DropDownCombo<T> combo;
 	protected SingleSelectionModel<T> selectionModel;
 	boolean isAddNewRequire;
@@ -65,7 +60,6 @@ public class DropDownTable<T> extends CellTable<T> {
 		this.setStyleName("dropdownFlex");
 
 		this.setWidth("100%");
-		this.nofCols = getNoColumns();
 
 		clickableTextCell = new ClickableTextCell();
 		Column[] columns = getColumns();
@@ -104,22 +98,45 @@ public class DropDownTable<T> extends CellTable<T> {
 		super.setSelected(elem, selected);
 	}
 
-	protected Column<T, String>[] getColumns() {
-		return null;
+	public Column[] getColumns() {
+		Column[] columns = new Column[combo.getNoOfCols()];
+		int i;
+		for (i = 0; i < combo.getNoOfCols(); i++) {
+			columns[i] = createColumn(i);
+		}
+		setColumnActions(columns);
+		return columns;
 	}
+
+	private void setColumnActions(Column<T, String>[] columns) {
+		for (int i = 0; i < combo.getNoOfCols(); i++) {
+			columns[i].setFieldUpdater(new FieldUpdater<T, String>() {
+
+				@Override
+				public void update(int index, T object, String value) {
+					eventFired(index);
+				}
+			});
+		}
+	}
+
+	private Column createColumn(final int col) {
+		Column<T, String> column = new Column<T, String>(
+				new ClickableTextCell()) {
+
+			@Override
+			public String getValue(T object) {
+				return getColumnValue(object, col);
+			}
+
+		};
+		return column;
+	}
+
+	protected abstract String getColumnValue(T obj, int col);
 
 	protected void eventFired(int rowIndex) {
 		combo.changeValue(rowIndex);
-
-	}
-
-	private int getNoColumns() {
-		return cols;
-	}
-
-	public void setNoColumns(int cols) {
-		this.cols = cols;
-
 	}
 
 	public void setText(int row, int column, String text) {
@@ -157,7 +174,7 @@ public class DropDownTable<T> extends CellTable<T> {
 	private void widgetClicked(Widget widget) {
 
 		RowCell cell = getCellByWidget(widget);
-		cellClicked(cell.getRowIndex(), cell.getCellIndex());
+		onRowSelect(cell.getRowIndex());
 
 		// /**
 		// * preventing Cell click event when widget clicked in Cell
@@ -177,9 +194,7 @@ public class DropDownTable<T> extends CellTable<T> {
 	 * 
 	 * @param cell
 	 */
-	public void cellClicked(int row, int col) {
-
-	}
+	protected abstract void onRowSelect(int row);
 
 	protected RowCell getCellByWidget(Widget widget) {
 		Element td = DOM.getParent(widget.getElement());
@@ -198,50 +213,6 @@ public class DropDownTable<T> extends CellTable<T> {
 	@Override
 	protected com.google.gwt.dom.client.Element getKeyboardSelectedElement() {
 		return super.getKeyboardSelectedElement();
-	}
-
-	public void init(boolean isAddNewRequire) {
-
-		this.isAddNewRequire = isAddNewRequire;
-		List<T> Dummy = getDummyRecords();
-		this.setRowData(0, Dummy);
-		// // this.setText(0, 0, " ");
-		// // this.cellFormatter.setHeight(0, 0, "20px");
-		// // this.cellFormatter.setHorizontalAlignment(0, 0,
-		// // HasHorizontalAlignment.ALIGN_CENTER);
-		// if (isAddNewRequire) {
-		// if (cols > 1) {
-		// this.setText(1, 1, combo.getDefaultAddNewCaption());
-		// this.setText(0, 1, "  ");
-		// for (int i = 0; i < cols; i++) {
-		// if (i == 1)
-		// continue;
-		// this.setText(1, i, "  ");
-		// this.setText(0, i, "  ");
-		// this.cellFormatter.setHeight(0, i, "20px");
-		// }
-		// this.cellFormatter.setHorizontalAlignment(1, 1,
-		// HasHorizontalAlignment.ALIGN_CENTER);
-		// } else {
-		// this.setText(1, 0, combo.getDefaultAddNewCaption());
-		// }
-		//
-		// this.cellFormatter.setHorizontalAlignment(1, 0,
-		// HasHorizontalAlignment.ALIGN_CENTER);
-		// }
-
-	}
-
-	public List<T> getDummyRecords() {
-		List<T> Dummy = new ArrayList<T>();
-		// Dummy.add((T) "emptyRow");
-		if (isAddNewRequire)
-			Dummy.add((T) "addNewCaption");
-		return Dummy;
-	}
-
-	protected void setAddNewText(String text) {
-		this.addNewText = text;
 	}
 
 	/**
@@ -292,17 +263,6 @@ public class DropDownTable<T> extends CellTable<T> {
 			return rowIndex;
 		}
 
-	}
-
-	public void removeAllrows() {
-		this.body.removeAllRows();
-		removeColumn(getColumns()[0]);
-		init(isAddNewRequire);
-	}
-
-	public void clear() {
-		removeColumn(getColumns()[0]);
-		init(isAddNewRequire);
 	}
 
 	@Override

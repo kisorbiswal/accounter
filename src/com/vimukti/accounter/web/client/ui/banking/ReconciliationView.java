@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,14 +21,12 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ReconciliationDailog;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
@@ -44,7 +43,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 	private VerticalPanel mainPanel;
 	private ReconciliationTransactionsGrid grid;
-	private Set<ClientTransaction> clearedTransactions = new HashSet<ClientTransaction>();
+	private Set<ClientReconciliationItem> clearedTransactions = new HashSet<ClientReconciliationItem>();
 	private LabelItem bankaccountLabel, startdateLable, enddateLable;
 	AmountLabel closebalanceLable, openingBalance, closingBalance,
 			clearedAmount, difference;
@@ -160,10 +159,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		this.grid = new ReconciliationTransactionsGrid(this,
-				new SelectionChangedHandler<ClientTransaction>() {
+				new SelectionChangedHandler<ClientReconciliationItem>() {
 
 					@Override
-					public void selectionChanged(ClientTransaction obj,
+					public void selectionChanged(ClientReconciliationItem obj,
 							boolean isSelected) {
 						if (isCreating()) {
 							clearTransaction(obj, isSelected);
@@ -213,27 +212,14 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	/**
 	 * @param value
 	 */
-	protected void clearTransaction(ClientTransaction value, boolean isClear) {
+	protected void clearTransaction(ClientReconciliationItem value,
+			boolean isClear) {
 		if (isClear) {
 			clearedTransactions.add(value);
 		} else {
 			clearedTransactions.remove(value);
 		}
-		double total = value.getTotal();
-		if (UIUtils.isMoneyOut(value, data.getAccount().getID())) {
-			if (value.isMakeDeposit()) {
-				total = 0.0;
-				List<ClientTransactionMakeDeposit> transactionMakeDeposit = value
-						.getTransactionMakeDeposit();
-				for (ClientTransactionMakeDeposit deposit : transactionMakeDeposit) {
-					if (deposit.getAccount() == data.getAccount().getID()) {
-						total += deposit.getAmount();
-					}
-				}
-			}
-		}
-		double transactionAmount = UIUtils.isMoneyOut(value, data.getAccount()
-				.getID()) ? total * -1 : total;
+		double transactionAmount = value.getAmount();
 
 		if (isClear) {
 			double differenceAmount = closingBalance.getAmount()
@@ -255,7 +241,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	private void getTransactions() {
 		rpcGetService.getAllTransactionsOfAccount(data.getAccount().getID(),
 				data.getStartDate(), data.getEndDate(),
-				new AccounterAsyncCallback<List<ClientTransaction>>() {
+				new AccounterAsyncCallback<List<ClientReconciliationItem>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -264,17 +250,12 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					}
 
 					@Override
-					public void onResultSuccess(List<ClientTransaction> result) {
-						List<ClientTransaction> list = new ArrayList<ClientTransaction>();
-						for (ClientTransaction clientTransaction : result) {
-							if (UIUtils.isMoneyOut(clientTransaction, data
-									.getAccount().getID())
-									|| UIUtils.isMoneyIn(clientTransaction,
-											data.getAccount().getID())) {
-								list.add(clientTransaction);
-							}
+					public void onResultSuccess(
+							List<ClientReconciliationItem> result) {
+						if (result == null) {
+							result = Collections.emptyList();
 						}
-						grid.setData(list);
+						grid.setData(result);
 					}
 				});
 	}
@@ -331,7 +312,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	public void saveAndUpdateView() {
 		this.data.setOpeningBalance(openingBalance.getAmount());
 		this.data.setReconcilationDate(new ClientFinanceDate());
-		data.setTransactions(this.clearedTransactions);
+		data.setItems(this.clearedTransactions);
 		saveOrUpdate(data);
 	}
 
@@ -374,7 +355,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	public void initData() {
 		if (!isCreating()) {
 			ClientReconciliation data = this.getData();
-			grid.setData(new ArrayList<ClientTransaction>(data
+			grid.setData(new ArrayList<ClientReconciliationItem>(data
 					.getTransactions()));
 			clearedAmount.setAmount(data.getClosingBalance());
 		} else {

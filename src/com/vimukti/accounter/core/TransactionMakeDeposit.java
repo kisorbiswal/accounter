@@ -564,4 +564,21 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	}
 
+	public Account getEffectingAccount() {
+		if (!this.isNewEntry) {
+			return cashAccount;
+		} else {
+			switch (this.type) {
+			case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+				return account;
+			case TransactionMakeDeposit.TYPE_CUSTOMER:
+				return creditsAndPayments.getPayee().getAccount();
+			case TransactionMakeDeposit.TYPE_VENDOR:
+				return this.vendor.getAccount();
+			default:
+				return null;
+			}
+		}
+	}
+
 }

@@ -3,8 +3,10 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -1121,6 +1123,15 @@ public class JournalEntry extends Transaction {
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
 		return true;
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		for (Entry e : entry) {
+			map.put(e.getAccount(), e.getEffectingAmount());
+		}
+		return map;
 	}
 
 }

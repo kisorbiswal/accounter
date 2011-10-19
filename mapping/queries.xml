@@ -1456,19 +1456,6 @@
 		e.vendor.id=:vendorId and e.company=:company
 	</query>
 
-	<query name="get.transactions.by.account">
-		<query-param name="id" type="long" />
-		<query-param name="stratDate" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.AccountTransaction at where
-		at.company=:company and
-		at.account.id=:id and
-		at.transaction.reconciliation is null and
-		at.transaction.transactionDate between :startDate and :endDate group
-		by at.transaction
-	</query>
-
 	<query name="get.Activities.by.date">
 		<query-param name="fromDate" type="timestamp" />
 		<query-param name="endDate" type="timestamp" />

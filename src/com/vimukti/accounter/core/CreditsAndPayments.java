@@ -430,4 +430,21 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+
+	public double getEffectingAmount() {
+		double amount;
+		if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
+			amount = this.transaction.subTotal - this.transaction.total;
+		} else if (this.transaction.type == Transaction.TYPE_RECEIVE_PAYMENT) {
+			amount = this.transaction.subTotal - this.transaction.total;
+		} else if (this.payee.type == Payee.TYPE_VENDOR) {
+			amount = -(this.transaction.total);
+		} else if (this.payee.type == Payee.TYPE_CUSTOMER) {
+			amount = this.balance;
+		} else {
+			amount = this.transaction.total;
+		}
+		return amount;
+
+	}
 }

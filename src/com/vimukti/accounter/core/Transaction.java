@@ -2,8 +2,10 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -204,6 +206,8 @@ public abstract class Transaction extends CreatableObject implements
 
 	transient Transaction oldTransaction;
 
+	private Set<ReconciliationItem> reconciliationItems;
+
 	// Last Activity
 	@Exempted
 	private Activity lastActivity;
@@ -235,9 +239,6 @@ public abstract class Transaction extends CreatableObject implements
 	private boolean isDeleted;
 
 	private AccounterClass accounterClass;
-
-	/** This Transaction belongs to which reconciliation */
-	private Reconciliation reconciliation;
 
 	public String getPaymentMethod() {
 		return paymentMethod;
@@ -1129,8 +1130,33 @@ public abstract class Transaction extends CreatableObject implements
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		// "File VAT already done in  this transaction date duration, can't Modify");
-
+		checkForReconciliation(transaction);
 		return true;
+	}
+
+	protected void checkForReconciliation(Transaction transaction)
+			throws AccounterException {
+		if (reconciliationItems == null || reconciliationItems.isEmpty()) {
+			return;
+		}
+		Map<Account, Double> map = getEffectingAccountsWithAmounts();
+		for (ReconciliationItem item : reconciliationItems) {
+			BankAccount reconciliedAccount = item.getReconciliation()
+					.getAccount();
+			for (Account account : map.keySet()) {
+				if (reconciliedAccount.getID() == account.getID()) {
+					Double presentAmount = map.get(account);
+					double amount = item.getAmount();
+					if (DecimalUtil.isLessThan(amount, 0.00D)) {
+						amount *= -1;
+					}
+					if (!DecimalUtil.isEquals(presentAmount, amount)) {
+						throw new AccounterException(
+								AccounterException.ERROR_TRANSACTION_RECONCILIED);
+					}
+				}
+			}
+		}
 	}
 
 	public void setRecurringTransaction(
@@ -1180,13 +1206,6 @@ public abstract class Transaction extends CreatableObject implements
 		this.location = location;
 	}
 
-	/**
-	 * @return the reconciliation
-	 */
-	public Reconciliation getReconciliation() {
-		return reconciliation;
-	}
-
 	public int getSaveStatus() {
 		return saveStatus;
 	}
@@ -1197,14 +1216,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	public boolean isDraft() {
 		return this.saveStatus == STATUS_DRAFT;
-	}
-
-	/**
-	 * @param reconciliation
-	 *            the reconciliation to set
-	 */
-	public void setReconciliation(Reconciliation reconciliation) {
-		this.reconciliation = reconciliation;
 	}
 
 	/**
@@ -1249,5 +1260,37 @@ public abstract class Transaction extends CreatableObject implements
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return the reconciliationItems
+	 */
+	public Set<ReconciliationItem> getReconciliationItems() {
+		return reconciliationItems;
+	}
+
+	/**
+	 * @param reconciliationItems
+	 *            the reconciliationItems to set
+	 */
+	public void setReconciliationItems(
+			Set<ReconciliationItem> reconciliationItems) {
+		this.reconciliationItems = reconciliationItems;
+	}
+
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		if (getEffectingAccount() != null) {
+			map.put(getEffectingAccount(), total);
+		}
+		if (getPayee() != null) {
+			map.put(getPayee().getAccount(),
+					type == Transaction.TYPE_PAY_BILL ? this.subTotal
+							: this.total);
+		}
+		for (TransactionItem item : transactionItems) {
+			map.put(item.getEffectingAccount(), item.getEffectiveAmount());
+		}
+		return map;
 	}
 }

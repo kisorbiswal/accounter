@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -705,4 +706,15 @@ public class PayBill extends Transaction {
 		this.taxAgency = taxAgency;
 	}
 
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(creditsAndPayments.getPayee().getAccount(),
+				creditsAndPayments.getEffectingAmount());
+		if (this.payBillType != TYPE_VENDOR_PAYMENT) {
+			map.put(vendor.getAccount(), (total - unusedAmount) < 0 ? -1
+					* (total - unusedAmount) : (total - unusedAmount));
+		}
+		return map;
+	}
 }

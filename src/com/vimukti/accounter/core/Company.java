@@ -256,6 +256,8 @@ public class Company implements IAccounterServerCore {
 
 	private Set<Activity> activities = new HashSet<Activity>();
 
+	private Set<Reconciliation> reconciliations = new HashSet<Reconciliation>();
+
 	String bankAccountNo;
 
 	String sortCode;
@@ -1552,6 +1554,7 @@ public class Company implements IAccounterServerCore {
 		delete(taxItemGroups, session);
 		delete(vatBoxes, session);
 		delete(activities, session);
+		delete(reconciliations, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {

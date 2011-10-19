@@ -5608,6 +5608,45 @@
 		ELSE 0
 		END AS TOTAL
 	</sql-query>
+	
+	
+	<sql-query name="getTransactionsOfAccount">
+		<query-param name="companyId" type="long" />
+		<query-param name="accountId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="openingBalanceAccount" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+
+		SELECT AT.ID,AT.TRANSACTION_ID, SUM(AT.AMOUNT) AS AMOUNT
+		FROM
+		
+		ACCOUNT_TRANSACTION AT
+		LEFT JOIN TRANSACTION T ON
+		T.ID=AT.TRANSACTION_ID
+
+		WHERE
+		AT.ACCOUNT_ID=:accountId AND
+		T.IS_VOID=false AND
+		
+		T.ID NOT IN(SELECT RI.TRANSACTION_ID FROM RECONCILIATION_ITEM RI
+		LEFT JOIN RECONCILIATION R ON R.ID=RI.RECONCILIATION_ID WHERE
+		R.ACCOUNT=:accountId GROUP BY RI.TRANSACTION_ID)
+
+		AND AT.COMPANY_ID=:companyId AND
+		
+		T.T_DATE BETWEEN
+		:startDate AND :endDate AND
+
+		AT.TRANSACTION_ID NOT IN(SELECT
+		TRANSACTION_ID FROM ACCOUNT_TRANSACTION ATT WHERE
+		ATT.ACCOUNT_ID=:openingBalanceAccount)
+
+		GROUP BY
+		AT.TRANSACTION_ID,AT.ACCOUNT_ID;
+
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

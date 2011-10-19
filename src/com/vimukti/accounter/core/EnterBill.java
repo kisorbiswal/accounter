@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -971,5 +972,16 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		}
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		if (itemReceipt != null) {
+			map.put(getCompany().getPendingItemReceiptsAccount(),
+					itemReceipt.total);
+		}
+		return map;
+
 	}
 }

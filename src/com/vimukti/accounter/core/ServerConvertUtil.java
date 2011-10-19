@@ -375,11 +375,9 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 			}
 
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
 
 		return dst;

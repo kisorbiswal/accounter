@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.Map;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
@@ -60,7 +62,6 @@ public class TransferFund extends Transaction {
 	public TransferFund() {
 		setType(Transaction.TYPE_TRANSFER_FUND);
 	}
-
 
 	/**
 	 * @return the id
@@ -285,6 +286,13 @@ public class TransferFund extends Transaction {
 		}
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(transferFrom, total);
+		return map;
 	}
 
 }

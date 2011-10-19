@@ -1,6 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -420,5 +422,13 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		map.put(payFrom, total);
+		map.put(payTo.getAccount(), total);
+		return map;
 	}
 }

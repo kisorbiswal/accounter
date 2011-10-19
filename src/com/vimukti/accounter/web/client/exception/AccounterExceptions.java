@@ -51,6 +51,8 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_VERSION_MISMATCH:
 			return accounterErrors.objectModified();
+		case AccounterException.ERROR_TRANSACTION_RECONCILIED:
+			return accounterErrors.transactionReconcilied();
 
 		default:
 			return null;

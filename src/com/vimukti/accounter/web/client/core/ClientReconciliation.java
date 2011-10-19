@@ -35,7 +35,7 @@ public class ClientReconciliation implements IAccounterCore {
 	private ClientFinanceDate reconcilationDate;
 
 	/** Transactions that are involved in this Reconciliation */
-	private Set<ClientTransaction> transactions;
+	private Set<ClientReconciliationItem> items;
 
 	private int version;
 
@@ -159,16 +159,16 @@ public class ClientReconciliation implements IAccounterCore {
 	/**
 	 * @return the transactions
 	 */
-	public Set<ClientTransaction> getTransactions() {
-		return transactions;
+	public Set<ClientReconciliationItem> getTransactions() {
+		return items;
 	}
 
 	/**
-	 * @param transactions
+	 * @param items
 	 *            the transactions to set
 	 */
-	public void setTransactions(Set<ClientTransaction> transactions) {
-		this.transactions = transactions;
+	public void setItems(Set<ClientReconciliationItem> items) {
+		this.items = items;
 	}
 
 	/**

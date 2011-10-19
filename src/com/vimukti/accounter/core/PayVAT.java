@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -265,6 +266,17 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
 		return true;
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		for (TransactionPayVAT vat : transactionPayVAT) {
+			map.put(vat.getTaxAgency().getAccount(), vat.getAmountToPay());
+			map.put(vat.getVatReturn().getCompany()
+					.getVATFiledLiabilityAccount(), vat.getAmountToPay());
+		}
+		return map;
 	}
 
 }

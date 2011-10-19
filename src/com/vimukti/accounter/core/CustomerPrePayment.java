@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -306,6 +307,15 @@ public class CustomerPrePayment extends Transaction {
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> effectingAccountsWithAmounts = super
+				.getEffectingAccountsWithAmounts();
+		effectingAccountsWithAmounts.put(creditsAndPayments.getPayee()
+				.getAccount(), creditsAndPayments.getEffectingAmount());
+		return effectingAccountsWithAmounts;
 	}
 
 }

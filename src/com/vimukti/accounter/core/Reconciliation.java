@@ -33,7 +33,7 @@ public class Reconciliation extends CreatableObject implements
 	private FinanceDate reconcilationDate;
 
 	/** Transactions that are involved in this Reconciliation */
-	private Set<Transaction> transactions;
+	private Set<ReconciliationItem> items;
 
 	/**
 	 * @return the startDate
@@ -113,16 +113,16 @@ public class Reconciliation extends CreatableObject implements
 	/**
 	 * @return the transactions
 	 */
-	public Set<Transaction> getTransactions() {
-		return transactions;
+	public Set<ReconciliationItem> getItems() {
+		return items;
 	}
 
 	/**
-	 * @param transactions
+	 * @param items
 	 *            the transactions to set
 	 */
-	public void setTransactions(Set<Transaction> transactions) {
-		this.transactions = transactions;
+	public void setItems(Set<ReconciliationItem> items) {
+		this.items = items;
 	}
 
 	/**

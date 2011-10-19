@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -131,7 +132,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 * Transaction
 	 */
 	List<TransactionReceivePayment> transactionReceivePayment;
-	
+
 	private String checkNumber;
 
 	//
@@ -562,11 +563,37 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		return super.canEdit(clientObject);
 	}
 
+	protected void checkForReconciliation(Transaction transaction)
+			throws AccounterException {
+
+		if (getReconciliationItems() == null
+				|| getReconciliationItems().isEmpty()) {
+			return;
+		}
+		ReceivePayment receivePayment = (ReceivePayment) transaction;
+		for (ReconciliationItem item : getReconciliationItems()) {
+			if (item.getReconciliation().getAccount().equals(depositIn)
+					&& this.amount != receivePayment.amount) {
+				throw new AccounterException(
+						AccounterException.ERROR_TRANSACTION_RECONCILIED);
+			}
+		}
+	}
+
 	public String getCheckNumber() {
 		return checkNumber;
 	}
 
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(depositIn, amount);
+		map.put(creditsAndPayments.getPayee().getAccount(),
+				creditsAndPayments.getEffectingAmount());
+		return map;
 	}
 }

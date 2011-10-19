@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
@@ -726,5 +729,18 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		}
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		Account account = (Account) HibernateUtil
+				.getCurrentSession()
+				.getNamedQuery("getNameofAccount.by.Name")
+				.setString("name",
+						AccounterServerConstants.PENDING_ITEM_RECEIPTS)
+				.setEntity("company", getCompany()).uniqueResult();
+		map.put(account, total);
+		return map;
 	}
 }

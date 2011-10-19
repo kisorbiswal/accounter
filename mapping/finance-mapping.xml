@@ -37,14 +37,15 @@
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW"></property>
 
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" not-null="true"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
-			column="LINKED_ID" class="Account"  cascade="save-update,delete">
+			column="LINKED_ID" class="Account" cascade="save-update,delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
@@ -86,8 +87,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
 		</many-to-one>
-		<property name="className" not-null="true"
-			column="CLASS_NAME"></property>
+		<property name="className" not-null="true" column="CLASS_NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -553,10 +553,15 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="Transaction" />
 		</set>
-		
+
 		<set name="activities" inverse="true" cascade="delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Activity" />
+		</set>
+		
+		<set name="reconciliations" inverse="true" cascade="delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Reconciliation" />
 		</set>
 	</class>
 	<!-- <class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id name="id" 
@@ -1840,11 +1845,25 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
 
-		<set name="transactions" cascade="save-update" lazy="false"
-			table="RECONCILIATION">
+		<set name="items" cascade="save-update,delete" lazy="false" table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
-			<one-to-many class="Transaction" />
+			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
 		</set>
+	</class>
+
+	<class name="ReconciliationItem" table="RECONCILIATION_ITEM">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="amount" column="AMOUNT"></property>
+		<property name="transactionNo" column="TRANSACTION_NUMBER"></property>
+		<property name="transationType" column="TRANSACTION_TYPE"></property>
+		<property name="transactionDate" column="TRANSACTION_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="reconciliation" lazy="false"
+			column="RECONCILIATION_ID" class="Reconciliation" />
+		<many-to-one name="transaction" lazy="false" column="TRANSACTION_ID"
+			class="Transaction" />
 	</class>
 
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
