@@ -190,10 +190,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	private Result createVendorObject(Context context) {
 
-		ICountryPreferences countryPreferences = context.getCompany()
-				.getCountryPreferences();
-
 		CompanyPreferences preferences = context.getCompany().getPreferences();
+
 		ClientVendor vendor = new ClientVendor();
 		String name = get(VENDOR_NAME).getValue();
 		String number = null;
