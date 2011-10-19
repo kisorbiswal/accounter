@@ -399,6 +399,7 @@
 		<alias>Add BankAccount</alias>
 		<alias>New BankAccount</alias>
 		<alias>Create Bank Account</alias>
+		<alias>BankAccount</alias>
 	</command>
 
 	<command clazz="AccountRegisterCommand" name="AccountRegister">
