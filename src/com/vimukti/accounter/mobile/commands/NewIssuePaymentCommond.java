@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
@@ -57,10 +58,50 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = selectPaymentMethod(context);
+		Result result = null;
+
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+
+		Result makeResult = context.makeResult();
+		makeResult
+				.add(" Issue Payment is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+		
+		 result = paymentMethodRequirement(context, list, "please enter the payment method");
 		if (result != null) {
 			return result;
 		}
+		 
+		result = accountRequirement(context, list, ACCOUNTS,new ListFilter<ClientAccount>() {
+
+							@Override
+							public boolean filter(ClientAccount e) {
+								return Arrays.asList(ClientAccount.TYPE_BANK,
+										ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+										.contains(e.getType());
+							
+							}
+		});
+		if (result != null) {
+			return result;
+		}
+		
+		result = numberRequirement(context, list, CHEQUE_NO, "Please enter the cheque number");
+		if (result != null) {
+			return result;
+		}
+		
+		
+		/**
+		 * here write for the  list of items
+		 */
+		
+		
 		result = accountItemsRequirement(context, null,
 				new ListFilter<ClientAccount>() {
 
