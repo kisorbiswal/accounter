@@ -3,8 +3,6 @@
  */
 package com.vimukti.accounter.main;
 
-import com.vimukti.accounter.core.Server;
-
 /**
  * 
  * Allocates Servers For Companies
@@ -14,6 +12,6 @@ import com.vimukti.accounter.core.Server;
  */
 public interface IServerAllocator {
 
-	public Server allocateServer(int companyType, String companyName,
-			String sourceAddr);
+	// public Server allocateServer(int companyType, String companyName,
+	// String sourceAddr);
 }

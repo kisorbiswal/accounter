@@ -21,8 +21,8 @@ import org.mortbay.util.UrlEncoded;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Developer;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ApiFilter implements Filter {
@@ -53,7 +53,7 @@ public class ApiFilter implements Filter {
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
-		ServerCompany company = null;
+		Company company = null;
 		Session session = HibernateUtil.openSession();
 		try {
 			Developer developer = getDeveloperByApiKey(apiKey);
@@ -92,13 +92,13 @@ public class ApiFilter implements Filter {
 		}
 	}
 
-	private ServerCompany getCompany(long id, Client client) {
+	private Company getCompany(long id, Client client) {
 		Session session = HibernateUtil.getCurrentSession();
 		Object result = session
 				.getNamedQuery("get.ServerCompany.by.companyId.and.client")
 				.setLong("id", id).setParameter("client", client)
 				.uniqueResult();
-		return (ServerCompany) ((Object[]) result)[0];
+		return (Company) ((Object[]) result)[0];
 	}
 
 	private String doSigning(String data, String secretKeystr) {

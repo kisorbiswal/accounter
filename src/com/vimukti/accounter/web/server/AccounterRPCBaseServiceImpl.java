@@ -22,7 +22,6 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -177,10 +176,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		}
 		Session session = HibernateUtil.openSession();
 		try {
-			ServerCompany company = (ServerCompany) session.get(
-					ServerCompany.class, Long.parseLong(companyID));
+			Company company = (Company) session.get(Company.class,
+					Long.parseLong(companyID));
 			if (company != null) {
-				return company.getCompanyName();
+				return company.getFullName();
 			}
 		} finally {
 			session.close();
@@ -234,7 +233,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 
 			session.saveOrUpdate(user);
 			this.getThreadLocalRequest().getSession()
-					.setAttribute(EMAIL_ID, user.getEmail());
+					.setAttribute(EMAIL_ID, user.getClient().getEmailId());
 			this.getThreadLocalRequest()
 					.getSession()
 					.setAttribute(COMPANY_ID,
@@ -243,7 +242,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			CometSession cometSession = CometServlet
 					.getCometSession(getHttpSession());
 			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(), getCompanyId(), user.getEmail(), cometSession);
+					.getId(), getCompanyId(), user.getClient().getEmailId(),
+					cometSession);
 
 			if (rememberMe) {
 				setCookies(string, password);

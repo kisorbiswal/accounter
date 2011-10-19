@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +44,9 @@ public class Company implements IAccounterServerCore {
 	private int version;
 	int accountingType = 0;
 
-	String companyID;
+	// String companyID;
+
+	private Date createdDate;
 
 	private boolean isConfigured;
 
@@ -105,7 +108,7 @@ public class Company implements IAccounterServerCore {
 	private String registrationNumber;
 
 	public void setID(long id) {
-		this.id = id;
+		this.setId(id);
 	}
 
 	/**
@@ -918,7 +921,7 @@ public class Company implements IAccounterServerCore {
 	public Company toCompany(Company cmp) {
 
 		cmp.accountingType = this.getAccountingType();
-		cmp.id = this.getID();
+		cmp.setId(this.getID());
 		cmp.accounts = this.getAccounts();
 
 		cmp.companyEmail = this.getCompanyEmail();
@@ -942,7 +945,7 @@ public class Company implements IAccounterServerCore {
 		cmp.users = this.getUsers();
 		cmp.vatReturnBoxes = this.getVatReturnBoxes();
 		cmp.preferences = this.getPreferences();
-		cmp.id = this.getID();
+		cmp.setId(this.getID());
 
 		cmp.accountsReceivableAccount = this.getAccountsReceivableAccount();
 		cmp.accountsPayableAccount = this.getAccountsPayableAccount();
@@ -1077,7 +1080,7 @@ public class Company implements IAccounterServerCore {
 
 	public ClientCompany toClientCompany() throws AccounterException {
 		ClientCompany clientCompany = new ClientCompany();
-		clientCompany.setID(this.id);
+		clientCompany.setID(this.getId());
 		clientCompany.setCompanyEmail(this.companyEmail);
 		clientCompany.setRegistrationNumber(this.registrationNumber);
 		clientCompany.setBankAccountNo(this.bankAccountNo);
@@ -1111,13 +1114,13 @@ public class Company implements IAccounterServerCore {
 		return preferences.getFullName();
 	}
 
-	public String getCompanyID() {
-		return companyID;
-	}
-
-	public void setCompanyID(String companyID) {
-		this.companyID = companyID;
-	}
+	// public String getCompanyID() {
+	// return companyID;
+	// }
+	//
+	// public void setCompanyID(String companyID) {
+	// this.companyID = companyID;
+	// }
 
 	/**
 	 * @return the tradingAddress
@@ -1158,7 +1161,8 @@ public class Company implements IAccounterServerCore {
 	public User getUserByUserEmail(String email) {
 		Set<User> users = getUsers();
 		for (User user : users) {
-			if (!user.isDeleted() && user.getEmail().equals(email)) {
+			if (!user.isDeleted()
+					&& user.getClient().getEmailId().equals(email)) {
 				return user;
 			}
 		}
@@ -1510,11 +1514,7 @@ public class Company implements IAccounterServerCore {
 
 	@Override
 	public long getID() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
+		return getId();
 	}
 
 	public void onDelete(Session session) {
@@ -1561,5 +1561,31 @@ public class Company implements IAccounterServerCore {
 		for (T acc : list) {
 			session.delete(acc);
 		}
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public List<User> getNonDeletedUsers() {
+		List<User> users = new ArrayList<User>();
+		for (User u : this.users) {
+			if (!u.isDeleted()) {
+				users.add(u);
+			}
+		}
+		return users;
 	}
 }

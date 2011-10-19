@@ -130,7 +130,8 @@ public class CommandProcessor {
 		Result result = null;
 		try {
 			command.setClientCompany(new FinanceTool().getCompanyManager()
-					.getClientCompany(context.getUser().getEmail(),
+					.getClientCompany(
+							context.getUser().getClient().getEmailId(),
 							context.getCompany().getID()));
 			result = command.run(context);
 		} catch (Exception e) {

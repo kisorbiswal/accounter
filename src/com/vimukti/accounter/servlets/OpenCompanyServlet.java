@@ -76,9 +76,10 @@ public class OpenCompanyServlet extends BaseServlet {
 				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				// response.setHeader("Location", "/Accounter.jsp");
 
-				request.setAttribute(EMAIL_ID, user.getEmail());
-				request.setAttribute(USER_NAME, user.getFullName());
-				request.setAttribute(COMPANY_NAME, company.getDisplayName()+" - " +company.getID());
+				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
+				request.setAttribute(USER_NAME, user.getClient().getFullName());
+				request.setAttribute(COMPANY_NAME, company.getDisplayName()
+						+ " - " + company.getID());
 
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");

@@ -17,7 +17,7 @@ public class Client {
 	private String emailId;
 	private String password;
 	private boolean isActive;
-	private Set<ServerCompany> companies;
+	private Set<User> users;
 	private String phoneNumber;
 	private String country;
 	private boolean isSubscribedToNewsLetters;
@@ -81,12 +81,12 @@ public class Client {
 		this.isActive = isActive;
 	}
 
-	public Set<ServerCompany> getCompanies() {
-		return companies;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setCompanies(Set<ServerCompany> companies) {
-		this.companies = companies;
+	public void setUsers(Set<User> companies) {
+		this.users = companies;
 	}
 
 	public void setPhoneNo(String phoneNumber) {
@@ -136,23 +136,21 @@ public class Client {
 	 */
 	public User toUser() {
 		User user = new User();
-		user.setFirstName(this.firstName);
-		user.setLastName(this.lastName);
-		user.setEmail(this.emailId);
+		user.setClient(this);
 		return user;
 	}
 
 	/**
 	 * Returns ServerCompany From ID
 	 * 
-	 * @param serverCompanyID
+	 * @param companyID
 	 * @return
 	 */
-	public ServerCompany getCompany(long serverCompanyID) {
-		Iterator<ServerCompany> iterator = companies.iterator();
+	public Company getCompany(long companyID) {
+		Iterator<User> iterator = users.iterator();
 		while (iterator.hasNext()) {
-			ServerCompany next = iterator.next();
-			if (next.getID() == serverCompanyID) {
+			Company next = iterator.next().getCompany();
+			if (next.getID() == companyID) {
 				return next;
 			}
 		}
@@ -161,6 +159,16 @@ public class Client {
 
 	public long getID() {
 		return id;
+	}
+
+	public String getFullName() {
+		if (firstName == null) {
+			return lastName;
+		} else if (lastName == null) {
+			return firstName;
+		} else {
+			return firstName + " " + lastName;
+		}
 	}
 
 }

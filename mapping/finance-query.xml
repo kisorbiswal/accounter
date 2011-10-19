@@ -2253,10 +2253,10 @@
 
 		<query-param name="accountID" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_number" type="string" />
+		<return-scalar column="CHECK_NUMBER" type="string" />
 
-		SELECT T.NUMBER AS transaction_number FROM TRANSACTION T WHERE
-		T.ID = (SELECT MAX(T1.ID) FROM TRANSACTION
+		SELECT I.CHECK_NUMBER AS CHECK_NUMBER FROM ISSUE_PAYMENT I WHERE
+		I.ID = (SELECT MAX(T1.ID) FROM TRANSACTION
 		T1 LEFT OUTER JOIN ISSUEPAYMENT IP
 		ON IP.ID=T1.ID LEFT OUTER JOIN
 		ACCOUNT A1 ON IP.ACCOUNT_ID=A1.ID WHERE

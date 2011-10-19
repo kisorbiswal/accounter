@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -89,7 +89,7 @@ public class SignupServlet extends BaseServlet {
 				// Create Client and Save
 				Client client = new Client();
 				client.setActive(false);
-				client.setCompanies(new HashSet<ServerCompany>());
+				client.setUsers(new HashSet<User>());
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
 				client.setLastName(lastName);

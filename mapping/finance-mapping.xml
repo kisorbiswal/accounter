@@ -168,8 +168,7 @@
 		</id>
 		<property name="isConfigured" column="IS_CONFIGURED"></property>
 		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
-
-		<property name="companyID" column="COMPANY_ID"></property>
+		<property name="createdDate" column="CREATED_DATE"></property>
 
 		<set name="users" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID"></key>
@@ -1223,14 +1222,17 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="client" column="CLIENT_ID"
+			class="Client" lazy="false" not-null="true">
+		</many-to-one>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
 		</many-to-one>
 		<!--<property name="version" column="VERSION"></property> -->
-		<property name="firstName" column="FIRST_NAME"></property>
+		<!-- <property name="firstName" column="FIRST_NAME"></property>
 		<property name="lastName" column="LAST_NAME"></property>
 		<property name="fullName" column="FULL_NAME"></property>
-		<property name="email" column="EMAIL_ID"></property>
+		<property name="email" column="EMAIL_ID"></property> -->
 		<property name="userRole" column="USER_ROLE"></property>
 		<property name="canDoUserManagement" column="CAN_DO_USER_MANAGEMENT"></property>
 		<property name="isDeleted" column="IS_DELETED"></property>

@@ -514,10 +514,11 @@ public class UsersMailSendar {
 			return;
 		}
 
+		Client client = admin.getClient();
 		String content = propertyParser
 				.getProperty("contentForDefaultUser", "");
 		content = content.replaceAll("%USERNAME%",
-				getUserName(admin.getFirstName()));
+				getUserName(client.getFirstName()));
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = replaceServerUrl(content);
 
@@ -527,7 +528,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(admin.getEmail());
+		emailMsg.setRecepeant(client.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
 		EmailManager.getInstance().addJob(job);

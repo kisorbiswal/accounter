@@ -1060,7 +1060,6 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CashPurchase cp where
 		cp.company=:company and
-		cp.employee.fullName=:employeeName and
 		cp.expenseStatus=:expenseStatus
 		and
 		cp.type=:type and cp.isVoid=false
@@ -1389,8 +1388,8 @@
 		<query-param name="id" type="Long" />
 		<query-param name="client" type="com.vimukti.accounter.core.Client" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.ServerCompany sc left join sc.clients
-		c where sc.id=:id and c=:client
+		from com.vimukti.accounter.core.Company sc left join sc.users
+		u left join u.client c where sc.id=:id and c=:client
 	</query>
 
 	<query name="get.All.Units">
@@ -1401,15 +1400,15 @@
 	<query name="adminUserForEmailId">
 		<query-param name="company" type="Company" />
 		<query-param name="emailid" type="string" />
-		from com.vimukti.accounter.core.User user where user.email=:emailid
-		and company=:company
+		from com.vimukti.accounter.core.User user left join user.client c where c.emailId=:emailid
+		and user.company=:company
 		and user.isAdmin =true
 	</query>
 	
 	<query name="get.Admin.Users">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.User user where user.company=:company
-		and user.isAdmin =true
+		and user.isAdmin =true and user.isDeleted = false
 	</query>
 
 	<query name="getTAXAdjustment.by.dates.and.taxItemName">

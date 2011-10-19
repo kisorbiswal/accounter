@@ -16,12 +16,9 @@ import org.mortbay.util.UrlEncoded;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Server;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.ServerAllocationFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -62,9 +59,8 @@ public class CreateCompanyServlet extends BaseServlet {
 		String companyName = request.getParameter("name");
 		String companyTypeStr = request.getParameter("companyType");
 		if (!isValidCompanyName(companyName)) {
-			request
-					.setAttribute("errormessage",
-							"Invalid Company Name. Name Should be grater than 5 characters");
+			request.setAttribute("errormessage",
+					"Invalid Company Name. Name Should be grater than 5 characters");
 			dispatch(request, response, view);
 			return;
 		}
@@ -74,14 +70,15 @@ public class CreateCompanyServlet extends BaseServlet {
 			dispatch(request, response, view);
 			return;
 		}
-		ServerCompany serverCompany = null;
+		Company company = null;
 		Client client = null;
 		Session session = HibernateUtil.openSession();
+		final HttpSession httpSession = request.getSession(true);
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			serverCompany = getServerCompany(companyName);
-			if (serverCompany != null) {
+			company = getCompany(companyName);
+			if (company != null) {
 				request.setAttribute("errormessage",
 						"Company exist with the same name.");
 				dispatch(request, response, view);
@@ -95,105 +92,84 @@ public class CreateCompanyServlet extends BaseServlet {
 				return;
 			}
 
-			serverCompany = new ServerCompany();
-			serverCompany.getClients().add(client);
-			serverCompany.setActive(true);
-			serverCompany.setCompanyName(companyName);
-			serverCompany.setCompanyType(companyType);
-			serverCompany.setConfigured(false);
-			serverCompany.setCreatedDate(new Date());
-			serverCompany.setServer(getPreferredServer(companyType,
-					companyName, request.getRemoteAddr()));
-			session.saveOrUpdate(serverCompany);
+			company = new Company(companyType);
+			// company.getClients().add(client);
+			// company.setActive(true);
+			company.setFullName(companyName);
+			company.setAccountingType(companyType);
+			company.setConfigured(false);
+			company.setCreatedDate(new Date());
+			// company.setServer(getPreferredServer(companyType, companyName,
+			// request.getRemoteAddr()));
+			session.saveOrUpdate(company);
 
-			client.getCompanies().add(serverCompany);
+			User user = new User(getUser(client));
+			user.setActive(true);
+			user.setClient(client);
+			user.setCompany(company);
+			session.save(user);
+
+			client.getUsers().add(user);
 			session.saveOrUpdate(client);
+
+			AccounterThreadLocal.set(user);
+			company.getUsers().add(user);
+			company.setCompanyEmail(user.getClient().getEmailId());
+
+			session.saveOrUpdate(company);
+
+			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());
+
+			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
 			transaction.commit();
+			// updateServers(company.getServer(), true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
 		} finally {
 			if (session.isOpen()) {
 				session.close();
 			}
 		}
-		long serverId = serverCompany.getId();
-		String serverCompanyName = serverCompany.getCompanyName();
-		String serverCompanyCountry = client.getCountry();
-		int serverCompanyType = serverCompany.getCompanyType();
-		ClientUser user = getUser(client);
-		final HttpSession httpSession = request.getSession(true);
-		try {
-			createComapny(serverId, serverCompanyName, serverCompanyCountry,
-					serverCompanyType, user);
-			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
-			updateServers(serverCompany.getServer(), true);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rollback(serverId, user.getID());
-			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
-		}
 		dispatch(request, response, COMPANIES_URL);
 		return;
 	}
 
-	private void createComapny(long companyID, String companyName,
-			String serverCompanyCountry, int companyType, ClientUser user)
-			throws Exception {
-		Company company = new Company(companyType);
-		company.setId(companyID);
-		company.getRegisteredAddress().setCountryOrRegion(serverCompanyCountry);
-		company.getPreferences().getTradingAddress().setCountryOrRegion(
-				serverCompanyCountry);
-		company.setFullName(companyName);
-		init(company, companyID, user);
+	private void updateComapny(Company company, Client client) throws Exception {
+		// Company company = new Company(companyType);
+		// company.setId(companyID);
+		// company.setFullName(company.getCompanyName());
+		init(company, client);
 	}
 
-	private void init(Company company, long serverCompnayId,
-			ClientUser clientUser) throws Exception {
-		Session companySession = HibernateUtil.openSession();
-		Transaction transaction = companySession.beginTransaction();
+	private void init(Company company, Client client) throws Exception {
+		Session session = HibernateUtil.openSession();
+
 		try {
 			// Creating User
-			User user = new User(clientUser);
-			user.setActive(true);
-			companySession.save(user);
 
-			AccounterThreadLocal.set(user);
-			company.getUsers().add(user);
-			company.setCompanyEmail(user.getEmail());
-
-			companySession.save(company);
-
-			transaction.commit();
-			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-			throw e;
 		} finally {
-			if (companySession.isOpen()) {
-				companySession.close();
-			}
+
+			session.close();
 		}
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private Server getPreferredServer(int companyType, String companyName,
-			String sourceAddr) {
-		return ServerAllocationFactory.getServerAllocator().allocateServer(
-				companyType, companyName, sourceAddr);
-	}
+	// /**
+	// *
+	// * @return
+	// */
+	// private Server getPreferredServer(int companyType, String companyName,
+	// String sourceAddr) {
+	// return ServerAllocationFactory.getServerAllocator().allocateServer(
+	// companyType, companyName, sourceAddr);
+	// }
 
 	private ClientUser getUser(Client client) {
 		User user = client.toUser();
-		user.setFullName(user.getFirstName() + " " + user.getLastName());
+		// user.setFullName(user.getFirstName() + " " + user.getLastName());
 		user.setUserRole(RolePermissions.ADMIN);
 		user.setAdmin(true);
 		user.setCanDoUserManagement(true);
@@ -209,11 +185,11 @@ public class CreateCompanyServlet extends BaseServlet {
 		return user.getClientUser();
 	}
 
-	private ServerCompany getServerCompany(String companyName) {
+	private Company getCompany(String companyName) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getServerCompany.by.name")
 				.setParameter("name", companyName);
-		return (ServerCompany) query.uniqueResult();
+		return (Company) query.uniqueResult();
 	}
 
 	/**
@@ -225,9 +201,9 @@ public class CreateCompanyServlet extends BaseServlet {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			Object object = session.get(ServerCompany.class, serverId);
+			Object object = session.get(Company.class, serverId);
 			Client client = (Client) session.get(Client.class, clientId);
-			client.getCompanies().remove((ServerCompany) object);
+			client.getUsers().remove((Company) object);
 			session.saveOrUpdate(client);
 			session.delete(object);
 			transaction.commit();
@@ -246,26 +222,24 @@ public class CreateCompanyServlet extends BaseServlet {
 	/**
 	 * @return
 	 */
-	private String getUrlString(ServerCompany serverCompany, String emailID,
-			Client client) {
+	private String getUrlString(Company company, String emailID, Client client) {
 		StringBuffer buffer = new StringBuffer(
 				"http://localhost:8890/initialzeCompany?");
 
 		buffer.append(PARAM_SERVER_COMPANY_ID);
 		buffer.append('=');
-		buffer.append(new UrlEncoded(String.valueOf(serverCompany.getID()))
-				.encode());
+		buffer.append(new UrlEncoded(String.valueOf(company.getID())).encode());
 
 		buffer.append('&');
 		buffer.append(PARA_COMPANY_NAME);
 		buffer.append('=');
-		buffer.append(new UrlEncoded(serverCompany.getCompanyName()).encode());
+		buffer.append(new UrlEncoded(company.getFullName()).encode());
 
 		buffer.append('&');
 		buffer.append(PARAM_COMPANY_TYPE);
 		buffer.append('=');
-		buffer.append(new UrlEncoded(String.valueOf(serverCompany
-				.getCompanyType())).encode());
+		buffer.append(new UrlEncoded(
+				String.valueOf(company.getAccountingType())).encode());
 
 		buffer.append('&');
 		buffer.append(EMAIL_ID);

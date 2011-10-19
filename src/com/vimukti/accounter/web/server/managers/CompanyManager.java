@@ -708,6 +708,7 @@ public class CompanyManager extends Manager {
 			if (!user.isDeleted()) {
 				ClientUser clientUser = new ClientConvertUtil().toClientObject(
 						user, ClientUser.class);
+				updateClientUser(clientUser, user.getClient());
 				ClientUserInfo userInfo = clientUser.toUserInfo();
 				employees.add(userInfo);
 			}

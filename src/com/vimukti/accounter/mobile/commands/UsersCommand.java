@@ -71,7 +71,7 @@ public class UsersCommand extends AbstractTransactionCommand {
 		}
 
 		result.add(userList);
-		
+
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
 
@@ -90,7 +90,7 @@ public class UsersCommand extends AbstractTransactionCommand {
 		// record.add("First Name", user.getFirstName());
 		// record.add("Last Name", user.getLastName());
 		record.add("User Role", user.getUserRole());
-		record.add("Email Id", user.getEmail());
+		record.add("Email Id", user.getClient().getEmailId());
 		// record.add("Status", user.isActive());
 		return record;
 	}

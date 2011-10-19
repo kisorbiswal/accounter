@@ -12,13 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
@@ -285,29 +283,30 @@ public class BaseServlet extends HttpServlet {
 				"");
 	}
 
-	/**
-	 * @param serverId
-	 */
-	protected void updateServers(Server accounterServer, boolean isAddCompany) {
-		Session session = HibernateUtil.openSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			Server server = (Server) session.get(Server.class,
-					accounterServer.getId());
-			int companiesCount = server.getCompaniesCount();
-			companiesCount += isAddCompany ? 1 : -1;
-			server.setCompaniesCount(companiesCount);
-			session.saveOrUpdate(server);
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		} finally {
-			session.close();
-		}
-	}
+	// /**
+	// * @param serverId
+	// */
+	// protected void updateServers(Server accounterServer, boolean
+	// isAddCompany) {
+	// Session session = HibernateUtil.openSession();
+	// Transaction transaction = null;
+	// try {
+	// transaction = session.beginTransaction();
+	// Server server = (Server) session.get(Server.class,
+	// accounterServer.getId());
+	// int companiesCount = server.getCompaniesCount();
+	// companiesCount += isAddCompany ? 1 : -1;
+	// server.setCompaniesCount(companiesCount);
+	// session.saveOrUpdate(server);
+	// transaction.commit();
+	// } catch (Exception e) {
+	// if (transaction != null) {
+	// transaction.rollback();
+	// }
+	// } finally {
+	// session.close();
+	// }
+	// }
 
 	/**
 	 * Builds the URL for MainServer

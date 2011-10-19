@@ -17,7 +17,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -60,30 +61,31 @@ public class CompaniesServlet extends BaseServlet {
 				return;
 			}
 
-			Set<ServerCompany> companies = client.getCompanies();
-			if (companies.isEmpty()) {
+			Set<User> users = client.getUsers();
+			if (users.isEmpty()) {
 				if (httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",
 							"You don't have any companies now.");
 				}
 			} else {
-				List<ServerCompany> list = new ArrayList<ServerCompany>();
-				for (ServerCompany serverCompany : companies) {
-					list.add(serverCompany);
+				List<Company> list = new ArrayList<Company>();
+				for (User user : users) {
+					if (!user.isDeleted()) {
+						list.add(user.getCompany());
+					}
 				}
-				Collections.sort(list, new Comparator<ServerCompany>() {
+				Collections.sort(list, new Comparator<Company>() {
 
 					@Override
-					public int compare(ServerCompany company1,
-							ServerCompany company2) {
-						return company1.getCompanyName().compareTo(
-								company2.getCompanyName());
+					public int compare(Company company1, Company company2) {
+						return company1.getFullName().compareTo(
+								company2.getFullName());
 					}
 
 				});
-				Set<ServerCompany> sortedCompanies = new HashSet<ServerCompany>();
-				for (ServerCompany serverCompany : list) {
-					sortedCompanies.add(serverCompany);
+				Set<Company> sortedCompanies = new HashSet<Company>();
+				for (Company company : list) {
+					sortedCompanies.add(company);
 				}
 
 				req.setAttribute(ATTR_COMPANY_LIST, list);
@@ -149,24 +151,19 @@ public class CompaniesServlet extends BaseServlet {
 
 		Session session = HibernateUtil.openSession();
 		try {
-			ServerCompany company = (ServerCompany) session.get(
-					ServerCompany.class, companyID);
+			Company company = (Company) session.get(Company.class, companyID);
 			if (company != null) {
 
-				if (!company.isActive()) {
-					dispatch(req, resp, MIGRATION_VIEW);
-					return;
-				}
+				// if (!company.isActive()) {
+				// dispatch(req, resp, MIGRATION_VIEW);
+				// return;
+				// }
 				String url = ACCOUNTER_OLD_URL;
 				if (ServerConfiguration.isDebugMode) {
 					url = ACCOUNTER_URL;
 				}
 
-				redirectExternal(
-						req,
-						resp,
-						buildCompanyServerURL(company.getServer().getAddress(),
-								url));
+				redirectExternal(req, resp, url);
 			}
 		} finally {
 			session.close();

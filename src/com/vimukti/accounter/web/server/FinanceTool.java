@@ -453,7 +453,7 @@ public class FinanceTool {
 				for (User user : users) {
 					try {
 						CometStream stream = CometManager.getStream(
-								ServerCompanyID, user.getEmail());
+								ServerCompanyID, user.getClient().getEmailId());
 						if (stream == null) {
 							continue;
 						}
@@ -463,7 +463,7 @@ public class FinanceTool {
 							}
 						}
 						log.info("Sent " + changes.length + " change to "
-								+ user.getEmail());
+								+ user.getClient().getEmailId());
 					} catch (NotSerializableException e) {
 						e.printStackTrace();
 						log.error("Failed to Process Request", e);
@@ -1913,8 +1913,8 @@ public class FinanceTool {
 			// brandingTheme, footerImg, style);
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-					invoice, brandingTheme, company, company.getCompanyID(),
-					"ClassicInvoice");
+					invoice, brandingTheme, company, String.valueOf(company
+							.getID()), "ClassicInvoice");
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
@@ -1927,8 +1927,8 @@ public class FinanceTool {
 							objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company, company.getCompanyID(),
-					"ClassicCredit");
+					memo, brandingTheme, company, String.valueOf(company
+							.getID()), "ClassicCredit");
 
 			fileName = creditNotePDFTemplete.getFileName();
 

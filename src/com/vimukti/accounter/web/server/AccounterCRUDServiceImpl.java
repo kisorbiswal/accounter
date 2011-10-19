@@ -221,24 +221,24 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean deleteUser(IAccounterCore deletableUser, String senderEmail)
 			throws AccounterException {
-		ClientUserInfo deletingUser = (ClientUserInfo) deletableUser;
+		// ClientUserInfo deletingUser = (ClientUserInfo) deletableUser;
 
-		try {
-
-			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
-					.getMainServerDomain());
-
-			String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
-
-			s2sSyncProxy.deleteClientFromCompany(
-					Long.parseLong(serverCompanyId), deletingUser.getEmail());
-
-		} catch (Exception e) {
-			if (e instanceof AccounterException) {
-				throw (AccounterException) e;
-			}
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
-		}
+		// try {
+		//
+		// IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
+		// .getMainServerDomain());
+		//
+		// String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
+		//
+		// s2sSyncProxy.deleteClientFromCompany(
+		// Long.parseLong(serverCompanyId), deletingUser.getEmail());
+		//
+		// } catch (Exception e) {
+		// if (e instanceof AccounterException) {
+		// throw (AccounterException) e;
+		// }
+		// throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		// }
 
 		ClientUser coreUser = convertUserInfoToUser((ClientUserInfo) deletableUser);
 		String clientClassSimpleName = coreUser.getObjectType()

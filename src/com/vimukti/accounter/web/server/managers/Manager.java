@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
@@ -21,6 +22,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -280,5 +282,11 @@ public class Manager {
 			}
 		}
 
+	}
+	
+	public void updateClientUser(ClientUser clientUser, Client client) {
+		clientUser.setFirstName(client.getFirstName());
+		clientUser.setLastName(client.getLastName());
+		clientUser.setEmail(client.getEmailId());
 	}
 }

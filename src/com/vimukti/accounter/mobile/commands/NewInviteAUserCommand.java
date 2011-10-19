@@ -92,9 +92,9 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 
 		User user = new User();
 
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setEmail(email);
+		// user.setFirstName(firstName);
+		// user.setLastName(lastName);
+		// user.setEmail(email);
 
 		if (readOnly) {
 

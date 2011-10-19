@@ -3,19 +3,25 @@ package com.vimukti.accounter.web.server.managers;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -40,7 +46,7 @@ public class UserManager extends Manager {
 						"Operation Data Found Null...." + data);
 			}
 			User user = new User((ClientUser) data);
-			String email = user.getEmail();
+			String email = ((ClientUser) data).getEmail();
 			Company company = getCompany(context.getCompanyId());
 			User userByUserEmail = getUserByUserEmail(email, company);
 			if (userByUserEmail != null) {
@@ -51,7 +57,6 @@ public class UserManager extends Manager {
 					userByUserEmail.setCanDoUserManagement(user
 							.isCanDoUserManagement());
 					user = userByUserEmail;
-					session.saveOrUpdate(user);
 				}
 			} else {
 
@@ -59,10 +64,13 @@ public class UserManager extends Manager {
 			}
 			String userID = context.getUserEmail();
 
+			createOrUpdateClient(company, userID, email, user,
+					(ClientUser) data);
 			User inviteduser = getUserByUserEmail(userID, company);
 			Activity inviteuserActivity = new Activity(company, inviteduser,
 					ActivityType.ADD, user);
 
+			session.saveOrUpdate(user);
 			session.save(inviteuserActivity);
 			transaction.commit();
 			ClientUser clientObject = new ClientConvertUtil().toClientObject(
@@ -193,6 +201,7 @@ public class UserManager extends Manager {
 			if (!user.isDeleted()) {
 				ClientUser clientUser = new ClientConvertUtil().toClientObject(
 						user, ClientUser.class);
+				updateClientUser(clientUser, user.getClient());
 				ClientUserInfo userInfo = clientUser.toUserInfo();
 				clientUsers.add(userInfo);
 			}
@@ -248,6 +257,64 @@ public class UserManager extends Manager {
 		company.getUsersList().add(admin);
 		session.saveOrUpdate(this);
 		transaction.commit();
+	}
+
+	private void createOrUpdateClient(Company company, String senderEmailId,
+			String emailId, User user, ClientUser clientUser) {
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		Client inviter = getClient(senderEmailId);
+
+		Client invitedClient = getClient(emailId);
+		boolean userExists = false;
+		String randomString = HexUtil.getRandomString();
+		if (invitedClient == null) {
+			invitedClient = new Client();
+			invitedClient.setActive(true);
+			Set<User> users = new HashSet<User>();
+			user.setClient(invitedClient);
+			user.setCompany(company);
+			users.add(user);
+			invitedClient.setUsers(users);
+			invitedClient.setCountry(inviter.getCountry());
+			invitedClient.setEmailId(emailId);
+			invitedClient.setFirstName(clientUser.getFirstName());
+			invitedClient.setLastName(clientUser.getLastName());
+			invitedClient.setPassword(HexUtil.bytesToHex(Security
+					.makeHash(emailId + randomString)));
+			// invitedClient.setRequirePasswordReset(true);
+		} else {
+			userExists = true;
+			Set<User> users = invitedClient.getUsers();
+			boolean flag = false;
+			for (User u : users) {
+				if (company == u.getCompany()) {
+					flag = true;
+				}
+			}
+			if (!flag) {
+				invitedClient.getUsers().add(user);
+				user.setClient(invitedClient);
+			}
+		}
+		session.setFlushMode(flushMode);
+		session.save(invitedClient);
+		if (userExists) {
+			UsersMailSendar.sendMailToOtherCompanyUser(invitedClient,
+					company.getFullName(), inviter);
+		} else {
+			UsersMailSendar.sendMailToInvitedUser(invitedClient, randomString,
+					company.getFullName());
+		}
+	}
+
+	private Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter(BaseServlet.EMAIL_ID, emailId);
+		Client client = (Client) namedQuery.uniqueResult();
+		return client;
 	}
 
 }

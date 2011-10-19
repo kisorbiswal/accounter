@@ -60,13 +60,13 @@
 
 	<query name="getServerCompany.by.name">
 		<query-param name="name" type="string" />
-		from com.vimukti.accounter.core.ServerCompany c where
-		c.companyName=:name
+		from com.vimukti.accounter.core.Company c where
+		c.preferences.fullName=:name
 	</query>
 
 	<query name="getServerCompany.by.id">
 		<query-param name="id" type="integer" />
-		from com.vimukti.accounter.core.ServerCompany c where
+		from com.vimukti.accounter.core.Company c where
 		c.id=:id
 	</query>
 
@@ -77,14 +77,10 @@
 
 	<query name="delete.ServerCompany.by.Id">
 		<query-param name="id" type="String" />
-		delete from com.vimukti.accounter.core.ServerCompany company
+		delete from com.vimukti.accounter.core.Company company
 		where
 		company.id
 		=:id
-	</query>
-	
-	<query name="get.Prioritize.Servers">
-		from com.vimukti.accounter.core.Server s ORDER BY s.priority DESC, s.companiesCount 
 	</query>
 	
 	<query name="delete.remembermeKeys">

@@ -20,34 +20,10 @@
 		<property name="loginCount" column="LOGIN_COUNT" update="true"></property>
 		<property name="lastLoginTime" column="LAST_LOGIN_TIME"
 			update="true"></property>
-		<set name="companies" table="CLIENT_COMPANIES" lazy="false"
-			cascade="save-update">
+		<set name="users" inverse="true">
 			<key column="CLIENT_ID"></key>
-			<many-to-many column="COMPANY_ID" class="ServerCompany" />
+			<one-to-many class="User" />
 		</set>
-	</class>
-
-
-	<class name="ServerCompany" table="SERVER_COMPANY">
-		<id name="id" column="ID">
-			<generator class="native" />
-		</id>
-		<property name="companyName" column="COMPANY_NAME"></property>
-		<property name="createdDate" column="CREATED_DATE"></property>
-		<property name="companyType" column="COMPANY_TYPE"></property>
-		<property name="isConfigured" column="IS_CONFIGURED"></property>
-
-		<set name="clients" inverse="true" table="CLIENT_COMPANIES" lazy="false"
-			cascade="save-update">
-			<key column="COMPANY_ID"></key>
-			<many-to-many column="CLIENT_ID" class="Client" />
-		</set>
-
-		<many-to-one name="server" class="com.vimukti.accounter.core.Server"
-			lazy="false" column="SERVER">
-		</many-to-one>
-		
-		<property name="isActive" column="IS_ACTIVE"></property>
 	</class>
 
 	<class name="Activation" table="ACTIVATION">
@@ -87,15 +63,6 @@
 			<generator class="native" />
 		</id>
 		<property name="isUnderMaintanance" column="IS_UNDER_MAINTANANCE" />
-	</class>
-
-	<class name="Server" table="SERVER">
-		<id name="id" column="ID">
-			<generator class="native" />
-		</id>
-		<property name="address" column="ADDRESS"></property>
-		<property name="companiesCount" column="COMPANIES_COUNT"></property>
-		<property name="priority" column="PRIORITY"></property>
 	</class>
 	
 	<class name="RememberMeKey" table="REMEMBER_ME_KEY">

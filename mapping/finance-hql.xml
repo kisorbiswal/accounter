@@ -144,7 +144,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.User u where u.company=:company order
 		by
-		u.firstName,u.lastName
+		u.client.firstName,u.client.lastName
 	</query>
 	<query name="list.RecurringTransaction">
 		<query-param name="company" type="Company" />

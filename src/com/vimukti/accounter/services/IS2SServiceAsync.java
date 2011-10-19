@@ -16,7 +16,7 @@ public interface IS2SServiceAsync {
 	void createComapny(long companyID, String companyName, int companyType,
 			ClientUser user, AsyncCallback<Void> callback);
 
-	void deleteUserFromCompany(long companyID, String email,
+	void deleteUserFromCompany(long companyID, ClientUser user,
 			AsyncCallback<Void> callback);
 
 	void isAdmin(long companyID, String emailID, AsyncCallback<Boolean> callback);
