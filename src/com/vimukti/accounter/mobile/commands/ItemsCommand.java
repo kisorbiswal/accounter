@@ -56,15 +56,12 @@ public class ItemsCommand extends AbstractTransactionCommand {
 				context.setAttribute(ITEMS_TYPE, Item.TYPE_INVENTORY_PART);
 				break;
 			case ALL:
-				context.setAttribute(ITEMS_TYPE, Item.TYPE_NON_INVENTORY_PART);
+				context.setAttribute(ITEMS_TYPE, null);
 				break;
 			default:
 				break;
 			}
-		} else {
-			context.setAttribute(ITEMS_TYPE, Item.TYPE_SERVICE);
 		}
-
 		Result result = context.makeResult();
 		result = itemsList(context, selection);
 		if (result != null) {
@@ -124,6 +121,9 @@ public class ItemsCommand extends AbstractTransactionCommand {
 
 	private List<Item> getItems(Context context, Integer currentView) {
 		Set<Item> items = context.getCompany().getItems();
+		if (currentView == null) {
+			return new ArrayList<Item>(items);
+		}
 		List<Item> result = new ArrayList<Item>();
 		for (Item item : items) {
 			if (item.getType() == currentView) {
