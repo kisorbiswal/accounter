@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.CustomerCreditMemo;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
@@ -28,6 +25,11 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
+/**
+ * 
+ * @author Sai Prasad N
+ * 
+ */
 public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 
 	@Override
