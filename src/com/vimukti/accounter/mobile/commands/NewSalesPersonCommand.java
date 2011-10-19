@@ -1,30 +1,26 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.google.gwt.i18n.server.testing.Gender;
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 
 public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
 	private static final String SALES_PERSON_NAME = "salesPersonName";
 	private static final String FILE_AS = "fileAs";
 	private static final String JOB_TITLE = "jobTitle";
-	private static final String ADDRESS = "address";
-	private static final String PHONE = "phone";
 	private static final String FAX = "fax";
 	private static final String EXPENSE_ACCOUNT = "expenseAccount";
 	private static final String E_MAIL = "eMail";
@@ -34,7 +30,6 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 	private static final String DO_HIRE = "dateOfHire";
 	private static final String DO_LASTREVIEW = "dateOfLastReview";
 	private static final String DO_RELEASE = "dateOfRelease";
-	private static final int VALUES_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -60,15 +55,19 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(DO_HIRE, true, true));
 		list.add(new Requirement(DO_LASTREVIEW, true, true));
 		list.add(new Requirement(DO_RELEASE, true, true));
-		list.add(new Requirement("memo", true, true));
+		list.add(new Requirement(MEMO, true, true));
 
 	}
 
 	@Override
 	public Result run(Context context) {
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = context.makeResult();
 
 		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
 		if (process != null) {
 			if (process.equals(ADDRESS_PROCESS)) {
 				result = addressProcess(context);
@@ -78,78 +77,110 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
+		// Preparing Result
+		Result makeResult = context.makeResult();
+		makeResult.add(getMessages()
+				.readyToCreate(getConstants().salesPerson()));
 		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
 
-		result = nameRequirement(context, list, selection);
+		result = nameRequirement(context, list, SALES_PERSON_NAME,
+				getMessages().pleaseEnter(getConstants().salesPersonName()));
+		if (result != null) {
+			return result;
+		}
+		setDefaultValues();
+
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
 
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		completeProcess(context);
+		return completeProcess(context);
+
+	}
+
+	private void setDefaultValues() {
+		String name = get(SALES_PERSON_NAME).getValue();
+		if (get(FILE_AS).getValue() == null)
+			get(FILE_AS).setDefaultValue(name);
+		get(JOB_TITLE).setDefaultValue("");
+		get(ADDRESS).setDefaultValue(new ClientAddress());
+		get(PHONE).setDefaultValue("");
+		get(FAX).setDefaultValue("");
+		get(EXPENSE_ACCOUNT).setDefaultValue(null);
+		get(E_MAIL).setDefaultValue("");
+		get(WEB_PAGE_ADDRESS).setDefaultValue("");
+		get(GENDER).setDefaultValue(getConstants().unspecified());
+		get(DO_BIRTH).setDefaultValue(new Date());
+		get(DO_HIRE).setDefaultValue(new Date());
+		get(DO_LASTREVIEW).setDefaultValue(new Date());
+		get(DO_RELEASE).setDefaultValue(new Date());
+		get(MEMO).setDefaultValue("");
+	}
+
+	private Result completeProcess(Context context) {
+
+		ClientSalesPerson salesPerson = new ClientSalesPerson();
+
+		String name = get(SALES_PERSON_NAME).getValue();
+		salesPerson.setFirstName(name);
+
+		String fileAs = get(FILE_AS).getValue();
+		salesPerson.setFileAs(fileAs);
+
+		String jobTitle = get(JOB_TITLE).getValue();
+		salesPerson.setJobTitle(jobTitle);
+
+		ClientAddress address = get(ADDRESS).getValue();
+		salesPerson.setAddress(address);
+
+		String phone = get(PHONE).getValue();
+		salesPerson.setPhoneNo(phone);
+
+		String fax = get(FAX).getValue();
+		salesPerson.setFaxNo(fax);
+
+		ClientAccount value = get(EXPENSE_ACCOUNT).getValue();
+		salesPerson.setExpenseAccount(value != null ? value.getID() : 0);
+
+		String email = get(E_MAIL).getValue();
+		salesPerson.setFaxNo(email);
+
+		String webPage = get(WEB_PAGE_ADDRESS).getValue();
+		salesPerson.setFaxNo(webPage);
+
+		String gender = get(GENDER).getValue();
+		salesPerson.setGender(gender);
+
+		Date do_birth = get(DO_BIRTH).getValue();
+		salesPerson.setDateOfBirth(new ClientFinanceDate(do_birth));
+
+		Date do_hire = get(DO_HIRE).getValue();
+		salesPerson.setDateOfHire(new ClientFinanceDate(do_hire));
+
+		Date do_lastreview = get(DO_LASTREVIEW).getValue();
+		salesPerson.setDateOfLastReview(new ClientFinanceDate(do_lastreview));
+
+		Date do_release = get(DO_RELEASE).getValue();
+		salesPerson.setDateOfRelease(new ClientFinanceDate(do_release));
+
+		String memo = get(MEMO).getValue();
+		salesPerson.setMemo(memo);
+
+		create(salesPerson, context);
+
 		markDone();
-		return null;
-
+		Result result = new Result();
+		result.add(getMessages().createSuccessfully(
+				getConstants().salesPerson()));
+		return result;
 	}
 
-	private Result nameRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(SALES_PERSON_NAME);
-		String salesPersonName = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("orderNo")) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			salesPersonName = order;
-			req.setValue(salesPersonName);
-		}
-
-		if (selection == salesPersonName) {
-			context.setAttribute(INPUT_ATTR, SALES_PERSON_NAME);
-			return number(context, "Enter Sales Person Name", salesPersonName);
-		}
-
-		Record salesPersonNameRecord = new Record(salesPersonName);
-		salesPersonNameRecord.add("Name", "Sales Person Name");
-		salesPersonNameRecord.add("Value", salesPersonName);
-		list.add(salesPersonNameRecord);
-		return null;
-	}
-
-	private void completeProcess(Context context) {
-
-		SalesPerson newSalesPerson = new SalesPerson();
-
-		newSalesPerson.setFileAs((String) get(FILE_AS).getValue());
-
-		newSalesPerson.setPhoneNo((String) get(PHONE).getValue());
-
-		newSalesPerson.setFaxNo((String) get(FAX).getValue());
-
-		create(newSalesPerson, context);
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -163,18 +194,20 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 
-		ResultList list = new ResultList("values");
-
-		Result result = fileAsRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = jobTitleRequirement(context, list, selection);
+		Result result = stringOptionalRequirement(context, list, selection,
+				FILE_AS, getMessages().pleaseEnter(getConstants().fileAs()));
 		if (result != null) {
 			return result;
 		}
 
-		result = addressRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, JOB_TITLE,
+				getMessages().pleaseEnter(getConstants().jobTitle()));
+		if (result != null) {
+			return result;
+		}
+
+		result = addressOptionalRequirement(context, list, selection, ADDRESS,
+				"Please enter the address");
 		if (result != null) {
 			return result;
 		}
@@ -185,17 +218,21 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = expenseAmountRequirement(context, list, selection);
+		result = accountsOptionalRequirement(context, list, selection,
+				EXPENSE_ACCOUNT);
 		if (result != null) {
 			return result;
 		}
 
-		result = emailRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, E_MAIL,
+				getMessages().pleaseEnter(getConstants().email()));
 		if (result != null) {
 			return result;
 		}
 
-		result = webPageRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection,
+				WEB_PAGE_ADDRESS,
+				getMessages().pleaseEnter(getConstants().webSite()));
 		if (result != null) {
 			return result;
 		}
@@ -229,56 +266,50 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, "memo",
-				"Add a memo");
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().addMemo());
 		if (result != null) {
 			return result;
 		}
 
-		result = context.makeResult();
-		result.add(" Item is ready to create with following values.");
-		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Item.");
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return makeResult;
 	}
 
 	private Result genderRequirement(Context context, ResultList list,
 			Object selection) {
-		Object genderObj = context.getSelection(PAYMENT_TERMS);
-		Requirement genderReq = get("paymentTerms");
-		Gender gender = (Gender) genderReq.getValue();
+		Object genderObj = context.getSelection(GENDER);
+		Requirement genderReq = get(GENDER);
+		String gender = (String) genderReq.getValue();
 
 		if (selection == gender) {
 			return genderSelected(context, gender);
 
 		}
 		if (genderObj != null) {
-			gender = (Gender) genderObj;
+			gender = (String) genderObj;
 			genderReq.setValue(gender);
 		}
 
 		Record paymentTermRecord = new Record(gender);
 		paymentTermRecord.add("Name", "Gender");
-		paymentTermRecord.add("Value", gender.getDeclaringClass());
+		paymentTermRecord.add("Value", gender);
 		list.add(paymentTermRecord);
 		return null;
 	}
 
-	private Result genderSelected(Context context, Gender gender2) {
-		List<Gender> newGender = getGenders();
+	private Result genderSelected(Context context, String gender) {
+		List<String> newGender = getGenders();
 		Result result = context.makeResult();
 		result.add("Select Gender");
 
 		ResultList list = new ResultList(GENDER);
-		int num = 0;
-		for (Gender gender : newGender) {
-			if (gender != gender2) {
+		for (String gende : newGender) {
+			if (!gende.equals(gender)) {
 				list.add(createGenderRecord(gender));
-				num++;
 			}
 		}
 		result.add(list);
@@ -289,212 +320,19 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Record createGenderRecord(Gender gender2) {
-		Record record = new Record(gender2);
-		record.add("Name", gender2.name());
+	private Record createGenderRecord(String gender) {
+		Record record = new Record(gender);
+		record.add("Name", gender);
 		record.add("Desc", "");
 		return record;
 	}
 
-	private List<Gender> getGenders() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result webPageRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(WEB_PAGE_ADDRESS);
-		String webPageReq = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(WEB_PAGE_ADDRESS)) {
-			String order = context.getSelection(TEXT);
-			if (order == null) {
-				order = context.getString();
-			}
-			webPageReq = order;
-			req.setValue(webPageReq);
-		}
-
-		if (selection == webPageReq) {
-			context.setAttribute(INPUT_ATTR, WEB_PAGE_ADDRESS);
-			return number(context, "Web page address", webPageReq);
-		}
-
-		Record emailRecord = new Record(webPageReq);
-		emailRecord.add("Name", "Web page address");
-		emailRecord.add("Value", webPageReq);
-		list.add(emailRecord);
-
-		return null;
-	}
-
-	private Result emailRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(E_MAIL);
-		String emailReq = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(E_MAIL)) {
-			String order = context.getSelection(TEXT);
-			if (order == null) {
-				order = context.getString();
-			}
-			emailReq = order;
-			req.setValue(emailReq);
-		}
-
-		if (selection == emailReq) {
-			context.setAttribute(INPUT_ATTR, E_MAIL);
-			return number(context, "Enter Email", emailReq);
-		}
-
-		Record emailRecord = new Record(emailReq);
-		emailRecord.add("Name", "E- mail");
-		emailRecord.add("Value", emailReq);
-		list.add(emailRecord);
-
-		return null;
-	}
-
-	private Result expenseAmountRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement expenseAccountReq = get(EXPENSE_ACCOUNT);
-		Account expenseAccount = context.getSelection(EXPENSE_ACCOUNT);
-		if (expenseAccount != null) {
-			expenseAccountReq.setValue(expenseAccount);
-		}
-		if (!expenseAccountReq.isDone()) {
-			return getExpenseAccountResult(context);
-		}
-		return null;
-	}
-
-	private Result getExpenseAccountResult(Context context) {
-		Result result = context.makeResult();
-		ResultList expenseAccountsList = new ResultList(EXPENSE_ACCOUNT);
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		if (last != null) {
-			expenseAccountsList.add(createAccountRecord((ClientAccount) last));
-		}
-
-		List<ClientAccount> expenseAccount = getAccounts();
-		for (int i = 0; i < VALUES_TO_SHOW || i < expenseAccount.size(); i++) {
-			ClientAccount expAccount = expenseAccount.get(i);
-			if (expAccount != last) {
-				expenseAccountsList
-						.add(createAccountRecord((ClientAccount) expAccount));
-			}
-		}
-
-		int size = expenseAccountsList.size();
-
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the Expense Account");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("create");
-
-		result.add(message.toString());
-		result.add(expenseAccountsList);
-		result.add(commandList);
-		result.add("Select the Expense Account");
-
-		return result;
-	}
-
-	private List<Account> getAccounts(Session session) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result addressRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(ADDRESS);
-		ClientAddress address = (ClientAddress) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("billTo")) {
-			ClientAddress input = context.getSelection(ADDRESS);
-			if (input == null) {
-				input = context.getAddress();
-			}
-			address = input;
-			req.setValue(address);
-		}
-
-		if (selection == address) {
-			context.setAttribute(INPUT_ATTR, ADDRESS);
-			return address(context, "Address", ADDRESS, address);
-		}
-
-		Record addressRecord = new Record(address);
-		addressRecord.add("Name", ADDRESS);
-		addressRecord.add("Value", address.toString());
-		list.add(addressRecord);
-		return null;
-	}
-
-	private Result jobTitleRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(JOB_TITLE);
-		String jobReq = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(JOB_TITLE)) {
-			String order = context.getSelection(TEXT);
-			if (order == null) {
-				order = context.getString();
-			}
-			jobReq = order;
-			req.setValue(jobReq);
-		}
-
-		if (selection == jobReq) {
-			context.setAttribute(INPUT_ATTR, FILE_AS);
-			return number(context, "Enter Job Title", jobReq);
-		}
-
-		Record jobTitleRecord = new Record(jobReq);
-		jobTitleRecord.add("Name", "Job Title");
-		jobTitleRecord.add("Value", jobReq);
-		list.add(jobTitleRecord);
-		return null;
-	}
-
-	private Result fileAsRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(FILE_AS);
-		String fileAsReq = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(FILE_AS)) {
-			String order = context.getSelection(TEXT);
-			if (order == null) {
-				order = context.getString();
-			}
-			fileAsReq = order;
-			req.setValue(fileAsReq);
-		}
-
-		if (selection == fileAsReq) {
-			context.setAttribute(INPUT_ATTR, FILE_AS);
-			return number(context, "Enter File As", fileAsReq);
-		}
-
-		Record fileAsRecord = new Record(fileAsReq);
-		fileAsRecord.add("Name", "File As");
-		fileAsRecord.add("Value", fileAsReq);
-		list.add(fileAsRecord);
-		return null;
+	private List<String> getGenders() {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(getConstants().unspecified());
+		list.add(getConstants().male());
+		list.add(getConstants().female());
+		return list;
 	}
 
 }

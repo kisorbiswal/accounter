@@ -292,7 +292,6 @@ public abstract class AbstractCommand extends Command {
 		if (input.equals(reqName)) {
 			input = context.getString();
 			requirement.setValue(input);
-			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (!requirement.isDone()) {
 			context.setAttribute(INPUT_ATTR, reqName);

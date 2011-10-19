@@ -333,7 +333,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = billToRequirement(context, list, selection);
+		result = addressOptionalRequirement(context, list, selection, ADDRESS,
+				"Enter the Address");
 		if (result != null) {
 			return result;
 		}

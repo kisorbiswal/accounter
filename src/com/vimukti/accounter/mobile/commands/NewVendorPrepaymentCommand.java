@@ -193,7 +193,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = billToRequirement(context, list, selection);
+		result = addressOptionalRequirement(context, list, selection, BILL_TO,
+				"Enter the Bill To Address");
 		if (result != null) {
 			return result;
 		}

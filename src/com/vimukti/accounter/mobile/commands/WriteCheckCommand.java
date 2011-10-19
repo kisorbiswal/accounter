@@ -238,7 +238,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = billToRequirement(context, list, selection);
+		result = addressOptionalRequirement(context, list, selection, BILL_TO,
+				"Please enter the billTo address");
 		if (result != null) {
 			return result;
 		}
