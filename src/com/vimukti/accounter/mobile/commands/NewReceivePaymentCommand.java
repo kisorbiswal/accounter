@@ -1,17 +1,11 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.core.ReceivePayment;
-import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.TransactionReceivePayment;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -20,18 +14,22 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientReceivePayment;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 
 public class NewReceivePaymentCommand extends AbstractTransactionCommand {
-
-	private static final String RECEIVED_FROM = "Received from";
-	private static final String DATE = "date";
-	private static final String NUMBER = "number";
-	private static final String AMOUNT_RECEIVED = "amount received";
-	private static final String PAYMENT_MENTHOD = "payment method";
-	private static final String DEPOSITSANDTRANSFERS = "Deposit / Transfer To";
+	private static final String AMOUNT_RECEIVED = "amountreceived";
+	private static final String DEPOSITSANDTRANSFERS = "DepositOrTransferTo";
 	private static final String DUE_DATE = "due Date";
 	private static final String INVOICE = "invoice";
 	private static final String INVOICE_AMOUNT = "invoice amount";
@@ -41,7 +39,11 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	private static final String APPLIED_CREDITS = "Applied Credits";
 	private static final String AMOUNT_DUE = "Applied Credits";
 	private static final String PAYMENT = "Payment";
-	private static final String MEMO = "memo";
+	private static final String TRANSACTION_RECEIVE_PAYMENT_PROCESS = "transreceivepaymentproc";
+	private static final String OLD_TRANSACTION_RECEIVE_PAYMENT_ATTR = "oldtransreceivepaymentproc";
+	private static final String TRANSACTION_RECEIVE_PAYMENT_ATTR = "receivepaymentattr";
+	private static final String TRANSACTION_RECEIVE_PAYMENT_DETAILS = "receivepaymentdetails";
+	private static final String CHECK_NUMBER = "checknum";
 
 	@Override
 	public String getId() {
@@ -51,12 +53,11 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
-		list.add(new Requirement(RECEIVED_FROM, false, true));
+		list.add(new Requirement(CUSTOMER, false, true));
 		list.add(new Requirement(DEPOSITSANDTRANSFERS, false, true));
-		list.add(new Requirement(PAYMENT_MENTHOD, false, true));
+		list.add(new Requirement(PAYMENT_METHOD, false, true));
 		list.add(new Requirement(AMOUNT_RECEIVED, true, true));
-		list.add(new ObjectListRequirement("transactionItems", false, true) {
+		list.add(new ObjectListRequirement("transactions", false, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
 				list.add(new Requirement(DUE_DATE, true, true));
@@ -73,177 +74,159 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(NUMBER, true, true));
 		list.add(new Requirement(MEMO, true, true));
+		list.add(new Requirement(CHECK_NUMBER, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
-
+		setDefaultValues();
 		Result result = null;
+		Result makeResult = context.makeResult();
+		ResultList actions = new ResultList(ACTIONS);
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		if (process != null) {
-			if (process.equals("items")) {
-				result = receivePaymentItemProcess(context);
+			if (process.equals(TRANSACTION_RECEIVE_PAYMENT_PROCESS)) {
+				ClientTransactionReceivePayment transactionReceivePayment = (ClientTransactionReceivePayment) context
+						.getAttribute(OLD_TRANSACTION_RECEIVE_PAYMENT_ATTR);
+				result = clientTransactionReceivePaymentProcess(context,
+						transactionReceivePayment);
 				if (result != null) {
 					return result;
 				}
 			}
 		}
 
-		// result = customerRequirement(context);
+		result = customerRequirement(context, list, CUSTOMER);
 		if (result != null) {
 			return result;
 		}
-		try {
-			result = transactionItems(context);
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
+
+		result = receivePaymentsRequirement(context, makeResult, actions);
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, null, null);
+
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
 		if (result != null) {
 			return result;
 		}
-		// result = depositeOrTransferTo(context, DEPOSITSANDTRANSFERS);
+		result = accountRequirement(context, list, DEPOSITSANDTRANSFERS,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount acc) {
+						return Arrays.asList(
+								ClientAccount.TYPE_BANK,
+								// ClientAccount.TYPE_CASH,
+								ClientAccount.TYPE_CREDIT_CARD,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+								ClientAccount.TYPE_FIXED_ASSET).contains(
+								acc.getType())
+								&& acc.getID() != getClientCompany()
+										.getAccountsReceivableAccountId();
+					}
+				});
 		if (result != null) {
 			return result;
 		}
-		result = createOptionalRequirement(context);
+		makeResult.add(actions);
+		result = createOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
 		completeProcess(context);
 		markDone();
-		return null;
+		result = new Result("Receive Payment was created successfully");
+		return result;
+	}
+
+	private void updatePayment(ClientTransactionReceivePayment payment) {
+		payment.setPayment(0);
+		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
+		payment.setPayment(paymentValue);
+		updateAmountDue(payment);
+	}
+
+	private void updateAmountDue(ClientTransactionReceivePayment item) {
+		double totalValue = item.getCashDiscount() + item.getWriteOff()
+				+ item.getAppliedCredits() + item.getPayment();
+
+		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
+			if (!DecimalUtil.isLessThan(item.getPayment(), 0.00))
+				item.setDummyDue(item.getAmountDue() - totalValue);
+			else
+				item.setDummyDue(item.getAmountDue() + item.getPayment()
+						- totalValue);
+
+		}
+	}
+
+	private double getTotalValue(ClientTransactionReceivePayment payment) {
+		double totalValue = payment.getCashDiscount() + payment.getWriteOff()
+				+ payment.getAppliedCredits() + payment.getPayment();
+		return totalValue;
+	}
+
+	private void setDefaultValues() {
+		get(DATE).setDefaultValue(new Date());
+		get(NUMBER).setDefaultValue("1");
+		get(MEMO).setDefaultValue("");
+		get(AMOUNT_RECEIVED).setDefaultValue(new Double(0));
+		get(CHECK_NUMBER).setDefaultValue("1");
 	}
 
 	private void completeProcess(Context context) {
-		ReceivePayment payment = new ReceivePayment();
+		ClientReceivePayment payment = new ClientReceivePayment();
 
-		Customer customer = get(RECEIVED_FROM).getValue();
+		ClientCustomer customer = get(CUSTOMER).getValue();
 		payment.setCustomer(customer);
-
+		payment.setType(ClientTransaction.TYPE_RECEIVE_PAYMENT);
 		double amount = get(AMOUNT_RECEIVED).getValue();
 		payment.setAmount(amount);
-
-		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+		payment.setCustomerBalance(customer.getBalance());
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		payment.setPaymentMethod(paymentMethod);
 
 		Date date = get(DATE).getValue();
-		payment.setDate(new FinanceDate(date));
+		payment.setDate(new ClientFinanceDate(date).getDate());
 
 		String receivePaymentNum = get(NUMBER).getValue();
 		payment.setNumber(receivePaymentNum);
 
-		Account account = get(DEPOSITSANDTRANSFERS).getValue();
+		ClientAccount account = get(DEPOSITSANDTRANSFERS).getValue();
 		payment.setDepositIn(account);
-		List<TransactionReceivePayment> list = get("items").getValue();
+		List<ClientTransactionReceivePayment> list = get("transactions")
+				.getValue();
 		payment.setTransactionReceivePayment(list);
 
 		String memo = get(MEMO).getValue();
 		payment.setMemo(memo);
 
+		String checkNumber = get(CHECK_NUMBER).getValue();
+		payment.setCheckNumber(checkNumber);
+
+		recalculateGridAmounts(payment);
+
 		create(payment, context);
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 * @throws ParseException
-	 * @throws DAOException
-	 */
-
-	private Result transactionItems(Context context) throws AccounterException {
-		// // Requirement itemsReq = get("transactionItems");
-		// Customer customer = context.getSelection(RECEIVED_FROM);
-		// long date = context.getSelection(DATE);
-		// // List<ReceivePaymentTransactionList> transactionItems = new
-		// FinanceTool()
-		// // .getTransactionReceivePayments(customer.getID(), date);
-		// List<TransactionReceivePayment> records = new
-		// ArrayList<TransactionReceivePayment>();
-		// for (ReceivePaymentTransactionList receivePaymentTransaction :
-		// transactionItems) {
-		// TransactionReceivePayment record = new TransactionReceivePayment();
-		// record.setDueDate(new FinanceDate(receivePaymentTransaction
-		// .getDueDate()));
-		// record.setNumber(receivePaymentTransaction.getNumber());
-		// record.setInvoiceAmount(receivePaymentTransaction
-		// .getInvoiceAmount());
-		// // TODO
-		// // record.setInvoice(receivePaymentTransaction.getTransactionId());
-		// // record.setAmountDue(receivePaymentTransaction.getAmountDue());
-		// record.setDiscountDate(new FinanceDate(receivePaymentTransaction
-		// .getDiscountDate()));
-		// record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
-		// record.setWriteOff(receivePaymentTransaction.getWriteOff());
-		// record.setAppliedCredits(receivePaymentTransaction
-		// .getAppliedCredits());
-		// record.setPayment(receivePaymentTransaction.getPayment());
-		// records.add(record);
-		// }
-		// Result item = item(context, records);
-		// return item;
-		//
-		return null;
-	}
-
-	protected Result item(Context context,
-			List<TransactionReceivePayment> records) {
-
-		Result result = context.makeResult();
-		List<TransactionReceivePayment> items = records;
-
-		ResultList list = new ResultList("items");
-		Object last = context.getLast(RequirementType.ITEM);
-		int num = 0;
-		if (last != null) {
-			list.add(createItemRecord((ClientItem) last));
-			num++;
-		}
-		Requirement itemsReq = get("items");
-		List<TransactionItem> transItems = itemsReq.getValue();
-		List<Item> availableItems = new ArrayList<Item>();
-		for (TransactionItem transactionItem : transItems) {
-			availableItems.add(transactionItem.getItem());
-		}
-		for (TransactionReceivePayment item : items) {
-			if (item != last || !availableItems.contains(item)) {
-				list.add(creatItemRecord(item));
-				num++;
-			}
-			if (num == ITEMS_TO_SHOW) {
-				break;
-			}
-		}
-		list.setMultiSelection(true);
-		if (list.size() > 0) {
-			result.add("Slect an Item(s).");
-		} else {
-			result.add("You don't have Items.");
-		}
-		result.add(list);
-		return result;
-	}
-
-	private Record creatItemRecord(TransactionReceivePayment item) {
-		Record record = new Record(item);
-		record.add("Name", "transactionItem");
-		record.add("value", item.getPayment());
-		return record;
+		context.removeAttribute("isSelected");
 	}
 
 	/**
 	 * create Optional requirement
 	 * 
 	 * @param context
+	 * @param makeResult
+	 * @param actions2
+	 * @param list2
 	 * @return {@link Result}
 	 */
-	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
+	private Result createOptionalRequirement(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
@@ -256,19 +239,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		Requirement itemsReq = get("items");
-		List<TransactionReceivePayment> transItems = itemsReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = receivePayment(context,
-					(TransactionReceivePayment) selection);
-			if (result != null) {
-				return result;
-			}
-		}
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
 
 		Result result = amountOptionalRequirement(context, list, selection,
 				AMOUNT_RECEIVED, "Enter the Amount received");
@@ -281,8 +252,14 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = stringOptionalRequirement(context, list, selection, NUMBER,
-				"Enter customer Receive payment Number");
+		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				"Enter Receive Payment Number");
+		if (result != null) {
+			return result;
+		}
+
+		result = numberOptionalRequirement(context, list, selection,
+				CHECK_NUMBER, "Enter Check Number");
 		if (result != null) {
 			return result;
 		}
@@ -291,159 +268,329 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = context.makeResult();
-		result.add("Receive Payment is ready to create with following values.");
-		result.add(list);
 
-		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionReceivePayment item : transItems) {
-			Record itemRec = new Record(item);
-			itemRec.add(NUMBER, item.getNumber());
-			itemRec.add("Total", item.getPayment());
-			items.add(itemRec);
-		}
-		result.add(items);
-
-		ResultList actions = new ResultList(ACTIONS);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create receive payment.");
 		actions.add(finish);
-		result.add(actions);
-
-		return result;
+		return makeResult;
 	}
 
-	protected Result receivePaymentItemProcess(Context context) {
-		TransactionReceivePayment receivePaymentTransactionList = (TransactionReceivePayment) context
-				.getAttribute("items");
-		Result result = receivePayment(context, receivePaymentTransactionList);
-		if (result == null) {
-			ActionNames actionName = context.getSelection(ACTIONS);
-			if (actionName == ActionNames.DELETE_ITEM) {
-				Requirement itemsReq = get("items");
-				List<TransactionItem> transItems = itemsReq.getValue();
-				transItems.remove(receivePaymentTransactionList);
-				context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
+	private Result addTransactionsOfSelectedCustomer(Context context) {
+		Result result = context.makeResult();
+		List<ClientTransactionReceivePayment> transactionRecievePayments;
+		try {
+			transactionRecievePayments = getTransactionRecievePayments();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+			transactionRecievePayments = new ArrayList<ClientTransactionReceivePayment>();
+		}
+
+		ResultList list = new ResultList("receivepayments");
+		ClientTransactionReceivePayment last = (ClientTransactionReceivePayment) context
+				.getLast(RequirementType.TRANSACTION_RECEIVE_PAYMENT);
+		int num = 0;
+		if (last != null) {
+			list.add(creatReceivePaymentRecord(last));
+			num++;
+		}
+		Requirement itemsReq = get("transactions");
+		List<ClientTransactionReceivePayment> transItems = itemsReq.getValue();
+		if (transItems == null) {
+			transItems = new ArrayList<ClientTransactionReceivePayment>();
+		}
+		List<ClientTransactionReceivePayment> availableItems = new ArrayList<ClientTransactionReceivePayment>();
+		for (ClientTransactionReceivePayment transactionItem : transItems) {
+			availableItems.add(transactionItem);
+		}
+		for (ClientTransactionReceivePayment item : transactionRecievePayments) {
+			if (item != last && !availableItems.contains(item)) {
+				list.add(creatReceivePaymentRecord(item));
+				num++;
+			}
+			if (num == ITEMS_TO_SHOW) {
+				break;
 			}
 		}
+		list.setMultiSelection(true);
+		if (list.size() > 0) {
+			result.add("Slect Receive Payment(s).");
+		} else {
+			result.add("You don't have any receive payments.");
+			Record record = new Record("escape");
+			record.add("", "Skip");
+			ResultList resultList = new ResultList("escape");
+			resultList.add(record);
+			result.add(resultList);
+		}
+		result.add(list);
 		return result;
 	}
 
-	protected Result receivePayment(Context context,
-			TransactionReceivePayment transactionReceivePayment) {
-		context.setAttribute(PROCESS_ATTR, "items");
-		context.setAttribute(OLD_TRANSACTION_ITEM_ATTR,
-				transactionReceivePayment);
+	private Record creatReceivePaymentRecord(
+			ClientTransactionReceivePayment last) {
+		Record record = new Record(last);
+		record.add("", "Due Date");
+		record.add("", last.getDueDate());
+		record.add("", "Invoice");
+		record.add("", last.getInvoice());
+		record.add("", "Invoice amount");
+		record.add("", last.getInvoiceAmount());
+		record.add("", "Amount Due");
+		record.add("", last.getAmountDue());
+		record.add("", "Paymens");
+		record.add("", last.getPayment());
+		return record;
+	}
 
-		String lineAttr = (String) context.getAttribute(ITEM_PROPERTY_ATTR);
+	private Result clientTransactionReceivePaymentProcess(Context context,
+			ClientTransactionReceivePayment transactionReceivePayment) {
+		context.setAttribute(PROCESS_ATTR, TRANSACTION_RECEIVE_PAYMENT_PROCESS);
+		context.setAttribute(OLD_TRANSACTION_RECEIVE_PAYMENT_ATTR,
+				transactionReceivePayment);
+		Result result = context.makeResult();
+		String lineAttr = (String) context
+				.getAttribute(TRANSACTION_RECEIVE_PAYMENT_ATTR);
 		if (lineAttr != null) {
-			context.removeAttribute(ITEM_PROPERTY_ATTR);
-			if (lineAttr.equals(INVOICE_AMOUNT)) {
-				transactionReceivePayment.setInvoiceAmount(context.getDouble());
-			} else if (lineAttr.equals(CASH_DISCOUNT)) {
-				transactionReceivePayment.setCashDiscount(context.getDouble());
-			} else if (lineAttr.equals(WRITE_OFF)) {
-				transactionReceivePayment.setWriteOff(context.getDouble());
-			} else if (lineAttr.equals(APPLIED_CREDITS)) {
-				transactionReceivePayment
-						.setAppliedCredits(context.getDouble());
-			} else if (lineAttr.equals(PAYMENT)) {
-				transactionReceivePayment.setPayment(context.getDouble());
+			context.removeAttribute(TRANSACTION_RECEIVE_PAYMENT_ATTR);
+			if (lineAttr.equals("Payment")) {
+				if (context.getDouble() != null) {
+					transactionReceivePayment.setPayment(context.getDouble());
+				} else if (context.getInteger() != null) {
+					transactionReceivePayment.setPayment(context.getInteger());
+				}
 			}
 		} else {
-			Object selection = context.getSelection(ITEM_DETAILS);
+			Object selection = context
+					.getSelection(TRANSACTION_RECEIVE_PAYMENT_DETAILS);
 			if (selection != null) {
-				if (selection.equals(INVOICE_AMOUNT)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, INVOICE_AMOUNT);
-					return amount(context, "Enter invoice amount",
-							transactionReceivePayment.getInvoiceAmount());
-				} else if (selection.equals(CASH_DISCOUNT)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, CASH_DISCOUNT);
-					return amount(context, "Enter cash discount Date",
-							transactionReceivePayment.getCashDiscount());
-				} else if (selection.equals(WRITE_OFF)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, WRITE_OFF);
-					return amount(context, "Enter write off",
-							transactionReceivePayment.getWriteOff());
-				} else if (selection.equals(APPLIED_CREDITS)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, APPLIED_CREDITS);
-					return amount(context, "Enter applied credit",
-							transactionReceivePayment.getAppliedCredits());
-				} else if (selection.equals(PAYMENT)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, PAYMENT);
-					return amount(context, "Enter payment",
+				if (selection.equals("Payment")) {
+					context.setAttribute(TRANSACTION_RECEIVE_PAYMENT_ATTR,
+							"Payment");
+					return amount(context, "Enter Payment",
 							transactionReceivePayment.getPayment());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
-				if (selection == ActionNames.FINISH) {
+				if (selection == ActionNames.FINISH_RECEIVE_PAYMENT) {
 					context.removeAttribute(PROCESS_ATTR);
-					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
+					context.removeAttribute(OLD_TRANSACTION_RECEIVE_PAYMENT_ATTR);
 					return null;
-				} else if (selection == ActionNames.DELETE_ITEM) {
+				} else if (selection == ActionNames.DELETE_RECEIVE_PAYMENT) {
 					context.removeAttribute(PROCESS_ATTR);
+					Requirement itemsReq = get("transactions");
+					List<ClientReceivePayment> transItems = itemsReq.getValue();
+					transItems.remove(transactionReceivePayment);
+					context.removeAttribute(OLD_TRANSACTION_RECEIVE_PAYMENT_ATTR);
+					resetValue(transactionReceivePayment);
 					return null;
 				}
 			}
 		}
+		ResultList list = new ResultList(TRANSACTION_RECEIVE_PAYMENT_DETAILS);
 
-		ResultList list = new ResultList(ITEM_DETAILS);
-		// Record record = new Record(DUE_DATE);
-		// record.add("", DUE_DATE);
-		// record.add("", receivePaymentTransactionList.getDueDate());
-		// list.add(record);
+		Record receivePaymentRecord;
+		result.add("Due Date :" + transactionReceivePayment.getDueDate());
 
-		// Record record = new Record(INVOICE);
-		// record.add("", INVOICE);
-		// record.add("", receivePaymentTransactionList.getNumber());
-		// list.add(record);
+		result.add("Number : " + transactionReceivePayment.getNumber());
 
-		Record record = new Record(INVOICE_AMOUNT);
-		record.add("", INVOICE_AMOUNT);
-		record.add("", transactionReceivePayment.getInvoiceAmount());
-		list.add(record);
+		result.add("Invoice Amount : "
+				+ transactionReceivePayment.getInvoiceAmount());
 
-		// record = new Record(AMOUNT_DUE);
-		// record.add("", AMOUNT_DUE);
-		// record.add("", receivePaymentTransactionList.getAmountDue());
-		// list.add(record);
+		result.add("Amount Due : " + transactionReceivePayment.getAmountDue());
 
-		// record = new Record(DISCOUNT_DATE);
-		// record.add("", DISCOUNT_DATE);
-		// record.add("", receivePaymentTransactionList.getDiscountDate());
-		// list.add(record);
+		result.add("Dummy Due : " + transactionReceivePayment.getDummyDue());
 
-		record = new Record(CASH_DISCOUNT);
-		record.add("", CASH_DISCOUNT);
-		record.add("", transactionReceivePayment.getCashDiscount());
-		list.add(record);
+		result.add("Cash Discount  : "
+				+ transactionReceivePayment.getCashDiscount());
 
-		record = new Record(WRITE_OFF);
-		record.add("", WRITE_OFF);
-		record.add("", transactionReceivePayment.getWriteOff());
-		list.add(record);
+		result.add("Write Off : " + transactionReceivePayment.getWriteOff());
 
-		record = new Record(APPLIED_CREDITS);
-		record.add("", APPLIED_CREDITS);
-		record.add("", transactionReceivePayment.getAppliedCredits());
-		list.add(record);
+		result.add("Applied Credits : "
+				+ transactionReceivePayment.getAppliedCredits());
 
-		record = new Record(PAYMENT);
-		record.add("", PAYMENT);
-		record.add("", transactionReceivePayment.getPayment());
-		list.add(record);
-
-		Result result = context.makeResult();
-		result.add("Item details");
-		result.add("Item Name :" + transactionReceivePayment.getNumber());
+		receivePaymentRecord = new Record("Payment");
+		list.add(receivePaymentRecord);
+		receivePaymentRecord.add("", "Payment");
+		receivePaymentRecord.add("", transactionReceivePayment.getPayment());
 		result.add(list);
-
 		ResultList actions = new ResultList(ACTIONS);
-		record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
-		actions.add(record);
+		receivePaymentRecord = new Record(ActionNames.DELETE_RECEIVE_PAYMENT);
+		receivePaymentRecord.add("", "Delete");
+		actions.add(receivePaymentRecord);
+		receivePaymentRecord = new Record(ActionNames.FINISH_RECEIVE_PAYMENT);
+		receivePaymentRecord.add("", "Finish");
+		actions.add(receivePaymentRecord);
 		result.add(actions);
+		updatePayment(transactionReceivePayment);
 		return result;
+	}
+
+	private void calculateUnusedCredits(ClientReceivePayment payment) {
+		ClientCustomer customer = get(CUSTOMER).getValue();
+		ArrayList<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = getCustomerCreditsAndPayments(customer
+				.getID());
+		Double totalCredits = 0D;
+		for (ClientCreditsAndPayments credit : updatedCustomerCreditsAndPayments) {
+
+			totalCredits += credit.getBalance();
+		}
+		payment.setUnUsedCredits(totalCredits);
+	}
+
+	private ArrayList<ClientTransactionReceivePayment> getTransactionRecievePayments()
+			throws AccounterException {
+		ClientCustomer customer = get(CUSTOMER).getValue();
+		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments = getTransactionReceivePayments(
+				customer.getID(), new Date().getTime());
+
+		ArrayList<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
+		for (ReceivePaymentTransactionList receivePaymentTransaction : transactionReceivePayments) {
+			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
+			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+					.getDueDate().getDate() : 0);
+
+			record.setNumber(receivePaymentTransaction.getNumber());
+
+			record.setInvoiceAmount(receivePaymentTransaction
+					.getInvoiceAmount());
+			record.setInvoice(receivePaymentTransaction.getTransactionId());
+			record.setAmountDue(receivePaymentTransaction.getAmountDue());
+
+			record.setDummyDue(receivePaymentTransaction.getAmountDue());
+
+			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+					.getDiscountDate().getDate() : 0);
+
+			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
+
+			record.setWriteOff(receivePaymentTransaction.getWriteOff());
+
+			record.setAppliedCredits(receivePaymentTransaction
+					.getAppliedCredits());
+			record.setPayment(0);
+
+			if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_INVOICE) {
+				record.isInvoice = true;
+				record.setInvoice(receivePaymentTransaction.getTransactionId());
+			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS) {
+				record.isInvoice = false;
+				record.setCustomerRefund(receivePaymentTransaction
+						.getTransactionId());
+			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
+				record.isInvoice = false;
+				record.setJournalEntry(receivePaymentTransaction
+						.getTransactionId());
+			}
+			records.add(record);
+		}
+		return records;
+	}
+
+	private void recalculateGridAmounts(ClientReceivePayment payment) {
+		payment.setTotal(getGridTotal());
+		payment.setUnUsedPayments(payment.getAmount() - payment.getTotal());
+		setUnusedPayments(payment.getUnUsedPayments(), payment);
+		calculateUnusedCredits(payment);
+	}
+
+	private void setUnusedPayments(Double unusedAmounts,
+			ClientReceivePayment payment) {
+		if (unusedAmounts == null)
+			unusedAmounts = 0.0D;
+		payment.setUnUsedPayments(unusedAmounts);
+	}
+
+	public Double getGridTotal() {
+		Double total = 0.0D;
+		ArrayList<ClientTransactionReceivePayment> records = get("transactions")
+				.getValue();
+		for (ClientTransactionReceivePayment record : records) {
+			total += record.getPayment();
+		}
+		return total;
+	}
+
+	private Result receivePaymentsRequirement(Context context, Result result,
+			ResultList actions) {
+		Requirement receivePaymentReq = get("transactions");
+		List<ClientTransactionReceivePayment> transactionReceivePayments = context
+				.getSelections("receivepayments");
+		if (transactionReceivePayments != null
+				&& transactionReceivePayments.size() > 0) {
+			for (ClientTransactionReceivePayment payment : transactionReceivePayments) {
+				List<ClientTransactionReceivePayment> transReceivePayments = receivePaymentReq
+						.getValue();
+				if (transReceivePayments == null) {
+					transReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
+					receivePaymentReq.setValue(transReceivePayments);
+				}
+				updatePayment(payment);
+				transReceivePayments.add(payment);
+			}
+		}
+		if (!receivePaymentReq.isDone()) {
+			return addTransactionsOfSelectedCustomer(context);
+		}
+
+		Object selection = context.getSelection("transactions");
+		if (selection != null) {
+			result = clientTransactionReceivePaymentProcess(context,
+					(ClientTransactionReceivePayment) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		selection = context.getSelection(ACTIONS);
+		ActionNames actionName = (ActionNames) selection;
+		if (actionName != null && actionName == ActionNames.ADD_MORE_PAYMENTS) {
+			return addTransactionsOfSelectedCustomer(context);
+		}
+		result.add("Received Payments:-");
+		ResultList itemsList = new ResultList("transactions");
+		List<ClientTransactionReceivePayment> transItems = receivePaymentReq
+				.getValue();
+		for (ClientTransactionReceivePayment item : transItems) {
+			itemsList.add(creatReceivePaymentRecord(item));
+		}
+		result.add(itemsList);
+		Record moreItems = new Record(ActionNames.ADD_MORE_PAYMENTS);
+		moreItems.add("", "Add more payments");
+		actions.add(moreItems);
+		return null;
+	}
+
+	public void resetValue(ClientTransactionReceivePayment obj) {
+		if (obj.isCreditsApplied()) {
+			ClientCustomer customer = get(CUSTOMER).getValue();
+			int size = getCustomerCreditsAndPayments(customer.getID()).size();
+			Map<Integer, Object> toBeRvrtMap = obj.getTempCredits();
+			for (int i = 0; i < size; i++) {
+				if (toBeRvrtMap.containsKey(i)) {
+					TempCredit toBeAddCr = (TempCredit) toBeRvrtMap.get(i);
+					List<ClientTransactionReceivePayment> selectedRecords = get(
+							"transactions").getValue();
+					if (selectedRecords.size() != 0) {
+						for (int j = 0; j < selectedRecords.size(); j++) {
+							Map<Integer, Object> rcvCrsMap = selectedRecords
+									.get(j).getTempCredits();
+							if (rcvCrsMap.containsKey(i)) {
+								TempCredit chngCrd = (TempCredit) rcvCrsMap
+										.get(i);
+								chngCrd.setRemainingBalance(chngCrd
+										.getRemainingBalance()
+										+ toBeAddCr.getAmountToUse());
+							}
+						}
+					}
+				}
+				obj.setCreditsApplied(false);
+			}
+			obj.setPayment(0.0d);
+			obj.setCashDiscount(0.0d);
+			obj.setWriteOff(0.0d);
+			obj.setAppliedCredits(0.0d);
+			obj.setDummyDue(obj.getAmountDue());
+		}
 	}
 }
