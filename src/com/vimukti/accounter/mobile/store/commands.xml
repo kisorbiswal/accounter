@@ -527,6 +527,10 @@
 		<alias>Estimates</alias>
 		<alias>Estimates List</alias>
 	</command>
+	<command clazz="CustomerRefundsListCommand" name="CustomerRefundList">
+		<alias>CustomerRefundsList</alias>
+		<alias>CustomerRefunds</alias>
+	</command>
 
 	<command clazz="VATCodesListCommand" name="TAXCodes List">
 		<alias>TAXCodes</alias>
