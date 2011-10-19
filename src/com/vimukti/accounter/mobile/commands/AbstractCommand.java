@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -241,7 +242,8 @@ public abstract class AbstractCommand extends Command {
 		}
 		Record dueDateRecord = new Record(name);
 		dueDateRecord.add("Name", name);
-		dueDateRecord.add("Value", dueDate.toString());
+		ClientFinanceDate clientFinanceDate = new ClientFinanceDate(dueDate);
+		dueDateRecord.add("Value", clientFinanceDate);
 		list.add(dueDateRecord);
 		return null;
 	}
@@ -302,11 +304,11 @@ public abstract class AbstractCommand extends Command {
 		String name = requirement.getValue();
 		if (selection != null && selection.equals(reqName)) {
 			context.setAttribute(INPUT_ATTR, reqName);
-			return text(context, "Enter Account Name", name);
+			return text(context, displayString, name);
 		}
 
 		Record nameRecord = new Record(reqName);
-		nameRecord.add("", "Name");
+		nameRecord.add("", reqName);
 		nameRecord.add("", name);
 		list.add(nameRecord);
 		return null;
@@ -986,8 +988,8 @@ public abstract class AbstractCommand extends Command {
 					.getClientClassSimpleName();
 
 			OperationContext opContext = new OperationContext(context
-					.getCompany().getID(), coreObject, context.getUser()
-					.getClient().getEmailId());
+					.getCompany().getID(), coreObject, context.getIOSession()
+					.getUserEmail());
 			opContext.setArg2(clientClassSimpleName);
 			new FinanceTool().create(opContext);
 		} catch (AccounterException e) {
