@@ -584,9 +584,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			if (!comboItems.contains(selectedValue)) {
 				// select the first one
-				try {
+				if (!comboItems.isEmpty()) {
 					setSelectedItem(comboItems.get(0), isAddNewRequire ? 1 : 0);
-				} catch (ArrayIndexOutOfBoundsException e) {
+				} else {
 					setSelectedItem(null, 0); // row optional here.
 				}
 			}
