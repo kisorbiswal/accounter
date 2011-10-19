@@ -161,7 +161,8 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = dateRequirement(context, list, selection);
+		result = dateRequirement(context, list, selection, DATE,
+				"Enter the date");
 		if (result != null) {
 			return result;
 		}

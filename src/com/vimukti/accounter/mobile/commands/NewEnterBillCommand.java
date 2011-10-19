@@ -249,7 +249,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("values");
-		Result result = dateRequirement(context, list, selection);
+		Result result = dateRequirement(context, list, selection, DATE,
+				"Enter the date");
 		if (result != null) {
 			return result;
 		}

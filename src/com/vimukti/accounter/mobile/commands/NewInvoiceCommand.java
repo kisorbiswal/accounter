@@ -340,7 +340,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Requirement custmerReq = get("customer");
 		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 
-		Result result = dateRequirement(context, list, selection);
+		Result result = dateRequirement(context, list, selection, DATE,
+				"Enter the date");
 		if (result != null) {
 			return result;
 		}

@@ -180,7 +180,8 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		list.add(nameRec);
 		list.add(accountRec);
 
-		Result result = dateRequirement(context, list, selection);
+		Result result = dateRequirement(context, list, selection, DATE,
+				"Enter the date");
 		if (result != null) {
 			return result;
 		}

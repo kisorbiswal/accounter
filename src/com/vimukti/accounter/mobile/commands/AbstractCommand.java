@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -242,8 +241,7 @@ public abstract class AbstractCommand extends Command {
 		}
 		Record dueDateRecord = new Record(name);
 		dueDateRecord.add("Name", name);
-		ClientFinanceDate clientFinanceDate = new ClientFinanceDate(dueDate);
-		dueDateRecord.add("Value", clientFinanceDate);
+		dueDateRecord.add("Value", dueDate.toString());
 		list.add(dueDateRecord);
 		return null;
 	}
@@ -304,11 +302,11 @@ public abstract class AbstractCommand extends Command {
 		String name = requirement.getValue();
 		if (selection != null && selection.equals(reqName)) {
 			context.setAttribute(INPUT_ATTR, reqName);
-			return text(context, displayString, name);
+			return text(context, "Enter Account Name", name);
 		}
 
 		Record nameRecord = new Record(reqName);
-		nameRecord.add("", reqName);
+		nameRecord.add("", "Name");
 		nameRecord.add("", name);
 		list.add(nameRecord);
 		return null;
@@ -743,19 +741,19 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result dateRequirement(Context context, ResultList list,
-			Object selection) {
+			Object selection, String reqName, String displayName) {
 
-		Requirement dateReq = get(DATE);
+		Requirement dateReq = get(reqName);
 		Date transDate = context.getDate();
 		if (!dateReq.isDone()) {
 			if (transDate == null) {
 				// context.setAttribute(INPUT_ATTR, DATE);
-				return date(context, "Enter Date", transDate);
+				return date(context, displayName, transDate);
 			} else {
 				dateReq.setValue(transDate);
 			}
 			Record transDateRecord = new Record(transDate);
-			transDateRecord.add("Name", "Date");
+			transDateRecord.add("Name", reqName);
 			transDateRecord.add("Value", transDate.toString());
 			list.add(transDateRecord);
 		}
@@ -988,8 +986,8 @@ public abstract class AbstractCommand extends Command {
 					.getClientClassSimpleName();
 
 			OperationContext opContext = new OperationContext(context
-					.getCompany().getID(), coreObject, context.getIOSession()
-					.getUserEmail());
+					.getCompany().getID(), coreObject, context.getUser()
+					.getClient().getEmailId());
 			opContext.setArg2(clientClassSimpleName);
 			new FinanceTool().create(opContext);
 		} catch (AccounterException e) {
