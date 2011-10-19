@@ -4956,5 +4956,7 @@ public interface AccounterConstants extends Constants {
 	
 	public String shouldntSelectSameAccountInMultipleEntries();
 
+	public String addMemo();
+
 	public String purchaseNumber();
 }
