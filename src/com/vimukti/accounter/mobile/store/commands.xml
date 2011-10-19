@@ -493,7 +493,7 @@
 		<alias>New Sales Order</alias>
 	</command>
 
-	<command clazz="NewPurchaseOrderCommand" name="New PurchaseOrder Command">
+	<command clazz="NewPurchaseOrderCommand" name="New PurchaseOrder">
 		<alias>New PurchaseOrder Command</alias>
 		<alias>Create PurchaseOrder Command</alias>
 		<alias>Add PurchaseOrder Command</alias>
