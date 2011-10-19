@@ -354,15 +354,13 @@ public class USCompanyInitializer extends CompanyInitializer {
 					.getNamedQuery("unique.name.PaymentTerms")
 					.setEntity("company", company)
 					.setString("name", "Net Monthly").list().get(0));
-			defaultTaxAgency.setSalesLiabilityAccount((Account) session
+			Account salesTaxPayable = (Account) session
 					.getNamedQuery("unique.name.Account")
 					.setEntity("company", company)
-					.setString("name", "Sales Tax Payable").list().get(0));
-			defaultTaxAgency.setPurchaseLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account")
-					.setEntity("company", company)
-					.setString("name", "Sales Tax Payable").list().get(0));
-			
+					.setString("name", "Sales Tax Payable").list().get(0);
+			defaultTaxAgency.setSalesLiabilityAccount(salesTaxPayable);
+			defaultTaxAgency.setPurchaseLiabilityAccount(salesTaxPayable);
+
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 
