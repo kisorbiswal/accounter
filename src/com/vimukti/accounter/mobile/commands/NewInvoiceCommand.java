@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
@@ -214,7 +215,18 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				addSalesOrder(cSalesOrder, items);
 			}
 		}
+
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
+
 		invoice.setTransactionItems(items);
+		updateTotals(invoice);
 
 		create(invoice, context);
 	}
