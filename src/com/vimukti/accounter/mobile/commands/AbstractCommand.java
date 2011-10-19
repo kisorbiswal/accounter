@@ -989,8 +989,8 @@ public abstract class AbstractCommand extends Command {
 					.getClientClassSimpleName();
 
 			OperationContext opContext = new OperationContext(context
-					.getCompany().getID(), coreObject, context.getUser()
-					.getClient().getEmailId());
+					.getCompany().getID(), coreObject, context.getIOSession()
+					.getUserEmail());
 			opContext.setArg2(clientClassSimpleName);
 			new FinanceTool().create(opContext);
 		} catch (AccounterException e) {
