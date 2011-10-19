@@ -179,7 +179,8 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 			if (themeName != null) {
 				requirement.setValue(themeName);
 			} else {
-				return text(context, "Please enter the theme name", null);
+				context.setAttribute( INPUT_ATTR,THEME_NAME);
+				return text(context, "Please enter the theme name", THEME_NAME);
 			}
 		}
 		String name = (String) context.getAttribute(INPUT_ATTR);
@@ -325,8 +326,8 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 		if (selection == title) {
 			context.setAttribute(INPUT_ATTR, OVERDUE_INVOICE_TITLE);
-			return text(context, "Enter over due invoice title ", title
-					.toString());
+			return text(context, "Enter over due invoice title ",
+					title.toString());
 		}
 
 		Record balanceRecord = new Record(title);
@@ -698,8 +699,8 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 		if (selection == contactDetails) {
 			context.setAttribute(INPUT_ATTR, CONTACT_DETAILS);
-			return text(context, "Enter your contact details ", contactDetails
-					.toString());
+			return text(context, "Enter your contact details ",
+					contactDetails.toString());
 		}
 
 		Record balanceRecord = new Record(contactDetails);
@@ -786,8 +787,8 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 		if (selection == creditTemplate) {
 			context.setAttribute(INPUT_ATTR, CREDIT_TEMPLATE);
-			return text(context, "Credit Note Template ", creditTemplate
-					.toString());
+			return text(context, "Credit Note Template ",
+					creditTemplate.toString());
 		}
 
 		Record balanceRecord = new Record(creditTemplate);
