@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.core.PayBill;
-import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.TransactionPayBill;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -19,13 +12,17 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
-import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -42,8 +39,13 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 	private static final String CASH_DISCOUNT = "cashdiscount";
 	private static final String CREDITS = "credits";
 	private static final String PAYMENT = "payment";
+	private static final String PAY_BILL_LIST = "paybilllist";
 	private static final String FILTER_BY_DUE_ON_BEFORE = "filterbydueonbefore";
 	private static final String NUMBER = "number";
+	private static final String TRANSACTION_PAY_BILL_PROCESS = "paybillprocess";
+	private static final String OLD_TRANSACTION_PAY_BILL_ATTR = "oldpaybillprocess";
+	private static final String TRANSACTION_PAY_BILL_PROPERTY_ATTR = "paybillpropertyattr";
+	private static final String PAY_BILL_DETAILS = "paybilldetails";
 
 	@Override
 	public String getId() {
@@ -58,7 +60,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(PAYMENT_METHOD, false, true));
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(FILTER_BY_DUE_ON_BEFORE, true, true));
-		list.add(new ObjectListRequirement("items", false, true) {
+		list.add(new ObjectListRequirement(PAY_BILL_LIST, false, true) {
 
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -79,6 +81,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+		setDefaultValues();
 		Result result = null;
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		if (process != null) {
@@ -87,8 +90,11 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 				if (result != null) {
 					return result;
 				}
-			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-				result = transactionItemProcess(context);
+			} else if (process.equals(TRANSACTION_PAY_BILL_PROCESS)) {
+				ClientTransactionPayBill transactionItem = (ClientTransactionPayBill) context
+						.getAttribute(OLD_TRANSACTION_PAY_BILL_ATTR);
+				result = clientTransactionPayBillProcess(context,
+						transactionItem);
 				if (result != null) {
 					return result;
 				}
@@ -100,18 +106,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
 		result = createSupplierRequirement(context, list, VENDOR);
-		if (result != null) {
-			return result;
-		}
-
-		try {
-			result = transactionItems(context);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
 		if (result != null) {
 			return result;
 		}
@@ -125,12 +120,18 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 				});
 
 		if (result != null) {
-			return null;
+			return result;
 		}
 		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
 		if (result != null) {
 			return result;
 		}
+
+		result = paybillListRequirement(context, makeResult, actions);
+		if (result != null) {
+			return result;
+		}
+		makeResult.add(actions);
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
@@ -141,89 +142,156 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private void completeProcess(Context context) {
-
-		PayBill paybill = new PayBill();
-		Vendor vendor = get(VENDOR).getValue();
-		Account payFrom = get(PAY_FROM).getValue();
-		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		Date dueDate = (Date) get(FILTER_BY_DUE_ON_BEFORE).getValue();
-		String number = get(NUMBER).getValue();
-		Date date = (Date) get(DATE).getValue();
-		String billNumber = get(BILL_NO).getValue();
-
-		paybill.setVendor(vendor);
-		paybill.setPayFrom(payFrom);
-		paybill.setPaymentMethod(paymentMethod);
-
-		paybill.setBillDueOnOrBefore(new FinanceDate(dueDate));
-		paybill.setNumber(number);
-		paybill.setDate(new FinanceDate(date));
-
-		List<TransactionPayBill> transactionPayBills = get("items").getValue();
-
-		paybill.setTransactionPayBill(transactionPayBills);
-		String memo = get(MEMO).getValue();
-		paybill.setMemo(memo);
-		create(paybill, context);
-
+	private void setDefaultValues() {
+		get(NUMBER).setDefaultValue("1");
+		get(DATE).setDefaultValue(new Date());
+		get(FILTER_BY_DUE_ON_BEFORE).setDefaultValue(new Date());
+		get(MEMO).setDefaultValue("");
 	}
 
-	private Result transactionItems(Context context) throws DAOException {
+	private Result paybillListRequirement(Context context, Result result,
+			ResultList actions) {
+		Requirement transItemsReq = get(PAY_BILL_LIST);
+		List<ClientTransactionPayBill> items = context
+				.getSelections(PAY_BILL_LIST);
+		if (items != null && items.size() > 0) {
+			for (ClientTransactionPayBill item : items) {
+				List<ClientTransactionPayBill> transactionItems = transItemsReq
+						.getValue();
+				if (transactionItems == null) {
+					transactionItems = new ArrayList<ClientTransactionPayBill>();
+					transItemsReq.setValue(transactionItems);
+				}
+				item.setPayment(item.getAmountDue());
+				updateValue(item);
+				transactionItems.add(item);
+			}
 
-		ClientVendor value = get(VENDOR).getValue();
-		// long date = context.getSelection(DATE);
-		List<PayBillTransactionList> transactionItems = new FinanceTool()
-				.getVendorManager().getTransactionPayBills(
-						context.getCompany().getID());
-
-		List<TransactionPayBill> records = new ArrayList<TransactionPayBill>();
-		for (PayBillTransactionList billTransactionList : transactionItems) {
-			TransactionPayBill transactionPayBill = new TransactionPayBill();
-			transactionPayBill.setPayment(billTransactionList.getPayment());
-			transactionPayBill.setDueDate(new FinanceDate(billTransactionList
-					.getDueDate()));
-			transactionPayBill.setOriginalAmount(billTransactionList
-					.getOriginalAmount());
-			transactionPayBill.setAmountDue(billTransactionList.getAmountDue());
-			// transactionPayBill.setDiscountDate(billTransactionList
-			// .getDiscountDate() != null ? new FinanceDate(
-			// billTransactionList.getDiscountDate()) : "");
-			transactionPayBill.setCashDiscount(billTransactionList
-					.getCashDiscount());
-			transactionPayBill.setAppliedCredits(billTransactionList
-					.getCredits());
-			transactionPayBill.setBillNumber(billTransactionList
-					.getBillNumber());
-
-			records.add(transactionPayBill);
 		}
-		Result item = item(context, records);
-		return item;
+		if (!transItemsReq.isDone()) {
+			return clientTransactionPayBills(context);
+		}
 
+		Object selection = context.getSelection("transactionPayBills");
+		if (selection != null) {
+			result = clientTransactionPayBillProcess(context,
+					(ClientTransactionPayBill) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		selection = context.getSelection(ACTIONS);
+		ActionNames actionName = (ActionNames) selection;
+		if (actionName != null && actionName == ActionNames.ADD_MORE_ITEMS) {
+			return clientTransactionPayBills(context);
+		}
+
+		result.add("ClientTransactionPayBills:-");
+		ResultList itemsList = new ResultList("transactionPayBills");
+		List<ClientTransactionPayBill> transItems = transItemsReq.getValue();
+		for (ClientTransactionPayBill item : transItems) {
+			itemsList.add(creatTransactionPayBillRecord(item));
+		}
+		result.add(itemsList);
+
+		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
+		moreItems.add("", "Add more ClientTransactionPayBills");
+		actions.add(moreItems);
+		return null;
 	}
 
-	private Result item(Context context, List<TransactionPayBill> records) {
-		Result result = context.makeResult();
-		List<TransactionPayBill> items = records;
+	private Result clientTransactionPayBillProcess(Context context,
+			ClientTransactionPayBill transactionItem) {
+		context.setAttribute(PROCESS_ATTR, TRANSACTION_PAY_BILL_PROCESS);
+		context.setAttribute(OLD_TRANSACTION_PAY_BILL_ATTR, transactionItem);
 
-		ResultList list = new ResultList("items");
-		Object last = context.getLast(RequirementType.ITEM);
+		String lineAttr = (String) context
+				.getAttribute(TRANSACTION_PAY_BILL_PROPERTY_ATTR);
+		if (lineAttr != null) {
+			context.removeAttribute(TRANSACTION_PAY_BILL_PROPERTY_ATTR);
+			if (lineAttr.equals("payment")) {
+				if (context.getDouble() != null) {
+					transactionItem.setPayment(context.getDouble());
+				} else if (context.getInteger() != null) {
+					transactionItem.setPayment(context.getInteger());
+				}
+			}
+		} else {
+			Object selection = context.getSelection(PAY_BILL_DETAILS);
+			if (selection != null) {
+				if (selection.equals("payment")) {
+					context.setAttribute(TRANSACTION_PAY_BILL_PROPERTY_ATTR,
+							"payment");
+					return amount(context, "Enter Payment",
+							transactionItem.getPayment());
+				}
+			} else {
+				selection = context.getSelection(ACTIONS);
+				if (selection == ActionNames.FINISH_PAY_BILL) {
+					context.removeAttribute(PROCESS_ATTR);
+					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
+					return null;
+				} else if (selection == ActionNames.DELETE_PAY_BILL) {
+					context.removeAttribute(PROCESS_ATTR);
+					Requirement itemsReq = get(PAY_BILL_LIST);
+					List<ClientTransactionPayBill> transItems = itemsReq
+							.getValue();
+					transItems.remove(transactionItem);
+					context.removeAttribute(OLD_TRANSACTION_PAY_BILL_ATTR);
+					return null;
+				}
+			}
+		}
+		ResultList list = new ResultList(PAY_BILL_DETAILS);
+		Result result = context.makeResult();
+		result.add("Due Date : " + new Date(transactionItem.getDueDate()));
+		result.add("Bill no : " + transactionItem.getBillNumber());
+		result.add("Original amount : " + transactionItem.getOriginalAmount());
+		result.add("Amount Due : " + transactionItem.getAmountDue());
+		result.add("Discount Date : "
+				+ new Date(transactionItem.getDiscountDate()));
+		result.add("Cash Discount : " + transactionItem.getCashDiscount());
+		Record record = new Record("payment");
+		record.add("", "Payment");
+		record.add("", transactionItem.getPayment());
+		list.add(record);
+		result.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		record = new Record(ActionNames.DELETE_PAY_BILL);
+		record.add("", "Delete");
+		actions.add(record);
+		record = new Record(ActionNames.FINISH_PAY_BILL);
+		record.add("", "Finish");
+		updateValue(transactionItem);
+		actions.add(record);
+		result.add(actions);
+		return result;
+	}
+
+	private Result clientTransactionPayBills(Context context) {
+		Result result = context.makeResult();
+		List<ClientTransactionPayBill> items = getclientTransactionPayBills();
+		ResultList list = new ResultList(PAY_BILL_LIST);
+		ClientTransactionPayBill last = (ClientTransactionPayBill) context
+				.getLast(RequirementType.TRANSACTION_PAY_BILL);
 		int num = 0;
 		if (last != null) {
-			list.add(createItemRecord((ClientItem) last));
+			list.add(creatTransactionPayBillRecord(last));
 			num++;
 		}
-		Requirement itemsReq = get("items");
-		List<TransactionItem> transItems = itemsReq.getValue();
-		List<Item> availableItems = new ArrayList<Item>();
-		if (transItems != null)
-			for (TransactionItem transactionItem : transItems) {
-				availableItems.add(transactionItem.getItem());
-			}
-		for (TransactionPayBill item : items) {
-			if (item != last || !availableItems.contains(item)) {
-				list.add(creatItemRecord(item));
+		Requirement itemsReq = get(PAY_BILL_LIST);
+		List<ClientTransactionPayBill> transItems = itemsReq.getValue();
+		if (transItems == null) {
+			transItems = new ArrayList<ClientTransactionPayBill>();
+		}
+		List<ClientTransactionPayBill> availableItems = new ArrayList<ClientTransactionPayBill>();
+		for (ClientTransactionPayBill transactionItem : transItems) {
+			availableItems.add(transactionItem);
+		}
+		for (ClientTransactionPayBill item : items) {
+			if (item != last && !availableItems.contains(item.getID())) {
+				list.add(creatTransactionPayBillRecord(item));
 				num++;
 			}
 			if (num == ITEMS_TO_SHOW) {
@@ -232,25 +300,232 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect an Item(s).");
+			result.add("Slect TransactionPayBill(s).");
 		} else {
-			result.add("You don't have Items.");
+			result.add("You don't have TransactionPayBill.");
+			Record record = new Record("escape");
+			record.add("", "Skip");
+			ResultList resultList = new ResultList("escape");
+			resultList.add(record);
+			result.add(resultList);
 		}
 		result.add(list);
 		return result;
 	}
 
-	private Record creatItemRecord(TransactionPayBill item) {
-		Record record = new Record(item);
-		record.add("Name", "transactionItem");
-		record.add("value", item.getPayment());
-		return record;
+	private Record creatTransactionPayBillRecord(ClientTransactionPayBill last) {
+		Record paybillRecord = new Record(last);
+		paybillRecord.add("", "Due date");
+		paybillRecord.add("", last.getDueDate());
+		paybillRecord.add("", "Bill Number");
+		paybillRecord.add("", last.getBillNumber());
+		paybillRecord.add("", "Original Amount");
+		paybillRecord.add("", last.getOriginalAmount());
+		paybillRecord.add("", "Amount Due");
+		paybillRecord.add("", last.getAmountDue());
+		paybillRecord.add("", "Discount Date");
+		paybillRecord.add("", last.getDiscountDate());
+		paybillRecord.add("", "Cash Discount");
+		paybillRecord.add("", last.getCashDiscount());
+		return paybillRecord;
+	}
+
+	private List<ClientTransactionPayBill> getclientTransactionPayBills() {
+		return filterGrid();
+	}
+
+	private void completeProcess(Context context) {
+		ClientPayBill paybill = new ClientPayBill();
+		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
+		paybill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
+		paybill.setAccountsPayable(getClientCompany()
+				.getAccountsPayableAccount());
+		ClientVendor vendor = get(VENDOR).getValue();
+		ClientAccount payFrom = get(PAY_FROM).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		Date dueDate = (Date) get(FILTER_BY_DUE_ON_BEFORE).getValue();
+		String number = get(NUMBER).getValue();
+		Date date = (Date) get(DATE).getValue();
+		paybill.setVendor(vendor);
+		paybill.setPayFrom(payFrom);
+		paybill.setPaymentMethod(paymentMethod);
+
+		paybill.setBillDueOnOrBefore(new ClientFinanceDate(dueDate));
+		paybill.setNumber(number);
+		paybill.setDate(new ClientFinanceDate(date).getDate());
+		String memo = get(MEMO).getValue();
+		paybill.setMemo(memo);
+		if (getClientCompany().getPreferences().isTDSEnabled()) {
+
+			ClientTAXItem taxItem = getClientCompany().getTAXItem(
+					vendor.getTaxItemCode());
+			if (taxItem != null) {
+				paybill.setTaxAgency(getClientCompany().getTaxAgency(
+						taxItem.getTaxAgency()));
+			}
+		}
+		setTransactionPayBills(paybill);
+		Double totalCredits = 0D;
+		for (ClientCreditsAndPayments credit : getCreditsAndPayments(vendor)) {
+			totalCredits += credit.getBalance();
+		}
+		paybill.setUnUsedCredits(totalCredits);
+		adjustAmountAndEndingBalance(paybill);
+		create(paybill, context);
+	}
+
+	private void updateValue(ClientTransactionPayBill obj) {
+		updateAmountDue(obj);
+		updateTotalPayment(obj);
+	}
+
+	private void updateTotalPayment(ClientTransactionPayBill obj) {
+		ClientTransaction transactionObject = getTransactionObject();
+		transactionObject.setTotal(0.0);
+		ClientVendor vendor = get(VENDOR).getValue();
+		ArrayList<ClientTransactionPayBill> list = get(PAY_BILL_LIST)
+				.getValue();
+		double payment = 0.0;
+		for (ClientTransactionPayBill rec : list) {
+			if (getClientCompany().getPreferences().isTDSEnabled()) {
+				ClientTAXItem taxItem = getClientCompany().getTAXItem(
+						vendor.getTaxItemCode());
+				if (taxItem != null)
+					payment = obj.getOriginalAmount()
+							* (taxItem.getTaxRate() / 100);
+				payment = obj.getOriginalAmount() - payment;
+				obj.setPayment(payment);
+			}
+
+			transactionObject.setTotal(transactionObject.getTotal()
+					+ rec.getPayment());
+		}
+		adjustPaymentValue(obj);
+	}
+
+	private ClientTransaction getTransactionObject() {
+		ClientPayBill paybill = new ClientPayBill();
+		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
+		paybill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
+		paybill.setAccountsPayable(getClientCompany()
+				.getAccountsPayableAccount());
+		ClientVendor vendor = get(VENDOR).getValue();
+		ClientAccount payFrom = get(PAY_FROM).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		Date dueDate = (Date) get(FILTER_BY_DUE_ON_BEFORE).getValue();
+		String number = get(NUMBER).getValue();
+		Date date = (Date) get(DATE).getValue();
+		paybill.setVendor(vendor);
+		paybill.setPayFrom(payFrom);
+		paybill.setPaymentMethod(paymentMethod);
+
+		paybill.setBillDueOnOrBefore(new ClientFinanceDate(dueDate));
+		paybill.setNumber(number);
+		paybill.setDate(new ClientFinanceDate(date).getDate());
+		String memo = get(MEMO).getValue();
+		paybill.setMemo(memo);
+		if (getClientCompany().getPreferences().isTDSEnabled()) {
+
+			ClientTAXItem taxItem = getClientCompany().getTAXItem(
+					vendor.getTaxItemCode());
+			if (taxItem != null) {
+				paybill.setTaxAgency(getClientCompany().getTaxAgency(
+						taxItem.getTaxAgency()));
+			}
+		}
+		setTransactionPayBills(paybill);
+		Double totalCredits = 0D;
+		for (ClientCreditsAndPayments credit : getCreditsAndPayments(vendor)) {
+			totalCredits += credit.getBalance();
+		}
+		paybill.setUnUsedCredits(totalCredits);
+		adjustAmountAndEndingBalance(paybill);
+		return paybill;
+	}
+
+	private void adjustPaymentValue(ClientTransactionPayBill rec) {
+		Double cashDiscount = rec.getCashDiscount();
+		Double credit = rec.getAppliedCredits();
+		(rec).setCashDiscount(cashDiscount);
+		(rec).setAppliedCredits(credit);
+		updateAmountDue(rec);
+	}
+
+	private void updateAmountDue(ClientTransactionPayBill item) {
+		ClientVendor vendor = get(VENDOR).getValue();
+		double totalValue = item.getCashDiscount() + item.getAppliedCredits()
+				+ item.getPayment();
+
+		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
+			if (getClientCompany().getCountryPreferences().isTDSAvailable()
+					&& getClientCompany().getPreferences().isTDSEnabled()) {
+				ClientTAXItem taxItem = getClientCompany().getTAXItem(
+						vendor.getTaxItemCode());
+				if (taxItem != null)
+					item.setDummyDue(item.getAmountDue()
+							- (totalValue + (taxItem.getTaxRate() / 100 * item
+									.getOriginalAmount())));
+			} else {
+				item.setDummyDue(item.getAmountDue() - totalValue);
+			}
+		} else {
+			item.setDummyDue(0.0);
+		}
+	}
+
+	private ArrayList<ClientCreditsAndPayments> getCreditsAndPayments(
+			ClientVendor vendor) {
+		return getCreditsAndPayments(vendor.getID());
+	}
+
+	private void setTransactionPayBills(ClientPayBill paybill) {
+		List<ClientTransactionPayBill> selectedRecords = get(PAY_BILL_LIST)
+				.getValue();
+		ArrayList<PayBillTransactionList> paybillTransactionList = getTransactionPayBills(paybill
+				.getVendor());
+		List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
+		for (int i = 0; i < selectedRecords.size(); i++) {
+			ClientTransactionPayBill tpbRecord = selectedRecords.get(i);
+			PayBillTransactionList payBillTX = paybillTransactionList.get(i);
+
+			if (payBillTX.getType() == ClientTransaction.TYPE_ENTER_BILL) {
+				tpbRecord.setEnterBill(payBillTX.getTransactionId());
+			} else if (payBillTX.getType() == ClientTransaction.TYPE_MAKE_DEPOSIT) {
+				tpbRecord.setTransactionMakeDeposit(payBillTX
+						.getTransactionId());
+			} else if (payBillTX.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
+				tpbRecord.setJournalEntry(payBillTX.getTransactionId());
+			}
+			tpbRecord.setAccountsPayable(getClientCompany()
+					.getAccountsPayableAccount());
+			tpbRecord.setPayBill(paybill);
+			ClientVendor vendor = getClientCompany().getVendor(
+					paybill.getVendor());
+			if (getClientCompany().getPreferences().isTDSEnabled()) {
+
+				ClientTAXItem taxItem = getClientCompany().getTAXItem(
+						vendor.getTaxItemCode());
+
+				if (taxItem != null) {
+					double tds = taxItem.getTaxRate() / 100
+							* tpbRecord.getPayment();
+					tpbRecord.setTdsAmount(tds);
+				}
+
+			}
+			if (tpbRecord.getTempCredits() != null)
+				tpbRecord.getTempCredits().clear();
+
+			transactionPayBill.add(tpbRecord);
+		}
+		paybill.setTransactionPayBill(transactionPayBill);
 	}
 
 	private Result createOptionalResult(Context context, ResultList list,
 			ResultList actions, Result makeResult) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
@@ -263,19 +538,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		Requirement itemsReq = get("items");
-		List<TransactionPayBill> transItems = itemsReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = payBillItems(context,
-					(TransactionPayBill) selection);
-			if (result != null) {
-				return result;
-			}
-		}
 		selection = context.getSelection("values");
-
 		Result result = dateOptionalRequirement(context, list, DATE,
 				"Enter date", selection);
 		if (result != null) {
@@ -293,15 +556,6 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionPayBill item : transItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Total", item.getPayment());
-			items.add(itemRec);
-		}
-		result.add(items);
-
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish payment.");
 		actions.add(finish);
@@ -309,99 +563,86 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		return makeResult;
 	}
 
-	private Result payBillItems(Context context,
-			TransactionPayBill paybillTransaction) {
-		context.setAttribute(PROCESS_ATTR, "items");
-		context.setAttribute(OLD_TRANSACTION_ITEM_ATTR, paybillTransaction);
+	protected List<ClientTransactionPayBill> filterGrid() {
+		ArrayList<PayBillTransactionList> filterList = new ArrayList<PayBillTransactionList>();
+		ArrayList<PayBillTransactionList> tempList = new ArrayList<PayBillTransactionList>();
+		ClientVendor vendor = get(VENDOR).getValue();
+		filterList.addAll(getTransactionPayBills(vendor.getID()));
 
-		String lineAttr = (String) context.getAttribute(ITEM_PROPERTY_ATTR);
-		if (lineAttr != null) {
-			context.removeAttribute(ITEM_PROPERTY_ATTR);
-			if (lineAttr.equals(ORIGINAL_AMOUNT)) {
-				paybillTransaction.setOriginalAmount(context.getDouble());
-			} else if (lineAttr.equals(CASH_DISCOUNT)) {
-				paybillTransaction.setCashDiscount(context.getDouble());
-			} else if (lineAttr.equals(CREDITS)) {
-				paybillTransaction.setAppliedCredits(context.getDouble());
-			} else if (lineAttr.equals(PAYMENT)) {
-				paybillTransaction.setPayment(context.getDouble());
-			} else if (lineAttr.equals(BILL_NO)) {
-				paybillTransaction.setBillNumber(context.getString());
+		if (get(FILTER_BY_DUE_ON_BEFORE).getValue() != null) {
+			Date date = get(FILTER_BY_DUE_ON_BEFORE).getValue();
+			ClientFinanceDate dueDateOnOrBefore = new ClientFinanceDate(date);
+			for (PayBillTransactionList cont : filterList) {
+				if (cont.getDueDate().before(dueDateOnOrBefore)
+						|| cont.getDueDate().equals(dueDateOnOrBefore))
+					tempList.add(cont);
+
 			}
-		} else {
-			Object selection = context.getSelection(ITEM_DETAILS);
-			if (selection != null) {
-				if (selection.equals(ORIGINAL_AMOUNT)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, ORIGINAL_AMOUNT);
-					return amount(context, "Enter Original amount",
-							paybillTransaction.getOriginalAmount());
-				} else if (selection.equals(CASH_DISCOUNT)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, CASH_DISCOUNT);
-					return amount(context, "Enter cash discount Date",
-							paybillTransaction.getCashDiscount());
-				} else if (selection.equals(CREDITS)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, CREDITS);
-					return amount(context, "Enter applied credit",
-							paybillTransaction.getAppliedCredits());
-				} else if (selection.equals(PAYMENT)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, PAYMENT);
-					return amount(context, "Enter payment",
-							paybillTransaction.getPayment());
-				} else if (selection.equals(BILL_NO)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, BILL_NO);
-					return text(context, "Enter bill number", ""
-							+ paybillTransaction.getBillNumber());
+			filterList.clear();
+			filterList.addAll(tempList);
+			tempList.clear();
+		}
+
+		if (vendor != null) {
+			for (PayBillTransactionList cont : filterList) {
+				if (vendor.getName().toString()
+						.equalsIgnoreCase(cont.getVendorName().toString())) {
+
+					tempList.add(cont);
 				}
-			} else {
-				selection = context.getSelection(ACTIONS);
-				if (selection == ActionNames.FINISH) {
-					context.removeAttribute(PROCESS_ATTR);
-					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
-					return null;
-				} else if (selection == ActionNames.DELETE_ITEM) {
-					context.removeAttribute(PROCESS_ATTR);
-					return null;
-				}
+			}
+			filterList.clear();
+			filterList.addAll(tempList);
+			tempList.clear();
+		}
+
+		List<ClientTransactionPayBill> records = new ArrayList<ClientTransactionPayBill>();
+		for (PayBillTransactionList cont : filterList) {
+			ClientTransactionPayBill record = new ClientTransactionPayBill();
+
+			record.setAmountDue(cont.getAmountDue());
+			record.setDummyDue(cont.getAmountDue());
+
+			record.setBillNumber(cont.getBillNumber());
+
+			record.setCashDiscount(cont.getCashDiscount());
+
+			record.setAppliedCredits(cont.getCredits());
+			if (cont.getDiscountDate() != null)
+				record.setDiscountDate(cont.getDiscountDate().getDate());
+			if (cont.getDueDate() != null)
+				record.setDueDate(cont.getDueDate().getDate());
+
+			record.setOriginalAmount(cont.getOriginalAmount());
+
+			record.setPayment(cont.getPayment());
+			records.add(record);
+		}
+		return records;
+	}
+
+	private void adjustAmountAndEndingBalance(ClientPayBill transaction) {
+		List<ClientTransactionPayBill> selectedRecords = get(PAY_BILL_LIST)
+				.getValue();
+		double toBeSetAmount = 0.0;
+		for (ClientTransactionPayBill rec : selectedRecords) {
+			toBeSetAmount += rec.getPayment();
+		}
+		if (transaction != null) {
+			transaction.setTotal(toBeSetAmount);
+
+			if (get(VENDOR).getValue() != null) {
+				double toBeSetEndingBalance = 0.0;
+				ClientAccount payFromAccount = get(PAY_FROM).getValue();
+				if (payFromAccount.isIncrease())
+					toBeSetEndingBalance = payFromAccount.getTotalBalance()
+							+ transaction.getTotal();
+				else
+					toBeSetEndingBalance = payFromAccount.getTotalBalance()
+							- transaction.getTotal();
+				transaction.setEndingBalance(toBeSetEndingBalance);
 			}
 		}
 
-		ResultList list = new ResultList(ITEM_DETAILS);
-
-		Record record = new Record(ORIGINAL_AMOUNT);
-		record.add("", ORIGINAL_AMOUNT);
-		record.add("", paybillTransaction.getOriginalAmount());
-		list.add(record);
-
-		record = new Record(BILL_NO);
-		record.add("", BILL_NO);
-		record.add("", paybillTransaction.getBillNumber());
-		list.add(record);
-
-		record = new Record(CASH_DISCOUNT);
-		record.add("", CASH_DISCOUNT);
-		record.add("", paybillTransaction.getCashDiscount());
-		list.add(record);
-
-		record = new Record(CREDITS);
-		record.add("", CREDITS);
-		record.add("", paybillTransaction.getAppliedCredits());
-		list.add(record);
-
-		record = new Record(PAYMENT);
-		record.add("", PAYMENT);
-		record.add("", paybillTransaction.getPayment());
-		list.add(record);
-
-		Result result = context.makeResult();
-		result.add("Item details");
-		result.add("Item Name :" + paybillTransaction.getBillNumber());
-		result.add(list);
-
-		ResultList actions = new ResultList(ACTIONS);
-		record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
-		actions.add(record);
-		result.add(actions);
-		return result;
 	}
 }
