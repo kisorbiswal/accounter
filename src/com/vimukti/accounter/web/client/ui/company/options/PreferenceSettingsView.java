@@ -47,8 +47,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		for (PreferencePage page : preferencePages) {
 			VerticalPanel pageView = createPageView(page);
 			stackPanel.add(pageView, page.getTitle());
-			pageView.getElement().getParentElement()
-					.setAttribute("height", "230px");
+			pageView.getElement().getParentElement().setAttribute("height",
+					"230px");
 		}
 		stackPanel.addHandler(new ClickHandler() {
 			@Override
@@ -85,7 +85,6 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		List<PreferencePage> preferenceList = new ArrayList<PreferencePage>();
 		preferenceList.add(getCompanyContactInfoPage());
 		preferenceList.add(getCompanyInfoPage());
-		// preferenceList.add(getProductAndServicePage());
 		preferenceList.add(getCatogiriesInfoPage());
 		preferenceList.add(getCustomerAndVendorPage());
 		preferenceList.add(getAgningDetailsPage());
@@ -94,8 +93,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private PreferencePage getAgningDetailsPage() {
-		PreferencePage agningDetailsPage = new PreferencePage(
-				constants.productAndServices());
+		PreferencePage agningDetailsPage = new PreferencePage(constants
+				.productAndServices());
 		AgeingAndSellingDetailsOption ageingAndSellingDetailsOption = new AgeingAndSellingDetailsOption();
 		ProductAndServicesOption productAndServicesOption = new ProductAndServicesOption();
 
@@ -105,23 +104,25 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private PreferencePage getCustomerAndVendorPage() {
-		PreferencePage customerAndVendorPage = new PreferencePage(
-				constants.vendorAndPurchases());
+		PreferencePage customerAndVendorPage = new PreferencePage(constants
+				.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
+		TrackEstimatesOption estimatesOption = new TrackEstimatesOption();
 
 		DoyouUseShipingsOption shipingsOption = new DoyouUseShipingsOption();
 		customerAndVendorPage.addPreferenceOption(manageBillsOption);
 		customerAndVendorPage
 				.addPreferenceOption(customerAndVendorsSettingsPage);
+		customerAndVendorPage.addPreferenceOption(estimatesOption);
 
 		customerAndVendorPage.addPreferenceOption(shipingsOption);
 		return customerAndVendorPage;
 	}
 
 	private PreferencePage getProductAndServicePage() {
-		PreferencePage productAndServicePage = new PreferencePage(
-				constants.productAndServices());
+		PreferencePage productAndServicePage = new PreferencePage(constants
+				.productAndServices());
 
 		return productAndServicePage;
 	}
@@ -139,40 +140,25 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	private PreferencePage getCompanyInfoPage() {
 		PreferencePage companyInfoPage = new PreferencePage(Accounter
 				.constants().company());
-		// CustomerTerminologyOption terminologyOption = new
-		// CustomerTerminologyOption();
+
 		OrganisationTypeOption formOption = new OrganisationTypeOption();
-		// AccountNumbersOption numbersOption = new AccountNumbersOption();
 		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		CompanyEinOption einOption = new CompanyEinOption();
 		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
 		DoyouUseOption doyouUseOption = new DoyouUseOption();
+		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
+		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
 
-		// ClosingBooksOption booksOption = new ClosingBooksOption();
-		// QuickFillAutosuggestOption autosuggestOption = new
-		// QuickFillAutosuggestOption();
-		// EmailAlertsOption alertsOption = new EmailAlertsOption();
-		// AutoRecallOption autoRecallOption = new AutoRecallOption();
-		// RestartSetupInterviewOption interviewOption = new
-		// RestartSetupInterviewOption();
-		// LogOutAfterInactivityOption afterInactivityOption = new
-		// LogOutAfterInactivityOption();
-
-		// companyInfoPage.addPreferenceOption(terminologyOption);
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			companyInfoPage.addPreferenceOption(formOption);
 		}
-		// companyPage.addPreferenceOption(numbersOption);
 		companyInfoPage.addPreferenceOption(formateOption);
 		companyInfoPage.addPreferenceOption(einOption);
 		companyInfoPage.addPreferenceOption(fiscalYearOption);
 		companyInfoPage.addPreferenceOption(doyouUseOption);
-		// companyPage.addPreferenceOption(booksOption);
-		// companyPage.addPreferenceOption(autosuggestOption);
-		// companyPage.addPreferenceOption(alertsOption);
-		// companyPage.addPreferenceOption(autoRecallOption);
-		// companyPage.addPreferenceOption(interviewOption);
-		// companyPage.addPreferenceOption(afterInactivityOption);
+		companyInfoPage.addPreferenceOption(currencyOption);
+		companyInfoPage.addPreferenceOption(timeZoneOption);
+
 		return companyInfoPage;
 	}
 
@@ -219,8 +205,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 			pageView.add(optionLink);
 			// PreferenceOptionLinks.addLink(optionLink);
 			if (index == 0) {
-				optionLink.getElement().getParentElement()
-						.addClassName("contentSelected");
+				optionLink.getElement().getParentElement().addClassName(
+						"contentSelected");
 			}
 			optionLink.addClickHandler(new ClickHandler() {
 
@@ -228,11 +214,11 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				public void onClick(ClickEvent event) {
 					for (int index = 0; index < pageView.getWidgetCount(); index++) {
 						Widget widget = pageView.getWidget(index);
-						widget.getElement().getParentElement()
-								.removeClassName("contentSelected");
+						widget.getElement().getParentElement().removeClassName(
+								"contentSelected");
 					}
-					optionLink.getElement().getParentElement()
-							.addClassName("contentSelected");
+					optionLink.getElement().getParentElement().addClassName(
+							"contentSelected");
 					pageDetailsPane.ensureVisible(option);
 
 				}
@@ -265,8 +251,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 					page.onSave();
 
 				}
-				Accounter.updateCompany(PreferenceSettingsView.this,
-						Accounter.getCompany());
+				Accounter.updateCompany(PreferenceSettingsView.this, Accounter
+						.getCompany());
 				Accounter.reset();
 			}
 		});

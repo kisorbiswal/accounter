@@ -52,7 +52,7 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	public void createControls() {
 		EindescriptionLabel.setText(constants.EINDescription());
 		EindescriptionLabel.setStyleName("organisation_comment");
-		EINLabel.setText(constants.employerIdentificationNumber());
+		EINLabel.setText(constants.taxId());
 	}
 
 	public CompanyEinOption(String firstName) {
@@ -62,7 +62,7 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return constants.employerIdentificationNumber();
+		return constants.taxId();
 	}
 
 	@Override
