@@ -2,11 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-        <meta content="IE=100" http-equiv="X-UA-Compatible">
+  <title>Delete company| Accounter
+  </title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible" />
 		<link rel="shortcut icon" href="/images/favicon.ico" />
 		
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css" rel="stylesheet">
+		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
   </head>
   <body>
   <div id="commanContainer">
@@ -35,7 +37,7 @@
 	            <input type="submit" value="Delete" class="allviews-common-button">
 	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/main/companies'">
             </div>
-        </FORM>
+        </form>
 	    
     </div>
    </div>
