@@ -537,22 +537,24 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("shipTo")) {
-			ClientAddress input = context.getAddress();
+			ClientAddress input = context.getSelection(ADDRESS);
 			if (input == null) {
 				input = context.getAddress();
 			}
 			shipTo = input;
 			req.setValue(shipTo);
 		}
+		if (selection != null)
+			if (selection == "shipTo") {
+				context.setAttribute(INPUT_ATTR, "shipTo");
+				return address(context, "Ship to Address", "shipTo", shipTo);
+			}
+		shipTo = req.getValue();
 
-		if (selection == shipTo) {
-			context.setAttribute(INPUT_ATTR, "shipTo");
-			return address(context, "Ship to Address", "shipTo", shipTo);
-		}
+		Record shipToRecord = new Record("shipTo");
+		shipToRecord.add("Name", "shipTo");
+		shipToRecord.add("Value", shipTo == null ? "" : shipTo.toString());
 
-		Record shipToRecord = new Record(shipTo);
-		shipToRecord.add("Name", "Ship To");
-		shipToRecord.add("Value", shipTo.toString());
 		list.add(shipToRecord);
 		return null;
 	}
