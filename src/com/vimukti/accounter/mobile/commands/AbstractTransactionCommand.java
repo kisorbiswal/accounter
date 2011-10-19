@@ -370,7 +370,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				+ getClientCompany().getItem(transactionItem.getItem())
 						.getName());
 		result.add(list);
-		if (getClientCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
 			result.add("Item Vat :" + transactionItem.getVATfraction());
 		}
 		double lt = transactionItem.getQuantity().getValue()
@@ -1363,7 +1363,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		double totalVat = 0.0;
 		double grandTotal = 0.0;
 		double totalValue = 0.0;
-		int accountType = getClientCompany().getAccountingType();
 
 		for (ClientTransactionItem citem : items) {
 			totaldiscount += citem.getDiscount();
@@ -1397,7 +1396,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		double totalVat = 0.0;
 		double grandTotal = 0.0;
 		double totalValue = 0.0;
-		int accountType = getClientCompany().getAccountingType();
 		for (ClientTransactionItem citem : items) {
 			totaldiscount += citem.getDiscount();
 
