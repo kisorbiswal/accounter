@@ -3,19 +3,21 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Box;
-import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientVATReturn;
 
 public class FileVATCommand extends AbstractVATCommand {
 
 	private static final String FROM_DATE = "fromDate";
 	private static final String TO_DATE = "toDate";
+	private static final String BOXES = "boxes";
 
 	@Override
 	public String getId() {
@@ -26,38 +28,73 @@ public class FileVATCommand extends AbstractVATCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(TAX_AGENCY, false, true));
-		list.add(new Requirement(FROM_DATE, false, true));
-		list.add(new Requirement(TO_DATE, false, true));
+		list.add(new Requirement(FROM_DATE, true, true));
+		list.add(new Requirement(TO_DATE, true, true));
+		list.add(new Requirement(BOXES, false, true));
 	}
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = context.makeResult();
 
-		result = taxAgencyRequirement(context, null, null);
+		setDefaultValues();
+
+		// Preparing Result
+		Result makeResult = context.makeResult();
+		makeResult.add(getMessages().readyToCreate(getConstants().fileVAT()));
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		result = taxAgencyRequirement(context, list, TAX_AGENCY);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateRequirement(context, FROM_DATE);
+		result = createOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateRequirement(context, TO_DATE);
-		if (result != null) {
-			return result;
-		}
-
-		result = createOptionalRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		return null;
+		return createFileVat(context);
 	}
 
-	private Result createOptionalRequirement(Context context) {
+	private Result createFileVat(Context context) {
+		ClientVATReturn clientVATReturn = new ClientVATReturn();
+		Date fromDate = get(FROM_DATE).getValue();
+		clientVATReturn.setVATperiodStartDate(fromDate.getTime());
+
+		Date toDate = get(TO_DATE).getValue();
+		clientVATReturn.setVATperiodStartDate(toDate.getTime());
+
+		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		clientVATReturn.setTaxAgency(taxAgency.getID());
+
+		List<ClientBox> boxes = get(BOXES).getValue();
+		clientVATReturn.setBoxes(boxes);
+
+		create(clientVATReturn, context);
+
+		markDone();
+		Result result = new Result();
+		result.add(getMessages().createSuccessfully(
+				getConstants().fileVATReturn()));
+
+		return result;
+	}
+
+	private void setDefaultValues() {
+		get(FROM_DATE).setDefaultValue(new Date());
+		get(TO_DATE).setDefaultValue(new Date());
+	}
+
+	private Result createOptionalRequirement(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
@@ -74,85 +111,46 @@ public class FileVATCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 
-		Requirement taxAgencyReq = get(TAX_AGENCY);
-		TAXAgency taxAgency = (TAXAgency) taxAgencyReq.getValue();
-		if (taxAgency == selection) {
-			context.setAttribute(INPUT_ATTR, TAX_AGENCY);
-			return getTaxAgencyResult(context);
+		Result result = dateRequirement(context, list, selection, FROM_DATE,
+				getMessages().pleaseEnter(getConstants().fromDate()));
+		if (result != null) {
+			return result;
 		}
 
-		Requirement fromDateReq = get(FROM_DATE);
-		Date fromDate = (Date) fromDateReq.getValue();
-		if (fromDate == selection) {
-			context.setAttribute(INPUT_ATTR, FROM_DATE);
-			return date(context, "Enter From Date", fromDate);
+		result = dateRequirement(context, list, selection, TO_DATE,
+				getMessages().pleaseEnter(getConstants().endDate()));
+		if (result != null) {
+			return result;
 		}
 
-		Requirement toDateReq = get(TO_DATE);
-		Date toDate = (Date) toDateReq.getValue();
-		if (toDate == selection) {
-			context.setAttribute(INPUT_ATTR, TO_DATE);
-			return date(context, "Enter To Date", toDate);
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record taxAgencyRecord = new Record(taxAgency);
-		taxAgencyRecord.add(INPUT_ATTR, TAX_AGENCY);
-		taxAgencyRecord.add("Value", taxAgency);
-		list.add(taxAgencyRecord);
-
-		Record fromDateRecord = new Record(fromDate);
-		fromDateRecord.add(INPUT_ATTR, FROM_DATE);
-		fromDateRecord.add("Value", fromDate);
-		list.add(fromDateRecord);
-
-		Record toDateRecord = new Record(toDate);
-		toDateRecord.add(INPUT_ATTR, TO_DATE);
-		toDateRecord.add("Value", toDate);
-		list.add(toDateRecord);
-
-		Result result = context.makeResult();
-		result.add("File VAT is ready to create with following values.");
-		result.add(list);
-		result.add("VAT Line:-");
+		makeResult.add("VAT Line:-");
 		ResultList boxes = new ResultList("vatline");
-		for (Box box : getBoxes()) {
+		List<ClientBox> boxes2 = getBoxes();
+		for (ClientBox box : boxes2) {
 			Record itemRec = createBoxRecord(box);
 			boxes.add(itemRec);
 		}
-		result.add(boxes);
+		makeResult.add(boxes);
 
-		ResultList actions = new ResultList(ACTIONS);
+		Requirement boxesReq = get(BOXES);
+		boxesReq.setValue(boxes2);
+
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to File vat.");
 		actions.add(finish);
-		result.add(actions);
 
-		return null;
+		return makeResult;
 	}
 
-	private Record createBoxRecord(Box box) {
+	private Record createBoxRecord(ClientBox box) {
 		Record record = new Record(box);
 		record.add("Vat Line", box.getName());
 		record.add("Amount", box.getAmount());
 		return record;
 	}
 
-	private List<Box> getBoxes() {
+	private List<ClientBox> getBoxes() {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result dateRequirement(Context context, String dateString) {
-		Requirement fromDateReq = get(dateString);
-		Date date = context.getSelection(DATE);
-		if (date != null) {
-			fromDateReq.setValue(date);
-		}
-		if (!fromDateReq.isDone()) {
-			return date(context, "Enter " + dateString, null);
-		}
 		return null;
 	}
 
