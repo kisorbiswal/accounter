@@ -58,7 +58,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 				context.setAttribute(ACCOUNT_TYPE, false);
 				break;
 			case ALL:
-				context.setAttribute(ACCOUNT_TYPE, false);
+				context.setAttribute(ACCOUNT_TYPE, null);
 				break;
 			default:
 				break;
@@ -130,13 +130,8 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 			return new ArrayList<Account>(accounts);
 		}
 		for (Account a : accounts) {
-			if (isActive) {
-				if (a.getIsActive()) {
-					list.add(a);
-				}
-			} else {
-				if (!a.getIsActive())
-					list.add(a);
+			if (a.getIsActive() == isActive) {
+				list.add(a);
 			}
 		}
 
