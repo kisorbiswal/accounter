@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
 public class NewPaymentTermCommand extends AbstractTransactionCommand {
 
@@ -32,72 +33,101 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = paymentTermNameRequirement(context);
+
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = null;
+
+		// Preparing result
+		Result makeResult = context.makeResult();
+		makeResult
+				.add(" Payment Term is ready to create with following values.");
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		result = nameRequirement(context, list, PAYMENT_TERMS,
+				"Please Enter Payment Term ");
 		if (result != null) {
 			return result;
 		}
-		result = optionalRequirements(context);
+
+		setDefaultValues();
+
+		result = optionalRequirements(context, list, actions, makeResult);
+		if (result != null) {
+			return result;
+		}
+
+		return completeProcess(context);
+	}
+
+	private Result completeProcess(Context context) {
+
+		ClientPaymentTerms paymentTerms = new ClientPaymentTerms();
+
+		String paymnetTermName = get(PAYMENT_TERMS).getValue();
+		paymentTerms.setName(paymnetTermName);
+
+		String description = get(DESCRIPTION).getValue();
+		paymentTerms.setDescription(description);
+
+		Integer dueDays = Integer.parseInt((String) get(DUE_DAYS).getValue());
+		paymentTerms.setDueDays(dueDays);
+
+		create(paymentTerms, context);
+
+		markDone();
+		Result result = new Result();
+		result.add(getMessages().createSuccessfully(
+				getConstants().paymentTerms()));
+
 		return result;
 	}
 
-	private Result optionalRequirements(Context context) {
+	private void setDefaultValues() {
 
-		context.setAttribute(INPUT_ATTR, "optional");
+		get(DESCRIPTION).setDefaultValue("");
+		get(DUE_DAYS).setDefaultValue("0");
+
+	}
+
+	private Result optionalRequirements(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
+
 		Object selection = context.getSelection(ACTIONS);
-
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
-
 			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
 				return null;
 			default:
 				break;
 			}
 		}
 
-		ResultList list = new ResultList("values");
 		selection = context.getSelection("values");
 
-		String description = (String) get(DESCRIPTION).getValue();
-		Record descriptionRecord = new Record(description);
-		descriptionRecord.add("Name", DESCRIPTION);
-		descriptionRecord.add("Value", description);
-		list.add(descriptionRecord);
+		Result result = stringOptionalRequirement(context, list, selection,
+				DESCRIPTION, "Please Enter Description");
+		if (result != null) {
+			return result;
+		}
 
-		int dueDays = get(DUE_DAYS).getValue();
-		Record dueDaysRec = new Record(dueDays);
-		dueDaysRec.add("Name", DUE_DAYS);
-		dueDaysRec.add("Value", dueDays);
-		list.add(dueDaysRec);
+		result = numberOptionalRequirement(context, list, selection, DUE_DAYS,
+				"Please enter Due days");
+		if (result != null) {
+			return result;
+		}
 
-		Result result = context.makeResult();
-		result.add("Payment Terms is ready to create with following values");
-		result.add(list);
-
-		ResultList actions = new ResultList(ACTIONS);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish Payment Terms.");
 		actions.add(finish);
-		result.add(actions);
-		return result;
+
+		return makeResult;
 	}
 
-	private Result paymentTermNameRequirement(Context context) {
-		Requirement requirement = get(PAYMENT_TERMS);
-		if (!requirement.isDone()) {
-			String paymentTerm = context.getSelection(TEXT);
-			if (paymentTerm != null) {
-				requirement.setValue(paymentTerm);
-			} else {
-				return text(context, "Please enter the Payment term name", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(PAYMENT_TERMS)) {
-			requirement.setValue(input);
-		}
-		return null;
-	}
 }

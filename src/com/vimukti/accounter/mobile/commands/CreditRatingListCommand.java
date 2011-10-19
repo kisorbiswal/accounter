@@ -37,17 +37,18 @@ public class CreditRatingListCommand extends AbstractTransactionCommand {
 	private Result optionalRequirements(Context context) {
 
 		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection(ACTIONS);
+		ActionNames selection = context.getSelection(ACTIONS);
 		if (selection != null) {
-			ActionNames actionNames = (ActionNames) selection;
-			switch (actionNames) {
+			switch (selection) {
 			case FINISH:
+				markDone();
+				return new Result();
+			case ALL:
 				return null;
 			default:
 				break;
 			}
 		}
-		selection = context.getSelection("values");
 		Result result = getCreditRatingResult(context);
 
 		return result;
@@ -59,23 +60,22 @@ public class CreditRatingListCommand extends AbstractTransactionCommand {
 
 		Result result = context.makeResult();
 		List<CreditRating> creditRatingList = getCreditRatingList(context);
-		int record = 0;
+
 		for (CreditRating creditRating : creditRatingList) {
 			resultList.add(createCreditRatingRecord(creditRating));
-			record++;
-			if (record == RECORDS_TO_SHOW) {
-				break;
-			}
 		}
 
+		ResultList actions = new ResultList(ACTIONS);
 		result.add(resultList);
 
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		Record inActiveRec = new Record(ActionNames.FINISH);
+		inActiveRec.add("", "Close");
+		actions.add(inActiveRec);
 
-		// TODO for edit and delete
-		// commandList.add("Edit");
-		// commandList.add("Remove");
+		result.add(actions);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create Credit Rating");
 
 		result.add(commandList);
 

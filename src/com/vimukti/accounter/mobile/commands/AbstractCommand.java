@@ -295,6 +295,7 @@ public abstract class AbstractCommand extends Command {
 		if (input.equals(reqName)) {
 			input = context.getString();
 			requirement.setValue(input);
+			context.setAttribute(INPUT_ATTR, "");
 		}
 		if (!requirement.isDone()) {
 			context.setAttribute(INPUT_ATTR, reqName);
@@ -305,7 +306,7 @@ public abstract class AbstractCommand extends Command {
 		String name = requirement.getValue();
 		if (selection != null && selection.equals(reqName)) {
 			context.setAttribute(INPUT_ATTR, reqName);
-			return text(context, "Enter Account Name", name);
+			return text(context, displayString, name);
 		}
 
 		Record nameRecord = new Record(reqName);
