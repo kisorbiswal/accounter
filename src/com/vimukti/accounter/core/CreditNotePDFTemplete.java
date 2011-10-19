@@ -79,12 +79,11 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			// for getting customer contact name
 			String cname = "";
 			String phone = "";
-			String email = "";
 			Customer customer = memo.getCustomer();
 			Set<Contact> contacts = customer.getContacts();
 			for (Contact contact : contacts) {
 				if (contact.isPrimary()) {
-					cname = contact.getName();
+					cname = contact.getName().trim();
 
 					if (contact.getBusinessPhone().trim().length() > 0)
 						phone = contact.getBusinessPhone();
@@ -93,8 +92,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 			// setting billing address
 			Address bill = memo.getBillingAddress();
-			String customerName = forUnusedAddress(
-					memo.getCustomer().getName(), false);
+			String customerName = forUnusedAddress(memo.getCustomer().getName()
+					.trim(), false);
 			if (bill != null) {
 				String customernameAddress = forUnusedAddress(cname, false)
 						+ customerName
@@ -399,7 +398,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
 
-		original.append("<img style='width:130px;height:120px'  src='file:///");
+		original.append("<img style='width:90px;height:90px'  src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("'/>");
