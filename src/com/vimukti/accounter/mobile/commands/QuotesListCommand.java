@@ -26,12 +26,6 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 
 	private static final String CURRENT_VIEW = "Current View";
 
-	private static final String OPEN = "Open";
-	private static final String REJECTED = "Rejected";
-	private static final String ACCEPTED = "Accepted";
-	private static final String EXPIRED = "Expired";
-	private static final String ALL = "All";
-
 	private static final int STATUS_OPEN = 0;
 	private static final int STATUS_REJECTED = 1;
 	private static final int STATUS_ACCECPTED = 2;
