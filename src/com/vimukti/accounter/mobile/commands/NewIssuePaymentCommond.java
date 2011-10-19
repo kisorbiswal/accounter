@@ -71,37 +71,38 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
-		
-		 result = paymentMethodRequirement(context, list, "please enter the payment method");
-		if (result != null) {
-			return result;
-		}
-		 
-		result = accountRequirement(context, list, ACCOUNTS,new ListFilter<ClientAccount>() {
 
-							@Override
-							public boolean filter(ClientAccount e) {
-								return Arrays.asList(ClientAccount.TYPE_BANK,
-										ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-										.contains(e.getType());
-							
-							}
-		});
+		result = paymentMethodRequirement(context, list,
+				"please enter the payment method");
 		if (result != null) {
 			return result;
 		}
-		
-		result = numberRequirement(context, list, CHEQUE_NO, "Please enter the cheque number");
+
+		result = accountRequirement(context, list, ACCOUNTS,
+				new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						return Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+								.contains(e.getType());
+
+					}
+				});
 		if (result != null) {
 			return result;
 		}
-		
-		
+
+		result = numberRequirement(context, list, CHEQUE_NO,
+				"Please enter the cheque number");
+		if (result != null) {
+			return result;
+		}
+
 		/**
-		 * here write for the  list of items
+		 * here write for the list of items
 		 */
-		
-		
+
 		result = accountItemsRequirement(context, null,
 				new ListFilter<ClientAccount>() {
 
@@ -192,17 +193,19 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 	}
 
 	private String getpaymentMethod(String paymentMethod, Context context) {
-		if (paymentMethod == null) {
-			return paymentMethod;
-		}
-		if (paymentMethod.equals(Accounter.constants().cheque())
-				|| paymentMethod.equals(Accounter.constants().check())) {
-			if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US)
-				return "Cheque";
-			else if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK)
-				return "Check";
-		}
-		return paymentMethod;
+		// if (paymentMethod == null) {
+		// return paymentMethod;
+		// }
+		// if (paymentMethod.equals(Accounter.constants().cheque())
+		// || paymentMethod.equals(Accounter.constants().check())) {
+		// if (context.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_US)
+		// return "Cheque";
+		// else if (context.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_UK)
+		// return "Check";
+		// }
+		return null;
 
 	}
 
