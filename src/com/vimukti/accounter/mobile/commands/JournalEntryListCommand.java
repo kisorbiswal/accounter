@@ -1,7 +1,9 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -10,10 +12,10 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class JournalEntryListCommand extends AbstractTransactionCommand {
-
-	private static final int NO_OF_JOURNAL_ENTRY_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -41,6 +43,7 @@ public class JournalEntryListCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
+				markDone();
 				return null;
 			default:
 				break;
@@ -57,36 +60,53 @@ public class JournalEntryListCommand extends AbstractTransactionCommand {
 	private Result getJournalEntryList(Context context) {
 		Result result = context.makeResult();
 		ResultList userList = new ResultList("journalEntryList");
-		int num = 0;
-		List<JournalEntry> entryList = getJournalEntryList();
-		for (JournalEntry entry : entryList) {
+		List<ClientJournalEntry> entryList = getJournalEntries(context);
+		for (ClientJournalEntry entry : entryList) {
 			userList.add(createJournalRecord(entry));
-			num++;
-			if (num == NO_OF_JOURNAL_ENTRY_TO_SHOW) {
-				break;
-			}
+
 		}
 
 		result.add(userList);
 
 		CommandList command = new CommandList();
-		command.add("Create");
+		command.add("Add a New Journal Entry");
 
 		result.add(command);
 
 		return result;
 	}
 
-	private Record createJournalRecord(JournalEntry entry) {
+	private Record createJournalRecord(ClientJournalEntry entry) {
 		Record record = new Record(entry);
 		record.add("Voucher No", entry.getNumber());
 		record.add("Date Created", entry.getDate());
+		record.add("Amount", entry.getTotal());
+		record.add("Memo", entry.getMemo());
+
+		// record.add("Voided", entry.isVoid());
 		return record;
 	}
 
-	private List<JournalEntry> getJournalEntryList() {
-		// TODO need to get JournalEntryList
-		return null;
+	public ArrayList<ClientJournalEntry> getJournalEntries(Context context) {
+		List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
+		List<JournalEntry> serverJournalEntries = null;
+		try {
+
+			serverJournalEntries = new FinanceTool().getJournalEntries(context
+					.getCompany().getID());
+			for (JournalEntry journalEntry : serverJournalEntries) {
+				clientJournalEntries
+						.add(new ClientConvertUtil().toClientObject(
+								journalEntry, ClientJournalEntry.class));
+			}
+			// journalEntry = (List<ClientJournalEntry>)
+			// manager.merge(journalEntry);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ArrayList<ClientJournalEntry>(clientJournalEntries);
 	}
 
 }
