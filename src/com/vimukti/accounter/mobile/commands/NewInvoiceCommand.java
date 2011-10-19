@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -271,7 +272,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		try {
 			cEstimate = new FinanceTool().getManager().getObjectById(
 					AccounterCoreType.ESTIMATE, transactionId,
-					Company.ACCOUNTING_TYPE_UK, context.getCompany().getID());
+					Accounter.getCompany().getAccountingType(),
+					context.getCompany().getID());
 		} catch (DAOException e1) {
 			e1.printStackTrace();
 		} catch (AccounterException e1) {
@@ -285,7 +287,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		try {
 			cSalesOrder = new FinanceTool().getManager().getObjectById(
 					AccounterCoreType.SALESORDER, transactionId,
-					Company.ACCOUNTING_TYPE_UK, context.getCompany().getID());
+					Accounter.getCompany().getAccountingType(),
+					context.getCompany().getID());
 		} catch (DAOException e1) {
 			e1.printStackTrace();
 		} catch (AccounterException e1) {
