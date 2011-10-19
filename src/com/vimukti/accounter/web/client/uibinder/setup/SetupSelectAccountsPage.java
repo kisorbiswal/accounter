@@ -58,6 +58,8 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	Label headerLabel;
 	@UiField
 	FlexTable accountsTable;
+	@UiField
+	Button selectAllButton;
 
 	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private int selectedIndusty;
@@ -77,7 +79,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 		restoreButton.setText(accounterConstants.restoreRecommendations());
 		expensesLink.setHTML(accounterMessages.whyshoudIUseRecommended());
 		expensesNote.setHTML(accounterMessages.recommendedNote());
-
+		selectAllButton.setText(accounterConstants.selectAll());
 		restoreButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -94,6 +96,23 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 					if (account.getDefaultValue()) {
 						selectedAccounts.add(account);
 					}
+				}
+			}
+		});
+
+		selectAllButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				List<TemplateAccount> accounts = setupWizard
+						.getIndustryDefaultAccounts();
+				selectedAccounts.clear();
+				for (int i = 0; i < accounts.size(); i++) {
+					TemplateAccount account = accounts.get(i);
+					CheckBox checkBox = (CheckBox) accountsTable
+							.getWidget(i, 0);
+					checkBox.setValue(true);
+					selectedAccounts.add(account);
 				}
 			}
 		});
