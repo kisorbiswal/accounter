@@ -17,7 +17,9 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -182,7 +184,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		enterBill.setVendor(vendor);
 		Date date = get(DATE).getValue();
 		if (date != null) {
-			enterBill.setDate(date.getTime());
+			enterBill.setDate(new ClientFinanceDate(date).getDate());
 		} else {
 			enterBill.setDate(System.currentTimeMillis());
 		}
@@ -194,13 +196,23 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		List<ClientTransactionItem> accounts = get("accounts").getValue();
 		items.addAll(accounts);
 
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
+
 		enterBill.setTransactionItems(items);
+		updateTotals(enterBill);
 
 		Date dueDate = get(DUE_DATE).getValue();
-		enterBill.setDueDate(dueDate.getTime());
+		enterBill.setDueDate(new ClientFinanceDate(dueDate).getDate());
 
 		Date deliveryDate = get(DELIVERY_DATE).getValue();
-		// enterBill.setDeliveryDate(new FinanceDate(deliveryDate));
+		enterBill.setDeliveryDate(new ClientFinanceDate(deliveryDate));
 
 		ClientContact contact = get(CONTACT).getValue();
 		enterBill.setContact(contact);
