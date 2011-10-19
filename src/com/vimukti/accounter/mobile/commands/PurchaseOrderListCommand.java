@@ -126,16 +126,19 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 	}
 
 	private List<PurchaseOrdersList> getPurchaseOrder(Context context,
-			int currentView) {
+			Integer currentView) {
 		FinanceTool tool = new FinanceTool();
-		List<PurchaseOrdersList> orders;
+		List<PurchaseOrdersList> purchaseOrders;
 		List<PurchaseOrdersList> result = new ArrayList<PurchaseOrdersList>();
 		try {
-			orders = tool.getPurchageManager().getPurchaseOrdersList(
+			purchaseOrders = tool.getPurchageManager().getPurchaseOrdersList(
 					context.getCompany().getID());
 
-			if (orders != null) {
-				for (PurchaseOrdersList purchaseOrder : orders) {
+			if (currentView == null) {
+				return purchaseOrders;
+			}
+			if (purchaseOrders != null) {
+				for (PurchaseOrdersList purchaseOrder : purchaseOrders) {
 					if (purchaseOrder.getStatus() == currentView) {
 						result.add(purchaseOrder);
 					}

@@ -62,8 +62,6 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 			default:
 				break;
 			}
-		} else {
-			context.setAttribute(CURRENT_VIEW, Transaction.STATUS_OPEN);
 		}
 
 		Result result = salesOrderList(context, selection);
@@ -124,16 +122,19 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 	}
 
 	private List<SalesOrdersList> getSalesOrders(Context context,
-			int currentView) {
+			Integer currentView) {
 		FinanceTool tool = new FinanceTool();
-		List<SalesOrdersList> orders;
+		List<SalesOrdersList> salesOrders;
 		List<SalesOrdersList> result = new ArrayList<SalesOrdersList>();
 		try {
-			orders = tool.getSalesManager().getSalesOrdersList(
+			salesOrders = tool.getSalesManager().getSalesOrdersList(
 					context.getCompany().getID());
 
-			if (orders != null) {
-				for (SalesOrdersList salesOrder : orders) {
+			if (currentView == null) {
+				return salesOrders;
+			}
+			if (salesOrders != null) {
+				for (SalesOrdersList salesOrder : salesOrders) {
 					if (salesOrder.getStatus() == currentView) {
 						result.add(salesOrder);
 					}
