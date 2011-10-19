@@ -5,9 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.VendorGroup;
@@ -58,7 +55,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	private static final String TRACK_PAYMENTS_FOR_1099 = "Track payments for 1099";
 	private static final String BALANCE = "Balance";
 	private static final String BALANCE_AS_OF = "Balance As Of";
-	private static final String ADDRESS = "address";
 	private static final String PHONE = "Phone";
 	private static final String FAX = "Fax";
 	private static final String EMAIL = "E-mail";
