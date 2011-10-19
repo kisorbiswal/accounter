@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
+import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
@@ -1861,5 +1862,44 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 						getClientCompany().getID());
 		return new ArrayList<ReceivePaymentTransactionList>(
 				receivePaymentTransactionList);
+	}
+
+	protected ArrayList<PayBillTransactionList> getTransactionPayBills(
+			long vendorId) {
+		ArrayList<PayBillTransactionList> bills = new ArrayList<PayBillTransactionList>();
+		try {
+			bills = new FinanceTool().getVendorManager()
+					.getTransactionPayBills(vendorId,
+							getClientCompany().getID());
+		} catch (DAOException e) {
+			e.printStackTrace();
+			bills = new ArrayList<PayBillTransactionList>();
+		}
+		return bills;
+	}
+
+	protected ArrayList<ClientCreditsAndPayments> getCreditsAndPayments(
+			long vendorId) {
+		ArrayList<CreditsAndPayments> vendorCreditsAndPayments = new ArrayList<CreditsAndPayments>();
+		try {
+			vendorCreditsAndPayments = new FinanceTool().getVendorManager()
+					.getVendorCreditsAndPayments(vendorId,
+							getClientCompany().getID());
+		} catch (DAOException e) {
+			e.printStackTrace();
+			vendorCreditsAndPayments = new ArrayList<CreditsAndPayments>();
+		}
+		ArrayList<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		for (CreditsAndPayments creditsAndPayments : vendorCreditsAndPayments) {
+			try {
+				clientCreditsAndPayments.add(new ClientConvertUtil()
+						.toClientObject(creditsAndPayments,
+								ClientCreditsAndPayments.class));
+			} catch (AccounterException e) {
+				e.printStackTrace();
+				clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+			}
+		}
+		return clientCreditsAndPayments;
 	}
 }
