@@ -90,7 +90,7 @@
 		THEN
 		P.NAME
 		WHEN T.T_TYPE = 28 THEN
-		U.FULL_NAME
+		C.FULL_NAME
 		END AS NAME,
 		T.TOTAL AS
 		TOTAL
@@ -112,6 +112,8 @@
 		LEFT OUTER JOIN
 		USERS U
 		ON U.ID=CP.EMPLOYEE
+		LEFT OUTER JOIN
+		CLIENT C ON C.ID = U.CLIENT_ID
 
 		WHERE 
 		CASE
@@ -2320,7 +2322,7 @@
 		case
 		when t.t_type = 28
 		then
-		u.full_name
+		C.full_name
 		else
 		p.name
 		end AS payee_name,
@@ -2409,6 +2411,8 @@
 		or p.id = cr.customer_id
 		left outer join
 		USERS u on u.id = cp.employee
+		LEFT OUTER JOIN
+		CLIENT C ON C.ID = U.CLIENT_ID
 		where t.COMPANY_ID=:companyId AND t.t_type not in (9) AND t.t_date BETWEEN :startDate AND :endDate
 		AND at.amount != 0 AND t.STATUS != 3
 		order by a.name,t.t_date
@@ -2434,7 +2438,7 @@
 		case
 		when t.t_type = 28
 		then
-		u.full_name
+		C.full_name
 		else
 		p.name
 		end as payee_name,
@@ -2523,6 +2527,8 @@
 		or p.id = cr.customer_id
 		left outer join
 		USERS u on u.id = cp.employee
+		LEFT OUTER JOIN
+		CLIENT C ON C.ID = U.CLIENT_ID
 		where t.COMPANY_ID=:companyId AND a.name=:accountName and t.t_type not in (9) AND t.t_date BETWEEN
 		:startDate AND :endDate
 		AND at.amount != 0 AND t.STATUS != 3

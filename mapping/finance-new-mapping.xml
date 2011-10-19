@@ -10,6 +10,7 @@
 		</id>
 		<property name="firstName" column="FIRST_NAME"></property>
 		<property name="lastName" column="LAST_NAME"></property>
+		<property name="fullName" column="FULL_NAME"></property>
 		<property name="emailId" unique="true" column="EMAIL_ID"></property>
 		<property name="password" column="PASSWORD"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>

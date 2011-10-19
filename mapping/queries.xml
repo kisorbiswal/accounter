@@ -1552,7 +1552,8 @@
 		<query-param name="companyId" type="long" />
 		<return-scalar column="name" type="string" />
 
-		SELECT empd.FULL_NAME as name FROM USERS empd WHERE empd.COMPANY_ID=:companyId
+		SELECT C.FULL_NAME as name FROM USERS empd LEFT OUTER JOIN
+		CLIENT C ON C.ID = empd.CLIENT_ID WHERE empd.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getMonthFromAccountAmounts">
