@@ -91,7 +91,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		setDefaultValues();
 
 		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().cashSale()));
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().cashPurchase()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
