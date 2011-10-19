@@ -7,10 +7,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -29,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewMakeDepositCommond extends AbstractTransactionCommand {
 	private static final String TRANSFERED_ACCOUNT = "transferedAccount";
-	private static final String TRANSFERED_TO = "transferedTo";
 	private static final String OLD_DEPOSITE_TRANSACTION_ITEM_ATTR = "oldDepositTransctionItemProcess";
 	private static final String DEPOSITE_TRANSACTION_PROCESS = "depositTransactionProcess";
 	private static final String MAKE_DEPOSITE_ACCOUNT_ITEM_DETAILS = "makeAdepositeAccountDetails";
@@ -356,7 +353,6 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 
 	private void completeProcess(Context context) {
 
-		Company company = context.getCompany();
 		ClientMakeDeposit makeDeposit = new ClientMakeDeposit();
 
 		Date date = get(DATE).getValue();
@@ -463,110 +459,6 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 			}
 		}
 		return result;
-	}
-
-	private Result depositTransaction(Context context,
-			TransactionMakeDeposit transactionItem) {
-		context.setAttribute(PROCESS_ATTR, DEPOSITE_TRANSACTION_PROCESS);
-		context.setAttribute(OLD_DEPOSITE_TRANSACTION_ITEM_ATTR,
-				transactionItem);
-
-		String lineAttr = (String) context.getAttribute(ITEM_PROPERTY_ATTR);
-		if (lineAttr != null) {
-			context.removeAttribute(ITEM_PROPERTY_ATTR);
-			if (lineAttr.equals("reference")) {
-				// transactionItem.getre
-			} else if (lineAttr.equals("amount")) {
-				transactionItem.setAmount(context.getDouble());
-			}
-		} else {
-			Object selection = context.getSelection(ITEM_DETAILS);
-			if (selection != null) {
-				if (selection == transactionItem.getReference()) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, "reference");
-					return reference(context, "Enter Reference",
-							transactionItem.getReference());
-				} else if (selection.equals("amount")) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, "amount");
-					return amount(context, "Enter Amount",
-							transactionItem.getAmount());
-				}
-			} else {
-				selection = context.getSelection(ACTIONS);
-				if (selection == ActionNames.FINISH) {
-					context.removeAttribute(PROCESS_ATTR);
-					context.removeAttribute(OLD_DEPOSITE_TRANSACTION_ITEM_ATTR);
-					return null;
-				} else if (selection == ActionNames.DELETE_ITEM) {
-					context.removeAttribute(PROCESS_ATTR);
-					return null;
-				}
-			}
-		}
-
-		ResultList list = new ResultList(ITEM_DETAILS);
-		Record record = new Record(transactionItem.getReference());
-		record.add("", "Reference");
-		record.add("", transactionItem.getReference());
-		list.add(record);
-
-		record = new Record("amount");
-		record.add("", "Amount");
-		record.add("", transactionItem.getAmount());
-		list.add(record);
-		Result result = context.makeResult();
-		result.add("Transaction details");
-		result.add("Transaction Name :"
-				+ transactionItem.getAccount().getName());
-		result.add(list);
-
-		ResultList actions = new ResultList(ACTIONS);
-		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", "Delete");
-		actions.add(record);
-		record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
-		actions.add(record);
-		result.add(actions);
-		return result;
-	}
-
-	private Result reference(Context context, String string, String reference) {
-		Result result = context.makeResult();
-		result.add(string);
-		if (reference != null) {
-			ResultList list = new ResultList(NUMBER);
-			Record record = new Record(reference);
-			record.add("", reference);
-			list.add(record);
-			result.add(list);
-		}
-		return result;
-	}
-
-	private Result transferdAccountRequiremnet(Context context,
-			String transferedAccount) {
-		Requirement itemsReq = get(transferedAccount);
-		List<TransactionItem> transactionItems = context
-				.getSelections(transferedAccount);
-
-		if (!itemsReq.isDone()) {
-			if (transactionItems.size() > 0) {
-				itemsReq.setValue(transactionItems);
-			} else {
-				return transferedAccount(context, transferedAccount);
-			}
-		}
-		if (transactionItems != null && transactionItems.size() > 0) {
-			List<TransactionItem> items = itemsReq.getValue();
-			items.addAll(transactionItems);
-		}
-		return null;
-	}
-
-	private Result transferedAccount(Context context, String transferedAccount) {
-
-		return null;
 	}
 
 	private Record createAccountRecord(Context context, ClientAccount account) {
