@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -60,7 +61,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("expirationDate", true, false));
 		list.add(new Requirement(MEMO, true, true));
 
-		list.add(new Requirement("tax", false, true));
+		list.add(new Requirement(TAXCODE, false, true));
 	}
 
 	@Override
@@ -98,6 +99,14 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		makeResult.add(actions);
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
+			}
+		}
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;

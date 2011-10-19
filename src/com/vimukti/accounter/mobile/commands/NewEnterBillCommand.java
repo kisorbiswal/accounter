@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -53,7 +54,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(DUE_DATE, true, true));
 		list.add(new Requirement(DELIVERY_DATE, true, true));
 		list.add(new Requirement(MEMO, true, true));
-
+		list.add(new Requirement(TAXCODE, false, true));
 		list.add(new ObjectListRequirement("items", false, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -121,6 +122,14 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 
 		makeResult.add(actions);
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
+			}
+		}
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;

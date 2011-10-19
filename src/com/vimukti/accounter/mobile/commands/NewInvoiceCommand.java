@@ -20,6 +20,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -74,7 +75,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(ORDER_NO, true, true));
 		list.add(new Requirement(MEMO, true, true));
 		list.add(new Requirement(ESTIMATEANDSALESORDER, true, true));
-		list.add(new Requirement("tax", false, true));
+		list.add(new Requirement(TAXCODE, false, true));
 	}
 
 	@Override
@@ -113,6 +114,14 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		makeResult.add(actions);
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
+			}
+		}
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
@@ -194,16 +203,17 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		EstimatesAndSalesOrdersList e = get(ESTIMATEANDSALESORDER).getValue();
 		ClientEstimate cct = null;
 		ClientSalesOrder cSalesOrder = null;
-		if (e.getType() == ClientTransaction.TYPE_ESTIMATE) {
-			invoice.setEstimate(e.getTransactionId());
-			cct = getEstimate(e.getTransactionId(), context);
-			addEstimate(cct, items);
-		} else {
-			invoice.setSalesOrder(e.getTransactionId());
-			cSalesOrder = getSalesOrder(e.getTransactionId(), context);
-			addSalesOrder(cSalesOrder, items);
+		if (e != null) {
+			if (e.getType() == ClientTransaction.TYPE_ESTIMATE) {
+				invoice.setEstimate(e.getTransactionId());
+				cct = getEstimate(e.getTransactionId(), context);
+				addEstimate(cct, items);
+			} else {
+				invoice.setSalesOrder(e.getTransactionId());
+				cSalesOrder = getSalesOrder(e.getTransactionId(), context);
+				addSalesOrder(cSalesOrder, items);
+			}
 		}
-
 		invoice.setTransactionItems(items);
 
 		create(invoice, context);
