@@ -3,14 +3,20 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class VendorPaymentsCommand extends AbstractTransactionCommand {
 
@@ -24,7 +30,6 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_BY, true, true));
 
 	}
 
@@ -32,67 +37,91 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 	public Result run(Context context) {
 		Result result = null;
 
-		result = createOptionalResult(context);
+		result = getVendorPaymentsList(context);
 		if (result != null) {
 			return result;
 		}
 		return result;
 	}
 
-	private Result createOptionalResult(Context context) {
+	private Result getVendorPaymentsList(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(VIEW_BY);
-
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		String viewType = get(VIEW_BY).getValue();
-		result = payments(context, viewType);
-		return result;
-	}
-
-	private Result payments(Context context, String viewType) {
-		Result result = context.makeResult();
-		result.add("Payments List");
-		ResultList billsListData = new ResultList("payments");
-		int num = 0;
-
-		List<PaymentsList> payments = getPayments(getType(viewType));
-
-		for (PaymentsList p : payments) {
-			billsListData.add(createPaymentRecord(p));
-			num++;
-			if (num == PAYMENTS_TO_SHOW) {
+		ActionNames selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			switch (selection) {
+			case FINISH:
+				markDone();
+				return new Result();
+			case ISSUED:
+				context.setAttribute(VIEW_BY, 1);
+				break;
+			case NOT_ISSUED:
+				context.setAttribute(VIEW_BY, 2);
+				break;
+			case VOIDED:
+				context.setAttribute(VIEW_BY, 3);
+				break;
+			case ALL:
+				context.setAttribute(VIEW_BY, null);
+				break;
+			default:
 				break;
 			}
 		}
-
-		int size = billsListData.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a payment");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create New");
-
-		result.add(message.toString());
-		result.add(billsListData);
-		result.add(commandList);
-		result.add("Type for payment");
-
+		Result result = vendorPaymentsList(context, selection);
 		return result;
 	}
 
-	private int getType(String viewType) {
-		if (viewType.equals(Accounter.constants().issued())) {
-			return 2;
-		} else if (viewType.equals(Accounter.constants().notIssued())) {
-			return 0;
+	private Result vendorPaymentsList(Context context, ActionNames selection) {
+		Result result = context.makeResult();
+		ResultList vendorPaymentsList = new ResultList("vendorPaymentsList");
+		result.add("Vendor Payments List");
+
+		Integer vendorPaymentType = (Integer) context.getAttribute(VIEW_BY);
+		List<PaymentsList> vendorPayments = getVendorPayments(context
+				.getCompany().getID(), vendorPaymentType);
+
+		ResultList actions = new ResultList("actions");
+
+		List<PaymentsList> pagination = pagination(context, selection, actions,
+				vendorPayments, new ArrayList<PaymentsList>(), VALUES_TO_SHOW);
+
+		for (PaymentsList payment : pagination) {
+			vendorPaymentsList.add(createPaymentRecord(payment));
 		}
-		return 0;
+
+		StringBuilder message = new StringBuilder();
+		if (vendorPaymentsList.size() > 0) {
+			message.append("Select an Vendor Payment");
+		}
+
+		result.add(message.toString());
+		result.add(vendorPaymentsList);
+
+		Record inActiveRec = new Record(ActionNames.ISSUED);
+		inActiveRec.add("", "Issued Payments");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.NOT_ISSUED);
+		inActiveRec.add("", "Not issued Payments");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.VOIDED);
+		inActiveRec.add("", "Voided Payments");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.ALL);
+		inActiveRec.add("", "All Payments");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.FINISH);
+		inActiveRec.add("", "Close");
+		actions.add(inActiveRec);
+
+		result.add(actions);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Add Vendor payment");
+		result.add(commandList);
+		return result;
+
 	}
 
 	private Record createPaymentRecord(PaymentsList p) {
@@ -106,6 +135,48 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 		payment.add("AmountPaid", p.getAmountPaid());
 		payment.add("Voided", p.isVoided());
 		return payment;
+	}
+
+	private List<PaymentsList> getVendorPayments(long companyId,
+			Integer vendorPaymentType) {
+		ArrayList<PaymentsList> vendorPaymentsList = null;
+		try {
+			vendorPaymentsList = new FinanceTool().getVendorManager()
+					.getVendorPaymentsList(companyId);
+
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		if (vendorPaymentType == null) {
+			return vendorPaymentsList;
+		}
+		ArrayList<PaymentsList> result = new ArrayList<PaymentsList>();
+		for (PaymentsList paymentsList : vendorPaymentsList) {
+			if (vendorPaymentType == 1) {
+				if (Utility.getStatus(paymentsList.getType(),
+						paymentsList.getStatus()).equalsIgnoreCase("Issued")
+						&& !paymentsList.isVoided()) {
+					result.add(paymentsList);
+				}
+			}
+			if (vendorPaymentType == 2) {
+				if (Utility.getStatus(paymentsList.getType(),
+						paymentsList.getStatus())
+						.equalsIgnoreCase("Not Issued")
+						&& !paymentsList.isVoided()) {
+					result.add(paymentsList);
+				}
+			}
+			if (vendorPaymentType == 3) {
+				if (paymentsList.isVoided()
+						&& paymentsList.getStatus() != ClientTransaction.STATUS_DELETED) {
+					result.add(paymentsList);
+				}
+			}
+
+		}
+		return result;
+
 	}
 
 	@Override
