@@ -234,18 +234,22 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				this.streetAddress1.setValue(address.getAddress1());
 				this.streetAdress2.setValue(address.getStreet());
 				this.cityTextBox.setValue(address.getCity());
+
+				if (address.getCountryOrRegion() != ""
+						&& address.getCountryOrRegion() != null
+						&& address.getCountryOrRegion().length() != 0) {
+					this.country.setSelectedIndex(countries.indexOf(address
+							.getCountryOrRegion()));
+					countryChanged();
+				}
+
 				if (address.getStateOrProvinence() != ""
 						&& address.getStateOrProvinence() != null
 						&& address.getStateOrProvinence().length() != 0) {
 					this.stateListBox.setSelectedIndex(statesList
 							.indexOf(address.getStateOrProvinence()));
 				}
-				if (address.getCountryOrRegion() != ""
-						&& address.getCountryOrRegion() != null
-						&& address.getStateOrProvinence().length() != 0) {
-					this.country.setSelectedIndex(countries.indexOf(address
-							.getCountryOrRegion()));
-				}
+
 				if (preferences.getTimezone() != ""
 						&& preferences.getTimezone() != null) {
 					this.timezoneslistbox.setSelectedIndex(timezones
@@ -275,7 +279,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)
-			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries
+					.get(country.getSelectedIndex()));
 		preferences.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)

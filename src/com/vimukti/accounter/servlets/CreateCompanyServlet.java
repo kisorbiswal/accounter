@@ -62,8 +62,9 @@ public class CreateCompanyServlet extends BaseServlet {
 		String companyName = request.getParameter("name");
 		String companyTypeStr = request.getParameter("companyType");
 		if (!isValidCompanyName(companyName)) {
-			request.setAttribute("errormessage",
-					"Invalid Company Name. Name Should be grater than 5 characters");
+			request
+					.setAttribute("errormessage",
+							"Invalid Company Name. Name Should be grater than 5 characters");
 			dispatch(request, response, view);
 			return;
 		}
@@ -120,11 +121,13 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 		long serverId = serverCompany.getId();
 		String serverCompanyName = serverCompany.getCompanyName();
+		String serverCompanyCountry = client.getCountry();
 		int serverCompanyType = serverCompany.getCompanyType();
 		ClientUser user = getUser(client);
 		final HttpSession httpSession = request.getSession(true);
 		try {
-			createComapny(serverId, serverCompanyName, serverCompanyType, user);
+			createComapny(serverId, serverCompanyName, serverCompanyCountry,
+					serverCompanyType, user);
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
 			updateServers(serverCompany.getServer(), true);
 		} catch (Exception e) {
@@ -137,9 +140,13 @@ public class CreateCompanyServlet extends BaseServlet {
 	}
 
 	private void createComapny(long companyID, String companyName,
-			int companyType, ClientUser user) throws Exception {
+			String serverCompanyCountry, int companyType, ClientUser user)
+			throws Exception {
 		Company company = new Company(companyType);
 		company.setId(companyID);
+		company.getRegisteredAddress().setCountryOrRegion(serverCompanyCountry);
+		company.getPreferences().getTradingAddress().setCountryOrRegion(
+				serverCompanyCountry);
 		company.setFullName(companyName);
 		init(company, companyID, user);
 	}
