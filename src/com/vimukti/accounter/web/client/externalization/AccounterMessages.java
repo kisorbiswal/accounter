@@ -882,5 +882,7 @@ public interface AccounterMessages extends Messages {
 	public String createSuccessfully(String cashSale);
 
 	public String finishToCreate(String cashSale);
+	
+	public String fullName(String firstName, String lastName);
 
 }

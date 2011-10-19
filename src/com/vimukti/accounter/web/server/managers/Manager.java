@@ -283,10 +283,11 @@ public class Manager {
 		}
 
 	}
-	
+
 	public void updateClientUser(ClientUser clientUser, Client client) {
 		clientUser.setFirstName(client.getFirstName());
 		clientUser.setLastName(client.getLastName());
+		clientUser.setFullName(client.getFullName());
 		clientUser.setEmail(client.getEmailId());
 	}
 }

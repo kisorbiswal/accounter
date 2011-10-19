@@ -15,6 +15,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.Global;
 
 public class SignupServlet extends BaseServlet {
 	/**
@@ -93,6 +94,8 @@ public class SignupServlet extends BaseServlet {
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
 				client.setLastName(lastName);
+				client.setFullName(Global.get().messages()
+						.fullName(firstName, lastName));
 				client.setPassword(passwordWithHash);
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);

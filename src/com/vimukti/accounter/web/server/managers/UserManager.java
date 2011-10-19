@@ -25,6 +25,7 @@ import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -281,6 +282,7 @@ public class UserManager extends Manager {
 			invitedClient.setEmailId(emailId);
 			invitedClient.setFirstName(clientUser.getFirstName());
 			invitedClient.setLastName(clientUser.getLastName());
+			invitedClient.setFullName(clientUser.getFullName());
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
 					.makeHash(emailId + randomString)));
 			// invitedClient.setRequirePasswordReset(true);
