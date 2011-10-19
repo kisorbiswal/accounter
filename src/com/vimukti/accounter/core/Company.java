@@ -321,14 +321,7 @@ public class Company implements IAccounterServerCore {
 		this.otherCashExpenseAccount = otherCashExpenseAccount;
 	}
 
-	/**
-	 * Creates new Instance
-	 */
 	public Company() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Company(int accountingType) {
 		// this.accountingType = accountingType;
 
 		this.preferences = new CompanyPreferences();
@@ -338,9 +331,9 @@ public class Company implements IAccounterServerCore {
 		registeredAddress = new Address();
 		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
 
-		if (accountingType == ACCOUNTING_TYPE_UK) {
-			preferences.setReferVendors(ClientVendor.SUPPLIER);
-		}
+		// if (accountingType == ACCOUNTING_TYPE_UK) {
+		// preferences.setReferVendors(ClientVendor.SUPPLIER);
+		// }
 		// initPrimaryCurrency();
 	}
 

@@ -57,19 +57,19 @@ public class CreateCompanyServlet extends BaseServlet {
 	private void doCreateCompany(HttpServletRequest request,
 			HttpServletResponse response, String emailID) throws IOException {
 		String companyName = request.getParameter("name");
-		String companyTypeStr = request.getParameter("companyType");
+		// String companyTypeStr = request.getParameter("companyType");
 		if (!isValidCompanyName(companyName)) {
 			request.setAttribute("errormessage",
 					"Invalid Company Name. Name Should be grater than 5 characters");
 			dispatch(request, response, view);
 			return;
 		}
-		int companyType = getCompanyType(companyTypeStr);
-		if (companyType < 0) {
-			request.setAttribute("errormessage", "Invalid Company Type.");
-			dispatch(request, response, view);
-			return;
-		}
+		// int companyType = getCompanyType(companyTypeStr);
+		// if (companyType < 0) {
+		// request.setAttribute("errormessage", "Invalid Company Type.");
+		// dispatch(request, response, view);
+		// return;
+		// }
 		Company company = null;
 		Client client = null;
 		Session session = HibernateUtil.openSession();
@@ -92,7 +92,7 @@ public class CreateCompanyServlet extends BaseServlet {
 				return;
 			}
 
-			company = new Company(companyType);
+			company = new Company();
 			// company.getClients().add(client);
 			// company.setActive(true);
 			company.setTradingName(companyName);
@@ -118,7 +118,8 @@ public class CreateCompanyServlet extends BaseServlet {
 
 			session.saveOrUpdate(company);
 
-			UsersMailSendar.sendMailToDefaultUser(user, company.getTradingName());
+			UsersMailSendar.sendMailToDefaultUser(user,
+					company.getTradingName());
 
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
 			transaction.commit();
