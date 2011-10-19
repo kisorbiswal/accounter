@@ -35,7 +35,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	@Override
 	public void createComapny(long companyID, String companyName,
 			int companyType, ClientUser user) throws AccounterException {
-		Company company = new Company(companyType);
+		Company company = new Company();
 		company.setID(companyID);
 		company.setTradingName(companyName);
 		init(company, companyID, user);
