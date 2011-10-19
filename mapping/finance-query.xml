@@ -4972,7 +4972,7 @@
 		PAYEE P ON P.ID = C.ID
 
 		WHERE P.COMPANY_ID=:companyId AND (CASE WHEN
-		:number = "" OR :number IS NULL
+		:number = '' OR :number IS NULL
 		THEN FALSE
 		ELSE C.NUMBER =:number
 		END OR
