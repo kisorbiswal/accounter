@@ -64,6 +64,7 @@ public class IntegerField extends TextItem {
 						errorsWidget.clearError(this);
 					} catch (Exception e) {
 						if (value.toString().length() != 0) {
+							IntegerField.this.highlight();
 							// BaseView.errordata.setHTML("<li> "
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");

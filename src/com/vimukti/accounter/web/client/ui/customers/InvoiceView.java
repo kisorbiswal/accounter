@@ -62,6 +62,7 @@ import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -385,7 +386,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
-		orderNumText = new TextItem(Accounter.constants().salesorderno());
+		orderNumText = new IntegerField(this, Accounter.constants()
+				.salesorderno());
 		orderNumText.setHelpInformation(true);
 		orderNumText.setWidth(38);
 		if (transaction != null)
