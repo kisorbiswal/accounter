@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -202,8 +203,8 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result amount(Context context, String message, Double oldAmount) {
-		return number(context, message,
-				oldAmount != null ? oldAmount.toString() : null);
+		return number(context, message, oldAmount != null ? oldAmount
+				.toString() : null);
 	}
 
 	protected Result number(Context context, String message, String oldNumber) {
@@ -350,8 +351,8 @@ public abstract class AbstractCommand extends Command {
 			if (selection != null) {
 				if (selection == "Address1") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "address1");
-					return text(context, "Enter Address1",
-							oldAddress.getAddress1());
+					return text(context, "Enter Address1", oldAddress
+							.getAddress1());
 				} else if (selection == "City") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "city");
 					return text(context, "Enter City", oldAddress.getCity());
@@ -359,13 +360,15 @@ public abstract class AbstractCommand extends Command {
 					context.setAttribute(ADDRESS_LINE_ATTR, "street");
 					return text(context, "Enter Street", oldAddress.getStreet());
 				} else if (selection == "State/Provinence") {
-					context.setAttribute(ADDRESS_LINE_ATTR, "stateOrProvinence");
-					return text(context, "Enter State/Provinence",
-							oldAddress.getStateOrProvinence());
+					context
+							.setAttribute(ADDRESS_LINE_ATTR,
+									"stateOrProvinence");
+					return text(context, "Enter State/Provinence", oldAddress
+							.getStateOrProvinence());
 				} else if (selection == "Country/Region") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "countryOrRegion");
-					return text(context, "Enter Country/Region",
-							oldAddress.getCountryOrRegion());
+					return text(context, "Enter Country/Region", oldAddress
+							.getCountryOrRegion());
 				}
 			} else {
 				selection = context.getSelection(ADDRESS_ACTIONS);
@@ -652,7 +655,7 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	private Record createVendorRecord(ClientVendor last) {
+	protected Record createVendorRecord(ClientVendor last) {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
 		record.add(" ,Balance", last.getBalance());
@@ -763,22 +766,17 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	protected List<ClientVendor> getVendors(boolean isActive) {
-
-		ArrayList<ClientVendor> vendors = new ArrayList<ClientVendor>(
-				getClientCompany().getVendors());
+	protected List<ClientVendor> getVendors(Boolean isActive) {
+		ArrayList<ClientVendor> vendors = getClientCompany().getVendors();
+		if (isActive == null) {
+			return vendors;
+		}
 		ArrayList<ClientVendor> result = new ArrayList<ClientVendor>();
-		if (!vendors.isEmpty())
-			for (ClientVendor vendor : vendors) {
-				if (isActive) {
-					if (vendor.isActive()) {
-						result.add(vendor);
-					}
-				} else {
-					result.add(vendor);
-				}
+		for (ClientVendor vendor : vendors) {
+			if (vendor.isActive() == isActive) {
+				result.add(vendor);
 			}
-
+		}
 		return result;
 	}
 
