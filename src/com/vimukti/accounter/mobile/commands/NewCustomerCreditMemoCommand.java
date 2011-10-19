@@ -239,15 +239,15 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		// TODO Location
 		// TODO Class
 
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			TAXCode taxCode = get("tax").getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
 
 		}
-		ClientCompanyPreferences preferences = getClientCompany()
-				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
