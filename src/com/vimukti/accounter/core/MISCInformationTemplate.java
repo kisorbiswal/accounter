@@ -30,7 +30,7 @@ public class MISCInformationTemplate {
 		try {
 			t = new MiniTemplator(templateFileName);
 
-			t.setVariable("companyName", myCompany.getFullName());
+			t.setVariable("companyName", myCompany.getTradingName());
 			t.addBlock("changeCompanyName");
 
 			t.setVariable("companyAddress1",

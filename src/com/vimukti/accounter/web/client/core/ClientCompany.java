@@ -974,13 +974,13 @@ public class ClientCompany implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return this.preferences.getFullName();
+		return this.preferences.getTradingName();
 	}
 
 	@Override
 	public String getName() {
 
-		return this.preferences.getFullName();
+		return this.preferences.getTradingName();
 	}
 
 	/**
@@ -1063,11 +1063,11 @@ public class ClientCompany implements IAccounterCore {
 		return this.preferences.getCompanyEmail();
 	}
 
-	public void setName(String stringValue) {
-		this.preferences.setFullName(stringValue);
+	public void setTradingName(String tradingName) {
+		this.preferences.setTradingName(tradingName);
 	}
 
-	public void setTradingName(String stringValue) {
+	public void setLegalName(String stringValue) {
 		this.preferences.setLegalName(stringValue);
 	}
 

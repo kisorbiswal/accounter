@@ -402,18 +402,18 @@ public class Company implements IAccounterServerCore {
 	/**
 	 * @return the name
 	 */
-	public String getFullName() {
-		return getPreferences().getFullName();
+	public String getTradingName() {
+		return getPreferences().getTradingName();
 	}
 
 	/**
 	 * @return the legalName
 	 */
-	public String getTradingName() {
+	public String getLegalName() {
 		return getPreferences().getLegalName();
 	}
 
-	public void setTradingName(String legalName) {
+	public void setLegalName(String legalName) {
 		getPreferences().setLegalName(legalName);
 	}
 
@@ -640,14 +640,12 @@ public class Company implements IAccounterServerCore {
 
 	@Override
 	public String toString() {
-
-		return getFullName() + " " + companyEmail;
-
+		return "TradingName:" + getTradingName() + " LegalName"
+				+ getLegalName() + ' ' + companyEmail;
 	}
 
-	public void setFullName(String name) {
-		this.getPreferences().setFullName(name);
-
+	public void setTradingName(String name) {
+		this.getPreferences().setTradingName(name);
 	}
 
 	/**
@@ -1060,7 +1058,7 @@ public class Company implements IAccounterServerCore {
 			throws AccounterException {
 
 		ServerConvertUtil serverConvertUtil = new ServerConvertUtil();
-		this.setFullName(clientCompany.getName());
+		this.setTradingName(clientCompany.getName());
 
 		this.setRegisteredAddress(serverConvertUtil.toServerObject(
 				this.registeredAddress, clientCompany.getRegisteredAddress(),
@@ -1068,7 +1066,7 @@ public class Company implements IAccounterServerCore {
 
 		this.setCompanyEmail(clientCompany.getCompanyEmail());
 		// RegisteredName=legalName
-		this.setTradingName(clientCompany.getTradingName());
+		this.setLegalName(clientCompany.getTradingName());
 		this.setRegistrationNumber(clientCompany.getRegistrationNumber());
 		this.setTaxId(clientCompany.getTaxId());
 		this.setBankAccountNo(clientCompany.getBankAccountNo());
@@ -1111,7 +1109,7 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public String getDisplayName() {
-		return preferences.getFullName();
+		return preferences.getTradingName();
 	}
 
 	// public String getCompanyID() {

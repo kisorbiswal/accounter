@@ -222,7 +222,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	public void onLoad() {
 
 		if (this.preferences != null) {
-			companyName.setValue(preferences.getFullName());
+			companyName.setValue(preferences.getTradingName());
 			legalName.setValue(preferences.getLegalName());
 			this.taxId.setValue(preferences.getTaxId());
 			this.fax.setValue(preferences.getFax());
@@ -263,7 +263,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	public void onSave() {
 
 		address = new ClientAddress();
-		preferences.setFullName(companyName.getValue().toString());
+		preferences.setTradingName(companyName.getValue().toString());
 		preferences.setLegalName(legalName.getValue().toString());
 		preferences.setPhone(phone.getValue().toString());
 		preferences.setCompanyEmail(emailAddress.getValue().toString());

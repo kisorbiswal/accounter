@@ -1902,7 +1902,7 @@ public class FinanceTool {
 		String fileName = "";
 		String output = "";
 		Company company = getCompany(companyId);
-		String companyName = company.getFullName();
+		String companyName = company.getTradingName();
 
 		// for printing individual pdf documents
 		if (type == Transaction.TYPE_INVOICE) {

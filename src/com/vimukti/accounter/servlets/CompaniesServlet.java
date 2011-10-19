@@ -78,8 +78,8 @@ public class CompaniesServlet extends BaseServlet {
 
 					@Override
 					public int compare(Company company1, Company company2) {
-						return company1.getFullName().compareTo(
-								company2.getFullName());
+						return company1.getTradingName().compareTo(
+								company2.getTradingName());
 					}
 
 				});

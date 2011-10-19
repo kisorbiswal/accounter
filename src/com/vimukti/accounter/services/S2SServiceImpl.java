@@ -37,7 +37,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			int companyType, ClientUser user) throws AccounterException {
 		Company company = new Company(companyType);
 		company.setID(companyID);
-		company.setFullName(companyName);
+		company.setTradingName(companyName);
 		init(company, companyID, user);
 	}
 
@@ -125,7 +125,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			// company.initialize(null);
 
 			transaction.commit();
-			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());
+			UsersMailSendar.sendMailToDefaultUser(user, company.getTradingName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -241,10 +241,10 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			transaction.commit();
 			if (userExists) {
 				UsersMailSendar.sendMailToOtherCompanyUser(invitedClient,
-						serverCompany.getFullName(), inviter);
+						serverCompany.getTradingName(), inviter);
 			} else {
 				UsersMailSendar.sendMailToInvitedUser(invitedClient,
-						randomString, serverCompany.getFullName());
+						randomString, serverCompany.getTradingName());
 			}
 
 			return userExists;
@@ -291,7 +291,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			transaction = session.beginTransaction();
 			Company company = (Company) session.get(Company.class,
 					serverCompanyID);
-			company.setFullName(fullName);
+			company.setTradingName(fullName);
 			session.saveOrUpdate(company);
 			transaction.commit();
 		} catch (Exception e) {

@@ -61,7 +61,7 @@
 	<query name="getServerCompany.by.name">
 		<query-param name="name" type="string" />
 		from com.vimukti.accounter.core.Company c where
-		c.preferences.fullName=:name
+		c.preferences.tradingName=:name
 	</query>
 
 	<query name="getServerCompany.by.id">

@@ -412,7 +412,7 @@ public class ReportsApiServlet extends HttpServlet {
 		Set<User> users = client.getUsers();
 		for (User user : users) {
 			Company company = user.getCompany();
-			companyIds.put(company.getFullName(), company.getID());
+			companyIds.put(company.getTradingName(), company.getID());
 		}
 		ApiSerializationFactory factory = getSerializationFactory(req);
 		String string = factory.serializeCompanyMap(companyIds);

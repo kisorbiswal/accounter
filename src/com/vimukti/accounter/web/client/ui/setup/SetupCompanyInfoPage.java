@@ -175,8 +175,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.id = company.id;
-		clientCompany.setName(companynameText.getValue().toString());
-		clientCompany.setTradingName(legalnameText.getValue().toString());
+		clientCompany.setTradingName(companynameText.getValue().toString());
+		clientCompany.setLegalName(legalnameText.getValue().toString());
 		clientCompany.setPhone(phonenumberText.getValue().toString());
 		clientCompany.setCompanyEmail(emailText.getValue().toString());
 		clientCompany.setTaxId(taxId.getValue().toString());

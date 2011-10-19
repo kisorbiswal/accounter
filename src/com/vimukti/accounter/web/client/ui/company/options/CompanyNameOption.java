@@ -74,7 +74,7 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		getCompany().setName(companyNameTextBox.getValue());
+		getCompany().setTradingName(companyNameTextBox.getValue());
 		// company.setTradingName(comapnyLegalNameTextBox.getValue());
 	}
 

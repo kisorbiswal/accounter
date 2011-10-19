@@ -111,7 +111,7 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onSave() {
-		company.setTradingName(tradingCompanyName.getValue());
+		company.setLegalName(tradingCompanyName.getValue());
 		company.getTradingAddress().setAddress1(address1Text.getValue());
 		company.getTradingAddress().setStreet(address2Text.getValue());
 		company.getTradingAddress().setCity(cityText.getValue());

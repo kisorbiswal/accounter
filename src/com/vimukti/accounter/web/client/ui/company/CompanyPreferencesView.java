@@ -827,8 +827,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		 */
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.id = company.id;
-		clientCompany.setName(getStringValue(companyNameText));
-		clientCompany.setTradingName(getStringValue(this.trandigNameText));
+		clientCompany.setTradingName(getStringValue(companyNameText));
+		clientCompany.setLegalName(getStringValue(this.trandigNameText));
 		clientCompany.setPhone(getStringValue(phoneText));
 		clientCompany.setCompanyEmail(getStringValue(emailText));
 		clientCompany.setTaxId(getStringValue(taxIDText));

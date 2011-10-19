@@ -97,7 +97,12 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long CLASS_WARRNING = 0x8000000000L;
 
 	private static final long TRANSACTION_PER_DETAIL_LINE = 0x20000000000L;
+
 	private static final long DO_PRODUCT_SHIPMENTS = 0x40000000000L;
+
+	private static final long USE_DIFF_NAME_TO_COMM_WITH_GOVT = 0x80000000000L;
+
+	private static final long USE_DIFF_ADDR_TO_COMM_WITH_GOVT = 0x200000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -182,7 +187,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	// --------Company Details---------------
 
-	private String fullName;
+	private String tradingName;
 
 	private String legalName;
 
@@ -1178,16 +1183,16 @@ public class CompanyPreferences implements IAccounterServerCore {
 	/**
 	 * @return the fullName
 	 */
-	public String getFullName() {
-		return fullName;
+	public String getTradingName() {
+		return tradingName;
 	}
 
 	/**
-	 * @param fullName
+	 * @param tradingName
 	 *            the fullName to set
 	 */
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setTradingName(String tradingName) {
+		this.tradingName = tradingName;
 	}
 
 	/**
@@ -1340,6 +1345,22 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setTrackPaidTax(boolean value) {
 		set(TRACK_PAID_TAX, value);
+	}
+
+	public boolean isUseDiffNameToCommWithGovt() {
+		return get(USE_DIFF_NAME_TO_COMM_WITH_GOVT);
+	}
+
+	public void setUseDiffNameToCommWithGovt(boolean value) {
+		set(USE_DIFF_NAME_TO_COMM_WITH_GOVT, value);
+	}
+
+	public boolean isUseDiffAddrToCommWithGovt() {
+		return get(USE_DIFF_ADDR_TO_COMM_WITH_GOVT);
+	}
+
+	public void setUseDiffAddrToCommWithGovt(boolean value) {
+		set(USE_DIFF_ADDR_TO_COMM_WITH_GOVT, value);
 	}
 
 	public TAXCode getDefaultTaxCode() {

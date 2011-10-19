@@ -162,7 +162,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
 					.getMainServerDomain());
 			s2sSyncProxy.updateServerCompany(company.getID(),
-					preferences.getFullName());
+					preferences.getTradingName());
 
 			// Initializing Accounts
 			company.initialize(accounts);

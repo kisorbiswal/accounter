@@ -220,7 +220,7 @@
 
 		<component name="preferences" class="CompanyPreferences"
 			lazy="false">
-			<property name="fullName" not-null="true" column="FULL_NAME"></property>
+			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>
 			<property name="timezone" column="TIMEZONE"></property>
 			<property name="companyEmail" column="COMPANY_EMAIL"></property>
 			<property name="taxId" column="TAX_ID"></property>

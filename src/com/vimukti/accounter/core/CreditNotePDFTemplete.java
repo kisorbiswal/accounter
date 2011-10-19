@@ -275,7 +275,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-			regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
+			regestrationAddress = (company.getTradingName() + "&nbsp;&nbsp;&nbsp;"
 					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
 					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 					+ company.getRegistrationNumber()
@@ -428,7 +428,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 		regestrationAddress = (contactDetails
 				+ "<br/><hr width = 100%>&nbsp;&nbsp;&nbsp;"
-				+ company.getFullName() + "<br/>&nbsp;&nbsp;&nbsp;"
+				+ company.getTradingName() + "<br/>&nbsp;&nbsp;&nbsp;"
 				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()

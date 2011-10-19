@@ -30,20 +30,20 @@
 			   <c:set var='url' value="/main/companies?companyId=${company.id}"/>
 			    <c:set var='deleteurl' value="/main/deletecompany?companyId=${company.id}"/>
 			    <c:choose>
-				    <c:when test="${company.companyType == 0}">
+				    <c:when test="${company.accountingType == 0}">
 				   		<c:set var='companyType' value="US"/>
 				    </c:when>
-				    <c:when test="${company.companyType == 1}">
+				    <c:when test="${company.accountingType == 1}">
 				     	<c:set var='companyType' value="UK"/>
 				    </c:when>
-				    <c:when test="${company.companyType == 2}">
+				    <c:when test="${company.accountingType == 2}">
 				        <c:set var='companyType' value="IND"/>
 				    </c:when>
 				    <c:otherwise>
-				        <c:set var='companyType' value="OTH"/>
+				        <c:set var='accountingType' value="OTH"/>
 				    </c:otherwise>
 				</c:choose>
-			   <div class="companies-list"><a href= '${url}'>${company.companyName} - ${companyType} </a> <a class="delete_company" href= '${deleteurl}' >Delete</a></div>
+			   <div class="companies-list"><a href= '${url}'>${company.preferences.tradingName} - ${companyType} </a> <a class="delete_company" href= '${deleteurl}' >Delete</a></div>
 		   </c:forEach>
 	    </c:if>
 	    </li>

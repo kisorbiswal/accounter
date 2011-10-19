@@ -95,7 +95,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			company = new Company(companyType);
 			// company.getClients().add(client);
 			// company.setActive(true);
-			company.setFullName(companyName);
+			company.setTradingName(companyName);
 			company.setAccountingType(companyType);
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
@@ -118,7 +118,7 @@ public class CreateCompanyServlet extends BaseServlet {
 
 			session.saveOrUpdate(company);
 
-			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());
+			UsersMailSendar.sendMailToDefaultUser(user, company.getTradingName());
 
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
 			transaction.commit();
@@ -233,7 +233,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		buffer.append('&');
 		buffer.append(PARA_COMPANY_NAME);
 		buffer.append('=');
-		buffer.append(new UrlEncoded(company.getFullName()).encode());
+		buffer.append(new UrlEncoded(company.getTradingName()).encode());
 
 		buffer.append('&');
 		buffer.append(PARAM_COMPANY_TYPE);

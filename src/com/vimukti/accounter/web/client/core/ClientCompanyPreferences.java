@@ -99,6 +99,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long DO_PRODUCT_SHIPMENTS = 0x40000000000L;
 
+	private static final long USE_DIFF_NAME_TO_COMM_WITH_GOVT = 0x80000000000L;
+
+	private static final long USE_DIFF_ADDR_TO_COMM_WITH_GOVT = 0x200000000000L;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -179,7 +183,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	// --------Company Details---------------
 
-	private String fullName;
+	private String tradingName;
 
 	private String legalName;
 
@@ -674,12 +678,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return fullName;
+		return tradingName;
 	}
 
 	@Override
 	public String getName() {
-		return fullName;
+		return tradingName;
 	}
 
 	@Override
@@ -1002,18 +1006,18 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// }
 
 	/**
-	 * @return the fullName
+	 * @return the tradingName
 	 */
-	public String getFullName() {
-		return fullName;
+	public String getTradingName() {
+		return tradingName;
 	}
 
 	/**
-	 * @param fullName
-	 *            the fullName to set
+	 * @param tradingName
+	 *            the tradingName to set
 	 */
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setTradingName(String tradingName) {
+		this.tradingName = tradingName;
 	}
 
 	/**
@@ -1158,6 +1162,22 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setTrackPaidTax(boolean value) {
 		set(TRACK_PAID_TAX, value);
+	}
+
+	public boolean isUseDiffNameToCommWithGovt() {
+		return get(USE_DIFF_NAME_TO_COMM_WITH_GOVT);
+	}
+
+	public void setUseDiffNameToCommWithGovt(boolean value) {
+		set(USE_DIFF_NAME_TO_COMM_WITH_GOVT, value);
+	}
+
+	public boolean isUseDiffAddrToCommWithGovt() {
+		return get(USE_DIFF_ADDR_TO_COMM_WITH_GOVT);
+	}
+
+	public void setUseDiffAddrToCommWithGovt(boolean value) {
+		set(USE_DIFF_ADDR_TO_COMM_WITH_GOVT, value);
 	}
 
 	public long getDefaultTaxCode() {

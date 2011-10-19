@@ -304,10 +304,10 @@ public class UserManager extends Manager {
 		session.save(invitedClient);
 		if (userExists) {
 			UsersMailSendar.sendMailToOtherCompanyUser(invitedClient,
-					company.getFullName(), inviter);
+					company.getTradingName(), inviter);
 		} else {
 			UsersMailSendar.sendMailToInvitedUser(invitedClient, randomString,
-					company.getFullName());
+					company.getTradingName());
 		}
 	}
 

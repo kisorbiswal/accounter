@@ -179,7 +179,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			Company company = (Company) session.get(Company.class,
 					Long.parseLong(companyID));
 			if (company != null) {
-				return company.getFullName();
+				return company.getTradingName();
 			}
 		} finally {
 			session.close();

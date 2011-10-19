@@ -299,12 +299,6 @@ public class CompanyManager extends Manager {
 			session.save(activity);
 			session.update(cmp);
 
-			// Updating ServerCompany
-			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
-					.getMainServerDomain());
-			s2sSyncProxy.updateServerCompany(context.getCompanyId(), cmp
-					.getPreferences().getFullName());
-
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
 			return cmp.getID();

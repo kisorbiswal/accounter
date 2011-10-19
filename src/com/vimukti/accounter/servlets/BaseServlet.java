@@ -97,7 +97,7 @@ public class BaseServlet extends HttpServlet {
 	protected String getCompanyName(HttpServletRequest req) {
 		Company company = getCompany(req);
 		if (company != null) {
-			return company.getFullName();
+			return company.getTradingName();
 		}
 		// Query query = session.getNamedQuery("getServerCompany.by.id")
 		// .setParameter("id", Long.valueOf(companyID));

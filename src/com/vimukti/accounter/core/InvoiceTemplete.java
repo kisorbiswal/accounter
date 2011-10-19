@@ -89,7 +89,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 
 		if (cmpAdd.equals("<br/><br/><br/><br/><br/>")) {
 			String contactDetails = brandingTheme.getContactDetails() != null ? brandingTheme
-					.getContactDetails() : this.company.getFullName();
+					.getContactDetails() : this.company.getTradingName();
 			cmpAdd = ("<p style=\"font-family:" + brandingTheme.getFont()
 					+ "; font-size:" + getFontSize(6) + "pt;\"><strong> "
 					+ forNullValue(TemplateBuilder.getCmpName())
@@ -327,7 +327,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 							true) + ".");
 		}
 
-		regAdd = (company.getFullName() + regAdd + ((company
+		regAdd = (company.getTradingName() + regAdd + ((company
 				.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()
