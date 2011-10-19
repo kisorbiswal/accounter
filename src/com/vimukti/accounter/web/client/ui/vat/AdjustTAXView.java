@@ -232,9 +232,10 @@ public class AdjustTAXView extends
 		mainPanel.add(infoLabel);
 		mainPanel.add(datepanel);
 		mainPanel.add(topform);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			mainPanel.add(vatform);
-		}
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK) {
+		// mainPanel.add(vatform);
+		// }
 		mainPanel.add(memoForm);
 		mainPanel.setSpacing(10);
 
@@ -476,6 +477,6 @@ public class AdjustTAXView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

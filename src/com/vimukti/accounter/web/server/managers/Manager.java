@@ -166,8 +166,7 @@ public class Manager {
 	}
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id, int companyType, long companyId) throws DAOException,
-			AccounterException {
+			long id, long companyId) throws DAOException, AccounterException {
 
 		Object serverObject = getServerObjectForid(type, id);
 
@@ -176,18 +175,17 @@ public class Manager {
 		if (serverObject != null) {
 			T t = (T) new ClientConvertUtil().toClientObject(serverObject,
 					Util.getClientEqualentClass(serverClass));
-			if (t instanceof ClientTransaction
-					&& companyType == Company.ACCOUNTING_TYPE_UK) {
-				Session session = HibernateUtil.getCurrentSession();
-				Company company = getCompany(companyId);
-				Query query2 = session
-						.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");
-				query2.setParameter("id", t.getID()).setEntity("company",
-						company);
-				List<?> list = query2.list();
-				if (list != null && list.size() > 0)
-					((ClientTransaction) t).setCanEdit(false);
-			}
+			// if (t instanceof ClientTransaction
+			// && companyType == Company.ACCOUNTING_TYPE_UK) {
+			Session session = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyId);
+			Query query2 = session
+					.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");
+			query2.setParameter("id", t.getID()).setEntity("company", company);
+			List<?> list = query2.list();
+			if (list != null && list.size() > 0)
+				((ClientTransaction) t).setCanEdit(false);
+			// }
 			return t;
 
 		}

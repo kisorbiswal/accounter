@@ -176,9 +176,9 @@ public class MacMenuServlet extends BaseServlet {
 	// return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK;
 	// }
 
-	private boolean isUSType() {
-		return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US;
-	}
+	// private boolean isUSType() {
+	// return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US;
+	// }
 
 	private void addFooter() {
 		builder.append("</menus></xml>");
@@ -254,10 +254,10 @@ public class MacMenuServlet extends BaseServlet {
 				iGlobal.messages()
 						.transactionDetailByAccount(iGlobal.Account()),
 				"company/accounter#transactionDetailByAccount");
-		if (isUSType()) {
-			subMenu(financialValue, iGlobal.constants().generalLedgerReport(),
-					"company/accounter#generalLedger");
-		}
+		// if (isUSType()) {
+		subMenu(financialValue, iGlobal.constants().generalLedgerReport(),
+				"company/accounter#generalLedger");
+		// }
 		subMenu(financialValue, iGlobal.constants().expenseReport(),
 				"company/accounter#expenseReport");
 		if (isTaxTracking()) {
@@ -465,11 +465,11 @@ public class MacMenuServlet extends BaseServlet {
 			subMenu(newValues, iGlobal.messages()
 					.vendorCredit(iGlobal.Vendor()),
 					"company/accounter#vendorCredit");
-			if (isUSType()) {
-				subMenu(newValues, iGlobal.constants().newCheck(),
-						"company/accounter#check");
-				items += 1;
-			}
+			// if (isUSType()) {
+			subMenu(newValues, iGlobal.constants().newCheck(),
+					"company/accounter#check");
+			items += 1;
+			// }
 			items += 1;
 		}
 		if (items > 0) {

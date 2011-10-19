@@ -342,21 +342,14 @@ public class TransactionPayBill extends CreatableObject implements
 						+ amount);
 				// TODO
 
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-
-					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
-							- amount);
-
-				} else {
-
-					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
-							- amount);
-				}
+				this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
+						- amount);
 
 				if (DecimalUtil.isGreaterThan(this.enterBill.getBalanceDue(),
 						0D)
-						&& DecimalUtil.isLessThan(this.enterBill
-								.getBalanceDue(), this.enterBill.getTotal())) {
+						&& DecimalUtil.isLessThan(
+								this.enterBill.getBalanceDue(),
+								this.enterBill.getTotal())) {
 					this.enterBill.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
 				} else if (DecimalUtil.isEquals(this.enterBill.getBalanceDue(),
 						0D)) {
@@ -372,13 +365,11 @@ public class TransactionPayBill extends CreatableObject implements
 								+ amount);
 				this.transactionMakeDeposit
 						.setBalanceDue(this.transactionMakeDeposit
-								.getBalanceDue()
-								- amount);
+								.getBalanceDue() - amount);
 
 			} else if (this.journalEntry != null) {
 				this.journalEntry.setBalanceDue(this.journalEntry
-						.getBalanceDue()
-						- amount);
+						.getBalanceDue() - amount);
 			}
 
 		}
@@ -569,8 +560,8 @@ public class TransactionPayBill extends CreatableObject implements
 		if (DecimalUtil.isGreaterThan(amtdue, 0)) {
 			if (DecimalUtil.isGreaterThan(this.getPayment(), amtdue)) {
 
-				if (DecimalUtil.isLessThan(this.getAmountDue(), this
-						.getPayment()))
+				if (DecimalUtil.isLessThan(this.getAmountDue(),
+						this.getPayment()))
 					previousUnusedAmount = this.getPayment()
 							- this.getAmountDue();
 
@@ -602,8 +593,8 @@ public class TransactionPayBill extends CreatableObject implements
 
 			if (DecimalUtil.isGreaterThan(this.payment, amtdue)) {
 
-				if (DecimalUtil.isLessThan(this.getAmountDue(), this
-						.getPayment()))
+				if (DecimalUtil.isLessThan(this.getAmountDue(),
+						this.getPayment()))
 					previousUnusedAmount = this.getPayment()
 							- this.getAmountDue();
 

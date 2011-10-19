@@ -7,8 +7,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -19,7 +17,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -37,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * 
@@ -168,8 +166,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							public void selectedComboBoxItem(String selectItem) {
 								if (viewSelect.getSelectedValue() != null) {
 									if (viewSelect.getSelectedValue()
-											.toString().equalsIgnoreCase(
-													"Active"))
+											.toString()
+											.equalsIgnoreCase("Active"))
 										filterList(true);
 									else
 										filterList(false);
@@ -274,7 +272,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					HasHorizontalAlignment.ALIGN_RIGHT);
 
 		} else if (this instanceof VendorListView
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				&& getCompany().getCountry().equals(
+						CountryPreferenceFactory.UNITED_STATES)) {
 			form.setFields(viewSelect);
 			hlay.add(prepare1099MiscForms);
 			hlay.setCellWidth(prepare1099MiscForms, "65%");
@@ -283,7 +282,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(prepare1099MiscForms, ALIGN_RIGHT);
 			hlay.addStyleName("vendor_list_1099");
 		} else if (this instanceof BudgetListView
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				&& getCompany().getCountry().equals(
+						CountryPreferenceFactory.UNITED_STATES)) {
 			form.setFields(viewSelect);
 			hlay.add(form);
 			hlay.add(budgetDetails);
@@ -308,8 +308,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlayTop.add(addNewLabel);
 			if (getAddNewLabelString().length() != 0) {
 				hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
-						.length()
-						+ "px");
+						.length() + "px");
 			}
 		}
 		if (isViewSelectRequired)

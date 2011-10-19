@@ -42,7 +42,7 @@ public class Company implements IAccounterServerCore {
 
 	private long id;
 	private int version;
-	int accountingType = 0;
+	// int accountingType = 0;
 
 	// String companyID;
 
@@ -329,7 +329,7 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Company(int accountingType) {
-		this.accountingType = accountingType;
+		// this.accountingType = accountingType;
 
 		this.preferences = new CompanyPreferences();
 		Address tradingAddress = new Address();
@@ -341,30 +341,30 @@ public class Company implements IAccounterServerCore {
 		if (accountingType == ACCOUNTING_TYPE_UK) {
 			preferences.setReferVendors(ClientVendor.SUPPLIER);
 		}
-		initPrimaryCurrency();
+		// initPrimaryCurrency();
 	}
 
 	/**
 	 * 
 	 */
-	private void initPrimaryCurrency() {
-		Currency currency = new Currency();
-		switch (accountingType) {
-		case ACCOUNTING_TYPE_US:
-			currency.setName("USD");
-			break;
-		case ACCOUNTING_TYPE_UK:
-			currency.setName("GBP");
-			break;
-		case ACCOUNTING_TYPE_INDIA:
-			currency.setName("INR");
-			break;
-		default:
-			currency.setName("INR");
-			break;
-		}
-		preferences.setPrimaryCurrency(currency);
-	}
+	// private void initPrimaryCurrency() {
+	// Currency currency = new Currency();
+	// switch (accountingType) {
+	// case ACCOUNTING_TYPE_US:
+	// currency.setName("USD");
+	// break;
+	// case ACCOUNTING_TYPE_UK:
+	// currency.setName("GBP");
+	// break;
+	// case ACCOUNTING_TYPE_INDIA:
+	// currency.setName("INR");
+	// break;
+	// default:
+	// currency.setName("INR");
+	// break;
+	// }
+	// preferences.setPrimaryCurrency(currency);
+	// }
 
 	public void initialize(List<TemplateAccount> accounts) {
 
@@ -648,12 +648,12 @@ public class Company implements IAccounterServerCore {
 		this.getPreferences().setTradingName(name);
 	}
 
-	/**
-	 * @return the accountingType
-	 */
-	public int getAccountingType() {
-		return accountingType;
-	}
+	// /**
+	// * @return the accountingType
+	// */
+	// public int getAccountingType() {
+	// return accountingType;
+	// }
 
 	public boolean isConfigured() {
 		return isConfigured;
@@ -663,13 +663,13 @@ public class Company implements IAccounterServerCore {
 		this.isConfigured = isConfigured;
 	}
 
-	/**
-	 * @param accountingType
-	 *            the accountingType to set
-	 */
-	public void setAccountingType(int accountingType) {
-		this.accountingType = accountingType;
-	}
+	// /**
+	// * @param accountingType
+	// * the accountingType to set
+	// */
+	// public void setAccountingType(int accountingType) {
+	// this.accountingType = accountingType;
+	// }
 
 	public String getServiceItemDefaultIncomeAccount() {
 		return serviceItemDefaultIncomeAccount;
@@ -918,7 +918,7 @@ public class Company implements IAccounterServerCore {
 
 	public Company toCompany(Company cmp) {
 
-		cmp.accountingType = this.getAccountingType();
+		// cmp.accountingType = this.getAccountingType();
 		cmp.setId(this.getID());
 		cmp.accounts = this.getAccounts();
 
@@ -1585,5 +1585,9 @@ public class Company implements IAccounterServerCore {
 			}
 		}
 		return users;
+	}
+
+	public String getCountry() {
+		return this.getRegisteredAddress().getCountryOrRegion();
 	}
 }

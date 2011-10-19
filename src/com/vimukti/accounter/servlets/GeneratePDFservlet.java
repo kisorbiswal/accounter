@@ -277,12 +277,11 @@ public class GeneratePDFservlet extends BaseServlet {
 
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPEPDF,
-					company.getAccountingType(), company);
+					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, company);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
-					company.getAccountingType(), company);
+					company);
 		}
 
 		String gridTemplate = generator.generate(financeTool,

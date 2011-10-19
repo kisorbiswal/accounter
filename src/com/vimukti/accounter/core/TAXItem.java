@@ -240,23 +240,6 @@ public class TAXItem extends TAXItemGroup {
 			this.isSalesType = false;
 		}
 
-		if (getCompany() != null
-				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-
-			Query query = session.getNamedQuery("getTaxACode.inTaxitem.by.id")
-					.setParameter("id", this.id)
-					.setEntity("company", getCompany());
-			TAXCode taxCode = (TAXCode) query.uniqueResult();
-			if (taxCode != null) {
-
-				taxCode.setName(this.getName());
-				taxCode.setDescription(this.getDescription());
-				taxCode.setActive(this.isActive());
-				session.saveOrUpdate(taxCode);
-			}
-			this.isSalesType = true;
-		}
-
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
 				.setParameter("id", this.id)
 				.setParameter("companyId", getCompany().getID())

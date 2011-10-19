@@ -734,7 +734,7 @@ public class WriteChequeView extends
 
 		paytoSelect = new PayeeCombo(Accounter.constants().payTo());
 		// paytoSelect.setWidth(100);
-		paytoSelect.setRequired(true);
+		// paytoSelect.setRequired(true);
 		paytoSelect.setDisabled(isInViewMode());
 		paytoSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayee>() {

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * 
@@ -182,7 +183,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			form1.setFields(vatItemNameText, descriptionText, vatRateTextPerT,
 					vatAgencyCombo);
 			if (getCountryPreferences().isVatAvailable()
-					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					&& getCompany().getCountry().equals(
+							CountryPreferenceFactory.UNITED_KINGDOM)) {
 				form1.setFields(vatReturnBoxCombo);
 			}
 			form1.setFields(statusCheck);
@@ -213,10 +215,10 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		mainPanel.add(infolabel1);
 		mainPanel.add(form1);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			form1.getCellFormatter().setWidth(0, 1, "270px");
-//			form1.setWidth("50%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// form1.getCellFormatter().setWidth(0, 1, "270px");
+		// form1.setWidth("50%");
+		// }
 
 		this.add(mainPanel);
 

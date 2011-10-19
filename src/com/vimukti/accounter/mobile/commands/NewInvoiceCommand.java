@@ -290,7 +290,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		try {
 			cEstimate = new FinanceTool().getManager().getObjectById(
 					AccounterCoreType.ESTIMATE, transactionId,
-					Accounter.getCompany().getAccountingType(),
 					context.getCompany().getID());
 		} catch (DAOException e1) {
 			e1.printStackTrace();
@@ -305,7 +304,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		try {
 			cSalesOrder = new FinanceTool().getManager().getObjectById(
 					AccounterCoreType.SALESORDER, transactionId,
-					Accounter.getCompany().getAccountingType(),
 					context.getCompany().getID());
 		} catch (DAOException e1) {
 			e1.printStackTrace();

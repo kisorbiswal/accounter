@@ -389,7 +389,7 @@ public class FinanceTool {
 			session.delete(serverObject);
 		} else {
 			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1),
-					company.getAccountingType(), company.getID())) {
+					company.getID())) {
 				session.delete(serverObject);
 			} else {
 				throw new AccounterException(
@@ -415,16 +415,15 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id, int companyType,
-			long companyId) {
-		String queryName = getCanDeleteQueryName(serverClass, companyType);
+	private boolean canDelete(String serverClass, long id, long companyId) {
+		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery(queryName).setParameter("inputId", id)
 				.setParameter("companyId", companyId);
 		return executeQuery(query);
 	}
 
-	private String getCanDeleteQueryName(String serverClass, int companyType) {
+	private String getCanDeleteQueryName(String serverClass) {
 		StringBuffer query = new StringBuffer("canDelete");
 		query.append(serverClass);
 		// if (serverClass.equals("TAXItem") || serverClass.equals("TAXGroup"))

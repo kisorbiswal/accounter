@@ -518,23 +518,15 @@ public class JournalEntry extends Transaction {
 		this.balanceDue = adjustment.total;
 
 		this.transaction = adjustment;
-		this.memo = "VAT Adjustment";
+		this.memo = "TAX Adjustment";
 
 		Account liabilityAccount;
 		boolean isSalesType;
 
-		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			liabilityAccount = adjustment.getTaxAgency()
-					.getSalesLiabilityAccount();
-			isSalesType = true;
-			this.memo = "TAX Adjustment";
-
-		} else {
-			liabilityAccount = adjustment.taxItem.isSalesType == true ? adjustment.taxItem.taxAgency
-					.getSalesLiabilityAccount() : adjustment.taxItem.taxAgency
-					.getPurchaseLiabilityAccount();
-			isSalesType = adjustment.taxItem.isSalesType;
-		}
+		liabilityAccount = adjustment.taxItem.isSalesType == true ? adjustment.taxItem.taxAgency
+				.getSalesLiabilityAccount() : adjustment.taxItem.taxAgency
+				.getPurchaseLiabilityAccount();
+		isSalesType = adjustment.taxItem.isSalesType;
 
 		Account adjustmentAccount = adjustment.getAdjustmentAccount();
 

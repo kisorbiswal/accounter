@@ -747,9 +747,9 @@ public abstract class Transaction extends CreatableObject implements
 		/**
 		 * The following code is particularly for Sales Tax Liability Report
 		 */
-		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			this.updateTaxAndNonTaxableAmounts();
-		}
+		// if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		this.updateTaxAndNonTaxableAmounts();
+		// }
 		// }
 	}
 

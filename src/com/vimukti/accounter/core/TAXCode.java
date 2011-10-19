@@ -263,8 +263,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	private void setIsECsalesEntry() {
 
-		if (this.getTAXItemGrpForSales() instanceof TAXGroup
-				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+		if (this.getTAXItemGrpForSales() instanceof TAXGroup) {
 			List<TAXItem> taxItems = ((TAXGroup) this.getTAXItemGrpForSales())
 					.getTAXItems();
 			if (!taxItems.isEmpty() && taxItems.size() >= 2) {

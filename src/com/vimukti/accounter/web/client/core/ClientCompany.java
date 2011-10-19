@@ -34,7 +34,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private Map<String, String> paymentMethods = new HashMap<String, String>();
 
-	int accountingType = 0;
+	// int accountingType = 0;
 
 	private String registrationNumber;
 
@@ -1528,13 +1528,13 @@ public class ClientCompany implements IAccounterCore {
 		return AccounterCoreType.COMPANY;
 	}
 
-	public int getAccountingType() {
-		return accountingType;
-	}
+	// public int getAccountingType() {
+	// return accountingType;
+	// }
 
-	public void setAccountingType(int accountingType) {
-		this.accountingType = accountingType;
-	}
+	// public void setAccountingType(int accountingType) {
+	// this.accountingType = accountingType;
+	// }
 
 	public String getServiceItemDefaultIncomeAccount() {
 		return serviceItemDefaultIncomeAccount;
@@ -1628,8 +1628,8 @@ public class ClientCompany implements IAccounterCore {
 
 				// Utility.updateClientList(account, accounts);
 
-				ClientAccount existObj = Utility.getObject(accounts, account
-						.getID());
+				ClientAccount existObj = Utility.getObject(accounts,
+						account.getID());
 				if (existObj != null) {
 					if (account.getNumber().equals(existObj.getNumber())) {
 						accounts.remove(existObj);
@@ -2211,10 +2211,10 @@ public class ClientCompany implements IAccounterCore {
 	// return ukNonInventoryItemDefaultExpenseAccount;
 	// }
 
-	public boolean isUKAccounting() {
-
-		return this.accountingType == ACCOUNTING_TYPE_UK;
-	}
+	// public boolean isUKAccounting() {
+	//
+	// return this.accountingType == ACCOUNTING_TYPE_UK;
+	// }
 
 	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
@@ -2314,8 +2314,8 @@ public class ClientCompany implements IAccounterCore {
 		calendar.setTime(startDate.getDateAsObject());
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
 		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
-		calendar.set(Calendar.DATE, calendar
-				.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar.set(Calendar.DATE,
+				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
 

@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class SetupWizard extends VerticalPanel {
 	private static final int START_PAGE = 0;
@@ -335,7 +336,8 @@ public class SetupWizard extends VerticalPanel {
 
 		this.viewPanel.remove(previousView);
 		viewToShow = getNextView();
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US
+		if (!Accounter.getCompany().getCountry()
+				.equals(CountryPreferenceFactory.UNITED_STATES)
 				&& isOrganizationView()) {
 			showView(isNext);
 		}
@@ -403,7 +405,8 @@ public class SetupWizard extends VerticalPanel {
 		if (isSkip) {
 			return skipProgressLabels;
 		}
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		if (Accounter.getCompany().getCountry()
+				.equals(CountryPreferenceFactory.INDIA)) {
 			return startProgressLabels1;
 		} else {
 			return startProgressLabels;
@@ -414,7 +417,8 @@ public class SetupWizard extends VerticalPanel {
 		if (isSkip) {
 			return skipProgressImages;
 		}
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		if (Accounter.getCompany().getCountry()
+				.equals(CountryPreferenceFactory.INDIA)) {
 			return startProgressImages;
 		} else {
 			return startProgressImages1;
@@ -466,7 +470,8 @@ public class SetupWizard extends VerticalPanel {
 			return skipViewList;
 		}
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
+		if (Accounter.getCompany().getCountry()
+				.equals(CountryPreferenceFactory.INDIA))
 			return viewList;
 		else
 			return viewList1;

@@ -696,9 +696,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.getTrialBalanceAction());
 		companyAndFinancialMenuBar.addItem(ActionFactory
 				.getTransactionDetailByAccountAction());
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			companyAndFinancialMenuBar.addItem(ActionFactory
-					.getGlReportAction());
+		companyAndFinancialMenuBar.addItem(ActionFactory.getGlReportAction());
 		companyAndFinancialMenuBar.addItem(ActionFactory
 				.getExpenseReportAction());
 		if (Accounter.getCompany().getPreferences().isTrackTax()) {
@@ -822,9 +820,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			newVendorMenuBar.addItem(ActionFactory.getNewCashPurchaseAction());
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			newVendorMenuBar.addItem(ActionFactory.getNewCreditMemoAction());
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			if (Accounter.getUser().canDoInvoiceTransactions())
-				newVendorMenuBar.addItem(ActionFactory.getNewCheckAction());
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			newVendorMenuBar.addItem(ActionFactory.getNewCheckAction());
 
 		return newVendorMenuBar;
 	}

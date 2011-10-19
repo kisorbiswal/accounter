@@ -259,29 +259,23 @@ public class CreditCardExpenseView extends
 		Ccard.setHelpInformation(true);
 		if (!isTaxPerDetailLine())
 			taxCodeSelect = createTaxCodeSelectItem();
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-						if (isTrackTax() && isTrackPaidTax()) {
-							long code = selectedVendor.getTAXCode();
-							if (taxCodeSelect != null) {
-								if (code == 0)
-									code = Accounter.getCompany()
-											.getDefaultTaxCode();
-								taxCodeSelect.setComboItem(getCompany()
-										.getTAXCode(code));
-								taxCodeSelected(getCompany().getTAXCode(code));
-							}
-						}
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+				long code = selectedVendor.getTAXCode();
+				if (taxCodeSelect != null) {
+					if (code == 0)
+						code = Accounter.getCompany().getDefaultTaxCode();
+					taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
+				}
+			}
+		});
 
-		Ccard.setRequired(true);
+		// Ccard.setRequired(true);
 		String listString[] = new String[] {
 				Accounter.constants().cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
@@ -419,10 +413,7 @@ public class CreditCardExpenseView extends
 		payFromAccount = 0;
 		payFrmSelect.setColSpan(0);
 		// formItems.add(payFrmSelect)
-		cheqNoText = new TextItem(
-				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo()
-						: Accounter.constants().checkNo());
+		cheqNoText = new TextItem(Accounter.constants().chequeNo());
 
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
@@ -440,8 +431,8 @@ public class CreditCardExpenseView extends
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -457,8 +448,8 @@ public class CreditCardExpenseView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-//		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
-//				.amountIncludesVat());
+		// vatinclusiveCheck = new CheckboxItem(Accounter.constants()
+		// .amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -562,7 +553,7 @@ public class CreditCardExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (isTrackTax() && isTrackPaidTax()) {
+		if (getPreferences().isTrackPaidTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
@@ -662,25 +653,26 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
-		if (Ccard.getSelectedValue() == null)
-			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
-					Global.get().vendor()));
+		// if (Ccard.getSelectedValue() == null)
+		// result.addError(
+		// Ccard,
+		// Accounter.messages().pleaseSelectVendor(
+		// Global.get().vendor()));
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
-		if (payFrmSelect.getSelectedValue() == null) {
+		if (payFrmSelect.getSelectedValue() == null)
 			result.addError(payFrmSelect, Accounter.messages()
 					.pleaseSelectVendor(Accounter.constants().payFrom()));
-		}
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 			}
 		}
@@ -699,8 +691,6 @@ public class CreditCardExpenseView extends
 			resetElements();
 			initpayFromAccountCombo();
 		} else {
-			ClientVendor vendor = getCompany().getVendor(
-					transaction.getVendor());
 			// if (vendor != null) {
 			// vendorNameSelect.setComboItem(vendor);
 			// phoneSelect.setValue(vendor.getPhoneNo());
@@ -725,8 +715,7 @@ public class CreditCardExpenseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -741,7 +730,7 @@ public class CreditCardExpenseView extends
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
-			
+
 			if (transaction.getPayFrom() != 0)
 				payFromAccountSelected(transaction.getPayFrom());
 			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
@@ -766,12 +755,12 @@ public class CreditCardExpenseView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initpayFromAccountCombo() {
@@ -812,8 +801,10 @@ public class CreditCardExpenseView extends
 		Ccard.initCombo(result);
 
 		if (isInViewMode()) {
-			Ccard.setComboItem(selectedVendor);
-			billToaddressSelected(selectedVendor.getSelectedAddress());
+			if (selectedVendor != null) {
+				Ccard.setComboItem(selectedVendor);
+				billToaddressSelected(selectedVendor.getSelectedAddress());
+			}
 			addPhonesContactsAndAddress();
 		}
 		Ccard.setDisabled(isInViewMode());
@@ -821,29 +812,30 @@ public class CreditCardExpenseView extends
 
 	protected void addPhonesContactsAndAddress() {
 		// Set<Address> allAddress = selectedVendor.getAddress();
-		addressList = selectedVendor.getAddress();
-		initBillToCombo();
-		// billToCombo.setDisabled(isEdit);
-		Set<ClientContact> allContacts;
-		allContacts = selectedVendor.getContacts();
-		Iterator<ClientContact> it = allContacts.iterator();
-		// List<String> phones = new ArrayList<String>();
-		ClientContact primaryContact = null;
+		if (selectedVendor != null) {
+			addressList = selectedVendor.getAddress();
+			initBillToCombo();
+			// billToCombo.setDisabled(isEdit);
+			Set<ClientContact> allContacts;
+			allContacts = selectedVendor.getContacts();
+			Iterator<ClientContact> it = allContacts.iterator();
+			// List<String> phones = new ArrayList<String>();
+			ClientContact primaryContact = null;
 
-		int i = 0;
-		while (it.hasNext()) {
-			ClientContact contact = it.next();
-			if (contact.isPrimary())
-				primaryContact = contact;
-			idNamesForContacts.add(contact.getName());
-			idPhoneNumberForContacts.add(contact.getBusinessPhone());
-			// phones.add(contact.getBusinessPhone());
-			i++;
+			int i = 0;
+			while (it.hasNext()) {
+				ClientContact contact = it.next();
+				if (contact.isPrimary())
+					primaryContact = contact;
+				idNamesForContacts.add(contact.getName());
+				idPhoneNumberForContacts.add(contact.getBusinessPhone());
+				// phones.add(contact.getBusinessPhone());
+				i++;
+			}
+
+			contactCombo.initCombo(new ArrayList<ClientContact>(allContacts));
+			contactCombo.setComboItem(primaryContact);
 		}
-
-		contactCombo.initCombo(new ArrayList<ClientContact>(allContacts));
-		contactCombo.setComboItem(primaryContact);
-
 		// phoneSelect.initCombo(phones);
 
 		// ClientVendor cv = FinanceApplication.getCompany().getVendor(
@@ -1148,8 +1140,8 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-			vendorAccountTransactionTable.updateTotals();
-			vendorItemTransactionTable.updateTotals();
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	@Override

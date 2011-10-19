@@ -53,8 +53,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		Company company = tool.getCompany(getCompanyId());
 		try {
-			return tool.getManager().getObjectById(type, id,
-					company.getAccountingType(), getCompanyId());
+			return tool.getManager().getObjectById(type, id, getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

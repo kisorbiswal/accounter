@@ -96,7 +96,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			// company.getClients().add(client);
 			// company.setActive(true);
 			company.setTradingName(companyName);
-			company.setAccountingType(companyType);
+			// company.setAccountingType(companyType);
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
 			// company.setServer(getPreferredServer(companyType, companyName,
@@ -235,11 +235,11 @@ public class CreateCompanyServlet extends BaseServlet {
 		buffer.append('=');
 		buffer.append(new UrlEncoded(company.getTradingName()).encode());
 
-		buffer.append('&');
-		buffer.append(PARAM_COMPANY_TYPE);
-		buffer.append('=');
-		buffer.append(new UrlEncoded(
-				String.valueOf(company.getAccountingType())).encode());
+		// buffer.append('&');
+		// buffer.append(PARAM_COMPANY_TYPE);
+		// buffer.append('=');
+		// buffer.append(new UrlEncoded(
+		// String.valueOf(company.getAccountingType())).encode());
 
 		buffer.append('&');
 		buffer.append(EMAIL_ID);

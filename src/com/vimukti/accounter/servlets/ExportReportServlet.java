@@ -89,7 +89,7 @@ public class ExportReportServlet extends BaseServlet {
 
 			FinanceTool financetool = new FinanceTool();
 			Company company = financetool.getCompany(Long.valueOf(companyID));
-			int companyType = company.getAccountingType();
+			// int companyType = company.getAccountingType();
 
 			TemplateBuilder.setCmpName(companyName);
 
@@ -98,7 +98,7 @@ public class ExportReportServlet extends BaseServlet {
 			CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
 
 			ITemplate template = null;
-			template = getReportTemplate(request, financetool, companyType);
+			template = getReportTemplate(request, financetool);
 
 			return template;
 		} finally {
@@ -110,7 +110,7 @@ public class ExportReportServlet extends BaseServlet {
 	}
 
 	private ITemplate getReportTemplate(HttpServletRequest request,
-			FinanceTool financeTool, int companyType) throws IOException {
+			FinanceTool financeTool) throws IOException {
 
 		long startDate = Long.parseLong(request.getParameter("startDate"));
 		int reportType = Integer.parseInt(request.getParameter("reportType"));
@@ -136,16 +136,15 @@ public class ExportReportServlet extends BaseServlet {
 		if (vendorId != 0) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
-					vendorId, boxNo, companyType, company);
+					vendorId, boxNo, company);
 
 		} else if (status != null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status,
-					companyType, company);
+					company);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
-					companyType, company);
+					navigatedName, ReportsGenerator.GENERATIONTYPECSV, company);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
