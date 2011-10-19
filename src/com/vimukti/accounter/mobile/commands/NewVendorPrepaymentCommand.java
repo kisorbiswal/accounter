@@ -44,7 +44,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(PAY_FROM, false, true));
 		list.add(new Requirement(BILL_TO, true, true));
 		list.add(new Requirement(AMOUNT, false, true));
-		list.add(new Requirement(PAYMENT_MENTHOD, false, true));
+		list.add(new Requirement(PAYMENT_METHOD, false, true));
 		list.add(new Requirement(TO_BE_PRINTED, true, true));
 		list.add(new Requirement(CHEQUE_NO, true, true));
 		list.add(new Requirement(MEMO, true, true));
@@ -144,7 +144,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
 		pay = (ClientAccount) context.getHibernateSession().merge(pay);
 		String amount = (String) get(AMOUNT).getValue();
-		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		Boolean toBePrinted = (Boolean) get(TO_BE_PRINTED).getValue();
 		String memo = get(MEMO).getValue();
 		String chequeNumber = get(CHEQUE_NO).getValue();

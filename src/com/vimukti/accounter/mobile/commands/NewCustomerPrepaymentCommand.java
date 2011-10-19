@@ -37,7 +37,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(DEPOSITSANDTRANSFERS, false, true));
 		list.add(new Requirement(AMOUNT, false, true));
-		list.add(new Requirement(PAYMENT_MENTHOD, false, true));
+		list.add(new Requirement(PAYMENT_METHOD, false, true));
 		list.add(new Requirement(TOBEPRINTED, true, true));
 		list.add(new Requirement(CHEQUE_NUM, true, true));
 		list.add(new Requirement(MEMO, true, true));
@@ -90,7 +90,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list, PAYMENT_MENTHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
 		if (result != null) {
 			return result;
 		}
@@ -118,7 +118,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		prePayment.setDepositIn(depositIn.getID());
 		String amount = get(AMOUNT).getValue();
 		prePayment.setTotal(Double.valueOf(amount));
-		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		prePayment.setPaymentMethod(paymentMethod);
 		String checkNum = get(CHEQUE_NUM).getValue();
 		prePayment.setCheckNumber(checkNum);

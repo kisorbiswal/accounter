@@ -56,7 +56,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(VENDOR, false, true));
 		list.add(new Requirement(NUMBER, true, true));
 		list.add(new Requirement(PAY_FROM, false, true));
-		list.add(new Requirement(PAYMENT_MENTHOD, false, true));
+		list.add(new Requirement(PAYMENT_METHOD, false, true));
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(FILTER_BY_DUE_ON_BEFORE, true, true));
 		list.add(new ObjectListRequirement("items", false, true) {
@@ -128,7 +128,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return null;
 		}
-		result = paymentMethodRequirement(context, list, PAYMENT_MENTHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
 		if (result != null) {
 			return result;
 		}
@@ -147,7 +147,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		PayBill paybill = new PayBill();
 		Vendor vendor = get(VENDOR).getValue();
 		Account payFrom = get(PAY_FROM).getValue();
-		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		Date dueDate = (Date) get(FILTER_BY_DUE_ON_BEFORE).getValue();
 		String number = get(NUMBER).getValue();
 		Date date = (Date) get(DATE).getValue();

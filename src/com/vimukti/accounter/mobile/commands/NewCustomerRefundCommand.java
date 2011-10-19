@@ -128,10 +128,10 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 			return number(context, "Please Enter the Amount", "" + amount);
 		}
 
-		Requirement paymentMethodReq = get(PAYMENT_MENTHOD);
+		Requirement paymentMethodReq = get(PAYMENT_METHOD);
 		String paymentMethod = paymentMethodReq.getValue();
 		if (paymentMethod == selection) {
-			context.setAttribute(INPUT_ATTR, PAYMENT_MENTHOD);
+			context.setAttribute(INPUT_ATTR, PAYMENT_METHOD);
 			return text(context, "Please Enter PaymentMethod", ""
 					+ paymentMethod);
 		}

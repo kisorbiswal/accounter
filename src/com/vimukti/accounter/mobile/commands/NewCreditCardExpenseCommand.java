@@ -169,7 +169,7 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		get(CONTACT).setDefaultValue(contact);
 		get(MEMO).setDefaultValue("");
 		get("deliveryDate").setDefaultValue(new Date());
-		get(PAYMENT_MENTHOD).setDefaultValue("Credit Card");
+		get(PAYMENT_METHOD).setDefaultValue("Credit Card");
 	}
 
 	private void completeProcess(Context context) {
@@ -190,7 +190,7 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		String number = get(NUMBER).getValue();
 		creditCardCharge.setNumber(number);
 
-		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		creditCardCharge.setPaymentMethod(paymentMethod);
 
 		String phone = get(PHONE).getValue();

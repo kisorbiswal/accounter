@@ -877,4 +877,10 @@ public interface AccounterMessages extends Messages {
 
 	public String thereisNoRecordsTosave(String transactionType);
 
+	public String readyToCreate(String cashSale);
+
+	public String createSuccessfully(String cashSale);
+
+	public Object finishToCreate(String cashSale);
+
 }

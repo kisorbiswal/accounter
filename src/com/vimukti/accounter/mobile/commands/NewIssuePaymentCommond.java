@@ -143,7 +143,7 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		String paymentmethod = getpaymentMethod(PAYMENT_METHOD_CHECK, context);
 		Result result = context.makeResult();
 		result.add("Select PaymentMethod");
-		ResultList list = new ResultList(PAYMENT_MENTHOD);
+		ResultList list = new ResultList(PAYMENT_METHOD);
 		Record record = createPayMentMethodRecord(paymentmethod);
 		list.add(record);
 		result.add(list);

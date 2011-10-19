@@ -4951,4 +4951,6 @@ public interface AccounterConstants extends Constants {
 	public String taxAgencyCreated();
 
 	public String pleaseEnterTheContactDetails();
+
+	public String addMemo();
 }
