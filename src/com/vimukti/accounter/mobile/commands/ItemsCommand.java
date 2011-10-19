@@ -2,10 +2,13 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -13,7 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class ItemsCommand extends AbstractTransactionCommand {
 
-	private static final String ACTIVE = "active";
+	private static final String ITEMS_TYPE = "itemsType";
 
 	@Override
 	public String getId() {
@@ -23,7 +26,7 @@ public class ItemsCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACTIVE, false, true));
+
 	}
 
 	@Override
@@ -38,59 +41,96 @@ public class ItemsCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createitemsListReq(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(ACTIONS);
+		context.setAttribute(INPUT_ATTR, "optional");
+		ActionNames selection = context.getSelection(ACTIONS);
 		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
+			switch (selection) {
 			case FINISH:
+				markDone();
 				return null;
+			case SERVICE_ITEM:
+				context.setAttribute(ITEMS_TYPE, Item.TYPE_SERVICE);
+				break;
+			case PRODUCT_ITEM:
+				context.setAttribute(ITEMS_TYPE, Item.TYPE_INVENTORY_PART);
+				break;
+			case ALL:
+				context.setAttribute(ITEMS_TYPE, Item.TYPE_NON_INVENTORY_PART);
+				break;
 			default:
 				break;
 			}
+		} else {
+			context.setAttribute(ITEMS_TYPE, Item.TYPE_SERVICE);
 		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
 
-		Result result = isActiveRequirement(context, selection);
-
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-		result = itemsList(context, isActive);
+		Result result = context.makeResult();
+		result = itemsList(context, selection);
 		if (result != null) {
 			return result;
 		}
 		return result;
 	}
 
-	private Result itemsList(Context context, Boolean isActive) {
+	private Result itemsList(Context context, ActionNames selection) {
 		Result result = context.makeResult();
 		ResultList itemResult = new ResultList("items");
 		result.add("Items List");
-		int num = 0;
-		List<ClientItem> items = getItems(isActive);
-		for (ClientItem item : items) {
-			itemResult.add(createItemRecord(item));
-			num++;
-			if (num == ITEMS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = itemResult.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Item");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
 
-		result.add(message.toString());
+		Integer currentView = (Integer) context.getAttribute(ITEMS_TYPE);
+		List<Item> items = getItems(context, currentView);
+
+		ResultList actions = new ResultList("actions");
+
+		List<Item> pagination = pagination(context, selection, actions, items,
+				new ArrayList<Item>(), VALUES_TO_SHOW);
+		for (Item item : pagination) {
+			itemResult.add(createItemRecord(item));
+		}
+
 		result.add(itemResult);
+
+		Record inActiveRec = new Record(ActionNames.SERVICE_ITEM);
+		inActiveRec.add("", "Service Items");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.PRODUCT_ITEM);
+		inActiveRec.add("", "Product Items");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.ALL);
+		inActiveRec.add("", "All Items");
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.FINISH);
+		inActiveRec.add("", "Close");
+
+		actions.add(inActiveRec);
+
+		result.add(actions);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create New Item");
 		result.add(commandList);
-		result.add("Enter for Item");
 
 		return result;
 
+	}
+
+	private Record createItemRecord(Item item) {
+		Record record = new Record(item);
+		record.add("", item.getName());
+		record.add("", item.getSalesPrice());
+		return record;
+	}
+
+	private List<Item> getItems(Context context, Integer currentView) {
+		Set<Item> items = context.getCompany().getItems();
+		List<Item> result = new ArrayList<Item>();
+		for (Item item : items) {
+			if (item.getType() == currentView) {
+				result.add(item);
+			}
+		}
+		return result;
 	}
 
 	protected List<ClientItem> getItems(Boolean isActive) {
@@ -100,7 +140,7 @@ public class ItemsCommand extends AbstractTransactionCommand {
 
 		for (ClientItem item : items) {
 			if (isActive) {
-				if (item.isActive()) {
+				if (item.getType() == Item.TYPE_SERVICE) {
 					result.add(item);
 				}
 			} else {
