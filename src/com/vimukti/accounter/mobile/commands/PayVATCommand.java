@@ -60,23 +60,23 @@ public class PayVATCommand extends AbstractVATCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = accountRequirement(context, list, PAY_FROM,
-				new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						// TODO Auto-generated method stub
-						return false;
-					}
-				});
+		// result = accountRequirement(context, list, PAY_FROM,
+		// new ListFilter<ClientAccount>() {
+		//
+		// @Override
+		// public boolean filter(ClientAccount e) {
+		// // TODO Auto-generated method stub
+		// return false;
+		// }
+		//	});
 		if (result != null) {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context, null, null);
-		if (result != null) {
-			return result;
-		}
+		// result = paymentMethodRequirement(context, null, null);
+		// if (result != null) {
+		// return result;
+		// }
 
 		result = billsToPayRequirement(context);
 		if (result != null) {
