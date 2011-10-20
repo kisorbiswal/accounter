@@ -4984,4 +4984,6 @@ public interface AccounterConstants extends Constants {
 
 	public String thisIsInactive();
 
+	public String customerSinceDate();
+
 }
