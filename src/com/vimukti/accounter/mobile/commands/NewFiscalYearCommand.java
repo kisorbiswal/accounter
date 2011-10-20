@@ -45,13 +45,24 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 	@Override
 	public Result run(Context context) {
 
-		Result result = null;
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = context.makeResult();
 
-		result = startDateRequirement(context);
+		// Preparing Result
+		Result makeResult = context.makeResult();
+		makeResult
+				.add(getMessages().readyToCreate(getConstants().newInvoice()));
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+
+		result = dateRequirement(context, list, null, "startDate",
+				getMessages().enterDate(getConstants().startDate()));
 		if (result != null) {
 			return result;
 		}
-		result = endDateRequirement(context);
+		result = dateRequirement(context, list, null, "endDate", getMessages()
+				.enterDate(getConstants().startDate()));
 		if (result != null) {
 			return result;
 
@@ -170,40 +181,6 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 		statusRecord.add("Name", STATUS);
 		statusRecord.add("Value", status);
 		list.add(statusRecord);
-		return null;
-	}
-
-	private Result endDateRequirement(Context context) {
-		Requirement endDateReq = get(END_DATE);
-		if (!endDateReq.isDone()) {
-			Date date = context.getDate();
-			if (date != null) {
-				endDateReq.setValue(date);
-			} else {
-				return text(context, "Please Enter the end date", "" + date);
-			}
-		}
-		Date input = (Date) context.getAttribute(END_DATE);
-		if (input.equals(END_DATE)) {
-			endDateReq.setValue(input);
-		}
-		return null;
-	}
-
-	private Result startDateRequirement(Context context) {
-		Requirement startDateReq = get(START_DATE);
-		if (!startDateReq.isDone()) {
-			Date date = context.getDate();
-			if (date != null) {
-				startDateReq.setValue(date);
-			} else {
-				return text(context, "Please Enter the start date", "" + date);
-			}
-		}
-		Date input = (Date) context.getAttribute(START_DATE);
-		if (input.equals(START_DATE)) {
-			startDateReq.setValue(input);
-		}
 		return null;
 	}
 
