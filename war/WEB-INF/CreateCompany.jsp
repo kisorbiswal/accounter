@@ -336,15 +336,6 @@ p {
 			<input type="text" name="name" id="name"
 				onClick="document.getElementById('nameLabel').innerHTML='';" /></td>
 		 </div>
-		 <div>
-		   <label>Company Type</label>
-		   <select name="companyType" id = "SelectcompanyType">
-				<option value="1">UK</option>
-				<option value="0">US</option>
-				<option value="2">India</option>
-				<option value="3">Others</option>
-			</select>
-		 </div>
 		  <div class="createbutton">
 		  <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton" />
 	     </div>
