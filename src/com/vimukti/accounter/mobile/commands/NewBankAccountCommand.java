@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
@@ -27,11 +28,11 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	private static final String OPENINGBALANCE = "Opening Balance";
 	private static final String ACTIVE = "Active";
 	private static final String ASOF = "AsOf";
-	private static final String COMMENTS = "Comments";
+
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
 	private static final String BANK_NAME = "Bank Name";
 	private static final String BANK_ACCOUNT_TYPE = "Bank Account Type";
-	private static final String BANK_ACCOUNT_NUMBER = "Bank Account Type";
+	private static final String BANK_ACCOUNT_NUMBER = "Bank Account Number";
 	private static final int BANK_NAME_TO_SHOW = 5;
 
 	@Override
@@ -47,7 +48,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(OPENINGBALANCE, true, true));
 		list.add(new Requirement(ACTIVE, true, true));
 		list.add(new Requirement(ASOF, true, true));
-		list.add(new Requirement(COMMENTS, true, true));
+		list.add(new Requirement(MEMO, true, true));
 		list.add(new Requirement(CONSIDER_AS_CASH_ACCOUNT, true, true));
 		list.add(new Requirement(BANK_NAME, true, true));
 		list.add(new Requirement(BANK_ACCOUNT_TYPE, false, true));
@@ -94,6 +95,9 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		}
 		markDone();
 		createBankAccountObject(context);
+
+		result = new Result();
+		result.add("BankAccount  created successfully");
 		return result;
 	}
 
@@ -101,9 +105,8 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(OPENINGBALANCE).setDefaultValue(0.0D);
 		get(ASOF).setDefaultValue(new Date(System.currentTimeMillis()));
-		get(COMMENTS).setDefaultValue("");
-		get(BANK_NAME).setDefaultValue(new ClientBank());
-		get(BANK_ACCOUNT_NUMBER).setDefaultValue(0);
+		get(MEMO).setDefaultValue("");
+		get(BANK_ACCOUNT_NUMBER).setDefaultValue("");
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.FALSE);
 	}
 
@@ -150,11 +153,12 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection,
-				BANK_ACCOUNT_NUMBER, "Enter BankAccount Number");
+				BANK_ACCOUNT_NUMBER, "Please Enter the BankAccount number ");
 		if (result != null) {
 			return result;
 		}
-		result = commentsRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				"Enter Comment");
 		if (result != null) {
 			return result;
 		}
@@ -174,15 +178,14 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		bankAccount.setName((String) get(ACCOUNT_NAME).getValue());
 		bankAccount.setNumber((String) get(ACCOUNT_NUMBER).getValue());
 		bankAccount.setOpeningBalance((Double) get(OPENINGBALANCE).getValue());
-
 		Date d = get(ASOF).getValue();
 
 		bankAccount.setAsOf(new ClientFinanceDate(d).getDate());
-		bankAccount.setComment((String) get(COMMENTS).getValue());
+		bankAccount.setComment((String) get(MEMO).getValue());
 		String type = get(BANK_ACCOUNT_TYPE).getValue();
 		bankAccount.setBankAccountType(getType(type));
-		bankAccount.setBankAccountNumber((String) get(BANK_ACCOUNT_NUMBER)
-				.getValue());
+		String number = get(BANK_ACCOUNT_NUMBER).getValue();
+		bankAccount.setBankAccountNumber(number);
 		bankAccount.setConsiderAsCashAccount((Boolean) get(
 				CONSIDER_AS_CASH_ACCOUNT).getValue());
 		bankAccount.setIsActive((Boolean) get(ACTIVE).getValue());
@@ -191,8 +194,16 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	}
 
 	private int getType(String type) {
-		// TODO
-		return 1;
+		if (type.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
+			return ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
+		else if (type
+				.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
+			return ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
+		else if (type
+				.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
+			return ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+		else
+			return ClientAccount.BANK_ACCCOUNT_TYPE_NONE;
 
 	}
 
@@ -207,23 +218,21 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	private Result bankNameRequriment(Context context, ResultList list,
 			Object selection, String string) {
 
-		Object bankobj = context.getSelection(BANK_NAME);
+		ClientBank bankobj = context.getSelection(BANK_NAME);
 		Requirement bankreq = get(BANK_NAME);
 
-		ClientBank bank = (ClientBank) bankreq.getValue();
-
-		if (selection == bank) {
-			return banks(context, bank);
-
-		}
 		if (bankobj != null) {
-			bank = (ClientBank) bankobj;
-			bankreq.setValue(bank);
+			bankreq.setValue(bankobj);
 		}
 
-		Record paymentTermRecord = new Record(bank);
-		paymentTermRecord.add("Name", BANK_NAME);
-		paymentTermRecord.add("Value", bank.getName());
+		ClientBank bank = (ClientBank) bankreq.getValue();
+		if (selection == string) {
+			return banks(context, bank);
+		}
+
+		Record paymentTermRecord = new Record(string);
+		paymentTermRecord.add("Name", string);
+		paymentTermRecord.add("Value", bank == null ? "" : bank.getName());
 		list.add(paymentTermRecord);
 
 		return null;
@@ -298,7 +307,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Record nameRecord = new Record(bankAccountType);
-		nameRecord.add("", "Name");
+		nameRecord.add("", "AccountType");
 		nameRecord.add("", bankAccountTypeReq.getValue());
 		list.add(nameRecord);
 		return null;
@@ -357,32 +366,6 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		isCashAccountRecord.add("", CONSIDER_AS_CASH_ACCOUNT);
 		isCashAccountRecord.add(":", isCashAccount);
 		list.add(isCashAccountRecord);
-		return null;
-	}
-
-	private Result commentsRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(COMMENTS);
-		String comments = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(COMMENTS)) {
-			String input = context.getSelection(TEXT);
-			if (input == null) {
-				input = context.getString();
-			}
-			comments = input;
-			req.setValue(comments);
-		}
-
-		if (selection == COMMENTS) {
-			context.setAttribute(INPUT_ATTR, COMMENTS);
-			return text(context, "Enter Comments", null);
-		}
-
-		Record memoRecord = new Record(COMMENTS);
-		memoRecord.add("", COMMENTS);
-		memoRecord.add("", comments);
-		list.add(memoRecord);
 		return null;
 	}
 
