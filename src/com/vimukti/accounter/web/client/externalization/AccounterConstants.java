@@ -3374,6 +3374,8 @@ public interface AccounterConstants extends Constants {
 
 	public String thisMonth();
 
+	public String thisQuoteAlreadyAccepted();
+
 	public String thisReportNotYetImplemented();
 
 	public String thisVATQuarter();
@@ -4953,10 +4955,15 @@ public interface AccounterConstants extends Constants {
 	public String pleaseEnterTheContactDetails();
 
 	public String trackingEstimates();
-	
+
 	public String shouldntSelectSameAccountInMultipleEntries();
 
 	public String addMemo();
 
 	public String purchaseNumber();
+
+	public String unassignedAmount();
+
+	public String recalculate();
+
 }

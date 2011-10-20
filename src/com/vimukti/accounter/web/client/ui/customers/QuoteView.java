@@ -332,8 +332,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -396,8 +396,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -805,8 +805,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()
@@ -821,8 +821,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -874,7 +874,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
+				if (transaction.getStatus() == QuoteListView.STATUS_ACCECPTED) {
+					Accounter.showError(Accounter.constants()
+							.thisQuoteAlreadyAccepted());
+				} else if (caught instanceof InvocationException) {
 					Accounter.showMessage(Accounter.constants()
 							.sessionExpired());
 				} else {
