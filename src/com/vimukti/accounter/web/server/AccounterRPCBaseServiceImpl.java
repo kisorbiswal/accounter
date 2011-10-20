@@ -76,10 +76,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
 						super.service(request, response);
 						try {
-							String serverCompanyID = (String) request
-									.getSession().getAttribute(COMPANY_ID);
+							Long serverCompanyID = (Long) request.getSession()
+									.getAttribute(COMPANY_ID);
 							getFinanceTool().putChangesInCometStream(
-									Long.parseLong(serverCompanyID));
+									serverCompanyID);
 						} catch (AccounterException e) {
 							log.error("Failed to get FinanceTool", e);
 						}
@@ -118,13 +118,12 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
 			HttpServletRequest request) {
 		Session session = HibernateUtil.getCurrentSession();
-		String serverCompanyID = (String) request.getSession().getAttribute(
+		Long serverCompanyID = (Long) request.getSession().getAttribute(
 				COMPANY_ID);
 		if (serverCompanyID == null) {
 			return false;
 		}
-		Company company = (Company) session.get(Company.class,
-				Long.valueOf(serverCompanyID));
+		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {
 			return false;
 		}

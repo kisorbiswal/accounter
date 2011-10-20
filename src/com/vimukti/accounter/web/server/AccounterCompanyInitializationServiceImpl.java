@@ -3,8 +3,13 @@
  */
 package com.vimukti.accounter.web.server;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -19,8 +24,6 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
@@ -43,9 +46,44 @@ public class AccounterCompanyInitializationServiceImpl extends
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Returns User Object From Client HttpSession
-	 */
+	protected final void service(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		try {
+
+			if (isValidSession(request)) {
+				Session session = HibernateUtil.openSession();
+				try {
+					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
+						super.service(request, response);
+						Long serverCompanyID = (Long) request.getSession()
+								.getAttribute(BaseServlet.COMPANY_ID);
+						if (serverCompanyID != null) {
+							new FinanceTool()
+									.putChangesInCometStream(serverCompanyID);
+						}
+					} else {
+						response.sendError(HttpServletResponse.SC_FORBIDDEN,
+								"Could Not Complete the Request!");
+					}
+				} finally {
+					session.close();
+				}
+			} else {
+				response.sendError(HttpServletResponse.SC_FORBIDDEN,
+						"Could Not Complete the Request!");
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			// log.error("Failed to Process Request", e);
+
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Could Not Complete the Request!");
+
+		}
+	}
 
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
@@ -90,6 +128,9 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.COMPANY_ID, company.getId());
+			getThreadLocalRequest().getSession().removeAttribute(
+					BaseServlet.CREATE);
+
 			UsersMailSendar.sendMailToDefaultUser(user,
 					company.getTradingName());
 		} catch (Exception e) {
@@ -142,5 +183,37 @@ public class AccounterCompanyInitializationServiceImpl extends
 		permissions.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		user.setPermissions(permissions);
 		return user.getClientUser();
+	}
+
+	public boolean isValidSession(HttpServletRequest request) {
+		return request.getSession().getAttribute(BaseServlet.EMAIL_ID) == null ? false
+				: true;
+	}
+
+	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
+			HttpServletRequest request) {
+		Session session = HibernateUtil.getCurrentSession();
+		Long serverCompanyID = (Long) request.getSession().getAttribute(
+				BaseServlet.COMPANY_ID);
+		if (serverCompanyID == null) {
+			String create = (String) request.getSession().getAttribute(
+					BaseServlet.CREATE);
+			if (create != null && create.equals("true")) {
+				return true;
+			}
+			return false;
+		}
+		Company company = (Company) session.get(Company.class, serverCompanyID);
+		if (company == null) {
+			return false;
+		}
+		String userEmail = (String) request.getSession().getAttribute(
+				BaseServlet.EMAIL_ID);
+		User user = company.getUserByUserEmail(userEmail);
+		if (user == null) {
+			return false;
+		}
+		AccounterThreadLocal.set(user);
+		return true;
 	}
 }
