@@ -4994,4 +4994,6 @@ public interface AccounterConstants extends Constants {
 
 	public String dummyDue();
 
+	public String notPrinted();
+
 }
