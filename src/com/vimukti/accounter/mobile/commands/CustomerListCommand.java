@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 
 /**
@@ -71,7 +72,7 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 	private Result customersList(Context context, ActionNames selection) {
 		Result result = context.makeResult();
 		ResultList customerslist = new ResultList("customersList");
-		result.add("customers List");
+		result.add(Global.get().Customer() + "List");
 
 		Boolean accountType = (Boolean) context.getAttribute(CUSTOMER_TYPE);
 		List<ClientCustomer> customers = getCustomers(accountType);
@@ -88,29 +89,29 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 
 		StringBuilder message = new StringBuilder();
 		if (customerslist.size() > 0) {
-			message.append("Select an Account");
+			message.append(getMessages().pleaseSelect(Global.get().Account()));
 		}
 
 		result.add(message.toString());
 		result.add(customerslist);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", "Active Customers");
+		inActiveRec.add("", getConstants().active());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", "InActive Customers");
+		inActiveRec.add("", getConstants().inActive());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Accounts");
+		inActiveRec.add("", getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add Customer");
+		commandList.add(getMessages().addNew(Global.get().Customer()));
 		result.add(commandList);
 		return result;
 
