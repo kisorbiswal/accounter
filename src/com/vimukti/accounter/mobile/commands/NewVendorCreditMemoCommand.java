@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -92,7 +93,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		// Preparing Result
 		Result makeResult = context.makeResult();
 		makeResult.add(getMessages().readyToCreate(
-				getMessages().vendorCredit(getIGlobal().Vendor())));
+				getMessages().vendorCredit(Global.get().Vendor())));
 		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -147,7 +148,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		markDone();
 		result = new Result();
 		result.add(getMessages().createSuccessfully(
-				getMessages().vendorCreditMemo(getIGlobal().Vendor())));
+				getMessages().vendorCreditMemo(Global.get().Vendor())));
 		return result;
 	}
 
@@ -215,7 +216,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		finish.add(
 				"",
 				getMessages().finishToCreate(
-						getMessages().vendorCredit(getIGlobal().Vendor())));
+						getMessages().vendorCredit(Global.get().Vendor())));
 		actions.add(finish);
 
 		return makeResult;

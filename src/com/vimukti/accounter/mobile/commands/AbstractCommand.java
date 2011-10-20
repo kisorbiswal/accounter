@@ -1754,8 +1754,4 @@ public abstract class AbstractCommand extends Command {
 				.getPreferences().getDateFormat());
 		return format.format(date.getDateAsObject());
 	}
-
-	public IGlobal getIGlobal() {
-		return null;
-	}
 }
