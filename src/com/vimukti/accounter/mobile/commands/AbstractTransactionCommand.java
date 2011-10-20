@@ -767,7 +767,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			return contactList(context, payee, contact);
 		}
 		Record contactRecord = new Record("contact");
-		contactRecord.add("", "Contact");
+		contactRecord.add("", getConstants().contact());
 		if (contact != null && contact.getName() != null) {
 			contactRecord.add("", contact.getName());
 		} else {
