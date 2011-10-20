@@ -666,11 +666,12 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result stringOptionalRequirement(Context context,
-			ResultList list, Object selection, String name, String displayName) {
-		Requirement req = get(name);
+			ResultList list, Object selection, String reqName, String name,
+			String displayName) {
+		Requirement req = get(reqName);
 		String memo = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(name)) {
+		if (attribute.equals(reqName)) {
 			String input = context.getSelection(TEXT);
 			if (input == null) {
 				input = context.getString();
@@ -680,12 +681,12 @@ public abstract class AbstractCommand extends Command {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null)
-			if (selection == name) {
-				context.setAttribute(INPUT_ATTR, name);
+			if (selection == reqName) {
+				context.setAttribute(INPUT_ATTR, reqName);
 				return text(context, displayName, memo);
 			}
 
-		Record memoRecord = new Record(name);
+		Record memoRecord = new Record(reqName);
 		memoRecord.add("", name);
 		memoRecord.add("", memo);
 		list.add(memoRecord);
@@ -693,11 +694,12 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result numberOptionalRequirement(Context context,
-			ResultList list, Object selection, String name, String displayName) {
-		Requirement req = get(name);
+			ResultList list, Object selection, String reqName, String name,
+			String displayName) {
+		Requirement req = get(reqName);
 		String number = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(name)) {
+		if (attribute.equals(reqName)) {
 			String input = context.getNumber();
 			if (input == null) {
 				input = context.getString();
@@ -707,12 +709,12 @@ public abstract class AbstractCommand extends Command {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null)
-			if (selection == name) {
-				context.setAttribute(INPUT_ATTR, name);
+			if (selection == reqName) {
+				context.setAttribute(INPUT_ATTR, reqName);
 				return text(context, displayName, number);
 			}
 
-		Record numberRecord = new Record(name);
+		Record numberRecord = new Record(reqName);
 		numberRecord.add("Name", name);
 		numberRecord.add("Value", number);
 		list.add(numberRecord);

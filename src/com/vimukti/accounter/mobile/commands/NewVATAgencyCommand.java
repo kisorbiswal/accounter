@@ -102,8 +102,9 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		setOptionalValues();
 
-		result = nameRequirement(context, list, NAME, getMessages()
-				.pleaseEnter(getConstants().vatAgencyName()));
+		result = nameRequirement(context, list, NAME, getConstants()
+				.vatAgencyName(),
+				getMessages().pleaseEnter(getConstants().vatAgencyName()));
 		if (result != null) {
 			return result;
 		}
@@ -265,24 +266,28 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		selection = context.getSelection("values");
 
 		Result result = numberOptionalRequirement(context, list, selection,
-				PHONE, getMessages().pleaseEnter(getConstants().phoneNumber()));
+				PHONE, getConstants().phoneNumber(),
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, FAX,
+				getConstants().fax(),
 				getMessages().pleaseEnter(getConstants().fax()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, EMAIL,
+				getConstants().email(),
 				getMessages().pleaseEnter(getConstants().email()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, WEBSITE,
+				getConstants().webSite(),
 				getMessages().pleaseEnter(getConstants().webPageAddress()));
 		if (result != null) {
 			return result;
