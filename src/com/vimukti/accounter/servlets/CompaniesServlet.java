@@ -31,6 +31,7 @@ public class CompaniesServlet extends BaseServlet {
 	private static final String DELETE_SUCCESS = "Your company is deleted successfully.";
 	private static final String DELETE_FAIL = "Company Deletion failed.";
 	private static final String MIGRATION_VIEW = "/WEB-INF/companyMigration.jsp";
+	private static final String CREATE = "create";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
@@ -51,6 +52,9 @@ public class CompaniesServlet extends BaseServlet {
 		if (companyID != null) {
 			openCompany(req, resp, Long.parseLong(companyID));
 			return;
+		}
+		if (req.getParameter(CREATE).equals("true")) {
+			createCompany(req, resp);
 		}
 
 		Session session = HibernateUtil.openSession();
@@ -97,6 +101,17 @@ public class CompaniesServlet extends BaseServlet {
 			}
 		}
 		dispatch(req, resp, companiedListView);
+	}
+
+	private void createCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		addMacAppCookie(req, resp);
+
+		String url = ACCOUNTER_OLD_URL;
+		if (ServerConfiguration.isDebugMode) {
+			url = ACCOUNTER_URL;
+		}
+
+		redirectExternal(req, resp, url);
 	}
 
 	/**
