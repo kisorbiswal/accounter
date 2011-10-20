@@ -9,12 +9,14 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public class BankAccountsListsCommands extends AbstractTransactionCommand {
-	private static final String VIEW_TYPE = "Current View";
-	private static final String ACTIVE = "Active";
-	private static final String IN_ACTIVE = "In-Active";
+	private String VIEW_TYPE = getConstants().currentView();
+	private String ACTIVE = getConstants().active();
+	private String IN_ACTIVE = getConstants().inActive();
+	private static final int BANK_ACCOUNT = ClientAccount.TYPE_BANK;
 
 	@Override
 	public String getId() {
@@ -70,8 +72,9 @@ public class BankAccountsListsCommands extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = stringListOptionalRequirement(context, resultList,
-				selection, VIEW_TYPE, "Current View", viewType,
-				"Select View type", 2);
+				selection, VIEW_TYPE, VIEW_TYPE, viewType, getMessages()
+						.pleaseSelect(getConstants().currentView()),
+				BANK_ACCOUNT);
 		if (result != null) {
 			return result;
 		}
@@ -96,7 +99,7 @@ public class BankAccountsListsCommands extends AbstractTransactionCommand {
 
 		result.add(resultList);
 		CommandList commandList = new CommandList();
-		commandList.add("Add a New Account");
+		commandList.add(getMessages().addNew(Global.get().Account()));
 		result.add(commandList);
 		return result;
 	}
