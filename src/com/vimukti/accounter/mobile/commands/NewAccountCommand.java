@@ -220,7 +220,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 
 		if (selection == COMMENTS) {
 			context.setAttribute(INPUT_ATTR, COMMENTS);
-			return text(context, "Enter Comments", null);
+			return text(context,
+					getMessages().pleaseEnter(getConstants().comment()), null);
 		}
 
 		Record memoRecord = new Record(COMMENTS);
