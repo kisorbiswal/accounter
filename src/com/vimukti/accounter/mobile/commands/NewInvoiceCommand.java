@@ -169,13 +169,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			TAXCode taxCode = get("tax").getValue();
-			for (ClientTransactionItem item : items) {
-				item.setTaxCode(taxCode.getID());
-			}
-
-		}
+		
 
 		ClientCustomer customer = get("customer").getValue();
 		invoice.setCustomer(customer.getID());
