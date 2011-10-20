@@ -100,7 +100,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		// Preparing Result
 		Result makeResult = context.makeResult();
 		makeResult
-				.add("New Invoice  is ready to create with following values.");
+				.add(getMessages().readyToCreate(getConstants().newInvoice()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -131,12 +131,13 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		markDone();
 
 		result = new Result();
-		result.add("Invoice  created successfully");
+		result.add(getMessages().createSuccessfully(getConstants().invoice()));
 		return result;
 	}
 
 	private void setDetaultValues(Context context) {
-		get(DATE).setDefaultValue(new Date(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
@@ -149,7 +150,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		get("DueDate").setDefaultValue(new Date(System.currentTimeMillis()));
+		get("DueDate").setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 
 		get(MEMO).setDefaultValue(" ");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
@@ -159,8 +161,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		ClientInvoice invoice = new ClientInvoice();
 
-		Date date = get(DATE).getValue();
-		invoice.setDate(new ClientFinanceDate(date).getDate());
+		ClientFinanceDate date = get(DATE).getValue();
+		invoice.setDate(date.getDate());
 
 		invoice.setType(Transaction.TYPE_INVOICE);
 
@@ -169,13 +171,11 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		
-
 		ClientCustomer customer = get("customer").getValue();
 		invoice.setCustomer(customer.getID());
 
-		Date dueDate = get("DueDate").getValue();
-		invoice.setDueDate(new ClientFinanceDate(dueDate).getDate());
+		ClientFinanceDate dueDate = get("DueDate").getValue();
+		invoice.setDueDate(dueDate.getDate());
 
 		ClientContact contact = get(CONTACT).getValue();
 		invoice.setContact(contact);
@@ -333,7 +333,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 
 		Result result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
+				getMessages().pleaseEnter(getConstants().transactionDate()));
 		if (result != null) {
 			return result;
 		}
@@ -361,31 +361,32 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				"Enter the Bill To Address");
+				getMessages().pleaseEnter(getConstants().billTo()));
 		if (result != null) {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, "DueDate",
-				"Enter Due Date", selection);
+				getConstants().dueDate(),
+				getMessages().pleaseEnter(getConstants().dueDate()), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter Invoice Numer");
+				getMessages().pleaseEnter(getConstants().invoiceNo()));
 
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Invoice.");
+		finish.add("", getMessages().finishToCreate(getConstants().invoice()));
 		actions.add(finish);
 
 		return makeResult;
@@ -434,7 +435,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		Result result = context.makeResult();
-		result.add("Select estimate");
+		result.add(getMessages().selectTypeOfThis(getConstants().quote()));
 
 		ResultList list = new ResultList(ESTIMATEANDSALESORDER);
 		List<EstimatesAndSalesOrdersList> skip = new ArrayList<EstimatesAndSalesOrdersList>();
@@ -460,7 +461,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		result.add(list);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Create estimate");
+		commandList.add("Create" + getConstants().quote());
 
 		result.add(commandList);
 		return result;
@@ -470,9 +471,9 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Record rec = new Record(estimates);
 		rec.add("", estimates.getCustomerName());
 		if (estimates.getType() == ClientTransaction.TYPE_ESTIMATE)
-			rec.add("", "Estimate");
+			rec.add("", getConstants().quote());
 		else
-			rec.add("", "SalesOrder");
+			rec.add("", getConstants().salesOrder());
 		return rec;
 	}
 
@@ -493,11 +494,13 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		if (selection == invoiceNo) {
 			context.setAttribute(INPUT_ATTR, ORDER_NO);
-			return number(context, "Enter Invoice number", invoiceNo);
+			return number(context,
+					getMessages().pleaseEnter(getConstants().invoiceNumber()),
+					invoiceNo);
 		}
 
 		Record invoiceNoRec = new Record(invoiceNo);
-		invoiceNoRec.add("Name", "Invoice Number");
+		invoiceNoRec.add("Name", getConstants().invoiceNumber());
 		invoiceNoRec.add("Value", invoiceNo);
 		list.add(invoiceNoRec);
 		return null;
