@@ -62,24 +62,24 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = accountRequirement(context, list, PAY_FROM,
-				new ListFilter<ClientAccount>() {
+		// result = accountRequirement(context, list, PAY_FROM,
+		// new ListFilter<ClientAccount>() {
+		//
+		// @Override
+		// public boolean filter(ClientAccount e) {
+		// return Arrays.asList(ClientAccount.TYPE_BANK,
+		// ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+		// .contains(e.getType());
+		// }
+		// });
+		// if (result != null) {
+		// return result;
+		// }
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(e.getType());
-					}
-				});
-		if (result != null) {
-			return result;
-		}
-
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
-		if (result != null) {
-			return result;
-		}
+		// result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		// if (result != null) {
+		// return result;
+		// }
 
 		result = billsToPayRequirement(context, makeResult, actions);
 		if (result != null) {
@@ -154,23 +154,23 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 			}
 		}
 
-		Result result = dateOptionalRequirement(context, list,
-				BILLS_DUE_ONBEFORE, "Filter by Sales Tax return end date",
-				selection);
-		if (result != null) {
-			return result;
-		}
+		// Result result = dateOptionalRequirement(context, list,
+		// BILLS_DUE_ONBEFORE, "Filter by Sales Tax return end date",
+		// selection);
+		// if (result != null) {
+		// return result;
+		// }
 
-		result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
-		if (result != null) {
-			return result;
-		}
-
-		result = orderNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
+		// result = dateRequirement(context, list, selection, DATE,
+		// "Enter the date");
+		// if (result != null) {
+		// return result;
+		// }
+		//
+		// result = orderNoRequirement(context, list, selection);
+		// if (result != null) {
+		// return result;
+		// }
 
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to Pay Sales Tax.");
