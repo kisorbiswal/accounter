@@ -14,9 +14,11 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.EmailManager;
+import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ServerMain extends Main {
@@ -52,6 +54,9 @@ public class ServerMain extends Main {
 
 		ConsoleChatServer consoleChat = new ConsoleChatServer();
 		consoleChat.start();
+
+		AccounterChatServer accounterChatServer = new AccounterChatServer();
+		accounterChatServer.start();
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
