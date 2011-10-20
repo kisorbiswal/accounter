@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -97,8 +98,8 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 
 		// Preparing Result
 		Result makeResult = context.makeResult();
-		makeResult
-				.add("Customer Credit Note is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getMessages().customerCreditNote(Global.get().customer())));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -153,7 +154,8 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		result = new Result();
-		result.add(" Customer Credit Memo was created successfully.");
+		result.add(getMessages().finishToCreate(
+				getMessages().customerCreditNote(Global.get().customer())));
 		return result;
 	}
 
@@ -177,13 +179,15 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 		Result result = dateOptionalRequirement(context, list, DATE,
-				"EnterDate", selection);
+				getConstants().transactionDate(),
+				getMessages().pleaseEnter(getConstants().transactionDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter CreditNote Number");
+				getMessages().pleaseEnter(getConstants().creditNoteNo()));
 		if (result != null) {
 			return result;
 		}
@@ -196,20 +200,25 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection,
-				"reasonForIssuue", "ReasonForIssuue");
+				"reasonForIssuue", getConstants().reasonForIssue());
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Customer Credit.");
+		finish.add(
+				"",
+				getMessages().finishToCreate(
+						getMessages().customerCreditNote(
+								Global.get().customer())));
 		actions.add(finish);
 
 		return makeResult;
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(new Date(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
@@ -222,10 +231,9 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 	private void completeProcess(Context context) {
 
 		ClientCustomerCreditMemo creditMemo = new ClientCustomerCreditMemo();
-		Company company = context.getCompany();
 
-		Date date = get(DATE).getValue();
-		creditMemo.setDate(new ClientFinanceDate(date).getDate());
+		ClientFinanceDate date = get(DATE).getValue();
+		creditMemo.setDate(date.getDate());
 
 		creditMemo.setType(Transaction.TYPE_CUSTOMER_CREDIT_MEMO);
 
