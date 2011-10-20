@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <commands>
 
-	<command clazz="AuthenticateCommand" name="authenticate">
+	<command clazz="AuthenticationCommand" name="authenticate">
 	</command>
 	<command clazz="SelectCompanyCommand" name="selectCompany">
 	</command>
@@ -523,6 +523,8 @@
 
 	<command clazz="NewItemGroupCommand" name="ItemGroup">
 		<alias>New ItemGroup</alias>
+		<alias>Add ItemGroup</alias>
+		<alias>Create ItemGroup</alias>
 	</command>
 
 	<command clazz="QuotesListCommand" name="QuotesList">
