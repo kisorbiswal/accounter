@@ -841,7 +841,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add(list);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Create SalesPerson");
+		commandList.add("Create Sales Person");
 		result.add(commandList);
 		return result;
 	}

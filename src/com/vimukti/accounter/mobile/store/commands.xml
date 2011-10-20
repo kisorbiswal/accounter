@@ -370,7 +370,12 @@
 		<alias>create Customer</alias>
 		<alias>Add Customer</alias>
 		<alias>New Customer</alias>
-		<alias>Create Customer</alias>
+		<alias>Customer</alias>
+	</command>
+	<command clazz="NewCreditRatingCommand" name="New CreditRating">
+		<alias>create CreditRating</alias>
+		<alias>Add CreditRating</alias>
+		<alias>CreditRating</alias>
 	</command>
 	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
 		<alias>create CustomerPrepayment</alias>
@@ -549,14 +554,14 @@
 	<command clazz="NewJournalEntryCommand" name="Journal Entry">
 		<alias>New Journal Entry</alias>
 	</command>
-	
+
 	<command clazz="ShippingTermsListCommand" name="ShippingTermsList">
 		<alias>ShippingTerms</alias>
 		<alias>ShippingTermsList</alias>
 		<alias>Shipping Terms</alias>
 		<alias>Shipping Terms List</alias>
 	</command>
-	
+
 	<command clazz="ShippingMethodListCommand" name="ShippingMethodList">
 		<alias>ShippingMethodList</alias>
 		<alias>Shipping Method List</alias>
