@@ -117,13 +117,22 @@ public abstract class FormItem<T> {
 	}
 
 	public void setRequired(boolean required) {
-		this.required = required;
 		if (required) {
 			this.getValidator().add(new RequiredFieldValidator());
+			if (label != null && !this.required) {
+				label.addStyleName("requiredField");
+				Element ele = DOM.createSpan();
+				ele.setInnerText("*");
+				ele.addClassName("star");
+				DOM.appendChild(label.getElement(), ele);
+			}
 		} else {
 			this.getValidator().clear();
-			removeLabelStar();
+			if (this.required) {
+				removeLabelStar();
+			}
 		}
+		this.required = required;
 	}
 
 	private void removeLabelStar() {
@@ -361,8 +370,8 @@ public abstract class FormItem<T> {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
-				result.addError(item, Accounter.messages().pleaseEnter(
-						item.getTitle()));
+				result.addError(item,
+						Accounter.messages().pleaseEnter(item.getTitle()));
 			}
 		}
 		return result;

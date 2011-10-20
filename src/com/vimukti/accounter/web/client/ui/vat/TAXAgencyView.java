@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,6 +84,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private List<String> vatReturnList;
 
 	private SelectCombo vatReturnCombo;
+	private SelectCombo taxTypeCombo;
 
 	private static TAXAgencyView taxAgencyView;
 
@@ -195,6 +197,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		} else {
 			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
 		}
+
+		data.setTaxType(getTaxType(taxTypeCombo.getSelectedValue()));
+
 		// Setting File As
 		data.setFileAs(fileAsText.getValue().toString());
 
@@ -222,10 +227,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		data.setPaymentTerm(selectedPaymentTerm.getID());
 
 		// Setting Sales Liability account
-		data.setSalesLiabilityAccount(selectedSalesAccount.getID());
+		if (selectedSalesAccount != null) {
+			data.setSalesLiabilityAccount(selectedSalesAccount.getID());
+		}
 
 		// Setting Purchase Liability account
-		if (getPreferences().isTrackPaidTax()) {
+		if (getPreferences().isTrackPaidTax()
+				&& selectedPurchaseAccount != null) {
 			data.setPurchaseLiabilityAccount(selectedPurchaseAccount.getID());
 		} else {
 			data.setPurchaseLiabilityAccount(0);
@@ -319,6 +327,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		paymentTermsCombo.setRequired(true);
 
+		taxTypeCombo = createTaxTypeSelectCombo();
+
 		vatReturnCombo = new SelectCombo(Accounter.constants().vatReturn());
 		vatReturnCombo.setHelpInformation(true);
 		vatReturnCombo.setRequired(true);
@@ -374,11 +384,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		Label contacts = new Label(companyConstants.contacts());
 		initListGrid();
 		if (getPreferences().isTrackPaidTax()) {
-			accInfoForm.setFields(statusCheck, paymentTermsCombo,
+			accInfoForm.setFields(statusCheck, paymentTermsCombo, taxTypeCombo,
 					vatReturnCombo, liabilitySalesAccountCombo,
 					liabilityPurchaseAccountCombo);
 		} else {
-			accInfoForm.setFields(statusCheck, paymentTermsCombo,
+			accInfoForm.setFields(statusCheck, paymentTermsCombo, taxTypeCombo,
 					vatReturnCombo, liabilitySalesAccountCombo);
 		}
 
@@ -586,10 +596,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		listforms.add(accInfoForm);
 		listforms.add(memoForm);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
-//			accInfoForm.setWidth("68%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
+		// accInfoForm.setWidth("68%");
+		// }
 
 		return mainVlay;
 	}
@@ -612,16 +622,18 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	@Override
 	public void initData() {
 
-		initPaymentTermsCombo();
-		if (isInViewMode()) {
-			this.selectedSalesAccount = getCompany().getAccount(
-					data.getSalesLiabilityAccount());
-			this.selectedPurchaseAccount = getCompany().getAccount(
-					data.getPurchaseLiabilityAccount());
+		if (getData() == null) {
+			setData(new ClientTAXAgency());
+		} else {
+			initPaymentTermsCombo();
+			if (isInViewMode()) {
+				this.selectedSalesAccount = getCompany().getAccount(
+						data.getSalesLiabilityAccount());
+				this.selectedPurchaseAccount = getCompany().getAccount(
+						data.getPurchaseLiabilityAccount());
+			}
+			taxTypeSelected(getTaxTypeString(data.getTaxType()));
 		}
-		// initLiabilityAccounts();
-		super.initData();
-
 	}
 
 	// private void initLiabilityAccounts() {
@@ -778,6 +790,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		fileAsText.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());
 		paymentTermsCombo.setDisabled(isInViewMode());
+		taxTypeCombo.setDisabled(isInViewMode());
 		vatReturnCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo.setDisabled(isInViewMode());
 		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
@@ -805,4 +818,112 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		return Accounter.constants().taxAgency();
 	}
 
+	private int getTaxType(String taxType) {
+		if (taxType == null) {
+			return 0;
+		}
+		if (taxType.equals(constants.salesTax())) {
+			return 1;
+		} else if (taxType.equals(constants.vat())) {
+			return 2;
+		} else if (taxType.equals(constants.serviceTax())) {
+			return 3;
+		} else if (taxType.equals(constants.tds())) {
+			return 4;
+		} else if (taxType.equals(constants.other())) {
+			return 5;
+		} else {
+			return 0;
+		}
+	}
+
+	private String getTaxTypeString(int type) {
+		switch (type) {
+		case 1:
+			return constants.salesTax();
+		case 2:
+			return constants.vat();
+		case 3:
+			return constants.serviceTax();
+		case 4:
+			return constants.tds();
+		case 5:
+			return constants.other();
+		default:
+			return "";
+		}
+	}
+
+	private SelectCombo createTaxTypeSelectCombo() {
+		SelectCombo taxTypeCombo = new SelectCombo(constants.taxType());
+		String[] types = new String[] { constants.salesTax(), constants.vat(),
+				constants.serviceTax(), constants.tds(), constants.other() };
+		taxTypeCombo.initCombo(Arrays.asList(types));
+		taxTypeCombo.setDisabled(isInViewMode());
+		taxTypeCombo.setRequired(true);
+		taxTypeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						taxTypeSelected(selectItem);
+					}
+				});
+		return taxTypeCombo;
+	}
+
+	private void taxTypeSelected(String selectedType) {
+		int type = getTaxType(selectedType);
+		taxTypeCombo.setComboItem(selectedType);
+		if (type == ClientTAXAgency.TAX_TYPE_SERVICETAX
+				|| type == ClientTAXAgency.TAX_TYPE_VAT) {
+			liabilitySalesAccountCombo.setRequired(true);
+			liabilityPurchaseAccountCombo.setRequired(true);
+
+			liabilitySalesAccountCombo.setVisible(true);
+			liabilityPurchaseAccountCombo.setVisible(true);
+		} else if (type == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+			liabilitySalesAccountCombo.setRequired(true);
+			liabilityPurchaseAccountCombo.setRequired(false);
+
+			liabilitySalesAccountCombo.setVisible(true);
+			liabilityPurchaseAccountCombo.setVisible(false);
+		} else if (type == ClientTAXAgency.TAX_TYPE_TDS) {
+			liabilitySalesAccountCombo.setRequired(false);
+			liabilityPurchaseAccountCombo.setRequired(true);
+
+			liabilitySalesAccountCombo.setVisible(false);
+			liabilityPurchaseAccountCombo.setVisible(true);
+		} else {
+			liabilitySalesAccountCombo.setRequired(false);
+			liabilityPurchaseAccountCombo.setRequired(false);
+
+			liabilitySalesAccountCombo.setVisible(true);
+			liabilityPurchaseAccountCombo.setVisible(true);
+		}
+
+		if (type != ClientTAXAgency.TAX_TYPE_VAT) {
+			vatReturnCombo.setComboItem("");
+			vatReturnCombo.setRequired(false);
+			vatReturnCombo.setVisible(false);
+		} else {
+			List<String> vatReturns = getVatReturns();
+			if (vatReturns == null || vatReturns.isEmpty()) {
+				return;
+			} else if (vatReturns.size() == 1) {
+				vatReturnCombo.setComboItem(vatReturns.get(0));
+			} else {
+				vatReturnCombo.initCombo(vatReturns);
+			}
+			vatReturnCombo.setRequired(true);
+			vatReturnCombo.setVisible(true);
+		}
+	}
+
+	private List<String> getVatReturns() {
+		List<String> vatReturns = new ArrayList<String>();
+		vatReturns.add(Accounter.constants().ukVAT());
+		vatReturns.add(Accounter.constants().vat3Ireland());
+		return vatReturns;
+	}
 }

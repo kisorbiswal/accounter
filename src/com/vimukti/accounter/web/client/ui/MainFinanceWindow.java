@@ -58,9 +58,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private void createControls() {
 		viewManager = new ViewManager(this);
-		header = new Header();
+		header = new Header(Accounter.getCompany());
 
-		ClientCompany company = Accounter.getCompany();
 		add(header);
 		// If company is configured then show the dashboard
 		// if (company.isConfigured()) {
