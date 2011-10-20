@@ -12,6 +12,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
 
 /**
@@ -24,7 +25,7 @@ public class MobileSession {
 
 	private static final String LAST_RESULT = "lastResult";
 
-	private long clientID;
+	private Client client;
 	private long companyID;
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
 	private Command currentCommand;
@@ -38,10 +39,6 @@ public class MobileSession {
 	 * Creates new Instance
 	 */
 	public MobileSession() {
-	}
-
-	public long getUserId() {
-		return clientID;
 	}
 
 	public String getUserEmail() {
@@ -134,13 +131,6 @@ public class MobileSession {
 	/**
 	 * @return
 	 */
-	public boolean isAuthenticated() {
-		return clientID != 0;
-	}
-
-	/**
-	 * @return
-	 */
 	public User getUser() {
 		return getCompany().getUserByUserEmail(getClient().getEmailId());
 	}
@@ -179,7 +169,7 @@ public class MobileSession {
 	 * 
 	 * @return
 	 */
-	public NetworkUser getFrom() {
+	public IMUser getFrom() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -192,15 +182,15 @@ public class MobileSession {
 	 * @return the client
 	 */
 	public Client getClient() {
-		return (Client) hibernateSession.get(Client.class, clientID);
+		return client;
 	}
 
 	/**
 	 * @param client
 	 *            the client to set
 	 */
-	public void setClientID(long client) {
-		this.clientID = client;
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	/**

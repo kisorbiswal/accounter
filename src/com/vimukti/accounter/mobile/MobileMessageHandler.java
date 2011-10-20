@@ -4,19 +4,23 @@
 package com.vimukti.accounter.mobile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.IMActivation;
+import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 
 /**
  * @author Prasanna Kumar G
@@ -30,21 +34,54 @@ public class MobileMessageHandler {
 
 	/**
 	 * @param message
+	 * @param message2
 	 * @return
 	 * @throws AccounterMobileException
 	 */
-	public String messageReceived(String userId, String message,
-			AdaptorType adaptorType) throws AccounterMobileException {
+	public String messageReceived(String networkId, String userId,
+			String message, AdaptorType adaptorType)
+			throws AccounterMobileException {
 		Session openSession = HibernateUtil.openSession();
 		try {
 
+			// /Checking authentication
+			IMUser imUser = getIMUser(networkId);
+			if (imUser == null) {
+				Client client = getClient(userId);
+				if (client == null) {
+					IMActivation activation = getImActivationByTocken(message);
+					if (activation == null) {
+						List<IMActivation> activationList = getImActivationByNetworkId(networkId);
+						if (activationList == null
+								|| activationList.size() == 0) {
+							if (message.contains("@")) {
+								sendActivationMail(networkId, message);
+								return "Activation code has sent to your mail '"
+										+ message + "'.";
+							} else {
+								return "Enter valid Accounter emailId.";
+							}
+						} else {
+							return "Wrong Activation code";
+						}
+					} else {
+						createIMUser(activation.getNetworkId(),
+								getClient(activation.getEmailId()));
+						return "Activation Success";
+					}
+				} else {
+					imUser = createIMUser(networkId, client);
+				}
+			}
+			userId = imUser.getClient().getEmailId();
 			MobileSession session = sessions.get(userId);
 
 			if (session == null || session.isExpired()) {
 				session = new MobileSession();
 				sessions.put(userId, session);
-				processWithOutAuthenticationForTest(session, openSession,
-						userId);
+				ServerLocal.set(Locale.ENGLISH);
+				session.setClient(imUser.getClient());
+				session.sethibernateSession(openSession);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 			session.refresh();
@@ -74,16 +111,66 @@ public class MobileMessageHandler {
 		}
 	}
 
-	private void processWithOutAuthenticationForTest(MobileSession session,
-			Session hibernateSession, String userId) {
-		ServerLocal.set(Locale.ENGLISH);
-		Query namedQuery = hibernateSession
-				.getNamedQuery("getClient.by.mailId");
-		namedQuery.setParameter("emailId", userId);
+	private Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter("emailId", emailId);
 		Client client = (Client) namedQuery.uniqueResult();
-		session.setClientID(client.getID());
-		session.sethibernateSession(hibernateSession);
+		return client;
+	}
 
+	private IMUser createIMUser(String networkId, Client client) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		IMUser imUser = new IMUser();
+		imUser.setClient(client);
+		imUser.setNetworkId(networkId);
+		Transaction beginTransaction = currentSession.beginTransaction();
+		currentSession.save(imUser);
+		List<IMActivation> imActivationByNetworkId = getImActivationByNetworkId(networkId);
+		for (IMActivation activation : imActivationByNetworkId) {
+			currentSession.delete(activation);
+		}
+		beginTransaction.commit();
+		return imUser;
+	}
+
+	private void sendActivationMail(String networkId, String emailId) {
+		String activationCode = SecureUtils.createID(16);
+		System.out.println("NetWorkID: " + networkId);
+		System.out.println("EmailId: " + emailId);
+		System.out.println("Activation Code: " + activationCode);
+
+		Session currentSession = HibernateUtil.getCurrentSession();
+		IMActivation activation = new IMActivation();
+		activation.setEmailId(emailId);
+		activation.setNetworkId(networkId);
+		activation.setTocken(activationCode);
+		Transaction beginTransaction = currentSession.beginTransaction();
+		currentSession.save(activation);
+		beginTransaction.commit();
+	}
+
+	private List<IMActivation> getImActivationByNetworkId(String networkId) {
+		Session session = HibernateUtil.getCurrentSession();
+		List<IMActivation> activationList = (List<IMActivation>) session
+				.getNamedQuery("activation.by.networkId")
+				.setString("networkId", networkId).list();
+		return activationList;
+	}
+
+	private IMActivation getImActivationByTocken(String tocken) {
+		Session session = HibernateUtil.getCurrentSession();
+		IMActivation activation = (IMActivation) session
+				.getNamedQuery("activation.by.tocken")
+				.setString("tocken", tocken).uniqueResult();
+		return activation;
+	}
+
+	private IMUser getIMUser(String networkId) {
+		Session session = HibernateUtil.getCurrentSession();
+		IMUser user = (IMUser) session.getNamedQuery("imuser.by.networkId")
+				.setString("networkId", networkId).uniqueResult();
+		return user;
 	}
 
 	/**
@@ -105,7 +192,8 @@ public class MobileMessageHandler {
 	 * @param session
 	 * @return
 	 */
-	private User getUserById(String userId, Session session) {
+	private User getUserById(String userId) {
+		Session session = HibernateUtil.getCurrentSession();
 		Company company = (Company) session.get(Company.class, 1l);
 		User user = (User) session.getNamedQuery("user.by.emailid")
 				.setString("emailID", userId).setEntity("company", company)

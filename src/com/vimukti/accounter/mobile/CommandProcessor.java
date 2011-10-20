@@ -6,9 +6,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -141,6 +143,9 @@ public class CommandProcessor {
 				command.setClientCompany(new FinanceTool().getCompanyManager()
 						.getClientCompany(session.getUserEmail(),
 								session.getCompanyID()));
+				ClientCompanyPreferences preferences = command
+						.getClientCompany().getPreferences();
+				CompanyPreferenceThreadLocal.set(preferences);
 			}
 			result = command.run(context);
 			result = processResult(result);
