@@ -323,9 +323,13 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				getMessages().active(getConstants().customer()), getMessages()
 						.inActive(getConstants().customer()));
 
-		Result result = dateOptionalRequirement(context, list,
-				CUSTOMER_SINCEDATE, getConstants().customerSinceDate(),
-				getMessages().enterDate(getConstants().customerSinceDate()),
+		Result result = dateOptionalRequirement(
+				context,
+				list,
+				CUSTOMER_SINCEDATE,
+				getMessages().customerSince(Global.get().Customer()),
+				getMessages().pleaseEnter(
+						getMessages().customerSince(Global.get().Customer())),
 				selection);
 
 		if (result != null) {
