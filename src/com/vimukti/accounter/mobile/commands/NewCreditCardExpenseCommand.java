@@ -128,17 +128,17 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountRequirement(context, list, "payFrom",
-				new ListFilter<ClientAccount>() {
+		result = accountRequirement(context, list, "payFrom", getConstants()
+				.bankAccounts(), new ListFilter<ClientAccount>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						return account.getIsActive()
-								&& Arrays.asList(ClientAccount.TYPE_BANK,
-										ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-										.contains(account.getType());
-					}
-				});
+			@Override
+			public boolean filter(ClientAccount account) {
+				return account.getIsActive()
+						&& Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+								.contains(account.getType());
+			}
+		});
 		if (result != null) {
 			return result;
 		}
@@ -202,7 +202,7 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
 		creditCardCharge.setDeliveryDate(deliveryDate.getDate());
-		
+
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
