@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -140,9 +141,10 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		booleanOptionalRequirement(context, selection, list, ACTIVE,
 				"This account is" + getConstants().active(), "This account is"
 						+ getConstants().inActive());
-
 		Result result = amountOptionalRequirement(context, list, selection,
-				OPENINGBALANCE, getConstants().openingBalance());
+				OPENINGBALANCE,
+				getMessages().pleaseEnter(getConstants().openingBalance()),
+				getConstants().openingBalance());
 		if (result != null) {
 			return result;
 		}
@@ -262,7 +264,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 
 		ArrayList<ClientBank> banks = getClientCompany().getBanks();
 		Result result = context.makeResult();
-		result.add("Select Bank Name");
+		result.add(getMessages().pleaseSelect(getConstants().bankName()));
 
 		ResultList list = new ResultList(BANK_NAME);
 		int num = 0;
@@ -282,7 +284,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		result.add(list);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Create banks");
+		commandList.add("Create New");
 		result.add(commandList);
 		return result;
 
@@ -320,7 +322,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Record nameRecord = new Record(bankAccountType);
-		nameRecord.add("", "AccountType");
+		nameRecord.add("", getConstants().type());
 		nameRecord.add("", bankAccountTypeReq.getValue());
 		list.add(nameRecord);
 		return null;
@@ -375,7 +377,8 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		}
 		String isCashAccount = "";
 		if (isCashAccoount) {
-			isCashAccount = "This account is cash account";
+			isCashAccount = getMessages().thisIsConsideredACashAccount(
+					Global.get().account());
 		} else {
 			isCashAccount = "This account is not a cash account";
 		}
