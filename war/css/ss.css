@@ -912,7 +912,7 @@ input[type="text"] {
 	margin-left: 1px;
 }
 
-#forget-link1 {
+#forget-link1,#signUp-link1 {
 	color: #3299A4;
 	font-size: 15px;
 }
@@ -1435,7 +1435,7 @@ ul li {
 		transparent important;
 }
 
-#red {
+#red ,.red{
 	color: red;
 }
 
