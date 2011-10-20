@@ -13,8 +13,8 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -153,8 +153,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 
 	private Result completeProcess(Context context) {
 		ClientCashPurchase cashPurchase = new ClientCashPurchase();
-		Date date = get(DATE).getValue();
-		cashPurchase.setDate(date.getTime());
+		ClientFinanceDate date = get(DATE).getValue();
+		cashPurchase.setDate(date.getDate());
 
 		cashPurchase.setType(ClientTransaction.TYPE_CASH_PURCHASE);
 
@@ -221,8 +221,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			cashPurchase.setCheckNumber(chequeNo);
 		}
 
-		Date deliveryDate = get(DELIVERY_DATE).getValue();
-		cashPurchase.setDeliveryDate(deliveryDate.getTime());
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
+		cashPurchase.setDeliveryDate(deliveryDate.getDate());
 
 		updateTotals(cashPurchase);
 		create(cashPurchase, context);
