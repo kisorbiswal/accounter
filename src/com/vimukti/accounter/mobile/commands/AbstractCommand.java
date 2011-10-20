@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -227,11 +226,11 @@ public abstract class AbstractCommand extends Command {
 	protected Result dateOptionalRequirement(Context context, ResultList list,
 			String name, String displayString, Object selection) {
 		Requirement req = get(name);
-		Date dueDate = req.getValue();
+		ClientFinanceDate dueDate = req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 
 		if (attribute.equals(name)) {
-			Date date = context.getSelection(DATE);
+			ClientFinanceDate date = context.getSelection(DATE);
 			if (date == null) {
 				date = context.getDate();
 			}
@@ -247,18 +246,19 @@ public abstract class AbstractCommand extends Command {
 		}
 		Record dueDateRecord = new Record(name);
 		dueDateRecord.add("Name", name);
-		dueDateRecord.add("Value", dueDate.toString());
+		dueDateRecord.add("Value", getDateAsString(dueDate));
 		list.add(dueDateRecord);
 		return null;
 	}
 
-	protected Result date(Context context, String message, Date date) {
+	protected Result date(Context context, String message,
+			ClientFinanceDate date) {
 		Result result = context.makeResult();
 		result.add(message);
 		if (date != null) {
 			ResultList list = new ResultList(DATE);
 			Record record = new Record(date);
-			record.add("", date.toString());
+			record.add("", getDateAsString(date));
 			list.add(record);
 			result.add(list);
 		}
@@ -751,7 +751,7 @@ public abstract class AbstractCommand extends Command {
 			Object selection, String reqName, String displayName) {
 
 		Requirement dateReq = get(reqName);
-		Date transDate = context.getDate();
+		ClientFinanceDate transDate = context.getDate();
 		if (!dateReq.isDone()) {
 			if (transDate == null) {
 				// context.setAttribute(INPUT_ATTR, DATE);
