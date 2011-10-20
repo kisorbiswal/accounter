@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends AbstractTransactionCommand {
@@ -143,17 +145,17 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, CUSTOMER_NAME, getConstants()
-				.customerName(),
+		result = nameRequirement(context, list, CUSTOMER_NAME, Global.get()
+				.Customer(),
 				getMessages().pleaseEnter(getConstants().customerName()));
 		if (result != null) {
 			return result;
 		}
 
 		if (context.getCompany().getPreferences().getUseCustomerId()) {
-			result = numberRequirement(context, list, NUMBER, getConstants()
-					.customerNumber(),
-					getMessages().pleaseEnter(getConstants().customerNumber()));
+			result = numberRequirement(context, list, NUMBER, getMessages()
+					.customerNumber(Global.get().Customer()), getMessages()
+					.pleaseEnter(getConstants().customerNumber()));
 			if (result != null) {
 				return result;
 			}
@@ -330,7 +332,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = amountOptionalRequirement(context, list, selection, BALANCE,
-				"Enter Balance");
+				getMessages().pleaseEnter(getConstants().balance()),
+				getConstants().balance());
 		if (result != null) {
 			return result;
 		}
@@ -348,27 +351,32 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, FAX,
-				"Enter Fax Number");
+				getMessages().pleaseEnter(getConstants().fax()), getConstants()
+						.fax());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, EMAIL,
-				"Enter email ");
+				getMessages().pleaseEnter(getConstants().email()),
+				getConstants().email());
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone Number");
+				getMessages().pleaseEnter(getConstants().phone()),
+				getConstants().phone());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, WEBADRESS,
-				"Enter webPageAdress ");
+				getMessages().pleaseEnter(getConstants().webPageAddress()),
+				getConstants().webPageAddress());
 		if (result != null) {
 			return result;
 		}
 
-		result = salesPersonRequirement(context, list, selection);
+		result = salesPersonRequirement(context, list, selection,
+				getConstants().salesPerson());
 		if (result != null) {
 			return result;
 		}
@@ -377,22 +385,28 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		// return result;
 		// }
 
-		result = creditRatingRequirement(context, list, selection);
+		result = creditRatingRequirement(context, list, selection,
+				getConstants().creditRating());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, BANK_NAME,
-				"Enter Bank Name ");
+				getMessages().pleaseEnter(getConstants().bankName()),
+				getConstants().bankName());
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection,
-				BANK_ACCOUNT_NUM, "Enter Bank AccountNumber");
+				BANK_ACCOUNT_NUM,
+				getMessages().pleaseEnter(getConstants().bankAccountNumber()),
+				getConstants().bankAccountNumber());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection,
-				BANK_BRANCH, "Enter bankBranch Name ");
+				BANK_BRANCH,
+				getMessages().pleaseEnter(getConstants().bankBranch()),
+				getConstants().bankBranch());
 		if (result != null) {
 			return result;
 		}
@@ -412,24 +426,32 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		if (preferences.isDoProductShipMents()) {
 			result = preferredShippingMethodRequirement(context, list,
-					selection);
+					selection, getConstants().preferredShippingMethod());
 			if (result != null) {
 				return result;
 			}
 		}
-		result = customerGroupRequirement(context, list, selection);
+		result = customerGroupRequirement(context, list, selection,
+				getMessages().customerGroup(Global.get().Customer()));
 		if (result != null) {
 			return result;
 		}
 		if (preferences.isTrackTax()) {
 			if (countryPreferences.isVatAvailable()) {
-				result = numberOptionalRequirement(context, list, selection,
-						VATREGISTER_NUM, "Enter vatRegisteration Number ");
+				result = numberOptionalRequirement(
+						context,
+						list,
+						selection,
+						VATREGISTER_NUM,
+						getMessages().pleaseEnter(
+								getConstants().vatRegistrationNumber()),
+						getConstants().vatRegistrationNumber());
 				if (result != null) {
 					return result;
 				}
 			}
-			result = customerVatCodeRequirement(context, list, selection);
+			result = customerVatCodeRequirement(context, list, selection,
+					getConstants().vatCode());
 			if (result != null) {
 				return result;
 			}
@@ -443,22 +465,31 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			// }
 			if (countryPreferences.isSalesTaxAvailable()) {
 				result = numberOptionalRequirement(context, list, selection,
-						CST_NUM, "Enter CST Number ");
+						CST_NUM,
+						getMessages().pleaseEnter(getConstants().cstNumber()),
+						getConstants().cstNumber());
 				if (result != null) {
 					return result;
 				}
 			}
 			if (countryPreferences.isServiceTaxAvailable()) {
-				result = numberOptionalRequirement(context, list, selection,
+				result = numberOptionalRequirement(
+						context,
+						list,
+						selection,
 						SERVICE_TAX_NUM,
-						"Enter Service tax registration Number ");
+						getMessages().pleaseEnter(
+								getConstants().serviceTaxRegistrationNumber()),
+						getConstants().serviceTaxRegistrationNumber());
 				if (result != null) {
 					return result;
 				}
 			}
 			if (countryPreferences.isTDSAvailable()) {
 				result = numberOptionalRequirement(context, list, selection,
-						TIN_NUM, "Enter Taxpayer identification number");
+						TIN_NUM,
+						getMessages().pleaseEnter(getConstants().tinNumber()),
+						getConstants().tinNumber());
 				if (result != null) {
 					return result;
 				}
@@ -479,7 +510,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private Result customerVatCodeRequirement(Context context, ResultList list,
-			Object selection) {
+			Object selection, String name) {
 
 		Object customerVatCodeObj = context.getSelection(TAXCODE);
 		if (customerVatCodeObj instanceof ActionNames) {
@@ -500,11 +531,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 		}
 		Record customerVatCodeRecord = new Record("vatCode");
-		customerVatCodeRecord.add("Name", "vatCode");
-		customerVatCodeRecord.add(
-				"Value",
-				vatCode == null ? "" : vatCode.getName() + "-"
-						+ vatCode.getSalesTaxRate());
+		customerVatCodeRecord.add("", name);
+		customerVatCodeRecord.add("", vatCode == null ? "" : vatCode.getName()
+				+ "-" + vatCode.getSalesTaxRate());
 		list.add(customerVatCodeRecord);
 
 		Result result = new Result();
@@ -521,7 +550,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return {@link CustomerGroupResult}
 	 */
 	private Result customerGroupRequirement(Context context, ResultList list,
-			Object selection) {
+			Object selection, String name) {
 
 		Object customerGroupObj = context.getSelection(CUSTOMER_GROUP);
 		if (customerGroupObj instanceof ActionNames) {
@@ -542,7 +571,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 
 		Record customerGroupRecord = new Record(CUSTOMER_GROUP);
-		customerGroupRecord.add("Name", CUSTOMER_GROUP);
+		customerGroupRecord.add("Name", name);
 		customerGroupRecord.add("Value", customerGroup == null ? ""
 				: customerGroup.getName());
 		list.add(customerGroupRecord);
@@ -608,7 +637,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private Result creditRatingRequirement(Context context, ResultList list,
-			Object selection) {
+			Object selection, String name) {
 
 		Object crediRatingObj = context.getSelection(CREDIT_RATING);
 		if (crediRatingObj instanceof ActionNames) {
@@ -629,7 +658,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 
 		Record priceLevelRecord = new Record(CREDIT_RATING);
-		priceLevelRecord.add("Name", CREDIT_RATING);
+		priceLevelRecord.add("Name", name);
 		priceLevelRecord.add("Value",
 				creditRating == null ? "" : creditRating.getName());
 		list.add(priceLevelRecord);
@@ -779,10 +808,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @param list
 	 * @param selection
+	 * @param name
 	 * @return {@link Result}
 	 */
 	private Result salesPersonRequirement(Context context, ResultList list,
-			Object selection) {
+			Object selection, String name) {
 
 		Object salesPersonObj = context.getSelection(SALESPERSON);
 		if (salesPersonObj instanceof ActionNames) {
@@ -803,7 +833,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 
 		Record salesPersonRecord = new Record(SALESPERSON);
-		salesPersonRecord.add("Name", SALESPERSON);
+		salesPersonRecord.add("Name", name);
 		salesPersonRecord.add("Value",
 				salesPerson == null ? "" : salesPerson.getFirstName());
 		list.add(salesPersonRecord);
