@@ -175,9 +175,9 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 	@Override
 	protected List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
-		list.add("Open");
-		list.add("Completed");
-		list.add("Canceled");
+		list.add(getConstants().open());
+		list.add(getConstants().completed());
+		list.add(getConstants().cancelled());
 		return list;
 	}
 
