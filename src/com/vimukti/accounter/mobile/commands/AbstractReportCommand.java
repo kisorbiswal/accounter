@@ -180,15 +180,15 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(FROM_DATE)) {
 			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
+			// if (date == null) {
+			// date = context.getDate();
+			// }
 			fromDate = date;
 			dateReq.setValue(fromDate);
 		}
 		if (selection == fromDate) {
-			context.setAttribute(INPUT_ATTR, FROM_DATE);
-			return date(context, "Enter From Date", fromDate);
+			// context.setAttribute(INPUT_ATTR, FROM_DATE);
+			// return date(context, "Enter From Date", fromDate);
 		}
 
 		Record transDateRecord = new Record(fromDate);
@@ -214,15 +214,15 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(TO_DATE)) {
 			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
+			// if (date == null) {
+			// date = context.getDate();
+			// }
 			toDate = date;
 			dateReq.setValue(toDate);
 		}
 		if (selection == toDate) {
-			context.setAttribute(INPUT_ATTR, TO_DATE);
-			return date(context, "Enter To Date", toDate);
+			// context.setAttribute(INPUT_ATTR, TO_DATE);
+			// return date(context, "Enter To Date", toDate);
 		}
 
 		Record transDateRecord = new Record(toDate);
