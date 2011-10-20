@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -13,6 +12,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -152,7 +152,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
 		get(PHONE).setDefaultValue("");
 		ClientContact contact = new ClientContact();
@@ -224,8 +224,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	private void completeProcess(Context context) {
 		ClientVendorCreditMemo vendorCreditMemo = new ClientVendorCreditMemo();
 
-		Date date = get(DATE).getValue();
-		vendorCreditMemo.setDate(date.getTime());
+		ClientFinanceDate date = get(DATE).getValue();
+		vendorCreditMemo.setDate(date.getDate());
 		String number = get(NUMBER).getValue();
 		vendorCreditMemo.setNumber(number);
 
