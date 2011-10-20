@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -89,8 +90,8 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 			}
 		}
 		Result makeResult = context.makeResult();
-		makeResult
-				.add("Credit Card Charge  is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().creditCardCharge()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -161,15 +162,15 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
 		get(PHONE).setDefaultValue("");
 		ClientContact contact = new ClientContact();
 		contact.setName(null);
 		get(CONTACT).setDefaultValue(contact);
 		get(MEMO).setDefaultValue("");
-		get("deliveryDate").setDefaultValue(new Date());
-		get(PAYMENT_METHOD).setDefaultValue("Credit Card");
+		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
+		get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
 	}
 
 	private void completeProcess(Context context) {
@@ -239,13 +240,18 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = dateOptionalRequirement(context, list, DATE,
-				"Enter date", selection);
+				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter Cash Sale Number");
+		result = numberOptionalRequirement(
+				context,
+				list,
+				selection,
+				NUMBER,
+				getMessages().pleaseEnter(
+						getConstants().cashSale() + getConstants().number()));
 		if (result != null) {
 			return result;
 		}
@@ -257,25 +263,27 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone Number");
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, "deliveryDate",
-				"Enter date", selection);
+				getMessages().pleaseEnter(getConstants().deliveryDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Add a memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Credit Card Charge.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().creditCardCharge()));
 		actions.add(finish);
 		return makeResult;
 	}
