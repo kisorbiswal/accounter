@@ -21,7 +21,7 @@ public class ConsoleChatClient {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					System.in));
 			System.out.print("Enter user Email:");
-			String email = "***REMOVED***";// br.readLine().trim();
+			String email = br.readLine().trim();
 
 			Socket client = new Socket("localhost", 8080);
 			ObjectOutputStream out = new ObjectOutputStream(
