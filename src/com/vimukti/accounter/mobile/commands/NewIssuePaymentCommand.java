@@ -20,13 +20,15 @@ import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewIssuePaymentCommond extends AbstractTransactionCommand {
+public class NewIssuePaymentCommand extends AbstractTransactionCommand {
 	private static final String PAYMENTS_TO_ISSUED = "paymentstoissued";
 	private static final String NAME = "Name";
 	public static final String PAYMENT_METHOD_CHECK = "Check";
 	private static final String PAYMENTS_TO_ISSUED_LIST = "paymentsToIssuesList";
 	private static final String CHEQUE_NO = "checknum";
 	protected static final String AMOUNT = "amount";
+	private static final String OPTIONAL = "optional";
+	private static final String VALUES = "values";
 
 	@Override
 	public String getId() {
@@ -57,13 +59,13 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		Result result = null;
 
 		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+			context.setAttribute(INPUT_ATTR, OPTIONAL);
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" Issue Payment is ready to create with following values.");
-		ResultList list = new ResultList("values");
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().issuePayment()));
+		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 
@@ -105,14 +107,15 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		}
 		completeProcess(context);
 		markDone();
-		result = new Result("Issue payment created successfully");
+		result = new Result(getMessages().createSuccessfully(
+				getConstants().issuePayment()));
 		return result;
 	}
 
 	private Result optionalRequirement(Context context, Result makeResult,
 			ResultList list, ResultList actions) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+			context.setAttribute(INPUT_ATTR, OPTIONAL);
 		}
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -126,13 +129,15 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 			}
 		}
 		Result result = numberRequirement(context, list, CHEQUE_NO,
-				"Please enter the cheque number");
+				getMessages().pleaseEnter(getConstants().chequeNo()),
+				getConstants().chequeNo());
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish payment.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().issuePayment()));
 		actions.add(finish);
 
 		return makeResult;
@@ -149,7 +154,9 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 			String nextIssuePaymentCheckNumber = new FinanceTool()
 					.getNextIssuePaymentCheckNumber(account.getID(),
 							getClientCompany().getID());
-			checknumber = nextIssuePaymentCheckNumber;
+			if (nextIssuePaymentCheckNumber != null) {
+				checknumber = nextIssuePaymentCheckNumber;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			checknumber = "";
@@ -195,7 +202,7 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 			return clientTransactionIssuePayments(context);
 		}
 
-		makeResult.add("IssuePayment:-");
+		makeResult.add(getConstants().issuePayment());
 		ResultList itemsList = new ResultList(PAYMENTS_TO_ISSUED_LIST);
 		for (ClientTransactionIssuePayment item : transactionItems) {
 			itemsList.add(creatTransactioIssuePaymentRecord(item));
@@ -203,7 +210,8 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		makeResult.add(itemsList);
 
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more ClientTransactionPayBills");
+		moreItems
+				.add("", getMessages().addMore(getConstants().issuePayments()));
 		actions.add(moreItems);
 		return null;
 	}
@@ -211,23 +219,23 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 	private Record creatTransactioIssuePaymentRecord(
 			ClientTransactionIssuePayment entry) {
 		Record issuepaymentrecord = new Record(entry);
-		issuepaymentrecord.add("", "Date");
-		issuepaymentrecord.add("", entry.getDate());
+		issuepaymentrecord.add("", getConstants().date());
+		issuepaymentrecord.add("",
+				getDateAsString(new ClientFinanceDate(entry.getDate())));
 		if (entry.getNumber() != null)
-			issuepaymentrecord.add("", "Number");
+			issuepaymentrecord.add("", getConstants().number());
 		issuepaymentrecord.add("", entry.getNumber());
-		issuepaymentrecord.add("", "Name");
+		issuepaymentrecord.add("", getConstants().name());
 		issuepaymentrecord.add("", entry.getName() != null ? entry.getName()
 				: "");
-		issuepaymentrecord.add("", "Memo");
+		issuepaymentrecord.add("", getConstants().memo());
 		issuepaymentrecord.add("", entry.getMemo() != null ? entry.getMemo()
 				: "");
-		issuepaymentrecord.add("", "Amount");
+		issuepaymentrecord.add("", getConstants().amount());
 		issuepaymentrecord.add("", entry.getAmount());
 		if (entry.getPaymentMethod() != null)
-			issuepaymentrecord.add("", "Payment method");
+			issuepaymentrecord.add("", getConstants().paymentMethod());
 		issuepaymentrecord.add("", entry.getPaymentMethod());
-		issuepaymentrecord.add("", entry.getRecordType());
 		return issuepaymentrecord;
 	}
 
@@ -259,9 +267,11 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect issue payment(s).");
+			result.add(getMessages().pleaseSelect(
+					getConstants().issuePayments()));
 		} else {
-			result.add("You don't have issue payments.");
+			result.add(getMessages().youDontHaveAny(
+					getConstants().issuePayments()));
 		}
 		result.add(list);
 		return result;
