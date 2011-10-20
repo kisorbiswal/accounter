@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -383,10 +384,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", "Delete");
+		record.add("", getConstants().delete());
 		actions.add(record);
 		record = new Record(ActionNames.FINISH_ITEM);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		actions.add(record);
 		result.add(actions);
 		return result;
@@ -477,18 +478,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		ResultList list = new ResultList(ACCOUNT_ITEM_DETAILS);
 		Record record = new Record("amount");
-		record.add("", "Amount");
+		record.add("", getConstants().amount());
 		record.add("", transactionItem.getUnitPrice());
 		list.add(record);
 
 		record = new Record("discount");
-		record.add("", "Discount %");
+		record.add("", getConstants().discount());
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 		if (getClientCompany().getPreferences().isTrackTax()
 				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
 			record = new Record("taxCode");
-			record.add("", "VatCode");
+			record.add("", getConstants().vatCode());
 			if (transactionItem.getTaxCode() != 0) {
 				ClientTAXCode code = getClientCompany().getTAXCode(
 						transactionItem.getTaxCode());
@@ -501,7 +502,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			list.add(record);
 		} else {
 			record = new Record("tax");
-			record.add("", "Tax");
+			record.add("", getConstants().tax());
 			if (transactionItem.isTaxable()) {
 				record.add("", "Taxable");
 			} else {
@@ -511,7 +512,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		record = new Record("description");
-		record.add("", "Description");
+		record.add("", getConstants().description());
 		record.add("", transactionItem.getDescription());
 		list.add(record);
 
@@ -537,10 +538,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", "Delete");
+		record.add("", getConstants().delete());
 		actions.add(record);
 		record = new Record(ActionNames.FINISH_ITEM);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		actions.add(record);
 		result.add(actions);
 		return result;
@@ -568,8 +569,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		shipTo = req.getValue();
 
 		Record shipToRecord = new Record("shipTo");
-		shipToRecord.add("Name", "shipTo");
-		shipToRecord.add("Value", shipTo == null ? "" : shipTo.toString());
+		shipToRecord.add("", getConstants().shipTo());
+		shipToRecord.add("", shipTo == null ? "" : shipTo.toString());
 
 		list.add(shipToRecord);
 		return null;
@@ -605,9 +606,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect an Item(s).");
+			result.add(getMessages().pleaseSelect(getConstants().items()));
 		} else {
-			result.add("You don't have Items.");
+			result.add(getConstants().noRecordsToShow());
 			Record record = new Record("escape");
 			record.add("", "Skip");
 			ResultList resultList = new ResultList("escape");
@@ -683,7 +684,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		int size = customerList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select a Customer");
+			message.append(getMessages().pleaseSelect(Global.get().Customer()));
 		}
 		CommandList commandList = new CommandList();
 		commandList.add("Create New Customer");
@@ -719,8 +720,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 
 		Record paymentTermRecord = new Record("Payment Terms");
-		paymentTermRecord.add("Name", getConstants().paymentTerm());
-		paymentTermRecord.add("Value",
+		paymentTermRecord.add("", getConstants().paymentTerm());
+		paymentTermRecord.add("",
 				paymentTerm == null ? "" : paymentTerm.getName());
 
 		list.add(paymentTermRecord);
@@ -846,7 +847,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		Result result = context.makeResult();
-		result.add("Select Account");
+		result.add(getMessages().pleaseSelect(getConstants().account()));
 
 		ResultList list = new ResultList(PAY_FROM);
 		int num = 0;
@@ -877,7 +878,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		ArrayList<ClientPaymentTerms> paymentTerms = new ArrayList<ClientPaymentTerms>(
 				getClientCompany().getPaymentsTerms());
 		Result result = context.makeResult();
-		result.add("Select PaymentTerms");
+		result.add(getMessages().pleaseSelect(getConstants().paymentTerm()));
 
 		ResultList list = new ResultList(PAYMENT_TERMS);
 		if (oldPaymentTerms != null) {
@@ -937,44 +938,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		return result;
 	}
-
-	// private Result accounts(Context context, String name,
-	// ListFilter<ClientAccount> listFilter) {
-	// Result result = context.makeResult();
-	// ResultList list = new ResultList(name);
-	//
-	// Object last = context.getLast(RequirementType.ACCOUNT);
-	// int num = 0;
-	// if (last != null) {
-	// list.add(createAccountRecord((ClientAccount) last));
-	// num++;
-	// }
-	// ArrayList<ClientAccount> transferAccountList = getAccounts(listFilter);
-	// if (!transferAccountList.isEmpty())
-	// result.add("Select an Account.");
-	// if (!transferAccountList.isEmpty()) {
-	// for (ClientAccount account : transferAccountList) {
-	// if (account != last) {
-	// list.add(createAccountRecord(account));
-	// num++;
-	// }
-	// if (num == ACCOUNTS_TO_SHOW) {
-	// break;
-	// }
-	// }
-	// }
-	//
-	// CommandList commands = new CommandList();
-	// commands.add("Create New Account");
-	// if (list.size() > 5) {
-	// Record moreAccounts = new Record("More Accounts");
-	// moreAccounts.add("", "MORE ACCOUNTS");
-	// list.add(moreAccounts);
-	// }
-	// result.add(list);
-	// result.add(commands);
-	// return result;
-	// }
 
 	protected ArrayList<ClientAccount> getAccounts(
 			ListFilter<ClientAccount> listFilter) {
@@ -1085,11 +1048,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		if (selection == phoneNo) {
 			context.setAttribute(INPUT_ATTR, "phone");
-			return number(context, "Enter Phone number", phoneNo);
+			return number(context,
+					getMessages().pleaseEnter(getConstants().phoneNumber()),
+					phoneNo);
 		}
 
 		Record cashSaleNoRec = new Record(phoneNo);
-		cashSaleNoRec.add("", "Phone Number");
+		cashSaleNoRec.add("", getConstants().phoneNumber());
 		cashSaleNoRec.add("", phoneNo);
 		// cashSaleNoRec.add("Value", phoneNo);
 		list.add(cashSaleNoRec);
@@ -1143,7 +1108,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		int size = payeeList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select a Payee");
+			message.append(getMessages().pleaseSelect("Payee"));
 		}
 		CommandList commandList = new CommandList();
 		commandList.add("Create Customer");
@@ -1319,9 +1284,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect an Account(s).");
+			result.add(getMessages().pleaseSelect(getConstants().account()));
 		} else {
-			result.add("You don't have any Account.");
+			result.add(getConstants().noRecordsToShow());
 		}
 
 		result.add(list);
