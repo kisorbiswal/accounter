@@ -168,7 +168,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, DATE, getConstants()
-				.date(), selection);
+				.date(), getMessages().pleaseEnter(getConstants().date()),
+				selection);
 		if (result != null) {
 			return result;
 		}
