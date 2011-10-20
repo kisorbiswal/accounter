@@ -92,7 +92,7 @@ public class Accounter implements EntryPoint {
 	private static ClientFinanceDate startDate;
 	private static boolean isMacApp;
 
-	public static void loadCompany() {
+	public void loadCompany() {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
 		((ServiceDefTarget) getService)
@@ -106,22 +106,11 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(ClientCompany company) {
-				if (company == null) {
-
-				}
-
-				// We got the company, set it for all further references.
-				// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
-				Accounter.setCompany(company);
-
-				Accounter.setUser(company.getLoggedInUser());
-				startDate = company.getTransactionStartDate();
-				endDate = company.getTransactionStartDate();
-
-				// and, now we are ready to start the application.
 				removeLoadingImage();
+				if (company == null) {					
+					// and, now we are ready to start the application.
+					removeLoadingImage();
 
-				if (!company.isConfigured()) {
 					header = new Header();
 					vpanel = new SimplePanel();
 					vpanel.addStyleName("empty_menu_bar");
@@ -145,6 +134,11 @@ public class Accounter implements EntryPoint {
 					RootPanel.get("mainWindow").add(vpanel);
 					RootPanel.get("mainWindow").add(setupWizard);
 				} else {
+					Accounter.setCompany(company);
+
+					Accounter.setUser(company.getLoggedInUser());
+					startDate = company.getTransactionStartDate();
+					endDate = company.getTransactionStartDate();
 
 					initGUI();
 				}
