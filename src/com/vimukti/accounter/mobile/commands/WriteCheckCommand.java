@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -13,6 +12,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -22,10 +22,10 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 public class WriteCheckCommand extends AbstractTransactionCommand {
 
 	private static final String PAYEE = "payee";
-	private static final String ITEMS = "items";
 	private static final String BANK_ACCOUNT = "bankAccount";
 	private static final String AMOUNT = "amount";
-	private static final String WRITE_CHECK_NUMBER = "number";
+	private static final String OPTIONAL = "optional";
+	private static final String VALUES = "values";
 
 	@Override
 	public String getId() {
@@ -60,7 +60,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			}
 		});
 		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(WRITE_CHECK_NUMBER, true, false));
+		list.add(new Requirement(NUMBER, true, false));
 		list.add(new Requirement(AMOUNT, true, true));
 		list.add(new ObjectListRequirement(BILL_TO, true, true) {
 			@Override
@@ -79,12 +79,12 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 	public Result run(Context context) {
 		setDefaultValues();
 		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+			context.setAttribute(INPUT_ATTR, OPTIONAL);
 		}
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result makeResult = context.makeResult();
-		ResultList actions = new ResultList("actions");
-		ResultList list = new ResultList("values");
+		ResultList actions = new ResultList(ACTIONS);
+		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		Result result = null;
 
@@ -163,13 +163,14 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		result = new Result();
-		result.add("Write check was created successfully.");
+		result.add(getMessages()
+				.createSuccessfully(getConstants().writeCheck()));
 		return result;
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
-		get(WRITE_CHECK_NUMBER).setDefaultValue("1");
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(NUMBER).setDefaultValue("1");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(AMOUNT).setDefaultValue(0.0);
 		get(MEMO).setDefaultValue(" ");
@@ -189,10 +190,10 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		ClientAccount bankAccount = get(BANK_ACCOUNT).getValue();
 		writeCheck.setBankAccount(bankAccount.getID());
 
-		Date date = get(DATE).getValue();
-		writeCheck.setDate(date.getTime());
+		ClientFinanceDate date = get(DATE).getValue();
+		writeCheck.setDate(date.getDate());
 
-		String number = get(WRITE_CHECK_NUMBER).getValue();
+		String number = get(NUMBER).getValue();
 		writeCheck.setNumber(number);
 
 		Double amount = get(AMOUNT).getValue();
@@ -225,39 +226,40 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		selection = context.getSelection("values");
+		selection = context.getSelection(VALUES);
 
 		Result result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
+				getMessages().pleaseEnter(getConstants().date()));
 		if (result != null) {
 			return result;
 		}
 
-		result = numberOptionalRequirement(context, list, selection,
-				WRITE_CHECK_NUMBER, "Enter WriteCheck Number :- ");
+		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				"Please enter the billTo address");
+				getMessages().pleaseEnter(getConstants().billTo()));
 		if (result != null) {
 			return result;
 		}
 
 		result = amountOptionalRequirement(context, list, selection, AMOUNT,
-				"Add Amount");
+				getMessages().pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Add a memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create WriteCheck.");
+		finish.add("", getMessages()
+				.finishToCreate(getConstants().writeCheck()));
 		actions.add(finish);
 		return makeResult;
 	}
