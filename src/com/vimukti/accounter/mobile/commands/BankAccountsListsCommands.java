@@ -1,22 +1,23 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientBankAccount;
 
 public class BankAccountsListsCommands extends AbstractTransactionCommand {
-	private static final String VIEW_TYPE = "viewType";
+	private static final String VIEW_TYPE = "Current View";
+	private static final String ACTIVE = "Active";
+	private static final String IN_ACTIVE = "In-Active";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -28,66 +29,95 @@ public class BankAccountsListsCommands extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
 
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = null;
+		setDefaultValue();
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
 		}
 		return result;
+
+	}
+
+	private void setDefaultValue() {
+		get(VIEW_TYPE).setDefaultValue(ACTIVE);
 	}
 
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(VIEW_TYPE);
+		List<String> viewType = new ArrayList<String>();
+		viewType.add(ACTIVE);
+		viewType.add(IN_ACTIVE);
 
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		String viewType = get(VIEW_TYPE).getValue();
-		result = bankAccountsList(context, viewType);
-		return result;
-	}
-
-	private Result bankAccountsList(Context context, String viewType) {
-		Result result = context.makeResult();
-		result.add("Bank Accounts");
-		ResultList bankAccountsList = new ResultList("bankAccounts");
-		int num = 0;
-		List<ClientBankAccount> accounts = getBankAccounts();
-		for (ClientBankAccount b : accounts) {
-			bankAccountsList.add(createExpenseRecord(b));
-			num++;
-			if (num == ACCOUNTS_TO_SHOW) {
+		ResultList resultList = new ResultList("values");
+		Object selection = context.getSelection(ACTIONS);
+		ActionNames actionNames;
+		if (selection != null) {
+			actionNames = (ActionNames) selection;
+			switch (actionNames) {
+			case FINISH:
+				markDone();
+				return null;
+			default:
 				break;
 			}
 		}
-		int size = bankAccountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Bank Account");
+
+		selection = context.getSelection("values");
+		Result result = stringListOptionalRequirement(context, resultList,
+				selection, VIEW_TYPE, "Current View", viewType,
+				"Select View type", 2);
+		if (result != null) {
+			return result;
 		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
 
-		result.add(message.toString());
-		result.add(bankAccountsList);
-		result.add(commandList);
-		result.add("Type for Expense");
-
+		String view = get(VIEW_TYPE).getValue();
+		result = getAccounts(context, view);
+		result.add(resultList);
 		return result;
 	}
 
-	private Record createExpenseRecord(ClientBankAccount account) {
-		Record record = new Record(account);
-		record.add("No", account.getNumber());
-		record.add("Name", account.getName());
-		record.add("Type", account.getType());
-		record.add("Balance", ((ClientAccount) account).getCurrentBalance());
-		return record;
+	private Result getAccounts(Context context, String view) {
+		Result result = context.makeResult();
+		ResultList resultList = new ResultList("accountsList");
+
+		ArrayList<ClientAccount> accountsList = getClientCompany().getAccounts(
+				ClientAccount.TYPE_BANK);
+
+		ArrayList<ClientAccount> list = filterList(accountsList, view);
+		for (ClientAccount account : list) {
+			resultList.add(createAccountRecord(account));
+		}
+
+		result.add(resultList);
+		CommandList commandList = new CommandList();
+		commandList.add("Add a New Account");
+		result.add(commandList);
+		return result;
+	}
+
+	private ArrayList<ClientAccount> filterList(
+			ArrayList<ClientAccount> accountsList, String view) {
+
+		ArrayList<ClientAccount> list = new ArrayList<ClientAccount>();
+
+		for (ClientAccount account : accountsList) {
+
+			if (account.getIsActive() && view.equals(ACTIVE)) {
+
+				list.add(account);
+			} else if (!account.getIsActive() && view.equals(IN_ACTIVE)) {
+				list.add(account);
+			}
+
+		}
+		return list;
+
 	}
 
 }
