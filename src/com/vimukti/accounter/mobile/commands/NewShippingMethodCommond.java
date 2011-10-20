@@ -34,15 +34,18 @@ public class NewShippingMethodCommond extends AbstractCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" Shipping Method is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().shippingMethod()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, SHIPPING_METHOD,
-				"Please Enter the shipping method name ");
+		result = nameRequirement(context, list, SHIPPING_METHOD, getMessages()
+				.pleaseEnter(
+						getConstants().shippingMethod() + " "
+								+ getConstants().name()), getConstants()
+				.shippingMethod());
 		if (result != null) {
 			return result;
 		}
@@ -73,13 +76,13 @@ public class NewShippingMethodCommond extends AbstractCommand {
 		selection = context.getSelection("values");
 
 		Result result = stringOptionalRequirement(context, list, selection,
-				DESCRIPTION, "Enter description");
+				DESCRIPTION, getMessages().pleaseEnter(getConstants().description()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Shipping Method");
+		finish.add("", getMessages().createSuccessfully(getConstants().shippingMethod()));
 		actions.add(finish);
 
 		return makeResult;

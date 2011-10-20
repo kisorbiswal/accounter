@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -76,7 +77,7 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 	private Result vendorPaymentsList(Context context, ActionNames selection) {
 		Result result = context.makeResult();
 		ResultList vendorPaymentsList = new ResultList("vendorPaymentsList");
-		result.add("Vendor Payments List");
+		result.add(getMessages().vendorPaymentsList(Global.get().Vendor()));
 
 		Integer vendorPaymentType = (Integer) context.getAttribute(VIEW_BY);
 		List<PaymentsList> vendorPayments = getVendorPayments(context

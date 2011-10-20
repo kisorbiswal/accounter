@@ -62,7 +62,7 @@ public class UsersCommand extends AbstractTransactionCommand {
 	private Result usersList(Context context, ActionNames selection) {
 		Result result = context.makeResult();
 		ResultList usersList = new ResultList("usersList");
-		result.add("Users List");
+		result.add(getConstants().users());
 
 		Boolean userType = (Boolean) context.getAttribute(USER_TYPE);
 		List<ClientUserInfo> users = getUsers(userType); 
@@ -78,29 +78,29 @@ public class UsersCommand extends AbstractTransactionCommand {
 
 		StringBuilder message = new StringBuilder();
 		if (usersList.size() > 0) {
-			message.append("Select an User");
+			message.append(getMessages().pleaseSelect(getConstants().user()));
 		}
 
 		result.add(message.toString());
 		result.add(usersList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", "Active Users");
+		inActiveRec.add("", getConstants().active());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", "InActive Users");
+		inActiveRec.add("", getConstants().inActive());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Users");
+		inActiveRec.add("",getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Invite User");
+		commandList.add(getConstants().add()+" " +getConstants().user());
 		result.add(commandList);
 		return result;
 
@@ -113,7 +113,7 @@ public class UsersCommand extends AbstractTransactionCommand {
 		// record.add("Last Name", user.getLastName());
 		record.add("User Role", user.getUserRole());
 		record.add("Email Id", user.getEmail());
-		record.add("Status", user.isActive()?"active" :"inactive");
+		record.add("Status", user.isActive()? getConstants().active() :getConstants().inActive());
 		return record;
 	}
 
