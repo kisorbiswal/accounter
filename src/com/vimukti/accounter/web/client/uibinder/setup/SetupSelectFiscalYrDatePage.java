@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -75,16 +74,6 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 			fiscalStartsList.addItem(monthNames[i]);
 		}
 		fiscalInfo.setHTML(accounterConstants.fiscalYearsaemasTaxyear());
-	}
-
-	@Override
-	public void setCountryChanges() {
-		if (getCountry() != null)
-			if (CountryPreferenceFactory.get(getCountry())
-					.allowFlexibleFiscalYear())
-				fiscalStartsList.setSelectedIndex(monthsList
-						.indexOf((CountryPreferenceFactory.get(getCountry())
-								.getDefaultFiscalYearStartingMonth())));
 	}
 
 	@Override

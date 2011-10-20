@@ -16,8 +16,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
-import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -35,11 +33,11 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	ListBox primaryCurrencyListBox;
 	// @UiField
 	VerticalPanel currencyListGridPanel;
-	private CurrenciesGrid currenciesGrid;
+	// private CurrenciesGrid currenciesGrid;
 	// private Set<ClientCurrency> currencySet;
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 
-	private String selectedCuntry;
+	// private String selectedCuntry;
 
 	interface SetupCurrencyPageUiBinder extends
 			UiBinder<Widget, SetupCurrencyPage> {
@@ -69,23 +67,10 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-		currenciesGrid = new CurrenciesGrid();
-		currenciesGrid.init();
-		currenciesGrid.setRecords(currenciesList);
+		// currenciesGrid = new CurrenciesGrid();
+		// currenciesGrid.init();
+		// currenciesGrid.setRecords(currenciesList);
 		// currencyListGridPanel.add(currenciesGrid);
-	}
-
-	@Override
-	public void setCountryChanges() {
-		if (getCountry() != null) {
-			for (int i = 0; i < currenciesList.size(); i++) {
-				if (CountryPreferenceFactory.get(getCountry())
-						.getPreferredCurrency().equals(
-								currenciesList.get(i).getFormalName())) {
-					primaryCurrencyListBox.setSelectedIndex(i);
-				}
-			}
-		}
 	}
 
 	@Override
@@ -95,17 +80,12 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void onLoad() {
-		setCountryChanges();
 		ClientCurrency primaryCurrency = preferences.getPrimaryCurrency();
-		String country = Accounter.getCompany().getTradingAddress()
-				.getCountryOrRegion();
-		if (primaryCurrency == null || !selectedCuntry.equals(country)) {
-			this.selectedCuntry = country;
+		if (primaryCurrency != null) {
 			for (int index = 0; index < currenciesList.size(); index++) {
-				// if (currenciesList.get(index).getCountryName()
-				// .equals(selectedCuntry)) {
-				// primaryCurrencyListBox.setSelectedIndex(index);
-				// }
+				if (currenciesList.get(index).equals(primaryCurrency)) {
+					primaryCurrencyListBox.setSelectedIndex(index);
+				}
 			}
 		}
 	}

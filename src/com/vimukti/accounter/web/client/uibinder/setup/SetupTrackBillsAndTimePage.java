@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -84,8 +83,8 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		managingNo.setText(accounterConstants.no());
 		// trackingNo.setText(accounterConstants.no());
 		// trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
-		managingInfo.setHTML(Accounter.messages().billstrackingdescription(
-				Global.get().Accounts()));
+		managingInfo.setHTML(accounterMessages
+				.billstrackingdescription(accounterConstants.Accounts()));
 		// track_time_head.setText(accounterMessages.trackingtimehead());
 
 	}

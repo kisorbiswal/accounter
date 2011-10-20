@@ -25,7 +25,7 @@ public class Header extends HorizontalPanel {
 	private Image userImage;
 	private HorizontalPanel usernamePanel;
 
-	public static Label companyName;
+	public static Label companyNameLabel;
 
 	public static HTML userName;
 
@@ -55,9 +55,14 @@ public class Header extends HorizontalPanel {
 	}
 
 	private void createControls() {
-		if (company != null)
-			companyName = new Label(Accounter.getCompany().getDisplayName());
-		companyName.addStyleName("companyName");
+		companyNameLabel = new Label();
+		companyNameLabel.addStyleName("companyName");
+		String companyName = "";
+		if (company != null) {
+			companyName = Accounter.getCompany().getDisplayName();
+		}
+		Header.companyNameLabel.setText(companyName);
+
 		userImage = new Image("/images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
 
@@ -72,6 +77,8 @@ public class Header extends HorizontalPanel {
 						+ Accounter.messages().userName(
 								Accounter.getUser().getFullName()) + "<font>");
 			}
+		} else {
+			userName = new HTML();
 		}
 		userName.addStyleName("userName-style");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
@@ -133,7 +140,7 @@ public class Header extends HorizontalPanel {
 		panel1.add(logo);
 
 		panel2 = new VerticalPanel();
-		panel2.add(companyName);
+		panel2.add(companyNameLabel);
 		panel2.setWidth("100%");
 
 		headerLinks = new SimplePanel();

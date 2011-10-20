@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.options.OrganizationTypeConstants;
 
@@ -86,7 +85,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		headerLabel.setText(accounterConstants.howIsYourCompanyOrganized());
 
 		organizeText.setText(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().Accounts()));
+				.howIsYourCompanyOrganizedDesc(accounterConstants.Accounts()));
 		propriterShip.setText(accounterConstants.soleProprietorship());
 		partnership.setText(accounterConstants.partnershipOrLLP());
 		lLC.setText(accounterConstants.LLC());
@@ -96,7 +95,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		other.setText(accounterConstants.otherNone());
 
 		organizeText.setText(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().Accounts()));
+				.howIsYourCompanyOrganizedDesc(accounterConstants.Accounts()));
 		uninCorporated.setText(accounterConstants.soleProprietorshipDesc());
 		morePartners.setText(accounterConstants.partnershipOrLLPDesc());
 		lLCText.setText(accounterConstants.LLCDesc());

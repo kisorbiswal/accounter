@@ -45,7 +45,7 @@ public class SetupTDSSelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void onSave() {
-		this.preferences.setTDSEnabled(tdsYes.getValue());
+		preferences.setTDSEnabled(tdsYes.getValue());
 
 	}
 

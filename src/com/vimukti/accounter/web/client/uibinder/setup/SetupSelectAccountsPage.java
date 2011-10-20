@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -71,8 +70,9 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(Accounter.messages()
-				.reviewIncomeAndExpensesAccounts(Global.get().Accounts()));
+		headerLabel
+				.setText(Accounter.messages().reviewIncomeAndExpensesAccounts(
+						accounterConstants.Accounts()));
 
 		expensesInfo.setText(accounterConstants.doyouWantToUseStatements());
 		recommendedInfo.setHTML(accounterMessages.recommendedAccounts());

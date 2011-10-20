@@ -3,29 +3,26 @@ package com.vimukti.accounter.web.client.countries;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Anguilla extends AbstractCountryPreferences {
-
-	@Override
-	public String[] getStates() {
-		return null;
-	}
+public class OtherCountry extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-
-		return "XCD";
+		return "USD";
 	}
 
 	@Override
-	public boolean allowFlexibleFiscalYear() {
-
-		return true;
+	public String[] getStates() {
+		return new String[] {};
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-
 		return Accounter.constants().april();
+	}
+
+	@Override
+	public boolean allowFlexibleFiscalYear() {
+		return true;
 	}
 
 }

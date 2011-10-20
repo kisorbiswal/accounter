@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 
-
 /**
  * @author Prasanna Kumar G
  * 
@@ -1800,6 +1799,17 @@ public class CoreUtils {
 
 	public static List<String> getTimeZonesAsList() {
 		return Arrays.asList(timezones);
+	}
+
+	public static List<String> getMonthNames() {
+		String[] monthNames = new String[] { "January", "February", "March",
+				"April", "May", "June", "July", "August", "September",
+				"October", "November", "December" };
+		List<String> months = new ArrayList<String>();
+		for (int i = 0; i < monthNames.length; i++) {
+			months.add(monthNames[i]);
+		}
+		return months;
 	}
 
 	public static String[] getStatesForCountry(String country) {

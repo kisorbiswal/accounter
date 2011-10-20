@@ -21,10 +21,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 /**
  * @author Administrator
@@ -98,8 +99,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	Label timezone;
 	@UiField
 	ListBox timezoneslistbox;
-	private ClientCompanyPreferences preferences = Accounter.getCompany()
-			.getPreferences();
+
 	private ClientAddress address;
 	private List<String> countries, statesList, timezones;
 
@@ -193,14 +193,29 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	 */
 	protected void countryChanged() {
 		int selectedCountry = country.getSelectedIndex();
-		setCountry(country.getItemText(country.getSelectedIndex()));
 		if (selectedCountry < 0) {
 			return;
 		}
-		if (CountryPreferenceFactory.get(country.getItemText(selectedCountry)) != null) {
-			String[] states = CountryPreferenceFactory.get(
-					country.getItemText(selectedCountry)).getStates();
-			setStates(states);
+
+		String countryName = country.getItemText(selectedCountry);
+		setCountry(countryName);
+		ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
+		if (countryPreferences != null) {
+			setStates(countryPreferences.getStates());
+			List<ClientCurrency> currenciesList = CoreUtils.getCurrencies();
+			for (int i = 0; i < currenciesList.size(); i++) {
+				if (countryPreferences.getPreferredCurrency().trim().equals(
+						currenciesList.get(i).getFormalName())) {
+					preferences.setPrimaryCurrency(currenciesList.get(i));
+				}
+			}
+			List<String> monthNames = CoreUtils.getMonthNames();
+			preferences.setFiscalYearFirstMonth(monthNames
+					.indexOf(countryPreferences
+							.getDefaultFiscalYearStartingMonth()));
+		} else {
+			System.err.println(countryName);
 		}
 	}
 
@@ -221,7 +236,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	public void onLoad() {
 
-		if (this.preferences != null) {
+		if (preferences != null) {
 			companyName.setValue(preferences.getTradingName());
 			legalName.setValue(preferences.getLegalName());
 			this.taxId.setValue(preferences.getTaxId());

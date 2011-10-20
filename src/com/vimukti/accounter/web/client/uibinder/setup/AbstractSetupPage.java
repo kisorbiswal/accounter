@@ -8,17 +8,22 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractSetupPage extends Composite {
 
-	protected ClientCompanyPreferences preferences;
+	protected static ClientCompanyPreferences preferences;
 	protected AccounterConstants accounterConstants = Accounter.constants();
 	protected AccounterMessages accounterMessages = Accounter.messages();
 	private static String country;
 
 	public AbstractSetupPage(ClientCompanyPreferences preferences) {
-		this.preferences = preferences;
+		AbstractSetupPage.preferences = preferences;
+	}
+
+	public static void setPreferences(ClientCompanyPreferences preferences) {
+		AbstractSetupPage.preferences = preferences;
 	}
 
 	public AbstractSetupPage() {
-		this(Accounter.getCompany().getPreferences());
+		if (preferences == null)
+			preferences = new ClientCompanyPreferences();
 	}
 
 	protected abstract void createControls();
@@ -39,7 +44,4 @@ public abstract class AbstractSetupPage extends Composite {
 		return country;
 	}
 
-	public void setCountryChanges() {
-
-	}
 }
