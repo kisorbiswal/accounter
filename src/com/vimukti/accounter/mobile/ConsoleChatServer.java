@@ -80,7 +80,7 @@ public class ConsoleChatServer extends Thread {
 					String msg = (String) readObject;
 					System.out.println(msg);
 					try {
-						String messageReceived = handler.messageReceived("",
+						String messageReceived = handler.messageReceived(user,
 								user, msg, AdaptorType.CHAT);
 						out.writeObject(messageReceived);
 					} catch (AccounterMobileException e) {
