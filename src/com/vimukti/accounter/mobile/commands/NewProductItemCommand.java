@@ -10,7 +10,8 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 	protected Result weightRequirement(Context context, ResultList list,
 			Object selection) {
 		return numberOptionalRequirement(context, list, selection, "weight",
-				"Please enter the weight");
+				getConstants().weight(),
+				getMessages().pleaseEnter(getConstants().weight()));
 	}
 
 	@Override

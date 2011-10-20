@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -14,12 +13,10 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class FileVATCommand extends AbstractVATCommand {
@@ -75,11 +72,11 @@ public class FileVATCommand extends AbstractVATCommand {
 
 	private Result createFileVat(Context context) {
 		ClientVATReturn clientVATReturn = new ClientVATReturn();
-		Date fromDate = get(FROM_DATE).getValue();
-		clientVATReturn.setVATperiodStartDate(fromDate.getTime());
+		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
+		clientVATReturn.setVATperiodStartDate(fromDate.getDate());
 
-		Date toDate = get(TO_DATE).getValue();
-		clientVATReturn.setVATperiodStartDate(toDate.getTime());
+		ClientFinanceDate toDate = get(TO_DATE).getValue();
+		clientVATReturn.setVATperiodStartDate(toDate.getDate());
 
 		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		clientVATReturn.setTaxAgency(taxAgency.getID());
@@ -101,7 +98,7 @@ public class FileVATCommand extends AbstractVATCommand {
 		ClientFinanceDate date = getClientCompany()
 				.getCurrentFiscalYearStartDate();
 		get(FROM_DATE).setDefaultValue(date.getDateAsObject());
-		get(TO_DATE).setDefaultValue(new Date());
+		get(TO_DATE).setDefaultValue(new ClientFinanceDate());
 	}
 
 	private Result createOptionalRequirement(Context context, ResultList list,
@@ -123,22 +120,24 @@ public class FileVATCommand extends AbstractVATCommand {
 		selection = context.getSelection("values");
 
 		Result result = dateOptionalRequirement(context, list, FROM_DATE,
+				getConstants().fromDate(),
 				getMessages().pleaseEnter(getConstants().fromDate()), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, TO_DATE, getMessages()
-				.pleaseEnter(getConstants().endDate()), selection);
+		result = dateOptionalRequirement(context, list, TO_DATE, getConstants()
+				.endDate(),
+				getMessages().pleaseEnter(getConstants().endDate()), selection);
 		if (result != null) {
 			return result;
 		}
 
 		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
-		Date fromDate = get(FROM_DATE).getValue();
-		Date toDate = get(TO_DATE).getValue();
+		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
+		ClientFinanceDate toDate = get(TO_DATE).getValue();
 
-		makeResult.add("VAT Line:-");
+		makeResult.add(getConstants().vatLine());
 		List<ClientBox> boxes2 = new ArrayList<ClientBox>();
 		try {
 			boxes2 = getBoxes(taxAgency, fromDate, toDate, context);
@@ -154,7 +153,7 @@ public class FileVATCommand extends AbstractVATCommand {
 		boxesReq.setValue(boxes2);
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to File vat.");
+		finish.add("", getMessages().finishToCreate(getConstants().fileVAT()));
 		actions.add(finish);
 
 		return makeResult;
@@ -167,8 +166,9 @@ public class FileVATCommand extends AbstractVATCommand {
 		return record.toString();
 	}
 
-	private List<ClientBox> getBoxes(ClientTAXAgency taxAgency, Date fromDate,
-			Date toDate, Context context) throws Exception {
+	private List<ClientBox> getBoxes(ClientTAXAgency taxAgency,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			Context context) throws Exception {
 		TAXAgency serverVatAgency = new ServerConvertUtil().toServerObject(
 				new TAXAgency(), taxAgency, context.getHibernateSession());
 
