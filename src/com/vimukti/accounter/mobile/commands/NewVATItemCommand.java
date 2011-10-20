@@ -1,13 +1,11 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -69,7 +67,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
+		if (getClientCompany().getPreferences().isTrackTax()) {
 			result = vatReturnRequirement(context, list, VAT_RETURN);
 			if (result != null) {
 				return result;
@@ -124,11 +122,6 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
-			booleanOptionalRequirement(context, selection, list, IS_PERCENTAGE,
-					"Considerd As Percentage.", "Considered As Amount.");
-		}
-
 		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
 				"This Item is Active", "This Item is InActive");
 
@@ -148,14 +141,12 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		ClientTAXAgency taxAgency = (ClientTAXAgency) get(TAX_AGENCY)
 				.getValue();
 
-		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
-			boolean isPercentage = (Boolean) get(IS_PERCENTAGE).getValue();
+		taxItem.setPercentage(true);
+		if (getClientCompany().getPreferences().isTrackTax()) {
 			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
 					VAT_RETURN_BOX).getValue();
-			taxItem.setPercentage(isPercentage);
 			taxItem.setVatReturnBox(vatReturnBox.getID());
 		}
-
 		taxItem.setName(name);
 		taxItem.setDescription(description);
 		taxItem.setTaxRate(taxRate);
