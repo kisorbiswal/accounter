@@ -55,6 +55,7 @@ public class CompaniesServlet extends BaseServlet {
 		}
 		if (req.getParameter(CREATE).equals("true")) {
 			createCompany(req, resp);
+			return;
 		}
 
 		Session session = HibernateUtil.openSession();
