@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -77,8 +78,9 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, NAME, getMessages()
-				.pleaseEnter(getConstants().itemName()));
+		result = nameRequirement(context, list, NAME,
+				getConstants().itemName(),
+				getMessages().pleaseEnter(getConstants().itemName()));
 		if (result != null) {
 			return result;
 		}
@@ -239,20 +241,26 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 					getConstants().taxable(), getConstants().taxExempt());
 
 			result = stringOptionalRequirement(context, list, selection,
-					SALES_DESCRIPTION, "Please enter the description");
+					SALES_DESCRIPTION, getConstants().salesDescription(),
+					getMessages()
+							.pleaseEnter(getConstants().salesDescription()));
 			if (result != null) {
 				return result;
 			}
 
 			result = amountOptionalRequirement(context, list, selection,
-					SALES_PRICE, "Please enter the Price");
+					SALES_PRICE,
+					getMessages().pleaseEnter(getConstants().salesPrice()),
+					getConstants().salesPrice());
 			if (result != null) {
 				return result;
 			}
 
 		}
 		result = amountOptionalRequirement(context, list, selection,
-				STANDARD_COST, "please enter the cost");
+				STANDARD_COST,
+				getMessages().pleaseEnter(getConstants().cost()),
+				getConstants().cost());
 		if (result != null) {
 			return result;
 		}
@@ -263,7 +271,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 
 		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				"This Item is Active", "This Item is Inactive");
+				getMessages().active(getConstants().item()), getMessages()
+						.inActive(getConstants().item()));
 
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
@@ -279,8 +288,14 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			// }
 			// }
 
-			result = stringOptionalRequirement(context, list, selection,
-					PURCHASE_DESCRIPTION, "Enter Purchase Description");
+			result = stringOptionalRequirement(
+					context,
+					list,
+					selection,
+					PURCHASE_DESCRIPTION,
+					getConstants().purchaseDescription(),
+					getMessages().pleaseEnter(
+							getConstants().purchaseDescription()));
 			if (result != null) {
 				return result;
 			}
@@ -303,7 +318,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Item.");
+		finish.add("", getMessages().finishToCreate(getConstants().item()));
 		actions.add(finish);
 
 		return makeResult;
@@ -330,13 +345,18 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 		if (selection == SERVICE_NO) {
 			context.setAttribute(INPUT_ATTR, SERVICE_NO);
-			return text(context, "Enter Supplier Service No.",
+			return text(
+					context,
+					getMessages().pleaseEnter(
+							getMessages()
+									.vendorServiceNo(Global.get().Vendor())),
 					supplierService.toString());
 		}
 
 		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
 		Record supplierServiceNoRec = new Record(SERVICE_NO);
-		supplierServiceNoRec.add("Name", "Supplier Service No.");
+		supplierServiceNoRec.add("Name",
+				getMessages().vendorServiceNo(Global.get().Vendor()));
 		supplierServiceNoRec.add("Value", supplierServiceNo);
 		list.add(supplierServiceNoRec);
 		return null;
@@ -355,11 +375,13 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 		if (selection == PURCHASE_PRICE) {
 			context.setAttribute(INPUT_ATTR, PURCHASE_PRICE);
-			return amount(context, "Enter Purchase Price", pPrice);
+			return amount(context,
+					getMessages().pleaseEnter(getConstants().purchasePrice()),
+					pPrice);
 		}
 
 		Record pPriceRecord = new Record(PURCHASE_PRICE);
-		pPriceRecord.add("Name", PURCHASE_PRICE);
+		pPriceRecord.add("Name", getConstants().purchasePrice());
 		pPriceRecord.add("Value", pPrice);
 		list.add(pPriceRecord);
 		return null;
@@ -396,15 +418,15 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		int size = incomeaccountsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select an Account");
+			message.append(getMessages()
+					.pleaseSelect(getConstants().Accounts()));
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		commandList.add(getConstants().create());
 
 		result.add(message.toString());
 		result.add(incomeaccountsList);
 		result.add(commandList);
-		result.add("Type for Account");
 		return result;
 	}
 
@@ -456,7 +478,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			return vendors(context);
 		}
 		Record supplierRecord = new Record(vendor);
-		supplierRecord.add("", "Preferred Supplier");
+		supplierRecord.add("",
+				getMessages().preferredVendor(Global.get().Vendor()));
 		supplierRecord.add("", vendor != null ? vendor.getName() : "");
 		list.add(supplierRecord);
 		return null;
@@ -498,15 +521,15 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		int size = itemgroupsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select an ItemGroup");
+			message.append(getMessages().pleaseSelect(
+					getConstants().itemGroup()));
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		commandList.add(getConstants().create());
 
 		result.add(message.toString());
 		result.add(itemgroupsList);
 		result.add(commandList);
-		result.add("Type for ItemGroup");
 		return result;
 
 	}
@@ -585,7 +608,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		markDone();
 
 		Result result = new Result();
-		result.add(" Item was created successfully.");
+		result.add(getMessages().createSuccessfully(getConstants().item()));
 
 		return result;
 

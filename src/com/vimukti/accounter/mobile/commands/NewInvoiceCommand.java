@@ -374,6 +374,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().invoiceNo(),
 				getMessages().pleaseEnter(getConstants().invoiceNo()));
 
 		if (result != null) {
@@ -381,6 +382,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;

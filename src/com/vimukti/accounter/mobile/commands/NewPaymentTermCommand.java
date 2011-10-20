@@ -49,8 +49,9 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, PAYMENT_TERMS, getMessages()
-				.pleaseEnter(getConstants().paymentTerm()));
+		result = nameRequirement(context, list, PAYMENT_TERMS, getConstants()
+				.paymentTerm(),
+				getMessages().pleaseEnter(getConstants().paymentTerm()));
 		if (result != null) {
 			return result;
 		}
@@ -116,6 +117,7 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 				list,
 				selection,
 				DESCRIPTION,
+				getConstants().paymentTermDescription(),
 				getMessages().pleaseEnter(
 						getConstants().paymentTermDescription()));
 		if (result != null) {
@@ -123,6 +125,7 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, DUE_DAYS,
+				getConstants().dueDays(),
 				getMessages().pleaseEnter(getConstants().dueDays()));
 		if (result != null) {
 			return result;
