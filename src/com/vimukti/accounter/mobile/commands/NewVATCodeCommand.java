@@ -50,7 +50,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		Result result = context.makeResult();
 
 		Result makeResult = context.makeResult();
-		makeResult.add("VatAgency  is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().vatAgency()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -58,19 +58,21 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		setOptionalValues();
 
-		result = nameRequirement(context, list, NAME, "Enter Vatcode");
+		result = nameRequirement(context, list, NAME, getMessages()
+				.pleaseEnter(getConstants().vatCode()));
 		if (result != null) {
 			return result;
 		}
 
 		result = vatItemForSalesRequirement(context, list, VATITEM_FOR_SALES,
-				"Please Select the Sales Vat Item.");
+				getMessages().pleaseSelect(getConstants().salesTaxItem()));
 		if (result != null) {
 			return result;
 		}
 
 		result = vatItemForPurchaseRequirement(context, list,
-				VATITEM_FOR_PURCHASE, "Please Select the Purchase Vat Item.");
+				VATITEM_FOR_PURCHASE,
+				getMessages().pleaseSelect(getConstants().purchaseTaxItem()));
 		if (result != null) {
 			return result;
 		}
@@ -131,7 +133,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		markDone();
 		Result result = new Result();
-		result.add("VAT Code was created successfully.");
+		result.add(getMessages().createSuccessfully(getConstants().vatCode()));
 
 		return result;
 	}
@@ -155,7 +157,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		ClientTAXItem value = vatItemForPurchaseReq.getValue();
 		Object selection = context.getSelection("values");
 		if (!vatItemForPurchaseReq.isDone() || value == selection) {
-			return getVatItemForPurchseResult(context);
+			return getVatItemForPurchseResult(context, dispalyname);
 		}
 
 		Record record = new Record(vatitemForPurchase);
@@ -169,9 +171,11 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 	/**
 	 * 
 	 * @param context
+	 * @param dispalyname
 	 * @return
 	 */
-	private Result getVatItemForPurchseResult(Context context) {
+	private Result getVatItemForPurchseResult(Context context,
+			String dispalyname) {
 		Result result = context.makeResult();
 		ResultList vatItemGroupsList = new ResultList(PURCHASE_VAT_ITEMS);
 
@@ -197,16 +201,15 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		int size = vatItemGroupsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the Purchase Vat Item.");
+			message.append(dispalyname);
 		}
 
 		CommandList commandList = new CommandList();
-		commandList.add("create");
+		commandList.add(getConstants().create());
 
 		result.add(message.toString());
 		result.add(vatItemGroupsList);
 		result.add(commandList);
-		result.add("Select the Purchase Vat Item");
 
 		return result;
 	}
@@ -251,18 +254,19 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 		Result result = stringOptionalRequirement(context, list, selection,
-				DESCRIPTION, "Enter Description");
+				DESCRIPTION,
+				getMessages().pleaseEnter(getConstants().description()));
 		if (result != null) {
 			return result;
 		}
 		booleanOptionalRequirement(context, selection, list, IS_TAXABLE,
-				"Taxable", "Tax exempt");
+				getConstants().taxable(), getConstants().taxExempt());
 
 		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				"This Item is Active", "This Item is InActive");
+				getConstants().itemIsActive(), getConstants().itemIsInactive());
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Vat Code.");
+		finish.add("", getMessages().finishToCreate(getConstants().vatCode()));
 		actions.add(finish);
 
 		return makeResult;
@@ -287,7 +291,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		ClientTAXItem value = vatItemForSalesReq.getValue();
 		Object selection = context.getSelection("values");
 		if (!vatItemForSalesReq.isDone() || value == selection) {
-			return getVatItemForSaleResult(context);
+			return getVatItemForSaleResult(context, dispalyName);
 		}
 
 		Record record = new Record(vatitemForSales);
@@ -300,9 +304,10 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 	/**
 	 * 
 	 * @param context
+	 * @param dispalyName
 	 * @return
 	 */
-	private Result getVatItemForSaleResult(Context context) {
+	private Result getVatItemForSaleResult(Context context, String dispalyName) {
 		Result result = context.makeResult();
 		ResultList vatItemGroupsList = new ResultList(SALES_VAT_ITEMS);
 
@@ -327,16 +332,15 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		int size = vatItemGroupsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the Sales Vat Item.");
+			message.append(dispalyName);
 		}
 
 		CommandList commandList = new CommandList();
-		commandList.add("create");
+		commandList.add(getConstants().create());
 
 		result.add(message.toString());
 		result.add(vatItemGroupsList);
 		result.add(commandList);
-		result.add("Select the Sales Vat Item");
 
 		return result;
 	}

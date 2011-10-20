@@ -52,7 +52,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		Result result = context.makeResult();
 
 		Result makeResult = context.makeResult();
-		makeResult.add(" Customer is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().vatItem()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -60,12 +60,14 @@ public class NewVATItemCommand extends AbstractVATCommand {
 
 		setOptionalFields();
 
-		result = nameRequirement(context, list, NAME, "Enter  VatItem Name");
+		result = nameRequirement(context, list, NAME, getMessages()
+				.pleaseEnter(getConstants().vatItemName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, "Enter  Amount");
+		result = amountRequirement(context, list, AMOUNT, getMessages()
+				.pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
@@ -108,7 +110,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		Record record = new Record(value);
-		record.add("", "VAT Return : ");
+		record.add("", getConstants().vatReturnBox());
 		record.add("", value);
 		list.add(record);
 
@@ -139,12 +141,12 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		int size = vatReturnsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the Vat Return Box");
+			message.append(getMessages().pleaseSelect(
+					getConstants().vatReturnBox()));
 		}
 
 		result.add(message.toString());
 		result.add(vatReturnsList);
-		result.add("Select the Vat Return Box");
 
 		return result;
 	}
@@ -202,16 +204,17 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		selection = context.getSelection("values");
 
 		Result result = stringOptionalRequirement(context, list, selection,
-				DESCRIPTION, "Enter Discription");
+				DESCRIPTION,
+				getMessages().pleaseEnter(getConstants().description()));
 		if (result != null) {
 			return result;
 		}
 
 		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				"This Item is Active", "This Item is InActive");
+				getConstants().itemIsActive(), getConstants().itemIsInactive());
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Tax Item.");
+		finish.add("", getMessages().finishToCreate(getConstants().taxItem()));
 		actions.add(finish);
 
 		return makeResult;
@@ -243,7 +246,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		markDone();
 
 		Result result = new Result();
-		result.add("Tax Item was created successfully.");
+		result.add(getMessages().createSuccessfully(getConstants().taxItem()));
 
 		return result;
 	}
