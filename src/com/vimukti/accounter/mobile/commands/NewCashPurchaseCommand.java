@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -148,8 +147,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
-		get(DELIVERY_DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
 		get(PAYMENT_METHOD).setDefaultValue("cash");
 	}

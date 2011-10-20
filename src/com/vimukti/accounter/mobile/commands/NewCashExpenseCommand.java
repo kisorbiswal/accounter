@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -11,9 +10,11 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -73,8 +74,8 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 		setDefaultValues();
 
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" Cash Expense is ready to create with following values.");
+		makeResult.add(getMessages()
+				.readyToCreate(getConstants().cashExpense()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -96,7 +97,8 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = createSupplierRequirement(context, list, SUPPLIER);
+		result = createSupplierRequirement(context, list, SUPPLIER, Global
+				.get().Vendor());
 		if (result != null) {
 			return result;
 		}
@@ -131,25 +133,26 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountRequirement(context, list, DEPOSIT_TO,
-				new ListFilter<ClientAccount>() {
+		result = accountRequirement(context, list, DEPOSIT_TO, getConstants()
+				.payFrom(), new ListFilter<ClientAccount>() {
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(e.getType())) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				});
+			@Override
+			public boolean filter(ClientAccount e) {
+				if (Arrays.asList(ClientAccount.TYPE_BANK,
+						ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
+						e.getType())) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
 		if (result != null) {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}
@@ -171,7 +174,7 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(CHEQUE_NO).setDefaultValue("1");
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue("1");
@@ -186,8 +189,8 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 		cashPurchase.setPaymentMethod(paymentMethod);
 		ClientAccount account = get(DEPOSIT_TO).getValue();
 		cashPurchase.setPayFrom(account.getID());
-		Date date = get(DATE).getValue();
-		cashPurchase.setDate(date.getTime());
+		ClientFinanceDate date = get(DATE).getValue();
+		cashPurchase.setDate(date.getDate());
 		String number = get(NUMBER).getValue();
 		cashPurchase.setNumber(number);
 		String memoText = get(MEMO).getValue();
@@ -202,7 +205,8 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 
 		markDone();
 		Result result = new Result();
-		result.add("Cash Expense was created successfully.");
+		result.add(getMessages().createSuccessfully(
+				getConstants().cashExpense()));
 		return result;
 	}
 
@@ -227,29 +231,34 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		Result result = dateOptionalRequirement(context, list, DATE,
-				"Enter Date", selection);
+				getConstants().date(),
+				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = numberRequirement(context, list, NUMBER,
-				"Please enter the cash expense number");
+		result = numberRequirement(context, list, NUMBER, getConstants()
+				.number(), getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 
-		result = chequeNoRequirement(context, list, selection);
+		result = numberRequirement(context, list, CHEQUE_NO, getMessages()
+				.pleaseEnter(getConstants().chequeNo()), getConstants()
+				.chequeNo());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getConstants().memo(),
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create CashExpnse.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().cashExpense()));
 		actions.add(finish);
 
 		return makeResult;
