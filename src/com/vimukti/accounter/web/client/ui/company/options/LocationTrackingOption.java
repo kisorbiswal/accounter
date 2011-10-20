@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.uibinder.companypreferences.LocationTrackingPage;
 
 public class LocationTrackingOption extends AbstractPreferenceOption {
 
@@ -71,7 +70,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 	}
 
 	interface LocationTrackingPageUiBinder extends
-			UiBinder<Widget, LocationTrackingPage> {
+			UiBinder<Widget, LocationTrackingOption> {
 	}
 
 	public void initData() {
@@ -165,9 +164,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 		storeRadioButton.setHTML(Accounter.constants().store());
 		territoryRadioButton.setName(Accounter.constants().locationGroup());
 		territoryRadioButton.setHTML(Accounter.constants().territory());
-		radioButtonPanel
-				.getElement()
-				.getStyle()
+		radioButtonPanel.getElement().getStyle()
 				.setPaddingLeft(
 						(messages.useTerminologyFor(Global.get().Location())
 								.length() * 6), Unit.PX);
