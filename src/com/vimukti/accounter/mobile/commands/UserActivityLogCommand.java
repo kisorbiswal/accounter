@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 /**
  * 
@@ -41,8 +42,19 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 
 		Result result = null;
 
+		setDefaultValules();
 		result = creatOptionalResult(context);
+		if (result != null)
+			return result;
 		return result;
+	}
+
+	private void setDefaultValules() {
+		get(FROM_DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
+		get(END_DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
+
 	}
 
 	private Result creatOptionalResult(Context context) {
@@ -63,15 +75,20 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 
 		ResultList list = new ResultList("values");
 
-		Result result = fromDateRequirement(context, list, selection);
+		Result result = dateOptionalRequirement(context, list, FROM_DATE,
+				getConstants().fromDate(),
+				getMessages().pleaseEnter(getConstants().fromDate()), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = endDateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, END_DATE,
+				getConstants().endDate(),
+				getMessages().pleaseEnter(getConstants().endDate()), selection);
 		if (result != null) {
 			return result;
 		}
+
 		Date fromDate = get(FROM_DATE).getValue();
 		Date endDate = get(END_DATE).getValue();
 
@@ -80,48 +97,6 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		return result;
-	}
-
-	private Result endDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement dateReq = get(END_DATE);
-		Date endDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(END_DATE)) {
-			Date date = context.getSelection(END_DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			endDate = date;
-			dateReq.setValue(endDate);
-		}
-		if (selection == endDate) {
-			context.setAttribute(INPUT_ATTR, END_DATE);
-			return date(context, "Enter end Date", endDate);
-		}
-
-		return null;
-	}
-
-	private Result fromDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement dateReq = get(FROM_DATE);
-		Date fromDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("fromdate")) {
-			Date date = context.getSelection(FROM_DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			fromDate = date;
-			dateReq.setValue(fromDate);
-		}
-		if (selection == fromDate) {
-			context.setAttribute(INPUT_ATTR, FROM_DATE);
-			return date(context, "Enter From Date", fromDate);
-		}
-
-		return null;
 	}
 
 	private Result userActivityLogList(Context context, Date fromDate,
