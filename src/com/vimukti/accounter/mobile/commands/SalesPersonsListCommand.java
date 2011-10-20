@@ -84,29 +84,29 @@ public class SalesPersonsListCommand extends AbstractCommand {
 
 		StringBuilder message = new StringBuilder();
 		if (salesPersonsList.size() > 0) {
-			message.append("Select an SalesPerson");
+			message.append(getMessages().pleaseSelect(getConstants().salesPerson()));
 		}
 
 		result.add(message.toString());
 		result.add(salesPersonsList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", "Active SalesPersons");
+		inActiveRec.add("", getConstants().active());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", "InActive SalesPersons");
+		inActiveRec.add("",  getConstants().inActive());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All SalesPersons");
+		inActiveRec.add("",  getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add SalesPersons");
+		commandList.add(getConstants().add()+" " +getConstants().salesPerson());
 		result.add(commandList);
 		return result;
 
@@ -129,7 +129,7 @@ public class SalesPersonsListCommand extends AbstractCommand {
 
 	private Record createSalesPersonRecord(ClientSalesPerson salesPrson) {
 		Record record = new Record(salesPrson);
-		record.add("Active", salesPrson.isActive() ?"active" :"inactive");
+		record.add("Active", salesPrson.isActive() ?getConstants().active():getConstants().inActive());
 		record.add("Sales Person", salesPrson.getName());
 		ClientAddress address = salesPrson.getAddress();
 		record.add("Address", address != null ? address.getAddress1() : "");
