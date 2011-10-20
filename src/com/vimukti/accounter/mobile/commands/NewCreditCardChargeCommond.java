@@ -1,10 +1,8 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -183,8 +181,8 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		ClientContact contact = get(CONTACT).getValue();
 		creditCardCharge.setContact(contact);
 
-		Date date = get(DATE).getValue();
-		creditCardCharge.setDate(new FinanceDate(date).getDate());
+		ClientFinanceDate date = get(DATE).getValue();
+		creditCardCharge.setDate(date.getDate());
 
 		creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 
@@ -200,6 +198,8 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		ClientAccount account = get("payFrom").getValue();
 		creditCardCharge.setPayFrom(account.getID());
 
+		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
+		creditCardCharge.setDeliveryDate(deliveryDate);
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
