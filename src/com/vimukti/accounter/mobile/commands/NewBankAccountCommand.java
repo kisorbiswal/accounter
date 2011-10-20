@@ -167,7 +167,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 
 		result = numberOptionalRequirement(context, list, selection,
 				BANK_ACCOUNT_NUMBER, getConstants().number(), getMessages()
-						.pleaseEnter(getConstants().Accounnumbers()));
+						.pleaseEnter(getConstants().bankAccountNumber()));
 		if (result != null) {
 			return result;
 		}
@@ -180,7 +180,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("",
-				getMessages().finishToCreate(getConstants().bankAccounts()));
+				getMessages().finishToCreate(getConstants().bankAccount()));
 		actions.add(finish);
 
 		return makeResult;
@@ -194,9 +194,9 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		bankAccount.setName((String) get(ACCOUNT_NAME).getValue());
 		bankAccount.setNumber((String) get(ACCOUNT_NUMBER).getValue());
 		bankAccount.setOpeningBalance((Double) get(OPENINGBALANCE).getValue());
-		Date d = get(ASOF).getValue();
+		ClientFinanceDate d = get(ASOF).getValue();
 
-		bankAccount.setAsOf(new ClientFinanceDate(d).getDate());
+		bankAccount.setAsOf(d.getDate());
 		bankAccount.setComment((String) get(MEMO).getValue());
 		String type = get(BANK_ACCOUNT_TYPE).getValue();
 		bankAccount.setBankAccountType(getType(type));
