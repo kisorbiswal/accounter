@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.FinanceDate;
@@ -10,7 +9,9 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -23,7 +24,6 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -62,6 +62,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		}
 
 		result = accountRequirement(context, list, ADJUSTMENT_ACCOUNT,
+				getMessages().adjustmentAccount(Global.get().Account()),
 				new ListFilter<ClientAccount>() {
 
 					@Override
@@ -76,8 +77,8 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()));
+		result = amountRequirement(context, list, AMOUNT, getConstants()
+				.amount(), getMessages().pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
@@ -92,7 +93,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 	private void setOptionalValues() {
 		get(IS_INCREASE_VATLINE).setDefaultValue(true);
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(ORDER_NO).setDefaultValue("1");
 		get(MEMO).setDefaultValue(new String());
 	}
@@ -105,7 +106,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		String amount1 = get(AMOUNT).getValue();
 		double amount = Double.parseDouble(amount1);
 		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
-		Date date = get(DATE).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
 		String number = get(ORDER_NO).getValue();
 		String memo = get(MEMO).getValue();
 
@@ -124,7 +125,8 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		markDone();
 
 		Result result = new Result();
-		result.add("Tax Adjustment was created successfully.");
+		result.add(getMessages().createSuccessfully(
+				getConstants().taxAdjustment()));
 
 		return result;
 	}
@@ -149,10 +151,12 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		selection = context.getSelection("values");
 
 		booleanOptionalRequirement(context, selection, list,
-				IS_INCREASE_VATLINE, "Increase VAT line.", "Decrease VAT line.");
+				IS_INCREASE_VATLINE, getConstants().increaseVATLine(),
+				getConstants().decreaseVATLine());
 
 		Result result = stringOptionalRequirement(context, list, selection,
-				"memo", "Add a memo");
+				MEMO, getConstants().memo(),
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
@@ -162,14 +166,15 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
+		result = dateRequirement(context, list, selection, DATE, getMessages()
+				.pleaseEnter(getConstants().date()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Tax Adjustment.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().taxAdjustment()));
 		actions.add(finish);
 
 		return makeResult;
