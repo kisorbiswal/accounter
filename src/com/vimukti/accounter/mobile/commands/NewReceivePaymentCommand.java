@@ -103,6 +103,11 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		if (context.getSelection("customers") != null) {
+			get("transactions").setValue(
+					new ArrayList<ClientTransactionReceivePayment>());
+		}
+
 		result = receivePaymentsRequirement(context, makeResult, actions);
 		if (result != null) {
 			return result;
@@ -315,11 +320,6 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			result.add("Slect Receive Payment(s).");
 		} else {
 			result.add("You don't have any receive payments.");
-			Record record = new Record("escape");
-			record.add("", "Skip");
-			ResultList resultList = new ResultList("escape");
-			resultList.add(record);
-			result.add(resultList);
 		}
 		result.add(list);
 		return result;
@@ -520,20 +520,16 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		Requirement receivePaymentReq = get("transactions");
 		List<ClientTransactionReceivePayment> transactionReceivePayments = context
 				.getSelections("receivepayments");
+		List<ClientTransactionReceivePayment> transReceivePayments = receivePaymentReq
+				.getValue();
 		if (transactionReceivePayments != null
 				&& transactionReceivePayments.size() > 0) {
 			for (ClientTransactionReceivePayment payment : transactionReceivePayments) {
-				List<ClientTransactionReceivePayment> transReceivePayments = receivePaymentReq
-						.getValue();
-				if (transReceivePayments == null) {
-					transReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
-					receivePaymentReq.setValue(transReceivePayments);
-				}
 				updatePayment(payment);
 				transReceivePayments.add(payment);
 			}
 		}
-		if (!receivePaymentReq.isDone()) {
+		if (transReceivePayments.size() == 0) {
 			return addTransactionsOfSelectedCustomer(context);
 		}
 
@@ -553,9 +549,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		}
 		result.add("Received Payments:-");
 		ResultList itemsList = new ResultList("transactions");
-		List<ClientTransactionReceivePayment> transItems = receivePaymentReq
-				.getValue();
-		for (ClientTransactionReceivePayment item : transItems) {
+		for (ClientTransactionReceivePayment item : transReceivePayments) {
 			itemsList.add(creatReceivePaymentRecord(item));
 		}
 		result.add(itemsList);
