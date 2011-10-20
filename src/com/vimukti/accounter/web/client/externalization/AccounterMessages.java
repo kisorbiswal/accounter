@@ -885,15 +885,15 @@ public interface AccounterMessages extends Messages {
 
 	public String fullName(String firstName, String lastName);
 
-	public String active(String isActive);
+	public String active(String name);
 
-	public String inActive(String isInactive);
+	public String inActive(String name);
 
 	public String pleaseSelect(String vatReturnBox);
 
 	public String youDontHaveAny(String name);
 
-	public String enterDate(String enterDate);
+	public String enterDate(String name);
 
 	public String addMore(String name);
 }
