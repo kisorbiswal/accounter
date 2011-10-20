@@ -627,6 +627,40 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
+	public static void sendMobileActivationMail(String activationCode,
+			String userEmailId) {
+
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Email is being sent to default user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		String subject = propertyParser.getProperty("subjectForActivation", "");
+
+		StringBuffer content = new StringBuffer();
+		content.append("Hello " + ",\n");
+		content.append(propertyParser.getProperty("contentForActivation", ""));
+		String contentStr = content.toString().replaceAll("%TOKEN%",
+				activationCode);
+		contentStr = replaceServerUrl(contentStr);
+
+		System.out.println("************* ACTIVATION CODE : " + activationCode);
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(contentStr);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(userEmailId);
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+
+		EmailManager.getInstance().addJob(job);
+	}
+
 	public static void sendMailToOtherCompanyUser(Client invitedClient,
 			String companyName, Client inviter) {
 		try {
