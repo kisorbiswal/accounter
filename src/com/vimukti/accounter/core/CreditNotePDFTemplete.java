@@ -19,19 +19,16 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 	private String templateName;
 
 	Company company;
-	private String companyId;
 
 	public String getTempleteName() {
 		return "templetes" + File.separator + templateName + ".html";
 	}
 
 	public CreditNotePDFTemplete(CustomerCreditMemo memo,
-			BrandingTheme brandingTheme, Company company, String companyId,
-			String templateName) {
+			BrandingTheme brandingTheme, Company company, String templateName) {
 		this.memo = memo;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
-		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(memo);
 		this.templateName = templateName;
 	}
@@ -274,8 +271,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-			regestrationAddress = (company.getTradingName() + "&nbsp;&nbsp;&nbsp;"
-					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+			regestrationAddress = (company.getTradingName()
+					+ "&nbsp;&nbsp;&nbsp;" + regestrationAddress + ((company
+					.getRegistrationNumber() != null && !company
 					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 					+ company.getRegistrationNumber()
 					: ""));
@@ -400,7 +398,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 		original.append("<img style='width:90px;height:90px'  src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ companyId + "/" + brandingTheme.getFileName());
+				+ company.getId() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 		return original;
 	}

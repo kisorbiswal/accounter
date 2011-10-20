@@ -47,13 +47,21 @@ public class OpenCompanyServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 
 		if (emailID != null) {
-			String serverCompanyID = getCookie(request, COMPANY_COOKIE);
-			if (serverCompanyID == null || serverCompanyID.equals("")) {
-				response.sendRedirect(COMPANIES_URL);
-				return;
+			Long serverCompanyID = (Long) request.getSession().getAttribute(
+					COMPANY_ID);
+			String create = (String) request.getSession().getAttribute(CREATE);
+			if (serverCompanyID == null) {
+				if (create != null && create.equals("true")) {
+					RequestDispatcher dispatcher = getServletContext()
+							.getRequestDispatcher("/WEB-INF/Accounter.jsp");
+					dispatcher.forward(request, response);
+					return;
+				} else {
+					response.sendRedirect(COMPANIES_URL);
+					return;
+				}
 			}
-			initComet(request.getSession(), Long.parseLong(serverCompanyID),
-					emailID);
+			initComet(request.getSession(), serverCompanyID, emailID);
 
 			Session session = HibernateUtil.openSession();
 			try {

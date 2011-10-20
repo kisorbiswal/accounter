@@ -93,13 +93,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientCompany getCompany() throws AccounterException {
-		FinanceTool tool = getFinanceTool();
-		return tool.getCompanyManager().getClientCompany(getUserEmail(),
-				getCompanyId());
-	}
-
-	@Override
 	public KeyFinancialIndicators getKeyFinancialIndicators() {
 		KeyFinancialIndicators keyFinancialIndicators = new KeyFinancialIndicators();
 		try {

@@ -280,8 +280,6 @@ public interface IAccounterGETService extends RemoteService {
 
 	// public List<String> getTimezones();
 
-	public ClientCompany getCompany() throws AccounterException;
-
 	KeyFinancialIndicators getKeyFinancialIndicators();
 
 	ArrayList<HrEmployee> getHREmployees() throws AccounterException;

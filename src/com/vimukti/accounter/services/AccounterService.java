@@ -179,10 +179,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @param request
 	 * @return
 	 */
-	public static String getCompanyFromRequest(HttpServletRequest request) {
-		Object companyName = request.getSession().getAttribute(
+	public static Long getCompanyFromRequest(HttpServletRequest request) {
+		Long companyId = (Long) request.getSession().getAttribute(
 				BaseServlet.COMPANY_ID);
-		return (String) companyName;
+		return companyId;
 	}
 
 	// //////////////////////////////////////////////////////////////////////////////////////////////////////

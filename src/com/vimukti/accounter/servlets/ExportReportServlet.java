@@ -80,7 +80,7 @@ public class ExportReportServlet extends BaseServlet {
 
 	private ITemplate getTempleteObjByRequest(HttpServletRequest request)
 			throws IOException, AccounterException {
-		String companyID = getCookie(request, COMPANY_COOKIE);
+		Long companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
 		String companyName = getCompanyName(request);
 		if (companyName == null)
 			return null;
@@ -88,7 +88,7 @@ public class ExportReportServlet extends BaseServlet {
 		try {
 
 			FinanceTool financetool = new FinanceTool();
-			Company company = financetool.getCompany(Long.valueOf(companyID));
+			Company company = financetool.getCompany(companyID);
 			// int companyType = company.getAccountingType();
 
 			TemplateBuilder.setCmpName(companyName);
@@ -128,9 +128,9 @@ public class ExportReportServlet extends BaseServlet {
 		if (box != null) {
 			boxNo = Integer.parseInt(box);
 		}
-		String companyID = getCookie(request, COMPANY_COOKIE);
+		Long companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
 
-		Company company = financeTool.getCompany(Long.valueOf(companyID));
+		Company company = financeTool.getCompany(companyID);
 		ReportsGenerator generator = null;
 
 		if (vendorId != 0) {

@@ -20,15 +20,13 @@ public class InvoicePDFTemplete implements PrintTemplete {
 	// File.separator
 	// + "InvoiceTemplete.html";
 	private Company company;
-	private String companyId;
 	private String templateName;
 
 	public InvoicePDFTemplete(Invoice invoice, BrandingTheme brandingTheme,
-			Company company, String companyId, String templateName) {
+			Company company, String templateName) {
 		this.invoice = invoice;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
-		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(invoice);
 		this.templateName = templateName;
 
@@ -365,8 +363,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-			regestrationAddress = (company.getTradingName() + "&nbsp;&nbsp;&nbsp;"
-					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+			regestrationAddress = (company.getTradingName()
+					+ "&nbsp;&nbsp;&nbsp;" + regestrationAddress + ((company
+					.getRegistrationNumber() != null && !company
 					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 					+ company.getRegistrationNumber()
 					: ""));
@@ -505,7 +504,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 		original.append("<img style='width:90px;height:90px' src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ companyId + "/" + brandingTheme.getFileName());
+				+ company.getId() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 
 		if (original.toString().contains("null")) {

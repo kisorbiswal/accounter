@@ -127,7 +127,7 @@ public class GeneratePDFservlet extends BaseServlet {
 	private void getTempleteObjByRequest(HttpServletRequest request,
 			String footerImg, String style, String companyName)
 			throws Exception, IOException, AccounterException {
-		String companyID = getCookie(request, COMPANY_COOKIE);
+		Long companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
 		Session session = HibernateUtil.openSession();
 		fileName = "";
 		outPutString = new StringBuilder();
@@ -136,7 +136,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			FinanceTool financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);
 
-			Company company = financetool.getCompany(Long.valueOf(companyID));
+			Company company = financetool.getCompany(companyID);
 
 			CompanyPreferenceThreadLocal.set(financetool.getCompanyManager()
 					.getClientCompanyPreferences(company));
@@ -173,7 +173,7 @@ public class GeneratePDFservlet extends BaseServlet {
 						// brandingTheme, footerImg, style);
 
 						printTemplete = getInvoiceReportTemplete(invoice,
-								brandingTheme, company, companyID);
+								brandingTheme, company);
 
 						fileName = printTemplete.getFileName();
 
@@ -188,7 +188,7 @@ public class GeneratePDFservlet extends BaseServlet {
 										Long.parseLong(ids[i]));
 
 						printTemplete = getCreditReportTemplete(memo,
-								brandingTheme, company, companyID);
+								brandingTheme, company);
 
 						fileName = printTemplete.getFileName();
 
@@ -220,7 +220,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									Long.parseLong(objectId));
 
 					printTemplete = getInvoiceReportTemplete(invoice,
-							brandingTheme, company, companyID);
+							brandingTheme, company);
 
 					fileName = printTemplete.getFileName();
 
@@ -239,7 +239,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									Long.parseLong(objectId));
 
 					printTemplete = getCreditReportTemplete(memo,
-							brandingTheme, company, companyID);
+							brandingTheme, company);
 
 					fileName = printTemplete.getFileName();
 
@@ -316,46 +316,46 @@ public class GeneratePDFservlet extends BaseServlet {
 	}
 
 	private PrintTemplete getInvoiceReportTemplete(Invoice invoice,
-			BrandingTheme theme, Company company, String companyID) {
+			BrandingTheme theme, Company company) {
 
 		String invStyle = theme.getInvoiceTempleteName();
 
 		if (invStyle.contains(CLASSIC)) {
 			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
-					companyID, "ClassicInvoice");
+					"ClassicInvoice");
 
 		} else if (invStyle.contains(PLAIN)) {
 			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
-					companyID, "PlainInvoice");
+					"PlainInvoice");
 		} else if (invStyle.contains(PROFESSIONAL)) {
 			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
-					companyID, "ProfessionalInvoice");
+					"ProfessionalInvoice");
 
 		} else if (invStyle.contains(MODERN)) {
 			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
-					companyID, "ModernInvoice");
+					"ModernInvoice");
 		}
 		return printTemplete;
 	}
 
 	private PrintTemplete getCreditReportTemplete(CustomerCreditMemo memo,
-			BrandingTheme theme, Company company, String companyID) {
+			BrandingTheme theme, Company company) {
 
 		String invStyle = theme.getCreditNoteTempleteName();
 
 		if (invStyle.contains(CLASSIC)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID, "ClassicCredit");
+					"ClassicCredit");
 
 		} else if (invStyle.contains(PLAIN)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID, "PlainCredit");
+					"PlainCredit");
 		} else if (invStyle.contains(PROFESSIONAL)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID, "ProfessionalCredit");
+					"ProfessionalCredit");
 		} else if (invStyle.contains(MODERN)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID, "ModernCredit");
+					"ModernCredit");
 		}
 		return printTemplete;
 	}

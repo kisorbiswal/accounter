@@ -26,7 +26,6 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -77,8 +76,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
 						super.service(request, response);
 						try {
-							String serverCompanyID = getCookie(request,
-									BaseServlet.COMPANY_COOKIE);
+							String serverCompanyID = (String) request
+									.getSession().getAttribute(COMPANY_ID);
 							getFinanceTool().putChangesInCometStream(
 									Long.parseLong(serverCompanyID));
 						} catch (AccounterException e) {
@@ -119,7 +118,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
 			HttpServletRequest request) {
 		Session session = HibernateUtil.getCurrentSession();
-		String serverCompanyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
+		String serverCompanyID = (String) request.getSession().getAttribute(
+				COMPANY_ID);
 		if (serverCompanyID == null) {
 			return false;
 		}
@@ -170,7 +170,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	// }
 
 	private String getCompanyName(HttpServletRequest req) {
-		String companyID = getCookie(req, BaseServlet.COMPANY_COOKIE);
+		String companyID = (String) req.getSession().getAttribute(COMPANY_ID);
 		if (companyID == null) {
 			// TODO Throw Exception
 		}
@@ -282,14 +282,15 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				"");
 	}
 
-	protected long getCompanyId(HttpServletRequest request) {
-		String serverCompanyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
-		return Long.valueOf(serverCompanyID);
+	protected Long getCompanyId(HttpServletRequest request) {
+		Long companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
+		return companyID;
 	}
 
-	protected long getCompanyId() {
-		String serverCompanyID = getCookie(BaseServlet.COMPANY_COOKIE);
-		return Long.valueOf(serverCompanyID);
+	protected Long getCompanyId() {
+		Long companyID = (Long) getThreadLocalRequest().getSession()
+				.getAttribute(COMPANY_ID);
+		return companyID;
 	}
 
 }

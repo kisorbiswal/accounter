@@ -51,6 +51,12 @@ public class TAXAgency extends Payee {
 	public final static int RETURN_TYPE_UK_VAT = 1;
 	public final static int RETURN_TYPE_IRELAND_VAT = 2;
 
+	public final static int TAX_TYPE_SALESTAX = 1;
+	public final static int TAX_TYPE_VAT = 2;
+	public final static int TAX_TYPE_SERVICETAX = 3;
+	public final static int TAX_TYPE_TDS = 4;
+	public final static int TAX_TYPE_OTHER = 5;
+
 	int VATReturn;
 	int taxType;
 

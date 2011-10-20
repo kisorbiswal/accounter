@@ -29,14 +29,13 @@ public class LogoutServlet extends BaseServlet {
 			throws ServletException, IOException {
 		String userid = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (userid != null) {
-			String cid = getCookie(req, COMPANY_COOKIE);
+			Long cid = (Long) req.getSession().getAttribute(COMPANY_ID);
 			if (cid != null) {
 				try {
 					updateActivity(userid, cid);
 
-					long id = Long.parseLong(cid);
 					// Destroy the comet queue so that it wont take memory
-					CometManager.destroyStream(req.getSession().getId(), id,
+					CometManager.destroyStream(req.getSession().getId(), cid,
 							userid);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,10 +54,9 @@ public class LogoutServlet extends BaseServlet {
 	/**
 	 * @param cid
 	 */
-	private void updateActivity(String userid, String cid) {
+	private void updateActivity(String userid, Long cid) {
 		Session session = HibernateUtil.openSession();
-		Company company = (Company) session.get(Company.class,
-				Long.parseLong(cid));
+		Company company = (Company) session.get(Company.class, cid);
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
@@ -82,8 +80,7 @@ public class LogoutServlet extends BaseServlet {
 			HttpServletResponse response) {
 		String userKey = getCookie(request, OUR_COOKIE);
 		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().endsWith(OUR_COOKIE)
-					|| cookie.getName().equals(COMPANY_COOKIE)) {
+			if (cookie.getName().endsWith(OUR_COOKIE)) {
 				cookie.setMaxAge(0);
 				cookie.setValue("");
 				cookie.setPath("/");

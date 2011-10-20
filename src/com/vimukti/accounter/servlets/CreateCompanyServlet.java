@@ -139,25 +139,6 @@ public class CreateCompanyServlet extends BaseServlet {
 		return;
 	}
 
-	private void updateComapny(Company company, Client client) throws Exception {
-		// Company company = new Company(companyType);
-		// company.setId(companyID);
-		// company.setFullName(company.getCompanyName());
-		init(company, client);
-	}
-
-	private void init(Company company, Client client) throws Exception {
-		Session session = HibernateUtil.openSession();
-
-		try {
-			// Creating User
-
-		} finally {
-
-			session.close();
-		}
-	}
-
 	// /**
 	// *
 	// * @return

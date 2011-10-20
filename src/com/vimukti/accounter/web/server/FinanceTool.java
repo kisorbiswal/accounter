@@ -99,7 +99,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
 import com.vimukti.accounter.web.server.managers.DashboardManager;
@@ -1912,8 +1911,7 @@ public class FinanceTool {
 			// brandingTheme, footerImg, style);
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-					invoice, brandingTheme, company, String.valueOf(company
-							.getID()), "ClassicInvoice");
+					invoice, brandingTheme, company, "ClassicInvoice");
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
@@ -1926,8 +1924,7 @@ public class FinanceTool {
 							objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company, String.valueOf(company
-							.getID()), "ClassicCredit");
+					memo, brandingTheme, company, "ClassicCredit");
 
 			fileName = creditNotePDFTemplete.getFileName();
 

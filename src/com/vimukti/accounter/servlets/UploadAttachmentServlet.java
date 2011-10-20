@@ -21,7 +21,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class UploadAttachmentServlet extends HttpServlet {
+public class UploadAttachmentServlet extends BaseServlet {
 	/**
 	 * 
 	 */
@@ -32,7 +32,7 @@ public class UploadAttachmentServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		Session session = null;
 		try {
-			String companyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
+			String companyID = (String) request.getSession().getAttribute(COMPANY_ID);
 			if (companyID == null)
 				return;
 			session = HibernateUtil.openSession();
@@ -146,15 +146,4 @@ public class UploadAttachmentServlet extends HttpServlet {
 	// stringBuilder.append(attachmet.getFileSize());
 	// return stringBuilder.toString();
 	// }
-	private String getCookie(HttpServletRequest request, String ourCookie) {
-		Cookie[] clientCookies = request.getCookies();
-		if (clientCookies != null) {
-			for (Cookie cookie : clientCookies) {
-				if (cookie.getName().equals(ourCookie)) {
-					return cookie.getValue();
-				}
-			}
-		}
-		return null;
-	}
 }

@@ -31,7 +31,6 @@ public class CompaniesServlet extends BaseServlet {
 	private static final String DELETE_SUCCESS = "Your company is deleted successfully.";
 	private static final String DELETE_FAIL = "Company Deletion failed.";
 	private static final String MIGRATION_VIEW = "/WEB-INF/companyMigration.jsp";
-	private static final String CREATE = "create";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
@@ -53,7 +52,8 @@ public class CompaniesServlet extends BaseServlet {
 			openCompany(req, resp, Long.parseLong(companyID));
 			return;
 		}
-		if (req.getParameter(CREATE).equals("true")) {
+		String create = req.getParameter(CREATE);
+		if (create != null && create.equals("true")) {
 			createCompany(req, resp);
 			return;
 		}
@@ -104,7 +104,8 @@ public class CompaniesServlet extends BaseServlet {
 		dispatch(req, resp, companiedListView);
 	}
 
-	private void createCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	private void createCompany(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 		addMacAppCookie(req, resp);
 
 		String url = ACCOUNTER_OLD_URL;
@@ -112,6 +113,7 @@ public class CompaniesServlet extends BaseServlet {
 			url = ACCOUNTER_URL;
 		}
 
+		req.getSession().setAttribute(CREATE, "true");
 		redirectExternal(req, resp, url);
 	}
 
@@ -162,7 +164,6 @@ public class CompaniesServlet extends BaseServlet {
 			long companyID) throws IOException {
 		HttpSession httpSession = req.getSession();
 		httpSession.setAttribute(COMPANY_ID, companyID);
-		addCompanyCookies(resp, companyID);
 		addMacAppCookie(req, resp);
 
 		Session session = HibernateUtil.openSession();
@@ -191,14 +192,15 @@ public class CompaniesServlet extends BaseServlet {
 		doGet(req, resp);
 	}
 
-	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
-				String.valueOf(companyID));
-		companyCookie.setMaxAge(-1);// Two week
-		companyCookie.setPath("/");
-		companyCookie.setDomain(ServerConfiguration.getServerCookieDomain());
-		resp.addCookie(companyCookie);
-	}
+	// private void addCompanyCookies(HttpServletResponse resp, long companyID)
+	// {
+	// Cookie companyCookie = new Cookie(COMPANY_COOKIE,
+	// String.valueOf(companyID));
+	// companyCookie.setMaxAge(-1);// Two week
+	// companyCookie.setPath("/");
+	// companyCookie.setDomain(ServerConfiguration.getServerCookieDomain());
+	// resp.addCookie(companyCookie);
+	// }
 
 	private void addMacAppCookie(HttpServletRequest request,
 			HttpServletResponse response) {

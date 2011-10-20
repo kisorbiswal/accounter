@@ -22,13 +22,12 @@ public class AccounterSessionListner implements HttpSessionListener
 		// This method will be called just before session is to be destroyed
 
 		HttpSession httpSession = sessionEvent.getSession();
-		String companyId = (String) httpSession
+		Long companyId = (Long) httpSession
 				.getAttribute(BaseServlet.COMPANY_ID);
 		String userID = (String) httpSession.getAttribute("userID");
 		if (userID != null) {
 			// session time out
-			CometManager.destroyStream(httpSession.getId(),
-					Long.parseLong(companyId), userID);
+			CometManager.destroyStream(httpSession.getId(), companyId, userID);
 		}
 	}
 

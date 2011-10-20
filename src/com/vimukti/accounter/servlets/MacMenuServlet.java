@@ -36,7 +36,6 @@ public class MacMenuServlet extends BaseServlet {
 		HttpSession session = req.getSession();
 		if (session != null) {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
-			String companyID = getCookie(req, COMPANY_COOKIE);
 
 			Company company = getCompany(req);
 			Session hibernateSession = HibernateUtil.openSession();

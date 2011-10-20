@@ -33,6 +33,8 @@ public class BaseServlet extends HttpServlet {
 	public static final String COMPANY_COOKIE = "cid";
 
 	public static final String COMPANY_ID = "companyId";
+	
+	public static final String CREATE = "create";
 
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";
@@ -78,11 +80,10 @@ public class BaseServlet extends HttpServlet {
 	private static final int ACTIVATION_CODE_SIZE = 10;
 
 	protected Company getCompany(HttpServletRequest req) {
-		String companyID = getCookie(req, COMPANY_COOKIE);
+		Long companyID = (Long) req.getSession().getAttribute(COMPANY_ID);
 		Session session = HibernateUtil.openSession();
 		try {
-			Company comapny = (Company) session.get(Company.class,
-					Long.valueOf(companyID));
+			Company comapny = (Company) session.get(Company.class, companyID);
 			if (comapny != null) {
 				return comapny;
 			}

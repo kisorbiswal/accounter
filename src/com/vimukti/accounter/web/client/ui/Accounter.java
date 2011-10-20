@@ -93,10 +93,8 @@ public class Accounter implements EntryPoint {
 	private static boolean isMacApp;
 
 	public void loadCompany() {
-		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
-				.create(IAccounterGETService.class);
-		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
+
+		IAccounterCompanyInitializationServiceAsync cIService = createCompanyInitializationService();
 
 		final AccounterAsyncCallback<ClientCompany> getCompanyCallback = new AccounterAsyncCallback<ClientCompany>() {
 			public void onException(AccounterException caught) {
@@ -107,7 +105,7 @@ public class Accounter implements EntryPoint {
 
 			public void onResultSuccess(ClientCompany company) {
 				removeLoadingImage();
-				if (company == null) {					
+				if (company == null) {
 					// and, now we are ready to start the application.
 					removeLoadingImage();
 
@@ -146,7 +144,7 @@ public class Accounter implements EntryPoint {
 			}
 
 		};
-		getService.getCompany(getCompanyCallback);
+		cIService.getCompany(getCompanyCallback);
 
 	}
 

@@ -165,7 +165,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		ClientUser coreUser = convertUserInfoToUser(invitedser);
 		// Creating Clien
 		try {
-			String company = getCookie(BaseServlet.COMPANY_COOKIE);
+			String company = (String) getThreadLocalRequest().getSession()
+					.getAttribute(COMPANY_ID);
 			boolean userExists = s2sSyncProxy.inviteUser(
 					Integer.parseInt(company), invitedser, getUserEmail());
 			coreUser.setActive(userExists);

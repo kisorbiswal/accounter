@@ -3,145 +3,49 @@
  */
 package com.vimukti.accounter.web.server;
 
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.UserPermissions;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
 public class AccounterCompanyInitializationServiceImpl extends
-		AccounterRPCBaseServiceImpl implements
-		IAccounterCompanyInitializationService {
+		RemoteServiceServlet implements IAccounterCompanyInitializationService {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// @Override
-	// public ClientCompany createCompany(int accountType)
-	// throws AccounterException {
-	// // Validating User Session
-	// HttpSession httpSession = getHttpSession();
-	// String emailID = (String) httpSession
-	// .getAttribute(BaseServlet.EMAIL_ID);
-	// if (emailID == null) {
-	// throw new AccounterException(
-	// AccounterException.ERROR_INVALID_USER_SESSION);
-	// }
-	// Session serverSession = HibernateUtil
-	// .openSession(Server.LOCAL_DATABASE);
-	// Transaction transaction = serverSession.beginTransaction();
-	//
-	// // Getting ServerCompany From Session
-	// ServerCompany serverCompany = getServerCompany();
-	//
-	// try {
-	//
-	// // Creating Database
-	// Query query = serverSession.createSQLQuery("CREATE SCHEMA company"
-	// + serverCompany.getID());
-	// query.executeUpdate();
-	// transaction.commit();
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// } finally {
-	// transaction.rollback();
-	// }
-	//
-	// Session companySession = HibernateUtil.openSession(Server.COMPANY
-	// + serverCompany.getID(), true);
-	// Transaction companyTransaction = companySession.beginTransaction();
-	// try {
-	// // Creating User
-	// User user = getClientHttpSession();
-	// companySession.save(user);
-	//
-	// Company company = new Company();
-	// company.setCreatedBy(user);
-	// company.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-	// companySession.save(company);
-	//
-	// companyTransaction.commit();
-	//
-	// // Returning ClientCompany
-	// return company.toClientCompany();
-	// } catch (Exception e) {
-	// // FIXME Revert Transaction made with ServerSession
-	// e.printStackTrace();
-	// companyTransaction.rollback();
-	// }
-	//
-	// return null;
-	// }
-
 	/**
 	 * Returns User Object From Client HttpSession
 	 */
-	// private User getClientHttpSession() {
-	// String userCookie = getCookie(BaseServlet.USER_COOKIE);
-	// if (userCookie == null) {
-	// return null;
-	// }
-	// String[] split = userCookie.split(",");
-	// Session session = HibernateUtil.getCurrentSession();
-	// Client client = (Client) session.getNamedQuery("getClient.by.mailId")
-	// .setString(BaseServlet.EMAIL_ID, split[0]).uniqueResult();
-	// User user = client.toUser();
-	// user.setUserRole(RolePermissions.ADMIN);
-	// user.setAdmin(true);
-	// return user;
-	// }
-	//
-	// /**
-	// * Returns ServerCompany From ClientSession
-	// *
-	// * @return
-	// */
-	// private ServerCompany getServerCompany() {
-	// String cid = getCookie(BaseServlet.COMPANY_COOKIE);
-	//
-	// Session session = HibernateUtil.getCurrentSession();
-	// return (ServerCompany) session.getNamedQuery("getServerCompany.by.id")
-	// .setParameter("id", Long.parseLong(cid)).uniqueResult();
-	//
-	// }
-
-	// private String getCookie(String cookieName) {
-	// Cookie[] clientCookies = getThreadLocalRequest().getCookies();
-	// if (clientCookies != null) {
-	// for (Cookie cookie : clientCookies) {
-	// if (cookie.getName().equals(cookieName)) {
-	// return cookie.getValue();
-	// }
-	// }
-	// }
-	// return null;
-	// }
-
-	// /**
-	// * Returns the Current HttpSesstion
-	// *
-	// * @return
-	// */
-	// protected HttpSession getHttpSession() {
-	// return getThreadLocalRequest().getSession();
-	// }
 
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
@@ -149,8 +53,24 @@ public class AccounterCompanyInitializationServiceImpl extends
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			Company company = (Company) session.load(Company.class,
-					getCompanyId());
+			Client client = getClient(getUserEmail());
+
+			Company company = new Company();
+			company.setConfigured(false);
+			company.setCreatedDate(new Date());
+
+			User user = new User(getUser(client));
+			user.setActive(true);
+			user.setClient(client);
+			user.setCompany(company);
+			session.save(user);
+
+			client.getUsers().add(user);
+			session.saveOrUpdate(client);
+
+			AccounterThreadLocal.set(user);
+			company.getUsers().add(user);
+			company.setCompanyEmail(user.getClient().getEmailId());
 
 			// Updating CompanyPreferences
 			CompanyPreferences serverCompanyPreferences = company
@@ -159,19 +79,19 @@ public class AccounterCompanyInitializationServiceImpl extends
 					serverCompanyPreferences, preferences, session);
 			company.setPreferences(serverCompanyPreferences);
 
-			// Updating ServerCompany
-			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
-					.getMainServerDomain());
-			s2sSyncProxy.updateServerCompany(company.getID(),
-					preferences.getTradingName());
-
 			company.setRegisteredAddress(serverCompanyPreferences
 					.getTradingAddress());
 			// Initializing Accounts
 			company.initialize(accounts);
 			company.setConfigured(true);
 			session.saveOrUpdate(company);
+
 			transaction.commit();
+
+			getThreadLocalRequest().getSession().setAttribute(
+					BaseServlet.COMPANY_ID, company.getId());
+			UsersMailSendar.sendMailToDefaultUser(user,
+					company.getTradingName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
@@ -180,4 +100,47 @@ public class AccounterCompanyInitializationServiceImpl extends
 		return true;
 	}
 
+	@Override
+	public ClientCompany getCompany() throws AccounterException {
+		Long companyID = (Long) getThreadLocalRequest().getSession()
+				.getAttribute(BaseServlet.COMPANY_ID);
+		if (companyID == null) {
+			return null;
+		}
+		FinanceTool tool = new FinanceTool();
+		return tool.getCompanyManager().getClientCompany(getUserEmail(),
+				companyID);
+	}
+
+	protected String getUserEmail() {
+		return (String) getThreadLocalRequest().getSession().getAttribute(
+				BaseServlet.EMAIL_ID);
+	}
+
+	protected Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter(BaseServlet.EMAIL_ID, emailId);
+		Client client = (Client) namedQuery.uniqueResult();
+		// session.close();
+		return client;
+	}
+
+	private ClientUser getUser(Client client) {
+		User user = client.toUser();
+		// user.setFullName(user.getFirstName() + " " + user.getLastName());
+		user.setUserRole(RolePermissions.ADMIN);
+		user.setAdmin(true);
+		user.setCanDoUserManagement(true);
+		UserPermissions permissions = new UserPermissions();
+		permissions.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
+		permissions.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
+		permissions.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		permissions.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		permissions.setTypeOfPublishReports(RolePermissions.TYPE_YES);
+		permissions.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		permissions.setTypeOfViewReports(RolePermissions.TYPE_YES);
+		user.setPermissions(permissions);
+		return user.getClientUser();
+	}
 }
