@@ -750,21 +750,26 @@ public abstract class AbstractCommand extends Command {
 	protected Result dateRequirement(Context context, ResultList list,
 			Object selection, String reqName, String displayName) {
 
-		Requirement dateReq = get(reqName);
-		ClientFinanceDate transDate = context.getDate();
-		if (!dateReq.isDone()) {
-			if (transDate == null) {
-				// context.setAttribute(INPUT_ATTR, DATE);
-				return date(context, displayName, transDate);
-			} else {
-				dateReq.setValue(transDate);
-			}
-			Record transDateRecord = new Record(transDate);
-			transDateRecord.add("Name", reqName);
-			transDateRecord.add("Value", transDate.toString());
-			list.add(transDateRecord);
+		Requirement requirement = get(reqName);
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(reqName)) {
+			requirement.setValue(context.getDate());
+		}
+		if (!requirement.isDone()) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return text(context, displayName, null);
 		}
 
+		ClientFinanceDate transDate = requirement.getValue();
+		if (selection != null && selection.equals(reqName)) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return date(context, displayName, transDate);
+		}
+
+		Record nameRecord = new Record(reqName);
+		nameRecord.add("", "Name");
+		nameRecord.add("", getDateAsString(transDate));
+		list.add(nameRecord);
 		return null;
 	}
 
