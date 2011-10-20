@@ -1,11 +1,9 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -20,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -175,9 +174,9 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	private void setDefaultValues() {
 		get(ACTIVE).setDefaultValue(true);
-		get(VENDOR_SINCE).setDefaultValue(new Date());
+		get(VENDOR_SINCE).setDefaultValue(new ClientFinanceDate());
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
-		get(BALANCE_AS_OF).setDefaultValue(new Date());
+		get(BALANCE_AS_OF).setDefaultValue(new ClientFinanceDate());
 		get(BILL_TO).setDefaultValue(new ClientAddress());
 
 	}
@@ -194,7 +193,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		}
 		Set<ClientContact> contacts = get(CONTACTS).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
-		Date balancedate = get(BALANCE_AS_OF).getValue();
+		ClientFinanceDate balancedate = get(BALANCE_AS_OF).getValue();
+		ClientFinanceDate vendorSince = get(VENDOR_SINCE).getValue();
 		double balance = get(BALANCE).getValue();
 		ClientAddress adress = get(BILL_TO).getValue();
 		ClientAccount account = get(ACCOUNT).getValue();
@@ -224,8 +224,9 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			vendor.setVendorNumber(number);
 
 		if (balancedate != null) {
-			vendor.setBalanceAsOf(balancedate.getTime());
+			vendor.setBalanceAsOf(balancedate.getDate());
 		}
+		// vendor.set
 		vendor.setContacts(contacts);
 		vendor.setBalance(balance);
 		vendor.setAddress(addresses);

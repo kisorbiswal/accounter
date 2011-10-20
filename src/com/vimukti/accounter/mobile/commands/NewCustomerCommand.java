@@ -318,7 +318,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				"This customer is Active", "This customer is InActive");
+				getMessages().active(getConstants().customer()), getMessages()
+						.inActive(getConstants().customer()));
 
 		Result result = dateOptionalRequirement(context, list,
 				CUSTOMER_SINCEDATE, "Enter CustomerSinceDate", selection);
