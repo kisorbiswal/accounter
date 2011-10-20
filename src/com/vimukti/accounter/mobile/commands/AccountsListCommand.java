@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 
 /**
  * 
@@ -79,7 +80,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("accountsList");
-		result.add("Accounts List");
+		result.add(Global.get().Account() + "list");
 
 		Boolean accountType = (Boolean) context.getAttribute(ACCOUNT_TYPE);
 		List<Account> accounts = getAccounts(context.getCompany(), accountType);
@@ -95,29 +96,30 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 
 		StringBuilder message = new StringBuilder();
 		if (accountsList.size() > 0) {
-			message.append("Select an Account");
+			message.append(getMessages().selectAccountsToAssign(
+					Global.get().account()));
 		}
 
 		result.add(message.toString());
 		result.add(accountsList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", "Active Accounts");
+		inActiveRec.add("", getConstants().active() + Global.get().Account());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", "InActive Accounts");
+		inActiveRec.add("", getMessages().inActive(Global.get().Accounts()));
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Accounts");
+		inActiveRec.add("", getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add Account");
+		commandList.add(getMessages().addanewAccount(Global.get().account()));
 		result.add(commandList);
 		return result;
 
