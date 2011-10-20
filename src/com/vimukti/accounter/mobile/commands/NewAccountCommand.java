@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 /**
  * 
@@ -53,20 +54,22 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(" Account is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().account()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, ACCOUNT_NAME,
-				"Please Enter the account name ");
+		result = nameRequirement(context, list, ACCOUNT_NAME, getConstants()
+				.accountName(),
+				getMessages().pleaseEnter(getConstants().accountName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = numberRequirement(context, list, ACCOUNT_NUMBER,
-				"Please Enter the account number ");
+		result = numberRequirement(context, list, ACCOUNT_NUMBER, getMessages()
+				.pleaseEnter(getConstants().Accounnumbers()), getConstants()
+				.account() + getConstants().number());
 		if (result != null) {
 			return result;
 		}
@@ -85,7 +88,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		get(OPENINGBALANCE).setDefaultValue(0.0D);
 		get(ACCOUNT_TYPE).setDefaultValue("Income");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
-		get(ASOF).setDefaultValue(new Date());
+		get(ASOF).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 		get(COMMENTS).setDefaultValue(" ");
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
 	}
@@ -117,7 +121,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		markDone();
 
 		Result result = new Result();
-		result.add(" Account was created successfully.");
+		result.add(getMessages().createSuccessfully(getConstants().account()));
 
 		return result;
 	}
@@ -148,12 +152,14 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 				"This account is Active", "This account is InActive");
 
 		result = amountOptionalRequirement(context, list, selection,
-				OPENINGBALANCE, "Opening balance");
+				OPENINGBALANCE,
+				getMessages().pleaseEnter(getConstants().openingBalance()));
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, ASOF, "Enter AsOfDate",
+		result = dateOptionalRequirement(context, list, ASOF, getConstants()
+				.asOf(), getMessages().pleaseEnter(getConstants().asOf()),
 				selection);
 		if (result != null) {
 			return result;
@@ -169,7 +175,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Account");
+		finish.add("", getMessages().finishToCreate(getConstants().account()));
 		actions.add(finish);
 
 		return makeResult;
