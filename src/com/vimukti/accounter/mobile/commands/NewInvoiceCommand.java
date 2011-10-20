@@ -15,6 +15,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -102,7 +103,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 
 		setTransactionType(CUSTOMER_TRANSACTION);
-		result = customerRequirement(context, list, "customer");
+		result = customerRequirement(context, list, "customer", Global.get()
+				.customer());
 		if (result != null) {
 			return result;
 		}
