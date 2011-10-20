@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
@@ -206,8 +205,8 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		booleanOptionalRequirement(context, selection, list, TOBEPRINTED,
-				"This To be Printed is Active",
-				"This To be Printed is InActive");
+				getConstants().thisToBePrinted(), getConstants()
+						.thisDonotBePrinted());
 
 		if (!(Boolean) get(TOBEPRINTED).getValue()) {
 			result = amountOptionalRequirement(context, list, selection,
