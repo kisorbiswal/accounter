@@ -128,7 +128,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getPreferences().isTrackPaidTax()) {
 			result = accountRequirement(context, list, PURCHASE_ACCOUNT,
 					new ListFilter<ClientAccount>() {
 
@@ -219,7 +219,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		taxAgency.setEmail(email);
 		taxAgency.setWebPageAddress(website);
 		taxAgency.setContacts(contacts);
-		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getPreferences().isTrackPaidTax()) {
 			ClientAccount purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
 			String vatReturn = get(VAT_RETURN).getValue();
 			taxAgency.setPurchaseLiabilityAccount(purchaseAccount.getID());
