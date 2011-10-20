@@ -249,9 +249,7 @@ public class ReportManager extends Manager {
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
-				.setParameter("company", company)).list().get(0)));
+		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -676,9 +674,7 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
-				.setParameter("company", company)).list().get(0)));
+		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value

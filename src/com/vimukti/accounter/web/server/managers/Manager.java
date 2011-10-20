@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Util;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class Manager {
@@ -287,5 +289,28 @@ public class Manager {
 		clientUser.setLastName(client.getLastName());
 		clientUser.setFullName(client.getFullName());
 		clientUser.setEmail(client.getEmailId());
+	}
+
+	protected FinanceDate getCurrentFiscalYearStartDate(Company company) {
+		FinanceDate startDate = new FinanceDate();
+		startDate.setMonth(company.getPreferences().getFiscalYearFirstMonth());
+		startDate.setDate(1);
+		return startDate;
+	}
+
+	protected FinanceDate getCurrentFiscalYearEndDate(Company company) {
+		FinanceDate startDate = new FinanceDate();
+		startDate.setMonth(company.getPreferences().getFiscalYearFirstMonth());
+		startDate.setDate(1);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate.getAsDateObject());
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+		calendar.set(Calendar.DATE,
+				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		FinanceDate endDate = new FinanceDate(calendar.getTime());
+		return endDate;
 	}
 }
