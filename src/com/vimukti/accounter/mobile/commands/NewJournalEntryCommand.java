@@ -35,7 +35,6 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -86,7 +85,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberRequirement(context, list, NUMBER,
-				"Please enter the  Journel Entry Number");
+				"Please enter the  Journel Entry Number", "Number");
 		if (result != null) {
 			return result;
 		}
@@ -154,7 +153,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		if (lineAttr != null) {
 			context.removeAttribute(ENTRY_PROPERTY_ATTR);
 			if (lineAttr.equals(DATE)) {
-				entry.setEntryDate(context.getDate().getTime());
+				entry.setEntryDate(context.getDate().getDate());
 			} else if (lineAttr.equals(ACCOUNT)) {
 				ClientAccount account = context.getSelection(ACCOUNT);
 				entry.setAccount(account.getID());
@@ -180,8 +179,8 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 			if (selection != null) {
 				if (selection.equals(DATE)) {
 					context.setAttribute(ENTRY_PROPERTY_ATTR, DATE);
-					return date(context, "Please enter the date", new Date(
-							entry.getEntryDate()));
+					return date(context, "Please enter the date",
+							new ClientFinanceDate(entry.getEntryDate()));
 				} else if (selection.equals(ACCOUNT)) {
 					context.setAttribute(ENTRY_PROPERTY_ATTR, ACCOUNT);
 					return accounts(context, ACCOUNT,
@@ -288,7 +287,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		}
 
 		Result result = null;
-		result = dateOptionalRequirement(context, list, DATE,
+		result = dateOptionalRequirement(context, list, DATE, "date",
 				"Enter journalEntry Date", selection);
 		if (result != null) {
 			return result;
