@@ -871,7 +871,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null || isCancel == true) {
 			super.saveSuccess(result);
-			Header.companyName.setText(this.companyNameText.getValue()
+			Header.companyNameLabel.setText(this.companyNameText.getValue()
 					.toString());
 			ActionFactory.getCompanyHomeAction().run(null, false);
 
