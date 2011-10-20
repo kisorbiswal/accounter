@@ -193,7 +193,7 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		result.add(accountItems);
 
 		Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
-		moreItems.add("", "Add more accounts");
+		moreItems.add("", getMessages().addMore(getConstants().Accounts()));
 		actions.add(moreItems);
 		return null;
 	}
@@ -237,14 +237,14 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect an Account(s).");
+			result.add(getMessages().pleaseSelect(getConstants().account()));
 		} else {
-			result.add("You don't have any Account.");
+			result.add(getMessages().noRecordsToShow());
 		}
 
 		result.add(list);
 		CommandList commands = new CommandList();
-		commands.add("Add Account");
+		commands.add(getMessages().addanewAccount(getConstants().account()));
 		result.add(commands);
 		return result;
 	}
@@ -278,13 +278,17 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 				if (selection.equals("amount")) {
 					context.setAttribute(
 							MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR, "amount");
-					return amount(context, "Enter Amount",
+					return amount(context,
+							getMessages().pleaseEnter(getConstants().amount()),
 							transactionItem.getAmount());
 				} else if (selection.equals("reference")) {
 					context.setAttribute(
 							MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR,
 							"reference");
-					return number(context, "Enter Reference",
+					return number(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().reference()),
 							transactionItem.getReference());
 				}
 			} else {
@@ -294,7 +298,10 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 						context.setAttribute(
 								MAKE_DEPOSITE_ACCOUNT_ITEM_PROPERTY_ATTR,
 								"amount");
-						return amount(context, "Enter Amount",
+						return amount(
+								context,
+								getMessages().pleaseEnter(
+										getConstants().amount()),
 								transactionItem.getAmount());
 					}
 					context.removeAttribute(PROCESS_ATTR);
@@ -308,12 +315,12 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		}
 		ResultList list = new ResultList(MAKE_DEPOSITE_ACCOUNT_ITEM_DETAILS);
 		Record record = new Record("amount");
-		record.add("", "Amount");
+		record.add("", getConstants().amount());
 		record.add("", transactionItem.getAmount());
 		list.add(record);
 
 		record = new Record("reference");
-		record.add("", "Reference");
+		record.add("", getConstants().reference());
 		record.add("", transactionItem.getReference());
 		list.add(record);
 
@@ -323,26 +330,27 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		// .getDiscount()) / 100);
 		// transactionItem.setLineTotal(lineTotal);
 		Result result = context.makeResult();
-		result.add("Account details");
+		result.add(getMessages().account(getConstants().details()));
 		ClientAccount account = getClientCompany().getAccount(
 				transactionItem.getAccount());
 		if (account != null) {
-			result.add("Account Name :" + account.getName());
+			result.add(getMessages().account(getConstants().name())
+					+ account.getName());
 		}
 		// double lt = transactionItem.getUnitPrice();
 		// double disc = transactionItem.getDiscount();
 		// transactionItem
 		// .setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 		// * disc / 100)) : lt);
-		result.add("Amount Total :" + transactionItem.getAmount());
+		result.add(getConstants().totalAmount() + transactionItem.getAmount());
 		result.add(list);
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", "Delete");
+		record.add("", getConstants().delete());
 		actions.add(record);
 		record = new Record(ActionNames.FINISH_ITEM);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		actions.add(record);
 		result.add(actions);
 		return result;
@@ -476,11 +484,11 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 
 	private Record createAccountRecord(Context context, ClientAccount account) {
 		Record record = new Record(account);
-		record.add("Account Name", "Account Name:");
+		record.add("Account Name", getMessages().account(getConstants().name()));
 		record.add("Account Name value", account.getName());
-		record.add("Account Balance", "Current Balance:");
+		record.add("Account Balance", getConstants().currentBalance());
 		record.add("Current Balance", account.getCurrentBalance());
-		record.add("Account Type", "Account Type:");
+		record.add("Account Type", getMessages().account(getConstants().type()));
 		record.add("Account Type Value",
 				getAccountTypeString(account.getType()));
 		return record;
