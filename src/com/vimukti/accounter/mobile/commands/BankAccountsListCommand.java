@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 
-public class BankAccountsListsCommands extends AbstractTransactionCommand {
+public class BankAccountsListCommand extends AbstractTransactionCommand {
 	private String VIEW_TYPE = getConstants().currentView();
 	private String ACTIVE = getConstants().active();
 	private String IN_ACTIVE = getConstants().inActive();
