@@ -63,9 +63,9 @@ public class ShippingTermsListCommand extends AbstractTransactionCommand {
 		result.add(resultList);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add a Shipping Term");
-		commandList.add("Edit a Shipping Term");
-		commandList.add("Delete a Shipping Term");
+		commandList.add(getConstants().add());
+		commandList.add(getConstants().edit());
+		commandList.add(getConstants().delete());
 		result.add(commandList);
 
 		return result;
@@ -73,8 +73,8 @@ public class ShippingTermsListCommand extends AbstractTransactionCommand {
 
 	private Record createShippingTerms(ShippingTerms shipTerms) {
 		Record record = new Record(shipTerms);
-		record.add("Name", shipTerms.getName());
-		record.add("Description", shipTerms.getDescription());
+		record.add(getConstants().name(), shipTerms.getName());
+		record.add(getConstants().description(), shipTerms.getDescription());
 		return record;
 	}
 
