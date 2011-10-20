@@ -5,7 +5,9 @@ package com.vimukti.accounter.mobile;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.mobile.UserMessage.Type;
+import com.vimukti.accounter.mobile.commands.SelectCompanyCommand;
 import com.vimukti.accounter.mobile.store.CommandsFactory;
 import com.vimukti.accounter.mobile.store.PatternStore;
 
@@ -16,6 +18,7 @@ import com.vimukti.accounter.mobile.store.PatternStore;
 public class MobileChatAdaptor implements MobileAdaptor {
 
 	public static MobileAdaptor INSTANCE = new MobileChatAdaptor();
+	public static String CANCEL_COMMAND = "cancel";
 
 	/**
 	 * PreProcess the UserMessage
@@ -30,14 +33,29 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (message == null || message.isEmpty()) {
 
 		}
+
 		Command command = null;
+
+		if (message.equalsIgnoreCase(CANCEL_COMMAND)) {
+			Command currentCommand = session.getCurrentCommand();
+			currentCommand.markDone();
+			session.refreshCurrentCommand();
+		}
+
 		Result lastResult = session.getLastResult();
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
 			command = getCommand(patternResult.getCommands(), message);
 		}
+
 		if (command == null) {
 			command = session.getCurrentCommand();
+		}
+		if (command == null) {
+			long companyId = session.getCompanyID();
+			if (companyId == 0) {
+				command = new SelectCompanyCommand();
+			}
 		}
 		if (command == null) {
 			String commandString = "";
@@ -53,6 +71,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				message = message.replaceAll(commandString.trim(), "");
 			}
 		}
+
 		if (command != null) {
 			userMessage.setType(Type.COMMAND);
 			userMessage.setCommand(command);
@@ -90,7 +109,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		}
 		char ch = input.charAt(0);
 		// Finding the Command for Input
-		int index = ch - 97;//If ch is number
+		int index = ch - 97;// If ch is number
 		if (index < 0) {
 			return null;
 		}

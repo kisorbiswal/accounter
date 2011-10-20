@@ -5,11 +5,11 @@ package com.vimukti.accounter.mobile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 import java.util.TimerTask;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
@@ -29,7 +29,7 @@ public class MobileSession {
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
 	private Command currentCommand;
 	private boolean isExpired;
-
+	private Stack<Command> commandStack = new Stack<Command>();
 	private TimerTask task;
 
 	private Session hibernateSession;
@@ -83,6 +83,11 @@ public class MobileSession {
 	 */
 	public void setCurrentCommand(Command command) {
 		this.currentCommand = command;
+		if (command == null) {
+			setLastResult(null);
+		} else {
+			setLastResult(command.getLastResult());
+		}
 	}
 
 	public boolean isExpired() {
@@ -109,6 +114,21 @@ public class MobileSession {
 		if (this.task != null) {
 			task.cancel();
 		}
+	}
+
+	public void refreshCurrentCommand() {
+		// Set the Present Command From the stack
+		while (!commandStack.isEmpty()) {
+			Command pop = commandStack.pop();
+			if (pop == null) {
+				break;
+			}
+			if (!pop.isDone()) {
+				setCurrentCommand(pop);
+				return;
+			}
+		}
+		setCurrentCommand(null);
 	}
 
 	/**
@@ -164,6 +184,10 @@ public class MobileSession {
 		return null;
 	}
 
+	public long getCompanyID() {
+		return companyID;
+	}
+
 	/**
 	 * @return the client
 	 */
@@ -185,6 +209,16 @@ public class MobileSession {
 	 */
 	public void setCompanyID(long company) {
 		this.companyID = company;
+	}
+
+	public void addCommand(Command command) {
+		if (currentCommand != command && !command.isDone()) {
+			if (this.currentCommand != null) {
+				this.currentCommand.setLastResult(getLastResult());
+			}
+			commandStack.push(command);
+			refreshCurrentCommand();
+		}
 	}
 
 	/**

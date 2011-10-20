@@ -18,28 +18,30 @@ public class ConsoleChatClient {
 
 	public void start() {
 		try {
-			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					System.in));
 			System.out.print("Enter user Email:");
-			String email=br.readLine().trim();
-			
+			String email = "***REMOVED***";// br.readLine().trim();
+
 			Socket client = new Socket("localhost", 8080);
 			ObjectOutputStream out = new ObjectOutputStream(
 					client.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(
 					client.getInputStream());
-			// String readLine = reader.readLine();
-			// readLine = readLine.substring(1);
-			// out.write(readLine.getBytes());
+			out.writeObject(email);
+			out.writeObject("select company");
+			String str = (String) in.readObject();
+			System.out.println("Server:" + str);
+			System.out.print('>');
 			while (true) {
-				String str = (String) in.readObject();
+				str = (String) in.readObject();
 				System.out.println("Server:" + str);
 				System.out.print('>');
 				String readLine = br.readLine();
 				out.writeObject(email);
 				out.writeObject(readLine);
-			} 
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}

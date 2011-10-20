@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
@@ -278,5 +279,11 @@ public class Context {
 
 	public Company getCompany() {
 		return session.getCompany();
+	}
+
+	public void selectCompany(Company value) {
+		session.setCompanyID(value.getID());
+		User user = session.getUser();
+		AccounterThreadLocal.set(user);
 	}
 }

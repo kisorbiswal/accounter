@@ -11,6 +11,7 @@ public abstract class Command {
 	List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
+	private Result lastResult;
 	private ClientCompany clientCompany;
 
 	public Command() {
@@ -88,6 +89,14 @@ public abstract class Command {
 	public Object getResultObject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Result getLastResult() {
+		return lastResult;
+	}
+
+	public void setLastResult(Result lastResult) {
+		this.lastResult = lastResult;
 	}
 
 	public void setClientCompany(ClientCompany clientCompany) {

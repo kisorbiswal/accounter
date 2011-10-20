@@ -28,6 +28,14 @@ public class CommandProcessor {
 			switch (message.getType()) {
 			case COMMAND:
 				Result reply = processCommand(session, message);
+				if (message.getCommand().isDone()) {
+					session.refreshCurrentCommand();
+					Result lastResult = session.getLastResult();
+					if (lastResult != null) {
+						List<Object> resultParts = lastResult.getResultParts();
+						reply.addAll(resultParts);
+					}
+				}
 				message.setResult(reply);
 				break;
 			case HELP:
@@ -42,7 +50,7 @@ public class CommandProcessor {
 			Command command = message.getCommand();
 
 			if (command != null && !command.isDone()) {
-				session.setCurrentCommand(command);
+				session.addCommand(command);
 			}
 
 			if (message.getResult() == null) {
@@ -129,15 +137,37 @@ public class CommandProcessor {
 		context.setInputs(message.getInputs());
 		Result result = null;
 		try {
-			command.setClientCompany(new FinanceTool().getCompanyManager()
-					.getClientCompany(
-							context.getUser().getClient().getEmailId(),
-							context.getCompany().getID()));
+			if (session.getCompanyID() != 0) {
+				command.setClientCompany(new FinanceTool().getCompanyManager()
+						.getClientCompany(session.getUserEmail(),
+								session.getCompanyID()));
+			}
 			result = command.run(context);
+			result = processResult(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = context.makeResult();
+			e.printStackTrace();
 			result.add("You got an Exception....@@@@@@@");
+		}
+		return result;
+	}
+
+	private Result processResult(Result result) {
+		PatternResult patternResult = new PatternResult();
+		boolean isCommandList = false;
+		for (Object obj : result.resultParts) {
+			if (obj instanceof String) {
+				patternResult.add((String) obj);
+			} else if (obj instanceof ResultList) {
+				patternResult.add((ResultList) obj);
+			} else if (obj instanceof CommandList) {
+				isCommandList = true;
+				patternResult.setCommands((CommandList) obj);
+			}
+		}
+		if (isCommandList) {
+			return patternResult;
 		}
 		return result;
 	}
