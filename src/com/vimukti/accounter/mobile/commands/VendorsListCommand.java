@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 
 /**
@@ -69,7 +70,7 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 	private Result vendorsList(Context context, ActionNames selection) {
 		Result result = context.makeResult();
 		ResultList vendorsList = new ResultList("vendorssList");
-		result.add("Vendors List");
+		result.add(getMessages().vendorList(getConstants().Vendor()));
 
 		Boolean vendorType = (Boolean) context.getAttribute(VENDOR_TYPE);
 		List<ClientVendor> vendors = getVendors(vendorType);
@@ -85,29 +86,30 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 
 		StringBuilder message = new StringBuilder();
 		if (vendorsList.size() > 0) {
-			message.append("Select an Vendor");
+			message.append(getMessages().pleaseSelectTheVendor(
+					Global.get().Vendor()));
 		}
 
 		result.add(message.toString());
 		result.add(vendorsList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", "Active Vendors");
+		inActiveRec.add("",getConstants().active());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", "InActive Vendors");
+		inActiveRec.add("",getConstants().inActive());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Vendors");
+		inActiveRec.add("",  getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add Vendor");
+		commandList.add(getMessages().addANewVendor(Global.get().Vendor()));
 		result.add(commandList);
 		return result;
 
