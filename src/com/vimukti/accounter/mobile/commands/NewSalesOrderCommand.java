@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -110,13 +111,15 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(" SalesOrder is ready to create with following values.");
+		makeResult
+				.add(getMessages().readyToCreate(getConstants().salesOrder()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = customerRequirement(context, list, CUSTOMER);
+		result = customerRequirement(context, list, CUSTOMER, Global.get()
+				.Customer());
 		if (result != null) {
 			return result;
 		}
@@ -133,7 +136,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = statusRequirement(context, list, STATUS);
+		result = statusRequirement(context, list, STATUS, getConstants()
+				.status());
 		if (result != null) {
 			return result;
 		}
@@ -251,7 +255,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, DATE, "Enter Date",
+		result = dateOptionalRequirement(context, list, DATE, getMessages()
+				.pleaseEnter(getConstants().date()), getConstants().date(),
 				selection);
 		if (result != null) {
 			return result;
@@ -261,13 +266,21 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone");
+				getMessages().pleaseEnter(getConstants().phone()),
+				getConstants().phone());
 		if (result != null) {
 			return result;
 		}
 
-		result = numberOptionalRequirement(context, list, selection,
-				CUSTOMER_ORDERNO, "Enter " + CUSTOMER_ORDERNO);
+		result = numberOptionalRequirement(
+				context,
+				list,
+				selection,
+				CUSTOMER_ORDERNO,
+				getMessages().pleaseEnter(
+						getMessages().customerOrderNumber(
+								Global.get().Customer())), getMessages()
+						.customerOrderNumber(Global.get().Customer()));
 		if (result != null) {
 			return result;
 		}
@@ -291,24 +304,28 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = dateOptionalRequirement(context, list, DUE_DATE,
-				"Enter Due date", selection);
+		result = dateOptionalRequirement(context, list, DUE_DATE, getMessages()
+				.pleaseEnter(getConstants().dueDate()), getConstants()
+				.dueDate(), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, ORDER_NO,
-				"Enter Order Number");
+				getMessages().pleaseEnter(getConstants().orderNumber()),
+				getConstants().orderNumber());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()),
+				getConstants().memo());
 		if (result != null) {
 			return result;
 		}
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Item.");
+		finish.add("", getMessages()
+				.finishToCreate(getConstants().salesOrder()));
 		actions.add(finish);
 
 		return makeResult;
