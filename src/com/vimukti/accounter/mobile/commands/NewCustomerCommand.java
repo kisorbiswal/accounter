@@ -137,21 +137,23 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(" Customer is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().customer()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, CUSTOMER_NAME,
-				"Please enter the  Customer Name");
+		result = nameRequirement(context, list, CUSTOMER_NAME, getConstants()
+				.customerName(),
+				getMessages().pleaseEnter(getConstants().customerName()));
 		if (result != null) {
 			return result;
 		}
 
 		if (context.getCompany().getPreferences().getUseCustomerId()) {
-			result = numberRequirement(context, list, NUMBER,
-					"Please Enter the Customer Number.");
+			result = numberRequirement(context, list, NUMBER, getConstants()
+					.customerNumber(),
+					getMessages().pleaseEnter(getConstants().customerNumber()));
 			if (result != null) {
 				return result;
 			}
