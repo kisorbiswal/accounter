@@ -3,11 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.TAXAdjustment;
-import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -15,6 +11,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class VATAdjustmentCommand extends AbstractVATCommand {
@@ -42,12 +41,8 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 	@Override
 	public Result run(Context context) {
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
+		setOptionalValues();
 		Result result = null;
-
 		Result makeResult = context.makeResult();
 		makeResult.add(getMessages().readyToCreate(
 				getConstants().taxAdjustment()));
@@ -55,8 +50,6 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
-
-		setOptionalValues();
 
 		result = taxAgencyRequirement(context, list, TAX_AGENCY);
 		if (result != null) {
@@ -72,9 +65,11 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 				new ListFilter<ClientAccount>() {
 
 					@Override
-					public boolean filter(ClientAccount e) {
-						// TODO Auto-generated method stub
-						return false;
+					public boolean filter(ClientAccount account) {
+						return account.getIsActive()
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET;
 					}
 				});
 		if (result != null) {
@@ -103,27 +98,27 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 	}
 
 	private Result createTaxAdjustment(Context context) {
-		TAXAdjustment taxAdjustment = new TAXAdjustment();
-		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
-		Account account = get(ADJUSTMENT_ACCOUNT).getValue();
-		double amount = get(AMOUNT).getValue();
+
+		ClientTAXAdjustment taxAdjustment = new ClientTAXAdjustment();
+		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		ClientAccount account = get(ADJUSTMENT_ACCOUNT).getValue();
+		String amount1 = get(AMOUNT).getValue();
+		double amount = Double.parseDouble(amount1);
 		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
-		FinanceDate date = get(DATE).getValue();
-		String number = get(NUMBER).getValue();
+		Date date = get(DATE).getValue();
+		String number = get(ORDER_NO).getValue();
 		String memo = get(MEMO).getValue();
 
-		taxAdjustment.setCompany(context.getCompany());
-		taxAdjustment.setTaxAgency(taxAgency);
-		taxAdjustment.setAdjustmentAccount(account);
+		taxAdjustment.setTaxAgency(taxAgency.getID());
+		taxAdjustment.setAdjustmentAccount(account.getID());
 		taxAdjustment.setNetAmount(amount);
 		taxAdjustment.setIncreaseVATLine(isIncreaseVatLine);
-		taxAdjustment.setDate(date);
+		taxAdjustment.setDate(new FinanceDate(date).getDate());
 		taxAdjustment.setNumber(number);
 		taxAdjustment.setMemo(memo);
-//		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
-//			TAXItem taxItem = get(TAX_ITEM).getValue();
-//			taxAdjustment.setTaxItem(taxItem);
-//		}
+
+		ClientTAXItem taxItem = get(TAX_ITEM).getValue();
+		taxAdjustment.setTaxItem(taxItem.getID());
 
 		create(taxAdjustment, context);
 		markDone();
@@ -136,7 +131,10 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 	private Result createOptionalRequirement(Context context, ResultList list,
 			ResultList actions, Result makeResult) {
-		// context.setAttribute(INPUT_ATTR, "optional");
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
