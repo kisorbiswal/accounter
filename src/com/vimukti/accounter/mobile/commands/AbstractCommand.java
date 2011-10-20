@@ -1746,8 +1746,8 @@ public abstract class AbstractCommand extends Command {
 		if (date == null) {
 			return "";
 		}
-		SimpleDateFormat format = new SimpleDateFormat(Global.get()
-				.preferences().getDateFormat());
+		SimpleDateFormat format = new SimpleDateFormat(getClientCompany()
+				.getPreferences().getDateFormat());
 		return format.format(date.getDateAsObject());
 	}
 }
