@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;

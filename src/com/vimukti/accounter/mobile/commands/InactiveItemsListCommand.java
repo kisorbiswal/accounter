@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class InactiveItemsListCommand extends ItemsCommand {

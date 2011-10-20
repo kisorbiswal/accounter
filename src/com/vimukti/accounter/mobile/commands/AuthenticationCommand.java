@@ -10,11 +10,9 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.sun.org.apache.regexp.internal.recompile;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
