@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -106,19 +107,21 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 		}
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" PurchaseOrder is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().purchaseOrder()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = createSupplierRequirement(context, list, VENDOR);
+		result = createSupplierRequirement(context, list, VENDOR, Global.get()
+				.Vendor());
 		if (result != null) {
 			return result;
 		}
 
-		result = statusRequirement(context, list, STATUS);
+		result = statusRequirement(context, list, STATUS, getConstants()
+				.status());
 		if (result != null) {
 			return result;
 		}
@@ -285,45 +288,58 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 		}
 		result = dateOptionalRequirement(context, list, "duedate",
-				"Enter date", selection);
+				getMessages().pleaseEnter(getConstants().date()),
+				getConstants().date(), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, "dispatchdate",
-				"Enter dispatchdate", selection);
+				getMessages().pleaseEnter(getConstants().dispatchDate()),
+				getConstants().dispatchDate(), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, "receiveddate",
-				"Enter receiveddate", selection);
+				getMessages().pleaseEnter(getConstants().receivedDate()),
+				getConstants().receivedDate(), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, "orderno",
-				"Enter order Number");
+				getMessages().pleaseEnter(getConstants().orderNumber()),
+				getConstants().orderNumber());
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, "phone",
-				"Enter order Number");
+				getMessages().pleaseEnter(getConstants().phone()),
+				getConstants().phone());
 		if (result != null) {
 			return result;
 		}
-		result = numberOptionalRequirement(context, list, selection,
-				"vendororderno", "Enter vendor order number");
+		result = numberOptionalRequirement(
+				context,
+				list,
+				selection,
+				"vendororderno",
+				getMessages().pleaseEnter(
+						getMessages().vendorOrderNo(Global.get().Vendor())),
+				getMessages().vendorOrderNo(Global.get().Vendor()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, "memo",
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()),
+				getConstants().memo());
 		if (result != null) {
 			return result;
 		}
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Item.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().purchaseOrder()));
 		actions.add(finish);
 
 		return makeResult;
