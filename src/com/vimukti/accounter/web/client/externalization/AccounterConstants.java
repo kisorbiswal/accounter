@@ -4986,6 +4986,14 @@ public interface AccounterConstants extends Constants {
 
 	public String thisIsInactive();
 
+	public String idontSellThisService();
+
+	public String idontBuyThisService();
+
+	public String thisIsCommisionItem();
+
+	public String thisIsNoCommisionItem();
+
 	public String customerSinceDate();
 
 }
