@@ -885,7 +885,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result paymentMethodRequirement(Context context, ResultList list,
-			String requirementName) {
+			String requirementName, String name) {
 		Requirement paymentMethodReq = get(requirementName);
 		String paymentMethod = context.getSelection(requirementName);
 
@@ -901,7 +901,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record supplierRecord = new Record(value);
-		supplierRecord.add("", "Payment Method :");
+		supplierRecord.add("", name);
 		supplierRecord.add("", value);
 		list.add(supplierRecord);
 
@@ -1268,7 +1268,8 @@ public abstract class AbstractCommand extends Command {
 	 * @return {@link Result}
 	 */
 	protected Result accountRequirement(Context context, ResultList list,
-			String requirementName, ListFilter<ClientAccount> filter) {
+			String requirementName, String name,
+			ListFilter<ClientAccount> filter) {
 		Requirement accountReq = get(requirementName);
 		ClientAccount clientAccount = context.getSelection(requirementName);
 
@@ -1283,7 +1284,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record supplierRecord = new Record(account);
-		supplierRecord.add("", "Account");
+		supplierRecord.add("", name);
 		supplierRecord.add("", account.getName());
 		list.add(supplierRecord);
 
@@ -1440,10 +1441,11 @@ public abstract class AbstractCommand extends Command {
 	 * @param list
 	 * @param reqName
 	 * @param displayName
+	 * @param name
 	 * @return {@link Result}
 	 */
 	protected Result amountRequirement(Context context, ResultList list,
-			String reqName, String displayName) {
+			String reqName, String displayName, String name) {
 
 		Requirement amountReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
@@ -1464,7 +1466,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record amountRecord = new Record(reqName);
-		amountRecord.add("", reqName);
+		amountRecord.add("", name);
 		amountRecord.add("", amount);
 		list.add(amountRecord);
 		return null;

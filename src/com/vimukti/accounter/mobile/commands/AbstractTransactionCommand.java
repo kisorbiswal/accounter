@@ -635,7 +635,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result customerRequirement(Context context, ResultList list,
-			String requirementName) {
+			String requirementName, String name) {
 		Requirement customerReq = get(requirementName);
 		ClientCustomer customer = context.getSelection("customers");
 		if (customer != null) {
@@ -649,7 +649,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		Record customerRecord = new Record(value);
-		customerRecord.add("", "Customer");
+		customerRecord.add("", name);
 		customerRecord.add("", value.getName());
 		list.add(customerRecord);
 		return null;
