@@ -248,29 +248,33 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 		Result result = amountOptionalRequirement(context, list, selection,
 				AMOUNT_RECEIVED,
-				getMessages().pleaseEnter(getConstants().amount()));
+				getMessages().pleaseEnter(getConstants().amount()),
+				getConstants().amount());
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, DATE, getMessages()
-				.pleaseEnter(getConstants().date()), selection);
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.date(), getMessages().pleaseEnter(getConstants().date()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().number(),
 				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection,
-				CHECK_NUMBER,
-				getMessages().pleaseEnter(getConstants().chequeNo()));
+				CHECK_NUMBER, getConstants().chequeNo(), getMessages()
+						.pleaseEnter(getConstants().chequeNo()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;

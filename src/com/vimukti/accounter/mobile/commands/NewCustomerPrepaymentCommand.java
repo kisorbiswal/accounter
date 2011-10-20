@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
@@ -104,7 +105,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		markDone();
 		result = new Result();
 		result.add(getMessages().createSuccessfully(
-				getMessages().customerPrePayment(getIGlobal().Customer())));
+				getMessages().customerPrePayment(Global.get().Customer())));
 		return result;
 	}
 
@@ -184,6 +185,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		booleanOptionalRequirement(context, selection, list, TOBEPRINTED,
 				getConstants().toBePrinted(), getConstants().notPrinted());
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
@@ -193,7 +195,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 				"",
 				getMessages().finishToCreate(
 						getMessages().customerPrePayment(
-								getIGlobal().Customer())));
+								Global.get().Customer())));
 		actions.add(finish);
 		return makeResult;
 	}

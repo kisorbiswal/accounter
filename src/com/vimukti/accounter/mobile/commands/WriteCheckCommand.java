@@ -235,24 +235,28 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().number(),
 				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				getMessages().pleaseEnter(getConstants().billTo()));
+				getMessages().pleaseEnter(getConstants().billTo()),
+				getConstants().billTo());
 		if (result != null) {
 			return result;
 		}
 
 		result = amountOptionalRequirement(context, list, selection, AMOUNT,
-				getMessages().pleaseEnter(getConstants().amount()));
+				getMessages().pleaseEnter(getConstants().amount()),
+				getConstants().amount());
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
