@@ -342,7 +342,7 @@
 	<command clazz="NewLocationCommond" name="New Location">
 		<alias>Location</alias>
 	</command>
-	<command clazz="NewIssuePaymentCommond" name="New Issue Payment">
+	<command clazz="NewIssuePaymentCommand" name="New Issue Payment">
 		<alias>Issue Payment</alias>
 	</command>
 	<command clazz="NewVendorCreditMemoCommand" name="New Vendor Credit Memo">
