@@ -34,7 +34,7 @@ public class NewTaxGroupCommand extends AbstractVATCommand {
 	public Result run(Context context) {
 		Result result = null;
 
-		result = nameRequirement(context, null, null, null);
+		result = nameRequirement(context, null, null, null, null);
 		if (result != null) {
 			return result;
 		}
