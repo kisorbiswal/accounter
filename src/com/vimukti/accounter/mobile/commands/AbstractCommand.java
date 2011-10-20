@@ -1,6 +1,8 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,10 +23,12 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
@@ -1737,5 +1741,14 @@ public abstract class AbstractCommand extends Command {
 
 	private List<ClientShippingMethod> getShippingMethods() {
 		return getClientCompany().getShippingMethods();
+	}
+
+	public String getDateAsString(ClientFinanceDate date) {
+		if (date == null) {
+			return "";
+		}
+		SimpleDateFormat format = new SimpleDateFormat(Global.get()
+				.preferences().getDateFormat());
+		return format.format(date.getDateAsObject());
 	}
 }
