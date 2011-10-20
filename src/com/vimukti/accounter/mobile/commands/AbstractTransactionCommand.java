@@ -101,7 +101,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String EXPIRED = "Expired";
 	protected static final String ISSUED = "Issued";
 	protected static final String NOT_ISSUED = "Not issued";
-
+	protected static final String PREFERED_SHIPMETHOD = "Preferred Shipping Method";
 	private int transactionType;
 
 	protected Result itemsRequirement(Context context, Result result,
@@ -1575,13 +1575,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result preferredShippingMethodRequirement(Context context,
-			ResultList list, Object selection) {
-		Object shippingObj = context.getSelection("Preferred Shipping Method");
+			ResultList list, Object selection, String name) {
+		Object shippingObj = context.getSelection(PREFERED_SHIPMETHOD);
 		if (shippingObj instanceof ActionNames) {
 			shippingObj = null;
-			selection = "Preferred Shipping Method";
+			selection = PREFERED_SHIPMETHOD;
 		}
-		Requirement shipreq = get("Preferred Shipping Method");
+		Requirement shipreq = get(PREFERED_SHIPMETHOD);
 		ClientShippingMethod shippingTerm = (ClientShippingMethod) shipreq
 				.getValue();
 
@@ -1590,14 +1590,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			shipreq.setValue(shippingTerm);
 		}
 		if (selection != null)
-			if (selection == "Preferred Shipping Method") {
-				context.setAttribute(INPUT_ATTR, "Preferred Shipping Method");
+			if (selection == PREFERED_SHIPMETHOD) {
+				context.setAttribute(INPUT_ATTR, PREFERED_SHIPMETHOD);
 				return shippingMethod(context, shippingTerm);
 
 			}
 
-		Record shippingMethodRecord = new Record("Preferred Shipping Method");
-		shippingMethodRecord.add("Name", "Preferred Shipping Method");
+		Record shippingMethodRecord = new Record(PREFERED_SHIPMETHOD);
+		shippingMethodRecord.add("Name", name);
 		shippingMethodRecord.add("Value", shippingTerm == null ? ""
 				: shippingTerm.getName() + "-" + shippingTerm.getDescription());
 		list.add(shippingMethodRecord);
