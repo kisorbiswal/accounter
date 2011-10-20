@@ -58,7 +58,7 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 				context.setAttribute(CUSTOMER_TYPE, false);
 				break;
 			case ALL:
-				context.setAttribute(CUSTOMER_TYPE, false);
+				context.setAttribute(CUSTOMER_TYPE, null);
 				break;
 			default:
 				break;
