@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -41,11 +40,13 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 	private static final String PAYMENT = "payment";
 	private static final String PAY_BILL_LIST = "paybilllist";
 	private static final String FILTER_BY_DUE_ON_BEFORE = "filterbydueonbefore";
-	private static final String NUMBER = "number";
 	private static final String TRANSACTION_PAY_BILL_PROCESS = "paybillprocess";
 	private static final String OLD_TRANSACTION_PAY_BILL_ATTR = "oldpaybillprocess";
 	private static final String TRANSACTION_PAY_BILL_PROPERTY_ATTR = "paybillpropertyattr";
 	private static final String PAY_BILL_DETAILS = "paybilldetails";
+	private static final String VALUES = "values";
+	private static final String SUPPLIERS = "suppliers";
+	private static final String OPTIONAL = "optional";
 
 	@Override
 	public String getId() {
@@ -102,8 +103,8 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add("Paybill  is ready to create with following values.");
-		ResultList list = new ResultList("values");
+		makeResult.add(getMessages().readyToCreate(getConstants().payBill()));
+		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		result = createSupplierRequirement(context, list, VENDOR);
@@ -111,7 +112,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		if (context.getSelection("suppliers") != null) {
+		if (context.getSelection(SUPPLIERS) != null) {
 			get(PAY_BILL_LIST).setValue(
 					new ArrayList<ClientTransactionPayBill>());
 		}
@@ -143,14 +144,15 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 		completeProcess(context);
 		markDone();
-		result = new Result("Pay bill was saved successfully");
+		result = new Result(getMessages().createSuccessfully(
+				getConstants().payBill()));
 		return result;
 	}
 
 	private void setDefaultValues() {
 		get(NUMBER).setDefaultValue("1");
-		get(DATE).setDefaultValue(new Date());
-		get(FILTER_BY_DUE_ON_BEFORE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(FILTER_BY_DUE_ON_BEFORE).setDefaultValue(new ClientFinanceDate());
 		get(MEMO).setDefaultValue("");
 	}
 
@@ -188,7 +190,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			return clientTransactionPayBills(context);
 		}
 
-		result.add("ClientTransactionPayBills:-");
+		result.add(getConstants().payBills());
 		ResultList itemsList = new ResultList("transactionPayBills");
 		for (ClientTransactionPayBill item : transactionItems) {
 			itemsList.add(creatTransactionPayBillRecord(item));
@@ -196,7 +198,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		result.add(itemsList);
 
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more ClientTransactionPayBills");
+		moreItems.add("", getMessages().addMore(getConstants().payBills()));
 		actions.add(moreItems);
 		return null;
 	}
@@ -223,7 +225,9 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 				if (selection.equals("payment")) {
 					context.setAttribute(TRANSACTION_PAY_BILL_PROPERTY_ATTR,
 							"payment");
-					return amount(context, "Enter Payment",
+					return amount(
+							context,
+							getMessages().pleaseEnter(getConstants().payment()),
 							transactionItem.getPayment());
 				}
 			} else {
@@ -245,24 +249,33 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 		ResultList list = new ResultList(PAY_BILL_DETAILS);
 		Result result = context.makeResult();
-		result.add("Due Date : " + new Date(transactionItem.getDueDate()));
-		result.add("Bill no : " + transactionItem.getBillNumber());
-		result.add("Original amount : " + transactionItem.getOriginalAmount());
-		result.add("Amount Due : " + transactionItem.getAmountDue());
-		result.add("Discount Date : "
-				+ new Date(transactionItem.getDiscountDate()));
-		result.add("Cash Discount : " + transactionItem.getCashDiscount());
+		result.add(getConstants().dueDate()
+				+ " : "
+				+ getDateAsString(new ClientFinanceDate(transactionItem
+						.getDueDate())));
+		result.add(getConstants().billNo() + " : "
+				+ transactionItem.getBillNumber());
+		result.add(getConstants().originalAmount() + " : "
+				+ transactionItem.getOriginalAmount());
+		result.add(getConstants().amountDue() + " : "
+				+ transactionItem.getAmountDue());
+		result.add(getConstants().discountDate()
+				+ " : "
+				+ getDateAsString(new ClientFinanceDate(transactionItem
+						.getDiscountDate())));
+		result.add(getConstants().cashDiscount() + " : "
+				+ transactionItem.getCashDiscount());
 		Record record = new Record("payment");
-		record.add("", "Payment");
+		record.add("", getConstants().payment());
 		record.add("", transactionItem.getPayment());
 		list.add(record);
 		result.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_PAY_BILL);
-		record.add("", "Delete");
+		record.add("", getConstants().delete());
 		actions.add(record);
 		record = new Record(ActionNames.FINISH_PAY_BILL);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		updateValue(transactionItem);
 		actions.add(record);
 		result.add(actions);
@@ -300,9 +313,9 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect TransactionPayBill(s).");
+			result.add(getMessages().pleaseSelect(getConstants().payBills()));
 		} else {
-			result.add("You don't have TransactionPayBill.");
+			result.add(getMessages().youDontHaveAny(getConstants().payBills()));
 		}
 		result.add(list);
 		return result;
@@ -310,17 +323,19 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 
 	private Record creatTransactionPayBillRecord(ClientTransactionPayBill last) {
 		Record paybillRecord = new Record(last);
-		paybillRecord.add("", "Due date");
-		paybillRecord.add("", last.getDueDate());
-		paybillRecord.add("", "Bill Number");
+		paybillRecord.add("", getConstants().dueDate());
+		paybillRecord.add("",
+				getDateAsString(new ClientFinanceDate(last.getDueDate())));
+		paybillRecord.add("", getConstants().billNo());
 		paybillRecord.add("", last.getBillNumber());
-		paybillRecord.add("", "Original Amount");
+		paybillRecord.add("", getConstants().originalAmount());
 		paybillRecord.add("", last.getOriginalAmount());
-		paybillRecord.add("", "Amount Due");
+		paybillRecord.add("", getConstants().amountDue());
 		paybillRecord.add("", last.getAmountDue());
-		paybillRecord.add("", "Discount Date");
-		paybillRecord.add("", last.getDiscountDate());
-		paybillRecord.add("", "Cash Discount");
+		paybillRecord.add("", getConstants().discountDate());
+		paybillRecord.add("",
+				getDateAsString(new ClientFinanceDate(last.getDiscountDate())));
+		paybillRecord.add("", getConstants().cashDiscount());
 		paybillRecord.add("", last.getCashDiscount());
 		return paybillRecord;
 	}
@@ -338,16 +353,16 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		ClientVendor vendor = get(VENDOR).getValue();
 		ClientAccount payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		Date dueDate = (Date) get(FILTER_BY_DUE_ON_BEFORE).getValue();
+		ClientFinanceDate dueDate = get(FILTER_BY_DUE_ON_BEFORE).getValue();
 		String number = get(NUMBER).getValue();
-		Date date = (Date) get(DATE).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
 		paybill.setVendor(vendor);
 		paybill.setPayFrom(payFrom);
 		paybill.setPaymentMethod(paymentMethod);
 
-		paybill.setBillDueOnOrBefore(new ClientFinanceDate(dueDate));
+		paybill.setBillDueOnOrBefore(dueDate);
 		paybill.setNumber(number);
-		paybill.setDate(new ClientFinanceDate(date).getDate());
+		paybill.setDate(date.getDate());
 		String memo = get(MEMO).getValue();
 		paybill.setMemo(memo);
 		if (getClientCompany().getPreferences().isTDSEnabled()) {
@@ -407,16 +422,16 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		ClientVendor vendor = get(VENDOR).getValue();
 		ClientAccount payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		Date dueDate = (Date) get(FILTER_BY_DUE_ON_BEFORE).getValue();
+		ClientFinanceDate dueDate = get(FILTER_BY_DUE_ON_BEFORE).getValue();
 		String number = get(NUMBER).getValue();
-		Date date = (Date) get(DATE).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
 		paybill.setVendor(vendor);
 		paybill.setPayFrom(payFrom);
 		paybill.setPaymentMethod(paymentMethod);
 
-		paybill.setBillDueOnOrBefore(new ClientFinanceDate(dueDate));
+		paybill.setBillDueOnOrBefore(dueDate);
 		paybill.setNumber(number);
-		paybill.setDate(new ClientFinanceDate(date).getDate());
+		paybill.setDate(date.getDate());
 		String memo = get(MEMO).getValue();
 		paybill.setMemo(memo);
 		if (getClientCompany().getPreferences().isTDSEnabled()) {
@@ -519,7 +534,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 	private Result createOptionalResult(Context context, ResultList list,
 			ResultList actions, Result makeResult) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+			context.setAttribute(INPUT_ATTR, OPTIONAL);
 		}
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -533,26 +548,27 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		selection = context.getSelection("values");
+		selection = context.getSelection(VALUES);
 		Result result = dateOptionalRequirement(context, list, DATE,
-				"Enter date", selection);
+				getConstants().date(),
+				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter number");
+				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish payment.");
+		finish.add("", getMessages().finishToCreate(getConstants().payBill()));
 		actions.add(finish);
 
 		return makeResult;
@@ -565,8 +581,8 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		filterList.addAll(getTransactionPayBills(vendor.getID()));
 
 		if (get(FILTER_BY_DUE_ON_BEFORE).getValue() != null) {
-			Date date = get(FILTER_BY_DUE_ON_BEFORE).getValue();
-			ClientFinanceDate dueDateOnOrBefore = new ClientFinanceDate(date);
+			ClientFinanceDate date = get(FILTER_BY_DUE_ON_BEFORE).getValue();
+			ClientFinanceDate dueDateOnOrBefore = date;
 			for (PayBillTransactionList cont : filterList) {
 				if (cont.getDueDate().before(dueDateOnOrBefore)
 						|| cont.getDueDate().equals(dueDateOnOrBefore))
