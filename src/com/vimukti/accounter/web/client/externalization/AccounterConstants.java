@@ -5010,5 +5010,7 @@ public interface AccounterConstants extends Constants {
 
 	public String itemDetails();
 
+	public String dispatchDate();
+
 	public String toDate();
 }
