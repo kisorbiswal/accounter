@@ -1,11 +1,15 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -35,13 +39,17 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		list.add(new Requirement(TAX_AGENCY, false, true));
 		// if (isUkCompany()) {
 		list.add(new Requirement(IS_PERCENTAGE, true, true));
-		list.add(new Requirement(VAT_RETURN_BOX, false, true));
+		list.add(new Requirement(VAT_RETURN, false, true));
 		// }
 	}
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = context.makeResult();
 
 		Result makeResult = context.makeResult();
 		makeResult.add(" Customer is ready to create with following values.");
@@ -68,7 +76,8 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		if (getClientCompany().getPreferences().isTrackTax()) {
-			result = vatReturnRequirement(context, list, VAT_RETURN);
+			result = vatReturnBoxRequirement(context, list, VAT_RETURN,
+					(ClientTAXAgency) get(TAX_AGENCY).getValue());
 			if (result != null) {
 				return result;
 			}
@@ -80,6 +89,82 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		return createVATItem(context);
+	}
+
+	private Result vatReturnBoxRequirement(Context context, ResultList list,
+			String name, ClientTAXAgency taxAgency) {
+
+		Requirement vatReturnReq = get(VAT_RETURN_BOX);
+		String vatReturn = context.getSelection(VAT_RETURN_BOXES);
+
+		if (vatReturn != null) {
+			vatReturnReq.setValue(vatReturn);
+		}
+
+		String value = vatReturnReq.getValue();
+		Object selection = context.getSelection("values");
+		if (!vatReturnReq.isDone() || (value == selection)) {
+			return getVatReturnBoxResult(context, taxAgency);
+		}
+
+		Record record = new Record(value);
+		record.add("", "VAT Return : ");
+		record.add("", value);
+		list.add(record);
+
+		return null;
+
+	}
+
+	private Result getVatReturnBoxResult(Context context,
+			ClientTAXAgency taxAgency) {
+		Result result = context.makeResult();
+		ResultList vatReturnsList = new ResultList(VAT_RETURN_BOXES);
+
+		Object last = context.getLast(RequirementType.VAT_RETURN_BOX);
+		if (last != null) {
+			vatReturnsList
+					.add(createVatReturnBoxRecord((ClientVATReturnBox) last));
+		}
+
+		List<ClientVATReturnBox> vatReturns = getVatReturnBoxes(
+				context.getHibernateSession(), taxAgency);
+		for (int i = 0; i < VALUES_TO_SHOW && i < vatReturns.size(); i++) {
+			ClientVATReturnBox vatReturn = vatReturns.get(i);
+			if (vatReturn != last) {
+				vatReturnsList.add(createVatReturnBoxRecord(vatReturn));
+			}
+		}
+
+		int size = vatReturnsList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Please Select the Vat Return Box");
+		}
+
+		result.add(message.toString());
+		result.add(vatReturnsList);
+		result.add("Select the Vat Return Box");
+
+		return result;
+	}
+
+	private List<ClientVATReturnBox> getVatReturnBoxes(
+			Session hibernateSession, ClientTAXAgency vatAgency) {
+		List<ClientVATReturnBox> vatBoxes = getClientCompany()
+				.getVatReturnBoxes();
+		List<ClientVATReturnBox> vatBoxes2 = new ArrayList<ClientVATReturnBox>();
+		for (ClientVATReturnBox vatBox : vatBoxes) {
+			if (vatAgency.getVATReturn() == vatBox.getVatReturnType())
+				vatBoxes2.add(vatBox);
+		}
+		return vatBoxes2;
+	}
+
+	private Record createVatReturnBoxRecord(ClientVATReturnBox vatReturn) {
+		Record record = new Record(vatReturn);
+		record.add("Name", vatReturn.getName());
+		return record;
 	}
 
 	private void setOptionalFields() {
@@ -136,7 +221,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		ClientTAXItem taxItem = new ClientTAXItem();
 		String name = (String) get(NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
-		double taxRate = (Double) get(AMOUNT).getValue();
+		double taxRate = Double.parseDouble((String) get(AMOUNT).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		ClientTAXAgency taxAgency = (ClientTAXAgency) get(TAX_AGENCY)
 				.getValue();
@@ -144,7 +229,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		taxItem.setPercentage(true);
 		if (getClientCompany().getPreferences().isTrackTax()) {
 			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
-					VAT_RETURN_BOX).getValue();
+					VAT_RETURN).getValue();
 			taxItem.setVatReturnBox(vatReturnBox.getID());
 		}
 		taxItem.setName(name);

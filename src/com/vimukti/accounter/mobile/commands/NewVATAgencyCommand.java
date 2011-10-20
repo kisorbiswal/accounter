@@ -72,7 +72,11 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = context.makeResult();
 
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		if (process != null) {

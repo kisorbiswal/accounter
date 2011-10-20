@@ -43,7 +43,11 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = null;
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result result = context.makeResult();
 
 		Result makeResult = context.makeResult();
 		makeResult.add("VatAgency  is ready to create with following values.");
