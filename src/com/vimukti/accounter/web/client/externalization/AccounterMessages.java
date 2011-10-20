@@ -891,4 +891,5 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseSelect(String vatReturnBox);
 
+	public String enterDate(String enterDate);
 }
