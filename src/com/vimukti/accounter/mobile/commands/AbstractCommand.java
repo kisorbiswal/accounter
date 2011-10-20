@@ -170,10 +170,12 @@ public abstract class AbstractCommand extends Command {
 	 * @param context
 	 * @param list
 	 * @param selection
+	 * @param name
 	 * @return
 	 */
 	protected Result amountOptionalRequirement(Context context,
-			ResultList list, Object selection, String name, String displayString) {
+			ResultList list, Object selection, String reqName,
+			String displayString, String name) {
 
 		Requirement req = get(name);
 		Double balance = (Double) req.getValue();
@@ -189,13 +191,13 @@ public abstract class AbstractCommand extends Command {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null) {
-			if (selection == "balance") {
+			if (selection == reqName) {
 				context.setAttribute(INPUT_ATTR, name);
 				return amount(context, displayString, balance);
 			}
 		}
 
-		Record balanceRecord = new Record("balance");
+		Record balanceRecord = new Record(reqName);
 		balanceRecord.add("Name", name);
 		balanceRecord.add("Value", balance);
 		list.add(balanceRecord);
