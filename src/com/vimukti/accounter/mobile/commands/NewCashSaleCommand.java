@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -104,7 +105,8 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		setTransactionType(CUSTOMER_TRANSACTION);
 
-		result = customerRequirement(context, list, CUSTOMER);
+		result = customerRequirement(context, list, CUSTOMER, Global.get()
+				.Customer());
 		if (result != null) {
 			return result;
 		}
@@ -135,13 +137,14 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}
 
 		result = accountRequirement(context, list, DEPOSIT_OR_TRANSFER_TO,
-				new ListFilter<ClientAccount>() {
+				getConstants().account(), new ListFilter<ClientAccount>() {
 
 					@Override
 					public boolean filter(ClientAccount account) {
