@@ -91,23 +91,24 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountRequirement(context, list, PAY_FROM,
-				new ListFilter<ClientAccount>() {
+		result = accountRequirement(context, list, PAY_FROM, getConstants()
+				.payFrom(), new ListFilter<ClientAccount>() {
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						return true;
-					}
-				});
+			@Override
+			public boolean filter(ClientAccount e) {
+				return true;
+			}
+		});
 		if (result != null) {
 			return result;
 		}
 		result = amountRequirement(context, list, AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()));
+				.pleaseEnter(getConstants().amount()), getConstants().amount());
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}
