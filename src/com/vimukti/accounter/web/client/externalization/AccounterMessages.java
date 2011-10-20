@@ -896,4 +896,6 @@ public interface AccounterMessages extends Messages {
 	public String enterDate(String name);
 
 	public String addMore(String name);
+
+	public String details(String name);
 }

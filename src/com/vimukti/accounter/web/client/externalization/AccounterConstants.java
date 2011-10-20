@@ -4997,8 +4997,12 @@ public interface AccounterConstants extends Constants {
 	public String dummyDue();
 
 	public String notPrinted();
-	
+
 	public String bankAccountNumber();
+
+	public String thisToBePrinted();
+
+	public String thisDonotBePrinted();
 
 	public String debitAmount();
 
