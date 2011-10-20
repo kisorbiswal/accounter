@@ -916,7 +916,6 @@ public class Company implements IAccounterServerCore {
 		cmp.accounts = this.getAccounts();
 
 		cmp.companyEmail = this.getCompanyEmail();
-		cmp.registeredAddress = this.getTradingAddress();
 		cmp.companyEmailForCustomers = this.getCompanyEmailForCustomers();
 		cmp.contact = this.getContact();
 		cmp.ein = this.getEin();
