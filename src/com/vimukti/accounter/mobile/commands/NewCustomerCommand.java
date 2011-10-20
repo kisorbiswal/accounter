@@ -342,7 +342,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = addressOptionalRequirement(context, list, selection, ADDRESS,
-				"Enter the Address");
+				getMessages().pleaseEnter(getConstants().address()),
+				getConstants().address());
 		if (result != null) {
 			return result;
 		}
