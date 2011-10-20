@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Transaction;
@@ -17,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -172,22 +172,22 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
 		get(PHONE).setDefaultValue("");
 		ClientContact contact = new ClientContact();
 		contact.setName(null);
 		get(CONTACT).setDefaultValue(contact);
 		get(MEMO).setDefaultValue("");
-		get(PAYMENT_METHOD).setDefaultValue("Cash");
+		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
 
 	}
 
 	private Result completeProcess(Context context) {
 
 		ClientCashSales cashSale = new ClientCashSales();
-		Date date = get(DATE).getValue();
-		cashSale.setDate(date.getTime());
+		ClientFinanceDate date = get(DATE).getValue();
+		cashSale.setDate(date.getDate());
 
 		cashSale.setType(Transaction.TYPE_CASH_SALES);
 
