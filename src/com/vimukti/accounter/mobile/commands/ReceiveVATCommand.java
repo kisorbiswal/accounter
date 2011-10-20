@@ -29,6 +29,10 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 	private static final String BILLS_TO_RECEIVE = "billToReceive";
 	private static final String BILLS_TO_RECEIVE_LIST = "billToReceiveList";
 	private static final String DEPOSIT_TO = "depositTo";
+	private static final String RECEIVAT_TRANSACTION_ITEM_PROCESS = "receivevattransactionitemprocess";
+	private static final String OLD_RECEIVAT_TRANSACTION_ITEM_PROCESS = "oldreceivevattransactionitemprocess";
+	private static final String RECEIVAT_TRANSACTION_ITEM_ATTR = "receivevattransactionitemprocess";
+	private static final String RECEIVAT_TRANSACTION_ITEM_DETAILS = "receivevattransactionitemdetails";
 
 	@Override
 	public String getId() {
@@ -50,7 +54,6 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 	public Result run(Context context) {
 		setDefaultValues();
 		Result result = context.makeResult();
-
 		Result makeResult = context.makeResult();
 		makeResult
 				.add(getMessages().readyToCreate(getConstants().receiveVAT()));
@@ -84,7 +87,7 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		// result = billsToReceiveRequirement(context, list);
+		result = billsToReceiveRequirement(context, list);
 		if (result != null) {
 			return result;
 		}
@@ -126,7 +129,8 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 
 		markDone();
 		Result result = new Result();
-		result.add("Receive Vat created successfully.");
+		result.add(getMessages()
+				.createSuccessfully(getConstants().receiveVAT()));
 
 		return result;
 	}
@@ -224,72 +228,115 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	// private Result billsToReceiveRequirement(Context context, ResultList
-	// list) {
-	// Requirement billsToReceiveReq = get(BILLS_TO_RECEIVE);
-	// List<ClientTransactionReceiveVAT> transactionReceiveVatBills = context
-	// .getSelections(BILLS_TO_RECEIVE_LIST);
-	// List<ClientTransactionReceiveVAT> transactionItems = billsToReceiveReq
-	// .getValue();
-	// if (transactionReceiveVatBills != null
-	// && transactionReceiveVatBills.size() > 0) {
-	// for (ClientTransactionReceiveVAT account : transactionReceiveVatBills) {
-	//
-	// ClientReceiveVAT transactionItem = new ClientReceiveVAT();
-	// transactionItem.setType(ClientTransaction.TYPE_RECEIVE_VAT);
-	// if (account.getAmountToReceive() == 0) {
-	// context.putSelection(ACCOUNT_ITEM_DETAILS, "amount");
-	// Result transactionItemResult = transactionAccountItem(
-	// context, transactionItem);
-	// if (transactionItemResult != null) {
-	// return transactionItemResult;
-	// }
-	// }
-	// transactionItem.setAccount(account.getID());
-	// List<ClientTransactionItem> transactionItems = transItemsReq
-	// .getValue();
-	// if (transactionItems == null) {
-	// transactionItems = new ArrayList<ClientTransactionItem>();
-	// transItemsReq.setValue(transactionItems);
-	// }
-	// transactionItems.add(transactionItem);
-	// if (transactionItem.getUnitPrice() == 0) {
-	// context.putSelection(ACCOUNT_ITEM_DETAILS, "amount");
-	// Result transactionItemResult = transactionAccountItem(
-	// context, transactionItem);
-	// if (transactionItemResult != null) {
-	// return transactionItemResult;
-	// }
-	// } else if (context.getCompany().getPreferences().isTrackTax()
-	// && context.getCompany().getPreferences()
-	// .isTaxPerDetailLine()
-	// && transactionItem.getTaxCode() == 0) {
-	// context.putSelection(ACCOUNT_ITEM_DETAILS, "taxCode");
-	// Result transactionItemResult = transactionAccountItem(
-	// context, transactionItem);
-	// if (transactionItemResult != null) {
-	// return transactionItemResult;
-	// }
-	// }
-	// }
-	// }
-	//
-	// if (!billsToReceiveReq.isDone()) {
-	// if (transactionReceiveVatBills != null
-	// && transactionReceiveVatBills.size() > 0) {
-	// billsToReceiveReq.setValue(transactionReceiveVatBills);
-	// } else {
-	// return getBillsToReceiveResult(context);
-	// }
-	// }
-	// if (transactionReceiveVatBills != null
-	// && transactionReceiveVatBills.size() > 0) {
-	// List<ClientTransactionReceiveVAT> receiveVats = billsToReceiveReq
-	// .getValue();
-	// receiveVats.addAll(transactionReceiveVatBills);
-	// }
-	// return null;
-	// }
+	private Result billsToReceiveRequirement(Context context, ResultList list) {
+		Requirement billsToReceiveReq = get(BILLS_TO_RECEIVE);
+		List<ClientTransactionReceiveVAT> transactionReceiveVatBills = context
+				.getSelections(BILLS_TO_RECEIVE_LIST);
+		List<ClientTransactionReceiveVAT> transactionItems = billsToReceiveReq
+				.getValue();
+		if (transactionReceiveVatBills != null
+				&& transactionReceiveVatBills.size() > 0) {
+			for (ClientTransactionReceiveVAT account : transactionReceiveVatBills) {
+				if (account.getAmountToReceive() == 0) {
+					Result result = receiveVatItem(context, account);
+					if (result != null) {
+						return result;
+					}
+				}
+			}
+		}
+
+		if (!billsToReceiveReq.isDone()) {
+			if (transactionReceiveVatBills != null
+					&& transactionReceiveVatBills.size() > 0) {
+				billsToReceiveReq.setValue(transactionReceiveVatBills);
+			} else {
+				return getBillsToReceiveResult(context);
+			}
+		}
+		if (transactionReceiveVatBills != null
+				&& transactionReceiveVatBills.size() > 0) {
+			List<ClientTransactionReceiveVAT> receiveVats = billsToReceiveReq
+					.getValue();
+			receiveVats.addAll(transactionReceiveVatBills);
+		}
+		return null;
+	}
+
+	private Result receiveVatItem(Context context,
+			ClientTransactionReceiveVAT transactionItem) {
+		context.setAttribute(PROCESS_ATTR, RECEIVAT_TRANSACTION_ITEM_PROCESS);
+		context.setAttribute(OLD_RECEIVAT_TRANSACTION_ITEM_PROCESS,
+				transactionItem);
+
+		String lineAttr = (String) context
+				.getAttribute(RECEIVAT_TRANSACTION_ITEM_ATTR);
+		if (lineAttr != null) {
+			context.removeAttribute(RECEIVAT_TRANSACTION_ITEM_ATTR);
+			if (lineAttr.equals("amount")) {
+				if (context.getDouble() != null) {
+					transactionItem.setAmountToReceive(context.getDouble());
+				} else {
+					transactionItem.setAmountToReceive(context.getInteger()
+							.doubleValue());
+				}
+			}
+		} else {
+			Object selection = context
+					.getSelection(RECEIVAT_TRANSACTION_ITEM_DETAILS);
+			if (selection != null) {
+				if (selection.equals("amount")) {
+					context.setAttribute(RECEIVAT_TRANSACTION_ITEM_ATTR,
+							"amount");
+					return amount(context,
+							getMessages().pleaseEnter(getConstants().amount()),
+							transactionItem.getAmountToReceive());
+				}
+			} else {
+				selection = context.getSelection(ACTIONS);
+				if (selection == ActionNames.FINISH_ITEM) {
+					if (transactionItem.getAmountToReceive() == 0) {
+						context.setAttribute(RECEIVAT_TRANSACTION_ITEM_ATTR,
+								"amount");
+						return amount(
+								context,
+								getMessages().pleaseEnter(
+										getConstants().amount()),
+								transactionItem.getAmountToReceive());
+					}
+					context.removeAttribute(PROCESS_ATTR);
+					context.removeAttribute(OLD_RECEIVAT_TRANSACTION_ITEM_PROCESS);
+					return null;
+				} else if (selection == ActionNames.DELETE_ITEM) {
+					context.removeAttribute(PROCESS_ATTR);
+					return null;
+				}
+			}
+		}
+		ResultList list = new ResultList(RECEIVAT_TRANSACTION_ITEM_DETAILS);
+		Record record = new Record(getConstants().amount());
+		record.add("", getConstants().taxAgency());
+		record.add("", transactionItem.getTaxAgency());
+		record.add("", getConstants().amount());
+		record.add("", transactionItem.getAmountToReceive());
+		record.add("", getConstants().taxDue());
+		record.add("", transactionItem.getTaxDue());
+		list.add(record);
+
+		Result result = context.makeResult();
+
+		result.add(list);
+
+		ResultList actions = new ResultList(ACTIONS);
+		record = new Record(ActionNames.DELETE_ITEM);
+		record.add("", getConstants().delete());
+		actions.add(record);
+		record = new Record(ActionNames.FINISH_ITEM);
+		record.add("", getConstants().finish());
+		actions.add(record);
+		result.add(actions);
+		return result;
+	}
 
 	private Result getBillsToReceiveResult(Context context) {
 		Result result = context.makeResult();
