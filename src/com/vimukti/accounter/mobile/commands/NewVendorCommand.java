@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -148,15 +149,16 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, VENDOR_NAME,
-				"Please enter the  Vendor Name");
+		result = nameRequirement(context, list, VENDOR_NAME, getMessages()
+				.pleaseEnter(Global.get().Vendor()), Global.get().Vendor());
 		if (result != null) {
 			return result;
 		}
 
 		if (context.getCompany().getPreferences().getUseCustomerId()) {
-			result = numberRequirement(context, list, NUMBER,
-					"Please enter the  Vendor Number");
+			result = numberRequirement(context, list, NUMBER, getMessages()
+					.pleaseEnter(Global.get().Vendor()), getMessages()
+					.vendorNumber(Global.get().Vendor()));
 			if (result != null) {
 				return result;
 			}
@@ -302,69 +304,89 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 					"Track payments for 1099 is Active",
 					"Track payments for 1099 is InActive");
 		}
-		Result result = dateOptionalRequirement(context, list, VENDOR_SINCE,
-				VENDOR_SINCE, selection);
+		Result result = dateOptionalRequirement(
+				context,
+				list,
+				VENDOR_SINCE,
+				getMessages().pleaseEnter(
+						getMessages().vendorSince(Global.get().Vendor())),
+				getMessages().vendorSince(Global.get().Vendor()), selection);
 
 		if (result != null) {
 			return result;
 		}
 
 		result = amountOptionalRequirement(context, list, selection, BALANCE,
-				"Enter Balance");
+				getMessages().pleaseEnter(getConstants().balance()),
+				getConstants().balance());
 		if (result != null) {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, BALANCE_AS_OF,
-				BALANCE_AS_OF, selection);
+				getMessages().pleaseEnter(getConstants().balanceAsOfDate()),
+				getConstants().balanceAsOfDate(), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				"Enter the Bill To Address");
+				getMessages().pleaseEnter(getConstants().address()),
+				getConstants().address());
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone Number");
+				getMessages().pleaseEnter(getConstants().phone()),
+				getConstants().phone());
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, FAX,
-				"Enter Fax Number");
+				getMessages().pleaseEnter(getConstants().fax()), getConstants()
+						.fax());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, EMAIL,
-				"Enter Email Id");
+				getMessages().pleaseEnter(getConstants().email()),
+				getConstants().email());
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection,
-				WEB_PAGE_ADDRESS, "Enter Web page address");
+				WEB_PAGE_ADDRESS,
+				getMessages().pleaseEnter(getConstants().webPageAddress()),
+				getConstants().webPageAddress());
 		if (result != null) {
 			return result;
 		}
 
 		result = amountOptionalRequirement(context, list, selection,
-				CREDIT_LIMIT, "Enter Credit Limit ");
+				CREDIT_LIMIT,
+				getMessages().pleaseEnter(getConstants().creditLimit()),
+				getConstants().creditLimit());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, BANK_NAME,
-				"Enter Bank name");
+				getMessages().pleaseEnter(getConstants().bankName()),
+				getConstants().bankName());
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection,
-				ACCOUNT_NO, "Enter Account Number ");
+				ACCOUNT_NO,
+				getMessages().pleaseEnter(getConstants().bankAccountNumber()),
+				getConstants().bankAccountNumber());
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection,
-				BANK_BRANCH, "Enter Bank branch name");
+				BANK_BRANCH,
+				getMessages().pleaseEnter(getConstants().bankBranch()),
+				getConstants().bankBranch());
 		if (result != null) {
 			return result;
 		}
@@ -383,7 +405,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		}
 		if (preferences.isDoProductShipMents()) {
 			result = preferredShippingMethodRequirement(context, list,
-					selection);
+					selection, getConstants().preferredShippingMethod());
 			if (result != null) {
 				return result;
 			}
@@ -395,9 +417,14 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		}
 		if (preferences.isTrackTax()) {
 			if (countryPreferences.isVatAvailable()) {
-				result = numberOptionalRequirement(context, list, selection,
+				result = numberOptionalRequirement(
+						context,
+						list,
+						selection,
 						VAT_REGISTRATION_NUMBER,
-						"Enter vat Registeration Number");
+						getMessages().pleaseEnter(
+								getConstants().vatRegistrationNumber()),
+						getConstants().vatRegistrationNumber());
 				if (result != null) {
 					return result;
 				}
@@ -408,29 +435,33 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			}
 		}
 		if (preferences.isTrackTax()) {
-			// result = stringOptionalRequirement(context, list, selection,
-			// PAN_NUM, "Enter Personal Ledger number");
-			// if (result != null) {
-			// return result;
-			// }
 			if (countryPreferences.isSalesTaxAvailable()) {
 				result = numberOptionalRequirement(context, list, selection,
-						CST_NUM, "Enter CST Number ");
+						CST_NUM,
+						getMessages().pleaseEnter(getConstants().cstNumber()),
+						getConstants().cstNumber());
 				if (result != null) {
 					return result;
 				}
 			}
 			if (countryPreferences.isServiceTaxAvailable()) {
-				result = numberOptionalRequirement(context, list, selection,
+				result = numberOptionalRequirement(
+						context,
+						list,
+						selection,
 						SERVICE_TAX_NUM,
-						"Enter Service tax registration Number ");
+						getMessages().pleaseEnter(
+								getConstants().serviceTaxRegistrationNumber()),
+						getConstants().serviceTaxRegistrationNumber());
 				if (result != null) {
 					return result;
 				}
 			}
 			if (countryPreferences.isTDSAvailable()) {
 				result = numberOptionalRequirement(context, list, selection,
-						TIN_NUM, "Enter Taxpayer identification number");
+						TIN_NUM,
+						getMessages().pleaseEnter(getConstants().tinNumber()),
+						getConstants().tinNumber());
 				if (result != null) {
 					return result;
 				}
