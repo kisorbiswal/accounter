@@ -898,4 +898,6 @@ public interface AccounterMessages extends Messages {
 	public String addMore(String name);
 
 	public String details(String name);
+
+	public String create(String name);
 }
