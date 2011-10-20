@@ -83,7 +83,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 		makeResult.add(getMessages().readyToCreate(
-				Global.get().vendor() + getConstants().payment()));
+				getMessages().vendorPrePayment(Global.get().vendor())));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		setTransactionType(VENDOR_TRANSACTION);
@@ -119,8 +119,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		result = new Result();
-		result.add(getMessages().createSuccessfully(Global.get().vendor())
-				+ getConstants().prePayment());
+		result.add(getMessages().createSuccessfully(
+				getMessages().vendorPrePayment(Global.get().vendor())));
 		return result;
 	}
 
@@ -200,7 +200,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				getMessages().pleaseEnter(getConstants().billTo()));
+				getMessages().pleaseEnter(getConstants().billTo()),
+				getConstants().billTo());
 		if (result != null) {
 			return result;
 		}
@@ -224,7 +225,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		finish.add(
 				"",
 				getMessages().finishToCreate(
-						Global.get().vendor() + getConstants().prePayment()));
+						getMessages().vendorPrePayment(Global.get().vendor())));
 		actions.add(finish);
 		return makeResult;
 	}
