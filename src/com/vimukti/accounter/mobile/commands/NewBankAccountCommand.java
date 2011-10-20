@@ -65,26 +65,32 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" BankAccount is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().bankAccounts()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, ACCOUNT_NAME,
-				"Please Enter the account name ");
+		result = nameRequirement(context, list, ACCOUNT_NAME, getConstants()
+				.name(), getMessages()
+				.pleaseEnter(getConstants().accountName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = numberRequirement(context, list, ACCOUNT_NUMBER,
-				"Please Enter the account number ");
+		result = numberRequirement(context, list, ACCOUNT_NUMBER, getMessages()
+				.pleaseEnter(getConstants().Accounnumbers()), getConstants()
+				.number());
 		if (result != null) {
 			return result;
 		}
-		result = bankAcountTypeReq(context, list, BANK_ACCOUNT_TYPE,
-				"BankAccountType");
+		result = bankAcountTypeReq(
+				context,
+				list,
+				BANK_ACCOUNT_TYPE,
+				getMessages().pleaseEnter(
+						getConstants().bankAccounts() + getConstants().type()));
 		if (result != null) {
 			return result;
 		}
@@ -97,14 +103,16 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		createBankAccountObject(context);
 
 		result = new Result();
-		result.add("BankAccount  created successfully");
+		result.add(getMessages().createSuccessfully(
+				getConstants().bankAccounts()));
 		return result;
 	}
 
 	private void setDefaultValues() {
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(OPENINGBALANCE).setDefaultValue(0.0D);
-		get(ASOF).setDefaultValue(new Date(System.currentTimeMillis()));
+		get(ASOF).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 		get(MEMO).setDefaultValue("");
 		get(BANK_ACCOUNT_NUMBER).setDefaultValue("");
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.FALSE);
@@ -130,15 +138,17 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		booleanOptionalRequirement(context, selection, list, ACTIVE,
-				"This account is Active", "This account is InActive");
+				"This account is" + getConstants().active(), "This account is"
+						+ getConstants().inActive());
 
 		Result result = amountOptionalRequirement(context, list, selection,
-				OPENINGBALANCE, "Opening balance");
+				OPENINGBALANCE, getConstants().openingBalance());
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, ASOF, "Enter AsOfDate",
+		result = dateOptionalRequirement(context, list, ASOF, getConstants()
+				.asOf(), getMessages().pleaseEnter(getConstants().asOf()),
 				selection);
 		if (result != null) {
 			return result;
@@ -147,24 +157,27 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = bankNameRequriment(context, list, selection, "Bank Name");
+		result = bankNameRequriment(context, list, selection, getMessages()
+				.pleaseEnter(getConstants().bankName()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection,
-				BANK_ACCOUNT_NUMBER, "Please Enter the BankAccount number ");
+				BANK_ACCOUNT_NUMBER,
+				getMessages().pleaseEnter(getConstants().Accounnumbers()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Comment");
+				getMessages().pleaseEnter(getConstants().comments()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create BankAccount");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().bankAccounts()));
 		actions.add(finish);
 
 		return makeResult;
@@ -322,9 +335,13 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	 */
 	private Result bankAccountType(Context context, String oldBankaccountType) {
 		List<String> bankAccountTypes = new ArrayList<String>();
-		bankAccountTypes.add("Checking");
-		bankAccountTypes.add("Money Market");
-		bankAccountTypes.add("Saving");
+		bankAccountTypes
+				.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING);
+
+		bankAccountTypes
+				.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
+		bankAccountTypes
+				.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING);
 		Result result = context.makeResult();
 		result.add("Select Bank Account type");
 
