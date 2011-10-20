@@ -83,10 +83,10 @@ public class VATCodesListCommand extends AbstractCommand {
 		result.add(vatCodesList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", getMessages().active(getConstants().vatCodes()));
+		inActiveRec.add("", getConstants().active());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", getMessages().inActive(getConstants().vatCodes()));
+		inActiveRec.add("", getConstants().inActive());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
 		inActiveRec.add("", getConstants().all());

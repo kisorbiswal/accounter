@@ -82,10 +82,10 @@ public class VATItemsListCommand extends AbstractCommand {
 		result.add(taxItemsList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", getMessages().active(getConstants().vatItems()));
+		inActiveRec.add("", getConstants().active());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", getMessages().inActive(getConstants().vatItems()));
+		inActiveRec.add("", getConstants().inActive());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
 		inActiveRec.add("", getConstants().all());
