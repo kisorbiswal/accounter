@@ -21,10 +21,11 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	private static final String NUMBER = "number";
+	private static final String OPTIONAL = "optional";
+	private static final String VALUES = "values";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -43,7 +44,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
-		list.add(new ObjectListRequirement("accounts", false, true) {
+		list.add(new ObjectListRequirement(ACCOUNTS, false, true) {
 
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -90,9 +91,9 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 		// Preparing Result
 		Result makeResult = context.makeResult();
-		makeResult
-				.add("Suppiler Credit is ready to create with following values.");
-		ResultList list = new ResultList("values");
+		makeResult.add(getMessages().readyToCreate(
+				getMessages().vendorCredit(getConstants().Vendor())));
+		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		setTransactionType(VENDOR_TRANSACTION);
@@ -145,7 +146,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		result = new Result();
-		result.add(" Vendor Credit Memo was created successfully.");
+		result.add(getMessages().createSuccessfully(
+				getMessages().vendorCreditMemo(getConstants().Vendor())));
 		return result;
 	}
 
@@ -162,7 +164,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	private Result createOptionalRequirement(Context context, ResultList list,
 			ResultList actions, Result makeResult) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+			context.setAttribute(INPUT_ATTR, OPTIONAL);
 		}
 
 		Object selection = context.getSelection(ACTIONS);
@@ -177,15 +179,15 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		selection = context.getSelection("values");
+		selection = context.getSelection(VALUES);
 		Result result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
+				getMessages().pleaseEnter(getConstants().date()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter CreditNote Number");
+				getMessages().pleaseEnter(getConstants().creditNoteNo()));
 		if (result != null) {
 			return result;
 		}
@@ -198,19 +200,22 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone Number ");
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, "memo",
-				"Add a memo");
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Supplier Credit.");
+		finish.add(
+				"",
+				getMessages().finishToCreate(
+						getMessages().vendorCredit(getConstants().Vendor())));
 		actions.add(finish);
 
 		return makeResult;
@@ -225,10 +230,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		vendorCreditMemo.setNumber(number);
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		if (get("accounts") != null) {
-			List<ClientTransactionItem> accounts = get("accounts").getValue();
-			items.addAll(accounts);
-		}
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		items.addAll(accounts);
 
 		vendorCreditMemo.setTransactionItems(items);
 
@@ -236,8 +239,6 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		if (contact != null && contact.getName() != null) {
 			vendorCreditMemo.setContact(contact);
 		}
-		// TODO Location
-		// TODO Class
 		String phone = get(PHONE).getValue();
 		vendorCreditMemo.setPhone(phone);
 		ClientCompanyPreferences preferences = getClientCompany()
