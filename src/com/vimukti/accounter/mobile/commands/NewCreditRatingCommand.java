@@ -41,6 +41,7 @@ public class NewCreditRatingCommand extends AbstractTransactionCommand {
 		makeResult.add(actions);
 
 		result = nameRequirement(context, list, CREDIT_RATING_NAME,
+				getConstants().creditRatingName(),
 				getMessages().pleaseEnter(getConstants().creditRatingName()));
 		if (result != null) {
 			return result;
