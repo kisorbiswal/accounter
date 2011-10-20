@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
@@ -180,8 +180,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
-		get(CUSTOMER_SINCEDATE).setDefaultValue(new Date());
-		get(BALANCE_ASOF_DATE).setDefaultValue(new Date());
+		get(CUSTOMER_SINCEDATE).setDefaultValue(new ClientFinanceDate());
+		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
 		get(ADDRESS).setDefaultValue(new ClientAddress());
 	}
 
@@ -205,8 +205,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		Set<ClientContact> contacts = (get(CUSTOMER_CONTACT).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
-		Date balancedate = get(BALANCE_ASOF_DATE).getValue();
-		Date customerSincedate = get(CUSTOMER_SINCEDATE).getValue();
+		ClientFinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
+		ClientFinanceDate customerSincedate = get(CUSTOMER_SINCEDATE)
+				.getValue();
 		double balance = get(BALANCE).getValue();
 		ClientAddress adress = get(ADDRESS).getValue();
 		String phoneNum = get(PHONE).getValue();
@@ -240,7 +241,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setContacts(contacts);
 		customer.setBalance(balance);
 		if (balancedate != null) {
-			customer.setBalanceAsOf(balancedate.getTime());
+			customer.setBalanceAsOf(balancedate.getDate());
 		}
 		customer.setAddress(addresses);
 		customer.setPhoneNo(phoneNum);
