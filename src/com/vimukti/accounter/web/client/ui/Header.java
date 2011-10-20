@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
@@ -37,6 +38,7 @@ public class Header extends HorizontalPanel {
 	private String gettingStartedStatus = Accounter.constants()
 			.hideGettingStarted();
 	private MenuBar helpBar;
+	private ClientCompany company = null;
 
 	/**
 	 * Creates new Instance
@@ -46,39 +48,49 @@ public class Header extends HorizontalPanel {
 		createControls();
 	}
 
-	private void createControls() {
+	public Header(ClientCompany company) {
+		this.company = company;
+		addStyleName("page_header");
+		createControls();
+	}
 
-		companyName = new Label(Accounter.getCompany().getDisplayName());
+	private void createControls() {
+		if (company != null)
+			companyName = new Label(Accounter.getCompany().getDisplayName());
 		companyName.addStyleName("companyName");
 		userImage = new Image("/images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
-		if (Accounter.getCompany().isConfigured()) {
-			userName = new HTML("<a><font color=\"#3299A4\">"
-					+ Accounter.messages().userName(
-							Accounter.getUser().getFullName()) + "<font></a>");
-		} else {
-			userName = new HTML("<font color=\"#3299A4\">"
-					+ Accounter.messages().userName(
-							Accounter.getUser().getFullName()) + "<font>");
+
+		if (company != null) {
+			if (Accounter.getCompany().isConfigured()) {
+				userName = new HTML("<a><font color=\"#3299A4\">"
+						+ Accounter.messages().userName(
+								Accounter.getUser().getFullName())
+						+ "<font></a>");
+			} else {
+				userName = new HTML("<font color=\"#3299A4\">"
+						+ Accounter.messages().userName(
+								Accounter.getUser().getFullName()) + "<font>");
+			}
 		}
 		userName.addStyleName("userName-style");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		if (company != null) {
+			if (!Accounter.isLoggedInFromDomain()
+					&& Accounter.getCompany().isConfigured()) {
+				userName.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+				userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
-		if (!Accounter.isLoggedInFromDomain()
-				&& Accounter.getCompany().isConfigured()) {
-			userName.getElement().getStyle()
-					.setTextDecoration(TextDecoration.UNDERLINE);
-			userName.getElement().getStyle().setCursor(Cursor.POINTER);
+				userName.addClickHandler(new ClickHandler() {
 
-			userName.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					ActionFactory.getUserDetailsAction().run(null, false);
-				}
-			});
+					@Override
+					public void onClick(ClickEvent event) {
+						ActionFactory.getUserDetailsAction().run(null, false);
+					}
+				});
+			}
 		}
-
 		logout = new HTML(Accounter.messages().logoutHTML());
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
