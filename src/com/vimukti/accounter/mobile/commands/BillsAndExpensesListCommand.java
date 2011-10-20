@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -24,7 +25,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  */
 public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 
-	private static final String BILLS_VIEW_BY = "Current View";
+	private String BILLS_VIEW_BY = getConstants().currentView();
 
 	@Override
 	public String getId() {
@@ -75,8 +76,9 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 		Result result = stringListOptionalRequirement(context, resultList,
-				selection, BILLS_VIEW_BY, "Current View", viewType,
-				"Select View type", ITEMS_TO_SHOW);
+				selection, BILLS_VIEW_BY, BILLS_VIEW_BY, viewType,
+				getMessages().pleaseSelect(getConstants().currentView()),
+				ITEMS_TO_SHOW);
 		if (result != null) {
 			return result;
 		}
@@ -104,14 +106,14 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 
 			StringBuilder message = new StringBuilder();
 			if (resultList.size() == 0) {
-				message.append("Add Bill Record");
+				message.append(getConstants().addaNewBill());
 			}
 
 			result.add(message.toString());
 			result.add(resultList);
 
 			CommandList commandList = new CommandList();
-			commandList.add("Add a New Bill");
+			commandList.add(getConstants().addaNewBill());
 			result.add(commandList);
 			return result;
 		} catch (DAOException e) {
@@ -160,11 +162,12 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 	private Record createBillRecord(BillsList bill) {
 
 		Record rec = new Record(bill);
-		rec.add("Type", bill.getType());
-		rec.add("No", bill.getNumber());
-		rec.add("VendorName", bill.getVendorName());
-		rec.add("OrginalAmount", bill.getOriginalAmount());
-		rec.add("Balance", bill.getBalance());
+		rec.add(getConstants().type(), bill.getType());
+		rec.add(getConstants().no(), bill.getNumber());
+		rec.add(getMessages().vendorName(Global.get().Vendor()),
+				bill.getVendorName());
+		rec.add(getConstants().originalAmount(), bill.getOriginalAmount());
+		rec.add(getConstants().balance(), bill.getBalance());
 
 		return rec;
 	}
