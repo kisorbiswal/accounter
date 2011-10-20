@@ -10,8 +10,10 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -80,8 +82,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		Result makeResult = context.makeResult();
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
-		makeResult
-				.add("Suppiler Prepayment is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				Global.get().vendor() + getConstants().payment()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		setTransactionType(VENDOR_TRANSACTION);
@@ -101,7 +103,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = amountRequirement(context, list, AMOUNT, "Enter Amount");
+		result = amountRequirement(context, list, AMOUNT, getMessages()
+				.pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
@@ -116,12 +119,14 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		result = new Result();
-		result.add(" Vendor Prepayment was created successfully.");
+		result.add(getMessages().createSuccessfully(Global.get().vendor())
+				+ getConstants().prePayment());
 		return result;
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
@@ -149,8 +154,8 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		String chequeNumber = get(CHEQUE_NO).getValue();
 
-		Date transactionDate = (Date) get(DATE).getValue();
-		paybill.setDate(transactionDate.getTime());
+		ClientFinanceDate transactionDate = get(DATE).getValue();
+		paybill.setDate(transactionDate.getDate());
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
 		paybill.setVendor(vendor);
 		paybill.setAddress(billTo);
@@ -183,18 +188,19 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 
-		result = dateOptionalRequirement(context, list, DATE,
-				"Enter TransactionDate", selection);
+		result = dateOptionalRequirement(context, list, DATE, getMessages()
+				.pleaseEnter(getConstants().transactionDate()), getConstants()
+				.transactionDate(), selection);
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"TransactionNumber");
+				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				"Enter the Bill To Address");
+				getMessages().pleaseEnter(getConstants().billTo()));
 		if (result != null) {
 			return result;
 		}
@@ -204,18 +210,21 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, CHEQUE_NO,
-				"Enter check Number");
+				getMessages().pleaseEnter(getConstants().checkNo()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Bill.");
+		finish.add(
+				"",
+				getMessages().finishToCreate(
+						Global.get().vendor() + getConstants().prePayment()));
 		actions.add(finish);
 		return makeResult;
 	}
