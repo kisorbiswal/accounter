@@ -117,8 +117,9 @@ public class PatternStore {
 	public static class Pattern {
 		List<String> inputs;
 		List<String> output;
-		public Pattern(){
-			
+
+		public Pattern() {
+
 		}
 	}
 
