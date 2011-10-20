@@ -195,6 +195,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().number(),
 				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
@@ -211,11 +212,13 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, CHEQUE_NO,
+				getConstants().checkNo(),
 				getMessages().pleaseEnter(getConstants().checkNo()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
