@@ -117,13 +117,14 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}
 
 		result = accountRequirement(context, list, DEPOSIT_OR_TRANSFER_TO,
-				new ListFilter<ClientAccount>() {
+				getConstants().account(), new ListFilter<ClientAccount>() {
 
 					@Override
 					public boolean filter(ClientAccount e) {
@@ -266,6 +267,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		ClientVendor supplier = (ClientVendor) supplierReq.getValue();
 
 		Result result = dateOptionalRequirement(context, list, DELIVERY_DATE,
+				getConstants().deliveryDate(),
 				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
@@ -277,16 +279,19 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().phoneNumber(),
 				getMessages().pleaseEnter(getConstants().purchaseNumber()));
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, DATE, getMessages()
-				.pleaseEnter(getConstants().date()), selection);
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.date(), getMessages().pleaseEnter(getConstants().date()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, PHONE,
+				getConstants().phoneNumber(),
 				getMessages().pleaseEnter(getConstants().phone()));
 		if (result != null) {
 			return result;
@@ -298,7 +303,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				getConstants().addMemo());
+				getConstants().memo(), getConstants().addMemo());
 		if (result != null) {
 			return result;
 		}
