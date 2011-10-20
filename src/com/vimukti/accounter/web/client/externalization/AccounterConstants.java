@@ -3087,7 +3087,7 @@ public interface AccounterConstants extends Constants {
 	public String serviceName();
 
 	public String servicesOverview();
-	
+
 	public String serviceTax();
 
 	public String serviceTaxRegistrationNumber();
@@ -3339,7 +3339,7 @@ public interface AccounterConstants extends Constants {
 	public String taxSummary();
 
 	public String taxSummaryCashBasis();
-	
+
 	public String taxType();
 
 	public String temporary();
@@ -5019,8 +5019,6 @@ public interface AccounterConstants extends Constants {
 	public String dispatchDate();
 
 	public String toDate();
-
-	public String accountTransactionItems();
 
 	public String bankAccount();
 }

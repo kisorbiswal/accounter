@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -178,7 +179,8 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		List<ClientTransactionMakeDeposit> accountTransItems = transItemsReq
 				.getValue();
 		ResultList accountItems = new ResultList("accountItems");
-		result.add(getConstants().accountTransactionItems());
+		result.add(getMessages()
+				.accountTransactionItems(Global.get().Account()));
 		for (ClientTransactionMakeDeposit item : accountTransItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("Name", getClientCompany()
