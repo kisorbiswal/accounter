@@ -29,14 +29,15 @@ public class NewItemGroupCommand extends AbstractTransactionCommand {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		Result makeResult = context.makeResult();
-		makeResult.add(" ItemGroup is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().itemGroup()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
 		Result result = nameRequirement(context, list, ITEMGROUP_NAME,
-				"Please enter the  ItemGroup Name");
+				getMessages().pleaseEnter(getConstants().itemGroup()),
+				getConstants().itemGroup());
 		if (result != null) {
 			return result;
 		}
@@ -51,7 +52,7 @@ public class NewItemGroupCommand extends AbstractTransactionCommand {
 		create(group, context);
 		markDone();
 		Result result = new Result();
-		result.add(" ItemGroup was created successfully.");
+		result.add(getMessages().createSuccessfully(getConstants().itemGroup()));
 
 		return result;
 	}
