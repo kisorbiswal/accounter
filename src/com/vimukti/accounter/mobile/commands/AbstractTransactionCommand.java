@@ -1757,9 +1757,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			return taxCode(context, taxCode);
 		}
 		Record taxcodeRecord = new Record(value);
-		taxcodeRecord.add("", "Tax Code Name");
+		taxcodeRecord.add("", getConstants().taxCode());
 		taxcodeRecord.add("", value.getName());
-		taxcodeRecord.add("", "Purchase Tax Rate");
+		taxcodeRecord.add("", getConstants().purchaseTaxRate());
 		taxcodeRecord.add("", value.getPurchaseTaxRate());
 		list.add(taxcodeRecord);
 		return null;
