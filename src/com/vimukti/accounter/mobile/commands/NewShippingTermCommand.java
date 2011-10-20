@@ -86,7 +86,7 @@ public class NewShippingTermCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 
 		Result result = stringOptionalRequirement(context, list, selection,
-				"description", "Enter the description");
+				"description", "Enter the description", null);
 		if (result != null) {
 			return result;
 		}
