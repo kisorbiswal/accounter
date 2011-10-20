@@ -201,7 +201,6 @@ public abstract class CompanyInitializer {
 		depreciationStartDateCal.set(fiscalYearStartDate);
 		this.preferences.setDepreciationStartDate(depreciationStartDateCal);
 		this.company.setPreferences(this.preferences);
-		this.company.setRegisteredAddress(this.preferences.getTradingAddress());
 
 		PaymentTerms dueOnReceipt = new PaymentTerms(company,
 				AccounterServerConstants.PM_DUE_ON_RECEIPT,
