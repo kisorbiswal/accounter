@@ -107,8 +107,13 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		result = createSupplierRequirement(context, list, VENDOR);
+
 		if (result != null) {
 			return result;
+		}
+		if (context.getSelection("suppliers") != null) {
+			get(PAY_BILL_LIST).setValue(
+					new ArrayList<ClientTransactionPayBill>());
 		}
 
 		result = accountRequirement(context, list, PAY_FROM,
@@ -138,7 +143,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		}
 		completeProcess(context);
 		markDone();
-
+		result = new Result("Pay bill was saved successfully");
 		return result;
 	}
 
@@ -154,21 +159,17 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		Requirement transItemsReq = get(PAY_BILL_LIST);
 		List<ClientTransactionPayBill> items = context
 				.getSelections(PAY_BILL_LIST);
+		List<ClientTransactionPayBill> transactionItems = transItemsReq
+				.getValue();
 		if (items != null && items.size() > 0) {
 			for (ClientTransactionPayBill item : items) {
-				List<ClientTransactionPayBill> transactionItems = transItemsReq
-						.getValue();
-				if (transactionItems == null) {
-					transactionItems = new ArrayList<ClientTransactionPayBill>();
-					transItemsReq.setValue(transactionItems);
-				}
 				item.setPayment(item.getAmountDue());
 				updateValue(item);
 				transactionItems.add(item);
 			}
 
 		}
-		if (!transItemsReq.isDone()) {
+		if (transactionItems.size() == 0) {
 			return clientTransactionPayBills(context);
 		}
 
@@ -189,8 +190,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 
 		result.add("ClientTransactionPayBills:-");
 		ResultList itemsList = new ResultList("transactionPayBills");
-		List<ClientTransactionPayBill> transItems = transItemsReq.getValue();
-		for (ClientTransactionPayBill item : transItems) {
+		for (ClientTransactionPayBill item : transactionItems) {
 			itemsList.add(creatTransactionPayBillRecord(item));
 		}
 		result.add(itemsList);
@@ -303,11 +303,6 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			result.add("Slect TransactionPayBill(s).");
 		} else {
 			result.add("You don't have TransactionPayBill.");
-			Record record = new Record("escape");
-			record.add("", "Skip");
-			ResultList resultList = new ResultList("escape");
-			resultList.add(record);
-			result.add(resultList);
 		}
 		result.add(list);
 		return result;
