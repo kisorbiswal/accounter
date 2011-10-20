@@ -95,8 +95,11 @@ public class AccounterChatServer implements ChatManagerListener,
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}
 		try {
-			String reply = messageHandler.messageReceived(msg.getFrom(), from,
-					message, AdaptorType.CHAT);
+			String reply = null;
+			if (message != null) {
+				reply = messageHandler.messageReceived(msg.getFrom(), from,
+						message, AdaptorType.CHAT);
+			}
 			if (reply != null) {
 				chat.sendMessage(reply);
 			}
