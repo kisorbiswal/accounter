@@ -4966,4 +4966,6 @@ public interface AccounterConstants extends Constants {
 
 	public String recalculate();
 
+	public String creditRatingName();
+
 }
