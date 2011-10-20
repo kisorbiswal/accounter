@@ -239,7 +239,8 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				getMessages().pleaseEnter(getConstants().billTo()));
+				getMessages().pleaseEnter(getConstants().billTo()),
+				getConstants().billTo());
 		if (result != null) {
 			return result;
 		}
