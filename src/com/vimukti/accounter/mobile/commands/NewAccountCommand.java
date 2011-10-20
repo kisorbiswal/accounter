@@ -67,9 +67,13 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = numberRequirement(context, list, ACCOUNT_NUMBER, getMessages()
-				.pleaseEnter(getConstants().Accounnumbers()), getConstants()
-				.account() + getConstants().number());
+		result = numberRequirement(
+				context,
+				list,
+				ACCOUNT_NUMBER,
+				getMessages().pleaseEnter(
+						getConstants().Account() + getConstants().number()),
+				getConstants().account() + getConstants().number());
 		if (result != null) {
 			return result;
 		}
@@ -105,7 +109,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
 				.getValue();
-		Date asOf = get(ASOF).getValue();
+		ClientFinanceDate asOf = get(ASOF).getValue();
 		String comment = get(COMMENTS).getValue();
 
 		account.setDefault(true);
@@ -114,7 +118,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		account.setNumber(String.valueOf(accountNum));
 		account.setOpeningBalance(openingBal);
 		account.setIsActive(isActive);
-		account.setAsOf(asOf.getTime());
+		account.setAsOf(asOf.getDate());
 		account.setConsiderAsCashAccount(isCashAcount);
 		account.setComment(comment);
 		create(account, context);
