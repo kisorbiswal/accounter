@@ -223,12 +223,12 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result dateOptionalRequirement(Context context, ResultList list,
-			String name, String displayString, Object selection) {
-		Requirement req = get(name);
+			String reqName, String displayString, Object selection, String name) {
+		Requirement req = get(reqName);
 		ClientFinanceDate dueDate = req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 
-		if (attribute.equals(name)) {
+		if (attribute.equals(reqName)) {
 			ClientFinanceDate date = context.getSelection(DATE);
 			if (date == null) {
 				date = context.getDate();
@@ -238,12 +238,12 @@ public abstract class AbstractCommand extends Command {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null) {
-			if (selection == name) {
-				context.setAttribute(INPUT_ATTR, name);
+			if (selection == reqName) {
+				context.setAttribute(INPUT_ATTR, reqName);
 				return date(context, displayString, dueDate);
 			}
 		}
-		Record dueDateRecord = new Record(name);
+		Record dueDateRecord = new Record(reqName);
 		dueDateRecord.add("", name);
 		dueDateRecord.add("", getDateAsString(dueDate));
 		list.add(dueDateRecord);
