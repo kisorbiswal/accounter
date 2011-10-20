@@ -312,7 +312,7 @@ public abstract class AbstractCommand extends Command {
 			return text(context, displayString, customerName);
 		}
 
-		Record nameRecord = new Record(name);
+		Record nameRecord = new Record(reqName);
 		nameRecord.add("", name);
 		nameRecord.add("", customerName);
 		list.add(nameRecord);
