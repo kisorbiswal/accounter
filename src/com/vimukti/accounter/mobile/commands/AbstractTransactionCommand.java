@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -40,6 +39,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
+import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
@@ -1899,5 +1899,38 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 		}
 		return clientCreditsAndPayments;
+	}
+
+	protected ArrayList<ClientTransactionIssuePayment> getchecks(long accountId) {
+		ArrayList<IssuePaymentTransactionsList> checks;
+		ArrayList<ClientTransactionIssuePayment> issuepayments = new ArrayList<ClientTransactionIssuePayment>();
+		try {
+			checks = new FinanceTool().getVendorManager().getChecks(accountId,
+					getClientCompany().getID());
+			ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
+			for (IssuePaymentTransactionsList entry : checks) {
+				if (entry.getDate() != null)
+					record.setDate(entry.getDate().getDate());
+				if (entry.getNumber() != null)
+					record.setNumber(entry.getNumber());
+				record.setName(entry.getName() != null ? entry.getName() : "");
+				record.setMemo(entry.getMemo() != null ? entry.getMemo() : "");
+				if (entry.getAmount() != null)
+					record.setAmount(entry.getAmount());
+				if (entry.getPaymentMethod() != null)
+					record.setPaymentMethod(entry.getPaymentMethod());
+				record.setRecordType(entry.getType());
+				if (record.getRecordType() == ClientTransaction.TYPE_WRITE_CHECK)
+					record.setWriteCheck(entry.getTransactionId());
+				else if (record.getRecordType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS)
+					record.setCustomerRefund(entry.getTransactionId());
+				record.setID(entry.getTransactionId());
+			}
+			issuepayments.add(record);
+		} catch (DAOException e) {
+			e.printStackTrace();
+			issuepayments = new ArrayList<ClientTransactionIssuePayment>();
+		}
+		return issuepayments;
 	}
 }
