@@ -66,9 +66,9 @@ public class ShippingMethodListCommand extends AbstractTransactionCommand {
 		}
 		result.add(shipingResultList);
 		CommandList commandList = new CommandList();
-		commandList.add("Add a New Shipping Method");
-		commandList.add("Edit a New Shipping Method");
-		commandList.add("Delete a New Shipping Method");
+		commandList.add(getConstants().add());
+		commandList.add(getConstants().edit());
+		commandList.add(getConstants().delete());
 		result.add(commandList);
 
 		return result;
@@ -76,8 +76,9 @@ public class ShippingMethodListCommand extends AbstractTransactionCommand {
 
 	private Record createShippingRecord(ShippingMethod shippingMethod) {
 		Record record = new Record(shippingMethod);
-		record.add("Name", shippingMethod.getName());
-		record.add("Description", shippingMethod.getDescription());
+		record.add(getConstants().name(), shippingMethod.getName());
+		record.add(getConstants().description(),
+				shippingMethod.getDescription());
 		return record;
 	}
 
