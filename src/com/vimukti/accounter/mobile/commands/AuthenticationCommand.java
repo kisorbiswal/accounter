@@ -52,13 +52,14 @@ public class AuthenticationCommand extends AbstractCommand {
 			context.setAttribute(INPUT_ATTR, "");
 		}
 		ResultList list = new ResultList("values");
-		Result result = nameRequirement(context, list, USER_NAME,
+		Result result = nameRequirement(context, list, USER_NAME, "user name",
 				"Enter User Name.");
 		if (result != null) {
 			return result;
 		}
 
-		result = nameRequirement(context, list, PASSWORD, "Enter Password");
+		result = nameRequirement(context, list, PASSWORD, "password",
+				"Enter Password");
 		if (result != null) {
 			return result;
 		}
