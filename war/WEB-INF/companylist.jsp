@@ -23,7 +23,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-      	<div> <a href="/main/createcompany" class="create_new_company">Create New Company </a></div>
+      	<div> <a href="/main/companies?create=true" class="create_new_company">Create New Company </a></div>
       	<ul><li>
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
