@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -84,7 +85,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		}
 		// Preparing Result
 		Result makeResult = context.makeResult();
-		makeResult.add("New Quote  is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().newQuote()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -115,12 +116,13 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		markDone();
 
 		result = new Result();
-		result.add("Quote  created successfully");
+		result.add(getMessages().createSuccessfully(getConstants().quote()));
 		return result;
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(new Date(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
@@ -135,9 +137,9 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		}
 
 		get("deliveryDate").setDefaultValue(
-				new Date(System.currentTimeMillis()));
+				new ClientFinanceDate(System.currentTimeMillis()));
 		get("expirationDate").setDefaultValue(
-				new Date(System.currentTimeMillis()));
+				new ClientFinanceDate(System.currentTimeMillis()));
 
 		get(MEMO).setDefaultValue(" ");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
@@ -155,8 +157,8 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		ClientCustomer customer = get("customer").getValue();
 		estimate.setCustomer(customer);
 
-		Date date = get(DATE).getValue();
-		estimate.setDate(date.getTime());
+		ClientFinanceDate date = get(DATE).getValue();
+		estimate.setDate(date.getDate());
 
 		String number = get(NUMBER).getValue();
 		estimate.setNumber(number);
@@ -176,13 +178,13 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		ClientPaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		estimate.setPaymentTerm(paymentTerm.getID());
 
-		Date d = get(DATE).getValue();
-		estimate.setDate(d.getTime());
+		ClientFinanceDate d = get(DATE).getValue();
+		estimate.setDate(d.getDate());
 
-		Date deliveryDate = get("deliveryDate").getValue();
-		estimate.setDeliveryDate(deliveryDate.getTime());
-		Date expiryDdate = get("expirationDate").getValue();
-		estimate.setExpirationDate(expiryDdate.getTime());
+		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
+		estimate.setDeliveryDate(deliveryDate.getDate());
+		ClientFinanceDate expiryDdate = get("expirationDate").getValue();
+		estimate.setExpirationDate(expiryDdate.getDate());
 
 		String memo = get(MEMO).getValue();
 		estimate.setMemo(memo);
@@ -220,11 +222,13 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = numberOptionalRequirement(context, list, selection,
-				NUMBER, "Enter QouteNumber");
+				NUMBER, getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, DATE, "Enter date",
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.transactionDate(),
+				getMessages().pleaseEnter(getConstants().transactionDate()),
 				selection);
 		if (result != null) {
 			return result;
@@ -235,7 +239,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				"Enter the Bill To Address");
+				getMessages().pleaseEnter(getConstants().billTo()));
 		if (result != null) {
 			return result;
 		}
@@ -244,29 +248,33 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, PHONE,
-				"Enter phone Number");
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, "expirationDate",
-				"Enter Expiration Date ", selection);
+				getConstants().expirationDate(),
+				getMessages().pleaseEnter(getConstants().expirationDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, "deliveryDate",
-				"Enter Delivery Date ", selection);
+				getConstants().deliveryDate(),
+				getMessages().pleaseEnter(getConstants().deliveryDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Qoute.");
+		finish.add("", getMessages().finishToCreate(getConstants().quote()));
 		actions.add(finish);
 
 		return makeResult;
