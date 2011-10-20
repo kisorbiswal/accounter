@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -107,7 +108,8 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		result = createSupplierRequirement(context, list, VENDOR);
+		result = createSupplierRequirement(context, list, VENDOR, Global.get()
+				.Vendor());
 
 		if (result != null) {
 			return result;

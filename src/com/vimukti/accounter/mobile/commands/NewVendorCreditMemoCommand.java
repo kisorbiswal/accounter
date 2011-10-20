@@ -98,7 +98,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		setTransactionType(VENDOR_TRANSACTION);
-		result = createSupplierRequirement(context, list, SUPPLIER);
+		result = createSupplierRequirement(context, list, SUPPLIER, Global
+				.get().Vendor());
 		if (result != null) {
 			return result;
 		}
