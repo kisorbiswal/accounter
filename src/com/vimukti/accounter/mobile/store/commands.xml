@@ -571,7 +571,7 @@
 		<alias>Shipping Methods</alias>
 	</command>
 	
-	<command clazz="BankAccountsListsCommands" name="BankAccountsList">
+	<command clazz="BankAccountsListsCommand" name="BankAccountsList">
 		<alias>BankAccountList</alias>
 		<alias>BankAccountsList</alias>
 		<alias>Bank Accounts List</alias>
