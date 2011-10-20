@@ -69,7 +69,7 @@ public class JournalEntryListCommand extends AbstractTransactionCommand {
 		result.add(userList);
 
 		CommandList command = new CommandList();
-		command.add("Add a New Journal Entry");
+		command.add(getConstants().addNewJournalEntry());
 
 		result.add(command);
 
@@ -78,10 +78,10 @@ public class JournalEntryListCommand extends AbstractTransactionCommand {
 
 	private Record createJournalRecord(ClientJournalEntry entry) {
 		Record record = new Record(entry);
-		record.add("Voucher No", entry.getNumber());
-		record.add("Date Created", entry.getDate());
-		record.add("Amount", entry.getTotal());
-		record.add("Memo", entry.getMemo());
+		record.add(getConstants().voucherNo(), entry.getNumber());
+		record.add(getConstants().date(), entry.getDate());
+		record.add(getConstants().amount(), entry.getTotal());
+		record.add(getConstants().memo(), entry.getMemo());
 
 		// record.add("Voided", entry.isVoid());
 		return record;
