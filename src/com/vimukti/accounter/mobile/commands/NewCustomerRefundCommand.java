@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -74,35 +75,38 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		Result result = null;
 
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" Customer Refund is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getMessages().customerRefund(Global.get().Customer())));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = customerRequirement(context, list, PAY_TO);
+		result = customerRequirement(context, list, PAY_TO, Global.get()
+				.Customer());
 		if (result != null) {
 			return result;
 		}
-		result = accountRequirement(context, list, PAY_FROM,
-				new ListFilter<ClientAccount>() {
-					@Override
-					public boolean filter(ClientAccount e) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(e.getType());
-					}
-				});
+		result = accountRequirement(context, list, PAY_FROM, getConstants()
+				.Accounts(), new ListFilter<ClientAccount>() {
+			@Override
+			public boolean filter(ClientAccount e) {
+				return Arrays.asList(ClientAccount.TYPE_BANK,
+						ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
+						e.getType());
+			}
+		});
 		if (result != null) {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, "Enter amount");
+		result = amountRequirement(context, list, AMOUNT, getMessages()
+				.pleaseEnter(getConstants().amount()), getConstants().amount());
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}
@@ -117,7 +121,8 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		markDone();
 
 		result = new Result();
-		result.add(" CustomerRefund was created successfully.");
+		result.add(getMessages().createSuccessfully(
+				getMessages().customerRefund(Global.get().Customer())));
 
 		return result;
 	}
@@ -189,11 +194,13 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		Result result = numberOptionalRequirement(context, list, selection, NO,
-				"Enter Order Number");
+				getMessages().pleaseEnter(getConstants().orderNumber()),
+				getConstants().orderNumber());
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, "date", "Date",
+		result = dateOptionalRequirement(context, list, "date", getMessages()
+				.pleaseEnter(getConstants().date()), getConstants().date(),
 				selection);
 		if (result != null) {
 			return result;
@@ -204,20 +211,23 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 
 		if (!(Boolean) get(TOBEPRINTED).getValue()) {
 			result = amountOptionalRequirement(context, list, selection,
-					CHEQUE_NO, "Enter check Number");
+					CHEQUE_NO,
+					getMessages().pleaseEnter(getConstants().checkNo()),
+					getConstants().checkNo());
 			if (result != null) {
 				return result;
 			}
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()),
+				getConstants().memo());
 		if (result != null) {
 			return result;
 		}
 		ClientCustomer customer = get(PAY_TO).getValue();
 		for (ClientAddress adress : customer.getAddress()) {
 			Record record = new Record(adress);
-			record.add("", "Address");
+			record.add("", getConstants().address());
 			record.add("", adress.toString());
 			list.add(record);
 		}
@@ -242,7 +252,10 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		list.add(customerBalanceRecord);
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Customer Refund.");
+		finish.add(
+				"",
+				getMessages().finishToCreate(
+						getMessages().customerRefund(Global.get().Customer())));
 		actions.add(finish);
 		return makeResult;
 	}
