@@ -729,7 +729,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result addressOptionalRequirement(Context context,
 			ResultList list, Object selection, String reqName,
-			String displayName) {
+			String displayName, String name) {
 		Requirement req = get(reqName);
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
@@ -748,7 +748,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 		billTo = req.getValue();
 		Record billToRecord = new Record(reqName);
-		billToRecord.add("", reqName);
+		billToRecord.add("", name);
 		billToRecord.add("", billTo);
 		list.add(billToRecord);
 		return null;
