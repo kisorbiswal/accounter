@@ -58,8 +58,8 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		setOptionalValues();
 
-		result = nameRequirement(context, list, NAME, getMessages()
-				.pleaseEnter(getConstants().vatCode()));
+		result = nameRequirement(context, list, NAME, getConstants().vatCode(),
+				getMessages().pleaseEnter(getConstants().vatCode()));
 		if (result != null) {
 			return result;
 		}
@@ -254,8 +254,8 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 		Result result = stringOptionalRequirement(context, list, selection,
-				DESCRIPTION,
-				getMessages().pleaseEnter(getConstants().description()));
+				getConstants().description(), DESCRIPTION, getMessages()
+						.pleaseEnter(getConstants().description()));
 		if (result != null) {
 			return result;
 		}
