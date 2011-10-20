@@ -67,8 +67,8 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		setDefaultValues();
 
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" Journal Entry is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().journalEntry()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -84,8 +84,8 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = numberRequirement(context, list, NUMBER,
-				"Please enter the  Journel Entry Number", "Number");
+		result = numberRequirement(context, list, NUMBER, getMessages()
+				.pleaseEnter(getConstants().number()), getConstants().number());
 		if (result != null) {
 			return result;
 		}
@@ -179,7 +179,8 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 			if (selection != null) {
 				if (selection.equals(DATE)) {
 					context.setAttribute(ENTRY_PROPERTY_ATTR, DATE);
-					return date(context, "Please enter the date",
+					return date(context,
+							getMessages().pleaseEnter(getConstants().date()),
 							new ClientFinanceDate(entry.getEntryDate()));
 				} else if (selection.equals(ACCOUNT)) {
 					context.setAttribute(ENTRY_PROPERTY_ATTR, ACCOUNT);
@@ -193,15 +194,23 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 							});
 				} else if (selection.equals(CREDIT)) {
 					context.setAttribute(ENTRY_PROPERTY_ATTR, CREDIT);
-					return amount(context, "Please enter the credit amount",
+					return amount(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().creditAmount()),
 							entry.getCredit());
 				} else if (selection.equals(DEBIT)) {
 					context.setAttribute(ENTRY_PROPERTY_ATTR, DEBIT);
-					return amount(context, "Please enter the debit amount",
+					return amount(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().debitAmount()),
 							entry.getDebit());
 				} else if (selection.equals(MEMO)) {
 					context.setAttribute(ENTRY_PROPERTY_ATTR, MEMO);
-					return text(context, "Enter Memo", entry.getMemo());
+					return text(context,
+							getMessages().pleaseEnter(getConstants().memo()),
+							entry.getMemo());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
@@ -217,42 +226,42 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		}
 		ResultList list = new ResultList(ENTRY_DETAILS);
 		Record record = new Record(DATE);
-		record.add("", "Date");
+		record.add("", getConstants().date());
 		record.add("", entry.getEntryDate());
 		list.add(record);
 
 		record = new Record(ACCOUNT);
-		record.add("", "Account");
+		record.add("", getConstants().account());
 		record.add("", entry.getAccount());
 		list.add(record);
 
 		record = new Record(DEBIT);
-		record.add("", "Debit");
+		record.add("", getConstants().debit());
 		record.add("", entry.getDebit());
 		list.add(record);
 
 		record = new Record(CREDIT);
-		record.add("", "Credit");
+		record.add("", getConstants().credit());
 		record.add("", entry.getCredit());
 		list.add(record);
 
 		record = new Record(MEMO);
-		record.add("", "Memo");
+		record.add("", getConstants().memo());
 		record.add("", entry.getMemo());
 		list.add(record);
 
 		Result result = context.makeResult();
-		result.add("Item details");
-		result.add("Item Name :"
+		result.add(getConstants().itemDetails());
+		result.add(getConstants().name() + " : "
 				+ getClientCompany().getAccount(entry.getAccount()).getName());
 		result.add(list);
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", "Delete");
+		record.add("", getConstants().delete());
 		actions.add(record);
 		record = new Record(ActionNames.FINISH_ITEM);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		actions.add(record);
 		result.add(actions);
 		return result;
@@ -287,19 +296,22 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		}
 
 		Result result = null;
-		result = dateOptionalRequirement(context, list, DATE, "date",
-				"Enter journalEntry Date", selection);
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.date(), getMessages().pleaseEnter(getConstants().date()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getConstants().memo(),
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create JournalEntry");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().journalEntry()));
 		actions.add(finish);
 
 		return null;
@@ -341,7 +353,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
 		double totalDebits = 0;
 		double totalCredits = 0;
-		result.add("Items:-");
+		result.add(getConstants().items());
 		ResultList itemsList = new ResultList("transactionItems");
 		List<ClientEntry> transItems = entriesReq.getValue();
 		for (ClientEntry item : transItems) {
@@ -357,19 +369,19 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 			totalDebits += item.getDebit();
 		}
 		result.add(itemsList);
-		result.add("Total Debits:" + totalDebits);
-		result.add("Total Credits:" + totalCredits);
+		result.add(getConstants().totalDebits() + " : " + totalDebits);
+		result.add(getConstants().totalCredits() + " : " + totalCredits);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
+		moreItems.add("", getMessages().addMore(getConstants().items()));
 		Record deleteItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Delete items");
+		moreItems.add("", getConstants().delete());
 		actions.add(deleteItems);
 		if (totalCredits != totalDebits) {
-			result.add("The Debit total and Credit totals must be same");
+			result.add(getConstants().totalMustBeSame());
 			return result;
 		}
 		if (totalCredits == 0) {
-			result.add("Transaction total can not be 0 or less than 0");
+			result.add(getConstants().transactiontotalcannotbe0orlessthan0());
 			return result;
 		}
 		return null;
