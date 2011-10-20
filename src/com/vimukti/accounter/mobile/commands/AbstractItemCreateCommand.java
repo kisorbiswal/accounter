@@ -94,6 +94,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		Boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
 			result = accountRequirement(context, list, INCOME_ACCOUNT,
+					getMessages().incomeAccount(Global.get().Account()),
 					new ListFilter<ClientAccount>() {
 
 						@Override
@@ -135,6 +136,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
 			result = accountRequirement(context, list, EXPENSE_ACCOUNT,
+					getMessages().expenseAccount(Global.get().Account()),
 					new ListFilter<ClientAccount>() {
 
 						@Override
