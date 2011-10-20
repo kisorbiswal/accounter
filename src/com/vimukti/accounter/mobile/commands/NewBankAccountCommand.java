@@ -166,12 +166,13 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection,
-				BANK_ACCOUNT_NUMBER,
-				getMessages().pleaseEnter(getConstants().Accounnumbers()));
+				BANK_ACCOUNT_NUMBER, getConstants().number(), getMessages()
+						.pleaseEnter(getConstants().Accounnumbers()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().comments()));
 		if (result != null) {
 			return result;
