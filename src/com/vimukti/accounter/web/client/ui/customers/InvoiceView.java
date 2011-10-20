@@ -1192,10 +1192,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		salesPersonCombo.initCombo(salesPersons);
 
-		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-		taxCodeSelect.initCombo(taxCodes);
-
 		initSalesTaxNonEditableItem();
 
 		initTransactionTotalNonEditableItem();

@@ -580,10 +580,6 @@ public class SalesOrderView extends
 
 			// priceLevelSelect.initCombo(priceLevels);
 
-			ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-			taxCodeSelect.initCombo(taxCodes);
-
 			initSalesTaxNonEditableItem();
 			initTransactionTotalNonEditableItem();
 			initMemoAndReference();
@@ -748,10 +744,6 @@ public class SalesOrderView extends
 				.getActiveSalesPersons();
 
 		salesPersonCombo.initCombo(salesPersons);
-
-		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-		taxCodeSelect.initCombo(taxCodes);
 
 		initSalesTaxNonEditableItem();
 

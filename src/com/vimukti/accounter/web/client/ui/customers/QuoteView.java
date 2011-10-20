@@ -740,10 +740,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		// priceLevelSelect.initCombo(priceLevels);
 
-		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-		taxCodeSelect.initCombo(taxCodes);
-
 		initSalesTaxNonEditableItem();
 
 		initTransactionTotalNonEditableItem();

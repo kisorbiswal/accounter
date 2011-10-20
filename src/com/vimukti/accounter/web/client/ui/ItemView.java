@@ -108,7 +108,7 @@ public class ItemView extends BaseView<ClientItem> {
 				&& getPreferences().isTaxPerDetailLine()) {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
-				taxCode.initCombo(getCompany().getActiveTaxCodes());
+				taxCode.initCombo(result);
 				ClientTAXCode code = null;
 				if (isInViewMode()) {
 					code = getCompany().getTAXCode(data.getTaxCode());
