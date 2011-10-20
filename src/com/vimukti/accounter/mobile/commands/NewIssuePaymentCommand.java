@@ -69,22 +69,23 @@ public class NewIssuePaymentCommand extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}
 
-		result = accountRequirement(context, list, ACCOUNT,
-				new ListFilter<ClientAccount>() {
+		result = accountRequirement(context, list, ACCOUNT, getConstants()
+				.bankAccounts(), new ListFilter<ClientAccount>() {
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(e.getType());
+			@Override
+			public boolean filter(ClientAccount e) {
+				return Arrays.asList(ClientAccount.TYPE_BANK,
+						ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
+						e.getType());
 
-					}
-				});
+			}
+		});
 		if (result != null) {
 			return result;
 		}
