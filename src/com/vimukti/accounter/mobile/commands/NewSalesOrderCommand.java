@@ -12,11 +12,13 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 
 public class NewSalesOrderCommand extends AbstractTransactionCommand {
@@ -74,12 +76,14 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement(BILL_TO, true, false));
 		list.add(new Requirement(DATE, true, true));
+		list.add(new Requirement(TAXCODE, false, true));
 		list.add(new Requirement(ORDER_NO, true, true));
 		list.add(new Requirement(CUSTOMER_ORDERNO, true, true));
 		list.add(new Requirement(PAYMENT_TERMS, true, true));
 		list.add(new Requirement(SHIPPING_TERMS, true, true));
 		list.add(new Requirement(SHIPPING_METHODS, true, true));
 		list.add(new Requirement(DUE_DATE, true, true));
+		list.add(new Requirement(MEMO, true, true));
 
 	}
 
@@ -116,7 +120,15 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
 
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
+			}
+		}
 		result = itemsRequirement(context, makeResult, actions);
 		if (result != null) {
 			return result;
@@ -194,6 +206,15 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		newSalesOrder.setTransactionItems(items);
+
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
+		String memo = get("memo").getValue();
+		newSalesOrder.setMemo(memo);
 
 		create(newSalesOrder, context);
 	}
@@ -281,7 +302,11 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				"Enter Memo");
+		if (result != null) {
+			return result;
+		}
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Item.");
 		actions.add(finish);

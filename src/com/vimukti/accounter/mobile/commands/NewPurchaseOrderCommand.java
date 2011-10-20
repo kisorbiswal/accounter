@@ -2,17 +2,9 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import com.vimukti.accounter.core.AccountTransaction;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.PurchaseOrder;
-import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
@@ -20,7 +12,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientAccountTransaction;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -55,6 +46,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("desc", true, true));
 				list.add(new Requirement("amount", true, true));
 				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("vatCode", true, true));
 				list.add(new Requirement("total", true, true));
 			}
 		});
@@ -67,10 +59,11 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("quantity", true, true));
 				list.add(new Requirement("price", true, true));
 				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("vatCode", true, true));
 				list.add(new Requirement("total", true, true));
 			}
 		});
-
+		list.add(new Requirement(TAXCODE, false, true));
 		list.add(new Requirement("contact", true, false));
 		list.add(new Requirement("phone", true, true));
 		list.add(new Requirement("billto", true, false));
@@ -156,6 +149,15 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
+			}
+		}
 		setDefaultsValues();
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
@@ -190,12 +192,21 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
 		newPurchaseOrder.setPhone((String) get("phone").getValue());
 
-		newPurchaseOrder.setStatus((Integer) get(STATUS).getValue());
+		int statusNumber = 0;
+		if (get(STATUS).getValue() == "Open") {
+			statusNumber = 1;
+		} else if (get(STATUS).getValue() == "Open") {
+			statusNumber = 2;
+		} else if (get(STATUS).getValue() == "Open") {
+			statusNumber = 3;
+		}
+		newPurchaseOrder.setStatus(statusNumber);
 
-		newPurchaseOrder.setNumber((String) get(ORDER_NO).getValue());
+		newPurchaseOrder.setNumber((String) get("orderno").getValue());
 
 		ClientPaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
-		newPurchaseOrder.setPaymentTerm(newPaymentTerms.getID());
+		if (newPaymentTerms != null)
+			newPurchaseOrder.setPaymentTerm(newPaymentTerms.getID());
 
 		Date dueDate = get("duedate").getValue();
 		newPurchaseOrder.setDate(new FinanceDate(dueDate).getDate());
@@ -210,6 +221,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 		newPurchaseOrder.setTransactionItems(items);
+		updateTotals(newPurchaseOrder);
 
 		ClientCompanyPreferences preferences = getClientCompany()
 				.getPreferences();
@@ -219,7 +231,6 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-		updateTotals(newPurchaseOrder);
 
 		String memo = get("memo").getValue();
 		newPurchaseOrder.setMemo(memo);
@@ -268,7 +279,6 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 			if (result != null) {
 				return result;
 			}
-
 			result = shippingTermsRequirement(context, list, selection);
 			if (result != null) {
 				return result;
@@ -317,66 +327,6 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		actions.add(finish);
 
 		return makeResult;
-	}
-
-	/**
-	 * Contact requirement checking
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @param vendor
-	 * @return
-	 */
-	private Result contactRequirement(Context context, ResultList list,
-			Object selection, Vendor vendor) {
-		Object contactObj = context.getSelection(CONTACTS);
-		Requirement contactReq = get("contact");
-		Contact contact = (Contact) contactReq.getValue();
-		if (selection == contact) {
-			return contactList(context, vendor, contact);
-
-		}
-		if (contactObj != null) {
-			contact = (Contact) contactObj;
-			contactReq.setValue(contact);
-		}
-
-		Record contactRecord = new Record(contact);
-		contactRecord.add("Name", "Customer Contact");
-		contactRecord.add("Value", contact.getName());
-		list.add(contactRecord);
-		return null;
-	}
-
-	private Result contactList(Context context, Vendor vendor,
-			Contact oldContact) {
-		Set<Contact> contacts = vendor.getContacts();
-		ResultList list = new ResultList(CONTACTS);
-		int num = 0;
-		if (oldContact != null) {
-			// list.add(createContactRecord(oldContact));
-			num++;
-		}
-		for (Contact contact : contacts) {
-			if (contact != oldContact) {
-				// list.add(createContactRecord(contact));
-				num++;
-			}
-			if (num == CONTACTS_TO_SHOW) {
-				break;
-			}
-		}
-
-		Result result = context.makeResult();
-		result.add("Select " + vendor.getName() + "'s Contact");
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create Contact");
-		result.add(commandList);
-
-		return result;
 	}
 
 }
