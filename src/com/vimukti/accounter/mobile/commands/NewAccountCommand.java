@@ -153,7 +153,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 
 		result = amountOptionalRequirement(context, list, selection,
 				OPENINGBALANCE,
-				getMessages().pleaseEnter(getConstants().openingBalance()));
+				getMessages().pleaseEnter(getConstants().openingBalance()),
+				getConstants().openingBalance());
 		if (result != null) {
 			return result;
 		}
