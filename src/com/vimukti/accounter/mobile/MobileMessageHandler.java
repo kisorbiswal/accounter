@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -139,6 +140,8 @@ public class MobileMessageHandler {
 		System.out.println("NetWorkID: " + networkId);
 		System.out.println("EmailId: " + emailId);
 		System.out.println("Activation Code: " + activationCode);
+
+		UsersMailSendar.sendMobileActivationMail(activationCode, emailId);
 
 		Session currentSession = HibernateUtil.getCurrentSession();
 		IMActivation activation = new IMActivation();
