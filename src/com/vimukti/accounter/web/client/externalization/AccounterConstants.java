@@ -4992,6 +4992,8 @@ public interface AccounterConstants extends Constants {
 
 	public String customerSinceDate();
 
+	public String balanceAsOfDate();
+
 	public String dummyDue();
 
 	public String notPrinted();
