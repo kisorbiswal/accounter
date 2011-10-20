@@ -2,7 +2,6 @@ package com.vimukti.accounter.mobile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class Context {
 
@@ -37,8 +37,8 @@ public class Context {
 	 * 
 	 * @return
 	 */
-	public Date getDate() {
-		List<Date> dates = getDates();
+	public ClientFinanceDate getDate() {
+		List<ClientFinanceDate> dates = getDates();
 		if (dates != null && !dates.isEmpty()) {
 			return dates.get(0);
 		}
@@ -82,8 +82,8 @@ public class Context {
 	 * 
 	 * @return
 	 */
-	public List<Date> getDates() {
-		return (List<Date>) this.attributes.get("dates");
+	public List<ClientFinanceDate> getDates() {
+		return (List<ClientFinanceDate>) this.attributes.get("dates");
 
 	}
 
@@ -150,7 +150,7 @@ public class Context {
 			List<Integer> integers = new ArrayList<Integer>();
 			List<Double> doubles = new ArrayList<Double>();
 			List<String> strings = new ArrayList<String>();
-			List<Date> dates = new ArrayList<Date>();
+			List<ClientFinanceDate> dates = new ArrayList<ClientFinanceDate>();
 
 			for (String string : inputs) {
 				if (StringUtils.isInteger(string)) {
@@ -167,7 +167,8 @@ public class Context {
 					SimpleDateFormat dateFormat = new SimpleDateFormat(
 							"dd/MM/yyyy");
 					dateFormat.parse(string);
-					Date date = dateFormat.parse(string);
+					ClientFinanceDate date = new ClientFinanceDate(
+							dateFormat.parse(string));
 					dates.add(date);
 				}
 				strings.add(string);
