@@ -71,15 +71,15 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 
 		// Preparing result
 		Result makeResult = context.makeResult();
-		makeResult
-				.add("Transfer Funds Transaction is ready to create with following values.");
+		makeResult.add(getMessages()
+				.readyToCreate(getConstants().makeDeposit()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		setTransactionType(ClientTransaction.TYPE_MAKE_DEPOSIT);
 
 		result = accountRequirement(context, list, DEPOSIT_OR_TRANSFER_TO,
-				new ListFilter<ClientAccount>() {
+				getConstants().account(), new ListFilter<ClientAccount>() {
 
 					@Override
 					public boolean filter(ClientAccount account) {
@@ -119,7 +119,8 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		result = new Result();
-		result.add(" Make A Deposit Transaction was created successfully.");
+		result.add(getMessages().createSuccessfully(
+				getConstants().makeDeposit()));
 		return result;
 	}
 
@@ -177,7 +178,7 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		List<ClientTransactionMakeDeposit> accountTransItems = transItemsReq
 				.getValue();
 		ResultList accountItems = new ResultList("accountItems");
-		result.add("Account Transaction Items:-");
+		result.add(getConstants().accountTransactionItems());
 		for (ClientTransactionMakeDeposit item : accountTransItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("Name", getClientCompany()
@@ -421,25 +422,35 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 		Result result = dateOptionalRequirement(context, list, DATE,
-				"Enter Date", selection);
+				getConstants().date(),
+				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter Make A Deposit Transaction Number");
+		result = numberOptionalRequirement(
+				context,
+				list,
+				selection,
+				NUMBER,
+				getConstants().makeDeposit() + getConstants().number(),
+				getMessages().pleaseEnter(
+						getConstants().makeDeposit() + getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, "memo",
-				"Add a memo");
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().addMemo(),
+				getMessages().pleaseEnter(getConstants().addMemo()));
+
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Make a Deposite.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().makeDeposit()));
 		actions.add(finish);
 
 		return makeResult;
