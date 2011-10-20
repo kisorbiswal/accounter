@@ -1,17 +1,26 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class FileVATCommand extends AbstractVATCommand {
 
@@ -89,7 +98,9 @@ public class FileVATCommand extends AbstractVATCommand {
 	}
 
 	private void setDefaultValues() {
-		get(FROM_DATE).setDefaultValue(new Date());
+		ClientFinanceDate date = getClientCompany()
+				.getCurrentFiscalYearStartDate();
+		get(FROM_DATE).setDefaultValue(date.getDateAsObject());
 		get(TO_DATE).setDefaultValue(new Date());
 	}
 
@@ -111,26 +122,33 @@ public class FileVATCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 
-		Result result = dateRequirement(context, list, selection, FROM_DATE,
-				getMessages().pleaseEnter(getConstants().fromDate()));
+		Result result = dateOptionalRequirement(context, list, FROM_DATE,
+				getMessages().pleaseEnter(getConstants().fromDate()), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateRequirement(context, list, selection, TO_DATE,
-				getMessages().pleaseEnter(getConstants().endDate()));
+		result = dateOptionalRequirement(context, list, TO_DATE, getMessages()
+				.pleaseEnter(getConstants().endDate()), selection);
 		if (result != null) {
 			return result;
 		}
+
+		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		Date fromDate = get(FROM_DATE).getValue();
+		Date toDate = get(TO_DATE).getValue();
 
 		makeResult.add("VAT Line:-");
-		ResultList boxes = new ResultList("vatline");
-		List<ClientBox> boxes2 = getBoxes();
-		for (ClientBox box : boxes2) {
-			Record itemRec = createBoxRecord(box);
-			boxes.add(itemRec);
+		List<ClientBox> boxes2 = new ArrayList<ClientBox>();
+		try {
+			boxes2 = getBoxes(taxAgency, fromDate, toDate, context);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		makeResult.add(boxes);
+		for (ClientBox box : boxes2) {
+			makeResult.add(createBoxRecord(box));
+		}
 
 		Requirement boxesReq = get(BOXES);
 		boxesReq.setValue(boxes2);
@@ -142,16 +160,24 @@ public class FileVATCommand extends AbstractVATCommand {
 		return makeResult;
 	}
 
-	private Record createBoxRecord(ClientBox box) {
-		Record record = new Record(box);
-		record.add("Vat Line", box.getName());
-		record.add("Amount", box.getAmount());
-		return record;
+	private String createBoxRecord(ClientBox box) {
+		StringBuffer record = new StringBuffer();
+		record.append(box.getName() + "  ");
+		record.append(box.getAmount());
+		return record.toString();
 	}
 
-	private List<ClientBox> getBoxes() {
-		// TODO Auto-generated method stub
-		return null;
+	private List<ClientBox> getBoxes(ClientTAXAgency taxAgency, Date fromDate,
+			Date toDate, Context context) throws Exception {
+		TAXAgency serverVatAgency = new ServerConvertUtil().toServerObject(
+				new TAXAgency(), taxAgency, context.getHibernateSession());
+
+		ClientVATReturn vatReturn = new ClientConvertUtil().toClientObject(
+				new FinanceTool().getTaxManager().getVATReturnDetails(
+						serverVatAgency, new FinanceDate(fromDate),
+						new FinanceDate(toDate), getClientCompany().getID()),
+				ClientVATReturn.class);
+		return vatReturn.getBoxes();
 	}
 
 }
