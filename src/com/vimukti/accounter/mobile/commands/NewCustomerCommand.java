@@ -322,7 +322,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 						.inActive(getConstants().customer()));
 
 		Result result = dateOptionalRequirement(context, list,
-				CUSTOMER_SINCEDATE, "Enter CustomerSinceDate", selection);
+				CUSTOMER_SINCEDATE, getConstants().customerSinceDate(),
+				getMessages().enterDate(getConstants().customerSinceDate()),
+				selection);
 
 		if (result != null) {
 			return result;
@@ -333,7 +335,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, BALANCE_ASOF_DATE,
-				"Enter the " + BALANCE_ASOF_DATE, selection);
+				getConstants().balanceAsOfDate(),
+				getMessages().pleaseEnter(getConstants().balanceAsOfDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
