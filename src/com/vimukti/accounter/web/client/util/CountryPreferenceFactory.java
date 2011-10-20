@@ -241,410 +241,469 @@ public class CountryPreferenceFactory {
 	public static final String ZIMBABWE = "Zimbabwe";
 
 	public static ICountryPreferences get(String countryCode) {
-		if (countryCode.equals("Algeria")) {
-			return new Algeria();
-		}
-		if (countryCode.equals("Albania")) {
-			return null;
-		}
-
-		if (countryCode.equals("Afghanistan")) {
-			return new Afghanistan();
-		}
-		if (countryCode.equals("Angola")) {
-			return new Angola();
-		}
-		if (countryCode.equals("Anguilla")) {
-			return new Anguilla();
-		}
-		if (countryCode.equals("Antigua And Barbuda")) {
-			return new AntiguaAndBarbuda();
-		}
-		if (countryCode.equals("Argentina")) {
-			return new Argentina();
-		}
-		if (countryCode.equals("Armenia")) {
-			return new Armenia();
-		}
-		if (countryCode.equals("Australia")) {
-			return new Australia();
-		}
-		if (countryCode.equals("Austria")) {
-			return new Austria();
-		}
-		if (countryCode.equals("Azerbaijan")) {
-			return new Azerbaijan();
-		}
-		if (countryCode.equals("Bahamas, The")) {
-			return new BahamasThe();
-		}
-		if (countryCode.equals("Bahrain")) {
-			return new Bahrain();
-		}
-		if (countryCode.equals("Barbados")) {
-			return new Barbados();
-		}
-		if (countryCode.equals("Belarus")) {
-			return new Belarus();
-		}
-		if (countryCode.equals("Belgium")) {
-			return new Belgium();
-		}
-		if (countryCode.equals("Belize")) {
-			return new Belize();
-		}
-		if (countryCode.equals("Bermuda")) {
-			return new Bermuda();
-		}
-		if (countryCode.equals("Bolivia")) {
-			return new Bolivia();
-		}
-		if (countryCode.equals("Botswana")) {
-			return new Botswana();
-		}
-		if (countryCode.equals("Brazil")) {
-			return new Brazil();
-		}
-		if (countryCode.equals("Brunei")) {
-			return new Brunei();
-		}
-		if (countryCode.equals("Bulgaria")) {
-			return new Bulgaria();
-		}
-		if (countryCode.equals("Canada")) {
-			return new Canada();
-		}
-		if (countryCode.equals("Cayman Islands")) {
-			return new CaymanIslands();
-		}
-		if (countryCode.equals("Chile")) {
-			return new Chile();
-		}
-		if (countryCode.equals("China")) {
-			return new China();
-		}
-		if (countryCode.equals("Colombia")) {
-			return new Colombia();
-		}
-		if (countryCode.equals("CostaRica")) {
-			return new CostaRica();
-		}
-		if (countryCode.equals("Croatia")) {
-			return new Croatia();
-		}
-		if (countryCode.equals("Cyprus")) {
-			return new Cyprus();
-		}
-		if (countryCode.equals("Czech Republic")) {
-			return new CzechRepublic();
-		}
-		if (countryCode.equals("Denmark")) {
-			return new Denmark();
-		}
-		if (countryCode.equals("Djibouti")) {
-			return new Djibouti();
-		}
-		if (countryCode.equals("Dominica")) {
-			return new Dominica();
-		}
-		if (countryCode.equals("Dominican Republic")) {
-			return new DominicanRepublic();
-		}
-		if (countryCode.equals("Ecuador")) {
-			return new Ecuador();
-		}
-		if (countryCode.equals("Egypt")) {
-			return new Egypt();
-		}
-		if (countryCode.equals("ElSalvador")) {
-			return new ElSalvador();
-		}
-		if (countryCode.equals("Estonia")) {
-			return new Estonia();
-		}
-		if (countryCode.equals("Finland")) {
-			return new Finland();
-		}
-		if (countryCode.equals("France")) {
-			return new France();
-		}
-		if (countryCode.equals("French Guiana")) {
-			return new FrenchGuiana();
-		}
-		if (countryCode.equals("French Polynesia")) {
-			return new FrenchPolynesia();
-		}
-		if (countryCode.equals("Germany")) {
-			return new Germany();
-		}
-		if (countryCode.equals("Ghana")) {
-			return new Ghana();
-		}
-		if (countryCode.equals("Gibraltar")) {
-			return new Gibraltar();
-		}
-		if (countryCode.equals("Greece")) {
-			return new Greece();
-		}
-		if (countryCode.equals("Greenland")) {
-			return new Greenland();
-		}
-		if (countryCode.equals("Grenada")) {
-			return new Grenada();
-		}
-		if (countryCode.equals("Guatemala")) {
-			return new Guatemala();
-		}
-		if (countryCode.equals("Guyana")) {
-			return new Guyana();
-		}
-		if (countryCode.equals("Honduras")) {
-			return new Honduras();
-		}
-		if (countryCode.equals("HongKong")) {
-			return new HongKong();
-		}
-		if (countryCode.equals("Hungary")) {
-			return new Hungary();
-		}
-		if (countryCode.equals("Iceland")) {
-			return new Iceland();
-		}
-		if (countryCode.equals("India")) {
-			return new India();
-		}
-		if (countryCode.equals("Indonesia")) {
-			return new Indonesia();
-		}
-		if (countryCode.equals("Ireland")) {
-			return new Ireland();
-		}
-		if (countryCode.equals("Israel")) {
-			return new Israel();
-		}
-		if (countryCode.equals("Italy")) {
-			return new Italy();
-		}
-		if (countryCode.equals("Jamaica")) {
-			return new Jamaica();
-		}
-		if (countryCode.equals("Japan")) {
-			return new Japan();
-		}
-		if (countryCode.equals("Jordan")) {
-			return new Jordan();
-		}
-		if (countryCode.equals("Kazakhstan")) {
-			return new Kazakhstan();
-		}
-		if (countryCode.equals("Kenya")) {
-			return new Kenya();
-		}
-		if (countryCode.equals("Korea North")) {
-			return new KoreaNorth();
-		}
-		if (countryCode.equals("Korea South")) {
-			return new KoreaSouth();
-		}
-		if (countryCode.equals("Kuwait")) {
-			return new Kuwait();
-		}
-		if (countryCode.equals("Latvia")) {
-			return new Latvia();
-		}
-		if (countryCode.equals("Lebanon")) {
-			return new Lebanon();
-		}
-		if (countryCode.equals("Liberia")) {
-			return new Liberia();
-		}
-		if (countryCode.equals("Lithuania")) {
-			return new Lithuania();
-		}
-		if (countryCode.equals("Luxembourg")) {
-			return new Luxembourg();
-		}
-		if (countryCode.equals("Macedonia")) {
-			return new Macedonia();
-		}
-		if (countryCode.equals("Madagascar")) {
-			return new Madagascar();
-		}
-		if (countryCode.equals("Malaysia")) {
-			return new Malaysia();
-		}
-		if (countryCode.equals("Mali")) {
-			return new Mali();
-		}
-		if (countryCode.equals("Malta")) {
-			return new Malta();
-		}
-		if (countryCode.equals("Marshall Islands")) {
-			return new MarshallIslands();
-		}
-		if (countryCode.equals("Mauritius")) {
-			return new Mauritius();
-		}
-		if (countryCode.equals("Mexico")) {
-			return new Mexico();
-		}
-		if (countryCode.equals("Moldova")) {
-			return new Moldova();
-		}
-		if (countryCode.equals("Montserrat")) {
-			return new Montserrat();
-		}
-		if (countryCode.equals("Morocco")) {
-			return new Morocco();
-		}
-		if (countryCode.equals("Netherlands")) {
-			return new Netherlands();
-		}
-		if (countryCode.equals("NewZealand")) {
-			return new NewZealand();
-		}
-		if (countryCode.equals("Nicaragua")) {
-			return new Nicaragua();
-		}
-		if (countryCode.equals("Niger")) {
-			return new Niger();
-		}
-		if (countryCode.equals("Nigeria")) {
-			return new Nigeria();
-		}
-		if (countryCode.equals("Norway")) {
-			return new Norway();
-		}
-		if (countryCode.equals("Oman")) {
-			return new Oman();
-		}
-		if (countryCode.equals("Pakistan")) {
-			return new Pakistan();
-		}
-		if (countryCode.equals("Panama")) {
-			return new Panama();
-		}
-		if (countryCode.equals("Paraguay")) {
-			return new Paraguay();
-		}
-		if (countryCode.equals("Peru")) {
-			return new Peru();
-		}
-		if (countryCode.equals("Philippines")) {
-			return new Philippines();
-		}
-		if (countryCode.equals("Poland")) {
-			return new Poland();
-		}
-		if (countryCode.equals("Portugal")) {
-			return new Portugal();
-		}
-		if (countryCode.equals("Qatar")) {
-			return new Qatar();
-		}
-		if (countryCode.equals("Romania")) {
-			return new Romania();
-		}
-		if (countryCode.equals("Russia")) {
-			return new Russia();
-		}
-		if (countryCode.equals("Saint Kitts And Nevis")) {
-			return new SaintKittsAndNevis();
-		}
-		if (countryCode.equals("Saint Lucia")) {
-			return new SaintLucia();
-		}
-		if (countryCode.equals("Saint Vincent And The Grenadines")) {
-			return new SaintVincentAndTheGrenadines();
-		}
-		if (countryCode.equals("Saudi Arabia")) {
-			return new SaudiArabia();
-		}
-		if (countryCode.equals("Senegal")) {
-			return new Senegal();
-		}
-		if (countryCode.equals("Singapore")) {
-			return new Singapore();
-		}
-		if (countryCode.equals("Slovakia")) {
-			return new Slovakia();
-		}
-		if (countryCode.equals("Slovenia")) {
-			return new Slovenia();
-		}
-		if (countryCode.equals("South Africa")) {
-			return new SouthAfrica();
-		}
-		if (countryCode.equals("Spain")) {
-			return new Spain();
-		}
-		if (countryCode.equals("SriLanka")) {
-			return new SriLanka();
-		}
-		if (countryCode.equals("Suriname")) {
-			return new Suriname();
-		}
-		if (countryCode.equals("Sweden")) {
-			return new Sweden();
-		}
-		if (countryCode.equals("Switzerland")) {
-			return new Switzerland();
-		}
-		if (countryCode.equals("Taiwan")) {
-			return new Taiwan();
-		}
-		if (countryCode.equals("Tanzania")) {
-			return new Tanzania();
-		}
-		if (countryCode.equals("Thailand")) {
-			return new Thailand();
-		}
-		if (countryCode.equals("TimorLeste")) {
-			return new TimorLeste();
-		}
-		if (countryCode.equals("Trinidad And Tobago")) {
-			return new TrinidadAndTobago();
-		}
-		if (countryCode.equals("Tunisia")) {
-			return new Tunisia();
-		}
-		if (countryCode.equals("Turkey")) {
-			return new Turkey();
-		}
-		if (countryCode.equals("Turks And Caicos Islands")) {
-			return new TurksAndCaicosIslands();
-		}
-		if (countryCode.equals("Uganda")) {
-			return new Uganda();
-		}
-		if (countryCode.equals("UnitedArab Emirates")) {
-			return new UnitedArabEmirates();
-		}
-		if (countryCode.equals("United Kingdom")) {
+		if (countryCode.equals(UNITED_KINGDOM)) {
 			return new UnitedKingdom();
 		}
-		if (countryCode.equals("United States")) {
+		if (countryCode.equals(UNITED_STATES)) {
 			return new UnitedStates();
 		}
-		if (countryCode.equals("Uruguay")) {
+		if (countryCode.equals(AFGHANISTAN)) {
+			return new Afghanistan();
+		}
+		if (countryCode.equals(ALBANIA)) {
+			return new Albania();
+		}
+		if (countryCode.equals(ALGERIA)) {
+			return new Algeria();
+		}
+		if (countryCode.equals(AMERICAN_SAMOA)) {
+			return new AmericanSamoa();
+		}
+		if (countryCode.equals(ANDORRA)) {
+			return new Andorra();
+		}
+		if (countryCode.equals(ANGUILLA)) {
+			return new Anguilla();
+		}
+		if (countryCode.equals(ANTARCTICA)) {
+			return new Antarctica();
+		}
+		if (countryCode.equals(ANTIGUA_AND_BARBUDA)) {
+			return new AntiguaAndBarbuda();
+		}
+		if (countryCode.equals(ARGENTINA)) {
+			return new Argentina();
+		}
+		if (countryCode.equals(ARMENIA)) {
+			return new Armenia();
+		}
+		if (countryCode.equals(ARUBA)) {
+			return new Aruba();
+		}
+		if (countryCode.equals(AUSTRIA)) {
+			return new Austria();
+		}
+		if (countryCode.equals(AUSTRALIA)) {
+			return new Australia();
+		}
+		if (countryCode.equals(AZERBAIJAN)) {
+			return new Azerbaijan();
+		}
+		if (countryCode.equals(BAHAMAS_THE)) {
+			return new BahamasThe();
+		}
+		if (countryCode.equals(BAHRAIN)) {
+			return new Bahrain();
+		}
+		if (countryCode.equals(BANGLADESH)) {
+			return new Bangladesh();
+		}
+		if (countryCode.equals(BARBADOS)) {
+			return new Barbados();
+		}
+		if (countryCode.equals(BELARUS)) {
+			return new Belarus();
+		}
+		if (countryCode.equals(BELGIUM)) {
+			return new Belgium();
+		}
+		if (countryCode.equals(BELIZE)) {
+			return new Belize();
+		}
+		if (countryCode.equals(BENIN)) {
+			return new Benin();
+		}
+		if (countryCode.equals(BERMUDA)) {
+			return new Bermuda();
+		}
+		if (countryCode.equals(BHUTAN)) {
+			return new Bhutan();
+		}
+		if (countryCode.equals(BOLIVIA)) {
+			return new Bolivia();
+		}
+		if (countryCode.equals(BOSNIA_AND_HERZEGOVINA)) {
+			return new BosniaAndHerzegovina();
+		}
+		if (countryCode.equals(BOTSWANA)) {
+			return new Botswana();
+		}
+		if (countryCode.equals(BOUVET_ISLAND)) {
+			return new BouvetIsland();
+		}
+		if (countryCode.equals(BRAZIL)) {
+			return new Brazil();
+		}
+		if (countryCode.equals(BRITISH_INDIAN_OCEAN_TERRITORY)) {
+			return new BritishIndianOceanTerritory();
+		}
+		if (countryCode.equals(BRUNEI)) {
+			return new Brunei();
+		}
+		if (countryCode.equals(BULGARIA)) {
+			return new Bulgaria();
+		}
+		if (countryCode.equals(BURKINA_FASO)) {
+			return new BurkinaFaso();
+		}
+		if (countryCode.equals(BURUNDI)) {
+			return new Burundi();
+		}
+		if (countryCode.equals(CAMBODIA)) {
+			return new Cambodia();
+		}
+		if (countryCode.equals(CAMEROON)) {
+			return new Cameroon();
+		}
+		if (countryCode.equals(CANADA)) {
+			return new Canada();
+		}
+		if (countryCode.equals(CAPE_VERDE)) {
+			return new CapeVerde();
+		}
+		if (countryCode.equals(CAYMAN_ISLANDS)) {
+			return new CaymanIslands();
+		}
+		if (countryCode.equals(CENTRAL_AFRICAN_REPUBLIC)) {
+			return new CentralAfricanRepublic();
+		}
+		if (countryCode.equals(CHAD)) {
+			return new Chad();
+		}
+		if (countryCode.equals(CHILE)) {
+			return new Chile();
+		}
+		if (countryCode.equals(CHINA)) {
+			return new China();
+		}
+		if (countryCode.equals(CHRISTMAS_ISLAND)) {
+			return new ChristmasIsland();
+		}
+		if (countryCode.equals(COCOS_ISLANDS)) {
+			return new CocosIslands();
+		}
+		if (countryCode.equals(COLOMBIA)) {
+			return new Colombia();
+		}
+		if (countryCode.equals(COMOROS)) {
+			return new Comoros();
+		}
+		if (countryCode.equals(CONGO_DEMOCRATIC)) {
+			return new CongoDemocratic();
+		}
+		if (countryCode.equals(CONGO_REPUBLIC)) {
+			return new CongoRepublic();
+		}
+		if (countryCode.equals(COOK_ISLANDS)) {
+			return new CookIslands();
+		}
+		if (countryCode.equals(COSTA_RICA)) {
+			return new CostaRica();
+		}
+		if (countryCode.equals(COTE_DIVOIRE)) {
+			return new CoteDivoire();
+		}
+		if (countryCode.equals(CROATIA)) {
+			return new Croatia();
+		}
+		if (countryCode.equals(CUBA)) {
+			return new Cuba();
+		}
+		if (countryCode.equals(CYPRUS)) {
+			return new Cyprus();
+		}
+		if (countryCode.equals(CZECH_REPUBLIC)) {
+			return new CzechRepublic();
+		}
+		if (countryCode.equals(DENMARK)) {
+			return new Denmark();
+		}
+		if (countryCode.equals(DJIBOUTI)) {
+			return new Djibouti();
+		}
+		if (countryCode.equals(DOMINICA)) {
+			return new Dominica();
+		}
+		if (countryCode.equals(DOMINICAN_REPUBLIC)) {
+			return new DominicanRepublic();
+		}
+		if (countryCode.equals(ECUADOR)) {
+			return new Ecuador();
+		}
+		if (countryCode.equals(EGYPT)) {
+			return new Egypt();
+		}
+		if (countryCode.equals(EL_SALVADOR)) {
+			return new ElSalvador();
+		}
+		if (countryCode.equals(EQUATORIAL_GUINEA)) {
+			return new EquatorialGuinea();
+		}
+		if (countryCode.equals(ERITREA)) {
+			return new Eritrea();
+		}
+		if (countryCode.equals(ESTONIA)) {
+			return new Estonia();
+		}
+		if (countryCode.equals(ETHIOPIA)) {
+			return new Ethiopia();
+		}
+		if (countryCode.equals(FALKLAND_ISLANDS)) {
+			return new FalklandIslands();
+		}
+		if (countryCode.equals(FAROE_ISLANDS)) {
+			return new FaroeIslands();
+		}
+		if (countryCode.equals(FIJI)) {
+			return new Fiji();
+		}
+		if (countryCode.equals(FINLAND)) {
+			return new Finland();
+		}
+		if (countryCode.equals(FRANCE)) {
+			return new France();
+		}
+		if (countryCode.equals(FRENCH_GUIANA)) {
+			return new FrenchGuiana();
+		}
+		if (countryCode.equals(FRENCH_POLYNESIA)) {
+			return new FrenchPolynesia();
+		}
+		if (countryCode.equals(FRENCH_SOUTHERN_AND_ANTARCTIC_LANDS)) {
+			return new FrenchSouthernAndAntarcticLands();
+		}
+		if (countryCode.equals(GABON)) {
+			return new Gabon();
+		}
+		if (countryCode.equals(GAMBIA_THE)) {
+			return new GambiaThe();
+		}
+		if (countryCode.equals(GEORHIA)) {
+			return new Georgia();
+		}
+		if (countryCode.equals(GERMANY)) {
+			return new Germany();
+		}
+		if (countryCode.equals(GHANA)) {
+			return new Ghana();
+		}
+		if (countryCode.equals(GIBRALTAR)) {
+			return new Gibraltar();
+		}
+		if (countryCode.equals(GREECE)) {
+			return new Greece();
+		}
+		if (countryCode.equals(GREENLAND)) {
+			return new Greenland();
+		}
+		if (countryCode.equals(GRENADA)) {
+			return new Grenada();
+		}
+		if (countryCode.equals(GUADELOUPE)) {
+			return new Guadeloupe();
+		}
+		if (countryCode.equals(GUAM)) {
+			return new Guam();
+		}
+		if (countryCode.equals(GUATEMALA)) {
+			return new Guatemala();
+		}
+		if (countryCode.equals(GUINEA)) {
+			return new Guinea();
+		}
+		if (countryCode.equals(GUINEA_BISSAU)) {
+			return new GuineaBissau();
+		}
+		if (countryCode.equals(GUYANA)) {
+			return new Guyana();
+		}
+		if (countryCode.equals(HAITI)) {
+			return new Haiti();
+		}
+		if (countryCode.equals(HEARD_ISLAND_AND_MCDONALD_ISLANDS)) {
+			return new HeardIslandAndMcdonaldIslands();
+		}
+		if (countryCode.equals(HOLY_SEE)) {
+			return new HolySee();
+		}
+		if (countryCode.equals(HONDURAS)) {
+			return new Honduras();
+		}
+		if (countryCode.equals(HONG_KONG)) {
+			return new HongKong();
+		}
+		if (countryCode.equals(HUNGARY)) {
+			return new Hungary();
+		}
+		if (countryCode.equals(ICELAND)) {
+			return new Iceland();
+		}
+		if (countryCode.equals(INDIA)) {
+			return new India();
+		}
+		if (countryCode.equals(INDONESIA)) {
+			return new Indonesia();
+		}
+		if (countryCode.equals(IRAN)) {
+			return new Iran();
+		}
+		if (countryCode.equals(IRAQ)) {
+			return new Iraq();
+		}
+		if (countryCode.equals(IRELAND)) {
+			return new Ireland();
+		}
+		if (countryCode.equals(ISLE_OF_MAN)) {
+			return new IsleOfMan();
+		}
+		if (countryCode.equals(ISRAEL)) {
+			return new Israel();
+		}
+		if (countryCode.equals(ITALY)) {
+			return new Italy();
+		}
+		if (countryCode.equals(JAMAICA)) {
+			return new Jamaica();
+		}
+		if (countryCode.equals(JAN_MAYEN)) {
+			return new JanMayen();
+		}
+		if (countryCode.equals(JAPAN)) {
+			return new Japan();
+		}
+		if (countryCode.equals(JORDAN)) {
+			return new Jordan();
+		}
+		if (countryCode.equals(KAZAKHSTAN)) {
+			return new Kazakhstan();
+		}
+		if (countryCode.equals(KENYA)) {
+			return new Kenya();
+		}
+		if (countryCode.equals(KIRIBATI)) {
+			return new Kiribati();
+		}
+		if (countryCode.equals(KOREA_NORTH)) {
+			return new KoreaNorth();
+		}
+		if (countryCode.equals(KOREA_SOUTH)) {
+			return new KoreaSouth();
+		}
+		if (countryCode.equals(KUWAIT)) {
+			return new Kuwait();
+		}
+		if (countryCode.equals(KYRGYZSTAN)) {
+			return new Kyrgyzstan();
+		}
+		if (countryCode.equals(LAOS)) {
+			return new Laos();
+		}
+		if (countryCode.equals(LATVIA)) {
+			return new Latvia();
+		}
+		if (countryCode.equals(LEBANON)) {
+			return new Lebanon();
+		}
+		if (countryCode.equals(LESOTHO)) {
+			return new Lesotho();
+		}
+		if (countryCode.equals(LIBERIA)) {
+			return new Liberia();
+		}
+		if (countryCode.equals(LIBYA)) {
+			return new Libya();
+		}
+		if (countryCode.equals(LIECHTENSTEIN)) {
+			return new Liechtenstein();
+		}
+		if (countryCode.equals(LITHUANIA)) {
+			return new Lithuania();
+		}
+		if (countryCode.equals(LUXEMBOURG)) {
+			return new Luxembourg();
+		}
+		if (countryCode.equals(MACAO)) {
+			return new Macao();
+		}
+		if (countryCode.equals(MACEDONIA)) {
+			return new Macedonia();
+		}
+		if (countryCode.equals(MADAGASCAR)) {
+			return new Madagascar();
+		}
+		if (countryCode.equals(MALAWI)) {
+			return new Malawi();
+		}
+		if (countryCode.equals(MALAYSIA)) {
+			return new Malaysia();
+		}
+		if (countryCode.equals(MALDIVES)) {
+			return new Maldives();
+		}
+		if (countryCode.equals(MALI)) {
+			return new Mali();
+		}
+		if (countryCode.equals(MALTA)) {
+			return new Malta();
+		}
+		if (countryCode.equals(MARSHALL_ISLANDS)) {
+			return new MarshallIslands();
+		}
+		if (countryCode.equals(MARTINIQUE)) {
+			return new Martinique();
+		}
+		if (countryCode.equals(MAURITANIA)) {
+			return new Mauritania();
+		}
+		if (countryCode.equals(MAURITIUS)) {
+			return new Mauritius();
+		}
+		if (countryCode.equals(MAYOTTE)) {
+			return new Mayotte();
+		}
+		if (countryCode.equals(MEXICO)) {
+			return new Mexico();
+		}
+		if (countryCode.equals(UKRAINE)) {
+			return new Ukraine();
+		}
+		if (countryCode.equals(UNITED_ARAB_EMIRATES)) {
+			return new UnitedArabEmirates();
+		}
+		if (countryCode.equals(URUGUAY)) {
 			return new Uruguay();
 		}
-		if (countryCode.equals("Uzbekistan")) {
+		if (countryCode.equals(UZBEKISTAN)) {
 			return new Uzbekistan();
 		}
-		if (countryCode.equals("Venezuela")) {
+		if (countryCode.equals(VANUATU)) {
+			return new Vanuatu();
+		}
+		if (countryCode.equals(VENEZUELA)) {
 			return new Venezuela();
 		}
-		if (countryCode.equals("Vietnam")) {
+		if (countryCode.equals(VIETNAM)) {
 			return new Vietnam();
 		}
-		if (countryCode.equals("Virgin Islands")) {
+		if (countryCode.equals(VIRGIN_ISLANDS)) {
 			return new VirginIslands();
 		}
-		if (countryCode.equals("Yemen")) {
+		if (countryCode.equals(WALLIS_AND_FUTUNA)) {
+			return new WallisAndFutuna();
+		}
+		if (countryCode.equals(WESTERN_SAHARA)) {
+			return new WesternSahara();
+		}
+		if (countryCode.equals(YEMEN)) {
 			return new Yemen();
 		}
-		return null;
+		if (countryCode.equals(ZAMBIA)) {
+			return new Zambia();
+		}
+		if (countryCode.equals(ZIMBABWE)) {
+			return new Zimbabwe();
+		}
+		return new OtherCountry();
 	}
 
 	public static String[] getCountries() {
