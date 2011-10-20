@@ -92,7 +92,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		// Preparing Result
 		Result makeResult = context.makeResult();
 		makeResult.add(getMessages().readyToCreate(
-				getMessages().vendorCredit(getConstants().Vendor())));
+				getMessages().vendorCredit(getIGlobal().Vendor())));
 		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -147,7 +147,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		markDone();
 		result = new Result();
 		result.add(getMessages().createSuccessfully(
-				getMessages().vendorCreditMemo(getConstants().Vendor())));
+				getMessages().vendorCreditMemo(getIGlobal().Vendor())));
 		return result;
 	}
 
@@ -215,7 +215,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		finish.add(
 				"",
 				getMessages().finishToCreate(
-						getMessages().vendorCredit(getConstants().Vendor())));
+						getMessages().vendorCredit(getIGlobal().Vendor())));
 		actions.add(finish);
 
 		return makeResult;
