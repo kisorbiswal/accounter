@@ -143,7 +143,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(" Vendor is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(Global.get().Vendor()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -267,7 +267,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		markDone();
 
 		Result result = new Result();
-		result.add(" Vendor was created successfully.");
+		result.add(getMessages().createSuccessfully(Global.get().Vendor()));
 
 		return result;
 
@@ -295,7 +295,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		booleanOptionalRequirement(context, selection, list, ACTIVE,
-				"This vendor is Active", "This Vendor is InActive");
+				getMessages().active(Global.get().Vendor()), getMessages()
+						.inActive(Global.get().Vendor()));
 
 		if (getClientCompany().getCountry().equals(
 				CountryPreferenceFactory.UNITED_STATES)) {
@@ -308,9 +309,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 				context,
 				list,
 				VENDOR_SINCE,
+				getMessages().vendorSince(Global.get().Vendor()),
 				getMessages().pleaseEnter(
 						getMessages().vendorSince(Global.get().Vendor())),
-				getMessages().vendorSince(Global.get().Vendor()), selection);
+				selection);
 
 		if (result != null) {
 			return result;
@@ -469,7 +471,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Vendor.");
+		finish.add("", getMessages().finishToCreate(getConstants().Vendor()));
 		actions.add(finish);
 		return makeResult;
 	}

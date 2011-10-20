@@ -171,7 +171,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		markDone();
 
 		result = new Result();
-		result.add(" Customer was created successfully.");
+		result.add(getMessages().createSuccessfully(Global.get().Customer()));
 
 		return result;
 
