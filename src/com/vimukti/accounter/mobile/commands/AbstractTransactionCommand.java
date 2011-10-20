@@ -719,7 +719,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 
 		Record paymentTermRecord = new Record("Payment Terms");
-		paymentTermRecord.add("Name", "Payment Terms");
+		paymentTermRecord.add("Name", getConstants().paymentTerm());
 		paymentTermRecord.add("Value",
 				paymentTerm == null ? "" : paymentTerm.getName());
 

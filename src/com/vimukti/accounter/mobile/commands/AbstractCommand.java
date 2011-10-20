@@ -598,7 +598,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result createSupplierRequirement(Context context,
-			ResultList list, String requirementName) {
+			ResultList list, String requirementName, String name) {
 		Requirement supplierReq = get(requirementName);
 		ClientVendor vendor = context.getSelection("suppliers");
 
@@ -613,7 +613,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record supplierRecord = new Record(value);
-		supplierRecord.add("", "Supplier");
+		supplierRecord.add("", name);
 		supplierRecord.add("", value.getName());
 		list.add(supplierRecord);
 
@@ -1565,7 +1565,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result statusRequirement(Context context, ResultList list,
-			String reqName) {
+			String reqName, String name) {
 		Requirement statusReq = get(reqName);
 		String statuses = context.getSelection("statusmethods");
 
@@ -1579,7 +1579,7 @@ public abstract class AbstractCommand extends Command {
 			return statusPrevious(context, null);
 		}
 		Record paymentTermsRecord = new Record(status);
-		paymentTermsRecord.add("", "Status");
+		paymentTermsRecord.add("", name);
 		paymentTermsRecord.add("", status);
 		list.add(paymentTermsRecord);
 
@@ -1632,7 +1632,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record shippingTermRecord = new Record("Shipping Terms");
-		shippingTermRecord.add("Name", "Shipping Terms");
+		shippingTermRecord.add("Name", getConstants().shippingTerms());
 		shippingTermRecord.add("Value", shippingTerm.getName());
 		list.add(shippingTermRecord);
 		return null;
@@ -1688,14 +1688,14 @@ public abstract class AbstractCommand extends Command {
 	 */
 	protected Result shippingMethodRequirement(Context context,
 			ResultList list, Object selection) {
-		Object shippingMethodObj = context.getSelection(SHIPPING_TERMS);
-		Requirement shippingMethodReq = get("shippingTerms");
+		Object shippingMethodObj = context.getSelection(SHIPPING_METHODS);
+		Requirement shippingMethodReq = get(SHIPPING_METHODS);
 		ClientShippingMethod shippingMethods = (ClientShippingMethod) shippingMethodReq
 				.getValue();
 
 		if (selection != null) {
-			if (selection == "Shipping Terms") {
-				context.setAttribute(INPUT_ATTR, "Shipping Terms");
+			if (selection == SHIPPING_METHODS) {
+				context.setAttribute(INPUT_ATTR, SHIPPING_METHODS);
 				return shippingMethods(context, shippingMethods);
 			}
 		}
@@ -1704,9 +1704,9 @@ public abstract class AbstractCommand extends Command {
 			shippingMethodReq.setValue(shippingMethods);
 		}
 
-		Record shippingTermRecord = new Record("Shipping Terms");
-		shippingTermRecord.add("Name", "Shipping Terms");
-		shippingTermRecord.add("Value", shippingMethods.getName());
+		Record shippingTermRecord = new Record(SHIPPING_METHODS);
+		shippingTermRecord.add("", getConstants().shippingMethod());
+		shippingTermRecord.add("", shippingMethods.getName());
 		list.add(shippingTermRecord);
 		return null;
 	}
@@ -1715,9 +1715,9 @@ public abstract class AbstractCommand extends Command {
 			ClientShippingMethod oldShippingMethods) {
 		List<ClientShippingMethod> shippingMethods = getShippingMethods();
 		Result result = context.makeResult();
-		result.add("Select Shipping Methods");
+		result.add(getMessages().pleaseSelect(getConstants().shippingMethod()));
 
-		ResultList list = new ResultList(SHIPPING_TERMS);
+		ResultList list = new ResultList(SHIPPING_METHODS);
 		int num = 0;
 		if (oldShippingMethods != null) {
 			list.add(createShippingMethodsRecord(oldShippingMethods));
