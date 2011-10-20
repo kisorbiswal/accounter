@@ -101,7 +101,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 		// Preparing Result
 		Result makeResult = context.makeResult();
-		makeResult.add("Enter Bill is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().enterBill()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -140,12 +140,13 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		markDone();
 
 		result = new Result();
-		result.add("Enter bill created successfully");
+		result.add(getMessages().createSuccessfully(getConstants().enterBill()));
 		return result;
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(new Date(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 		get(NUMBER)
 				.setDefaultValue(
 						NumberUtils.getNextTransactionNumber(
@@ -161,9 +162,10 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		get(DUE_DATE).setDefaultValue(new Date(System.currentTimeMillis()));
-		get(DELIVERY_DATE)
-				.setDefaultValue(new Date(System.currentTimeMillis()));
+		get(DUE_DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
+		get(DELIVERY_DATE).setDefaultValue(
+				new ClientFinanceDate(System.currentTimeMillis()));
 
 		ClientVendor v = (ClientVendor) get(VENDOR).getValue();
 		if (v != null) {
@@ -182,9 +184,9 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 		ClientVendor vendor = (ClientVendor) get(VENDOR).getValue();
 		enterBill.setVendor(vendor);
-		Date date = get(DATE).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
 		if (date != null) {
-			enterBill.setDate(new ClientFinanceDate(date).getDate());
+			enterBill.setDate(date.getDate());
 		} else {
 			enterBill.setDate(System.currentTimeMillis());
 		}
@@ -208,11 +210,11 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		enterBill.setTransactionItems(items);
 		updateTotals(enterBill);
 
-		Date dueDate = get(DUE_DATE).getValue();
-		enterBill.setDueDate(new ClientFinanceDate(dueDate).getDate());
+		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
+		enterBill.setDueDate(dueDate.getDate());
 
-		Date deliveryDate = get(DELIVERY_DATE).getValue();
-		enterBill.setDeliveryDate(new ClientFinanceDate(deliveryDate));
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
+		enterBill.setDeliveryDate(deliveryDate);
 
 		ClientContact contact = get(CONTACT).getValue();
 		enterBill.setContact(contact);
@@ -250,7 +252,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 		Result result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
+				getMessages().pleaseEnter(getConstants().transactionDate()));
 		if (result != null) {
 			return result;
 		}
@@ -265,32 +267,35 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone Number");
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, DUE_DATE,
-				"Enter Due date", selection);
+				getConstants().dueDate(),
+				getMessages().pleaseEnter(getConstants().dueDate()), selection);
 
 		if (result != null) {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, DELIVERY_DATE,
-				"Enter the " + DELIVERY_DATE, selection);
+				getConstants().deliveryDate(),
+				getMessages().pleaseEnter(getConstants().deliveryDate()),
+				selection);
 
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Bill.");
+		finish.add("", getMessages().finishToCreate(getConstants().bills()));
 		actions.add(finish);
 
 		return makeResult;
