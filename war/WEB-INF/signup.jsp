@@ -48,6 +48,8 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	    $('.indication-box').remove();
 	        $('#email_id_box').append('<div class="indication-box"><div class="left-arrow"></div><div class="box-data">Enter a valid email address. A mail will be sent to this email to confirm your account and also in case you forgot your password</div></div>');
 	    }).blur(function() {
+	    	var mailid = jQuery.trim($('#mid-box2').val());
+	    	$('#mid-box2').val(mailid);
 	        $('.indication-box').remove();
 	    });
 	   
