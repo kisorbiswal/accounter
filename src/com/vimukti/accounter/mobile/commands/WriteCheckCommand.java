@@ -112,18 +112,18 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountRequirement(context, list, BANK_ACCOUNT,
-				new ListFilter<ClientAccount>() {
+		result = accountRequirement(context, list, BANK_ACCOUNT, getConstants()
+				.bankAccounts(), new ListFilter<ClientAccount>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_CREDIT_CARD,
-								ClientAccount.TYPE_PAYPAL,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(account.getType());
-					}
-				});
+			@Override
+			public boolean filter(ClientAccount account) {
+				return Arrays.asList(ClientAccount.TYPE_BANK,
+						ClientAccount.TYPE_CREDIT_CARD,
+						ClientAccount.TYPE_PAYPAL,
+						ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
+						account.getType());
+			}
+		});
 		if (result != null) {
 			return result;
 		}

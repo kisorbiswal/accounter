@@ -117,18 +117,19 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 					new ArrayList<ClientTransactionPayBill>());
 		}
 
-		result = accountRequirement(context, list, PAY_FROM,
-				new ListFilter<ClientAccount>() {
-					@Override
-					public boolean filter(ClientAccount e) {
-						return true;
-					}
-				});
+		result = accountRequirement(context, list, PAY_FROM, getConstants()
+				.payFrom(), new ListFilter<ClientAccount>() {
+			@Override
+			public boolean filter(ClientAccount e) {
+				return true;
+			}
+		});
 
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}

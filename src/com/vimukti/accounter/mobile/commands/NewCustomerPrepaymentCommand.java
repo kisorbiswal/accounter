@@ -65,12 +65,13 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
-		result = customerRequirement(context, list, CUSTOMER);
+		result = customerRequirement(context, list, CUSTOMER, getMessages()
+				.customers(Global.get().customer()));
 		if (result != null) {
 			return result;
 		}
 		result = accountRequirement(context, list, DEPOSITSANDTRANSFERS,
-				new ListFilter<ClientAccount>() {
+				getConstants().depositIn(), new ListFilter<ClientAccount>() {
 
 					@Override
 					public boolean filter(ClientAccount acc) {
@@ -87,12 +88,13 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()));
+		result = amountRequirement(context, list, AMOUNT, getConstants()
+				.amount(), getMessages().pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}

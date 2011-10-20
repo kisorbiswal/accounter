@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -100,7 +101,8 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = customerRequirement(context, list, CUSTOMER);
+		result = customerRequirement(context, list, CUSTOMER, getMessages()
+				.customers(Global.get().customer()));
 		if (result != null) {
 			return result;
 		}
@@ -115,11 +117,13 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD);
+		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
+				getConstants().paymentMethod());
 		if (result != null) {
 			return result;
 		}
 		result = accountRequirement(context, list, DEPOSITSANDTRANSFERS,
+				getConstants().depositTransferFunds(),
 				new ListFilter<ClientAccount>() {
 
 					@Override
