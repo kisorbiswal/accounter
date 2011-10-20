@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -33,7 +32,6 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -87,6 +85,7 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		makeResult.add(actions);
 
 		result = nameRequirement(context, list, SALES_PERSON_NAME,
+				getConstants().salesPersonName(),
 				getMessages().pleaseEnter(getConstants().salesPersonName()));
 		if (result != null) {
 			return result;
@@ -114,10 +113,10 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		get(E_MAIL).setDefaultValue("");
 		get(WEB_PAGE_ADDRESS).setDefaultValue("");
 		get(GENDER).setDefaultValue(getConstants().unspecified());
-		get(DO_BIRTH).setDefaultValue(new Date());
-		get(DO_HIRE).setDefaultValue(new Date());
-		get(DO_LASTREVIEW).setDefaultValue(new Date());
-		get(DO_RELEASE).setDefaultValue(new Date());
+		get(DO_BIRTH).setDefaultValue(new ClientFinanceDate());
+		get(DO_HIRE).setDefaultValue(new ClientFinanceDate());
+		get(DO_LASTREVIEW).setDefaultValue(new ClientFinanceDate());
+		get(DO_RELEASE).setDefaultValue(new ClientFinanceDate());
 		get(MEMO).setDefaultValue("");
 	}
 
@@ -155,17 +154,17 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		String gender = get(GENDER).getValue();
 		salesPerson.setGender(gender);
 
-		Date do_birth = get(DO_BIRTH).getValue();
-		salesPerson.setDateOfBirth(new ClientFinanceDate(do_birth));
+		ClientFinanceDate do_birth = get(DO_BIRTH).getValue();
+		salesPerson.setDateOfBirth(do_birth);
 
-		Date do_hire = get(DO_HIRE).getValue();
-		salesPerson.setDateOfHire(new ClientFinanceDate(do_hire));
+		ClientFinanceDate do_hire = get(DO_HIRE).getValue();
+		salesPerson.setDateOfHire(do_hire);
 
-		Date do_lastreview = get(DO_LASTREVIEW).getValue();
-		salesPerson.setDateOfLastReview(new ClientFinanceDate(do_lastreview));
+		ClientFinanceDate do_lastreview = get(DO_LASTREVIEW).getValue();
+		salesPerson.setDateOfLastReview(do_lastreview);
 
-		Date do_release = get(DO_RELEASE).getValue();
-		salesPerson.setDateOfRelease(new ClientFinanceDate(do_release));
+		ClientFinanceDate do_release = get(DO_RELEASE).getValue();
+		salesPerson.setDateOfRelease(do_release);
 
 		String memo = get(MEMO).getValue();
 		salesPerson.setMemo(memo);
@@ -209,13 +208,15 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		}
 
 		result = addressOptionalRequirement(context, list, selection, ADDRESS,
-				"Please enter the address");
+				getConstants().address(),
+				getMessages().pleaseEnter(getConstants().address()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter your phone number");
+				getConstants().phone(),
+				getMessages().pleaseEnter(getConstants().phone()));
 		if (result != null) {
 			return result;
 		}
@@ -227,14 +228,15 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection, E_MAIL,
+				getConstants().email(),
 				getMessages().pleaseEnter(getConstants().email()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection,
-				WEB_PAGE_ADDRESS,
-				getMessages().pleaseEnter(getConstants().webSite()));
+				WEB_PAGE_ADDRESS, getConstants().webSite(), getMessages()
+						.pleaseEnter(getConstants().webSite()));
 		if (result != null) {
 			return result;
 		}
@@ -245,37 +247,47 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		}
 
 		result = dateOptionalRequirement(context, list, DO_BIRTH,
-				"Select ur Date of Birth", selection);
+				getConstants().dateofBirth(),
+				getMessages().pleaseSelect(getConstants().dateofBirth()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, DO_HIRE,
-				"Select Hire date", selection);
+		result = dateOptionalRequirement(context, list, DO_HIRE, getConstants()
+				.date(),
+				getMessages().selectDateOfHire(getConstants().salesPerson()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, DO_LASTREVIEW,
-				"Select last Review date", selection);
+				getConstants().dateofLastReview(),
+				getMessages().pleaseSelect(getConstants().dateofLastReview()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, DO_RELEASE,
-				"Select your Release Date", selection);
+				getConstants().dateofRelease(),
+				getMessages().pleaseSelect(getConstants().dateofRelease()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				getConstants().addMemo());
+				getConstants().addMemo(),
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Item.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().salesPerson()));
 		actions.add(finish);
 
 		return makeResult;
@@ -297,7 +309,7 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		}
 
 		Record paymentTermRecord = new Record(gender);
-		paymentTermRecord.add("Name", "Gender");
+		paymentTermRecord.add("Name", getConstants().gender());
 		paymentTermRecord.add("Value", gender);
 		list.add(paymentTermRecord);
 		return null;
@@ -306,7 +318,7 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 	private Result genderSelected(Context context, String gender) {
 		List<String> newGender = getGenders();
 		Result result = context.makeResult();
-		result.add("Select Gender");
+		result.add(getMessages().pleaseSelect(getConstants().gender()));
 
 		ResultList list = new ResultList(GENDER);
 		for (String gende : newGender) {
@@ -317,7 +329,7 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		result.add(list);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Create Gender");
+		commandList.add(getMessages().create(getConstants().gender()));
 		result.add(commandList);
 		return result;
 	}
