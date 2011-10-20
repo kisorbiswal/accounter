@@ -14,8 +14,6 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public class CreditRatingListCommand extends AbstractTransactionCommand {
 
-	private static final int RECORDS_TO_SHOW = 5;
-
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -69,13 +67,13 @@ public class CreditRatingListCommand extends AbstractTransactionCommand {
 		result.add(resultList);
 
 		Record inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Create Credit Rating");
+		commandList.add(getConstants().creditRating());
 
 		result.add(commandList);
 
@@ -84,7 +82,6 @@ public class CreditRatingListCommand extends AbstractTransactionCommand {
 
 	private Record createCreditRatingRecord(CreditRating creditRating) {
 		Record record = new Record(creditRating);
-		record.add("Name", "Name");
 		record.add("value", creditRating.getName());
 		return record;
 	}

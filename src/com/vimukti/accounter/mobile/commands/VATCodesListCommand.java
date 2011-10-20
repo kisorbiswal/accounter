@@ -66,7 +66,7 @@ public class VATCodesListCommand extends AbstractCommand {
 
 		Result result = context.makeResult();
 		ResultList vatCodesList = new ResultList("vatCodesList");
-		result.add("TAXCode List");
+		result.add(getConstants().vatCodeList());
 
 		Boolean isActive = (Boolean) context.getAttribute(CURRENT_VIEW);
 		List<TAXCode> vatCodes = getVatCodes(context.getCompany(), isActive);
@@ -83,22 +83,22 @@ public class VATCodesListCommand extends AbstractCommand {
 		result.add(vatCodesList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", "Active Tax Codes");
+		inActiveRec.add("", getMessages().active(getConstants().vatCodes()));
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", "InActive Tax Codes");
+		inActiveRec.add("", getMessages().inActive(getConstants().vatCodes()));
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Tax Codes");
+		inActiveRec.add("", getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add TAX Code");
+		commandList.add(getConstants().newVATCode());
 		result.add(commandList);
 		return result;
 	}

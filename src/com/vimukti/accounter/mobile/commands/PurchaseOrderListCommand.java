@@ -70,8 +70,8 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 			default:
 				break;
 			}
-		} 
-		
+		}
+
 		Result result = purchaseOrderList(context, selection);
 		return result;
 	}
@@ -80,9 +80,9 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 
 		Result result = context.makeResult();
 		ResultList purchaseList = new ResultList("purchaseOrderList");
-		result.add("Sales Order List");
+		result.add(getConstants().purchaseOrderList());
 
-		String currentView =(String) context.getAttribute(CURRENT_VIEW);
+		String currentView = (String) context.getAttribute(CURRENT_VIEW);
 		List<PurchaseOrdersList> orders = getPurchaseOrder(context, currentView);
 
 		ResultList actions = new ResultList("actions");
@@ -98,16 +98,16 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 		result.add(purchaseList);
 
 		Record inActiveRec = new Record(ActionNames.OPEN);
-		inActiveRec.add("", "Open Orders");
+		inActiveRec.add("", getConstants().open());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.COMPLETED);
-		inActiveRec.add("", "Completed Orders");
+		inActiveRec.add("", getConstants().completed());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.CANCELLED);
-		inActiveRec.add("", "Cancelled Orders");
+		inActiveRec.add("", getConstants().cancelled());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Orders");
+		inActiveRec.add("", getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
 		inActiveRec.add("", "Close");
@@ -116,7 +116,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add PurchaseOrder Command");
+		commandList.add(getConstants().newPurchaseOrder());
 		result.add(commandList);
 
 		return result;
@@ -126,7 +126,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 
 		Record record = new Record(order);
 		record.add("Supplier", order.getVendorName());
-		record.add("Date", order.getDate());
+		record.add("Date", getDateAsString(order.getDate()));
 		record.add("Order No", order.getNumber());
 		record.add("Phone", order.getPhone());
 		record.add("TotalPrice", order.getPurchasePrice());

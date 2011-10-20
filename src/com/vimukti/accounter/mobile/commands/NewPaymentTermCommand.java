@@ -42,15 +42,15 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 
 		// Preparing result
 		Result makeResult = context.makeResult();
-		makeResult
-				.add(" Payment Term is ready to create with following values.");
+		makeResult.add(getMessages()
+				.readyToCreate(getConstants().paymentTerm()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, PAYMENT_TERMS,
-				"Please Enter Payment Term ");
+		result = nameRequirement(context, list, PAYMENT_TERMS, getMessages()
+				.pleaseEnter(getConstants().paymentTerm()));
 		if (result != null) {
 			return result;
 		}
@@ -111,20 +111,26 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 
-		Result result = stringOptionalRequirement(context, list, selection,
-				DESCRIPTION, "Please Enter Description");
+		Result result = stringOptionalRequirement(
+				context,
+				list,
+				selection,
+				DESCRIPTION,
+				getMessages().pleaseEnter(
+						getConstants().paymentTermDescription()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, DUE_DAYS,
-				"Please enter Due days");
+				getMessages().pleaseEnter(getConstants().dueDays()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish Payment Terms.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().paymentTerm()));
 		actions.add(finish);
 
 		return makeResult;

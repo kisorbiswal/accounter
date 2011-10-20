@@ -89,7 +89,7 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 	private Result receivePaymentsList(Context context, ActionNames selection) {
 
 		Result result = context.makeResult();
-		result.add("Received Payments  List");
+		result.add(getConstants().receivePaymentList());
 		ResultList receivedPaymentsListData = new ResultList("receivedPayments");
 
 		String currentView = (String) context.getAttribute(CURRENT_VIEW);
@@ -110,25 +110,25 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 		result.add(receivedPaymentsListData);
 
 		Record inActiveRec = new Record(ActionNames.OPEN);
-		inActiveRec.add("", "Open Receive Payments");
+		inActiveRec.add("", getConstants().open());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.VOIDED);
-		inActiveRec.add("", "Voided Receive Payments ");
+		inActiveRec.add("", getConstants().voided());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FULLY_APPLIED);
-		inActiveRec.add("", "Fully Applied Payments");
+		inActiveRec.add("", getConstants().fullyApplied());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Payments");
+		inActiveRec.add("", getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Add ReceivePayment");
+		commandList.add(getConstants().newReceivePayment());
 		result.add(commandList);
 
 		return result;
@@ -183,7 +183,8 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 
 		Record record = new Record(receivepayment);
 
-		record.add("PaymentDate", receivepayment.getPaymentDate());
+		record.add("PaymentDate",
+				getDateAsString(receivepayment.getPaymentDate()));
 		record.add("Number", receivepayment.getNumber());
 		record.add("CustomerName", receivepayment.getCustomerName());
 		record.add("PaymentMethod", receivepayment.getPaymentMethodName());

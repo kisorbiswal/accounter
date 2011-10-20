@@ -73,7 +73,7 @@ public class ItemsCommand extends AbstractTransactionCommand {
 	private Result itemsList(Context context, ActionNames selection) {
 		Result result = context.makeResult();
 		ResultList itemResult = new ResultList("items");
-		result.add("Items List");
+		result.add(getConstants().itemList());
 
 		Integer currentView = (Integer) context.getAttribute(ITEMS_TYPE);
 		List<Item> items = getItems(context, currentView);
@@ -89,23 +89,23 @@ public class ItemsCommand extends AbstractTransactionCommand {
 		result.add(itemResult);
 
 		Record inActiveRec = new Record(ActionNames.SERVICE_ITEM);
-		inActiveRec.add("", "Service Items");
+		inActiveRec.add("", getConstants().serviceItem());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.PRODUCT_ITEM);
-		inActiveRec.add("", "Product Items");
+		inActiveRec.add("", getConstants().productItem());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Items");
+		inActiveRec.add("", getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("Create New Item");
+		commandList.add(getConstants().newItem());
 		result.add(commandList);
 
 		return result;

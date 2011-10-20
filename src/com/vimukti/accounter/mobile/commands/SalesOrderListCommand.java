@@ -78,7 +78,7 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 
 		Result result = context.makeResult();
 		ResultList salesList = new ResultList("salesOrderList");
-		result.add("Sales Order List");
+		result.add(getConstants().salesOrderList());
 
 		String currentView = (String) context.getAttribute(CURRENT_VIEW);
 		List<SalesOrdersList> orders = getSalesOrders(context, currentView);
@@ -96,22 +96,25 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 		result.add(salesList);
 
 		Record inActiveRec = new Record(ActionNames.OPEN);
-		inActiveRec.add("", "Open Sales Orders");
+		inActiveRec.add("", getConstants().open());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.COMPLETED);
-		inActiveRec.add("", "Completed  Sales Orders");
+		inActiveRec.add("", getConstants().completed());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.CANCELLED);
-		inActiveRec.add("", "Cancelled  Sales Orders");
+		inActiveRec.add("", getConstants().cancelled());
+		actions.add(inActiveRec);
+		inActiveRec = new Record(ActionNames.ALL);
+		inActiveRec.add("", getConstants().all());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
 
 		CommandList commandList = new CommandList();
-		commandList.add("New Sales Order");
+		commandList.add(getConstants().newSalesOrder());
 		result.add(commandList);
 
 		return result;
@@ -119,8 +122,8 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 
 	private Record createNewSalesOrderRecord(SalesOrdersList order) {
 		Record record = new Record(order);
-		record.add("Customer", order.getCustomerName());
-		record.add("Date", order.getDate());
+		record.add("Name", order.getCustomerName());
+		record.add("Date", getDateAsString(order.getDate()));
 		record.add("Order No", order.getNumber());
 		record.add("Phone", order.getPhone());
 		record.add("TotalPrice", order.getTotal());
