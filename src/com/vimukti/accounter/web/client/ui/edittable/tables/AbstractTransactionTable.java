@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -14,8 +12,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
-import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
-import com.vimukti.accounter.web.client.ui.edittable.EditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 
 public abstract class AbstractTransactionTable extends
