@@ -94,7 +94,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			}
 		}
 		Result makeResult = context.makeResult();
-		makeResult.add("VatAgency  is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().vatAgency()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -102,13 +102,14 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		setOptionalValues();
 
-		result = nameRequirement(context, list, NAME, "Enter VatAgency Name");
+		result = nameRequirement(context, list, NAME, getMessages()
+				.pleaseEnter(getConstants().vatAgencyName()));
 		if (result != null) {
 			return result;
 		}
 
 		result = paymentTermsRequirement(context, list, PAYMENT_TERM,
-				"Enter VatAgency Name");
+				getMessages().pleaseSelect(getConstants().paymentTerm()));
 		if (result != null) {
 			return result;
 		}
@@ -264,33 +265,33 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		selection = context.getSelection("values");
 
 		Result result = numberOptionalRequirement(context, list, selection,
-				PHONE, "Enter Phone Number");
+				PHONE, getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, FAX,
-				"Enter Fax number");
+				getMessages().pleaseEnter(getConstants().fax()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, EMAIL,
-				"Enter Email");
+				getMessages().pleaseEnter(getConstants().email()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, WEBSITE,
-				"Enter Web Address");
+				getMessages().pleaseEnter(getConstants().webPageAddress()));
 		if (result != null) {
 			return result;
 		}
 		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				"This Agency is Active", "This Agency is InActive");
+				getConstants().thisIsActive(), getConstants().thisIsInactive());
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Vat Agency.");
+		finish.add("", getMessages().finishToCreate(getConstants().vatAgency()));
 		actions.add(finish);
 		return makeResult;
 	}

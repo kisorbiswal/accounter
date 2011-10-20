@@ -1188,7 +1188,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result paymentTermsRequirement(Context context, ResultList list,
-			String paymentTerm, String string) {
+			String name, String string) {
 		Requirement paymentTermsReq = get("paymentTerm");
 		ClientPaymentTerms paymentTerms = context.getSelection("paymentTerm");
 
@@ -1196,16 +1196,16 @@ public abstract class AbstractCommand extends Command {
 			paymentTermsReq.setValue(paymentTerms);
 		}
 
-		ClientPaymentTerms PaymentTerm = paymentTermsReq.getValue();
+		ClientPaymentTerms paymentTerm = paymentTermsReq.getValue();
 		Object selection = context.getSelection("values");
 
-		if (!paymentTermsReq.isDone() || (PaymentTerm == selection)) {
+		if (!paymentTermsReq.isDone() || (paymentTerm == selection)) {
 			return getPaymentTermsResult(context);
 		}
 
-		Record paymentTermsRecord = new Record(PaymentTerm);
+		Record paymentTermsRecord = new Record(paymentTerm);
 		paymentTermsRecord.add("", "PaymentTerms");
-		paymentTermsRecord.add("", paymentTerms.getName());
+		paymentTermsRecord.add("", paymentTerm.getName());
 		list.add(paymentTermsRecord);
 
 		return null;
