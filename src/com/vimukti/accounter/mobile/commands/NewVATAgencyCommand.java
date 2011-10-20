@@ -288,7 +288,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			return result;
 		}
 		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				getConstants().thisIsActive(), getConstants().thisIsInactive());
+				getMessages().active(getConstants().vatAgency()), getMessages()
+						.inActive(getConstants().vatAgency()));
 
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", getMessages().finishToCreate(getConstants().vatAgency()));

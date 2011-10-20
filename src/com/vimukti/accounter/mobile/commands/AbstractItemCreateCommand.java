@@ -71,14 +71,14 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		setDefaultValues();
 
 		Result makeResult = context.makeResult();
-		makeResult.add(" Item is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(getConstants().item()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, NAME,
-				"Please enter the item name.");
+		result = nameRequirement(context, list, NAME, getMessages()
+				.pleaseEnter(getConstants().itemName()));
 		if (result != null) {
 			return result;
 		}
@@ -86,7 +86,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		Object selection = context.getSelection("values");
 
 		booleanOptionalRequirement(context, selection, list, I_SELL_THIS,
-				"I sell this Service", "I don't sell this Service");
+				getConstants().isellthisservice(), getConstants()
+						.idontSellThisService());
 
 		Boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
@@ -126,7 +127,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 
 		booleanOptionalRequirement(context, selection, list, I_BUY_THIS,
-				"I buy this Service", "I don't buy this Service");
+				getConstants().ibuythisservice(), getConstants()
+						.idontBuyThisService());
 
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
@@ -230,11 +232,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			// }
 
 			booleanOptionalRequirement(context, selection, list,
-					IS_COMMISION_ITEM, "This is Commision Item",
-					"This Item is not Commision Item");
+					IS_COMMISION_ITEM, getConstants().thisIsCommisionItem(),
+					getConstants().thisIsNoCommisionItem());
 
 			booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-					"Taxable is Active", "Taxable is Inactive");
+					getConstants().taxable(), getConstants().taxExempt());
 
 			result = stringOptionalRequirement(context, list, selection,
 					SALES_DESCRIPTION, "Please enter the description");

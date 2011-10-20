@@ -4982,10 +4982,6 @@ public interface AccounterConstants extends Constants {
 
 	public String vatAgencyName();
 
-	public String thisIsActive();
-
-	public String thisIsInactive();
-
 	public String idontSellThisService();
 
 	public String idontBuyThisService();
