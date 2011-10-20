@@ -126,17 +126,17 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountRequirement(context, list, "payFrom",
-				new ListFilter<ClientAccount>() {
+		result = accountRequirement(context, list, "payFrom", getConstants()
+				.Account(), new ListFilter<ClientAccount>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						return account.getIsActive()
-								&& Arrays.asList(ClientAccount.TYPE_BANK,
-										ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-										.contains(account.getType());
-					}
-				});
+			@Override
+			public boolean filter(ClientAccount account) {
+				return account.getIsActive()
+						&& Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+								.contains(account.getType());
+			}
+		});
 		if (result != null) {
 			return result;
 		}
@@ -240,6 +240,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = dateOptionalRequirement(context, list, DATE,
+				getConstants().date(),
 				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
@@ -250,6 +251,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 				list,
 				selection,
 				NUMBER,
+				getConstants().creditCard() + getConstants().number(),
 				getMessages().pleaseEnter(
 						getConstants().cashSale() + getConstants().number()));
 		if (result != null) {
@@ -263,12 +265,14 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
+				getConstants().phoneNumber(),
 				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, "deliveryDate",
+				getConstants().deliveryDate(),
 				getMessages().pleaseEnter(getConstants().deliveryDate()),
 				selection);
 		if (result != null) {
@@ -276,6 +280,7 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().addMemo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
@@ -287,5 +292,4 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		actions.add(finish);
 		return makeResult;
 	}
-
 }
