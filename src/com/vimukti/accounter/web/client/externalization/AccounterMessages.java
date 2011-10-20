@@ -894,4 +894,6 @@ public interface AccounterMessages extends Messages {
 	public String youDontHaveAny(String name);
 
 	public String enterDate(String enterDate);
+
+	public String addMore(String name);
 }
