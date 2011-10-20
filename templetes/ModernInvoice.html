@@ -18,7 +18,7 @@
 		     <table id="header-part-invoice" class="margin" style="font-family:${fontStyle};font-size:${font};" width="100%">
 			   
 			    <tr>
-				  <td width="60%">
+				  <td >
 				      <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
 						 <tr>
 						   <td style="vertical-align: top;" align="left">
@@ -42,6 +42,21 @@
 					 </table>
 					 	  <!-- $EndBlock billhead -->
 				  </td>
+				  <td style="vertical-align: top;" align="right">
+		<!-- $BeginBlock shiphead -->
+		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
+		    <colgroup><col></colgroup>
+			<tr>
+			  <td class="gridHeaderBackGround" ><center class="fontSetting">Ship To</center></td>
+			</tr>
+			<tr>
+			  <td align="left" style="vertical-align:top;height:130px">
+				<p class="fontSetting">${shippingAddress}</p>
+			  </td>
+			</tr> 
+		 </table>
+		 <!-- $EndBlock shiphead -->
+		</td>
    </tr>
 </table>
 <table width="100%">
@@ -162,6 +177,7 @@
 		 </tr>
  </table>
    <!-- $EndBlock salesNShipping -->
+     
 <table border="1" class="removeHeadBorder quick_invoice_header" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
 <thead>
