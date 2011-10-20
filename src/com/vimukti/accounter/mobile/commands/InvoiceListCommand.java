@@ -133,13 +133,15 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		}
 
 		result = dateOptionalRequirement(context, resultList, FROM_DATE,
-				"Enter From Date", selection);
+				getConstants().fromDate(),
+				getMessages().enterDate(getConstants().fromDate()), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, resultList, TO_DATE,
-				"Enter To Date", selection);
+				getConstants().toDate(),
+				getMessages().enterDate(getConstants().toDate()), selection);
 		if (result != null) {
 			return result;
 		}
