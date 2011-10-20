@@ -223,7 +223,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result dateOptionalRequirement(Context context, ResultList list,
-			String reqName, String displayString, Object selection, String name) {
+			String reqName, String name, String displayString, Object selection) {
 		Requirement req = get(reqName);
 		ClientFinanceDate dueDate = req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
