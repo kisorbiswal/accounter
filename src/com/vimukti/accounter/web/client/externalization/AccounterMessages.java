@@ -900,4 +900,6 @@ public interface AccounterMessages extends Messages {
 	public String details(String name);
 
 	public String create(String name);
+
+	public String accountTransactionItems(String account);
 }

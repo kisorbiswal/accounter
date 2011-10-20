@@ -279,11 +279,14 @@
 	</command>
 	<command clazz="VATAdjustmentCommand" name="New VAT Adjustment">
 		<alias>Create VAT Adjustment</alias>
+		<alias>Create Tax Adjustment</alias>
+		<alias>New Tax Adjustment</alias>
 		<alias>VAT Adjustment</alias>
-		<alias>vat adjustment</alias>
+		<alias>Tax Adjustment</alias>
 	</command>
 	<command clazz="PayVATCommand" name="Pay VAT">
 		<alias>Pay Tax</alias>
+		<alias>Pay Sales Tax</alias>
 	</command>
 	<command clazz="ReceiveVATCommand" name="Receive VAT">
 		<alias>receive vat</alias>

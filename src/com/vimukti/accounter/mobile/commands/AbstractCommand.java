@@ -87,7 +87,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final String PAGENATION = null;
 	protected static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
 	private static final String SHIPPING_TERMS = "shippingTerms";
-	private static final String SHIPPING_METHODS = "shippingMethods";
+	protected static final String SHIPPING_METHODS = "shippingMethods";
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;

@@ -298,7 +298,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = chequeNoRequirement(context, list, selection);
+		result = numberRequirement(context, list, CHEQUE_NO, getMessages()
+				.pleaseEnter(getConstants().checkNo()), getConstants()
+				.checkNo());
 		if (result != null) {
 			return result;
 		}

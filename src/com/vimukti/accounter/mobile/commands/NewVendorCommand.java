@@ -39,7 +39,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	private static final String CST_NUM = "CST number";
 	private static final String SERVICE_TAX_NUM = "Service tax registration no";
 	private static final String TIN_NUM = "Taxpayer identification number";
-	private static final String PREFERRED_SHIPPING_METHOD = "Preferred Shipping Method";
 	private static final String PAYMENT_METHOD = "paymentMethod";
 	private static final String PAYMENT_TERMS = "paymentTerms";
 	private static final String ACCOUNT_NO = "Account No";
@@ -107,7 +106,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 		list.add(new Requirement(ACCOUNT, true, true));
 		list.add(new Requirement(CREDIT_LIMIT, true, true));
-		list.add(new Requirement(PREFERRED_SHIPPING_METHOD, true, true));
+		list.add(new Requirement(SHIPPING_METHODS, true, true));
 		list.add(new Requirement(PAYMENT_METHOD, true, true));
 		list.add(new Requirement(PAYMENT_TERMS, true, true));
 		list.add(new Requirement(ACCOUNT_NO, true, true));
@@ -209,8 +208,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(ACCOUNT_NO).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
-		ClientShippingMethod shippingMethod = get(PREFERRED_SHIPPING_METHOD)
-				.getValue();
+		ClientShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		ClientPaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
 
@@ -406,8 +404,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		if (preferences.isDoProductShipMents()) {
-			result = preferredShippingMethodRequirement(context, list,
-					selection, getConstants().preferredShippingMethod());
+			result = shippingMethodRequirement(context, list, selection);
 			if (result != null) {
 				return result;
 			}

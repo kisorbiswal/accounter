@@ -97,7 +97,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(EMAIL, true, true));
 		list.add(new Requirement(WEBADRESS, true, true));
 		list.add(new Requirement(SALESPERSON, true, true));
-		list.add(new Requirement("Preferred Shipping Method", true, true));
+		list.add(new Requirement(SHIPPING_METHODS, true, true));
 		list.add(new Requirement(PRICE_LEVEL, true, true));
 		list.add(new Requirement(CREDIT_RATING, true, true));
 		list.add(new Requirement(BANK_NAME, true, true));
@@ -228,8 +228,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ClientCustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
 		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
 		ClientTAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
-		ClientShippingMethod shippingMethod = get("Preferred Shipping Method")
-				.getValue();
+		ClientShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
 		// String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
@@ -428,8 +427,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		if (preferences.isDoProductShipMents()) {
-			result = preferredShippingMethodRequirement(context, list,
-					selection, getConstants().preferredShippingMethod());
+			result = shippingMethodRequirement(context, list, selection);
 			if (result != null) {
 				return result;
 			}

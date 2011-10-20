@@ -5014,6 +5014,8 @@ public interface AccounterConstants extends Constants {
 
 	public String itemDetails();
 
+	public String payee();
+
 	public String dispatchDate();
 
 	public String toDate();
