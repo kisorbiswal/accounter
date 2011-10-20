@@ -222,7 +222,8 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = numberOptionalRequirement(context, list, selection,
-				NUMBER, getMessages().pleaseEnter(getConstants().number()));
+				getConstants().number(), NUMBER,
+				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
@@ -249,6 +250,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, PHONE,
+				getConstants().phoneNumber(),
 				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
@@ -269,6 +271,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
