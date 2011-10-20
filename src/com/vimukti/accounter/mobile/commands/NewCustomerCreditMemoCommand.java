@@ -187,6 +187,7 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().creditNoteNo(),
 				getMessages().pleaseEnter(getConstants().creditNoteNo()));
 		if (result != null) {
 			return result;
@@ -200,7 +201,8 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection,
-				"reasonForIssuue", getConstants().reasonForIssue());
+				getConstants().reasonForIssue(), "reasonForIssuue",
+				getConstants().reasonForIssue());
 		if (result != null) {
 			return result;
 		}
