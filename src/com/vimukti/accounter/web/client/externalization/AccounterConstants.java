@@ -4974,6 +4974,10 @@ public interface AccounterConstants extends Constants {
 
 	public String creditRatingName();
 
+	public String customerName();
+
+	public String customerNumber();
+
 	public String vatAgencyName();
 
 	public String thisIsActive();
