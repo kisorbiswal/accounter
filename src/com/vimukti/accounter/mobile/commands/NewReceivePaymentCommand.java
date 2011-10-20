@@ -2,7 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,10 +43,13 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	private static final String TRANSACTION_RECEIVE_PAYMENT_ATTR = "receivepaymentattr";
 	private static final String TRANSACTION_RECEIVE_PAYMENT_DETAILS = "receivepaymentdetails";
 	private static final String CHECK_NUMBER = "checknum";
+	private static final String VALUES = "values";
+	private static final String TRANSACTIONS = "transactions";
+	private static final String CUSTOMERS = "customers";
+	private static final String OPTIONAL = "optional";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -57,7 +59,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(DEPOSITSANDTRANSFERS, false, true));
 		list.add(new Requirement(PAYMENT_METHOD, false, true));
 		list.add(new Requirement(AMOUNT_RECEIVED, true, true));
-		list.add(new ObjectListRequirement("transactions", false, true) {
+		list.add(new ObjectListRequirement(TRANSACTIONS, false, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
 				list.add(new Requirement(DUE_DATE, true, true));
@@ -83,7 +85,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		Result result = null;
 		Result makeResult = context.makeResult();
 		ResultList actions = new ResultList(ACTIONS);
-		ResultList list = new ResultList("values");
+		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		if (process != null) {
@@ -103,8 +105,8 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		if (context.getSelection("customers") != null) {
-			get("transactions").setValue(
+		if (context.getSelection(CUSTOMERS) != null) {
+			get(TRANSACTIONS).setValue(
 					new ArrayList<ClientTransactionReceivePayment>());
 		}
 
@@ -122,9 +124,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 					@Override
 					public boolean filter(ClientAccount acc) {
-						return Arrays.asList(
-								ClientAccount.TYPE_BANK,
-								// ClientAccount.TYPE_CASH,
+						return Arrays.asList(ClientAccount.TYPE_BANK,
 								ClientAccount.TYPE_CREDIT_CARD,
 								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 								ClientAccount.TYPE_FIXED_ASSET).contains(
@@ -143,7 +143,8 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		}
 		completeProcess(context);
 		markDone();
-		result = new Result("Receive Payment was created successfully");
+		result = new Result(getMessages().createSuccessfully(
+				getConstants().receivePayment()));
 		return result;
 	}
 
@@ -175,7 +176,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
 		get(MEMO).setDefaultValue("");
 		get(AMOUNT_RECEIVED).setDefaultValue(new Double(0));
@@ -194,15 +195,15 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		payment.setPaymentMethod(paymentMethod);
 
-		Date date = get(DATE).getValue();
-		payment.setDate(new ClientFinanceDate(date).getDate());
+		ClientFinanceDate date = get(DATE).getValue();
+		payment.setDate(date.getDate());
 
 		String receivePaymentNum = get(NUMBER).getValue();
 		payment.setNumber(receivePaymentNum);
 
 		ClientAccount account = get(DEPOSITSANDTRANSFERS).getValue();
 		payment.setDepositIn(account);
-		List<ClientTransactionReceivePayment> list = get("transactions")
+		List<ClientTransactionReceivePayment> list = get(TRANSACTIONS)
 				.getValue();
 		payment.setTransactionReceivePayment(list);
 
@@ -229,7 +230,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	private Result createOptionalRequirement(Context context, ResultList list,
 			ResultList actions, Result makeResult) {
 		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+			context.setAttribute(INPUT_ATTR, OPTIONAL);
 		}
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -243,38 +244,41 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		selection = context.getSelection("values");
+		selection = context.getSelection(VALUES);
 
 		Result result = amountOptionalRequirement(context, list, selection,
-				AMOUNT_RECEIVED, "Enter the Amount received");
+				AMOUNT_RECEIVED,
+				getMessages().pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, DATE, "Enter date",
-				selection);
+		result = dateOptionalRequirement(context, list, DATE, getMessages()
+				.pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter Receive Payment Number");
+				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection,
-				CHECK_NUMBER, "Enter Check Number");
+				CHECK_NUMBER,
+				getMessages().pleaseEnter(getConstants().chequeNo()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create receive payment.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().receivePayment()));
 		actions.add(finish);
 		return makeResult;
 	}
@@ -297,7 +301,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			list.add(creatReceivePaymentRecord(last));
 			num++;
 		}
-		Requirement itemsReq = get("transactions");
+		Requirement itemsReq = get(TRANSACTIONS);
 		List<ClientTransactionReceivePayment> transItems = itemsReq.getValue();
 		if (transItems == null) {
 			transItems = new ArrayList<ClientTransactionReceivePayment>();
@@ -317,9 +321,11 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect Receive Payment(s).");
+			result.add(getMessages().pleaseSelect(
+					getConstants().receivePayments()));
 		} else {
-			result.add("You don't have any receive payments.");
+			result.add(getMessages().youDontHaveAny(
+					getConstants().receivePayments()));
 		}
 		result.add(list);
 		return result;
@@ -328,15 +334,16 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	private Record creatReceivePaymentRecord(
 			ClientTransactionReceivePayment last) {
 		Record record = new Record(last);
-		record.add("", "Due Date");
-		record.add("", last.getDueDate());
-		record.add("", "Invoice");
+		record.add("", getConstants().dueDate());
+		record.add("",
+				getDateAsString(new ClientFinanceDate(last.getDueDate())));
+		record.add("", getConstants().invoice());
 		record.add("", last.getInvoice());
-		record.add("", "Invoice amount");
+		record.add("", getConstants().invoiceAmount());
 		record.add("", last.getInvoiceAmount());
-		record.add("", "Amount Due");
+		record.add("", getConstants().amountDue());
 		record.add("", last.getAmountDue());
-		record.add("", "Paymens");
+		record.add("", getConstants().payments());
 		record.add("", last.getPayment());
 		return record;
 	}
@@ -365,7 +372,9 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 				if (selection.equals("Payment")) {
 					context.setAttribute(TRANSACTION_RECEIVE_PAYMENT_ATTR,
 							"Payment");
-					return amount(context, "Enter Payment",
+					return amount(
+							context,
+							getMessages().pleaseEnter(getConstants().payment()),
 							transactionReceivePayment.getPayment());
 				}
 			} else {
@@ -376,7 +385,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 					return null;
 				} else if (selection == ActionNames.DELETE_RECEIVE_PAYMENT) {
 					context.removeAttribute(PROCESS_ATTR);
-					Requirement itemsReq = get("transactions");
+					Requirement itemsReq = get(TRANSACTIONS);
 					List<ClientReceivePayment> transItems = itemsReq.getValue();
 					transItems.remove(transactionReceivePayment);
 					context.removeAttribute(OLD_TRANSACTION_RECEIVE_PAYMENT_ATTR);
@@ -388,36 +397,43 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList(TRANSACTION_RECEIVE_PAYMENT_DETAILS);
 
 		Record receivePaymentRecord;
-		result.add("Due Date :" + transactionReceivePayment.getDueDate());
+		result.add(getConstants().dueDate()
+				+ " : "
+				+ getDateAsString(new ClientFinanceDate(
+						transactionReceivePayment.getDueDate())));
 
-		result.add("Number : " + transactionReceivePayment.getNumber());
+		result.add(getConstants().number() + " : "
+				+ transactionReceivePayment.getNumber());
 
-		result.add("Invoice Amount : "
+		result.add(getConstants().invoiceAmount() + " : "
 				+ transactionReceivePayment.getInvoiceAmount());
 
-		result.add("Amount Due : " + transactionReceivePayment.getAmountDue());
+		result.add(getConstants().amountDue() + " : "
+				+ transactionReceivePayment.getAmountDue());
 
-		result.add("Dummy Due : " + transactionReceivePayment.getDummyDue());
+		result.add(getConstants().dummyDue()
+				+ transactionReceivePayment.getDummyDue());
 
-		result.add("Cash Discount  : "
+		result.add(getConstants().cashDiscount() + " : "
 				+ transactionReceivePayment.getCashDiscount());
 
-		result.add("Write Off : " + transactionReceivePayment.getWriteOff());
+		result.add(getConstants().writeOff() + " :"
+				+ transactionReceivePayment.getWriteOff());
 
-		result.add("Applied Credits : "
+		result.add(getConstants().appliedCredits() + " : "
 				+ transactionReceivePayment.getAppliedCredits());
 
 		receivePaymentRecord = new Record("Payment");
 		list.add(receivePaymentRecord);
-		receivePaymentRecord.add("", "Payment");
+		receivePaymentRecord.add("", getConstants().payment());
 		receivePaymentRecord.add("", transactionReceivePayment.getPayment());
 		result.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		receivePaymentRecord = new Record(ActionNames.DELETE_RECEIVE_PAYMENT);
-		receivePaymentRecord.add("", "Delete");
+		receivePaymentRecord.add("", getConstants().delete());
 		actions.add(receivePaymentRecord);
 		receivePaymentRecord = new Record(ActionNames.FINISH_RECEIVE_PAYMENT);
-		receivePaymentRecord.add("", "Finish");
+		receivePaymentRecord.add("", getConstants().finish());
 		actions.add(receivePaymentRecord);
 		result.add(actions);
 		updatePayment(transactionReceivePayment);
@@ -439,8 +455,9 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	private ArrayList<ClientTransactionReceivePayment> getTransactionRecievePayments()
 			throws AccounterException {
 		ClientCustomer customer = get(CUSTOMER).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
 		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments = getTransactionReceivePayments(
-				customer.getID(), new Date().getTime());
+				customer.getID(), date.getDate());
 
 		ArrayList<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
 		for (ReceivePaymentTransactionList receivePaymentTransaction : transactionReceivePayments) {
@@ -507,7 +524,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 	public Double getGridTotal() {
 		Double total = 0.0D;
-		ArrayList<ClientTransactionReceivePayment> records = get("transactions")
+		ArrayList<ClientTransactionReceivePayment> records = get(TRANSACTIONS)
 				.getValue();
 		for (ClientTransactionReceivePayment record : records) {
 			total += record.getPayment();
@@ -517,7 +534,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 	private Result receivePaymentsRequirement(Context context, Result result,
 			ResultList actions) {
-		Requirement receivePaymentReq = get("transactions");
+		Requirement receivePaymentReq = get(TRANSACTIONS);
 		List<ClientTransactionReceivePayment> transactionReceivePayments = context
 				.getSelections("receivepayments");
 		List<ClientTransactionReceivePayment> transReceivePayments = receivePaymentReq
@@ -533,7 +550,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			return addTransactionsOfSelectedCustomer(context);
 		}
 
-		Object selection = context.getSelection("transactions");
+		Object selection = context.getSelection(TRANSACTIONS);
 		if (selection != null) {
 			result = clientTransactionReceivePaymentProcess(context,
 					(ClientTransactionReceivePayment) selection);
@@ -547,14 +564,15 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		if (actionName != null && actionName == ActionNames.ADD_MORE_PAYMENTS) {
 			return addTransactionsOfSelectedCustomer(context);
 		}
-		result.add("Received Payments:-");
-		ResultList itemsList = new ResultList("transactions");
+		result.add(getConstants().receivePayments());
+		ResultList itemsList = new ResultList(TRANSACTIONS);
 		for (ClientTransactionReceivePayment item : transReceivePayments) {
 			itemsList.add(creatReceivePaymentRecord(item));
 		}
 		result.add(itemsList);
 		Record moreItems = new Record(ActionNames.ADD_MORE_PAYMENTS);
-		moreItems.add("", "Add more payments");
+		moreItems.add("",
+				getMessages().addMore(getConstants().receivePayments()));
 		actions.add(moreItems);
 		return null;
 	}
@@ -568,7 +586,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 				if (toBeRvrtMap.containsKey(i)) {
 					TempCredit toBeAddCr = (TempCredit) toBeRvrtMap.get(i);
 					List<ClientTransactionReceivePayment> selectedRecords = get(
-							"transactions").getValue();
+							TRANSACTIONS).getValue();
 					if (selectedRecords.size() != 0) {
 						for (int j = 0; j < selectedRecords.size(); j++) {
 							Map<Integer, Object> rcvCrsMap = selectedRecords
