@@ -21,7 +21,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -1754,5 +1753,9 @@ public abstract class AbstractCommand extends Command {
 		SimpleDateFormat format = new SimpleDateFormat(getClientCompany()
 				.getPreferences().getDateFormat());
 		return format.format(date.getDateAsObject());
+	}
+
+	public IGlobal getIGlobal() {
+		return null;
 	}
 }
