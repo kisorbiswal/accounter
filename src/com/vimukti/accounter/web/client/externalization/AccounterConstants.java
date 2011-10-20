@@ -5009,4 +5009,6 @@ public interface AccounterConstants extends Constants {
 	public String debitAmount();
 
 	public String itemDetails();
+
+	public String toDate();
 }
