@@ -60,14 +60,15 @@ public class NewVATItemCommand extends AbstractVATCommand {
 
 		setOptionalFields();
 
-		result = nameRequirement(context, list, NAME, getMessages()
-				.pleaseEnter(getConstants().vatItemName()));
+		result = nameRequirement(context, list, NAME, getConstants()
+				.vatItemName(),
+				getMessages().pleaseEnter(getConstants().vatItemName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()));
+		result = amountRequirement(context, list, AMOUNT, getConstants()
+				.amount(), getMessages().pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
@@ -204,8 +205,8 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		selection = context.getSelection("values");
 
 		Result result = stringOptionalRequirement(context, list, selection,
-				DESCRIPTION,
-				getMessages().pleaseEnter(getConstants().description()));
+				DESCRIPTION, getConstants().description(), getMessages()
+						.pleaseEnter(getConstants().description()));
 		if (result != null) {
 			return result;
 		}
