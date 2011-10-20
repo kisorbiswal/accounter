@@ -68,7 +68,7 @@ public class SalesPersonsListCommand extends AbstractCommand {
 	private Result salesPersonsList(Context context,  ActionNames selection) {
 		Result result = context.makeResult();
 		ResultList salesPersonsList = new ResultList("salespersonsList");
-		result.add("Sales Persons List");
+		result.add(getConstants().salesPersonList());
 
 		Boolean salesPersonsType = (Boolean) context.getAttribute(SALESPERSON_TYPE);
 		List<ClientSalesPerson> salesPersons = getSalesPersons(salesPersonsType);
