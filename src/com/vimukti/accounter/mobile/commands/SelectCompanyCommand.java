@@ -49,7 +49,7 @@ public class SelectCompanyCommand extends Command {
 		}
 
 		if (!companyReq.isDone()) {
-			Client client = getClient(context.getIOSession().getUserEmail());
+			Client client = context.getIOSession().getClient();
 			if (client != null) {
 				Result result = context.makeResult();
 				result.add("Select a company");

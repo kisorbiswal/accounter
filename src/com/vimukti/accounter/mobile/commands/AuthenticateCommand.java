@@ -2,9 +2,9 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.NetworkUser;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 
@@ -56,7 +56,7 @@ public class AuthenticateCommand extends AbstractCommand {
 		if (email == null) {
 			commands.add("Create New Account");
 		} else {
-			NetworkUser ntUser = getNetworkUser(email);
+			IMUser ntUser = getNetworkUser(email);
 			if (ntUser == null) {
 				commands.add("Register this device with Email ID Account");
 			}
@@ -66,13 +66,13 @@ public class AuthenticateCommand extends AbstractCommand {
 		return result;
 	}
 
-	private NetworkUser getNetworkUser(String email) {
+	private IMUser getNetworkUser(String email) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private String getEmailOfFrom(Context context) {
-		NetworkUser from = context.getIOSession().getFrom();
+		IMUser from = context.getIOSession().getFrom();
 		// TODO Auto-generated method stub
 		return null;
 	}
