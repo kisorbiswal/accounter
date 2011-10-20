@@ -885,9 +885,9 @@ public interface AccounterMessages extends Messages {
 
 	public String fullName(String firstName, String lastName);
 
-	public String active(String active);
+	public String active(String isActive);
 
-	public String inActive(String inactive);
+	public String inActive(String isInactive);
 
 	public String pleaseSelect(String vatReturnBox);
 
