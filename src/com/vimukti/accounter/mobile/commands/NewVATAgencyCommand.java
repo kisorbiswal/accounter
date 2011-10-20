@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -115,7 +116,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = accountRequirement(context, list, SALES_ACCOUNT,
+		result = accountRequirement(context, list, SALES_ACCOUNT, getMessages()
+				.salesLiabilityAccount(Global.get().Account()),
 				new ListFilter<ClientAccount>() {
 
 					@Override
@@ -135,7 +137,12 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		}
 
 		if (getClientCompany().getPreferences().isTrackPaidTax()) {
-			result = accountRequirement(context, list, PURCHASE_ACCOUNT,
+			result = accountRequirement(
+					context,
+					list,
+					PURCHASE_ACCOUNT,
+					getMessages().purchaseLiabilityAccount(
+							Global.get().Account()),
 					new ListFilter<ClientAccount>() {
 
 						@Override
