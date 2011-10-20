@@ -245,8 +245,8 @@ public abstract class AbstractCommand extends Command {
 			}
 		}
 		Record dueDateRecord = new Record(name);
-		dueDateRecord.add("Name", name);
-		dueDateRecord.add("Value", getDateAsString(dueDate));
+		dueDateRecord.add("", name);
+		dueDateRecord.add("", getDateAsString(dueDate));
 		list.add(dueDateRecord);
 		return null;
 	}
@@ -266,7 +266,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result numberRequirement(Context context, ResultList list,
-			String reqName, String displayString) {
+			String reqName, String displayString, String name) {
 		Requirement customerNumReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(reqName)) {
@@ -284,15 +284,15 @@ public abstract class AbstractCommand extends Command {
 			return text(context, displayString, num);
 		}
 
-		Record numberRecord = new Record(reqName);
-		numberRecord.add("", reqName);
+		Record numberRecord = new Record(name);
+		numberRecord.add("", name);
 		numberRecord.add("", num);
 		list.add(numberRecord);
 		return null;
 	}
 
 	protected Result nameRequirement(Context context, ResultList list,
-			String reqName, String displayString) {
+			String reqName, String name, String displayString) {
 		Requirement requirement = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(reqName)) {
@@ -306,15 +306,15 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Object selection = context.getSelection("values");
-		String name = requirement.getValue();
+		String customerName = requirement.getValue();
 		if (selection != null && selection.equals(reqName)) {
 			context.setAttribute(INPUT_ATTR, reqName);
-			return text(context, displayString, name);
+			return text(context, displayString, customerName);
 		}
 
-		Record nameRecord = new Record(reqName);
-		nameRecord.add("", "Name");
+		Record nameRecord = new Record(name);
 		nameRecord.add("", name);
+		nameRecord.add("", customerName);
 		list.add(nameRecord);
 		return null;
 	}
