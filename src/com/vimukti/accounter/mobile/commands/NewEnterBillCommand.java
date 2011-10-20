@@ -267,6 +267,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
+				getConstants().phoneNumber(),
 				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
@@ -289,6 +290,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
+				getConstants().memo(),
 				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
