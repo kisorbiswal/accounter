@@ -266,13 +266,15 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = dateOptionalRequirement(context, list, DATE,
+				getConstants().date(),
 				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				getMessages().pleaseEnter(getConstants().phone()));
+				getConstants().phoneNumber(),
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
@@ -284,13 +286,14 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().number(),
 				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				getConstants().addMemo());
+				getConstants().memo(), getConstants().addMemo());
 		if (result != null) {
 			return result;
 		}

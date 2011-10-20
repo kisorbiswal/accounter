@@ -117,7 +117,7 @@ public class PayVATCommand extends AbstractVATCommand {
 
 		markDone();
 		Result result = new Result();
-		result.add("Pay Vat created successfully.");
+		result.add(getMessages().createNewAccount(getConstants().payVAT()));
 
 		return result;
 	}
@@ -162,18 +162,20 @@ public class PayVATCommand extends AbstractVATCommand {
 		ResultList list = new ResultList("values");
 
 		Record paymentMethodRecord = new Record(paymentMethod);
-		paymentMethodRecord.add("Name", "Pay Method");
+		paymentMethodRecord.add("Name", getConstants().paymentMethod());
 		paymentMethodRecord.add("Value", paymentMethod);
 		list.add(paymentMethodRecord);
 
 		Result result = dateOptionalRequirement(context, list,
-				VAT_RETURN_END_DATE, "Filter by VAT return end date", selection);
+				VAT_RETURN_END_DATE, getConstants().vatReturn() + " "
+						+ getConstants().endDate(), getConstants()
+						.returnsDueOnOrBefore(), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = dateRequirement(context, list, selection, DATE,
-				"Enter the date");
+		result = dateRequirement(context, list, selection, DATE, getMessages()
+				.pleaseEnter(getConstants().date()));
 		if (result != null) {
 			return result;
 		}
@@ -184,9 +186,9 @@ public class PayVATCommand extends AbstractVATCommand {
 		}
 
 		result = context.makeResult();
-		result.add("Pay Vat is ready to create with following values.");
+		result.add(getMessages().readyToCreate(getConstants().payVAT()));
 		result.add(list);
-		result.add("Bill To Pay:-");
+		result.add(getConstants().billsToPay() + " :-");
 		ResultList payVats = new ResultList("transactionPayVats");
 		for (TransactionPayVAT payVat : transPayVats) {
 			Record itemRec = createTransactionPayVatRecord(payVat);
@@ -196,10 +198,10 @@ public class PayVATCommand extends AbstractVATCommand {
 
 		ResultList actions = new ResultList(ACTIONS);
 		Record moreItems = new Record(ActionNames.ADD_MORE_BILLS);
-		moreItems.add("", "Add more bills");
+		moreItems.add("", getMessages().addMore(getConstants().bills()));
 		actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to Pay vat.");
+		finish.add("", getMessages().finishToCreate(getConstants().payVAT()));
 		actions.add(finish);
 		result.add(actions);
 
@@ -253,9 +255,9 @@ public class PayVATCommand extends AbstractVATCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add("Slect Bill to pay.");
+			result.add(getMessages().pleaseSelect(getConstants().billsToPay()));
 		} else {
-			result.add("You don't have Bills.");
+			result.add(getConstants().youDontHaveBills());
 		}
 
 		result.add(list);

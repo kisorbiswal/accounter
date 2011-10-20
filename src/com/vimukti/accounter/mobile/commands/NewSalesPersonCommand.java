@@ -195,12 +195,14 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		Result result = stringOptionalRequirement(context, list, selection,
-				FILE_AS, getMessages().pleaseEnter(getConstants().fileAs()));
+				FILE_AS, getConstants().fileAs(),
+				getMessages().pleaseEnter(getConstants().fileAs()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, JOB_TITLE,
+				getConstants().jobTitle(),
 				getMessages().pleaseEnter(getConstants().jobTitle()));
 		if (result != null) {
 			return result;

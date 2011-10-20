@@ -5000,6 +5000,8 @@ public interface AccounterConstants extends Constants {
 
 	public String bankAccountNumber();
 
+	public String youDontHaveBills();
+
 	public String thisToBePrinted();
 
 	public String thisDonotBePrinted();

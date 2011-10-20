@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -89,8 +90,8 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 			}
 		}
 		Result makeResult = context.makeResult();
-		makeResult
-				.add("Credit Card Expense  is ready to create with following values.");
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().creditCardExpense()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -161,15 +162,15 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
-		get(PHONE).setDefaultValue("");
+		get(PHONE).setDefaultValue(" ");
 		ClientContact contact = new ClientContact();
 		contact.setName(null);
 		get(CONTACT).setDefaultValue(contact);
-		get(MEMO).setDefaultValue("");
-		get("deliveryDate").setDefaultValue(new Date());
-		get(PAYMENT_METHOD).setDefaultValue("Credit Card");
+		get(MEMO).setDefaultValue(" ");
+		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
+		get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
 	}
 
 	private void completeProcess(Context context) {
@@ -182,8 +183,8 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		ClientContact contact = get(CONTACT).getValue();
 		creditCardCharge.setContact(contact);
 
-		Date date = get(DATE).getValue();
-		creditCardCharge.setDate(new FinanceDate(date).getDate());
+		ClientFinanceDate date = get(DATE).getValue();
+		creditCardCharge.setDate(date.getDate());
 
 		creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 
@@ -199,6 +200,9 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		ClientAccount account = get("payFrom").getValue();
 		creditCardCharge.setPayFrom(account.getID());
 
+		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
+		creditCardCharge.setDeliveryDate(deliveryDate.getDate());
+		
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
@@ -239,13 +243,23 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = dateOptionalRequirement(context, list, DATE,
-				"Enter date", selection);
+				getConstants().creditDate(),
+				getMessages().pleaseEnter(getConstants().creditDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"Enter Cash Sale Number");
+		result = numberOptionalRequirement(
+				context,
+				list,
+				selection,
+				NUMBER,
+				getConstants().creditCardExpense() + " "
+						+ getConstants().number(),
+				getMessages().pleaseEnter(
+						getConstants().creditCardExpense() + " "
+								+ getConstants().number()));
 		if (result != null) {
 			return result;
 		}
@@ -257,25 +271,30 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				"Enter Phone Number");
+				getConstants().phoneNumber(),
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, "deliveryDate",
-				"Enter date", selection);
+				getConstants().deliveryDate(),
+				getMessages().pleaseEnter(getConstants().deliveryDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Add a memo");
+				getConstants().memo(), getConstants().addMemo());
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Credit Card Charge.");
+		finish.add("",
+				getMessages()
+						.finishToCreate(getConstants().creditCardExpense()));
 		actions.add(finish);
 		return makeResult;
 	}
