@@ -120,10 +120,10 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		taxAdjustment.setDate(date);
 		taxAdjustment.setNumber(number);
 		taxAdjustment.setMemo(memo);
-		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
-			TAXItem taxItem = get(TAX_ITEM).getValue();
-			taxAdjustment.setTaxItem(taxItem);
-		}
+//		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
+//			TAXItem taxItem = get(TAX_ITEM).getValue();
+//			taxAdjustment.setTaxItem(taxItem);
+//		}
 
 		create(taxAdjustment, context);
 		markDone();

@@ -199,10 +199,6 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 		accounts.addAll(items);
 		// ....................
 		cashPurchase.setTransactionItems(accounts);
-		if (context.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			// cashPurchase.setTotal(getTransactionTotal(accounts,
-			// context.getCompany()));
-		}
 		create(cashPurchase, context);
 
 		markDone();

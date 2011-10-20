@@ -189,7 +189,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		// TODO Location
 		// TODO Class
 
-		if (getClientCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getClientCompany().getPreferences().isTrackTax()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
