@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -23,10 +22,11 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 	private static final String AMOUNT = "Amount";
 	private static final String TOBEPRINTED = "To be printed";
 	private static final String CHEQUE_NUM = "cheque Num";
+	private static final String VALUES = "values";
+	private static final String OPTIONAL = "optional";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -47,7 +47,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 	public Result run(Context context) {
 		setDefaultValues();
 		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+			context.setAttribute(INPUT_ATTR, OPTIONAL);
 		}
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = context.makeResult();
@@ -61,8 +61,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		}
 		setTransactionType(CUSTOMER_TRANSACTION);
 		Result makeResult = context.makeResult();
-		ResultList actions = new ResultList("actions");
-		ResultList list = new ResultList("values");
+		ResultList actions = new ResultList(ACTIONS);
+		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		result = customerRequirement(context, list, CUSTOMER);
 		if (result != null) {
@@ -86,7 +86,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, "Enter Amount");
+		result = amountRequirement(context, list, AMOUNT, getMessages()
+				.pleaseEnter(getConstants().amount()));
 		if (result != null) {
 			return result;
 		}
@@ -102,14 +103,15 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 		result = new Result();
-		result.add("Customer Prepayment was created successfully");
+		result.add(getMessages().createSuccessfully(
+				getMessages().customerPrePayment(getIGlobal().Customer())));
 		return result;
 	}
 
 	private void completeProcess(Context context) {
 		ClientCustomerPrePayment prePayment = new ClientCustomerPrePayment();
-		Date date = get(DATE).getValue();
-		prePayment.setDate(new ClientFinanceDate(date).getDate());
+		ClientFinanceDate date = get(DATE).getValue();
+		prePayment.setDate(date.getDate());
 		String number = get(ORDER_NO).getValue();
 		prePayment.setNumber(number);
 		ClientCustomer customer = get(CUSTOMER).getValue();
@@ -132,7 +134,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(ORDER_NO).setDefaultValue("1");
 		get(TOBEPRINTED).setDefaultValue(true);
 		get(CHEQUE_NUM).setDefaultValue("1");
@@ -158,32 +160,39 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		selection = context.getSelection("values");
+		selection = context.getSelection(VALUES);
 		Result result = numberRequirement(context, list, ORDER_NO,
-				"Enter Order Number");
+				getMessages().pleaseEnter(getConstants().orderNumber()),
+				getConstants().orderNumber());
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, DATE, "Date", selection);
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.date(), selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = numberRequirement(context, list, CHEQUE_NUM,
-				"Enter Check Number");
+		result = numberRequirement(context, list, CHEQUE_NUM, getMessages()
+				.pleaseEnter(getConstants().chequeNo()), getConstants()
+				.chequeNo());
 		if (result != null) {
 			return result;
 		}
 
 		booleanOptionalRequirement(context, selection, list, TOBEPRINTED,
-				"Printed", "Not Printed");
+				getConstants().toBePrinted(), getConstants().notPrinted());
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Invoice.");
+		finish.add(
+				"",
+				getMessages().finishToCreate(
+						getMessages().customerPrePayment(
+								getIGlobal().Customer())));
 		actions.add(finish);
 		return makeResult;
 	}
