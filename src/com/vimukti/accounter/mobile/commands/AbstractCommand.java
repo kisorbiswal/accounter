@@ -410,7 +410,7 @@ public abstract class AbstractCommand extends Command {
 			} else {
 				selection = context.getSelection(ADDRESS_ACTIONS);
 				if (selection == ActionNames.FINISH) {
-					// get(requirementName).setValue(oldAddress);
+					get(requirementName).setValue(oldAddress);
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(ADDRESS_MESSAGE_ATTR);
 					context.removeAttribute(OLD_ADDRESS_ATTR);
@@ -558,6 +558,7 @@ public abstract class AbstractCommand extends Command {
 		}
 		Object selection = context.getSelection(CONTACT_ACTIONS);
 		if (selection == ActionNames.FINISH) {
+			get("contact").setValue(oldContact);
 			context.removeAttribute(PROCESS_ATTR);
 			context.removeAttribute(CONTACT_ATTR);
 			context.removeAttribute(OLD_ADDRESS_ATTR);

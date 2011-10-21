@@ -774,8 +774,37 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		billTo = req.getValue();
 		Record billToRecord = new Record(reqName);
 		billToRecord.add("", name);
-		billToRecord.add("", billTo);
+		billToRecord.add("", billTo.toString());
 		list.add(billToRecord);
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @param reqName
+	 * @param displayName
+	 * @param name
+	 * @return
+	 */
+	protected Result contactOptionalRequirement(Context context,
+			ResultList list, Object selection, String reqName,
+			String displayName, String name) {
+		Requirement req = get(reqName);
+		ClientContact contact = req.getValue();
+		if (selection != null)
+			if (selection == reqName) {
+				return contact(context, displayName, reqName, contact);
+			}
+		contact = req.getValue();
+		Record contactRecord = new Record(reqName);
+		contactRecord.add("", name);
+		contactRecord.add("", contact == null ? "" : contact.getName() + "-"
+				+ contact.getTitle() + "-" + contact.getBusinessPhone() + "-"
+				+ contact.getEmail());
+		list.add(contactRecord);
 		return null;
 	}
 
