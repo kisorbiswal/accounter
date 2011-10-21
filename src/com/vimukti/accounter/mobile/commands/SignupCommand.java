@@ -80,6 +80,9 @@ public class SignupCommand extends AbstractCommand {
 			return result;
 		}
 
+		booleanOptionalRequirement(context, context.getSelection("values"),
+				list, SUBSCRIBED_NEWSLETTER, "Subscribed", "Not subscribed");
+
 		completeProcess(context);
 		markDone();
 		result = new Result("Your account was created successfully");
