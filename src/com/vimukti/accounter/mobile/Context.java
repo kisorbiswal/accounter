@@ -25,6 +25,7 @@ public class Context {
 
 	private String userId;
 	private String networkId;
+	private String string;
 
 	public String getUserId() {
 		return userId;
@@ -83,11 +84,11 @@ public class Context {
 	 * @return
 	 */
 	public String getString() {
-		List<String> strings = getStrings();
-		if (strings != null && !strings.isEmpty()) {
-			return strings.get(0);
-		}
-		return null;
+		// List<String> strings = getStrings();
+		// if (strings != null && !strings.isEmpty()) {
+		// return strings.get(0);
+		// }
+		return string;
 	}
 
 	public String getNumber() {
@@ -182,7 +183,7 @@ public class Context {
 			List<Double> doubles = new ArrayList<Double>();
 			List<String> strings = new ArrayList<String>();
 			List<ClientFinanceDate> dates = new ArrayList<ClientFinanceDate>();
-
+			string = "";
 			for (String string : inputs) {
 				if (StringUtils.isInteger(string)) {
 					int parseInt = Integer.parseInt(string);
@@ -203,6 +204,7 @@ public class Context {
 					dates.add(date);
 				}
 				strings.add(string);
+				this.string += string;
 			}
 			this.attributes.put("numbers", numbers);
 			this.attributes.put("integers", integers);

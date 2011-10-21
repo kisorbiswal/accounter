@@ -41,7 +41,9 @@ public class MobileChatAdaptor implements MobileAdaptor {
 
 		if (message.equalsIgnoreCase(CANCEL_COMMAND)) {
 			Command currentCommand = session.getCurrentCommand();
-			currentCommand.markDone();
+			if (currentCommand != null) {
+				currentCommand.markDone();
+			}
 			session.refreshCurrentCommand();
 		}
 
