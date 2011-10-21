@@ -550,7 +550,7 @@
 		<alias>VAT Codes</alias>
 		<alias>VAT Codes List</alias>
 	</command>
-	<command clazz="VATItemsListCommand" name="VATItems List">
+	<command clazz="VATItemsListCommand" name="TAXItems List">
 		<alias>VAT Items</alias>
 		<alias>VATItems</alias>
 		<alias>VAT Items List</alias>
