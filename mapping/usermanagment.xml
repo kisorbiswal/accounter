@@ -68,8 +68,10 @@
 
 	<query name="imuser.by.networkId">
 		<query-param name="networkId" type="String" />
+		<query-param name="networkType" type="int" />
 		from com.vimukti.accounter.core.IMUser i where
 		i.networkId=:networkId
+		and i.networkType=:networkType
 	</query>
 
 </hibernate-mapping>
