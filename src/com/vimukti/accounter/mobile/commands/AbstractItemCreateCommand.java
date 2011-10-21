@@ -207,7 +207,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
-				return null;
+				if (false) {
+					makeResult.add("");
+				} else {
+					return null;
+				}
 			default:
 				break;
 			}
