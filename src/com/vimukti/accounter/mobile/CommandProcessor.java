@@ -71,11 +71,6 @@ public class CommandProcessor {
 			}
 			throw new AccounterMobileException(e);
 
-		} finally {
-			Session currentSession = session.getHibernateSession();
-			if (currentSession != null && currentSession.isOpen()) {
-				currentSession.close();
-			}
 		}
 	}
 

@@ -45,15 +45,25 @@ public class MobileMessageHandler {
 			session.reloadObjects();
 
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
-
-			UserMessage preProcess = adoptor.preProcess(session, message,
-					userId, networkId, networkType);
-			Result result = getCommandProcessor().handleMessage(session,
-					preProcess);
-			String reply = adoptor.postProcess(result);
-			session.await();
-
-			return reply;
+			while (true) {
+				UserMessage preProcess = adoptor.preProcess(session, message,
+						userId, networkId, networkType);
+				Result result = getCommandProcessor().handleMessage(session,
+						preProcess);
+				if (result instanceof PatternResult) {
+					if (result.resultParts.size() == 1) {
+						CommandList object = (CommandList) result.resultParts
+								.get(0);
+						if (object.size() == 1) {
+							message = object.get(0);
+							continue;
+						}
+					}
+				}
+				String reply = adoptor.postProcess(result);
+				session.await();
+				return reply;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterMobileException(e);
@@ -62,6 +72,11 @@ public class MobileMessageHandler {
 				openSession.close();
 			}
 		}
+	}
+
+	private void runCommand() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private IMUser getIMUser(String networkId, int networkType) {
