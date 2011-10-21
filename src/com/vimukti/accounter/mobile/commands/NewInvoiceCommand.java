@@ -411,7 +411,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			}
 
 		Record paymentTermRecord = new Record(ESTIMATEANDSALESORDER);
-		paymentTermRecord.add("Name", ESTIMATEANDSALESORDER);
+		paymentTermRecord.add("Name", getConstants().quoteAndSalesOrderList());
 		paymentTermRecord.add("Value",
 				estimates == null ? "" : estimates.getCustomerName());
 
