@@ -122,10 +122,12 @@ public class AccounterCompanyInitializationServiceImpl extends
 			company.setRegisteredAddress(serverCompanyPreferences
 					.getTradingAddress());
 			// Initializing Accounts
-			company.initialize(accounts);
+
 			company.setConfigured(true);
 			session.saveOrUpdate(company);
+			company.initialize(accounts);
 
+			session.saveOrUpdate(company);
 			transaction.commit();
 
 			getThreadLocalRequest().getSession().setAttribute(
@@ -133,8 +135,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 			getThreadLocalRequest().getSession().removeAttribute(
 					BaseServlet.CREATE);
 
-			UsersMailSendar.sendMailToDefaultUser(user,
-					company.getTradingName());
+			UsersMailSendar.sendMailToDefaultUser(user, company
+					.getTradingName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
