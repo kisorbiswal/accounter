@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
@@ -20,6 +22,35 @@ public class Context {
 	private MobileSession session;
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 	private Map<String, List<Object>> selectedRecords = new HashMap<String, List<Object>>();
+
+	private String userId;
+	private String networkId;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getNetworkId() {
+		return networkId;
+	}
+
+	public void setNetworkId(String networkId) {
+		this.networkId = networkId;
+	}
+
+	public int getNetworkType() {
+		return networkType;
+	}
+
+	public void setNetworkType(int networkType) {
+		this.networkType = networkType;
+	}
+
+	private int networkType;
 
 	/**
 	 * Creates new Instance
@@ -282,9 +313,15 @@ public class Context {
 		return session.getCompany();
 	}
 
-	public void selectCompany(Company value) {
-		session.setCompanyID(value.getID());
-		User user = session.getUser();
-		AccounterThreadLocal.set(user);
+	public void selectCompany(Company company, Client client) {
+		session.setCompanyID(company.getID());
+		session.setClient(client);
+		Set<User> users = client.getUsers();
+		for (User user : users) {
+			if (user.getClient() == client) {
+				session.setUser(user);
+				AccounterThreadLocal.set(user);
+			}
+		}
 	}
 }

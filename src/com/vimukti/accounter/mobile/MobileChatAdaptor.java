@@ -5,8 +5,8 @@ package com.vimukti.accounter.mobile;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.mobile.UserMessage.Type;
+import com.vimukti.accounter.mobile.commands.AuthenticationCommand;
 import com.vimukti.accounter.mobile.commands.SelectCompanyCommand;
 import com.vimukti.accounter.mobile.store.CommandsFactory;
 import com.vimukti.accounter.mobile.store.PatternStore;
@@ -27,8 +27,11 @@ public class MobileChatAdaptor implements MobileAdaptor {
 	 * @return
 	 * @throws AccounterMobileException
 	 */
-	public UserMessage preProcess(MobileSession session, String message) {
-		UserMessage userMessage = new UserMessage(message);
+	public UserMessage preProcess(MobileSession session, String message,
+			String userId, String networkId, int networkType)
+			throws AccounterMobileException {
+		UserMessage userMessage = new UserMessage(message, userId, networkId,
+				networkType);
 
 		if (message == null || message.isEmpty()) {
 
@@ -40,6 +43,9 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			Command currentCommand = session.getCurrentCommand();
 			currentCommand.markDone();
 			session.refreshCurrentCommand();
+		}
+		if (session.getClient() == null) {
+			command = new AuthenticationCommand();
 		}
 
 		Result lastResult = session.getLastResult();

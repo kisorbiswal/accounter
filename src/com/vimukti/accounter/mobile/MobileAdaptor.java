@@ -13,7 +13,8 @@ public interface MobileAdaptor {
 		CHAT, APPLICATION
 	};
 
-	public UserMessage preProcess(MobileSession session, String userMessage)
+	public UserMessage preProcess(MobileSession session, String userMessage,
+			String userId, String networkId, int networkType)
 			throws AccounterMobileException;
 
 	public String postProcess(Result userMessage);

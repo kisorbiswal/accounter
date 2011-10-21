@@ -32,6 +32,7 @@ public class MobileSession {
 	private boolean isExpired;
 	private Stack<Command> commandStack = new Stack<Command>();
 	private TimerTask task;
+	private User user;
 
 	private Session hibernateSession;
 
@@ -132,7 +133,7 @@ public class MobileSession {
 	 * @return
 	 */
 	public User getUser() {
-		return getCompany().getUserByUserEmail(getClient().getEmailId());
+		return user;
 	}
 
 	public Company getCompany() {
@@ -219,5 +220,15 @@ public class MobileSession {
 	 */
 	public Object removeAttribute(String name) {
 		return attributes.remove(name);
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void reloadObjects() {
+		if (user != null) {
+			user = (User) hibernateSession.get(User.class, user.getID());
+		}
 	}
 }

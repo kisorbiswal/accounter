@@ -87,7 +87,7 @@ public class CommandProcessor {
 	private void processName(MobileSession session, UserMessage userMessage)
 			throws AccounterMobileException {
 		NameSearchCommand command = new NameSearchCommand();
-		Context context = getContext(session);
+		Context context = getContext(session, userMessage);
 		context.setInputs(userMessage.getInputs());
 		Result result = command.run(context);
 		userMessage.setCommand(command);
@@ -102,7 +102,7 @@ public class CommandProcessor {
 	private void processNumber(MobileSession session, UserMessage userMessage)
 			throws AccounterMobileException {
 		NumberSearchCommand command = new NumberSearchCommand();
-		Context context = getContext(session);
+		Context context = getContext(session, userMessage);
 		context.setInputs(userMessage.getInputs());
 		Result result = command.run(context);
 		userMessage.setCommand(command);
@@ -120,7 +120,7 @@ public class CommandProcessor {
 	private Result processCommand(MobileSession session, UserMessage message)
 			throws AccounterMobileException {
 		Command command = message.getCommand();
-		Context context = getContext(session);
+		Context context = getContext(session, message);
 		// Getting Last Result
 		Result lastResult = session.getLastResult();
 		if (lastResult != null) {
@@ -201,11 +201,13 @@ public class CommandProcessor {
 		}
 	}
 
-	private Context getContext(MobileSession mSession) {
+	private Context getContext(MobileSession mSession, UserMessage message) {
 		Session session = HibernateUtil.getCurrentSession();
 		mSession.sethibernateSession(session);
 		Context context = new Context(mSession);
+		context.setNetworkId(message.getNetworkId());
+		context.setNetworkType(message.getNetworkType());
+		context.setUserId(message.getUserId());
 		return context;
 	}
-
 }

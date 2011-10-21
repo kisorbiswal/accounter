@@ -12,7 +12,8 @@ public class MobileApplicationAdaptor implements MobileAdaptor {
 	public static MobileAdaptor INSTANCE = new MobileApplicationAdaptor();
 
 	@Override
-	public UserMessage preProcess(MobileSession session, String userMessage)
+	public UserMessage preProcess(MobileSession session, String userMessage,
+			String userId, String networkId, int networkType)
 			throws AccounterMobileException {
 		// TODO Auto-generated method stub
 		return null;
