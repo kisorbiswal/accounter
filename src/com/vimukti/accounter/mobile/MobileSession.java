@@ -229,6 +229,10 @@ public class MobileSession {
 	}
 
 	public void reloadObjects() {
+		if (client != null) {
+			client = (Client) hibernateSession
+					.get(Client.class, client.getID());
+		}
 		if (user != null) {
 			user = (User) hibernateSession.get(User.class, user.getID());
 		}

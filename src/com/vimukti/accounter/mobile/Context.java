@@ -315,7 +315,6 @@ public class Context {
 
 	public void selectCompany(Company company, Client client) {
 		session.setCompanyID(company.getID());
-		session.setClient(client);
 		Set<User> users = client.getUsers();
 		for (User user : users) {
 			if (user.getClient() == client) {
