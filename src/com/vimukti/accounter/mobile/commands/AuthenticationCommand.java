@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
@@ -47,47 +48,78 @@ public class AuthenticationCommand extends AbstractCommand {
 				context.getNetworkType());
 		Result makeResult = context.makeResult();
 		if (imUser == null) {
-			Client client = getClient(context.getUserId());
-			if (client == null) {
-				IMActivation activation = getImActivationByTocken(context
-						.getString());
-				if (activation == null) {
-					List<IMActivation> activationList = getImActivationByNetworkId(context
-							.getNetworkId());
-					if (activationList == null || activationList.size() == 0) {
+			IMActivation activation = getImActivationByTocken(context
+					.getString());
+			if (activation == null) {
+				List<IMActivation> activationList = getImActivationByNetworkId(context
+						.getNetworkId());
+				if (activationList == null || activationList.size() == 0) {
+					Client client = getClient(context.getUserId());
+					if (client != null) {
+						sendActivationMail(context.getNetworkId(),
+								client.getEmailId());
+						makeResult
+								.add("Activation code has sent to your email Id. Enter Activation code");
+					} else {
 						client = getClient(context.getString());
 						if (client != null) {
 							sendActivationMail(context.getNetworkId(),
 									client.getEmailId());
 							makeResult
-									.add("Activation code has sent to your email Id. Enter Activation code");
+									.add("Activation code has sent to your email Id. Enter IM User Activation code");
 						} else {
+							makeResult.add("Enter valid Accounter emailId");
 							CommandList commandList = new CommandList();
 							commandList.add("Signup");
-							makeResult.add("Enter valid Accounter emailId");
 							makeResult.add(commandList);
 						}
-					} else {
-						makeResult.add("Wrong Activation code");
 					}
 
 				} else {
-					imUser = createIMUser(context.getNetworkType(),
-							activation.getNetworkId(),
-							getClient(activation.getEmailId()));
-					makeResult.add("Activation Success");
+					makeResult.add("Wrong Activation code");
 				}
+
 			} else {
 				imUser = createIMUser(context.getNetworkType(),
-						context.getNetworkId(), client);
-				makeResult.add("Activation Success.");
+						activation.getNetworkId(),
+						getClient(activation.getEmailId()));
+				makeResult.add("Activation Success");
 			}
 		}
 		if (imUser != null) {
-			context.getIOSession().setClient(imUser.getClient());
-			markDone();
+			Client client = imUser.getClient();
+			if (client.isActive()) {
+				makeResult.add("Enter command.");
+				markDone();
+				context.getIOSession().setAuthentication(true);
+			} else {
+				Activation activation = getActivation(context.getString());
+				if (activation == null) {
+					makeResult
+							.add("Wrong activation code, Please enter User Activation code.");
+				} else {
+					Session currentSession = HibernateUtil.getCurrentSession();
+					Transaction beginTransaction = currentSession
+							.beginTransaction();
+					client.setActive(true);
+					beginTransaction.commit();
+					makeResult.add("Activation Success. Enter Command");
+				}
+			}
 		}
 		return makeResult;
+	}
+
+	private Activation getActivation(String string) {
+		Session session = HibernateUtil.getCurrentSession();
+		if (session != null) {
+			Activation val = (Activation) session
+					.getNamedQuery("get.activation.by.token")
+					.setString("token", string).uniqueResult();
+			return val;
+
+		}
+		return null;
 	}
 
 	private IMUser createIMUser(int networkType, String networkId, Client client) {
@@ -148,42 +180,6 @@ public class AuthenticationCommand extends AbstractCommand {
 				.setInteger("networkType", networkType).uniqueResult();
 		return user;
 	}
-
-	// private Result companyNameRequirement(Context context, IMUser imUser) {
-	// Requirement companyReq = get(COMPANY_NAME);
-	// Company selection = context.getSelection(COMPANY_NAME);
-	// if (selection != null) {
-	// companyReq.setValue(selection);
-	// }
-	// if (companyReq.isDone()) {
-	// Company value = companyReq.getValue();
-	// context.selectCompany(value, imUser.getClient());
-	// markDone();
-	// return null;
-	// }
-	//
-	// Result result = context.makeResult();
-	// result.add("Select a company");
-	//
-	// ResultList companyList = new ResultList(COMPANY_NAME);
-	//
-	// Set<User> users = imUser.getClient().getUsers();
-	// List<Company> companies = new ArrayList<Company>();
-	// for (User user : users) {
-	// if (!user.isDeleted()) {
-	// companies.add(user.getCompany());
-	// }
-	// }
-	//
-	// for (Company company : companies) {
-	// Record record = new Record(company);
-	// record.add("", company.getDisplayName());
-	// record.add("", company.getCountry());
-	// companyList.add(record);
-	// }
-	// result.add(companyList);
-	// return result;
-	// }
 
 	private Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
