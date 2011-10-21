@@ -122,6 +122,11 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	/**
+	 * Set
+	 * 
+	 * @param context
+	 */
 	private void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
@@ -155,6 +160,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 
 		ClientCustomer customer = get("customer").getValue();
 		estimate.setCustomer(customer);
+		estimate.setType(ClientEstimate.TYPE_ESTIMATE);
 
 		ClientFinanceDate date = get(DATE).getValue();
 		estimate.setDate(date.getDate());
@@ -184,7 +190,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 
 		estimate.setTransactionItems(items);
 		updateTotals(estimate);
-		
+
 		ClientPaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		estimate.setPaymentTerm(paymentTerm.getID());
 
