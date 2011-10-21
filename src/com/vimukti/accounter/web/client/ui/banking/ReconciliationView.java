@@ -181,8 +181,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		}
 		mainPanel.add(grid);
 		// mainPanel.setCellHeight(grid, "200px");
-		grid.getElement().getParentElement()
-				.addClassName("recounciliation_grid");
+		grid.getElement().getParentElement().addClassName(
+				"recounciliation_grid");
 		mainPanel.add(amountsPanel);
 		this.add(mainPanel);
 	}
@@ -302,8 +302,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			result.addError(difference, constants.differenceValidate());
 		}
 		if (clearedTransactions.isEmpty()) {
-			result.addError(clearedTransactions,
-					constants.selectTransactionToReconcile());
+			result.addError(clearedTransactions, constants
+					.thereIsNoTransactionsToReconcile());
 		}
 		return result;
 	}

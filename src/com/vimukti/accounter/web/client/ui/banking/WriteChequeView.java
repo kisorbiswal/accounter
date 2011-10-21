@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -121,10 +124,15 @@ public class WriteChequeView extends
 			vendorItemsDisclosurePanel;
 
 	private TAXCodeCombo taxCodeSelect;
-
 	private ClientTAXCode taxCode;
 
-	private double salesTax = 0.0D;
+	private double standardAmount;
+	private boolean isAmountChange;
+	private AmountLabel unassignedAmount;
+
+	private HorizontalPanel unassignedAmountPanel;
+
+	private boolean isNonEditUpdation;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -487,7 +495,7 @@ public class WriteChequeView extends
 		if (isInViewMode()) {
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
-			if (transactionTotal != null) {
+			if (transactionTotal != null && !isAmountChange) {
 				amtText
 						.setAmount(getAmountInTransactionCurrency(transactionTotal
 								.doubleValue()));
@@ -651,7 +659,6 @@ public class WriteChequeView extends
 
 	@Override
 	protected void createControls() {
-
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(bankingConstants.writeCheck());
@@ -740,6 +747,7 @@ public class WriteChequeView extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayee>() {
 					public void selectedComboBoxItem(ClientPayee selectItem) {
 						amtText.setValue("0.00");
+						standardAmount = 0;
 						vendorTDSTaxCode.setSelected("");
 						if (payee != null) {
 							vendorTDSTaxCode.setSelected(vendorTDSTaxCode
@@ -792,6 +800,16 @@ public class WriteChequeView extends
 		amtText.setWidth(100);
 		amtText.setAmount(getAmountInTransactionCurrency(0.00));
 		amtText.setDisabled(isInViewMode());
+		amtText.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				if (amtText.getAmount() != 0 && totalTxt.getAmount() == 0) {
+					standardAmount = amtText.getAmount();
+					isAmountChange = true;
+				}
+			}
+		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -896,6 +914,27 @@ public class WriteChequeView extends
 		totalForm.setFields(totalTxt);
 		totalForm.addStyleName("boldtext");
 		amountPanel.add(totalForm);
+		unassignedAmountPanel = new HorizontalPanel();
+		Button recalculateButton = new Button(constants.recalculate());
+
+		recalculateButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				isAmountChange = false;
+				updateNonEditableItems();
+				hideUnassignedFields();
+			}
+
+		});
+
+		DynamicForm unassignedAmountForm = new DynamicForm();
+		unassignedAmount = new AmountLabel(constants.unassignedAmount());
+		unassignedAmountForm.setFields(unassignedAmount);
+
+		unassignedAmountPanel.add(recalculateButton);
+		unassignedAmountPanel.add(unassignedAmountForm);
+
 		amountPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 		amountPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		mainVLay = new VerticalPanel();
@@ -1069,6 +1108,7 @@ public class WriteChequeView extends
 		listforms.add(bankAccForm);
 		listforms.add(payForm);
 		listforms.add(amtForm);
+
 		settabIndexes();
 
 	}
@@ -1146,11 +1186,11 @@ public class WriteChequeView extends
 				|| transactionVendorItemTable == null) {
 			return;
 		}
+
 		double total = transactionVendorAccountTable.getGrandTotal()
 				+ transactionVendorItemTable.getGrandTotal();
-		this.amtText.setAmount(getAmountInTransactionCurrency(total));
-		// amtText.setValue(DataUtils.getAmountAsString(total));
-		// totalTxt.setValue(DataUtils.getAmountAsString(total));
+		if (!isAmountChange)
+			this.amtText.setAmount(getAmountInTransactionCurrency(total));
 		double grandTotal = transactionVendorAccountTable.getLineTotal()
 				+ transactionVendorItemTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {
@@ -1160,12 +1200,30 @@ public class WriteChequeView extends
 		}
 		netAmount.setAmount(getAmountInTransactionCurrency(grandTotal));
 		totalTxt.setAmount(getAmountInTransactionCurrency(total));
+		if (standardAmount == 0) {
+			standardAmount = totalTxt.getAmount();
+			amtText.setAmount(standardAmount);
+		}
+
+		if (standardAmount != totalTxt.getAmount()) {
+			unassignedAmount.setAmount(standardAmount - totalTxt.getAmount());
+			showUnassignedFields();
+		}
+
 	}
 
 	// @Override
 	// public void onDraw() {
 	// this.nText.setDisabled(true);
 	// }
+
+	private void showUnassignedFields() {
+		unassignedAmountPanel.setVisible(true);
+	}
+
+	private void hideUnassignedFields() {
+		unassignedAmountPanel.setVisible(false);
+	}
 
 	@Override
 	public void showMenu(Widget button) {
