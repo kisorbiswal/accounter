@@ -399,6 +399,7 @@
 		<alias>Add Estimate</alias>
 		<alias>Create Estimate</alias>
 		<alias>New Estimate</alias>
+		<alias>CreateQuote</alias>
 	</command>
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
