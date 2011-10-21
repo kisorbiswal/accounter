@@ -52,8 +52,7 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			switch (selection) {
 			case FINISH:
-				markDone();
-				return new Result();
+				return closeCommand();
 			case OPEN:
 				context.setAttribute(CURRENT_VIEW, "open");
 				break;
@@ -89,9 +88,9 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 	private Result receivePaymentsList(Context context, ActionNames selection) {
 
 		Result result = context.makeResult();
-		result.add(getConstants().receivePaymentList());
 		ResultList receivedPaymentsListData = new ResultList("receivedPayments");
-
+		result.add(getConstants().receivePaymentList());
+		
 		String currentView = (String) context.getAttribute(CURRENT_VIEW);
 		List<ReceivePaymentsList> paymentsLists = getReceivePaymentsList(
 				context, currentView);

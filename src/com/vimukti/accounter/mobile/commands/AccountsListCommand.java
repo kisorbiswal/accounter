@@ -50,8 +50,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			switch (selection) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			case ACTIVE:
 				context.setAttribute(ACCOUNT_TYPE, true);
 				break;

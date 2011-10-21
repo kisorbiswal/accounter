@@ -42,8 +42,7 @@ public class VATItemsListCommand extends AbstractCommand {
 		if (selection != null) {
 			switch (selection) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			case ACTIVE:
 				context.setAttribute(CURRENT_VIEW, true);
 				break;
@@ -64,7 +63,7 @@ public class VATItemsListCommand extends AbstractCommand {
 	private Result vatItemssList(Context context, ActionNames selection) {
 
 		Result result = context.makeResult();
-		ResultList taxItemsList = new ResultList("Tax Items List");
+		ResultList taxItemsList = new ResultList("taxItemsList");
 		result.add(getConstants().vatItemList());
 
 		Boolean isActive = (Boolean) context.getAttribute(CURRENT_VIEW);

@@ -39,8 +39,7 @@ public class CreditRatingListCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			switch (selection) {
 			case FINISH:
-				markDone();
-				return new Result();
+				return closeCommand();
 			case ALL:
 				return null;
 			default:

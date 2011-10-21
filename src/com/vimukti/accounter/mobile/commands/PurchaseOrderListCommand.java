@@ -52,8 +52,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			switch (selection) {
 			case FINISH:
-				markDone();
-				return new Result();
+				return closeCommand();
 			case OPEN:
 				context.setAttribute(CURRENT_VIEW, "open");
 				break;

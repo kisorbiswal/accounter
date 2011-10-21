@@ -43,8 +43,7 @@ public class VATCodesListCommand extends AbstractCommand {
 		if (selection != null) {
 			switch (selection) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			case ACTIVE:
 				context.setAttribute(CURRENT_VIEW, true);
 				break;
