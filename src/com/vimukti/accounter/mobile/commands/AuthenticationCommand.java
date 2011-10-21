@@ -103,6 +103,7 @@ public class AuthenticationCommand extends AbstractCommand {
 							.beginTransaction();
 					client.setActive(true);
 					beginTransaction.commit();
+					context.getIOSession().setAuthentication(true);
 					makeResult.add("Activation Success. Enter Command");
 				}
 			}
