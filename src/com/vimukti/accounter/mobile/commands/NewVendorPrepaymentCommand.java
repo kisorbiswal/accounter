@@ -80,7 +80,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 		Result makeResult = context.makeResult();
 		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
+	
 		makeResult.add(getMessages().readyToCreate(
 				getMessages().vendorPrePayment(Global.get().vendor())));
 		ResultList list = new ResultList("values");
@@ -117,6 +117,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		makeResult.add(actions);
 		result = createOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
