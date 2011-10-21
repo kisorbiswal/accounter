@@ -175,7 +175,6 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			switch (actionName) {
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
-				markDone();
 				return null;
 			default:
 				break;
