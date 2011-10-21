@@ -391,8 +391,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getStates(String country, AsyncCallback<List<String>>
 	// callback);
 
-	void getAccountsTemplate(AsyncCallback<List<AccountsTemplate>> callback);
-
+	
 	// public void getCurrencies(AsyncCallback<List<ClientCurrency>> callback);
 
 	/**

@@ -289,9 +289,6 @@ public interface IAccounterGETService extends RemoteService {
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset);
 
-	public List<AccountsTemplate> getAccountsTemplate()
-			throws AccounterException;
-
 	List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
