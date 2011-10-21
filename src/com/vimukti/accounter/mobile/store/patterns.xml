@@ -190,5 +190,14 @@
 			<command>Create New Item</command>
 		</output>
 	</pattern>
+
+	<pattern>
+		<input>Create Item</input>
+		<input>New Item</input>
+		<output>
+			<command>Create Product Item</command>
+			<command>Create Service Item</command>
+		</output>
+	</pattern>
 </patterns>
 
