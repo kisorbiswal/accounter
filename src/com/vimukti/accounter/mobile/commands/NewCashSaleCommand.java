@@ -193,9 +193,10 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		cashSale.setDate(date.getDate());
 
 		cashSale.setType(Transaction.TYPE_CASH_SALES);
-
-		String number = get(NUMBER).getValue();
-		cashSale.setNumber(number);
+		if (context.getCompany().getPreferences().getUseCustomerId()) {
+			String number = get(NUMBER).getValue();
+			cashSale.setNumber(number);
+		}
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
@@ -268,18 +269,23 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		}
 
 		selection = context.getSelection("values");
+		// booleanOptionalRequirement(context, selection, list,
+		// AMOUNTS_INCLUDE_TAX,
+		// getMessages().active(getConstants().customer()), getMessages()
+		// .inActive(getConstants().customer()));
 		Result result = dateOptionalRequirement(context, list, DATE,
 				getConstants().date(),
 				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
-
-		result = numberOptionalRequirement(context, list, selection, PHONE,
-				getConstants().phoneNumber(),
-				getMessages().pleaseEnter(getConstants().phoneNumber()));
-		if (result != null) {
-			return result;
+		if (context.getCompany().getPreferences().getUseCustomerId()) {
+			result = numberOptionalRequirement(context, list, selection, PHONE,
+					getConstants().phoneNumber(),
+					getMessages().pleaseEnter(getConstants().phoneNumber()));
+			if (result != null) {
+				return result;
+			}
 		}
 		Requirement customerReq = get(CUSTOMER);
 		ClientCustomer customer = customerReq.getValue();
@@ -307,5 +313,5 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 		return makeResult;
 	}
-
+	
 }
