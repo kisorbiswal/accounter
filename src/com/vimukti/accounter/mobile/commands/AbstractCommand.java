@@ -217,7 +217,7 @@ public abstract class AbstractCommand extends Command {
 			vendorObj = null;
 			selection = reqName;
 		}
-		
+
 		Requirement vendorReq = get(reqName);
 		ClientVendor vendor = (ClientVendor) vendorReq.getValue();
 
@@ -306,7 +306,7 @@ public abstract class AbstractCommand extends Command {
 		Requirement customerNumReq = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(reqName)) {
-			customerNumReq.setValue(context.getNumber());
+			customerNumReq.setValue(context.getString());
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (!customerNumReq.isDone()) {
