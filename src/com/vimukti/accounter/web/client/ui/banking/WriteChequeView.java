@@ -51,9 +51,9 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -118,21 +118,17 @@ public class WriteChequeView extends
 	private boolean locationTrackingEnabled;
 
 	private VendorAccountTransactionTable transactionVendorAccountTable;
-	private VendorItemTransactionTable transactionVendorItemTable;
-	private AddNewButton accountTableButton, itemTableButton;
-	private DisclosurePanel vendorAccountsDisclosurePanel,
-			vendorItemsDisclosurePanel;
+	private AddNewButton accountTableButton;
+	private DisclosurePanel vendorAccountsDisclosurePanel;
 
 	private TAXCodeCombo taxCodeSelect;
 	private ClientTAXCode taxCode;
 
-	private double standardAmount;
 	private boolean isAmountChange;
 	private AmountLabel unassignedAmount;
+	private double previousValue = 0.00D;
 
 	private HorizontalPanel unassignedAmountPanel;
-
-	private boolean isNonEditUpdation;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -214,7 +210,6 @@ public class WriteChequeView extends
 
 		}
 		transactionVendorAccountTable.updateTotals();
-		transactionVendorItemTable.updateTotals();
 		// getAddreses(add);
 		if (isInViewMode()) {
 			if (transaction.getAddress() != null)
@@ -375,9 +370,6 @@ public class WriteChequeView extends
 				transactionVendorAccountTable
 						.setRecords(getAccountTransactionItems(transaction
 								.getTransactionItems()));
-				transactionVendorItemTable
-						.setRecords(getItemTransactionItems(transaction
-								.getTransactionItems()));
 				return;
 			}
 
@@ -523,13 +515,11 @@ public class WriteChequeView extends
 		result.add(DynamicForm.validate(bankAccForm));
 
 		// FIXME Need to validate grids.
-		if (transactionVendorAccountTable.getAllRows().isEmpty()
-				&& transactionVendorItemTable.getAllRows().isEmpty()) {
+		if (transactionVendorAccountTable.getAllRows().isEmpty()) {
 			result.addError(transactionVendorAccountTable, accounterConstants
 					.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
-			result.add(transactionVendorItemTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
@@ -554,7 +544,6 @@ public class WriteChequeView extends
 	private boolean validateAmount() {
 		double total = 0.0;
 		total += transactionVendorAccountTable.getGrandTotal();
-		total += transactionVendorItemTable.getGrandTotal();
 		return AccounterValidator.isPositiveAmount(total);
 	}
 
@@ -747,7 +736,6 @@ public class WriteChequeView extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayee>() {
 					public void selectedComboBoxItem(ClientPayee selectItem) {
 						amtText.setValue("0.00");
-						standardAmount = 0;
 						vendorTDSTaxCode.setSelected("");
 						if (payee != null) {
 							vendorTDSTaxCode.setSelected(vendorTDSTaxCode
@@ -755,7 +743,6 @@ public class WriteChequeView extends
 											payee.getTaxItemCode())));
 
 							transactionVendorAccountTable.resetRecords();
-							transactionVendorItemTable.resetRecords();
 							// } else if (payee instanceof ClientTAXAgency)
 							// {
 							// taxAgencyGrid.removeAllRecords();
@@ -804,8 +791,10 @@ public class WriteChequeView extends
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				if (amtText.getAmount() != 0 && totalTxt.getAmount() == 0) {
-					standardAmount = amtText.getAmount();
+				if ((amtText.getAmount() != 0)
+						&& !(DecimalUtil.isEquals(previousValue, amtText
+								.getAmount()))) {
+					previousValue = amtText.getAmount();
 					isAmountChange = true;
 					validateAmountAndTotal();
 				}
@@ -914,8 +903,11 @@ public class WriteChequeView extends
 		}
 		totalForm.setFields(totalTxt);
 		totalForm.addStyleName("boldtext");
-		amountPanel.add(totalForm);
 		unassignedAmountPanel = new HorizontalPanel();
+
+		amountPanel.add(unassignedAmountPanel);
+		amountPanel.add(totalForm);
+
 		Button recalculateButton = new Button(constants.recalculate());
 
 		recalculateButton.addClickHandler(new ClickHandler() {
@@ -938,7 +930,7 @@ public class WriteChequeView extends
 
 		amountPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 		amountPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		amountPanel.add(unassignedAmountPanel);
+		hideUnassignedFields();
 
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -1000,21 +992,6 @@ public class WriteChequeView extends
 		};
 		transactionVendorAccountTable.setDisabled(isInViewMode());
 
-		transactionVendorItemTable = new VendorItemTransactionTable(false,
-				isTrackTax(), isTaxPerDetailLine(), this) {
-
-			@Override
-			protected void updateNonEditableItems() {
-				WriteChequeView.this.updateNonEditableItems();
-			}
-
-			@Override
-			public boolean isShowPriceWithVat() {
-				return WriteChequeView.this.isShowPriceWithVat();
-			}
-		};
-		transactionVendorItemTable.setDisabled(isInViewMode());
-
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
@@ -1033,24 +1010,6 @@ public class WriteChequeView extends
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);
 		vendorAccountsDisclosurePanel.setOpen(true);
 		vendorAccountsDisclosurePanel.setWidth("100%");
-
-		itemTableButton = new AddNewButton();
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
-		FlowPanel vendorItemsFlowPanel = new FlowPanel();
-		vendorItemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
-		vendorItemsFlowPanel.add(transactionVendorItemTable);
-		vendorItemsFlowPanel.add(itemTableButton);
-		vendorItemsDisclosurePanel.setContent(vendorItemsFlowPanel);
-		vendorItemsDisclosurePanel.setWidth("100%");
 
 		if (isInViewMode()) {
 			transactionItems = transaction.getTransactionItems();
@@ -1071,7 +1030,6 @@ public class WriteChequeView extends
 
 		mainVLay.add(topHLay);
 		mainVLay.add(vendorAccountsDisclosurePanel);
-		mainVLay.add(vendorItemsDisclosurePanel);
 
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
@@ -1185,17 +1143,16 @@ public class WriteChequeView extends
 	@Override
 	public void updateNonEditableItems() {
 
-		if (transactionVendorAccountTable == null
-				|| transactionVendorItemTable == null) {
+		if (transactionVendorAccountTable == null) {
 			return;
 		}
 
-		double total = transactionVendorAccountTable.getGrandTotal()
-				+ transactionVendorItemTable.getGrandTotal();
-		if (!isAmountChange)
+		double total = transactionVendorAccountTable.getGrandTotal();
+		if (!isAmountChange) {
 			this.amtText.setAmount(getAmountInTransactionCurrency(total));
-		double grandTotal = transactionVendorAccountTable.getLineTotal()
-				+ transactionVendorItemTable.getLineTotal();
+			previousValue = amtText.getAmount();
+		}
+		double grandTotal = transactionVendorAccountTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(total
@@ -1203,18 +1160,21 @@ public class WriteChequeView extends
 		}
 		netAmount.setAmount(getAmountInTransactionCurrency(grandTotal));
 		totalTxt.setAmount(getAmountInTransactionCurrency(total));
-		if (standardAmount == 0) {
-			standardAmount = totalTxt.getAmount();
-			amtText.setAmount(standardAmount);
+		if (amtText.getAmount() == 0) {
+			amtText.setAmount(totalTxt.getAmount());
+			previousValue = amtText.getAmount();
 		}
-		validateAmountAndTotal();
+		if (isAmountChange)
+			validateAmountAndTotal();
 
 	}
 
 	private void validateAmountAndTotal() {
-		if (standardAmount != totalTxt.getAmount()) {
-			unassignedAmount.setAmount(standardAmount - totalTxt.getAmount());
+		unassignedAmount.setAmount(amtText.getAmount() - totalTxt.getAmount());
+		if (unassignedAmount.getAmount() != 0) {
 			showUnassignedFields();
+		} else {
+			hideUnassignedFields();
 		}
 	}
 
@@ -1393,10 +1353,7 @@ public class WriteChequeView extends
 		bankAccSelect.setDisabled(isInViewMode());
 		if (transactionVendorAccountTable != null)
 			transactionVendorAccountTable.setDisabled(isInViewMode());
-		if (transactionVendorItemTable != null)
-			transactionVendorItemTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
-		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -1498,16 +1455,12 @@ public class WriteChequeView extends
 		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
 				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
 				true));
-		vendorItemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 		list.addAll(transactionVendorAccountTable.getAllRows());
-		list.addAll(transactionVendorItemTable.getAllRows());
 		return list;
 
 	}
@@ -1526,9 +1479,6 @@ public class WriteChequeView extends
 	protected void refreshTransactionGrid() {
 		if (transactionVendorAccountTable != null) {
 			transactionVendorAccountTable.updateTotals();
-		}
-		if (transactionVendorItemTable != null) {
-			transactionVendorItemTable.updateTotals();
 		}
 	}
 
@@ -1555,17 +1505,11 @@ public class WriteChequeView extends
 	}
 
 	@Override
-	protected void addItemTransactionItem(ClientTransactionItem item) {
-		transactionVendorItemTable.add(item);
-	}
-
-	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 			taxCodeSelect.setComboItem(taxCode);
 			transactionVendorAccountTable.setTaxCode(taxCode.getID(), true);
-			transactionVendorItemTable.setTaxCode(taxCode.getID(), true);
 		} else {
 			taxCodeSelect.setValue("");
 		}
@@ -1575,6 +1519,11 @@ public class WriteChequeView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		transactionVendorAccountTable.updateAmountsFromGUI();
-		transactionVendorItemTable.updateAmountsFromGUI();
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
 	}
 }
