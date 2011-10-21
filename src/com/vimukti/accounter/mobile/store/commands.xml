@@ -390,6 +390,7 @@
 		<alias>new Receive Payment</alias>
 		<alias>Add ReceivePayment</alias>
 		<alias>Create Receive Payment</alias>
+		<alias>add receive payment</alias>
 	</command>
 	<command clazz="NewQuoteCommand" name="QuoteCommand">
 		<alias>Estimate</alias>
@@ -431,6 +432,7 @@
 	<command clazz="NewVendorPrepaymentCommand" name="VendorPrepayment">
 		<alias>Prepayment</alias>
 		<alias>VendorPrepayment</alias>
+		<alias>Add Vendor payment</alias>
 	</command>
 	<command clazz="VendorsListCommand" name="VendorsList">
 		<alias>Vendors</alias>
@@ -480,6 +482,8 @@
 	<command clazz="VendorPaymentsCommand" name="Vendor Payments">
 		<alias>Vendor Payments</alias>
 		<alias>Vendor Payments List</alias>
+		<alias>Supplier payments</alias>
+		<alias>Supplier payments list</alias>
 	</command>
 	<command clazz="LocationListCommand" name="Location list">
 		<alias>Location list</alias>
