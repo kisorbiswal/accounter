@@ -88,6 +88,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
 	private static final String SHIPPING_TERMS = "shippingTerms";
 	protected static final String SHIPPING_METHODS = "shippingMethods";
+	private static final String VENDOR = "vendor";
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
@@ -177,7 +178,7 @@ public abstract class AbstractCommand extends Command {
 			ResultList list, Object selection, String reqName,
 			String displayString, String name) {
 
-		Requirement req = get(name);
+		Requirement req = get(reqName);
 		Double balance = (Double) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 
@@ -203,6 +204,38 @@ public abstract class AbstractCommand extends Command {
 		list.add(balanceRecord);
 		Result result = new Result();
 		result.add(list);
+		return null;
+	}
+
+	protected Result vendorOptionalRequirement(Context context,
+			ResultList list, Object selection, String reqName,
+			String displayString, String name) {
+		Object vendorObj = context.getSelection(VENDOR);
+		if (vendorObj instanceof ActionNames) {
+			vendorObj = null;
+			selection = VENDOR;
+		}
+		Requirement vendorReq = get(VENDOR);
+		ClientVendor vendor = (ClientVendor) vendorReq.getValue();
+
+		if (vendorObj != null) {
+			vendor = (ClientVendor) vendorObj;
+			vendorReq.setValue(vendor);
+		}
+
+		if (selection != null)
+			if (selection.equals(VENDOR)) {
+				context.setAttribute(INPUT_ATTR, VENDOR);
+				return vendors(context);
+
+			}
+
+		Record vendorRecord = new Record(VENDOR);
+		vendorRecord.add("", global.Vendor());
+		vendorRecord.add("",
+				vendor == null ? "" : vendor.getName());
+		list.add(vendorRecord);
+
 		return null;
 	}
 
