@@ -36,6 +36,8 @@ public class MobileSession {
 
 	private Session hibernateSession;
 
+	private boolean isAuthenicated;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -230,5 +232,13 @@ public class MobileSession {
 		if (user != null) {
 			user = (User) hibernateSession.get(User.class, user.getID());
 		}
+	}
+
+	public boolean isAuthenticated() {
+		return isAuthenicated;
+	}
+
+	public void setAuthentication(boolean b) {
+		isAuthenicated = b;
 	}
 }

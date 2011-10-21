@@ -41,10 +41,6 @@ public class MobileMessageHandler {
 				sessions.put(networkId, session);
 				ServerLocal.set(Locale.ENGLISH);
 			}
-			IMUser imUser = getIMUser(networkId, networkType);
-			if (imUser != null) {
-				session.setClient(imUser.getClient());
-			}
 			session.sethibernateSession(openSession);
 			session.reloadObjects();
 

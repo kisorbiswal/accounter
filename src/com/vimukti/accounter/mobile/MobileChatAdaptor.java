@@ -44,9 +44,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			currentCommand.markDone();
 			session.refreshCurrentCommand();
 		}
-		if (session.getClient() == null) {
-			command = new AuthenticationCommand();
-		}
 
 		Result lastResult = session.getLastResult();
 		if (lastResult instanceof PatternResult) {
@@ -57,12 +54,18 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (command == null) {
 			command = session.getCurrentCommand();
 		}
+
+		if (command == null && !session.isAuthenticated()) {
+			command = new AuthenticationCommand();
+		}
+
 		if (command == null) {
 			long companyId = session.getCompanyID();
 			if (companyId == 0) {
 				command = new SelectCompanyCommand();
 			}
 		}
+
 		if (command == null) {
 			String commandString = "";
 			for (String str : message.split(" ")) {
