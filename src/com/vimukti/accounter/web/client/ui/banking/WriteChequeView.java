@@ -807,6 +807,7 @@ public class WriteChequeView extends
 				if (amtText.getAmount() != 0 && totalTxt.getAmount() == 0) {
 					standardAmount = amtText.getAmount();
 					isAmountChange = true;
+					validateAmountAndTotal();
 				}
 			}
 		});
@@ -937,6 +938,8 @@ public class WriteChequeView extends
 
 		amountPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 		amountPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		amountPanel.add(unassignedAmountPanel);
+
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 
@@ -1204,12 +1207,15 @@ public class WriteChequeView extends
 			standardAmount = totalTxt.getAmount();
 			amtText.setAmount(standardAmount);
 		}
+		validateAmountAndTotal();
 
+	}
+
+	private void validateAmountAndTotal() {
 		if (standardAmount != totalTxt.getAmount()) {
 			unassignedAmount.setAmount(standardAmount - totalTxt.getAmount());
 			showUnassignedFields();
 		}
-
 	}
 
 	// @Override
