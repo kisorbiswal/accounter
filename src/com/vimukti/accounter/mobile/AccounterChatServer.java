@@ -98,7 +98,7 @@ public class AccounterChatServer implements ChatManagerListener,
 		try {
 			String reply = null;
 			if (message != null) {
-				reply = messageHandler.messageReceived(msg.getFrom(), " ",
+				reply = messageHandler.messageReceived(msg.getFrom(), from,
 						message, AdaptorType.CHAT, NETWORK_TYPE_GTALK);
 			}
 			if (reply != null) {
