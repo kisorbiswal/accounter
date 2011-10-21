@@ -909,4 +909,6 @@ public interface AccounterMessages extends Messages {
 
 	public String selectedit(String vendorPayment);
 
+	public String name(String taxGroup);
+
 }
