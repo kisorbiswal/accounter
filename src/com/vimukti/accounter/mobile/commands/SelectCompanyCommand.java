@@ -48,14 +48,16 @@ public class SelectCompanyCommand extends Command {
 			companyReq.setValue(selection);
 		}
 
+		Client client = context.getIOSession().getClient();
 		if (!companyReq.isDone()) {
-			Client client = context.getIOSession().getClient();
 			if (client != null) {
 				Result result = context.makeResult();
 				result.add("Select a company");
 				ResultList companyList = new ResultList(COMPANY);
+
 				Set<User> users = client.getUsers();
 				List<Company> companies = new ArrayList<Company>();
+
 				for (User user : users) {
 					if (!user.isDeleted()) {
 						companies.add(user.getCompany());
@@ -73,7 +75,7 @@ public class SelectCompanyCommand extends Command {
 			}
 		}
 		Company value = companyReq.getValue();
-		context.selectCompany(value);
+		context.selectCompany(value, client);
 		Result makeResult = context.makeResult();
 		makeResult.add("Enter a Command");
 		markDone();

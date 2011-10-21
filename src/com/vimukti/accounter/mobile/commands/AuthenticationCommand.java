@@ -3,34 +3,28 @@
  */
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.IMActivation;
+import com.vimukti.accounter.core.IMUser;
+import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.utils.SecureUtils;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
 public class AuthenticationCommand extends AbstractCommand {
-
-	private static final String USER_NAME = "userName";
-	private static final String PASSWORD = "password";
-	private static final String COMPANY_NAME = "companyName";
 
 	@Override
 	public String getId() {
@@ -39,9 +33,6 @@ public class AuthenticationCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(USER_NAME, false, true));
-		list.add(new Requirement(PASSWORD, false, true));
-		list.add(new Requirement(COMPANY_NAME, false, true));
 	}
 
 	@Override
@@ -51,94 +42,148 @@ public class AuthenticationCommand extends AbstractCommand {
 		if (attribute == null) {
 			context.setAttribute(INPUT_ATTR, "");
 		}
-		ResultList list = new ResultList("values");
-		Result result = nameRequirement(context, list, USER_NAME, "user name",
-				"Enter User Name.");
-		if (result != null) {
-			return result;
-		}
 
-		result = nameRequirement(context, list, PASSWORD, "password",
-				"Enter Password");
-		if (result != null) {
-			return result;
-		}
-		result = companyNameRequirement(context, list);
-		if (result != null) {
-			return result;
-		}
+		IMUser imUser = getIMUser(context.getNetworkId(),
+				context.getNetworkType());
 		Result makeResult = context.makeResult();
-		makeResult.add("Your successfully logged in.");
+		if (imUser == null) {
+			Client client = getClient(context.getUserId());
+			if (client == null) {
+				IMActivation activation = getImActivationByTocken(context
+						.getString());
+				if (activation == null) {
+					List<IMActivation> activationList = getImActivationByNetworkId(context
+							.getNetworkId());
+					if (activationList == null || activationList.size() == 0) {
+						client = getClient(context.getString());
+						if (client != null) {
+							sendActivationMail(context.getNetworkId(),
+									client.getEmailId());
+							makeResult
+									.add("Activation code has sent to your email Id. Enter Activation code");
+						} else {
+							CommandList commandList = new CommandList();
+							commandList.add("Signup");
+							makeResult.add("Enter valid Accounter emailId");
+							makeResult.add(commandList);
+						}
+					} else {
+						makeResult.add("Wrong Activation code");
+					}
+
+				} else {
+					imUser = createIMUser(context.getNetworkType(),
+							activation.getNetworkId(),
+							getClient(activation.getEmailId()));
+					makeResult.add("Activation Success");
+				}
+			} else {
+				imUser = createIMUser(context.getNetworkType(),
+						context.getNetworkId(), client);
+				makeResult.add("Activation Success.");
+			}
+		}
+		if (imUser != null) {
+			context.getIOSession().setClient(imUser.getClient());
+			markDone();
+		}
 		return makeResult;
 	}
 
-	private Result companyNameRequirement(Context context, ResultList list) {
-		Requirement userNameReq = get(USER_NAME);
-		String userName = userNameReq.getValue();
-		Requirement passwordReq = get(PASSWORD);
-		String password = passwordReq.getValue();
-		Client client = getClient(userName, password);
-		if (client == null) {
-			Result makeResult = context.makeResult();
-			makeResult.add("Wrong Username or Password");
-			makeResult.add(list);
-			return makeResult;
+	private IMUser createIMUser(int networkType, String networkId, Client client) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		IMUser imUser = new IMUser();
+		imUser.setClient(client);
+		imUser.setNetworkId(networkId);
+		imUser.setNetworkType(networkType);
+		Transaction beginTransaction = currentSession.beginTransaction();
+		currentSession.save(imUser);
+		List<IMActivation> imActivationByNetworkId = getImActivationByNetworkId(networkId);
+		for (IMActivation activation : imActivationByNetworkId) {
+			currentSession.delete(activation);
 		}
-		Requirement companyReq = get(COMPANY_NAME);
-		Company selection = context.getSelection(COMPANY_NAME);
-		if (selection != null) {
-			companyReq.setValue(selection);
-		}
-		if (companyReq.isDone()) {
-			Company value = companyReq.getValue();
-			markDone();
-			return null;
-		}
-
-		Result result = context.makeResult();
-		result.add("Select a company");
-		ResultList companyList = new ResultList(COMPANY_NAME);
-
-		Set<User> users = client.getUsers();
-		List<Company> companies = new ArrayList<Company>();
-		for (User user : users) {
-			if (!user.isDeleted()) {
-				companies.add(user.getCompany());
-			}
-		}
-
-		for (Company company : companies) {
-			Record record = new Record(company);
-			record.add("", company.getDisplayName());
-			record.add("", company.getCountry());
-			companyList.add(record);
-		}
-		result.add(companyList);
-		return result;
+		beginTransaction.commit();
+		return imUser;
 	}
 
-	private Client getClient(String emailId, String password) {
-		if (emailId == null || password == null) {
-			return null;
-		}
-		emailId = emailId.trim();
-		password = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ password.trim()));
+	private void sendActivationMail(String networkId, String emailId) {
+		String activationCode = SecureUtils.createID(16);
+		System.out.println("NetWorkID: " + networkId);
+		System.out.println("EmailId: " + emailId);
+		System.out.println("Activation Code: " + activationCode);
 
+		UsersMailSendar.sendMobileActivationMail(activationCode, emailId);
+
+		Session currentSession = HibernateUtil.getCurrentSession();
+		IMActivation activation = new IMActivation();
+		activation.setEmailId(emailId);
+		activation.setNetworkId(networkId);
+		activation.setTocken(activationCode);
+		Transaction beginTransaction = currentSession.beginTransaction();
+		currentSession.save(activation);
+		beginTransaction.commit();
+	}
+
+	private List<IMActivation> getImActivationByNetworkId(String networkId) {
 		Session session = HibernateUtil.getCurrentSession();
-		try {
-			Client client = null;
-			Query query = session
-					.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
-			query.setParameter("emailId", emailId);
-			query.setParameter("password", password);
-			client = (Client) query.uniqueResult();
-			return client;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		@SuppressWarnings("unchecked")
+		List<IMActivation> activationList = (List<IMActivation>) session
+				.getNamedQuery("activation.by.networkId")
+				.setString("networkId", networkId).list();
+		return activationList;
 	}
+
+	private IMActivation getImActivationByTocken(String string) {
+		Session session = HibernateUtil.getCurrentSession();
+		IMActivation activation = (IMActivation) session
+				.getNamedQuery("activation.by.tocken")
+				.setString("tocken", string).uniqueResult();
+		return activation;
+	}
+
+	private IMUser getIMUser(String networkId, int networkType) {
+		Session session = HibernateUtil.getCurrentSession();
+		IMUser user = (IMUser) session.getNamedQuery("imuser.by.networkId")
+				.setString("networkId", networkId)
+				.setInteger("networkType", networkType).uniqueResult();
+		return user;
+	}
+
+	// private Result companyNameRequirement(Context context, IMUser imUser) {
+	// Requirement companyReq = get(COMPANY_NAME);
+	// Company selection = context.getSelection(COMPANY_NAME);
+	// if (selection != null) {
+	// companyReq.setValue(selection);
+	// }
+	// if (companyReq.isDone()) {
+	// Company value = companyReq.getValue();
+	// context.selectCompany(value, imUser.getClient());
+	// markDone();
+	// return null;
+	// }
+	//
+	// Result result = context.makeResult();
+	// result.add("Select a company");
+	//
+	// ResultList companyList = new ResultList(COMPANY_NAME);
+	//
+	// Set<User> users = imUser.getClient().getUsers();
+	// List<Company> companies = new ArrayList<Company>();
+	// for (User user : users) {
+	// if (!user.isDeleted()) {
+	// companies.add(user.getCompany());
+	// }
+	// }
+	//
+	// for (Company company : companies) {
+	// Record record = new Record(company);
+	// record.add("", company.getDisplayName());
+	// record.add("", company.getCountry());
+	// companyList.add(record);
+	// }
+	// result.add(companyList);
+	// return result;
+	// }
 
 	private Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
