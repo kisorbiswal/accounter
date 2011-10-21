@@ -77,8 +77,8 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, getConstants()
-				.amount(), getMessages().pleaseEnter(getConstants().amount()));
+		result = amountRequirement(context, list, AMOUNT, getMessages()
+				.pleaseEnter(getConstants().amount()), getConstants().amount());
 		if (result != null) {
 			return result;
 		}
