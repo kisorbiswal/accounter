@@ -217,6 +217,7 @@ public abstract class AbstractCommand extends Command {
 			vendorObj = null;
 			selection = reqName;
 		}
+		
 		Requirement vendorReq = get(reqName);
 		ClientVendor vendor = (ClientVendor) vendorReq.getValue();
 

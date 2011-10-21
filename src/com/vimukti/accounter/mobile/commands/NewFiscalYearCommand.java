@@ -51,7 +51,7 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 		// Preparing Result
 		Result makeResult = context.makeResult();
 		makeResult
-				.add(getMessages().readyToCreate(getConstants().newInvoice()));
+				.add(getMessages().readyToCreate(getConstants().newFiscalYear()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -68,6 +68,7 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 			return result;
 
 		}
+		makeResult.add(actions);
 		result = createOptionalRequirement(context);
 		if (result != null) {
 			return result;

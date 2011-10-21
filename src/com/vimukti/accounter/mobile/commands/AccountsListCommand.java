@@ -104,10 +104,11 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		result.add(accountsList);
 
 		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", getConstants().active() + Global.get().Account());
+		inActiveRec.add("", getConstants().active() + Global.get().Accounts());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", getMessages().inActive(Global.get().Accounts()));
+		inActiveRec
+				.add("", getConstants().inActive() + Global.get().Accounts());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
 		inActiveRec.add("", getConstants().all());

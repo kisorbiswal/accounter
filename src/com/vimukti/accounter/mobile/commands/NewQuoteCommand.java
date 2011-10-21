@@ -184,7 +184,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 
 		estimate.setTransactionItems(items);
 		updateTotals(estimate);
-
+		
 		ClientPaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		estimate.setPaymentTerm(paymentTerm.getID());
 

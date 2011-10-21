@@ -138,7 +138,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
-		get(CONTACT).setDefaultValue(new ClientContact());
+		get(CONTACT).setDefaultValue(null);
 		ArrayList<ClientPaymentTerms> paymentTerms = getClientCompany()
 				.getPaymentsTerms();
 		for (ClientPaymentTerms p : paymentTerms) {
