@@ -55,12 +55,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	private DateValueChangeHandler handler;
 
 	{
-		// if(!BizantraClient.getIDentity().getCompany().dateFormat.equals("")){
-		// dateFormatter =
-		// DateTimeFormat.getFormat(BizantraClient.getIDentity().getCompany().dateFormat);
-		// }else{
-		// dateFormatter=DateTimeFormat.getFormat(DateUtil.getUserPreferredDateFormat());
-		// }
 
 		/**
 		 * Set the date format according to the company preferencess

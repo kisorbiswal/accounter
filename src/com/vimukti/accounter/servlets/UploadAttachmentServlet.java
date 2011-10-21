@@ -125,25 +125,4 @@ public class UploadAttachmentServlet extends BaseServlet {
 		}
 	}
 
-	/*
-	 * public CollaberIdentity getIDentity(HttpServletRequest req) { String
-	 * identityID = (String) req.getSession().getAttribute(
-	 * BizantraService.SESSION_IDENTITYID); if (identityID == null) { return
-	 * null; } try { assert (identityID != null) : "session is expired";
-	 * 
-	 * CollaberIdentity identity = Server.getInstance().loadIdentity(
-	 * HibernateUtil.getCurrentSession(), identityID); //
-	 * identity.setCompanyName(BizantraService.getCompanyFromRequest(req));
-	 * return identity; } finally { } }
-	 */
-
-	// private String getJSonAttachment(IAttachment attachmet) {
-	// StringBuilder stringBuilder = new StringBuilder();
-	// stringBuilder.append(attachmet.getID());
-	// stringBuilder.append(",");
-	// stringBuilder.append(attachmet.getFileName());
-	// stringBuilder.append(",");
-	// stringBuilder.append(attachmet.getFileSize());
-	// return stringBuilder.toString();
-	// }
 }

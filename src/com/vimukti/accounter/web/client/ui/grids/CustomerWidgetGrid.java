@@ -53,19 +53,6 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	}
 
-	// @Override
-	// protected int sort(ClientCustomer obj1, ClientCustomer obj2, int index) {
-	// switch (index) {
-	// case 0:
-	// String name =BizantraClient.getIDentity().getUserEmailID(obj1.fromID);
-	// String name1 =BizantraClient.getIDentity().getUserEmailID(obj2.fromID);
-	// name.compareTo(name1);
-	// case 1:
-	// obj1.subject.compareTo(obj2.subject);
-	//
-	// }
-	// return 0;
-	// }
 
 	@Override
 	protected String[] getColumns() {

@@ -420,12 +420,6 @@ public interface AccounterConstants extends Constants {
 
 	public String billTo();
 
-	public String bizantraFinance();
-
-	public String bizantraPurchases();
-
-	public String bizantraSales();
-
 	public String blankTransIsNotAllowed();
 
 	public String boldCell();
