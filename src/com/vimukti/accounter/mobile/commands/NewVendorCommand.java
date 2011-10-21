@@ -148,8 +148,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = nameRequirement(context, list, VENDOR_NAME, getMessages()
-				.pleaseEnter(Global.get().Vendor()), Global.get().Vendor());
+		result = nameRequirement(context, list, VENDOR_NAME, Global.get()
+				.Vendor(), getMessages().pleaseEnter(Global.get().Vendor()));
 		if (result != null) {
 			return result;
 		}
