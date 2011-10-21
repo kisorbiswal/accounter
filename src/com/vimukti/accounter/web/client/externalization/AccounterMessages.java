@@ -12,6 +12,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnter(String itemName);
 
+	public String pleaseEnterName(String itemName);
+
 	public String pleaseEnterHTML(String title);
 
 	public String failedTogetCreditsListAndPayments(String name);
