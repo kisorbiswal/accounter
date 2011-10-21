@@ -112,14 +112,9 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 
-		Result result = stringOptionalRequirement(
-				context,
-				list,
-				selection,
-				DESCRIPTION,
-				getConstants().paymentTermDescription(),
-				getMessages().pleaseEnter(
-						getConstants().paymentTermDescription()));
+		Result result = stringOptionalRequirement(context, list, selection,
+				DESCRIPTION, getConstants().description(), getMessages()
+						.pleaseEnter(getConstants().paymentTermDescription()));
 		if (result != null) {
 			return result;
 		}

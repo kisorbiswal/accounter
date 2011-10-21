@@ -47,23 +47,26 @@ public class CreditRatingListCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		Result result = getCreditRatingResult(context);
+		Result result = getCreditRatingResult(context, selection);
 
 		return result;
 	}
 
-	private Result getCreditRatingResult(Context context) {
+	private Result getCreditRatingResult(Context context, ActionNames selection) {
 
 		ResultList resultList = new ResultList("creditRatingList");
 
 		Result result = context.makeResult();
 		List<CreditRating> creditRatingList = getCreditRatingList(context);
 
-		for (CreditRating creditRating : creditRatingList) {
+		ResultList actions = new ResultList(ACTIONS);
+		List<CreditRating> pagination = pagination(context, selection, actions,
+				creditRatingList, new ArrayList<CreditRating>(), VALUES_TO_SHOW);
+
+		for (CreditRating creditRating : pagination) {
 			resultList.add(createCreditRatingRecord(creditRating));
 		}
 
-		ResultList actions = new ResultList(ACTIONS);
 		result.add(resultList);
 
 		Record inActiveRec = new Record(ActionNames.FINISH);
