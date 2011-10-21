@@ -65,8 +65,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
-		result = customerRequirement(context, list, CUSTOMER, getMessages()
-				.customers(Global.get().customer()));
+		result = customerRequirement(context, list, CUSTOMER, Global.get()
+				.customer());
 		if (result != null) {
 			return result;
 		}
