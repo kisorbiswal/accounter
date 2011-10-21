@@ -157,8 +157,8 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		completeProcess(context);
-		markDone();
-		return null;
+
+		return closeCommand();
 	}
 
 	private void setDefaultValues() {

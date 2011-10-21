@@ -295,23 +295,24 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
 	private Result genderRequirement(Context context, ResultList list,
 			Object selection) {
-		Object genderObj = context.getSelection(GENDER);
-		Requirement genderReq = get(GENDER);
-		String gender = (String) genderReq.getValue();
-
-		if (selection == gender) {
-			return genderSelected(context, gender);
-
+		Object salesPersonObj = context.getSelection(GENDER);
+		Requirement salesPersonReq = get(GENDER);
+		String gender = (String) salesPersonReq.getValue();
+		if (salesPersonObj != null) {
+			gender = (String) salesPersonObj;
+			salesPersonReq.setValue(gender);
 		}
-		if (genderObj != null) {
-			gender = (String) genderObj;
-			genderReq.setValue(gender);
-		}
+		if (selection != null)
+			if (selection == GENDER) {
+				context.setAttribute(INPUT_ATTR, GENDER);
+				return genderSelected(context, gender);
 
-		Record paymentTermRecord = new Record(gender);
-		paymentTermRecord.add("Name", getConstants().gender());
-		paymentTermRecord.add("Value", gender);
-		list.add(paymentTermRecord);
+			}
+
+		Record salesPersonRecord = new Record(GENDER);
+		salesPersonRecord.add("", getConstants().gender());
+		salesPersonRecord.add("", gender);
+		list.add(salesPersonRecord);
 		return null;
 	}
 
@@ -322,15 +323,12 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
 		ResultList list = new ResultList(GENDER);
 		for (String gende : newGender) {
-			if (!gende.equals(gender)) {
-				list.add(createGenderRecord(gender));
-			}
+			// if (!gende.equals(gender)) {
+			list.add(createGenderRecord(gende));
+			// }
 		}
 		result.add(list);
 
-		CommandList commandList = new CommandList();
-		commandList.add(getMessages().create(getConstants().gender()));
-		result.add(commandList);
 		return result;
 	}
 
