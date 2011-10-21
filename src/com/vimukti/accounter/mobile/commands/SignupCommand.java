@@ -40,10 +40,19 @@ public class SignupCommand extends AbstractCommand {
 		if (context.getAttribute(INPUT_ATTR) == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
-
+		ActionNames selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			switch (selection) {
+			case FINISH:
+				markDone();
+				return new Result();
+			}
+		}
 		Result makeResult = context.makeResult();
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
 		makeResult.add("Your account is ready to create with below values :");
 		Result result = nameRequirement(context, list, FIRST_NAME,
 				getConstants().firstName(),
@@ -83,8 +92,11 @@ public class SignupCommand extends AbstractCommand {
 		booleanOptionalRequirement(context, context.getSelection("values"),
 				list, SUBSCRIBED_NEWSLETTER, "Subscribed", "Not subscribed");
 
+		Record inActiveRec = new Record(ActionNames.FINISH);
+		inActiveRec.add("", getConstants().close());
+		actions.add(inActiveRec);
+
 		completeProcess(context);
-		markDone();
 		result = new Result("Your account was created successfully");
 		return result;
 	}

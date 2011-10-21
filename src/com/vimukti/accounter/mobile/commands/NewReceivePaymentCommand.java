@@ -85,6 +85,8 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		setDefaultValues();
 		Result result = null;
 		Result makeResult = context.makeResult();
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().receivePayment()));
 		ResultList actions = new ResultList(ACTIONS);
 		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
@@ -101,8 +103,8 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		result = customerRequirement(context, list, CUSTOMER, getMessages()
-				.customers(Global.get().customer()));
+		result = customerRequirement(context, list, CUSTOMER, Global.get()
+				.customer());
 		if (result != null) {
 			return result;
 		}
