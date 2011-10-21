@@ -97,7 +97,11 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 			@Override
 			public boolean filter(ClientAccount e) {
-				return true;
+				if (e.getType() == ClientAccount.TYPE_BANK
+						|| e.getType() == ClientAccount.TYPE_OTHER_ASSET)
+					return true;
+				else
+					return false;
 			}
 		});
 		if (result != null) {
@@ -126,8 +130,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
@@ -144,11 +147,9 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 		ClientPayBill paybill = new ClientPayBill();
 		ClientVendor vendor = (ClientVendor) get(SUPPLIER).getValue();
-
-		vendor = (ClientVendor) context.getHibernateSession().merge(vendor);
 		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
 		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
-		pay = (ClientAccount) context.getHibernateSession().merge(pay);
+	
 		String amount = (String) get(AMOUNT).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		Boolean toBePrinted = (Boolean) get(TO_BE_PRINTED).getValue();
