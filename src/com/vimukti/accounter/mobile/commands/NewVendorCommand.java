@@ -170,6 +170,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 		createVendorObject(context);
 		markDone();
+		result = new Result();
+		result.add(getMessages().createSuccessfully(getConstants().vendor()));
 		return result;
 	}
 
@@ -244,7 +246,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
 		}
-		vendor.setExpenseAccount(account);
+		if (account != null)
+			vendor.setExpenseAccount(account);
 		vendor.setCreditLimit(creditLimit);
 		if (preferences.isDoProductShipMents() && shippingMethod != null)
 			vendor.setShippingMethod(shippingMethod);
