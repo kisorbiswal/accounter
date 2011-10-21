@@ -766,19 +766,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			ResultList list, Object selection, String reqName,
 			String displayName, String name) {
 		Requirement req = get(reqName);
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(reqName)) {
-			ClientAddress input = context.getSelection(ADDRESS);
-			if (input == null) {
-				input = context.getAddress();
-			}
-			req.setValue(input);
-		}
-		ClientAddress billTo = (ClientAddress) req.getValue();
+		ClientAddress billTo = req.getValue();
 		if (selection != null)
 			if (selection == reqName) {
-				context.setAttribute(INPUT_ATTR, reqName);
 				return address(context, displayName, reqName, billTo);
 			}
 		billTo = req.getValue();
