@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 
@@ -122,13 +123,12 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
 		get(PHONE).setDefaultValue("");
-		get(CONTACT).setDefaultValue(new ClientContact());
+		get(CONTACT).setDefaultValue(null);
 		ArrayList<ClientPaymentTerms> paymentTerms = getClientCompany()
 				.getPaymentsTerms();
 		for (ClientPaymentTerms p : paymentTerms) {
@@ -137,10 +137,8 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		get("deliveryDate").setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
-		get("expirationDate").setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
+		get("expirationDate").setDefaultValue(new ClientFinanceDate());
 
 		get(MEMO).setDefaultValue(" ");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
@@ -175,7 +173,18 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		estimate.setPhone(phone);
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
+
 		estimate.setTransactionItems(items);
+		updateTotals(estimate);
+
 		ClientPaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		estimate.setPaymentTerm(paymentTerm.getID());
 
@@ -223,7 +232,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		Result result = numberOptionalRequirement(context, list, selection,
-				getConstants().number(), NUMBER,
+				NUMBER, getConstants().quote() + getConstants().number(),
 				getMessages().pleaseEnter(getConstants().number()));
 		if (result != null) {
 			return result;
