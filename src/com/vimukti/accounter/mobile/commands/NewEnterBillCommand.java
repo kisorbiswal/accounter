@@ -146,8 +146,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER)
 				.setDefaultValue(
 						NumberUtils.getNextTransactionNumber(
@@ -163,10 +162,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		get(DUE_DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
-		get(DELIVERY_DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
+		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
 
 		ClientVendor v = (ClientVendor) get(VENDOR).getValue();
 		if (v != null) {
@@ -253,7 +250,8 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 		Result result = dateRequirement(context, list, selection, DATE,
-				getMessages().pleaseEnter(getConstants().transactionDate()));
+				getMessages().pleaseEnter(getConstants().transactionDate()),
+				getConstants().transactionDate());
 		if (result != null) {
 			return result;
 		}

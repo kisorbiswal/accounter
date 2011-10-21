@@ -784,7 +784,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result dateRequirement(Context context, ResultList list,
-			Object selection, String reqName, String displayName) {
+			Object selection, String reqName, String displayName,String name) {
 
 		Requirement requirement = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
@@ -803,7 +803,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record nameRecord = new Record(reqName);
-		nameRecord.add("", "Name");
+		nameRecord.add("", name);
 		nameRecord.add("", getDateAsString(transDate));
 		list.add(nameRecord);
 		return null;

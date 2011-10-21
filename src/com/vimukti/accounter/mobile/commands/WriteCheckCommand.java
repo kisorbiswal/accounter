@@ -229,7 +229,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		selection = context.getSelection(VALUES);
 
 		Result result = dateRequirement(context, list, selection, DATE,
-				getMessages().pleaseEnter(getConstants().date()));
+				getMessages().pleaseEnter(getConstants().date()),
+				getConstants().date());
 		if (result != null) {
 			return result;
 		}

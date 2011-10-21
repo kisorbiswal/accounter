@@ -134,8 +134,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDetaultValues(Context context) {
-		get(DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
@@ -148,8 +147,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		get("DueDate").setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get("DueDate").setDefaultValue(new ClientFinanceDate());
 
 		get(MEMO).setDefaultValue(" ");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
@@ -331,7 +329,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		ClientCustomer customer = (ClientCustomer) custmerReq.getValue();
 
 		Result result = dateRequirement(context, list, selection, DATE,
-				getMessages().pleaseEnter(getConstants().transactionDate()));
+				getMessages().pleaseEnter(getConstants().transactionDate()),
+				getConstants().transactionDate());
 		if (result != null) {
 			return result;
 		}

@@ -57,12 +57,13 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 		ResultList actions = new ResultList(ACTIONS);
 
 		result = dateRequirement(context, list, null, "startDate",
-				getMessages().enterDate(getConstants().startDate()));
+				getMessages().enterDate(getConstants().startDate()),
+				getConstants().startDate());
 		if (result != null) {
 			return result;
 		}
 		result = dateRequirement(context, list, null, "endDate", getMessages()
-				.enterDate(getConstants().startDate()));
+				.enterDate(getConstants().endDate()), getConstants().endDate());
 		if (result != null) {
 			return result;
 

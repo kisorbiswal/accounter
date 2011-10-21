@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -112,8 +111,7 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 	private void setDefaultValues() {
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(OPENINGBALANCE).setDefaultValue(0.0D);
-		get(ASOF).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get(ASOF).setDefaultValue(new ClientFinanceDate());
 		get(MEMO).setDefaultValue("");
 		get(BANK_ACCOUNT_NUMBER).setDefaultValue("");
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.FALSE);

@@ -167,7 +167,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		}
 
 		result = dateRequirement(context, list, selection, DATE, getMessages()
-				.pleaseEnter(getConstants().date()));
+				.pleaseEnter(getConstants().date()), getConstants().date());
 		if (result != null) {
 			return result;
 		}
