@@ -129,7 +129,7 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 	private void createCustomerRefundObject(Context context) {
 
 		ClientCustomerRefund customerRefund = new ClientCustomerRefund();
-		Date date = get(DATE).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
 		ClientCustomer clientcustomer = get(PAY_TO).getValue();
 		ClientAccount account = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
@@ -146,7 +146,7 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		customerRefund.setMemo(get(MEMO).getValue() == null ? "" : get(MEMO)
 				.getValue().toString());
 		customerRefund.setTotal(amount);
-		customerRefund.setDate(new ClientFinanceDate(date).getDate());
+		customerRefund.setDate(date.getDate());
 		double value = Double
 				.parseDouble(get(BANK_BALANCE).getValue() == null ? "0.0"
 						: get(BANK_BALANCE).getValue().toString());
@@ -165,7 +165,7 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 	private void setdefaultValues() {
 		get(TOBEPRINTED).setDefaultValue(Boolean.TRUE);
 		get(AMOUNT).setDefaultValue(Double.valueOf(0.0D));
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 	}
 
 	/**
@@ -193,13 +193,13 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		Result result = numberOptionalRequirement(context, list, selection, NO,
-				getMessages().pleaseEnter(getConstants().orderNumber()),
-				getConstants().orderNumber());
+				getConstants().orderNumber(),
+				getMessages().pleaseEnter(getConstants().orderNumber()));
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, "date", getMessages()
-				.pleaseEnter(getConstants().date()), getConstants().date(),
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.date(), getMessages().pleaseEnter(getConstants().date()),
 				selection);
 		if (result != null) {
 			return result;
@@ -218,8 +218,8 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 			}
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				getMessages().pleaseEnter(getConstants().memo()),
-				getConstants().memo());
+				getConstants().memo(),
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
@@ -258,5 +258,4 @@ public class NewCustomerRefundCommand extends AbstractTransactionCommand {
 		actions.add(finish);
 		return makeResult;
 	}
-
 }
