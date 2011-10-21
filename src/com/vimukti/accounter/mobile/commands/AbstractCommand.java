@@ -421,27 +421,27 @@ public abstract class AbstractCommand extends Command {
 
 		ResultList list = new ResultList(ADDRESS);
 		Record record = new Record("Address1");
-		record.add("", "Address1");
+		record.add("", getConstants().address1());
 		record.add("", oldAddress.getAddress1());
 		list.add(record);
 
 		record = new Record("Street");
-		record.add("", "Street");
+		record.add("", getConstants().streetAddress1());
 		record.add("", oldAddress.getStreet());
 		list.add(record);
 
 		record = new Record("City");
-		record.add("", "City");
+		record.add("", getConstants().city());
 		record.add("", oldAddress.getCity());
 		list.add(record);
 
 		record = new Record("State/Provinence");
-		record.add("", "State/Provinence");
+		record.add("", getConstants().stateOrProvince());
 		record.add("", oldAddress.getStateOrProvinence());
 		list.add(record);
 
 		record = new Record("Country/Region");
-		record.add("", "Country/Region");
+		record.add("", getConstants().countryRegion());
 		record.add("", oldAddress.getCountryOrRegion());
 		list.add(record);
 
@@ -449,11 +449,11 @@ public abstract class AbstractCommand extends Command {
 		result.add(message);
 
 		result.add(list);
-		result.add("Select any line to edit");
+		result.add(getConstants().select());
 
 		ResultList finish = new ResultList(ADDRESS_ACTIONS);
 		record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		finish.add(record);
 		result.add(finish);
 		return result;
@@ -469,7 +469,7 @@ public abstract class AbstractCommand extends Command {
 		List<ClientTAXCode> codes = getClientCompany().getTaxCodes();
 
 		Result result = context.makeResult();
-		result.add("Select Taxcode");
+		result.add(getMessages().pleaseSelect(getConstants().taxCode()));
 
 		ResultList list = new ResultList(TAXCODE);
 
@@ -784,7 +784,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result dateRequirement(Context context, ResultList list,
-			Object selection, String reqName, String displayName,String name) {
+			Object selection, String reqName, String displayName, String name) {
 
 		Requirement requirement = get(reqName);
 		String input = (String) context.getAttribute(INPUT_ATTR);
