@@ -5016,7 +5016,11 @@ public interface AccounterConstants extends Constants {
 
 	public String bankAccount();
 
+	public String thereIsNoTransactionsToReconcile();
+
 	public String selectAnyone();
 
-	public String command();
+	public String legalNameComment();
+
+	public String registeredAddressComment();
 }
