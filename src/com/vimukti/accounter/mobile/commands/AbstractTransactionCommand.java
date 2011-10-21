@@ -80,7 +80,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String US_CHECK = "Check";
 	protected static final String UK_CHECK = "Cheque";
 	protected static final String ACCOUNTS = "accounts";
-	protected static final String BILL_TO = "Bill To";
+	protected static final String BILL_TO = "address";
 	protected static final String ITEMS = "items";
 	protected static final int VENDOR_TRANSACTION = 2;
 	protected static final int CUSTOMER_TRANSACTION = 1;

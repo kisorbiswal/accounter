@@ -46,7 +46,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	private static final String BANK_BRANCH = "Bank Branch";
 	private static final String VENDOR_GROUP = "Vendor Group";
 	private static final String VAT_REGISTRATION_NUMBER = "Vat Registration Number";
-
 	private static final String VENDOR_VAT_CODE = "Vendor Vat Code";
 	private static final String VENDOR_NAME = "Vendor Name";
 	private static final String VENDOR_NUMBER = "Vendor Number";
@@ -59,7 +58,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	private static final String FAX = "Fax";
 	private static final String EMAIL = "E-mail";
 	private static final String WEB_PAGE_ADDRESS = "Web Page Address";
-	private static final String CONTACTS = "Contacts";
+	private static final String CONTACTS = "contact";
 	private static final String CONTACT_NAME = "Contact Name";
 	private static final String TITLE = "Title";
 	private static final String BUSINESS_PHONE = "Business Phone";
@@ -149,7 +148,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		makeResult.add(actions);
 
 		result = nameRequirement(context, list, VENDOR_NAME, Global.get()
-				.Vendor(), getMessages().pleaseEnter(Global.get().Vendor()));
+				.Vendor(), getMessages().pleaseEnterName(Global.get().Vendor()));
 		if (result != null) {
 			return result;
 		}
@@ -194,7 +193,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (preferences.getUseVendorId()) {
 			number = get(VENDOR_NUMBER).getValue().toString();
 		}
-		Set<ClientContact> contacts = get(CONTACTS).getValue();
+		ClientContact contact = get(CONTACTS).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_AS_OF).getValue();
 		ClientFinanceDate vendorSince = get(VENDOR_SINCE).getValue();
@@ -205,8 +204,9 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
 		String webaddress = get(WEB_PAGE_ADDRESS).getValue();
-		double creditLimit = (Double) (get(CREDIT_LIMIT).getValue() == null ? 0.0
-				: get(CREDIT_LIMIT).getValue().toString());
+		double creditLimit = Double
+				.parseDouble((get(CREDIT_LIMIT).getValue() == null ? 0.0 : get(
+						CREDIT_LIMIT).getValue().toString()).toString());
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(ACCOUNT_NO).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
@@ -220,7 +220,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (adress != null) {
 			addresses.add(adress);
 		}
-
+		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
+		if (contact != null) {
+			contacts.add(contact);
+		}
 		vendor.setName(name);
 		if (preferences.getUseVendorId())
 			vendor.setVendorNumber(number);
@@ -326,8 +329,9 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, BALANCE_AS_OF,
+				getConstants().balanceAsOfDate(),
 				getMessages().pleaseEnter(getConstants().balanceAsOfDate()),
-				getConstants().balanceAsOfDate(), selection);
+				selection);
 		if (result != null) {
 			return result;
 		}
@@ -338,30 +342,35 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		result = contactOptionalRequirement(context, list, selection, CONTACTS,
+				getMessages().pleaseEnter(getConstants().contact()),
+				getConstants().contact());
+		if (result != null) {
+			return result;
+		}
 
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				getMessages().pleaseEnter(getConstants().phone()),
-				getConstants().phone());
+				getConstants().phone(),
+				getMessages().pleaseEnter(getConstants().phone()));
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, FAX,
-				getMessages().pleaseEnter(getConstants().fax()), getConstants()
-						.fax());
+				getConstants().faxNumber(),
+				getMessages().pleaseEnter(getConstants().faxNumber()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, EMAIL,
-				getMessages().pleaseEnter(getConstants().email()),
-				getConstants().email());
+				getConstants().email(),
+				getMessages().pleaseEnter(getConstants().email()));
 		if (result != null) {
 			return result;
 		}
 
 		result = stringOptionalRequirement(context, list, selection,
-				WEB_PAGE_ADDRESS,
-				getMessages().pleaseEnter(getConstants().webPageAddress()),
-				getConstants().webPageAddress());
+				WEB_PAGE_ADDRESS, getConstants().webPageAddress(),
+				getMessages().pleaseEnter(getConstants().webPageAddress()));
 		if (result != null) {
 			return result;
 		}
@@ -374,22 +383,20 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, BANK_NAME,
-				getMessages().pleaseEnter(getConstants().bankName()),
-				getConstants().bankName());
+				getConstants().bankName(),
+				getMessages().pleaseEnter(getConstants().bankName()));
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection,
-				ACCOUNT_NO,
-				getMessages().pleaseEnter(getConstants().bankAccountNumber()),
-				getConstants().bankAccountNumber());
+				ACCOUNT_NO, getConstants().bankAccountNumber(), getMessages()
+						.pleaseEnter(getConstants().bankAccountNumber()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection,
-				BANK_BRANCH,
-				getMessages().pleaseEnter(getConstants().bankBranch()),
-				getConstants().bankBranch());
+				BANK_BRANCH, getConstants().bankBranch(), getMessages()
+						.pleaseEnter(getConstants().bankBranch()));
 		if (result != null) {
 			return result;
 		}
@@ -424,9 +431,9 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 						list,
 						selection,
 						VAT_REGISTRATION_NUMBER,
+						getConstants().vatRegistrationNumber(),
 						getMessages().pleaseEnter(
-								getConstants().vatRegistrationNumber()),
-						getConstants().vatRegistrationNumber());
+								getConstants().vatRegistrationNumber()));
 				if (result != null) {
 					return result;
 				}
