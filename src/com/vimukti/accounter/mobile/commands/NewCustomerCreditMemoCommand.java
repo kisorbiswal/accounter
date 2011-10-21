@@ -200,8 +200,8 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		result = stringOptionalRequirement(context, list, selection,
-				getConstants().reasonForIssue(), "reasonForIssuue",
-				getConstants().reasonForIssue());
+				"reasonForIssuue", getConstants().reasonForIssue(),
+				getMessages().pleaseEnter(getConstants().reasonForIssue()));
 		if (result != null) {
 			return result;
 		}
@@ -218,8 +218,7 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
@@ -250,13 +249,7 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 
 		ClientCompanyPreferences preferences = getClientCompany()
 				.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			TAXCode taxCode = get("tax").getValue();
-			for (ClientTransactionItem item : items) {
-				item.setTaxCode(taxCode.getID());
-			}
 
-		}
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
