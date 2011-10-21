@@ -107,7 +107,9 @@ public class AuthenticationCommand extends AbstractCommand {
 			}
 		}
 		if (isDone()) {
-			makeResult.add("Enter command.");
+			CommandList commandList = new CommandList();
+			commandList.add("Select Company");
+			makeResult.add(commandList);
 			context.getIOSession().setClient(imUser.getClient());
 			context.getIOSession().setAuthentication(true);
 		}
