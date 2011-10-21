@@ -83,7 +83,6 @@ public class AuthenticationCommand extends AbstractCommand {
 				imUser = createIMUser(context.getNetworkType(),
 						activation.getNetworkId(),
 						getClient(activation.getEmailId()));
-				makeResult.add("Activation Success");
 			}
 		}
 		if (imUser != null) {
@@ -102,7 +101,6 @@ public class AuthenticationCommand extends AbstractCommand {
 					client.setActive(true);
 					beginTransaction.commit();
 					markDone();
-					makeResult.add("Activation Success");
 				}
 			}
 		}
