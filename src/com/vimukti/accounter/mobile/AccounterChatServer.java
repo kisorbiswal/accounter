@@ -28,7 +28,8 @@ public class AccounterChatServer implements ChatManagerListener,
 		MessageListener {
 
 	Logger log = Logger.getLogger(AccounterChatServer.class);
-
+	public static final int NETWORK_TYPE_GTALK = 1;
+	public static final int NETWORK_TYPE_CONSOLE = 100;
 	private MobileMessageHandler messageHandler;
 
 	/**
@@ -98,7 +99,7 @@ public class AccounterChatServer implements ChatManagerListener,
 			String reply = null;
 			if (message != null) {
 				reply = messageHandler.messageReceived(msg.getFrom(), from,
-						message, AdaptorType.CHAT);
+						message, AdaptorType.CHAT, NETWORK_TYPE_GTALK);
 			}
 			if (reply != null) {
 				chat.sendMessage(reply);
