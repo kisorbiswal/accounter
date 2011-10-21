@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -79,8 +80,7 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 			actionNames = (ActionNames) selection;
 			switch (actionNames) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			default:
 				break;
 			}
@@ -105,6 +105,7 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 
 		Result result = context.makeResult();
 		ResultList resultList = new ResultList("quotesList");
+		ResultList actions = new ResultList("actions");
 
 		ArrayList<ClientEstimate> list = filterList(estimates, view);
 		for (ClientEstimate estimate : list) {
@@ -121,9 +122,16 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 		result.add(message.toString());
 		result.add(resultList);
 
+		Record finishRecord = new Record(ActionNames.FINISH);
+		finishRecord.add("", getConstants().close());
+		actions.add(finishRecord);
+
 		CommandList commandList = new CommandList();
 		commandList.add("Add a New Quote");
 		result.add(commandList);
+
+		result.add(actions);
+
 		return result;
 	}
 
@@ -183,15 +191,24 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 
 	private Record createEstimateRecord(ClientEstimate est) {
 		Record estrecord = new Record(est);
-		estrecord.add("Date", est.getDate());
-		estrecord.add("Number", est.getNumber());
+
+		estrecord.add("", getConstants().date());
+		estrecord.add("", est.getDate());
+		estrecord.add("", getConstants().number());
+		estrecord.add("", est.getNumber());
+
 		ClientCustomer customer = getClientCompany().getCustomer(
 				est.getCustomer());
-		estrecord.add("VendorName", customer != null ? customer.getName() : "");
-		estrecord.add("Phone", est.getPhone());
-		estrecord.add("ExpirationDate", est.getExpirationDate());
-		estrecord.add("DeliveryDate", est.getDeliveryDate());
-		estrecord.add("Total", est.getTotal());
+		estrecord.add("", getMessages().customerName(Global.get().Customer()));
+		estrecord.add("", customer != null ? customer.getName() : "");
+		estrecord.add("", getConstants().phone());
+		estrecord.add("", est.getPhone());
+		estrecord.add("", getConstants().expirationDate());
+		estrecord.add("", new ClientFinanceDate(est.getExpirationDate()));
+		estrecord.add("", getConstants().deliveryDate());
+		estrecord.add("", new ClientFinanceDate(est.getDeliveryDate()));
+		estrecord.add("", getConstants().total());
+		estrecord.add("", est.getTotal());
 		return estrecord;
 
 	}
