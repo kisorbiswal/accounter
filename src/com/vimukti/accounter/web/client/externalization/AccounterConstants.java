@@ -5025,4 +5025,6 @@ public interface AccounterConstants extends Constants {
 	public String registeredAddressComment();
 
 	public String command();
+
+	public String faxNumber();
 }
