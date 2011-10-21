@@ -56,7 +56,7 @@ public class MobileMessageHandler {
 						if (activationList == null
 								|| activationList.size() == 0) {
 							client = getClient(message);
-							if (client == null) {
+							if (client != null) {
 								sendActivationMail(networkId, message);
 								return "Activation code has sent to your email '"
 										+ message + "'.";
