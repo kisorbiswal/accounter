@@ -49,9 +49,11 @@
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
-		<!-- <array name="monthViceAmounts" table="ACCOUNT_AMOUNTS" cascade="all"> 
-			<key column="ACCOUNT_ID"></key> <list-index column="IDX" /> <element column="MONTH_VICE_AMOUNT" 
-			type="double"></element> </array> -->
+		<!--
+			<array name="monthViceAmounts" table="ACCOUNT_AMOUNTS" cascade="all">
+			<key column="ACCOUNT_ID"></key> <list-index column="IDX" /> <element
+			column="MONTH_VICE_AMOUNT" type="double"></element> </array>
+		-->
 		<map name="monthViceAmounts" lazy="false" table="ACCOUNT_AMOUNTS"
 			cascade="save-update,delete">
 			<key column="ACCOUNT_ID"></key>
@@ -227,6 +229,8 @@
 			<property name="phone" column="PHONE"></property>
 			<property name="fax" column="FAX"></property>
 			<property name="webSite" column="WEBSITE"></property>
+			<property name="isShowLegalName" column="SHOW_LEGAL_NAME"></property>
+			<property name="isShowRegisteredAddress" column="SHOW_REGISTERED_ADDRESS"></property>
 
 			<component name="tradingAddress" class="Address" lazy="false">
 				<property name="type" column="TRADING_ADDRESS_TYPE"></property>
@@ -260,7 +264,10 @@
 			<property name="preventPostingBeforeDate" column="CP_PREVENT_POSTING_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="dateFormat" column="DATE_FORMAT" not-null="true"></property>
-			<!-- <property name="legalName" column="CP_LEGAL_NAME" not-null="true"></property> -->
+			<!--
+				<property name="legalName" column="CP_LEGAL_NAME"
+				not-null="true"></property>
+			-->
 
 			<!-- Customer Preferences -->
 			<many-to-one name="defaultShippingTerm" class="ShippingTerms"
@@ -354,17 +361,21 @@
 
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 
-		<!-- <component name="tradingAddress" class="Address" lazy="false"> <property 
-			name="type" column="TRADING_ADDRESS_TYPE"></property> <property name="address1" 
-			column="TRADING_ADDRESS1" not-null="true" length="100"></property> <property 
-			name="street" column="TRADING_STREET" not-null="true" length="100"></property> 
-			<property name="city" column="TRADING_CITY" not-null="true" length="100"></property> 
-			<property name="stateOrProvinence" column="TRADING_STATE" not-null="true" 
-			length="100"></property> <property name="zipOrPostalCode" column="TRADING_ZIP" 
-			not-null="true" length="100"></property> <property name="countryOrRegion" 
-			column="TRADING_COUNTRY" not-null="true" length="100"></property> <property 
-			name="isSelected" column="TRADING_IS_SELECTED" not-null="true"></property> 
-			</component> -->
+		<!--
+			<component name="tradingAddress" class="Address" lazy="false">
+			<property name="type" column="TRADING_ADDRESS_TYPE"></property>
+			<property name="address1" column="TRADING_ADDRESS1" not-null="true"
+			length="100"></property> <property name="street"
+			column="TRADING_STREET" not-null="true" length="100"></property>
+			<property name="city" column="TRADING_CITY" not-null="true"
+			length="100"></property> <property name="stateOrProvinence"
+			column="TRADING_STATE" not-null="true" length="100"></property>
+			<property name="zipOrPostalCode" column="TRADING_ZIP" not-null="true"
+			length="100"></property> <property name="countryOrRegion"
+			column="TRADING_COUNTRY" not-null="true" length="100"></property>
+			<property name="isSelected" column="TRADING_IS_SELECTED"
+			not-null="true"></property> </component>
+		-->
 
 		<component name="registeredAddress" class="Address" lazy="false">
 			<property name="type" column="REGISTRED_ADDRESS_TYPE"></property>
@@ -556,42 +567,60 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="Activity" />
 		</set>
-		
+
 		<set name="reconciliations" inverse="true" cascade="delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Reconciliation" />
 		</set>
 	</class>
-	<!-- <class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id name="id" 
-		column="ID"> <generator class="native" /> </id> Company Preferences <property 
-		name="useAccountNumbers" column="USE_ACCOUNT_NUMBERS"></property> <property 
-		name="useClasses" column="USE_CLASSES"></property> <property name="useJobs" 
-		column="USE_JOBS"></property> <property name="useChangeLog" column="USE_CHANGE_LOG"></property> 
-		<property name="logSpaceUsed" column="LOG_SPACE_USED"></property> <property 
-		name="allowDuplicateDocumentNumbers" column="ALLOW_DUPLICATE_DOCUMENT_NUMBERS"></property> 
-		<property name="doYouPaySalesTax" column="DO_YOU_PAY_SALES_TAX"></property> 
-		<property name="isAccuralBasis" column="IS_ACCURAL_BASI"></property> <property 
-		name="startOfFiscalYear" column="START_OF_FISCAL_YEAR" type="date"></property> 
-		<property name="endOfFiscalYear" column="END_OF_FISCAL_YEAR" type="date"></property> 
-		<property name="useForeignCurrency" column="USE_FOREIGN_CURRENCY"></property> 
-		<property name="isMyAccountantWillrunPayroll" column="IS_MY_ACCOUNTANT_WILL_RUN_PAYROLL"></property> 
-		Customer Preferences <property name="useCustomerId" column="USE_CUSTOMER_ID"></property> 
-		<property name="defaultShippingTerm" column="DEFAULT_SHIPPING_TERM"></property> 
-		<property name="defaultAnnualInterestRate" column="DEFAULT_ANNUAL_INTEREST_RATE"></property> 
-		<property name="defaultMinimumFinanceCharge" column="DEFAULT_MINIMUM_FINANCE_CHARGE"></property> 
-		<property name="graceDays" column="GRACE_DAYS"></property> <property name="doesCalculateFinanceChargeFromInvoiceDate" 
-		column="DOES_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE"></property> Customer 
-		Preferences <property name="useVendorId" column="USE_VENDOR_ID"></property> 
-		<property name="useItemNumbers" column="USE_ITEM_NUMBERS"></property> <property 
-		name="checkForItemQuantityOnHand" column="CHECK_FOR_ITEM_QUANTITY_ON_HAND"></property> 
-		<property name="updateCostAutomatically" column="UPDATE_COST_AUTOMATICALLY"></property> 
-		<property name="version" column="VERSION"></property> </class> -->
-	<!-- <class name="Contact" table="CONTACT"> <id name="id" column="ID"> <generator 
-		class="native" /> </id> <property name="isPrimary" column="IS_PRIMARY"></property> 
-		<property name="name" column="NAME"></property> <property name="title" column="TITLE"></property> 
-		<property name="businessPhone" column="BUSINESS_PHONE"></property> <property 
-		name="version" column="VERSION"></property> <property name="email" column="EMAIL"></property> 
-		</class> -->
+	<!--
+		<class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id
+		name="id" column="ID"> <generator class="native" /> </id> Company
+		Preferences <property name="useAccountNumbers"
+		column="USE_ACCOUNT_NUMBERS"></property> <property name="useClasses"
+		column="USE_CLASSES"></property> <property name="useJobs"
+		column="USE_JOBS"></property> <property name="useChangeLog"
+		column="USE_CHANGE_LOG"></property> <property name="logSpaceUsed"
+		column="LOG_SPACE_USED"></property> <property
+		name="allowDuplicateDocumentNumbers"
+		column="ALLOW_DUPLICATE_DOCUMENT_NUMBERS"></property> <property
+		name="doYouPaySalesTax" column="DO_YOU_PAY_SALES_TAX"></property>
+		<property name="isAccuralBasis" column="IS_ACCURAL_BASI"></property>
+		<property name="startOfFiscalYear" column="START_OF_FISCAL_YEAR"
+		type="date"></property> <property name="endOfFiscalYear"
+		column="END_OF_FISCAL_YEAR" type="date"></property> <property
+		name="useForeignCurrency" column="USE_FOREIGN_CURRENCY"></property>
+		<property name="isMyAccountantWillrunPayroll"
+		column="IS_MY_ACCOUNTANT_WILL_RUN_PAYROLL"></property> Customer
+		Preferences <property name="useCustomerId"
+		column="USE_CUSTOMER_ID"></property> <property
+		name="defaultShippingTerm" column="DEFAULT_SHIPPING_TERM"></property>
+		<property name="defaultAnnualInterestRate"
+		column="DEFAULT_ANNUAL_INTEREST_RATE"></property> <property
+		name="defaultMinimumFinanceCharge"
+		column="DEFAULT_MINIMUM_FINANCE_CHARGE"></property> <property
+		name="graceDays" column="GRACE_DAYS"></property> <property
+		name="doesCalculateFinanceChargeFromInvoiceDate"
+		column="DOES_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE"></property>
+		Customer Preferences <property name="useVendorId"
+		column="USE_VENDOR_ID"></property> <property name="useItemNumbers"
+		column="USE_ITEM_NUMBERS"></property> <property
+		name="checkForItemQuantityOnHand"
+		column="CHECK_FOR_ITEM_QUANTITY_ON_HAND"></property> <property
+		name="updateCostAutomatically"
+		column="UPDATE_COST_AUTOMATICALLY"></property> <property
+		name="version" column="VERSION"></property> </class>
+	-->
+	<!--
+		<class name="Contact" table="CONTACT"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="isPrimary"
+		column="IS_PRIMARY"></property> <property name="name"
+		column="NAME"></property> <property name="title"
+		column="TITLE"></property> <property name="businessPhone"
+		column="BUSINESS_PHONE"></property> <property name="version"
+		column="VERSION"></property> <property name="email"
+		column="EMAIL"></property> </class>
+	-->
 	<class name="CreditRating" table="CREDITRATING">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -640,14 +669,19 @@
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
-	<!-- <class name="Email" table="EMAIL"> <id name="id" column="ID"> <generator 
-		class="native" /> </id> <property name="type" column="TYPE"></property> <property 
-		name="email" column="EMAIL"></property> <property name="isSelected" column="IS_SELECTED"></property> 
-		<property name="version" column="VERSION"></property> </class> <class name="Fax" 
-		table="FAX"> <id name="id" column="ID"> <generator class="native" /> </id> 
-		<property name="type" column="TYPE"></property> <property name="number" column="NUMBER"></property> 
-		<property name="isSelected" column="IS_SELECTED"></property> <property name="version" 
-		column="VERSION"></property> </class> -->
+	<!--
+		<class name="Email" table="EMAIL"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="type"
+		column="TYPE"></property> <property name="email"
+		column="EMAIL"></property> <property name="isSelected"
+		column="IS_SELECTED"></property> <property name="version"
+		column="VERSION"></property> </class> <class name="Fax" table="FAX">
+		<id name="id" column="ID"> <generator class="native" /> </id>
+		<property name="type" column="TYPE"></property> <property
+		name="number" column="NUMBER"></property> <property name="isSelected"
+		column="IS_SELECTED"></property> <property name="version"
+		column="VERSION"></property> </class>
+	-->
 	<class name="Item" table="ITEM">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -655,7 +689,9 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<!-- <many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID"> -->
+		<!--
+			<many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID">
+		-->
 		<!-- </many-to-one> -->
 		<property name="type" column="TYPE"></property>
 		<property name="name" not-null="true" column="NAME"></property>
@@ -769,7 +805,10 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
-		<!-- <list name="items" table="ITEM_ITEM_GROUP" lazy="false" cascade="save-update"> -->
+		<!--
+			<list name="items" table="ITEM_ITEM_GROUP" lazy="false"
+			cascade="save-update">
+		-->
 		<!-- <key column="ITEM_GROUP_ID"></key> -->
 		<!-- <list-index column="IG_INDEX" /> -->
 		<!-- <many-to-many column="ITEM_ID" class="Item" /> -->
@@ -868,21 +907,33 @@
 				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
 			</composite-element>
 		</set>
-		<!-- <set name="phoneNumbers" table="PAYEE_PHONE" lazy="false" cascade="save-update"> 
-			<key column="PAYEE_ID" not-null="true" /> <composite-element class="Phone"> 
-			<property name="type" column="TYPE" not-null="true"></property> <property 
-			name="number" column="NUMBER" not-null="true"></property> <property name="isSelected" 
-			column="IS_SELECTED" not-null="true"></property> </composite-element> </set> -->
-		<!-- <set name="faxNumbers" table="PAYEE_FAX" lazy="false" cascade="save-update"> 
-			<key column="PAYEE_ID" not-null="true" /> <composite-element class="Fax"> 
-			<property name="type" column="TYPE" not-null="true"></property> <property 
-			name="number" column="NUMBER" not-null="true"></property> <property name="isSelected" 
-			column="IS_SELECTED" not-null="true"></property> </composite-element> </set> -->
-		<!-- <set name="emails" table="PAYEE_EMAIL" lazy="false" cascade="save-update"> 
-			<key column="PAYEE_ID" not-null="true" /> <composite-element class="Email"> 
-			<property name="type" column="TYPE" not-null="true"></property> <property 
-			name="email" column="EMAIL" not-null="true"></property> <property name="isSelected" 
-			column="IS_SELECTED" not-null="true"></property> </composite-element> </set> -->
+		<!--
+			<set name="phoneNumbers" table="PAYEE_PHONE" lazy="false"
+			cascade="save-update"> <key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Phone"> <property name="type" column="TYPE"
+			not-null="true"></property> <property name="number" column="NUMBER"
+			not-null="true"></property> <property name="isSelected"
+			column="IS_SELECTED" not-null="true"></property> </composite-element>
+			</set>
+		-->
+		<!--
+			<set name="faxNumbers" table="PAYEE_FAX" lazy="false"
+			cascade="save-update"> <key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Fax"> <property name="type" column="TYPE"
+			not-null="true"></property> <property name="number" column="NUMBER"
+			not-null="true"></property> <property name="isSelected"
+			column="IS_SELECTED" not-null="true"></property> </composite-element>
+			</set>
+		-->
+		<!--
+			<set name="emails" table="PAYEE_EMAIL" lazy="false"
+			cascade="save-update"> <key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Email"> <property name="type" column="TYPE"
+			not-null="true"></property> <property name="email" column="EMAIL"
+			not-null="true"></property> <property name="isSelected"
+			column="IS_SELECTED" not-null="true"></property> </composite-element>
+			</set>
+		-->
 		<set name="contacts" table="PAYEE_CONTACT" lazy="false" cascade="save-update">
 			<key column="PAYEE_ID" not-null="true" />
 			<composite-element class="Contact">
@@ -908,7 +959,10 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<!-- <property name="isEUVATExemptPayee" column="IS_EU_VAT_EXEMPT_PAYEE"></property> -->
+		<!--
+			<property name="isEUVATExemptPayee"
+			column="IS_EU_VAT_EXEMPT_PAYEE"></property>
+		-->
 		<property name="VATRegistrationNumber" column="VAT_REGISTRATION_NUMBER"
 			type="string"></property>
 		<many-to-one name="TAXCode" column="TAX_CODE_ID" class="TAXCode"
@@ -1004,15 +1058,19 @@
 			<property name="lastYear" column="LAST_YEAR"></property>
 			<property name="lifeTimePurchases" column="LIFE_TIME_PURCHASES"></property>
 		</joined-subclass>
-		<!-- <joined-subclass name="TaxAgency" table="TAXAGENCY"> <key column="id" 
-			/> <many-to-one name="paymentTerm" class="PaymentTerms" column="PAYMENT_TERM" 
-			cascade="save-update" lazy="false"> </many-to-one> <many-to-one name="liabilityAccount" 
-			class="Account" column="ACCOUNT_ID" cascade="save-update" lazy="false"> </many-to-one> 
-			<many-to-one name="salesVATAccount" class="Account" column="SALES_VAT_ACCOUNT_ID" 
-			cascade="save-update,delete" lazy="false"> </many-to-one> <many-to-one name="purchasesVATAccount" 
-			class="Account" column="PURCHASES_VAT_ACCOUNT_ID" cascade="save-update,delete" 
-			lazy="false"> </many-to-one> <property name="VATReturn" column="VAT_RETURN"></property> 
-			</joined-subclass> -->
+		<!--
+			<joined-subclass name="TaxAgency" table="TAXAGENCY"> <key column="id"
+			/> <many-to-one name="paymentTerm" class="PaymentTerms"
+			column="PAYMENT_TERM" cascade="save-update" lazy="false">
+			</many-to-one> <many-to-one name="liabilityAccount" class="Account"
+			column="ACCOUNT_ID" cascade="save-update" lazy="false">
+			</many-to-one> <many-to-one name="salesVATAccount" class="Account"
+			column="SALES_VAT_ACCOUNT_ID" cascade="save-update,delete"
+			lazy="false"> </many-to-one> <many-to-one name="purchasesVATAccount"
+			class="Account" column="PURCHASES_VAT_ACCOUNT_ID"
+			cascade="save-update,delete" lazy="false"> </many-to-one> <property
+			name="VATReturn" column="VAT_RETURN"></property> </joined-subclass>
+		-->
 		<joined-subclass name="TAXAgency" table="TAXAGENCY">
 			<key column="ID" />
 			<many-to-one name="company" column="COMPANY_ID" class="Company"
@@ -1054,10 +1112,14 @@
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
-	<!-- <class name="Phone" table="PHONE"> <id name="id" column="ID"> <generator 
-		class="native" /> </id> <property name="type" column="TYPE"></property> <property 
-		name="number" column="NUMBER"></property> <property name="isSelected" column="IS_SELECTED"></property> 
-		<property name="version" column="VERSION"></property> </class> -->
+	<!--
+		<class name="Phone" table="PHONE"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="type"
+		column="TYPE"></property> <property name="number"
+		column="NUMBER"></property> <property name="isSelected"
+		column="IS_SELECTED"></property> <property name="version"
+		column="VERSION"></property> </class>
+	-->
 	<class name="PriceLevel" table="PRICELEVEL">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1116,20 +1178,25 @@
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
-	<!-- <class name="TaxCode" table="TAXCODE"> <id name="id" column="ID"> <generator 
-		class="native" /> </id><property name="name" unique="true" column="NAME"></property> 
-		<property name="description" column="DESCRIPTION"></property> <many-to-one 
-		name="taxAgency" class="TaxAgency" column="TAXAGENCY_ID" lazy="false"> </many-to-one> 
-		<many-to-one name="taxGroup" class="TaxGroup" column="TAXGROUP_ID" lazy="false"> 
-		</many-to-one> <set name="taxRates" lazy="false" cascade="save-update,delete" 
-		order-by="AS_OF desc"> <key column="TAXCODE_ID"></key> <one-to-many class="TaxRates" 
-		/> </set> <property name="isActive" column="IS_ACTIVE"></property> <property 
-		name="isTaxable" column="IS_TAXABLE"></property> <property name="version" 
-		column="VERSION"></property> <property name="createdBy" column="CREATED_BY" 
-		type="string" /> <property name="lastModifier" column="LAST_MODIFIER" type="string" 
-		/> <property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
-		column="LAST_MODIFIED_DATE" /> <property name="isDefault" column="IS_DEFAULT"></property> 
-		</class> -->
+	<!--
+		<class name="TaxCode" table="TAXCODE"> <id name="id" column="ID">
+		<generator class="native" /> </id><property name="name" unique="true"
+		column="NAME"></property> <property name="description"
+		column="DESCRIPTION"></property> <many-to-one name="taxAgency"
+		class="TaxAgency" column="TAXAGENCY_ID" lazy="false"> </many-to-one>
+		<many-to-one name="taxGroup" class="TaxGroup" column="TAXGROUP_ID"
+		lazy="false"> </many-to-one> <set name="taxRates" lazy="false"
+		cascade="save-update,delete" order-by="AS_OF desc"> <key
+		column="TAXCODE_ID"></key> <one-to-many class="TaxRates" /> </set>
+		<property name="isActive" column="IS_ACTIVE"></property> <property
+		name="isTaxable" column="IS_TAXABLE"></property> <property
+		name="version" column="VERSION"></property> <property name="createdBy"
+		column="CREATED_BY" type="string" /> <property name="lastModifier"
+		column="LAST_MODIFIER" type="string" /> <property name="createdDate"
+		column="CREATED_DATE" /> <property name="lastModifiedDate"
+		column="LAST_MODIFIED_DATE" /> <property name="isDefault"
+		column="IS_DEFAULT"></property> </class>
+	-->
 
 	<class name="TaxRates" table="TAXRATES">
 		<id name="id" column="ID">
@@ -1140,16 +1207,22 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
-	<!-- <class name="TaxRateCalculation" table="TAX_RATE_CALCULATION"> <id 
-		name="id" column="ID"> <generator class="increment" /> </id> <property name="rate" 
-		column="RATE"></property> <many-to-one name="transactionItem" class="TransactionItem" 
-		lazy="false" column="TRANSACTION_ITEM_ID"> </many-to-one> <many-to-one name="taxItem" 
-		class="TAXItem" lazy="false" column="TAX_ITEM_ID"> </many-to-one> <many-to-one 
-		name="taxAgency" class="TAXAgency" lazy="false" column="TAXAGENCY_ID"> </many-to-one> 
-		<many-to-one name="liabilityAccount" class="Account" lazy="false" column="LIABILITY_ACCOUNT_ID"> 
-		</many-to-one> <property name="taxableAmount" column="TAXABLE_AMOUNT"></property> 
-		<property name="nonTaxableAmount" column="NON_TAXABLE_AMOUNT"></property> 
-		<property name="taxCollected" column="TAX_COLLECTED"></property> </class> -->
+	<!--
+		<class name="TaxRateCalculation" table="TAX_RATE_CALCULATION"> <id
+		name="id" column="ID"> <generator class="increment" /> </id> <property
+		name="rate" column="RATE"></property> <many-to-one
+		name="transactionItem" class="TransactionItem" lazy="false"
+		column="TRANSACTION_ITEM_ID"> </many-to-one> <many-to-one
+		name="taxItem" class="TAXItem" lazy="false" column="TAX_ITEM_ID">
+		</many-to-one> <many-to-one name="taxAgency" class="TAXAgency"
+		lazy="false" column="TAXAGENCY_ID"> </many-to-one> <many-to-one
+		name="liabilityAccount" class="Account" lazy="false"
+		column="LIABILITY_ACCOUNT_ID"> </many-to-one> <property
+		name="taxableAmount" column="TAXABLE_AMOUNT"></property> <property
+		name="nonTaxableAmount" column="NON_TAXABLE_AMOUNT"></property>
+		<property name="taxCollected" column="TAX_COLLECTED"></property>
+		</class>
+	-->
 	<class name="TAXRateCalculation" table="TAX_RATE_CALCULATION">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1221,17 +1294,19 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<many-to-one name="client" column="CLIENT_ID"
-			class="Client" lazy="false" not-null="true">
+		<many-to-one name="client" column="CLIENT_ID" class="Client"
+			lazy="false" not-null="true">
 		</many-to-one>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
 		</many-to-one>
 		<!--<property name="version" column="VERSION"></property> -->
-		<!-- <property name="firstName" column="FIRST_NAME"></property>
-		<property name="lastName" column="LAST_NAME"></property>
-		<property name="fullName" column="FULL_NAME"></property>
-		<property name="email" column="EMAIL_ID"></property> -->
+		<!--
+			<property name="firstName" column="FIRST_NAME"></property> <property
+			name="lastName" column="LAST_NAME"></property> <property
+			name="fullName" column="FULL_NAME"></property> <property name="email"
+			column="EMAIL_ID"></property>
+		-->
 		<property name="userRole" column="USER_ROLE"></property>
 		<property name="canDoUserManagement" column="CAN_DO_USER_MANAGEMENT"></property>
 		<property name="isDeleted" column="IS_DELETED"></property>
@@ -1240,13 +1315,19 @@
 		<many-to-one name="permissions" class="UserPermissions"
 			lazy="false" cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
 	</class>
-	<!-- <class name="UserPreferences" table="USER_PREFERENCES"> <id name="id" 
-		column="ID"> <generator class="native" /> </id> <property name="version" 
-		column="VERSION"></property> <property name="dashBoardPreferences" column="DASH_BOARD_PREFERENCES"></property> 
-		<property name="customerSectionViewPreferences" column="CUSTOMER_SELECTION_VIEW_PREFERENCES"></property> 
-		<property name="vendorSectionViewPreferences" column="VENDOR_SELECTION_VIEW_PREFERENCES"></property> 
-		<property name="bankingSectionViewPreferences" column="BANKING_SELECTION_VIEW_PREFERENCES"></property> 
-		</class> -->
+	<!--
+		<class name="UserPreferences" table="USER_PREFERENCES"> <id name="id"
+		column="ID"> <generator class="native" /> </id> <property
+		name="version" column="VERSION"></property> <property
+		name="dashBoardPreferences"
+		column="DASH_BOARD_PREFERENCES"></property> <property
+		name="customerSectionViewPreferences"
+		column="CUSTOMER_SELECTION_VIEW_PREFERENCES"></property> <property
+		name="vendorSectionViewPreferences"
+		column="VENDOR_SELECTION_VIEW_PREFERENCES"></property> <property
+		name="bankingSectionViewPreferences"
+		column="BANKING_SELECTION_VIEW_PREFERENCES"></property> </class>
+	-->
 	<class name="VendorGroup" table="VENDOR_GROUP">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1287,16 +1368,22 @@
 		<many-to-one name="depreciationExpenseAccount" class="Account"
 			lazy="false" column="DEPRECIATION_EXPENSE_ACCOUNT_ID">
 		</many-to-one>
-		<!-- <many-to-one name="accumulatedDepreciationAccount" class="Account" 
-			lazy="false" column="ACCUMULATED_DEPRECIATION_ACCOUNT_ID"> </many-to-one> -->
+		<!--
+			<many-to-one name="accumulatedDepreciationAccount" class="Account"
+			lazy="false" column="ACCUMULATED_DEPRECIATION_ACCOUNT_ID">
+			</many-to-one>
+		-->
 		<property name="accumulatedDepreciationAmount" column="ACCUMULATED_DEPRECIATION_AMOUNT"></property>
 		<property name="status" column="status"></property>
 		<property name="bookValue" column="BOOK_VALUE"></property>
 		<property name="openingBalanceForFiscalYear" column="OPENING_BALANCE_FOR_FISCALYEAR"></property>
 		<property name="isSoldOrDisposed" column="IS_SOLD_OR_DISPOSED"></property>
-		<!-- <many-to-one name="sellingOrDisposingFixedAsset" class="SellingOrDisposingFixedAsset" 
-			lazy="false" column="SELLING_OR_DISPOSING_FIXED_ASSET_ID" cascade="save-update"> 
-			</many-to-one> -->
+		<!--
+			<many-to-one name="sellingOrDisposingFixedAsset"
+			class="SellingOrDisposingFixedAsset" lazy="false"
+			column="SELLING_OR_DISPOSING_FIXED_ASSET_ID" cascade="save-update">
+			</many-to-one>
+		-->
 		<property name="soldOrDisposedDate" column="SOLD_OR_DISPOSED_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="accountForSale" class="Account" lazy="false"
@@ -1338,19 +1425,26 @@
 			not-null="true" />
 		<property name="totalCapitalGainAmount" column="TOTAL_CAPITAL_GAIN_AMOUNT"></property>
 	</class>
-	<!-- <class name="SellingOrDisposingFixedAsset" table="SELLING_OR_DISPOSING_FIXED_ASSET"> 
-		<id name="id" column="ID"> <generator class="native" /> </id> <many-to-one 
-		name="fixedAsset" class="FixedAsset" lazy="false" column="FIXED_ASSET_ID"> 
-		</many-to-one> <property name="soldOrDisposedDate" column="SOLD_OR_DISPOSED_DATE" 
-		type="date"></property> <many-to-one name="accountForSale" class="Account" 
-		lazy="false" column="SALE_ACCOUNT_ID"> </many-to-one> <property name="salePrice" 
-		column="SALE_PRICE"></property> <property name="noDepreciation" column="NO_DEPRECIATION"></property> 
-		<property name="depreciationTillDate" column="DEPRECIATION_TILL_DATE" type="date"></property> 
-		<property name="notes" column="NOTES"></property> <many-to-one name="lossOrGainOnDisposalAccount" 
-		class="Account" lazy="false" column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID"> </many-to-one> 
-		<many-to-one name="totalCapitalGain" class="Account" lazy="false" column="TOTAL_CAPITAL_GAIN_ACCOUNT_ID"> 
-		</many-to-one> <property name="lossOrGain" column="LOSS_OR_GAIN"></property> 
-		</class> -->
+	<!--
+		<class name="SellingOrDisposingFixedAsset"
+		table="SELLING_OR_DISPOSING_FIXED_ASSET"> <id name="id" column="ID">
+		<generator class="native" /> </id> <many-to-one name="fixedAsset"
+		class="FixedAsset" lazy="false" column="FIXED_ASSET_ID">
+		</many-to-one> <property name="soldOrDisposedDate"
+		column="SOLD_OR_DISPOSED_DATE" type="date"></property> <many-to-one
+		name="accountForSale" class="Account" lazy="false"
+		column="SALE_ACCOUNT_ID"> </many-to-one> <property name="salePrice"
+		column="SALE_PRICE"></property> <property name="noDepreciation"
+		column="NO_DEPRECIATION"></property> <property
+		name="depreciationTillDate" column="DEPRECIATION_TILL_DATE"
+		type="date"></property> <property name="notes"
+		column="NOTES"></property> <many-to-one
+		name="lossOrGainOnDisposalAccount" class="Account" lazy="false"
+		column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID"> </many-to-one> <many-to-one
+		name="totalCapitalGain" class="Account" lazy="false"
+		column="TOTAL_CAPITAL_GAIN_ACCOUNT_ID"> </many-to-one> <property
+		name="lossOrGain" column="LOSS_OR_GAIN"></property> </class>
+	-->
 	<class name="Depreciation" table="DEPRECIATION">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1363,9 +1457,11 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="depreciateTo" column="DEPRECIATE_TO"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<!-- <list name="fixedAssets" lazy="false" cascade="save-update,delete"> 
-			<key column="FIXED_ASSET_ID"></key> <list-index column="IDX" /> <one-to-many 
-			class="FixedAsset" /> </list> -->
+		<!--
+			<list name="fixedAssets" lazy="false" cascade="save-update,delete">
+			<key column="FIXED_ASSET_ID"></key> <list-index column="IDX" />
+			<one-to-many class="FixedAsset" /> </list>
+		-->
 		<many-to-one name="fixedAsset" class="FixedAsset" lazy="false"
 			cascade="save-update" column="FIXED_ASSET_ID">
 		</many-to-one>
@@ -1477,7 +1573,10 @@
 		</property>
 		<property name="fontSize" column="FONT_SIZE">
 		</property>
-		<!-- <property name="openInvoiceTitle" column="OPEN_INVOICE_TITLE"> </property> -->
+		<!--
+			<property name="openInvoiceTitle" column="OPEN_INVOICE_TITLE">
+			</property>
+		-->
 		<property name="overDueInvoiceTitle" column="OVERDUE_INVOICE_TITLE">
 		</property>
 		<property name="creditMemoTitle" column="CREDIT_MEMO_TITLE">
@@ -1491,8 +1590,10 @@
 		<property name="isShowUnitPrice_And_Quantity" column="IS_SHOW_PRICE_AND_QUANTITY">
 		</property>
 		<property name="fileName" column="FILE_NAME"></property>
-		<!-- <property name="isShowPaymentAdviceCut_Away" column="IS_SHOW_PAYAMENT_ADVICECUT_AWAY"> 
-			</property> -->
+		<!--
+			<property name="isShowPaymentAdviceCut_Away"
+			column="IS_SHOW_PAYAMENT_ADVICECUT_AWAY"> </property>
+		-->
 		<property name="isShowTaxColumn" column="IS_SHOW_TAX_COLUMN">
 		</property>
 		<property name="isShowRegisteredAddress" column="IS_SHOW_REGISTERED_ADDRESS">
@@ -1505,7 +1606,10 @@
 		</property>
 		<property name="logoAlignmentType" column="LOGO_ALIGNMENT_TYPE">
 		</property>
-		<!-- <property name="showTaxesAsType" column="SHOW_TAXES_AS_TYPE"> </property> -->
+		<!--
+			<property name="showTaxesAsType" column="SHOW_TAXES_AS_TYPE">
+			</property>
+		-->
 		<property name="contactDetails" column="CONTACT_DETAILS">
 		</property>
 		<property name="Terms_And_Payment_Advice" column="TERMS_AND_PAYMENT_ADVICE"
@@ -1553,10 +1657,14 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 
-		<!-- <many-to-one name="contact" column="CONTACT_ID" class="Contact" lazy="false" 
-			/> -->
-		<!-- <many-to-one name="address" column="ADDRESS_ID" class="Address" lazy="false" 
-			/> -->
+		<!--
+			<many-to-one name="contact" column="CONTACT_ID" class="Contact"
+			lazy="false" />
+		-->
+		<!--
+			<many-to-one name="address" column="ADDRESS_ID" class="Address"
+			lazy="false" />
+		-->
 
 		<component name="address" class="Address" lazy="false">
 			<property name="type" column="TYPE" not-null="true"></property>
@@ -1595,10 +1703,13 @@
 				<many-to-one name="item" column="ITEM_ID" class="Item"
 					lazy="false">
 				</many-to-one>
-				<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
-					<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
-					<property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
-					column="LAST_MODIFIED_DATE" /> -->
+				<!--
+					<many-to-one name="createdBy" column="CREATED_BY" class="User"
+					lazy="false"></many-to-one> <many-to-one name="lastModifier"
+					column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+					<property name="createdDate" column="CREATED_DATE" /> <property
+					name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+				-->
 
 				<nested-composite-element name="quantity"
 					class="Quantity">
@@ -1620,10 +1731,13 @@
 		<many-to-one name="item" column="ITEM_ID" class="Item"
 			lazy="false">
 		</many-to-one>
-		<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
-			<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
-			<property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
-			column="LAST_MODIFIED_DATE" /> -->
+		<!--
+			<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one> <many-to-one name="lastModifier"
+			column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+			<property name="createdDate" column="CREATED_DATE" /> <property
+			name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+		-->
 
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
@@ -1846,7 +1960,8 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
 
-		<set name="items" cascade="save-update,delete" lazy="false" table="RECONCILIATION">
+		<set name="items" cascade="save-update,delete" lazy="false"
+			table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
 		</set>
@@ -1867,22 +1982,28 @@
 			class="Transaction" />
 	</class>
 
-	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
-		<generator class="native"></generator> </id> <property name="name" unique="true" 
-		column="NAME"></property> <property name="description" column="DESCRIPTION"></property> 
-		<property name="isActive" column="IS_ACTIVE"></property> <property name="createdBy" 
-		column="CREATED_BY" type="string" /> <property name="lastModifier" column="LAST_MODIFIER" 
-		type="string" /> <property name="createdDate" column="CREATED_DATE" /> <property 
-		name="lastModifiedDate" column="LAST_MODIFIED_DATE" /> <property name="isPercentage" 
-		column="IS_PERCENTAGE"></property> <property name="isDefault" column="IS_DEFAULT"></property> 
-		<joined-subclass name="TaxItem" table="TAX_ITEM"> <key column="id" /> <many-to-one 
-		name="taxAgency" class="TaxAgency" column="TAX_AGENCY" lazy="false"> </many-to-one> 
-		<property name="taxRate" column="TAX_RATE"></property> </joined-subclass> 
-		<joined-subclass name="TaxGroup" table="TAX_GROUP"> <key column="id" /> <list 
-		name="taxItems" table="TAX_GROUP_TAX_ITEM" lazy="false" cascade="save-update"> 
-		<key column="TAX_GROUP_ID"></key> <list-index column="IDX" /> <many-to-many 
-		column="TAX_ITEM_ID" class="TaxItem" /> </list> <property name="groupRate" 
-		column="GROUP_RATE"></property> </joined-subclass> </class> -->
+	<!--
+		<class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id"
+		column="ID"> <generator class="native"></generator> </id> <property
+		name="name" unique="true" column="NAME"></property> <property
+		name="description" column="DESCRIPTION"></property> <property
+		name="isActive" column="IS_ACTIVE"></property> <property
+		name="createdBy" column="CREATED_BY" type="string" /> <property
+		name="lastModifier" column="LAST_MODIFIER" type="string" /> <property
+		name="createdDate" column="CREATED_DATE" /> <property
+		name="lastModifiedDate" column="LAST_MODIFIED_DATE" /> <property
+		name="isPercentage" column="IS_PERCENTAGE"></property> <property
+		name="isDefault" column="IS_DEFAULT"></property> <joined-subclass
+		name="TaxItem" table="TAX_ITEM"> <key column="id" /> <many-to-one
+		name="taxAgency" class="TaxAgency" column="TAX_AGENCY" lazy="false">
+		</many-to-one> <property name="taxRate" column="TAX_RATE"></property>
+		</joined-subclass> <joined-subclass name="TaxGroup" table="TAX_GROUP">
+		<key column="id" /> <list name="taxItems" table="TAX_GROUP_TAX_ITEM"
+		lazy="false" cascade="save-update"> <key column="TAX_GROUP_ID"></key>
+		<list-index column="IDX" /> <many-to-many column="TAX_ITEM_ID"
+		class="TaxItem" /> </list> <property name="groupRate"
+		column="GROUP_RATE"></property> </joined-subclass> </class>
+	-->
 
 
 </hibernate-mapping>
