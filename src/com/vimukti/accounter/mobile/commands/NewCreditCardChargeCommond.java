@@ -158,7 +158,10 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 		}
 		completeProcess(context);
 		markDone();
-		return null;
+		result = new Result();
+		result.add(getMessages().createSuccessfully(
+				getConstants().creditCardCharge()));
+		return result;
 	}
 
 	private void setDefaultValues() {
@@ -255,7 +258,8 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 				NUMBER,
 				getConstants().creditCard() + getConstants().number(),
 				getMessages().pleaseEnter(
-						getConstants().cashSale() + getConstants().number()));
+						getConstants().creditCardCharge()
+								+ getConstants().number()));
 		if (result != null) {
 			return result;
 		}
