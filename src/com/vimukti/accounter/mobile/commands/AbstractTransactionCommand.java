@@ -1619,7 +1619,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result taxCodeRequirement(Context context, ResultList list) {
 		Requirement taxCodeRequirement = get(TAXCODE);
-		ClientTAXCode taxCode = context.getSelection(TAXCODE);
+		Object obj = context.getSelection(TAXCODE);
+		ClientTAXCode taxCode = null;
+		if (obj instanceof ActionNames) {
+			taxCode = null;
+		} else {
+			taxCode = (ClientTAXCode) obj;
+		}
+
 		if (taxCode != null) {
 			taxCodeRequirement.setValue(taxCode);
 		}
