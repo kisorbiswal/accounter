@@ -226,13 +226,6 @@
 
 	</command>
 
-	<command clazz="InactiveItemsListCommand" name="Inactive Items List">
-		<alias>All inactive Items</alias>
-		<alias>Inactive Items</alias>
-		<alias>Inactive Items List</alias>
-		<alias>List Of Inactive Items</alias>
-	</command>
-
 	<command clazz="NewFiscalYearCommand" name="New Fiscal Year">
 		<alias>Create Fiscal Year</alias>
 		<alias>Add Fiscal Year</alias>
