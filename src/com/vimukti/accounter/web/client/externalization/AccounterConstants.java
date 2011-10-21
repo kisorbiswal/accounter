@@ -5027,4 +5027,8 @@ public interface AccounterConstants extends Constants {
 	public String command();
 
 	public String faxNumber();
+
+	public String notIssuedPayments();
+
+	public String voidedPayments();
 }

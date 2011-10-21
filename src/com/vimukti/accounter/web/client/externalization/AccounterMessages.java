@@ -906,4 +906,7 @@ public interface AccounterMessages extends Messages {
 	public String accountTransactionItems(String account);
 
 	public String pleaseEnterThe(String objectName, String name);
+
+	public String selectedit(String vendorPayment);
+
 }
