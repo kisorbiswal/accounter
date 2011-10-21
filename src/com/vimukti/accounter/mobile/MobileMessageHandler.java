@@ -40,13 +40,13 @@ public class MobileMessageHandler {
 	 * @throws AccounterMobileException
 	 */
 	public String messageReceived(String networkId, String userId,
-			String message, AdaptorType adaptorType)
+			String message, AdaptorType adaptorType, int networkType)
 			throws AccounterMobileException {
 		Session openSession = HibernateUtil.openSession();
 		try {
 
 			// /Checking authentication
-			IMUser imUser = getIMUser(networkId);
+			IMUser imUser = getIMUser(networkId, networkType);
 			if (imUser == null) {
 				Client client = getClient(userId);
 				if (client == null) {
@@ -55,23 +55,24 @@ public class MobileMessageHandler {
 						List<IMActivation> activationList = getImActivationByNetworkId(networkId);
 						if (activationList == null
 								|| activationList.size() == 0) {
-							if (message.contains("@")) {
+							client = getClient(message);
+							if (client == null) {
 								sendActivationMail(networkId, message);
-								return "Activation code has sent to your mail '"
+								return "Activation code has sent to your email '"
 										+ message + "'.";
 							} else {
-								return "Enter valid Accounter emailId.";
+								return "Enter valid Accounter emailId. or Press 'S' for signup";
 							}
 						} else {
 							return "Wrong Activation code";
 						}
 					} else {
-						createIMUser(activation.getNetworkId(),
+						createIMUser(networkType, activation.getNetworkId(),
 								getClient(activation.getEmailId()));
 						return "Activation Success";
 					}
 				} else {
-					imUser = createIMUser(networkId, client);
+					imUser = createIMUser(networkType, networkId, client);
 				}
 			}
 			userId = imUser.getClient().getEmailId();
@@ -120,11 +121,12 @@ public class MobileMessageHandler {
 		return client;
 	}
 
-	private IMUser createIMUser(String networkId, Client client) {
+	private IMUser createIMUser(int networkType, String networkId, Client client) {
 		Session currentSession = HibernateUtil.getCurrentSession();
 		IMUser imUser = new IMUser();
 		imUser.setClient(client);
 		imUser.setNetworkId(networkId);
+		imUser.setNetworkType(networkType);
 		Transaction beginTransaction = currentSession.beginTransaction();
 		currentSession.save(imUser);
 		List<IMActivation> imActivationByNetworkId = getImActivationByNetworkId(networkId);
@@ -169,10 +171,11 @@ public class MobileMessageHandler {
 		return activation;
 	}
 
-	private IMUser getIMUser(String networkId) {
+	private IMUser getIMUser(String networkId, int networkType) {
 		Session session = HibernateUtil.getCurrentSession();
 		IMUser user = (IMUser) session.getNamedQuery("imuser.by.networkId")
-				.setString("networkId", networkId).uniqueResult();
+				.setString("networkId", networkId)
+				.setInteger("networkType", networkType).uniqueResult();
 		return user;
 	}
 
