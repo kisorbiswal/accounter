@@ -36,8 +36,8 @@ public class NewItemGroupCommand extends AbstractTransactionCommand {
 		makeResult.add(actions);
 
 		Result result = nameRequirement(context, list, ITEMGROUP_NAME,
-				getMessages().pleaseEnter(getConstants().itemGroup()),
-				getConstants().itemGroup());
+				getConstants().itemGroup(),
+				getMessages().pleaseEnter(getConstants().itemGroup()));
 		if (result != null) {
 			return result;
 		}

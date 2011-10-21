@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -168,16 +169,19 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		}
 		completeProcess(context);
 		markDone();
-		return null;
+		result = new Result();
+		result.add(getMessages().createSuccessfully(Global.get().Customer()));
+
+		return result;
 
 	}
 
 	private void setDefaultsValues() {
 
-		get("date").setDefaultValue(new Date());
-		get("duedate").setDefaultValue(new Date());
-		get("dispatchdate").setDefaultValue(new Date());
-		get("receiveddate").setDefaultValue(new Date());
+		get("date").setDefaultValue(new ClientFinanceDate());
+		get("duedate").setDefaultValue(new ClientFinanceDate());
+		get("dispatchdate").setDefaultValue(new ClientFinanceDate());
+		get("receiveddate").setDefaultValue(new ClientFinanceDate());
 
 	}
 
@@ -211,14 +215,14 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		if (newPaymentTerms != null)
 			newPurchaseOrder.setPaymentTerm(newPaymentTerms.getID());
 
-		Date dueDate = get("duedate").getValue();
-		newPurchaseOrder.setDate(new FinanceDate(dueDate).getDate());
+		ClientFinanceDate dueDate = get("duedate").getValue();
+		newPurchaseOrder.setDate(dueDate.getDate());
 
-		Date receivedDate = get("receiveddate").getValue();
-		newPurchaseOrder.setDate(new FinanceDate(receivedDate).getDate());
+		ClientFinanceDate receivedDate = get("receiveddate").getValue();
+		newPurchaseOrder.setDate(receivedDate.getDate());
 
-		Date dispatchDate = get("dispatchdate").getValue();
-		newPurchaseOrder.setDate(new FinanceDate(dispatchDate).getDate());
+		ClientFinanceDate dispatchDate = get("dispatchdate").getValue();
+		newPurchaseOrder.setDate(dispatchDate.getDate());
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
@@ -288,35 +292,37 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 		}
 		result = dateOptionalRequirement(context, list, "duedate",
-				getMessages().pleaseEnter(getConstants().date()),
-				getConstants().date(), selection);
+				getConstants().date(),
+				getMessages().pleaseEnter(getConstants().date()), selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, "dispatchdate",
+				getConstants().dispatchDate(),
 				getMessages().pleaseEnter(getConstants().dispatchDate()),
-				getConstants().dispatchDate(), selection);
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = dateOptionalRequirement(context, list, "receiveddate",
+				getConstants().receivedDate(),
 				getMessages().pleaseEnter(getConstants().receivedDate()),
-				getConstants().receivedDate(), selection);
+				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, "orderno",
-				getMessages().pleaseEnter(getConstants().orderNumber()),
-				getConstants().orderNumber());
+				getConstants().orderNumber(),
+				getMessages().pleaseEnter(getConstants().orderNumber()));
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, "phone",
-				getMessages().pleaseEnter(getConstants().phone()),
-				getConstants().phone());
+				getConstants().phone(),
+				getMessages().pleaseEnter(getConstants().phone()));
 		if (result != null) {
 			return result;
 		}
@@ -325,15 +331,15 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				list,
 				selection,
 				"vendororderno",
+				getMessages().vendorOrderNo(Global.get().Vendor()),
 				getMessages().pleaseEnter(
-						getMessages().vendorOrderNo(Global.get().Vendor())),
-				getMessages().vendorOrderNo(Global.get().Vendor()));
+						getMessages().vendorOrderNo(Global.get().Vendor())));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, "memo",
-				getMessages().pleaseEnter(getConstants().memo()),
-				getConstants().memo());
+				getConstants().memo(),
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
@@ -344,5 +350,4 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
 		return makeResult;
 	}
-
 }

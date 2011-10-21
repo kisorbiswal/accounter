@@ -1,10 +1,8 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -15,6 +13,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
@@ -149,15 +148,19 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 
 		completeProcess(context);
 		markDone();
-		return null;
+
+		result = new Result();
+		result.add(getMessages().createSuccessfully(Global.get().Customer()));
+
+		return result;
 
 	}
 
 	private void setDefaultValues() {
 
 		get(ORDER_NO).setDefaultValue(Integer.toString(1));
-		get(DUE_DATE).setDefaultValue(new Date());
-		get(DATE).setDefaultValue(new Date());
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 	}
 
 	/**
@@ -181,8 +184,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			statusNumber = 3;
 		}
 		newSalesOrder.setStatus(statusNumber);
-		Date value = get(DATE).getValue();
-		newSalesOrder.setDate(new FinanceDate(value).getDate());
+		ClientFinanceDate value = get(DATE).getValue();
+		newSalesOrder.setDate(value.getDate());
 		newSalesOrder.setNumber((String) get(ORDER_NO).getValue());
 
 		newSalesOrder.setCustomerOrderNumber((String) get(CUSTOMER_ORDERNO)
@@ -205,8 +208,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			if (newShippingMethod != null)
 				newSalesOrder.setShippingMethod(newShippingMethod.getID());
 		}
-		Date date = get(DUE_DATE).getValue();
-		newSalesOrder.setDate(new FinanceDate(date).getDate());
+		ClientFinanceDate date = get(DUE_DATE).getValue();
+		newSalesOrder.setDate(date.getDate());
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		newSalesOrder.setTransactionItems(items);
@@ -255,8 +258,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, DATE, getMessages()
-				.pleaseEnter(getConstants().date()), getConstants().date(),
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.date(), getMessages().pleaseEnter(getConstants().date()),
 				selection);
 		if (result != null) {
 			return result;
@@ -266,8 +269,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				getMessages().pleaseEnter(getConstants().phone()),
-				getConstants().phone());
+				getConstants().phone(),
+				getMessages().pleaseEnter(getConstants().phone()));
 		if (result != null) {
 			return result;
 		}
@@ -312,14 +315,14 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, ORDER_NO,
-				getMessages().pleaseEnter(getConstants().orderNumber()),
-				getConstants().orderNumber());
+				getConstants().orderNumber(),
+				getMessages().pleaseEnter(getConstants().orderNumber()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
-				getMessages().pleaseEnter(getConstants().memo()),
-				getConstants().memo());
+				getConstants().memo(),
+				getMessages().pleaseEnter(getConstants().memo()));
 		if (result != null) {
 			return result;
 		}
