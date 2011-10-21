@@ -517,7 +517,6 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
