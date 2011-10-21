@@ -52,7 +52,7 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 			switch (selection) {
 			case FINISH:
 				markDone();
-				return new Result();
+				return new Result(getConstants().closed());
 			case ISSUED:
 				context.setAttribute(VIEW_BY, 1);
 				break;
@@ -86,37 +86,50 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 
 		List<PaymentsList> pagination = pagination(context, selection, actions,
 				vendorPayments, new ArrayList<PaymentsList>(), VALUES_TO_SHOW);
-
 		for (PaymentsList payment : pagination) {
 			vendorPaymentsList.add(createPaymentRecord(payment));
 		}
 
 		StringBuilder message = new StringBuilder();
 		if (vendorPaymentsList.size() > 0) {
-			message.append("Select an Vendor Payment");
+			message.append(getMessages().selectedit(
+					getMessages().vendorPayment(Global.get().Vendor())));
+		} else if (vendorPaymentsList.size() == 0) {
+			if (vendorPaymentType == 1) {
+				message.append(getMessages().youDontHaveAny(
+						getConstants().issuePayments()));
+			} else if (vendorPaymentType == 2) {
+				message.append(getMessages().youDontHaveAny(
+						getConstants().notIssuedPayments()));
+			} else if (vendorPaymentType == 3) {
+				message.append(getMessages().youDontHaveAny(
+						getConstants().voidedPayments()));
+			} else {
+				message.append(getMessages().youDontHaveAny(
+						getConstants().payments()));
+			}
 		}
 
 		result.add(message.toString());
 		result.add(vendorPaymentsList);
 
 		Record inActiveRec = new Record(ActionNames.ISSUED);
-		inActiveRec.add("", "Issued Payments");
+		inActiveRec.add("", getConstants().issuePayments());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.NOT_ISSUED);
-		inActiveRec.add("", "Not issued Payments");
+		inActiveRec.add("", getConstants().notIssuedPayments());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.VOIDED);
-		inActiveRec.add("", "Voided Payments");
+		inActiveRec.add("", getConstants().voidedPayments());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", "All Payments");
+		inActiveRec.add("", getConstants().payments());
 		actions.add(inActiveRec);
 		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
+		inActiveRec.add("", getConstants().close());
 		actions.add(inActiveRec);
 
 		result.add(actions);
-
 		CommandList commandList = new CommandList();
 		commandList.add("Add Vendor payment");
 		result.add(commandList);

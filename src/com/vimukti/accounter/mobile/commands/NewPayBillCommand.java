@@ -306,7 +306,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			availableItems.add(transactionItem);
 		}
 		for (ClientTransactionPayBill item : items) {
-			if (item != last && !availableItems.contains(item.getID())) {
+			if (item != last && !availableItems.contains(item)) {
 				list.add(creatTransactionPayBillRecord(item));
 				num++;
 			}
