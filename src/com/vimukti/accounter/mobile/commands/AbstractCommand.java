@@ -93,6 +93,7 @@ public abstract class AbstractCommand extends Command {
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
+	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
 
 	public AbstractCommand() {
 		try {
