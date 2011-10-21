@@ -575,12 +575,14 @@
 		<alias>ShippingMethods</alias>
 		<alias>Shipping Methods</alias>
 	</command>
-	
+
 	<command clazz="BankAccountsListCommand" name="BankAccountsList">
 		<alias>BankAccountList</alias>
 		<alias>BankAccountsList</alias>
 		<alias>Bank Accounts List</alias>
 		<alias>Bank Account List</alias>
 	</command>
-
+	<command clazz="SignupCommand" name="signup">
+		<alias>new to accounter</alias>
+	</command>
 </commands>
