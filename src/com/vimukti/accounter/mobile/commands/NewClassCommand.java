@@ -6,13 +6,13 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 
 public class NewClassCommand extends AbstractTransactionCommand {
 	private static final String CLASS_NAME = "Class";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -24,23 +24,26 @@ public class NewClassCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = createClassNameReq(context);
-		if (result == null) {
-			// TODO
-		}
-		createClassObject(context);
-		markDone();
-		return result;
-	}
 
-	/**
-	 * 
-	 * @param context
-	 */
-	private void createClassObject(Context context) {
-		AccounterClass accounterClass = new AccounterClass();
-		accounterClass.setclassName((String) get(CLASS_NAME).getValue());
-		create(accounterClass, context);
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result makeResult = context.makeResult();
+		makeResult.add(getMessages().readyToCreate(getConstants().itemGroup()));
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		Result result = nameRequirement(context, list, CLASS_NAME,
+				getConstants().className(),
+				getMessages().pleaseEnter(getConstants().className()));
+		if (result != null) {
+			return result;
+		}
+		markDone();
+		return createClassObject(context);
 	}
 
 	/**
@@ -48,22 +51,15 @@ public class NewClassCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @return
 	 */
-	private Result createClassNameReq(Context context) {
+	private Result createClassObject(Context context) {
+		AccounterClass accounterClass = new AccounterClass();
+		accounterClass.setclassName((String) get(CLASS_NAME).getValue());
+		create(accounterClass, context);
+		markDone();
+		Result result = new Result();
+		result.add(getMessages().createSuccessfully(getConstants().className()));
 
-		Requirement requirement = get(CLASS_NAME);
-		String className = context.getSelection(TEXT);
-		if (!requirement.isDone()) {
-			if (className != null) {
-				requirement.setValue(className);
-			} else {
-				return text(context, "Please enter the  Class Name", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(CLASS_NAME)) {
-			requirement.setValue(input);
-		}
-		return null;
+		return result;
 	}
 
 }
