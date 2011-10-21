@@ -43,8 +43,7 @@ public class JournalEntryListCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			default:
 				break;
 			}
@@ -59,6 +58,8 @@ public class JournalEntryListCommand extends AbstractTransactionCommand {
 
 	private Result getJournalEntryList(Context context) {
 		Result result = context.makeResult();
+		ResultList actions = new ResultList("actions");
+
 		ResultList userList = new ResultList("journalEntryList");
 		List<ClientJournalEntry> entryList = getJournalEntries(context);
 		for (ClientJournalEntry entry : entryList) {
@@ -72,16 +73,27 @@ public class JournalEntryListCommand extends AbstractTransactionCommand {
 		command.add(getConstants().addNewJournalEntry());
 
 		result.add(command);
+		Record finishRecord = new Record(ActionNames.FINISH);
+		finishRecord.add("", getConstants().close());
+		actions.add(finishRecord);
 
+		result.add(actions);
 		return result;
 	}
 
 	private Record createJournalRecord(ClientJournalEntry entry) {
 		Record record = new Record(entry);
-		record.add(getConstants().voucherNo(), entry.getNumber());
-		record.add(getConstants().date(), entry.getDate());
-		record.add(getConstants().amount(), entry.getTotal());
-		record.add(getConstants().memo(), entry.getMemo());
+		record.add("", getConstants().voucherNo());
+		record.add("", entry.getNumber());
+		record.add("", getConstants().date());
+		record.add("", entry.getDate());
+		record.add("", getConstants().amount());
+		record.add("", entry.getTotal());
+		record.add("", getConstants().memo());
+		record.add("", entry.getMemo());
+		record.add("", getConstants().voided());
+		record.add("", entry.isVoid() == true ? getConstants().Voided()
+				: getConstants().nonVoided());
 
 		// record.add("Voided", entry.isVoid());
 		return record;
