@@ -328,9 +328,6 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 		result.add(list);
 
 		ResultList actions = new ResultList(ACTIONS);
-		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", getConstants().delete());
-		actions.add(record);
 		record = new Record(ActionNames.FINISH_ITEM);
 		record.add("", getConstants().finish());
 		actions.add(record);
