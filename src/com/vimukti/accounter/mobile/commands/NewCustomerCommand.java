@@ -360,32 +360,33 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		result = contactOptionalRequirement(context, list, selection,
-				CUSTOMER_CONTACT, getConstants().contact(), getMessages()
-						.pleaseEnter(getConstants().contact()));
+				CUSTOMER_CONTACT,
+				getMessages().pleaseEnter(getConstants().contact()),
+				getConstants().contact());
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, FAX,
-				getMessages().pleaseEnter(getConstants().fax()), getConstants()
-						.fax());
+				getConstants().faxNumber(),
+				getMessages().pleaseEnter(getConstants().fax()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, EMAIL,
-				getMessages().pleaseEnter(getConstants().email()),
-				getConstants().email());
+				getConstants().email(),
+				getMessages().pleaseEnter(getConstants().email()));
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection, PHONE,
-				getMessages().pleaseEnter(getConstants().phone()),
-				getConstants().phone());
+				getConstants().phoneNumber(),
+				getMessages().pleaseEnter(getConstants().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, WEBADRESS,
-				getMessages().pleaseEnter(getConstants().webPageAddress()),
-				getConstants().webPageAddress());
+				getConstants().webPageAddress(),
+				getMessages().pleaseEnter(getConstants().webPageAddress()));
 		if (result != null) {
 			return result;
 		}
@@ -406,22 +407,20 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection, BANK_NAME,
-				getMessages().pleaseEnter(getConstants().bankName()),
-				getConstants().bankName());
+				getConstants().bankName(),
+				getMessages().pleaseEnter(getConstants().bankName()));
 		if (result != null) {
 			return result;
 		}
 		result = numberOptionalRequirement(context, list, selection,
-				BANK_ACCOUNT_NUM,
-				getMessages().pleaseEnter(getConstants().bankAccountNumber()),
-				getConstants().bankAccountNumber());
+				BANK_ACCOUNT_NUM, getConstants().bankAccountNumber(),
+				getMessages().pleaseEnter(getConstants().bankAccountNumber()));
 		if (result != null) {
 			return result;
 		}
 		result = stringOptionalRequirement(context, list, selection,
-				BANK_BRANCH,
-				getMessages().pleaseEnter(getConstants().bankBranch()),
-				getConstants().bankBranch());
+				BANK_BRANCH, getConstants().bankBranch(), getMessages()
+						.pleaseEnter(getConstants().bankBranch()));
 		if (result != null) {
 			return result;
 		}
@@ -457,9 +456,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 						list,
 						selection,
 						VATREGISTER_NUM,
+						getConstants().vatRegistrationNumber(),
 						getMessages().pleaseEnter(
-								getConstants().vatRegistrationNumber()),
-						getConstants().vatRegistrationNumber());
+								getConstants().vatRegistrationNumber()));
 				if (result != null) {
 					return result;
 				}
