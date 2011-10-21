@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -68,13 +69,21 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(DEPOSIT_OR_TRANSFER_TO, false, true));
 		list.add(new Requirement(CHEQUE_NO, true, true));
 		list.add(new Requirement(DELIVERY_DATE, true, true));
+		list.add(new Requirement(TAXCODE, false, true));
 	}
 
 	@Override
 	public Result run(Context context) {
+		setDefaultValues();
 		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
+		Result result = context.makeResult();
 		if (process != null) {
+			if (process.equals(ADDRESS_PROCESS)) {
+				result = addressProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
 			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
 				result = transactionItemProcess(context);
 				if (result != null) {
@@ -87,19 +96,12 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-
-		setDefaultValues();
-
 		Result makeResult = context.makeResult();
 		makeResult.add(getMessages().readyToCreate(
 				getConstants().cashPurchase()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		result = context.makeResult();
-
 		result = createSupplierRequirement(context, list, SUPPLIER, Global
 				.get().Vendor());
 		if (result != null) {
@@ -138,6 +140,14 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
+			}
+		}
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
@@ -190,8 +200,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 
 		// TODO Location
 		// TODO Class
-
-		if (getClientCompany().getPreferences().isTrackTax()) {
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -263,10 +274,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-
+		selection = context.getSelection("values");
 		Requirement supplierReq = get(SUPPLIER);
 		ClientVendor supplier = (ClientVendor) supplierReq.getValue();
-
 		Result result = dateOptionalRequirement(context, list, DELIVERY_DATE,
 				getConstants().deliveryDate(),
 				getMessages().pleaseEnter(getConstants().date()), selection);
@@ -280,7 +290,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 
 		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				getConstants().phoneNumber(),
+				getConstants().purchase() + getConstants().number(),
 				getMessages().pleaseEnter(getConstants().purchaseNumber()));
 		if (result != null) {
 			return result;
@@ -297,12 +307,14 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		result = numberRequirement(context, list, CHEQUE_NO, getMessages()
-				.pleaseEnter(getConstants().checkNo()), getConstants()
-				.checkNo());
-		if (result != null) {
-			return result;
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		if (paymentMethod.equals(getConstants().check())) {
+			result = numberRequirement(context, list, CHEQUE_NO, getMessages()
+					.pleaseEnter(getConstants().checkNo()), getConstants()
+					.checkNo());
+			if (result != null) {
+				return result;
+			}
 		}
 
 		result = stringOptionalRequirement(context, list, selection, MEMO,
@@ -315,7 +327,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		finish.add("",
 				getMessages().finishToCreate(getConstants().cashPurchase()));
 		actions.add(finish);
-
+		makeResult.add(actions);
 		return makeResult;
 	}
 
