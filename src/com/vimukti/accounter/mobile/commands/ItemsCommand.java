@@ -47,8 +47,7 @@ public class ItemsCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			switch (selection) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			case SERVICE_ITEM:
 				context.setAttribute(ITEMS_TYPE, Item.TYPE_SERVICE);
 				break;
@@ -130,24 +129,6 @@ public class ItemsCommand extends AbstractTransactionCommand {
 				result.add(item);
 			}
 		}
-		return result;
-	}
-
-	protected List<ClientItem> getItems(Boolean isActive) {
-		ArrayList<ClientItem> items = new ArrayList<ClientItem>(
-				getClientCompany().getItems());
-		ArrayList<ClientItem> result = new ArrayList<ClientItem>();
-
-		for (ClientItem item : items) {
-			if (isActive) {
-				if (item.getType() == Item.TYPE_SERVICE) {
-					result.add(item);
-				}
-			} else {
-				result.add(item);
-			}
-		}
-
 		return result;
 	}
 
