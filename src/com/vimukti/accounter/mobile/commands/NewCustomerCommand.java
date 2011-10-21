@@ -145,8 +145,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		makeResult.add(actions);
 
 		result = nameRequirement(context, list, CUSTOMER_NAME, Global.get()
-				.Customer(),
-				getMessages().pleaseEnter(getConstants().customerName()));
+				.Customer(), getMessages().pleaseEnter(Global.get().Customer()));
 		if (result != null) {
 			return result;
 		}
