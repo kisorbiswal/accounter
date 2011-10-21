@@ -56,7 +56,12 @@ public class AuthenticationCommand extends AbstractCommand {
 							.getNetworkId());
 					if (activationList == null || activationList.size() == 0) {
 						client = getClient(context.getString());
-						if (client == null) {
+						if (client != null) {
+							sendActivationMail(context.getNetworkId(),
+									client.getEmailId());
+							makeResult
+									.add("Activation code has sent to your email Id. Enter Activation code");
+						} else {
 							CommandList commandList = new CommandList();
 							commandList.add("Signup");
 							makeResult.add("Enter valid Accounter emailId");
@@ -72,11 +77,10 @@ public class AuthenticationCommand extends AbstractCommand {
 							getClient(activation.getEmailId()));
 					makeResult.add("Activation Success");
 				}
-			}
-			if (client != null) {
-				sendActivationMail(context.getNetworkId(), client.getEmailId());
-				makeResult
-						.add("Activation code has sent to your email Id. Enter Activation code");
+			} else {
+				imUser = createIMUser(context.getNetworkType(),
+						context.getNetworkId(), client);
+				makeResult.add("Activation Success.");
 			}
 		}
 		if (imUser != null) {
