@@ -89,9 +89,7 @@ public class AuthenticationCommand extends AbstractCommand {
 		if (imUser != null) {
 			Client client = imUser.getClient();
 			if (client.isActive()) {
-				makeResult.add("Enter command.");
 				markDone();
-				context.getIOSession().setAuthentication(true);
 			} else {
 				Activation activation = getActivation(context.getString());
 				if (activation == null) {
@@ -103,11 +101,15 @@ public class AuthenticationCommand extends AbstractCommand {
 							.beginTransaction();
 					client.setActive(true);
 					beginTransaction.commit();
-					context.getIOSession().setAuthentication(true);
 					markDone();
-					makeResult.add("Activation Success. Enter Command");
+					makeResult.add("Activation Success");
 				}
 			}
+		}
+		if (isDone()) {
+			makeResult.add("Enter command.");
+			context.getIOSession().setClient(imUser.getClient());
+			context.getIOSession().setAuthentication(true);
 		}
 		return makeResult;
 	}
