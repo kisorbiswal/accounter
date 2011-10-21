@@ -110,6 +110,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ESCAPE = "escape";
 	private static final String CUSTOMERS = "customers";
 	private static final String VALUES = "values";
+	protected static final String CASH = "Cash";
+	protected static final String CREDIT_CARD = "Credit Card";
 
 	protected static final String PREFERED_SHIPMETHOD = "Preferred Shipping Method";
 	private static final String PAYEE = "payee";
