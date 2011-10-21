@@ -24,9 +24,11 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
+import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -215,5 +217,16 @@ public class AccounterCompanyInitializationServiceImpl extends
 		}
 		AccounterThreadLocal.set(user);
 		return true;
+	}
+
+	@Override
+	public List<AccountsTemplate> getAccountsTemplate()
+			throws AccounterException {
+		AccountsTemplateManager manager = new AccountsTemplateManager();
+		try {
+			return manager.loadAccounts(ServerLocal.get().getLanguage());
+		} catch (Exception e) {
+			throw new AccounterException(e);
+		}
 	}
 }

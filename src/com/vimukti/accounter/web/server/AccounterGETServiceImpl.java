@@ -2058,17 +2058,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<AccountsTemplate> getAccountsTemplate()
-			throws AccounterException {
-		AccountsTemplateManager manager = new AccountsTemplateManager();
-		try {
-			return manager.loadAccounts(ServerLocal.get().getLanguage());
-		} catch (Exception e) {
-			throw new AccounterException(e);
-		}
-	}
-
-	@Override
 	public List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
