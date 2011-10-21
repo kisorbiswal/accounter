@@ -85,11 +85,6 @@ public class AuthenticateCommand extends AbstractCommand {
 		// }
 	}
 
-	private boolean isValidEmail(String email) {
-		return email
-				.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$");
-	}
-
 	private String getEmailFromUser(String from) {
 		// TODO SPlit the from with '/' and see if first part is valid email
 		// else return null
