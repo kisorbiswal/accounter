@@ -4,11 +4,6 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.vimukti.accounter.core"
 	default-access="field" auto-import="false">
-	<!-- <joined-subclass name="com.vimukti.accounter.workspace.tool.FinanceTool" 
-		table="FINANCETOOL" extends="com.bizantra.server.workspace.ext.AbstractTool"> 
-		<key column="ID"></key> <many-to-one name="company" lazy="false" class="Company" 
-		column="COMPANY_ID" cascade="save-update,delete"> </many-to-one> </joined-subclass> -->
-
 
 	<!-- Named HQL for Finance Tool -->
 

@@ -129,10 +129,6 @@
 			text-decoration:none;
 		}
 
-		#bizantraForm input[type="text"],#bizantraForm input[type="password"]{
-			border:1px solid #9cb0ce;
-		}
-
 		.loginbox a:hover{
 			text-decoration:underline;
 		}
