@@ -41,8 +41,7 @@ public class ShippingMethodListCommand extends AbstractTransactionCommand {
 			actionNames = (ActionNames) selection;
 			switch (actionNames) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			default:
 				break;
 			}
@@ -57,6 +56,7 @@ public class ShippingMethodListCommand extends AbstractTransactionCommand {
 
 	private Result shippingMethods(Context context) {
 		ResultList shipingResultList = new ResultList("shippingmethodsList");
+		ResultList actions = new ResultList("actions");
 
 		Result result = context.makeResult();
 
@@ -69,16 +69,23 @@ public class ShippingMethodListCommand extends AbstractTransactionCommand {
 		commandList.add(getConstants().add());
 		commandList.add(getConstants().edit());
 		commandList.add(getConstants().delete());
+
+		Record finishRecord = new Record(ActionNames.FINISH);
+		finishRecord.add("", getConstants().close());
+		actions.add(finishRecord);
+
 		result.add(commandList);
+		result.add(actions);
 
 		return result;
 	}
 
 	private Record createShippingRecord(ShippingMethod shippingMethod) {
 		Record record = new Record(shippingMethod);
-		record.add(getConstants().name(), shippingMethod.getName());
-		record.add(getConstants().description(),
-				shippingMethod.getDescription());
+		record.add("", getConstants().name());
+		record.add("", shippingMethod.getName());
+		record.add("", getConstants().description());
+		record.add("", shippingMethod.getDescription());
 		return record;
 	}
 
