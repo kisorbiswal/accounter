@@ -254,7 +254,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 		Result result = stringOptionalRequirement(context, list, selection,
-				getConstants().description(), DESCRIPTION, getMessages()
+				DESCRIPTION, getConstants().description(), getMessages()
 						.pleaseEnter(getConstants().description()));
 		if (result != null) {
 			return result;

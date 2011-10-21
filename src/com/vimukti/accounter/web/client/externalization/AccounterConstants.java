@@ -5017,4 +5017,6 @@ public interface AccounterConstants extends Constants {
 	public String bankAccount();
 
 	public String selectAnyone();
+
+	public String command();
 }

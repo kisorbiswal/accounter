@@ -67,8 +67,8 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = amountRequirement(context, list, AMOUNT, getConstants()
-				.amount(), getMessages().pleaseEnter(getConstants().amount()));
+		result = amountRequirement(context, list, AMOUNT, getMessages()
+				.pleaseEnter(getConstants().amount()), getConstants().amount());
 		if (result != null) {
 			return result;
 		}
@@ -98,21 +98,21 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			String name, ClientTAXAgency taxAgency) {
 
 		Requirement vatReturnReq = get(VAT_RETURN_BOX);
-		String vatReturn = context.getSelection(VAT_RETURN_BOXES);
+		ClientVATReturnBox vatReturn = context.getSelection(VAT_RETURN_BOXES);
 
 		if (vatReturn != null) {
 			vatReturnReq.setValue(vatReturn);
 		}
 
-		String value = vatReturnReq.getValue();
+		ClientVATReturnBox value = vatReturnReq.getValue();
 		Object selection = context.getSelection("values");
-		if (!vatReturnReq.isDone() || (value == selection)) {
+		if (!vatReturnReq.isDone() || (VAT_RETURN_BOX == selection)) {
 			return getVatReturnBoxResult(context, taxAgency);
 		}
 
-		Record record = new Record(value);
+		Record record = new Record(VAT_RETURN_BOX);
 		record.add("", getConstants().vatReturnBox());
-		record.add("", value);
+		record.add("", value.getName());
 		list.add(record);
 
 		return null;

@@ -405,7 +405,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		// TODO:check weather it is product or service item
 		Integer weight = 0;
 		if (this instanceof NewProductItemCommand) {
-			weight = Integer.parseInt((String) get(WEIGHT).getValue());
+			String s = get(WEIGHT).getValue();
+			weight = s != null ? Integer.parseInt(s) : 0;
 		}
 		Boolean iSellthis = (Boolean) get(I_SELL_THIS).getValue();
 		String description = (String) get(SALES_DESCRIPTION).getValue();

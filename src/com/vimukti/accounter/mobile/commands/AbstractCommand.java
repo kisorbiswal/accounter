@@ -703,7 +703,7 @@ public abstract class AbstractCommand extends Command {
 			ResultList list, Object selection, String reqName, String name,
 			String displayName) {
 		Requirement req = get(reqName);
-		String memo = (String) req.getValue();
+		String memo = req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(reqName)) {
 			String input = context.getSelection(TEXT);
@@ -1793,5 +1793,12 @@ public abstract class AbstractCommand extends Command {
 		SimpleDateFormat format = new SimpleDateFormat(getClientCompany()
 				.getPreferences().getDateFormat());
 		return format.format(date.getDateAsObject());
+	}
+
+	public Result closeCommand() {
+		markDone();
+		Result result = new Result(getMessages().pleaseEnter(
+				getConstants().command()));
+		return result;
 	}
 }

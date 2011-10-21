@@ -53,7 +53,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		}
 		Record supplierRecord = new Record(value);
 		supplierRecord.add("", requirementName);
-		supplierRecord.add("", value);
+		supplierRecord.add("", value.getName());
 		list.add(supplierRecord);
 
 		return null;
