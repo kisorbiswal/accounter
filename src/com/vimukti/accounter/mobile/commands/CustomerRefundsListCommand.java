@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class CustomerRefundsListCommand extends AbstractTransactionCommand {
 
 	AccounterConstants constants = getConstants();
-	private String CURRENT_VIEW = constants.currentView();
+	private static final String CURRENT_VIEW = "Current View";
 
 	private static final int ITEMS_TO_SHOW = 4;
 
@@ -66,8 +66,7 @@ public class CustomerRefundsListCommand extends AbstractTransactionCommand {
 			actionNames = (ActionNames) selection;
 			switch (actionNames) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			default:
 				break;
 			}
@@ -94,6 +93,7 @@ public class CustomerRefundsListCommand extends AbstractTransactionCommand {
 
 		Result result = context.makeResult();
 		ResultList resultList = new ResultList("customerrefundsList");
+		ResultList actions = new ResultList("actions");
 
 		for (CustomerRefundsList customer : filterList) {
 
@@ -114,6 +114,13 @@ public class CustomerRefundsListCommand extends AbstractTransactionCommand {
 		commandList.add(getMessages().addaNewCustomerRefund(
 				Global.get().Customer()));
 		result.add(commandList);
+
+		Record finishRecord = new Record(ActionNames.FINISH);
+		finishRecord.add("", getConstants().close());
+		actions.add(finishRecord);
+
+		result.add(actions);
+
 		return result;
 	}
 
@@ -159,23 +166,30 @@ public class CustomerRefundsListCommand extends AbstractTransactionCommand {
 
 	private Record createCustomerRefundRecord(CustomerRefundsList customerRefund) {
 		Record record = new Record(customerRefund);
-		record.add(getConstants().paymentDate(),
-				customerRefund.getPaymentDate());
-		record.add(getConstants().paymentNo(),
-				customerRefund.getPaymentNumber());
-		record.add(getConstants().status(), Utility.getStatus(
+
+		record.add("", getConstants().paymentNo());
+		record.add("", customerRefund.getPaymentNumber());
+
+		record.add("", getConstants().paymentDate());
+		record.add("", customerRefund.getPaymentDate());
+
+		record.add("", getConstants().issueDate());
+		record.add("", customerRefund.getIssueDate());
+		record.add("", getConstants().name());
+		record.add("", customerRefund.getName());
+		record.add("", getConstants().type());
+		record.add("", Utility.getTransactionName((customerRefund.getType())));
+		record.add("", getConstants().paymentMethod());
+		record.add("", customerRefund.getPaymentMethod());
+		record.add("", getConstants().amountPaid());
+		record.add("", customerRefund.getAmountPaid());
+		record.add("", getConstants().status());
+		record.add("", Utility.getStatus(
 				ClientTransaction.TYPE_CUSTOMER_REFUNDS,
 				customerRefund.getStatus()));
-		record.add(getConstants().issueDate(), customerRefund.getIssueDate());
-		record.add(getConstants().name(), customerRefund.getName());
-		record.add(getConstants().type(),
-				Utility.getTransactionName((customerRefund.getType())));
-		record.add(getConstants().paymentMethod(),
-				customerRefund.getPaymentMethod());
-		record.add(getConstants().amountPaid(), customerRefund.getAmountPaid());
-		record.add(getConstants().voided(),
-				customerRefund.isVoided() ? getConstants().voided()
-						: getConstants().nonVoided());
+		record.add("", getConstants().voided());
+		record.add("", customerRefund.isVoided() ? getConstants().voided()
+				: getConstants().nonVoided());
 		return record;
 	}
 
