@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final String VATREGISTER_NUM = "vatRegisterationNum";
 	private static final String IS_ACTIVE = "isActive";
 	private static final String CUSTOMER_NAME = "customerName";
-	private static final String CUSTOMER_CONTACT = "customerContact";
+	private static final String CUSTOMER_CONTACT = "contact";
 	private static final String PRIMARY = "primary";
 	private static final String CONTACT_NAME = "contactName";
 	private static final String TITLE = "title";
@@ -145,7 +146,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		makeResult.add(actions);
 
 		result = nameRequirement(context, list, CUSTOMER_NAME, Global.get()
-				.Customer(), getMessages().pleaseEnter(Global.get().Customer()));
+				.Customer(),
+				getMessages().pleaseEnterName(Global.get().Customer()));
 		if (result != null) {
 			return result;
 		}
@@ -159,6 +161,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			}
 		}
 		setDefaultValues();
+
 		result = optionalRequirements(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
@@ -205,7 +208,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (preferences.getUseCustomerId()) {
 			number = get(NUMBER).getValue().toString();
 		}
-		Set<ClientContact> contacts = (get(CUSTOMER_CONTACT).getValue());
+		ClientContact contact = (get(CUSTOMER_CONTACT).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
 		ClientFinanceDate customerSincedate = get(CUSTOMER_SINCEDATE)
@@ -239,6 +242,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setName(name);
 		if (preferences.getUseCustomerId())
 			customer.setNumber(number);
+
+		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
+		if (contact != null)
+			contacts.add(contact);
 		customer.setContacts(contacts);
 		customer.setBalance(balance);
 		if (balancedate != null) {
@@ -348,6 +355,13 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result = addressOptionalRequirement(context, list, selection, ADDRESS,
 				getMessages().pleaseEnter(getConstants().address()),
 				getConstants().address());
+		if (result != null) {
+			return result;
+		}
+
+		result = contactOptionalRequirement(context, list, selection,
+				CUSTOMER_CONTACT, getConstants().contact(), getMessages()
+						.pleaseEnter(getConstants().contact()));
 		if (result != null) {
 			return result;
 		}
