@@ -6,6 +6,9 @@
 	<command clazz="SelectCompanyCommand" name="selectCompany">
 	</command>
 
+	<command clazz="SelectCompanyCommand" name="Select Company">
+	</command>
+
 	<command clazz="NewInvoiceCommand" name="New Invoice">
 		<alias>Create Invoice</alias>
 		<alias>Add Invoice</alias>
