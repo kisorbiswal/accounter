@@ -14,6 +14,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -25,7 +26,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  */
 public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 
-	private String BILLS_VIEW_BY = getConstants().currentView();
+	private static final String BILLS_VIEW_BY = "Current View";
 
 	@Override
 	public String getId() {
@@ -68,8 +69,7 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 			actionNames = (ActionNames) selection;
 			switch (actionNames) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			default:
 				break;
 			}
@@ -97,7 +97,7 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 					.getVendorManager().getBillsList(false,
 							context.getCompany().getID());
 			ArrayList<BillsList> filterList = filterList(view, billsList);
-
+			ResultList actions = new ResultList("actions");
 			Result result = context.makeResult();
 			ResultList resultList = new ResultList("billsList");
 			for (BillsList bill : filterList) {
@@ -115,6 +115,12 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 			CommandList commandList = new CommandList();
 			commandList.add(getConstants().addaNewBill());
 			result.add(commandList);
+
+			Record finishRecord = new Record(ActionNames.FINISH);
+			finishRecord.add("", getConstants().close());
+			actions.add(finishRecord);
+			result.add(actions);
+
 			return result;
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -162,12 +168,21 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 	private Record createBillRecord(BillsList bill) {
 
 		Record rec = new Record(bill);
-		rec.add(getConstants().type(), bill.getType());
-		rec.add(getConstants().no(), bill.getNumber());
-		rec.add(getMessages().vendorName(Global.get().Vendor()),
-				bill.getVendorName());
-		rec.add(getConstants().originalAmount(), bill.getOriginalAmount());
-		rec.add(getConstants().balance(), bill.getBalance());
+
+		rec.add("", getConstants().type());
+		rec.add("", Utility.getTransactionName((bill.getType())));
+
+		rec.add("", getConstants().no());
+		rec.add("", bill.getNumber());
+
+		rec.add("", getMessages().vendorName(Global.get().Vendor()));
+		rec.add("", bill.getVendorName());
+
+		rec.add("", getConstants().originalAmount());
+		rec.add("", bill.getOriginalAmount());
+
+		rec.add("", getConstants().balance());
+		rec.add("", bill.getBalance());
 
 		return rec;
 	}
