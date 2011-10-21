@@ -120,7 +120,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 		taxAdjustment.setTaxAgency(taxAgency.getID());
 		taxAdjustment.setAdjustmentAccount(account.getID());
-		taxAdjustment.setNetAmount(amount);
+		taxAdjustment.setTotal(amount);
 		taxAdjustment.setIncreaseVATLine(isIncreaseVatLine);
 		taxAdjustment.setDate(new FinanceDate(date).getDate());
 		taxAdjustment.setNumber(number);
