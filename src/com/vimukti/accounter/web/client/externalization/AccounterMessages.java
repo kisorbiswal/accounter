@@ -904,4 +904,6 @@ public interface AccounterMessages extends Messages {
 	public String create(String name);
 
 	public String accountTransactionItems(String account);
+	
+	public String pleaseEnter(String objectName,String name);
 }

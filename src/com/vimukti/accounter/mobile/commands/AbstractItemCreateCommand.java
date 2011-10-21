@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -171,7 +170,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	}
 
 	private void setDefaultValues() {
-		get(I_SELL_THIS).setDefaultValue(Boolean.FALSE);
+		get(I_SELL_THIS).setDefaultValue(Boolean.TRUE);
 		get(SALES_DESCRIPTION).setDefaultValue(" ");
 		get(SALES_PRICE).setDefaultValue(0.0D);
 		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
@@ -207,8 +206,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
-				if (false) {
-					makeResult.add("");
+				boolean iSell = get(I_SELL_THIS).getValue();
+				boolean iBuy = get(I_BUY_THIS).getValue();
+				if (!iSell && !iBuy) {
+					makeResult.add(getConstants().selectAnyone());
 				} else {
 					return null;
 				}
@@ -218,26 +219,13 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 		selection = context.getSelection("values");
 
-		// TODO :check weather it is product or service item
 		Result result = weightRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
 
-		// Boolean iSellThis = get(I_SELL_THIS).getValue();
 		boolean iSellThis = get(I_SELL_THIS).getValue();
 		if (iSellThis) {
-			// Requirement incomeAccountReq = get(INCOME_ACCOUNT);
-			// ClientAccount inAccount = (ClientAccount) incomeAccountReq
-			// .getValue();
-			// if (INCOME_ACCOUNT == selection || inAccount == null) {
-			// context.setAttribute(INPUT_ATTR, INCOME_ACCOUNT);
-			// Result incomeorExpenseAccountRequirement = accountRequirement(
-			// context, list, INCOME_ACCOUNT);
-			// if (incomeorExpenseAccountRequirement != null) {
-			// return incomeorExpenseAccountRequirement;
-			// }
-			// }
 
 			booleanOptionalRequirement(context, selection, list,
 					IS_COMMISION_ITEM, getConstants().thisIsCommisionItem(),
@@ -282,18 +270,6 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 		Boolean buyService = get(I_BUY_THIS).getValue();
 		if (buyService) {
-			// Requirement expenseAccountReq = get(EXPENSE_ACCOUNT);
-			// ClientAccount exAccount = (ClientAccount) expenseAccountReq
-			// .getValue();
-			// if (EXPENSE_ACCOUNT == selection || exAccount == null) {
-			// context.setAttribute(INPUT_ATTR, EXPENSE_ACCOUNT);
-			// Result exResult = accountRequirement(context, list,
-			// EXPENSE_ACCOUNT);
-			// if (exResult != null) {
-			// return exResult;
-			// }
-			// }
-
 			result = stringOptionalRequirement(
 					context,
 					list,
@@ -306,18 +282,37 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				return result;
 			}
 
-			result = purchasepriceRequirement(context, list, selection);
+			result = amountOptionalRequirement(context, list, selection,
+					PURCHASE_PRICE,
+					getMessages().pleaseEnter(getConstants().purchasePrice()),
+					getConstants().purchasePrice());
 			if (result != null) {
 				return result;
 			}
 
 			// for prefferedSupplier
-			result = vendorRequirement(context, list);
+			result = vendorOptionalRequirement(
+					context,
+					list,
+					selection,
+					PREFERRED_SUPPLIER,
+					getMessages().pleaseSelect(
+							getMessages()
+									.preferredVendor(Global.get().Vendor())),
+					getMessages().preferredVendor(Global.get().Vendor()));
 			if (result != null) {
 				return result;
 			}
 
-			result = supplierServiceNoRequirement(context, list, selection);
+			result = numberOptionalRequirement(
+					context,
+					list,
+					selection,
+					SERVICE_NO,
+					getMessages().vendorServiceNo(Global.get().Vendor()),
+					getMessages().pleaseEnter(
+							getMessages()
+									.vendorServiceNo(Global.get().Vendor())));
 			if (result != null) {
 				return result;
 			}
@@ -335,160 +330,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Result supplierServiceNoRequirement(Context context,
-			ResultList list, Object selection) {
-
-		Requirement supplierServiceReq = get(SERVICE_NO);
-		String supplierService = (String) supplierServiceReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(SERVICE_NO)) {
-			String supSer = context.getSelection(TEXT);
-			if (supSer == null) {
-				supSer = context.getString();
-			}
-			supplierService = supSer;
-			supplierServiceReq.setValue(supplierService);
-		}
-		if (selection == SERVICE_NO) {
-			context.setAttribute(INPUT_ATTR, SERVICE_NO);
-			return text(
-					context,
-					getMessages().pleaseEnter(
-							getMessages()
-									.vendorServiceNo(Global.get().Vendor())),
-					supplierService.toString());
-		}
-
-		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
-		Record supplierServiceNoRec = new Record(SERVICE_NO);
-		supplierServiceNoRec.add("Name",
-				getMessages().vendorServiceNo(Global.get().Vendor()));
-		supplierServiceNoRec.add("Value", supplierServiceNo);
-		list.add(supplierServiceNoRec);
-		return null;
-	}
-
-	private Result purchasepriceRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement pPriceReq = get(PURCHASE_PRICE);
-		Double pPrice = pPriceReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PURCHASE_PRICE)) {
-			Double pric = Double.parseDouble(context.getNumber());
-			pPrice = pric;
-			pPriceReq.setValue(pPrice);
-		}
-		if (selection == PURCHASE_PRICE) {
-			context.setAttribute(INPUT_ATTR, PURCHASE_PRICE);
-			return amount(context,
-					getMessages().pleaseEnter(getConstants().purchasePrice()),
-					pPrice);
-		}
-
-		Record pPriceRecord = new Record(PURCHASE_PRICE);
-		pPriceRecord.add("Name", getConstants().purchasePrice());
-		pPriceRecord.add("Value", pPrice);
-		list.add(pPriceRecord);
-		return null;
-	}
-
-	/**
-	 * to get the result of accounts by type (income or expense)
-	 * 
-	 * @param context
-	 * @param accountType
-	 * @return
-	 */
-	protected Result accountsByType(Context context, boolean accountType) {
-		Result result = context.makeResult();
-		ResultList incomeaccountsList = new ResultList("incomeaccounts");
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		int num = 0;
-		if (last != null) {
-			incomeaccountsList
-					.add(createincomeAccountRecord((ClientAccount) last));
-			num++;
-		}
-		List<ClientAccount> accounts = getAccountsByType(context, accountType);
-		for (ClientAccount account : accounts) {
-			if (account != last) {
-				incomeaccountsList.add(createincomeAccountRecord(account));
-				num++;
-			}
-			if (num == INCOMEACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = incomeaccountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append(getMessages()
-					.pleaseSelect(getConstants().Accounts()));
-		}
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().create());
-
-		result.add(message.toString());
-		result.add(incomeaccountsList);
-		result.add(commandList);
-		return result;
-	}
-
 	protected Record createincomeAccountRecord(ClientAccount last) {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
 		record.add("Account Number", last.getNumber());
 		return record;
-	}
-
-	/**
-	 * 
-	 * @param session
-	 * @param TypeofAccounts
-	 *            (income or expense)
-	 * @return
-	 */
-	private List<ClientAccount> getAccountsByType(Context context,
-			boolean TypeofAccounts) {
-		List<ClientAccount> accountslist = null;
-		List<ClientAccount> accounts = getClientCompany().getAccounts();
-		accountslist = new ArrayList<ClientAccount>();
-		for (ClientAccount account : accounts) {
-			if (TypeofAccounts) {
-				if (account.getType() == 14)
-					accountslist.add(account);
-			}
-			if (account.getType() == 16) {
-				accountslist.add(account);
-			}
-		}
-		return accountslist;
-	}
-
-	/**
-	 * requirement for a vendor from combo
-	 * 
-	 * @param context
-	 * @param list
-	 * @return
-	 */
-	private Result vendorRequirement(Context context, ResultList list) {
-		Requirement vendorReq = get(PREFERRED_SUPPLIER);
-		ClientVendor vendor = context.getSelection("vendors");
-		if (vendor != null) {
-			vendorReq.setValue(vendor);
-		}
-		if (!vendorReq.isDone()) {
-			return vendors(context);
-		}
-		Record supplierRecord = new Record(vendor);
-		supplierRecord.add("",
-				getMessages().preferredVendor(Global.get().Vendor()));
-		supplierRecord.add("", vendor != null ? vendor.getName() : "");
-		list.add(supplierRecord);
-		return null;
 	}
 
 	private Result itemGroupRequirement(Context context) {

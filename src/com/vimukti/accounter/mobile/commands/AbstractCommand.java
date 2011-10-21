@@ -89,6 +89,7 @@ public abstract class AbstractCommand extends Command {
 	private static final String SHIPPING_TERMS = "shippingTerms";
 	protected static final String SHIPPING_METHODS = "shippingMethods";
 	private static final String VENDOR = "vendor";
+	private static final String SUPPLIERS = "suppliers";
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
@@ -210,12 +211,12 @@ public abstract class AbstractCommand extends Command {
 	protected Result vendorOptionalRequirement(Context context,
 			ResultList list, Object selection, String reqName,
 			String displayString, String name) {
-		Object vendorObj = context.getSelection(VENDOR);
+		Object vendorObj = context.getSelection(SUPPLIERS);
 		if (vendorObj instanceof ActionNames) {
 			vendorObj = null;
-			selection = VENDOR;
+			selection = reqName;
 		}
-		Requirement vendorReq = get(VENDOR);
+		Requirement vendorReq = get(reqName);
 		ClientVendor vendor = (ClientVendor) vendorReq.getValue();
 
 		if (vendorObj != null) {
@@ -224,16 +225,15 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		if (selection != null)
-			if (selection.equals(VENDOR)) {
-				context.setAttribute(INPUT_ATTR, VENDOR);
+			if (selection.equals(reqName)) {
+				context.setAttribute(INPUT_ATTR, reqName);
 				return vendors(context);
 
 			}
 
-		Record vendorRecord = new Record(VENDOR);
-		vendorRecord.add("", global.Vendor());
-		vendorRecord.add("",
-				vendor == null ? "" : vendor.getName());
+		Record vendorRecord = new Record(reqName);
+		vendorRecord.add("", name);
+		vendorRecord.add("", vendor == null ? "" : vendor.getName());
 		list.add(vendorRecord);
 
 		return null;
@@ -633,7 +633,7 @@ public abstract class AbstractCommand extends Command {
 	protected Result createSupplierRequirement(Context context,
 			ResultList list, String requirementName, String name) {
 		Requirement supplierReq = get(requirementName);
-		ClientVendor vendor = context.getSelection("suppliers");
+		ClientVendor vendor = context.getSelection(SUPPLIERS);
 
 		if (vendor != null) {
 			supplierReq.setValue(vendor);
@@ -656,7 +656,7 @@ public abstract class AbstractCommand extends Command {
 	protected Result vendors(Context context) {
 		Result result = context.makeResult();
 
-		ResultList supplierList = new ResultList("suppliers");
+		ResultList supplierList = new ResultList(SUPPLIERS);
 
 		Object last = context.getLast(RequirementType.VENDOR);
 		List<ClientVendor> skipVendors = new ArrayList<ClientVendor>();

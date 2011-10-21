@@ -5021,4 +5021,6 @@ public interface AccounterConstants extends Constants {
 	public String toDate();
 
 	public String bankAccount();
+
+	public String selectAnyone();
 }

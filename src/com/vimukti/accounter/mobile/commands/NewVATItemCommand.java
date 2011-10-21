@@ -39,7 +39,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		list.add(new Requirement(TAX_AGENCY, false, true));
 		// if (isUkCompany()) {
 		list.add(new Requirement(IS_PERCENTAGE, true, true));
-		list.add(new Requirement(VAT_RETURN, false, true));
+		list.add(new Requirement(VAT_RETURN_BOX, false, true));
 		// }
 	}
 
@@ -233,7 +233,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		taxItem.setPercentage(true);
 		if (getClientCompany().getPreferences().isTrackTax()) {
 			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
-					VAT_RETURN).getValue();
+					VAT_RETURN_BOX).getValue();
 			taxItem.setVatReturnBox(vatReturnBox.getID());
 		}
 		taxItem.setName(name);
