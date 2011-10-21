@@ -12,8 +12,10 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -72,6 +74,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("countryOrRegion", true, true));
 			}
 		});
+		list.add(new Requirement(TAXCODE, false, true));
 		list.add(new Requirement(MEMO, true, true));
 	}
 
@@ -155,6 +158,16 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context, list);
+			if (result != null) {
+				return result;
+			}
+		}
+
 		makeResult.add(actions);
 		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
@@ -204,6 +217,14 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
+		ClientCompanyPreferences preferences = getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
 		writeCheck.setTransactionItems(items);
 
 		updateTotals(writeCheck);

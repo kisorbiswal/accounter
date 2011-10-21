@@ -130,7 +130,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		makeResult.add(actions);
+
 		ClientCompanyPreferences preferences = getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
@@ -139,7 +139,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
-
+		makeResult.add(actions);
 		result = createOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
