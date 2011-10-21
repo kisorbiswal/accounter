@@ -13,6 +13,8 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public abstract class AbstractVATCommand extends AbstractCommand {
 
@@ -117,9 +119,10 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	}
 
 	protected Result taxItemRequirement(Context context, ResultList list,
-			String requirementName) {
+			String requirementName, String displayString, String name,
+			ListFilter<ClientTAXItem> filter) {
 		Requirement taxItemReq = get(requirementName);
-		ClientTAXItem taxItem = context.getSelection(TAX_ITEMS);
+		ClientTAXItem taxItem = context.getSelection(requirementName);
 
 		if (taxItem != null) {
 			taxItemReq.setValue(taxItem);
@@ -129,22 +132,24 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		ClientTAXItem value = taxItemReq.getValue();
 		Object selection = context.getSelection("values");
 
-		if (!taxItemReq.isDone() || (value == selection)) {
-			return getTaxItemResult(context);
+		if (!taxItemReq.isDone() || (requirementName == selection)) {
+			return getTaxItemResult(context, displayString, filter,
+					requirementName);
 		}
 
-		Record record = new Record(value);
-		record.add("", requirementName);
+		Record record = new Record(requirementName);
+		record.add("", name);
 		record.add("", value.getName());
 		list.add(record);
 
 		return null;
 	}
 
-	protected Result getTaxItemResult(Context context) {
+	protected Result getTaxItemResult(Context context, String displayString,
+			ListFilter<ClientTAXItem> filter, String requirementName) {
 
 		Result result = context.makeResult();
-		ResultList taxItemsList = new ResultList(TAX_ITEMS);
+		ResultList taxItemsList = new ResultList(requirementName);
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 
@@ -154,7 +159,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			skipTAXItem.add((ClientTAXItem) last);
 
 		}
-		List<ClientTAXItem> taxAgencies = getTaxItems();
+		List<ClientTAXItem> taxAgencies = Utility.filteredList(filter,
+				getClientCompany().getTaxItems());
 
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
@@ -169,7 +175,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		int size = taxItemsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the Tax Item.");
+			message.append(displayString);
 		}
 
 		CommandList commandList = new CommandList();
@@ -178,7 +184,6 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		result.add(message.toString());
 		result.add(taxItemsList);
 		result.add(commandList);
-		result.add("Select the Tax Item");
 
 		return result;
 	}

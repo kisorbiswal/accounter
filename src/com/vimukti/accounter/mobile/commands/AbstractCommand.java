@@ -86,7 +86,7 @@ public abstract class AbstractCommand extends Command {
 	private static final String RECORDS_START_INDEX = "recordsStrartIndex";
 	protected static final String PAGENATION = null;
 	protected static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
-	private static final String SHIPPING_TERMS = "shippingTerms";
+	protected static final String SHIPPING_TERMS = "shippingTerms";
 	protected static final String SHIPPING_METHODS = "shippingMethods";
 	private static final String VENDOR = "vendor";
 	private static final String SUPPLIERS = "suppliers";

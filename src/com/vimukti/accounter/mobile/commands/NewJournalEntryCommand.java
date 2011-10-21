@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -99,14 +98,13 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		createJournalEntryObject(context);
-		return null;
+		return createJournalEntryObject(context);
 	}
 
-	private void createJournalEntryObject(Context context) {
+	private Result createJournalEntryObject(Context context) {
 		ClientJournalEntry entry = new ClientJournalEntry();
-		Date date = get(DATE).getValue();
-		entry.setTransactionDate(date.getTime());
+		ClientFinanceDate date = get(DATE).getValue();
+		entry.setTransactionDate(date.getDate());
 
 		String number = get(NUMBER).getValue();
 		entry.setNumber(number);
@@ -128,6 +126,11 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		entry.setCreditTotal(totalCredits);
 
 		create(entry, context);
+
+		markDone();
+		Result result = new Result(getMessages().createSuccessfully(
+				getConstants().journalEntry()));
+		return result;
 	}
 
 	private Result entriesProcess(Context context) {
@@ -268,7 +271,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(MEMO).setDefaultValue("");
 		Requirement requirement = get(VOUCHER);
 		Object value = requirement.getValue();
@@ -314,7 +317,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 				getMessages().finishToCreate(getConstants().journalEntry()));
 		actions.add(finish);
 
-		return null;
+		return makeResult;
 	}
 
 	private Result entryRequirement(Context context, Result result,
@@ -327,7 +330,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 				ClientEntry clientEntry = new ClientEntry();
 				clientEntry.setAccount(account.getID());
 				clientEntry.setMemo("");
-				clientEntry.setEntryDate(new Date().getTime());
+				clientEntry.setEntryDate(new ClientFinanceDate().getDate());
 				clientEntry.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
 				values.add(clientEntry);
 			}

@@ -97,7 +97,7 @@ public class FileVATCommand extends AbstractVATCommand {
 	private void setDefaultValues() {
 		ClientFinanceDate date = getClientCompany()
 				.getCurrentFiscalYearStartDate();
-		get(FROM_DATE).setDefaultValue(date.getDateAsObject());
+		get(FROM_DATE).setDefaultValue(date);
 		get(TO_DATE).setDefaultValue(new ClientFinanceDate());
 	}
 

@@ -68,7 +68,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		result = amountRequirement(context, list, AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()), getConstants().amount());
+				.pleaseEnter(getConstants().amount()), getConstants().taxRate());
 		if (result != null) {
 			return result;
 		}

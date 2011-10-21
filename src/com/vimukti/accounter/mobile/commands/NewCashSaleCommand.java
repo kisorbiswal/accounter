@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -13,18 +14,21 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientShippingMethod;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCashSaleCommand extends AbstractTransactionCommand {
 
-	private static final String INPUT_ATTR = "input";
+	private static final String DELIVERY_DATE = "deliveryDate";
 
 	@Override
 	public String getId() {
@@ -65,6 +69,9 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(MEMO, true, true));
 		list.add(new Requirement(DEPOSIT_OR_TRANSFER_TO, false, true));
 		list.add(new Requirement(TAXCODE, false, true));
+		list.add(new Requirement(SHIPPING_TERMS, true, true));
+		list.add(new Requirement(SHIPPING_METHODS, true, true));
+		list.add(new Requirement(DELIVERY_DATE, true, true));
 	}
 
 	@Override
@@ -205,14 +212,24 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 		// TODO Location
 		// TODO Class
-		// TODO Shipping terms
-		// TODO Shipping method
+		ClientShippingTerms shippingTerms = get(SHIPPING_TERMS).getValue();
+		cashSale.setShippingTerm(shippingTerms != null ? shippingTerms.getID()
+				: 0);
+
+		ClientShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
+		cashSale.setShippingMethod(shippingMethod != null ? shippingMethod
+				.getID() : 0);
 
 		ClientCustomer customer = get(CUSTOMER).getValue();
 		cashSale.setCustomer(customer.getID());
 
 		ClientContact contact = get(CONTACT).getValue();
 		cashSale.setContact(contact);
+
+		cashSale.setShippingAdress(getAddress(ClientAddress.TYPE_SHIP_TO,
+				customer));
+		cashSale.setShippingAdress(getAddress(ClientAddress.TYPE_BILL_TO,
+				customer));
 
 		String phone = get(PHONE).getValue();
 		cashSale.setPhone(phone);
@@ -225,6 +242,9 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 		ClientAccount account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
 		cashSale.setDepositIn(account.getID());
+
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
+		cashSale.setDeliverydate(deliveryDate.getDate());
 
 		ClientCompanyPreferences preferences = getClientCompany()
 				.getPreferences();
@@ -247,6 +267,17 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		result.add(getMessages().createSuccessfully(getConstants().cashSale()));
 
 		return result;
+	}
+
+	public ClientAddress getAddress(int type, ClientCustomer customer) {
+		for (ClientAddress address : customer.getAddress()) {
+
+			if (address.getType() == type) {
+				return address;
+			}
+
+		}
+		return null;
 	}
 
 	private Result createOptionalResult(Context context, ResultList list,
@@ -279,6 +310,21 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+
+		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				getConstants().number(),
+				getMessages().pleaseEnter(getConstants().number()));
+		if (result != null) {
+			return result;
+		}
+
+		Requirement customerReq = get(CUSTOMER);
+		ClientCustomer customer = customerReq.getValue();
+		result = contactRequirement(context, list, selection, customer);
+		if (result != null) {
+			return result;
+		}
+
 		if (context.getCompany().getPreferences().getUseCustomerId()) {
 			result = numberOptionalRequirement(context, list, selection, PHONE,
 					getConstants().phoneNumber(),
@@ -287,16 +333,25 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
-		Requirement customerReq = get(CUSTOMER);
-		ClientCustomer customer = customerReq.getValue();
-		result = contactRequirement(context, list, selection, customer);
-		if (result != null) {
-			return result;
+
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+
+		if (preferences.isDoProductShipMents()) {
+			result = shippingMethodRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+
+			result = shippingTermsRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
 		}
 
-		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				getConstants().number(),
-				getMessages().pleaseEnter(getConstants().number()));
+		result = dateOptionalRequirement(context, list, DELIVERY_DATE,
+				getConstants().deliveryDate(),
+				getMessages().pleaseEnter(getConstants().deliveryDate()),
+				selection);
 		if (result != null) {
 			return result;
 		}
@@ -313,5 +368,5 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 		return makeResult;
 	}
-	
+
 }

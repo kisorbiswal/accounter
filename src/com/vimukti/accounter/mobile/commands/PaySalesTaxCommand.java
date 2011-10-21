@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -19,8 +18,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class PaySalesTaxCommand extends AbstractVATCommand {
 
@@ -154,23 +151,28 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 			}
 		}
 
-		// Result result = dateOptionalRequirement(context, list,
-		// BILLS_DUE_ONBEFORE, "Filter by Sales Tax return end date",
-		// selection);
-		// if (result != null) {
-		// return result;
-		// }
+		Result result = dateOptionalRequirement(context, list,
+				BILLS_DUE_ONBEFORE, getConstants().billsDueOnOrBefore(),
+				getMessages().pleaseEnter(getConstants().billsDueOnOrBefore()),
+				selection);
+		if (result != null) {
+			return result;
+		}
 
-		// result = dateRequirement(context, list, selection, DATE,
-		// "Enter the date");
-		// if (result != null) {
-		// return result;
-		// }
-		//
-		// result = orderNoRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
+		result = dateOptionalRequirement(context, list, DATE, getConstants()
+				.transactionDate(),
+				getMessages().pleaseEnter(getConstants().transactionDate()),
+				selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = numberOptionalRequirement(context, list, selection, ORDER_NO,
+				getConstants().no(),
+				getMessages().pleaseEnter(getConstants().number()));
+		if (result != null) {
+			return result;
+		}
 
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to Pay Sales Tax.");
@@ -223,8 +225,9 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 			list.add(createTransactionPaySalesTaxRecord((TransactionPaySalesTax) last));
 			num++;
 		}
-		Requirement payBillsReq = get(BILLS_TO_PAY_LIST);
-		List<TransactionPaySalesTax> transPayTaxes = payBillsReq.getValue();
+		Requirement payBillsReq = get(BILLS_TO_PAY);
+		List<TransactionPaySalesTax> transPayTaxes = new ArrayList<TransactionPaySalesTax>();
+		transPayTaxes = payBillsReq.getValue();
 		List<TransactionPaySalesTax> availablePayTaxes = new ArrayList<TransactionPaySalesTax>();
 		for (TransactionPaySalesTax transactionItem : transPayTaxes) {
 			availablePayTaxes.add(transactionItem);

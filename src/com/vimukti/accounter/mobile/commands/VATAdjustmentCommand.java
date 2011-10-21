@@ -56,7 +56,15 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = taxItemRequirement(context, list, TAX_ITEM);
+		result = taxItemRequirement(context, list, TAX_ITEM, getMessages()
+				.pleaseSelect(getConstants().taxItem()), getConstants()
+				.taxItem(), new ListFilter<ClientTAXItem>() {
+
+			@Override
+			public boolean filter(ClientTAXItem e) {
+				return true;
+			}
+		});
 		if (result != null) {
 			return result;
 		}
