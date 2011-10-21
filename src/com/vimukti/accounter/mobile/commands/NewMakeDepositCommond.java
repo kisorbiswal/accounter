@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -20,6 +18,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -357,7 +356,7 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 	}
 
 	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new Date());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
 		get(MEMO).setDefaultValue("");
 	}
@@ -366,8 +365,8 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 
 		ClientMakeDeposit makeDeposit = new ClientMakeDeposit();
 
-		Date date = get(DATE).getValue();
-		makeDeposit.setDate(new FinanceDate(date).getDate());
+		ClientFinanceDate date = get(DATE).getValue();
+		makeDeposit.setDate(date.getDate());
 
 		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
 
@@ -380,6 +379,9 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 		List<ClientTransactionMakeDeposit> list = get(TRANSFERED_ACCOUNT)
 				.getValue();
 		makeDeposit.setTransactionMakeDeposit(list);
+		makeDeposit.setCashBackAccount(0);
+		makeDeposit.setCashBackMemo("");
+		makeDeposit.setCashBackAmount(0);
 
 		String memo = get(MEMO).getValue();
 		makeDeposit.setMemo(memo);
