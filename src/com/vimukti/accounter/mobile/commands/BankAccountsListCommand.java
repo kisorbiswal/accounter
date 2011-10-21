@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -13,9 +14,9 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public class BankAccountsListCommand extends AbstractTransactionCommand {
-	private String VIEW_TYPE = getConstants().currentView();
-	private String ACTIVE = getConstants().active();
-	private String IN_ACTIVE = getConstants().inActive();
+	private static final String VIEW_TYPE = "Current View";
+	private static final String ACTIVE = "Active";
+	private static final String IN_ACTIVE = "In-Active";
 	private static final int BANK_ACCOUNT = ClientAccount.TYPE_BANK;
 
 	@Override
@@ -63,8 +64,7 @@ public class BankAccountsListCommand extends AbstractTransactionCommand {
 			actionNames = (ActionNames) selection;
 			switch (actionNames) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 			default:
 				break;
 			}
@@ -88,6 +88,7 @@ public class BankAccountsListCommand extends AbstractTransactionCommand {
 	private Result getAccounts(Context context, String view) {
 		Result result = context.makeResult();
 		ResultList resultList = new ResultList("accountsList");
+		ResultList actions = new ResultList("actions");
 
 		ArrayList<ClientAccount> accountsList = getClientCompany().getAccounts(
 				ClientAccount.TYPE_BANK);
@@ -101,6 +102,12 @@ public class BankAccountsListCommand extends AbstractTransactionCommand {
 		CommandList commandList = new CommandList();
 		commandList.add(getMessages().addNew(Global.get().Account()));
 		result.add(commandList);
+
+		Record finishRecord = new Record(ActionNames.FINISH);
+		finishRecord.add("", getConstants().close());
+		actions.add(finishRecord);
+
+		result.add(actions);
 		return result;
 	}
 
