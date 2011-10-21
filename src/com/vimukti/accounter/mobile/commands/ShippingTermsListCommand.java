@@ -39,6 +39,7 @@ public class ShippingTermsListCommand extends AbstractTransactionCommand {
 
 		Result result = context.makeResult();
 		ResultList resultList = new ResultList("shippingTermsList");
+		ResultList actions = new ResultList("actions");
 
 		Object selection = context.getSelection("values");
 		ActionNames actionNames;
@@ -46,8 +47,7 @@ public class ShippingTermsListCommand extends AbstractTransactionCommand {
 			actionNames = (ActionNames) selection;
 			switch (actionNames) {
 			case FINISH:
-				markDone();
-				return null;
+				return closeCommand();
 
 			default:
 				break;
@@ -68,13 +68,20 @@ public class ShippingTermsListCommand extends AbstractTransactionCommand {
 		commandList.add(getConstants().delete());
 		result.add(commandList);
 
+		Record finishRecord = new Record(ActionNames.FINISH);
+		finishRecord.add("", getConstants().close());
+		actions.add(finishRecord);
+		result.add(actions);
+
 		return result;
 	}
 
 	private Record createShippingTerms(ShippingTerms shipTerms) {
 		Record record = new Record(shipTerms);
-		record.add(getConstants().name(), shipTerms.getName());
-		record.add(getConstants().description(), shipTerms.getDescription());
+		record.add("", getConstants().name());
+		record.add("", shipTerms.getName());
+		record.add("", getConstants().description());
+		record.add("", shipTerms.getDescription());
 		return record;
 	}
 
