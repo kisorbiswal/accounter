@@ -118,7 +118,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 			serverCompanyPreferences = new ServerConvertUtil().toServerObject(
 					serverCompanyPreferences, preferences, session);
 			company.setPreferences(serverCompanyPreferences);
-
+			company.getRegisteredAddress().setCountryOrRegion(
+					client.getCountry());
 			company.setRegisteredAddress(serverCompanyPreferences
 					.getTradingAddress());
 			// Initializing Accounts

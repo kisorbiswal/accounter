@@ -207,6 +207,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private TAXCode defaultTaxCode;
 
+	private boolean isShowLegalName;
+
+	private boolean isShowRegisteredAddress;
+
 	public long getLocationTrackingId() {
 		return locationTrackingId;
 	}
@@ -1369,5 +1373,21 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setDefaultTaxCode(TAXCode taxCode) {
 		defaultTaxCode = taxCode;
+	}
+
+	public void setShowLegalName(boolean isShowLegalName) {
+		this.isShowLegalName = isShowLegalName;
+	}
+
+	public boolean isShowLegalName() {
+		return isShowLegalName;
+	}
+
+	public void setShowRegisteredAddress(boolean isShowRegisteredAddress) {
+		this.isShowRegisteredAddress = isShowRegisteredAddress;
+	}
+
+	public boolean isShowRegisteredAddress() {
+		return isShowRegisteredAddress;
 	}
 }

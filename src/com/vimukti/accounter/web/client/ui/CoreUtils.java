@@ -1729,7 +1729,8 @@ public class CoreUtils {
 			"RSD ", "SCR ", "SLL ", "SGD ", "SKK ", "SBD ", "SOS ", "ZAR ",
 			"LKR ", "SRD", "SZL ", "CHF ", "SYP ", "TWD", "TJS ", "TZS ",
 			"THB ", "TOP ", "TTD ", "TND ", "TMT ", "TRY ", "UGX", "UAH ",
-			"AED ", "UYU ", "UZS ", "VUV", "VEF ", "VND", "YER", "ZMK ", "ZWD" };
+			"AED ", "UYU ", "UZS ", "VUV", "VEF ", "VND", "YER", "ZMK ", "ZWD",
+			"DKK" };
 
 	private static String[] currencyNames = new String[] {
 			"United States 	Dollar", "Afghan 	Afghani", "Albanian 	Lek",
@@ -1783,7 +1784,7 @@ public class CoreUtils {
 			"Ukrainian 	Hryvnia", "United Arab Emirates 	Dirham",
 			"Uruguayan 	Peso", "Uzbekistani 	Som", "Vanuatu 	Vatu",
 			"Venezuelan Bolívar 	Fuertes", "Vietnamese 	Dong", "Yemeni 	Rial",
-			"Zambian 	Kwacha", "Zimbabwean 	Dollar" };
+			"Zambian 	Kwacha", "Zimbabwean 	Dollar", "Danish Krone" };
 
 	public static String[] getCountries() {
 		return countries;

@@ -203,6 +203,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private long defaultTaxCode;
 
+	private boolean isShowLegalName;
+
+	private boolean isShowRegisteredAddress;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -1186,5 +1190,21 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setDefaultTaxCode(long taxCode) {
 		defaultTaxCode = taxCode;
+	}
+
+	public void setShowLegalName(boolean isShowLegalName) {
+		this.isShowLegalName = isShowLegalName;
+	}
+
+	public boolean isShowLegalName() {
+		return isShowLegalName;
+	}
+
+	public void setShowRegisteredAddress(boolean isShowRegisteredAddress) {
+		this.isShowRegisteredAddress = isShowRegisteredAddress;
+	}
+
+	public boolean isShowRegisteredAddress() {
+		return isShowRegisteredAddress;
 	}
 }

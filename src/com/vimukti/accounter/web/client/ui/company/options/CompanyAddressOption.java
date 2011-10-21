@@ -5,8 +5,11 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -103,7 +106,15 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 	// CheckBox companyLegalCheckBox;
 
 	@UiField
-	VerticalPanel companyCustomerPanel;
+	VerticalPanel registeredAddressSubPanel;
+	@UiField
+	VerticalPanel tradingAddressSubPanel;
+	@UiField
+	VerticalPanel tradingAddressPanel;
+	@UiField
+	VerticalPanel registeredAddressPanel;
+	@UiField
+	CheckBox isShowRegisteredAddressCheckBox;
 
 	private static CompanyAddressOptionUiBinder uiBinder = GWT
 			.create(CompanyAddressOptionUiBinder.class);
@@ -138,7 +149,10 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		this.rCityTextBox.setValue(registeredAddress.getCity());
 		this.rPostalCodeTextbox
 				.setValue(registeredAddress.getZipOrPostalCode());
-
+		this.isShowRegisteredAddressCheckBox.setValue(getCompanyPreferences()
+				.isShowRegisteredAddress());
+		registeredAddressPanel.setVisible(getCompanyPreferences()
+				.isShowRegisteredAddress());
 	}
 
 	public void createControls() {
@@ -199,17 +213,8 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 			}
 		});
 		rCountryChanged();
-
-		// companyLegalCheckBox.setText(Accounter.constants()
-		// .getCompanyLegalCheckBoxText());
-		// companyLegalCheckBox.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// companyCustomerPanel.setVisible(companyLegalCheckBox.getValue());
-		// }
-		// });
-
+		isShowRegisteredAddressCheckBox.setText(constants
+				.registeredAddressComment());
 	}
 
 	private void rCountryChanged() {
@@ -301,13 +306,18 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 					.getSelectedIndex()));
 		}
 		getCompany().setRegisteredAddress(rAddress);
-
+		getCompanyPreferences().setShowRegisteredAddress(
+				isShowRegisteredAddressCheckBox.getValue());
 	}
 
 	@Override
 	public String getAnchor() {
-
-		return null;
+		return constants.address();
 	}
 
+	@UiHandler("isShowRegisteredAddressCheckBox")
+	void onIsShowRegisteredAddressCheckBoxValueChange(
+			ValueChangeEvent<Boolean> event) {
+		registeredAddressPanel.setVisible(event.getValue());
+	}
 }

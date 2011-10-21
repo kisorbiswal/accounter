@@ -7,11 +7,12 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:Label ui:field="tradingAddressTitle" horizontalAlignment="ALIGN_LEFT"
-			styleName="header" />
-		<g:Label ui:field="tradingAddressDescription" />
-		<g:Cell horizontalAlignment="ALIGN_CENTER">
-			<g:VerticalPanel horizontalAlignment="ALIGN_CENTER">
+		<g:VerticalPanel ui:field="tradingAddressPanel">
+			<g:Label ui:field="tradingAddressTitle" horizontalAlignment="ALIGN_LEFT"
+				styleName="header" />
+			<g:Label ui:field="tradingAddressDescription" />
+			<g:VerticalPanel horizontalAlignment="ALIGN_CENTER"
+				ui:field="tradingAddressSubPanel">
 				<g:Grid>
 					<g:row>
 						<g:customCell>
@@ -63,12 +64,17 @@
 					</g:row>
 				</g:Grid>
 			</g:VerticalPanel>
-		</g:Cell>
-		<g:Label ui:field="registeredAddressTitle"
-			horizontalAlignment="ALIGN_LEFT" styleName="header" />
-		<g:Label ui:field="registeredAddressDescription" />
-		<g:Cell horizontalAlignment="ALIGN_CENTER">
-			<g:VerticalPanel spacing="5" ui:field="companyCustomerPanel"
+		</g:VerticalPanel>
+
+		<g:HorizontalPanel spacing="5">
+			<g:CheckBox ui:field="isShowRegisteredAddressCheckBox" />
+		</g:HorizontalPanel>
+		<g:VerticalPanel ui:field="registeredAddressPanel" spacing="5">
+			<g:Label ui:field="registeredAddressTitle"
+				horizontalAlignment="ALIGN_LEFT" styleName="header" />
+			<g:Label ui:field="registeredAddressDescription" />
+
+			<g:VerticalPanel spacing="5" ui:field="registeredAddressSubPanel"
 				horizontalAlignment="ALIGN_CENTER">
 				<g:Grid>
 					<g:row>
@@ -121,6 +127,6 @@
 					</g:row>
 				</g:Grid>
 			</g:VerticalPanel>
-		</g:Cell>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
