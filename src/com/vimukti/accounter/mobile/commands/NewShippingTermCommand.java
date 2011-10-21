@@ -9,8 +9,11 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 
 public class NewShippingTermCommand extends AbstractTransactionCommand {
+	protected static final String SHIPPING_TERMNAME = "shippingTermsName";
+	protected static final String DESCRIPTION = "description";
 
 	@Override
 	public String getId() {
@@ -21,55 +24,44 @@ public class NewShippingTermCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement("shippingTerms", false, true));
-		list.add(new Requirement("description", true, true));
+		list.add(new Requirement(SHIPPING_TERMNAME, false, true));
+		list.add(new Requirement(DESCRIPTION, true, true));
 
 	}
 
 	@Override
 	public Result run(Context context) {
 
-		Result result = null;
-
-		Object selection = context.getSelection(ACTIONS);
-		selection = context.getSelection("values");
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		Result makeResult = context.makeResult();
+		makeResult.add(getMessages().readyToCreate(
+				getConstants().shippingTerm()));
 
 		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
 
-		result = shippingTermRequirement(context, list, selection);
+		Result result = nameRequirement(context, list, SHIPPING_TERMNAME,
+				getConstants().shippingTerm(),
+				getMessages().pleaseEnter(getConstants().shippingTerm()));
 		if (result != null) {
 			return result;
 		}
 
-		result = createOptionalResult(context);
+		result = createOptionalResult(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
-		completeProcess(context);
 		markDone();
-		return null;
+		return completeProcess(context);
 	}
 
-	private Result shippingTermRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement requirement = get("shippingTerms");
-		String customerName = context.getSelection(TEXT);
-		if (!requirement.isDone()) {
-			if (customerName != null) {
-				requirement.setValue(customerName);
-			} else {
-				return text(context, "Please enter the  Shipping Term", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals("shippingTerms")) {
-			requirement.setValue(input);
-		}
-		return null;
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+	private Result createOptionalResult(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -83,31 +75,33 @@ public class NewShippingTermCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 
-		ResultList list = new ResultList("values");
-
 		Result result = stringOptionalRequirement(context, list, selection,
-				"description", "Enter the description", null);
+				DESCRIPTION, getConstants().description(), getMessages()
+						.pleaseEnter(getConstants().description()));
 		if (result != null) {
 			return result;
 		}
 
-		result = context.makeResult();
-		result.add(" Item is ready to create with following values.");
-		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Item.");
+		finish.add("",
+				getMessages().finishToCreate(getConstants().shippingTerm()));
 		actions.add(finish);
-		result.add(actions);
 
-		return result;
+		return makeResult;
 	}
 
-	private void completeProcess(Context context) {
+	private Result completeProcess(Context context) {
 
-		ShippingTerms newShippingTerm = new ShippingTerms();
-		newShippingTerm.setName((String) get("name").getValue());
-		newShippingTerm.setDescription((String) get("description").getValue());
+		ClientShippingTerms newShippingTerm = new ClientShippingTerms();
+		newShippingTerm.setName((String) get(SHIPPING_TERMNAME).getValue());
+		newShippingTerm.setDescription((String) get(DESCRIPTION).getValue());
 		create(newShippingTerm, context);
+		markDone();
+		Result result = new Result();
+		result.add(getMessages().createSuccessfully(
+				getConstants().shippingTerm()));
+		return result;
+
 	}
 
 }
