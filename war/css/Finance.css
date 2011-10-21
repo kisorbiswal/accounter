@@ -196,8 +196,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 .selected{
 	background: none repeat scroll 0 0 #CCCCCC;
 }
- table tr.ReportGridRow:HOVER,.gridAscend,.gridDecend,table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER,
-.report-toolbar,.datePickerDayIsValue{
+ table tr.ReportGridRow:HOVER,table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER,.report-toolbar,.datePickerDayIsValue /*,.gridAscend,.gridDecend*/{
 	background: none repeat scroll 0 0 #CCCCCC !important;
 }
 .gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.boldtext,.borders,.biz-decor-panel,
@@ -1263,7 +1262,7 @@ a#fdbk_tab,#overlay{
 .helpdialog .view_help_panel,.helpdialog .dialogMiddleCenter{
 	padding:0px ;
 }
-.helpdialog .view_help_panel iframe,.selectedview_textareadata{
+/*.helpdialog .view_help_panel iframe,*/.selectedview_textareadata{
 	height:auto;
 }
 * html .editTable,.editTable{
