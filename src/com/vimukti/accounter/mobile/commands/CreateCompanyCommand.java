@@ -131,7 +131,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = listRequirement(context, getConstants().industry(),
+		result = numberListRequirement(context, getConstants().industry(),
 				getIndustryList(), INDUSTRIES, get(INDUSTRY), list);
 		if (result != null) {
 			return result;
@@ -256,14 +256,14 @@ public class CreateCompanyCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = listRequirement(context, getConstants().organisation(),
+		result = numberListRequirement(context, getConstants().organisation(),
 				getOrganizationTypes(), ORGANIZATION_TYPES,
 				get(ORGANIZATION_REFER), list);
 		if (result != null) {
 			return result;
 		}
 
-		result = listRequirement(context,
+		result = numberListRequirement(context,
 				getMessages().terminology(getConstants().Customer()),
 				getCustomerTerminologies(), CUSTOMER_TERMINOLOGIES,
 				get(CUSTOMER_TERMINOLOGY), list);
@@ -271,7 +271,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = listRequirement(context,
+		result = numberListRequirement(context,
 				getMessages().terminology(getConstants().Supplier()),
 				getSupplierTerminologies(), SUPPLIER_TERMINOLOGIES,
 				get(SUPPLIER_TERMINOLOGY), list);
@@ -279,7 +279,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = listRequirement(context,
+		result = numberListRequirement(context,
 				getMessages().terminology(getConstants().account()),
 				getAccountTerminologies(), ACCOUNT_TERMINOLOGIES,
 				get(ACCOUNT_TERMINOLOGY), list);
@@ -287,7 +287,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = listRequirement(context, "Services/Products",
+		result = numberListRequirement(context, "Services/Products",
 				getServiceProductBothList(), SERVICE_PRODUCTS_BOTH,
 				get(SERVICE_PRODUCTS), list);
 		if (result != null) {
@@ -337,6 +337,57 @@ public class CreateCompanyCommand extends AbstractCommand {
 						getConstants().companyPreferences()));
 		actions.add(finish);
 		return makeResult;
+	}
+
+	private Result numberListRequirement(Context context, String name,
+			List<String> displayList, String selectionName,
+			Requirement requirement, ResultList list) {
+		Integer input = (Integer) context.getSelection(selectionName);
+		if (input != null) {
+			requirement.setValue(input + 1);
+		}
+		Object selection = context.getSelection("values");
+		if (!requirement.isDone()) {
+			return showList(context, name, null, displayList, selectionName,
+					requirement);
+		} else {
+			if (requirement.getName() == INDUSTRY) {
+				get(ACCOUNTS).setDefaultValue(getDefaultTemplateAccounts());
+			}
+		}
+
+		Integer requirementvalue = requirement.getValue();
+		if (selection != null && selection.equals(requirement.getName())) {
+			return showList(context, name, requirementvalue, displayList,
+					selectionName, requirement);
+		}
+
+		Record nameRecord = new Record(requirement.getName());
+		nameRecord.add("", name);
+		nameRecord.add("", getNameValue(requirement));
+		list.add(nameRecord);
+		return null;
+	}
+
+	private String getNameValue(Requirement req) {
+		String reqName = req.getName();
+		Integer value = req.getValue();
+		if (value == null) {
+			return null;
+		}
+		value -= value;
+		if (reqName == INDUSTRY) {
+			return getIndustryList().get(value);
+		} else if (reqName == CUSTOMER_TERMINOLOGY) {
+			return getCustomerTerminologies().get(value);
+		} else if (reqName == SUPPLIER_TERMINOLOGY) {
+			return getSupplierTerminologies().get(value);
+		} else if (reqName == ACCOUNT_TERMINOLOGY) {
+			return getAccountTerminologies().get(value);
+		} else if (reqName == ORGANIZATION_REFER) {
+			return getOrganizationTypes().get(value);
+		}
+		return null;
 	}
 
 	private Result currencyRequirement(Context context, ResultList list) {
@@ -516,12 +567,10 @@ public class CreateCompanyCommand extends AbstractCommand {
 		Result result = context.makeResult();
 		result.add(list);
 
-		int num = 0;
-		for (String str : displayList) {
-			Record record = new Record(str);
-			record.add("", str);
+		for (int num = 0; num < displayList.size(); num++) {
+			Record record = new Record(num);
+			record.add("", displayList.get(num));
 			list.add(record);
-			num++;
 			if (num == COUNTRIES_TO_SHOW) {
 				break;
 			}
@@ -627,19 +676,15 @@ public class CreateCompanyCommand extends AbstractCommand {
 			}
 		}
 
-		if (industryMap.isEmpty()) {
-			for (AccountsTemplate template : allAccounts) {
-				industryList.add(template.getName());
-				industryMap.put(template.getName(), template.getType());
-			}
+		for (AccountsTemplate template : allAccounts) {
+			industryList.add(template.getName());
 		}
 		return industryList;
 	}
 
 	private void createCompany(Context context) throws AccounterException {
 		String companyName = get(NAME).getValue();
-		String industyName = get(INDUSTRY).getValue();
-		Integer industryType = industryMap.get(industyName);
+		Integer industryType = get(INDUSTRY).getValue();
 		String legalName = get(LEGAL_NAME).getValue();
 		String taxId = get(TAX_ID).getValue();
 		String countryName = get(COUNTRY).getValue();
@@ -661,12 +706,13 @@ public class CreateCompanyCommand extends AbstractCommand {
 		Boolean manageBills = get(MANAGE_BILLS_OWE).getValue();
 		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
+		preferences.setPrimaryCurrency(currency);
+
 		ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
 		if (countryPreferences != null) {
-			preferences.setPrimaryCurrency(currency);
-			preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
-					countryPreferences.getDefaultFiscalYearStartingMonth()));
+			// preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
+			// countryPreferences.getDefaultFiscalYearStartingMonth()));
 		}
 
 		ClientAddress address = new ClientAddress();
@@ -786,9 +832,8 @@ public class CreateCompanyCommand extends AbstractCommand {
 	}
 
 	private List<TemplateAccount> getDefaultTemplateAccounts() {
-		String industryType = get(INDUSTRY).getValue();
-		Integer integer = industryMap.get(industryType);
-		AccountsTemplate accountsTemplate = allAccounts.get(integer);
+		Integer industryType = get(INDUSTRY).getValue();
+		AccountsTemplate accountsTemplate = allAccounts.get(industryType);
 		List<TemplateAccount> accounts = accountsTemplate.getAccounts();
 		if (accounts != null) {
 			return accounts;
