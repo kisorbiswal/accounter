@@ -83,8 +83,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String ACCOUNTS = "accounts";
 	protected static final String BILL_TO = "address";
 	protected static final String ITEMS = "items";
-	protected static final int VENDOR_TRANSACTION = 2;
-	protected static final int CUSTOMER_TRANSACTION = 1;
 	protected static final int ENTERBILL_TRANSACTION = 3;
 	protected static final String SUPPLIER = "supplier";
 	protected static final String CUSTOMER = "customer";
@@ -120,7 +118,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private int transactionType;
 
 	protected Result itemsRequirement(Context context, Result result,
-			ResultList actions) {
+			ResultList actions, boolean isSales) {
 		Requirement transItemsReq = get(ITEMS);
 		List<ClientItem> items = context.getSelections(ITEMS);
 		if (items != null && items.size() > 0) {
@@ -128,10 +126,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				ClientTransactionItem transactionItem = new ClientTransactionItem();
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 				transactionItem.setItem(item.getID());
-				if (getTransactionType() == VENDOR_TRANSACTION) {
-					transactionItem.setUnitPrice(item.getPurchasePrice());
-				} else if (getTransactionType() == CUSTOMER_TRANSACTION) {
+				if (isSales) {
 					transactionItem.setUnitPrice(item.getSalesPrice());
+				} else {
+					transactionItem.setUnitPrice(item.getPurchasePrice());
 				}
 				ClientQuantity quantity = new ClientQuantity();
 				quantity.setValue(1);
@@ -1154,8 +1152,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result itemsAndAccountsRequirement(Context context,
 			Result makeResult, ResultList actions,
-			ListFilter<ClientAccount> accountFilter) {
-		Result result = itemsRequirement(context, makeResult, actions);
+			ListFilter<ClientAccount> accountFilter, boolean isSales) {
+		Result result = itemsRequirement(context, makeResult, actions, isSales);
 		if (result != null) {
 			return result;
 		}
@@ -1651,7 +1649,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	public void updateTotals(ClientTransaction transaction) {
+	public void updateTotals(ClientTransaction transaction, boolean isSales) {
 		List<ClientTransactionItem> allrecords = transaction
 				.getTransactionItems();
 		double lineTotal = 0.0;
@@ -1669,7 +1667,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 			if (record != null && record.isTaxable()) {
 				double taxAmount = getVATAmount(transaction,
-						record.getTaxCode(), record);
+						record.getTaxCode(), record, isSales);
 				if (transaction.isAmountsIncludeVAT()) {
 					lineTotal -= taxAmount;
 				}
@@ -1685,7 +1683,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	public double getVATAmount(ClientTransaction transaction, long TAXCodeID,
-			ClientTransactionItem record) {
+			ClientTransactionItem record, boolean isSales) {
 
 		double vatRate = 0.0;
 		try {
@@ -1693,10 +1691,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				// Checking the selected object is VATItem or VATGroup.
 				// If it is VATItem,the we should get 'VATRate',otherwise
 				// 'GroupRate
-				boolean isSales = false;
-				if (getTransactionType() == CUSTOMER_TRANSACTION) {
-					isSales = true;
-				}
 				vatRate = UIUtils.getVATItemRate(
 						getClientCompany().getTAXCode(TAXCodeID), isSales);
 			}
