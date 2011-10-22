@@ -8,8 +8,8 @@
 
 	<command clazz="SelectCompanyCommand" name="Select Company">
 	</command>
-	<command clazz="NewCustomerGroupCommand" name="CustomerGroup">
-		<alias> Create CustomerGroup</alias>
+	<command clazz="NewCustomerGroupCommand" name="New Customer Group">
+		<alias>Create CustomerGroup</alias>
 	</command>
 	<command clazz="NewInvoiceCommand" name="New Invoice">
 		<alias>Create Invoice</alias>
