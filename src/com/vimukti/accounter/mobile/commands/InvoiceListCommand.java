@@ -20,11 +20,6 @@ import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-/**
- * 
- * @author Sai Prasad N
- * 
- */
 public class InvoiceListCommand extends AbstractTransactionCommand {
 
 	private static final String CURRENT_VIEW = "Current View";
