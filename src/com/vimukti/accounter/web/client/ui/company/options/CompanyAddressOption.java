@@ -149,9 +149,9 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		this.rCityTextBox.setValue(registeredAddress.getCity());
 		this.rPostalCodeTextbox
 				.setValue(registeredAddress.getZipOrPostalCode());
-		this.isShowRegisteredAddressCheckBox.setValue(getCompanyPreferences()
+		this.isShowRegisteredAddressCheckBox.setValue(getCompany()
 				.isShowRegisteredAddress());
-		registeredAddressPanel.setVisible(getCompanyPreferences()
+		registeredAddressPanel.setVisible(getCompany()
 				.isShowRegisteredAddress());
 	}
 
@@ -306,7 +306,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 					.getSelectedIndex()));
 		}
 		getCompany().setRegisteredAddress(rAddress);
-		getCompanyPreferences().setShowRegisteredAddress(
+		getCompany().setShowRegisteredAddress(
 				isShowRegisteredAddressCheckBox.getValue());
 	}
 

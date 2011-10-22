@@ -1628,8 +1628,8 @@ public class ClientCompany implements IAccounterCore {
 
 				// Utility.updateClientList(account, accounts);
 
-				ClientAccount existObj = Utility.getObject(accounts,
-						account.getID());
+				ClientAccount existObj = Utility.getObject(accounts, account
+						.getID());
 				if (existObj != null) {
 					if (account.getNumber().equals(existObj.getNumber())) {
 						accounts.remove(existObj);
@@ -2314,8 +2314,8 @@ public class ClientCompany implements IAccounterCore {
 		calendar.setTime(startDate.getDateAsObject());
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
 		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
-		calendar.set(Calendar.DATE,
-				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar.set(Calendar.DATE, calendar
+				.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
 
@@ -2405,6 +2405,16 @@ public class ClientCompany implements IAccounterCore {
 	 */
 	public ClientAddress getTradingAddress() {
 		return this.preferences.getTradingAddress();
+	}
+
+	public boolean isShowRegisteredAddress() {
+		return this.preferences.isShowRegisteredAddress();
+	}
+
+	public void setShowRegisteredAddress(boolean isShowRegisteredAddress) {
+		this.preferences.setShowRegisteredAddress(isShowRegisteredAddress);
+		if (!isShowRegisteredAddress)
+			this.registeredAddress = preferences.getTradingAddress();
 	}
 
 	/**

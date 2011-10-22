@@ -406,10 +406,7 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public void setLegalName(String legalName) {
-		if (getPreferences().isShowLegalName())
-			getPreferences().setLegalName(legalName);
-		else
-			getPreferences().setLegalName(getPreferences().getTradingName());
+		getPreferences().setLegalName(legalName);
 	}
 
 	public String gettimezone() {
@@ -1141,10 +1138,7 @@ public class Company implements IAccounterServerCore {
 	 *            the registeredAddress to set
 	 */
 	public void setRegisteredAddress(Address registeredAddress) {
-		if (getPreferences().isShowRegisteredAddress())
-			this.registeredAddress = registeredAddress;
-		else
-			this.registeredAddress = getPreferences().getTradingAddress();
+		this.registeredAddress = registeredAddress;
 	}
 
 	/**
