@@ -69,11 +69,11 @@ public class NewIssuePaymentCommand extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 
-		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
-				getConstants().paymentMethod());
-		if (result != null) {
-			return result;
-		}
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		Record supplierRecord = new Record(PAYMENT_METHOD);
+		supplierRecord.add("", getConstants().paymentMethod());
+		supplierRecord.add("", paymentMethod);
+		list.add(supplierRecord);
 
 		result = accountRequirement(context, list, ACCOUNT, getConstants()
 				.bankAccounts(), new ListFilter<ClientAccount>() {
@@ -294,7 +294,7 @@ public class NewIssuePaymentCommand extends AbstractTransactionCommand {
 		issuePayment.setAccount(account.getID());
 		String chequenum = get(CHEQUE_NO).getValue();
 		if (chequenum.isEmpty()) {
-			chequenum = "0";
+			chequenum = "1";
 		}
 		issuePayment.setCheckNumber(chequenum);
 		ArrayList<ClientTransactionIssuePayment> issuepayments = get(

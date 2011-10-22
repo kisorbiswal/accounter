@@ -2,6 +2,9 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -11,7 +14,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 
 public class NewShippingMethodCommond extends AbstractCommand {
-	private static final String SHIPPING_METHOD = "Shipping Mehtod";
+	private static final String SHIPPING_METHOD_NAME = "Shipping Mehtod";
 	private static final String DESCRIPTION = "description";
 
 	@Override
@@ -21,7 +24,7 @@ public class NewShippingMethodCommond extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(SHIPPING_METHOD, false, true));
+		list.add(new Requirement(SHIPPING_METHOD_NAME, false, true));
 		list.add(new Requirement(DESCRIPTION, true, true));
 	}
 
@@ -44,11 +47,11 @@ public class NewShippingMethodCommond extends AbstractCommand {
 		result = nameRequirement(
 				context,
 				list,
-				SHIPPING_METHOD,
+				SHIPPING_METHOD_NAME,
+				getConstants().shippingMethod(),
 				getMessages().pleaseEnter(
 						getConstants().shippingMethod() + " "
-								+ getConstants().name()), getConstants()
-						.shippingMethod());
+								+ getConstants().name()));
 		if (result != null) {
 			return result;
 		}
@@ -58,8 +61,7 @@ public class NewShippingMethodCommond extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
-		createShippingMethodObject(context);
-		return result;
+		return createShippingMethodObject(context);
 	}
 
 	private Result createOptionalResult(Context context, ResultList list,
@@ -69,8 +71,12 @@ public class NewShippingMethodCommond extends AbstractCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
-				markDone();
-				return null;
+				if (validate(context)) {
+					makeResult
+							.add(getConstants().shippingMethodAlreadyExists());
+				} else {
+					return null;
+				}
 			default:
 				break;
 			}
@@ -86,13 +92,24 @@ public class NewShippingMethodCommond extends AbstractCommand {
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add(
-				"",
-				getMessages().createSuccessfully(
-						getConstants().shippingMethod()));
+		finish.add("",
+				getMessages().finishToCreate(getConstants().shippingMethod()));
 		actions.add(finish);
 
 		return makeResult;
+	}
+
+	private boolean validate(Context context) {
+		Session session = context.getHibernateSession();
+		String name = get(SHIPPING_METHOD_NAME).getValue();
+		Query query = session.getNamedQuery("getShippingmethod.by.Name")
+				.setString("name", name)
+				.setEntity("company", context.getCompany());
+		List list = query.list();
+		if (list != null && list.size() > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	private void setDefaultValues() {
@@ -100,13 +117,18 @@ public class NewShippingMethodCommond extends AbstractCommand {
 
 	}
 
-	private void createShippingMethodObject(Context context) {
+	private Result createShippingMethodObject(Context context) {
 		ClientShippingMethod method = new ClientShippingMethod();
-		String name = get(SHIPPING_METHOD).getValue();
+		String name = get(SHIPPING_METHOD_NAME).getValue();
 		method.setName(name);
 		String desc = get(DESCRIPTION).getValue();
 		method.setDescription(desc);
+		Result result;
+
 		create(method, context);
+		result = new Result(getMessages().createSuccessfully(
+				getConstants().shippingMethod()));
+		return result;
 	}
 
 }

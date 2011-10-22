@@ -23,8 +23,10 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewCashSaleCommand extends AbstractTransactionCommand {
 
@@ -182,7 +184,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 	private void setDefaultValues() {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue("1");
+		get(NUMBER).setDefaultValue(getNextTransactionNumber());
 		get(PHONE).setDefaultValue("");
 		ClientContact contact = new ClientContact();
 		contact.setName(null);
@@ -366,6 +368,13 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		actions.add(finish);
 
 		return makeResult;
+	}
+
+	private String getNextTransactionNumber() {
+		String nextTransactionNumber = new FinanceTool()
+				.getNextTransactionNumber(ClientTransaction.TYPE_CASH_SALES,
+						getClientCompany().getID());
+		return nextTransactionNumber;
 	}
 
 }
