@@ -82,7 +82,7 @@ public class ViewManager extends HorizontalPanel {
 		addStyleName("view_manager");
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.addStyleName("view_manager_body");
-		//leftPanel.setWidth("100%");
+		// leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
 		viewHolder.addStyleName("viewholder");
 
@@ -258,8 +258,14 @@ public class ViewManager extends HorizontalPanel {
 			existingView.removeFromParent();
 		}
 		existingView = newview;
-		viewTitleLabel.setText(action.getCatagory() + "  >  "
-				+ action.getText());
+		if (existingView instanceof BaseView)
+			if (((BaseView<IAccounterCore>) existingView).isInViewMode()) {
+				viewTitleLabel.setText(action.getCatagory() + "  >  "
+						+ action.getViewModeText());
+			} else {
+				viewTitleLabel.setText(action.getCatagory() + "  >  "
+						+ action.getText());
+			}
 		if (exportButton != null)
 			exportButton.setTitle(Accounter.messages().clickThisTo(
 					Accounter.constants().exportToCSV(),
@@ -346,8 +352,14 @@ public class ViewManager extends HorizontalPanel {
 				if (data != null && callback != null) {
 					callback.actionResult(data);
 				}
-				viewTitleLabel.setText(item.action.getCatagory() + "  >  "
-						+ item.action.getText());
+				if (item.view instanceof BaseView)
+					if (((BaseView<IAccounterCore>) item.view).isInViewMode()) {
+						viewTitleLabel.setText(item.action.getCatagory()
+								+ "  >  " + item.action.getViewModeText());
+					} else {
+						viewTitleLabel.setText(item.action.getCatagory()
+								+ "  >  " + item.action.getText());
+					}
 				viewHolder.add(item.view);
 				this.views.add(item);
 				History.newItem(item.action.getHistoryToken(), false);
@@ -458,6 +470,8 @@ public class ViewManager extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+				viewTitleLabel.setText(existingView.getAction().getCatagory()
+						+ "  >  " + existingView.getAction().getEditText());
 				existingView.onEdit();
 			}
 		});

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  */
@@ -71,6 +72,15 @@ public abstract class Action<T> implements Command {
 	 */
 	public String getText() {
 		return text;
+	}
+
+	public String getViewModeText() {
+		String viewText = text;
+		if (viewText.contains(Accounter.constants().new1())) {
+			viewText = viewText.replace(Accounter.constants().new1(), Accounter
+					.constants().view());
+		}
+		return viewText;
 	}
 
 	/**
@@ -151,8 +161,8 @@ public abstract class Action<T> implements Command {
 			return false;
 		}
 
-		boolean isSameClass = object.getClass().getName()
-				.equals(this.getClass().getName());
+		boolean isSameClass = object.getClass().getName().equals(
+				this.getClass().getName());
 
 		return isSameClass;
 
@@ -217,5 +227,14 @@ public abstract class Action<T> implements Command {
 
 	public String getViewName() {
 		return viewName;
+	}
+
+	public String getEditText() {
+		String editText = text;
+		if (editText.contains(Accounter.constants().new1())) {
+			editText = editText.replace(Accounter.constants().new1(), Accounter
+					.constants().edit());
+		}
+		return editText;
 	}
 }
