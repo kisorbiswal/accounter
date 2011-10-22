@@ -117,10 +117,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			// clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 			// .getValue() != null ? dialog.discDayText.getValue() : "0"));
 			// clientPaymentTerms.setDiscountPercent(UIUtils
@@ -142,10 +144,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			// clientPaymentTerms
 			// .setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 			// .getNumber() != null ? dialog.discDayText
@@ -214,7 +218,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	public String[] setColumns() {
 		return new String[] { Accounter.constants().name(),
 				Accounter.constants().description(),
-				Accounter.constants().dueDate(),
+				Accounter.constants().dueDays(),
 		/* Accounter.constants().cashDiscount() */};
 	}
 
@@ -229,7 +233,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-					.getValue().toString() : "")) {
+					.getValue().toString()
+					: "")) {
 				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {

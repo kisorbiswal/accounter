@@ -59,7 +59,7 @@
 							<g:Label ui:field="tStateLabel" />
 						</g:customCell>
 						<g:customCell>
-							<g:ListBox width="185px" ui:field="tStateCombo" />
+							<g:ListBox width="185px" ui:field="tStateCombo" enabled="false" />
 						</g:customCell>
 					</g:row>
 				</g:Grid>
@@ -122,7 +122,7 @@
 							<g:Label ui:field="rStateComboLabel" />
 						</g:customCell>
 						<g:customCell>
-							<g:ListBox width="185px" ui:field="rStateCombo" />
+							<g:ListBox width="185px" ui:field="rStateCombo" enabled="false" />
 						</g:customCell>
 					</g:row>
 				</g:Grid>

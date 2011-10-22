@@ -1036,7 +1036,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 *            the legalName to set
 	 */
 	public void setLegalName(String legalName) {
-		this.legalName = legalName;
+		if (isShowLegalName)
+			this.legalName = legalName;
+		else
+			this.legalName = tradingName;
 	}
 
 	/**

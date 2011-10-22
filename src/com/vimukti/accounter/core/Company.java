@@ -13,7 +13,6 @@ import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -407,7 +406,10 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public void setLegalName(String legalName) {
-		getPreferences().setLegalName(legalName);
+		if (getPreferences().isShowLegalName())
+			getPreferences().setLegalName(legalName);
+		else
+			getPreferences().setLegalName(getPreferences().getTradingName());
 	}
 
 	public String gettimezone() {
@@ -1064,8 +1066,8 @@ public class Company implements IAccounterServerCore {
 		this.setBankAccountNo(clientCompany.getBankAccountNo());
 		this.setSortCode(clientCompany.getSortCode());
 		this.setPreferences(serverConvertUtil.toServerObject(this.preferences,
-				clientCompany.getPreferences(),
-				HibernateUtil.getCurrentSession()));
+				clientCompany.getPreferences(), HibernateUtil
+						.getCurrentSession()));
 	}
 
 	public ClientCompany toClientCompany() throws AccounterException {
@@ -1139,7 +1141,10 @@ public class Company implements IAccounterServerCore {
 	 *            the registeredAddress to set
 	 */
 	public void setRegisteredAddress(Address registeredAddress) {
-		this.registeredAddress = registeredAddress;
+		if (getPreferences().isShowRegisteredAddress())
+			this.registeredAddress = registeredAddress;
+		else
+			this.registeredAddress = getPreferences().getTradingAddress();
 	}
 
 	/**
