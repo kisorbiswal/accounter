@@ -23,7 +23,8 @@
 		com.vimukti.accounter.core.Company c where c.id is not
 		null) and
 		t.transactionDate &lt;= (select max(d.depreciateTo) from
-		com.vimukti.accounter.core.Depreciation d where d.company=:company and d.status=:status)
+		com.vimukti.accounter.core.Depreciation d where d.company=:company and
+		d.status=:status)
 		order by
 		t.transactionDate
 	</query>
@@ -282,8 +283,8 @@
 
 	<query name="update.mergeVendor.ItemReceipt.old.tonew">
 		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
 		<query-param name="company" type="Company" />
+		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.ItemReceipt set vendor.id=:toID
 		where
 		vendor.id=:fromID and company=:company
@@ -589,7 +590,8 @@
 		d.id=((select
 		max(d1.id) from
 		com.vimukti.accounter.core.Depreciation
-		d1 where d1.company=:company and 
+		d1 where d1.company=:company
+		and
 		d1.depreciationFor =
 		:depreciationFor and d1.status=:status))
 	</query>
@@ -1021,7 +1023,8 @@
 		d.id=((select
 		max(d1.id) from
 		com.vimukti.accounter.core.Depreciation
-		d1 where d1.company=:company and 
+		d1 where d1.company=:company
+		and
 		d1.depreciationFor
 		=:depreciationFor and d1.status=:status))
 	</query>
@@ -1389,7 +1392,8 @@
 		<query-param name="client" type="com.vimukti.accounter.core.Client" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Company sc left join sc.users
-		u left join u.client c where sc.id=:id and c=:client
+		u left
+		join u.client c where sc.id=:id and c=:client
 	</query>
 
 	<query name="get.All.Units">
@@ -1400,11 +1404,13 @@
 	<query name="adminUserForEmailId">
 		<query-param name="company" type="Company" />
 		<query-param name="emailid" type="string" />
-		from com.vimukti.accounter.core.User user left join user.client c where c.emailId=:emailid
+		from com.vimukti.accounter.core.User user left join user.client c
+		where c.emailId=:emailid
 		and user.company=:company
-		and user.isAdmin =true
+		and user.isAdmin
+		=true
 	</query>
-	
+
 	<query name="get.Admin.Users">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.User user where user.company=:company
@@ -1434,12 +1440,14 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
 		e.vendor.isTrackPaymentsFor1099=true and e.company=:company
+		and e.isVoid=false
 	</query>
 
 	<query name="get.notselected.vendors.enterbills.list">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
-		e.vendor.isTrackPaymentsFor1099=false and e.company=:company
+		e.vendor.isTrackPaymentsFor1099=false and e.company=:company and
+		e.isVoid=false
 	</query>
 
 	<query name="get.1099.vendors">
@@ -1452,7 +1460,7 @@
 		<query-param name="vendorId" type="long" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
-		e.vendor.id=:vendorId and e.company=:company
+		e.vendor.id=:vendorId and e.company=:company and e.isVoid=false
 	</query>
 
 	<query name="get.Activities.by.date">
@@ -1553,7 +1561,8 @@
 		<return-scalar column="name" type="string" />
 
 		SELECT C.FULL_NAME as name FROM USERS empd LEFT OUTER JOIN
-		CLIENT C ON C.ID = empd.CLIENT_ID WHERE empd.COMPANY_ID=:companyId
+		CLIENT C ON
+		C.ID = empd.CLIENT_ID WHERE empd.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getMonthFromAccountAmounts">

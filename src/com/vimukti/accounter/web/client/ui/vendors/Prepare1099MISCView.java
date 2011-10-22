@@ -521,6 +521,9 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 					@Override
 					public void onSuccess(ArrayList<Client1099Form> result) {
+						if (result.isEmpty()) {
+							vendor = null;
+						}
 						listDataProvider.getList().addAll(result);
 						setTotalAmountFields(result);
 					}
@@ -556,7 +559,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (vendor == null) {
-					Accounter.showError("Please select the vendor");
+					Accounter.showError("No transaction added to MISC form.");
 					return;
 				}
 				long vendorId = vendor.getID();
