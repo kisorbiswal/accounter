@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -31,6 +32,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	Label primaryCurrenyLabel;
 	@UiField
 	ListBox primaryCurrencyListBox;
+	@UiField
+	CheckBox isMultiCurrencyAllowed;
 	// @UiField
 	VerticalPanel currencyListGridPanel;
 	// private CurrenciesGrid currenciesGrid;
@@ -67,6 +70,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
+		isMultiCurrencyAllowed.setText(accounterConstants
+				.isMultiCurrencyEnable());
 		// currenciesGrid = new CurrenciesGrid();
 		// currenciesGrid.init();
 		// currenciesGrid.setRecords(currenciesList);
@@ -88,6 +93,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 				}
 			}
 		}
+		isMultiCurrencyAllowed.setValue(preferences.isEnableMultiCurrency());
 	}
 
 	@Override
@@ -96,6 +102,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 			preferences.setPrimaryCurrency(currenciesList
 					.get(primaryCurrencyListBox.getSelectedIndex()));
 		}
+		preferences.setEnableMultiCurrency(isMultiCurrencyAllowed.getValue());
 	}
 
 	@Override

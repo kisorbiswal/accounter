@@ -23,15 +23,17 @@
         
 	   <form action="/main/deletecompany" method="post">
 	  	 	<c:if test="${canDeleteFromSingle}">
-            	<input type="radio" name="delete" value="deleteUser" checked>
-            		Delete company from this user
-            </c:if>
-           	<c:if test="${canDeleteFromAll}">
+            	<input type="radio" name="delete" value="deleteUser">
+            		Delete company from this account
+				<p class="delete_message">Are you sure you want to delete this company from your account? If you delete it You cannot undo this action.</p>
+			</c:if>
+			<c:if test="${canDeleteFromAll}">
             <br>
-            <input type="radio" name="delete" value="deleteAllUsers" checked>
-            Delete company from all users
-            </c:if>
-            <br>
+            <input type="radio" name="delete" value="deleteAllUsers">
+            Delete company from all users accounts
+            <p class="delete_message">Are you sure you want to delete this company from all users accounts? If you delete it You cannot undo this action.</p>
+			</c:if>
+			<br>
             <br>
             <div class="company_list_buttons">
 	            <input type="submit" value="Delete" class="allviews-common-button">

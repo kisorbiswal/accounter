@@ -5031,4 +5031,6 @@ public interface AccounterConstants extends Constants {
 	public String notIssuedPayments();
 
 	public String voidedPayments();
+
+	public String isMultiCurrencyEnable();
 }

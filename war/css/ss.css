@@ -2,17 +2,16 @@
 	font-family: "ColabThi";
 	src: url("Fonts/ColabThi.otf") format("truetype");
 }
-*{
+
+* {
 	outline: none;
 }
-button::-moz-focus-inner,
-input[type="reset"]::-moz-focus-inner,
-input[type="button"]::-moz-focus-inner,
-input[type="submit"]::-moz-focus-inner,
-input [type="checkbox"]::-moz-focus-inner,
-input[type="file"] > input[type="button"]::-moz-focus-inner {
-    border: none;
+
+button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner
+	{
+	border: none;
 }
+
 /*.icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
 	background: url("../images/zb-online-books-icon.png") no-repeat scroll 0
 		0 transparent;
@@ -25,7 +24,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
-	font-family: Arial Unicode MS,Arial,sans-serif;
+	font-family: Arial Unicode MS, Arial, sans-serif;
 }
 
 table {
@@ -200,7 +199,7 @@ a:link {
 #mid-2 {
 	clear: both;
 	background-color: #f4f4f4;
-	height: 550px ;
+	height: 550px;
 	width: 863px !important;
 	float: left;
 	margin-top: 40px;
@@ -693,7 +692,7 @@ a:visited {
 	margin-right: 20px;
 }
 
-.footer-options a:HOVER,.privacy_policy a{
+.footer-options a:HOVER,.privacy_policy a {
 	color: #3299a4 !important;
 }
 
@@ -824,6 +823,10 @@ input[type="text"] {
 }
 
 .button-signup-page a {
+	color: red;
+}
+
+.delete_message {
 	color: red;
 }
 
@@ -1435,7 +1438,7 @@ ul li {
 		transparent important;
 }
 
-#red ,.red{
+#red,.red {
 	color: red;
 }
 
@@ -1529,8 +1532,8 @@ ul li {
 }
 
 .support_textbox {
-	background: url("/images/Text Feild_enabled_180x22.png") no-repeat scroll
-		0 0 #FFFFFF !important;
+	background: url("/images/Text Feild_enabled_180x22.png") no-repeat
+		scroll 0 0 #FFFFFF !important;
 	border: 0 none;
 	padding: 5px;
 	height: 22px;
@@ -1750,8 +1753,9 @@ input[type="submit"]:FOCUS {
 	display: block;
 }
 
-#accounterForm label.error,#activationForm label.error,#emailActivationForm label.error{
-	color:red !important;
+#accounterForm label.error,#activationForm label.error,#emailActivationForm label.error
+	{
+	color: red !important;
 }
 
 .remaining-header-part-login a:FOCUS,.login-hover {
@@ -1761,7 +1765,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =   0.5) !important;
+	filter: alpha(opacity =     0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -1943,13 +1947,13 @@ form {
 }
 
 #commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select
-{
+	{
 	background: none repeat scroll 0 0 #FBFBFB;
 	border: 1px solid #B1B1B1;
 	box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
 	margin: 2px 6px 3px 0px;
 	outline: medium none;
-	padding:0px 0px 0px 3px;
+	padding: 0px 0px 0px 3px;
 	width: 97%;
 	height: 28px;
 }
@@ -1962,12 +1966,15 @@ form {
 	float: right;
 	margin-right: 8px;
 }
-.allviews-common-button:FOCUS,.loginbutton input:focus, button{
-	border:1px solid #10CDD1
+
+.allviews-common-button:FOCUS,.loginbutton input:focus,button {
+	border: 1px solid #10CDD1
 }
-input [type="checkbox"]{
-	border:1px solid #7A7777;
+
+input [type="checkbox"] {
+	border: 1px solid #7A7777;
 }
+
 .allviews-common-button {
 	background: none repeat scroll 0 0 #28757D;
 	border: 1px solid #002e36;
@@ -1982,8 +1989,7 @@ input [type="checkbox"]{
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
-.loginbutton input:active,.loginbutton input:hover
-	{
+.loginbutton input:active,.loginbutton input:hover {
 	background: #1a5158;
 	border: 1px solid #9ebfc3;
 }
@@ -2062,8 +2068,9 @@ input [type="checkbox"]{
 .form-box div a:hover {
 	color: #3299A4 !important;
 }
-.form-box ul{
-	margin-top:20px;
+
+.form-box ul {
+	margin-top: 20px;
 }
 
 .form-box {
@@ -2072,7 +2079,7 @@ input [type="checkbox"]{
 }
 
 .check_label {
-	margin:16px 0px 0px !important;
+	margin: 16px 0px 0px !important;
 }
 
 a#fdbk_tab {
@@ -2089,129 +2096,155 @@ a#fdbk_tab:hover {
 .fieldset textarea {
 	resize: none;
 }
+
 .resend-code {
 	padding: 10px 0 0 35px;
 }
-.create_new_company{
-	font-weight:bold;
-	font-size:13px
+
+.create_new_company {
+	font-weight: bold;
+	font-size: 13px
 }
+
 .companies-list a:FIRST-CHILD {
-	float:left;
-	font-size:18px;
+	float: left;
+	font-size: 18px;
 	text-decoration: none !important;
 }
-.delete_company{
-	float:right;
-	font-size:13px;
+
+.delete_company {
+	float: right;
+	font-size: 13px;
 	text-decoration: none !important;
 	padding-top: 3px;
 }
-.companies-list a:hover{
+
+.companies-list a:hover {
 	text-decoration: underline !important;
 }
-.companies-list{
-	clear:both;
+
+.companies-list {
+	clear: both;
 	overflow: auto;
-	margin-bottom:3px;
+	margin-bottom: 3px;
 }
 
 .password_strength {
-padding: 0 5px;
-display: inline-block;
-}
-.password_strength_1 {
-background-color: #fcb6b1;
-}
-.password_strength_2 {
-background-color: #fccab1;
-}
-.password_strength_3 {
-background-color: #fcfbb1;
-}
-.password_strength_4 {
-background-color: #dafcb1;
-}
-.password_strength_5 {
-background-color: #bcfcb1;
-}
-.email_password,.text_box_margin{
-	margin:10px 0px;
+	padding: 0 5px;
+	display: inline-block;
 }
 
-#mainFooter{
+.password_strength_1 {
+	background-color: #fcb6b1;
+}
+
+.password_strength_2 {
+	background-color: #fccab1;
+}
+
+.password_strength_3 {
+	background-color: #fcfbb1;
+}
+
+.password_strength_4 {
+	background-color: #dafcb1;
+}
+
+.password_strength_5 {
+	background-color: #bcfcb1;
+}
+
+.email_password,.text_box_margin {
+	margin: 10px 0px;
+}
+
+#mainFooter {
 	clear: both;
-    height: 25px;
-    margin-top: -35px;
-    position: relative;
-    width: 100%;
-    z-index: 10;
-    border-top: 1px solid #CCCCCC;
-    color: #666666;
-    padding-top: 8px;
-    text-align: center;
-}
-#mainFooter a,#mainFooter span{
-	 color: #666666;
-	 text-decoration: none;
-	 font-size:12px;
-	 padding:0 5px;
-}
-#mainFooter a:hover{
-	text-decoration: underline;
-}
-#maintananceContainer{
-	background: none repeat scroll 0 0 #EAEEF1;
-    margin: 0 auto;
-    overflow: auto;
-    width: 960px;
-    height:300px;
-    text-align:left;
-}
-.maintainence_logo{
-	float:left;
-}
-.maintainence_message{
-	color: #395169;
-    float: right;
-    line-height: 2;
-}
-.maintanance_subcont{
-	padding:25px;
-	overflow:auto;
-}
-.unavailable_page{
-	overflow: auto;
-    padding: 20px 25px 0;
-}
-.terms_unorderlist li{
-	display: list-item !important;
-    list-style-type: square !important;
-    list-style-image: none !important;
-}
-.terms_unorderlist{
-     margin: 10px 0 0 30px;
-}
-.mid2_height{
-  height:auto !important;	
-  padding-bottom:20px;
-}
-.terms_and_contions,.privacy_policy{
-  padding:0px 40px;
-}
-.support_send{
-	margin-right:8px;
-}
-.support_send input{
-	width:50px !important;
-}
-.company_list_buttons{
+	height: 25px;
+	margin-top: -35px;
+	position: relative;
+	width: 100%;
+	z-index: 10;
+	border-top: 1px solid #CCCCCC;
+	color: #666666;
+	padding-top: 8px;
 	text-align: center;
 }
-#reset_hint_box{
-	margin:-37px 0 0 265px;
-    position: absolute;
-    z-index: 1;
+
+#mainFooter a,#mainFooter span {
+	color: #666666;
+	text-decoration: none;
+	font-size: 12px;
+	padding: 0 5px;
 }
 
+#mainFooter a:hover {
+	text-decoration: underline;
+}
+
+#maintananceContainer {
+	background: none repeat scroll 0 0 #EAEEF1;
+	margin: 0 auto;
+	overflow: auto;
+	width: 960px;
+	height: 300px;
+	text-align: left;
+}
+
+.maintainence_logo {
+	float: left;
+}
+
+.maintainence_message {
+	color: #395169;
+	float: right;
+	line-height: 2;
+}
+
+.maintanance_subcont {
+	padding: 25px;
+	overflow: auto;
+}
+
+.unavailable_page {
+	overflow: auto;
+	padding: 20px 25px 0;
+}
+
+.terms_unorderlist li {
+	display: list-item !important;
+	list-style-type: square !important;
+	list-style-image: none !important;
+}
+
+.terms_unorderlist {
+	margin: 10px 0 0 30px;
+}
+
+.mid2_height {
+	height: auto !important;
+	padding-bottom: 20px;
+}
+
+.terms_and_contions,.privacy_policy {
+	padding: 0px 40px;
+}
+
+.support_send {
+	margin-right: 8px;
+}
+
+.support_send input {
+	width: 50px !important;
+}
+
+.company_list_buttons {
+	text-align: center;
+}
+
+#reset_hint_box {
+	margin: -37px 0 0 265px;
+	position: absolute;
+	z-index: 1;
+}
 /* End of the new Login and forgot password page*/

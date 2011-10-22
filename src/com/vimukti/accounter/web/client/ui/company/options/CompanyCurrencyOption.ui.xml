@@ -12,5 +12,6 @@
 			<g:Label ui:field="primaryCurrenyLabel" styleName="header"/>
 			<g:ListBox visibleItemCount="1" ui:field="primaryCurrencyListBox"/>
 		</g:HorizontalPanel>
+		<g:CheckBox ui:field="isEnableMultiCurrencyCheckBox"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

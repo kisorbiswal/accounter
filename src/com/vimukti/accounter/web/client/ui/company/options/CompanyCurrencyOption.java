@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,6 +26,8 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	Label primaryCurrenyLabel;
 	@UiField
 	ListBox primaryCurrencyListBox;
+	@UiField
+	CheckBox isEnableMultiCurrencyCheckBox;
 
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 
@@ -63,6 +66,8 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
+		isEnableMultiCurrencyCheckBox
+				.setText(constants.isMultiCurrencyEnable());
 	}
 
 	@Override
@@ -91,7 +96,8 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 			}
 
 		}
-
+		isEnableMultiCurrencyCheckBox.setValue(getCompanyPreferences()
+				.isEnableMultiCurrency());
 	}
 
 	@Override
@@ -101,6 +107,8 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 					currenciesList.get(primaryCurrencyListBox
 							.getSelectedIndex()));
 		}
+		getCompanyPreferences().setEnableMultiCurrency(
+				isEnableMultiCurrencyCheckBox.getValue());
 	}
 
 }
