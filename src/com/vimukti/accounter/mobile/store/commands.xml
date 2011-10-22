@@ -3,7 +3,11 @@
 
 	<command clazz="AuthenticationCommand" name="authenticate">
 	</command>
+	<command clazz="CancelCommand" name="Cancel">
+		<alias>Close</alias>
+	</command>
 	<command clazz="SelectCompanyCommand" name="selectCompany">
+		<alias>Select Company</alias>
 	</command>
 
 	<command clazz="SelectCompanyCommand" name="Select Company">
@@ -612,7 +616,6 @@
 	<command clazz="SignupCommand" name="signup">
 		<alias>new to accounter</alias>
 	</command>
-	<command clazz="CreateCompanyCommand" name="create company">
-		<alias>Don't have companies</alias>
+	<command clazz="CreateCompanyCommand" name="Create Company">
 	</command>
 </commands>
