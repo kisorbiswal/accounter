@@ -755,7 +755,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		preferences.setKeepTrackofBills(manageBills);
 		preferences.setDoyouwantEstimates(createEstimates);
 		AccounterCompanyInitializationServiceImpl.intializeCompany(preferences,
-				accounts, context.getUser().getClient());
+				accounts, context.getIOSession().getClient());
 	}
 
 	private List<String> getTimeZonesList() {

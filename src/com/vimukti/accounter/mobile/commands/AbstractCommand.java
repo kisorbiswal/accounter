@@ -95,6 +95,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final int COUNTRIES_TO_SHOW = 10;
 	protected static final String EMAIL = "email";
 	protected static final String PHONE = "phone";
+	
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;

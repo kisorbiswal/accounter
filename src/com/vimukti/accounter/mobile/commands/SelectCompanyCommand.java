@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.Command;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -47,14 +48,10 @@ public class SelectCompanyCommand extends Command {
 		if (selection != null) {
 			companyReq.setValue(selection);
 		}
-
+		Result makeResult = context.makeResult();
 		Client client = context.getIOSession().getClient();
 		if (!companyReq.isDone()) {
 			if (client != null) {
-				Result result = context.makeResult();
-				result.add("Select a company");
-				ResultList companyList = new ResultList(COMPANY);
-
 				Set<User> users = client.getUsers();
 				List<Company> companies = new ArrayList<Company>();
 
@@ -63,28 +60,34 @@ public class SelectCompanyCommand extends Command {
 						companies.add(user.getCompany());
 					}
 				}
-
-				for (Company company : companies) {
-					Record record = new Record(company);
-					record.add("", company.getDisplayName());
-					record.add("", company.getCountry());
-					companyList.add(record);
+				if (companies.size() == 1) {
+					Company company = companies.get(0);
+					companyReq.setValue(company);
+					makeResult.add(company.getDisplayName() + " is selected.");
+				} else {
+					ResultList companyList = new ResultList(COMPANY);
+					if (companies.isEmpty()) {
+						makeResult.add("You don't have any companies.");
+						makeResult.setNextCommand("Create Company");
+						return makeResult;
+					}
+					makeResult.add("Select a company");
+					for (Company company : companies) {
+						Record record = new Record(company);
+						record.add("", company.getDisplayName());
+						record.add("", company.getCountry());
+						companyList.add(record);
+					}
+					makeResult.add(companyList);
+					return makeResult;
 				}
-				result.add(companyList);
-				return result;
 			}
 		}
 		Company value = companyReq.getValue();
 		context.selectCompany(value, client);
-		Result makeResult = context.makeResult();
 		makeResult.add("Enter a Command");
 		markDone();
 		return makeResult;
-	}
-
-	private String getCompanyTypeAsString(int companyType) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	protected Client getClient(String emailId) {

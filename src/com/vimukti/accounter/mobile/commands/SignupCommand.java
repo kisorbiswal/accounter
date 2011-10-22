@@ -51,7 +51,8 @@ public class SignupCommand extends AbstractCommand {
 		get(SUBSCRIBED_NEWSLETTER).setDefaultValue(true);
 
 		Result makeResult = context.makeResult();
-		makeResult.add("Your account is ready to create with below values :");
+		makeResult
+				.add("Your account is ready to be create with below details :");
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -76,9 +77,9 @@ public class SignupCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = numberRequirement(context, list, PHONE, getConstants()
-				.phoneNumber(),
-				getMessages().pleaseEnter(getConstants().phoneNumber()));
+		result = numberRequirement(context, list, PHONE, getMessages()
+				.pleaseEnter(getConstants().phoneNumber()), getConstants()
+				.phoneNumber());
 		if (result != null) {
 			return result;
 		}
@@ -103,8 +104,10 @@ public class SignupCommand extends AbstractCommand {
 			case FINISH:
 				markDone();
 				completeProcess(context);
-				return new Result(
-						"Your account was created successfully. we hav sent an activation code to your mail. please enter activation code.");
+				Result result2 = new Result();
+				result2.add("Your account was created successfully");
+				result2.add("We have sent an activation code to your mail");
+				return result2;
 			}
 		}
 		return makeResult;

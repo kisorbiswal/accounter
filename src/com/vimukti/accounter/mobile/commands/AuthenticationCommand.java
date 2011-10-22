@@ -55,28 +55,32 @@ public class AuthenticationCommand extends AbstractCommand {
 						.getNetworkId());
 				if (activationList == null || activationList.size() == 0) {
 					Client client = getClient(context.getUserId());
+					if (client == null) {
+						client = getClient(context.getString());
+					}
+
 					if (client != null) {
 						sendActivationMail(context.getNetworkId(),
 								client.getEmailId());
 						makeResult
-								.add("Activation code has sent to your email Id. Enter Activation code");
+								.add("Activation code has been sent to your email Id. Enter Activation code");
 					} else {
-						client = getClient(context.getString());
-						if (client != null) {
-							sendActivationMail(context.getNetworkId(),
-									client.getEmailId());
+						if (!context.getString().isEmpty()) {
 							makeResult
-									.add("Activation code has sent to your email Id. Enter IM User Activation code");
-						} else {
-							makeResult.add("Enter valid Accounter emailId");
-							CommandList commandList = new CommandList();
-							commandList.add("Signup");
-							makeResult.add(commandList);
+									.add("There is no account found with given Email Id.");
 						}
+						makeResult.add("Enter valid Accounter Email Id");
+						CommandList commandList = new CommandList();
+						commandList.add("Signup");
+						makeResult.add(commandList);
 					}
 
 				} else {
-					makeResult.add("Wrong Activation code");
+					if (!context.getString().isEmpty()) {
+						makeResult.add("Wrong Activation code");
+					}
+					makeResult.add("Please Enter Activation code");
+
 				}
 
 			} else {
@@ -90,23 +94,29 @@ public class AuthenticationCommand extends AbstractCommand {
 			if (client.isActive()) {
 				markDone();
 			} else {
-				Activation activation = getActivation(context.getString());
-				if (activation == null) {
-					makeResult
-							.add("Wrong activation code, Please enter User Activation code.");
+				if (context.getString().isEmpty()) {
+					makeResult.add("Enter Activation code");
 				} else {
-					Session currentSession = HibernateUtil.getCurrentSession();
-					Transaction beginTransaction = currentSession
-							.beginTransaction();
-					client.setActive(true);
-					beginTransaction.commit();
-					markDone();
+					Activation activation = getActivation(context.getString());
+					if (activation == null) {
+						makeResult.add("Wrong activation code");
+						makeResult.add("Please enter Activation code");
+					} else {
+						Session currentSession = HibernateUtil
+								.getCurrentSession();
+						Transaction beginTransaction = currentSession
+								.beginTransaction();
+						client.setActive(true);
+						beginTransaction.commit();
+						markDone();
+					}
 				}
 			}
 		}
 		if (isDone()) {
+			makeResult.add("Activation Success");
 			CommandList commandList = new CommandList();
-			commandList.add("Select Company");
+			makeResult.setNextCommand("Select Company");
 			makeResult.add(commandList);
 			context.getIOSession().setClient(imUser.getClient());
 			context.getIOSession().setAuthentication(true);
