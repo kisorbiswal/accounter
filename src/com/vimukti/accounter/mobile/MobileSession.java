@@ -23,14 +23,14 @@ public class MobileSession {
 
 	public static final long SESSION_TIME_OUT_PERIOD = 2 * 60 * 1000;
 
-	private static final String LAST_RESULT = "lastResult";
+	private static final String LAST_MESSAGE = "lastMessage";
 
 	private Client client;
 	private long companyID;
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
 	private Command currentCommand;
 	private boolean isExpired;
-	private Stack<Command> commandStack = new Stack<Command>();
+	private Stack<UserMessage> commandStack = new Stack<UserMessage>();
 	private TimerTask task;
 	private User user;
 
@@ -114,13 +114,18 @@ public class MobileSession {
 	public void refreshCurrentCommand() {
 		// Set the Present Command From the stack
 		while (!commandStack.isEmpty()) {
-			Command pop = commandStack.pop();
+			UserMessage userMessage = commandStack.pop();
+			if (userMessage == null) {
+				continue;
+			}
+			Command pop = userMessage.getCommand();
 			if (pop == null) {
 				break;
 			}
 			if (!pop.isDone()) {
 				setCurrentCommand(pop);
-				commandStack.push(pop);
+				setLastMessage(userMessage);
+				commandStack.push(userMessage);
 				return;
 			}
 		}
@@ -152,15 +157,15 @@ public class MobileSession {
 	/**
 	 * @return
 	 */
-	public Result getLastResult() {
-		return (Result) getAttribute(LAST_RESULT);
+	public UserMessage getLastMessage() {
+		return (UserMessage) getAttribute(LAST_MESSAGE);
 	}
 
 	/**
 	 * @param result
 	 */
-	public void setLastResult(Result result) {
-		setAttribute(LAST_RESULT, result);
+	public void setLastMessage(UserMessage userMessage) {
+		setAttribute(LAST_MESSAGE, userMessage);
 	}
 
 	/**
@@ -201,8 +206,9 @@ public class MobileSession {
 	}
 
 	public void addCommand(Command command) {
-		if (currentCommand != command && !command.isDone()) {
-			commandStack.push(command);
+		if (currentCommand != command) {
+			UserMessage lastMessage = getLastMessage();
+			commandStack.push(lastMessage);
 			setCurrentCommand(command);
 		}
 	}

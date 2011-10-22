@@ -30,19 +30,6 @@ public class CommandProcessor {
 			switch (message.getType()) {
 			case COMMAND:
 				Result reply = processCommand(session, message);
-				if (message.getCommand().isDone()) {
-					session.refreshCurrentCommand();
-					Command currentCommand = session.getCurrentCommand();
-					if (currentCommand != null) {
-						message.setCommand(session.getCurrentCommand());
-						message.setInputs(new String[0]);
-						message.setOriginalMsg("");
-						Result lastResult = processCommand(session, message);
-						List<Object> resultParts = reply.getResultParts();
-						lastResult.addAll(0, resultParts);
-						reply = lastResult;
-					}
-				}
 				message.setResult(reply);
 				break;
 			case HELP:
@@ -54,11 +41,6 @@ public class CommandProcessor {
 				processName(session, message);
 				break;
 			}
-			Command command = message.getCommand();
-
-			if (command != null && !command.isDone()) {
-				session.addCommand(command);
-			}
 
 			if (message.getResult() == null) {
 				Result result = new Result(
@@ -67,7 +49,7 @@ public class CommandProcessor {
 				message.setResult(result);
 			}
 
-			session.setLastResult(message.getResult());
+			session.setLastMessage(message);
 			return message.getResult();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,7 +104,9 @@ public class CommandProcessor {
 		Command command = message.getCommand();
 		Context context = getContext(session, message);
 		// Getting Last Result
-		Result lastResult = session.getLastResult();
+		UserMessage lastMessage = session.getLastMessage();
+		Result lastResult = lastMessage == null ? null : lastMessage
+				.getResult();
 		if (lastResult != null) {
 			List<Object> resultParts = lastResult.getResultParts();
 			Iterator<Object> iterator = resultParts.iterator();

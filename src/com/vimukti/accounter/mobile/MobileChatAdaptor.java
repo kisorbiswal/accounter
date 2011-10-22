@@ -34,7 +34,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				networkType);
 
 		if (message == null || message.isEmpty()) {
-
+			userMessage = session.getLastMessage();
+			message = userMessage.getOriginalMsg();
 		}
 
 		Command command = null;
@@ -47,11 +48,14 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			session.refreshCurrentCommand();
 		}
 
-		Result lastResult = session.getLastResult();
+		UserMessage lastMessage = session.getLastMessage();
+		Result lastResult = lastMessage == null ? null : lastMessage
+				.getResult();
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
 			command = getCommand(patternResult.getCommands(), message);
 		}
+		userMessage.setLastResult(lastResult);
 
 		if (command == null) {
 			command = session.getCurrentCommand();
@@ -83,6 +87,10 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			}
 		}
 
+		if (command != null && !command.isDone()) {
+			session.addCommand(command);
+		}
+
 		if (command != null) {
 			userMessage.setType(Type.COMMAND);
 			userMessage.setCommand(command);
@@ -110,6 +118,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		}
 
 		userMessage.setInputs(new String[] { message });
+
 		return userMessage;
 	}
 

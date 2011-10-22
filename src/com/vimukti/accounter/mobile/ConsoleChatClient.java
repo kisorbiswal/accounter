@@ -29,7 +29,7 @@ public class ConsoleChatClient {
 			ObjectInputStream in = new ObjectInputStream(
 					client.getInputStream());
 			out.writeObject(email);
-			out.writeObject("select company");
+			out.writeObject("Hi");
 			String str = (String) in.readObject();
 			System.out.println("Server:" + str);
 			System.out.print('>');

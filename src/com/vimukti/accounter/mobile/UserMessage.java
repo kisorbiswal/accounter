@@ -19,6 +19,7 @@ public class UserMessage {
 
 	private Type type = Type.UNKNOWN;
 	private Result result;
+	private Result lastResult;
 	private Command command;
 	private List<String> inputs = new ArrayList<String>();
 	private String originalMsg;
@@ -108,5 +109,13 @@ public class UserMessage {
 
 	public void setOriginalMsg(String originalMsg) {
 		this.originalMsg = originalMsg;
+	}
+
+	public Result getLastResult() {
+		return lastResult;
+	}
+
+	public void setLastResult(Result lastResult) {
+		this.lastResult = lastResult;
 	}
 }
