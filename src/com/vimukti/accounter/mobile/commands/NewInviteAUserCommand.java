@@ -1,31 +1,28 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.OperationContext;
 
 public class NewInviteAUserCommand extends AbstractTransactionCommand {
 
 	private static final String FIRST_NAME = "First Name";
 	private static final String LAST_NAME = "Last Name";
 	private static final String EMAIL = "E-mail";
-	private static final String READ_ONLY = "Read Only";
-	private static final String INVOICE_ONLY = "Invoice Only";
-	private static final String BASIC_EMPLOYEE = "Basic Employee";
-	private static final String FINANCIAL_ADVISOR = "Financial Advisor";
-	private static final String FINANCE_ADMIN = "Finance Admin";
-	private static final String ADMIN = "Admin";
+	private static final String LEVEL_ACCESS = "accessLevel";
+	private static final String PERMISSIONS = "permissions";
 
 	@Override
 	public String getId() {
@@ -40,35 +37,46 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(LAST_NAME, false, true));
 		list.add(new Requirement(EMAIL, false, true));
 
-		list.add(new Requirement(READ_ONLY, true, true));
-		list.add(new Requirement(INVOICE_ONLY, true, true));
-		list.add(new Requirement(BASIC_EMPLOYEE, true, true));
-		list.add(new Requirement(FINANCIAL_ADVISOR, true, true));
-		list.add(new Requirement(FINANCE_ADMIN, true, true));
-		list.add(new Requirement(ADMIN, true, true));
-
+		list.add(new Requirement(LEVEL_ACCESS, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
+		Object attribute = context.getAttribute(INPUT_ATTR);
+		if (attribute == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+		setDefaultValues();
 
-		Result result = null;
-		result = getFirstNameRequirement(context);
+		Result makeResult = context.makeResult();
+		makeResult.add(getMessages()
+				.readyToCreate(getConstants().cashExpense()));
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
+		ResultList actions = new ResultList(ACTIONS);
+		makeResult.add(actions);
+
+		Result result = nameRequirement(context, list, FIRST_NAME,
+				getConstants().firstName(),
+				getMessages().pleaseEnter(getConstants().firstName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = getLastNameRequirement(context);
+		result = nameRequirement(context, list, LAST_NAME, getConstants()
+				.lastName(),
+				getMessages().pleaseEnter(getConstants().lastName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = getEmailRequirement(context);
+		result = nameRequirement(context, list, EMAIL, getConstants().email(),
+				getMessages().pleaseEnter(getConstants().email()));
 		if (result != null) {
 			return result;
 		}
 
-		result = getOptionalRequirement(context);
+		result = getOptionalRequirement(context, list, actions, makeResult);
 		if (result != null) {
 			return result;
 		}
@@ -77,68 +85,55 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 
 	}
 
+	private void setDefaultValues() {
+		get(LEVEL_ACCESS).setDefaultValue(RolePermissions.BASIC_EMPLOYEE);
+	}
+
 	private Result createUser(Context context) {
 
 		String firstName = get(FIRST_NAME).getValue();
 		String lastName = get(LAST_NAME).getValue();
 		String email = get(EMAIL).getValue();
 
-		boolean readOnly = get(READ_ONLY).getValue();
-		boolean invoiceOnly = get(INVOICE_ONLY).getValue();
-		boolean basicEmployee = get(BASIC_EMPLOYEE).getValue();
-		boolean financialAdvisor = get(FINANCIAL_ADVISOR).getValue();
-		boolean financeAdmin = get(FINANCE_ADMIN).getValue();
-		boolean admin = get(ADMIN).getValue();
+		String access = get(LEVEL_ACCESS).getValue();
 
-		User user = new User();
+		ClientUser user = new ClientUser();
 
-		// user.setFirstName(firstName);
-		// user.setLastName(lastName);
-		// user.setEmail(email);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(email);
+		RolePermissions rolePermissions = null;
 
-		if (readOnly) {
+		if (access.equals(RolePermissions.READ_ONLY)) {
+			rolePermissions = getReadOnlyPermission();
 
-			RolePermissions readOnlyPer = getReadOnlyPermission();
-			user.setPermissions(getUserPermission(readOnlyPer));
-
-		} else if (invoiceOnly) {
-
+		} else if (access.equals(RolePermissions.INVOICE_ONLY)) {
 			// if ReadOnly is selected, get corresponding RolePermissions
-			RolePermissions invoiceOnlyPer = getInvoiceOnlyPermission();
-			user.setPermissions(getUserPermission(invoiceOnlyPer));
+			rolePermissions = getInvoiceOnlyPermission();
 
-		} else if (basicEmployee) {
-
+		} else if (access.equals(RolePermissions.BASIC_EMPLOYEE)) {
 			// if BasicEmployee is selected, get corresponding RolePermissions
-			RolePermissions basicEmployeePer = getBasicEmployeePermission();
-			user.setPermissions(getUserPermission(basicEmployeePer));
+			rolePermissions = getBasicEmployeePermission();
 
-		} else if (financialAdvisor) {
-
+		} else if (access.equals(RolePermissions.FINANCIAL_ADVISER)) {
 			// if FinancialAdvisor is selected, get corresponding
 			// RolePermissions
-			RolePermissions basicEmployeePerPer = getFinancialAdviserPermission();
-			user.setPermissions(getUserPermission(basicEmployeePerPer));
+			rolePermissions = getFinancialAdviserPermission();
 
-		} else if (financeAdmin) {
-
+		} else if (access.equals(RolePermissions.FINANCE_ADMIN)) {
 			// if FinanceAdmin is selected, get corresponding RolePermissions
-			RolePermissions financeAdminPer = getFinanceAdminPermission();
-			user.setPermissions(getUserPermission(financeAdminPer));
+			rolePermissions = getFinanceAdminPermission();
 
-		} else if (admin) {
+		} else if (access.equals(RolePermissions.ADMIN)) {
 
 			// if Admin is selected, get corresponding RolePermissions
-			RolePermissions adminPer = getAdminPermission();
-			user.setPermissions(getUserPermission(adminPer));
-
+			rolePermissions = getAdminPermission();
 		}
+		user.setPermissions(getUserPermission(rolePermissions));
 
-		Session session = context.getHibernateSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(user);
-		transaction.commit();
+		user.setUserRole(rolePermissions.getRoleName());
 
+		inviteUser(user, context);
 		markDone();
 
 		Result result = new Result();
@@ -147,8 +142,26 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private UserPermissions getUserPermission(RolePermissions rolePermission) {
-		UserPermissions userPermissions = new UserPermissions();
+	private void inviteUser(ClientUser user, Context context) {
+		try {
+			String clientClassSimpleName = user.getObjectType()
+					.getClientClassSimpleName();
+
+			OperationContext opContext = new OperationContext(context
+					.getCompany().getID(), user, context.getIOSession()
+					.getUserEmail());
+			opContext.setArg2(clientClassSimpleName);
+
+			new FinanceTool().getUserManager().inviteUser(opContext);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private ClientUserPermissions getUserPermission(
+			RolePermissions rolePermission) {
+		ClientUserPermissions userPermissions = new ClientUserPermissions();
 
 		userPermissions.setTypeOfBankReconcilation(rolePermission
 				.getTypeOfBankReconcilation());
@@ -165,7 +178,8 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		return userPermissions;
 	}
 
-	private Result getOptionalRequirement(Context context) {
+	private Result getOptionalRequirement(Context context, ResultList list,
+			ResultList actions, Result makeResult) {
 		context.setAttribute(INPUT_ATTR, "optional");
 		Object selection = context.getSelection(ACTIONS);
 
@@ -179,240 +193,104 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
 
-		Result result = readOnlyRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = invoiceOnlyRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = basicEmployeeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = financialAdvisorRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = financeAdminRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = adminRequirement(context, list, selection);
+		Result result = accessLevelOptionalRequirement(context, selection,
+				list, LEVEL_ACCESS, getConstants().userPermissions(),
+				getMessages().pleaseEnter(getConstants().userPermissions()));
 		if (result != null) {
 			return result;
 		}
 
-		Requirement readOnlyReq = get(READ_ONLY);
-		Boolean readOnly = readOnlyReq.getValue();
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("",
+				getMessages().finishToCreate(getConstants().cashExpense()));
+		actions.add(finish);
 
-		Requirement invoiceOnlyReq = get(INVOICE_ONLY);
-		Boolean invoiceOnly = invoiceOnlyReq.getValue();
-
-		Requirement basicEmployeeReq = get(BASIC_EMPLOYEE);
-		Boolean basicEmployee = basicEmployeeReq.getValue();
-
-		Requirement financialAdvisorReq = get(FINANCIAL_ADVISOR);
-		Boolean financialAdvisor = financialAdvisorReq.getValue();
-
-		Requirement financeAdminReq = get(FINANCE_ADMIN);
-		Boolean financeAdmin = financeAdminReq.getValue();
-
-		Requirement adminReq = get(ADMIN);
-		Boolean admin = adminReq.getValue();
-
-		if (selection != readOnly || selection != invoiceOnly
-				|| selection != basicEmployee || selection != financialAdvisor
-				|| selection != financeAdmin || selection != admin) {
-			return text(context, "Please select any user permission", null);
-		} else {
-
-			// TODO if any user permission is selected
-
-		}
-
-		return null;
-
+		return makeResult;
 	}
 
-	protected Result readOnlyRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(READ_ONLY);
-		Boolean readOnly = req.getValue();
-
-		if (selection == readOnly) {
-			context.setAttribute(INPUT_ATTR, READ_ONLY);
-			readOnly = !readOnly;
-			req.setValue(readOnly);
+	private Result accessLevelOptionalRequirement(Context context,
+			Object selection, ResultList list, String reqName, String name,
+			String displayString) {
+		Object permissionObj = context.getSelection(PERMISSIONS);
+		if (permissionObj instanceof ActionNames) {
+			permissionObj = null;
+			selection = reqName;
 		}
 
-		Record balanceRecord = new Record(readOnly);
-		balanceRecord.add("Name", READ_ONLY);
-		balanceRecord.add("Value", readOnly);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
+		Requirement permissionReq = get(reqName);
+		String permission = (String) permissionReq.getValue();
 
-	}
-
-	protected Result invoiceOnlyRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(INVOICE_ONLY);
-		Boolean invoiceOnly = req.getValue();
-
-		if (selection == invoiceOnly) {
-			context.setAttribute(INPUT_ATTR, INVOICE_ONLY);
-			invoiceOnly = !invoiceOnly;
-			req.setValue(invoiceOnly);
+		if (permissionObj != null) {
+			permission = (String) permissionObj;
+			permissionReq.setValue(permission);
 		}
 
-		Record balanceRecord = new Record(invoiceOnly);
-		balanceRecord.add("Name", INVOICE_ONLY);
-		balanceRecord.add("Value", invoiceOnly);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
+		if (selection != null)
+			if (selection.equals(reqName)) {
+				context.setAttribute(INPUT_ATTR, reqName);
+				return permisions(context, displayString);
 
-	}
-
-	protected Result basicEmployeeRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(BASIC_EMPLOYEE);
-		Boolean basicEmployee = req.getValue();
-
-		if (selection == basicEmployee) {
-			context.setAttribute(INPUT_ATTR, BASIC_EMPLOYEE);
-			basicEmployee = !basicEmployee;
-			req.setValue(basicEmployee);
-		}
-
-		Record balanceRecord = new Record(basicEmployee);
-		balanceRecord.add("Name", BASIC_EMPLOYEE);
-		balanceRecord.add("Value", basicEmployee);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	protected Result financialAdvisorRequirement(Context context,
-			ResultList list, Object selection) {
-		Requirement req = get(FINANCIAL_ADVISOR);
-		Boolean financialAdvisor = req.getValue();
-
-		if (selection == financialAdvisor) {
-			context.setAttribute(INPUT_ATTR, FINANCIAL_ADVISOR);
-			financialAdvisor = !financialAdvisor;
-			req.setValue(financialAdvisor);
-		}
-
-		Record balanceRecord = new Record(financialAdvisor);
-		balanceRecord.add("Name", FINANCIAL_ADVISOR);
-		balanceRecord.add("Value", financialAdvisor);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	protected Result financeAdminRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(FINANCE_ADMIN);
-		Boolean financialAdvisor = req.getValue();
-
-		if (selection == financialAdvisor) {
-			context.setAttribute(INPUT_ATTR, FINANCE_ADMIN);
-			financialAdvisor = !financialAdvisor;
-			req.setValue(financialAdvisor);
-		}
-
-		Record balanceRecord = new Record(financialAdvisor);
-		balanceRecord.add("Name", FINANCE_ADMIN);
-		balanceRecord.add("Value", financialAdvisor);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	protected Result adminRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(ADMIN);
-		Boolean financialAdvisor = req.getValue();
-
-		if (selection == financialAdvisor) {
-			context.setAttribute(INPUT_ATTR, ADMIN);
-			financialAdvisor = !financialAdvisor;
-			req.setValue(financialAdvisor);
-		}
-
-		Record balanceRecord = new Record(financialAdvisor);
-		balanceRecord.add("Name", ADMIN);
-		balanceRecord.add("Value", financialAdvisor);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	private Result getFirstNameRequirement(Context context) {
-		Requirement requirement = get(FIRST_NAME);
-		if (!requirement.isDone()) {
-			String firstName = context.getSelection(TEXT);
-			if (firstName != null) {
-				requirement.setValue(firstName);
-			} else {
-				return text(context, "Please enter first name", null);
 			}
-		}
-		String name = (String) context.getAttribute(INPUT_ATTR);
-		if (name.equals(FIRST_NAME)) {
-			requirement.setValue(name);
-		}
+
+		Record vendorRecord = new Record(reqName);
+		vendorRecord.add("", name);
+		vendorRecord.add("", permission);
+		list.add(vendorRecord);
+
 		return null;
 	}
 
-	private Result getLastNameRequirement(Context context) {
-		Requirement requirement = get(LAST_NAME);
-		if (!requirement.isDone()) {
-			String lastName = context.getSelection(TEXT);
-			if (lastName != null) {
-				requirement.setValue(lastName);
-			} else {
-				return text(context, "Please enter last name", null);
-			}
+	private Result permisions(Context context, String displayString) {
+		Result result = context.makeResult();
+
+		ResultList supplierList = new ResultList(PERMISSIONS);
+
+		Object last = context.getString();
+		List<String> skipPermissions = new ArrayList<String>();
+		if (last != null) {
+			supplierList.add(createPermissionRecord((String) last));
+			skipPermissions.add((String) last);
 		}
-		String name = (String) context.getAttribute(INPUT_ATTR);
-		if (name.equals(LAST_NAME)) {
-			requirement.setValue(name);
+		List<String> permissions = getPermissions();
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<String> pagination = pagination(context, selection, actions,
+				permissions, skipPermissions, VALUES_TO_SHOW);
+
+		for (String permission : pagination) {
+			supplierList.add(createPermissionRecord(permission));
 		}
-		return null;
+
+		int size = supplierList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append(displayString);
+		}
+
+		result.add(message.toString());
+		result.add(supplierList);
+		result.add(actions);
+		return result;
 	}
 
-	private Result getEmailRequirement(Context context) {
-		Requirement requirement = get(EMAIL);
-		if (!requirement.isDone()) {
-			String email = context.getSelection(TEXT);
-			if (email != null) {
-				requirement.setValue(email);
-			} else {
-				return text(context, "Please enter email", null);
-			}
-		}
-		String name = (String) context.getAttribute(INPUT_ATTR);
-		if (name.equals(EMAIL)) {
-			requirement.setValue(name);
-		}
-		return null;
+	private List<String> getPermissions() {
+		List<String> permissions = new ArrayList<String>();
+		permissions.add(RolePermissions.READ_ONLY);
+		permissions.add(RolePermissions.INVOICE_ONLY);
+		permissions.add(RolePermissions.BASIC_EMPLOYEE);
+		permissions.add(RolePermissions.FINANCIAL_ADVISER);
+		permissions.add(RolePermissions.FINANCE_ADMIN);
+		permissions.add(RolePermissions.ADMIN);
+		return permissions;
+	}
+
+	private Record createPermissionRecord(String last) {
+		Record record = new Record(last);
+		record.add("", last);
+		return record;
 	}
 
 	public RolePermissions getReadOnlyPermission() {
