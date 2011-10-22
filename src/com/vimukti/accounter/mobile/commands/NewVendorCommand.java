@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
@@ -532,10 +534,11 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 		Object vendorGroupObj = context.getSelection(VENDOR_GROUP);
 		Requirement vendorGroupReq = get(VENDOR_GROUP);
-		String vendorGRP = (String) vendorGroupReq.getValue();
+		ClientVendorGroup vendorGRP = (ClientVendorGroup) vendorGroupReq
+				.getValue();
 
 		if (vendorGroupObj != null) {
-			vendorGRP = (String) vendorGroupObj;
+			vendorGRP = (ClientVendorGroup) vendorGroupObj;
 			vendorGroupReq.setValue(vendorGRP);
 		}
 		if (selection != null)
@@ -545,7 +548,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			}
 		Record customerGroupRecord = new Record(VENDOR_GROUP);
 		customerGroupRecord.add("Name", VENDOR_GROUP);
-		customerGroupRecord.add("Value", vendorGRP);
+		customerGroupRecord.add("Value",
+				vendorGRP == null ? "" : vendorGRP.getName());
 		list.add(customerGroupRecord);
 
 		Result result = new Result();
@@ -557,10 +561,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	 * @param oldVenodrGroup
 	 * @return
 	 */
-	private Record createVendorGroupRecord(String oldVenodrGroup) {
+	private Record createVendorGroupRecord(ClientVendorGroup oldVenodrGroup) {
 		Record record = new Record(oldVenodrGroup);
 		record.add("Name", VENDOR_GROUP);
-		record.add("value", oldVenodrGroup);
+		record.add("value", oldVenodrGroup.getName());
 		return record;
 	}
 
@@ -570,37 +574,48 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	 * @param oldVendorGroup
 	 * @return
 	 */
-	private Result vendorGroups(Context context, String oldVendorGroup) {
-		Set<VendorGroup> vendorGroups = getVendorGroupsList(context);
+	private Result vendorGroups(Context context,
+			ClientVendorGroup oldVendorGroup) {
+		ArrayList<ClientVendorGroup> vendorGroups = getVendorGroupsList(context);
 		Result result = context.makeResult();
 		result.add("Select Vendor Group");
 
 		ResultList list = new ResultList(VENDOR_GROUP);
-		int num = 0;
+
+		List<ClientVendorGroup> skipGroups = new ArrayList<ClientVendorGroup>();
+		Object last = context.getLast(RequirementType.VENDORGROUP);
+
 		if (oldVendorGroup != null) {
 			list.add(createVendorGroupRecord(oldVendorGroup));
-			num++;
+			skipGroups.add((ClientVendorGroup) last);
 		}
-		for (VendorGroup vendor : vendorGroups) {
-			if (vendor.getName() != oldVendorGroup) {
-				list.add(createVendorGroupRecord(vendor.getName()));
-				num++;
-			}
-			if (num == VENDORGROUP_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
 
+		List<ClientVendorGroup> pagination = pagination(context, selection,
+				actions, vendorGroups, skipGroups, VALUES_TO_SHOW);
+
+		for (ClientVendorGroup clientVendorGroup : pagination) {
+			list.add(createVendorGroupRecord(clientVendorGroup));
+		}
+		int size = list.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a CustomerGroup");
+		}
 		CommandList commandList = new CommandList();
 		commandList.add("Create Vendor Group");
-		result.add(commandList);
 
+		result.add(message.toString());
+		result.add(list);
+		result.add(actions);
+		result.add(commandList);
 		return result;
 	}
 
-	private Set<VendorGroup> getVendorGroupsList(Context context) {
-		Set<VendorGroup> vendorGroups = context.getCompany().getVendorGroups();
+	private ArrayList<ClientVendorGroup> getVendorGroupsList(Context context) {
+		ArrayList<ClientVendorGroup> vendorGroups = getClientCompany()
+				.getVendorGroups();
 		return vendorGroups;
 	}
 
