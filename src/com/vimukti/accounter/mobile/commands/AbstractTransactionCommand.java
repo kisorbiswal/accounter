@@ -645,11 +645,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			result.add(getMessages().pleaseSelect(getConstants().item()));
 		} else {
 			result.add(getMessages().youDontHaveAny(getConstants().items()));
-			Record record = new Record(ESCAPE);
-			record.add("", getConstants().skip());
-			ResultList resultList = new ResultList(ESCAPE);
-			resultList.add(record);
-			result.add(resultList);
 		}
 
 		result.add(list);
