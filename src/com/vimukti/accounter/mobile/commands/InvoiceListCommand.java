@@ -46,12 +46,10 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 	private static final String THIS_FINANCIAL_QUARTER = "This financial quarter";
 	private static final String lAST_FINANCIAL_QUARTER = "Last financial quarter";
 	private static final String FINANCIAL_YEAR_TO_DATE = "Financial year to date";
-	private static final String CUSTOM = "Custom";
 	private static final int ITEMS_TO_VIEW = 4;
 	private static final int DATE_ITEMS_TO_VIEW = 11;
 	private ClientFinanceDate startDate;
 	private ClientFinanceDate endDate;
-	private ClientFinanceDate tempFromDate;
 
 	@Override
 	public String getId() {
