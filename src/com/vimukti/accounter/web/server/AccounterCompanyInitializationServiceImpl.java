@@ -90,11 +90,26 @@ public class AccounterCompanyInitializationServiceImpl extends
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
 			List<TemplateAccount> accounts) throws AccounterException {
+		try {
+			Client client = getClient(getUserEmail());
+			Company company = intializeCompany(preferences, accounts, client);
+			getThreadLocalRequest().getSession().setAttribute(
+					BaseServlet.COMPANY_ID, company.getId());
+			getThreadLocalRequest().getSession().removeAttribute(
+					BaseServlet.CREATE);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		}
+		return true;
+	}
+
+	public static Company intializeCompany(
+			ClientCompanyPreferences preferences,
+			List<TemplateAccount> accounts, Client client) {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			Client client = getClient(getUserEmail());
-
 			Company company = new Company();
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
@@ -115,8 +130,10 @@ public class AccounterCompanyInitializationServiceImpl extends
 			// Updating CompanyPreferences
 			CompanyPreferences serverCompanyPreferences = company
 					.getPreferences();
+
 			serverCompanyPreferences = new ServerConvertUtil().toServerObject(
 					serverCompanyPreferences, preferences, session);
+
 			company.setPreferences(serverCompanyPreferences);
 			company.getRegisteredAddress().setCountryOrRegion(
 					client.getCountry());
@@ -131,19 +148,14 @@ public class AccounterCompanyInitializationServiceImpl extends
 			session.saveOrUpdate(company);
 			transaction.commit();
 
-			getThreadLocalRequest().getSession().setAttribute(
-					BaseServlet.COMPANY_ID, company.getId());
-			getThreadLocalRequest().getSession().removeAttribute(
-					BaseServlet.CREATE);
-
-			UsersMailSendar.sendMailToDefaultUser(user, company
-					.getTradingName());
-		} catch (Exception e) {
+			UsersMailSendar.sendMailToDefaultUser(user,
+					company.getTradingName());
+			return company;
+		} catch (AccounterException e) {
 			e.printStackTrace();
 			transaction.rollback();
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-		return true;
+		return null;
 	}
 
 	@Override
@@ -172,7 +184,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		return client;
 	}
 
-	private ClientUser getUser(Client client) {
+	private static ClientUser getUser(Client client) {
 		User user = client.toUser();
 		// user.setFullName(user.getFirstName() + " " + user.getLastName());
 		user.setUserRole(RolePermissions.ADMIN);
