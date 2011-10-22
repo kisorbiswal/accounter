@@ -833,15 +833,15 @@
 
 	<Accounts>
 		<Account id="1">
-			<accTypeSelect></accTypeSelect>
-			<accNoText></accNoText>
-			<accNameText></accNameText>
-			<statusBox></statusBox>
+			<accTypeSelect>Bank</accTypeSelect>
+			<accNoText>1004</accNoText>
+			<accNameText>Account 1</accNameText>
+			<statusBox>TRUE</statusBox>
 			<cashFlowCatSelect></cashFlowCatSelect>
 			<cashFlowof></cashFlowof>
 			<opBalText></opBalText>
-			<currentBalanceText></currentBalanceText>
-			<asofDate></asofDate>
+			<currentBalanceText>0.00</currentBalanceText>
+			<asofDate>22/12/2001</asofDate>
 			<catSelect></catSelect>
 			<subAccSelect></subAccSelect>
 			<hierText></hierText>
@@ -851,15 +851,15 @@
 		</Account>
 
 		<Account id="2">
-			<accTypeSelect></accTypeSelect>
-			<accNoText></accNoText>
-			<accNameText></accNameText>
+			<accTypeSelect>Bank</accTypeSelect>
+			<accNoText>1005</accNoText>
+			<accNameText>Account 2</accNameText>
 			<statusBox></statusBox>
 			<cashFlowCatSelect></cashFlowCatSelect>
 			<cashFlowof></cashFlowof>
 			<opBalText></opBalText>
-			<currentBalanceText></currentBalanceText>
-			<asofDate></asofDate>
+			<currentBalanceText>20000</currentBalanceText>
+			<asofDate>21/06/2001</asofDate>
 			<catSelect></catSelect>
 			<subAccSelect></subAccSelect>
 			<hierText></hierText>
@@ -870,15 +870,15 @@
 
 
 		<Account id="3">
-			<accTypeSelect></accTypeSelect>
-			<accNoText></accNoText>
-			<accNameText></accNameText>
+			<accTypeSelect>Income</accTypeSelect>
+			<accNoText>1006</accNoText>
+			<accNameText>Account 3</accNameText>
 			<statusBox></statusBox>
 			<cashFlowCatSelect></cashFlowCatSelect>
 			<cashFlowof></cashFlowof>
 			<opBalText></opBalText>
-			<currentBalanceText></currentBalanceText>
-			<asofDate></asofDate>
+			<currentBalanceText>30000</currentBalanceText>
+			<asofDate>12/10/2010</asofDate>
 			<catSelect></catSelect>
 			<subAccSelect></subAccSelect>
 			<hierText></hierText>
