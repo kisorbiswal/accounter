@@ -90,6 +90,11 @@ public abstract class AbstractCommand extends Command {
 	protected static final String SHIPPING_METHODS = "shippingMethods";
 	private static final String VENDOR = "vendor";
 	private static final String SUPPLIERS = "suppliers";
+	protected static final String COUNTRY = "country";
+	protected static final String COUNTRIES = "countries";
+	protected static final int COUNTRIES_TO_SHOW = 10;
+	protected static final String EMAIL = "email";
+	protected static final String PHONE = "phone";
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
