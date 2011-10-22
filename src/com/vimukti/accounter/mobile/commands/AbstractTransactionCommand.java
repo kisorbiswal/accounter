@@ -65,6 +65,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int BILLS_TO_SHOW = 5;
 	protected static final int ESTIMATES_TO_SHOW = 5;
 	protected static final int INVOICES_TO_SHOW = 5;
+	protected static final int ESTIMATESANDSALESORDERS_TO_SHOW = 5;
 
 	protected static final int PAYMENTS_TO_SHOW = 5;
 
@@ -645,6 +646,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			result.add(getMessages().pleaseSelect(getConstants().item()));
 		} else {
 			result.add(getMessages().youDontHaveAny(getConstants().items()));
+			Record record = new Record(ESCAPE);
+			record.add("", getConstants().skip());
+			ResultList resultList = new ResultList(ESCAPE);
+			resultList.add(record);
+			result.add(resultList);
 		}
 
 		result.add(list);
