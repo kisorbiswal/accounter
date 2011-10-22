@@ -131,7 +131,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
-		result = itemsRequirement(context, makeResult, actions);
+		result = itemsRequirement(context, makeResult, actions, true);
 		if (result != null) {
 			return result;
 		}

@@ -97,7 +97,6 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList(VALUES);
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		setTransactionType(VENDOR_TRANSACTION);
 		result = createSupplierRequirement(context, list, SUPPLIER, Global
 				.get().Vendor());
 		if (result != null) {
@@ -126,7 +125,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 							return false;
 						}
 					}
-				});
+				}, false);
 		if (result != null) {
 			return result;
 		}
@@ -259,7 +258,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		vendorCreditMemo.setVendor(supplier.getID());
 		String memo = get(MEMO).getValue();
 		vendorCreditMemo.setMemo(memo);
-		updateTotals(vendorCreditMemo);
+		updateTotals(vendorCreditMemo, false);
 		create(vendorCreditMemo, context);
 	}
 }

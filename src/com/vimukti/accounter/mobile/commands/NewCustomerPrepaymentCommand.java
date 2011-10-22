@@ -60,7 +60,6 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		setTransactionType(CUSTOMER_TRANSACTION);
 		Result makeResult = context.makeResult();
 		ResultList actions = new ResultList(ACTIONS);
 		ResultList list = new ResultList(VALUES);

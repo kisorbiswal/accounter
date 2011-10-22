@@ -102,13 +102,12 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 
-		setTransactionType(CUSTOMER_TRANSACTION);
 		result = customerRequirement(context, list, "customer", Global.get()
 				.customer());
 		if (result != null) {
 			return result;
 		}
-		result = itemsRequirement(context, makeResult, actions);
+		result = itemsRequirement(context, makeResult, actions, true);
 		if (result != null) {
 			return result;
 		}
@@ -216,7 +215,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		invoice.setTransactionItems(items);
-		updateTotals(invoice);
+		updateTotals(invoice, true);
 
 		create(invoice, context);
 	}

@@ -106,8 +106,6 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 
-		setTransactionType(CUSTOMER_TRANSACTION);
-
 		result = createSupplierRequirement(context, list, VENDOR, Global.get()
 				.Vendor());
 		if (result != null) {
@@ -119,7 +117,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 					public boolean filter(ClientAccount e) {
 						return true;
 					}
-				});
+				}, false);
 		if (result != null) {
 			return result;
 		}
@@ -206,7 +204,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		}
 
 		enterBill.setTransactionItems(items);
-		updateTotals(enterBill);
+		updateTotals(enterBill, false);
 
 		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
 		enterBill.setDueDate(dueDate.getDate());
@@ -225,7 +223,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 		String memo = get(MEMO).getValue();
 		enterBill.setMemo(memo);
-		updateTotals(enterBill);
+		updateTotals(enterBill, false);
 		create(enterBill, context);
 
 	}

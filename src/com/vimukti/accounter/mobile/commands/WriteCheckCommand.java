@@ -153,7 +153,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 							return false;
 						}
 					}
-				});
+				}, false);
 
 		if (result != null) {
 			return result;
@@ -227,7 +227,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		}
 		writeCheck.setTransactionItems(items);
 
-		updateTotals(writeCheck);
+		updateTotals(writeCheck, false);
 		String memo = get(MEMO).getValue();
 		writeCheck.setMemo(memo);
 		create(writeCheck, context);

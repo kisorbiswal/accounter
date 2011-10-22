@@ -115,7 +115,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 					public boolean filter(ClientAccount e) {
 						return e.getIsActive();
 					}
-				});
+				}, false);
 		if (result != null) {
 			return result;
 		}
@@ -237,7 +237,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
 		cashPurchase.setDeliveryDate(deliveryDate.getDate());
 
-		updateTotals(cashPurchase);
+		updateTotals(cashPurchase, false);
 		create(cashPurchase, context);
 		markDone();
 

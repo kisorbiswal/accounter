@@ -32,7 +32,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 	private static final String INPUT_ATTR = "input";
 	private static final int SALESPERSON_TO_SHOW = 5;
-	private static final int PRICELEVEL_TO_SHOW = 5;
 	private static final int CREDITRATING_TO_SHOW = 5;
 	private static final int CUSTOMERGROUP_TO_SHOW = 5;
 	protected static final String NUMBER = "customerNumber";
@@ -209,8 +208,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ClientContact contact = (get(CUSTOMER_CONTACT).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
-		ClientFinanceDate customerSincedate = get(CUSTOMER_SINCEDATE)
-				.getValue();
 		double balance = get(BALANCE).getValue();
 		ClientAddress adress = get(ADDRESS).getValue();
 		String phoneNum = get(PHONE).getValue();
@@ -728,89 +725,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Record createCreditRatingRecord(ClientCreditRating oldCreditRating) {
 		Record record = new Record(oldCreditRating);
 		record.add("Name", oldCreditRating.getName());
-		return record;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result priceLevelRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object priceLevelObj = context.getSelection(PRICE_LEVEL);
-		Requirement priceLevelReq = get(PRICE_LEVEL);
-		ClientPriceLevel priceLevel = (ClientPriceLevel) priceLevelReq
-				.getValue();
-
-		if (priceLevelObj != null) {
-			priceLevel = (ClientPriceLevel) priceLevelObj;
-			priceLevelReq.setValue(priceLevel);
-		}
-		if (selection != null)
-			if (selection == PRICE_LEVEL) {
-				context.setAttribute(INPUT_ATTR, PRICE_LEVEL);
-				return priceLevels(context, priceLevel);
-			}
-
-		Record priceLevelRecord = new Record(PRICE_LEVEL);
-		priceLevelRecord.add("Name", PRICE_LEVEL);
-		priceLevelRecord.add("Value",
-				priceLevel == null ? "" : priceLevel.getName());
-		list.add(priceLevelRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param string
-	 * @return
-	 */
-	private Result priceLevels(Context context, ClientPriceLevel oldPriceLevel) {
-
-		List<ClientPriceLevel> priceLevels = getClientCompany()
-				.getPriceLevels();
-		Result result = context.makeResult();
-		result.add("Select PriceLevel");
-
-		ResultList list = new ResultList(PRICE_LEVEL);
-		int num = 0;
-		if (oldPriceLevel != null) {
-			list.add(createCreditRatingRecord(oldPriceLevel));
-			num++;
-		}
-		for (ClientPriceLevel priceLevel : priceLevels) {
-			if (priceLevel != oldPriceLevel) {
-				list.add(createCreditRatingRecord(priceLevel));
-				num++;
-			}
-			if (num == PRICELEVEL_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create priceLevel");
-		result.add(commandList);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param oldPriceLevel
-	 * @return
-	 */
-	private Record createCreditRatingRecord(ClientPriceLevel oldPriceLevel) {
-		Record record = new Record(oldPriceLevel);
-		record.add("Name", oldPriceLevel.getName());
 		return record;
 	}
 

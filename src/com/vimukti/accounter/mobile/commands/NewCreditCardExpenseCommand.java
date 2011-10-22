@@ -123,7 +123,7 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 							return false;
 						}
 					}
-				});
+				}, false);
 		if (result != null) {
 			return result;
 		}
@@ -217,7 +217,7 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 		}
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
-		updateTotals(creditCardCharge);
+		updateTotals(creditCardCharge, false);
 		create(creditCardCharge, context);
 	}
 

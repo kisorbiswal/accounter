@@ -110,7 +110,6 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		setTransactionType(CUSTOMER_TRANSACTION);
 
 		result = customerRequirement(context, list, CUSTOMER, Global.get()
 				.Customer());
@@ -140,7 +139,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 							return false;
 						}
 					}
-				});
+				}, true);
 		if (result != null) {
 			return result;
 		}
@@ -258,7 +257,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 		// if (context.getCompany())
 		// ClientTAXCode taxCode = get(TAXCODE).getValue();
 		// cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
-		updateTotals(cashSale);
+		updateTotals(cashSale, true);
 		create(cashSale, context);
 
 		markDone();

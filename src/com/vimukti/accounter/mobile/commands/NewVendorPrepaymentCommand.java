@@ -80,12 +80,11 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 		Result makeResult = context.makeResult();
 		ResultList actions = new ResultList(ACTIONS);
-	
+
 		makeResult.add(getMessages().readyToCreate(
 				getMessages().vendorPrePayment(Global.get().vendor())));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
-		setTransactionType(VENDOR_TRANSACTION);
 
 		result = createSupplierRequirement(context, list, SUPPLIER, Global
 				.get().Vendor());
@@ -150,7 +149,7 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 		ClientVendor vendor = (ClientVendor) get(SUPPLIER).getValue();
 		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
 		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
-	
+
 		String amount = (String) get(AMOUNT).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		Boolean toBePrinted = (Boolean) get(TO_BE_PRINTED).getValue();

@@ -22,10 +22,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
-	private static final String INPUT_ATTR = "input";
 	private static final String STATUS = "status";
-	private static final String NAME = "name";
-	private static final int CONTACTS_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -147,7 +144,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 							return false;
 						}
 					}
-				});
+				}, false);
 		if (result != null) {
 			return result;
 		}
@@ -226,7 +223,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 		newPurchaseOrder.setTransactionItems(items);
-		updateTotals(newPurchaseOrder);
+		updateTotals(newPurchaseOrder, false);
 
 		ClientCompanyPreferences preferences = getClientCompany()
 				.getPreferences();

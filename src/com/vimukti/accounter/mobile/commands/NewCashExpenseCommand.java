@@ -102,7 +102,7 @@ public class NewCashExpenseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = itemsRequirement(context, makeResult, actions);
+		result = itemsRequirement(context, makeResult, actions, false);
 		if (result != null) {
 			return result;
 		}

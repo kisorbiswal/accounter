@@ -100,7 +100,6 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		setTransactionType(CUSTOMER_TRANSACTION);
 		result = customerRequirement(context, list, "customer", Global.get()
 				.customer());
 		if (result != null) {
@@ -130,7 +129,7 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 							return false;
 						}
 					}
-				});
+				}, true);
 		if (result != null) {
 			return result;
 		}
@@ -261,7 +260,7 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 
 		String memo = get("reasonForIssuue").getValue();
 		creditMemo.setMemo(memo);
-		updateTotals(creditMemo);
+		updateTotals(creditMemo, true);
 		create(creditMemo, context);
 
 	}
