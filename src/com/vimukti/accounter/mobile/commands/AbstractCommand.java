@@ -1729,7 +1729,12 @@ public abstract class AbstractCommand extends Command {
 	 */
 	protected Result shippingMethodRequirement(Context context,
 			ResultList list, Object selection) {
+
 		Object shippingMethodObj = context.getSelection(SHIPPING_METHODS);
+		if (shippingMethodObj instanceof ActionNames) {
+			shippingMethodObj = null;
+			selection = SHIPPING_METHODS;
+		}
 		Requirement shippingMethodReq = get(SHIPPING_METHODS);
 		ClientShippingMethod shippingMethods = (ClientShippingMethod) shippingMethodReq
 				.getValue();
@@ -1747,7 +1752,8 @@ public abstract class AbstractCommand extends Command {
 
 		Record shippingTermRecord = new Record(SHIPPING_METHODS);
 		shippingTermRecord.add("", getConstants().shippingMethod());
-		shippingTermRecord.add("", shippingMethods.getName());
+		shippingTermRecord.add("", shippingMethods == null ? ""
+				: shippingMethods.getName());
 		list.add(shippingTermRecord);
 		return null;
 	}
@@ -1759,24 +1765,32 @@ public abstract class AbstractCommand extends Command {
 		result.add(getMessages().pleaseSelect(getConstants().shippingMethod()));
 
 		ResultList list = new ResultList(SHIPPING_METHODS);
-		int num = 0;
+		Object last = context.getLast(RequirementType.SHIPINGMETHOD);
+		List<ClientShippingMethod> skipShippingMethods = new ArrayList<ClientShippingMethod>();
 		if (oldShippingMethods != null) {
 			list.add(createShippingMethodsRecord(oldShippingMethods));
-			num++;
+			skipShippingMethods.add((ClientShippingMethod) last);
 		}
-		for (ClientShippingMethod term : shippingMethods) {
-			if (term != oldShippingMethods) {
-				list.add(createShippingMethodsRecord(term));
-				num++;
-			}
-			if (num == VALUES_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
 
+		List<ClientShippingMethod> pagination = pagination(context, selection,
+				actions, shippingMethods, skipShippingMethods, VALUES_TO_SHOW);
+
+		for (ClientShippingMethod vendor : pagination) {
+			list.add(createShippingMethodsRecord(vendor));
+		}
+		int size = list.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Shipping Method");
+		}
 		CommandList commandList = new CommandList();
 		commandList.add("Create ShippingMethods");
+
+		result.add(message.toString());
+		result.add(list);
+		result.add(actions);
 		result.add(commandList);
 		return result;
 	}
