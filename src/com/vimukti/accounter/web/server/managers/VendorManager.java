@@ -39,7 +39,6 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -1161,7 +1160,9 @@ public class VendorManager extends Manager {
 			}
 			client1099Form.setTotalAllPayments(totalPayments);
 
-			map.put(vendor, client1099Form);
+			if (totalPayments > 0) {
+				map.put(vendor, client1099Form);
+			}
 		}
 
 		ArrayList<Client1099Form> aboveThresholdList = new ArrayList<Client1099Form>();
