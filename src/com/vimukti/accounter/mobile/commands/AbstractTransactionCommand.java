@@ -106,7 +106,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String TAX = "tax";
 	private static final String AMOUNT = "amount";
 	private static final String SHIP_TO = "shipTo";
-	private static final String ESCAPE = "escape";
 	private static final String CUSTOMERS = "customers";
 	private static final String VALUES = "values";
 	protected static final String CASH = "Cash";
@@ -642,15 +641,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
 			result.add(getMessages().pleaseSelect(getConstants().item()));
-		} else {
-			result.add(getMessages().youDontHaveAny(getConstants().items()));
-			Record record = new Record(ESCAPE);
-			record.add("", getConstants().skip());
-			ResultList resultList = new ResultList(ESCAPE);
-			resultList.add(record);
-			result.add(resultList);
 		}
-
 		result.add(list);
 		CommandList commands = new CommandList();
 		commands.add(getMessages().create(getConstants().item()));
@@ -953,44 +944,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		return result;
 	}
-
-	// private Result accounts(Context context, String name,
-	// ListFilter<ClientAccount> listFilter) {
-	// Result result = context.makeResult();
-	// ResultList list = new ResultList(name);
-	//
-	// Object last = context.getLast(RequirementType.ACCOUNT);
-	// int num = 0;
-	// if (last != null) {
-	// list.add(createAccountRecord((ClientAccount) last));
-	// num++;
-	// }
-	// ArrayList<ClientAccount> transferAccountList = getAccounts(listFilter);
-	// if (!transferAccountList.isEmpty())
-	// result.add("Select an Account.");
-	// if (!transferAccountList.isEmpty()) {
-	// for (ClientAccount account : transferAccountList) {
-	// if (account != last) {
-	// list.add(createAccountRecord(account));
-	// num++;
-	// }
-	// if (num == ACCOUNTS_TO_SHOW) {
-	// break;
-	// }
-	// }
-	// }
-	//
-	// CommandList commands = new CommandList();
-	// commands.add("Create New Account");
-	// if (list.size() > 5) {
-	// Record moreAccounts = new Record("More Accounts");
-	// moreAccounts.add("", "MORE ACCOUNTS");
-	// list.add(moreAccounts);
-	// }
-	// result.add(list);
-	// result.add(commands);
-	// return result;
-	// }
 
 	protected ArrayList<ClientAccount> getAccounts(
 			ListFilter<ClientAccount> listFilter) {
@@ -1480,54 +1433,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return initialRecords;
 
 	}
-
-	// protected Result shippingMethod(Context context,
-	// ClientShippingMethod shippingmethod) {
-	// ArrayList<ClientShippingMethod> shippingMethods = new
-	// ArrayList<ClientShippingMethod>(
-	// getClientCompany().getShippingMethods());
-	// Result result = context.makeResult();
-	// result.add("Select Shipping Methods");
-	//
-	// ResultList list = new ResultList("Preferred Shipping Method");
-	// if (shippingmethod != null) {
-	// list.add(createShippingMethodRecord(shippingmethod));
-	// }
-	//
-	// ActionNames selection = context
-	// .getSelection("Preferred Shipping Method");
-	//
-	// List<Record> actions = new ArrayList<Record>();
-	//
-	// List<ClientShippingMethod> pagination = pagination(context, selection,
-	// actions, shippingMethods,
-	// new ArrayList<ClientShippingMethod>(), SHIPPING_TERMS_TO_SHOW);
-	//
-	// for (ClientShippingMethod term : pagination) {
-	// list.add(createShippingMethodRecord(term));
-	// }
-	//
-	// for (Record record : actions) {
-	// list.add(record);
-	// }
-	//
-	// result.add(list);
-	//
-	// CommandList commandList = new CommandList();
-	// commandList.add("Create Preferred Shipping Method");
-	// result.add(commandList);
-	// return result;
-	// }
-
-	// protected Record createShippingMethodRecord(
-	// ClientShippingMethod shippingmethod) {
-	// Record record = new Record(shippingmethod);
-	// record.add("Name", "Preferred Shipping Method");
-	// record.add("Value",
-	// shippingmethod == null ? "" : shippingmethod.getName() + "-"
-	// + shippingmethod.getDescription());
-	// return record;
-	// }
 
 	protected List<Estimate> getEstimates(String viewType) {
 
