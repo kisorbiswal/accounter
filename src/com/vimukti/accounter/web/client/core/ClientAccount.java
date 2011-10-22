@@ -51,6 +51,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static final int BANK_ACCCOUNT_TYPE_CHECKING = 1;
 	public static final int BANK_ACCCOUNT_TYPE_SAVING = 2;
 	public static final int BANK_ACCCOUNT_TYPE_MONEY_MARKET = 3;
+	public static final int BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT = 4;
 
 	public static final int BASETYPE_ASSET = 1;
 	public static final int BASETYPE_LIABILITY = 2;

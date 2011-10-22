@@ -57,6 +57,7 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String BANK_ACCCOUNT_TYPE_CHECKING = "Checking";
 	public static final String BANK_ACCCOUNT_TYPE_SAVING = "Saving";
 	public static final String BANK_ACCCOUNT_TYPE_MONEY_MARKET = "Money Market";
+	public static final String BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT = "Current Account";
 
 	// Cash Flow Categories.
 	public static final String CASH_FLOW_CATEGORY_FINANCING = "Financing";
