@@ -37,7 +37,8 @@ public class NewCustomerGroupCommand extends AbstractTransactionCommand {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().itemGroup()));
+		makeResult.add(getMessages().readyToCreate(
+				getMessages().customerGroup(Global.get().Customer())));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
