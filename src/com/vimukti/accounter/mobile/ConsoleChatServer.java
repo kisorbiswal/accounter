@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.mobile;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -68,7 +69,7 @@ public class ConsoleChatServer extends Thread {
 
 		public void run() {
 			try {
-				ObjectOutputStream out = new ObjectOutputStream(
+				final ObjectOutputStream out = new ObjectOutputStream(
 						socket.getOutputStream());
 				InputStream inputStream = socket.getInputStream();
 				ObjectInputStream in = new ObjectInputStream(inputStream);
@@ -80,10 +81,20 @@ public class ConsoleChatServer extends Thread {
 					String msg = (String) readObject;
 					System.out.println(msg);
 					try {
-						String messageReceived = handler.messageReceived(user,
-								user, msg, AdaptorType.CHAT,
-								AccounterChatServer.NETWORK_TYPE_CONSOLE);
-						out.writeObject(messageReceived);
+						handler.messageReceived(user, user, msg,
+								AdaptorType.CHAT,
+								AccounterChatServer.NETWORK_TYPE_CONSOLE,
+								new CommandSender() {
+
+									@Override
+									public void onReply(String essage) {
+										try {
+											out.writeObject(essage);
+										} catch (IOException e) {
+											e.printStackTrace();
+										}
+									}
+								});
 					} catch (AccounterMobileException e) {
 						e.printStackTrace();
 						out.writeObject(e);

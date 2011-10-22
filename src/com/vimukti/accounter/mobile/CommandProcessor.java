@@ -145,6 +145,7 @@ public class CommandProcessor {
 
 	private Result processResult(Result result) {
 		PatternResult patternResult = new PatternResult();
+		patternResult.setNextCommand(result.getNextCommand());
 		boolean isCommandList = false;
 		for (Object obj : result.resultParts) {
 			if (obj instanceof String) {

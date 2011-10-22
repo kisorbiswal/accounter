@@ -12,6 +12,7 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.Roster.SubscriptionMode;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 
@@ -88,24 +89,31 @@ public class AccounterChatServer implements ChatManagerListener,
 	}
 
 	@Override
-	public void processMessage(Chat chat, Message msg) {
+	public void processMessage(final Chat chat, Message msg) {
 
 		String message = msg.getBody();
 		String from = msg.getFrom();
 		if (from.contains("/")) {
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}
-		try {
-			String reply = null;
-			if (message != null) {
-				reply = messageHandler.messageReceived(msg.getFrom(), from,
-						message, AdaptorType.CHAT, NETWORK_TYPE_GTALK);
+		if (message != null) {
+			try {
+				messageHandler.messageReceived(msg.getFrom(), from, message,
+						AdaptorType.CHAT, NETWORK_TYPE_GTALK,
+						new CommandSender() {
+
+							@Override
+							public void onReply(String message) {
+								try {
+									chat.sendMessage(message);
+								} catch (XMPPException e) {
+									e.printStackTrace();
+								}
+							}
+						});
+			} catch (AccounterMobileException e) {
+				e.printStackTrace();
 			}
-			if (reply != null) {
-				chat.sendMessage(reply);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

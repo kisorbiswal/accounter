@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Result {
 	List<Object> resultParts = new ArrayList<Object>();
+	private String nextCommand;
 
 	/**
 	 * Creates new Instance
@@ -40,6 +41,18 @@ public class Result {
 
 	public void addAll(int i, List<Object> resultParts2) {
 		resultParts.addAll(i, resultParts2);
+	}
+
+	public String getNextCommand() {
+		return nextCommand;
+	}
+
+	public void setNextCommand(String nextCommand) {
+		this.nextCommand = nextCommand;
+	}
+
+	public void add(int i, String string) {
+		resultParts.add(i, string);
 	}
 
 }

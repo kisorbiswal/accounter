@@ -24,66 +24,53 @@ public class MobileMessageHandler {
 
 	/**
 	 * @param message
+	 * @param commandSender
 	 * @param message2
 	 * @return
 	 * @throws AccounterMobileException
 	 */
 	public String messageReceived(String networkId, String userId,
-			String message, AdaptorType adaptorType, int networkType)
-			throws AccounterMobileException {
-		Session openSession = null;
-		Result previous = null;
+			String message, AdaptorType adaptorType, int networkType,
+			CommandSender commandSender) throws AccounterMobileException {
+		Session openSession = HibernateUtil.openSession();
 		try {
-			while (true) {
-				if (openSession != null && openSession.isOpen()) {
-					openSession.close();
-				}
-				openSession = HibernateUtil.openSession();
-				MobileSession session = sessions.get(networkId);
+			MobileSession session = sessions.get(networkId);
 
-				if (session == null || session.isExpired()) {
-					session = new MobileSession();
-					sessions.put(networkId, session);
-					ServerLocal.set(Locale.ENGLISH);
-				}
-				session.sethibernateSession(openSession);
-				session.reloadObjects();
-
-				MobileAdaptor adoptor = getAdaptor(adaptorType);
-
-				UserMessage preProcess = adoptor.preProcess(session, message,
-						userId, networkId, networkType);
-				int i = 0;
-				Result result = getCommandProcessor().handleMessage(session,
-						preProcess);
-				if (previous != null) {
-					List<Object> resultParts = previous.getResultParts();
-					result.addAll(0, resultParts);
-				}
-				if (preProcess.getCommand().isDone()) {
-					session.refreshCurrentCommand();
-					Command currentCommand = session.getCurrentCommand();
-					if (currentCommand != null) {
-						UserMessage lastMessage = session.getLastMessage();
-						lastMessage.setResult(lastMessage.getLastResult());
-						message = null;
-						continue;
-					}
-				}
-				if (result instanceof PatternResult) {
-					if (result.resultParts.size() == 1) {
-						CommandList object = (CommandList) result.resultParts
-								.get(0);
-						if (object.size() == 1) {
-							message = object.get(0);
-							continue;
-						}
-					}
-				}
-				String reply = adoptor.postProcess(result);
-				session.await();
-				return reply;
+			if (session == null || session.isExpired()) {
+				session = new MobileSession();
+				sessions.put(networkId, session);
 			}
+			ServerLocal.set(Locale.ENGLISH);
+			session.sethibernateSession(openSession);
+			session.reloadObjects();
+
+			MobileAdaptor adoptor = getAdaptor(adaptorType);
+
+			UserMessage preProcess = adoptor.preProcess(session, message,
+					userId, networkId, networkType);
+			Result result = getCommandProcessor().handleMessage(session,
+					preProcess);
+			if (preProcess.getCommand().isDone()) {
+				session.refreshCurrentCommand();
+				Command currentCommand = session.getCurrentCommand();
+				if (currentCommand != null) {
+					UserMessage lastMessage = session.getLastMessage();
+					lastMessage.setResult(lastMessage.getLastResult());
+					reloadCommand(networkId, userId, null, adaptorType,
+							networkType, commandSender);
+				}
+			}
+
+			// To check if there is only on command
+			String nextCommand = result.getNextCommand();
+			if (nextCommand != null) {
+				reloadCommand(networkId, userId, nextCommand, adaptorType,
+						networkType, commandSender);
+			}
+			String reply = adoptor.postProcess(result);
+			session.await();
+			commandSender.onReply(reply);
+			return reply;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterMobileException(e);
@@ -92,6 +79,22 @@ public class MobileMessageHandler {
 				openSession.close();
 			}
 		}
+	}
+
+	protected void reloadCommand(final String networkId, final String userId,
+			final String message, final AdaptorType adaptorType,
+			final int networkType, final CommandSender commandSender) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					messageReceived(networkId, userId, message, adaptorType,
+							networkType, commandSender);
+				} catch (AccounterMobileException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	/**

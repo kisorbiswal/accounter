@@ -21,7 +21,7 @@ import com.vimukti.accounter.core.User;
  */
 public class MobileSession {
 
-	public static final long SESSION_TIME_OUT_PERIOD = 2 * 60 * 1000;
+	public static final long SESSION_TIME_OUT_PERIOD = 60 * 60 * 1000;// 1hour
 
 	private static final String LAST_MESSAGE = "lastMessage";
 

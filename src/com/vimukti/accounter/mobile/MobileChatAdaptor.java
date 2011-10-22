@@ -40,12 +40,29 @@ public class MobileChatAdaptor implements MobileAdaptor {
 
 		Command command = null;
 
-		if (message.equalsIgnoreCase(CANCEL_COMMAND)) {
-			Command currentCommand = session.getCurrentCommand();
-			if (currentCommand != null) {
-				currentCommand.markDone();
+		if (command == null) {
+			command = session.getCurrentCommand();
+		}
+
+		if (command == null && !session.isAuthenticated()) {
+			command = new AuthenticationCommand();
+			userMessage.setOriginalMsg("");// To know it is first
+		}
+
+		String commandString = "";
+		Command matchedCommand = null;
+		for (String str : message.split(" ")) {
+			commandString += str;
+			matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
+			if (matchedCommand != null) {
+				break;
 			}
-			session.refreshCurrentCommand();
+			commandString += ' ';
+		}
+		if (matchedCommand != null) {
+			message = message.replaceAll(commandString.trim(), "");
+			userMessage.setOriginalMsg(message);
+			command = matchedCommand;
 		}
 
 		UserMessage lastMessage = session.getLastMessage();
@@ -53,37 +70,19 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				.getResult();
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
-			command = getCommand(patternResult.getCommands(), message);
+			Command selectCommand = command = getCommand(
+					patternResult.getCommands(), message);
+			if (selectCommand != null) {
+				command = selectCommand;
+			}
 		}
+
 		userMessage.setLastResult(lastResult);
-
-		if (command == null) {
-			command = session.getCurrentCommand();
-		}
-
-		if (command == null && !session.isAuthenticated()) {
-			command = new AuthenticationCommand();
-		}
 
 		if (command == null) {
 			long companyId = session.getCompanyID();
 			if (companyId == 0) {
 				command = new SelectCompanyCommand();
-			}
-		}
-
-		if (command == null) {
-			String commandString = "";
-			for (String str : message.split(" ")) {
-				commandString += str;
-				command = CommandsFactory.INSTANCE.getCommand(commandString);
-				if (command != null) {
-					break;
-				}
-				commandString += ' ';
-			}
-			if (command != null) {
-				message = message.replaceAll(commandString.trim(), "");
 			}
 		}
 
