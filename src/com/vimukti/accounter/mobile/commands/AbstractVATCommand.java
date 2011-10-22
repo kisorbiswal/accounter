@@ -92,16 +92,16 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		int size = taxAgenciesList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the Tax Agency");
+			message.append(getMessages().pleaseSelect(
+					getConstants().taxAgency()));
 		}
 
 		CommandList commandList = new CommandList();
-		commandList.add("create");
+		commandList.add(getMessages().create(getConstants().taxAgency()));
 
 		result.add(message.toString());
 		result.add(taxAgenciesList);
 		result.add(commandList);
-		result.add("Select the Tax Agency");
 
 		return result;
 	}

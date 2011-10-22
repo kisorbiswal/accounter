@@ -1691,8 +1691,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		try {
 			checks = new FinanceTool().getVendorManager().getChecks(accountId,
 					getClientCompany().getID());
-			ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
+
 			for (IssuePaymentTransactionsList entry : checks) {
+				ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
 				if (entry.getDate() != null)
 					record.setDate(entry.getDate().getDate());
 				if (entry.getNumber() != null)
@@ -1709,8 +1710,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				else if (record.getRecordType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS)
 					record.setCustomerRefund(entry.getTransactionId());
 				record.setID(entry.getTransactionId());
+				issuepayments.add(record);
 			}
-			issuepayments.add(record);
+
 		} catch (DAOException e) {
 			e.printStackTrace();
 			issuepayments = new ArrayList<ClientTransactionIssuePayment>();

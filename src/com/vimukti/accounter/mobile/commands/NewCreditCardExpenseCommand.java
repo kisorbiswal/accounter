@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 
@@ -163,7 +164,7 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 	private void setDefaultValues() {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue("1");
+		get(NUMBER).setDefaultValue(getNextTransactionNumber());
 		get(PHONE).setDefaultValue(" ");
 		ClientContact contact = new ClientContact();
 		contact.setName(null);
@@ -297,6 +298,14 @@ public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 						.finishToCreate(getConstants().creditCardExpense()));
 		actions.add(finish);
 		return makeResult;
+	}
+
+	private String getNextTransactionNumber() {
+		String nextTransactionNumber = new FinanceTool()
+				.getNextTransactionNumber(
+						ClientTransaction.TYPE_CREDIT_CARD_EXPENSE,
+						getClientCompany().getID());
+		return nextTransactionNumber;
 	}
 
 }

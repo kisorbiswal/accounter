@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -68,7 +69,8 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		result = amountRequirement(context, list, AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()), getConstants().taxRate());
+				.pleaseEnter(getConstants().taxRate()), getConstants()
+				.taxRate());
 		if (result != null) {
 			return result;
 		}
@@ -125,18 +127,24 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		ResultList vatReturnsList = new ResultList(VAT_RETURN_BOXES);
 
 		Object last = context.getLast(RequirementType.VAT_RETURN_BOX);
+		List<ClientVATReturnBox> skipVatReturns = new ArrayList<ClientVATReturnBox>();
 		if (last != null) {
 			vatReturnsList
 					.add(createVatReturnBoxRecord((ClientVATReturnBox) last));
+			skipVatReturns.add((ClientVATReturnBox) last);
 		}
 
 		List<ClientVATReturnBox> vatReturns = getVatReturnBoxes(
 				context.getHibernateSession(), taxAgency);
-		for (int i = 0; i < VALUES_TO_SHOW && i < vatReturns.size(); i++) {
-			ClientVATReturnBox vatReturn = vatReturns.get(i);
-			if (vatReturn != last) {
-				vatReturnsList.add(createVatReturnBoxRecord(vatReturn));
-			}
+
+		ResultList actions = new ResultList("actions");
+		ActionNames selection = context.getSelection("actions");
+
+		List<ClientVATReturnBox> pagination = pagination(context, selection,
+				actions, vatReturns, skipVatReturns, VALUES_TO_SHOW);
+
+		for (ClientVATReturnBox taxagencies : pagination) {
+			vatReturnsList.add(createVatReturnBoxRecord(taxagencies));
 		}
 
 		int size = vatReturnsList.size();
@@ -146,7 +154,11 @@ public class NewVATItemCommand extends AbstractVATCommand {
 					getConstants().vatReturnBox()));
 		}
 
+		CommandList commandList = new CommandList();
+		commandList.add(getMessages().create(getConstants().taxAgency()));
+
 		result.add(message.toString());
+		result.add(commandList);
 		result.add(vatReturnsList);
 
 		return result;
