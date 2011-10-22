@@ -575,6 +575,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		if (selection != null)
 			if (selection == CUSTOMER_GROUP) {
+				context.setLast(RequirementType.CUSTOMERGROUP, customerGroup);
 				context.setAttribute(INPUT_ATTR, CUSTOMER_GROUP);
 				return customerGroups(context, customerGroup);
 			}
@@ -598,6 +599,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result customerGroups(Context context,
 			ClientCustomerGroup oldCustomerGroup) {
+
 		List<ClientCustomerGroup> customerGroups = getClientCompany()
 				.getCustomerGroups();
 		Result result = context.makeResult();
