@@ -164,10 +164,10 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		ClientUser coreUser = convertUserInfoToUser(invitedser);
 		// Creating Clien
 		try {
-			String company = (String) getThreadLocalRequest().getSession()
+			Long companyId = (Long) getThreadLocalRequest().getSession()
 					.getAttribute(COMPANY_ID);
-			boolean userExists = s2sSyncProxy.inviteUser(
-					Integer.parseInt(company), invitedser, getUserEmail());
+			boolean userExists = s2sSyncProxy.inviteUser(companyId, invitedser,
+					getUserEmail());
 			coreUser.setActive(userExists);
 		} catch (Exception e) {
 			e.printStackTrace();
