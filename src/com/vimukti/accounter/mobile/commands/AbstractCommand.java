@@ -127,7 +127,7 @@ public abstract class AbstractCommand extends Command {
 
 		int num = skipRecords.size();
 		Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
-		if (index == null) {
+		if (index == null || index < 0) {
 			index = 0;
 		}
 		List<T> result = new ArrayList<T>();
