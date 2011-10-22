@@ -1662,8 +1662,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			lineTotal += lineTotalAmt;
 
 			if (record != null && record.isTaxable()) {
-				double taxAmount = getVATAmount(record.getTaxCode(), record);
-				if (isShowPriceWithVat()) {
+				double taxAmount = getVATAmount(transaction,
+						record.getTaxCode(), record);
+				if (transaction.isAmountsIncludeVAT()) {
 					lineTotal -= taxAmount;
 				}
 				record.setVATfraction(taxAmount);
@@ -1677,14 +1678,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		transaction.setNetAmount(lineTotal);
 	}
 
-	public boolean isShowPriceWithVat() {
-		// TODO
-		return true;
-	}
-
-	private boolean isSales;
-
-	public double getVATAmount(long TAXCodeID, ClientTransactionItem record) {
+	public double getVATAmount(ClientTransaction transaction, long TAXCodeID,
+			ClientTransactionItem record) {
 
 		double vatRate = 0.0;
 		try {
@@ -1692,6 +1687,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				// Checking the selected object is VATItem or VATGroup.
 				// If it is VATItem,the we should get 'VATRate',otherwise
 				// 'GroupRate
+				boolean isSales = false;
+				if (getTransactionType() == CUSTOMER_TRANSACTION) {
+					isSales = true;
+				}
 				vatRate = UIUtils.getVATItemRate(
 						getClientCompany().getTAXCode(TAXCodeID), isSales);
 			}
@@ -1700,7 +1699,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		Double vat = 0.0;
-		if (isShowPriceWithVat()) {
+		if (transaction.isAmountsIncludeVAT()) {
 			vat = ((ClientTransactionItem) record).getLineTotal()
 					- (100 * (((ClientTransactionItem) record).getLineTotal() / (100 + vatRate)));
 		} else {
