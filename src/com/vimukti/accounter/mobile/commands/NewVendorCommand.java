@@ -483,6 +483,13 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		return makeResult;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	private Result VatCodeRequirement(Context context, ResultList list,
 			Object selection) {
 		Object customerVatCodeObj = context.getSelection(TAXCODE);
@@ -513,6 +520,13 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	private Result vendorGroupRequirement(Context context, ResultList list,
 			Object selection) {
 
@@ -539,6 +553,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
+	/**
+	 * @param oldVenodrGroup
+	 * @return
+	 */
 	private Record createVendorGroupRecord(String oldVenodrGroup) {
 		Record record = new Record(oldVenodrGroup);
 		record.add("Name", VENDOR_GROUP);
@@ -546,6 +564,12 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		return record;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param oldVendorGroup
+	 * @return
+	 */
 	private Result vendorGroups(Context context, String oldVendorGroup) {
 		Set<VendorGroup> vendorGroups = getVendorGroupsList(context);
 		Result result = context.makeResult();
