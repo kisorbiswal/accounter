@@ -612,4 +612,7 @@
 	<command clazz="SignupCommand" name="signup">
 		<alias>new to accounter</alias>
 	</command>
+	<command clazz="CreateCompanyCommand" name="create company">
+		<alias>Don't have companies</alias>
+	</command>
 </commands>
