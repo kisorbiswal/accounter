@@ -106,4 +106,7 @@ public class UserMessage {
 		return this.originalMsg;
 	}
 
+	public void setOriginalMsg(String originalMsg) {
+		this.originalMsg = originalMsg;
+	}
 }

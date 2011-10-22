@@ -32,10 +32,15 @@ public class CommandProcessor {
 				Result reply = processCommand(session, message);
 				if (message.getCommand().isDone()) {
 					session.refreshCurrentCommand();
-					Result lastResult = session.getLastResult();
-					if (lastResult != null) {
-						List<Object> resultParts = lastResult.getResultParts();
-						reply.addAll(resultParts);
+					Command currentCommand = session.getCurrentCommand();
+					if (currentCommand != null) {
+						message.setCommand(session.getCurrentCommand());
+						message.setInputs(new String[0]);
+						message.setOriginalMsg("");
+						Result lastResult = processCommand(session, message);
+						List<Object> resultParts = reply.getResultParts();
+						lastResult.addAll(0, resultParts);
+						reply = lastResult;
 					}
 				}
 				message.setResult(reply);
@@ -132,6 +137,7 @@ public class CommandProcessor {
 		}
 
 		context.setInputs(message.getInputs());
+		context.setString(message.getOriginalMsg());
 		Result result = null;
 		try {
 			if (session.getCompanyID() != 0) {

@@ -83,11 +83,6 @@ public class MobileSession {
 	 */
 	public void setCurrentCommand(Command command) {
 		this.currentCommand = command;
-		if (command == null) {
-			setLastResult(null);
-		} else {
-			setLastResult(command.getLastResult());
-		}
 	}
 
 	public boolean isExpired() {
@@ -125,6 +120,7 @@ public class MobileSession {
 			}
 			if (!pop.isDone()) {
 				setCurrentCommand(pop);
+				commandStack.push(pop);
 				return;
 			}
 		}
@@ -206,11 +202,8 @@ public class MobileSession {
 
 	public void addCommand(Command command) {
 		if (currentCommand != command && !command.isDone()) {
-			if (this.currentCommand != null) {
-				this.currentCommand.setLastResult(getLastResult());
-			}
 			commandStack.push(command);
-			refreshCurrentCommand();
+			setCurrentCommand(command);
 		}
 	}
 

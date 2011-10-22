@@ -38,8 +38,8 @@ public class Result {
 		return resultParts;
 	}
 
-	public void addAll(List<Object> resultParts2) {
-		resultParts.addAll(resultParts2);
+	public void addAll(int i, List<Object> resultParts2) {
+		resultParts.addAll(i, resultParts2);
 	}
 
 }

@@ -64,6 +64,10 @@ public class Context {
 		return null;
 	}
 
+	public void setString(String string) {
+		this.string = string;
+	}
+
 	/**
 	 * Returns the Date in the Inputs if Any
 	 * 
@@ -183,7 +187,6 @@ public class Context {
 			List<Double> doubles = new ArrayList<Double>();
 			List<String> strings = new ArrayList<String>();
 			List<ClientFinanceDate> dates = new ArrayList<ClientFinanceDate>();
-			string = "";
 			for (String string : inputs) {
 				if (StringUtils.isInteger(string)) {
 					int parseInt = Integer.parseInt(string);
@@ -204,7 +207,6 @@ public class Context {
 					dates.add(date);
 				}
 				strings.add(string);
-				this.string += string;
 			}
 			this.attributes.put("numbers", numbers);
 			this.attributes.put("integers", integers);
