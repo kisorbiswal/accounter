@@ -101,7 +101,7 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 		List<ClientEstimate> selectedEstimates = (List<ClientEstimate>) grid
 				.getSelectedRecords();
 		for (ClientEstimate estimate : selectedEstimates) {
-			if (salesView != null && selectedEstimate != null)
+			if (salesView != null || selectedEstimate != null)
 				salesView.selectedQuote(estimate);
 		}
 		return true;

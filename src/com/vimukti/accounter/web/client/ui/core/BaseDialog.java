@@ -82,6 +82,12 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	public BaseDialog(String text) {
 		super(true);
 		setText(text);
+		setModal(true);
+		initRPCService();
+		createControls();
+		okbtn.setFocus(true);
+		sinkEvents(Event.ONKEYPRESS);
+		sinkEvents(Event.ONMOUSEOVER);
 	}
 
 	public BaseDialog(String text, String desc) {
