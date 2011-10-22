@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.core.Client;
 
 /**
  * @author vimutki35

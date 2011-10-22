@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;

@@ -18,7 +18,6 @@ import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ServerMain extends Main {

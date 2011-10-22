@@ -1466,3 +1466,6 @@ button.disable,button.disable:hover{
 .general-main-class td p span{
 	font-size:13px;
 }
+.history_notes_view{
+	width: 100%;
+}

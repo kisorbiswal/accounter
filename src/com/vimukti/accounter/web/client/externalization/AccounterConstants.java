@@ -5037,4 +5037,10 @@ public interface AccounterConstants extends Constants {
 	public String isMultiCurrencyEnable();
 
 	public String userInvited();
+
+	public String historyAndNotes();
+
+	public String hideHistory();
+
+	public String unableToGetHistoryOfThisView();
 }
