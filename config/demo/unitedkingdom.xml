@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<defaultcompany>
+<ClientCompany>
 	<Customers>
 		<Customer id="1">
 			<custNameText>Blue Ribbons Pvt Ltd</custNameText>
@@ -1383,3 +1383,4 @@
 			</deposit>
 		</MakeDeposit>
 	</MakeDeposits>
+</ClientCompany>

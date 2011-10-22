@@ -130,6 +130,10 @@ public class ServerConfiguration {
 		return "config/accounts";
 	}
 
+	public static String getDefaultCompanyDir() {
+		return "config/demo";
+	}
+
 	/**
 	 * @return
 	 */
