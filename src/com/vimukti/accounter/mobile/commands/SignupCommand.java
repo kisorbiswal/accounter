@@ -26,12 +26,7 @@ import com.vimukti.accounter.web.client.Global;
 public class SignupCommand extends AbstractCommand {
 	private static final String FIRST_NAME = "firstname";
 	private static final String LAST_NAME = "lastname";
-	private static final String EMAIL = "email";
-	private static final String PHONE = "phone";
-	private static final String COUNTRY = "country";
 	private static final String SUBSCRIBED_NEWSLETTER = "subscribed";
-	private static final String COUNTRIES = "countries";
-	private static final int COUNTRIES_TO_SHOW = 10;
 
 	@Override
 	public String getId() {
@@ -129,11 +124,10 @@ public class SignupCommand extends AbstractCommand {
 			return countries(context);
 		}
 
-		Record supplierRecord = new Record(value);
-		supplierRecord.add("", name);
-		supplierRecord.add("", value);
-		list.add(supplierRecord);
-
+		Record countryRecord = new Record(value);
+		countryRecord.add("", "Country Name");
+		countryRecord.add("", value);
+		list.add(countryRecord);
 		return null;
 	}
 
@@ -153,7 +147,6 @@ public class SignupCommand extends AbstractCommand {
 
 		for (String country : pagination) {
 			Record countryRecord = new Record(country);
-			countryRecord.add("", "Country Name");
 			countryRecord.add("", country);
 			countriesList.add(countryRecord);
 		}
