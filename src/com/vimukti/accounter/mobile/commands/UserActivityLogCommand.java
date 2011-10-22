@@ -1,16 +1,16 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -22,7 +22,6 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 
 	private static final String FROM_DATE = "fromdate";
 	private static final String END_DATE = "enddate";
-	private static final int ACTIVITY_LOG_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -51,9 +50,9 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 
 	private void setDefaultValules() {
 		get(FROM_DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+				new ClientFinanceDate());
 		get(END_DATE).setDefaultValue(
-				new ClientFinanceDate(System.currentTimeMillis()));
+				new ClientFinanceDate());
 
 	}
 
@@ -66,7 +65,7 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
-				return null;
+				return closeCommand();
 			default:
 				break;
 			}
@@ -89,8 +88,8 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		Date fromDate = get(FROM_DATE).getValue();
-		Date endDate = get(END_DATE).getValue();
+		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
+		ClientFinanceDate endDate = get(END_DATE).getValue();
 
 		result = userActivityLogList(context, fromDate, endDate);
 		if (result != null) {
@@ -99,18 +98,16 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result userActivityLogList(Context context, Date fromDate,
-			Date endDate) {
+	private Result userActivityLogList(Context context,
+			ClientFinanceDate fromDate, ClientFinanceDate endDate) {
 		Result result = context.makeResult();
 		ResultList activitiesList = new ResultList("activitylog");
-		int num = 0;
-		List<Activity> activities = getActivityList(fromDate, endDate);
-		for (Activity activity : activities) {
+		
+		
+		List<ClientActivity> activities = getActivityList(fromDate, endDate,
+				context);
+		for (ClientActivity activity : activities) {
 			activitiesList.add(createActivityRecord(activity));
-			num++;
-			if (num == ACTIVITY_LOG_TO_SHOW) {
-				break;
-			}
 		}
 		result.add(fromDate.toString());
 		result.add(endDate.toString());
@@ -118,14 +115,19 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private List<Activity> getActivityList(Date fromDate, Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
+	private List<ClientActivity> getActivityList(ClientFinanceDate fromDate,
+			ClientFinanceDate endDate, Context context) {
+		List<ClientActivity> activities = new FinanceTool().getUserManager()
+				.getUsersActivityLog(fromDate, endDate, 1, VALUES_TO_SHOW,
+						context.getCompany().getId());
+
+		return activities;
 	}
 
-	private Record createActivityRecord(Activity activity) {
+	private Record createActivityRecord(ClientActivity activity) {
+
 		Record record = new Record(activity);
-		record.add("ModifiedDate", activity.getTime().toString());
+		record.add("ModifiedDate", getDateAsString(activity.getDate()));
 		record.add("UserName", activity.getUserName());
 		record.add("Activity", activity.getActivityType());
 		record.add("Name", activity.getName());
