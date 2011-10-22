@@ -137,7 +137,7 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		markDone();
 
 		Result result = new Result();
-		result.add("User invited successfully");
+		result.add(getConstants().userInvited());
 
 		return result;
 	}
