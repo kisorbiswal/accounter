@@ -55,7 +55,7 @@ public class NewCustomerGroupCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		markDone();
-		return createClassObject(context);
+		return createcustomerGroupObject(context);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class NewCustomerGroupCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @return
 	 */
-	private Result createClassObject(Context context) {
+	private Result createcustomerGroupObject(Context context) {
 		ClientCustomerGroup customerGroup = new ClientCustomerGroup();
 		customerGroup.setName((String) get(CUSTPMERGROUP_NAME).getValue());
 		create(customerGroup, context);
