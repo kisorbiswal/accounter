@@ -24,6 +24,11 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
+/**
+ * 
+ * @author Sai Prasad N
+ *
+ */
 public class PaySalesTaxCommand extends AbstractVATCommand {
 
 	private static final String BILLS_DUE_ONBEFORE = "billsDueOnOrBefore";
