@@ -918,7 +918,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(list);
 
 		CommandList commandList = new CommandList();
-		commandList.add(getMessages().create(getConstants().paymentTerms()));
+		commandList.add("Create Payment Term");
 
 		result.add(commandList);
 		return result;

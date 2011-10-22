@@ -602,17 +602,19 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				.getCustomerGroups();
 		Result result = context.makeResult();
 		result.add("Select CustomerGroup");
-
+		Object last = context.getLast(RequirementType.CUSTOMERGROUP);
 		ResultList list = new ResultList(CUSTOMER_GROUP);
-		if (oldCustomerGroup != null) {
+		List<ClientCustomerGroup> skipCustomerGroups = new ArrayList<ClientCustomerGroup>();
+		if (last != null) {
 			list.add(createCustomerGroupRecord(oldCustomerGroup));
+			skipCustomerGroups.add((ClientCustomerGroup) last);
 		}
 		ActionNames selection = context.getSelection(CUSTOMER_GROUP);
 
 		List<Record> actions = new ArrayList<Record>();
 
 		List<ClientCustomerGroup> pagination = pagination(context, selection,
-				actions, customerGroups, new ArrayList<ClientCustomerGroup>(),
+				actions, customerGroups, skipCustomerGroups,
 				CUSTOMERGROUP_TO_SHOW);
 
 		for (ClientCustomerGroup term : pagination) {
@@ -694,7 +696,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList(CREDIT_RATING);
 		List<ClientCreditRating> skipCreditRatings = new ArrayList<ClientCreditRating>();
 		Object last = context.getLast(RequirementType.CREDITRATING);
-		if (oldCreditRating != null) {
+		if (last != null) {
 			list.add(createCreditRatingRecord(oldCreditRating));
 			skipCreditRatings.add((ClientCreditRating) last);
 		}
