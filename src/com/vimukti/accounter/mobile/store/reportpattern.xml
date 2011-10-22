@@ -3,6 +3,7 @@
 	<pattern>
 		<input>Report</input>
 		<input>Reports</input>
+		<input>How to see the Reports</input>
 		<output>
 			<text>"Report is a formatted and organized presentation of your
 				company data.</text>

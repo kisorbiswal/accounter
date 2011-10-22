@@ -29,6 +29,7 @@
 	<command clazz="AccountsListCommand" name="New Account">
 		<alias>Accounts</alias>
 		<alias>Account List</alias>
+		<alias>Accounts List</alias>
 		<alias>ListOfAccounts</alias>
 	</command>
 	<command clazz="APAgingDetailReportCommand" name="A/P Aging Detail">
@@ -252,15 +253,18 @@
 		<alias>Enter Bill</alias>
 		<alias>Bill Enter</alias>
 		<alias>Bill</alias>
+		<alias>Create Enter Bill</alias>
 	</command>
 	<command clazz="NewPayBillCommand" name="payBill">
 		<alias>pay bill</alias>
 		<alias>BillPay</alias>
 		<alias>payments</alias>
+		<alias>Create pay bill</alias>
 	</command>
 	<command clazz="BillsAndExpensesListCommand" name="BillsAndExpensesList">
 		<alias>Bills</alias>
 		<alias>BillsList</alias>
+		<alias>Bills and Expenses List</alias>
 	</command>
 	<command clazz="NewVATCodeCommand" name="New VAT Code">
 		<alias>Create VAT Code</alias>
@@ -322,21 +326,25 @@
 	</command>
 	<command clazz="NewCreditCardChargeCommond" name="New Credit Card Charge">
 		<alias>Credit Card Charge</alias>
+		<alias>Create Credit Card Charge</alias>
 		<alias>Add Credit Card Charge</alias>
 	</command>
 	<command clazz="NewCreditCardExpenseCommand" name="New Credit Card Expense">
 		<alias>Credit Card Expense</alias>
 		<alias>Add Credit Card Expense</alias>
 		<alias>New Credit Card Expense</alias>
+		<alias>Create Credit Card Expense</alias>
 	</command>
 	<command clazz="NewCustomerCreditMemoCommand" name="New Customer Credit Memo">
 		<alias>New Customer Credit Memo</alias>
 		<alias>Create Customer Credit Memo</alias>
 		<alias>Add Customer Credit Memo</alias>
 		<alias>CustomerCredit</alias>
+		<alias>Create Customer Credit</alias>
 	</command>
 	<command clazz="NewCashExpenseCommand" name="New Cash Expense">
 		<alias>Cash Expense</alias>
+		<alias>Create Cash Expense</alias>
 	</command>
 	<command clazz="NewMakeDepositCommond" name="New Make Deposit">
 		<alias>Make Deposit</alias>
@@ -349,6 +357,7 @@
 	</command>
 	<command clazz="NewIssuePaymentCommand" name="New Issue Payment">
 		<alias>Issue Payment</alias>
+		<alias>Create Issue Payment</alias>
 	</command>
 	<command clazz="NewVendorCreditMemoCommand" name="New Vendor Credit Memo">
 		<alias>New Vendor Credit Memo</alias>
@@ -357,6 +366,7 @@
 		<alias>New Supplier Credit Memo</alias>
 		<alias>Add Supplier Credit Memo</alias>
 		<alias>Create Supplier Credit Memo</alias>
+		<alias>Create Vendor Credit</alias>
 	</command>
 	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
 		<alias>Shipping Method</alias>
@@ -385,6 +395,7 @@
 	</command>
 	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
 		<alias>create CustomerPrepayment</alias>
+		<alias>create Customer payment</alias>
 		<alias>Add CustomerPrepayment</alias>
 	</command>
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
@@ -407,6 +418,7 @@
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
 		<alias>create CustomerRefund</alias>
+		<alias>create Customer Refund</alias>
 		<alias>Add CustomerRefund</alias>
 	</command>
 
@@ -424,6 +436,7 @@
 
 	<command clazz="CustomerListCommand" name="Customers">
 		<alias>Customers</alias>
+		<alias>Customers List</alias>
 	</command>
 	<command clazz="NewClassCommand" name="Class">
 		<alias>Class</alias>
@@ -431,13 +444,15 @@
 	<command clazz="BankAccountReconcilationHistoryCommand" name="ReconcilationHistory">
 		<alias>ReconcilationHistory</alias>
 	</command>
-	<command clazz="NewVendorPrepaymentCommand" name="VendorPrepayment">
+	<command clazz="NewVendorPrepaymentCommand" name="Vendor Prepayment">
 		<alias>Prepayment</alias>
-		<alias>VendorPrepayment</alias>
+		<alias>Vendor Prepayment</alias>
 		<alias>Add Vendor payment</alias>
+		<alias>Create Vendor payment</alias>
 	</command>
 	<command clazz="VendorsListCommand" name="VendorsList">
 		<alias>Vendors</alias>
+		<alias>Vendors List</alias>
 	</command>
 	<command clazz="InvoiceListCommand" name="InvoicesList">
 		<alias>Invoices</alias>
@@ -448,6 +463,7 @@
 	</command>
 	<command clazz="ReceivedPaymentsListCommand" name="Receive Payments List">
 		<alias>Receive Payments</alias>
+		<alias>Received Payments List</alias>
 	</command>
 	<command clazz="PurchaseOrderListCommand" name="Purchase Order List">
 		<alias>Purchase Orders</alias>
@@ -506,14 +522,16 @@
 	<command clazz="NewSalesOrderCommand" name="New SalesOrder">
 		<alias>New SalesOrder</alias>
 		<alias>Create SalesOrder</alias>
+		<alias>Create Sales Order</alias>
 		<alias>Add SalesOrder</alias>
 		<alias>New Sales Order</alias>
 	</command>
 
 	<command clazz="NewPurchaseOrderCommand" name="New PurchaseOrder">
-		<alias>New PurchaseOrder Command</alias>
-		<alias>Create PurchaseOrder Command</alias>
-		<alias>Add PurchaseOrder Command</alias>
+		<alias>New PurchaseOrder</alias>
+		<alias>Create PurchaseOrder</alias>
+		<alias>Add PurchaseOrder</alias>
+		<alias>Create Purchase Order</alias>
 	</command>
 
 	<command clazz="VoidTransactionCommand" name="Void Transaction">
@@ -522,7 +540,7 @@
 
 	<command clazz="SalesPersonsListCommand" name="Sales Person List">
 		<alias>Sales Person</alias>
-		<alias>sales person list</alias>
+		<alias>sales persons list</alias>
 		<alias>salespersons</alias>
 	</command>
 
@@ -546,13 +564,14 @@
 		<alias>Estimates List</alias>
 	</command>
 	<command clazz="CustomerRefundsListCommand" name="CustomerRefundList">
-		<alias>CustomerRefundsList</alias>
+		<alias>Customer Refunds List</alias>
 		<alias>CustomerRefunds</alias>
 	</command>
 
 	<command clazz="VATCodesListCommand" name="TAXCodes List">
 		<alias>TAXCodes</alias>
 		<alias>TaxCodes List</alias>
+		<alias>Tax Codes List</alias>
 		<alias>Codes List</alias>
 		<alias>VAT Codes</alias>
 		<alias>VAT Codes List</alias>
@@ -581,6 +600,7 @@
 		<alias>Shipping Method List</alias>
 		<alias>ShippingMethods</alias>
 		<alias>Shipping Methods</alias>
+		<alias>Shipping Methods List</alias>
 	</command>
 
 	<command clazz="BankAccountsListCommand" name="BankAccountsList">

@@ -199,5 +199,105 @@
 			<command>Create Service Item</command>
 		</output>
 	</pattern>
+
+	<pattern>
+		<input>Help</input>
+		<output>
+			<command>How to create Transactions</command>
+			<command>How to see the Lists</command>
+			<command>How to see the Reports</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>How to create Transactions</input>
+		<output>
+			<command>How to create Vendor transactions</command>
+			<command>How to create Customer transactions</command>
+			<command>How to create Banking transactions</command>
+			<command>How to Create Tax Transactions</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>How to create Vendor transactions</input>
+		<output>
+			<info>Enter any one of these commands</info>
+			<command>Create Enter Bill</command>
+			<command>Create Pay Bill</command>
+			<command>Create Purchase Order</command>
+			<command>Create Cash Expense</command>
+			<command>Create Cash Purchase</command>
+			<command>Create Vendor Credit</command>
+			<command>Create Issue Payment</command>
+			<command>Create Vendor Payment</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>How to create Customer transactions</input>
+		<output>
+			<info>Enter any one of these commands</info>
+			<command>Create Invoice</command>
+			<command>Create Quote</command>
+			<command>Create Cash Sale</command>
+			<command>Create Customer Credit</command>
+			<command>Create Customer Payment</command>
+			<command>Create Customer Refund</command>
+			<command>Create Receive Payment</command>
+			<command>Create Sales Order</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>How to Create Tax Transactions</input>
+		<output>
+			<info>Enter any one of these commands</info>
+			<command>Pay Vat</command>
+			<command>Receive Vat</command>
+			<command>File Vat</command>
+			<command>Tax Adjustment</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>How to create Banking transactions</input>
+		<output>
+			<info>Enter any one of these commands</info>
+			<command>Create Credit Card Charge</command>
+			<command>Create Credit Card Expense</command>
+			<command>Write Check</command>
+			<command>Make Deposit</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>How to see the Lists</input>
+		<output>
+			<info>Enter any one of these commands</info>
+			<command>Accounts List</command>
+			<command>Customers List</command>
+			<command>Vendors List</command>
+			<command>Items List</command>
+			<command>Sales Persons List</command>
+			<command>Quotes List</command>
+			<command>Invoices List</command>
+			<command>Received Payments List</command>
+			<command>Customer Refunds List</command>
+			<command>Vendor Payments List</command>
+			<command>Bills and Expenses List</command>
+			<command>Bank Accounts List</command>
+			<command>Sales Order List</command>
+			<command>Purchase Order List</command>
+			<command>Journal Entries List</command>
+			<command>Tax Items List</command>
+			<command>Tax Codes List</command>
+			<command>Shipping Methods List</command>
+			<command>Shipping Terms List</command>
+			<command>Location List</command>
+			<command>Class List</command>
+		</output>
+	</pattern>
+
 </patterns>
 
