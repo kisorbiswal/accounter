@@ -360,6 +360,7 @@
 	</command>
 	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
 		<alias>Shipping Method</alias>
+		<alias>Create ShippingMethods</alias>
 	</command>
 	<command clazz="NewShippingTermCommand" name="New Shipping Term">
 		<alias>New Shipping Term</alias>
