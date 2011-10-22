@@ -403,19 +403,31 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		EstimatesAndSalesOrdersList estimates = estimateReq.getValue();
+//		if (est instanceof ActionNames) {
+//			estimates = null;
+//		} else {
+//			estimates = (EstimatesAndSalesOrdersList) est;
+//		}
+
 		if (selection != null)
 			if (selection == ESTIMATEANDSALESORDER) {
 				context.setAttribute(INPUT_ATTR, ESTIMATEANDSALESORDER);
 				return estimates(context, estimates);
 
 			}
-
 		Record paymentTermRecord = new Record(ESTIMATEANDSALESORDER);
 		paymentTermRecord.add("Name", getConstants().quoteAndSalesOrderList());
-		paymentTermRecord.add("Value",
-				estimates == null ? "" : estimates.getCustomerName());
+
+		if (estimates != null) {
+			if (estimates.getType() == ClientEstimate.TYPE_ESTIMATE) {
+				paymentTermRecord.add("", getConstants().quote());
+			} else {
+				paymentTermRecord.add("", getConstants().salesOrder());
+			}
+		}
 
 		list.add(paymentTermRecord);
+
 		return null;
 	}
 
@@ -449,7 +461,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		List<Record> actions = new ArrayList<Record>();
 
 		List<EstimatesAndSalesOrdersList> pagination = pagination(context,
-				selection, actions, estimatesAndSalesOrdersList, skip, 5);
+				selection, actions, estimatesAndSalesOrdersList, skip, ESTIMATESANDSALESORDERS_TO_SHOW);
 
 		for (EstimatesAndSalesOrdersList s : pagination) {
 			list.add(createEstimateRecord(s));
@@ -469,11 +481,13 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 	private Record createEstimateRecord(EstimatesAndSalesOrdersList estimates) {
 		Record rec = new Record(estimates);
-		rec.add("", estimates.getCustomerName());
 		if (estimates.getType() == ClientTransaction.TYPE_ESTIMATE)
 			rec.add("", getConstants().quote());
 		else
 			rec.add("", getConstants().salesOrder());
+
+		rec.add("", estimates.getTotal());
+
 		return rec;
 	}
 
