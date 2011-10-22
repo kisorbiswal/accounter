@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
@@ -662,6 +663,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (selection != null)
 			if (selection == CREDIT_RATING) {
 				context.setAttribute(INPUT_ATTR, CREDIT_RATING);
+				context.setLast(RequirementType.CREDITRATING, creditRating);
 				return creditRatings(context, creditRating);
 			}
 
@@ -690,17 +692,18 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add("Select CreditRating");
 
 		ResultList list = new ResultList(CREDIT_RATING);
-
+		List<ClientCreditRating> skipCreditRatings = new ArrayList<ClientCreditRating>();
+		Object last = context.getLast(RequirementType.CREDITRATING);
 		if (oldCreditRating != null) {
 			list.add(createCreditRatingRecord(oldCreditRating));
+			skipCreditRatings.add((ClientCreditRating) last);
 		}
 		ActionNames selection = context.getSelection(CREDIT_RATING);
 
 		List<Record> actions = new ArrayList<Record>();
 
 		List<ClientCreditRating> pagination = pagination(context, selection,
-				actions, creditRatings, new ArrayList<ClientCreditRating>(),
-				CREDITRATING_TO_SHOW);
+				actions, creditRatings, skipCreditRatings, CREDITRATING_TO_SHOW);
 
 		for (ClientCreditRating term : pagination) {
 			list.add(createCreditRatingRecord(term));
@@ -753,6 +756,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		if (selection != null)
 			if (selection == SALESPERSON) {
+				context.setLast(RequirementType.SALESPERSON, salesPerson);
 				context.setAttribute(INPUT_ATTR, SALESPERSON);
 				return salesPersons(context, salesPerson);
 			}
@@ -781,10 +785,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				.getSalesPersons();
 		Result result = context.makeResult();
 		result.add("Select SalesPerson");
-
+		Object last = context.getLast(RequirementType.SALESPERSON);
+		List<ClientSalesPerson> skipingrecords = new ArrayList<ClientSalesPerson>();
 		ResultList list = new ResultList(SALESPERSON);
-		if (oldsalesPerson != null) {
+		if (last != null) {
 			list.add(createSalesPersonRecord(oldsalesPerson));
+			skipingrecords.add((ClientSalesPerson) last);
 		}
 
 		ActionNames selection = context.getSelection(SALESPERSON);
@@ -792,8 +798,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		List<Record> actions = new ArrayList<Record>();
 
 		List<ClientSalesPerson> pagination = pagination(context, selection,
-				actions, salesPersons, new ArrayList<ClientSalesPerson>(),
-				SALESPERSON_TO_SHOW);
+				actions, salesPersons, skipingrecords, SALESPERSON_TO_SHOW);
 
 		for (ClientSalesPerson term : pagination) {
 			list.add(createSalesPersonRecord(term));
