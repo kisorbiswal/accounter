@@ -911,4 +911,6 @@ public interface AccounterMessages extends Messages {
 
 	public String name(String taxGroup);
 
+	public String terminology(String customer);
+
 }
