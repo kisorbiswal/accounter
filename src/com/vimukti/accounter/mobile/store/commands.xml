@@ -186,7 +186,8 @@
 	<command clazz="ECSalesListDetailReportCommand" name="EC Sales List Detail">
 		<alias>EC Sales List Detail Report</alias>
 		<alias>ECSLD report</alias>
-		<alias>EC SLD report</alias>
+		<alias>
+	EC SLD report</alias>
 		<alias>ECSLD</alias>
 	</command>
 	<command clazz="TransactionDetailbyTaxItemReportCommand" name="Transaction Detail by Tax Item">
