@@ -5,7 +5,11 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public class MyCommand extends NewCommand {
 
@@ -21,6 +25,28 @@ public class MyCommand extends NewCommand {
 
 		list.add(new NameRequirement("LastName", "Enter Last Name",
 				"Last Name", true, true));
+
+		list.add(new CustomerRequirement("customer",
+				"enter customer name or number", "Customer", false, true, null) {
+
+			@Override
+			protected List<ClientCustomer> getLists(Context context) {
+				return getClientCompany().getCustomers();
+			}
+
+			@Override
+			protected List<ClientCustomer> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientCustomer>() {
+
+					@Override
+					public boolean filter(ClientCustomer e) {
+						return e.getName().contains(name)
+								|| e.getNumber().equals(name);
+					}
+				}, getClientCompany().getCustomers());
+			}
+		});
 	}
 
 	@Override
@@ -31,6 +57,8 @@ public class MyCommand extends NewCommand {
 	@Override
 	protected void setDefaultValues() {
 		get("LastName").setDefaultValue("");
+		get("LastName").setDefaultValue("");
+		get("customer").setDefaultValue(null);
 	}
 
 	@Override
