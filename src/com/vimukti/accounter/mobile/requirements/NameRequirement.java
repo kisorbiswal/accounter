@@ -5,7 +5,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public class NameRequirement extends AbstractRequirement {
+public class NameRequirement extends AbstractRequirement<String> {
 
 	public NameRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
