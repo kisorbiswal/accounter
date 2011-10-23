@@ -1395,8 +1395,10 @@ public class FinanceTool {
 
 	public static void createViews() {
 		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
 		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
 		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
+		transaction.commit();
 	}
 
 	public static void createViewsForclient(long companyId) {
