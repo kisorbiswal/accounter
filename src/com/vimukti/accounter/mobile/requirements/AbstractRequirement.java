@@ -5,7 +5,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class AbstractRequirement<T> extends Requirement {
+public abstract class AbstractRequirement extends Requirement {
 	public static final String INPUT_ATTR = "input";
 	public static final String VALUES = "values";
 	public static final String ACTIONS = "actions";

@@ -5,7 +5,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
+public abstract class SingleRequirement<T> extends AbstractRequirement {
 
 	public SingleRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {

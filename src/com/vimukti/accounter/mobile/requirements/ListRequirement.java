@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class ListRequirement<T> extends AbstractRequirement<T> {
+public abstract class ListRequirement<T> extends AbstractRequirement {
 	private static final int RECORDS_TO_SHOW = 5;
 	private static final String RECORDS_START_INDEX = "0";
 	private ChangeListner<T> listner;
@@ -56,7 +56,9 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		}
 
 		if (selection != null && selection.equals(getName())) {
-			return showList(context);
+			Result res = showList(context);
+			context.setAttribute(INPUT_ATTR, getName());
+			return res;
 		}
 
 		T value = getValue();
@@ -75,38 +77,42 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		Object attribute = context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(getName())) {
 			name = context.getString();
-		}
+		} else {
+			result.add(getDisplayString());
+			ResultList actions = new ResultList(ACTIONS);
+			Record record = new Record(ActionNames.ALL);
+			record.add("", "Show All Customers");
 
+			actions.add(record);
+			result.add(actions);
+			return result;
+		}
 		Object selection = context.getSelection(ACTIONS);
 		List<T> lists = new ArrayList<T>();
 		if (selection == ActionNames.ALL) {
 			lists = getLists(context);
-			result.add("All Customers");
+			if (lists.size() != 0) {
+				result.add("All Customers");
+			}
+			name = null;
 		} else if (name != null) {
 			lists = getLists(context, name);
 			if (lists.size() != 0) {
 				result.add("Found " + lists.size() + " record(s)");
+			} else {
+				result.add("Did not get any records with '" + name + "'.");
+				result.add(getDisplayString());
+				ResultList actions = new ResultList(ACTIONS);
+				Record record = new Record(ActionNames.ALL);
+				record.add("", "Show All Customers");
+
+				actions.add(record);
+				result.add(actions);
+				return result;
 			}
 		}
+		return displayRecords(context, lists, result, RECORDS_TO_SHOW);
 
-		if (lists.size() != 0) {
-			return displayRecords(context, lists, result, RECORDS_TO_SHOW);
-		}
-
-		if (name != null) {
-			result.add("Did not get any records with '" + name + "'.");
-		}
-
-		result.add(getDisplayString());
-		ResultList actions = new ResultList(ACTIONS);
-		Record record = new Record(ActionNames.ALL);
-		record.add("", "Show All Customers");
-
-		actions.add(record);
-		result.add(actions);
-
-		context.setAttribute(INPUT_ATTR, getName());
-		return result;
 	}
 
 	private Result displayRecords(Context context, List<T> customers,
@@ -142,6 +148,8 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
 			message.append(getSelectString());
+		} else {
+			message.append(getEmptyString());
 		}
 		CommandList commandList = new CommandList();
 		commandList.add(getCreateCommandString());
@@ -151,6 +159,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		result.add(actions);
 		result.add(commandList);
 		return result;
+	}
+
+	private String getEmptyString() {
+		return "There is no customers.";
 	}
 
 	public List<T> pagination(Context context, ActionNames selection,
