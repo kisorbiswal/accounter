@@ -20,7 +20,7 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 		if (input.equals(getName())) {
 			T selection = context.getSelection(getName());
 			if (selection == null) {
-				selection = getInputFromContect(context);
+				selection = getInputFromContext(context);
 			}
 			setValue(selection);
 			context.setAttribute(INPUT_ATTR, "");
@@ -42,7 +42,7 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 
 	protected abstract String getDisplayValue(T value);
 
-	protected abstract T getInputFromContect(Context context);
+	protected abstract T getInputFromContext(Context context);
 
 	private Result show(Context context) {
 		Result result = context.makeResult();

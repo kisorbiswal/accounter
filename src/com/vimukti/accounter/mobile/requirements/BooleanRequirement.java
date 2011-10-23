@@ -17,7 +17,7 @@ public class BooleanRequirement extends SingleRequirement<Boolean> {
 	}
 
 	@Override
-	protected Boolean getInputFromContect(Context context) {
+	protected Boolean getInputFromContext(Context context) {
 		// TODO Auto-generated method stub
 		return null;
 	}

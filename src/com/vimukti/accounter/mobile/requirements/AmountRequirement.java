@@ -16,7 +16,7 @@ public class AmountRequirement extends SingleRequirement<Double> {
 	}
 
 	@Override
-	protected Double getInputFromContect(Context context) {
+	protected Double getInputFromContext(Context context) {
 		return context.getDouble();
 	}
 

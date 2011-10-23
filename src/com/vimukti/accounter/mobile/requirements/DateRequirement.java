@@ -17,7 +17,7 @@ public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
 	}
 
 	@Override
-	protected ClientFinanceDate getInputFromContect(Context context) {
+	protected ClientFinanceDate getInputFromContext(Context context) {
 		return context.getDate();
 	}
 

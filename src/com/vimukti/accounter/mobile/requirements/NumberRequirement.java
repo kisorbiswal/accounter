@@ -16,7 +16,7 @@ public class NumberRequirement extends SingleRequirement<String> {
 	}
 
 	@Override
-	protected String getInputFromContect(Context context) {
+	protected String getInputFromContext(Context context) {
 		return context.getString();
 	}
 
