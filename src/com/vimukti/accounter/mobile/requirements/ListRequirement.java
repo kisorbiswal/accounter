@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.ResultList;
 public abstract class ListRequirement<T> extends AbstractRequirement {
 	private static final int RECORDS_TO_SHOW = 5;
 	private static final String RECORDS_START_INDEX = "0";
+	private static final String SELECTION = "selection";
 	private ChangeListner<T> listner;
 
 	public ListRequirement(String requirementName, String displayString,
@@ -49,6 +50,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			if (action == ActionNames.ALL) {
 				selection = getName();
 			}
+		}
+		Object action = context.getAttribute(SELECTION);
+		if (action.equals(getName())) {
+			selection = getName();
 		}
 
 		if (!isDone()) {
@@ -108,9 +113,11 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 
 				actions.add(record);
 				result.add(actions);
+				context.setAttribute(SELECTION, getName());
 				return result;
 			}
 		}
+		context.setAttribute(SELECTION, "");
 		return displayRecords(context, lists, result, RECORDS_TO_SHOW);
 
 	}
