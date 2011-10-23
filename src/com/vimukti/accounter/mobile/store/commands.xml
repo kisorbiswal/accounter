@@ -618,4 +618,7 @@
 	</command>
 	<command clazz="CreateCompanyCommand" name="Create Company">
 	</command>
+	<command clazz="ReconcillationHistoryCommand" name="History">
+		<alias>ReconcillationHistory</alias>
+	</command>
 </commands>
