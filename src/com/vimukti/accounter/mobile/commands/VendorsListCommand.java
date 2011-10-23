@@ -13,11 +13,6 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 
-/**
- * 
- * @author Sai Prasad N
- * 
- */
 public class VendorsListCommand extends AbstractTransactionCommand {
 	private static final String VENDOR_TYPE = "vendorType";
 
