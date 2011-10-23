@@ -122,8 +122,8 @@ public class ReportsRPC {
 					ActionFactory.getCreditCardChargeAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
-			initCallBack(new ClientEstimate(),
-					ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES),
+			initCallBack(new ClientEstimate(), ActionFactory.getNewQuoteAction(
+					ClientEstimate.QUOTES, Accounter.constants().newQuote()),
 					transactionId);
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
