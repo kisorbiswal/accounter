@@ -567,7 +567,6 @@ public class CreateCompanyCommand extends AbstractCommand {
 			String selectionName, Requirement requirement) {
 		ResultList list = new ResultList(selectionName);
 		Result result = context.makeResult();
-		result.add(list);
 
 		for (int num = 0; num < displayList.size(); num++) {
 			Record record = new Record(num);
@@ -579,6 +578,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		}
 		if (list.size() > 0) {
 			result.add(getMessages().pleaseSelect(displayString));
+			result.add(list);
 		}
 
 		return result;
