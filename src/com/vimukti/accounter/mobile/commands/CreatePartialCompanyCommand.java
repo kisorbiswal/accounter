@@ -8,6 +8,13 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 
 public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
@@ -26,6 +33,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		list.add(new Requirement(COUNTRY, true, true));
 		list.add(new Requirement(STATE, true, true));
 		list.add(new Requirement(CITY, true, true));
+		list.add(new Requirement(ADDRESS1, true, true));
+		list.add(new Requirement(ADDRESS2, true, true));
 		list.add(new Requirement(ZIPCODE, true, true));
 		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement(FAX, true, true));
@@ -71,12 +80,85 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			return result;
 		}
 
-		return null;
+		try {
+			createCompany(context);
+			markDone();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+			return new Result(e.getMessage());
+
+		}
+		result = new Result(getMessages().createSuccessfully(
+				getConstants().companyPreferences()));
+		return result;
 	}
 
 	private void setDefaultValues() {
-		// TODO Auto-generated method stub
+		get(LEGAL_NAME).setDefaultValue("");
+		get(TAX_ID).setDefaultValue("");
+		get(COUNTRY).setDefaultValue("United Kingdom");
+		get(STATE).setDefaultValue("Buckinghamshire");
+		get(PHONE).setDefaultValue("");
+		get(FAX).setDefaultValue("");
+		get(EMAIL).setDefaultValue("");
+		get(WEB_SITE).setDefaultValue("");
+		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
+		get(ADDRESS1).setDefaultValue("");
+		get(ADDRESS2).setDefaultValue("");
+		get(CITY).setDefaultValue("");
+		get(ZIPCODE).setDefaultValue("");
+		get(ORGANIZATION_REFER).setDefaultValue(1);
+		get(FISCAL_YEAR).setDefaultValue("January");
+	}
 
+	private void createCompany(Context context) throws AccounterException {
+		String companyName = get(COMPANY_NAME).getValue();
+		Integer industryType = get(INDUSTRY).getValue();
+		String legalName = get(LEGAL_NAME).getValue();
+		String taxId = get(TAX_ID).getValue();
+		String countryName = get(COUNTRY).getValue();
+		String state = get(STATE).getValue();
+		String phoneNum = get(PHONE).getValue();
+		String fax = get(FAX).getValue();
+		String emailId = get(EMAIL).getValue();
+		String webSite = get(WEB_SITE).getValue();
+		String timeZone = get(TIME_ZONE).getValue();
+		String address1 = get(ADDRESS1).getValue();
+		String address2 = get(ADDRESS2).getValue();
+		String city = get(CITY).getValue();
+		String zipCode = get(ZIPCODE).getValue();
+		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
+		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
+
+		ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
+		if (countryPreferences != null) {
+			// preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
+			// countryPreferences.getDefaultFiscalYearStartingMonth()));
+		}
+
+		ClientAddress address = new ClientAddress();
+		preferences.setTradingName(companyName);
+		preferences.setLegalName(legalName);
+		preferences.setPhone(phoneNum);
+		preferences.setCompanyEmail(emailId);
+		preferences.setTaxId(taxId);
+		preferences.setFax(fax);
+		preferences.setWebSite(webSite);
+		address.setAddress1(address1);
+		address.setStreet(address2);
+		address.setCity(city);
+		address.setZipOrPostalCode(zipCode);
+		address.setStateOrProvinence(state);
+		address.setCountryOrRegion(countryName);
+		preferences.setTradingAddress(address);
+		preferences.setTimezone(timeZone);
+		preferences.setIndustryType(industryType);
+		Integer organizationRefer = get(ORGANIZATION_REFER).getValue();
+		preferences.setOrganizationType(organizationRefer);
+		setStartDateOfFiscalYear(preferences);
+		AccounterCompanyInitializationServiceImpl.intializeCompany(preferences,
+				accounts, context.getIOSession().getClient());
 	}
 
 	private Result createOptionalRequirement(Context context, ResultList list,
@@ -118,6 +200,20 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 		result = listRequirement(context, getConstants().state(),
 				getCountryList(), STATES, get(STATE), list);
+		if (result != null) {
+			return result;
+		}
+
+		result = nameRequirement(context, list, ADDRESS1, getConstants()
+				.address1(),
+				getMessages().pleaseEnter(getConstants().address1()));
+		if (result != null) {
+			return result;
+		}
+
+		result = nameRequirement(context, list, ADDRESS2, getConstants()
+				.address2(),
+				getMessages().pleaseEnter(getConstants().address2()));
 		if (result != null) {
 			return result;
 		}

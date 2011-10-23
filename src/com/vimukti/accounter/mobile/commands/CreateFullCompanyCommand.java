@@ -10,9 +10,15 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 
 public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
@@ -50,6 +56,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new Requirement(TAX_ID, true, true));
 		list.add(new Requirement(COUNTRY, true, true));
 		list.add(new Requirement(STATE, true, true));
+		list.add(new Requirement(ADDRESS1, true, true));
+		list.add(new Requirement(ADDRESS2, true, true));
 		list.add(new Requirement(CITY, true, true));
 		list.add(new Requirement(ZIPCODE, true, true));
 		list.add(new Requirement(PHONE, true, true));
@@ -122,7 +130,94 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			return result;
 		}
 
-		return null;
+		try {
+			createCompany(context);
+			markDone();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+			return new Result(e.getMessage());
+
+		}
+		result = new Result(getMessages().createSuccessfully(
+				getConstants().companyPreferences()));
+		return result;
+	}
+
+	private void createCompany(Context context) throws AccounterException {
+		String companyName = get(COMPANY_NAME).getValue();
+		Integer industryType = get(INDUSTRY).getValue();
+		String legalName = get(LEGAL_NAME).getValue();
+		String taxId = get(TAX_ID).getValue();
+		String countryName = get(COUNTRY).getValue();
+		String state = get(STATE).getValue();
+		String phoneNum = get(PHONE).getValue();
+		String fax = get(FAX).getValue();
+		String emailId = get(EMAIL).getValue();
+		String webSite = get(WEB_SITE).getValue();
+		String timeZone = get(TIME_ZONE).getValue();
+		String address1 = get(ADDRESS1).getValue();
+		String address2 = get(ADDRESS2).getValue();
+		String city = get(CITY).getValue();
+		String zipCode = get(ZIPCODE).getValue();
+		Boolean trackTax = get(TRACK_TAX).getValue();
+		Boolean onePerTrans = get(ONE_PER_TRANSACTION).getValue();
+		Boolean trackTaxPad = get(TRACK_TAX_PAD).getValue();
+		Boolean createEstimates = get(CREATE_ESTIMATES).getValue();
+		ClientCurrency currency = get(SELECT_CURRENCY).getValue();
+		Boolean manageBills = get(MANAGE_BILLS_OWE).getValue();
+		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
+		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
+		preferences.setPrimaryCurrency(currency);
+
+		ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
+		if (countryPreferences != null) {
+			// preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
+			// countryPreferences.getDefaultFiscalYearStartingMonth()));
+		}
+
+		ClientAddress address = new ClientAddress();
+		preferences.setTradingName(companyName);
+		preferences.setLegalName(legalName);
+		preferences.setPhone(phoneNum);
+		preferences.setCompanyEmail(emailId);
+		preferences.setTaxId(taxId);
+		preferences.setFax(fax);
+		preferences.setWebSite(webSite);
+		address.setAddress1(address1);
+		address.setStreet(address2);
+		address.setCity(city);
+		address.setZipOrPostalCode(zipCode);
+		address.setStateOrProvinence(state);
+		address.setCountryOrRegion(countryName);
+		preferences.setTradingAddress(address);
+		preferences.setTimezone(timeZone);
+		preferences.setIndustryType(industryType);
+		Integer organizationRefer = get(ORGANIZATION_REFER).getValue();
+		preferences.setOrganizationType(organizationRefer);
+		Integer customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
+		Integer supplierTerm = get(SUPPLIER_TERMINOLOGY).getValue();
+		Integer accountTerm = get(ACCOUNT_TERMINOLOGY).getValue();
+		preferences.setReferCustomers(customerTerm);
+		preferences.setReferVendors(supplierTerm);
+		preferences.setReferAccounts(accountTerm);
+		Integer servProBoth = get(SERVICE_PRODUCTS).getValue();
+		if (servProBoth == 1) {
+			preferences.setSellServices(true);
+		} else if (servProBoth == 2) {
+			preferences.setSellProducts(true);
+		} else {
+			preferences.setSellServices(true);
+			preferences.setSellProducts(true);
+		}
+		preferences.setTaxTrack(trackTax);
+		preferences.setTaxPerDetailLine(onePerTrans);
+		preferences.setTrackPaidTax(trackTaxPad);
+		preferences.setKeepTrackofBills(manageBills);
+		preferences.setDoyouwantEstimates(createEstimates);
+		setStartDateOfFiscalYear(preferences);
+		AccounterCompanyInitializationServiceImpl.intializeCompany(preferences,
+				accounts, context.getIOSession().getClient());
 	}
 
 	private Result createOptionalRequirement(Context context, ResultList list,
@@ -164,6 +259,20 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		result = listRequirement(context, getConstants().state(),
 				getCountryList(), STATES, get(STATE), list);
+		if (result != null) {
+			return result;
+		}
+
+		result = nameRequirement(context, list, ADDRESS1, getConstants()
+				.address1(),
+				getMessages().pleaseEnter(getConstants().address1()));
+		if (result != null) {
+			return result;
+		}
+
+		result = nameRequirement(context, list, ADDRESS2, getConstants()
+				.address2(),
+				getMessages().pleaseEnter(getConstants().address2()));
 		if (result != null) {
 			return result;
 		}
@@ -326,8 +435,31 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	}
 
 	private void setDefaultValues() {
-		// TODO Auto-generated method stub
-
+		get(LEGAL_NAME).setDefaultValue("");
+		get(TAX_ID).setDefaultValue("");
+		get(COUNTRY).setDefaultValue("United Kingdom");
+		get(STATE).setDefaultValue("Buckinghamshire");
+		get(PHONE).setDefaultValue("");
+		get(FAX).setDefaultValue("");
+		get(EMAIL).setDefaultValue("");
+		get(WEB_SITE).setDefaultValue("");
+		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
+		get(ADDRESS1).setDefaultValue("");
+		get(ADDRESS2).setDefaultValue("");
+		get(CITY).setDefaultValue("");
+		get(ZIPCODE).setDefaultValue("");
+		get(ORGANIZATION_REFER).setDefaultValue(1);
+		get(CUSTOMER_TERMINOLOGY).setDefaultValue(1);
+		get(SUPPLIER_TERMINOLOGY).setDefaultValue(1);
+		get(ACCOUNT_TERMINOLOGY).setDefaultValue(1);
+		get(SERVICE_PRODUCTS_BOTH).setDefaultValue(1);
+		get(TRACK_TAX).setDefaultValue(false);
+		get(ONE_PER_TRANSACTION).setDefaultValue(true);
+		get(TRACK_TAX_PAD).setDefaultValue(false);
+		get(CREATE_ESTIMATES).setDefaultValue(false);
+		get(SELECT_CURRENCY).setDefaultValue(new ClientCurrency());
+		get(MANAGE_BILLS_OWE).setDefaultValue(false);
+		get(FISCAL_YEAR).setDefaultValue("January");
 	}
 
 	private List<String> getServiceProductBothList() {

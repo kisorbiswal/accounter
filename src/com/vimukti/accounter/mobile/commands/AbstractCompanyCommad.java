@@ -11,8 +11,11 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
 
 public abstract class AbstractCompanyCommad extends AbstractCommand {
@@ -280,5 +283,27 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 			statesList.add(statesForCountry[i]);
 		}
 		return statesList;
+	}
+
+	protected String getDefaultTzOffsetStr() {
+		return "UTC+5:30 Asia/Calcutta";
+	}
+
+	protected void setStartDateOfFiscalYear(ClientCompanyPreferences preferences) {
+		ClientFinanceDate currentDate = new ClientFinanceDate();
+		int fiscalYearFirstMonth = preferences.getFiscalYearFirstMonth();
+		ClientFinanceDate fiscalYearStartDate = new ClientFinanceDate(
+				(int) currentDate.getYear(), fiscalYearFirstMonth, 1);
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(fiscalYearStartDate.getDateAsObject());
+		endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 11);
+		endCal.set(Calendar.DATE,
+				endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		ClientFinanceDate fiscalYearEndDate = new ClientFinanceDate(
+				endCal.getTime());
+
+		preferences.setStartOfFiscalYear(fiscalYearStartDate.getDate());
+		preferences.setEndOfFiscalYear(fiscalYearEndDate);
+		preferences.setDepreciationStartDate(currentDate.getDate());
 	}
 }
