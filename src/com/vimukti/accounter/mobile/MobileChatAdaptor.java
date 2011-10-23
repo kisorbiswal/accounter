@@ -70,8 +70,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				.getResult();
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
-			Command selectCommand = command = getCommand(
-					patternResult.getCommands(), message);
+			Command selectCommand = getCommand(patternResult.getCommands(),
+					message);
 			if (selectCommand != null) {
 				command = selectCommand;
 			}
