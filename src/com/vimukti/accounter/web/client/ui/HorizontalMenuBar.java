@@ -878,13 +878,16 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction(true));
 			if (preferences.isDoyouwantEstimates()) {
 				newCustomerMenuBar.addItem(ActionFactory
-						.getNewQuoteAction(ClientEstimate.QUOTES));
+						.getNewQuoteAction(ClientEstimate.QUOTES, Accounter
+								.constants().newQuote()));
 			}
 			if (preferences.isDelayedchargesEnabled()) {
-				newCustomerMenuBar.addItem(ActionFactory
-						.getNewQuoteAction(ClientEstimate.CHARGES));
-				newCustomerMenuBar.addItem(ActionFactory
-						.getNewQuoteAction(ClientEstimate.CREDITS));
+				newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction(
+						ClientEstimate.CHARGES, Accounter.constants()
+								.newCharge()));
+				newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction(
+						ClientEstimate.CREDITS, Accounter.constants()
+								.newCredit()));
 			}
 			newCustomerMenuBar.addItem(ActionFactory.getNewInvoiceAction());
 		}
