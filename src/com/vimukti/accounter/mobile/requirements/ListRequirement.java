@@ -85,14 +85,13 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		}
 
 		Object selection = context.getSelection(ACTIONS);
-		List<T> lists = new ArrayList<T>();
+		List<T> lists = getLists(context);
 		if (selection == ActionNames.ALL) {
-			lists = getLists(context);
 			if (lists.size() != 0) {
 				result.add("All Customers");
 			}
 			name = null;
-		} else {
+		} else if (selection == null) {
 			lists = getLists(context, name);
 			if (lists.size() != 0) {
 				result.add("Found " + lists.size() + " record(s)");
