@@ -14,7 +14,6 @@ import com.vimukti.accounter.mobile.ResultList;
 public abstract class ListRequirement<T> extends AbstractRequirement {
 	private static final int RECORDS_TO_SHOW = 5;
 	private static final String RECORDS_START_INDEX = "0";
-	private static final String SELECTION = "selection";
 	private ChangeListner<T> listner;
 
 	public ListRequirement(String requirementName, String displayString,
@@ -28,39 +27,31 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		Object selection = context.getSelection(VALUES);
-
-		Object selectedObj = context.getSelection(getName());
-		if (selectedObj instanceof ActionNames) {
-			selectedObj = null;
-			selection = getName();
+		Object valuesSelection = context.getSelection(VALUES);
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		Object objSelection = context.getSelection(getName());
+		if (objSelection instanceof ActionNames) {
+			objSelection = null;
+			valuesSelection = getName();
 		}
 
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(getName())) {
-			if (selectedObj != null) {
-				setValue(selectedObj);
+			if (objSelection != null) {
+				setValue(objSelection);
 				T value = getValue();
 				if (listner != null) {
 					listner.onSelection(value);
 				}
-				context.setAttribute(INPUT_ATTR, "");
+			} else {
+				valuesSelection = getName();
 			}
-			Object action = context.getSelection(ACTIONS);
-			if (action == ActionNames.ALL) {
-				selection = getName();
-			}
-		}
-		Object action = context.getAttribute(SELECTION);
-		if (action.equals(getName())) {
-			selection = getName();
 		}
 
 		if (!isDone()) {
-			selection = getName();
+			valuesSelection = getName();
 		}
 
-		if (selection != null && selection.equals(getName())) {
+		if (valuesSelection != null && valuesSelection.equals(getName())) {
 			Result res = showList(context);
 			context.setAttribute(INPUT_ATTR, getName());
 			return res;
@@ -72,26 +63,27 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		customerRecord.add("", getDisplayValue(value));
 		list.add(customerRecord);
 
+		context.setAttribute(INPUT_ATTR, "");
 		return null;
 	}
 
 	public Result showList(Context context) {
 		Result result = context.makeResult();
-
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		String name = null;
-		Object attribute = context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(getName())) {
 			name = context.getString();
-		} else {
+		}
+		if (name == null) {
 			result.add(getDisplayString());
 			ResultList actions = new ResultList(ACTIONS);
 			Record record = new Record(ActionNames.ALL);
 			record.add("", "Show All Customers");
-
 			actions.add(record);
 			result.add(actions);
 			return result;
 		}
+
 		Object selection = context.getSelection(ACTIONS);
 		List<T> lists = new ArrayList<T>();
 		if (selection == ActionNames.ALL) {
@@ -100,7 +92,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 				result.add("All Customers");
 			}
 			name = null;
-		} else if (name != null) {
+		} else {
 			lists = getLists(context, name);
 			if (lists.size() != 0) {
 				result.add("Found " + lists.size() + " record(s)");
@@ -110,14 +102,11 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
 				record.add("", "Show All Customers");
-
 				actions.add(record);
 				result.add(actions);
-				context.setAttribute(SELECTION, getName());
 				return result;
 			}
 		}
-		context.setAttribute(SELECTION, "");
 		return displayRecords(context, lists, result, RECORDS_TO_SHOW);
 
 	}
