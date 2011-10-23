@@ -45,7 +45,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES);
+			return ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
+					Accounter.constants().newQuote());
 		else
 			return null;
 	}
