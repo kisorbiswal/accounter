@@ -169,7 +169,9 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = orderNoRequirement(context, list, selection);
+		result = numberRequirement(context, list, ORDER_NO, getMessages()
+				.pleaseEnter(getConstants().orderNo()), getConstants()
+				.orderNo());
 		if (result != null) {
 			return result;
 		}

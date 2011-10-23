@@ -95,7 +95,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final int COUNTRIES_TO_SHOW = 10;
 	protected static final String EMAIL = "email";
 	protected static final String PHONE = "phone";
-	
+
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
@@ -760,35 +760,6 @@ public abstract class AbstractCommand extends Command {
 		numberRecord.add("Name", name);
 		numberRecord.add("Value", number);
 		list.add(numberRecord);
-		return null;
-	}
-
-	protected Result orderNoRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(ORDER_NO);
-		String orderNo = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ORDER_NO)) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			orderNo = order;
-			req.setValue(orderNo);
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		if (selection == orderNo) {
-			context.setAttribute(INPUT_ATTR, ORDER_NO);
-			return number(context, "Enter Order number", orderNo);
-		}
-
-		Record orderNoRecord = new Record(orderNo);
-		orderNoRecord.add("Name", "Order No");
-		orderNoRecord.add("Value", orderNo);
-		list.add(orderNoRecord);
 		return null;
 	}
 
