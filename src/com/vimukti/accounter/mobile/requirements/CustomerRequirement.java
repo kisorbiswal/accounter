@@ -15,7 +15,7 @@ public abstract class CustomerRequirement extends
 
 	@Override
 	protected String getDisplayValue(ClientCustomer value) {
-		return value.getDisplayName();
+		return value != null ? value.getDisplayName() : "";
 	}
 
 	@Override

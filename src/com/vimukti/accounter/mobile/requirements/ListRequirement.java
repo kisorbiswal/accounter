@@ -42,6 +42,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 				if (listner != null) {
 					listner.onSelection(value);
 				}
+				context.setAttribute(INPUT_ATTR, "");
 			} else {
 				valuesSelection = getName();
 			}
@@ -63,7 +64,6 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		customerRecord.add("", getDisplayValue(value));
 		list.add(customerRecord);
 
-		context.setAttribute(INPUT_ATTR, "");
 		return null;
 	}
 
