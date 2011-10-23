@@ -12,8 +12,8 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class ListRequirement<T> extends AbstractRequirement<T> {
-	private static final int RECORDS_TO_SHOW = 0;
-	private static final String RECORDS_START_INDEX = null;
+	private static final int RECORDS_TO_SHOW = 5;
+	private static final String RECORDS_START_INDEX = "0";
 	private ChangeListner<T> listner;
 
 	public ListRequirement(String requirementName, String displayString,
@@ -40,7 +40,14 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			if (selectedObj != null) {
 				setValue(selectedObj);
 				T value = getValue();
-				listner.onSelection(value);
+				if (listner != null) {
+					listner.onSelection(value);
+				}
+				context.setAttribute(INPUT_ATTR, "");
+			}
+			Object action = context.getSelection(ACTIONS);
+			if (action == ActionNames.ALL) {
+				selection = getName();
 			}
 		}
 
@@ -71,7 +78,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		}
 
 		Object selection = context.getSelection(ACTIONS);
-		List<T> lists = null;
+		List<T> lists = new ArrayList<T>();
 		if (selection == ActionNames.ALL) {
 			lists = getLists(context);
 			result.add("All Customers");

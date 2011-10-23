@@ -8,7 +8,7 @@ import com.vimukti.accounter.mobile.ResultList;
 public abstract class AbstractRequirement<T> extends Requirement {
 	public static final String INPUT_ATTR = "input";
 	public static final String VALUES = "values";
-	public static final String ACTIONS = null;
+	public static final String ACTIONS = "actions";
 
 	public AbstractRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
