@@ -146,7 +146,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	private void showSaveButtons() {
 		// if (approveButton != null) {
-		// this.buttonBar.insert(approveButton, 0);
+		// this.buttonBar.insert(approveButton, 0);	
 		// }
 		if (saveAndNewButton != null) {
 			this.buttonBar.insert(saveAndNewButton, 0);

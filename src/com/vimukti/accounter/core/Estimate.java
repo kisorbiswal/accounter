@@ -17,12 +17,19 @@ public class Estimate extends Transaction {
 	public static final int STATUS_REJECTED = 1;
 	public static final int STATUS_ACCECPTED = 2;
 
+	public static final int QUOTES = 1;
+
+	public static final int CREDITS = 2;
+
+	public static final int CHARGES = 3;
+
+	public static final int BILLABLEEXAPENSES = 4;
 	/**
 	 * This is the Customer to whom we are creating this Quote.
 	 */
 	@ReffereredObject
 	Customer customer;
-
+	private int transactionType;
 	/**
 	 * This is the one of the chosen {@link Contact} of the {@link Customer}
 	 */
@@ -327,5 +334,13 @@ public class Estimate extends Transaction {
 		}
 
 		return true;
+	}
+
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
 	}
 }

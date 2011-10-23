@@ -45,7 +45,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction();
+			return ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES);
 		else
 			return null;
 	}
@@ -101,8 +101,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
 
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("150px");
 
 		viewSelect.setComboItem(OPEN);
 		viewSelect

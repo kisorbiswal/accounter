@@ -605,14 +605,14 @@ public class ActionFactory {
 				Global.get().Customer().trim()));
 	}
 
-	public static NewQuoteAction getNewQuoteAction() {
-		return new NewQuoteAction(actionsConstants.newQuote());
+	public static NewQuoteAction getNewQuoteAction(int type) {
+		return new NewQuoteAction(actionsConstants.newQuote(), type);
 	}
 
 	public static NewQuoteAction getNewQuoteAction(ClientEstimate quote,
-			AccounterAsyncCallback<Object> callBackObject) {
+			AccounterAsyncCallback<Object> callBackObject, int type) {
 		return new NewQuoteAction(actionsConstants.newQuote(), quote,
-				callBackObject);
+				callBackObject, type);
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,

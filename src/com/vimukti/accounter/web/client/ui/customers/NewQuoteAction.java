@@ -18,16 +18,19 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class NewQuoteAction extends Action {
 
 	protected QuoteView view;
+	private int type;
 
-	public NewQuoteAction(String text) {
+	public NewQuoteAction(String text, int type) {
 		super(text);
 		this.catagory = Global.get().Customer();
+		this.type = type;
 	}
 
 	public NewQuoteAction(String text, ClientEstimate quote,
-			AccounterAsyncCallback<Object> callback) {
+			AccounterAsyncCallback<Object> callback, int type) {
 		super(text);
 		this.catagory = Global.get().Customer();
+		this.type = type;
 	}
 
 	@Override
@@ -42,7 +45,7 @@ public class NewQuoteAction extends Action {
 
 			@Override
 			public void onCreated() {
-				view = QuoteView.getInstance();
+				view = QuoteView.getInstance(type);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewQuoteAction.this);

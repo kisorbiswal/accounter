@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
@@ -876,7 +877,14 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			newCustomerMenuBar.addItem(ActionFactory.getNewCustomerAction());
 			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction(true));
 			if (preferences.isDoyouwantEstimates()) {
-				newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction());
+				newCustomerMenuBar.addItem(ActionFactory
+						.getNewQuoteAction(ClientEstimate.QUOTES));
+			}
+			if (preferences.isDelayedchargesEnabled()) {
+				newCustomerMenuBar.addItem(ActionFactory
+						.getNewQuoteAction(ClientEstimate.CHARGES));
+				newCustomerMenuBar.addItem(ActionFactory
+						.getNewQuoteAction(ClientEstimate.CREDITS));
 			}
 			newCustomerMenuBar.addItem(ActionFactory.getNewInvoiceAction());
 		}

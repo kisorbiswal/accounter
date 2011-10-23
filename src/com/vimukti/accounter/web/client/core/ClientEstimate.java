@@ -13,6 +13,14 @@ public class ClientEstimate extends ClientTransaction {
 
 	public static final int STATUS_ACCECPTED = 2;
 
+	public static final int QUOTES = 1;
+
+	public static final int CREDITS = 2;
+
+	public static final int CHARGES = 3;
+
+	public static final int BILLABLEEXAPENSES = 4;
+
 	long customer;
 
 	ClientContact contact;
@@ -36,6 +44,7 @@ public class ClientEstimate extends ClientTransaction {
 	double taxTotal;
 
 	boolean isTurnedToInvoice = false;
+	private int transactionType;
 
 	/**
 	 * @return the version
@@ -287,6 +296,14 @@ public class ClientEstimate extends ClientTransaction {
 		clientEstimateClone.contact = this.contact.clone();
 		clientEstimateClone.shippingAdress = this.shippingAdress.clone();
 		return clientEstimateClone;
+	}
+
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
 	}
 
 }

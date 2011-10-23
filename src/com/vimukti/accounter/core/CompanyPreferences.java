@@ -103,7 +103,9 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long USE_DIFF_NAME_TO_COMM_WITH_GOVT = 0x80000000000L;
 
 	private static final long USE_DIFF_ADDR_TO_COMM_WITH_GOVT = 0x200000000000L;
-
+	private static final long DELAYED_CHARGES = 0x400000000000L;
+	private static final long BILLABLE_EXPENSE = 0x800000000000L;
+	private static final long PRODUCT_AND_SERVICES_TRACKING_CUSTOMER = 0x2000000000000L;
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -1367,6 +1369,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 		set(USE_DIFF_ADDR_TO_COMM_WITH_GOVT, value);
 	}
 
+	public boolean isShowRegisteredAddress() {
+		return isShowRegisteredAddress;
+	}
+
 	public TAXCode getDefaultTaxCode() {
 		return defaultTaxCode;
 	}
@@ -1387,7 +1393,30 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.isShowRegisteredAddress = isShowRegisteredAddress;
 	}
 
-	public boolean isShowRegisteredAddress() {
-		return isShowRegisteredAddress;
+	public void setDelayedchargesEnabled(boolean isDelayedchargesEnabled) {
+		this.set(DELAYED_CHARGES, isDelayedchargesEnabled);
+	}
+
+	public boolean isDelayedchargesEnabled() {
+		return get(DELAYED_CHARGES);
+	}
+
+	public boolean isBillableExpsesEnbldForProductandServices() {
+		return get(BILLABLE_EXPENSE);
+	}
+
+	public void setBillableExpsesEnbldForProductandServices(
+			boolean isBillableExpsesEnbldForProdandServs) {
+		this.set(BILLABLE_EXPENSE, isBillableExpsesEnbldForProdandServs);
+	}
+
+	public boolean isProductandSerivesTrackingByCustomerEnabled() {
+		return get(PRODUCT_AND_SERVICES_TRACKING_CUSTOMER);
+	}
+
+	public void setProductandSerivesTrackingByCustomerEnabled(
+			boolean isProandSerTrackingByCustomerEnabled) {
+		this.set(PRODUCT_AND_SERVICES_TRACKING_CUSTOMER,
+				isProandSerTrackingByCustomerEnabled);
 	}
 }

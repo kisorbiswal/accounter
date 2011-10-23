@@ -143,7 +143,6 @@ public abstract class VendorAccountTransactionTable extends
 				this.addColumn(new TransactionTaxableColumn());
 			}
 		}
-
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
 }

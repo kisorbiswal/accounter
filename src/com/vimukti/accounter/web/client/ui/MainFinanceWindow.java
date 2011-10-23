@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
@@ -366,8 +367,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getNewCustomerAction().getHistoryToken(),
 				ActionFactory.getNewCustomerAction());
 
-		actions.put(ActionFactory.getNewQuoteAction().getHistoryToken(),
-				ActionFactory.getNewQuoteAction());
+		actions.put(ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES).getHistoryToken(),
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES));
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
 		actions.put(ActionFactory.getInvoiceBrandingAction().getHistoryToken(),
