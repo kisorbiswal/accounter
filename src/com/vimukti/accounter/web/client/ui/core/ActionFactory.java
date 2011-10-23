@@ -605,8 +605,8 @@ public class ActionFactory {
 				Global.get().Customer().trim()));
 	}
 
-	public static NewQuoteAction getNewQuoteAction(int type) {
-		return new NewQuoteAction(actionsConstants.newQuote(), type);
+	public static NewQuoteAction getNewQuoteAction(int type, String title) {
+		return new NewQuoteAction(title, type);
 	}
 
 	public static NewQuoteAction getNewQuoteAction(ClientEstimate quote,
