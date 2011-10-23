@@ -11,7 +11,6 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.Command;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -63,7 +62,8 @@ public class SelectCompanyCommand extends Command {
 				if (companies.size() == 1) {
 					Company company = companies.get(0);
 					companyReq.setValue(company);
-					makeResult.add(company.getDisplayName() + " is selected.");
+					makeResult.add(company.getDisplayName()
+							+ " Company is selected.");
 				} else {
 					ResultList companyList = new ResultList(COMPANY);
 					if (companies.isEmpty()) {

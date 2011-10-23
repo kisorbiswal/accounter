@@ -87,6 +87,7 @@ public class AuthenticationCommand extends AbstractCommand {
 				imUser = createIMUser(context.getNetworkType(),
 						activation.getNetworkId(),
 						getClient(activation.getEmailId()));
+				makeResult.add("Activation Success");
 			}
 		}
 		if (imUser != null) {
@@ -108,13 +109,14 @@ public class AuthenticationCommand extends AbstractCommand {
 								.beginTransaction();
 						client.setActive(true);
 						beginTransaction.commit();
+						
+						makeResult.add("Activation Success");
 						markDone();
 					}
 				}
 			}
 		}
 		if (isDone()) {
-			makeResult.add("Activation Success");
 			CommandList commandList = new CommandList();
 			makeResult.setNextCommand("Select Company");
 			makeResult.add(commandList);
