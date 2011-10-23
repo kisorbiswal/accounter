@@ -120,6 +120,7 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientCustomer> customers;
 
 	private ArrayList<ClientVendor> vendors;
+
 	private ArrayList<ClientLocation> locations;
 	// private ArrayList<ClientTaxAgency> taxAgencies;
 
@@ -154,6 +155,7 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientPayee> payees;
 
 	private ArrayList<ClientFiscalYear> fiscalYears;
+
 	private ArrayList<ClientBank> banks;
 
 	private ArrayList<ClientFixedAsset> fixedAssets;
@@ -1628,8 +1630,8 @@ public class ClientCompany implements IAccounterCore {
 
 				// Utility.updateClientList(account, accounts);
 
-				ClientAccount existObj = Utility.getObject(accounts, account
-						.getID());
+				ClientAccount existObj = Utility.getObject(accounts,
+						account.getID());
 				if (existObj != null) {
 					if (account.getNumber().equals(existObj.getNumber())) {
 						accounts.remove(existObj);
@@ -2314,8 +2316,8 @@ public class ClientCompany implements IAccounterCore {
 		calendar.setTime(startDate.getDateAsObject());
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
 		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
-		calendar.set(Calendar.DATE, calendar
-				.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar.set(Calendar.DATE,
+				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
 
