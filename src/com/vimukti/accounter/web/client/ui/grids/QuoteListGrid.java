@@ -146,7 +146,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	public void onDoubleClick(ClientEstimate obj) {
 
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES).run(obj, false);
+			ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
+					Accounter.constants().newQuote()).run(obj, false);
 		}
 	}
 
@@ -267,17 +268,17 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			return salesPerson1.compareTo(salesPerson2);
 
 		case 5:
-			ClientFinanceDate expiration1 = new ClientFinanceDate(obj1
-					.getExpirationDate());
-			ClientFinanceDate expiration2 = new ClientFinanceDate(obj2
-					.getExpirationDate());
+			ClientFinanceDate expiration1 = new ClientFinanceDate(
+					obj1.getExpirationDate());
+			ClientFinanceDate expiration2 = new ClientFinanceDate(
+					obj2.getExpirationDate());
 			return expiration1.compareTo(expiration2);
 
 		case 6:
-			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(obj1
-					.getDeliveryDate());
-			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(obj2
-					.getDeliveryDate());
+			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(
+					obj1.getDeliveryDate());
+			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(
+					obj2.getDeliveryDate());
 			return deliveryDate1.compareTo(deliveryDate2);
 
 		case 7:
