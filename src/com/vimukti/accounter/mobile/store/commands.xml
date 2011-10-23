@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <commands>
 
+	<command clazz="MyCommand" name="aa">
+	</command>
 	<command clazz="AuthenticationCommand" name="authenticate">
 	</command>
 
@@ -8,11 +10,12 @@
 		<alias>Close</alias>
 	</command>
 
-	<command clazz="SelectCompanyCommand" name="selectCompany">
-		<alias>Select Company</alias>
+	<command clazz="CompanyTypeCommand" name="Company Type Selection">
+		<alias>Create Company</alias>
 	</command>
 
-	<command clazz="SelectCompanyCommand" name="Select Company">
+	<command clazz="SelectCompanyCommand" name="selectCompany">
+		<alias>Select Company</alias>
 	</command>
 
 	<command clazz="NewCustomerGroupCommand" name="New Customer Group">
