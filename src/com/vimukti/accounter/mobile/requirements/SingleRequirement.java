@@ -29,7 +29,9 @@ public abstract class SingleRequirement<T> extends AbstractRequirement {
 		Object selection = context.getSelection(VALUES);
 		if (!isDone() || (selection != null && selection.equals(getName()))) {
 			context.setAttribute(INPUT_ATTR, getName());
-			return show(context);
+			T v = getValue();
+			return show(context, getDisplayString(), v == null ? null
+					: getDisplayValue(v));
 		}
 
 		T customerName = getValue();
@@ -44,17 +46,4 @@ public abstract class SingleRequirement<T> extends AbstractRequirement {
 
 	protected abstract T getInputFromContext(Context context);
 
-	private Result show(Context context) {
-		Result result = context.makeResult();
-		result.add(getDisplayString());
-		T value = getValue();
-		if (value != null) {
-			ResultList list = new ResultList(getName());
-			Record record = new Record(value);
-			record.add("", getDisplayValue(value));
-			list.add(record);
-			result.add(list);
-		}
-		return result;
-	}
 }

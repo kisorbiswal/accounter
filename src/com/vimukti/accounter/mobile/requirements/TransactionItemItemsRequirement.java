@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class TransactionItemItemsRequirement extends
+public abstract class TransactionItemItemsRequirement extends
 		AbstractTransactionItemsRequirement<ClientItem> {
 	private static final int ITEMS_TO_SHOW = 0;
 	private static final String PROCESS_ATTR = null;
@@ -29,12 +29,14 @@ public class TransactionItemItemsRequirement extends
 	private static final Object DESCRIPTION = null;
 	private static final String ITEM_DETAILS = null;
 	private static final Object TAX = null;
+	private boolean isSales;
 
 	public TransactionItemItemsRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
 			boolean isAllowFromContext, boolean isSales) {
 		super(requirementName, displayString, recordName, isOptional,
-				isAllowFromContext, isSales);
+				isAllowFromContext);
+		this.isSales = isSales;
 	}
 
 	@Override
@@ -213,19 +215,16 @@ public class TransactionItemItemsRequirement extends
 		return result;
 	}
 
-	private Result number(Context context, String string, String description2) {
-		// TODO Auto-generated method stub
-		return null;
+	private Result number(Context context, String displayString, String oldValu) {
+		return show(context, displayString, oldValu);
 	}
 
 	private Result taxCode(Context context, String string) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Result amount(Context context, String string, double value) {
-		// TODO Auto-generated method stub
-		return null;
+	private Result amount(Context context, String displayString, double oldValu) {
+		return show(context, displayString, String.valueOf(oldValu));
 	}
 
 	@Override
@@ -269,44 +268,38 @@ public class TransactionItemItemsRequirement extends
 
 	@Override
 	protected String getCreateCommand() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Create Item";
 	}
 
 	@Override
 	protected String getSelectMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected Record creatItemRecord(ClientItem value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected List<ClientItem> getItems() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Slect an Item";
 	}
 
 	@Override
 	protected String getAddMoreString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getItemDisplayValue(ClientTransactionItem item) {
-		// TODO Auto-generated method stub
-		return null;
+		return "Add More Items";
 	}
 
 	@Override
 	protected String getItemsDisplayString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Transaction Items:";
+	}
+
+	@Override
+	protected void setPrice(ClientTransactionItem transactionItem,
+			ClientItem item) {
+		transactionItem.setItem(item.getID());
+	}
+
+	@Override
+	protected void setItem(ClientTransactionItem transactionItem,
+			ClientItem item) {
+		if (isSales) {
+			transactionItem.setUnitPrice(item.getSalesPrice());
+		} else {
+			transactionItem.setUnitPrice(item.getPurchasePrice());
+		}
 	}
 
 }

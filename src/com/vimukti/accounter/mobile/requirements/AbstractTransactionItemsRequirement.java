@@ -7,7 +7,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -17,31 +16,25 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 	private static final String TRANSACTION_ITEMS = null;
 
-	private boolean isSales;
-
 	public AbstractTransactionItemsRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
-			boolean isAllowFromContext, boolean isSales) {
+			boolean isAllowFromContext) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext);
-		this.isSales = isSales;
 	}
 
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		List<ClientItem> items = context.getSelections(getName());
+		List<T> items = context.getSelections(getName());
 		List<ClientTransactionItem> transactionItems = getValue();
 		if (items != null && items.size() > 0) {
-			for (ClientItem item : items) {
+			for (T item : items) {
 				ClientTransactionItem transactionItem = new ClientTransactionItem();
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-				transactionItem.setItem(item.getID());
-				if (isSales) {
-					transactionItem.setUnitPrice(item.getSalesPrice());
-				} else {
-					transactionItem.setUnitPrice(item.getPurchasePrice());
-				}
+				setItem(transactionItem, item);
+				setPrice(transactionItem, item);
+
 				ClientQuantity quantity = new ClientQuantity();
 				quantity.setValue(1);
 				transactionItem.setQuantity(quantity);
@@ -59,9 +52,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 				if (transactionItemResult != null) {
 					return transactionItemResult;
 				}
-
 			}
-
 		}
 		if (!isDone()) {
 			return items(context);
@@ -98,6 +89,12 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		return null;
 	}
 
+	protected abstract void setPrice(ClientTransactionItem transactionItem,
+			T item);
+
+	protected abstract void setItem(ClientTransactionItem transactionItem,
+			T item);
+
 	protected abstract Result items(Context context);
 
 	protected abstract Result transactionItem(Context context,
@@ -110,9 +107,9 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 	protected abstract String getSelectMessage();
 
-	protected abstract Record creatItemRecord(ClientItem value);
+	protected abstract Record creatItemRecord(T value);
 
-	protected abstract List<ClientItem> getItems();
+	protected abstract List<T> getItems();
 
 	protected abstract String getAddMoreString();
 
