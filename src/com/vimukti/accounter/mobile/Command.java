@@ -97,4 +97,8 @@ public abstract class Command {
 	public ClientCompany getClientCompany() {
 		return clientCompany;
 	}
+
+	public List<Requirement> getRequirements() {
+		return requirements;
+	}
 }

@@ -51,13 +51,16 @@ public class MobileMessageHandler {
 			Result result = getCommandProcessor().handleMessage(session,
 					preProcess);
 			if (preProcess.getCommand().isDone()) {
-				session.refreshCurrentCommand();
-				Command currentCommand = session.getCurrentCommand();
-				if (currentCommand != null) {
-					UserMessage lastMessage = session.getLastMessage();
-					lastMessage.setResult(lastMessage.getLastResult());
-					reloadCommand(networkId, userId, null, adaptorType,
-							networkType, commandSender);
+				String nextCommand = result.getNextCommand();
+				if (nextCommand == null) {
+					session.refreshCurrentCommand();
+					Command currentCommand = session.getCurrentCommand();
+					if (currentCommand != null) {
+						UserMessage lastMessage = session.getLastMessage();
+						lastMessage.setResult(lastMessage.getLastResult());
+						reloadCommand(networkId, userId, null, adaptorType,
+								networkType, commandSender);
+					}
 				}
 			}
 

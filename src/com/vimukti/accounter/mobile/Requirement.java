@@ -9,12 +9,21 @@ public class Requirement {
 
 	boolean isOptional;
 	boolean isAllowFromContext;
+	private String displayString;
+	private String recordName;
 
 	public Requirement(String name, boolean isOptional,
 			boolean isAllowFromContext) {
 		this.name = name;
 		this.isOptional = isOptional;
 		this.isAllowFromContext = isAllowFromContext;
+	}
+
+	public Requirement(String requirementName, String displayString,
+			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
+		this(requirementName, isOptional2, isAllowFromContext2);
+		this.displayString = displayString;
+		this.recordName = recordName;
 	}
 
 	public <T> T getValue() {
@@ -64,4 +73,16 @@ public class Requirement {
 		return true;
 	}
 
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		return null;
+	}
+
+	public String getRecordName() {
+		return recordName;
+	}
+
+	public String getDisplayString() {
+		return displayString;
+	}
 }
