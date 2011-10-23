@@ -18,11 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-/**
- * 
- * @author Sai Prasad N
- * 
- */
+
 public class QuotesListCommand extends AbstractTransactionCommand {
 
 	private static final String CURRENT_VIEW = "Current View";
