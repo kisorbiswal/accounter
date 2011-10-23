@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -28,6 +29,9 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 			ResultList actions) {
 		List<T> items = context.getSelections(getName());
 		List<ClientTransactionItem> transactionItems = getValue();
+		if (transactionItems == null) {
+			transactionItems = new ArrayList<ClientTransactionItem>();
+		}
 		if (items != null && items.size() > 0) {
 			for (T item : items) {
 				ClientTransactionItem transactionItem = new ClientTransactionItem();

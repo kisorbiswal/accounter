@@ -17,18 +17,18 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class TransactionItemItemsRequirement extends
 		AbstractTransactionItemsRequirement<ClientItem> {
-	private static final int ITEMS_TO_SHOW = 0;
-	private static final String PROCESS_ATTR = null;
-	private static final Object TRANSACTION_ITEM_PROCESS = null;
-	private static final String OLD_TRANSACTION_ITEM_ATTR = null;
-	private static final String ITEM_PROPERTY_ATTR = null;
-	private static final Object QUANTITY = null;
-	private static final Object UNIT_PRICE = null;
-	private static final Object DISCOUNT = null;
-	private static final String TAXCODE = null;
-	private static final Object DESCRIPTION = null;
-	private static final String ITEM_DETAILS = null;
-	private static final Object TAX = null;
+	private static final int ITEMS_TO_SHOW = 5;
+	private static final String PROCESS_ATTR = "processAttr";
+	private static final Object TRANSACTION_ITEM_PROCESS = "transactionItemProcess";
+	private static final String OLD_TRANSACTION_ITEM_ATTR = "oldTransactionItemAttr";
+	private static final String ITEM_PROPERTY_ATTR = "itemPropertyAttr";
+	private static final Object QUANTITY = "quantity";
+	private static final Object UNIT_PRICE = "unitPrice";
+	private static final Object DISCOUNT = "discount";
+	private static final String TAXCODE = "taxcode";
+	private static final Object DESCRIPTION = "description";
+	private static final String ITEM_DETAILS = "itemDetails";
+	private static final Object TAX = "tax";
 	private boolean isSales;
 
 	public TransactionItemItemsRequirement(String requirementName,
@@ -189,7 +189,7 @@ public abstract class TransactionItemItemsRequirement extends
 
 		Result result = context.makeResult();
 		result.add("Item Details:");
-		result.add("Name :" + transactionItem.getName());
+		result.add("Name :" + getItemDisplayValue(transactionItem));
 		result.add(list);
 
 		// if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
