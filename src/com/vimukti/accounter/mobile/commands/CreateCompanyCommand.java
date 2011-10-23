@@ -16,9 +16,11 @@ import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
@@ -375,7 +377,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		if (value == null) {
 			return null;
 		}
-		value -= value;
+		value = value - 1;
 		if (reqName == INDUSTRY) {
 			return getIndustryList().get(value);
 		} else if (reqName == CUSTOMER_TERMINOLOGY) {
@@ -754,8 +756,27 @@ public class CreateCompanyCommand extends AbstractCommand {
 		preferences.setTrackPaidTax(trackTaxPad);
 		preferences.setKeepTrackofBills(manageBills);
 		preferences.setDoyouwantEstimates(createEstimates);
+		setStartDateOfFiscalYear(preferences);
 		AccounterCompanyInitializationServiceImpl.intializeCompany(preferences,
 				accounts, context.getIOSession().getClient());
+	}
+
+	private void setStartDateOfFiscalYear(ClientCompanyPreferences preferences) {
+		ClientFinanceDate currentDate = new ClientFinanceDate();
+		int fiscalYearFirstMonth = preferences.getFiscalYearFirstMonth();
+		ClientFinanceDate fiscalYearStartDate = new ClientFinanceDate(
+				(int) currentDate.getYear(), fiscalYearFirstMonth, 1);
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(fiscalYearStartDate.getDateAsObject());
+		endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 11);
+		endCal.set(Calendar.DATE,
+				endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		ClientFinanceDate fiscalYearEndDate = new ClientFinanceDate(
+				endCal.getTime());
+
+		preferences.setStartOfFiscalYear(fiscalYearStartDate.getDate());
+		preferences.setEndOfFiscalYear(fiscalYearEndDate);
+		preferences.setDepreciationStartDate(currentDate.getDate());
 	}
 
 	private List<String> getTimeZonesList() {
