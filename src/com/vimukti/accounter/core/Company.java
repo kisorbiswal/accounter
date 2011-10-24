@@ -1063,8 +1063,8 @@ public class Company implements IAccounterServerCore {
 		this.setBankAccountNo(clientCompany.getBankAccountNo());
 		this.setSortCode(clientCompany.getSortCode());
 		this.setPreferences(serverConvertUtil.toServerObject(this.preferences,
-				clientCompany.getPreferences(), HibernateUtil
-						.getCurrentSession()));
+				clientCompany.getPreferences(),
+				HibernateUtil.getCurrentSession()));
 	}
 
 	public ClientCompany toClientCompany() throws AccounterException {
