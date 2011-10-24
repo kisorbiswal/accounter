@@ -163,13 +163,16 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		} else {
 			message.append(getEmptyString());
 		}
-		CommandList commandList = new CommandList();
-		commandList.add(getCreateCommandString());
 
 		result.add(message.toString());
 		result.add(customerList);
 		result.add(actions);
-		result.add(commandList);
+		String comm = getCreateCommandString();
+		if (comm != null) {
+			CommandList commandList = new CommandList();
+			commandList.add(comm);
+			result.add(commandList);
+		}
 		return result;
 	}
 

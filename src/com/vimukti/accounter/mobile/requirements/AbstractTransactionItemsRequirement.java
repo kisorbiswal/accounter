@@ -25,7 +25,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 			boolean isAllowFromContext) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, null);
-		setDefaultValue(new ArrayList<ClientTransactionItem>());
+
 		setValue(new ArrayList<ClientTransactionItem>());
 	}
 
@@ -35,7 +35,14 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		if (!isOptional()) {
 			return ((List<ClientTransactionItem>) getValue()).size() != 0;
 		}
-		return ((List<ClientTransactionItem>) getDefaultValue()).size() != 0;
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void setDefaultValue(Object defaultValue) {
+		((List<ClientTransactionItem>) getValue())
+				.addAll((List<ClientTransactionItem>) defaultValue);
 	}
 
 	@Override
