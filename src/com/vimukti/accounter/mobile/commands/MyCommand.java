@@ -6,9 +6,9 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 
@@ -49,63 +49,90 @@ public class MyCommand extends NewCommand {
 		// }
 		// });
 
-		list.add(new TransactionItemItemsRequirement("Transaction_ITEms",
-				"Enter Item name or number", "Items:", false, true, false) {
+		list.add(new TransactionItemAccountsRequirement("accountItem",
+				"enter account item name or number", "accountItems", false,
+				true) {
+
+			@Override
+			protected List<ClientAccount> getLists(Context context) {
+				return getClientCompany().getAccounts();
+			}
+
+			@Override
+			protected List<ClientAccount> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						return e.getName().contains(name)
+								|| e.getNumber().equals(name);
+					}
+				}, getClientCompany().getAccounts());
+			}
 
 			@Override
 			protected ClientCompany getClientCompany() {
 				return MyCommand.this.getClientCompany();
 			}
-
-			@Override
-			protected List<ClientItem> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientItem>() {
-
-					@Override
-					public boolean filter(ClientItem e) {
-						return e.getName().contains(name);
-					}
-				}, getClientCompany().getItems());
-			}
-
-			@Override
-			protected List<ClientItem> getLists(Context context) {
-				ClientCompany clientCompany2 = MyCommand.this
-						.getClientCompany();
-				return clientCompany2.getAllItems();
-			}
-
 		});
 
-		list.add(new TransactionItemItemsRequirement("Transaction_Items2",
-				"Enter Item2 name or number", "Items2:", false, true, false) {
+		list.add(new TransactionItemAccountsRequirement("accountItem2",
+				"enter account item2 name or number", "accountItems2", false,
+				true) {
+
+			@Override
+			protected List<ClientAccount> getLists(Context context) {
+				return getClientCompany().getAccounts();
+			}
+
+			@Override
+			protected List<ClientAccount> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						return e.getName().contains(name)
+								|| e.getNumber().equals(name);
+					}
+				}, getClientCompany().getAccounts());
+			}
 
 			@Override
 			protected ClientCompany getClientCompany() {
 				return MyCommand.this.getClientCompany();
 			}
-
-			@Override
-			protected List<ClientItem> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientItem>() {
-
-					@Override
-					public boolean filter(ClientItem e) {
-						return e.getName().contains(name);
-					}
-				}, getClientCompany().getItems());
-			}
-
-			@Override
-			protected List<ClientItem> getLists(Context context) {
-				ClientCompany clientCompany2 = MyCommand.this
-						.getClientCompany();
-				return clientCompany2.getAllItems();
-			}
-
 		});
+		//
+		// list.add(new TransactionItemItemsRequirement("Transaction_Items2",
+		// "Enter Item2 name or number", "Items2:", false, true, false) {
+		//
+		// @Override
+		// protected ClientCompany getClientCompany() {
+		// return MyCommand.this.getClientCompany();
+		// }
+		//
+		// @Override
+		// protected List<ClientItem> getLists(Context context,
+		// final String name) {
+		// return Utility.filteredList(new ListFilter<ClientItem>() {
+		//
+		// @Override
+		// public boolean filter(ClientItem e) {
+		// return e.getName().contains(name);
+		// }
+		// }, getClientCompany().getItems());
+		// }
+		//
+		// @Override
+		// protected List<ClientItem> getLists(Context context) {
+		// ClientCompany clientCompany2 = MyCommand.this
+		// .getClientCompany();
+		// return clientCompany2.getAllItems();
+		// }
+		//
+		// });
 	}
 
 	@Override
@@ -114,7 +141,7 @@ public class MyCommand extends NewCommand {
 	}
 
 	@Override
-	protected void setDefaultValues() {
+	protected void setDefaultValues(Context context) {
 
 	}
 

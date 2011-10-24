@@ -14,7 +14,7 @@ public abstract class NewCommand extends Command {
 
 	@Override
 	public Result run(Context context) {
-		setDefaultValues();
+		setDefaultValues(context);
 		if (getAttribute("input") == null) {
 			setAttribute("input", "");
 		}
@@ -72,7 +72,7 @@ public abstract class NewCommand extends Command {
 
 	protected abstract String getDetailsMessage();
 
-	protected abstract void setDefaultValues();
+	protected abstract void setDefaultValues(Context context);
 
 	public abstract String getSuccessMessage();
 

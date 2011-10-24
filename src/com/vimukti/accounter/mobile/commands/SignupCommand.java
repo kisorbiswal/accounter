@@ -94,7 +94,7 @@ public class SignupCommand extends NewCommand {
 	}
 
 	@Override
-	protected void setDefaultValues() {
+	protected void setDefaultValues(Context context) {
 
 	}
 
