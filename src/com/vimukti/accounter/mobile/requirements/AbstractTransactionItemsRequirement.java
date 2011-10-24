@@ -105,7 +105,11 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		}
 
 		if (show) {
-			return showList(context, null);
+			List<T> oldValues = new ArrayList<T>();
+			for (ClientTransactionItem item : transactionItems) {
+				oldValues.add(getTransactionItem(item));
+			}
+			return showList(context, oldValues);
 		}
 
 		makeResult.add(getRecordName());
@@ -140,6 +144,8 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		}
 		return result;
 	}
+
+	protected abstract T getTransactionItem(ClientTransactionItem item);
 
 	protected abstract void setPrice(ClientTransactionItem transactionItem,
 			T item);

@@ -277,6 +277,11 @@ public abstract class TransactionItemItemsRequirement extends
 		return "Slect an Item";
 	}
 
+	@Override
+	protected ClientItem getTransactionItem(ClientTransactionItem item) {
+		return getClientCompany().getItem(item.getItem());
+	}
+
 	protected abstract ClientCompany getClientCompany();
 
 }
