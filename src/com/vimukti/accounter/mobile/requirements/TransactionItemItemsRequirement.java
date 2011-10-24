@@ -217,6 +217,11 @@ public abstract class TransactionItemItemsRequirement extends
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return "There are no Items";
+	}
+
+	@Override
 	protected void setPrice(ClientTransactionItem transactionItem,
 			ClientItem item) {
 		transactionItem.setItem(item.getID());

@@ -47,6 +47,11 @@ public abstract class TransactionItemAccountsRequirement extends
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return "There are no accounts";
+	}
+
+	@Override
 	protected Result transactionItem(Context context,
 			ClientTransactionItem transactionItem) {
 		context.setAttribute(PROCESS_ATTR, getName());

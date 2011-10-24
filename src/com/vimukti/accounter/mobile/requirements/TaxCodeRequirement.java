@@ -20,6 +20,11 @@ public abstract class TaxCodeRequirement extends ListRequirement<ClientTAXCode> 
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return "There are no TaxCodes";
+	}
+
+	@Override
 	protected String getDisplayValue(ClientTAXCode value) {
 		return value != null ? value.getName() : "";
 	}

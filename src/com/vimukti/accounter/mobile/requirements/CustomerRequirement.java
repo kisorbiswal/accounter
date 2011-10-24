@@ -24,6 +24,11 @@ public abstract class CustomerRequirement extends
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return "There are no customers";
+	}
+
+	@Override
 	protected String getSelectString() {
 		return "Slect a Customer";
 	}

@@ -162,6 +162,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			message.append(getSelectString());
 		} else {
 			message.append(getEmptyString());
+			String comm = getCreateCommandString();
+			if (comm != null) {
+				message.append(". Press 'a' to create " + getRecordName());
+			}
 		}
 
 		result.add(message.toString());
@@ -176,9 +180,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		return result;
 	}
 
-	private String getEmptyString() {
-		return "There is no customers.";
-	}
+	protected abstract String getEmptyString();
 
 	public List<T> pagination(Context context, ActionNames selection,
 			ResultList actions, List<T> records, List<T> skipRecords,

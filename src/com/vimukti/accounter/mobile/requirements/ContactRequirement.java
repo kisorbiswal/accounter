@@ -31,6 +31,11 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return "There are no Contacts";
+	}
+
+	@Override
 	protected String getDisplayValue(ClientContact value) {
 		return value != null ? value.getName() : "";
 	}

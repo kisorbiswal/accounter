@@ -21,6 +21,11 @@ public abstract class PaymentTermRequirement extends
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return "There are no Payment Terms";
+	}
+
+	@Override
 	protected String getDisplayValue(ClientPaymentTerms value) {
 		return value != null ? value.getName() : "";
 	}

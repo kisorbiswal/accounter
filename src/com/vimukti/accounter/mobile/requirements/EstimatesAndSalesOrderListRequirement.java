@@ -29,6 +29,11 @@ public abstract class EstimatesAndSalesOrderListRequirement extends
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return "There are no Estimates";
+	}
+
+	@Override
 	protected String getDisplayValue(EstimatesAndSalesOrdersList value) {
 		return value != null ? value.getName() : "";
 	}
