@@ -1135,6 +1135,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 					transItemsReq.setValue(transactionItems);
 				}
 				transactionItems.add(transactionItem);
+
 				if (transactionItem.getUnitPrice() == 0) {
 					context.putSelection(ACCOUNT_ITEM_DETAILS, AMOUNT);
 					Result transactionItemResult = transactionAccountItem(

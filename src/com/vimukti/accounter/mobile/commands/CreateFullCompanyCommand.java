@@ -44,7 +44,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -79,22 +78,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new Requirement(MANAGE_BILLS_OWE, true, true));
 		list.add(new Requirement(FISCAL_YEAR, true, true));
 		list.add(new Requirement(ACCOUNTS, true, true));
-	}
-
-	public Result test() {
-		Context context = null;
-		Result makeResult = null;
-		ResultList list = null;
-		ResultList actions = null;
-
-		List<Requirement> allRequirements = new ArrayList<Requirement>();
-		for (Requirement req : allRequirements) {
-			// Result result = req.run(context, makeResult, list, actions);
-			// if (result != null) {
-			// return result;
-			// }
-		}
-		return makeResult;
 	}
 
 	@Override

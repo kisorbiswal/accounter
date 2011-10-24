@@ -31,13 +31,15 @@ public class CancelCommand extends Command {
 			makeResult.add("Your Previous command has been canceled");
 			currentCommand.markDone();
 			context.getIOSession().refreshCurrentCommand();
+		} else {
+			makeResult.add("There is no commands to cancel.");
 		}
-		currentCommand = context.getIOSession().getCurrentCommand();
-		if (currentCommand != null) {
-			makeResult.add("There is no pending commands");
-		}
-		makeResult.add("Type a new Coommand");
 
+		currentCommand = context.getIOSession().getCurrentCommand();
+		if (currentCommand == null) {
+			makeResult.add("There are no pending commands");
+			makeResult.add("Type a new Coommand");
+		}
 		return makeResult;
 	}
 

@@ -15,8 +15,8 @@ public abstract class NewCommand extends Command {
 	@Override
 	public Result run(Context context) {
 		setDefaultValues();
-		if (context.getAttribute("input") == null) {
-			context.setAttribute("input", "");
+		if (getAttribute("input") == null) {
+			setAttribute("input", "");
 		}
 
 		Result makeResult = context.makeResult();
