@@ -80,6 +80,20 @@
 		</many-to-one>
 		<property name="locationName" column="LOCATION_NAME"></property>
 		<property name="version" column="VERSION"></property>
+		<property name="companyName" column="LOCATION_COMPANY_NAME"></property>
+		<property name="title" column="LOCATION_COMPANY_LEGAL_NAME"></property>
+		<property name="email" column="LOCATION_ADDRESS_EMAIL_ID"></property>
+		<property name="phone" column="LOCATION_ADDRESS_PHONE"></property>
+		<component name="address" class="Address" >
+			<property name="type" column="LOCATION_ADDRESS_TYPE"></property>
+			<property name="address1" column="LOCATION_ADDRESS_ADDRESS1"></property>
+			<property name="street" column="LOCATION_ADDRESS_STREET" ></property>
+			<property name="city" column="LOCATION_ADDRESS_CITY" ></property>
+			<property name="stateOrProvinence" column="LOCATION_ADDRESS_STATE" ></property>
+			<property name="zipOrPostalCode" column="LOCATION_ADDRESS_ZIP" ></property>
+			<property name="countryOrRegion" column="LOCATION_ADDRESS_COUNTRY" ></property>
+			<property name="isSelected" column="LOCATION_ADDRESS_IS_SELECTED"></property>
+		</component>
 	</class>
 	<!-- Accounter Class Tracking -->
 	<class name="AccounterClass" table="ACCOUNTER_CLASS">
