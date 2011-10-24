@@ -17,6 +17,10 @@ public abstract class Command {
 	private ClientCompany clientCompany;
 
 	public Command() {
+		init();
+	}
+
+	public void init() {
 		addRequirements(requirements);
 	}
 

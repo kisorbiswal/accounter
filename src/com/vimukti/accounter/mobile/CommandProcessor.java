@@ -128,9 +128,6 @@ public class CommandProcessor {
 				command.setClientCompany(new FinanceTool().getCompanyManager()
 						.getClientCompany(session.getUserEmail(),
 								session.getCompanyID()));
-				ClientCompanyPreferences preferences = command
-						.getClientCompany().getPreferences();
-				CompanyPreferenceThreadLocal.set(preferences);
 			}
 			result = command.run(context);
 			result = processResult(result);

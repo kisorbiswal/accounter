@@ -14,6 +14,11 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * @author Prasanna Kumar G
@@ -235,6 +240,18 @@ public class MobileSession {
 		if (user != null) {
 			user = (User) hibernateSession.get(User.class, user.getID());
 		}
+		Company company = getCompany();
+		if (company != null) {
+			ClientCompanyPreferences preferences;
+			try {
+				preferences = new FinanceTool().getCompanyManager()
+						.getClientCompanyPreferences(company);
+				CompanyPreferenceThreadLocal.set(preferences);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public boolean isAuthenticated() {
