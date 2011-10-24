@@ -6,7 +6,7 @@
 	default-access="field" auto-import="false">
 	<class name="Transaction" table="TRANSACTION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
@@ -994,7 +994,7 @@
 
 	<class name="Entry" table="ENTRY">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="version" column="VERSION"></property>
 		<property name="type" column="TYPE"></property>
@@ -1031,7 +1031,7 @@
 	</class>
 	<class name="TransactionItem" table="TRANSACTION_ITEM">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="version" column="VERSION"></property>
 		<property name="type" column="TYPE"></property>
@@ -1083,7 +1083,7 @@
 	</class>
 	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="memo" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
@@ -1104,7 +1104,7 @@
 	</class>
 	<class name="TransactionCreditsAndPayments" table="TRANSACTION_CREDITS_AND_PAYMENTS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1126,7 +1126,7 @@
 	</class>
 	<class name="TransactionMakeDeposit" table="TRANSACTION_MAKE_DEPOSIT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="version" column="VERSION"></property>
 		<property name="date" column="DATE"
@@ -1168,7 +1168,7 @@
 	</class>
 	<class name="TransactionPayBill" table="TRANSACTION_PAYBILL">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
@@ -1210,7 +1210,7 @@
 	</class>
 	<class name="TransactionReceivePayment" table="TRANSACTION_RECEIVE_PAYMENT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="version" column="VERSION"></property>
 		<property name="dueDate" column="DUE_DATE"
@@ -1251,7 +1251,7 @@
 	</class>
 	<class name="TransactionIssuePayment" table="TRANSACTION_ISSUE_PAYMENT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1284,7 +1284,7 @@
 	</class>
 	<class name="TransactionPaySalesTax" table="TRANSACTION_PAY_SALES_TAX">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			cascade="save-update" column="TAX_AGENCY_ID">
@@ -1307,7 +1307,7 @@
 	</class>
 	<class name="TransactionPayVAT" table="TRANSACTION_PAY_VAT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			cascade="save-update" column="TAX_AGENCY_ID">
@@ -1324,7 +1324,7 @@
 	</class>
 	<class name="TransactionReceiveVAT" table="TRANSACTION_RECEIVE_VAT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			cascade="save-update" column="TAX_AGENCY_ID">
@@ -1341,7 +1341,7 @@
 	</class>
 	<class name="PaySalesTaxEntries" table="PAY_SALES_TAX_ENTRIES">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
@@ -1360,7 +1360,7 @@
 	</class>
 	<class name="PayVATEntries" table="PAY_VAT_ENTRIES">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
@@ -1377,7 +1377,7 @@
 	</class>
 	<class name="TransactionMakeDepositEntries" table="TRANSACTION_MAKE_DEPOSIT_ENTRIES">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
@@ -1391,7 +1391,7 @@
 	</class>
 	<class name="TransactionExpense" table="TRANSACTION_EXPENSE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
@@ -1409,7 +1409,7 @@
 	</class>
 	<class name="TransactionPayExpense" table="TRANSACTION_PAY_EXPENSE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="expense" class="Expense" lazy="false"
 			cascade="save-update" column="EXPENSE_ID">
@@ -1421,7 +1421,7 @@
 	</class>
 	<class name="RecurringTransaction" table="RECURRING_TRANSACTION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">

@@ -6,7 +6,7 @@
 	default-access="field" auto-import="false">
 	<class name="Client" table="CLIENT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="firstName" column="FIRST_NAME"></property>
 		<property name="lastName" column="LAST_NAME"></property>
@@ -29,7 +29,7 @@
 
 	<class name="Activation" table="ACTIVATION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="emailId" column="EMAIL_ID"></property>
 		<property name="token" column="TOKEN"></property>
@@ -40,7 +40,7 @@
 
 	<class name="Developer" table="DEVELOPER">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="client" class="com.vimukti.accounter.core.Client"
 			lazy="false" column="CLIENT">
@@ -61,14 +61,14 @@
 
 	<class name="ServerMaintanance" table="SERVER_MAINTANANCE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="isUnderMaintanance" column="IS_UNDER_MAINTANANCE" />
 	</class>
 
 	<class name="RememberMeKey" table="REMEMBER_ME_KEY">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="key" column="REMEMBER_KEY"></property>
 		<property name="emailID" column="EMAIL_ID"></property>
@@ -76,7 +76,7 @@
 
 	<class name="IMUser" table="I_M_USER">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="client" class="com.vimukti.accounter.core.Client"
 			lazy="false" column="CLIENT">
@@ -87,7 +87,7 @@
 
 	<class name="IMActivation" table="IM_ACTIVATION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="networkId" column="NETWORK_ID"></property>
 		<property name="emailId" column="EMAILID"></property>

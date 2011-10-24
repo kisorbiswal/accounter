@@ -313,16 +313,11 @@ public class SalesManager extends Manager {
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				SalesByLocationSummary salDetails = new SalesByLocationSummary();
-				salDetails.setType(object[0] != null ? ((Integer) object[0])
-						: 0);
-				salDetails.setTotal(object[1] != null ? ((Double) object[1])
+				salDetails.setTotal(object[0] != null ? ((Double) object[0])
 						: 0.0);
 				salDetails
-						.setLocationName(object[2] != null ? ((String) object[2])
+						.setLocationName(object[1] != null ? ((String) object[1])
 								: null);
-				salDetails
-						.setTransactionId(object[3] != null ? ((BigInteger) object[3])
-								.longValue() : 0);
 				salesByLocationDetailList.add(salDetails);
 			}
 		}
@@ -516,9 +511,8 @@ public class SalesManager extends Manager {
 			object = (Object[]) iterator.next();
 
 			salesByCustomerDetail.setName((String) object[0]);
-			salesByCustomerDetail.setGroupName((String) object[1]);
-			salesByCustomerDetail.setAmount(object[2] == null ? 0
-					: ((Double) object[2]).doubleValue());
+			salesByCustomerDetail.setAmount(object[1] == null ? 0
+					: ((Double) object[1]).doubleValue());
 
 			queryResult.add(salesByCustomerDetail);
 		}
@@ -545,16 +539,13 @@ public class SalesManager extends Manager {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
 			object = (Object[]) iterator.next();
-			salesByCustomerDetail.setItemType(object[0] == null ? 0
-					: (Integer) object[0]);
-			salesByCustomerDetail.setItemName((String) object[1]);
-			salesByCustomerDetail.setItemGroup((String) object[2]);
+			salesByCustomerDetail.setItemName((String) object[0]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[3] == null ? 0 : ((Double) object[3])
+			quantity.setValue(object[1] == null ? 0 : ((Double) object[1])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
-			salesByCustomerDetail.setAmount(object[4] == null ? 0
-					: ((Double) object[4]).doubleValue());
+			salesByCustomerDetail.setAmount(object[2] == null ? 0
+					: ((Double) object[2]).doubleValue());
 
 			queryResult.add(salesByCustomerDetail);
 		}

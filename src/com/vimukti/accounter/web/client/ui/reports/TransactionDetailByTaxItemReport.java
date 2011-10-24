@@ -35,7 +35,8 @@ public class TransactionDetailByTaxItemReport extends
 					start, end, this);
 		} else if (taxLiability.getTaxItemName() != null) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
-					taxLiability.getTaxItemName(), start, end, this);
+					taxLiability.getTaxItemName(), taxLiability.getStartDate(),
+					taxLiability.getEndDate(), this);
 
 		}
 	}

@@ -6,7 +6,7 @@
 	default-access="field" auto-import="false">
 	<class name="Account" table="ACCOUNT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
@@ -73,7 +73,7 @@
 	</class>
 	<class name="Location" table="LOCATION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -84,7 +84,7 @@
 	<!-- Accounter Class Tracking -->
 	<class name="AccounterClass" table="ACCOUNTER_CLASS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
@@ -101,13 +101,13 @@
 	</class>
 	<class name="CommodityCode" table="COMMODITY_CODE">
 		<id name="id" column="ID">
-			<generator class="native"></generator>
+			<generator class="identity"></generator>
 		</id>
 		<property name="name" not-null="true" column="NAME"></property>
 	</class>
 	<class name="AccountTransaction" table="ACCOUNT_TRANSACTION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -132,7 +132,7 @@
 
 	<class name="FiscalYear" table="FISCAL_YEAR">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -155,7 +155,7 @@
 	</class>
 	<class name="Bank" table="BANK">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -166,7 +166,7 @@
 
 	<class name="Company" table="COMPANY">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="isConfigured" column="IS_CONFIGURED"></property>
 		<property name="createdDate" column="CREATED_DATE"></property>
@@ -575,7 +575,7 @@
 	</class>
 	<!--
 		<class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id
-		name="id" column="ID"> <generator class="native" /> </id> Company
+		name="id" column="ID"> <generator class="identity" /> </id> Company
 		Preferences <property name="useAccountNumbers"
 		column="USE_ACCOUNT_NUMBERS"></property> <property name="useClasses"
 		column="USE_CLASSES"></property> <property name="useJobs"
@@ -613,7 +613,7 @@
 	-->
 	<!--
 		<class name="Contact" table="CONTACT"> <id name="id" column="ID">
-		<generator class="native" /> </id> <property name="isPrimary"
+		<generator class="identity" /> </id> <property name="isPrimary"
 		column="IS_PRIMARY"></property> <property name="name"
 		column="NAME"></property> <property name="title"
 		column="TITLE"></property> <property name="businessPhone"
@@ -623,7 +623,7 @@
 	-->
 	<class name="CreditRating" table="CREDITRATING">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -641,7 +641,7 @@
 	</class>
 	<class name="Currency" table="CURRENCY">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -653,7 +653,7 @@
 	</class>
 	<class name="CustomerGroup" table="CUSTOMER_GROUP">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -671,12 +671,12 @@
 	</class>
 	<!--
 		<class name="Email" table="EMAIL"> <id name="id" column="ID">
-		<generator class="native" /> </id> <property name="type"
+		<generator class="identity" /> </id> <property name="type"
 		column="TYPE"></property> <property name="email"
 		column="EMAIL"></property> <property name="isSelected"
 		column="IS_SELECTED"></property> <property name="version"
 		column="VERSION"></property> </class> <class name="Fax" table="FAX">
-		<id name="id" column="ID"> <generator class="native" /> </id>
+		<id name="id" column="ID"> <generator class="identity" /> </id>
 		<property name="type" column="TYPE"></property> <property
 		name="number" column="NUMBER"></property> <property name="isSelected"
 		column="IS_SELECTED"></property> <property name="version"
@@ -684,7 +684,7 @@
 	-->
 	<class name="Item" table="ITEM">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -742,7 +742,7 @@
 	</class>
 	<class name="TAXItemGroup" table="TAX_ITEM_GROUPS">
 		<id name="id" column="ID">
-			<generator class="native"></generator>
+			<generator class="identity"></generator>
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
@@ -790,7 +790,7 @@
 	</class>
 	<class name="ItemGroup" table="ITEMGROUP">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -816,7 +816,7 @@
 	</class>
 	<class name="SalesPerson" table="SALES_PERSON">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -870,7 +870,7 @@
 	</class>
 	<class name="Payee" table="PAYEE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
@@ -1091,7 +1091,7 @@
 	</class>
 	<class name="PaymentTerms" table="PAYMENTTERMS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1114,7 +1114,7 @@
 	</class>
 	<!--
 		<class name="Phone" table="PHONE"> <id name="id" column="ID">
-		<generator class="native" /> </id> <property name="type"
+		<generator class="identity" /> </id> <property name="type"
 		column="TYPE"></property> <property name="number"
 		column="NUMBER"></property> <property name="isSelected"
 		column="IS_SELECTED"></property> <property name="version"
@@ -1122,7 +1122,7 @@
 	-->
 	<class name="PriceLevel" table="PRICELEVEL">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1142,7 +1142,7 @@
 	</class>
 	<class name="ShippingMethod" table="SHIPPINGMETHOD">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1161,7 +1161,7 @@
 	</class>
 	<class name="ShippingTerms" table="SHIPPINGTERMS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1180,7 +1180,7 @@
 	</class>
 	<!--
 		<class name="TaxCode" table="TAXCODE"> <id name="id" column="ID">
-		<generator class="native" /> </id><property name="name" unique="true"
+		<generator class="identity" /> </id><property name="name" unique="true"
 		column="NAME"></property> <property name="description"
 		column="DESCRIPTION"></property> <many-to-one name="taxAgency"
 		class="TaxAgency" column="TAXAGENCY_ID" lazy="false"> </many-to-one>
@@ -1200,7 +1200,7 @@
 
 	<class name="TaxRates" table="TAXRATES">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="rate" column="RATE"></property>
 		<property name="asOf" column="AS_OF"
@@ -1225,7 +1225,7 @@
 	-->
 	<class name="TAXRateCalculation" table="TAX_RATE_CALCULATION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="isVATGroupEntry" column="VAT_GROUP_ENTRY"></property>
 		<property name="vatAmount" column="VAT_AMOUNT"></property>
@@ -1258,7 +1258,7 @@
 	</class>
 	<class name="ItemBackUp" table="ITEM_BACK_UP">
 		<id name="id" column="ID">
-			<generator class="native"></generator>
+			<generator class="identity"></generator>
 		</id>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID"></many-to-one>
 		<many-to-one name="incomeAccount" class="Account" lazy="false"
@@ -1268,7 +1268,7 @@
 	</class>
 	<class name="UnitOfMeasure" table="UNIT_OF_MEASURE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1280,7 +1280,7 @@
 	</class>
 	<class name="UserPermissions" table="USER_PERMISSIONS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="typeOfBankReconcilation" column="TYPE_OF_BANK_RECONCILATION"></property>
 		<property name="typeOfInvoices" column="TYPE_OF_INVOICES"></property>
@@ -1292,7 +1292,7 @@
 	</class>
 	<class name="User" table="USERS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="client" column="CLIENT_ID" class="Client"
 			lazy="false" not-null="true">
@@ -1317,7 +1317,7 @@
 	</class>
 	<!--
 		<class name="UserPreferences" table="USER_PREFERENCES"> <id name="id"
-		column="ID"> <generator class="native" /> </id> <property
+		column="ID"> <generator class="identity" /> </id> <property
 		name="version" column="VERSION"></property> <property
 		name="dashBoardPreferences"
 		column="DASH_BOARD_PREFERENCES"></property> <property
@@ -1330,7 +1330,7 @@
 	-->
 	<class name="VendorGroup" table="VENDOR_GROUP">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1348,7 +1348,7 @@
 	</class>
 	<class name="FixedAsset" table="FIXED_ASSET">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1428,7 +1428,7 @@
 	<!--
 		<class name="SellingOrDisposingFixedAsset"
 		table="SELLING_OR_DISPOSING_FIXED_ASSET"> <id name="id" column="ID">
-		<generator class="native" /> </id> <many-to-one name="fixedAsset"
+		<generator class="identity" /> </id> <many-to-one name="fixedAsset"
 		class="FixedAsset" lazy="false" column="FIXED_ASSET_ID">
 		</many-to-one> <property name="soldOrDisposedDate"
 		column="SOLD_OR_DISPOSED_DATE" type="date"></property> <many-to-one
@@ -1447,7 +1447,7 @@
 	-->
 	<class name="Depreciation" table="DEPRECIATION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1469,7 +1469,7 @@
 	</class>
 	<class name="FixedAssetHistory" table="FIXED_ASSET_HISTORY">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1485,7 +1485,7 @@
 	</class>
 	<class name="FixedAssetNote" table="FIXED_ASSET_NOTE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1501,7 +1501,7 @@
 	</class>
 	<class name="VATReturnBox" table="VATRETURNBOX">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1513,7 +1513,7 @@
 	</class>
 	<class name="Box" table="BOX">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1529,7 +1529,7 @@
 	</class>
 	<class name="TAXCode" table="TAX_CODE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1552,7 +1552,7 @@
 
 	<class name="BrandingTheme" table="BRANDING_THEME">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1633,7 +1633,7 @@
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="token" column="TOKEN" />
 		<property name="userId" column="USER_ID" />
@@ -1642,7 +1642,7 @@
 
 	<class name="Warehouse" table="WAREHOUSE">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1726,7 +1726,7 @@
 
 	<class name="ItemStatus" table="ITEM_STATUS">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="item" column="ITEM_ID" class="Item"
 			lazy="false">
@@ -1748,7 +1748,7 @@
 
 	<class name="AdjustmentReason" table="ADJUSTMENT_REASON">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1767,7 +1767,7 @@
 
 	<class name="Measurement" table="MEASUREMENT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1784,7 +1784,7 @@
 
 	<class name="Unit" table="UNIT">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1798,7 +1798,7 @@
 
 	<class name="StockAdjustmentItem" table="STOCK_ADJUSTMENT_ITEM">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="adjustmentPriceValue" type="double">
 			<column name="ADJUSTMENT_PRICE_VALUE" />
@@ -1828,7 +1828,7 @@
 
 	<class name="StockTransferItem" table="TRANSFER_ITEM">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1881,7 +1881,7 @@
 	<!-- budget item class -->
 	<class name="BudgetItem" table="BUDGETITEM">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1907,7 +1907,7 @@
 	<!-- budget class -->
 	<class name="Budget" table="BUDGET">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1922,7 +1922,7 @@
 
 	<class name="Activity" table="ACTIVITY">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
@@ -1942,7 +1942,7 @@
 
 	<class name="Reconciliation" table="RECONCILIATION">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
@@ -1969,7 +1969,7 @@
 
 	<class name="ReconciliationItem" table="RECONCILIATION_ITEM">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="transactionNo" column="TRANSACTION_NUMBER"></property>
@@ -1984,7 +1984,7 @@
 
 	<!--
 		<class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id"
-		column="ID"> <generator class="native"></generator> </id> <property
+		column="ID"> <generator class="identity"></generator> </id> <property
 		name="name" unique="true" column="NAME"></property> <property
 		name="description" column="DESCRIPTION"></property> <property
 		name="isActive" column="IS_ACTIVE"></property> <property

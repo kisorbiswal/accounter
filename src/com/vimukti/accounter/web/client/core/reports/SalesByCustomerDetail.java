@@ -14,11 +14,11 @@ public class SalesByCustomerDetail extends BaseReport implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	String name;// For sales reports name refer to customer and for purchase
 	// reports name refer to vendor
 
-	String groupName;
+	// String groupName;
 
 	long transactionId;
 
@@ -69,17 +69,17 @@ public class SalesByCustomerDetail extends BaseReport implements
 	/**
 	 * @return the groupName
 	 */
-	public String getGroupName() {
-		return groupName;
-	}
-
-	/**
-	 * @param groupName
-	 *            the groupName to set
-	 */
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
+	// public String getGroupName() {
+	// return groupName;
+	// }
+	//
+	// /**
+	// * @param groupName
+	// * the groupName to set
+	// */
+	// public void setGroupName(String groupName) {
+	// this.groupName = groupName;
+	// }
 
 	/**
 	 * @return the transactionId
@@ -277,8 +277,7 @@ public class SalesByCustomerDetail extends BaseReport implements
 
 	public boolean equals(SalesByCustomerDetail sc) {
 
-		if (this.name.equals(sc.name) && this.groupName.equals(sc.groupName)
-				&& this.transactionId == sc.transactionId
+		if (this.name.equals(sc.name) && this.transactionId == sc.transactionId
 				&& this.type == sc.type && this.number == sc.number
 				&& this.paymentTermName.equals(sc.paymentTermName)
 				&& this.itemName.equals(sc.itemName)

@@ -6,7 +6,7 @@
 	default-access="field">
 
 	<!-- <class name="User" table="USER"> <id name="id" column="ID"> <generator 
-		class="native" /> </id> <property name="fullName" column="FULLNAME" /> <property 
+		class="identity" /> </id> <property name="fullName" column="FULLNAME" /> <property 
 		name="displayName" column="DISPALYNAME" /> <property name="email" column="EMAIL_ID" 
 		/> <property name="userRole" column="USER_ROLE" /> <property name="company" 
 		column="COMPANY" /> <property name="address1" column="ADDRESS1" /> <property 

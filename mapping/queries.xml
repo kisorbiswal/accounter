@@ -1345,8 +1345,7 @@
 		v.taxItem != 14) or (v.isVATGroupEntry = false) and
 		v.transactionDate
 		between
-		:startDate and :endDate group by v.id,
-		v.transactionItem order
+		:startDate and :endDate order
 		by
 		v.taxItem.name
 	</query>

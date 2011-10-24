@@ -1649,9 +1649,8 @@ public class VendorManager extends Manager {
 			object = (Object[]) iterator.next();
 
 			salesByCustomerDetail.setName((String) object[0]);
-			salesByCustomerDetail.setGroupName((String) object[1]);
-			salesByCustomerDetail.setAmount(object[2] == null ? 0
-					: ((Double) object[2]).doubleValue());
+			salesByCustomerDetail.setAmount(object[1] == null ? 0
+					: ((Double) object[1]).doubleValue());
 
 			queryResult.add(salesByCustomerDetail);
 		}
