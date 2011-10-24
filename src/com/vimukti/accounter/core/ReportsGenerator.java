@@ -203,7 +203,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(profitAndLossServerReport, finaTool);
@@ -238,7 +238,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(balanceSheetServerReport, finaTool);
@@ -259,7 +259,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(trialBalanceServerReport, finaTool);
@@ -280,7 +280,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(transactionDetailByTaxItemServerReport, finaTool);
@@ -313,7 +313,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(transactionDetailByAccountServerReport, finaTool);
@@ -345,7 +345,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(expenseServerReport, finaTool);
@@ -367,7 +367,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(arAgingSummaryServerReport, finaTool);
@@ -387,7 +387,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(arAgingDetailServerReport, finaTool);
@@ -416,7 +416,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(customerTransactionHistoryServerReport, finaTool);
@@ -436,7 +436,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(customerTransactionHistoryServerReport1, finaTool);
@@ -459,7 +459,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(salesByCustomerSummaryServerReport, finaTool);
@@ -482,7 +482,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(salesByCustomerDetailServerReport, finaTool);
@@ -514,7 +514,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(salesByItemSummaryServerReport, finaTool);
@@ -535,7 +535,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(salesByItemDetailServerReport, finaTool);
@@ -563,7 +563,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(salesOpenOrderServerReport, finaTool);
@@ -605,7 +605,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(salesClosedOrderServerReport, finaTool);
@@ -625,7 +625,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(apAgingSummaryServerReport, finaTool);
@@ -645,7 +645,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(apAgingDetailServerReport, finaTool);
@@ -677,7 +677,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(vendorTransactionHistoryServerReport, finaTool);
@@ -700,7 +700,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(purchaseByVendorSummaryServerReport, finaTool);
@@ -720,7 +720,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(purchaseByVendorDetailServerReport, finaTool);
@@ -751,7 +751,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(purchaseByItemSummaryServerReport, finaTool);
@@ -772,7 +772,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(purchaseByItemDetailServerReport, finaTool);
@@ -799,7 +799,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(purchaseOpenOrderServerReport, finaTool);
@@ -845,7 +845,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(purchaseClosedOrderServerReport, finaTool);
@@ -865,7 +865,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(priorVATReturnsServerReport, finaTool);
@@ -887,7 +887,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(vat100ServerReport, finaTool);
@@ -908,7 +908,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(vatDetailServerReportView, finaTool);
@@ -928,7 +928,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(vatItemDetailServerReport, finaTool);
@@ -948,7 +948,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(vatUncategorisedAmountsServerReport, finaTool);
@@ -968,7 +968,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(vatItemSummaryServerReport, finaTool);
@@ -1005,16 +1005,16 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 
 				}
 			};
 			updateReport(ecSalesListServerReport, finaTool);
 			ecSalesListServerReport.resetVariables();
 			try {
-				ecSalesListServerReport.onResultSuccess(finaTool
-						.getReportManager().getECSalesListReport(startDate,
-								endDate, company));
+				ecSalesListServerReport.onResultSuccess(reportsSerivce.getECSalesListReport(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate(),getCompany().getID()));
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1026,7 +1026,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(ecSalesListDetailServerReport, finaTool);
@@ -1046,7 +1046,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(salesTaxLiabilityServerReport, finaTool);
@@ -1066,7 +1066,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(reverseChargeListServerReport, finaTool);
@@ -1086,7 +1086,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(reverseChargeListDetailServerReport, finaTool);
@@ -1106,7 +1106,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(mostProfitableCustomerServerReport, finaTool);
@@ -1126,7 +1126,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(cashFlowStatementServerReport, finaTool);
@@ -1146,7 +1146,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(amountsDueToVendorServerReport, finaTool);
@@ -1166,7 +1166,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(statementReport, finaTool);
@@ -1194,7 +1194,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 			};
 			updateReport(misc1099TransactionDetailServerReport, finaTool);
@@ -1216,7 +1216,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 
-					return getDateByCompanyType(date);
+					return getDateInDefaultType(date);
 				}
 
 			};
@@ -1474,7 +1474,7 @@ public class ReportsGenerator {
 		return "";
 	}
 
-	public String getDateByCompanyType(ClientFinanceDate date) {
+	public String getDateInDefaultType(ClientFinanceDate date) {
 		if (date == null) {
 			return "";
 		}
@@ -1483,7 +1483,7 @@ public class ReportsGenerator {
 		}
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat(company
-				.getCountryPreferences().getDefaultDateFormat());
+				.getPreferences().getDateFormat());
 		String format = dateFormatter.format(date.getDateAsObject());
 		return format;
 	}
