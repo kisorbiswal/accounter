@@ -9,6 +9,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ListRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -50,25 +52,122 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		// First page
-		list.add(new Requirement(COMPANY_NAME, false, true));
-		list.add(new Requirement(LEGAL_NAME, true, true));
-		list.add(new Requirement(TAX_ID, true, true));
-		list.add(new Requirement(COUNTRY, true, true));
-		list.add(new Requirement(STATE, true, true));
-		list.add(new Requirement(ADDRESS1, true, true));
-		list.add(new Requirement(ADDRESS2, true, true));
-		list.add(new Requirement(CITY, true, true));
-		list.add(new Requirement(ZIPCODE, true, true));
-		list.add(new Requirement(PHONE, true, true));
-		list.add(new Requirement(FAX, true, true));
-		list.add(new Requirement(EMAIL, true, true));
-		list.add(new Requirement(WEB_SITE, true, true));
-		list.add(new Requirement(TIME_ZONE, true, true));
+		list.add(new NameRequirement(COMPANY_NAME, "Enter Company Name",
+				"Company Name", false, true));
+
+		list.add(new NameRequirement(LEGAL_NAME, "Enter Legal Name",
+				"Legal Name", true, true));
+
+		list.add(new NameRequirement(TAX_ID, "Enter Tax Id", "Tax Id", true,
+				true));
+
+		list.add(new CountryRequirement(COUNTRY, "Enter Country Name",
+				"Country", true, true, null));
+
+		list.add(new NameRequirement(STATE, "Enter State", "State", true, true));
+
+		list.add(new NameRequirement(ADDRESS1, "Enter Address1", "Address1",
+				true, true));
+
+		list.add(new NameRequirement(ADDRESS1, "Enter Address2", "Address2",
+				true, true));
+
+		list.add(new NameRequirement(CITY, "Enter City", "City", true, true));
+
+		list.add(new NameRequirement(ZIPCODE, "Enter Zipcode", "Zipcode", true,
+				true));
+
+		list.add(new NameRequirement(PHONE, "Enter Phone", "Phone", true, true));
+
+		list.add(new NameRequirement(FAX, "Enter Fax", "Fax", true, true));
+
+		list.add(new NameRequirement(EMAIL, "Enter Email", "Email", true, true));
+
+		list.add(new NameRequirement(WEB_SITE, "Enter Web Site name",
+				"Web Site", true, true));
+
+		// TODO list.add(new Requirement(TIME_ZONE, true, true));
 
 		// Second Page
-		list.add(new Requirement(INDUSTRY, false, true));
-		list.add(new Requirement(ORGANIZATION_REFER, true, true));
-		list.add(new Requirement(CUSTOMER_TERMINOLOGY, true, true));
+		// TODO list.add(new Requirement(INDUSTRY, false, true));
+		list.add(new ListRequirement<String>(ORGANIZATION_REFER,
+				"Enter Organization name", "Company Organization", true, true,
+				null) {
+
+			@Override
+			protected Record createRecord(String value) {
+				Record record = new Record(value);
+				record.add("", value);
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(String value) {
+				return value;
+			}
+
+			@Override
+			protected String getCreateCommandString() {
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				return "How is your company organized?";
+			}
+
+			@Override
+			protected List<String> getLists(Context context, String name) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+
+		list.add(new ListRequirement<String>(CUSTOMER_TERMINOLOGY,
+				"Enter Customer terminology", "Customer Terminology", true,
+				true, null) {
+
+			@Override
+			protected Record createRecord(String value) {
+				Record record = new Record(value);
+				record.add("", value);
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(String value) {
+				return value;
+			}
+
+			@Override
+			protected String getCreateCommandString() {
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				return "Select Customer Terminology";
+			}
+
+			@Override
+			protected List<String> getLists(Context context, String name) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+
 		list.add(new Requirement(SUPPLIER_TERMINOLOGY, true, true));
 		list.add(new Requirement(ACCOUNT_TERMINOLOGY, true, true));
 		list.add(new Requirement(SERVICE_PRODUCTS_BOTH, true, true));
