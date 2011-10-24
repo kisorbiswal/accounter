@@ -48,6 +48,12 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			command = new AuthenticationCommand();
 			userMessage.setOriginalMsg("");// To know it is first
 		}
+		if (command == null) {
+			long companyId = session.getCompanyID();
+			if (companyId == 0) {
+				command = new SelectCompanyCommand();
+			}
+		}
 
 		String commandString = "";
 		Command matchedCommand = null;
@@ -59,7 +65,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			}
 			commandString += ' ';
 		}
-		if (matchedCommand != null) {
+		
+		if (matchedCommand != null && session.isAuthenticated()) {
 			message = message.replaceAll(commandString.trim(), "");
 			userMessage.setOriginalMsg(message);
 			command = matchedCommand;
@@ -78,13 +85,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		}
 
 		userMessage.setLastResult(lastResult);
-
-		if (command == null) {
-			long companyId = session.getCompanyID();
-			if (companyId == 0) {
-				command = new SelectCompanyCommand();
-			}
-		}
 
 		if (command != null && !command.isDone()) {
 			session.addCommand(command);
