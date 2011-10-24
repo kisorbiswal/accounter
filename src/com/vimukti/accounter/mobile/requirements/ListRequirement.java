@@ -75,6 +75,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			name = context.getString();
 		}
 		if (name == null) {
+			context.setAttribute("oldValue", "");
 			result.add(getDisplayString());
 			ResultList actions = new ResultList(ACTIONS);
 			Record record = new Record(ActionNames.ALL);
@@ -85,14 +86,16 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		}
 
 		Object selection = context.getSelection(ACTIONS);
-		List<T> lists = getLists(context);
+		List<T> lists = new ArrayList<T>();
 		if (selection == ActionNames.ALL) {
+			lists = getLists(context);
 			if (lists.size() != 0) {
 				result.add("All Customers");
 			}
 			name = null;
 		} else if (selection == null) {
 			lists = getLists(context, name);
+			context.setAttribute("oldValue", name);
 			if (lists.size() != 0) {
 				result.add("Found " + lists.size() + " record(s)");
 			} else {
@@ -104,6 +107,13 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 				actions.add(record);
 				result.add(actions);
 				return result;
+			}
+		} else {
+			String oldValue = (String) context.getAttribute("oldValue");
+			if (oldValue != null && !oldValue.equals("")) {
+				lists = getLists(context, oldValue);
+			} else {
+				lists = getLists(context);
 			}
 		}
 		return displayRecords(context, lists, result, RECORDS_TO_SHOW);

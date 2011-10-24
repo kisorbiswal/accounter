@@ -2,38 +2,39 @@ package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 
-public abstract class VendorRequirement extends ListRequirement<ClientVendor> {
+public abstract class AccountRequirement extends ListRequirement<ClientAccount> {
 
-	public VendorRequirement(String requirementName, String displayString,
+	public AccountRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientVendor> listner) {
+			ChangeListner<ClientAccount> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientVendor value) {
+	protected Record createRecord(ClientAccount value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
-		record.add(" ,Balance", value.getBalance());
+		record.add("Number", value.getNumber());
+		record.add("Balance", value.getCurrentBalance());
 		return record;
 	}
 
 	@Override
-	protected String getDisplayValue(ClientVendor value) {
+	protected String getDisplayValue(ClientAccount value) {
 		return value != null ? value.getName() : "";
 	}
 
 	@Override
 	protected String getCreateCommandString() {
-		return getMessages().create(Global.get().Vendor());
+		return getMessages().create(Global.get().Account());
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(Global.get().Vendor());
+		return getMessages().pleaseSelect(Global.get().Account());
 	}
 
 }

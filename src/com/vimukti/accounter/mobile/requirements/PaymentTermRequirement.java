@@ -1,39 +1,38 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
-public abstract class VendorRequirement extends ListRequirement<ClientVendor> {
+public abstract class PaymentTermRequirement extends
+		ListRequirement<ClientPaymentTerms> {
 
-	public VendorRequirement(String requirementName, String displayString,
+	public PaymentTermRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientVendor> listner) {
+			ChangeListner<ClientPaymentTerms> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientVendor value) {
+	protected Record createRecord(ClientPaymentTerms value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
-		record.add(" ,Balance", value.getBalance());
 		return record;
 	}
 
 	@Override
-	protected String getDisplayValue(ClientVendor value) {
+	protected String getDisplayValue(ClientPaymentTerms value) {
 		return value != null ? value.getName() : "";
 	}
 
 	@Override
 	protected String getCreateCommandString() {
-		return getMessages().create(Global.get().Vendor());
+		return getMessages().create(getConstants().paymentTerm());
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(Global.get().Vendor());
+		return getMessages().pleaseSelect(getConstants().paymentTerm());
 	}
 
 }
