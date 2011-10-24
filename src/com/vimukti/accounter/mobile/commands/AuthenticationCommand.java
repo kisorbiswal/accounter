@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -25,7 +26,7 @@ import com.vimukti.accounter.utils.SecureUtils;
  * @author Prasanna Kumar G
  * 
  */
-public class AuthenticationCommand extends AbstractCommand {
+public class AuthenticationCommand extends Command {
 
 	@Override
 	public String getId() {
@@ -38,12 +39,6 @@ public class AuthenticationCommand extends AbstractCommand {
 
 	@Override
 	public Result run(Context context) {
-
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "");
-		}
-
 		IMUser imUser = getIMUser(context.getNetworkId(),
 				context.getNetworkType());
 		Result makeResult = context.makeResult();
@@ -109,7 +104,7 @@ public class AuthenticationCommand extends AbstractCommand {
 								.beginTransaction();
 						client.setActive(true);
 						beginTransaction.commit();
-						
+
 						makeResult.add("Activation Success");
 						markDone();
 					}

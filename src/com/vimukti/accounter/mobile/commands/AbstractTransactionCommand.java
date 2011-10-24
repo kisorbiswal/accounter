@@ -823,17 +823,17 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected Record createItemRecord(ClientItem item) {
-		Record record = new Record(item);
-		record.add("", getConstants().itemName());
-		record.add("", item.getName());
-		ClientTAXCode taxCode = getClientCompany()
-				.getTAXCode(item.getTaxCode());
-		if (taxCode != null) {
-			record.add("", taxCode.getName());
-		}
-		return record;
-	}
+	// protected Record createItemRecord(ClientItem item) {
+	// Record record = new Record(item);
+	// record.add("", getConstants().itemName());
+	// record.add("", item.getName());
+	// ClientTAXCode taxCode = getClientCompany()
+	// .getTAXCode(item.getTaxCode());
+	// if (taxCode != null) {
+	// record.add("", taxCode.getName());
+	// }
+	// return record;
+	// }
 
 	protected Record createCustomerRecord(ClientCustomer customer) {
 		Record record = new Record(customer);
