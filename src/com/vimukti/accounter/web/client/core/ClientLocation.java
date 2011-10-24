@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 /**
  * 
  * @author Lingarao.R
@@ -32,7 +31,7 @@ public class ClientLocation implements IAccounterCore {
 	private String title;
 	private String companyName;
 
-//	private Address address;
+	private ClientAddress address;
 	private String email;
 	private String phone;
 
@@ -52,13 +51,13 @@ public class ClientLocation implements IAccounterCore {
 		this.companyName = companyName;
 	}
 
-//	public Address getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(Address address) {
-//		this.address = address;
-//	}
+	public ClientAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(ClientAddress address) {
+		this.address = address;
+	}
 
 	public String getEmail() {
 		return email;
