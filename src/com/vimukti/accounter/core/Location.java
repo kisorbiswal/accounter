@@ -15,7 +15,7 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 	private String title;
 	private String companyName;
 
-	// private Address address;
+	private Address address;
 	private String email;
 	private String phone;
 
@@ -35,13 +35,13 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 		this.companyName = companyName;
 	}
 
-	// public Address getAddress() {
-	// return address;
-	// }
-	//
-	// public void setAddress(Address address) {
-	// this.address = address;
-	// }
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
 	public String getEmail() {
 		return email;
