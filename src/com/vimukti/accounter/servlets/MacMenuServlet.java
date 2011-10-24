@@ -348,7 +348,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#purchaseByVendorDetail");
 		subMenu(purchasesValue, iGlobal.constants().purchaseByItemSummary(),
 				"company/accounter#purchaseByItemSummary");
-		subMenu(purchasesValue, iGlobal.constants().purchaseByItemDetail(),
+		subMenu(purchasesValue, iGlobal.constants().purchaseByProductDetail(),
 				"company/accounter#purchaseByItemDetail");
 		if (preferences.isPurchaseOrderEnabled()) {
 			subMenu(purchasesValue, iGlobal.constants().purchaseOrderReport(),

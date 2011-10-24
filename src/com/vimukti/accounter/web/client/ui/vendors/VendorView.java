@@ -135,7 +135,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	LinkedHashMap<String, String> shipMethodMap;
 	LinkedHashMap<String, String> vendorGroupMap;
 
-	// private ClientFiscalYear fiscalYear;
+	protected ClientCurrency selectCurrency;
 
 	protected ClientAccount selectAccountFromDetailsTab;
 	protected ClientShippingMethod selectShippingMethodFromDetailsTab;
@@ -634,24 +634,27 @@ public class VendorView extends BaseView<ClientVendor> {
 		bankBranchText = new TextItem(Accounter.constants().bankBranch());
 		bankBranchText.setHelpInformation(true);
 		bankBranchText.setDisabled(isInViewMode());
+
 		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
 		currencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientCurrency selectItem) {
-						// clientCurrency = selectItem;
+						selectCurrency = selectItem;
 					}
 				});
+
 		currencyCombo.setDisabled(isInViewMode());
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
 		financeDetailsForm.setWidth("100%");
 		financeDetailsForm.setGroupTitle(Accounter.constants()
 				.financialDetails());
-		financeDetailsForm.setFields(expenseAccountsSelect, creditLimitText,
-				preferredShippingSelect, preferredPaymentSelect,
-				payTermsSelect, accountText, bankNameText, bankBranchText);
+		financeDetailsForm.setFields(expenseAccountsSelect, currencyCombo,
+				creditLimitText, preferredShippingSelect,
+				preferredPaymentSelect, payTermsSelect, accountText,
+				bankNameText, bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(messages.vendorGroup(Global
 				.get().Vendor()));
