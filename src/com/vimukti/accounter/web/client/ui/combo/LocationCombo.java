@@ -78,7 +78,7 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 
 	@Override
 	protected void selectionFaildOnClose() {
-		QuickAddDialog dialog = new QuickAddDialog("New"
+		QuickAddDialog dialog = new QuickAddDialog("New "
 				+ Global.get().Location());
 		dialog.setDefaultText(textBox.getText());
 		dialog.setListener(new QuickAddListenerImpl(this));
