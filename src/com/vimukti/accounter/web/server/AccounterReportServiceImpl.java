@@ -2022,7 +2022,33 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return salesList;
 
 	}
+	@Override
+	public ArrayList<ECSalesList> getECSalesListReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, long companyId) {
 
+		ArrayList<ECSalesList> salesList = new ArrayList<ECSalesList>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
+				toDate, companyId);
+
+		try {
+			FinanceTool tool = getFinanceTool();
+			salesList = tool.getReportManager().getECSalesListReport(
+					financeDates[0], financeDates[1],
+					tool.getCompany(companyId));
+
+			ECSalesList obj = new ECSalesList();
+			if (salesList != null)
+				salesList
+						.add((ECSalesList) setStartEndDates(obj, financeDates));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return salesList;
+
+	}
 	@Override
 	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
 			String payeeName, ClientFinanceDate fromDate,
