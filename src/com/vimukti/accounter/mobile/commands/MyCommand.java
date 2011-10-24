@@ -10,6 +10,8 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public class MyCommand extends NewCommand {
 
@@ -57,8 +59,44 @@ public class MyCommand extends NewCommand {
 			}
 
 			@Override
-			protected List<ClientItem> getLists(Context context, String name) {
-				return new ArrayList<ClientItem>();
+			protected List<ClientItem> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientItem>() {
+
+					@Override
+					public boolean filter(ClientItem e) {
+						return e.getName().contains(name);
+					}
+				}, getClientCompany().getItems());
+			}
+
+			@Override
+			protected List<ClientItem> getLists(Context context) {
+				ClientCompany clientCompany2 = MyCommand.this
+						.getClientCompany();
+				return clientCompany2.getAllItems();
+			}
+
+		});
+
+		list.add(new TransactionItemItemsRequirement("Transaction_Items2",
+				"Enter Item2 name or number", "Items2:", false, true, false) {
+
+			@Override
+			protected ClientCompany getClientCompany() {
+				return MyCommand.this.getClientCompany();
+			}
+
+			@Override
+			protected List<ClientItem> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientItem>() {
+
+					@Override
+					public boolean filter(ClientItem e) {
+						return e.getName().contains(name);
+					}
+				}, getClientCompany().getItems());
 			}
 
 			@Override
