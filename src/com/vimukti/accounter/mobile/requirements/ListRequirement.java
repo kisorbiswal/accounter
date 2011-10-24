@@ -54,7 +54,11 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 
 		if (valuesSelection != null && valuesSelection.equals(getName())) {
 			T value = getValue();
-			return showList(context, value);
+			List<T> oldValues = new ArrayList<T>();
+			if (value != null) {
+				oldValues.add(value);
+			}
+			return showList(context, oldValues);
 		}
 
 		T value = getValue();
@@ -66,7 +70,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		return null;
 	}
 
-	public Result showList(Context context, T value) {
+	public Result showList(Context context, List<T> lidRecords) {
 		Result result = context.makeResult();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		context.setAttribute(INPUT_ATTR, getName());
@@ -117,12 +121,13 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			}
 		}
 
-		return displayRecords(context, lists, result, RECORDS_TO_SHOW, value);
+		return displayRecords(context, lists, result, RECORDS_TO_SHOW,
+				lidRecords);
 
 	}
 
-	private Result displayRecords(Context context, List<T> recirds,
-			Result result, int recordsToShow, T value) {
+	private Result displayRecords(Context context, List<T> records,
+			Result result, int recordsToShow, List<T> lidRecords) {
 		ResultList customerList = new ResultList(getName());
 		Object last = context.getLast(RequirementType.CUSTOMER);
 		List<T> skipCustomers = new ArrayList<T>();
@@ -133,16 +138,18 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			skipCustomers.add(lastRec);
 		}
 
-		if (value != null) {
-			customerList.add(createRecord(value));
-			skipCustomers.add(value);
+		if (lidRecords != null) {
+			for (T t : lidRecords) {
+				customerList.add(createRecord(t));
+				skipCustomers.add(t);
+			}
 		}
 
 		ResultList actions = new ResultList(ACTIONS);
 
 		ActionNames selection = context.getSelection(ACTIONS);
 
-		List<T> pagination = pagination(context, selection, actions, recirds,
+		List<T> pagination = pagination(context, selection, actions, records,
 				skipCustomers, recordsToShow);
 
 		for (T rec : pagination) {
