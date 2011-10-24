@@ -32,18 +32,21 @@ public class AddressRequirement extends AbstractRequirement {
 		if (attribute.equals(getName())) {
 			show = true;
 		}
-		if (isDone()) {
+		if (!isDone()) {
 			show = true;
 		}
 
 		if (show) {
 			context.setAttribute(INPUT_ATTR, getName());
-			return address(context);
+			Result result = address(context);
+			if (result != null) {
+				return result;
+			}
 		}
 		ClientAddress address = getValue();
 		Record billToRecord = new Record(getName());
 		billToRecord.add("", getRecordName());
-		billToRecord.add("", address);
+		billToRecord.add("", address.getAddressString());
 		list.add(billToRecord);
 		return null;
 	}
@@ -104,7 +107,7 @@ public class AddressRequirement extends AbstractRequirement {
 		list.add(record);
 
 		record = new Record("Street");
-		record.add("", getConstants().streetAddress1());
+		record.add("", getConstants().streetName());
 		record.add("", oldAddress.getStreet());
 		list.add(record);
 
