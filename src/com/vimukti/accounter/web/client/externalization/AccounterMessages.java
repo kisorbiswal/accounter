@@ -911,6 +911,20 @@ public interface AccounterMessages extends Messages {
 
 	public String name(String taxGroup);
 
+	public SafeHtml showHistory();
+
+	public SafeHtml addNote();
+
+	public SafeHtml hideHistory();
+
+	public String lastActivityMessages(String activityType, String userName,
+			String date);
+
+	public String lastActivityMessageForNote(String date, String userName,
+			String notes);
+
 	public String terminology(String customer);
+
+	public String pleaseSaveThisTransactionToAddNote();
 
 }

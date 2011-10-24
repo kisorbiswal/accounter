@@ -5044,5 +5044,9 @@ public interface AccounterConstants extends Constants {
 
 	public String unableToGetHistoryOfThisView();
 
+	public String created();
+
+	public String inventory();
+
 	public String newCharge();
 }
