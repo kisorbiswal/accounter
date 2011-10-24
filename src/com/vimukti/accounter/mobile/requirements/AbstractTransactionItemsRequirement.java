@@ -13,25 +13,45 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class AbstractTransactionItemsRequirement<T> extends
-		AbstractRequirement {
+		ListRequirement<T> {
 
-	private static final String TRANSACTION_ITEMS = null;
+	private static final String TRANSACTION_ITEMS = "transactionItems";
+	protected static final String OLD_TRANSACTION_ITEM_ATTR = "oldTransactionItemAttr";
+	protected static final String PROCESS_ATTR = "processAttr";
+	protected static final Object TRANSACTION_ITEM_PROCESS = "transactionItemProcess";
 
 	public AbstractTransactionItemsRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
 			boolean isAllowFromContext) {
 		super(requirementName, displayString, recordName, isOptional,
-				isAllowFromContext);
+				isAllowFromContext, null);
+		setDefaultValue(new ArrayList<ClientTransactionItem>());
+		setValue(new ArrayList<ClientTransactionItem>());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean isDone() {
+		if (!isOptional()) {
+			return ((List<ClientTransactionItem>) getValue()).size() != 0;
+		}
+		return ((List<ClientTransactionItem>) getDefaultValue()).size() != 0;
 	}
 
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		if (process != null) {
+			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+				Result result = transactionItemProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
 		List<T> items = context.getSelections(getName());
 		List<ClientTransactionItem> transactionItems = getValue();
-		if (transactionItems == null) {
-			transactionItems = new ArrayList<ClientTransactionItem>();
-		}
 		if (items != null && items.size() > 0) {
 			for (T item : items) {
 				ClientTransactionItem transactionItem = new ClientTransactionItem();
@@ -57,9 +77,12 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 					return transactionItemResult;
 				}
 			}
+			context.setAttribute(INPUT_ATTR, "");
 		}
+
+		boolean show = false;
 		if (!isDone()) {
-			return items(context);
+			show = true;
 		}
 
 		ClientTransactionItem editTransactionItem = context
@@ -73,10 +96,19 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection == ActionNames.ADD_MORE_ITEMS) {
-			return items(context);
+			show = true;
 		}
 
-		makeResult.add(getItemsDisplayString());
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(getName())) {
+			show = true;
+		}
+
+		if (show) {
+			return showList(context, null);
+		}
+
+		makeResult.add(getRecordName());
 		ResultList itemsList = new ResultList(TRANSACTION_ITEMS + getName());
 		for (ClientTransactionItem item : transactionItems) {
 			Record itemRec = new Record(item);
@@ -93,13 +125,27 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		return null;
 	}
 
+	private Result transactionItemProcess(Context context) {
+		ClientTransactionItem transactionItem = (ClientTransactionItem) context
+				.getAttribute(OLD_TRANSACTION_ITEM_ATTR);
+		Result result = transactionItem(context, transactionItem);
+		if (result == null) {
+			ActionNames actionName = context.getSelection(ACTIONS);
+			if (actionName == ActionNames.DELETE_ITEM) {
+				List<ClientTransactionItem> transItems = getValue();
+				transItems.remove(transactionItem);
+				context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
+			}
+			context.setAttribute(INPUT_ATTR, "");
+		}
+		return result;
+	}
+
 	protected abstract void setPrice(ClientTransactionItem transactionItem,
 			T item);
 
 	protected abstract void setItem(ClientTransactionItem transactionItem,
 			T item);
-
-	protected abstract Result items(Context context);
 
 	protected abstract Result transactionItem(Context context,
 			ClientTransactionItem editTransactionItem);
@@ -107,17 +153,8 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 	protected abstract Result checkItemToEdit(Context context,
 			ClientTransactionItem transactionItem);
 
-	protected abstract String getCreateCommand();
-
-	protected abstract String getSelectMessage();
-
-	protected abstract Record creatItemRecord(T value);
-
-	protected abstract List<T> getItems();
-
 	protected abstract String getAddMoreString();
 
 	protected abstract String getItemDisplayValue(ClientTransactionItem item);
 
-	protected abstract String getItemsDisplayString();
 }
