@@ -79,14 +79,19 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			name = context.getString();
 		}
 		if (name == null) {
-			context.setAttribute("oldValue", "");
-			result.add(getDisplayString());
-			ResultList actions = new ResultList(ACTIONS);
-			Record record = new Record(ActionNames.ALL);
-			record.add("", "Show All Records");
-			actions.add(record);
-			result.add(actions);
-			return result;
+			List<T> lists = getLists(context);
+			if (lists.size() > RECORDS_TO_SHOW) {
+				context.setAttribute("oldValue", "");
+				result.add(getDisplayString());
+				ResultList actions = new ResultList(ACTIONS);
+				Record record = new Record(ActionNames.ALL);
+				record.add("", "Show All Records");
+				actions.add(record);
+				result.add(actions);
+				return result;
+			}
+			return displayRecords(context, lists, result, RECORDS_TO_SHOW,
+					oldRecords);
 		}
 
 		Object selection = context.getSelection(ACTIONS);
@@ -105,12 +110,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			} else {
 				result.add("Did not get any records with '" + name + "'.");
 				result.add(getDisplayString());
-				ResultList actions = new ResultList(ACTIONS);
-				Record record = new Record(ActionNames.ALL);
-				record.add("", "Show All Records");
-				actions.add(record);
-				result.add(actions);
-				return result;
+				lists = getLists(context);
 			}
 		} else {
 			String oldValue = (String) context.getAttribute("oldValue");

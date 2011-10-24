@@ -1,5 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.List;
+
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientContact;
 
@@ -10,6 +12,15 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 			ChangeListner<ClientContact> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
+	}
+
+	@Override
+	public boolean isDone() {
+		if (!super.isDone()) {
+			List<ClientContact> lists = getLists(null);
+			return lists.size() == 0;
+		}
+		return true;
 	}
 
 	@Override

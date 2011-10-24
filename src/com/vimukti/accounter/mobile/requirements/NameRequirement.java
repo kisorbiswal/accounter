@@ -8,6 +8,7 @@ public class NameRequirement extends SingleRequirement<String> {
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext);
+		setDefaultValue("");
 	}
 
 	@Override
