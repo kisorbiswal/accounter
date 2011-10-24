@@ -49,10 +49,14 @@ public abstract class NewCommand extends Command {
 		if (result != null) {
 			return result;
 		}
-		makeResult = context.makeResult();
-		makeResult.add(0, getSuccessMessage());
+
+		Result finishResult = context.makeResult();
+		String success = getSuccessMessage();
+		if (success != null) {
+			finishResult.add(getSuccessMessage());
+		}
 		markDone();
-		return makeResult;
+		return finishResult;
 	}
 
 	protected Result onCompleteProcess(Context context) {
