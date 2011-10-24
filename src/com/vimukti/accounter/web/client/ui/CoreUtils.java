@@ -1829,7 +1829,6 @@ public class CoreUtils {
 			clientCurrency.setFormalName(currencyCodes[i]);
 			clientCurrency.setName(currencyNames[i]);
 			clientCurrency.setSymbol(currencyCodes[i]);
-
 			currencies.add(clientCurrency);
 		}
 		return currencies;
