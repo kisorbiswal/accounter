@@ -5049,4 +5049,6 @@ public interface AccounterConstants extends Constants {
 	public String inventory();
 
 	public String newCharge();
+
+	public String InventoryLists();
 }
