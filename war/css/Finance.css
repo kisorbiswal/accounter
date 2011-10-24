@@ -1469,3 +1469,25 @@ button.disable,button.disable:hover{
 .history_notes_view{
 	width: 100%;
 }
+.history_notes_link{
+	color:#002E36;
+}
+.notes_Panel{
+	border: 1px solid #002E36;
+	padding: 10px;
+}
+.notes_button_panel{
+	width: 100%;
+	background-color: #CCCCCC;
+}
+.history_notes_label{
+	border-bottom: 2px solid #CCCCCC;
+	color: #002E36;
+	font-size: 15px;
+	font-weight: bold;
+}
+.last_activity{
+ 	background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    padding: 5px;
+}

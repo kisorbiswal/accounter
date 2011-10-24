@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -59,6 +60,11 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		buttonBar.setStyleName("button_bar");
 
 		super.add(buttonBar);
+		super.add(createHistoryView());
+	}
+
+	protected VerticalPanel createHistoryView() {
+		return new VerticalPanel();
 	}
 
 	/**
@@ -166,4 +172,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			buttonBar.setDisabled(disable);
 		}
 	}
+
+	/**
+	 * Creates HistoryView
+	 */
+
 }

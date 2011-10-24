@@ -239,6 +239,7 @@ public abstract class Transaction extends CreatableObject implements
 	private boolean isDeleted;
 
 	private AccounterClass accounterClass;
+	private List<TransactionLog> history;
 
 	public String getPaymentMethod() {
 		return paymentMethod;
@@ -710,7 +711,32 @@ public abstract class Transaction extends CreatableObject implements
 	public boolean onSave(Session session) throws CallbackException {
 		super.onSave(session);
 		doCreateEffect(session);
+		addCreateHistory();
 		return false;
+	}
+
+	protected void addCreateHistory() {
+		TransactionLog log = new TransactionLog(TransactionLog.TYPE_CREATE);
+		if (this.history == null) {
+			this.history = new ArrayList<TransactionLog>();
+		}
+		this.history.add(log);
+	}
+
+	protected void addUpdateHistory() {
+		TransactionLog log = new TransactionLog(TransactionLog.TYPE_EDIT);
+		if (this.history == null) {
+			this.history = new ArrayList<TransactionLog>();
+		}
+		this.history.add(log);
+	}
+
+	protected void addVoidHistory() {
+		TransactionLog log = new TransactionLog(TransactionLog.TYPE_VOID);
+		if (this.history == null) {
+			this.history = new ArrayList<TransactionLog>();
+		}
+		this.history.add(log);
 	}
 
 	private void doCreateEffect(Session session) {
@@ -994,15 +1020,16 @@ public abstract class Transaction extends CreatableObject implements
 			this.voidCreditsAndPayments(this);
 			voidTransactionItems();
 			deleteCreatedEntries(session, clonedObject);
-
+			addVoidHistory();
 		} else if (this.isDeleted && !clonedObject.isDeleted() && this.isVoid) {
 			this.setStatus(STATUS_DELETED);
 		} else if (this.transactionItems != null
 				&& !this.transactionItems.equals(clonedObject.transactionItems)) {
 			updateTranasactionItems(clonedObject);
 			clonedObject.transactionItems.clear();
-
+			addUpdateHistory();
 		}
+
 	}
 
 	protected void voidTransactionItems() {
@@ -1087,7 +1114,9 @@ public abstract class Transaction extends CreatableObject implements
 	private void updatePayee(double amount) {
 		Payee payee = getPayee();
 		if (payee != null) {
-			payee.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+			payee
+					.updateBalance(HibernateUtil.getCurrentSession(), this,
+							amount);
 		}
 
 	}
@@ -1292,5 +1321,9 @@ public abstract class Transaction extends CreatableObject implements
 			map.put(item.getEffectingAccount(), item.getEffectiveAmount());
 		}
 		return map;
+	}
+
+	public List<TransactionLog> getHistory() {
+		return this.history;
 	}
 }

@@ -927,4 +927,6 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseSaveThisTransactionToAddNote();
 
+	public String unableToSaveNote(String string);
+
 }

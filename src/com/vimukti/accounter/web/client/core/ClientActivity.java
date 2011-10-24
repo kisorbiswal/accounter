@@ -2,6 +2,14 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientActivity implements IAccounterCore {
 
+	public static final int CREATED = 2;
+
+	public static final int EDITED = 3;
+
+	public static final int VOIDED = 4;
+
+	public static final int NOTE = 6;
+
 	private long id;
 
 	private ClientUser clientUser;
@@ -21,6 +29,8 @@ public class ClientActivity implements IAccounterCore {
 	private double amount;
 
 	private int activityType;
+
+	private String description;
 
 	public long getId() {
 		return id;
@@ -135,5 +145,13 @@ public class ClientActivity implements IAccounterCore {
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }

@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,14 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -42,6 +47,7 @@ import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -51,9 +57,9 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
+import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
@@ -86,6 +92,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected int transactionType;
 
 	protected T transaction;
+
+	private VerticalPanel addNotesPanel;
+
+	private TransactionHistoryTable historyTable;
+
+	private HTML lastActivityHTML;
 
 	// public static final int CUSTOMER_TRANSACTION_GRID = 1;
 	// public static final int VENDOR_TRANSACTION_GRID = 2;
@@ -1102,8 +1114,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		ClientCurrency addnewCurrency = new ClientCurrency();
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
 		currenciesList.add(addnewCurrency);
-		
-		
+			
 		// List<ClientCurrency> coreCurrencies = CoreUtils.getCurrencies();
 		// for (ClientCurrency clientCurrency : currenciesList) {
 		// for (int x = 0; x < currenciesList.size(); x++) {
@@ -1532,6 +1543,180 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public void setCurrencycode(ClientCurrency currencycode) {
 		this.currency = currencycode;
+	}
+
+	@Override
+	protected VerticalPanel createHistoryView() {
+		VerticalPanel historyNotesPanel = new VerticalPanel();
+
+		Label headerLabel = new Label(constants.historyAndNotes());
+		headerLabel.addStyleName("history_notes_label");
+
+		VerticalPanel lastActivityPanel = new VerticalPanel();
+		lastActivityHTML = new HTML();
+		lastActivityHTML.addStyleName("last_activity");
+
+		lastActivityPanel.add(lastActivityHTML);
+
+		historyNotesPanel.setSpacing(9);
+		historyNotesPanel.add(headerLabel);
+		historyNotesPanel.add(lastActivityPanel);
+
+		VerticalPanel tablesPanel = new VerticalPanel();
+		HorizontalPanel headersPanel = new HorizontalPanel();
+
+		final HTML historyLink = new HTML(messages.showHistory());
+		HTML addNotesLink = new HTML(messages.addNote());
+		historyLink.addStyleName("history_notes_link");
+		addNotesLink.addStyleName("history_notes_link");
+
+		addNotesPanel = getNotesPanel();
+		addNotesPanel.setVisible(false);
+
+		headersPanel.add(historyLink);
+		headersPanel.add(addNotesLink);
+
+		headersPanel.setSpacing(10);
+
+		tablesPanel.add(headersPanel);
+		tablesPanel.add(addNotesPanel);
+		tablesPanel.setSpacing(10);
+
+		if (data != null) {
+			final VerticalPanel historyPanel = getHistoryPanel(data.getID());
+			historyPanel.setVisible(false);
+			tablesPanel.add(historyPanel);
+			historyLink.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					historyPanel.setVisible(!historyPanel.isVisible());
+					if (historyPanel.isVisible())
+						historyLink.setHTML(messages.hideHistory());
+					else
+						historyLink.setHTML(messages.showHistory());
+				}
+			});
+
+			historyPanel.addStyleName("history_notes_view");
+		} else {
+			historyLink.setVisible(false);
+			lastActivityPanel.setVisible(false);
+		}
+
+		addNotesLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addNotesPanel.setVisible(!addNotesPanel.isVisible());
+			}
+		});
+
+		historyNotesPanel.add(tablesPanel);
+
+		// Setting widths to all panels
+		historyNotesPanel.addStyleName("history_notes_view");
+		lastActivityPanel.addStyleName("history_notes_view");
+		tablesPanel.addStyleName("history_notes_view");
+
+		return historyNotesPanel;
+	}
+
+	@SuppressWarnings("unchecked")
+	private VerticalPanel getHistoryPanel(long Id) {
+		VerticalPanel historyPanel = new VerticalPanel();
+		historyTable = new TransactionHistoryTable(Id,
+				(AbstractTransactionBaseView<ClientTransaction>) this);
+		historyTable.addStyleName("user_activity_log");
+		historyPanel.add(historyTable);
+		return historyPanel;
+	}
+
+	private VerticalPanel getNotesPanel() {
+		VerticalPanel notesPanel = new VerticalPanel();
+
+		Label noteLabel = new Label(constants.note());
+		// text area....
+		final TextArea notesArea = new TextArea();
+		notesArea.removeStyleName("gwt-TextArea");
+		notesArea.addStyleName("memoTextArea");
+		notesArea.setHeight("85px");
+
+		// buttons...
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+
+		final SaveAndCloseButton saveButton = new SaveAndCloseButton(constants
+				.save());
+		CancelButton cancelButton = new CancelButton();
+
+		saveButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (data == null) {
+					addError(saveButton, messages
+							.pleaseSaveThisTransactionToAddNote());
+				} else {
+					Accounter.createCRUDService().createNote(data.getID(),
+							notesArea.getText(), new AsyncCallback<Long>() {
+
+								@Override
+								public void onSuccess(Long result) {
+									historyTable.updateColumnsData();
+									notesArea.setText("");
+								}
+
+								@Override
+								public void onFailure(Throwable caught) {
+									notesArea.setText("");
+									Accounter
+											.showError(messages
+													.unableToSaveNote(caught
+															.toString()));
+								}
+							});
+				}
+				addNotesPanel.setVisible(false);
+			}
+		});
+		cancelButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addNotesPanel.setVisible(false);
+			}
+		});
+
+		buttonPanel.add(saveButton);
+		buttonPanel.add(cancelButton);
+		buttonPanel.setSpacing(8);
+		buttonPanel.setCellHorizontalAlignment(saveButton,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		buttonPanel.setCellWidth(saveButton, "75%");
+		buttonPanel.setCellHorizontalAlignment(cancelButton,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
+		notesPanel.add(noteLabel);
+		notesPanel.add(notesArea);
+		notesPanel.add(buttonPanel);
+		buttonPanel.addStyleName("notes_button_panel");
+
+		notesPanel.addStyleName("notes_Panel");
+		return notesPanel;
+	}
+
+	public void updateLastActivityPanel(ClientTransactionLog transactionLog) {
+		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE)
+			lastActivityHTML.setHTML(messages.lastActivityMessages(historyTable
+					.getActivityType(transactionLog.getType()), transactionLog
+					.getUserName(), new Date(transactionLog.getTime())
+					.toString()));
+		else
+
+			lastActivityHTML.setHTML(messages.lastActivityMessageForNote(
+					new Date(transactionLog.getTime()).toString(),
+					transactionLog.getUserName(), transactionLog
+							.getDescription()));
 	}
 
 }

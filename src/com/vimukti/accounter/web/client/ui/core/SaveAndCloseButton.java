@@ -17,6 +17,12 @@ public class SaveAndCloseButton extends ImageButton {
 
 	private AbstractBaseView<?> view;
 
+	public SaveAndCloseButton(String save) {
+		super(Accounter.constants().save(), Accounter.getFinanceImages()
+				.saveAndClose());
+		this.addStyleName("saveAndClose-Btn");
+	}
+
 	/**
 	 * Creates new Instance
 	 */
@@ -32,7 +38,7 @@ public class SaveAndCloseButton extends ImageButton {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-			
+
 				view.onSave(false);
 			}
 		});

@@ -388,6 +388,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 						@Override
 						public boolean onYesClick() {
 							saveAndUpdateView();
+							saveActivity();
 							return true;
 						}
 
@@ -406,7 +407,11 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		} else {
 
 			saveAndUpdateView();
+			saveActivity();
 		}
+	}
+
+	private void saveActivity() {
 	}
 
 	/**

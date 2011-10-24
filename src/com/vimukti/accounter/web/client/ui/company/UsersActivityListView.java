@@ -67,8 +67,8 @@ public class UsersActivityListView extends BaseView {
 		dateForm.setNumCols(6);
 		dateForm.setFields(fromdate, toDate);
 
-		activityList = new UsersActivityList(fromdate.getValue(),
-				toDate.getValue());
+		activityList = new UsersActivityList(fromdate.getValue(), toDate
+				.getValue());
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
