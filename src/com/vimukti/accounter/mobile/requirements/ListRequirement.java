@@ -53,9 +53,8 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		}
 
 		if (valuesSelection != null && valuesSelection.equals(getName())) {
-			Result res = showList(context);
-			context.setAttribute(INPUT_ATTR, getName());
-			return res;
+			T value = getValue();
+			return showList(context, value);
 		}
 
 		T value = getValue();
@@ -67,9 +66,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		return null;
 	}
 
-	public Result showList(Context context) {
+	public Result showList(Context context, T value) {
 		Result result = context.makeResult();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		context.setAttribute(INPUT_ATTR, getName());
 		String name = null;
 		if (attribute.equals(getName())) {
 			name = context.getString();
@@ -79,7 +79,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			result.add(getDisplayString());
 			ResultList actions = new ResultList(ACTIONS);
 			Record record = new Record(ActionNames.ALL);
-			record.add("", "Show All Customers");
+			record.add("", "Show All Records");
 			actions.add(record);
 			result.add(actions);
 			return result;
@@ -90,7 +90,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		if (selection == ActionNames.ALL) {
 			lists = getLists(context);
 			if (lists.size() != 0) {
-				result.add("All Customers");
+				result.add("All Records");
 			}
 			name = null;
 		} else if (selection == null) {
@@ -103,7 +103,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 				result.add(getDisplayString());
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
-				record.add("", "Show All Customers");
+				record.add("", "Show All Records");
 				actions.add(record);
 				result.add(actions);
 				return result;
@@ -116,12 +116,13 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 				lists = getLists(context);
 			}
 		}
-		return displayRecords(context, lists, result, RECORDS_TO_SHOW);
+
+		return displayRecords(context, lists, result, RECORDS_TO_SHOW, value);
 
 	}
 
-	private Result displayRecords(Context context, List<T> customers,
-			Result result, int recordsToShow) {
+	private Result displayRecords(Context context, List<T> recirds,
+			Result result, int recordsToShow, T value) {
 		ResultList customerList = new ResultList(getName());
 		Object last = context.getLast(RequirementType.CUSTOMER);
 		List<T> skipCustomers = new ArrayList<T>();
@@ -132,21 +133,20 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			skipCustomers.add(lastRec);
 		}
 
-		T value2 = getValue();
-		if (value2 != null) {
-			customerList.add(createRecord(value2));
-			skipCustomers.add(value2);
+		if (value != null) {
+			customerList.add(createRecord(value));
+			skipCustomers.add(value);
 		}
 
 		ResultList actions = new ResultList(ACTIONS);
 
 		ActionNames selection = context.getSelection(ACTIONS);
 
-		List<T> pagination = pagination(context, selection, actions, customers,
+		List<T> pagination = pagination(context, selection, actions, recirds,
 				skipCustomers, recordsToShow);
 
-		for (T costomer : pagination) {
-			customerList.add(createRecord(costomer));
+		for (T rec : pagination) {
+			customerList.add(createRecord(rec));
 		}
 
 		int size = customerList.size();
