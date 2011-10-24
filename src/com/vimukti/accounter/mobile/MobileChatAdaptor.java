@@ -55,23 +55,26 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			}
 		}
 
-		String commandString = "";
-		Command matchedCommand = null;
-		for (String str : message.split(" ")) {
-			commandString += str;
-			matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
-			if (matchedCommand != null) {
-				break;
+		if (session.isAuthenticated()) {
+			String commandString = "";
+			Command matchedCommand = null;
+			for (String str : message.split(" ")) {
+				commandString += str;
+				matchedCommand = CommandsFactory.INSTANCE
+						.getCommand(commandString);
+				if (matchedCommand != null) {
+					break;
+				}
+				commandString += ' ';
 			}
-			commandString += ' ';
+
+			if (matchedCommand != null) {
+				message = message.replaceAll(commandString.trim(), "");
+				userMessage.setOriginalMsg(message);
+				command = matchedCommand;
+			}
 		}
 		
-		if (matchedCommand != null && session.isAuthenticated()) {
-			message = message.replaceAll(commandString.trim(), "");
-			userMessage.setOriginalMsg(message);
-			command = matchedCommand;
-		}
-
 		UserMessage lastMessage = session.getLastMessage();
 		Result lastResult = lastMessage == null ? null : lastMessage
 				.getResult();

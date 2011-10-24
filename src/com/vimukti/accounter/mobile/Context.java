@@ -234,7 +234,7 @@ public class Context {
 	 * @param value
 	 */
 	public void setAttribute(String name, Object value) {
-		this.session.setAttribute(name, value);
+		this.session.getCurrentCommand().setAttribute(name, value);
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class Context {
 	 * @return
 	 */
 	public Object getAttribute(String name) {
-		return this.session.getAttribute(name);
+		return this.session.getCurrentCommand().getAttribute(name);
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class Context {
 	 * @return
 	 */
 	public Object removeAttribute(String name) {
-		return session.removeAttribute(name);
+		return session.getCurrentCommand().removeAttribute(name);
 	}
 
 	public Object getLast(RequirementType type) {
