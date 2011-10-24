@@ -9,13 +9,17 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -117,21 +121,26 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, String name) {
-				// TODO Auto-generated method stub
-				return null;
+			protected List<String> getLists(Context context, final String name) {
+				return Utility.filteredList(new ListFilter<String>() {
+
+					@Override
+					public boolean filter(String e) {
+						return e.contains(name);
+					}
+				}, getOrganizationTypes());
 			}
 
 			@Override
 			protected List<String> getLists(Context context) {
-				// TODO Auto-generated method stub
-				return null;
+				return getOrganizationTypes();
 			}
 
 			@Override
 			protected String getEmptyString() {
 				return null;
 			}
+
 		});
 
 		list.add(new ListRequirement<String>(CUSTOMER_TERMINOLOGY,
@@ -161,6 +170,277 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
+			protected List<String> getLists(Context context, final String name) {
+				return Utility.filteredList(new ListFilter<String>() {
+
+					@Override
+					public boolean filter(String e) {
+						return e.contains(name);
+					}
+				}, getCustomerTerminologies());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getCustomerTerminologies();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+
+		list.add(new ListRequirement<String>(SUPPLIER_TERMINOLOGY,
+				getMessages().terminology(getConstants().Supplier()),
+				getConstants().supplier(), true, true, null) {
+
+			@Override
+			protected Record createRecord(String value) {
+				Record record = new Record(value);
+				record.add("", value);
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(String value) {
+				return value;
+			}
+
+			@Override
+			protected String getCreateCommandString() {
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect("Supplier Terminology");
+			}
+
+			@Override
+			protected List<String> getLists(Context context, final String name) {
+				return Utility.filteredList(new ListFilter<String>() {
+
+					@Override
+					public boolean filter(String e) {
+						return e.contains(name);
+					}
+				}, getSupplierTerminologies());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getSupplierTerminologies();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+
+		list.add(new ListRequirement<String>(ACCOUNT_TERMINOLOGY, getMessages()
+				.terminology(getConstants().Account()), getConstants()
+				.Account(), true, true, null) {
+
+			@Override
+			protected Record createRecord(String value) {
+				Record record = new Record(value);
+				record.add("", value);
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(String value) {
+				return value;
+			}
+
+			@Override
+			protected String getCreateCommandString() {
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect("Account Terminology");
+			}
+
+			@Override
+			protected List<String> getLists(Context context, final String name) {
+				return Utility.filteredList(new ListFilter<String>() {
+
+					@Override
+					public boolean filter(String e) {
+						return e.contains(name);
+					}
+				}, getAccountTerminologies());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getAccountTerminologies();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
+
+		list.add(new ListRequirement<String>(SERVICE_PRODUCTS_BOTH,
+				getConstants().productAndService(), getConstants()
+						.productAndService(), true, true, null) {
+
+			@Override
+			protected Record createRecord(String value) {
+				Record record = new Record(value);
+				record.add("", value);
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(String value) {
+				return value;
+			}
+
+			@Override
+			protected String getCreateCommandString() {
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						getConstants().productAndService());
+			}
+
+			@Override
+			protected List<String> getLists(Context context, final String name) {
+				return Utility.filteredList(new ListFilter<String>() {
+
+					@Override
+					public boolean filter(String e) {
+						return e.contains(name);
+					}
+				}, getServiceProductBothList());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getServiceProductBothList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+
+		list.add(new BooleanRequirement(TRACK_TAX, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "Track Tax Enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Track Tax Disabled";
+			}
+		});
+
+		// TODO track tax paid, one or detail line tax
+
+		list.add(new BooleanRequirement(CREATE_ESTIMATES, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "Yes,want to create estimates";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "No,don't want to create estimates";
+			}
+		});
+
+		list.add(new CurrencyRequirement(SELECT_CURRENCY, getMessages()
+				.pleaseSelect(getConstants().currency()), getConstants()
+				.currency(), true, true, null) {
+
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+				return getCurrenciesList();
+			}
+
+			@Override
+			protected List<ClientCurrency> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientCurrency>() {
+
+					@Override
+					public boolean filter(ClientCurrency e) {
+						return e.getName().contains(name);
+					}
+				}, getCurrenciesList());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+
+		list.add(new BooleanRequirement(MANAGE_BILLS_OWE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "Manage Bill you owe";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Don't Manage Bill you owe";
+			}
+		});
+
+		list.add(new ListRequirement<String>(FISCAL_YEAR, getMessages()
+				.pleaseSelect(getConstants().fiscalYear()), getConstants()
+				.fiscalYear(), true, true, null) {
+
+			@Override
+			protected Record createRecord(String value) {
+				Record record = new Record(value);
+				record.add("", value);
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(String value) {
+				return value;
+			}
+
+			@Override
+			protected String getCreateCommandString() {
+				return null;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
 			protected List<String> getLists(Context context, String name) {
 				// TODO Auto-generated method stub
 				return null;
@@ -171,21 +451,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				// TODO Auto-generated method stub
 				return null;
 			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
 		});
 
-		list.add(new Requirement(SUPPLIER_TERMINOLOGY, true, true));
-		list.add(new Requirement(ACCOUNT_TERMINOLOGY, true, true));
-		list.add(new Requirement(SERVICE_PRODUCTS_BOTH, true, true));
-		list.add(new Requirement(TRACK_TAX, true, true));
-		list.add(new Requirement(CREATE_ESTIMATES, true, true));
-		list.add(new Requirement(SELECT_CURRENCY, true, true));
-		list.add(new Requirement(MANAGE_BILLS_OWE, true, true));
-		list.add(new Requirement(FISCAL_YEAR, true, true));
 		list.add(new Requirement(ACCOUNTS, true, true));
 	}
 
