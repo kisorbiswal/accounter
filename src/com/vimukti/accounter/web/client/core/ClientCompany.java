@@ -92,7 +92,6 @@ public class ClientCompany implements IAccounterCore {
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
-	private Set<ClientCurrency> currencies;
 
 	String bankAccountNo;
 
@@ -172,6 +171,7 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientBrandingTheme> brandingTheme;
 
 	private ArrayList<ClientUserInfo> usersList;
+	private ArrayList<ClientCurrency> currencies;
 
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
@@ -1853,7 +1853,10 @@ public class ClientCompany implements IAccounterCore {
 			// Utility.updateClientList(fiscalYear, this.fiscalYears);
 			// sortFiscalYears();
 			// break;
-
+			case CURRENCY:
+				ClientCurrency currency = (ClientCurrency) accounterCoreObject;
+				Utility.updateClientList(currency, currencies);
+				break;
 			case COMPANY_PREFERENCES:
 				this.preferences = (ClientCompanyPreferences) accounterCoreObject;
 				break;
@@ -2253,6 +2256,14 @@ public class ClientCompany implements IAccounterCore {
 		taxCode.setTAXItemGrpForPurchases(0);
 		return taxCode;
 	}
+//	public void deleteCurrency(long id) {
+//		ClientCurrency clientBrandingTheme = this.getCurrency(id);
+//		if (clientBrandingTheme != null) {
+//			this.brandingTheme.remove(clientBrandingTheme);
+//			fireEvent(new CoreEvent<ClientCurrency>(ChangeType.DELETE,
+//					clientBrandingTheme));
+//		}
+//	}
 
 	public void setBrandingThemes(ArrayList<ClientBrandingTheme> brandingTheme) {
 		this.brandingTheme = brandingTheme;
@@ -2457,11 +2468,11 @@ public class ClientCompany implements IAccounterCore {
 		this.loggedInUser = user;
 	}
 
-	public void setCurrencies(Set<ClientCurrency> currencies) {
+	public void setCurrencies(ArrayList<ClientCurrency> currencies) {
 		this.currencies = currencies;
 	}
 
-	public Set<ClientCurrency> getCurrencies() {
+	public ArrayList<ClientCurrency> getCurrencies() {
 		return currencies;
 	}
 
@@ -2503,7 +2514,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.creditRatings = creditRatings;
 
-		Set<ClientCurrency> currencies = new HashSet<ClientCurrency>();
+		ArrayList<ClientCurrency> currencies = new ArrayList<ClientCurrency>();
 		for (ClientCurrency clientCurrency : this.currencies) {
 			currencies.add(clientCurrency.clone());
 		}
