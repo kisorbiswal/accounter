@@ -1165,6 +1165,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.customers, customerId);
 	}
 
+	public ClientCurrency getCurrency(long currencyId) {
+		ClientCurrency object = Utility.getObject(this.currencies, currencyId);
+		return object;
+	}
 	public ClientPayee getPayee(long id) {
 		return Utility.getObject(this.payees, id);
 	}

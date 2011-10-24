@@ -12,6 +12,7 @@ import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.NominalCodeRange;
@@ -181,7 +182,6 @@ public abstract class CompanyInitializer {
 		this.preferences.setIsAccuralBasis(true);
 		this.preferences.setStartOfFiscalYear(fiscalYearStartDate);
 		this.preferences.setEndOfFiscalYear(fiscalYearEndDate);
-		this.preferences.setEnableMultiCurrency(false);
 		this.preferences.setUseCustomerId(false);
 		this.preferences.setDefaultShippingTerm(null);
 		this.preferences.setDefaultAnnualInterestRate(0);

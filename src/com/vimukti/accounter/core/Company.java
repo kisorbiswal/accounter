@@ -559,6 +559,10 @@ public class Company implements IAccounterServerCore {
 	 */
 	public void setPreferences(CompanyPreferences preferences) {
 		this.preferences = preferences;
+		Currency currency = this.preferences.getPrimaryCurrency();
+		if(currency!=null){
+			currency.setCompany(this);
+		}
 	}
 
 	public String getBankAccountNo() {

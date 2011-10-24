@@ -15,16 +15,16 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 	protected String getDisplayName(ClientCurrency object) {
 
 		if (object != null)
-			return object.getName() != null ? object.getName() : "";
+			return object.getFormalName() != null ? object.getFormalName() : "";
 		else
 			return "";
 	}
 
 	@Override
-	protected String getColumnData(ClientCurrency object,  int col) {
+	protected String getColumnData(ClientCurrency object, int col) {
 		switch (col) {
 		case 0:
-			return object.getName();
+			return object.getFormalName();
 		}
 		return null;
 
@@ -38,16 +38,16 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public void onAddNew() {
-		NewCurrencyAction action = ActionFactory.getNewCurrencyAction();
-		action.setCallback(new ActionCallback<ClientCurrency>() {
+		 ActionFactory.getNewCurrencyAction().run();
+//		action.setCallback(new ActionCallback<ClientCurrency>() {
+//
+//			@Override
+//			public void actionResult(ClientCurrency result) {
+//				addItemThenfireEvent(result);
+//			}
+//		});
 
-			@Override
-			public void actionResult(ClientCurrency result) {
-				addItemThenfireEvent(result);
-			}
-		});
-
-		action.run(null, true);
+	//	action.run(null, true);
 
 	}
 

@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -95,6 +96,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			vatTotalNonEditableText, balanceDueNonEditableText,
 			paymentsNonEditableText, salesTaxTextNonEditable;
+
+	// private Double currencyfactor;
+	// private ClientCurrency currencyCode;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
@@ -341,18 +345,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm.setNumCols(3);
 		custForm.setWidth("100%");
 		currencyWidget = createCurrencyWidget();
-		currencyWidget.setListener(new CurrencyChangeListener() {
-
-			@Override
-			public void currencyChanged(String currency, double factor) {
-				// TODO the modify the changing items here upon currency
-				// 1) update grid fields
-				// 2) update off-grid-fields [total amount, toatl vat, net
-				// total].
-				System.out.println("Currency Changed: " + currency + " Factor:"
-						+ factor);
-			}
-		});
+		// currencyWidget.setListener(new CurrencyChangeListener() {
+		//
+		//		 
+		// @Override
+		// public void currencyChanged(ClientCurrency currency, double factor) {
+		// System.out.println("Currency Changed: " + currency + " Factor:"
+		// + factor);
+		//				
+		// }
+		// });
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
@@ -400,6 +402,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
 					orderNumText);
+
 			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
@@ -647,7 +650,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
-
+		rightVLay.add(currencyWidget);
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
@@ -1045,7 +1048,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (transaction == null) {
 			setData(new ClientInvoice());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			this.contact = transaction.getContact();
 
@@ -1161,7 +1170,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
 		}
+		
 		superinitTransactionViewData();
+		
 
 		ArrayList<ClientShippingTerms> shippingTerms = getCompany()
 				.getShippingTerms();
@@ -1411,6 +1422,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (selectedSalesOrder != 0)
 			transaction.setSalesOrder(selectedSalesOrder);
 
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
@@ -1796,4 +1809,5 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		this.customerTransactionTable.updateAmountsFromGUI();
 
 	}
+
 }

@@ -31,8 +31,9 @@ public abstract class ItemNameColumn extends
 
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientItem newValue) {
-		row.setAccountable(newValue);
+		
 		if (newValue != null) {
+			row.setAccountable(newValue);
 			row.setUnitPrice(newValue.getSalesPrice());
 			row.setTaxable(newValue.isTaxable());
 			double lt = row.getQuantity().getValue() * row.getUnitPrice();

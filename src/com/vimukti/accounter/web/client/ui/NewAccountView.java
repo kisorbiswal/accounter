@@ -519,17 +519,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private CurrencyWidget createCurrencyWidget() {
-		List<String> currencies = new ArrayList<String>();
-		String baseCurrency = null;
-
-		for (int i = 0; i < 10; i++) {
-			String currency = "CU" + i;
-			currencies.add(currency);
-			if (i == 5) {
-				baseCurrency = currency;
-			}
-		}
-		return new CurrencyWidget(currencies, baseCurrency);
+		
+		return new CurrencyWidget(null, null);
 	}
 
 	private void addPaypalForm() {

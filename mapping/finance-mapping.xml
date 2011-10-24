@@ -303,6 +303,10 @@
 			<many-to-one name="defaultTaxCode" class="com.vimukti.accounter.core.TAXCode"
 				lazy="false" cascade="save-update" column="DEFAULT_TAX_CODE">
 			</many-to-one>
+			
+			<many-to-one name="primaryCurrency" class="com.vimukti.accounter.core.Currency"
+				lazy="false" cascade="save-update" column="PRIMARY_CURRENCY">
+			</many-to-one>
 		</component>
 
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
@@ -643,8 +647,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="symbol" column="SYMBOL"></property>
@@ -977,7 +980,6 @@
 		<property name="cstNumber" column="CST_NUMBER"></property>
 		<property name="serviceTaxRegistrationNumber" column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
 		<property name="tinNumber" column="TIN_NUMBER"></property>
-		<!-- <property name="currency" column="CURRENCY"></property> -->
 		<joined-subclass name="Customer" table="CUSTOMER">
 			<key column="ID" />
 			<many-to-one name="company" column="COMPANY_ID" class="Company"

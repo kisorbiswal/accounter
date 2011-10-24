@@ -22,6 +22,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -32,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -48,6 +51,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
@@ -67,6 +71,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -163,6 +168,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected ClassListCombo classListCombo;
 
 	protected ClientAccounterClass clientAccounterClass;
+
+	protected ClientCurrency currency;
+
+	protected double currencyFactor;
 
 	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
 
@@ -1080,6 +1089,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					&& clientAccounterClass != null) {
 				transaction.setAccounterClass(clientAccounterClass);
 			}
+
 		}
 	}
 
@@ -1089,17 +1099,38 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected CurrencyWidget createCurrencyWidget() {
 		// FIXME test only.
+		ClientCurrency addnewCurrency = new ClientCurrency();
+		Set<ClientCurrency> companyCurrencies = getCompany().getCurrencies();
+		companyCurrencies.add(addnewCurrency);
+		List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>(companyCurrencies);
+		
+		
+		// List<ClientCurrency> coreCurrencies = CoreUtils.getCurrencies();
+		// for (ClientCurrency clientCurrency : currenciesList) {
+		// for (int x = 0; x < currenciesList.size(); x++) {
+		// ClientCurrency c = currenciesList.get(x);
+		// if (c.getFormalName().equals(clientCurrency.getFormalName())) {
+		// c.setID(clientCurrency.getID());
+		// }
+		// }
+		// }
 
-		List<String> currencies = new ArrayList<String>();
-		String baseCurrency = null;
-		for (int i = 0; i < 10; i++) {
-			String currency = "CU" + i;
-			currencies.add(currency);
-			if (i == 5) {
-				baseCurrency = currency;
+		ClientCurrency baseCurrency = getCompany().getPreferences()
+				.getPrimaryCurrency();
+
+		CurrencyWidget widget = new CurrencyWidget(currenciesList, baseCurrency);
+
+		widget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(ClientCurrency currency, double factor) {
+				setCurrencycode(currency);
+				setCurrencyFactor(factor);
+				updateAmountsFromGUI();
 			}
-		}
-		return new CurrencyWidget(currencies, baseCurrency);
+
+		});
+		return widget;
 	}
 
 	public void setVendor(ClientVendor vendor) {
@@ -1473,12 +1504,35 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public abstract void updateAmountsFromGUI();
 
 	public Double getAmountInTransactionCurrency(Double amount) {
-		return amount;
-
+		if (currency != null) {
+			return amount / currencyFactor;
+		} else {
+			return amount;
+		}
 	}
 
 	public Double getAmountInBaseCurrency(Double amount) {
-		return amount;
+		if (currency != null) {
+			return amount * currencyFactor;
+		} else {
+			return amount;
+		}
+	}
+
+	public Double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	public void setCurrencyFactor(Double currencyFactor) {
+		this.currencyFactor = currencyFactor;
+	}
+
+	public ClientCurrency getCurrencycode() {
+		return currency;
+	}
+
+	public void setCurrencycode(ClientCurrency currencycode) {
+		this.currency = currencycode;
 	}
 
 }

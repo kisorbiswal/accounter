@@ -48,7 +48,7 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<property name="currencyCode" column="CURRENCY_CODE"></property>
+		<property name="currency" column="CURRENCY"></property>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<set name="accountTransactionEntriesList" inverse="true"
 			cascade="all-delete-orphan">

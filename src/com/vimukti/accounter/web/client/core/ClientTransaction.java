@@ -132,7 +132,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	long transactionMakeDepositEntries;
 
-	private String currencyCode;
+	private long currency;
 	/**
 	 * Multiplication factor to convert selected currency to base currency
 	 */
@@ -764,12 +764,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 		this.canEdit = canEdit;
 	}
 
-	public void setCurrencyCode(String currencyCode) {
-		this.currencyCode = currencyCode;
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
-	public String getCurrencyCode() {
-		return currencyCode;
+	public long getCurrency() {
+		return currency;
 	}
 
 	public void setCurrencyFactor(double currencyFactor) {

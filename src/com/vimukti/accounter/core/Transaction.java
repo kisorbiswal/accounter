@@ -104,16 +104,16 @@ public abstract class Transaction extends CreatableObject implements
 	String number = "0";
 	boolean isDefault;
 	private Location location;
-	private String currencyCode;
+	private Currency currency;
 
 	private RecurringTransaction recurringTransaction;
 
-	public String getCurrencyCode() {
-		return currencyCode;
+	public Currency getCurrency() {
+		return currency;
 	}
 
-	public void setCurrencyCode(String currencyCode) {
-		this.currencyCode = currencyCode;
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 
 	public double getCurrencyFactor() {
