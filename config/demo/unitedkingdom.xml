@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <ClientCompany>
 
-
 	<registrationNumber>10541244</registrationNumber>
 	<companyEmail>defaultcompany@mail.com</companyEmail>
 	<companyEmailForCustomers></companyEmailForCustomers>
 	<isConfigured>1</isConfigured>
+	<createdDate>2011-10-21 13:24:13 GMT</createdDate>
 	<ein></ein>
 	<firstMonthOfFiscalYear>0</firstMonthOfFiscalYear>
 	<firstMonthOfIncomeTaxYear>0</firstMonthOfIncomeTaxYear>
@@ -21,6 +21,53 @@
 	<bankAccountNo>1025635</bankAccountNo>
 	<sortCode>DF</sortCode>
 
+	<preferences>
+		<dateFormat></dateFormat>
+		<locationTrackingId>0</locationTrackingId>
+		<logSpaceUsed>0</logSpaceUsed>
+		<id>100</id>
+		<startOfFiscalYear>1</startOfFiscalYear>
+		<endOfFiscalYear>1</endOfFiscalYear>
+		<preventPostingBeforeDate>11022011</preventPostingBeforeDate>
+		<depreciationStartDate>11022011</depreciationStartDate>
+		<lastDepreciationDate>11022011</lastDepreciationDate>
+		<industryType>1</industryType>
+		<defaultShippingTerm>1</defaultShippingTerm>
+		<defaultAnnualInterestRate>0</defaultAnnualInterestRate>
+		<defaultMinimumFinanceCharge>0D</defaultMinimumFinanceCharge>
+		<graceDays>0</graceDays>
+		<VATregistrationNumber>VAT1101</VATregistrationNumber>
+		<VATreportingPeriod>1</VATreportingPeriod>
+		<endingPeriodForVATreporting>1</endingPeriodForVATreporting>
+		<decimalCharacte>.</decimalCharacte>
+		<primaryCurrency>1</primaryCurrency>
+		<supportingCurrenciesList></supportingCurrenciesList>
+		<organizationType>1</organizationType>
+		<fiscalYearFirstMonth>1</fiscalYearFirstMonth>
+		<haveEpmloyees></haveEpmloyees>
+		<haveW_2Employees></haveW_2Employees>
+		<have1099contractors></have1099contractors>
+		<trackEmployeeExpenses></trackEmployeeExpenses>
+		<isBeginingorTodaysdate></isBeginingorTodaysdate>
+		<trackFinanceDate>1</trackFinanceDate>
+		<referCustomers>1</referCustomers>
+		<referVendors>1</referVendors>
+		<referAccounts>1</referAccounts>
+		<preferencesFlag>1</preferencesFlag>
+		<version>0</version>
+		<tradingName>Demo Company</tradingName>
+		<legalName>Demo Company</legalName>
+		<companyEmail>demo-company@mail.com</companyEmail>
+		<phone>10101010101</phone>
+		<fax>000001111</fax>
+		<webSite>www.demo-company.com.co.in</webSite>
+		<taxId>DEMO11012</taxId>
+		<tradingAddress></tradingAddress>
+		<timezone></timezone>
+		<defaultTaxCode>0</defaultTaxCode>
+		<isShowLegalName>TRUE</isShowLegalName>
+		<isShowRegisteredAddress>TRUE</isShowRegisteredAddress>
+	</preferences>
 
 
 	<customers>
@@ -103,25 +150,45 @@
 		</Vendor>
 	</vendors>
 
+	<banks>
+		<ClientBank>
+			<id>1</id>
+			<name>ICICI</name>
+			<version>0</version>
+		</ClientBank>
+	</banks>
 
-
+	<!-- bank account object -->
 	<accounts>
 		<BankAccount id="1">
-			<type>2</type>
-			<number>1004</number>
-			<name>ICICNO</name>
-			<isActive>TRUE</isActive>
-			<cashFlowCategory>1</cashFlowCategory>
-			<openingBalance>125000</openingBalance>
-			<asOf>11022011</asOf>
-			<bank>1004</bank>
+			<bank>16</bank>
+			<bankAccountNumber>ICICI-1004</bankAccountNumber>
 			<bankAccountType>2</bankAccountType>
-			<bankAccountNumber>1004</bankAccountNumber>
+			<id>0</id>
+			<type>2</type>
+			<number>1001</number>
+			<name>ICICI</name>
+			<isActive>TRUE</isActive>
+			<parent>0</parent>
+			<cashFlowCategory>1</cashFlowCategory>
+			<openingBalance>3000</openingBalance>
+			<asOf>20110323</asOf>
+			<isConsiderAsCashAccount>FALSE</isConsiderAsCashAccount>
+			<comment>icici account</comment>
+			<creditLimit>0.0</creditLimit>
+			<cardOrLoanNumber></cardOrLoanNumber>
 			<isIncrease>FALSE</isIncrease>
-			<comment>new bank account</comment>
-			<baseType>6</baseType>
-			<subBaseType>6</subBaseType>
-			<groupType>1</groupType>
+			<currentBalance>0.0</currentBalance>
+			<totalBalance>0.0</totalBalance>
+			<baseType>0</baseType>
+			<subBaseType>0</subBaseType>
+			<groupType>0</groupType>
+			<isDefault>FALSE</isDefault>
+			<isOpeningBalanceEditable>TRUE</isOpeningBalanceEditable>
+			<hierarchy></hierarchy>
+			<flow></flow>
+			<boxNumber>0</boxNumber>
+			<version>0</version>
 		</BankAccount>
 	</accounts>
 
@@ -143,733 +210,227 @@
 			<expirationDate>12062011</expirationDate>
 			<deliveryDate>12062011</deliveryDate>
 			<customer>1</customer>
+			<contact>
+				<name>John</name>
+			</contact>
+			<phone>7842555</phone>
+			<transactionItems>
+				<ClientTransactionItem>
+					<name>CPU</name>
+					<description>computer parts</description>
+					<quantity>2</quantity>
+					<unitPrice>2000</unitPrice>
+					<discount>0.00</discount>
+					<lineTotal>4000</lineTotal>
+					<isTaxable>TRUE</isTaxable>
+				</ClientTransactionItem>
+			</transactionItems>
 		</Quote>
 	</quote>
 
-	<invoice>
+	<invoices>
 		<Invoice id="1">
 			<customer>1</customer>
+			<contact>
+				<name>John</name>
+			</contact>
+			<phone>7842555</phone>
 			<paymentTerm>1</paymentTerm>
 			<discountDate>12262011</discountDate>
 			<dueDate>12262011</dueDate>
+			<orderNum>INV1250</orderNum>
+			<transactionItems>
+				<ClientTransactionItem>
+					<name>CPU</name>
+					<description>computer parts</description>
+					<quantity>2</quantity>
+					<unitPrice>2000</unitPrice>
+					<discount>0.00</discount>
+					<lineTotal>4000</lineTotal>
+					<isTaxable>TRUE</isTaxable>
+				</ClientTransactionItem>
+			</transactionItems>
 		</Invoice>
-	</invoice>
+	</invoices>
 
-	<transactionItems>
-		<ClientTransactionItem>
-			<type>1</type>
-			<item>1</item>
-			<name></name>
-			<taxCode></taxCode>
-			<vatItem></vatItem>
-			<account>1001</account>
-			<tAccount></tAccount>
-			<tItem></tItem>
-			<description></description>
-			<quantity></quantity>
-			<unitPrice></unitPrice>
-			<discount></discount>
-			<lineTotal></lineTotal>
-			<isTaxable></isTaxable>
-			<transaction></transaction>
-			<usedamt></usedamt>
-			<backOrder></backOrder>
-			<VATfraction></VATfraction>
-			<isVoid></isVoid>
-			<itemBackUp></itemBackUp>
-			<accounterClass></accounterClass>
-		</ClientTransactionItem>
-	</transactionItems>
-
-
-	<SalesOrders>
-		<SalesOrder id="1">
-			<statusSelect></statusSelect>
-			<transactionDateItem></transactionDateItem>
-			<transactionNumber></transactionNumber>
-			<locationCombo></locationCombo>
-			<customerCombo></customerCombo>
-			<quoteLabel></quoteLabel>
-			<contactCombo></contactCombo>
-			<billToTextArea></billToTextArea>
-			<shipToCombo></shipToCombo>
-			<shipToAddress>
-				<Address>
-					<type></type>
-					<street></street>
-					<city></city>
-					<stateOrProvinence></stateOrProvinence>
-					<zipOrPostalCode></zipOrPostalCode>
-					<ountryOrRegion></ountryOrRegion>
-					<isSelected></isSelected>
-					<address1></address1>
-				</Address>
-			</shipToAddress>
-			<phoneSelect></phoneSelect>
-			<customerOrderText></customerOrderText>
-			<salesPersonCombo></salesPersonCombo>
-			<payTermsSelect></payTermsSelect>
-			<shippingTermsCombo></shippingTermsCombo>
-			<shippingMethodsCombo></shippingMethodsCombo>
-			<dueDateItem></dueDateItem>
-			<memoTextAreaItem></memoTextAreaItem>
-			<customerTransactionTable>
-				<CustomerItemTransactionTable>
-					<id></id>
-					<type></type>
-					<item></item>
-					<name></name>
-					<taxCode></taxCode>
-					<vatItem></vatItem>
-					<account></account>
-					<tAccount></tAccount>
-					<tItem></tItem>
-					<description></description>
-					<quantity></quantity>
-					<unitPrice></unitPrice>
-					<discount></discount>
-					<lineTotal></lineTotal>
-					<isTaxable></isTaxable>
-					<transaction></transaction>
-					<usedamt></usedamt>
-					<backOrder></backOrder>
-					<VATfraction></VATfraction>
-					<isVoid></isVoid>
-				</CustomerItemTransactionTable>
-			</customerTransactionTable>
-		</SalesOrder>
-	</SalesOrders>
-
-
-	<PurchaseOrders>
-		<PurchaseOrder id="1">
-			<statusSelect>OPEN</statusSelect>
-			<transactionNumber>PO1025</transactionNumber>
-			<locationCombo>UK</locationCombo>
-			<netAmount>10000</netAmount>
-			<vatinclusiveCheck>TRUE</vatinclusiveCheck>
-			<taxCodeSelect></taxCodeSelect>
-			<vendorCombo></vendorCombo>
-			<contactCombo></contactCombo>
-			<billtoAreaItem></billtoAreaItem>
-			<shipToAddress>
-				<Address>
-					<type></type>
-					<street></street>
-					<city></city>
-					<stateOrProvinence></stateOrProvinence>
-					<zipOrPostalCode></zipOrPostalCode>
-					<ountryOrRegion></ountryOrRegion>
-					<isSelected></isSelected>
-					<address1></address1>
-				</Address>
-			</shipToAddress>
-			<phoneSelect></phoneSelect>
-			<purchaseOrderText></purchaseOrderText>
-			<payTermsSelect></payTermsSelect>
-			<shippingTermsCombo></shippingTermsCombo>
-			<shippingMethodsCombo></shippingMethodsCombo>
-			<dueDateItem></dueDateItem>
-			<despatchDateItem></despatchDateItem>
-			<despatchDateItem></despatchDateItem>
-			<memoTextAreaItem></memoTextAreaItem>
-			<vendorAccountTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</vendorAccountTransactionTable>
-			<vendorItemTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</vendorItemTransactionTable>
-		</PurchaseOrder>
-	</PurchaseOrders>
-
-	<Accounts>
-		<Account id="1">
-			<accTypeSelect>Bank</accTypeSelect>
-			<accNoText>1004</accNoText>
-			<accNameText>Account 1</accNameText>
-			<statusBox>TRUE</statusBox>
-			<cashFlowCatSelect></cashFlowCatSelect>
-			<cashFlowof></cashFlowof>
-			<opBalText></opBalText>
-			<currentBalanceText>0.00</currentBalanceText>
-			<asofDate>22/12/2001</asofDate>
-			<catSelect></catSelect>
-			<subAccSelect></subAccSelect>
-			<hierText></hierText>
-			<accInfoForm></accInfoForm>
-			<cashAccountCheck></cashAccountCheck>
-			<commentsArea></commentsArea>
-		</Account>
-
-		<Account id="2">
-			<accTypeSelect>Bank</accTypeSelect>
-			<accNoText>1005</accNoText>
-			<accNameText>Account 2</accNameText>
-			<statusBox></statusBox>
-			<cashFlowCatSelect></cashFlowCatSelect>
-			<cashFlowof></cashFlowof>
-			<opBalText></opBalText>
-			<currentBalanceText>20000</currentBalanceText>
-			<asofDate>21/06/2001</asofDate>
-			<catSelect></catSelect>
-			<subAccSelect></subAccSelect>
-			<hierText></hierText>
-			<accInfoForm></accInfoForm>
-			<cashAccountCheck></cashAccountCheck>
-			<commentsArea></commentsArea>
-		</Account>
-
-
-		<Account id="3">
-			<accTypeSelect>Income</accTypeSelect>
-			<accNoText>1006</accNoText>
-			<accNameText>Account 3</accNameText>
-			<statusBox></statusBox>
-			<cashFlowCatSelect></cashFlowCatSelect>
-			<cashFlowof></cashFlowof>
-			<opBalText></opBalText>
-			<currentBalanceText>30000</currentBalanceText>
-			<asofDate>12/10/2010</asofDate>
-			<catSelect></catSelect>
-			<subAccSelect></subAccSelect>
-			<hierText></hierText>
-			<accInfoForm></accInfoForm>
-			<cashAccountCheck></cashAccountCheck>
-			<commentsArea></commentsArea>
-		</Account>
-
-
-		<Account id="4">
-			<accTypeSelect></accTypeSelect>
-			<accNoText></accNoText>
-			<accNameText></accNameText>
-			<statusBox></statusBox>
-			<cashFlowCatSelect></cashFlowCatSelect>
-			<cashFlowof></cashFlowof>
-			<opBalText></opBalText>
-			<currentBalanceText></currentBalanceText>
-			<asofDate></asofDate>
-			<catSelect></catSelect>
-			<subAccSelect></subAccSelect>
-			<hierText></hierText>
-			<accInfoForm></accInfoForm>
-			<cashAccountCheck></cashAccountCheck>
-			<commentsArea></commentsArea>
-		</Account>
-
-
-	</Accounts>
-
-	<NewCashSales>
-
-		<NewCashSale>
-			<transactionDateItem></transactionDateItem>
-			<transactionNumber></transactionNumber>
-			<locationCombo></locationCombo>
-			<customerCombo></customerCombo>
-			<phoneSelect></phoneSelect>
-			<billToTextArea></billToTextArea>
-			<shipToAddress>
-				<Address>
-					<type></type>
-					<street></street>
-					<city></city>
-					<stateOrProvinence></stateOrProvinence>
-					<zipOrPostalCode></zipOrPostalCode>
-					<ountryOrRegion></ountryOrRegion>
-					<isSelected></isSelected>
-					<address1></address1>
-				</Address>
-			</shipToAddress>
-			<salesPersonCombo></salesPersonCombo>
-			<paymentMethodCombo></paymentMethodCombo>
-			<depositInCombo></depositInCombo>
-			<shippingTermsCombo></shippingTermsCombo>
-			<shippingMethodsCombo></shippingMethodsCombo>
-			<deliveryDate></deliveryDate>
-			<memoTextAreaItem></memoTextAreaItem>
-			<taxCodeSelect></taxCodeSelect>
-			<taxTotalNonEditableText></taxTotalNonEditableText>
-			<vatinclusiveCheck></vatinclusiveCheck>
-			<customerAccountTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</customerAccountTransactionTable>
-			<customerItemTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</customerItemTransactionTable>
-		</NewCashSale>
-
-	</NewCashSales>
-
-
-	<VendorCreditNotes>
-
-		<VendorCreditNote>
-			<transactionDateItem>15/10/2001</transactionDateItem>
-			<transactionNumber>CN10256</transactionNumber>
-			<locationCombo>UK</locationCombo>
-			<vendorCombo></vendorCombo>
-			<contactCombo></contactCombo>
-			<phoneSelect>7585458896</phoneSelect>
-			<netAmount>10215425</netAmount>
-			<memoTextAreaItem></memoTextAreaItem>
-			<vatinclusiveCheck></vatinclusiveCheck>
-			<vendorAccountTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</vendorAccountTransactionTable>
-			<vendorItemTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</vendorItemTransactionTable>
-		</VendorCreditNote>
-	</VendorCreditNotes>
+	<salesOrders>
+		<ClientSalesOrder id="1">
+			<customer>1</customer>
+			<contact>
+				<name>John</name>
+			</contact>
+			<phone>7842555</phone>
+			<customerOrderNumber>10</customerOrderNumber>
+			<dueDate>12062011</dueDate>
+			<transactionItems>
+				<ClientTransactionItem>
+					<name>CPU</name>
+					<description>computer parts</description>
+					<quantity>2</quantity>
+					<unitPrice>2000</unitPrice>
+					<discount>0.00</discount>
+					<lineTotal>4000</lineTotal>
+					<isTaxable>TRUE</isTaxable>
+				</ClientTransactionItem>
+			</transactionItems>
+		</ClientSalesOrder>
+	</salesOrders>
 
 
 
-	<ClientEnterBills>
-
-		<ClientEnterBill id="1">
-			<transactionDateItem></transactionDateItem>
-			<transactionNumber></transactionNumber>
-			<locationCombo></locationCombo>
-			<vatinclusiveCheck></vatinclusiveCheck>
-			<vendorTDSTaxCode></vendorTDSTaxCode>
-			<vendorCombo></vendorCombo>
-			<contactCombo></contactCombo>
-			<billToCombo></billToCombo>
-			<phoneSelect></phoneSelect>
-			<dueDateItem></dueDateItem>
-			<paymentTermsCombo></paymentTermsCombo>
-			<deliveryDateItem></deliveryDateItem>
-			<vatinclusiveCheck></vatinclusiveCheck>
-			<memoTextAreaItem></memoTextAreaItem>
-			<vendorAccountTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</vendorAccountTransactionTable>
-			<vendorItemTransactionTable>
-				<id></id>
-				<type></type>
-				<item></item>
-				<name></name>
-				<taxCode></taxCode>
-				<vatItem></vatItem>
-				<account></account>
-				<tAccount></tAccount>
-				<tItem></tItem>
-				<description></description>
-				<quantity></quantity>
-				<unitPrice></unitPrice>
-				<discount></discount>
-				<lineTotal></lineTotal>
-				<isTaxable></isTaxable>
-				<transaction></transaction>
-				<usedamt></usedamt>
-				<backOrder></backOrder>
-				<VATfraction></VATfraction>
-				<isVoid></isVoid>
-			</vendorItemTransactionTable>
-		</ClientEnterBill>
-	</ClientEnterBills>
-
-	<PayBills>
-		<PayBill id='1'>
-			<locationCombo>United Kingdom</locationCombo>
-			<date>11/06/2010</date>
-			<transactionNumber>BILL115289</transactionNumber>
-			<vendorCombo></vendorCombo>
-			<payFromCombo></payFromCombo>
-			<paymentMethodCombo></paymentMethodCombo>
-			<dueDate></dueDate>
-			<vendorPaymentMethodCombo></vendorPaymentMethodCombo>
-			<endBalText></endBalText>
-			<memoTextAreaItem></memoTextAreaItem>
-			<paybillTransactionList>
-				<PayBillTransactionList>
-					<type></type>
-					<dueDate></dueDate>
-					<vendorName></vendorName>
-					<billNumber></billNumber>
-					<originalAmount></originalAmount>
-					<amountDue></amountDue>
-					<discountDate></discountDate>
-					<cashDiscount></cashDiscount>
-					<credits></credits>
-					<payment></payment>
-					<paymentMethod></paymentMethod>
-				</PayBillTransactionList>
-			</paybillTransactionList>
-		</PayBill>
-
-		<PayBill id='2'>
-			<locationCombo></locationCombo>
-			<date></date>
-			<transactionNumber></transactionNumber>
-			<vendorCombo></vendorCombo>
-			<payFromCombo></payFromCombo>
-			<paymentMethodCombo></paymentMethodCombo>
-			<dueDate></dueDate>
-			<vendorPaymentMethodCombo></vendorPaymentMethodCombo>
-			<endBalText></endBalText>
-			<memoTextAreaItem></memoTextAreaItem>
-			<paybillTransactionList>
-				<PayBillTransactionList>
-					<type></type>
-					<dueDate></dueDate>
-					<vendorName></vendorName>
-					<billNumber></billNumber>
-					<originalAmount></originalAmount>
-					<amountDue></amountDue>
-					<discountDate></discountDate>
-					<cashDiscount></cashDiscount>
-					<credits></credits>
-					<payment></payment>
-					<paymentMethod></paymentMethod>
-				</PayBillTransactionList>
-			</paybillTransactionList>
-		</PayBill>
-
-		<PayBill id='3'>
-			<locationCombo></locationCombo>
-			<date></date>
-			<transactionNumber></transactionNumber>
-			<vendorCombo></vendorCombo>
-			<payFromCombo></payFromCombo>
-			<paymentMethodCombo></paymentMethodCombo>
-			<dueDate></dueDate>
-			<vendorPaymentMethodCombo></vendorPaymentMethodCombo>
-			<endBalText></endBalText>
-			<memoTextAreaItem></memoTextAreaItem>
-			<paybillTransactionList>
-				<PayBillTransactionList>
-					<type></type>
-					<dueDate></dueDate>
-					<vendorName></vendorName>
-					<billNumber></billNumber>
-					<originalAmount></originalAmount>
-					<amountDue></amountDue>
-					<discountDate></discountDate>
-					<cashDiscount></cashDiscount>
-					<credits></credits>
-					<payment></payment>
-					<paymentMethod></paymentMethod>
-				</PayBillTransactionList>
-			</paybillTransactionList>
-		</PayBill>
-	</PayBills>
-
-	<CreditCardCharges>
-		<CreditCardCharge>
-			<Ccard></Ccard>
-			<transactionDateItem></transactionDateItem>
-			<transactionNumber></transactionNumber>
-			<locationCombo></locationCombo>
-			<contactCombo></contactCombo>
-			<billToAreaItem></billToAreaItem>
-			<phoneSelect></phoneSelect>
-			<payMethSelect></payMethSelect>
-			<payFrmSelect></payFrmSelect>
-			<cheqNoText></cheqNoText>
-			<delivDate></delivDate>
-			<termsForm></termsForm>
-			<vatinclusiveCheck></vatinclusiveCheck>
-			<memoTextAreaItem></memoTextAreaItem>
-			<vendorAccountTransactionTable>
-				<VendorAccountTransactionTable>
-					<id></id>
-					<type></type>
-					<item></item>
-					<name></name>
-					<taxCode></taxCode>
-					<vatItem></vatItem>
-					<account></account>
-					<tAccount></tAccount>
-					<tItem></tItem>
-					<description></description>
-					<quantity></quantity>
-					<unitPrice></unitPrice>
-					<discount></discount>
-					<lineTotal></lineTotal>
-					<isTaxable></isTaxable>
-					<transaction></transaction>
-					<usedamt></usedamt>
-					<backOrder></backOrder>
-					<VATfraction></VATfraction>
-				</VendorAccountTransactionTable>
-			</vendorAccountTransactionTable>
-			<VendorItemTransactionTable>
-				<vendorItemTransactionTable>
-					<name></name>
-					<description></description>
-					<quantity></quantity>
-					<quantity></quantity>
-					<unitPrice></unitPrice>
-					<discount></discount>
-					<lineTotal></lineTotal>
-					<isTaxable></isTaxable>
-				</vendorItemTransactionTable>
-			</VendorItemTransactionTable>
-		</CreditCardCharge>
-	</CreditCardCharges>
+	<purchaseOrders>
+		<ClientPurchaseOrder id="1">
+			<vendor>1</vendor>
+			<contact>
+				<name>John</name>
+			</contact>
+			<phone>7842555</phone>
+			<purchaseOrderNumber>10</purchaseOrderNumber>
+			<dueDate>12062011</dueDate>
+			<transactionItems>
+				<ClientTransactionItem>
+					<name>CPU</name>
+					<description>computer parts</description>
+					<quantity>2</quantity>
+					<unitPrice>2000</unitPrice>
+					<discount>0.00</discount>
+					<lineTotal>4000</lineTotal>
+					<isTaxable>TRUE</isTaxable>
+				</ClientTransactionItem>
+			</transactionItems>
+		</ClientPurchaseOrder>
+	</purchaseOrders>
 
 
-
-
-	<CashPurchases>
-		<CashPurchase>
-			<transactionDateItem></transactionDateItem>
-			<transactionNumber></transactionNumber>
-			<locationCombo></locationCombo>
-			<vendorCombo></vendorCombo>
-			<payFromCombo></payFromCombo>
-			<checkNo></checkNo>
-			<deliveryDateItem></deliveryDateItem>
-			<paymentMethodCombo></paymentMethodCombo>
-			<vatinclusiveCheck></vatinclusiveCheck>
-			<memoTextAreaItem></memoTextAreaItem>
-			<vendorAccountTransactionTable>
-				<VendorAccountTransactionTable>
-					<id></id>
-					<type></type>
-					<item></item>
-					<name></name>
-					<taxCode></taxCode>
-					<vatItem></vatItem>
-					<account></account>
-					<tAccount></tAccount>
-					<tItem></tItem>
-					<description></description>
-					<quantity></quantity>
-					<unitPrice></unitPrice>
-					<discount></discount>
-					<lineTotal></lineTotal>
-					<isTaxable></isTaxable>
-					<transaction></transaction>
-					<usedamt></usedamt>
-					<backOrder></backOrder>
-					<VATfraction></VATfraction>
-				</VendorAccountTransactionTable>
-			</vendorAccountTransactionTable>
-			<VendorItemTransactionTable>
-				<vendorItemTransactionTable>
-					<name></name>
-					<description></description>
-					<quantity></quantity>
-					<quantity></quantity>
-					<unitPrice></unitPrice>
-					<discount></discount>
-					<lineTotal></lineTotal>
-					<isTaxable></isTaxable>
-				</vendorItemTransactionTable>
-			</VendorItemTransactionTable>
-		</CashPurchase>
-	</CashPurchases>
-
-	<WriteChecks>
-		<WriteCheck>
-			<transactionNumber></transactionNumber>
-			<locationCombo></locationCombo>
-			<date></date>
-			<vendorTDSTaxCode></vendorTDSTaxCode>
-			<balText></balText>
-			<bankAccSelect></bankAccSelect>
-			<paytoSelect></paytoSelect>
-			<billToCombo></billToCombo>
-			<amtText></amtText>
-			<memoTextAreaItem></memoTextAreaItem>
-			<vatinclusiveCheck></vatinclusiveCheck>
-			<vendorAccountTransactionTable>
-				<VendorAccountTransactionTable>
-					<id></id>
-					<type></type>
-					<item></item>
-					<name></name>
-					<taxCode></taxCode>
-					<vatItem></vatItem>
-					<account></account>
-					<tAccount></tAccount>
-					<tItem></tItem>
-					<description></description>
-					<quantity></quantity>
-					<unitPrice></unitPrice>
-					<discount></discount>
-					<lineTotal></lineTotal>
-					<isTaxable></isTaxable>
-					<transaction></transaction>
-					<usedamt></usedamt>
-					<backOrder></backOrder>
-					<VATfraction></VATfraction>
-				</VendorAccountTransactionTable>
-			</vendorAccountTransactionTable>
-			<VendorItemTransactionTable>
-				<vendorItemTransactionTable>
-					<name></name>
-					<description></description>
-					<quantity></quantity>
-					<quantity></quantity>
-					<unitPrice></unitPrice>
-					<discount></discount>
-					<lineTotal></lineTotal>
-					<isTaxable></isTaxable>
-				</vendorItemTransactionTable>
-			</VendorItemTransactionTable>
-
-		</WriteCheck>
-
-	</WriteChecks>
-
-	<MakeDeposits>
-		<MakeDeposit>
-			<date>15/26/2011</date>
-			<locationCombo>United Kingdom</locationCombo>
-			<transNumber>DEP1589425</transNumber>
-			<depositInSelect></depositInSelect>
-			<vendorSelect>Blue Ribbons Pvt Ltd</vendorSelect>
-			<financeAccountSelect></financeAccountSelect>
-			<customerSelect></customerSelect>
-			<memoText></memoText>
-			<cashBackAccountSelect></cashBackAccountSelect>
-			<cashBackMemoText></cashBackMemoText>
-			<cashBackAmountText>1500</cashBackAmountText>
-			<totText></totText>
-			<deposit>
-				<ClientTransactionMakeDeposit>
-					<vendor></vendor>
-					<customer></customer>
-					<reference></reference>
-				</ClientTransactionMakeDeposit>
-			</deposit>
-		</MakeDeposit>
-	</MakeDeposits>
+	<!-- <NewCashSales> <NewCashSale> <transactionDateItem></transactionDateItem> 
+		<transactionNumber></transactionNumber> <locationCombo></locationCombo> <customerCombo></customerCombo> 
+		<phoneSelect></phoneSelect> <billToTextArea></billToTextArea> <shipToAddress> 
+		<Address> <type></type> <street></street> <city></city> <stateOrProvinence></stateOrProvinence> 
+		<zipOrPostalCode></zipOrPostalCode> <ountryOrRegion></ountryOrRegion> <isSelected></isSelected> 
+		<address1></address1> </Address> </shipToAddress> <salesPersonCombo></salesPersonCombo> 
+		<paymentMethodCombo></paymentMethodCombo> <depositInCombo></depositInCombo> 
+		<shippingTermsCombo></shippingTermsCombo> <shippingMethodsCombo></shippingMethodsCombo> 
+		<deliveryDate></deliveryDate> <memoTextAreaItem></memoTextAreaItem> <taxCodeSelect></taxCodeSelect> 
+		<taxTotalNonEditableText></taxTotalNonEditableText> <vatinclusiveCheck></vatinclusiveCheck> 
+		<customerAccountTransactionTable> <id></id> <type></type> <item></item> <name></name> 
+		<taxCode></taxCode> <vatItem></vatItem> <account></account> <tAccount></tAccount> 
+		<tItem></tItem> <description></description> <quantity></quantity> <unitPrice></unitPrice> 
+		<discount></discount> <lineTotal></lineTotal> <isTaxable></isTaxable> <transaction></transaction> 
+		<usedamt></usedamt> <backOrder></backOrder> <VATfraction></VATfraction> <isVoid></isVoid> 
+		</customerAccountTransactionTable> <customerItemTransactionTable> <id></id> 
+		<type></type> <item></item> <name></name> <taxCode></taxCode> <vatItem></vatItem> 
+		<account></account> <tAccount></tAccount> <tItem></tItem> <description></description> 
+		<quantity></quantity> <unitPrice></unitPrice> <discount></discount> <lineTotal></lineTotal> 
+		<isTaxable></isTaxable> <transaction></transaction> <usedamt></usedamt> <backOrder></backOrder> 
+		<VATfraction></VATfraction> <isVoid></isVoid> </customerItemTransactionTable> 
+		</NewCashSale> </NewCashSales> <VendorCreditNotes> <VendorCreditNote> <transactionDateItem>15/10/2001</transactionDateItem> 
+		<transactionNumber>CN10256</transactionNumber> <locationCombo>UK</locationCombo> 
+		<vendorCombo></vendorCombo> <contactCombo></contactCombo> <phoneSelect>7585458896</phoneSelect> 
+		<netAmount>10215425</netAmount> <memoTextAreaItem></memoTextAreaItem> <vatinclusiveCheck></vatinclusiveCheck> 
+		<vendorAccountTransactionTable> <id></id> <type></type> <item></item> <name></name> 
+		<taxCode></taxCode> <vatItem></vatItem> <account></account> <tAccount></tAccount> 
+		<tItem></tItem> <description></description> <quantity></quantity> <unitPrice></unitPrice> 
+		<discount></discount> <lineTotal></lineTotal> <isTaxable></isTaxable> <transaction></transaction> 
+		<usedamt></usedamt> <backOrder></backOrder> <VATfraction></VATfraction> <isVoid></isVoid> 
+		</vendorAccountTransactionTable> <vendorItemTransactionTable> <id></id> <type></type> 
+		<item></item> <name></name> <taxCode></taxCode> <vatItem></vatItem> <account></account> 
+		<tAccount></tAccount> <tItem></tItem> <description></description> <quantity></quantity> 
+		<unitPrice></unitPrice> <discount></discount> <lineTotal></lineTotal> <isTaxable></isTaxable> 
+		<transaction></transaction> <usedamt></usedamt> <backOrder></backOrder> <VATfraction></VATfraction> 
+		<isVoid></isVoid> </vendorItemTransactionTable> </VendorCreditNote> </VendorCreditNotes> 
+		<ClientEnterBills> <ClientEnterBill id="1"> <transactionDateItem></transactionDateItem> 
+		<transactionNumber></transactionNumber> <locationCombo></locationCombo> <vatinclusiveCheck></vatinclusiveCheck> 
+		<vendorTDSTaxCode></vendorTDSTaxCode> <vendorCombo></vendorCombo> <contactCombo></contactCombo> 
+		<billToCombo></billToCombo> <phoneSelect></phoneSelect> <dueDateItem></dueDateItem> 
+		<paymentTermsCombo></paymentTermsCombo> <deliveryDateItem></deliveryDateItem> 
+		<vatinclusiveCheck></vatinclusiveCheck> <memoTextAreaItem></memoTextAreaItem> 
+		<vendorAccountTransactionTable> <id></id> <type></type> <item></item> <name></name> 
+		<taxCode></taxCode> <vatItem></vatItem> <account></account> <tAccount></tAccount> 
+		<tItem></tItem> <description></description> <quantity></quantity> <unitPrice></unitPrice> 
+		<discount></discount> <lineTotal></lineTotal> <isTaxable></isTaxable> <transaction></transaction> 
+		<usedamt></usedamt> <backOrder></backOrder> <VATfraction></VATfraction> <isVoid></isVoid> 
+		</vendorAccountTransactionTable> <vendorItemTransactionTable> <id></id> <type></type> 
+		<item></item> <name></name> <taxCode></taxCode> <vatItem></vatItem> <account></account> 
+		<tAccount></tAccount> <tItem></tItem> <description></description> <quantity></quantity> 
+		<unitPrice></unitPrice> <discount></discount> <lineTotal></lineTotal> <isTaxable></isTaxable> 
+		<transaction></transaction> <usedamt></usedamt> <backOrder></backOrder> <VATfraction></VATfraction> 
+		<isVoid></isVoid> </vendorItemTransactionTable> </ClientEnterBill> </ClientEnterBills> 
+		<PayBills> <PayBill id='1'> <locationCombo>United Kingdom</locationCombo> 
+		<date>11/06/2010</date> <transactionNumber>BILL115289</transactionNumber> 
+		<vendorCombo></vendorCombo> <payFromCombo></payFromCombo> <paymentMethodCombo></paymentMethodCombo> 
+		<dueDate></dueDate> <vendorPaymentMethodCombo></vendorPaymentMethodCombo> 
+		<endBalText></endBalText> <memoTextAreaItem></memoTextAreaItem> <paybillTransactionList> 
+		<PayBillTransactionList> <type></type> <dueDate></dueDate> <vendorName></vendorName> 
+		<billNumber></billNumber> <originalAmount></originalAmount> <amountDue></amountDue> 
+		<discountDate></discountDate> <cashDiscount></cashDiscount> <credits></credits> 
+		<payment></payment> <paymentMethod></paymentMethod> </PayBillTransactionList> 
+		</paybillTransactionList> </PayBill> <PayBill id='2'> <locationCombo></locationCombo> 
+		<date></date> <transactionNumber></transactionNumber> <vendorCombo></vendorCombo> 
+		<payFromCombo></payFromCombo> <paymentMethodCombo></paymentMethodCombo> <dueDate></dueDate> 
+		<vendorPaymentMethodCombo></vendorPaymentMethodCombo> <endBalText></endBalText> 
+		<memoTextAreaItem></memoTextAreaItem> <paybillTransactionList> <PayBillTransactionList> 
+		<type></type> <dueDate></dueDate> <vendorName></vendorName> <billNumber></billNumber> 
+		<originalAmount></originalAmount> <amountDue></amountDue> <discountDate></discountDate> 
+		<cashDiscount></cashDiscount> <credits></credits> <payment></payment> <paymentMethod></paymentMethod> 
+		</PayBillTransactionList> </paybillTransactionList> </PayBill> <PayBill id='3'> 
+		<locationCombo></locationCombo> <date></date> <transactionNumber></transactionNumber> 
+		<vendorCombo></vendorCombo> <payFromCombo></payFromCombo> <paymentMethodCombo></paymentMethodCombo> 
+		<dueDate></dueDate> <vendorPaymentMethodCombo></vendorPaymentMethodCombo> 
+		<endBalText></endBalText> <memoTextAreaItem></memoTextAreaItem> <paybillTransactionList> 
+		<PayBillTransactionList> <type></type> <dueDate></dueDate> <vendorName></vendorName> 
+		<billNumber></billNumber> <originalAmount></originalAmount> <amountDue></amountDue> 
+		<discountDate></discountDate> <cashDiscount></cashDiscount> <credits></credits> 
+		<payment></payment> <paymentMethod></paymentMethod> </PayBillTransactionList> 
+		</paybillTransactionList> </PayBill> </PayBills> <CreditCardCharges> <CreditCardCharge> 
+		<Ccard></Ccard> <transactionDateItem></transactionDateItem> <transactionNumber></transactionNumber> 
+		<locationCombo></locationCombo> <contactCombo></contactCombo> <billToAreaItem></billToAreaItem> 
+		<phoneSelect></phoneSelect> <payMethSelect></payMethSelect> <payFrmSelect></payFrmSelect> 
+		<cheqNoText></cheqNoText> <delivDate></delivDate> <termsForm></termsForm> 
+		<vatinclusiveCheck></vatinclusiveCheck> <memoTextAreaItem></memoTextAreaItem> 
+		<vendorAccountTransactionTable> <VendorAccountTransactionTable> <id></id> 
+		<type></type> <item></item> <name></name> <taxCode></taxCode> <vatItem></vatItem> 
+		<account></account> <tAccount></tAccount> <tItem></tItem> <description></description> 
+		<quantity></quantity> <unitPrice></unitPrice> <discount></discount> <lineTotal></lineTotal> 
+		<isTaxable></isTaxable> <transaction></transaction> <usedamt></usedamt> <backOrder></backOrder> 
+		<VATfraction></VATfraction> </VendorAccountTransactionTable> </vendorAccountTransactionTable> 
+		<VendorItemTransactionTable> <vendorItemTransactionTable> <name></name> <description></description> 
+		<quantity></quantity> <quantity></quantity> <unitPrice></unitPrice> <discount></discount> 
+		<lineTotal></lineTotal> <isTaxable></isTaxable> </vendorItemTransactionTable> 
+		</VendorItemTransactionTable> </CreditCardCharge> </CreditCardCharges> <CashPurchases> 
+		<CashPurchase> <transactionDateItem></transactionDateItem> <transactionNumber></transactionNumber> 
+		<locationCombo></locationCombo> <vendorCombo></vendorCombo> <payFromCombo></payFromCombo> 
+		<checkNo></checkNo> <deliveryDateItem></deliveryDateItem> <paymentMethodCombo></paymentMethodCombo> 
+		<vatinclusiveCheck></vatinclusiveCheck> <memoTextAreaItem></memoTextAreaItem> 
+		<vendorAccountTransactionTable> <VendorAccountTransactionTable> <id></id> 
+		<type></type> <item></item> <name></name> <taxCode></taxCode> <vatItem></vatItem> 
+		<account></account> <tAccount></tAccount> <tItem></tItem> <description></description> 
+		<quantity></quantity> <unitPrice></unitPrice> <discount></discount> <lineTotal></lineTotal> 
+		<isTaxable></isTaxable> <transaction></transaction> <usedamt></usedamt> <backOrder></backOrder> 
+		<VATfraction></VATfraction> </VendorAccountTransactionTable> </vendorAccountTransactionTable> 
+		<VendorItemTransactionTable> <vendorItemTransactionTable> <name></name> <description></description> 
+		<quantity></quantity> <quantity></quantity> <unitPrice></unitPrice> <discount></discount> 
+		<lineTotal></lineTotal> <isTaxable></isTaxable> </vendorItemTransactionTable> 
+		</VendorItemTransactionTable> </CashPurchase> </CashPurchases> <WriteChecks> 
+		<WriteCheck> <transactionNumber></transactionNumber> <locationCombo></locationCombo> 
+		<date></date> <vendorTDSTaxCode></vendorTDSTaxCode> <balText></balText> <bankAccSelect></bankAccSelect> 
+		<paytoSelect></paytoSelect> <billToCombo></billToCombo> <amtText></amtText> 
+		<memoTextAreaItem></memoTextAreaItem> <vatinclusiveCheck></vatinclusiveCheck> 
+		<vendorAccountTransactionTable> <VendorAccountTransactionTable> <id></id> 
+		<type></type> <item></item> <name></name> <taxCode></taxCode> <vatItem></vatItem> 
+		<account></account> <tAccount></tAccount> <tItem></tItem> <description></description> 
+		<quantity></quantity> <unitPrice></unitPrice> <discount></discount> <lineTotal></lineTotal> 
+		<isTaxable></isTaxable> <transaction></transaction> <usedamt></usedamt> <backOrder></backOrder> 
+		<VATfraction></VATfraction> </VendorAccountTransactionTable> </vendorAccountTransactionTable> 
+		<VendorItemTransactionTable> <vendorItemTransactionTable> <name></name> <description></description> 
+		<quantity></quantity> <quantity></quantity> <unitPrice></unitPrice> <discount></discount> 
+		<lineTotal></lineTotal> <isTaxable></isTaxable> </vendorItemTransactionTable> 
+		</VendorItemTransactionTable> </WriteCheck> </WriteChecks> <MakeDeposits> 
+		<MakeDeposit> <date>15/26/2011</date> <locationCombo>United Kingdom</locationCombo> 
+		<transNumber>DEP1589425</transNumber> <depositInSelect></depositInSelect> 
+		<vendorSelect>Blue Ribbons Pvt Ltd</vendorSelect> <financeAccountSelect></financeAccountSelect> 
+		<customerSelect></customerSelect> <memoText></memoText> <cashBackAccountSelect></cashBackAccountSelect> 
+		<cashBackMemoText></cashBackMemoText> <cashBackAmountText>1500</cashBackAmountText> 
+		<totText></totText> <deposit> <ClientTransactionMakeDeposit> <vendor></vendor> 
+		<customer></customer> <reference></reference> </ClientTransactionMakeDeposit> 
+		</deposit> </MakeDeposit> </MakeDeposits> -->
 </ClientCompany>
