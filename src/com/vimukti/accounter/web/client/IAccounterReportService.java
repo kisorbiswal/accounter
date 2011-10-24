@@ -209,6 +209,8 @@ public interface IAccounterReportService extends RemoteService {
 
 	public ArrayList<ECSalesList> getECSalesListReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
+	public ArrayList<ECSalesList> getECSalesListReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, long companyId);
 
 	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
 			String payeeName, ClientFinanceDate fromDate,

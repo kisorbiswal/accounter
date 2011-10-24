@@ -254,6 +254,9 @@ public interface IAccounterReportServiceAsync {
 	public void getECSalesListReport(ClientFinanceDate fromDate,
 			ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<ECSalesList>> callback);
+	public void getECSalesListReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate,long companyId,
+			AsyncCallback<ArrayList<ECSalesList>> callback);
 
 	public void getECSalesListDetailReport(String payeeName,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
