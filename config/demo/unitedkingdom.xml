@@ -163,6 +163,11 @@
 	<!-- ClientShippingTerms object -->
 	<shippingTerms>
 		<ClientShippingTerms>
+			<version>0</version>
+			<id>1</id>
+			<name>name</name>
+			<description>description</description>
+			<isDefault>TRUE</isDefault>
 		</ClientShippingTerms>
 	</shippingTerms>
 
@@ -170,6 +175,11 @@
 	<!-- ClientShippingMethod object -->
 	<shippingMethods>
 		<ClientShippingMethod>
+			<version>0</version>
+			<id>1</id>
+			<name>name</name>
+			<description>description</description>
+			<isDefault>TRUE</isDefault>
 		</ClientShippingMethod>
 	</shippingMethods>
 
@@ -177,6 +187,12 @@
 	<!-- ClientPriceLevel object -->
 	<priceLevels>
 		<ClientPriceLevel>
+			<version>0</version>
+			<id>1</id>
+			<name>name</name>
+			<isDefault>TRUE</isDefault>
+			<percentage>0.0</percentage>
+			<isPriceLevelDecreaseByThisPercentage></isPriceLevelDecreaseByThisPercentage>
 		</ClientPriceLevel>
 	</priceLevels>
 
@@ -184,6 +200,11 @@
 	<!-- ClientItemGroup object -->
 	<itemGroups>
 		<ClientItemGroup>
+			<version>0</version>
+			<name>item</name>
+			<id>1</id>
+			<isDefault>TRUE</isDefault>
+			<items></items>
 		</ClientItemGroup>
 	</itemGroups>
 
@@ -191,6 +212,8 @@
 	<!-- ClientTAXGroup object -->
 	<taxGroups>
 		<ClientTAXGroup>
+			<taxItems></taxItems>
+			<groupRate></groupRate>
 		</ClientTAXGroup>
 	</taxGroups>
 
@@ -198,6 +221,12 @@
 	<!-- ClientPaySalesTax object -->
 	<paySalesTaxs>
 		<ClientPaySalesTax>
+			<payFrom></payFrom>
+			<billsDueOnOrBefore></billsDueOnOrBefore>
+			<taxAgency></taxAgency>
+			<amount></amount>
+			<endingBalance></endingBalance>
+			<isEdited>FALSE</isEdited>
 		</ClientPaySalesTax>
 	</paySalesTaxs>
 
@@ -205,6 +234,10 @@
 	<!-- ClientCreditRating object -->
 	<creditRatings>
 		<ClientCreditRating>
+			<id></id>
+			<name></name>
+			<isDefault></isDefault>
+			<version></version>
 		</ClientCreditRating>
 	</creditRatings>
 
@@ -219,15 +252,16 @@
 	<!-- ClientTAXItemGroup object -->
 	<taxItemGroups>
 		<ClientTAXItemGroup>
+			<id></id>
+			<name></name>
+			<description></description>
+			<isActive></isActive>
+			<isSalesType></isSalesType>
+			<isPercentage></isPercentage>
+			<isDefault></isDefault>
+			<version></version>
 		</ClientTAXItemGroup>
 	</taxItemGroups>
-
-
-	<!-- ClientPayee object -->
-	<payees>
-		<ClientPayee>
-		</ClientPayee>
-	</payees>
 
 
 	<!-- ClientFiscalYear object -->
@@ -240,6 +274,14 @@
 	<!-- ClientFixedAsset object -->
 	<fixedAssets>
 		<ClientFixedAsset>
+			<id></id>
+			<startDate></startDate>
+			<endDate></endDate>
+			<status></status>
+			<isCurrentFiscalYear></isCurrentFiscalYear>
+			<previousStartDate></previousStartDate>
+			<version></version>
+			<isDefault></isDefault>
 		</ClientFixedAsset>
 	</fixedAssets>
 
@@ -247,18 +289,43 @@
 	<!-- ClientVATReturn object -->
 	<vatReturns>
 		<ClientVATReturn>
+			<VATperiodStartDate></VATperiodStartDate>
+			<VATperiodEndDate></VATperiodEndDate>
+			<taxAgency></taxAgency>
+			<boxes></boxes>
+			<journalEntry></journalEntry>
+			<balance></balance>
 		</ClientVATReturn>
 	</vatReturns>
 
 	<!-- ClientTAXAgency object -->
 	<taxAgencies>
 		<ClientTAXAgency>
+			<paymentTerm></paymentTerm>
+			<purchaseLiabilityAccount></purchaseLiabilityAccount>
+			<salesLiabilityAccount></salesLiabilityAccount>
+			<VATReturn></VATReturn>
+			<taxType></taxType>
 		</ClientTAXAgency>
 	</taxAgencies>
 
 	<!-- ClientTAXCode object -->
 	<taxCodes>
 		<ClientTAXCode>
+			<id></id>
+			<name></name>
+			<description></description>
+			<isTaxable></isTaxable>
+			<isActive></isActive>
+			<TAXItemGrpForPurchases></TAXItemGrpForPurchases>
+			<TAXItemGrpForSales></TAXItemGrpForSales>
+			<isECSalesEntry></isECSalesEntry>
+			<isDefault></isDefault>
+			<taxAgency></taxAgency>
+			<version></version>
+			<salesTaxRate></salesTaxRate>
+			<purchaseTaxRate></purchaseTaxRate>
+
 		</ClientTAXCode>
 	</taxCodes>
 
