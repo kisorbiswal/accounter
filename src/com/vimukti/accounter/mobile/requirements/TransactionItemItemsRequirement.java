@@ -5,7 +5,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -107,7 +106,7 @@ public abstract class TransactionItemItemsRequirement extends
 							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(context, "Enter TaxCode");
+					return taxCode(context, "Enter TaxCode", null);
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
@@ -128,7 +127,7 @@ public abstract class TransactionItemItemsRequirement extends
 									.isTaxPerDetailLine()
 							&& transactionItem.getTaxCode() == 0) {
 						context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-						return taxCode(context, "");
+						return taxCode(context, "", null);
 					}
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
@@ -212,18 +211,6 @@ public abstract class TransactionItemItemsRequirement extends
 		return result;
 	}
 
-	private Result number(Context context, String displayString, String oldValu) {
-		return show(context, displayString, oldValu);
-	}
-
-	private Result taxCode(Context context, String string) {
-		return null;
-	}
-
-	private Result amount(Context context, String displayString, double oldValu) {
-		return show(context, displayString, String.valueOf(oldValu));
-	}
-
 	@Override
 	protected String getAddMoreString() {
 		return "Add More Items";
@@ -281,7 +268,5 @@ public abstract class TransactionItemItemsRequirement extends
 	protected ClientItem getTransactionItem(ClientTransactionItem item) {
 		return getClientCompany().getItem(item.getItem());
 	}
-
-	protected abstract ClientCompany getClientCompany();
 
 }

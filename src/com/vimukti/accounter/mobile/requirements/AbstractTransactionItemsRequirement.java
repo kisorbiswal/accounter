@@ -8,7 +8,9 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -152,6 +154,21 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		return result;
 	}
 
+	protected Result taxCode(Context context, String displayName,
+			ClientTAXCode string) {
+		return null;
+	}
+
+	protected Result number(Context context, String displayString,
+			String oldValu) {
+		return show(context, displayString, oldValu);
+	}
+
+	protected Result amount(Context context, String displayString,
+			double oldValu) {
+		return show(context, displayString, String.valueOf(oldValu));
+	}
+
 	protected abstract T getTransactionItem(ClientTransactionItem item);
 
 	protected abstract void setPrice(ClientTransactionItem transactionItem,
@@ -170,4 +187,5 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 	protected abstract String getItemDisplayValue(ClientTransactionItem item);
 
+	protected abstract ClientCompany getClientCompany();
 }
