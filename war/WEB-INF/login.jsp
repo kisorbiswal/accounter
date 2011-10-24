@@ -48,12 +48,12 @@
 		   <form id="accounterForm" method="post" action="/main/login">
 		      <div class="email_password">
 			    <label>Email</label>
-				<br></br>
+				<br \>
 				<input id="mid-box"  type="text" name="emailId" tabindex="1" />
 			  </div>
 			  <div class="email_password">
 			    <label>Password</label>
-				<br></br>
+				<br \>
 				<input id="mid-box1"  type="password" name="password" tabindex="2" />
 			  </div>
 			  <div class="rememberMe">
