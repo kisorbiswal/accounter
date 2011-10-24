@@ -13,7 +13,7 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class ListRequirement<T> extends AbstractRequirement {
 	private static final int RECORDS_TO_SHOW = 5;
-	private static final String RECORDS_START_INDEX = "0";
+	protected static final String RECORDS_START_INDEX = "startIndex";
 	private ChangeListner<T> listner;
 
 	public ListRequirement(String requirementName, String displayString,
@@ -70,7 +70,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		return null;
 	}
 
-	public Result showList(Context context, List<T> lidRecords) {
+	public Result showList(Context context, List<T> oldRecords) {
 		Result result = context.makeResult();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		context.setAttribute(INPUT_ATTR, getName());
@@ -122,12 +122,12 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		}
 
 		return displayRecords(context, lists, result, RECORDS_TO_SHOW,
-				lidRecords);
+				oldRecords);
 
 	}
 
 	private Result displayRecords(Context context, List<T> records,
-			Result result, int recordsToShow, List<T> lidRecords) {
+			Result result, int recordsToShow, List<T> oldRecords) {
 		ResultList customerList = new ResultList(getName());
 		Object last = context.getLast(RequirementType.CUSTOMER);
 		List<T> skipCustomers = new ArrayList<T>();
@@ -138,8 +138,8 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			skipCustomers.add(lastRec);
 		}
 
-		if (lidRecords != null) {
-			for (T t : lidRecords) {
+		if (oldRecords != null) {
+			for (T t : oldRecords) {
 				customerList.add(createRecord(t));
 				skipCustomers.add(t);
 			}

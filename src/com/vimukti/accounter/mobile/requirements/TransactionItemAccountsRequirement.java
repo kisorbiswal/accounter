@@ -91,11 +91,8 @@ public abstract class TransactionItemAccountsRequirement extends
 							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(
-							context,
-							"",
-							getClientCompany().getTAXCode(
-									transactionItem.getTaxCode()));
+					return taxCode(context, "Enter TaxCode", getClientCompany()
+							.getTAXCode(transactionItem.getTaxCode()));
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {

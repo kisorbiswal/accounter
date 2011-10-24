@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -155,7 +157,173 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 	}
 
 	protected Result taxCode(Context context, String displayName,
-			ClientTAXCode string) {
+			ClientTAXCode oldCode) {
+		Result result = context.makeResult();
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		context.setAttribute(INPUT_ATTR, getName());
+		String name = null;
+		if (attribute.equals(getName())) {
+			name = context.getString();
+		}
+		if (name == null) {
+			context.setAttribute("oldValue", "");
+			result.add(displayName);
+			ResultList actions = new ResultList(ACTIONS);
+			Record record = new Record(ActionNames.ALL);
+			record.add("", "Show All Records");
+			actions.add(record);
+			result.add(actions);
+			return result;
+		}
+
+		Object selection = context.getSelection(ACTIONS);
+		List<ClientTAXCode> lists = new ArrayList<ClientTAXCode>();
+		if (selection == ActionNames.ALL) {
+			lists = getTaxCodeLists(context);
+			if (lists.size() != 0) {
+				result.add("All Records");
+			}
+			name = null;
+		} else if (selection == null) {
+			lists = getTaxCodeLists(context, name);
+			context.setAttribute("oldValue", name);
+			if (lists.size() != 0) {
+				result.add("Found " + lists.size() + " record(s)");
+			} else {
+				result.add("Did not get any records with '" + name + "'.");
+				result.add(displayName);
+				ResultList actions = new ResultList(ACTIONS);
+				Record record = new Record(ActionNames.ALL);
+				record.add("", "Show All Records");
+				actions.add(record);
+				result.add(actions);
+				return result;
+			}
+		} else {
+			String oldValue = (String) context.getAttribute("oldValue");
+			if (oldValue != null && !oldValue.equals("")) {
+				lists = getTaxCodeLists(context, oldValue);
+			} else {
+				lists = getTaxCodeLists(context);
+			}
+		}
+		List<ClientTAXCode> oldRecords = new ArrayList<ClientTAXCode>();
+		if (oldCode != null) {
+			oldRecords.add(oldCode);
+		}
+		return displayRecords2(context, lists, result, 5, oldRecords);
+	}
+
+	private Result displayRecords2(Context context, List<ClientTAXCode> lists,
+			Result result, int recordsToShow, List<ClientTAXCode> oldRecords) {
+		ResultList customerList = new ResultList(getName());
+		Object last = context.getLast(RequirementType.CUSTOMER);
+		List<ClientTAXCode> skipCustomers = new ArrayList<ClientTAXCode>();
+		if (last != null) {
+			ClientTAXCode lastRec = (ClientTAXCode) last;
+			customerList.add(createClientTAXCodeRecord(lastRec));
+			skipCustomers.add(lastRec);
+		}
+
+		if (oldRecords != null) {
+			for (ClientTAXCode t : oldRecords) {
+				customerList.add(createClientTAXCodeRecord(t));
+				skipCustomers.add(t);
+			}
+		}
+
+		ResultList actions = new ResultList(ACTIONS);
+
+		ActionNames selection = context.getSelection(ACTIONS);
+
+		List<ClientTAXCode> pagination = pagination2(context, selection,
+				actions, lists, skipCustomers, recordsToShow);
+
+		for (ClientTAXCode rec : pagination) {
+			customerList.add(createClientTAXCodeRecord(rec));
+		}
+
+		int size = customerList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Tax Code");
+		} else {
+			message.append("No Tax Codes");
+		}
+
+		result.add(message.toString());
+		result.add(customerList);
+		result.add(actions);
+		CommandList commandList = new CommandList();
+		commandList.add("Create Tax code");
+		result.add(commandList);
+		return result;
+	}
+
+	public List<ClientTAXCode> pagination2(Context context,
+			ActionNames selection, ResultList actions,
+			List<ClientTAXCode> records, List<ClientTAXCode> skipRecords,
+			int recordsToShow) {
+		if (selection != null && selection == ActionNames.PREV_PAGE) {
+			Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
+			Integer lastPageSize = (Integer) context
+					.getAttribute("LAST_PAGE_SIZE");
+			context.setAttribute(RECORDS_START_INDEX,
+					index
+							- (recordsToShow + (lastPageSize == null ? 0
+									: lastPageSize)));
+		} else if (selection == null || selection != ActionNames.NEXT_PAGE) {
+			context.setAttribute(RECORDS_START_INDEX, 0);
+		}
+
+		int num = skipRecords.size();
+		Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
+		if (index == null || index < 0) {
+			index = 0;
+		}
+		List<ClientTAXCode> result = new ArrayList<ClientTAXCode>();
+		for (int i = index; i < records.size(); i++) {
+			if (num == recordsToShow) {
+				break;
+			}
+			ClientTAXCode r = records.get(i);
+			if (skipRecords.contains(r)) {
+				continue;
+			}
+			num++;
+			result.add(r);
+		}
+		context.setAttribute("LAST_PAGE_SIZE",
+				skipRecords.size() + result.size());
+		index += (skipRecords.size() + result.size());
+		context.setAttribute(RECORDS_START_INDEX, index);
+
+		if (records.size() > index) {
+			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
+			inActiveRec.add("", "Next Page");
+			actions.add(inActiveRec);
+		}
+
+		if (index > recordsToShow) {
+			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
+			inActiveRec.add("", "Prev Page");
+			actions.add(inActiveRec);
+		}
+		return result;
+	}
+
+	private Record createClientTAXCodeRecord(ClientTAXCode lastRec) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private List<ClientTAXCode> getTaxCodeLists(Context context, String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private List<ClientTAXCode> getTaxCodeLists(Context context) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
