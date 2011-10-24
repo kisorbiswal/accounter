@@ -1018,6 +1018,7 @@ public class Company implements IAccounterServerCore {
 		cmp.accounterClasses = this.getAccounterClasses();
 
 		cmp.locations = this.getLocations();
+		cmp.currencies = this.getCurrencies();
 
 		return cmp;
 	}
