@@ -20,6 +20,11 @@ public abstract class NewAbstractCommand extends NewCommand {
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
 
 	public NewAbstractCommand() {
+
+	}
+
+	@Override
+	public void init() {
 		try {
 			global = new ServerGlobal();
 		} catch (IOException e) {
@@ -27,6 +32,7 @@ public abstract class NewAbstractCommand extends NewCommand {
 		}
 		constants = global.constants();
 		messages = global.messages();
+		super.init();
 	}
 
 	protected AccounterConstants getConstants() {
