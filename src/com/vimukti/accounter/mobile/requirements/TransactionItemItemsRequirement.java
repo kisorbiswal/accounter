@@ -1,15 +1,11 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -17,10 +13,6 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class TransactionItemItemsRequirement extends
 		AbstractTransactionItemsRequirement<ClientItem> {
-	private static final int ITEMS_TO_SHOW = 5;
-	private static final String PROCESS_ATTR = "processAttr";
-	private static final Object TRANSACTION_ITEM_PROCESS = "transactionItemProcess";
-	private static final String OLD_TRANSACTION_ITEM_ATTR = "oldTransactionItemAttr";
 	private static final String ITEM_PROPERTY_ATTR = "itemPropertyAttr";
 	private static final Object QUANTITY = "quantity";
 	private static final Object UNIT_PRICE = "unitPrice";
@@ -43,6 +35,7 @@ public abstract class TransactionItemItemsRequirement extends
 	protected Result checkItemToEdit(Context context,
 			ClientTransactionItem transactionItem) {
 		if (transactionItem.getUnitPrice() == 0) {
+			context.putSelection(ITEM_DETAILS, UNIT_PRICE);
 			Result transactionItemResult = transactionItem(context,
 					transactionItem);
 			if (transactionItemResult != null) {
@@ -51,6 +44,7 @@ public abstract class TransactionItemItemsRequirement extends
 		} else if (context.getCompany().getPreferences().isTrackTax()
 				&& context.getCompany().getPreferences().isTaxPerDetailLine()
 				&& transactionItem.getTaxCode() == 0) {
+			context.putSelection(ITEM_DETAILS, TAXCODE);
 			Result transactionItemResult = transactionItem(context,
 					transactionItem);
 			if (transactionItemResult != null) {
@@ -101,22 +95,25 @@ public abstract class TransactionItemItemsRequirement extends
 			if (selection != null) {
 				if (selection.equals(QUANTITY)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, QUANTITY);
-					return amount(context, "", transactionItem.getQuantity()
-							.getValue());
+					return amount(context, "Enter Quantity", transactionItem
+							.getQuantity().getValue());
 				} else if (selection.equals(UNIT_PRICE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
-					return amount(context, "", transactionItem.getUnitPrice());
+					return amount(context, "Enter Unit Price",
+							transactionItem.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(context, "", transactionItem.getDiscount());
+					return amount(context, "Enter Discount",
+							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(context, "");
+					return taxCode(context, "Enter TaxCode");
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
-					return number(context, "", transactionItem.getDescription());
+					return number(context, "Enter Discription",
+							transactionItem.getDescription());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
@@ -144,17 +141,17 @@ public abstract class TransactionItemItemsRequirement extends
 		}
 		ResultList list = new ResultList(ITEM_DETAILS);
 		Record record = new Record(QUANTITY);
-		record.add("", "");
+		record.add("", "Quantity:");
 		record.add("", transactionItem.getQuantity());
 		list.add(record);
 
 		record = new Record(UNIT_PRICE);
-		record.add("", "");
+		record.add("", "Unit Price:");
 		record.add("", transactionItem.getUnitPrice());
 		list.add(record);
 
 		record = new Record(DISCOUNT);
-		record.add("", "");
+		record.add("", "Discount:");
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
@@ -183,7 +180,7 @@ public abstract class TransactionItemItemsRequirement extends
 		// }
 
 		record = new Record(DESCRIPTION);
-		record.add("", "");
+		record.add("", "Description:");
 		record.add("", transactionItem.getDescription());
 		list.add(record);
 
@@ -228,68 +225,19 @@ public abstract class TransactionItemItemsRequirement extends
 	}
 
 	@Override
-	protected Result items(Context context) {
-		Result result = context.makeResult();
-		List<ClientItem> items = getItems();
-		ResultList list = new ResultList(getName());
-		ClientItem last = (ClientItem) context.getLast(RequirementType.ITEM);
-		int num = 0;
-		if (last != null) {
-			list.add(creatItemRecord(last));
-			num++;
-		}
-		List<ClientTransactionItem> transItems = getValue();
-		if (transItems == null) {
-			transItems = new ArrayList<ClientTransactionItem>();
-		}
-		List<Long> availableItems = new ArrayList<Long>();
-		for (ClientTransactionItem transactionItem : transItems) {
-			availableItems.add(transactionItem.getItem());
-		}
-		for (ClientItem item : items) {
-			if (item != last && !availableItems.contains(item.getID())) {
-				list.add(creatItemRecord(item));
-				num++;
-			}
-			if (num == ITEMS_TO_SHOW) {
-				break;
-			}
-		}
-		list.setMultiSelection(true);
-		if (list.size() > 0) {
-			result.add(getSelectMessage());
-		}
-		result.add(list);
-		CommandList commands = new CommandList();
-		commands.add(getCreateCommand());
-		result.add(commands);
-		return result;
-	}
-
-	@Override
-	protected String getCreateCommand() {
-		return "Create Item";
-	}
-
-	@Override
-	protected String getSelectMessage() {
-		return "Slect an Item";
-	}
-
-	@Override
 	protected String getAddMoreString() {
 		return "Add More Items";
-	}
-
-	@Override
-	protected String getItemsDisplayString() {
-		return "Transaction Items:";
 	}
 
 	@Override
 	protected void setPrice(ClientTransactionItem transactionItem,
 			ClientItem item) {
 		transactionItem.setItem(item.getID());
+	}
+
+	@Override
+	protected String getItemDisplayValue(ClientTransactionItem item) {
+		return getClientCompany().getItem(item.getItem()).getDisplayName();
 	}
 
 	@Override
@@ -301,5 +249,34 @@ public abstract class TransactionItemItemsRequirement extends
 			transactionItem.setUnitPrice(item.getPurchasePrice());
 		}
 	}
+
+	@Override
+	protected Record createRecord(ClientItem value) {
+		Record record = new Record(value);
+		record.add("", value.getName());
+		ClientTAXCode taxCode = getClientCompany().getTAXCode(
+				value.getTaxCode());
+		if (taxCode != null) {
+			record.add("", taxCode.getName());
+		}
+		return record;
+	}
+
+	@Override
+	protected String getDisplayValue(ClientItem value) {
+		return value.getDisplayName();
+	}
+
+	@Override
+	protected String getCreateCommandString() {
+		return "Create Item";
+	}
+
+	@Override
+	protected String getSelectString() {
+		return "Slect an Item";
+	}
+
+	protected abstract ClientCompany getClientCompany();
 
 }
