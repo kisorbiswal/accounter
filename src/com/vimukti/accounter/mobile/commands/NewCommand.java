@@ -25,7 +25,6 @@ public abstract class NewCommand extends Command {
 		ResultList actions = new ResultList("actions");
 
 		makeResult.add(list);
-		makeResult.add(actions);
 		List<Requirement> allRequirements = getRequirements();
 		for (Requirement req : allRequirements) {
 			Result result = req.run(context, makeResult, list, actions);
@@ -33,6 +32,7 @@ public abstract class NewCommand extends Command {
 				return result;
 			}
 		}
+		makeResult.add(actions);
 		Object selection = context.getSelection("actions");
 		if (selection != ActionNames.FINISH_COMMAND) {
 			Record record = new Record(ActionNames.FINISH_COMMAND);
