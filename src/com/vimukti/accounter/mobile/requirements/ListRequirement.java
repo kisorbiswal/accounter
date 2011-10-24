@@ -212,8 +212,9 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			num++;
 			result.add(r);
 		}
-		context.setAttribute("LAST_PAGE_SIZE", result.size());
-		index += result.size();
+		context.setAttribute("LAST_PAGE_SIZE",
+				skipRecords.size() + result.size());
+		index += (skipRecords.size() + result.size());
 		context.setAttribute(RECORDS_START_INDEX, index);
 
 		if (records.size() > index) {
