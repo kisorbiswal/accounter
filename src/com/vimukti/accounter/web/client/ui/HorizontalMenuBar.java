@@ -1134,6 +1134,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.addItem(ActionFactory.getItemGroupListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
 				.getCreditRatingListAction());
+		manageSupportListMenuBar.addItem(ActionFactory
+				.getCurrencyGroupListAction());
 		if (Accounter.getCompany().getPreferences().isLocationTrackingEnabled())
 			manageSupportListMenuBar.addItem(ActionFactory
 					.getLocationGroupListAction());
