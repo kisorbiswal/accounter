@@ -110,6 +110,189 @@ public class DemoCompany implements IAccounterCore {
 
 	private ArrayList<ClientBank> banks;
 
+	private ArrayList<ClientLocation> locations;
+
+	private ArrayList<ClientCustomerGroup> customerGroups;
+
+	private ArrayList<ClientVendorGroup> vendorGroups;
+
+	private ArrayList<ClientPaymentTerms> paymentTerms;
+
+	private ArrayList<ClientShippingTerms> shippingTerms;
+
+	private ArrayList<ClientShippingMethod> shippingMethods;
+
+	private ArrayList<ClientPriceLevel> priceLevels;
+
+	private ArrayList<ClientItemGroup> itemGroups;
+
+	private ArrayList<ClientTAXGroup> taxGroups;
+
+	private ArrayList<ClientPaySalesTax> paySalesTaxs;
+
+	private ArrayList<ClientCreditRating> creditRatings;
+
+	private ArrayList<ClientSalesPerson> salesPersons;
+
+	private ArrayList<ClientTAXItemGroup> taxItemGroups;
+
+	private ArrayList<ClientPayee> payees;
+
+	private ArrayList<ClientFiscalYear> fiscalYears;
+
+	private ArrayList<ClientFixedAsset> fixedAssets;
+
+	private ArrayList<ClientVATReturn> vatReturns;
+
+	private ArrayList<ClientTAXAgency> taxAgencies;
+
+	private ArrayList<ClientTAXCode> taxCodes;
+
+	public ArrayList<ClientCustomerGroup> getCustomerGroups() {
+		return customerGroups;
+	}
+
+	public void setCustomerGroups(ArrayList<ClientCustomerGroup> customerGroups) {
+		this.customerGroups = customerGroups;
+	}
+
+	public ArrayList<ClientVendorGroup> getVendorGroups() {
+		return vendorGroups;
+	}
+
+	public void setVendorGroups(ArrayList<ClientVendorGroup> vendorGroups) {
+		this.vendorGroups = vendorGroups;
+	}
+
+	public ArrayList<ClientPaymentTerms> getPaymentTerms() {
+		return paymentTerms;
+	}
+
+	public void setPaymentTerms(ArrayList<ClientPaymentTerms> paymentTerms) {
+		this.paymentTerms = paymentTerms;
+	}
+
+	public ArrayList<ClientShippingTerms> getShippingTerms() {
+		return shippingTerms;
+	}
+
+	public void setShippingTerms(ArrayList<ClientShippingTerms> shippingTerms) {
+		this.shippingTerms = shippingTerms;
+	}
+
+	public ArrayList<ClientShippingMethod> getShippingMethods() {
+		return shippingMethods;
+	}
+
+	public void setShippingMethods(
+			ArrayList<ClientShippingMethod> shippingMethods) {
+		this.shippingMethods = shippingMethods;
+	}
+
+	public ArrayList<ClientPriceLevel> getPriceLevels() {
+		return priceLevels;
+	}
+
+	public void setPriceLevels(ArrayList<ClientPriceLevel> priceLevels) {
+		this.priceLevels = priceLevels;
+	}
+
+	public ArrayList<ClientItemGroup> getItemGroups() {
+		return itemGroups;
+	}
+
+	public void setItemGroups(ArrayList<ClientItemGroup> itemGroups) {
+		this.itemGroups = itemGroups;
+	}
+
+	public ArrayList<ClientTAXGroup> getTaxGroups() {
+		return taxGroups;
+	}
+
+	public void setTaxGroups(ArrayList<ClientTAXGroup> taxGroups) {
+		this.taxGroups = taxGroups;
+	}
+
+	public ArrayList<ClientPaySalesTax> getPaySalesTaxs() {
+		return paySalesTaxs;
+	}
+
+	public void setPaySalesTaxs(ArrayList<ClientPaySalesTax> paySalesTaxs) {
+		this.paySalesTaxs = paySalesTaxs;
+	}
+
+	public ArrayList<ClientCreditRating> getCreditRatings() {
+		return creditRatings;
+	}
+
+	public void setCreditRatings(ArrayList<ClientCreditRating> creditRatings) {
+		this.creditRatings = creditRatings;
+	}
+
+	public ArrayList<ClientSalesPerson> getSalesPersons() {
+		return salesPersons;
+	}
+
+	public void setSalesPersons(ArrayList<ClientSalesPerson> salesPersons) {
+		this.salesPersons = salesPersons;
+	}
+
+	public ArrayList<ClientTAXItemGroup> getTaxItemGroups() {
+		return taxItemGroups;
+	}
+
+	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
+		this.taxItemGroups = taxItemGroups;
+	}
+
+	public ArrayList<ClientPayee> getPayees() {
+		return payees;
+	}
+
+	public void setPayees(ArrayList<ClientPayee> payees) {
+		this.payees = payees;
+	}
+
+	public ArrayList<ClientFiscalYear> getFiscalYears() {
+		return fiscalYears;
+	}
+
+	public void setFiscalYears(ArrayList<ClientFiscalYear> fiscalYears) {
+		this.fiscalYears = fiscalYears;
+	}
+
+	public ArrayList<ClientFixedAsset> getFixedAssets() {
+		return fixedAssets;
+	}
+
+	public void setFixedAssets(ArrayList<ClientFixedAsset> fixedAssets) {
+		this.fixedAssets = fixedAssets;
+	}
+
+	public ArrayList<ClientVATReturn> getVatReturns() {
+		return vatReturns;
+	}
+
+	public void setVatReturns(ArrayList<ClientVATReturn> vatReturns) {
+		this.vatReturns = vatReturns;
+	}
+
+	public ArrayList<ClientTAXAgency> getTaxAgencies() {
+		return taxAgencies;
+	}
+
+	public void setTaxAgencies(ArrayList<ClientTAXAgency> taxAgencies) {
+		this.taxAgencies = taxAgencies;
+	}
+
+	public ArrayList<ClientTAXCode> getTaxCodes() {
+		return taxCodes;
+	}
+
+	public void setTaxCodes(ArrayList<ClientTAXCode> taxCodes) {
+		this.taxCodes = taxCodes;
+	}
+
 	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
@@ -509,6 +692,14 @@ public class DemoCompany implements IAccounterCore {
 
 	public void setBanks(ArrayList<ClientBank> banks) {
 		this.banks = banks;
+	}
+
+	public ArrayList<ClientLocation> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(ArrayList<ClientLocation> locations) {
+		this.locations = locations;
 	}
 
 }

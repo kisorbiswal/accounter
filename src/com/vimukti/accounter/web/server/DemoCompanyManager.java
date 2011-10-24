@@ -19,23 +19,26 @@ import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientShippingMethod;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.DemoCompany;
 
 public class DemoCompanyManager {
 
-	public static void main(String[] args) throws IOException {
-		XStream xStream = new XStream(new DomDriver());
-
-		xStream = createAlias(xStream);
-
-		File file = getFile();
-
-		Object object = xStream.fromXML(new FileInputStream(file));
-
-		// return (DemoCompany) object;
-	}
+	/*
+	 * public static void main(String[] args) throws IOException { XStream
+	 * xStream = new XStream(new DomDriver());
+	 * 
+	 * xStream = createAlias(xStream);
+	 * 
+	 * File file = getFile();
+	 * 
+	 * Object object = xStream.fromXML(new FileInputStream(file));
+	 * 
+	 * // return (DemoCompany) object; }
+	 */
 
 	private static XStream createAlias(XStream xStream) {
 
@@ -75,6 +78,33 @@ public class DemoCompanyManager {
 
 		xStream.alias("purchaseOrders", List.class);
 		xStream.alias("ClientPurchaseOrder", ClientPurchaseOrder.class);
+
+		xStream.alias("shippingTerms", List.class);
+		xStream.alias("ClientShippingTerms", ClientShippingTerms.class);
+
+		xStream.alias("shippingMethods", List.class);
+		xStream.alias("ClientShippingMethod", ClientShippingMethod.class);
+
+		xStream.alias("priceLevels", List.class);
+		xStream.alias("ClientPriceLevel", ClientPurchaseOrder.class);
+
+		xStream.alias("itemGroups", List.class);
+		xStream.alias("ClientItemGroup", ClientPurchaseOrder.class);
+
+		xStream.alias("taxGroups", List.class);
+		xStream.alias("ClientTAXGroup", ClientPurchaseOrder.class);
+
+		xStream.alias("paySalesTaxs", List.class);
+		xStream.alias("ClientPaySalesTax", ClientPurchaseOrder.class);
+
+		xStream.alias("creditRatings", List.class);
+		xStream.alias("ClientCreditRating", ClientPurchaseOrder.class);
+
+		xStream.alias("salesPersons", List.class);
+		xStream.alias("ClientSalesPerson", ClientPurchaseOrder.class);
+
+		xStream.alias("taxItemGroups", List.class);
+		xStream.alias("ClientTAXItemGroup", ClientPurchaseOrder.class);
 
 		return xStream;
 
