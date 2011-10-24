@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.CompanyHomeAction;
 import com.vimukti.accounter.web.client.ui.company.CountryRegionListAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
+import com.vimukti.accounter.web.client.ui.company.CurrencyGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
@@ -485,6 +486,9 @@ public class ActionFactory {
 		return new CountryRegionListAction(actionsConstants.countryRegionList());
 	}
 
+	public static CurrencyGroupListAction getCurrencyGroupListAction() {
+		return new CurrencyGroupListAction(actionsConstants.currencyGroupList());
+	}
 	public static FormLayoutsListAction getFormLayoutsListAction() {
 		return new FormLayoutsListAction(actionsConstants.formLayoutsList());
 	}
