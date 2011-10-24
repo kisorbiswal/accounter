@@ -127,6 +127,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				// TODO Auto-generated method stub
 				return null;
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
 		});
 
 		list.add(new ListRequirement<String>(CUSTOMER_TERMINOLOGY,
@@ -164,6 +169,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected List<String> getLists(Context context) {
 				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getEmptyString() {
 				return null;
 			}
 		});

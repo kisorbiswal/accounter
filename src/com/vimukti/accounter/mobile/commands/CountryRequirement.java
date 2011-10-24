@@ -35,6 +35,11 @@ public class CountryRequirement extends ListRequirement<String> {
 	}
 
 	@Override
+	protected String getEmptyString() {
+		return null;
+	}
+
+	@Override
 	protected String getSelectString() {
 		return "Select a Country";
 	}

@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.EstimatesAndSalesOrderListRequirement;
@@ -52,18 +53,18 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	private static final String ESTIMATEANDSALESORDER = "estimateAndSalesOrder";
-	private static final String CUSTOMER = "";
-	private static final String ITEMS = null;
-	private static final String PAYMENT_TERMS = null;
-	private static final String DUE_DATE = null;
-	private static final String CONTACT = null;
-	private static final String BILL_TO = null;
-	private static final String DATE = null;
-	private static final String NUMBER = null;
-	private static final String ORDER_NO = null;
-	private static final String MEMO = null;
-	private static final String TAXCODE = null;
-	private static final String ACCOUNT_ITEMS = null;
+	private static final String CUSTOMER = "customer";
+	private static final String ITEMS = "items";
+	private static final String PAYMENT_TERMS = "paymentTerms";
+	private static final String DUE_DATE = "duedate";
+	private static final String CONTACT = "contact";
+	private static final String BILL_TO = "billto";
+	private static final String DATE = "date";
+	private static final String NUMBER = "number";
+	private static final String ORDER_NO = "orderNo";
+	private static final String MEMO = "memo";
+	private static final String TAXCODE = "taxCode";
+	private static final String ACCOUNT_ITEMS = "accountItems";
 
 	private ClientCustomer customer;
 
@@ -104,8 +105,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionItemItemsRequirement(ITEMS, "", getConstants()
-				.items(), false, true, true) {
+		list.add(new TransactionItemItemsRequirement(ITEMS,
+				"Enter Item Name or number", getConstants().items(), false,
+				true, true) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -126,8 +128,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionItemAccountsRequirement(ACCOUNT_ITEMS, "",
-				getConstants().items(), false, true) {
+		list.add(new TransactionItemAccountsRequirement(ACCOUNT_ITEMS,
+				"Enter Account name or number", getConstants().items(), false,
+				true) {
 
 			@Override
 			protected ClientCompany getClientCompany() {
@@ -178,8 +181,22 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 						}, getClientCompany().getPaymentsTerms());
 			}
 		});
-		// TODO
-		// list.add(new Requirement(CONTACT, true, true));
+
+		list.add(new ContactRequirement(CONTACT, "Enter contact name",
+				"Contact", true, true, null) {
+
+			@Override
+			protected List<ClientContact> getLists(Context context) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected List<ClientContact> getLists(Context context, String name) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
 		// list.add(new Requirement(BILL_TO, true, true));
 
 		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
@@ -211,8 +228,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected List<EstimatesAndSalesOrdersList> getLists(
 					Context context, String name) {
-				// TODO Auto-generated method stub
-				return null;
+				return new ArrayList<EstimatesAndSalesOrdersList>();
 			}
 		});
 
@@ -775,12 +791,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
 		}
-
-		get("DueDate").setDefaultValue(new ClientFinanceDate());
-
-		get(MEMO).setDefaultValue(" ");
-		get(BILL_TO).setDefaultValue(new ClientAddress());
-
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 	}
 
 	@Override

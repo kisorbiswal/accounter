@@ -15,11 +15,15 @@ public abstract class NewCommand extends Command {
 	@Override
 	public Result run(Context context) {
 		setDefaultValues(context);
+		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
+			String welcomeMessage = getWelcomeMessage();
+			if (welcomeMessage != null) {
+				makeResult.add(welcomeMessage);
+			}
 			setAttribute("input", "");
 		}
 
-		Result makeResult = context.makeResult();
 		makeResult.add(getDetailsMessage());
 		ResultList list = new ResultList("values");
 		ResultList actions = new ResultList("actions");
@@ -57,6 +61,10 @@ public abstract class NewCommand extends Command {
 		}
 		markDone();
 		return finishResult;
+	}
+
+	public String getWelcomeMessage() {
+		return null;
 	}
 
 	protected Result onCompleteProcess(Context context) {
