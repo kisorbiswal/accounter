@@ -405,6 +405,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 	@Override
 	public String getFooter() {
+		Location location = memo.getLocation();
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
 
@@ -422,11 +423,15 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		if (contactDetails.contains("(None Added)")) {
 			contactDetails = "";
 		}
-
 		regestrationAddress = (contactDetails
 				+ "<br/><hr width = 100%>&nbsp;&nbsp;&nbsp;"
-				+ company.getTradingName() + "<br/>&nbsp;&nbsp;&nbsp;"
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+				+ (location == null ? company.getTradingName() : location
+						.getCompanyName() == null ? company.getTradingName()
+						: location.getCompanyName())
+				+ "<br/>&nbsp;&nbsp;&nbsp;"
+				+ (location == null ? regestrationAddress : location
+						.getAddress() == null ? regestrationAddress : location
+						.getAddress()) + ((company.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()
 				: ""));
