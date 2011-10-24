@@ -73,7 +73,7 @@
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
 			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
 		</many-to-one>
-		<many-to-one name="location" class="Location" column="LOCATION_ID">
+		<many-to-one name="location" class="Location" lazy="false" column="LOCATION_ID">
 		</many-to-one>
 
 		<set name="reconciliationItems" inverse="true">
