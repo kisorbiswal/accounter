@@ -186,7 +186,7 @@ public abstract class TransactionItemItemsRequirement extends
 
 		Result result = context.makeResult();
 		result.add("Item Details:");
-		result.add("Name :" + getItemDisplayValue(transactionItem));
+		result.add("Name : " + getItemDisplayValue(transactionItem));
 		result.add(list);
 
 		// if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
