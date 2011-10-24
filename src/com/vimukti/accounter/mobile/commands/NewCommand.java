@@ -20,7 +20,7 @@ public abstract class NewCommand extends Command {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(getReadyToCreateMessage());
+		makeResult.add(getDetailsMessage());
 		ResultList list = new ResultList("values");
 		ResultList actions = new ResultList("actions");
 
@@ -35,11 +35,16 @@ public abstract class NewCommand extends Command {
 		makeResult.add(actions);
 		Object selection = context.getSelection("actions");
 		if (selection != ActionNames.FINISH_COMMAND) {
-			Record record = new Record(ActionNames.FINISH_COMMAND);
-			record.add("", "Finish to create");
-			actions.add(record);
+			String finish = getFinishCommandString();
+			if (finish != null) {
+				Record record = new Record(ActionNames.FINISH_COMMAND);
+				record.add("", finish);
+				actions.add(record);
+			}
+			beforeFinishing(makeResult);
 			return makeResult;
 		}
+
 		Result result = onCompleteProcess(context);
 		if (result != null) {
 			return result;
@@ -50,11 +55,20 @@ public abstract class NewCommand extends Command {
 		return makeResult;
 	}
 
-	protected abstract String getReadyToCreateMessage();
+	protected Result onCompleteProcess(Context context) {
+		return null;
+	}
+
+	public void beforeFinishing(Result makeResult) {
+	}
+
+	public String getFinishCommandString() {
+		return "Finish";
+	}
+
+	protected abstract String getDetailsMessage();
 
 	protected abstract void setDefaultValues();
-
-	protected abstract Result onCompleteProcess(Context context);
 
 	public abstract String getSuccessMessage();
 

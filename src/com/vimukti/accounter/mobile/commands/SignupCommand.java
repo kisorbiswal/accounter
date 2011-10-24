@@ -89,7 +89,7 @@ public class SignupCommand extends NewCommand {
 	}
 
 	@Override
-	protected String getReadyToCreateMessage() {
+	protected String getDetailsMessage() {
 		return "Your account is ready to be create with below details :";
 	}
 

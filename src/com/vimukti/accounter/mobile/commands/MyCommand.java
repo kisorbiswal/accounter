@@ -109,7 +109,7 @@ public class MyCommand extends NewCommand {
 	}
 
 	@Override
-	protected String getReadyToCreateMessage() {
+	protected String getDetailsMessage() {
 		return "MyCommand is ready to create";
 	}
 
