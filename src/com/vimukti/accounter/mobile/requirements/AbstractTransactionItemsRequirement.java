@@ -19,8 +19,8 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 	private static final String TRANSACTION_ITEMS = "transactionItems";
 	protected static final String OLD_TRANSACTION_ITEM_ATTR = "oldTransactionItemAttr";
+
 	protected static final String PROCESS_ATTR = "processAttr";
-	protected static final Object TRANSACTION_ITEM_PROCESS = "transactionItemProcess";
 
 	public AbstractTransactionItemsRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
@@ -52,7 +52,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 			ResultList actions) {
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		if (process != null) {
-			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+			if (process.equals(getName())) {
 				Result result = transactionItemProcess(context);
 				if (result != null) {
 					return result;

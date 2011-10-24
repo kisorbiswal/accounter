@@ -15,15 +15,13 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public abstract class TransactionItemAccountsRequirement extends
 		AbstractTransactionItemsRequirement<ClientAccount> {
 
-	private static final String ITEM_DETAILS = null;
-	private static final String AMOUNT = null;
-	private static final String TAXCODE = null;
-	private static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
-	private static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
-	private static final String ITEM_PROPERTY_ATTR = null;
-	private static final String DISCOUNT = null;
-	private static final Object DESCRIPTION = null;
-	private static final Object TAX = null;
+	private static final String ITEM_DETAILS = "itemDetails";
+	private static final String AMOUNT = "amount";
+	private static final String TAXCODE = "taxCode";
+	private static final String ITEM_PROPERTY_ATTR = "itemPropertyAttr";
+	private static final String DISCOUNT = "discount";
+	private static final String DESCRIPTION = "description";
+	private static final String TAX = "tax";
 
 	public TransactionItemAccountsRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
@@ -51,8 +49,8 @@ public abstract class TransactionItemAccountsRequirement extends
 	@Override
 	protected Result transactionItem(Context context,
 			ClientTransactionItem transactionItem) {
-		context.setAttribute(PROCESS_ATTR, TRANSACTION_ACCOUNT_ITEM_PROCESS);
-		context.setAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR, transactionItem);
+		context.setAttribute(PROCESS_ATTR, getName());
+		context.setAttribute(OLD_TRANSACTION_ITEM_ATTR, transactionItem);
 
 		String lineAttr = (String) context.getAttribute(ITEM_PROPERTY_ATTR);
 		if (lineAttr != null) {
@@ -128,7 +126,7 @@ public abstract class TransactionItemAccountsRequirement extends
 								.getTAXCode(transactionItem.getTaxCode()));
 					}
 					context.removeAttribute(PROCESS_ATTR);
-					context.removeAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR);
+					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
 					return null;
 				} else if (selection == ActionNames.DELETE_ITEM) {
 					context.removeAttribute(PROCESS_ATTR);

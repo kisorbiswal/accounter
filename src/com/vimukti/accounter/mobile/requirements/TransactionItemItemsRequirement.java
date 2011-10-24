@@ -56,7 +56,7 @@ public abstract class TransactionItemItemsRequirement extends
 	@Override
 	protected Result transactionItem(Context context,
 			ClientTransactionItem transactionItem) {
-		context.setAttribute(PROCESS_ATTR, TRANSACTION_ITEM_PROCESS);
+		context.setAttribute(PROCESS_ATTR, getName());
 		context.setAttribute(OLD_TRANSACTION_ITEM_ATTR, transactionItem);
 
 		String lineAttr = (String) context.getAttribute(ITEM_PROPERTY_ATTR);
