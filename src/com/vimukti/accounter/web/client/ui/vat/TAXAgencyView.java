@@ -182,7 +182,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				result.add(form.validate());
 			}
 		}
-		gridView.validate(result);
+		if (!gridView.isEmpty()) {
+			gridView.validate(result);
+		}
+
 		return result;
 	}
 
