@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -56,7 +57,9 @@ public class CurrencyWidget extends DynamicForm {
 			baseCurrencyLbl.setTitle(baseCurrency.getFormalName());
 		}
 		setStyleName("currencyTextBox");
+		setWidth("100%");
 		setNumCols(4);
+		getCellFormatter().setWidth(0, 0, "200");
 		setFields(currencyCombo, new LabelItem());
 	}
 
