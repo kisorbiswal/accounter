@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -955,8 +954,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
 		// Setting Currency
-		if (currencyCombo.getValue().toString() != null)
-			data.setCurrency(currencyCombo.getValue().toString());
+		if (currencyCombo.getSelectedValue() != null)
+			data.setCurrency(currencyCombo.getSelectedValue().getID());
 
 		// Setting Balance
 		data.setOpeningBalance(openingBalText.getAmount());

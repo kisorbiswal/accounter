@@ -420,8 +420,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Addresses
 		data.setAddress(addrsForm.getAddresss());
 
-		if (currencyCombo.getValue().toString() != null)
-			data.setCurrency(currencyCombo.getValue().toString());
+		if (currencyCombo.getSelectedValue() != null)
+			data.setCurrency(currencyCombo.getSelectedValue().getID());
 
 		// Setting Phone
 		// customer.setPhoneNumbers(fonFaxForm.getAllPhones());

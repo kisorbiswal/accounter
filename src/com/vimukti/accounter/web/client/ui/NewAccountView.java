@@ -1229,8 +1229,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 			((ClientBankAccount) data).setBankAccountNumber(bankAccNumText
 					.getValue().toString());
-			((ClientBankAccount) data).setCurrency(currencyCombo.getValue()
-					.toString());
+			if (currencyCombo.getSelectedValue() != null)
+				((ClientBankAccount) data).setCurrency(currencyCombo
+						.getSelectedValue().getID());
 			data.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
