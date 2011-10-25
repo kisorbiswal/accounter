@@ -548,6 +548,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 			setEndDate(endDate);
 			changeDates(startDate, endDate);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

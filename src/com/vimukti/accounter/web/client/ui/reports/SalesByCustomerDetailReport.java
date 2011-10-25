@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -30,15 +31,30 @@ public class SalesByCustomerDetailReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		SalesByCustomerDetail byCustomerDetail = (SalesByCustomerDetail) this.data;
-		if (byCustomerDetail == null) {
+
+		if (this.data == null) {
 			Accounter.createReportService().getSalesByCustomerDetailReport(
 					start, end, this);
-		} else if (byCustomerDetail.getName() != null) {
-			Accounter.createReportService().getSalesByCustomerDetailReport(
-					byCustomerDetail.getName(),
-					byCustomerDetail.getStartDate(),
-					byCustomerDetail.getEndDate(), this);
+		} else {
+			if (this.data instanceof SalesByCustomerDetail) {
+				SalesByCustomerDetail byCustomerDetail = (SalesByCustomerDetail) this.data;
+				if (byCustomerDetail.getName() != null) {
+					Accounter.createReportService()
+							.getSalesByCustomerDetailReport(
+									byCustomerDetail.getName(),
+									byCustomerDetail.getStartDate(),
+									byCustomerDetail.getEndDate(), this);
+				}
+			} else if (this.data instanceof MostProfitableCustomers) {
+				MostProfitableCustomers record = (MostProfitableCustomers) this.data;
+				if (record.getCustomer() != null) {
+					Accounter.createReportService()
+							.getSalesByCustomerDetailReport(
+									record.getCustomer(),
+									record.getStartDate(), record.getEndDate(),
+									this);
+				}
+			}
 		}
 	}
 
