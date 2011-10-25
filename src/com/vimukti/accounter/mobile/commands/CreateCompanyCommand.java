@@ -825,7 +825,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 	}
 
 	private List<ClientCurrency> getCurrenciesList() {
-		return CoreUtils.getCurrencies();
+		return CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
 	}
 
 	private List<String> getFiscalYearMonths() {

@@ -1128,7 +1128,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	}
 
 	private List<ClientCurrency> getCurrenciesList() {
-		return CoreUtils.getCurrencies();
+		return CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
 	}
 
 	@Override
