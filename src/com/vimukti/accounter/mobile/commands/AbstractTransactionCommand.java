@@ -1441,7 +1441,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		List<Estimate> data = null;
 		try {
 			data = new FinanceTool().getCustomerManager().getEstimates(
-					getClientCompany().getID());
+					getClientCompany().getID(), 1);
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
