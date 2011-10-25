@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class CreditCardExpenseView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -98,6 +99,7 @@ public class CreditCardExpenseView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	private TAXCodeCombo taxCodeSelect;
 
@@ -548,7 +550,7 @@ public class CreditCardExpenseView extends
 
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
-
+currencyWidget = createCurrencyWidget();
 		if (getPreferences().isTrackPaidTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
@@ -590,10 +592,11 @@ public class CreditCardExpenseView extends
 		// leftVLay.setWidth("80%");
 		leftVLay.add(vendorForm);
 
-		HorizontalPanel rightHLay = new HorizontalPanel();
+		VerticalPanel rightHLay = new VerticalPanel();
 		// rightHLay.setWidth("80%");
 		rightHLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		rightHLay.add(termsForm);
+		rightHLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -687,6 +690,14 @@ public class CreditCardExpenseView extends
 			resetElements();
 			initpayFromAccountCombo();
 		} else {
+			
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			// if (vendor != null) {
 			// vendorNameSelect.setComboItem(vendor);
 			// phoneSelect.setValue(vendor.getPhoneNo());
@@ -941,6 +952,8 @@ public class CreditCardExpenseView extends
 				transaction.setContact(contact);
 			}
 		}
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	public void createAlterObject() {

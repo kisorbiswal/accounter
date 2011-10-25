@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -61,7 +62,7 @@ public class CashPurchaseView extends
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-
+	private CurrencyWidget currencyWidget;
 	public CashPurchaseView() {
 		super(ClientTransaction.TYPE_CASH_PURCHASE);
 	}
@@ -275,7 +276,7 @@ public class CashPurchaseView extends
 				addItem();
 			}
 		});
-
+		 currencyWidget = createCurrencyWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
@@ -306,6 +307,7 @@ public class CashPurchaseView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
+		rightVLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -450,7 +452,13 @@ public class CashPurchaseView extends
 		if (transaction == null) {
 			setData(new ClientCashPurchase());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			super.vendorSelected(getCompany()
 					.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
@@ -662,6 +670,8 @@ public class CashPurchaseView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// Setting Reference
 		// cashPurchase.setReference(getRefText());
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	public void createAlterObject() {

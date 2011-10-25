@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTa
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
@@ -84,7 +85,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected List<ClientVendor> vendors;
 	protected VendorCombo vendorCombo;
 	private boolean locationTrackingEnabled;
-
+    private CurrencyWidget currencyWidget;
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
 		locationTrackingEnabled = getCompany().getPreferences()
@@ -249,6 +250,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction
 				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
 						.getAmount()));
+		
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	private void initListGrid() {
@@ -617,7 +621,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		unUsedCreditsText.setDisabled(true);
 		amountLabel = new AmountLabel(Accounter.constants().totalAmount());
 		amountLabel.setDisabled(true);
-
+		currencyWidget = createCurrencyWidget();
 		DynamicForm textForm = new DynamicForm();
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
@@ -640,13 +644,16 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(payForm);
+		VerticalPanel vpPanel = new VerticalPanel();
+		vpPanel.add(balForm);
+		vpPanel.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
-		topHLay.add(balForm);
-
+		topHLay.add(vpPanel);
+		//topHLay.add(vpPanel);
 		// HorizontalPanel hLay2 = new HorizontalPanel();
 		// hLay2.setWidth("100%");
 		// hLay2.setHorizontalAlignment(ALIGN_RIGHT);
@@ -782,7 +789,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (transaction == null) {
 			setData(new ClientPayBill());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
 

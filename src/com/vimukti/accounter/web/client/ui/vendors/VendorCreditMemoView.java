@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactio
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class VendorCreditMemoView extends
 		AbstractVendorTransactionView<ClientVendorCreditMemo> {
@@ -46,6 +47,7 @@ public class VendorCreditMemoView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private boolean locationTrackingEnabled;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
@@ -85,7 +87,15 @@ public class VendorCreditMemoView extends
 		if (transaction == null) {
 			setData(new ClientVendorCreditMemo());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+			}
 			super.vendorSelected(getCompany()
 					.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
@@ -96,7 +106,8 @@ public class VendorCreditMemoView extends
 						.getNetAmount()));
 				vatTotalNonEditableText
 						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTotal() - transaction.getNetAmount()));
+								.getTotal()
+								- transaction.getNetAmount()));
 			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
@@ -112,12 +123,12 @@ public class VendorCreditMemoView extends
 					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		super.initTransactionViewData();
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 
@@ -213,8 +224,8 @@ public class VendorCreditMemoView extends
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle()
-				.setMarginTop(10, Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
+				Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -258,7 +269,7 @@ public class VendorCreditMemoView extends
 				addItem();
 			}
 		});
-
+		currencyWidget = createCurrencyWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
@@ -279,8 +290,8 @@ public class VendorCreditMemoView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -290,6 +301,7 @@ public class VendorCreditMemoView extends
 			locationForm.setFields(locationCombo);
 		rightVLay.add(locationForm);
 		rightVLay.setWidth("100%");
+		rightVLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -453,6 +465,8 @@ public class VendorCreditMemoView extends
 		if (vatinclusiveCheck != null)
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
@@ -470,13 +484,13 @@ public class VendorCreditMemoView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

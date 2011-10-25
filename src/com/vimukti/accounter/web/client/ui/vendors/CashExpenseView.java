@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactio
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CashExpenseView extends
@@ -55,6 +56,7 @@ public class CashExpenseView extends
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
@@ -112,7 +114,8 @@ public class CashExpenseView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// Setting Reference
 		// cashPurchase.setReference(getRefText());
-
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
@@ -254,7 +257,7 @@ public class CashExpenseView extends
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 
-		vendorForm.setWidth("50%");
+		vendorForm.setWidth("100%");
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
@@ -397,7 +400,7 @@ public class CashExpenseView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-
+currencyWidget = createCurrencyWidget();
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
@@ -419,11 +422,12 @@ public class CashExpenseView extends
 			locationform.setFields(locationCombo);
 		rightVLay.add(locationform);
 
+		rightVLay.add(currencyWidget);
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
-		// topHLay.add(rightVLay);
+		topHLay.add(rightVLay);
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
@@ -554,7 +558,13 @@ public class CashExpenseView extends
 		if (transaction == null) {
 			setData(new ClientCashPurchase());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			setVendor(getCompany().getVendor(transaction.getVendor()));
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			accountSelected(getCompany().getAccount(transaction.getPayFrom()));

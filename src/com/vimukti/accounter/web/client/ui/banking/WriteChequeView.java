@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class WriteChequeView extends
 		AbstractBankTransactionView<ClientWriteCheck> {
@@ -128,7 +129,7 @@ public class WriteChequeView extends
 	private double previousValue = 0.00D;
 
 	private HorizontalPanel unassignedAmountPanel;
-
+	private CurrencyWidget currencyWidget;
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
@@ -638,6 +639,8 @@ public class WriteChequeView extends
 			transaction.setToBePrinted((Boolean) toprintCheck.getValue());
 
 		}
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	private void updatePaySalesTax() {
@@ -846,7 +849,7 @@ public class WriteChequeView extends
 		// HorizontalPanel amtPanel = new HorizontalPanel();
 		// amtPanel.setWidth("50%");
 		// amtPanel.add(amtForm);
-
+		currencyWidget = createCurrencyWidget();
 		HorizontalPanel accPanel = new HorizontalPanel();
 		accPanel.setWidth("100%");
 		accPanel.add(payForm);
@@ -859,6 +862,7 @@ public class WriteChequeView extends
 
 		topHLay.add(labelLayout);
 		topHLay.add(accPanel);
+		topHLay.add(currencyWidget);
 		// topHLay.add(amtForm);
 
 		vatPanel = new VerticalPanel();
@@ -874,7 +878,7 @@ public class WriteChequeView extends
 		// totalForm.setFields(netAmount, totalTaxtxt, totalTxt);
 		// totalForm.addStyleName("invoice-total");
 		// DynamicForm vatCheckForm = new DynamicForm();
-
+		
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
 		bottomPanel.add(memoForm);
@@ -919,6 +923,7 @@ public class WriteChequeView extends
 			}
 
 		});
+		
 
 		DynamicForm unassignedAmountForm = new DynamicForm();
 		unassignedAmount = new AmountLabel(constants.unassignedAmount());
@@ -1413,6 +1418,14 @@ public class WriteChequeView extends
 			setData(new ClientWriteCheck());
 		} else {
 
+			
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			// if (getPreferences().isTrackPaidTax()) {
 			// netAmount.setAmount(transaction.getNetAmount());
 			// vatTotalNonEditableText.setAmount(transaction.getTotal()

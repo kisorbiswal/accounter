@@ -83,7 +83,9 @@ public abstract class VendorAccountTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientAccount newValue) {
-				super.setValue(row, newValue);
+				if (newValue != null) {
+					super.setValue(row, newValue);
+				}
 				update(row);
 			}
 

@@ -59,6 +59,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class PurchaseOrderView extends
 		AbstractVendorTransactionView<ClientPurchaseOrder> {
@@ -100,6 +101,7 @@ public class PurchaseOrderView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
@@ -463,6 +465,7 @@ public class PurchaseOrderView extends
 				addItem();
 			}
 		});
+		currencyWidget = createCurrencyWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
@@ -507,6 +510,7 @@ public class PurchaseOrderView extends
 		// rightVLay.setWidth("93%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
+		rightVLay.add(currencyWidget);
 		// rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		// rightVLay.setCellHorizontalAlignment(dateform, ALIGN_RIGHT);
 
@@ -701,6 +705,13 @@ public class PurchaseOrderView extends
 			initShippingTerms();
 			initShippingMethod();
 		} else {
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			// taxCodeSelected(this.taxCode);
 			ClientCompany company = getCompany();
 
@@ -1030,6 +1041,8 @@ public class PurchaseOrderView extends
 						.getValue());
 
 		}
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
