@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
@@ -201,7 +202,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				}, new ArrayList<ClientContact>(customer.getContacts()));
 			}
 		});
-		// list.add(new Requirement(BILL_TO, true, true));
+
+		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
+				getConstants().billTo()), getConstants().billTo(), true, true));
 
 		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
 				getConstants().dueDate()), getConstants().dueDate(), true, true));
