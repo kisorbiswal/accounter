@@ -21,25 +21,36 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
 public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
-	public QuoteListGrid() {
-		super(false);
+	public QuoteListGrid(int type) {
+		super(false, type);
 	}
 
 	boolean isDeleted;
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE
-		// ,ListGrid.COLUMN_TYPE_IMAGE
-		};
+		if (type == ClientEstimate.QUOTES) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE
+			// ,ListGrid.COLUMN_TYPE_IMAGE
+			};
+		} else {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE };
+		}
 	}
 
 	@Override
 	protected Object getColumnValue(ClientEstimate estimate, int col) {
+		if (type != ClientEstimate.QUOTES) {
+			return this.getchargedColumnValues(estimate, col);
+		}
 		if (estimate != null) {
 			ClientCustomer customer = getCompany().getCustomer(
 					estimate.getCustomer());
@@ -93,7 +104,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				// return "/images/cancel.png";
 				break;
 			case 9:
-				// if (estimate.getStatus() == ClientTransaction.STATUS_DELETED)
+				// if (estimate.getStatus() ==
+				// ClientTransaction.STATUS_DELETED)
 				// return FinanceApplication.getFinanceImages().delSuccess()
 				// .getURL();
 				// else
@@ -110,14 +122,22 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	protected String[] getColumns() {
 		customerConstants = Accounter.constants();
-		return new String[] { customerConstants.date(), customerConstants.no(),
-				Accounter.messages().customerName(Global.get().Customer()),
-				customerConstants.phone(), customerConstants.salesPerson(),
-				customerConstants.expirationDate(),
-				customerConstants.deliveryDate(),
-				customerConstants.totalPrice(), customerConstants.reject()
-		// , ""
-		};
+		if (type == ClientEstimate.QUOTES) {
+			return new String[] { customerConstants.date(),
+					customerConstants.no(),
+					Accounter.messages().customerName(Global.get().Customer()),
+					customerConstants.phone(), customerConstants.salesPerson(),
+					customerConstants.expirationDate(),
+					customerConstants.deliveryDate(),
+					customerConstants.totalPrice(), customerConstants.reject()
+			// , ""
+			};
+		} else {
+			return new String[] { customerConstants.date(),
+					customerConstants.no(),
+					Accounter.messages().customerName(Global.get().Customer()),
+					customerConstants.totalPrice(), customerConstants.reject() };
+		}
 	}
 
 	@Override
@@ -351,4 +371,47 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param estimate
+	 * @param col
+	 * @return
+	 */
+	private Object getchargedColumnValues(ClientEstimate estimate, int col) {
+
+		if (estimate != null) {
+			ClientCustomer customer = getCompany().getCustomer(
+					estimate.getCustomer());
+
+			switch (col) {
+			case 0:
+				return UIUtils.getDateByCompanyType(estimate.getDate());
+			case 1:
+				return estimate.getNumber() + "";
+			case 2:
+				if (customer != null)
+					return String.valueOf(customer.getName());
+				break;
+
+			case 3:
+				return amountAsString(estimate.getTotal());
+			case 4:
+				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
+					return Accounter.getFinanceImages().beforereject();
+				// return "/images/before-reject.png";
+				if (estimate.getStatus() == ClientEstimate.STATUS_ACCECPTED)
+					return Accounter.getFinanceImages().tickMark();
+				// return "/images/Tick-mark.png";
+				if (estimate.getStatus() == ClientEstimate.STATUS_REJECTED
+						|| estimate.getStatus() == ClientEstimate.STATUS_DELETED)
+					return Accounter.getFinanceImages().rejected();
+				// return "/images/cancel.png";
+				break;
+			default:
+				break;
+			}
+		}
+		return null;
+
+	}
 }

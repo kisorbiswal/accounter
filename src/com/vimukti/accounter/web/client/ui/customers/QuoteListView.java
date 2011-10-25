@@ -101,7 +101,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected void initGrid() {
-		grid = new QuoteListGrid();
+		grid = new QuoteListGrid(type);
 		grid.init();
 
 	}

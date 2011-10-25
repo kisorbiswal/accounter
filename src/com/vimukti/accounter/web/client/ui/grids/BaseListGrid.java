@@ -51,6 +51,15 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		this.columnType = setColTypes();
 	}
 
+	int type;
+
+	public BaseListGrid(boolean isMultiSelectionEnable, int type) {
+		super(isMultiSelectionEnable);
+		initRPCService();
+		this.type = type;
+		this.columnType = setColTypes();
+	}
+
 	public BaseListGrid(boolean isMultiSelectionEnable, boolean showFooter) {
 		super(isMultiSelectionEnable, showFooter);
 		initRPCService();
@@ -257,7 +266,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 			view.initListCallback();
 		}
 	}
-
 
 	protected <D extends IAccounterCore> void deleteUserObject(D data) {
 		Accounter.deleteUser(this, data);
