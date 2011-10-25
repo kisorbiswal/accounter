@@ -420,6 +420,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Addresses
 		data.setAddress(addrsForm.getAddresss());
 
+		if (currencyCombo.getValue().toString() != null)
+			data.setCurrency(currencyCombo.getValue().toString());
+
 		// Setting Phone
 		// customer.setPhoneNumbers(fonFaxForm.getAllPhones());
 		data.setPhoneNo(fonFaxForm.businessPhoneText.getValue().toString());
@@ -1203,6 +1206,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// selectPaymentMethodFromDetialsTab = takenCustomer
 		// .getPaymentMethod();
 		payMethSelect.setComboItem(data.getPaymentMethod());
+
+		currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
+
 		// Setting payemnt term
 		selectPayTermFromDetailsTab = getCompany().getPaymentTerms(
 				data.getPaymentTerm());

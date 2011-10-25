@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
@@ -50,7 +49,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public void onAddNew() {
-		ActionFactory.getNewCurrencyAction().run();
+		// ActionFactory.getNewCurrencyAction().run();
 		// action.setCallback(new ActionCallback<ClientCurrency>() {
 		//
 		// @Override
@@ -58,7 +57,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 		// addItemThenfireEvent(result);
 		// }
 		// });
-
+		//
 		// action.run(null, true);
 
 	}

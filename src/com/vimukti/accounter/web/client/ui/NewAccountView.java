@@ -925,6 +925,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			bankAccNumText.setWidth(100);
 
 			currencyCombo = new CurrencyCombo(Accounter.constants().currency());
+			currencyCombo.setDisabled(isInViewMode());
 			currencyCombo
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
 
@@ -1228,6 +1229,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 			((ClientBankAccount) data).setBankAccountNumber(bankAccNumText
 					.getValue().toString());
+			((ClientBankAccount) data).setCurrency(currencyCombo.getValue()
+					.toString());
 			data.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
@@ -1333,6 +1336,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
+				currencyCombo
+						.setValue(((ClientBankAccount) data).getCurrency());
 				bankAccNumText.setDisabled(true);
 			}
 
@@ -1657,6 +1662,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		commentsArea.setDisabled(isInViewMode());
 		if (bankAccNumText != null) {
 			bankAccNumText.setDisabled(isInViewMode());
+			currencyCombo.setDisabled(isInViewMode());
 		}
 		if (creditCardForm != null) {
 			creditCardForm.setDisabled(isInViewMode());

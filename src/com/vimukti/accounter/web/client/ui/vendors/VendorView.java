@@ -646,6 +646,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 
 		currencyCombo.setDisabled(isInViewMode());
+
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
 		financeDetailsForm.setWidth("100%");
@@ -946,8 +947,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
 		// Setting Currency
-		if (currencyCombo.getSelectedValue() != null)
-			data.setCurrency(currencyCombo.getSelectedValue().toString());
+		if (currencyCombo.getValue().toString() != null)
+			data.setCurrency(currencyCombo.getValue().toString());
+
 		// Setting Balance
 		if (!isInViewMode()) {
 			double bal = balanceText.getAmount() != null ? balanceText
@@ -1190,6 +1192,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Status Check
 		statusCheck.setValue(data.isActive());
 
+		currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
+
 		track1099MISC.setValue(data.isActive());
 
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate(data
@@ -1379,6 +1383,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		balanceText.setDisabled(!data.isOpeningBalanceEditable());
 		expenseAccountsSelect.setDisabled(isInViewMode());
+		currencyCombo.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());
 		preferredShippingSelect.setDisabled(isInViewMode());
 		preferredPaymentSelect.setDisabled(isInViewMode());
