@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
@@ -161,8 +162,7 @@ public class VendorBillView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -185,8 +185,7 @@ public class VendorBillView extends
 
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate())
-							: getTransactionDate());
+							transaction.getDueDate()) : getTransactionDate());
 			initMemoAndReference();
 			initAccounterClass();
 		}
@@ -197,12 +196,12 @@ public class VendorBillView extends
 		super.initTransactionViewData();
 		initPaymentTerms();
 
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initBalanceDue() {
@@ -287,6 +286,10 @@ public class VendorBillView extends
 		if (transaction.getID() == 0) {
 			getPurchaseOrdersAndItemReceipt();
 		}
+		long currency = vendor.getCurrency();
+		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+		currencyWidget.setSelectedCurrency(clientCurrency);
+
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		} else {
@@ -402,7 +405,7 @@ public class VendorBillView extends
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
-		
+
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
@@ -543,8 +546,8 @@ public class VendorBillView extends
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
-				Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle()
+				.setMarginTop(10, Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -610,7 +613,7 @@ public class VendorBillView extends
 		// linksText.setShowTitle(false);
 		// linksText.setDisabled(isEdit);
 		// formItems.add(linksText);
-currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyWidget();
 		DynamicForm tdsForm = new DynamicForm();
 		tdsForm.setWidth("100%");
 		tdsForm.setFields();
@@ -636,7 +639,7 @@ currencyWidget = createCurrencyWidget();
 		if (isTrackTax() && isTrackPaidTax()) {
 			if (!isTaxPerDetailLine()) {
 				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect,vatinclusiveCheck);
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				taxPanel.add(form);
 				taxPanel.setCellHorizontalAlignment(form,
 						HasHorizontalAlignment.ALIGN_LEFT);
@@ -664,7 +667,6 @@ currencyWidget = createCurrencyWidget();
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
 		rightVLay.add(currencyWidget);
-		
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -925,13 +927,13 @@ currencyWidget = createCurrencyWidget();
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(dueDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				dueDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()
@@ -941,8 +943,8 @@ currencyWidget = createCurrencyWidget();
 							.cannotbeearlierthantransactiondate());
 		}
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -1292,8 +1294,8 @@ currencyWidget = createCurrencyWidget();
 
 	@Override
 	protected void refreshTransactionGrid() {
-			vendorAccountTransactionTable.updateTotals();
-			vendorItemTransactionTable.updateTotals();
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	@Override

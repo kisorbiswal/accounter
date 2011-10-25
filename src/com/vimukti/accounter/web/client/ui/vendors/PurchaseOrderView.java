@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -706,11 +707,13 @@ public class PurchaseOrderView extends
 			initShippingMethod();
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			// taxCodeSelected(this.taxCode);
 			ClientCompany company = getCompany();
@@ -1076,6 +1079,10 @@ public class PurchaseOrderView extends
 			payTermsSelect.setComboItem(paymentTerms);
 			paymentTermsSelected(paymentTerms);
 		}
+
+		long currency = vendor.getCurrency();
+		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+		currencyWidget.setSelectedCurrency(clientCurrency);
 
 		shippingMethodsCombo.setComboItem(shippingMethod);
 		vendorCombo.setComboItem(vendor);

@@ -1192,7 +1192,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Status Check
 		statusCheck.setValue(data.isActive());
 
-		currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
+		if (data.getCurrency() != 0)
+			currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
 
 		track1099MISC.setValue(data.isActive());
 

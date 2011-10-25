@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -400,7 +401,7 @@ public class CashExpenseView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyWidget();
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
@@ -559,11 +560,13 @@ currencyWidget = createCurrencyWidget();
 			setData(new ClientCashPurchase());
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			setVendor(getCompany().getVendor(transaction.getVendor()));
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
@@ -644,6 +647,10 @@ currencyWidget = createCurrencyWidget();
 				code = Accounter.getCompany().getDefaultTaxCode();
 			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
+		long currency = vendor.getCurrency();
+		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+		currencyWidget.setSelectedCurrency(clientCurrency);
+
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
 

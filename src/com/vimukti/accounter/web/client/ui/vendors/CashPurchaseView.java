@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -63,6 +64,7 @@ public class CashPurchaseView extends
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 	private CurrencyWidget currencyWidget;
+
 	public CashPurchaseView() {
 		super(ClientTransaction.TYPE_CASH_PURCHASE);
 	}
@@ -200,8 +202,8 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -276,7 +278,7 @@ public class CashPurchaseView extends
 				addItem();
 			}
 		});
-		 currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
@@ -453,11 +455,13 @@ public class CashPurchaseView extends
 			setData(new ClientCashPurchase());
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			super.vendorSelected(getCompany()
 					.getVendor(transaction.getVendor()));
@@ -487,8 +491,7 @@ public class CashPurchaseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -530,12 +533,12 @@ public class CashPurchaseView extends
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 
@@ -575,6 +578,10 @@ public class CashPurchaseView extends
 			code = Accounter.getCompany().getDefaultTaxCode();
 			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
+		long currency = vendor.getCurrency();
+		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+		currencyWidget.setSelectedCurrency(clientCurrency);
+
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
 
@@ -648,8 +655,7 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID()
-						: 0);
+						.getSelectedValue().getID() : 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -726,15 +732,15 @@ public class CashPurchaseView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -745,8 +751,8 @@ public class CashPurchaseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

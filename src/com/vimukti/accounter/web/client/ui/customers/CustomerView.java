@@ -1209,7 +1209,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// .getPaymentMethod();
 		payMethSelect.setComboItem(data.getPaymentMethod());
 
-		currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
+		if (data.getCurrency() != 0)
+			currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
 
 		// Setting payemnt term
 		selectPayTermFromDetailsTab = getCompany().getPaymentTerms(
