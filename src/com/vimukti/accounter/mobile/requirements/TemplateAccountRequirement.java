@@ -78,6 +78,10 @@ public abstract class TemplateAccountRequirement extends
 		record.add("", values.size() + " accounts selected.");
 		list.add(record);
 
+		if (actionName == ActionNames.CLOSE) {
+			return null;
+		}
+
 		if (valuesSelection == "accountsNumber") {
 			Result result = new Result();
 			result.add(getConstants().Accounts());
@@ -92,6 +96,10 @@ public abstract class TemplateAccountRequirement extends
 			Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
 			moreItems.add("", getMessages().addMore(getConstants().Accounts()));
 			actions.add(moreItems);
+			Record close = new Record(ActionNames.CLOSE);
+			close.add("", getConstants().close());
+			actions.add(close);
+			result.add("Select account to delete");
 			result.add(actions);
 			return result;
 		}
