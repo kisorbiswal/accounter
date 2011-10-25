@@ -65,7 +65,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		// currenciesList = UIUtils.getCurrenciesList();
 		headerLabel.setText(accounterConstants.selectCurrency());
 		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
-		currenciesList = CoreUtils.getCurrencies();
+		currenciesList = CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());

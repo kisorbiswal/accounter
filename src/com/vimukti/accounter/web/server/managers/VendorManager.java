@@ -890,8 +890,8 @@ public class VendorManager extends Manager {
 				payBillTransactionList.setAmountDue(je.getBalanceDue());
 				payBillTransactionList.setDiscountDate(new ClientFinanceDate(je
 						.getDate().getDate()));
-				payBillTransactionList.setVendorName(je.getEntry().get(1)
-						.getVendor().getName());
+				payBillTransactionList.setVendorName(je.getInvolvedPayee()
+						.getName());
 				queryResult.add(payBillTransactionList);
 			}
 

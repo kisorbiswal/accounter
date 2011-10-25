@@ -19,7 +19,7 @@ public class CurrencyListCombo extends CustomCombo<ClientCurrency> {
 	}
 
 	public List<ClientCurrency> getCurrencyList() {
-		return CoreUtils.getCurrencies();
+		return CoreUtils.getCurrencies(getCompany().getCurrencies());
 
 	}
 

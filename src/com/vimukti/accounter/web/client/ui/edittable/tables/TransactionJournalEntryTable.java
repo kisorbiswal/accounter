@@ -4,29 +4,23 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientEntry;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.AccountDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
-import com.vimukti.accounter.web.client.ui.edittable.CustomerDropDownTable;
-import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
-import com.vimukti.accounter.web.client.ui.edittable.TaxCodeTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
-import com.vimukti.accounter.web.client.ui.edittable.VendorDropDownTable;
 
 public abstract class TransactionJournalEntryTable extends
-		EditTable<ClientEntry> {
+		EditTable<ClientTransactionItem> {
 
 	/*
 	 * holds all records debit n credit totals
@@ -70,29 +64,30 @@ public abstract class TransactionJournalEntryTable extends
 		// };
 		// this.addColumn(voucherNumber);
 
-		DateColumn<ClientEntry> dateColumn = new DateColumn<ClientEntry>() {
-
-			@Override
-			protected ClientFinanceDate getValue(ClientEntry row) {
-				return new ClientFinanceDate(row.getEntryDate());
-			}
-
-			@Override
-			public int getWidth() {
-				return 132;
-			}
-
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().date();
-			}
-
-			@Override
-			protected void setValue(ClientEntry row, ClientFinanceDate value) {
-				row.setEntryDate(value.getDate());
-			}
-		};
-		this.addColumn(dateColumn);
+		// DateColumn<ClientTransactionItem> dateColumn = new
+		// DateColumn<ClientTransactionItem>() {
+		//
+		// @Override
+		// protected ClientFinanceDate getValue(ClientTransactionItem row) {
+		// return new ClientFinanceDate(row.getEntryDate());
+		// }
+		//
+		// @Override
+		// public int getWidth() {
+		// return 132;
+		// }
+		//
+		// @Override
+		// protected String getColumnName() {
+		// return Accounter.constants().date();
+		// }
+		//
+		// @Override
+		// protected void setValue(ClientEntry row, ClientFinanceDate value) {
+		// row.setEntryDate(value.getDate());
+		// }
+		// };
+		// this.addColumn(dateColumn);
 
 		final AccountDropDownTable accountDropDownTable = new AccountDropDownTable(
 				new ListFilter<ClientAccount>() {
@@ -103,76 +98,24 @@ public abstract class TransactionJournalEntryTable extends
 					}
 				}, null);
 
-		final CustomerDropDownTable customerDropDownTable = new CustomerDropDownTable(
-				new ListFilter<ClientCustomer>() {
-
-					@Override
-					public boolean filter(ClientCustomer e) {
-						return true;
-					}
-				});
-
-		final VendorDropDownTable vendorDropDownTable = new VendorDropDownTable(
-				new ListFilter<ClientVendor>() {
-
-					@Override
-					public boolean filter(ClientVendor e) {
-						return true;
-					}
-				});
-
-		final TaxCodeTable taxCodeTable = new TaxCodeTable();
-
-		this.addColumn(new ComboColumn<ClientEntry, IAccounterCore>() {
+		this.addColumn(new ComboColumn<ClientTransactionItem, IAccounterCore>() {
 
 			@Override
-			protected IAccounterCore getValue(ClientEntry obj) {
-				switch (obj.getType()) {
-				case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-					return Accounter.getCompany().getAccount(obj.getAccount());
-				case ClientEntry.TYPE_VENDOR:
-					return Accounter.getCompany().getVendor(obj.getVendor());
-				case ClientEntry.TYPE_CUSTOMER:
-					return Accounter.getCompany()
-							.getCustomer(obj.getCustomer());
-				case ClientEntry.TYPE_VAT:
-					return Accounter.getCompany().getTAXCode(obj.getTaxCode());
-				}
-				return null;
+			protected IAccounterCore getValue(ClientTransactionItem obj) {
+				return Accounter.getCompany().getAccount(obj.getAccount());
 			}
 
 			@Override
-			protected void setValue(ClientEntry row, IAccounterCore newValue) {
-				switch (row.getType()) {
-				case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-					row.setAccount(newValue.getID());
-					break;
-				case ClientEntry.TYPE_VENDOR:
-					row.setVendor(newValue.getID());
-					break;
-				case ClientEntry.TYPE_CUSTOMER:
-					row.setCustomer(newValue.getID());
-					break;
-				case ClientEntry.TYPE_VAT:
-					row.setTaxCode(newValue.getID());
-					break;
-				}
+			protected void setValue(ClientTransactionItem row,
+					IAccounterCore newValue) {
+				row.setAccount(newValue.getID());
 			}
 
-			@SuppressWarnings( {"unchecked" })
+			@SuppressWarnings({ "unchecked" })
 			@Override
-			public AbstractDropDownTable getDisplayTable(ClientEntry row) {
-				switch (row.getType()) {
-				case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-					return accountDropDownTable;
-				case ClientEntry.TYPE_VENDOR:
-					return vendorDropDownTable;
-				case ClientEntry.TYPE_CUSTOMER:
-					return customerDropDownTable;
-				case ClientEntry.TYPE_VAT:
-					return taxCodeTable;
-				}
-				return null;
+			public AbstractDropDownTable getDisplayTable(
+					ClientTransactionItem row) {
+				return accountDropDownTable;
 			}
 
 			@Override
@@ -186,11 +129,11 @@ public abstract class TransactionJournalEntryTable extends
 			}
 		});
 
-		TextEditColumn<ClientEntry> memoColumn = new TextEditColumn<ClientEntry>() {
+		TextEditColumn<ClientTransactionItem> memoColumn = new TextEditColumn<ClientTransactionItem>() {
 
 			@Override
-			protected String getValue(ClientEntry row) {
-				return row.getMemo();
+			protected String getValue(ClientTransactionItem row) {
+				return row.getDescription();
 			}
 
 			@Override
@@ -204,24 +147,26 @@ public abstract class TransactionJournalEntryTable extends
 			}
 
 			@Override
-			protected void setValue(ClientEntry row, String value) {
-				row.setMemo(value);
+			protected void setValue(ClientTransactionItem row, String value) {
+				row.setDescription(value);
 			}
 		};
 		this.addColumn(memoColumn);
 
-		AmountColumn<ClientEntry> debitColumn = new AmountColumn<ClientEntry>(
+		AmountColumn<ClientTransactionItem> debitColumn = new AmountColumn<ClientTransactionItem>(
 				currencyProvider) {
 
 			@Override
-			protected double getAmount(ClientEntry row) {
-				return row.getDebit();
+			protected double getAmount(ClientTransactionItem row) {
+				if (DecimalUtil.isGreaterThan(row.getLineTotal(), 0)) {
+					return row.getLineTotal();
+				}
+				return 0;
 			}
 
 			@Override
-			protected void setAmount(ClientEntry row, double value) {
-				row.setDebit(value);
-				row.setCredit(0);
+			protected void setAmount(ClientTransactionItem row, double value) {
+				row.setLineTotal(value);
 				refreshTotals();
 				getTable().update(row);
 			}
@@ -238,18 +183,20 @@ public abstract class TransactionJournalEntryTable extends
 		};
 		this.addColumn(debitColumn);
 
-		AmountColumn<ClientEntry> creditColumn = new AmountColumn<ClientEntry>(
+		AmountColumn<ClientTransactionItem> creditColumn = new AmountColumn<ClientTransactionItem>(
 				currencyProvider) {
 
 			@Override
-			protected double getAmount(ClientEntry row) {
-				return row.getCredit();
+			protected double getAmount(ClientTransactionItem row) {
+				if (DecimalUtil.isLessThan(row.getLineTotal(), 0)) {
+					return -1 * row.getLineTotal();
+				}
+				return 0;
 			}
 
 			@Override
-			protected void setAmount(ClientEntry row, double value) {
-				row.setCredit(value);
-				row.setDebit(0);
+			protected void setAmount(ClientTransactionItem row, double value) {
+				row.setLineTotal(-1 * value);
 				refreshTotals();
 				getTable().update(row);
 			}
@@ -266,70 +213,38 @@ public abstract class TransactionJournalEntryTable extends
 		};
 		this.addColumn(creditColumn);
 
-		this.addColumn(new DeleteColumn<ClientEntry>());
+		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
 
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 
 		if (this.getAllRows().size() == 0) {
-			result.addError(this, Accounter.messages().thereisNoRecordsTosave(
-					Accounter.constants().journalEntry()));
+			result.addError(
+					this,
+					Accounter.messages().thereisNoRecordsTosave(
+							Accounter.constants().journalEntry()));
 		}
 		// Validates account name
-		List<ClientEntry> entrylist = this.getAllRows();
-		for (ClientEntry entry : entrylist) {
-			long accountId = getSelectionAccount(entry);
-			for (ClientEntry entry2 : entrylist) {
-				long accountId2 = getSelectionAccount(entry2);
-				if(!entry.equals(entry2) && accountId == accountId2) {
+		List<ClientTransactionItem> entrylist = this.getAllRows();
+		for (ClientTransactionItem entry : entrylist) {
+			long accountId = entry.getAccount();
+			for (ClientTransactionItem entry2 : entrylist) {
+				long accountId2 = entry2.getAccount();
+				if (!entry.equals(entry2) && accountId == accountId2) {
 					result.addError(this, Accounter.constants()
 							.shouldntSelectSameAccountInMultipleEntries());
 				}
 			}
 		}
-		for (ClientEntry entry : entrylist) {
-			if ((entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT && entry
-					.getAccount() == 0)
-					|| (entry.getType() == ClientEntry.TYPE_VENDOR && entry
-							.getVendor() == 0)
-					|| (entry.getType() == ClientEntry.TYPE_CUSTOMER && entry
-							.getCustomer() == 0)
-					|| entry.getType() == ClientEntry.TYPE_VAT
-					&& entry.getTaxCode() == 0) {
-				result.addError(this, Accounter.messages().pleaseEnter(
-						getTypeAsString(entry, entry.getType())));
+		for (ClientTransactionItem entry : entrylist) {
+			if (entry.getAccount() == 0) {
+				result.addError(this,
+						Accounter.messages()
+								.pleaseEnter(Global.get().account()));
 			}
 		}
 		return result;
-	}
-
-	private long getSelectionAccount(ClientEntry entry) {
-		switch (entry.getType()) {
-		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			return entry.getAccount();
-		case ClientEntry.TYPE_CUSTOMER:
-			return Accounter.getCompany().getAccountsReceivableAccountId();
-		case ClientEntry.TYPE_VENDOR:
-			return Accounter.getCompany().getAccountsPayableAccount();
-		case ClientEntry.TYPE_VAT:
-			return Accounter.getCompany().getTaxLiabilityAccount();
-		}
-		return 0;
-	}
-
-	private String getTypeAsString(ClientEntry entry, int type) {
-		switch (type) {
-		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			return Global.get().account();
-		case ClientEntry.TYPE_CUSTOMER:
-			return Global.get().customer();
-		case ClientEntry.TYPE_VENDOR:
-			return Global.get().vendor();
-			// case ClientEntry.TYPE_VAT:
-			// return "VAT";
-		}
-		return null;
 	}
 
 	public boolean isValidTotal() {
@@ -362,9 +277,12 @@ public abstract class TransactionJournalEntryTable extends
 	public void refreshTotals() {
 		creditTotal = 0;
 		debitTotal = 0;
-		for (ClientEntry rec : getAllRows()) {
-			creditTotal += rec.getCredit();
-			debitTotal += rec.getDebit();
+		for (ClientTransactionItem rec : getAllRows()) {
+			if (DecimalUtil.isGreaterThan(rec.getLineTotal(), 0)) {
+				debitTotal += rec.getLineTotal();
+			} else {
+				creditTotal += (-1 * rec.getLineTotal());
+			}
 		}
 		updateNonEditableItems();
 	}
@@ -372,13 +290,17 @@ public abstract class TransactionJournalEntryTable extends
 	public abstract void updateNonEditableItems();
 
 	@Override
-	public void setAllRows(List<ClientEntry> rows) {
+	public void setAllRows(List<ClientTransactionItem> rows) {
+		for (ClientTransactionItem item : rows) {
+			item.setID(0);
+			item.taxRateCalculationEntriesList.clear();
+		}
 		super.setAllRows(rows);
 		refreshTotals();
 	}
 
 	@Override
-	public void delete(ClientEntry row) {
+	public void delete(ClientTransactionItem row) {
 		super.delete(row);
 		refreshTotals();
 	}

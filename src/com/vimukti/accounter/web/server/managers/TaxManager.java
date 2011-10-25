@@ -999,8 +999,7 @@ public class TaxManager extends Manager {
 			for (TAXAdjustment taxAdjustment : taxAdjustments) {
 
 				PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-				paySalesTaxList.setBalance(taxAdjustment.getJournalEntry()
-						.getBalanceDue());
+				paySalesTaxList.setBalance(taxAdjustment.getBalanceDue());
 				paySalesTaxList.setAmount(taxAdjustment.getTotal());
 				paySalesTaxList.setTaxAgency(taxAdjustment.getTaxAgency());
 				paySalesTaxList.setTransaction(taxAdjustment);

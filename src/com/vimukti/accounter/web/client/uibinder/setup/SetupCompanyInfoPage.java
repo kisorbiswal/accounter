@@ -203,10 +203,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				.get(countryName);
 		if (countryPreferences != null) {
 			setStates(countryPreferences.getStates());
-			List<ClientCurrency> currenciesList = CoreUtils.getCurrencies();
+			List<ClientCurrency> currenciesList = CoreUtils
+					.getCurrencies(new ArrayList<ClientCurrency>());
 			for (int i = 0; i < currenciesList.size(); i++) {
-				if (countryPreferences.getPreferredCurrency().trim().equals(
-						currenciesList.get(i).getFormalName())) {
+				if (countryPreferences.getPreferredCurrency().trim()
+						.equals(currenciesList.get(i).getFormalName())) {
 					preferences.setPrimaryCurrency(currenciesList.get(i));
 				}
 			}
@@ -294,8 +295,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)
-			address.setCountryOrRegion(countries
-					.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
 		preferences.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)

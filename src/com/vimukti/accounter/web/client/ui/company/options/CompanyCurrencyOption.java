@@ -61,7 +61,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		primaryCurrenyLabel.setText(constants.primaryCurrency());
-		currenciesList = CoreUtils.getCurrencies();
+		currenciesList = CoreUtils.getCurrencies(getCompany().getCurrencies());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
@@ -84,8 +84,9 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	public void initData() {
 		for (int i = 0; i < currenciesList.size(); i++) {
 			if (getCompanyPreferences().getPrimaryCurrency() != null) {
-				if (getCompanyPreferences().getPrimaryCurrency().equals(
-						currenciesList.get(i).getFormalName())) {
+				if (getCompanyPreferences().getPrimaryCurrency()
+						.getFormalName()
+						.equals(currenciesList.get(i).getFormalName())) {
 					primaryCurrencyListBox.setSelectedIndex(i);
 				}
 			} else {

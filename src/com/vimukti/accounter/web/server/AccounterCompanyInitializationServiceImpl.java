@@ -111,6 +111,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		Transaction transaction = session.beginTransaction();
 		try {
 			Company company = new Company();
+			company.setTradingName(preferences.getTradingName());
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
 
@@ -127,6 +128,9 @@ public class AccounterCompanyInitializationServiceImpl extends
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getClient().getEmailId());
 
+			company.setConfigured(true);
+			session.saveOrUpdate(company);
+
 			// Updating CompanyPreferences
 			CompanyPreferences serverCompanyPreferences = company
 					.getPreferences();
@@ -134,15 +138,12 @@ public class AccounterCompanyInitializationServiceImpl extends
 			serverCompanyPreferences = new ServerConvertUtil().toServerObject(
 					serverCompanyPreferences, preferences, session);
 
-			company.setPreferences(serverCompanyPreferences);
 			company.getRegisteredAddress().setCountryOrRegion(
 					client.getCountry());
 			company.setRegisteredAddress(serverCompanyPreferences
 					.getTradingAddress());
 			// Initializing Accounts
-
-			company.setConfigured(true);
-			session.saveOrUpdate(company);
+			company.setPreferences(serverCompanyPreferences);
 			company.initialize(accounts);
 
 			session.saveOrUpdate(company);

@@ -17,7 +17,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
@@ -25,6 +24,7 @@ import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class CustomerManager extends Manager {
 
@@ -647,20 +646,17 @@ public class CustomerManager extends Manager {
 
 		for (MostProfitableCustomers mpc : queryResult) {
 			for (JournalEntry je : nonInvoicedLines) {
-				Entry e1 = je.getEntry().get(0);
-				Entry e2 = je.getEntry().get(1);
-				if (e1.getType() == Entry.TYPE_CUSTOMER
-						&& e1.getCustomer().getName().equals(mpc.getCustomer())) {
-					mpc.setBilledCost(mpc.getBilledCost()
-							+ (!DecimalUtil.isEquals(e2.getDebit(), 0.0) ? -1
-									* e2.getDebit() : e2.getCredit()));
-				} else if (e2.getType() == Entry.TYPE_CUSTOMER
-						&& e2.getCustomer().getName().equals(mpc.getCustomer())) {
-					mpc.setBilledCost(mpc.getBilledCost()
-							+ (!DecimalUtil.isEquals(e1.getDebit(), 0.0) ? -1
-									* e1.getDebit() : e1.getCredit()));
+				for (TransactionItem item : je.getTransactionItems()) {
+					if (je.getInvolvedPayee() != null
+							&& je.getInvolvedPayee() instanceof Customer
+							&& je.getInvolvedPayee().getName()
+									.equals(mpc.getCustomer())
+							&& item.getAccount().getID() == company
+									.getAccountsReceivableAccount().getID()) {
+						mpc.setBilledCost(mpc.getBilledCost()
+								+ item.getLineTotal());
+					}
 				}
-
 			}
 
 		}

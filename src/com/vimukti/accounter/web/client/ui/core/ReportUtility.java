@@ -106,6 +106,11 @@ public class ReportUtility {
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			transactionName = Global.get().messages()
 					.customerPrePayment(Global.get().Customer());
+			break;
+		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
+		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
+			transactionName = constants.taxAdjustment();
+			break;
 		}
 		return transactionName;
 	}

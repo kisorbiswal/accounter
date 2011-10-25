@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
@@ -185,6 +186,11 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_RECEIVE_VAT:
 			initCallBack(new ClientReceiveVAT(),
 					ActionFactory.getreceiveVATAction(), transactionId);
+			break;
+		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
+		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
+			initCallBack(new ClientTAXAdjustment(),
+					ActionFactory.getAdjustTaxAction(), transactionId);
 			break;
 		}
 

@@ -96,7 +96,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	public void onDoubleClick(ClientJournalEntry obj) {
-		ActionFactory.getNewJournalEntryAction().run(obj, true);
+		ActionFactory.getNewJournalEntryAction().run(obj, false);
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
@@ -86,10 +85,10 @@ public class ReportManager extends Manager {
 		long end = date[1] != null ? date[0].getDate() : endDate.getDate();
 
 		List l = ((Query) session.getNamedQuery("getCashFlowStatement")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("start", start)
-				.setParameter("end", end)).list();
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end)).list();
 
 		double netIncome = 0.0;
 		netIncome = getNetIncome(startDate, endDate, "getNetIncome", companyId);
@@ -157,9 +156,9 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionDetailByTaxItem")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -176,12 +175,13 @@ public class ReportManager extends Manager {
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"getTransactionDetailByTaxItemForParticularTaxItem")
-				.setParameter("companyId", companyId).setParameter(
-						"taxItemName", taxItemName).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+		Query query = session
+				.getNamedQuery(
+						"getTransactionDetailByTaxItemForParticularTaxItem")
+				.setParameter("companyId", companyId)
+				.setParameter("taxItemName", taxItemName)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -331,9 +331,9 @@ public class ReportManager extends Manager {
 
 			Query query = session
 					.getNamedQuery("getTransactionDetailByAccount")
-					.setParameter("companyId", companyId).setParameter(
-							"startDate", startDate.getDate()).setParameter(
-							"endDate", endDate.getDate());
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
 
 			List list = query.list();
 
@@ -407,13 +407,14 @@ public class ReportManager extends Manager {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session.getNamedQuery(
-					"getTransactionDetailByAccount_ForParticularAccount")
-					.setParameter("companyId", companyId).setParameter(
-							"accountName", accountName).setParameter(
+			Query query = session
+					.getNamedQuery(
+							"getTransactionDetailByAccount_ForParticularAccount")
+					.setParameter("companyId", companyId)
+					.setParameter("accountName", accountName).setParameter(
 
-					"startDate", startDate.getDate()).setParameter("endDate",
-							endDate.getDate());
+					"startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
 
 			List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 			List list = query.list();
@@ -463,8 +464,8 @@ public class ReportManager extends Manager {
 
 			if (t.getAccountFlow().startsWith(str + ".")) {
 
-				if (!t.getAccountFlow().substring(str.length() + 1).contains(
-						".")) {
+				if (!t.getAccountFlow().substring(str.length() + 1)
+						.contains(".")) {
 
 					if (!sortedList.contains(t)) {
 						// if (t.getAmount() != 0.0) {
@@ -492,8 +493,9 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query q = session.getNamedQuery(query).setParameter("companyId",
-				companyId).setParameter("startDate", startDate.getDate())
+		Query q = session.getNamedQuery(query)
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 
 		List l1 = q.list();
@@ -532,9 +534,10 @@ public class ReportManager extends Manager {
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getTrialBalance").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getTrialBalance")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		Object[] object = null;
@@ -557,8 +560,8 @@ public class ReportManager extends Manager {
 					.intValue());
 
 			Account parentAccount = (object[5] == null) ? null
-					: (Account) session.get(Account.class, ((Long) object[5])
-							.longValue());
+					: (Account) session.get(Account.class,
+							((Long) object[5]).longValue());
 			if (parentAccount != null) {
 				t.setParentAccount(parentAccount.getID());
 			}
@@ -601,8 +604,8 @@ public class ReportManager extends Manager {
 		List l = ((Query) session.getNamedQuery("getBalanceSheet")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		double netIncome = 0.0;
 		netIncome = getNetIncome(startDate, endDate,
@@ -690,10 +693,10 @@ public class ReportManager extends Manager {
 		List l = ((Query) session.getNamedQuery("getProfitAndLoss")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate()).setParameter(
-						"startDate1", startDate1.getDate()).setParameter(
-						"endDate1", endDate1.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("startDate1", startDate1.getDate())
+				.setParameter("endDate1", endDate1.getDate())).list();
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -760,12 +763,14 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List l = ((Query) session.getNamedQuery(
-				"getSalesByCustomerDetailForParticularCustomer").setParameter(
-				"companyId", companyId).setParameter("customerName",
-				customerName).setParameter("startDate",
+		List l = ((Query) session
+				.getNamedQuery("getSalesByCustomerDetailForParticularCustomer")
+				.setParameter("companyId", companyId)
+				.setParameter("customerName", customerName)
+				.setParameter("startDate",
 
-		startDate.getDate()).setParameter("endDate", endDate.getDate())).list();
+				startDate.getDate()).setParameter("endDate", endDate.getDate()))
+				.list();
 
 		return createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
 				l));
@@ -841,9 +846,9 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByCustomerDetail")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		return createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
@@ -869,10 +874,10 @@ public class ReportManager extends Manager {
 		end = (end * 100) + cal.get(Calendar.DAY_OF_MONTH);
 
 		Query query = session.getNamedQuery("getSalesTaxLiabilityReport")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("start", start)
-				.setParameter("end", end);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end);
 
 		List l = query.list();
 
@@ -916,17 +921,21 @@ public class ReportManager extends Manager {
 		// /getting entries from VATRAteCalculation
 		if (taxAgency != null) {
 
-			query = session.getNamedQuery(
-					"getTaxCalc.by.TaxAgencyId.and.withOtherDetails")
-					.setParameter("taxAgency", taxAgency.getID()).setParameter(
-							"fromDate", startDate).setParameter("toDate",
-							endDate).setEntity("company", company);
+			query = session
+					.getNamedQuery(
+							"getTaxCalc.by.TaxAgencyId.and.withOtherDetails")
+					.setParameter("taxAgency", taxAgency.getID())
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setEntity("company", company);
 		} else {
 
-			query = session.getNamedQuery(
-					"getTaxrateCalc.by.TaxAgencyandItem.and.Dates")
-					.setParameter("fromDate", startDate).setParameter("toDate",
-							endDate).setEntity("company", company);
+			query = session
+					.getNamedQuery(
+							"getTaxrateCalc.by.TaxAgencyandItem.and.Dates")
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setEntity("company", company);
 		}
 
 		List<TAXRateCalculation> vats = query.list();
@@ -982,9 +991,7 @@ public class ReportManager extends Manager {
 			vd.setTransactionType(v.getTransactionItem().getTransaction()
 					.getType());
 			vd.setVatRate(v.getTaxItem().getTaxRate());
-			vd
-					.setTransactionId(v.getTransactionItem().getTransaction()
-							.getID());
+			vd.setTransactionId(v.getTransactionItem().getTransaction().getID());
 			vd.setPercentage(v.getTaxItem().isPercentage());
 			vatDetailReport.getEntries().get(vd.getBoxName()).add(vd);
 
@@ -1095,15 +1102,17 @@ public class ReportManager extends Manager {
 			if (taxAgency != null) {
 				query = session.getNamedQuery(
 
-				"getTaxadjustment.by.allDetails.withOrder").setEntity(
-						"company", company).setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate).setParameter(
-								"taxAgency", taxAgency.getID());
+				"getTaxadjustment.by.allDetails.withOrder")
+						.setEntity("company", company)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session.getNamedQuery(
 
-				"getTaxadjustment.by.betweenDates").setEntity("company",
-						company).setParameter("fromDate", startDate)
+				"getTaxadjustment.by.betweenDates")
+						.setEntity("company", company)
+						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
 			}
 
@@ -1123,24 +1132,37 @@ public class ReportManager extends Manager {
 				if (!vd.getBoxName().equals(
 						AccounterServerConstants.UK_BOX10_UNCATEGORISED)) {
 
-					Entry e = v.getJournalEntry().getEntry().get(0);
-					if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-						vd.setTotal(e.getDebit());
+					if (v.getIncreaseVATLine()) {
+						if (!v.getTaxItem().isSalesType()) {
+							vd.setTotal(v.getTotal());
+						} else {
+							vd.setTotal(-1 * v.getTotal());
+						}
 					} else {
-						vd.setTotal(-1 * e.getCredit());
+						if (v.getTaxItem().isSalesType()) {
+							vd.setTotal(v.getTotal());
+						} else {
+							vd.setTotal(-1 * v.getTotal());
+						}
 					}
+
+					Account liabilityAccount = v.getTaxItem().isSalesType() == true ? v
+							.getTaxItem().getTaxAgency()
+							.getSalesLiabilityAccount()
+							: v.getTaxItem().getTaxAgency()
+									.getPurchaseLiabilityAccount();
 
 					if (vd.getBoxName().equals("VAT Due on sales (Box 1)"))
 						vd.setTotal(-1 * vd.getTotal());
 
-					vd.setPayeeName(e.getAccount().getName());
+					vd.setPayeeName(liabilityAccount.getName());
 
-					vd.setTransactionDate(new ClientFinanceDate(e
-							.getEntryDate().getDate()));
-					vd.setTransactionName(e.getJournalEntry().toString());
-					vd.setTransactionNumber(e.getJournalEntry().getNumber());
-					vd.setTransactionType(e.getJournalEntryType());
-					vd.setTransactionId(e.getJournalEntry().getID());
+					vd.setTransactionDate(new ClientFinanceDate(v.getDate()
+							.getDate()));
+					vd.setTransactionName(v.toString());
+					vd.setTransactionNumber(v.getNumber());
+					vd.setTransactionType(v.getType());
+					vd.setTransactionId(v.getID());
 
 					vatDetailReport.getEntries().get(vd.getBoxName()).add(vd);
 				}
@@ -1169,26 +1191,38 @@ public class ReportManager extends Manager {
 
 				vd1.setBoxName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
 
-				Entry e = v.getJournalEntry().getEntry().get(0);
-				if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-					vd1.setTotal(1 * e.getDebit());
+				if (v.getIncreaseVATLine()) {
+					if (!v.getTaxItem().isSalesType()) {
+						vd.setTotal(v.getTotal());
+					} else {
+						vd.setTotal(-1 * v.getTotal());
+					}
 				} else {
-					vd1.setTotal(-1 * e.getCredit());
+					if (v.getTaxItem().isSalesType()) {
+						vd.setTotal(v.getTotal());
+					} else {
+						vd.setTotal(-1 * v.getTotal());
+					}
 				}
 
 				if (v.getTaxItem().getName().equals("EC Sales Goods Standard")
-						|| v.getTaxItem().getName().equals(
-								"EC Sales Services Standard"))
+						|| v.getTaxItem().getName()
+								.equals("EC Sales Services Standard"))
 					vd1.setTotal(-1 * vd1.getTotal());
 
-				vd1.setPayeeName(e.getAccount().getName());
+				Account liabilityAccount = v.getTaxItem().isSalesType() == true ? v
+						.getTaxItem().getTaxAgency().getSalesLiabilityAccount()
+						: v.getTaxItem().getTaxAgency()
+								.getPurchaseLiabilityAccount();
 
-				vd1.setTransactionDate(new ClientFinanceDate(e.getEntryDate()
+				vd1.setPayeeName(liabilityAccount.getName());
+
+				vd1.setTransactionDate(new ClientFinanceDate(v.getDate()
 						.getDate()));
-				vd1.setTransactionName(e.getJournalEntry().toString());
-				vd1.setTransactionNumber(e.getJournalEntry().getNumber());
-				vd1.setTransactionType(e.getJournalEntryType());
-				vd1.setTransactionId(e.getJournalEntry().getID());
+				vd1.setTransactionName(v.toString());
+				vd1.setTransactionNumber(v.getNumber());
+				vd1.setTransactionType(v.getType());
+				vd1.setTransactionId(v.getID());
 
 				if (vatDetailReport.getEntries().get(vd1.getBoxName()) != null)
 					vatDetailReport.getEntries().get(vd1.getBoxName()).add(vd1);
@@ -1202,86 +1236,26 @@ public class ReportManager extends Manager {
 
 				"getVat.by.taxAgency.and.VatPeriod")
 
-				.setEntity("company", company).setParameter("fromDate",
-						startDate).setParameter("toDate", endDate)
+				.setEntity("company", company)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session.getNamedQuery(
 
 				"getVat.by.BetweenendDates").setEntity("company", company)
-						.setParameter("fromDate", startDate).setParameter(
-								"toDate", endDate);
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate);
 			}
 
 			List<VATReturn> vatReturns = query.list();
 			for (VATReturn v : vatReturns) {
 
-				List<Entry> entries = v.getJournalEntry().getEntry();
-				for (Entry e : entries) {
-					if ((!e.getAccount().getName().equals(
-							company.getAccountsPayableAccount().getName()))) {
-						// && ((e.getDebit() == 0 && e.getCredit() == 0))) {
-
-						if (e.getTaxItem() != null) {
-							VATDetail vd = new VATDetail();
-
-							vd.setBoxName(setVATBoxName(e.getTaxItem()
-									.getVatReturnBox().getVatBox()));
-							// vd.setBoxName("Uncategorised Tax Amounts");
-
-							if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-								vd.setTotal(-1 * e.getDebit());
-							} else {
-								vd.setTotal(-1 * e.getCredit());
-							}
-
-							vd.setTotal(-1 * e.getTotal());
-							vd.setPayeeName(e.getAccount().getName());
-							vd.setTransactionDate(new ClientFinanceDate(e
-									.getEntryDate().getDate()));
-							vd.setTransactionName(e.getJournalEntry()
-									.toString());
-							vd.setTransactionNumber(e.getJournalEntry()
-									.getNumber());
-							vd.setTransactionType(e.getJournalEntryType());
-							vd.setTransactionId(e.getJournalEntry().getID());
-
-							// if (vatDetailReport.getEntries().get(
-							// vd.getBoxName()) != null)
-							// vatDetailReport.getEntries().get(
-							// vd.getBoxName()).add(vd);
-
-						} else {
-							VATDetail vd = new VATDetail();
-
-							vd
-									.setBoxName(VATDetailReport.IRELAND_BOX10_UNCATEGORISED);
-
-							if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-								vd.setTotal(-1 * e.getDebit());
-							} else {
-								vd.setTotal(-1 * e.getCredit());
-							}
-
-							vd.setTransactionDate(new ClientFinanceDate(e
-									.getEntryDate().getDate()));
-							vd.setTransactionName(e.getJournalEntry()
-									.toString());
-							vd.setTransactionNumber(e.getJournalEntry()
-									.getNumber());
-							vd.setTransactionType(e.getJournalEntryType());
-							// vatDetailReport.getEntries().get(vd.getBoxName())
-							// .add(vd);
-						}
-					}
-
-				}
-
 				// Adding Filed vat entries to it's Respective boxes, except
 				// Box3 and Box5
 				Query query1 = session.getNamedQuery("getFiledBoxValues")
-						.setParameter("id", v.getID()).setParameter(
-								"companyId", company.getID());
+						.setParameter("id", v.getID())
+						.setParameter("companyId", company.getID());
 
 				List list = query1.list();
 				Object[] object = null;
@@ -1311,10 +1285,9 @@ public class ReportManager extends Manager {
 						vd.setTotal(-1 * (Double) object[1]);
 						vd.setTransactionDate(new ClientFinanceDate(
 								(Long) object[2]));
-						vd.setTransactionName(v.getJournalEntry().toString());
+						vd.setTransactionName(v.toString());
 						vd.setTransactionNumber((String) object[3]);
-						vd.setTransactionType(v.getJournalEntry().getEntry()
-								.get(0).getJournalEntryType());
+						vd.setTransactionType(v.getType());
 
 						if (vatDetailReport.getEntries().get(vd.getBoxName()) != null)
 							vatDetailReport.getEntries().get(vd.getBoxName())
@@ -1362,32 +1335,41 @@ public class ReportManager extends Manager {
 
 	private String setTotalBoxName(TAXRateCalculation v) {
 		String boxName = null;
-		if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+		if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX5_NET_VAT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX5_NET_VAT)) {
 			boxName = VATSummary.UK_BOX5_NET_VAT;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
 			boxName = VATSummary.UK_BOX6_TOTAL_NET_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
 			boxName = VATSummary.UK_BOX7_TOTAL_NET_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
 			boxName = VATSummary.UK_BOX10_UNCATEGORISED;
@@ -1405,8 +1387,8 @@ public class ReportManager extends Manager {
 		FinanceDate startDate;
 		{
 			Query q1 = session.getNamedQuery("getVATReturn.by.enddate")
-					.setParameter("endDate", endDate).setEntity("company",
-							company);
+					.setParameter("endDate", endDate)
+					.setEntity("company", company);
 
 			VATReturn vatReturn = (VATReturn) q1.uniqueResult();
 			if (vatReturn == null) {
@@ -1422,8 +1404,8 @@ public class ReportManager extends Manager {
 
 		}
 
-		VATDetailReport vatDetailReport = new VATDetailReport(vatAgency
-				.getVATReturn());
+		VATDetailReport vatDetailReport = new VATDetailReport(
+				vatAgency.getVATReturn());
 		prepareVATDetailReport(vatDetailReport, vatAgency, startDate, endDate,
 				company);
 
@@ -1498,18 +1480,15 @@ public class ReportManager extends Manager {
 			vatDetails.addAll(map
 					.get(VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS));
 
-		if (map
-				.containsKey(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES)
+		if (map.containsKey(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES)
 				&& map.get(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES)
 						.size() > 0)
 			vatDetails.addAll(map
 					.get(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES));
 
-		if (map
-				.containsKey(VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
-				&& map
-						.get(
-								VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
+		if (map.containsKey(VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
+				&& map.get(
+						VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
 						.size() > 0)
 			vatDetails
 					.addAll(map
@@ -1560,32 +1539,41 @@ public class ReportManager extends Manager {
 
 	private String setVATBoxName(TAXRateCalculation v) {
 		String boxName = null;
-		if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+		if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
+				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
+				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX5_NET_VAT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX5_NET_VAT)) {
 			boxName = VATSummary.UK_BOX5_NET_VAT;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
 			boxName = VATSummary.UK_BOX6_TOTAL_NET_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
 			boxName = VATSummary.UK_BOX7_TOTAL_NET_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
+				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
 			boxName = VATSummary.UK_BOX10_UNCATEGORISED;
@@ -1600,10 +1588,10 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getCheckDetailReport")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("paymentmethod",
-						paymentmethod);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("paymentmethod", paymentmethod);
 		List list = query.list();
 		Object[] object = null;
 		Iterator iterator = list.iterator();
@@ -1638,9 +1626,10 @@ public class ReportManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getExpenseReportByType")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("type", type);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("type", type);
 		list = query.list();
 
 		Object[] object = null;
@@ -1655,10 +1644,8 @@ public class ReportManager extends Manager {
 					: null);
 			expense.setTransactionType(object[1] != null ? (Integer) object[1]
 					: null);
-			expense
-					.setTransactionDate(object[2] != null ? new ClientFinanceDate(
-							((Long) object[2]))
-							: null);
+			expense.setTransactionDate(object[2] != null ? new ClientFinanceDate(
+					((Long) object[2])) : null);
 			expense.setTransactionNumber(object[3] != null ? (String) object[3]
 					: null);
 			expense.setMemo(object[4] != null ? (String) object[4] : null);
@@ -1683,10 +1670,11 @@ public class ReportManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		// Getting entries from VATRateCalculation
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.datesand.orderby.transactionItem")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("company", company);
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.by.datesand.orderby.transactionItem")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -1707,17 +1695,25 @@ public class ReportManager extends Manager {
 						|| (transactionItemId != v.getTransactionItem().getID())) {
 
 					if (maps.containsKey(s)) {
-						maps.put(s, maps.get(s) + v.getVatAmount()
-								+ v.getLineTotal());
+						maps.put(
+								s,
+								maps.get(s) + v.getVatAmount()
+										+ v.getLineTotal());
 						if (v.getTransactionItem().isVoid()) {
-							maps.put(s, maps.get(s)
-									- (v.getVatAmount() + v.getLineTotal()));
+							maps.put(
+									s,
+									maps.get(s)
+											- (v.getVatAmount() + v
+													.getLineTotal()));
 						}
 					} else {
 						maps.put(s, v.getVatAmount() + v.getLineTotal());
 						if (v.getTransactionItem().isVoid()) {
-							maps.put(s, maps.get(s)
-									- (v.getVatAmount() + v.getLineTotal()));
+							maps.put(
+									s,
+									maps.get(s)
+											- (v.getVatAmount() + v
+													.getLineTotal()));
 						}
 					}
 
@@ -1753,9 +1749,9 @@ public class ReportManager extends Manager {
 
 		List<VATSummary> vatSummaries = createRows(taxAgency);
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"getVATReturn.checkingby.taxagencyidand.dates").setLong("id",
-				taxAgency.getID()).setEntity("company", company);
+		Query query = session
+				.getNamedQuery("getVATReturn.checkingby.taxagencyidand.dates")
+				.setLong("id", taxAgency.getID()).setEntity("company", company);
 
 		Object object[] = null;
 		List list = query.list();
@@ -1774,18 +1770,21 @@ public class ReportManager extends Manager {
 
 		if (leastStartDate != null && highestEndDate != null) {
 
-			query = session.getNamedQuery(
-					"getTAXRateCalculation.by.datesand.vatReturn")
-					.setParameter("startDate", fromDate).setParameter(
-							"endDate", toDate).setEntity("company", company);
+			query = session
+					.getNamedQuery(
+							"getTAXRateCalculation.by.datesand.vatReturn")
+					.setParameter("startDate", fromDate)
+					.setParameter("endDate", toDate)
+					.setEntity("company", company);
 			// .setParameter("startDate1",
 			// leastStartDate).setParameter("endDate1",
 			// highestEndDate);
 			// v.transactionDate not between :startDate1 and :endDate1")
 		} else {
 			query = session.getNamedQuery("getTAXRateCalculation.by.dates")
-					.setParameter("startDate", fromDate).setParameter(
-							"endDate", toDate).setEntity("company", company);
+					.setParameter("startDate", fromDate)
+					.setParameter("endDate", toDate)
+					.setEntity("company", company);
 		}
 
 		List<TAXRateCalculation> vats = query.list();
@@ -1813,31 +1812,25 @@ public class ReportManager extends Manager {
 
 			for (VATSummary vs : vatSummaries) {
 
-				if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-						vs.getVatReturnEntryName())) {
+				if (v.getTaxItem().getVatReturnBox().getVatBox()
+						.equals(vs.getVatReturnEntryName())) {
 
-					if (v
-							.getTaxItem()
+					if (v.getTaxItem()
 							.getVatReturnBox()
 							.getVatBox()
-							.equals(
-									AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
-							|| (v
-									.getTaxItem()
+							.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+							|| (v.getTaxItem()
 									.getVatReturnBox()
 									.getVatBox()
-									.equals(
-											AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !v
+									.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !v
 									.isVATGroupEntry())
-							|| (v
-									.getTaxItem()
+							|| (v.getTaxItem()
 									.getVatReturnBox()
 									.getVatBox()
-									.equals(
-											AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && v
+									.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && v
 									.getTaxItem().getVatReturnBox()
-									.getTotalBox().equals(
-											AccounterServerConstants.BOX_NONE)))
+									.getTotalBox()
+									.equals(AccounterServerConstants.BOX_NONE)))
 						vs.setValue(vs.getValue() + (-1 * (v.getVatAmount())));
 					else
 						vs.setValue(vs.getValue() + v.getVatAmount());
@@ -1852,8 +1845,8 @@ public class ReportManager extends Manager {
 					// }
 				}
 
-				if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-						vs.getVatReturnEntryName())) {
+				if (v.getTaxItem().getVatReturnBox().getTotalBox()
+						.equals(vs.getVatReturnEntryName())) {
 
 					vs.setValue(vs.getValue() + v.getLineTotal());
 
@@ -1863,8 +1856,9 @@ public class ReportManager extends Manager {
 
 		query = session
 				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
-				.setParameter("fromDate", fromDate).setParameter("toDate",
-						toDate).setParameter("taxAgency", taxAgency.getID())
+				.setParameter("fromDate", fromDate)
+				.setParameter("toDate", toDate)
+				.setParameter("taxAgency", taxAgency.getID())
 				.setEntity("company", company);
 
 		List<TAXAdjustment> vas = query.list();
@@ -1882,8 +1876,8 @@ public class ReportManager extends Manager {
 					// box2Amount = 0.0;
 					// }
 
-					if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-							vs.getVatReturnEntryName())) {
+					if (v.getTaxItem().getVatReturnBox().getVatBox()
+							.equals(vs.getVatReturnEntryName())) {
 						if (v.getIncreaseVATLine())
 							vs.setValue(vs.getValue() + v.getTotal());
 						else
@@ -2024,9 +2018,9 @@ public class ReportManager extends Manager {
 		// Entries from Sales where Vat Codes EGS and RC are used
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("getEGSandRCentriesFromSales")
-				.setParameter("startDate", fromDate.getDate()).setParameter(
-						"endDate", toDate.getDate()).setLong("companyId",
-						companyId);
+				.setParameter("startDate", fromDate.getDate())
+				.setParameter("endDate", toDate.getDate())
+				.setLong("companyId", companyId);
 
 		List list2 = query.list();
 		Object[] object = null;
@@ -2045,38 +2039,31 @@ public class ReportManager extends Manager {
 			uncategorisedAmounts.add(u);
 		}
 
-		query = session.getNamedQuery(
-				"getTAXAdjustment.checkingby.transactionDate").setParameter(
-				"endDate", toDate).setEntity("company", getCompany(companyId));
+		query = session
+				.getNamedQuery("getTAXAdjustment.checkingby.transactionDate")
+				.setParameter("endDate", toDate)
+				.setEntity("company", getCompany(companyId));
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 
 		for (TAXAdjustment v : vatAdjustments) {
 
-			if (v.getJournalEntry().getEntry() != null
-					&& v.getJournalEntry().getEntry().size() > 0
-					&& !DecimalUtil.isEquals(v.getJournalEntry().getEntry()
-							.get(0).getTotal(), 0)) {
+			if (!DecimalUtil.isEquals(v.getTotal(), 0)) {
 
 				UncategorisedAmountsReport u = new UncategorisedAmountsReport();
 
-				u.setTransactionType(v.getJournalEntry().getType());
-				u.setTransactionNumber(v.getJournalEntry().getNumber());
-				u.setID(v.getJournalEntry().getID());
-				u.setSourceName(v.getJournalEntry().getEntry().get(1)
-						.getAccount().getName());
+				u.setTransactionType(v.getType());
+				u.setTransactionNumber(v.getNumber());
+				u.setID(v.getID());
+				u.setSourceName(v.getAdjustmentAccount().getName());
 				u.setMemo("VAT Adjustment");
-				u.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-						.getDate()));
+				u.setDate(new ClientFinanceDate(v.getDate().getDate()));
 				if (v.getTaxItem().isSalesType()) {
 					if (v.getIncreaseVATLine()) {
 
-						u.setAmount(-1
-								* (v.getJournalEntry().getEntry().get(0)
-										.getTotal()));
+						u.setAmount(-1 * (v.getTotal()));
 					} else {
-						u.setAmount((v.getJournalEntry().getEntry().get(0)
-								.getTotal()));
+						u.setAmount(v.getTotal());
 					}
 
 					if ((v.getTaxItem().getName()
@@ -2090,12 +2077,9 @@ public class ReportManager extends Manager {
 				} else {
 					if (v.getIncreaseVATLine()) {
 
-						u.setAmount((v.getJournalEntry().getEntry().get(0)
-								.getTotal()));
+						u.setAmount(v.getTotal());
 					} else {
-						u.setAmount(-1
-								* (v.getJournalEntry().getEntry().get(0)
-										.getTotal()));
+						u.setAmount(-1 * v.getTotal());
 					}
 				}
 
@@ -2105,9 +2089,9 @@ public class ReportManager extends Manager {
 
 		// Entries from VATReturn;
 
-		query = session.getNamedQuery(
-				"getTAXAdjustment.checkingby.VATperiodEndDate").setParameter(
-				"endDate", toDate).setEntity("company", company);
+		query = session
+				.getNamedQuery("getTAXAdjustment.checkingby.VATperiodEndDate")
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<VATReturn> vatReturns = query.list();
 		for (VATReturn v : vatReturns) {
@@ -2119,14 +2103,13 @@ public class ReportManager extends Manager {
 
 				UncategorisedAmountsReport u = new UncategorisedAmountsReport();
 
-				u.setTransactionType(v.getJournalEntry().getType());
-				u.setTransactionNumber(v.getJournalEntry().getNumber());
-				u.setID(v.getJournalEntry().getID());
-				u.setSourceName(v.getJournalEntry().getEntry().get(0)
-						.getAccount().getName());
+				u.setTransactionType(v.getType());
+				u.setTransactionNumber(v.getNumber());
+				u.setID(v.getID());
+				u.setSourceName(v.getTaxAgency().getPurchaseLiabilityAccount()
+						.getName());
 				u.setMemo("Filed Uncategorised amounts");
-				u.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-						.getDate()));
+				u.setDate(new ClientFinanceDate(v.getDate().getDate()));
 
 				// if (amount > 0)
 				u.setAmount(-1 * (amount));
@@ -2150,10 +2133,10 @@ public class ReportManager extends Manager {
 		Company company = getCompany(companyId);
 		// Entries from the VATRate calculation
 
-		Query query = session.getNamedQuery(
-				"getTAXAdjustment.by.taxAgencyidanddates").setParameter(
-				"startDate", fromDate).setParameter("endDate", toDate)
-				.setEntity("company", company);
+		Query query = session
+				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 		for (TAXRateCalculation v : taxRateCalculations) {
@@ -2163,9 +2146,7 @@ public class ReportManager extends Manager {
 			vi.setDate(new ClientFinanceDate(v.getTransactionDate().getDate()));
 			vi.setName(v.getTransactionItem().getTransaction()
 					.getInvolvedPayee().getName());
-			vi
-					.setTransactionId(v.getTransactionItem().getTransaction()
-							.getID());
+			vi.setTransactionId(v.getTransactionItem().getTransaction().getID());
 			vi.setMemo(v.getTransactionItem().getTransaction().getMemo());
 			vi.setTransactionNumber(v.getTransactionItem().getTransaction()
 					.getNumber());
@@ -2181,8 +2162,8 @@ public class ReportManager extends Manager {
 		query = session
 				.getNamedQuery(
 						"getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("company", company);
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 		for (TAXAdjustment v : vatAdjustments) {
@@ -2190,17 +2171,16 @@ public class ReportManager extends Manager {
 			VATItemDetail vi = new VATItemDetail();
 
 			if (v.getIncreaseVATLine()) {
-				vi.setAmount(v.getJournalEntry().getTotal());
+				vi.setAmount(v.getTotal());
 			} else {
-				vi.setAmount(-1 * v.getJournalEntry().getTotal());
+				vi.setAmount(-1 * v.getTotal());
 			}
-			vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-					.getDate()));
+			vi.setDate(new ClientFinanceDate(v.getDate().getDate()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
-			vi.setTransactionId(v.getJournalEntry().getID());
-			vi.setTransactionNumber(v.getJournalEntry().getNumber());
-			vi.setTransactionType(v.getJournalEntry().getType());
+			vi.setTransactionId(v.getID());
+			vi.setTransactionNumber(v.getNumber());
+			vi.setTransactionType(v.getType());
 			vatItemDetails.add(vi);
 		}
 
@@ -2220,10 +2200,12 @@ public class ReportManager extends Manager {
 
 		// Entries from the VATRate calculation
 
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setParameter("taxItemName", taxItemName)
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate)
+				.setParameter("taxItemName", taxItemName)
 				.setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
@@ -2287,11 +2269,12 @@ public class ReportManager extends Manager {
 		}
 
 		// Entries from the VATAdjustment
-		query = session.getNamedQuery(
-				"getTAXAdjustment.by.dates.and.taxItemName").setParameter(
-				"startDate", fromDate).setParameter("endDate", toDate)
-				.setParameter("taxItemName", taxItemName).setEntity("company",
-						company);
+		query = session
+				.getNamedQuery("getTAXAdjustment.by.dates.and.taxItemName")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate)
+				.setParameter("taxItemName", taxItemName)
+				.setEntity("company", company);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 		for (TAXAdjustment v : vatAdjustments) {
@@ -2299,17 +2282,16 @@ public class ReportManager extends Manager {
 			VATItemDetail vi = new VATItemDetail();
 
 			if (v.getIncreaseVATLine()) {
-				vi.setAmount(v.getJournalEntry().getTotal());
+				vi.setAmount(v.getTotal());
 			} else {
-				vi.setAmount(-1 * v.getJournalEntry().getTotal());
+				vi.setAmount(-1 * v.getTotal());
 			}
-			vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-					.getDate()));
+			vi.setDate(new ClientFinanceDate(v.getDate().getDate()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
-			vi.setTransactionId(v.getJournalEntry().getID());
-			vi.setTransactionNumber(v.getJournalEntry().getNumber());
-			vi.setTransactionType(v.getJournalEntry().getType());
+			vi.setTransactionId(v.getID());
+			vi.setTransactionNumber(v.getNumber());
+			vi.setTransactionType(v.getType());
 			// vatItemDetails.add(vi);
 		}
 
@@ -2327,10 +2309,11 @@ public class ReportManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		// Getting entries from VATRateCalculation
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.dates.orderbytaxItem.name")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("company", company);
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.by.dates.orderbytaxItem.name")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -2388,8 +2371,8 @@ public class ReportManager extends Manager {
 		Query query = session
 				.getNamedQuery(
 						"getTAXRateCalculation.by.check.taxItemandDates.orderBy.transactionItem")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("company", company);
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -2496,10 +2479,10 @@ public class ReportManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 
 		// Getting entries from VATRateCalculation
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.check.taxItemandDates").setParameter(
-				"startDate", fromDate).setParameter("endDate", toDate)
-				.setEntity("company", company);
+		Query query = session
+				.getNamedQuery("getTAXRateCalculation.by.check.taxItemandDates")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -2568,10 +2551,11 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session.getNamedQuery(
-				"getReverseChargeListDetailReportEntries").setParameter(
-				"startDate", fromDate.getDate()).setParameter("endDate",
-				toDate.getDate()).setParameter("companyId", companyId);
+		Query query = session
+				.getNamedQuery("getReverseChargeListDetailReportEntries")
+				.setParameter("startDate", fromDate.getDate())
+				.setParameter("endDate", toDate.getDate())
+				.setParameter("companyId", companyId);
 
 		Map<String, List<ReverseChargeListDetail>> maps = new LinkedHashMap<String, List<ReverseChargeListDetail>>();
 
@@ -2653,9 +2637,10 @@ public class ReportManager extends Manager {
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAgedDebtors").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getAgedDebtors")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
@@ -2669,8 +2654,8 @@ public class ReportManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("getTransactionDate.by.dates")
-				.setParameter("startDate", startDate).setParameter("endDate",
-						endDate).setEntity("company", company);
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate).setEntity("company", company);
 		return null;
 	}
 
@@ -2678,9 +2663,10 @@ public class ReportManager extends Manager {
 			FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAgedCreditors").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getAgedCreditors")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
@@ -2718,8 +2704,8 @@ public class ReportManager extends Manager {
 			agedDebtors.setTransactionId((Long) object[12]);
 			agedDebtors
 					.setMemo(object[13] != null ? (String) object[13] : null);
-			long ageing = getAgeing(agedDebtors.getDate(), agedDebtors
-					.getDueDate(), endDate, companyId);
+			long ageing = getAgeing(agedDebtors.getDate(),
+					agedDebtors.getDueDate(), endDate, companyId);
 			int category = getCategory(ageing);
 			agedDebtors.setAgeing(ageing);
 			agedDebtors.setCategory(category);
@@ -2780,10 +2766,11 @@ public class ReportManager extends Manager {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getCreatableStatementForCustomer").setParameter(
-					"startDate", fromDate.getDate()).setParameter("endDate",
-					toDate.getDate()).setParameter("customerId", id)
+			Query query = session
+					.getNamedQuery("getCreatableStatementForCustomer")
+					.setParameter("startDate", fromDate.getDate())
+					.setParameter("endDate", toDate.getDate())
+					.setParameter("customerId", id)
 					.setParameter("companyId", companyId);
 
 			List list = query.list();
@@ -2838,8 +2825,8 @@ public class ReportManager extends Manager {
 					statementsList.setTransactionId(object[16] == null ? null
 							: ((Long) object[16]).longValue());
 					long ageing = getAgeing(
-							statementsList.getTransactionDate(), statementsList
-									.getDueDate(), toDate, companyId);
+							statementsList.getTransactionDate(),
+							statementsList.getDueDate(), toDate, companyId);
 					statementsList.setAgeing(ageing);
 					statementsList.setCategory(getCategory(ageing));
 
