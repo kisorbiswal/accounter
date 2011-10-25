@@ -239,6 +239,27 @@ public class ContactsTable extends EditTable<ClientContact> {
 		return getAllRows();
 	}
 
+	public boolean isEmpty() {
+		if (getAllRows().isEmpty())
+			return true;
+		for (int i = 0; i < getAllRows().size(); i++) {
+			if (getAllRows().get(i).getTitle().isEmpty()
+					&& getAllRows().get(i).getEmail().isEmpty()
+					&& getAllRows().get(i).getDisplayName().isEmpty()
+					&& getAllRows().get(i).getBusinessPhone().isEmpty()) {
+				delete(getRecords().get(i));
+				i = 0;
+				continue;
+			} else {
+				if (getAllRows().isEmpty())
+					return true;
+				else
+					continue;
+			}
+		}
+		return false;
+	}
+
 	public void validate(ValidationResult result) {
 		for (int i = 0; i < getAllRows().size(); i++) {
 			for (int j = 0; j < getAllRows().size(); j++) {
