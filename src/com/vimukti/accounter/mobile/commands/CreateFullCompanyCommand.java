@@ -34,21 +34,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	private static final String CREATE_ESTIMATES = "createestimates";
 	private static final String SELECT_CURRENCY = "selectcurrency";
 	private static final String MANAGE_BILLS_OWE = "managebills";
-	private static final String STATES = "statesList";
-	private static final String TIME_ZONES = "timezoneslist";
-	private static final String CUSTOMER_TERMINOLOGIES = "customerterms";
-	private static final String SUPPLIER_TERMINOLOGIES = "supplierterms";
-	private static final String ACCOUNT_TERMINOLOGIES = "accountterms";
-	private static final String SERVICE_PRODUCTS = "serproboth";
 	private static final String TRACK_TAX_PAD = "tracktaxpad";
 	private static final String ONE_PER_TRANSACTION = "onepertrans";
-	private static final String ACCOUNTS_LIST = "accountslist";
-	private static final String CURRENCIES = "selectcurrencies";
-
-	private static final String VALUES = "values";
-
-	private String country;
-	private String industry;
 
 	@Override
 	public String getWelcomeMessage() {
@@ -74,13 +61,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		list.add(new CountryRequirement(COUNTRY, getMessages().pleaseSelect(
 				getConstants().country()), getConstants().country(), true,
-				true, new ChangeListner<String>() {
-
-					@Override
-					public void onSelection(String value) {
-						country = value;
-					}
-				}));
+				true, null));
 
 		list.add(new StringListRequirement(STATE, "Enter State", "State", true,
 				true, null) {
@@ -97,7 +78,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getStatesList(country);
+				return getStatesList((String) get(COUNTRY).getValue());
 			}
 		});
 
@@ -148,7 +129,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 					@Override
 					public void onSelection(String value) {
-						industry = value;
 						setDefaultAccounts();
 					}
 				}) {
@@ -414,7 +394,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	}
 
 	private void setDefaultAccounts() {
-		int industryType = getIndustryList().indexOf(industry) + 1;
+		int industryType = getIndustryList().indexOf(
+				(String) get(INDUSTRY).getValue()) + 1;
 		get(ACCOUNTS).setDefaultValue(getDefaultTemplateAccounts(industryType));
 	}
 
