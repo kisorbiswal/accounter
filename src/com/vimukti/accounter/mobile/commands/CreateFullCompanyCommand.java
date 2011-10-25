@@ -69,59 +69,15 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new NameRequirement(TAX_ID, "Enter Tax Id", "Tax Id", true,
 				true));
 
-		list.add(new ListRequirement<String>(COUNTRY, getMessages()
-				.pleaseSelect(getConstants().country()), getConstants()
-				.country(), true, true, new ChangeListner<String>() {
-
-			@Override
-			public void onSelection(String value) {
-				country = value;
-			}
-		}) {
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
-
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().country());
-			}
-
-			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
+		list.add(new CountryRequirement(COUNTRY, getMessages().pleaseSelect(
+				getConstants().country()), getConstants().country(), true,
+				true, new ChangeListner<String>() {
 
 					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
+					public void onSelection(String value) {
+						country = value;
 					}
-				}, getCountryList());
-			}
-
-			@Override
-			protected List<String> getLists(Context context) {
-				return getCountryList();
-			}
-		});
+				}));
 
 		list.add(new ListRequirement<String>(STATE, "Enter State", "State",
 				true, true, null) {
@@ -167,6 +123,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected List<String> getLists(Context context) {
 				return getStatesList(country);
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "State has been selected";
 			}
 		});
 
@@ -236,6 +197,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected List<String> getLists(Context context) {
 				return getTimeZonesList();
 			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Time Zone has been selected";
+			}
 		});
 
 		// Second Page
@@ -292,6 +258,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected List<String> getLists(Context context) {
 				return getIndustryList();
 			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Industry has been selected";
+			}
 		});
 
 		list.add(new ListRequirement<String>(ORGANIZATION_REFER,
@@ -339,6 +310,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getEmptyString() {
 				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Company Organization has been selected";
 			}
 
 		});
@@ -389,6 +365,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getEmptyString() {
 				return null;
 			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Customer Terminology has been selected";
+			}
 		});
 
 		list.add(new ListRequirement<String>(SUPPLIER_TERMINOLOGY,
@@ -437,6 +418,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getEmptyString() {
 				return null;
 			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Vendor Terminology has been selected";
+			}
 		});
 
 		list.add(new ListRequirement<String>(ACCOUNT_TERMINOLOGY, getMessages()
@@ -484,6 +470,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getEmptyString() {
 				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Account Terminology has been selected";
 			}
 		});
 
@@ -534,6 +525,12 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getEmptyString() {
 				return null;
 			}
+
+			@Override
+			protected String getSetMessage() {
+				String v = getValue();
+				return "You have " + v + " selected";
+			}
 		});
 
 		list.add(new BooleanRequirement(TRACK_TAX, true) {
@@ -549,7 +546,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new BooleanRequirement(TRACK_TAX_PAD, true) {
+		list.add(new BooleanRequirement(ONE_PER_TRANSACTION, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -691,6 +688,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected List<String> getLists(Context context) {
 				return getFiscalYearMonths();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Fiscal year has been selected";
 			}
 		});
 
