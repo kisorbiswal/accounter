@@ -92,12 +92,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		listforms = new ArrayList<DynamicForm>();
 
 		employeeNameText = new TextItem(Accounter.constants().salesPersonName());
-		employeeNameText.setWidth("205px");
+		employeeNameText.setWidth("200px");
 		employeeNameText.setRequired(true);
 		employeeNameText.setDisabled(isInViewMode());
 
 		fileAsText = new TextItem(Accounter.constants().fileAs());
-		fileAsText.setWidth("205px");
+		fileAsText.setWidth("200px");
 		fileAsText.setDisabled(isInViewMode());
 		employeeNameText.addChangeHandler(new ChangeHandler() {
 
@@ -111,17 +111,17 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		});
 
 		jobTitleText = new TextItem(Accounter.constants().jobTitle());
-		jobTitleText.setWidth("205px");
+		jobTitleText.setWidth("200px");
 		jobTitleText.setDisabled(isInViewMode());
 
 		salesPersonForm = UIUtils.form(Accounter.constants().salesPerson());
-		salesPersonForm.setWidth("80%");
+		//salesPersonForm.setWidth("80%");
 		salesPersonForm.setFields(employeeNameText, fileAsText, jobTitleText);
-		salesPersonForm.getCellFormatter().setWidth(0, 0, "250px");
+		salesPersonForm.getCellFormatter().setWidth(0, 0, "200px");
 
 		expenseAccountForm = UIUtils.form(Accounter.messages().expenseAccount(
 				Global.get().Account()));
-		expenseAccountForm.setWidth("80%");
+		//expenseAccountForm.setWidth("80%");
 		expenseSelect = new GridAccountsCombo(Accounter.messages()
 				.expenseAccount(Global.get().Account()));
 		expenseSelect.setWidth("185px");
@@ -139,7 +139,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		expenseAccountForm.setFields(expenseSelect);
 
 		memoForm = new DynamicForm();
-		memoForm.setWidth("41%");
+		memoForm.setWidth("100%");
 		memoArea = new TextAreaItem();
 		memoArea.setWidth(100);
 		memoArea.setTitle(Accounter.constants().memo());
@@ -151,7 +151,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				.setVerticalAlign(VerticalAlign.TOP);
 		// memoForm.getCellFormatter().getElement(0, 1).getStyle().setWidth(239,
 		// Unit.PX);
-		memoForm.getCellFormatter().setWidth(0, 0, "205");
+		memoForm.getCellFormatter().setWidth(0, 0, "200");
 		salesPersonInfoForm = UIUtils.form(Accounter.constants()
 				.salesPersonInformation());
 		salesPersonInfoForm.setStyleName("align-form");
@@ -224,7 +224,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// XXX
 		addrsForm = new DynamicForm();
 		addrArea = new TextAreaItem(Accounter.constants().address());
-		addrArea.setWidth("205px");
+		addrArea.setWidth("200px");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
 		addrArea.setDisabled(isInViewMode());
@@ -293,9 +293,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 			fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			fonFaxForm.setWidth("80%");
+			//fonFaxForm.setWidth("80%");
 			fonFaxForm.setHeight("60px");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
+			fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			fonFaxForm.setDisabled(isInViewMode());
 			fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
@@ -328,19 +328,19 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// addrsForm = new AddressForm(null);
 			fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			fonFaxForm.setWidth("80%");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
+			//fonFaxForm.setWidth("80%");
+			fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm = new EmailForm(null, null, this, this.getAction()
 					.getViewName());
 			emailForm.setWidth("100%");
-			emailForm.getCellFormatter().setWidth(0, 0, "150");
+			emailForm.getCellFormatter().setWidth(0, 0, "200");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
 		}
-		addrsForm.setWidth("84%");
-		// addrsForm.getCellFormatter().setWidth(0, 0, "65");
+		addrsForm.setWidth("100%");
+		addrsForm.getCellFormatter().setWidth(0, 0, "200");
 		addrsForm.getCellFormatter().setWidth(0, 1, "125");
 		addrsForm.setFields(addrArea);
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -356,7 +356,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		rightVLay.getElement().getStyle().setMarginLeft(35, Unit.PX);
 		rightVLay.add(emailForm);
 		rightVLay.add(salesPersonInfoForm);
-		salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "150");
+		salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		HorizontalPanel topHLay = new HorizontalPanel();
 		// topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
