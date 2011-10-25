@@ -213,7 +213,7 @@
 	<taxGroups>
 		<ClientTAXGroup>
 			<taxItems></taxItems>
-			<groupRate></groupRate>
+			<groupRate>0.00</groupRate>
 		</ClientTAXGroup>
 	</taxGroups>
 
@@ -221,11 +221,10 @@
 	<!-- ClientPaySalesTax object -->
 	<paySalesTaxs>
 		<ClientPaySalesTax>
-			<payFrom></payFrom>
-			<billsDueOnOrBefore></billsDueOnOrBefore>
-			<taxAgency></taxAgency>
-			<amount></amount>
-			<endingBalance></endingBalance>
+			<payFrom>1</payFrom>
+			<billsDueOnOrBefore>1</billsDueOnOrBefore>
+			<taxAgency>1</taxAgency>
+			<endingBalance>1000</endingBalance>
 			<isEdited>FALSE</isEdited>
 		</ClientPaySalesTax>
 	</paySalesTaxs>
@@ -234,10 +233,10 @@
 	<!-- ClientCreditRating object -->
 	<creditRatings>
 		<ClientCreditRating>
-			<id></id>
+			<id>1</id>
 			<name></name>
 			<isDefault></isDefault>
-			<version></version>
+			<version>0</version>
 		</ClientCreditRating>
 	</creditRatings>
 
@@ -252,14 +251,14 @@
 	<!-- ClientTAXItemGroup object -->
 	<taxItemGroups>
 		<ClientTAXItemGroup>
-			<id></id>
+			<id>1</id>
 			<name></name>
 			<description></description>
 			<isActive></isActive>
 			<isSalesType></isSalesType>
 			<isPercentage></isPercentage>
 			<isDefault></isDefault>
-			<version></version>
+			<version>0</version>
 		</ClientTAXItemGroup>
 	</taxItemGroups>
 
@@ -274,14 +273,35 @@
 	<!-- ClientFixedAsset object -->
 	<fixedAssets>
 		<ClientFixedAsset>
-			<id></id>
-			<startDate></startDate>
-			<endDate></endDate>
-			<status></status>
-			<isCurrentFiscalYear></isCurrentFiscalYear>
-			<previousStartDate></previousStartDate>
-			<version></version>
-			<isDefault></isDefault>
+			<id>1</id>
+			<name></name>
+			<assetNumber></assetNumber>
+			<assetAccount>1001</assetAccount>
+			<linkedAccumulatedDepreciationAccount>10001</linkedAccumulatedDepreciationAccount>
+			<purchaseDate>20011226</purchaseDate>
+			<purchasePrice>10001</purchasePrice>
+			<description></description>
+			<assetType></assetType>
+			<depreciationRate>0.0</depreciationRate>
+			<depreciationMethod>1</depreciationMethod>
+			<depreciationExpenseAccount>10000</depreciationExpenseAccount>
+			<accumulatedDepreciationAmount>1000</accumulatedDepreciationAmount>
+			<status>1</status>
+			<bookValue>10000</bookValue>
+			<isSoldOrDisposed>10000</isSoldOrDisposed>
+			<fixedAssetNotes></fixedAssetNotes>
+			<fixedAssetsHistory></fixedAssetsHistory>
+			<soldOrDisposedDate>20110620</soldOrDisposedDate>
+			<accountForSale></accountForSale>
+			<salePrice>0.00</salePrice>
+			<noDepreciation></noDepreciation>
+			<depreciationTillDate>20110606</depreciationTillDate>
+			<notes></notes>
+			<lossOrGainOnDisposalAccount>10000</lossOrGainOnDisposalAccount>
+			<totalCapitalGain>1</totalCapitalGain>
+			<totalCapitalGainAmount>0.0</totalCapitalGainAmount>
+			<lossOrGain>0.0</lossOrGain>
+			<version>0</version>
 		</ClientFixedAsset>
 	</fixedAssets>
 
@@ -289,43 +309,42 @@
 	<!-- ClientVATReturn object -->
 	<vatReturns>
 		<ClientVATReturn>
-			<VATperiodStartDate></VATperiodStartDate>
-			<VATperiodEndDate></VATperiodEndDate>
-			<taxAgency></taxAgency>
+			<VATperiodStartDate>20110606</VATperiodStartDate>
+			<VATperiodEndDate>20110606</VATperiodEndDate>
+			<taxAgency>1</taxAgency>
 			<boxes></boxes>
-			<journalEntry></journalEntry>
-			<balance></balance>
+			<journalEntry>1</journalEntry>
+			<balance>0.0</balance>
 		</ClientVATReturn>
 	</vatReturns>
 
 	<!-- ClientTAXAgency object -->
 	<taxAgencies>
 		<ClientTAXAgency>
-			<paymentTerm></paymentTerm>
-			<purchaseLiabilityAccount></purchaseLiabilityAccount>
-			<salesLiabilityAccount></salesLiabilityAccount>
-			<VATReturn></VATReturn>
-			<taxType></taxType>
+			<paymentTerm>1</paymentTerm>
+			<purchaseLiabilityAccount>1001</purchaseLiabilityAccount>
+			<salesLiabilityAccount>1001</salesLiabilityAccount>
+			<VATReturn>1</VATReturn>
+			<taxType>1</taxType>
 		</ClientTAXAgency>
 	</taxAgencies>
 
 	<!-- ClientTAXCode object -->
 	<taxCodes>
 		<ClientTAXCode>
-			<id></id>
+			<id>0</id>
 			<name></name>
 			<description></description>
 			<isTaxable></isTaxable>
 			<isActive></isActive>
-			<TAXItemGrpForPurchases></TAXItemGrpForPurchases>
-			<TAXItemGrpForSales></TAXItemGrpForSales>
+			<TAXItemGrpForPurchases>1</TAXItemGrpForPurchases>
+			<TAXItemGrpForSales>1</TAXItemGrpForSales>
 			<isECSalesEntry></isECSalesEntry>
 			<isDefault></isDefault>
-			<taxAgency></taxAgency>
-			<version></version>
-			<salesTaxRate></salesTaxRate>
-			<purchaseTaxRate></purchaseTaxRate>
-
+			<taxAgency>1</taxAgency>
+			<version>0</version>
+			<salesTaxRate>0.0</salesTaxRate>
+			<purchaseTaxRate>0.0</purchaseTaxRate>
 		</ClientTAXCode>
 	</taxCodes>
 
