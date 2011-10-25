@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-
 public class QuotesListCommand extends AbstractTransactionCommand {
 
 	private static final String CURRENT_VIEW = "Current View";
@@ -138,7 +137,7 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 		try {
 
 			serverEstimates = new FinanceTool().getCustomerManager()
-					.getEstimates(context.getCompany().getID());
+					.getEstimates(context.getCompany().getID(), 1);
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
