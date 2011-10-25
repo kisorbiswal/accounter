@@ -145,7 +145,7 @@ public class ReceivePaymentView extends
 		this.customerBalance = selectedCustomer.getBalance();
 
 		recalculateGridAmounts();
-		
+
 		long currency = customer.getCurrency();
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
@@ -638,7 +638,8 @@ public class ReceivePaymentView extends
 				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
 						.getAmount()));
 
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

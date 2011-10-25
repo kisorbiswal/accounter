@@ -956,7 +956,8 @@ public class CreditCardExpenseView extends
 				transaction.setContact(contact);
 			}
 		}
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

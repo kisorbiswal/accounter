@@ -474,7 +474,8 @@ public class VendorCreditMemoView extends
 		if (vatinclusiveCheck != null)
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

@@ -445,7 +445,8 @@ public class CustomerCreditMemoView extends
 		transaction
 				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
 						.getAmount()));
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
@@ -719,7 +720,7 @@ public class CustomerCreditMemoView extends
 
 		} else
 			billToTextArea.setValue("");
-		
+
 		long currency = customer.getCurrency();
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);

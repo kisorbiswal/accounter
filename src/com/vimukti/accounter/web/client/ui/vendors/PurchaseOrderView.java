@@ -1046,7 +1046,8 @@ public class PurchaseOrderView extends
 						.getValue());
 
 		}
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

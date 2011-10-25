@@ -639,7 +639,8 @@ public class WriteChequeView extends
 			transaction.setToBePrinted((Boolean) toprintCheck.getValue());
 
 		}
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

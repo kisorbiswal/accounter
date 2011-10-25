@@ -885,7 +885,8 @@ public class SalesOrderView extends
 		// transaction.setReference(getRefText());
 		if (selectedEstimateId != 0)
 			transaction.setEstimate(selectedEstimateId);
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

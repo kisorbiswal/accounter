@@ -71,7 +71,7 @@ public class CustomerRefundView extends
 			.create(AccounterConstants.class);
 	private boolean locationTrackingEnabled;
 	private CurrencyWidget currencyWidget;
-	
+
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 		locationTrackingEnabled = getCompany().getPreferences()
@@ -234,8 +234,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -402,8 +402,8 @@ public class CustomerRefundView extends
 		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
 
 		transaction.setBalanceDue(getAmountInBaseCurrency(amtText.getAmount()));
-		
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
@@ -602,8 +602,8 @@ public class CustomerRefundView extends
 					.valueCannotBe0orlessthan0(Accounter.constants().amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
-				getAmountInBaseCurrency(amtText.getAmount()), payFromSelect
-						.getSelectedValue())) {
+				getAmountInBaseCurrency(amtText.getAmount()),
+				payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}

@@ -590,7 +590,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
 						.getAmount()));
 		transaction.setEstimateType(type);
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
@@ -650,7 +651,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction == null) {
 			setData(new ClientEstimate());
 		} else {
-			
+
 			if (currencyWidget != null) {
 				this.currency = getCompany().getCurrency(
 						transaction.getCurrency());

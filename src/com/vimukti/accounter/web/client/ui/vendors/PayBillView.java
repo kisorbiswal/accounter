@@ -252,7 +252,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
 						.getAmount()));
 
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

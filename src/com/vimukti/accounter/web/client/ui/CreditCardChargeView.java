@@ -861,7 +861,9 @@ public class CreditCardChargeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
-		transaction.setCurrency(currency.getID());
+
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

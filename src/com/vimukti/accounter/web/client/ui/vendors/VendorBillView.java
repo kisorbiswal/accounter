@@ -879,7 +879,8 @@ public class VendorBillView extends
 						.getValue());
 
 		}
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());

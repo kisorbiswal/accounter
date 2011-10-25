@@ -115,7 +115,8 @@ public class CashExpenseView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// Setting Reference
 		// cashPurchase.setReference(getRefText());
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
