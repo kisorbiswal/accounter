@@ -122,11 +122,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				return getClientCompany().getAccounts();
 			}
 
-			@Override
-			protected boolean filter(ClientAccount e, String name) {
-				return e.getName().contains(name) || e.getNumber().equals(name);
-			}
-
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
