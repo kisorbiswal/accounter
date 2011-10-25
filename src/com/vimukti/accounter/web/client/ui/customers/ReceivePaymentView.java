@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -144,6 +145,14 @@ public class ReceivePaymentView extends
 		this.customerBalance = selectedCustomer.getBalance();
 
 		recalculateGridAmounts();
+		
+		long currency = customer.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		}
 	}
 
 	private void getTransactionReceivePayments(

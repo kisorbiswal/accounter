@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -935,6 +936,13 @@ public class SalesOrderView extends
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 			addresses.addAll(customer.getAddress());
 			shipToAddress.setAddress(addresses);
+		}
+		long currency = customer.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
 	}
 

@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -475,6 +476,13 @@ public class CashSalesView extends
 		this.setCustomer(customer);
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
+		}
+		long currency = customer.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
 
 	}

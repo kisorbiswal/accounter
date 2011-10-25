@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -52,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
@@ -78,6 +80,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private ShipToForm shipToAddress;
 	private int type;
 	private String title;
+	private CurrencyWidget currencyWidget;
 
 	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
@@ -119,6 +122,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerTransactionTable.updateTotals();
 			}
 			this.customerTransactionTable.resetRecords();
+			long currency = customer.getCurrency();
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			currencyWidget.setSelectedCurrency(clientCurrency);
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -161,6 +167,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		long taxCode = customer.getTAXCode();
 		if (taxCode != 0) {
 			customerTransactionTable.setTaxCode(taxCode, false);
+		}
+		long currency = customer.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
 
 	}
@@ -487,7 +500,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else {
 			prodAndServiceForm2.setFields(transactionTotalNonEditableText);
 		}
-
+		currencyWidget = createCurrencyWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
@@ -523,6 +536,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		rightVLay.setHorizontalAlignment(ALIGN_CENTER);
 		if (type == ClientEstimate.QUOTES)
 			rightVLay.add(phoneForm);
+		rightVLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -576,6 +590,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
 						.getAmount()));
 		transaction.setEstimateType(type);
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {
@@ -634,6 +650,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction == null) {
 			setData(new ClientEstimate());
 		} else {
+			
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+			}
 			ClientCompany company = getCompany();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			if (this.getCustomer() != null) {

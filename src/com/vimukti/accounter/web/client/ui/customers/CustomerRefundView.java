@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -47,6 +48,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class CustomerRefundView extends
 		AbstractCustomerTransactionView<ClientCustomerRefund> {
@@ -68,7 +70,8 @@ public class CustomerRefundView extends
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
 	private boolean locationTrackingEnabled;
-
+	private CurrencyWidget currencyWidget;
+	
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 		locationTrackingEnabled = getCompany().getPreferences()
@@ -105,6 +108,13 @@ public class CustomerRefundView extends
 		super.initBillToCombo();
 		setCustomerBalance(customer.getBalance());
 		refundAmountChanged(amtText.getAmount());
+		long currency = customer.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		}
 	}
 
 	@Override
@@ -297,13 +307,13 @@ public class CustomerRefundView extends
 		leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
 		leftPanel.add(custForm);
-
+		currencyWidget = createCurrencyWidget();
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.setWidth("100%");
 		rightPanel.add(balForm);
 		rightPanel.setCellHorizontalAlignment(balForm,
 				HasHorizontalAlignment.ALIGN_CENTER);
-
+		rightPanel.add(currencyWidget);
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.setWidth("100%");
 		hLay.setSpacing(10);
@@ -392,6 +402,9 @@ public class CustomerRefundView extends
 		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
 
 		transaction.setBalanceDue(getAmountInBaseCurrency(amtText.getAmount()));
+		
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	private String getCheckValue() {
@@ -485,6 +498,15 @@ public class CustomerRefundView extends
 		if (transaction == null) {
 			setData(new ClientCustomerRefund());
 		} else {
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+			}
 			this.setCustomer(getCompany().getCustomer(transaction.getPayTo()));
 			customerSelected(getCompany().getCustomer(transaction.getPayTo()));
 

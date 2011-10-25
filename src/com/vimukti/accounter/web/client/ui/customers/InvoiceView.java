@@ -885,6 +885,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				allAddresses.put(add.getType(), add);
 			}
 		}
+		long currency = customer.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		}
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {

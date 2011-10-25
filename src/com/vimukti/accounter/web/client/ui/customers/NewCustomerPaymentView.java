@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -48,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class NewCustomerPaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
@@ -70,6 +72,7 @@ public class NewCustomerPaymentView extends
 	protected TextItem checkNo;
 	boolean isChecked = false;
 	private boolean locationTrackingEnabled;
+	private CurrencyWidget currencyWidget;
 
 	public NewCustomerPaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
@@ -178,6 +181,9 @@ public class NewCustomerPaymentView extends
 			transaction.setCustomerBalance(toBeSetCustomerBalance);
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+		
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
 	}
 
@@ -187,6 +193,16 @@ public class NewCustomerPaymentView extends
 			setData(new ClientCustomerPrePayment());
 			initDepositInAccounts();
 		} else {
+			
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+			}
 			ClientCompany comapny = getCompany();
 
 			ClientCustomer customer = comapny.getCustomer(transaction
@@ -443,7 +459,7 @@ public class NewCustomerPaymentView extends
 				checkNumber = checkNo.getValue().toString();
 			}
 		});
-
+		currencyWidget = createCurrencyWidget();
 		payForm = UIUtils.form(customerConstants.payment());
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -475,6 +491,7 @@ public class NewCustomerPaymentView extends
 		rightPanel.add(balForm);
 		rightPanel.setCellHorizontalAlignment(balForm,
 				HasHorizontalAlignment.ALIGN_CENTER);
+		rightPanel.add(currencyWidget);
 
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.setWidth("100%");
@@ -617,6 +634,13 @@ public class NewCustomerPaymentView extends
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
 		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
+		long currency = customer.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		}
 
 	}
 
