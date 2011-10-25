@@ -108,21 +108,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	private RecurringTransaction recurringTransaction;
 
-	public Currency getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
-	}
-
-	public double getCurrencyFactor() {
-		return currencyFactor;
-	}
-
-	public void setCurrencyFactor(double currencyFactor) {
-		this.currencyFactor = currencyFactor;
-	}
+	
 
 	private double currencyFactor;
 
@@ -1325,5 +1311,21 @@ public abstract class Transaction extends CreatableObject implements
 
 	public List<TransactionLog> getHistory() {
 		return this.history;
+	}
+	
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
 	}
 }
