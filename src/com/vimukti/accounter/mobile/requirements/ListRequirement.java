@@ -10,6 +10,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 	private static final int RECORDS_TO_SHOW = 5;
@@ -70,8 +72,6 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 
 		return null;
 	}
-
-	protected abstract String getSetMessage();
 
 	public Result showList(Result result2, Context context, List<T> oldRecords) {
 		Result result = new Result();
@@ -184,8 +184,6 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		return result;
 	}
 
-	protected abstract String getEmptyString();
-
 	public List<T> pagination(Context context, Object selection,
 			ResultList actions, List<T> records, List<T> skipRecords,
 			int recordsToShow) {
@@ -237,6 +235,20 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		return result;
 	}
 
+	private List<T> getLists(Context context, final String name) {
+		return Utility.filteredList(new ListFilter<T>() {
+
+			@Override
+			public boolean filter(T e) {
+				return ListRequirement.this.filter(e, name);
+			}
+		}, getLists(context));
+	}
+
+	protected abstract String getEmptyString();
+
+	protected abstract String getSetMessage();
+
 	/**
 	 * To show Full Record
 	 * 
@@ -267,14 +279,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 	 */
 	protected abstract String getSelectString();
 
-	/**
-	 * Filtered List
-	 * 
-	 * @param context
-	 * @param name
-	 * @return
-	 */
-	protected abstract List<T> getLists(Context context, String name);
+	protected abstract boolean filter(T e, String name);
 
 	/**
 	 * Total Records
