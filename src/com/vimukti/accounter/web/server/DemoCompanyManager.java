@@ -13,32 +13,42 @@ import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientFiscalYear;
+import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientItemGroup;
+import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.DemoCompany;
 
 public class DemoCompanyManager {
 
-	/*
-	 * public static void main(String[] args) throws IOException { XStream
-	 * xStream = new XStream(new DomDriver());
-	 * 
-	 * xStream = createAlias(xStream);
-	 * 
-	 * File file = getFile();
-	 * 
-	 * Object object = xStream.fromXML(new FileInputStream(file));
-	 * 
-	 * // return (DemoCompany) object; }
-	 */
+	public static void main(String[] args) throws IOException {
+		XStream xStream = new XStream(new DomDriver());
+
+		xStream = createAlias(xStream);
+
+		File file = getFile();
+
+		Object object = xStream.fromXML(new FileInputStream(file));
+
+	}
 
 	private static XStream createAlias(XStream xStream) {
 
@@ -86,25 +96,40 @@ public class DemoCompanyManager {
 		xStream.alias("ClientShippingMethod", ClientShippingMethod.class);
 
 		xStream.alias("priceLevels", List.class);
-		xStream.alias("ClientPriceLevel", ClientPurchaseOrder.class);
+		xStream.alias("ClientPriceLevel", ClientPriceLevel.class);
 
 		xStream.alias("itemGroups", List.class);
-		xStream.alias("ClientItemGroup", ClientPurchaseOrder.class);
+		xStream.alias("ClientItemGroup", ClientItemGroup.class);
 
 		xStream.alias("taxGroups", List.class);
-		xStream.alias("ClientTAXGroup", ClientPurchaseOrder.class);
+		xStream.alias("ClientTAXGroup", ClientTAXGroup.class);
 
 		xStream.alias("paySalesTaxs", List.class);
-		xStream.alias("ClientPaySalesTax", ClientPurchaseOrder.class);
+		xStream.alias("ClientPaySalesTax", ClientPaySalesTax.class);
 
 		xStream.alias("creditRatings", List.class);
-		xStream.alias("ClientCreditRating", ClientPurchaseOrder.class);
+		xStream.alias("ClientCreditRating", ClientCreditRating.class);
 
 		xStream.alias("salesPersons", List.class);
-		xStream.alias("ClientSalesPerson", ClientPurchaseOrder.class);
+		xStream.alias("ClientSalesPerson", ClientSalesPerson.class);
 
 		xStream.alias("taxItemGroups", List.class);
-		xStream.alias("ClientTAXItemGroup", ClientPurchaseOrder.class);
+		xStream.alias("ClientTAXItemGroup", ClientTAXItemGroup.class);
+
+		xStream.alias("fiscalYears", List.class);
+		xStream.alias("ClientFiscalYear", ClientFiscalYear.class);
+
+		xStream.alias("fixedAssets", List.class);
+		xStream.alias("ClientFixedAsset", ClientFixedAsset.class);
+
+		xStream.alias("vatReturns", List.class);
+		xStream.alias("ClientVATReturn", ClientVATReturn.class);
+
+		xStream.alias("taxAgencies", List.class);
+		xStream.alias("ClientTAXAgency", ClientTAXAgency.class);
+
+		xStream.alias("taxCodes", List.class);
+		xStream.alias("ClientTAXCode", ClientTAXCode.class);
 
 		return xStream;
 
