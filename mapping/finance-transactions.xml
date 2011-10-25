@@ -447,6 +447,7 @@
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<property name="phone" column="PHONE"></property>
+			<property name="estimateType" column="ESTIMATETYPE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
 			</many-to-one>
