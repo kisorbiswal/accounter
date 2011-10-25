@@ -339,7 +339,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		taxID = new TextItem("Tax ID");
 		taxID.setHelpInformation(true);
 		taxID.setWidth(100);
-
+		taxID.setDisabled(isInViewMode());
 		vendorNameText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -1402,6 +1402,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		isTDS.setDisabled(isInViewMode());
 		vendorTDSTaxCode.setDisabled(isInViewMode());
 		taxIDText.setDisabled(isInViewMode());
+		taxID.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
