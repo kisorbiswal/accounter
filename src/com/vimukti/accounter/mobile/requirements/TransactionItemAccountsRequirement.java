@@ -188,12 +188,13 @@ public abstract class TransactionItemAccountsRequirement extends
 		transactionItem.setLineTotal(lineTotal);
 		Result result = context.makeResult();
 		result.add(getMessages().details(Global.get().Account()));
+
 		ClientAccount account = getClientCompany().getAccount(
 				transactionItem.getAccount());
-		if (account != null) {
-			result.add(getMessages().accountName(Global.get().Account())
-					+ account.getName());
-		}
+
+		result.add(getMessages().accountName(Global.get().Account()) + ": "
+				+ account.getName());
+
 		double lt = transactionItem.getUnitPrice();
 		double disc = transactionItem.getDiscount();
 		transactionItem

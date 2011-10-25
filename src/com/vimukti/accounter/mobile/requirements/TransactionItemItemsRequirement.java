@@ -32,7 +32,7 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		return "Item is selected";
+		return " Item is selected";
 	}
 
 	@Override

@@ -84,6 +84,9 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 								* disc / 100))
 								: lt);
 				transactionItems.add(transactionItem);
+				addFirstMessage(context, "Selected '"
+						+ getDisplayValue(getTransactionItem(transactionItem))
+						+ "' as transaction item");
 				Result transactionItemResult = checkItemToEdit(context,
 						transactionItem);
 				if (transactionItemResult != null) {
