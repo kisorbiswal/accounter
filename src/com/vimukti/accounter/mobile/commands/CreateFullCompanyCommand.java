@@ -14,7 +14,6 @@ import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
-import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TemplateAccountRequirement;
@@ -124,7 +123,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new NameRequirement(WEB_SITE, "Enter Web Site name",
 				"Web Site", true, true));
 
-		list.add(new ListRequirement<String>(TIME_ZONE, getMessages()
+		list.add(new StringListRequirement(TIME_ZONE, getMessages()
 				.pleaseSelect(getConstants().timezone()), getConstants()
 				.timezone(), true, true, null) {
 
@@ -172,7 +171,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		// Second Page
-		list.add(new ListRequirement<String>(INDUSTRY,
+		list.add(new StringListRequirement(INDUSTRY,
 				"Please Enter Industry type", getConstants().industry(), false,
 				true, new ChangeListner<String>() {
 
@@ -226,7 +225,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ListRequirement<String>(ORGANIZATION_REFER,
+		list.add(new StringListRequirement(ORGANIZATION_REFER,
 				"Enter Organization name", "Company Organization", true, true,
 				null) {
 
@@ -274,7 +273,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		});
 
-		list.add(new ListRequirement<String>(CUSTOMER_TERMINOLOGY,
+		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY,
 				"Enter Customer terminology", "Customer Terminology", true,
 				true, null) {
 
@@ -321,9 +320,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ListRequirement<String>(SUPPLIER_TERMINOLOGY,
-				getMessages().terminology(getConstants().Supplier()),
-				getConstants().supplier(), true, true, null) {
+		list.add(new StringListRequirement(SUPPLIER_TERMINOLOGY, getMessages()
+				.terminology(getConstants().Supplier()), getConstants()
+				.supplier(), true, true, null) {
 
 			@Override
 			protected Record createRecord(String value) {
@@ -368,7 +367,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ListRequirement<String>(ACCOUNT_TERMINOLOGY, getMessages()
+		list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
 				.terminology(getConstants().Account()), getConstants()
 				.Account(), true, true, null) {
 
@@ -415,7 +414,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ListRequirement<String>(SERVICE_PRODUCTS_BOTH,
+		list.add(new StringListRequirement(SERVICE_PRODUCTS_BOTH,
 				getConstants().productAndService(), getConstants()
 						.productAndService(), true, true, null) {
 
@@ -558,7 +557,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ListRequirement<String>(FISCAL_YEAR, getMessages()
+		list.add(new StringListRequirement(FISCAL_YEAR, getMessages()
 				.pleaseSelect(getConstants().fiscalYear()), getConstants()
 				.fiscalYear(), true, true, null) {
 
