@@ -11,7 +11,7 @@ public class ClientBankAccount extends ClientAccount {
 
 	private int bankAccountType;
 
-	private String currency;
+	private long currency;
 
 	private String bankAccountNumber;
 
@@ -62,11 +62,12 @@ public class ClientBankAccount extends ClientAccount {
 
 	}
 
-	public String getCurrency() {
+	public long getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(String currency) {
+	public void setCurrency(long currency) {
 		this.currency = currency;
 	}
+
 }
