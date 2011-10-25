@@ -55,4 +55,8 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 		return getMessages().pleaseSelect(getConstants().contact());
 	}
 
+	@Override
+	protected boolean filter(ClientContact e, String name) {
+		return e.getName().contains(name);
+	}
 }

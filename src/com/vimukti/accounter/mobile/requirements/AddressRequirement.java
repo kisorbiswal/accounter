@@ -127,7 +127,7 @@ public class AddressRequirement extends AbstractRequirement {
 		list.add(record);
 
 		Result result = context.makeResult();
-		result.add(getDisplayString());
+		result.add(getEnterString());
 
 		result.add(list);
 		result.add(getConstants().select());

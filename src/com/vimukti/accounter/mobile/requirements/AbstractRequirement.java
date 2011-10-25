@@ -22,9 +22,9 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	private AccounterConstants constants;
 	private AccounterMessages messages;
 
-	public AbstractRequirement(String requirementName, String displayString,
+	public AbstractRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
-		super(requirementName, displayString, recordName, isOptional,
+		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext);
 		try {
 			global = new ServerGlobal();

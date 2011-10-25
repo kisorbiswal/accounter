@@ -30,7 +30,7 @@ public abstract class SingleRequirement<T> extends AbstractRequirement {
 		if (!isDone() || (selection != null && selection.equals(getName()))) {
 			context.setAttribute(INPUT_ATTR, getName());
 			T v = getValue();
-			return show(context, getDisplayString(), v == null ? null
+			return show(context, getEnterString(), v == null ? null
 					: getDisplayValue(v));
 		}
 

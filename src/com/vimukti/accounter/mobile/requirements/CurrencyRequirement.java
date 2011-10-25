@@ -40,4 +40,13 @@ public abstract class CurrencyRequirement extends
 		return getMessages().pleaseSelect(getConstants().currency());
 	}
 
+	@Override
+	protected boolean filter(ClientCurrency e, String name) {
+		return e.getName().contains(name);
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAny(getConstants().currency());
+	}
 }

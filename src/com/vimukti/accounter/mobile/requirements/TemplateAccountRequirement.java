@@ -111,7 +111,7 @@ public abstract class TemplateAccountRequirement extends
 			List<TemplateAccount> lists = getLists(context);
 			if (lists.size() > RECORDS_TO_SHOW) {
 				context.setAttribute("oldValue", "");
-				result.add(getDisplayString());
+				result.add(getEnterString());
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
 				record.add("", "Show All Records");
@@ -138,7 +138,7 @@ public abstract class TemplateAccountRequirement extends
 				result.add("Found " + lists.size() + " record(s)");
 			} else {
 				result.add("Did not get any records with '" + name + "'.");
-				result.add(getDisplayString());
+				result.add(getEnterString());
 				lists = getLists(context);
 			}
 		} else {

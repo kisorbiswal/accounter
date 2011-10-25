@@ -18,10 +18,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 	protected static final String RECORDS_START_INDEX = "startIndex";
 	private ChangeListner<T> listner;
 
-	public ListRequirement(String requirementName, String displayString,
+	public ListRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
 			ChangeListner<T> listner) {
-		super(requirementName, displayString, recordName, isOptional,
+		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext);
 		this.listner = listner;
 	}
@@ -85,7 +85,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			List<T> lists = getLists(context);
 			if (lists.size() > RECORDS_TO_SHOW) {
 				context.setAttribute("oldValue", "");
-				result.add(getDisplayString());
+				result.add(getEnterString());
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
 				record.add("", "Show All Records");
@@ -113,7 +113,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 						+ "'.");
 			} else {
 				result.add("Did not get any records with '" + name + "'.");
-				result.add(getDisplayString());
+				result.add(getEnterString());
 				lists = getLists(context);
 			}
 		} else {
@@ -245,8 +245,18 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		}, getLists(context));
 	}
 
+	/**
+	 * Message When there is no records
+	 * 
+	 * @return
+	 */
 	protected abstract String getEmptyString();
 
+	/**
+	 * Message When User Slect the record
+	 * 
+	 * @return
+	 */
 	protected abstract String getSetMessage();
 
 	/**
@@ -279,6 +289,13 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 	 */
 	protected abstract String getSelectString();
 
+	/**
+	 * Filter whether this record is eligible or not
+	 * 
+	 * @param e
+	 * @param name
+	 * @return
+	 */
 	protected abstract boolean filter(T e, String name);
 
 	/**
