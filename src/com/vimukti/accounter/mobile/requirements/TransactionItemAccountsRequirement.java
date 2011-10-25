@@ -327,6 +327,11 @@ public abstract class TransactionItemAccountsRequirement extends
 	}
 
 	@Override
+	protected boolean filter(ClientAccount e, String name) {
+		return e.getName().contains(name) || e.getNumber().equals(name);
+	}
+
+	@Override
 	protected String getDisplayValue(ClientAccount value) {
 		return value.getDisplayName();
 	}
