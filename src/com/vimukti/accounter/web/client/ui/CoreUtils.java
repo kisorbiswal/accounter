@@ -1822,13 +1822,21 @@ public class CoreUtils {
 		return Arrays.asList(state);
 	}
 
-	public static List<ClientCurrency> getCurrencies() {
+	public static List<ClientCurrency> getCurrencies(
+			List<ClientCurrency> existCurrencies) {
 		List<ClientCurrency> currencies = new ArrayList<ClientCurrency>();
 		for (int i = 0; i < currencyCodes.length; i++) {
 			ClientCurrency clientCurrency = new ClientCurrency();
 			clientCurrency.setFormalName(currencyCodes[i]);
 			clientCurrency.setName(currencyNames[i]);
 			clientCurrency.setSymbol(currencyCodes[i]);
+			for (ClientCurrency currency : existCurrencies) {
+				if (currency.getFormalName().equals(
+						clientCurrency.getFormalName())) {
+					clientCurrency.setID(currency.getID());
+					break;
+				}
+			}
 			currencies.add(clientCurrency);
 		}
 		return currencies;
