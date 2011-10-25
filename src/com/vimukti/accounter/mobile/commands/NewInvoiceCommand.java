@@ -111,20 +111,24 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
-				// TODO Auto-generated method stub
-				return null;
+				return getClientCompany().getItems();
 			}
 
 			@Override
-			protected List<ClientItem> getLists(Context context, String name) {
-				// TODO Auto-generated method stub
-				return null;
+			protected List<ClientItem> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientItem>() {
+
+					@Override
+					public boolean filter(ClientItem e) {
+						return e.getName().contains(name);
+					}
+				}, getClientCompany().getItems());
 			}
 
 			@Override
 			protected ClientCompany getClientCompany() {
-				// TODO Auto-generated method stub
-				return null;
+				return this.getClientCompany();
 			}
 		});
 
@@ -134,20 +138,25 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected ClientCompany getClientCompany() {
-				// TODO Auto-generated method stub
-				return null;
+				return this.getClientCompany();
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context, String name) {
-				// TODO Auto-generated method stub
-				return null;
+			protected List<ClientAccount> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						return e.getName().contains(name)
+								|| e.getNumber().equals(name);
+					}
+				}, getClientCompany().getAccounts());
 			}
 
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
-				// TODO Auto-generated method stub
-				return null;
+				return getClientCompany().getAccounts();
 			}
 
 		});
@@ -184,17 +193,24 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
 				"Contact", true, true, null) {
+			List<ClientContact> contacts = new ArrayList<ClientContact>(
+					customer.getContacts());
 
 			@Override
 			protected List<ClientContact> getLists(Context context) {
-				// TODO Auto-generated method stub
-				return null;
+				return contacts;
 			}
 
 			@Override
-			protected List<ClientContact> getLists(Context context, String name) {
-				// TODO Auto-generated method stub
-				return null;
+			protected List<ClientContact> getLists(Context context,
+					final String name) {
+				return Utility.filteredList(new ListFilter<ClientContact>() {
+
+					@Override
+					public boolean filter(ClientContact e) {
+						return e.getName().contains(name);
+					}
+				}, contacts);
 			}
 		});
 		// list.add(new Requirement(BILL_TO, true, true));
