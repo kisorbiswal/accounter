@@ -13,6 +13,8 @@ public class BankAccount extends Account {
 
 	private String bankAccountNumber;
 
+	private String currency;
+
 	private FinanceDate lastReconcilationDate;
 
 	/**
@@ -85,6 +87,14 @@ public class BankAccount extends Account {
 						.equals(bankAccount.bankAccountNumber)) : true)
 			return true;
 		return false;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 }
