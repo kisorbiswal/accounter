@@ -29,7 +29,9 @@ public class CompanyTypeCommand extends Command {
 		Object selection = context.getSelection("actions");
 		if (selection == null) {
 			makeResult
-					.add("Select 'Full Setup' to enter the Setup wizard to add all the necessary information for company or else select 'Partial Setup' to skip this wizard and add later.");
+					.add("Select 'Full Setup' to enter the Setup wizard to add all the necessary information for company.");
+			makeResult
+					.add(" Or else select 'Partial Setup' to skip this wizard and add later.");
 			ResultList list = new ResultList("actions");
 			Record start = new Record(ActionNames.FULL_SETUP);
 			start.add("", "Full Setup");

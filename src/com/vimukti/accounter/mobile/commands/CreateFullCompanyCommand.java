@@ -15,13 +15,10 @@ import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TemplateAccountRequirement;
-import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
@@ -39,7 +36,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	public String getWelcomeMessage() {
-		return "Creating Full Company...";
+		return "Full Company company setup...";
 	}
 
 	@Override
@@ -129,7 +126,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 					@Override
 					public void onSelection(String value) {
-						setDefaultAccounts();
+						get(ACCOUNTS).setValue(null);
 					}
 				}) {
 			@Override
@@ -371,32 +368,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				.account(), true, true) {
 
 			@Override
-			protected List<TemplateAccount> getLists(Context context) {
-				return getDefaultAccounts();
-			}
-
-			protected List<TemplateAccount> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<TemplateAccount>() {
-
-					@Override
-					public boolean filter(TemplateAccount e) {
-						return e.getName().contains(name);
-					}
-				}, getDefaultAccounts());
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().Account());
+			protected int getIndustryType() {
+				return getIndustryList().indexOf(
+						(String) get(INDUSTRY).getValue()) + 1;
 			}
 		});
-	}
-
-	private void setDefaultAccounts() {
-		int industryType = getIndustryList().indexOf(
-				(String) get(INDUSTRY).getValue()) + 1;
-		get(ACCOUNTS).setDefaultValue(getDefaultTemplateAccounts(industryType));
 	}
 
 	private List<String> getServiceProductBothList() {
@@ -405,15 +381,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		arrayList.add("Products Only");
 		arrayList.add("Both");
 		return arrayList;
-	}
-
-	private List<TemplateAccount> getDefaultAccounts() {
-		List<TemplateAccount> templateAc = new ArrayList<TemplateAccount>();
-		for (AccountsTemplate template : allAccounts) {
-			List<TemplateAccount> accounts2 = template.getAccounts();
-			templateAc.addAll(accounts2);
-		}
-		return templateAc;
 	}
 
 	private List<ClientCurrency> getCurrenciesList() {
