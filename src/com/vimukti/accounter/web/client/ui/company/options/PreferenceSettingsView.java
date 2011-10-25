@@ -97,9 +97,12 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				constants.productAndServices());
 		AgeingAndSellingDetailsOption ageingAndSellingDetailsOption = new AgeingAndSellingDetailsOption();
 		ProductAndServicesOption productAndServicesOption = new ProductAndServicesOption();
+		BillableExpenseTrackingByCustomer billableExpenseTrackingByCustomer = new BillableExpenseTrackingByCustomer();
 
 		agningDetailsPage.addPreferenceOption(productAndServicesOption);
 		agningDetailsPage.addPreferenceOption(ageingAndSellingDetailsOption);
+		agningDetailsPage
+				.addPreferenceOption(billableExpenseTrackingByCustomer);
 		return agningDetailsPage;
 	}
 

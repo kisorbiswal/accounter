@@ -706,8 +706,8 @@ public class ActionFactory {
 							Global.get().Vendor()));
 	}
 
-	public static QuotesAction getQuotesAction() {
-		return new QuotesAction(actionsConstants.quotes());
+	public static QuotesAction getQuotesAction(String title, int type) {
+		return new QuotesAction(title, type);
 	}
 
 	public static ReceivedPaymentsAction getReceivedPaymentsAction() {

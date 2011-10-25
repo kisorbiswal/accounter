@@ -134,7 +134,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public boolean isSalesTaxPayableAccountByName(String accountName);
 
 	// To get all the Estimates/Quotes in a company
-	public ArrayList<ClientEstimate> getEstimates();
+	public ArrayList<ClientEstimate> getEstimates(int type);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public ArrayList<ClientEstimate> getEstimates(long customerId);

@@ -77,12 +77,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private Double salesTax;
 	private ShipToForm shipToAddress;
 	private int type;
+	private String title;
 
-	
-	public QuoteView(int type) {
+	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
+		this.title = title;
 		this.type = type;
 	}
 
@@ -280,8 +281,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void createControls() {
 		// setTitle(UIUtils.title(customerConstants.quote()));
-
-		Label lab1 = new Label(Accounter.constants().newQuote());
+		Label lab1 = new Label(title);
 		// + "(" + getTransactionStatus() + ")");
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
@@ -364,9 +364,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
-
-		custForm.setFields(customerCombo, contactCombo, phoneSelect,
-				billToTextArea);
+		if (type == ClientEstimate.QUOTES) {
+			custForm.setFields(customerCombo, contactCombo, phoneSelect,
+					billToTextArea);
+		} else {
+			custForm.setFields(customerCombo);
+		}
 		custForm.getCellFormatter().setWidth(0, 0, "150");
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
@@ -513,11 +516,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		leftVLay.add(custForm);
 		if (getCompany().getPreferences().isDoProductShipMents())
-			leftVLay.add(shipToAddress);
+			if (type == ClientEstimate.QUOTES)
+				leftVLay.add(shipToAddress);
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_CENTER);
-		rightVLay.add(phoneForm);
+		if (type == ClientEstimate.QUOTES)
+			rightVLay.add(phoneForm);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -570,6 +575,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transaction
 				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
 						.getAmount()));
+		transaction.setEstimateType(type);
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {
@@ -834,8 +840,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	}
 
-	public static QuoteView getInstance(int type) {
-		return new QuoteView(type);
+	public static QuoteView getInstance(int type, String title) {
+		return new QuoteView(type, title);
 	}
 
 	@Override

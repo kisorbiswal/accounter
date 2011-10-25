@@ -16,9 +16,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class QuotesAction extends Action {
 
 	protected QuoteListView view;
+	private int type;
 
-	public QuotesAction(String text) {
+	public QuotesAction(String text, int type) {
 		super(text);
+		this.type = type;
 		this.catagory = Global.get().customer();
 	}
 
@@ -34,7 +36,7 @@ public class QuotesAction extends Action {
 
 			@Override
 			public void onCreated() {
-				view = new QuoteListView();
+				view = new QuoteListView(type);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, QuotesAction.this);
 

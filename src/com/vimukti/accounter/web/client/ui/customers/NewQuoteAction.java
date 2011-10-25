@@ -19,11 +19,13 @@ public class NewQuoteAction extends Action {
 
 	protected QuoteView view;
 	private int type;
+	private String title;
 
 	public NewQuoteAction(String text, int type) {
 		super(text);
 		this.catagory = Global.get().Customer();
 		this.type = type;
+		this.title=text;
 	}
 
 	public NewQuoteAction(String text, ClientEstimate quote,
@@ -45,7 +47,7 @@ public class NewQuoteAction extends Action {
 
 			@Override
 			public void onCreated() {
-				view = QuoteView.getInstance(type);
+				view = QuoteView.getInstance(type,title);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewQuoteAction.this);

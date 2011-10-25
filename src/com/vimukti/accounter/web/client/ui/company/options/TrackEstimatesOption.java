@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,6 +20,8 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 	RadioButton yesRadioButton;
 	@UiField
 	RadioButton noRadioButton;
+	@UiField
+	CheckBox useDelayedCharges;
 
 	interface TrackEstimatesOptionUiBinder extends
 			UiBinder<Widget, TrackEstimatesOption> {
@@ -39,6 +42,8 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 		trackEstimateHeader.setText(constants.trackingEstimates());
 		yesRadioButton.setText(constants.yes());
 		noRadioButton.setText(constants.no());
+		useDelayedCharges.setText("Use Delayed Charges");
+		useDelayedCharges.setStyleName("bold");
 	}
 
 	@Override
@@ -58,12 +63,16 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 		} else {
 			noRadioButton.setValue(true);
 		}
+		useDelayedCharges.setValue(getCompanyPreferences()
+				.isDelayedchargesEnabled());
 	}
 
 	@Override
 	public void onSave() {
 		getCompanyPreferences()
 				.setDoyouwantEstimates(yesRadioButton.getValue());
+		getCompanyPreferences().setDelayedchargesEnabled(
+				useDelayedCharges.getValue());
 	}
 
 }

@@ -861,8 +861,13 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			itemsAction.setCatagory(Global.get().Customer());
 			customerListMenuBar.addItem(itemsAction);
 			if (preferences.isDoyouwantEstimates()) {
-				customerListMenuBar.addItem(ActionFactory.getQuotesAction());
+				customerListMenuBar.addItem(ActionFactory.getQuotesAction(
+						Accounter.constants().quotes(), ClientEstimate.QUOTES));
 			}
+			if (preferences.isDelayedchargesEnabled())
+				customerListMenuBar.addItem(ActionFactory
+						.getQuotesAction(Accounter.constants().Charges(),
+								ClientEstimate.CHARGES));
 			customerListMenuBar.addItem(ActionFactory.getInvoicesAction(null));
 
 		}

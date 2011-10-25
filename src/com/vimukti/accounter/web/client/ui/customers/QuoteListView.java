@@ -25,6 +25,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	private List<ClientEstimate> listOfEstimates;
 
+	private int type;
+
 	private static String OPEN = Accounter.constants().open();
 	private static String REJECTED = Accounter.constants().rejected();
 	private static String ACCEPTED = Accounter.constants().accepted();
@@ -36,38 +38,51 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	public static final int STATUS_REJECTED = 1;
 	public static final int STATUS_ACCECPTED = 2;
 
-	public QuoteListView() {
+	public QuoteListView(int type) {
 
 		super();
+		this.type = type;
 		// isDeleteDisable = true;
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-					Accounter.constants().newQuote());
-		else
-			return null;
+		if (type == ClientEstimate.QUOTES
+				&& Accounter.getUser().canDoInvoiceTransactions())
+			return ActionFactory.getNewQuoteAction(type, Accounter.constants()
+					.newQuote());
+		else if ((type == ClientEstimate.CHARGES && getPreferences()
+				.isDelayedchargesEnabled())) {
+			return ActionFactory.getNewQuoteAction(type, Accounter.constants()
+					.newCharge());
+		}
+		return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (type == ClientEstimate.QUOTES
+				&& Accounter.getUser().canDoInvoiceTransactions())
 			return customerConstants.addaNewQuote();
-		else
-			return "";
+		else if (type == ClientEstimate.CHARGES
+				&& getPreferences().isDelayedchargesEnabled()) {
+			return customerConstants.addNewCharge();
+		}
+		return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
+		if (type == ClientEstimate.CHARGES) {
+			return Accounter.constants().chargesList();
+		}
 		return Accounter.constants().quotesList();
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getEstimates(this);
+		Accounter.createHomeService().getEstimates(type, this);
 
 	}
 

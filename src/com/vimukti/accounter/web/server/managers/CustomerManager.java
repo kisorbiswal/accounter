@@ -266,13 +266,15 @@ public class CustomerManager extends Manager {
 		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
 	}
 
-	public ArrayList<Estimate> getEstimates(long companyId) throws DAOException {
+	public ArrayList<Estimate> getEstimates(long companyId, int type)
+			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getEstimate").setEntity(
-					"company", company);
+			Query query = session.getNamedQuery("getEstimate")
+					.setEntity("company", company)
+					.setParameter("estimateType", type);
 			List<Estimate> list = query.list();
 
 			if (list != null) {

@@ -50,7 +50,10 @@ public class Estimate extends Transaction {
 	 * @see Address
 	 */
 	Address shippingAdress;
-
+	/**
+	 * 
+	 */
+	private int estimateType;
 	/**
 	 * This defaults to the chosen Customer's primary contact Business Phone
 	 * number.
@@ -342,5 +345,13 @@ public class Estimate extends Transaction {
 
 	public void setTransactionType(int transactionType) {
 		this.transactionType = transactionType;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
 	}
 }

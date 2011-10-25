@@ -155,7 +155,8 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	// To get all the Estimates/Quotes in a company
-	public void getEstimates(AsyncCallback<ArrayList<ClientEstimate>> callback);
+	public void getEstimates(int type,
+			AsyncCallback<ArrayList<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public void getEstimates(long customerId,

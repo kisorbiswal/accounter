@@ -7,11 +7,12 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
-		<g:Label ui:field="trackEstimateHeader" styleName="header"/>
-		<g:Label ui:field="trackEstimateDescLabel"/>
+		<g:Label ui:field="trackEstimateHeader" styleName="header" />
+		<g:Label ui:field="trackEstimateDescLabel" />
 		<g:HorizontalPanel>
-			<g:RadioButton name="trackEstimates" ui:field="yesRadioButton"/>
-			<g:RadioButton name="trackEstimates" ui:field="noRadioButton"/>
+			<g:RadioButton name="trackEstimates" ui:field="yesRadioButton" />
+			<g:RadioButton name="trackEstimates" ui:field="noRadioButton" />
 		</g:HorizontalPanel>
+		<g:CheckBox ui:field="useDelayedCharges" />
 	</g:VerticalPanel>
 </ui:UiBinder> 

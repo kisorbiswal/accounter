@@ -723,14 +723,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientEntry>(clientEntries);
 	}
 
-	public ArrayList<ClientEstimate> getEstimates() {
+	public ArrayList<ClientEstimate> getEstimates(int type) {
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 
 		try {
 
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(getCompanyId());
+					.getEstimates(getCompanyId(),type);
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));

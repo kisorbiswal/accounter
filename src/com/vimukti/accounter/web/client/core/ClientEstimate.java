@@ -22,7 +22,9 @@ public class ClientEstimate extends ClientTransaction {
 	public static final int BILLABLEEXAPENSES = 4;
 
 	long customer;
-
+	
+	private int estimateType;
+	
 	ClientContact contact;
 
 	ClientAddress address;
@@ -304,6 +306,14 @@ public class ClientEstimate extends ClientTransaction {
 
 	public void setTransactionType(int transactionType) {
 		this.transactionType = transactionType;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
 	}
 
 }

@@ -144,10 +144,14 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-					Accounter.constants().newQuote()).run(obj, false);
+			int estimateType = obj.getEstimateType();
+			if (estimateType == ClientEstimate.QUOTES)
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
+						Accounter.constants().newQuote()).run(obj, false);
+			if (estimateType == ClientEstimate.CHARGES)
+				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
+						Accounter.constants().newCharge()).run(obj, false);
 		}
 	}
 
