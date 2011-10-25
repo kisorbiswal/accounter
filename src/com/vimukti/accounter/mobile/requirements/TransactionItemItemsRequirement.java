@@ -99,24 +99,39 @@ public abstract class TransactionItemItemsRequirement extends
 			if (selection != null) {
 				if (selection.equals(QUANTITY)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, QUANTITY);
-					return amount(context, "Enter Quantity", transactionItem
-							.getQuantity().getValue());
+					return amount(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().quantity()), transactionItem
+									.getQuantity().getValue());
 				} else if (selection.equals(UNIT_PRICE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
-					return amount(context, "Enter Unit Price",
+					return amount(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().unitPrice()),
 							transactionItem.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(context, "Enter Discount",
+					return amount(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().discount()),
 							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(context, "Enter TaxCode", null);
+					return taxCode(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().taxCode()), null);
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
-					return number(context, "Enter Discription",
+					return number(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().description()),
 							transactionItem.getDescription());
 				}
 			} else {
@@ -214,6 +229,11 @@ public abstract class TransactionItemItemsRequirement extends
 		actions.add(record);
 		result.add(actions);
 		return result;
+	}
+
+	private String getItemName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

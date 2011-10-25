@@ -90,26 +90,33 @@ public abstract class TransactionItemAccountsRequirement extends
 			if (selection != null) {
 				if (selection.equals(AMOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
-					return amount(context,
-							getMessages().pleaseEnter(getConstants().amount()),
+					return amount(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().amount()),
 							transactionItem.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(context,
-							getMessages()
-									.pleaseEnter(getConstants().discount()),
+					return amount(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().discount()),
 							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(context, "Enter TaxCode", getClientCompany()
-							.getTAXCode(transactionItem.getTaxCode()));
+					return taxCode(
+							context,
+							getMessages().pleaseEnterThe(getItemName(),
+									getConstants().taxCode()),
+							getClientCompany().getTAXCode(
+									transactionItem.getTaxCode()));
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
 					return show(
 							context,
-							getMessages().pleaseEnter(
+							getMessages().pleaseEnterThe(getItemName(),
 									getConstants().description()),
 							transactionItem.getDescription());
 				}
@@ -120,7 +127,7 @@ public abstract class TransactionItemAccountsRequirement extends
 						context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
 						return amount(
 								context,
-								getMessages().pleaseEnter(
+								getMessages().pleaseEnterThe(getItemName(),
 										getConstants().amount()),
 								transactionItem.getUnitPrice());
 					} else if (context.getCompany().getPreferences()
@@ -129,8 +136,12 @@ public abstract class TransactionItemAccountsRequirement extends
 									.isTaxPerDetailLine()
 							&& transactionItem.getTaxCode() == 0) {
 						context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-						return taxCode(context, "", getClientCompany()
-								.getTAXCode(transactionItem.getTaxCode()));
+						return taxCode(
+								context,
+								getMessages().pleaseEnterThe(getItemName(),
+										getConstants().taxCode()),
+								getClientCompany().getTAXCode(
+										transactionItem.getTaxCode()));
 					}
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
@@ -212,6 +223,11 @@ public abstract class TransactionItemAccountsRequirement extends
 		actions.add(record);
 		result.add(actions);
 		return result;
+	}
+
+	private String getItemName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
