@@ -286,19 +286,19 @@ public class PurchaseOrderView extends
 				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
-		shipToAddress.businessSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						shippingAddress = shipToAddress.getAddress();
-						if (shippingAddress != null)
-							shipToAddress.setAddres(shippingAddress);
-						else
-							shipToAddress.addrArea.setValue("");
-					}
-				});
-
+			@Override
+			public void onChange(ChangeEvent event) {
+				shippingAddress = shipToAddress.getAddress();
+				if (shippingAddress != null)
+					shipToAddress.setAddres(shippingAddress);
+				else
+					shipToAddress.addrArea.setValue("");
+			}
+		});
+		if (isInViewMode())
+			shipToAddress.businessSelect.setDisabled(true);
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
 				this.getAction().getCatagory()));
@@ -754,9 +754,12 @@ public class PurchaseOrderView extends
 			// shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
 
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+			this.billingAddress = transaction.getVendorAddress();
+			this.shippingAddress = transaction.getShippingAddress();
 			if (getVendor() != null)
 				addresses.addAll(getVendor().getAddress());
 			shipToAddress.setListOfCustomerAdress(addresses);
+
 			if (shippingAddress != null) {
 				shipToAddress.businessSelect.setValue(shippingAddress
 						.getAddressTypes().get(shippingAddress.getType()));
@@ -765,7 +768,15 @@ public class PurchaseOrderView extends
 			shipToAddress.businessSelect.setDisabled(true);
 
 			this.addressListOfVendor = getVendor().getAddress();
+			if (billingAddress != null) {
+				billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
+						+ billingAddress.getStreet() + "\n"
+						+ billingAddress.getCity() + "\n"
+						+ billingAddress.getStateOrProvinence() + "\n"
+						+ billingAddress.getZipOrPostalCode() + "\n"
+						+ billingAddress.getCountryOrRegion());
 
+			}
 			if (billingAddress != null) {
 
 				billtoAreaItem.setValue(getValidAddress(billingAddress));
@@ -1062,12 +1073,19 @@ public class PurchaseOrderView extends
 			phoneSelect.setValue(vendor.getPhoneNo());
 		else
 			phoneSelect.setValue("");
+		this.addressListOfVendor = vendor.getAddress();
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
-			billtoAreaItem.setValue(getValidAddress(billingAddress));
+			billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
+					+ billingAddress.getStreet() + "\n"
+					+ billingAddress.getCity() + "\n"
+					+ billingAddress.getStateOrProvinence() + "\n"
+					+ billingAddress.getZipOrPostalCode() + "\n"
+					+ billingAddress.getCountryOrRegion());
+
 		} else
 			billtoAreaItem.setValue("");
-
+		shippingAddress = getAddress(ClientAddress.TYPE_SHIP_TO);
 		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 		addresses.addAll(vendor.getAddress());
 		shipToAddress.setAddress(addresses);
