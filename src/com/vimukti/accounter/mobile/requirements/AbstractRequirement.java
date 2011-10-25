@@ -45,7 +45,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	protected Result show(Context context, String string, String value) {
 		Result result = context.makeResult();
 		result.add(string);
-		if (value != null) {
+		if (value != "") {
 			ResultList list = new ResultList(getName());
 			Record record = new Record(value);
 			record.add("", value);

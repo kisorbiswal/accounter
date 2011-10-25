@@ -31,6 +31,11 @@ public abstract class CurrencyRequirement extends
 	}
 
 	@Override
+	protected String getSetMessage() {
+		return "Curency has been selected.";
+	}
+
+	@Override
 	protected String getSelectString() {
 		return getMessages().pleaseSelect(getConstants().currency());
 	}

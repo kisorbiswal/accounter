@@ -11,7 +11,8 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 
-public abstract class TemplateAccountRequirement extends AbstractRequirement {
+public abstract class TemplateAccountRequirement extends
+		AbstractRequirement<TemplateAccount> {
 
 	private static final String ACCOUNTS_LIST = "accountsList";
 	private static final int RECORDS_TO_SHOW = 5;

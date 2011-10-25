@@ -37,10 +37,9 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 
 		if (attribute.equals(getName())) {
 			if (objSelection != null) {
-				setValue((T) objSelection);
+				setValue(objSelection);
 				T value = getValue();
-				((List<String>) context.getAttribute(FIRST_MESSAGE))
-						.add(getSetMessage());
+				addFirstMessage(context, getSetMessage());
 				if (listner != null) {
 					listner.onSelection(value);
 				}
