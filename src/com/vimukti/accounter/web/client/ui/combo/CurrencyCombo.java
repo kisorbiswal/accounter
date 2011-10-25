@@ -53,16 +53,14 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public void onAddNew() {
-		//ActionFactory.getNewCurrencyAction().run();
-		
-		
-		CurrencyGroupListDialog groupListDialog = new CurrencyGroupListDialog(
-				constants.manageCurrency(), constants
-				.toAddCurrencyGroup());
+		// ActionFactory.getNewCurrencyAction().run();
 
-				groupListDialog.hide();
-				groupListDialog.addCallBack(createAddNewCallBack());
-				groupListDialog.ShowAddEditDialog(null);
+		CurrencyGroupListDialog groupListDialog = new CurrencyGroupListDialog(
+				constants.manageCurrency(), constants.toAddCurrencyGroup());
+
+		groupListDialog.hide();
+		groupListDialog.addCallBack(createAddNewCallBack());
+		groupListDialog.ShowAddEditDialog(null);
 
 		// ActionFactory.getNewCurrencyAction().run();
 		// action.setCallback(new ActionCallback<ClientCurrency>() {
