@@ -51,6 +51,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -89,6 +90,7 @@ public class VendorBillView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DynamicForm totalForm = new DynamicForm();
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -122,7 +124,15 @@ public class VendorBillView extends
 		if (transaction == null) {
 			setData(new ClientEnterBill());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+			}
 			paymentTermsCombo.setValue(transaction.getPaymentTerm());
 			dueDateItem
 					.setValue(new ClientFinanceDate(transaction.getDueDate()));
@@ -600,7 +610,7 @@ public class VendorBillView extends
 		// linksText.setShowTitle(false);
 		// linksText.setDisabled(isEdit);
 		// formItems.add(linksText);
-
+currencyWidget = createCurrencyWidget();
 		DynamicForm tdsForm = new DynamicForm();
 		tdsForm.setWidth("100%");
 		tdsForm.setFields();
@@ -653,6 +663,8 @@ public class VendorBillView extends
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
+		rightVLay.add(currencyWidget);
+		
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -860,7 +872,8 @@ public class VendorBillView extends
 						.getValue());
 
 		}
-
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 	}
