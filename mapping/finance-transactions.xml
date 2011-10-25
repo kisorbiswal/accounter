@@ -944,13 +944,8 @@
 			<property name="creditTotal" column="CREDIT_TOTAL"></property>
 			<property name="journalEntryType" column="JOURNAL_ENTRY_TYPE"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
-			<list name="entry" cascade="save-update,delete" lazy="false">
-				<key column="TRANSACTION_ID" />
-				<list-index column="IDX" />
-				<one-to-many class="Entry" />
-			</list>
-			<many-to-one name="transaction" class="Transaction" lazy="false"
-				cascade="save-update" column="TRANSACTION_ID">
+			<many-to-one name="involvedPayee" class="Payee" lazy="false"
+				cascade="save-update" column="PAYEE_ID">
 			</many-to-one>
 			<set name="transactionReceivePayments" inverse="true" lazy="false"
 				cascade="save-update,delete">
@@ -972,9 +967,6 @@
 			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 				cascade="save-update" column="TAX_AGENCY">
 			</many-to-one>
-			<many-to-one name="journalEntry" class="JournalEntry"
-				lazy="false" cascade="save-update,delete" column="JOURNAL_ENTRY">
-			</many-to-one>
 			<list name="boxes" cascade="save-update" lazy="false">
 				<key column="BOX_ID" />
 				<list-index column="BX" />
@@ -986,6 +978,7 @@
 			<key column="ID" />
 			<property name="increaseVATLine" column="INCREASE_VAT_LINE"></property>
 			<property name="isFiled" column="IS_FILED"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<many-to-one name="adjustmentAccount" class="Account"
 				lazy="false" cascade="save-update" column="ADJUSTMENT_ACCOUNT">
 			</many-to-one>
@@ -994,9 +987,6 @@
 			</many-to-one>
 			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 				cascade="save-update" column="TAX_AGENCY_ID">
-			</many-to-one>
-			<many-to-one name="journalEntry" class="JournalEntry"
-				lazy="false" cascade="save-update,delete" column="JOURNAL_ENTRY">
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="StockAdjustment" table="STOCK_ADJUSTMENT">

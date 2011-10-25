@@ -2302,7 +2302,7 @@
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		<return-scalar column="SALES_ORDER_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
-		<return-scalar column="ENTRY_ID" type="long" />
+		<return-scalar column="JOURNAL_ENTRY_ID" type="long" />
 		<return-scalar column="TMD_ID" type="long" />
 
 		SELECT CS.ID AS CUSTOMER_ID,
@@ -2315,7 +2315,7 @@
 		RECEIVE_PAYMENT_ID,
 		SO.ID AS SALES_ORDER_ID,
 		WC.ID AS WRITE_CHECK_ID,
-		E.ID AS ENTRY_ID,
+		JE.ID AS JOURNAL_ENTRY_ID,
 		TMD.ID AS TMD_ID
 		FROM CUSTOMER C
 		LEFT OUTER JOIN
@@ -2344,9 +2344,9 @@
 		WRITE_CHECKS WC
 		ON C.ID=WC.CUSTOMER_ID
 		LEFT OUTER JOIN
-		ENTRY E
+		JOURNAL_ENTRY JE
 		ON
-		C.ID=E.CUSTOMER_ID
+		C.ID=JE.PAYEE_ID
 		LEFT OUTER JOIN
 		TRANSACTION_MAKE_DEPOSIT TMD
 		ON
@@ -2366,7 +2366,7 @@
 		<return-scalar column="PURCHASE_ORDER_ID" type="long" />
 		<return-scalar column="VENDOR_CREDIT_MEMO_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
-		<return-scalar column="ENTRY_ID" type="long" />
+		<return-scalar column="JOURNAL_ENTRY_ID" type="long" />
 		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
 			type="long" />
 
@@ -2380,7 +2380,7 @@
 		VCM.ID AS VENDOR_CREDIT_MEMO_ID,
 		WC.ID
 		WRITE_CHECK_ID,
-		E.ID AS ENTRY_ID,
+		JE.ID AS JOURNAL_ENTRY_ID,
 		TMD.ID AS TRANSACTION_MAKE_DEPOSIT_ID
 		FROM VENDOR V
 		LEFT OUTER JOIN
@@ -2411,9 +2411,9 @@
 		WRITE_CHECKS WC
 		ON V.ID = WC.VENDOR_ID
 		LEFT OUTER JOIN
-		ENTRY E
+		JOURNAL_ENTRY JE
 		ON V.ID
-		= E.VENDOR_ID
+		= JE.PAYEE_ID
 		LEFT OUTER JOIN
 		TRANSACTION_MAKE_DEPOSIT TMD
 		ON V.ID =
@@ -5040,10 +5040,6 @@
 		VAT_RETURN V
 		ON B.BOX_ID = V.ID
 		LEFT OUTER JOIN TRANSACTION T ON T.ID = V.ID
-		LEFT OUTER JOIN
-		ENTRY E
-		ON V.JOURNAL_ENTRY
-		= E.TRANSACTION_ID
 
 		WHERE B.BOX_ID = :id AND B.COMPANY_ID=:companyId
 

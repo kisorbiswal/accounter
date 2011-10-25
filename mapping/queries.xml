@@ -1261,7 +1261,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXAdjustment t where
 		t.taxAgency.salesLiabilityAccount.name != 'Un Deposited Funds' and
-		t.journalEntry.balanceDue != 0 and t.company=:company order by
+		t.balanceDue != 0 and t.company=:company order by
 		t.taxAgency.id
 	</query>
 
@@ -1320,7 +1320,7 @@
 		v.transactionDate between :startDate and :endDate and
 		v.company=:company order by
 		v.taxItem.name,
-		v.journalEntry.transactionDate
+		v.transactionDate
 	</query>
 
 	<query name="getTAXRateCalculation.by.dates.groupedByIdtransactionItem">
@@ -1426,7 +1426,7 @@
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
 		and :endDate and v.company=:company order by v.taxItem.name,
-		v.journalEntry.transactionDate
+		v.transactionDate
 
 	</query>
 
@@ -1493,6 +1493,12 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Activity act where
 		act.objectID=:transactionId and act.company=:company
+	</query>
+	
+	<query name="getJournalEntryForCustomer">
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.JournalEntry je where
+		je.involvedPayee.id=:id
 	</query>
 
 	<sql-query name="updateTaxCodeSalesTaxRate">
