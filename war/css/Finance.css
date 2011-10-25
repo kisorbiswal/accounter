@@ -1491,3 +1491,11 @@ button.disable,button.disable:hover{
     border-radius: 5px 5px 5px 5px;
     padding: 5px;
 }
+.tabletmenu{
+	z-index: 1;
+	position: absolute;
+	background: white;
+}
+.datenumber-panel .gwt-TextBox{
+	width:120px !important;
+}
