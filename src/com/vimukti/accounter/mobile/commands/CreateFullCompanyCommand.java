@@ -84,6 +84,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 					}
 				}));
 
+		list.add(new StringListRequirement());
+		
 		list.add(new ListRequirement<String>(STATE, "Enter State", "State",
 				true, true, null) {
 
