@@ -7,8 +7,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
-import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -39,15 +39,15 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		list.add(new NameRequirement(TAX_ID, "Enter Tax Id", "Tax Id", true,
 				true));
 
-		list.add(new ListRequirement<String>(COUNTRY, getMessages()
-				.pleaseSelect(getConstants().country()), getConstants()
-				.country(), true, true, new ChangeListner<String>() {
+		list.add(new StringListRequirement(COUNTRY, getMessages().pleaseSelect(
+				getConstants().country()), getConstants().country(), true,
+				true, new ChangeListner<String>() {
 
-			@Override
-			public void onSelection(String value) {
-				country = value;
-			}
-		}) {
+					@Override
+					public void onSelection(String value) {
+						country = value;
+					}
+				}) {
 
 			@Override
 			protected String getEmptyString() {
@@ -93,8 +93,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ListRequirement<String>(STATE, "Enter State", "State",
-				true, true, null) {
+		list.add(new StringListRequirement(STATE, "Enter State", "State", true,
+				true, null) {
 
 			@Override
 			protected String getEmptyString() {
@@ -160,7 +160,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		list.add(new NameRequirement(WEB_SITE, "Enter Web Site name",
 				"Web Site", true, true));
 
-		list.add(new ListRequirement<String>(TIME_ZONE, getMessages()
+		list.add(new StringListRequirement(TIME_ZONE, getMessages()
 				.pleaseSelect(getConstants().timezone()), getConstants()
 				.timezone(), true, true, null) {
 
@@ -210,7 +210,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 		// Second Page
 		// Second Page
-		list.add(new ListRequirement<String>(INDUSTRY, getMessages()
+		list.add(new StringListRequirement(INDUSTRY, getMessages()
 				.pleaseSelect(getConstants().industry()), getConstants()
 				.industry(), false, true, null) {
 
@@ -258,7 +258,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ListRequirement<String>(ORGANIZATION_REFER,
+		list.add(new StringListRequirement(ORGANIZATION_REFER,
 				"Enter Organization name", "Company Organization", true, true,
 				null) {
 
@@ -307,7 +307,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 		});
 
-		list.add(new ListRequirement<String>(FISCAL_YEAR, getMessages()
+		list.add(new StringListRequirement(FISCAL_YEAR, getMessages()
 				.pleaseSelect(getConstants().fiscalYear()), getConstants()
 				.fiscalYear(), true, true, null) {
 
