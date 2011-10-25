@@ -3,13 +3,18 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.server.AccountsTemplateManager;
 
 public abstract class TemplateAccountRequirement extends
 		AbstractRequirement<TemplateAccount> {
@@ -17,12 +22,21 @@ public abstract class TemplateAccountRequirement extends
 	private static final String ACCOUNTS_LIST = "accountsList";
 	private static final int RECORDS_TO_SHOW = 5;
 	private static final String RECORDS_START_INDEX = "recordsStartIndex";
+	private List<AccountsTemplate> allAccounts;
 
 	public TemplateAccountRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
 			boolean isAllowFromContext) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext);
+		allAccounts = new ArrayList<AccountsTemplate>();
+		AccountsTemplateManager manager = new AccountsTemplateManager();
+		try {
+			allAccounts = manager.loadAccounts(ServerLocal.get().getLanguage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -207,8 +221,6 @@ public abstract class TemplateAccountRequirement extends
 		return result;
 	}
 
-	protected abstract String getEmptyString();
-
 	public List<TemplateAccount> pagination(Context context,
 			ActionNames selection, ResultList actions,
 			List<TemplateAccount> records, List<TemplateAccount> skipRecords,
@@ -260,6 +272,16 @@ public abstract class TemplateAccountRequirement extends
 		return result;
 	}
 
+	protected List<TemplateAccount> getLists(Context context, final String name) {
+		return Utility.filteredList(new ListFilter<TemplateAccount>() {
+
+			@Override
+			public boolean filter(TemplateAccount e) {
+				return e.getName().contains(name);
+			}
+		}, getLists(context));
+	}
+
 	/**
 	 * To show Full Record
 	 * 
@@ -283,6 +305,33 @@ public abstract class TemplateAccountRequirement extends
 		return value != null ? value.getName() : "";
 	}
 
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAny(getConstants().Account());
+	}
+
+	@Override
+	public boolean isDone() {
+		if (getValue() == null) {
+			loadDefaultAccpunts();
+		}
+		return true;
+	}
+
+	// int industryType = getIndustryList().indexOf(
+	// (String) get(INDUSTRY).getValue()) + 1;
+	private void loadDefaultAccpunts() {
+		List<TemplateAccount> all = getLists(null);
+		List<TemplateAccount> def = new ArrayList<TemplateAccount>();
+		for (TemplateAccount t : all) {
+			if (t.getDefaultValue()) {
+				def.add(t);
+			}
+		}
+		setValue(def);
+	}
+
+	protected abstract int getIndustryType();
+
 	/**
 	 * When Show all Records,
 	 * 
@@ -293,21 +342,14 @@ public abstract class TemplateAccountRequirement extends
 	}
 
 	/**
-	 * Filtered List
-	 * 
-	 * @param context
-	 * @param name
-	 * @return
-	 */
-	protected abstract List<TemplateAccount> getLists(Context context,
-			String name);
-
-	/**
 	 * Total Records
 	 * 
 	 * @param context
 	 * @return
 	 */
-	protected abstract List<TemplateAccount> getLists(Context context);
-
+	protected List<TemplateAccount> getLists(Context context) {
+		int industryType = getIndustryType();
+		AccountsTemplate accountsTemplate = allAccounts.get(industryType);
+		return accountsTemplate.getAccounts();
+	}
 }
