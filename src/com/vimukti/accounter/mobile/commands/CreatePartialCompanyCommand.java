@@ -11,9 +11,7 @@ import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
@@ -79,14 +77,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getCountryList());
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 			@Override
@@ -132,14 +124,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getStatesList(country));
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 			@Override
@@ -206,14 +192,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getTimeZonesList());
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 			@Override
@@ -262,14 +242,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getIndustryList());
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 			@Override
@@ -311,14 +285,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getOrganizationTypes());
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 			@Override
@@ -371,14 +339,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getFiscalYearMonths());
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 			@Override

@@ -51,8 +51,7 @@ public class CountryRequirement extends ListRequirement<String> {
 
 	@Override
 	protected boolean filter(String e, String name) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.startsWith(name);
 	}
 
 	@Override

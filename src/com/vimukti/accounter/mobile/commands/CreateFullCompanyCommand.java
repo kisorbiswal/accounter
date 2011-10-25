@@ -156,17 +156,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getTimeZonesList());
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getTimeZonesList();
 			}
@@ -174,6 +163,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Time Zone has been selected";
+			}
+
+			@Override
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 		});
 
@@ -217,17 +211,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getIndustryList());
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getIndustryList();
 			}
@@ -235,6 +218,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Industry has been selected";
+			}
+
+			@Override
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 		});
 
@@ -265,17 +253,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getOrganizationTypes());
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getOrganizationTypes();
 			}
@@ -288,6 +265,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Company Organization has been selected";
+			}
+
+			@Override
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 		});
@@ -319,17 +301,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getCustomerTerminologies());
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getCustomerTerminologies();
 			}
@@ -342,6 +313,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Customer Terminology has been selected";
+			}
+
+			@Override
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 		});
 
@@ -372,17 +348,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getSupplierTerminologies());
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getSupplierTerminologies();
 			}
@@ -395,6 +360,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Vendor Terminology has been selected";
+			}
+
+			@Override
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 		});
 
@@ -425,17 +395,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getAccountTerminologies());
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getAccountTerminologies();
 			}
@@ -448,6 +407,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Account Terminology has been selected";
+			}
+
+			@Override
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 		});
 
@@ -479,17 +443,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getServiceProductBothList());
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getServiceProductBothList();
 			}
@@ -503,6 +456,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getSetMessage() {
 				String v = getValue();
 				return "You have " + v + " selected";
+			}
+
+			@Override
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 		});
 
