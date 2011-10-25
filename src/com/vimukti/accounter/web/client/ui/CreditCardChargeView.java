@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -95,6 +96,7 @@ public class CreditCardChargeView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private TAXCodeCombo taxCodeSelect;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	public CreditCardChargeView() {
 
@@ -286,6 +288,14 @@ public class CreditCardChargeView extends
 			resetElements();
 			initpayFromAccountCombo();
 		} else {
+			
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			transactionDateItem.setValue(transaction.getDate());
 			contact = transaction.getContact();
 			delivDate.setValue(new ClientFinanceDate(transaction
@@ -622,7 +632,7 @@ public class CreditCardChargeView extends
 		//
 		// refText.setWidth(100);
 		// refText.setDisabled(false);
-
+		currencyWidget = createCurrencyWidget();
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
@@ -700,10 +710,11 @@ public class CreditCardChargeView extends
 		// leftVLay.setWidth("80%");
 		leftVLay.add(vendorForm);
 
-		HorizontalPanel rightHLay = new HorizontalPanel();
+		VerticalPanel rightHLay = new VerticalPanel();
 		// rightHLay.setWidth("80%");
 		rightHLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		rightHLay.add(termsForm);
+		rightHLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -713,6 +724,7 @@ public class CreditCardChargeView extends
 		topHLay.add(rightHLay);
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightHLay, "42%");
+		 
 
 		VerticalPanel vLay1 = new VerticalPanel();
 		// vLay1.add(lab2);
@@ -846,6 +858,8 @@ public class CreditCardChargeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	public void createAlterObject() {
