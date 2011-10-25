@@ -31,6 +31,11 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 	}
 
 	@Override
+	protected String getSetMessage() {
+		return "Contact is selected";
+	}
+
+	@Override
 	protected String getEmptyString() {
 		return "There are no Contacts";
 	}

@@ -31,6 +31,11 @@ public abstract class TransactionItemAccountsRequirement extends
 	}
 
 	@Override
+	protected String getSetMessage() {
+		return "Account is selected.";
+	}
+
+	@Override
 	protected ClientAccount getTransactionItem(ClientTransactionItem item) {
 		return getClientCompany().getAccount(item.getAccount());
 	}

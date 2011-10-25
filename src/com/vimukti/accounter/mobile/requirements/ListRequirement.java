@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class ListRequirement<T> extends AbstractRequirement {
+public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 	private static final int RECORDS_TO_SHOW = 5;
 	protected static final String RECORDS_START_INDEX = "startIndex";
 	private ChangeListner<T> listner;
@@ -37,8 +37,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 
 		if (attribute.equals(getName())) {
 			if (objSelection != null) {
-				setValue(objSelection);
+				setValue((T) objSelection);
 				T value = getValue();
+				((List<String>) context.getAttribute(FIRST_MESSAGE))
+						.add(getSetMessage());
 				if (listner != null) {
 					listner.onSelection(value);
 				}
@@ -58,7 +60,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			if (value != null) {
 				oldValues.add(value);
 			}
-			return showList(context, oldValues);
+			return showList(makeResult, context, oldValues);
 		}
 
 		T value = getValue();
@@ -70,8 +72,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 		return null;
 	}
 
-	public Result showList(Context context, List<T> oldRecords) {
-		Result result = context.makeResult();
+	protected abstract String getSetMessage();
+
+	public Result showList(Result result2, Context context, List<T> oldRecords) {
+		Result result = new Result();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		context.setAttribute(INPUT_ATTR, getName());
 		String name = null;
@@ -106,7 +110,8 @@ public abstract class ListRequirement<T> extends AbstractRequirement {
 			lists = getLists(context, name);
 			context.setAttribute("oldValue", name);
 			if (lists.size() != 0) {
-				result.add("Found " + lists.size() + " record(s)");
+				result.add("Found " + lists.size() + " record(s) with '" + name
+						+ "'.");
 			} else {
 				result.add("Did not get any records with '" + name + "'.");
 				result.add(getDisplayString());

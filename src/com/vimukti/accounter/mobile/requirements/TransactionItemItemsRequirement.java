@@ -31,6 +31,11 @@ public abstract class TransactionItemItemsRequirement extends
 	}
 
 	@Override
+	protected String getSetMessage() {
+		return "Item is selected";
+	}
+
+	@Override
 	protected Result checkItemToEdit(Context context,
 			ClientTransactionItem transactionItem) {
 		if (transactionItem.getUnitPrice() == 0) {

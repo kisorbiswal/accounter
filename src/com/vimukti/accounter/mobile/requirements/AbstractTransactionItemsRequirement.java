@@ -59,6 +59,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 				if (result != null) {
 					return result;
 				}
+				addFirstMessage(context, getSetMessage());
 			}
 		}
 		List<T> items = context.getSelections(getName());
@@ -120,7 +121,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 			for (ClientTransactionItem item : transactionItems) {
 				oldValues.add(getTransactionItem(item));
 			}
-			return showList(context, oldValues);
+			return showList(makeResult, context, oldValues);
 		}
 
 		makeResult.add(getRecordName());

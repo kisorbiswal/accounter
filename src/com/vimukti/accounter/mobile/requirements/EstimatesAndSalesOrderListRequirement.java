@@ -29,6 +29,11 @@ public abstract class EstimatesAndSalesOrderListRequirement extends
 	}
 
 	@Override
+	protected String getSetMessage() {
+		return "Estimateres are selected";
+	}
+
+	@Override
 	protected String getEmptyString() {
 		return "There are no Estimates";
 	}
