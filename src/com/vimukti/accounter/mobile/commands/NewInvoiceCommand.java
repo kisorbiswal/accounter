@@ -63,11 +63,14 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	private static final String TAXCODE = "taxCode";
 	private static final String ACCOUNT_ITEMS = "accountItems";
 
-	private ClientCustomer customer;
-
 	@Override
 	public String getId() {
 		return null;
+	}
+
+	@Override
+	public String getWelcomeMessage() {
+		return "Creating new invoice... ";
 	}
 
 	@Override
@@ -79,10 +82,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(ClientCustomer value) {
-						if (customer != value) {
-							customer = value;
-							NewInvoiceCommand.this.get(CONTACT).setValue(null);
-						}
+						NewInvoiceCommand.this.get(CONTACT).setValue(null);
 					}
 				}) {
 
@@ -145,7 +145,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(customer.getContacts());
+				return new ArrayList<ClientContact>(((ClientCustomer) get(
+						CUSTOMER).getValue()).getContacts());
 			}
 		});
 
@@ -170,7 +171,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			protected List<EstimatesAndSalesOrdersList> getLists(Context context) {
 				try {
 					return new FinanceTool().getCustomerManager()
-							.getEstimatesAndSalesOrdersList(customer.getID(),
+							.getEstimatesAndSalesOrdersList(
+									((ClientCustomer) get(CUSTOMER).getValue())
+											.getID(),
 									context.getCompany().getID());
 				} catch (DAOException e) {
 					e.printStackTrace();
