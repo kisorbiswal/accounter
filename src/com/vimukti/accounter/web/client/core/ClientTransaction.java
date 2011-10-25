@@ -96,7 +96,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	// ClientCreditsAndPayments creditsAndPayments;
 
-	List<ClientEntry> entry;
+	// List<ClientEntry> entry;
 
 	int status = 0;
 	boolean canVoidOrEdit = true;
@@ -510,21 +510,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public void setTransactionReceivePayment(
 			List<ClientTransactionReceivePayment> transactionReceivePayment) {
 		this.transactionReceivePayment = transactionReceivePayment;
-	}
-
-	/**
-	 * @return the entry
-	 */
-	public List<ClientEntry> getEntry() {
-		return entry;
-	}
-
-	/**
-	 * @param entry
-	 *            the entry to set
-	 */
-	public void setEntry(List<ClientEntry> entry) {
-		this.entry = entry;
 	}
 
 	/**

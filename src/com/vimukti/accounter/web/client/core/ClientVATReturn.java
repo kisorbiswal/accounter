@@ -192,12 +192,6 @@ public class ClientVATReturn extends ClientTransaction {
 		}
 		vatReturn.boxes = boxs;
 
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		vatReturn.entry = entries;
-
 		// transactionItems list
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem clientTransactionItem : this.transactionItems) {

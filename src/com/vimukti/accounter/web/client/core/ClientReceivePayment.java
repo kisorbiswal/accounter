@@ -311,12 +311,6 @@ public class ClientReceivePayment extends ClientTransaction {
 
 		receivePayment.address = this.address.clone();
 
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		receivePayment.entry = entries;
-
 		List<ClientTransactionIssuePayment> transactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
 		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
 			transactionIssuePayments.add(clientTransactionIssuePayment.clone());

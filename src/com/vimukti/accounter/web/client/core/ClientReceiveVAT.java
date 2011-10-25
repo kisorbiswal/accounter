@@ -164,14 +164,6 @@ public class ClientReceiveVAT extends ClientTransaction {
 	public ClientReceiveVAT clone() {
 		ClientReceiveVAT receiveVAT = (ClientReceiveVAT) this.clone();
 
-//		receiveVAT.creditsAndPayments = this.creditsAndPayments.clone();
-
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		receiveVAT.entry = entries;
-
 		List<ClientTransactionIssuePayment> transactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
 		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
 			transactionIssuePayments.add(clientTransactionIssuePayment.clone());

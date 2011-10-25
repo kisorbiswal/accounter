@@ -102,12 +102,6 @@ public class ClientTransferFund extends ClientTransaction {
 	public ClientTAXAdjustment clone() {
 		ClientTAXAdjustment taxAdjustment = (ClientTAXAdjustment) this.clone();
 
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		taxAdjustment.entry = entries;
-
 		// transactionItems list
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem clientTransactionItem : this.transactionItems) {

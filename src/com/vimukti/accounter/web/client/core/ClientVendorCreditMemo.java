@@ -137,12 +137,6 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 		vendorCreditMemo.contact = this.contact;
 //		vendorCreditMemo.creditsAndPayments = this.creditsAndPayments;
 
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		vendorCreditMemo.entry = entries;
-
 		// transactionItems list
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem clientTransactionItem : this.transactionItems) {

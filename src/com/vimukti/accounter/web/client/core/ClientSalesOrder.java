@@ -342,12 +342,6 @@ public class ClientSalesOrder extends ClientTransaction {
 		salesOrder.billingAddress = this.billingAddress.clone();
 		salesOrder.shippingAdress = this.shippingAdress.clone();
 
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		salesOrder.entry = entries;
-
 		List<ClientTransactionIssuePayment> transactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
 		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
 			transactionIssuePayments.add(clientTransactionIssuePayment.clone());
