@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TemplateAccountRequirement;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -84,31 +85,12 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 					}
 				}));
 
-		list.add(new StringListRequirement());
-		
-		list.add(new ListRequirement<String>(STATE, "Enter State", "State",
-				true, true, null) {
+		list.add(new StringListRequirement(STATE, "Enter State", "State", true,
+				true, null) {
 
 			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
+			protected String getSetMessage() {
+				return "State has been selected";
 			}
 
 			@Override
@@ -117,24 +99,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getStatesList(country));
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
 				return getStatesList(country);
-			}
-
-			@Override
-			protected String getSetMessage() {
-				return "State has been selected";
 			}
 		});
 
