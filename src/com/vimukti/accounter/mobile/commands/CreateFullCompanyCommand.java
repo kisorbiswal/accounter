@@ -210,15 +210,16 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		// Second Page
-		list.add(new ListRequirement<String>(INDUSTRY, "Please Enter Industry type", getConstants()
-				.industry(), false, true, new ChangeListner<String>() {
+		list.add(new ListRequirement<String>(INDUSTRY,
+				"Please Enter Industry type", getConstants().industry(), false,
+				true, new ChangeListner<String>() {
 
-			@Override
-			public void onSelection(String value) {
-				industry = value;
-				setDefaultAccounts();
-			}
-		}) {
+					@Override
+					public void onSelection(String value) {
+						industry = value;
+						setDefaultAccounts();
+					}
+				}) {
 
 			@Override
 			protected String getEmptyString() {
@@ -616,22 +617,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				return getCurrenciesList();
 			}
 
-			@Override
-			protected List<ClientCurrency> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientCurrency>() {
-
-					@Override
-					public boolean filter(ClientCurrency e) {
-						return e.getName().contains(name);
-					}
-				}, getCurrenciesList());
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().currency());
-			}
 		});
 
 		list.add(new BooleanRequirement(MANAGE_BILLS_OWE, true) {
@@ -679,14 +664,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected List<String> getLists(Context context, final String name) {
-				return Utility.filteredList(new ListFilter<String>() {
-
-					@Override
-					public boolean filter(String e) {
-						return e.contains(name);
-					}
-				}, getFiscalYearMonths());
+			protected boolean filter(String e, String name) {
+				return e.startsWith(name);
 			}
 
 			@Override

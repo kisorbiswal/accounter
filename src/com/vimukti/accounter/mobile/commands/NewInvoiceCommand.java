@@ -39,8 +39,6 @@ import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -120,21 +118,13 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						return e.getName().contains(name)
-								|| e.getNumber().equals(name);
-					}
-				}, getClientCompany().getAccounts());
+			protected List<ClientAccount> getLists(Context context) {
+				return getClientCompany().getAccounts();
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return getClientCompany().getAccounts();
+			protected boolean filter(ClientAccount e, String name) {
+				return e.getName().contains(name) || e.getNumber().equals(name);
 			}
 
 		});
@@ -162,18 +152,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected List<ClientContact> getLists(Context context) {
 				return new ArrayList<ClientContact>(customer.getContacts());
-			}
-
-			@Override
-			protected List<ClientContact> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientContact>() {
-
-					@Override
-					public boolean filter(ClientContact e) {
-						return e.getName().contains(name);
-					}
-				}, new ArrayList<ClientContact>(customer.getContacts()));
 			}
 		});
 
@@ -207,9 +185,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<EstimatesAndSalesOrdersList> getLists(
-					Context context, String name) {
-				return new ArrayList<EstimatesAndSalesOrdersList>();
+			protected boolean filter(EstimatesAndSalesOrdersList e, String name) {
+				return e.getName().contains(name);
 			}
 		});
 
@@ -223,15 +200,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientTAXCode>() {
-
-					@Override
-					public boolean filter(ClientTAXCode e) {
-						return e.getName().contains(name);
-					}
-				}, getClientCompany().getTaxCodes());
+			protected boolean filter(ClientTAXCode e, String name) {
+				return e.getName().contains(name);
 			}
 		});
 	}

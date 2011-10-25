@@ -50,12 +50,9 @@ public class CountryRequirement extends ListRequirement<String> {
 	}
 
 	@Override
-	protected List<String> getLists(Context context, String name) {
-		List<String> countries = new ArrayList<String>();
-		countries.add("United Kingdom");
-		countries.add("US");
-		countries.add("India");
-		return countries;
+	protected boolean filter(String e, String name) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
