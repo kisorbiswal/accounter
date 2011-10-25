@@ -110,7 +110,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		entry.setNumber(number);
 
 		List<ClientEntry> clientEntries = get(VOUCHER).getValue();
-		entry.setEntry(clientEntries);
+		// entry.setEntry(clientEntries);
 
 		String memo = get(MEMO).getValue();
 		entry.setMemo(memo);

@@ -59,19 +59,6 @@ public class MyCommand extends NewCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						return e.getName().contains(name)
-								|| e.getNumber().equals(name);
-					}
-				}, getClientCompany().getAccounts());
-			}
-
-			@Override
 			protected ClientCompany getClientCompany() {
 				return MyCommand.this.getClientCompany();
 			}
@@ -84,19 +71,6 @@ public class MyCommand extends NewCommand {
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
 				return getClientCompany().getAccounts();
-			}
-
-			@Override
-			protected List<ClientAccount> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						return e.getName().contains(name)
-								|| e.getNumber().equals(name);
-					}
-				}, getClientCompany().getAccounts());
 			}
 
 			@Override
