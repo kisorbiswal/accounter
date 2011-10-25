@@ -107,7 +107,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		}
 
 		Object selection = context.getSelection(ACTIONS);
-		if (selection == ActionNames.ADD_MORE_ITEMS) {
+		if (selection == getName()) {
 			show = true;
 		}
 
@@ -135,7 +135,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		}
 		makeResult.add(itemsList);
 
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
+		Record moreItems = new Record(getName());
 		moreItems.add("", getAddMoreString());
 		actions.add(moreItems);
 		return null;

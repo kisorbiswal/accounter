@@ -152,7 +152,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 
 		ResultList actions = new ResultList(ACTIONS);
 
-		ActionNames selection = context.getSelection(ACTIONS);
+		Object selection = context.getSelection(ACTIONS);
 
 		List<T> pagination = pagination(context, selection, actions, records,
 				skipCustomers, recordsToShow);
@@ -187,10 +187,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 
 	protected abstract String getEmptyString();
 
-	public List<T> pagination(Context context, ActionNames selection,
+	public List<T> pagination(Context context, Object selection,
 			ResultList actions, List<T> records, List<T> skipRecords,
 			int recordsToShow) {
-		if (selection != null && selection == ActionNames.PREV_PAGE) {
+		if (selection == ActionNames.PREV_PAGE) {
 			Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
 			Integer lastPageSize = (Integer) context
 					.getAttribute("LAST_PAGE_SIZE");

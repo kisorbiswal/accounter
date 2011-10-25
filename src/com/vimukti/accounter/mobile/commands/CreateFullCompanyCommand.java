@@ -628,6 +628,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(getConstants().currency());
 			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Currency has been selected";
+			}
 		});
 
 		list.add(new BooleanRequirement(MANAGE_BILLS_OWE, true) {
