@@ -67,6 +67,7 @@
 			</many-to-one>
 			<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
 			<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
+			<property name="currency" column="BANK_ACCOUNT_CURRENCY"></property>
 			<property name="lastReconcilationDate" column="LAST_RECONCILATION_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
@@ -900,6 +901,7 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="fileAs" column="FILE_AS"></property>
 		<property name="version" column="VERSION"></property>
+		<property name="currency" column="CURRENCY"></property>
 		<property name="type" column="TYPE"></property>
 		<property name="date" column="P_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
