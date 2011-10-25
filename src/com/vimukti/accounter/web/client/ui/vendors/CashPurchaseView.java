@@ -309,7 +309,9 @@ public class CashPurchaseView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
-		rightVLay.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -578,9 +580,12 @@ public class CashPurchaseView extends
 			code = Accounter.getCompany().getDefaultTaxCode();
 			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
+
 		long currency = vendor.getCurrency();
-		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-		currencyWidget.setSelectedCurrency(clientCurrency);
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			currencyWidget.setSelectedCurrency(clientCurrency);
+		}
 
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);

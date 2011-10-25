@@ -311,7 +311,9 @@ public class CustomerCreditMemoView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(phoneForm);
-		rightVLay.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setSize("100%", "100%");
@@ -452,11 +454,13 @@ public class CustomerCreditMemoView extends
 			setData(new ClientCustomerCreditMemo());
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));

@@ -130,6 +130,7 @@ public class WriteChequeView extends
 
 	private HorizontalPanel unassignedAmountPanel;
 	private CurrencyWidget currencyWidget;
+
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
@@ -488,9 +489,8 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null && !isAmountChange) {
-				amtText
-						.setAmount(getAmountInTransactionCurrency(transactionTotal
-								.doubleValue()));
+				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
+						.doubleValue()));
 			}
 
 		}
@@ -516,23 +516,23 @@ public class WriteChequeView extends
 
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable, accounterConstants
-					.blankTransaction());
+			result.addError(transactionVendorAccountTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
 
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
@@ -794,8 +794,8 @@ public class WriteChequeView extends
 			@Override
 			public void onBlur(BlurEvent event) {
 				if ((amtText.getAmount() != 0)
-						&& !(DecimalUtil.isEquals(previousValue, amtText
-								.getAmount()))) {
+						&& !(DecimalUtil.isEquals(previousValue,
+								amtText.getAmount()))) {
 					previousValue = amtText.getAmount();
 					isAmountChange = true;
 					validateAmountAndTotal();
@@ -862,7 +862,9 @@ public class WriteChequeView extends
 
 		topHLay.add(labelLayout);
 		topHLay.add(accPanel);
-		topHLay.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			topHLay.add(currencyWidget);
+		}
 		// topHLay.add(amtForm);
 
 		vatPanel = new VerticalPanel();
@@ -878,7 +880,7 @@ public class WriteChequeView extends
 		// totalForm.setFields(netAmount, totalTaxtxt, totalTxt);
 		// totalForm.addStyleName("invoice-total");
 		// DynamicForm vatCheckForm = new DynamicForm();
-		
+
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
 		bottomPanel.add(memoForm);
@@ -923,7 +925,6 @@ public class WriteChequeView extends
 			}
 
 		});
-		
 
 		DynamicForm unassignedAmountForm = new DynamicForm();
 		unassignedAmount = new AmountLabel(constants.unassignedAmount());
@@ -1418,13 +1419,14 @@ public class WriteChequeView extends
 			setData(new ClientWriteCheck());
 		} else {
 
-			
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			// if (getPreferences().isTrackPaidTax()) {
 			// netAmount.setAmount(transaction.getNetAmount());
@@ -1438,8 +1440,7 @@ public class WriteChequeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1464,9 +1465,9 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
 	}
 
 	@Override

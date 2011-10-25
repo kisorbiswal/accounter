@@ -286,9 +286,12 @@ public class VendorBillView extends
 		if (transaction.getID() == 0) {
 			getPurchaseOrdersAndItemReceipt();
 		}
+
 		long currency = vendor.getCurrency();
-		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-		currencyWidget.setSelectedCurrency(clientCurrency);
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			currencyWidget.setSelectedCurrency(clientCurrency);
+		}
 
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
@@ -666,7 +669,9 @@ public class VendorBillView extends
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
-		rightVLay.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");

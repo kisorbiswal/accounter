@@ -155,8 +155,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect
@@ -211,8 +211,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -315,8 +315,8 @@ public class CashSalesView extends
 		prodAndServiceForm2.setNumCols(4);
 		if (isTrackTax()) {
 			prodAndServiceForm2.setFields(disabletextbox,
-					taxTotalNonEditableText,disabletextbox, netAmountLabel, disabletextbox,
-					transactionTotalNonEditableText);
+					taxTotalNonEditableText, disabletextbox, netAmountLabel,
+					disabletextbox, transactionTotalNonEditableText);
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
@@ -354,7 +354,9 @@ public class CashSalesView extends
 		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
-		rightVLay.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -636,11 +638,13 @@ public class CashSalesView extends
 			setData(new ClientCashSales());
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			ClientCompany company = getCompany();
 
@@ -716,8 +720,7 @@ public class CashSalesView extends
 									.getNetAmount()));
 					taxTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -863,8 +866,8 @@ public class CashSalesView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
@@ -1009,12 +1012,12 @@ public class CashSalesView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
@@ -1029,8 +1032,8 @@ public class CashSalesView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-			customerAccountTransactionTable.updateTotals();
-			customerItemTransactionTable.updateTotals();
+		customerAccountTransactionTable.updateTotals();
+		customerItemTransactionTable.updateTotals();
 	}
 
 	@Override

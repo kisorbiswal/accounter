@@ -92,7 +92,6 @@ public class ClientCompany implements IAccounterCore {
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
-
 	String bankAccountNo;
 
 	String sortCode;
@@ -105,12 +104,17 @@ public class ClientCompany implements IAccounterCore {
 
 	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
-	String ukServiceItemDefaultIncomeAccount = "Early Payment Discount Given";
-	String ukServiceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	// String ukServiceItemDefaultIncomeAccount =
+	// "Early Payment Discount Given";
 
-	String ukNonInventoryItemDefaultIncomeAccount = "Early Payment Discount Given";
+	// String ukServiceItemDefaultExpenseAccount =
+	// "Products/Materials Purchased Type A";
 
-	String ukNonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	// String ukNonInventoryItemDefaultIncomeAccount =
+	// "Early Payment Discount Given";
+
+	// String ukNonInventoryItemDefaultExpenseAccount =
+	// "Products/Materials Purchased Type A";
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 
@@ -1169,6 +1173,7 @@ public class ClientCompany implements IAccounterCore {
 		ClientCurrency object = Utility.getObject(this.currencies, currencyId);
 		return object;
 	}
+
 	public ClientPayee getPayee(long id) {
 		return Utility.getObject(this.payees, id);
 	}
@@ -2256,14 +2261,15 @@ public class ClientCompany implements IAccounterCore {
 		taxCode.setTAXItemGrpForPurchases(0);
 		return taxCode;
 	}
-//	public void deleteCurrency(long id) {
-//		ClientCurrency clientBrandingTheme = this.getCurrency(id);
-//		if (clientBrandingTheme != null) {
-//			this.brandingTheme.remove(clientBrandingTheme);
-//			fireEvent(new CoreEvent<ClientCurrency>(ChangeType.DELETE,
-//					clientBrandingTheme));
-//		}
-//	}
+
+	// public void deleteCurrency(long id) {
+	// ClientCurrency clientBrandingTheme = this.getCurrency(id);
+	// if (clientBrandingTheme != null) {
+	// this.brandingTheme.remove(clientBrandingTheme);
+	// fireEvent(new CoreEvent<ClientCurrency>(ChangeType.DELETE,
+	// clientBrandingTheme));
+	// }
+	// }
 
 	public void setBrandingThemes(ArrayList<ClientBrandingTheme> brandingTheme) {
 		this.brandingTheme = brandingTheme;

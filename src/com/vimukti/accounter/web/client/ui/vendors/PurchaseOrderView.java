@@ -511,7 +511,9 @@ public class PurchaseOrderView extends
 		// rightVLay.setWidth("93%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
-		rightVLay.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+		}
 		// rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		// rightVLay.setCellHorizontalAlignment(dateform, ALIGN_RIGHT);
 
@@ -1081,9 +1083,10 @@ public class PurchaseOrderView extends
 		}
 
 		long currency = vendor.getCurrency();
-		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-		currencyWidget.setSelectedCurrency(clientCurrency);
-
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			currencyWidget.setSelectedCurrency(clientCurrency);
+		}
 		shippingMethodsCombo.setComboItem(shippingMethod);
 		vendorCombo.setComboItem(vendor);
 	}

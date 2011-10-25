@@ -939,8 +939,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			bankForm = UIUtils.form(Accounter.messages()
 					.bankAccountInformation(Global.get().Account()));
 			bankForm.setWidth("100%");
-			bankForm.setFields(getBankNameSelectItem(), typeSelect,
-					bankAccNumText, currencyCombo);
+			if (isMultiCurrencyEnabled()) {
+				bankForm.setFields(getBankNameSelectItem(), typeSelect,
+						bankAccNumText, currencyCombo);
+			} else {
+				bankForm.setFields(getBankNameSelectItem(), typeSelect,
+						bankAccNumText);
+			}
 
 			// bankForm.setWidth("100%");
 			// bankForm.setAutoHeight();

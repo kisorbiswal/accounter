@@ -659,10 +659,18 @@ public class VendorView extends BaseView<ClientVendor> {
 		financeDetailsForm.setWidth("100%");
 		financeDetailsForm.setGroupTitle(Accounter.constants()
 				.financialDetails());
-		financeDetailsForm.setFields(expenseAccountsSelect, currencyCombo,
-				creditLimitText, preferredShippingSelect,
-				preferredPaymentSelect, payTermsSelect, accountText,
-				bankNameText, bankBranchText);
+		if (isMultiCurrencyEnabled()) {
+			financeDetailsForm.setFields(expenseAccountsSelect, currencyCombo,
+					creditLimitText, preferredShippingSelect,
+					preferredPaymentSelect, payTermsSelect, accountText,
+					bankNameText, bankBranchText);
+		} else {
+
+			financeDetailsForm.setFields(expenseAccountsSelect,
+					creditLimitText, preferredShippingSelect,
+					preferredPaymentSelect, payTermsSelect, accountText,
+					bankNameText, bankBranchText);
+		}
 
 		vendorGroupSelect = new VendorGroupCombo(messages.vendorGroup(Global
 				.get().Vendor()));

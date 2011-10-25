@@ -27,9 +27,9 @@ import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -85,7 +85,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected List<ClientVendor> vendors;
 	protected VendorCombo vendorCombo;
 	private boolean locationTrackingEnabled;
-    private CurrencyWidget currencyWidget;
+	private CurrencyWidget currencyWidget;
+
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
 		locationTrackingEnabled = getCompany().getPreferences()
@@ -250,7 +251,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction
 				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
 						.getAmount()));
-		
+
 		transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
@@ -381,10 +382,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				record.setAppliedCredits(curntRec.getCredits());
 
-				record
-						.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-								.getDiscountDate().getDate()
-								: 0);
+				record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+						.getDiscountDate().getDate() : 0);
 
 				record.setDueDate(curntRec.getDueDate() != null ? curntRec
 						.getDueDate().getDate() : 0);
@@ -646,14 +645,16 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		leftVLay.add(payForm);
 		VerticalPanel vpPanel = new VerticalPanel();
 		vpPanel.add(balForm);
-		vpPanel.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			vpPanel.add(currencyWidget);
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(vpPanel);
-		//topHLay.add(vpPanel);
+		// topHLay.add(vpPanel);
 		// HorizontalPanel hLay2 = new HorizontalPanel();
 		// hLay2.setWidth("100%");
 		// hLay2.setHorizontalAlignment(ALIGN_RIGHT);
@@ -790,11 +791,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			setData(new ClientPayBill());
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
@@ -893,8 +896,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -909,7 +912,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		if (!isInViewMode()) {
 			if (grid.getAllRows().isEmpty()) {
-				result.addError(grid,
+				result.addError(
+						grid,
 						Accounter.messages().noBillsAreAvailableFirstAddABill(
 								Global.get().Vendor()));
 			}
@@ -961,8 +965,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null) {
 
 			for (PayBillTransactionList cont : filterList) {
-				if (getVendor().getName().toString().equalsIgnoreCase(
-						cont.getVendorName().toString())) {
+				if (getVendor().getName().toString()
+						.equalsIgnoreCase(cont.getVendorName().toString())) {
 
 					tempList.add(cont);
 				}

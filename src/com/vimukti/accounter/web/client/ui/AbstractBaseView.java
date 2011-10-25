@@ -482,4 +482,8 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		this.callback = callback;
 	}
 
+	public boolean isMultiCurrencyEnabled() {
+		return getCompany().getPreferences().isEnableMultiCurrency();
+	}
+
 }

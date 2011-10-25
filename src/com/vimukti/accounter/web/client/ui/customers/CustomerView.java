@@ -921,9 +921,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		DynamicForm financeDitailsForm = UIUtils.form(customerConstants
 				.financialDetails());
 
-		financeDitailsForm.setFields(salesPersonSelect, currencyCombo,
-				creditRatingSelect, bankNameSelect, bankAccountSelect,
-				bankBranchSelect);
+		if (isMultiCurrencyEnabled()) {
+			financeDitailsForm.setFields(salesPersonSelect, currencyCombo,
+					creditRatingSelect, bankNameSelect, bankAccountSelect,
+					bankBranchSelect);
+		} else {
+			financeDitailsForm.setFields(salesPersonSelect, creditRatingSelect,
+					bankNameSelect, bankAccountSelect, bankBranchSelect);
+		}
 
 		if (getPreferences().isTrackTax()) {
 

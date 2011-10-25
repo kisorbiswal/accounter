@@ -550,7 +550,7 @@ public class CreditCardExpenseView extends
 
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
-currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyWidget();
 		if (getPreferences().isTrackPaidTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
@@ -596,7 +596,9 @@ currencyWidget = createCurrencyWidget();
 		// rightHLay.setWidth("80%");
 		rightHLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		rightHLay.add(termsForm);
-		rightHLay.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			rightHLay.add(currencyWidget);
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -690,13 +692,15 @@ currencyWidget = createCurrencyWidget();
 			resetElements();
 			initpayFromAccountCombo();
 		} else {
-			
+
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
-				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
 			}
 			// if (vendor != null) {
 			// vendorNameSelect.setComboItem(vendor);
