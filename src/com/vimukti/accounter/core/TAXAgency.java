@@ -238,4 +238,10 @@ public class TAXAgency extends Payee {
 		return this.name;
 	}
 
+	@Override
+	protected JournalEntry createJournalEntry(Payee payee) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

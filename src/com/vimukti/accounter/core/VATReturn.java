@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -44,8 +45,6 @@ public class VATReturn extends Transaction {
 
 	List<Box> boxes = new ArrayList<Box>();
 
-	JournalEntry journalEntry;
-
 	double balance;
 
 	public static final int VAT_RETURN_UK_VAT = 1;
@@ -57,21 +56,6 @@ public class VATReturn extends Transaction {
 	 */
 	public long getID() {
 		return id;
-	}
-
-	/**
-	 * @return the journalEntry
-	 */
-	public JournalEntry getJournalEntry() {
-		return journalEntry;
-	}
-
-	/**
-	 * @param journalEntry
-	 *            the journalEntry to set
-	 */
-	public void setJournalEntry(JournalEntry journalEntry) {
-		this.journalEntry = journalEntry;
 	}
 
 	/**
@@ -194,7 +178,8 @@ public class VATReturn extends Transaction {
 					.setParameter("vatAgency", taxAgency.getID())
 					.setEntity("company", getCompany());
 
-			this.setJournalEntry(new JournalEntry(this));
+			// this.setJournalEntry(new JournalEntry(this));
+			updateTaxLiabilityAccounts(this);
 
 			List<TAXRateCalculation> vrc = query.list();
 			// org.hibernate.Transaction t = session.beginTransaction();
@@ -214,6 +199,42 @@ public class VATReturn extends Transaction {
 			session.setFlushMode(flushMode);
 		}
 
+	}
+
+	private void updateTaxLiabilityAccounts(VATReturn vatReturn) {
+		Session session = HibernateUtil.getCurrentSession();
+		double salesTaxamount = 0, purchaseTaxAmount = 0;
+		for (Box b : vatReturn.getBoxes()) {
+			if (b.getBoxNumber() == 1 || b.getBoxNumber() == 2) {
+				salesTaxamount = salesTaxamount + b.getAmount();
+			} else if (b.getBoxNumber() == 4) {
+				purchaseTaxAmount = purchaseTaxAmount + b.getAmount();
+			} else if (b.getBoxNumber() == 10) {
+				purchaseTaxAmount = purchaseTaxAmount - b.getAmount();
+			}
+		}
+		Account salesLiabilityAccount = vatReturn.getTaxAgency()
+				.getSalesLiabilityAccount();
+		salesLiabilityAccount.updateCurrentBalance(vatReturn, -1
+				* salesTaxamount);
+		session.update(salesLiabilityAccount);
+		salesLiabilityAccount.onUpdate(session);
+
+		Account purchaseLiabilityAccount = vatReturn.getTaxAgency()
+				.getPurchaseLiabilityAccount();
+		purchaseLiabilityAccount.updateCurrentBalance(vatReturn,
+				purchaseTaxAmount);
+		session.update(purchaseLiabilityAccount);
+		purchaseLiabilityAccount.onUpdate(session);
+
+		double amount = vatReturn.getBoxes().get(4).getAmount()
+				+ vatReturn.getBoxes().get(vatReturn.getBoxes().size() - 1)
+						.getAmount();
+		Account vatFiledLiabilityAccount = getCompany()
+				.getVATFiledLiabilityAccount();
+		vatFiledLiabilityAccount.updateCurrentBalance(vatReturn, amount);
+		session.update(vatFiledLiabilityAccount);
+		vatFiledLiabilityAccount.onUpdate(session);
 	}
 
 	@Override
@@ -285,7 +306,7 @@ public class VATReturn extends Transaction {
 	@Override
 	public String toString() {
 		// currently not using
-		return null;
+		return AccounterServerConstants.TYPE_VAT_RETURN;
 	}
 
 	@Override

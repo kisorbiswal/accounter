@@ -745,7 +745,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 * non-zero. If entry is voiding, reverse its sign. Check the JournalEntry
 	 * type (Normal or Cash basis) and call the corresponding method.
 	 * 
-	 * @param entry
+	 * @param entries
 	 * @param session
 	 * @param isVoid
 	 */
@@ -783,7 +783,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 * liability Account. The value of the amount changes according to this
 	 * account.
 	 * 
-	 * @param entry
+	 * @param entries
 	 * @param session
 	 * @param amount
 	 */
@@ -820,7 +820,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 * normal journal entry is created we need to update the corresponding
 	 * entry's balances with the amount passed as argument.
 	 * 
-	 * @param entry
+	 * @param entries
 	 * @param session
 	 * @param amount
 	 */

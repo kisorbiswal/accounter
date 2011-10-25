@@ -1,11 +1,15 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * Payee is the object which represents a real-time entity of either
@@ -54,6 +58,7 @@ public abstract class Payee extends CreatableObject implements
 	private String phoneNo;
 	private String faxNo;
 
+	protected double previousOpeningBal;
 	// UKvariables
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
@@ -362,7 +367,7 @@ public abstract class Payee extends CreatableObject implements
 		 * once if any Payee got created with opening balance then that Payee
 		 * balance should not be editable. So we will make it as un editable.
 		 */
-		isOpeningBalanceEditable = Boolean.FALSE;
+		// isOpeningBalanceEditable = Boolean.FALSE;
 		ChangeTracker.put(this);
 	}
 
@@ -456,6 +461,44 @@ public abstract class Payee extends CreatableObject implements
 		this.paymentMethod = paymentMethod;
 	}
 
+	protected void modifyJournalEntry(JournalEntry existEntry) {
+		Session session = HibernateUtil.getCurrentSession();
+		session.delete(existEntry);
+		if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
+			JournalEntry journalEntry = createJournalEntry(this);
+			session.save(journalEntry);
+		}
+	}
+
+	protected abstract JournalEntry createJournalEntry(Payee payee);
+
+	protected List<TransactionItem> getEntryItems(Payee payee) {
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		TransactionItem item1 = new TransactionItem();
+		item1.setAccount(getCompany().getOpeningBalancesAccount());
+		item1.setType(TransactionItem.TYPE_ACCOUNT);
+		item1.setDescription(payee.getName());
+		if (payee instanceof Customer) {
+			item1.setLineTotal(-1 * payee.getOpeningBalance());
+		} else {
+			item1.setLineTotal(payee.getOpeningBalance());
+		}
+		items.add(item1);
+
+		TransactionItem item2 = new TransactionItem();
+		item2.setAccount(getCompany().getAccountsReceivableAccount());
+		item2.setType(TransactionItem.TYPE_ACCOUNT);
+		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
+		if (payee instanceof Customer) {
+			item2.setLineTotal(payee.getOpeningBalance());
+		} else {
+			item2.setLineTotal(-1 * payee.getOpeningBalance());
+		}
+		items.add(item2);
+
+		return items;
+	}
+
 	public Currency getCurrency() {
 		return currency;
 	}
@@ -463,5 +506,4 @@ public abstract class Payee extends CreatableObject implements
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
-
 }

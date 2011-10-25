@@ -6,6 +6,8 @@ import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -37,8 +39,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	@ReffereredObject
 	TAXAgency taxAgency;
 
-	@ReffereredObject
-	JournalEntry journalEntry;
+	double balanceDue;
 
 	/**
 	 * @return the increaseVATLine
@@ -100,21 +101,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		this.taxItem = taxItem;
 	}
 
-	/**
-	 * @return the journalEntry
-	 */
-	public JournalEntry getJournalEntry() {
-		return journalEntry;
-	}
-
-	/**
-	 * @param journalEntry
-	 *            the journalEntry to set
-	 */
-	public void setJournalEntry(JournalEntry journalEntry) {
-		this.journalEntry = journalEntry;
-	}
-
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
 		return false;
@@ -143,24 +129,48 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		session.setFlushMode(FlushMode.COMMIT);
 		try {
 			this.setType(Transaction.TYPE_ADJUST_VAT_RETURN);
+			this.balanceDue = this.total;
 
-			// Query query = session.getNamedQuery("getNextTransactionNumber");
-			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
-			// List list = query.list();
-			// //
-			// long nextVoucherNumber = 1;
-			// if (list != null && list.size() > 0) {
-			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
-			// }
+			doCreateEffect(session, this);
 
-			JournalEntry vatAdjustmentJournalEntry = new JournalEntry(this,
-					number, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
-
-			this.journalEntry = vatAdjustmentJournalEntry;
 		} finally {
 			session.setFlushMode(flushMode);
 		}
 		return false;
+	}
+
+	private void doCreateEffect(Session session, TAXAdjustment taxAdjustment) {
+		Account liabilityAccount = taxAdjustment.taxItem.isSalesType == true ? taxAdjustment.taxItem.taxAgency
+				.getSalesLiabilityAccount() : taxAdjustment.taxItem.taxAgency
+				.getPurchaseLiabilityAccount();
+
+		double amount1 = 0;
+		double amount2 = 0;
+		if (taxAdjustment.increaseVATLine) {
+			if (taxAdjustment.taxItem.isSalesType) {
+				amount1 = taxAdjustment.total;
+				amount2 = -1 * taxAdjustment.total;
+			} else {
+				amount1 = -1 * taxAdjustment.total;
+				amount2 = taxAdjustment.total;
+			}
+		} else {
+			if (this.taxItem.isSalesType) {
+				amount1 = -1 * taxAdjustment.total;
+				amount2 = taxAdjustment.total;
+			} else {
+				amount1 = taxAdjustment.total;
+				amount2 = -1 * taxAdjustment.total;
+			}
+		}
+
+		liabilityAccount.updateCurrentBalance(this, amount1);
+		session.saveOrUpdate(liabilityAccount);
+		liabilityAccount.onUpdate(session);
+
+		adjustmentAccount.updateCurrentBalance(this, amount2);
+		session.saveOrUpdate(adjustmentAccount);
+		adjustmentAccount.onUpdate(session);
 	}
 
 	@Override
@@ -191,7 +201,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public String toString() {
-		return null;
+		return Global.get().constants().taxAdjustment();
 	}
 
 	@Override
@@ -203,6 +213,52 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
+		TAXAdjustment taxAdjustment = (TAXAdjustment) clonedObject;
+		Session session = HibernateUtil.getCurrentSession();
+
+		if ((this.isVoid && !taxAdjustment.isVoid)
+				|| (this.isDeleted() && !taxAdjustment.isDeleted() && !this.isVoid)) {
+			this.balanceDue = 0;
+			doVoidEffect(session, this);
+		} else if (!taxAdjustment.equals(this)) {
+			doVoidEffect(session, taxAdjustment);
+			this.balanceDue = this.total;
+			doCreateEffect(session, this);
+		}
+	}
+
+	private void doVoidEffect(Session session, TAXAdjustment taxAdjustment) {
+		Account liabilityAccount = taxAdjustment.taxItem.isSalesType == true ? taxAdjustment.taxItem.taxAgency
+				.getSalesLiabilityAccount() : taxAdjustment.taxItem.taxAgency
+				.getPurchaseLiabilityAccount();
+
+		double amount1 = 0;
+		double amount2 = 0;
+		if (taxAdjustment.increaseVATLine) {
+			if (taxAdjustment.taxItem.isSalesType) {
+				amount1 = -1 * taxAdjustment.total;
+				amount2 = taxAdjustment.total;
+			} else {
+				amount1 = taxAdjustment.total;
+				amount2 = -1 * taxAdjustment.total;
+			}
+		} else {
+			if (taxAdjustment.taxItem.isSalesType) {
+				amount1 = taxAdjustment.total;
+				amount2 = -1 * taxAdjustment.total;
+			} else {
+				amount1 = -1 * taxAdjustment.total;
+				amount2 = taxAdjustment.total;
+			}
+		}
+
+		liabilityAccount.updateCurrentBalance(this, amount1);
+		session.saveOrUpdate(liabilityAccount);
+		liabilityAccount.onUpdate(session);
+
+		adjustmentAccount.updateCurrentBalance(this, amount2);
+		session.saveOrUpdate(adjustmentAccount);
+		adjustmentAccount.onUpdate(session);
 	}
 
 	@Override
@@ -218,6 +274,14 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
+	}
+
+	public double getBalanceDue() {
+		return balanceDue;
+	}
+
+	public void setBalanceDue(double balanceDue) {
+		this.balanceDue = balanceDue;
 	}
 
 }

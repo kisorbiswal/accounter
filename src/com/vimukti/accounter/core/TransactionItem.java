@@ -511,7 +511,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					if (effectingAccount != null) {
 						effectingAccount.updateCurrentBalance(this.transaction,
 								amount);
-						session.update(effectingAccount);
+						session.saveOrUpdate(effectingAccount);
 						effectingAccount.onUpdate(session);
 					}
 

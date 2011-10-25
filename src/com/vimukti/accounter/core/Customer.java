@@ -363,6 +363,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
+		this.previousOpeningBal = openingBalance;
 		// try {
 		// this.previousCustomer = (Customer) this.clone();
 		// } catch (CloneNotSupportedException e) {
@@ -394,22 +395,21 @@ public class Customer extends Payee implements IAccounterServerCore,
 		// true);
 		// }
 		super.onUpdate(session);
-		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
-				&& isOpeningBalanceEditable) {
+		if (!DecimalUtil.isEquals(this.openingBalance, this.previousOpeningBal)) {
 
-			this.isOpeningBalanceEditable = Boolean.FALSE;
-			// Query query = session.getNamedQuery("getNextTransactionNumber");
-			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
-			// List list = query.list();
-			// long nextVoucherNumber = 1;
-			// if (list != null && list.size() > 0) {
-			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
-			// }
-			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
-					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-			JournalEntry journalEntry = new JournalEntry(this,
-					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
-			session.save(journalEntry);
+			// this.isOpeningBalanceEditable = Boolean.FALSE;
+
+			this.balance -= previousOpeningBal;
+			this.balance += openingBalance;
+			JournalEntry existEntry = (JournalEntry) session
+					.getNamedQuery("getJournalEntryForCustomer")
+					.setLong("id", this.id).uniqueResult();
+			if (existEntry == null) {
+				JournalEntry journalEntry = createJournalEntry(this);
+				session.save(journalEntry);
+			} else {
+				modifyJournalEntry(existEntry);
+			}
 		}
 
 		// /*
@@ -419,6 +419,28 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		ChangeTracker.put(this);
 		return false;
+	}
+
+	protected JournalEntry createJournalEntry(Payee customer) {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+		journalEntry.setInvolvedPayee(customer);
+		journalEntry.setCompany(customer.getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = ((Customer) customer).balanceAsOf;
+		journalEntry.memo = "Opening Balance";
+		journalEntry.balanceDue = customer.getOpeningBalance();
+
+		List<TransactionItem> items = getEntryItems(customer);
+
+		journalEntry.setDebitTotal(items.get(1).getLineTotal());
+		journalEntry.setCreditTotal(items.get(0).getLineTotal());
+
+		journalEntry.setTransactionItems(items);
+
+		return journalEntry;
 	}
 
 	@Override

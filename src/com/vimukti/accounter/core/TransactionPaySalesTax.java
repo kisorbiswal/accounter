@@ -141,7 +141,7 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 			this.paySalesTaxEntry.updateBalance(this.amountToPay);
 
 			if (this.taxAdjustment != null) {
-				this.taxAdjustment.getJournalEntry().balanceDue -= this.amountToPay;
+				this.taxAdjustment.balanceDue -= this.amountToPay;
 				session.saveOrUpdate(this.taxAdjustment);
 			}
 

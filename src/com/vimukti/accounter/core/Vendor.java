@@ -366,6 +366,7 @@ public class Vendor extends Payee {
 	 */
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
+		this.previousOpeningBal = openingBalance;
 	}
 
 	@Override
@@ -385,22 +386,22 @@ public class Vendor extends Payee {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
-		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
-				&& isOpeningBalanceEditable) {
+		if (!DecimalUtil.isEquals(this.openingBalance, this.previousOpeningBal)) {
 
-			this.isOpeningBalanceEditable = Boolean.FALSE;
-			// Query query = session.getNamedQuery("getNextTransactionNumber");
-			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
-			// List list = query.list();
-			// long nextVoucherNumber = 1;
-			// if (list != null && list.size() > 0) {
-			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
-			// }
-			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
-					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-			JournalEntry journalEntry = new JournalEntry(this,
-					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
-			session.save(journalEntry);
+			// this.isOpeningBalanceEditable = Boolean.FALSE;
+
+			this.balance -= previousOpeningBal;
+			this.balance += openingBalance;
+
+			JournalEntry existEntry = (JournalEntry) session
+					.getNamedQuery("getJournalEntryForCustomer")
+					.setLong("id", this.id).uniqueResult();
+			if (existEntry == null) {
+				JournalEntry journalEntry = createJournalEntry(this);
+				session.save(journalEntry);
+			} else {
+				modifyJournalEntry(existEntry);
+			}
 		}
 
 		// /*
@@ -410,6 +411,28 @@ public class Vendor extends Payee {
 
 		ChangeTracker.put(this);
 		return false;
+	}
+
+	protected JournalEntry createJournalEntry(Payee vendor) {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+		journalEntry.setInvolvedPayee(vendor);
+		journalEntry.setCompany(vendor.getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = ((Vendor) vendor).balanceAsOf;
+		journalEntry.memo = "Opening Balance";
+		journalEntry.balanceDue = vendor.getOpeningBalance();
+
+		List<TransactionItem> items = getEntryItems(vendor);
+
+		journalEntry.setDebitTotal(items.get(0).getLineTotal());
+		journalEntry.setCreditTotal(items.get(1).getLineTotal());
+
+		journalEntry.setTransactionItems(items);
+
+		return journalEntry;
 	}
 
 	@Override

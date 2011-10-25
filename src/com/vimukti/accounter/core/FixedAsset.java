@@ -832,13 +832,10 @@ public class FixedAsset extends CreatableObject implements
 			// if (list != null && list.size() > 0) {
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
-			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
-					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 			/**
 			 * Preparing the journal entry for this Sell or Dispose.
 			 */
-			JournalEntry journalEntry = new JournalEntry(this,
-					nextVoucherNumber);
+			JournalEntry journalEntry = createJournalEntry(this);
 			transactions.add(journalEntry);
 
 			/**
@@ -1043,17 +1040,14 @@ public class FixedAsset extends CreatableObject implements
 			// if (list != null && list.size() > 0) {
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
-			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
-					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-
 			double amount = depreciationMethod == Depreciation.METHOD_STRAIGHT_LINE ? this.purchasePrice
 					: this.openingBalanceForFiscalYear;
 
 			double depreciationAmount = Double.parseDouble(decimalFormat
 					.format(amount * depreciationRate / 1200));
 
-			JournalEntry journalEntry = new JournalEntry(this, new FinanceDate(
-					fromCal.getTime()), nextVoucherNumber, depreciationAmount);
+			JournalEntry journalEntry = createJournalEntry(this,
+					depreciationAmount, new FinanceDate(fromCal.getTime()));
 			transactions.add(journalEntry);
 
 			/**
@@ -1104,6 +1098,164 @@ public class FixedAsset extends CreatableObject implements
 
 		}
 
+	}
+
+	private JournalEntry createJournalEntry(FixedAsset fixedAsset,
+			double amount, FinanceDate date) {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+		journalEntry.setCompany(fixedAsset.getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = date;
+		journalEntry.memo = "Fixed Asset - " + fixedAsset.getAssetNumber()
+				+ " Depreciation Journal Entry";
+
+		// To avoid the Voiding of this Journal Entry, because it is for
+		// Depreciation.
+		journalEntry.reference = AccounterServerConstants.JOURNAL_ENTRY_FOR_DEPRECIATION;
+
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		TransactionItem item1 = new TransactionItem();
+		item1.setType(TransactionItem.TYPE_ACCOUNT);
+		item1.setDescription("Depreciation");
+		item1.setAccount(fixedAsset.getAssetAccount()
+				.getLinkedAccumulatedDepreciationAccount());
+		item1.setLineTotal(-1 * amount);
+		items.add(item1);
+
+		TransactionItem item2 = new TransactionItem();
+		item2.setType(TransactionItem.TYPE_ACCOUNT);
+		item2.setDescription("Depreciation");
+		item2.setAccount(fixedAsset.getDepreciationExpenseAccount());
+		item2.setLineTotal(amount);
+		items.add(item2);
+
+		journalEntry.setDebitTotal(item2.getLineTotal());
+		journalEntry.setCreditTotal(item1.getLineTotal());
+
+		journalEntry.setTransactionItems(items);
+
+		return journalEntry;
+	}
+
+	private JournalEntry createJournalEntry(FixedAsset fixedAsset) {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+
+		double debitTotal = 0, creditTotal = 0;
+
+		journalEntry.setCompany(fixedAsset.getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = fixedAsset.getSoldOrDisposedDate();
+		journalEntry.memo = "Fixed Asset Depreciation";
+		// To avoid the Voiding of this Journal Entry, because it is for
+		// Depreciation.
+		journalEntry.reference = AccounterServerConstants.JOURNAL_ENTRY_FOR_DEPRECIATION;
+
+		DecimalFormat decimalFormat = new DecimalFormat("##.##");
+		double salesPrice = fixedAsset.getSalePrice();
+		double purchasePrice = fixedAsset.getPurchasePrice();
+
+		FixedAssetSellOrDisposeReviewJournal reviewJournal = null;
+		try {
+			reviewJournal = fixedAsset.getReviewJournal();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		double lessAccumulatedDepreciationAmount = 0.0;
+		if (reviewJournal != null
+				&& reviewJournal.getDisposalJournal().containsKey(
+						fixedAsset.getAssetAccount()
+								.getLinkedAccumulatedDepreciationAccount()
+								.getName())) {
+			lessAccumulatedDepreciationAmount = (Double) reviewJournal
+					.getDisposalJournal().get(
+							fixedAsset.getAssetAccount()
+									.getLinkedAccumulatedDepreciationAccount()
+									.getName());
+		}
+
+		double totalCapitalGain = Double
+				.parseDouble(decimalFormat
+						.format((salesPrice > purchasePrice) ? (salesPrice - purchasePrice)
+								: 0.0));
+
+		double lossOrGainOnDisposal = Double.parseDouble(decimalFormat
+				.format((salesPrice + Math
+						.abs(lessAccumulatedDepreciationAmount))
+						- purchasePrice - totalCapitalGain));
+
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		TransactionItem item1 = new TransactionItem();
+		item1.setType(TransactionItem.TYPE_ACCOUNT);
+		item1.setDescription("Disposal of FixedAsset " + fixedAsset.getName());
+		item1.setAccount(fixedAsset.getAssetAccount());
+		item1.setLineTotal(-1 * fixedAsset.getPurchasePrice());
+		items.add(item1);
+		creditTotal = creditTotal + item1.getLineTotal();
+
+		if (!DecimalUtil.isEquals(fixedAsset.getSalePrice(), 0)) {
+			TransactionItem entry2 = new TransactionItem();
+			entry2.setType(TransactionItem.TYPE_ACCOUNT);
+			entry2.setAccount(fixedAsset.getAccountForSale());
+			entry2.setDescription("Depreciation");
+			entry2.setLineTotal(fixedAsset.getSalePrice());
+			items.add(entry2);
+			debitTotal = debitTotal + entry2.getLineTotal();
+		}
+
+		if (!DecimalUtil.isEquals(lessAccumulatedDepreciationAmount, 0)) {
+			TransactionItem entry3 = new TransactionItem();
+			entry3.setType(TransactionItem.TYPE_ACCOUNT);
+			entry3.setAccount(fixedAsset.getAssetAccount()
+					.getLinkedAccumulatedDepreciationAccount());
+			entry3.setDescription("Depreciation");
+			entry3.setLineTotal(Math.abs(lessAccumulatedDepreciationAmount));
+			items.add(entry3);
+			debitTotal = debitTotal + entry3.getLineTotal();
+		}
+
+		if (!DecimalUtil.isEquals(lossOrGainOnDisposal, 0)) {
+			TransactionItem entry4 = new TransactionItem();
+			entry4.setType(TransactionItem.TYPE_ACCOUNT);
+			entry4.setAccount(fixedAsset.getLossOrGainOnDisposalAccount());
+			entry4.setDescription("Depreciation");
+			if (DecimalUtil.isLessThan(lossOrGainOnDisposal, 0)) {
+				entry4.setLineTotal(Math.abs(lossOrGainOnDisposal));
+				debitTotal = debitTotal + entry4.getLineTotal();
+			} else {
+				entry4.setLineTotal(-1 * Math.abs(lossOrGainOnDisposal));
+				creditTotal = creditTotal + entry4.getLineTotal();
+			}
+			items.add(entry4);
+		}
+
+		if (!DecimalUtil.isEquals(totalCapitalGain, 0.0)) {
+			TransactionItem entry5 = new TransactionItem();
+			entry5.setType(TransactionItem.TYPE_ACCOUNT);
+			entry5.setAccount(fixedAsset.getTotalCapitalGain());
+			entry5.setDescription("Depreciation");
+			if (DecimalUtil.isLessThan(totalCapitalGain, 0)) {
+				entry5.setLineTotal(Math.abs(totalCapitalGain));
+				debitTotal = debitTotal + entry5.getLineTotal();
+			} else {
+				entry5.setLineTotal(-1 * Math.abs(totalCapitalGain));
+				creditTotal = creditTotal + entry5.getLineTotal();
+			}
+			items.add(entry5);
+		}
+
+		journalEntry.setDebitTotal(debitTotal);
+		journalEntry.setCreditTotal(creditTotal);
+
+		journalEntry.setTransactionItems(items);
+
+		return journalEntry;
 	}
 
 	/**

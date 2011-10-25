@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1087,13 +1088,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				&& isOpeningBalanceEditable) {
 
 			this.isOpeningBalanceEditable = Boolean.FALSE;
-			// Query query = session.getNamedQuery("getNextTransactionNumber");
-			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
-			// List list = query.list();
-			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
-					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-			JournalEntry journalEntry = new JournalEntry(this,
-					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
+			JournalEntry journalEntry = createJournalEntry(this);
 			session.save(journalEntry);
 		}
 
@@ -1121,6 +1116,46 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		session.setFlushMode(flushMode);
 		return false;
+	}
+
+	private JournalEntry createJournalEntry(Account account) {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+		journalEntry.setCompany(account.getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = account.asOf;
+		journalEntry.memo = "Opening Balance";
+
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		TransactionItem item1 = new TransactionItem();
+		item1.setAccount(getCompany().getOpeningBalancesAccount());
+		item1.setType(TransactionItem.TYPE_ACCOUNT);
+		item1.setDescription(account.getName());
+		items.add(item1);
+
+		TransactionItem item2 = new TransactionItem();
+		item2.setAccount(account);
+		item2.setType(TransactionItem.TYPE_ACCOUNT);
+		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
+		items.add(item2);
+
+		if (account.isIncrease()) {
+			item2.setLineTotal(-1 * account.getOpeningBalance());
+			item1.setLineTotal(account.getOpeningBalance());
+			journalEntry.setDebitTotal(item1.getLineTotal());
+			journalEntry.setCreditTotal(item2.getLineTotal());
+		} else {
+			item2.setLineTotal(account.getOpeningBalance());
+			item1.setLineTotal(-1 * account.getOpeningBalance());
+			journalEntry.setDebitTotal(item2.getLineTotal());
+			journalEntry.setCreditTotal(item1.getLineTotal());
+		}
+
+		journalEntry.setTransactionItems(items);
+
+		return journalEntry;
 	}
 
 	@Override

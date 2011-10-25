@@ -617,6 +617,10 @@ public abstract class Transaction extends CreatableObject implements
 		return this != null && this instanceof Invoice;
 	}
 
+	public boolean isJournalEntry() {
+		return this != null && this instanceof JournalEntry;
+	}
+
 	public boolean isQuote() {
 		return false;
 	}
@@ -818,6 +822,8 @@ public abstract class Transaction extends CreatableObject implements
 			this.type = Transaction.TYPE_CUSTOMER_PRE_PAYMENT;
 		else if (this.isTAXAdjustment())
 			this.type = Transaction.TYPE_ADJUST_SALES_TAX;
+		else if (this.isJournalEntry())
+			this.type = Transaction.TYPE_JOURNAL_ENTRY;
 
 	}
 

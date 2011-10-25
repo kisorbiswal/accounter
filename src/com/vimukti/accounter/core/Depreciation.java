@@ -317,9 +317,9 @@ public class Depreciation extends CreatableObject implements
 							// To update the depreciation and Accumulated
 							// Depreciation account
 							JournalEntry journalEntry = (JournalEntry) trans;
-							for (Entry entry : journalEntry.entry) {
-								entry.updateAccountBalances(session, true);
-							}
+							// for (Entry entry : journalEntry.entries) {
+							// entry.updateAccountBalances(session, true);
+							// }
 
 							if (lstDepreciationDate.before(trans.getDate()))
 								lstDepreciationDate = trans.getDate();
