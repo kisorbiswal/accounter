@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
 
-public abstract class AbstractCompanyCommad extends AbstractCommand {
+public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	protected static final String CUSTOMER_TERMINOLOGY = "customerterm";
 	protected static final String SUPPLIER_TERMINOLOGY = "vendorterm";
 	protected static final String ACCOUNT_TERMINOLOGY = "accountterm";
@@ -60,7 +60,9 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 					requirement);
 		} else {
 			if (requirement.getName() == INDUSTRY) {
-				get(ACCOUNTS).setDefaultValue(getDefaultTemplateAccounts());
+				get(ACCOUNTS).setDefaultValue(
+						getDefaultTemplateAccounts((Integer) get(INDUSTRY)
+								.getValue()));
 			}
 		}
 
@@ -90,7 +92,9 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 					requirement);
 		} else {
 			if (requirement.getName() == INDUSTRY) {
-				get(ACCOUNTS).setDefaultValue(getDefaultTemplateAccounts());
+				get(ACCOUNTS).setDefaultValue(
+						getDefaultTemplateAccounts((Integer) get(INDUSTRY)
+								.getValue()));
 			}
 		}
 
@@ -109,36 +113,36 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 
 	protected Result emailRequirement(Context context, ResultList list,
 			String reqName, String name, String displayString) {
-		Requirement requirement = get(reqName);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(reqName)) {
-			input = context.getString();
-			if (isValidEmail(input)) {
-				requirement.setValue(input);
-				context.setAttribute(INPUT_ATTR, "");
-			}
-		}
-		if (!requirement.isDone()) {
-			context.setAttribute(INPUT_ATTR, reqName);
-			return text(context, displayString, null);
-		}
-
-		Object selection = context.getSelection("values");
-		String emailId = requirement.getValue();
-		if (selection != null && selection.equals(reqName)) {
-			context.setAttribute(INPUT_ATTR, reqName);
-			return text(context, displayString, emailId);
-		}
-
-		Record nameRecord = new Record(reqName);
-		nameRecord.add("", name);
-		nameRecord.add("", emailId);
-		list.add(nameRecord);
+		// Requirement requirement = get(reqName);
+		// String input = (String) context.getAttribute(INPUT_ATTR);
+		// if (input.equals(reqName)) {
+		// input = context.getString();
+		// if (isValidEmail(input)) {
+		// requirement.setValue(input);
+		// context.setAttribute(INPUT_ATTR, "");
+		// }
+		// }
+		// if (!requirement.isDone()) {
+		// context.setAttribute(INPUT_ATTR, reqName);
+		// return text(context, displayString, null);
+		// }
+		//
+		// Object selection = context.getSelection("values");
+		// String emailId = requirement.getValue();
+		// if (selection != null && selection.equals(reqName)) {
+		// context.setAttribute(INPUT_ATTR, reqName);
+		// return text(context, displayString, emailId);
+		// }
+		//
+		// Record nameRecord = new Record(reqName);
+		// nameRecord.add("", name);
+		// nameRecord.add("", emailId);
+		// list.add(nameRecord);
 		return null;
 	}
 
-	private List<TemplateAccount> getDefaultTemplateAccounts() {
-		Integer industryType = get(INDUSTRY).getValue();
+	protected List<TemplateAccount> getDefaultTemplateAccounts(int industryType) {
+		// Integer industryType = get(INDUSTRY).getValue();
 		AccountsTemplate accountsTemplate = allAccounts.get(industryType);
 		List<TemplateAccount> accounts = accountsTemplate.getAccounts();
 		if (accounts != null) {
@@ -197,9 +201,9 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 			Record record = new Record(num);
 			record.add("", displayList.get(num));
 			list.add(record);
-			if (num == COUNTRIES_TO_SHOW) {
-				break;
-			}
+			// if (num == COUNTRIES_TO_SHOW) {
+			// break;
+			// }
 		}
 		if (list.size() > 0) {
 			result.add(getMessages().pleaseSelect(displayString));
@@ -272,8 +276,8 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		return CoreUtils.getCountriesAsList();
 	}
 
-	protected List<String> getStatesList() {
-		String country = get(COUNTRY).getValue();
+	protected List<String> getStatesList(String country) {
+		// String country = get(COUNTRY).getValue();
 		List<String> statesList = new ArrayList<String>();
 		if (country == null) {
 			return statesList;

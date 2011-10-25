@@ -18,6 +18,12 @@ public abstract class NewAbstractCommand extends NewCommand {
 	private AccounterConstants constants;
 	private AccounterMessages messages;
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
+	protected static final String COUNTRY = "country";
+	protected static final String PHONE = "phone";
+	protected static final String EMAIL = "email";
+	protected static final String ACTIONS = "actions";
+	protected static final int VALUES_TO_SHOW = 5;
+	protected static final int COUNTRIES_TO_SHOW = 5;
 
 	public NewAbstractCommand() {
 
