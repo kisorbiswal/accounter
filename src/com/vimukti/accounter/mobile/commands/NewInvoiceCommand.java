@@ -105,18 +105,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientItem> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientItem>() {
-
-					@Override
-					public boolean filter(ClientItem e) {
-						return e.getName().contains(name);
-					}
-				}, getClientCompany().getItems());
-			}
-
-			@Override
 			protected ClientCompany getClientCompany() {
 				return NewInvoiceCommand.this.getClientCompany();
 			}
@@ -166,20 +154,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			protected List<ClientPaymentTerms> getLists(Context context) {
 				return getClientCompany().getPaymentsTerms();
 			}
-
-			@Override
-			protected List<ClientPaymentTerms> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(
-						new ListFilter<ClientPaymentTerms>() {
-
-							@Override
-							public boolean filter(ClientPaymentTerms e) {
-								return e.getName().contains(name);
-							}
-						}, getClientCompany().getPaymentsTerms());
-			}
-
 		});
 
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
