@@ -128,28 +128,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				.timezone(), true, true, null) {
 
 			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
-
-			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(getConstants().timezone());
 			}
@@ -162,11 +140,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Time Zone has been selected";
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
 			}
 		});
 
@@ -181,29 +154,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 						setDefaultAccounts();
 					}
 				}) {
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
-
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(getConstants().industry());
@@ -219,32 +169,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				return "Industry has been selected";
 			}
 
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
-			}
 		});
 
 		list.add(new StringListRequirement(ORGANIZATION_REFER,
 				"Enter Organization name", "Company Organization", true, true,
 				null) {
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
 
 			@Override
 			protected String getSelectString() {
@@ -257,18 +186,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
 			protected String getSetMessage() {
 				return "Company Organization has been selected";
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
 			}
 
 		});
@@ -276,23 +195,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY,
 				"Enter Customer terminology", "Customer Terminology", true,
 				true, null) {
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
 
 			@Override
 			protected String getSelectString() {
@@ -305,41 +207,14 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
 			protected String getSetMessage() {
 				return "Customer Terminology has been selected";
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
 			}
 		});
 
 		list.add(new StringListRequirement(SUPPLIER_TERMINOLOGY, getMessages()
 				.terminology(getConstants().Supplier()), getConstants()
 				.supplier(), true, true, null) {
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
 
 			@Override
 			protected String getSelectString() {
@@ -352,41 +227,14 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
 			protected String getSetMessage() {
 				return "Vendor Terminology has been selected";
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
 			}
 		});
 
 		list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
 				.terminology(getConstants().Account()), getConstants()
 				.Account(), true, true, null) {
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
 
 			@Override
 			protected String getSelectString() {
@@ -399,41 +247,14 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
 			protected String getSetMessage() {
 				return "Account Terminology has been selected";
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
 			}
 		});
 
 		list.add(new StringListRequirement(SERVICE_PRODUCTS_BOTH,
 				getConstants().productAndService(), getConstants()
 						.productAndService(), true, true, null) {
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
 
 			@Override
 			protected String getSelectString() {
@@ -447,19 +268,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
 			protected String getSetMessage() {
 				String v = getValue();
 				return "You have " + v + " selected";
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
 			}
 		});
 
@@ -562,35 +373,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				.fiscalYear(), true, true, null) {
 
 			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add("", value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected String getCreateCommandString() {
-				return null;
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(getConstants().fiscalYear());
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
 			}
 
 			@Override
