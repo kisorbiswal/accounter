@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -79,6 +80,7 @@ public class CashSalesView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
@@ -328,7 +330,7 @@ public class CashSalesView extends
 					transactionTotalNonEditableText);
 		}
 		prodAndServiceForm2.addStyleName("boldtext");
-
+		currencyWidget = createCurrencyWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
@@ -352,6 +354,7 @@ public class CashSalesView extends
 		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
+		rightVLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -575,6 +578,8 @@ public class CashSalesView extends
 		transaction
 				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
 						.getAmount()));
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
@@ -630,7 +635,13 @@ public class CashSalesView extends
 		if (transaction == null) {
 			setData(new ClientCashSales());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			ClientCompany company = getCompany();
 
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));

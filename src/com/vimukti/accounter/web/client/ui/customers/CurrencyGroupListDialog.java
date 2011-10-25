@@ -70,7 +70,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 	}
 
-	private void ShowAddEditDialog(ClientCurrency currency) {
+	public void ShowAddEditDialog(ClientCurrency currency) {
 		clientCurrency = currency;
 		currencyListDialog = new NewCurrencyListDialog(this,
 				constants.addCurrency(), clientCurrency);

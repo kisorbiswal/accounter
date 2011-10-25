@@ -69,7 +69,9 @@ public class NewCurrencyListDialog extends BaseDialog {
 
 		} else {
 			String value = clientCurrency.getName();
+			
 			for (ClientCurrency currency : company.getCurrencies()) {
+				if(currency.getName()!=null)
 				if (currency.getName().equalsIgnoreCase(value)
 						&& currency.getID() != clientCurrency.getID()) {
 					result.addError(this, Accounter.constants()

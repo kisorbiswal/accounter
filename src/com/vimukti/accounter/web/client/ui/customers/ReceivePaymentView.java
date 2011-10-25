@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 /**
  * 
@@ -96,6 +97,7 @@ public class ReceivePaymentView extends
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
 	private boolean locationTrackingEnabled;
+	private CurrencyWidget currencyWidget;
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
@@ -489,7 +491,7 @@ public class ReceivePaymentView extends
 			classListCombo = createAccounterClassListCombo();
 			depoForm.setFields(classListCombo);
 		}
-
+		currencyWidget= createCurrencyWidget();
 		Label lab1 = new Label(Accounter.constants().dueForPayment());
 
 		initListGrid();
@@ -530,6 +532,7 @@ public class ReceivePaymentView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(depoForm);
+		 rightVLay.add(currencyWidget);
 
 		topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -633,6 +636,9 @@ public class ReceivePaymentView extends
 		transaction
 				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
 						.getAmount()));
+		
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	public void setUnusedPayments(Double unusedAmounts) {
@@ -674,7 +680,13 @@ public class ReceivePaymentView extends
 			setData(new ClientReceivePayment());
 			initDepositInAccounts();
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
 			customerSelected(getCompany()

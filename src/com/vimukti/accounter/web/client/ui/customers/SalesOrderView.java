@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
@@ -94,6 +95,7 @@ public class SalesOrderView extends
 			paymentsNonEditableText, salesTaxTextNonEditable;
 
 	private Double salesTax;
+	private CurrencyWidget currencyWidget;
 
 	public SalesOrderView() {
 		super(ClientTransaction.TYPE_SALES_ORDER);
@@ -419,7 +421,7 @@ public class SalesOrderView extends
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.setStyleName("boldtext");
 		}
-
+		 currencyWidget = createCurrencyWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
@@ -449,6 +451,7 @@ public class SalesOrderView extends
 		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
+		rightVLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -592,7 +595,13 @@ public class SalesOrderView extends
 			initShippingMethod();
 			initDueDate();
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			ClientCompany company = getCompany();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			this.billingAddress = transaction.getBillingAddress();
@@ -873,6 +882,8 @@ public class SalesOrderView extends
 		// transaction.setReference(getRefText());
 		if (selectedEstimateId != 0)
 			transaction.setEstimate(selectedEstimateId);
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override

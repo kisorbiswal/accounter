@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CustomerCreditMemoView extends
@@ -66,6 +67,7 @@ public class CustomerCreditMemoView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
+	private CurrencyWidget currencyWidget;
 
 	public CustomerCreditMemoView() {
 
@@ -246,7 +248,7 @@ public class CustomerCreditMemoView extends
 				addItem();
 			}
 		});
-
+		currencyWidget = createCurrencyWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(customerItemTransactionTable);
@@ -309,6 +311,7 @@ public class CustomerCreditMemoView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(phoneForm);
+		rightVLay.add(currencyWidget);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setSize("100%", "100%");
@@ -439,6 +442,8 @@ public class CustomerCreditMemoView extends
 		transaction
 				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
 						.getAmount()));
+		transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
@@ -446,7 +451,13 @@ public class CustomerCreditMemoView extends
 		if (transaction == null) {
 			setData(new ClientCustomerCreditMemo());
 		} else {
-
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
 			this.billingAddress = transaction.getBillingAddress();
