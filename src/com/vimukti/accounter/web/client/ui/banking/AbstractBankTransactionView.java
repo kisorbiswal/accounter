@@ -69,6 +69,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected AmountLabel netAmount, transactionTotalNonEditableText,
 			vatTotalNonEditableText;
 	protected ClientVendor selectedVendor;
+	protected ClientTAXCode taxCode;
 
 	public AbstractBankTransactionView(int transactionType) {
 
@@ -373,6 +374,16 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 		transactionItem.setTaxCode(getPreferences().getDefaultTaxCode());
+		long defaultTaxCode = getCompany().getPreferences().getDefaultTaxCode();
+		if (getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
+					.getTAXCode() > 0 ? selectedVendor.getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 
 		addAccountTransactionItem(transactionItem);
 	}
@@ -382,10 +393,15 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		if (getPreferences().isTrackTax()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
 					.getTAXCode() != 0 ? selectedVendor.getTAXCode()
 					: getPreferences().getDefaultTaxCode()) : 0);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
 		}
 
 		addItemTransactionItem(transactionItem);

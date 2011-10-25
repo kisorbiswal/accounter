@@ -67,6 +67,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected DepositInAccountCombo depositInCombo;
 	protected ShippingMethodsCombo shippingMethodsCombo;
 	protected DynamicForm custForm;
+	protected ClientTAXCode taxCode;
 
 	protected SelectCombo statusSelect;
 
@@ -375,12 +376,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		clientContacts.addAll(selectedCutomer.getContacts());
 		for (int j = 0; j < clientContacts.size(); j++) {
 			if (clientContacts.get(j).getTitle().equals(contact.getTitle())
-					&& clientContacts.get(j).getEmail().equals(
-							contact.getEmail())
-					&& clientContacts.get(j).getDisplayName().equals(
-							contact.getDisplayName())
-					&& clientContacts.get(j).getBusinessPhone().equals(
-							contact.getBusinessPhone())) {
+					&& clientContacts.get(j).getEmail()
+							.equals(contact.getEmail())
+					&& clientContacts.get(j).getDisplayName()
+							.equals(contact.getDisplayName())
+					&& clientContacts.get(j).getBusinessPhone()
+							.equals(contact.getBusinessPhone())) {
 				Accounter.showError(Accounter.constants()
 						.youHaveEnteredduplicateContacts());
 				return;
@@ -783,8 +784,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
@@ -941,12 +942,16 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		if (isTrackTax()) {
+		if (isTrackTax() && getPreferences().isTaxPerDetailLine()) {
 			long defaultTax = getPreferences().getDefaultTaxCode();
 			transactionItem
 					.setTaxCode(getCustomer() != null ? (getCustomer()
 							.getTAXCode() > 0 ? getCustomer().getTAXCode()
 							: defaultTax) : defaultTax);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
 		}
 		// if (zvatCodeid != null)
 		// transactionItem.setVatCode(zvatCodeid);
@@ -960,10 +965,15 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		long defaultTaxCode = getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-				.getTAXCode() != 0 ? getCustomer().getTAXCode()
-				: defaultTaxCode) : defaultTaxCode);
-
+		if (isTrackTax() && getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+					.getTAXCode() != 0 ? getCustomer().getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 		addItemTransactionItem(transactionItem);
 	}
 

@@ -101,8 +101,6 @@ public class CreditCardExpenseView extends
 
 	private TAXCodeCombo taxCodeSelect;
 
-	private ClientTAXCode taxCode;
-
 	public CreditCardExpenseView() {
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);

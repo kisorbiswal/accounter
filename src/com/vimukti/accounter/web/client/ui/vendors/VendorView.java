@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -93,7 +94,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	TextAreaItem memoArea;
 	DateField balanceDate, vendorSinceDate;
 	EmailField emailText;
-	AmountField creditLimitText, balanceText;
+	AmountField creditLimitText, openingBalText, balanceText;
 	TextItem vatRegistrationNumber;
 
 	PaymentTermsCombo payTermsSelect;
@@ -380,8 +381,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
+		openingBalText = new AmountField(
+				Accounter.constants().openingBalance(), this);
+		openingBalText.setHelpInformation(true);
+		openingBalText.setDisabled(isInViewMode());
+
 		balanceText = new AmountField(Accounter.constants().balance(), this);
 		balanceText.setHelpInformation(true);
+		balanceText.setDisabled(true);
+
 		balanceDate = new DateField(Accounter.constants().balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
@@ -405,8 +413,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		accInfoForm.setStyleName("vender-form");
-		accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
-				balanceDate);
+		accInfoForm.setFields(statusCheck, vendorSinceDate, openingBalText,
+				balanceDate, balanceText);
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isSalesTaxAvailable()) {
 				accInfoForm.setFields(taxID);
@@ -951,16 +959,9 @@ public class VendorView extends BaseView<ClientVendor> {
 			data.setCurrency(currencyCombo.getValue().toString());
 
 		// Setting Balance
-		if (!isInViewMode()) {
-			double bal = balanceText.getAmount() != null ? balanceText
-					.getAmount().doubleValue() : 0.0;
-			data.setOpeningBalance(bal);
-		} else {
-			if (DecimalUtil.isEquals(data.getOpeningBalance(), 0)) {
-				data.setOpeningBalance(balanceText.getAmount());
-			} else
-				data.setBalance(balanceText.getAmount());
-		}
+		data.setOpeningBalance(openingBalText.getAmount());
+
+		data.setBalance(balanceText.getAmount());
 
 		// Setting Balance As of
 		if (balanceDate.getEnteredDate() != null)
@@ -1202,14 +1203,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Account No
 		// accountText.setValue(takenVendor.getBankAccountNo());
 		// Setting Balance
-		if (!DecimalUtil.isEquals(data.getBalance(), 0)) {
-			balanceText.setAmount(data.getBalance());
-
-		} else {
-			balanceText.setAmount(0.0);
-		}
-
-		balanceText.setDisabled(isInViewMode());
+		openingBalText.setAmount(data.getOpeningBalance());
+		balanceText.setAmount(data.getBalance());
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
@@ -1380,8 +1375,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
 		gridView.setDisabled(isInViewMode());
-
-		balanceText.setDisabled(!data.isOpeningBalanceEditable());
+		openingBalText.setDisabled(isInViewMode());
+		// balanceText.setDisabled(!data.isOpeningBalanceEditable());
 		expenseAccountsSelect.setDisabled(isInViewMode());
 		currencyCombo.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());

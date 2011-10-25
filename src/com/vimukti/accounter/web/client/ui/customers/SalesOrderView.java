@@ -87,7 +87,6 @@ public class SalesOrderView extends
 
 	private SalesOrderTable customerTransactionTable;
 	private AddNewButton itemTableButton;
-	protected ClientTAXCode taxCode;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientPaymentTerms paymentTerm;
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,

@@ -122,7 +122,6 @@ public class WriteChequeView extends
 	private DisclosurePanel vendorAccountsDisclosurePanel;
 
 	private TAXCodeCombo taxCodeSelect;
-	private ClientTAXCode taxCode;
 
 	private boolean isAmountChange;
 	private AmountLabel unassignedAmount;

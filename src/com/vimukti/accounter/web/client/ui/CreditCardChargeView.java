@@ -94,7 +94,6 @@ public class CreditCardChargeView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private TAXCodeCombo taxCodeSelect;
-	private ClientTAXCode taxCode;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public CreditCardChargeView() {

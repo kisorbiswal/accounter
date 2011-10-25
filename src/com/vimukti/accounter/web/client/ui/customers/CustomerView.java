@@ -80,7 +80,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	 * phoneText, faxText;
 	 */
 	TextItem custNameText, fileAsText;
-	AmountField balanceText, creditLimitText;
+	AmountField openingBalText, balanceText, creditLimitText;
 	DateField balanceDate, customerSinceDate;
 	TextItem linksText, accNameText, sortcode, accNumber, paymentref;
 	TextItem vatregno;
@@ -474,10 +474,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// Setting Balance
 		// Setting Balance
-		if (DecimalUtil.isEquals(data.getOpeningBalance(), 0)) {
-			data.setOpeningBalance(balanceText.getAmount());
-		} else
-			data.setBalance(balanceText.getAmount());
+		data.setOpeningBalance(openingBalText.getAmount());
+
+		data.setBalance(balanceText.getAmount());
 		// Setting Balance As of
 		data.setBalanceAsOf(balanceDate.getEnteredDate().getDate());
 
@@ -634,9 +633,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerSinceDate.setDisabled(isInViewMode());
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
+		openingBalText = new AmountField(customerConstants.openingBalance(),
+				this);
+		openingBalText.setHelpInformation(true);
+		openingBalText.setDisabled(isInViewMode());
+
 		balanceText = new AmountField(customerConstants.balance(), this);
 		balanceText.setHelpInformation(true);
-		balanceText.setDisabled(isInViewMode());
+		balanceText.setDisabled(true);
 		balanceDate = new DateField(customerConstants.balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
@@ -676,8 +680,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// }
 
 		accInfoForm.setWidth("100%");
-		accInfoForm.setFields(statusCheck, customerSinceDate, balanceText,
-				balanceDate);
+		accInfoForm.setFields(statusCheck, customerSinceDate, openingBalText,
+				balanceDate, balanceText);
 
 		Label l1 = new Label(Accounter.constants().contacts());
 		addButton = new AddButton(this);
@@ -1141,10 +1145,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Customer Since
 		customerSinceDate.setEnteredDate(new ClientFinanceDate(data
 				.getPayeeSince()));
-		if (!DecimalUtil.isEquals(data.getBalance(), 0)) {
-			balanceText.setAmount(data.getBalance());
-			balanceText.setDisabled(true);
-		}
+		openingBalText.setAmount(data.getOpeningBalance());
+		balanceText.setAmount(data.getBalance());
 
 		// Setting Balance as of
 		balanceDate
@@ -1304,7 +1306,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		addButton.setEnabled(!isInViewMode());
 		custNoText.setDisabled(isInViewMode());
 		customerSinceDate.setDisabled(isInViewMode());
-		balanceText.setDisabled(!data.isOpeningBalanceEditable());
+		openingBalText.setDisabled(isInViewMode());
+		// balanceText.setDisabled(!data.isOpeningBalanceEditable());
 		addrsForm.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());
 		fonFaxForm.setDisabled(isInViewMode());

@@ -60,7 +60,6 @@ public class CustomerCreditMemoView extends
 	private CustomerAccountTransactionTable customerAccountTransactionTable;
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	protected ClientPriceLevel priceLevel;
-	protected ClientTAXCode taxCode;
 	protected ClientSalesPerson salesPerson;
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			taxTotalNonEditableText;

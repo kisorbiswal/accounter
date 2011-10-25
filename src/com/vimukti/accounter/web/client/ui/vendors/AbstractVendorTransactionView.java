@@ -710,9 +710,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 		long defaultTaxCode = getCompany().getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-				.getTAXCode() > 0 ? getVendor().getTAXCode() : defaultTaxCode)
-				: defaultTaxCode);
+		if (getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+					.getTAXCode() > 0 ? getVendor().getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 		addAccountTransactionItem(transactionItem);
 	}
 
@@ -722,9 +728,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		long defaultTaxCode = getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-				.getTAXCode() > 0 ? getVendor().getTAXCode() : defaultTaxCode)
-				: defaultTaxCode);
+		if (getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+					.getTAXCode() > 0 ? getVendor().getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 		addItemTransactionItem(transactionItem);
 	}
 

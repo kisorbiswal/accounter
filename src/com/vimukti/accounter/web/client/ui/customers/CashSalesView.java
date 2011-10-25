@@ -72,7 +72,6 @@ public class CashSalesView extends
 	private CustomerAccountTransactionTable customerAccountTransactionTable;
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	private ClientPriceLevel priceLevel;
-	private ClientTAXCode taxCode;
 	private ClientSalesPerson salesPerson;
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			taxTotalNonEditableText;
