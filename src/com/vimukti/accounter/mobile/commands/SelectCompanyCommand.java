@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.Command;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -62,8 +63,13 @@ public class SelectCompanyCommand extends Command {
 				if (companies.size() == 1) {
 					Company company = companies.get(0);
 					companyReq.setValue(company);
-					makeResult.add(company.getDisplayName()
-							+ " Company is selected.");
+					makeResult.add("You have only " + company.getDisplayName()
+							+ " company is there.");
+					makeResult.add("It has been selected.");
+					makeResult.add("Press 'a' to create Another Company.");
+					CommandList commandList = new CommandList();
+					commandList.add("Create Company");
+					makeResult.add(commandList);
 				} else {
 					ResultList companyList = new ResultList(COMPANY);
 					if (companies.isEmpty()) {

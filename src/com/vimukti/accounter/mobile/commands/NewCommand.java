@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
@@ -14,6 +15,7 @@ public abstract class NewCommand extends Command {
 
 	@Override
 	public Result run(Context context) {
+		context.setAttribute("firstMessage", new ArrayList<String>());
 		setDefaultValues(context);
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
@@ -33,6 +35,12 @@ public abstract class NewCommand extends Command {
 		for (Requirement req : allRequirements) {
 			Result result = req.run(context, makeResult, list, actions);
 			if (result != null) {
+				@SuppressWarnings("unchecked")
+				List<String> first = (List<String>) context
+						.getAttribute("firstMessage");
+				for (String f : first) {
+					result.add(0, f);
+				}
 				return result;
 			}
 		}

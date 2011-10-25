@@ -40,6 +40,11 @@ public class CountryRequirement extends ListRequirement<String> {
 	}
 
 	@Override
+	protected String getSetMessage() {
+		return "Country is selected";
+	}
+
+	@Override
 	protected String getSelectString() {
 		return "Select a Country";
 	}

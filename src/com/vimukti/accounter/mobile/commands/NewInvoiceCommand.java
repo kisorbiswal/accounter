@@ -22,7 +22,6 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -70,19 +69,22 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
-				Global.get().Customer()), Global.get().customer(), false, true,
-				new ChangeListner<ClientCustomer>() {
+
+		list.add(new CustomerRequirement(CUSTOMER,
+				"Please Eneter Customer name or number to set InvoiceCustomer",
+				"Customer", false, true, new ChangeListner<ClientCustomer>() {
 
 					@Override
 					public void onSelection(ClientCustomer value) {
-						customer = value;
+						if (customer != value) {
+							customer = value;
+							NewInvoiceCommand.this.get(CONTACT).setValue(null);
+						}
 					}
 				}) {
 
@@ -90,24 +92,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			protected List<ClientCustomer> getLists(Context context) {
 				return getClientCompany().getCustomers();
 			}
-
-			@Override
-			protected List<ClientCustomer> getLists(Context context,
-					final String name) {
-				return Utility.filteredList(new ListFilter<ClientCustomer>() {
-
-					@Override
-					public boolean filter(ClientCustomer e) {
-						return e.getName().contains(name)
-								|| e.getNumber().equals(name);
-					}
-				}, getClientCompany().getCustomers());
-			}
 		});
 
 		list.add(new TransactionItemItemsRequirement(ITEMS,
-				"Enter Item Name or number", getConstants().items(), false,
-				true, true) {
+				"Please Enter Item Name or number", getConstants().items(),
+				false, true, true) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -128,17 +117,17 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected ClientCompany getClientCompany() {
-				return this.getClientCompany();
+				return NewInvoiceCommand.this.getClientCompany();
 			}
 		});
 
 		list.add(new TransactionItemAccountsRequirement(ACCOUNT_ITEMS,
-				"Enter Account name or number", getConstants().items(), false,
-				true) {
+				"Please Enter Account name or number", getConstants().items(),
+				false, true) {
 
 			@Override
 			protected ClientCompany getClientCompany() {
-				return this.getClientCompany();
+				return NewInvoiceCommand.this.getClientCompany();
 			}
 
 			@Override
@@ -189,16 +178,15 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 							}
 						}, getClientCompany().getPaymentsTerms());
 			}
+
 		});
 
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
 				"Contact", true, true, null) {
-			List<ClientContact> contacts = new ArrayList<ClientContact>(
-					customer.getContacts());
 
 			@Override
 			protected List<ClientContact> getLists(Context context) {
-				return contacts;
+				return new ArrayList<ClientContact>(customer.getContacts());
 			}
 
 			@Override
@@ -210,7 +198,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 					public boolean filter(ClientContact e) {
 						return e.getName().contains(name);
 					}
-				}, contacts);
+				}, new ArrayList<ClientContact>(customer.getContacts()));
 			}
 		});
 		// list.add(new Requirement(BILL_TO, true, true));
@@ -732,10 +720,10 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		ClientCustomer customer = get("customer").getValue();
+		ClientCustomer customer = get(CUSTOMER).getValue();
 		invoice.setCustomer(customer.getID());
 
-		ClientFinanceDate dueDate = get("DueDate").getValue();
+		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
 		invoice.setDueDate(dueDate.getDate());
 
 		ClientContact contact = get(CONTACT).getValue();
