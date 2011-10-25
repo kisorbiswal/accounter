@@ -204,10 +204,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			Class<S> srcType = (Class<S>) src.getClass();
 
 			Class<D> dstType = (Class<D>) dst.getClass();
-			
-			if(dstType == Currency.class) {
-				System.out.println();
-			}
 
 			Map<String, Field> srcMap = getAllFields(srcType);
 
