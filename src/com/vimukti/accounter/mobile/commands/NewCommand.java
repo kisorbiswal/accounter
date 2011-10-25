@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class NewCommand extends Command {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Result run(Context context) {
 		context.setAttribute("firstMessage", new ArrayList<String>());
@@ -20,9 +21,8 @@ public abstract class NewCommand extends Command {
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
 			String welcomeMessage = getWelcomeMessage();
-			if (welcomeMessage != null) {
-				makeResult.add(welcomeMessage);
-			}
+			((List<String>) context.getAttribute("firstMessage"))
+					.add(welcomeMessage);
 			setAttribute("input", "");
 		}
 
@@ -35,7 +35,6 @@ public abstract class NewCommand extends Command {
 		for (Requirement req : allRequirements) {
 			Result result = req.run(context, makeResult, list, actions);
 			if (result != null) {
-				@SuppressWarnings("unchecked")
 				List<String> first = (List<String>) context
 						.getAttribute("firstMessage");
 				for (String f : first) {

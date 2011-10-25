@@ -53,6 +53,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	private String industry;
 
 	@Override
+	public String getWelcomeMessage() {
+		return "Creating Full Company...";
+	}
+
+	@Override
 	public String getId() {
 		return null;
 	}
@@ -205,8 +210,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		// Second Page
-		list.add(new ListRequirement<String>(INDUSTRY, getMessages()
-				.pleaseSelect(getConstants().industry()), getConstants()
+		list.add(new ListRequirement<String>(INDUSTRY, "Please Enter Industry type", getConstants()
 				.industry(), false, true, new ChangeListner<String>() {
 
 			@Override
@@ -627,11 +631,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(getConstants().currency());
-			}
-
-			@Override
-			protected String getSetMessage() {
-				return "Currency has been selected";
 			}
 		});
 
@@ -1234,19 +1233,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(LEGAL_NAME).setDefaultValue("");
-		get(TAX_ID).setDefaultValue("");
 		get(COUNTRY).setDefaultValue("United Kingdom");
 		get(STATE).setDefaultValue("Buckinghamshire");
-		get(PHONE).setDefaultValue("");
-		get(FAX).setDefaultValue("");
-		get(EMAIL).setDefaultValue("");
-		get(WEB_SITE).setDefaultValue("");
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
-		get(ADDRESS1).setDefaultValue("");
-		get(ADDRESS2).setDefaultValue("");
-		get(CITY).setDefaultValue("");
-		get(ZIPCODE).setDefaultValue("");
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
 		get(CUSTOMER_TERMINOLOGY).setDefaultValue(
 				getCustomerTerminologies().get(0));
@@ -1256,12 +1245,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				getAccountTerminologies().get(0));
 		get(SERVICE_PRODUCTS_BOTH).setDefaultValue(
 				getServiceProductBothList().get(0));
-		get(TRACK_TAX).setDefaultValue(false);
 		get(ONE_PER_TRANSACTION).setDefaultValue(true);
-		get(TRACK_TAX_PAD).setDefaultValue(false);
-		get(CREATE_ESTIMATES).setDefaultValue(false);
 		get(SELECT_CURRENCY).setDefaultValue(getCurrenciesList().get(0));
-		get(MANAGE_BILLS_OWE).setDefaultValue(false);
 		get(FISCAL_YEAR).setDefaultValue("January");
 	}
 
