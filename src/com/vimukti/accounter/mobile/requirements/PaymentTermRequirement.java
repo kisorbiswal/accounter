@@ -1,7 +1,12 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.List;
+
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public abstract class PaymentTermRequirement extends
 		ListRequirement<ClientPaymentTerms> {
@@ -45,4 +50,15 @@ public abstract class PaymentTermRequirement extends
 		return getMessages().pleaseSelect(getConstants().paymentTerm());
 	}
 
+	@Override
+	protected List<ClientPaymentTerms> getLists(Context context,
+			final String name) {
+		return Utility.filteredList(new ListFilter<ClientPaymentTerms>() {
+
+			@Override
+			public boolean filter(ClientPaymentTerms e) {
+				return e.getName().contains(name);
+			}
+		}, getLists(context));
+	}
 }

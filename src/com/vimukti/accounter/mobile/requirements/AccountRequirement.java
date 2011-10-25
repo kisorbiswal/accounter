@@ -37,4 +37,8 @@ public abstract class AccountRequirement extends ListRequirement<ClientAccount> 
 		return getMessages().pleaseSelect(Global.get().Account());
 	}
 
+	@Override
+	protected String getSetMessage() {
+		return "";
+	}
 }
