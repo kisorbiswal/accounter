@@ -59,7 +59,6 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 				if (result != null) {
 					return result;
 				}
-				addFirstMessage(context, getSetMessage());
 			}
 		}
 		List<T> items = context.getSelections(getName());
@@ -153,6 +152,9 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 				context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
 			}
 			context.setAttribute(INPUT_ATTR, "");
+			addFirstMessage(context,
+					getDisplayValue(getTransactionItem(transactionItem))
+							+ getSetMessage());
 		}
 		return result;
 	}
