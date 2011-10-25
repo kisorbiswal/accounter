@@ -9,7 +9,7 @@ public class Requirement {
 
 	boolean isOptional;
 	boolean isAllowFromContext;
-	private String displayString;
+	private String enterString;
 	private String recordName;
 
 	public Requirement(String name, boolean isOptional,
@@ -19,10 +19,10 @@ public class Requirement {
 		this.isAllowFromContext = isAllowFromContext;
 	}
 
-	public Requirement(String requirementName, String displayString,
+	public Requirement(String requirementName, String enterString,
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
 		this(requirementName, isOptional2, isAllowFromContext2);
-		this.displayString = displayString;
+		this.enterString = enterString;
 		this.recordName = recordName;
 	}
 
@@ -82,7 +82,7 @@ public class Requirement {
 		return recordName;
 	}
 
-	public String getDisplayString() {
-		return displayString;
+	public String getEnterString() {
+		return enterString;
 	}
 }
