@@ -15,7 +15,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -26,7 +25,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  */
 public class MobileSession {
 
-	public static final long SESSION_TIME_OUT_PERIOD = 60 * 60 * 1000;// 1hour
+	public static final long SESSION_TIME_OUT_PERIOD = 24 * 60 * 60 * 1000;// 1day
 
 	private static final String LAST_MESSAGE = "lastMessage";
 
