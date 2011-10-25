@@ -442,7 +442,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm
 				.setFields(ibuyCheck, purchaseDescArea, purchasePriceTxt,
 						expAccCombo, prefVendorCombo, vendItemNumText);
-		//purchaseInfoForm.getCellFormatter().setWidth(0, 0, "47%");
+		purchaseInfoForm.getCellFormatter().setWidth(0, 0, "47%");
 		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		VerticalPanel salesVPanel = new VerticalPanel();
 		salesVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
