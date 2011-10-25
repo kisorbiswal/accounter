@@ -93,6 +93,12 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			protected List<String> getLists(Context context) {
 				return getCountryList();
 			}
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		});
 
 		list.add(new ListRequirement<String>(STATE, "Enter State", "State",
@@ -139,6 +145,12 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected List<String> getLists(Context context) {
 				return getStatesList(country);
+			}
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		});
 
@@ -208,6 +220,12 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			protected List<String> getLists(Context context) {
 				return getTimeZonesList();
 			}
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		});
 
 		// Second Page
@@ -258,6 +276,12 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			protected List<String> getLists(Context context) {
 				return getIndustryList();
 			}
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		});
 
 		list.add(new ListRequirement<String>(ORGANIZATION_REFER,
@@ -304,6 +328,12 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getEmptyString() {
+				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
 				return null;
 			}
 
@@ -354,6 +384,12 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected List<String> getLists(Context context) {
 				return getFiscalYearMonths();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		});
 
