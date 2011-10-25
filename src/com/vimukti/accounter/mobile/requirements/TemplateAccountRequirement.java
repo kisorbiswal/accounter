@@ -67,8 +67,9 @@ public abstract class TemplateAccountRequirement extends
 		}
 
 		if (valuesSelection != null && valuesSelection.equals(getName())) {
+			List<TemplateAccount> accounts = getValue();
 			List<TemplateAccount> oldValues = new ArrayList<TemplateAccount>();
-			for (TemplateAccount templateAccount : oldValues) {
+			for (TemplateAccount templateAccount : accounts) {
 				oldValues.add(templateAccount);
 			}
 			return showList(context, oldValues);
@@ -84,8 +85,14 @@ public abstract class TemplateAccountRequirement extends
 		}
 		selection = context.getSelection(ACTIONS);
 		ActionNames actionName = (ActionNames) selection;
-		if (actionName != null && actionName == ActionNames.ADD_MORE_ACCOUNTS) {
-			return showList(context, values);
+		if (actionName != null) {
+			if (actionName == ActionNames.ADD_MORE_ACCOUNTS) {
+				return showList(context, values);
+			} else if (actionName == ActionNames.SET_DEFAULT) {
+				loadDefaultAccpunts();
+				values = getValue();
+			}
+
 		}
 
 		Record record = new Record("accountsNumber");
@@ -110,6 +117,9 @@ public abstract class TemplateAccountRequirement extends
 			Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
 			moreItems.add("", getMessages().addMore(getConstants().Accounts()));
 			actions.add(moreItems);
+			Record setDefault = new Record(ActionNames.SET_DEFAULT);
+			setDefault.add("", "set default accounts");
+			actions.add(setDefault);
 			Record close = new Record(ActionNames.CLOSE);
 			close.add("", getConstants().close());
 			actions.add(close);
