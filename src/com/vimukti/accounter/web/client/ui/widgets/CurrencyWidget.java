@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -144,7 +143,10 @@ public class CurrencyWidget extends DynamicForm {
 	}
 
 	public double getCurrencyFactor() {
-		return Double.parseDouble(factorField.getValue().toString());
+		if (factorField.getValue().length() > 0)
+			return Double.parseDouble(factorField.getValue().toString());
+		else
+			return 1;
 	}
 
 	public void setTabIndex(int index) {

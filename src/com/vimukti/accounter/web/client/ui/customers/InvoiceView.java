@@ -1427,7 +1427,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (selectedSalesOrder != 0)
 			transaction.setSalesOrder(selectedSalesOrder);
 
-		transaction.setCurrency(currency.getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
