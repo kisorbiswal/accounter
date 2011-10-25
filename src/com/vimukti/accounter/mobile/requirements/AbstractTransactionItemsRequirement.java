@@ -14,6 +14,8 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class AbstractTransactionItemsRequirement<T> extends
@@ -315,19 +317,26 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		return result;
 	}
 
-	private Record createClientTAXCodeRecord(ClientTAXCode lastRec) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private List<ClientTAXCode> getTaxCodeLists(Context context, String name) {
-		// TODO Auto-generated method stub
-		return null;
+	private Record createClientTAXCodeRecord(ClientTAXCode taxCode) {
+		Record record = new Record(taxCode);
+		record.add("", taxCode.getName() + "-" + taxCode.getSalesTaxRate());
+		return record;
 	}
 
 	private List<ClientTAXCode> getTaxCodeLists(Context context) {
-		// TODO Auto-generated method stub
-		return null;
+		return getClientCompany().getActiveTaxCodes();
+	}
+
+	private List<ClientTAXCode> getTaxCodeLists(Context context,
+			final String name) {
+
+		return Utility.filteredList(new ListFilter<ClientTAXCode>() {
+
+			@Override
+			public boolean filter(ClientTAXCode e) {
+				return e.getDisplayName().contains(name);
+			}
+		}, getTaxCodeLists(context));
 	}
 
 	protected Result number(Context context, String displayString,
