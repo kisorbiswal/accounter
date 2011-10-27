@@ -15,6 +15,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class Context {
@@ -26,6 +27,7 @@ public class Context {
 	private String userId;
 	private String networkId;
 	private String string;
+	private ClientCompany clientCompany;
 
 	public String getUserId() {
 		return userId;
@@ -66,6 +68,14 @@ public class Context {
 
 	public void setString(String string) {
 		this.string = string;
+	}
+
+	public ClientCompany getClientCompany() {
+		return clientCompany;
+	}
+
+	public void setClientCompany(ClientCompany clientCompany) {
+		this.clientCompany = clientCompany;
 	}
 
 	/**

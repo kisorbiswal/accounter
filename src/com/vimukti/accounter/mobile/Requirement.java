@@ -73,7 +73,7 @@ public class Requirement {
 		return true;
 	}
 
-	public Result run(Context context, Result makeResult, ResultList list,
+	public Result process(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
 		return null;
 	}

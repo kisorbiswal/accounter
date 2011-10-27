@@ -123,7 +123,7 @@ public class CommandProcessor {
 		Result result = null;
 		try {
 			if (session.getCompanyID() != 0) {
-				command.setClientCompany(new FinanceTool().getCompanyManager()
+				context.setClientCompany(new FinanceTool().getCompanyManager()
 						.getClientCompany(session.getUserEmail(),
 								session.getCompanyID()));
 			}
