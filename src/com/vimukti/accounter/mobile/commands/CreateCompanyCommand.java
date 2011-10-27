@@ -708,7 +708,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		Boolean manageBills = get(MANAGE_BILLS_OWE).getValue();
 		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
-		preferences.setPrimaryCurrency(currency);
+		preferences.setPrimaryCurrency(currency.getFormalName());
 
 		ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
