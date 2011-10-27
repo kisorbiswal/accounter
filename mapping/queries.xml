@@ -1578,5 +1578,10 @@
 		select month from ACCOUNT_AMOUNTS group by
 		month order by month
 	</sql-query>
-
+	<query name="getInvoiceByEstimate">
+		<query-param name="estimate" type="Estimate" />
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Invoice f where f.company=:company and
+		f.estimate=:estimate
+	</query>
 </hibernate-mapping>
