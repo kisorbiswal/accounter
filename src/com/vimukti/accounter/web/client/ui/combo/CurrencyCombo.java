@@ -16,6 +16,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
 				getCompany().getCurrencies());
 		initCombo(currency);
+		setSelected(currency.get(0).getFormalName());
 
 	}
 
@@ -53,7 +54,6 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public void onAddNew() {
-		// ActionFactory.getNewCurrencyAction().run();
 
 		CurrencyGroupListDialog groupListDialog = new CurrencyGroupListDialog(
 				constants.manageCurrency(), constants.toAddCurrencyGroup());
@@ -61,17 +61,6 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 		groupListDialog.hide();
 		groupListDialog.addCallBack(createAddNewCallBack());
 		groupListDialog.ShowAddEditDialog(null);
-
-		// ActionFactory.getNewCurrencyAction().run();
-		// action.setCallback(new ActionCallback<ClientCurrency>() {
-		//
-		// @Override
-		// public void actionResult(ClientCurrency result) {
-		// addItemThenfireEvent(result);
-		// }
-		// });
-		//
-		// action.run(null, true);
 
 	}
 
