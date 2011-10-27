@@ -49,12 +49,14 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_BUDGET2 = 10;
 	public static final int TOOLBAR_TYPE_BUDGET3 = 11;
 	public static final int TOOLBAR_TYPE_BUDGET4 = 12;
+	public static final int TOOLBAR_TYPE_TAXAGENCY = 13;
 	public static final int TOP_MARGIN = 305;
 
 	protected ReportToolbar toolbar;
 
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
+	public boolean isTAXItemDetailsReport;
 
 	protected IFinanceReport<R> serverReport = null;
 
@@ -110,7 +112,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	 */
 	public void onSuccess(ArrayList<R> result) {
 		try {
-			if (result != null && result.size() > 1) {
+			if (result != null && result.size() >= 1) {
 				grid.removeAllRows();
 
 				setFromAndToDate(result);
@@ -480,6 +482,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				break;
 			case TOOLBAR_TYPE_CUSTOMER:
 				toolbar = new CreateStatementToolBar(this);
+				break;
+
+			case TOOLBAR_TYPE_TAXAGENCY:
+				toolbar = new TaxAgencyStartDateEndDateToolbar();
 				break;
 			default:
 				toolbar = new AsOfReportToolbar();

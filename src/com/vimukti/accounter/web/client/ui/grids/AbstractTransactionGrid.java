@@ -16,8 +16,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 
-public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 
+public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	protected AbstractTransactionBaseView<?> transactionView;
 
 	private boolean isDeleteEnable;

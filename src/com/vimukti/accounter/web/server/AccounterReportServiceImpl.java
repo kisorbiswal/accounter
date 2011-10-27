@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterReportService {
@@ -2778,6 +2779,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) {
 		return purchasesByVendorDetail(startDate, endDate, companyId);
+	}
+
+	@Override
+	public ArrayList<TAXItemDetail> getTAXItemDetailReport(long taxAgency,
+			ClientFinanceDate startDate,ClientFinanceDate end) throws AccounterException {
+		return getFinanceTool().getReportManager().getTAXItemDetailReport(getCompanyId(),taxAgency,startDate.getDate(),end.getDate());
+	}
+
+	@Override
+	public ArrayList<VATDetail> getVATExceptionDetailReport(
+			ClientFinanceDate start, ClientFinanceDate end) throws AccounterException {
+	
+		return getFinanceTool().getReportManager().getVATExceptionDetailReport(getCompanyId(),start,end);
 	}
 
 }

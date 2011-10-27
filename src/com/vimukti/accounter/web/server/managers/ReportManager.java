@@ -55,6 +55,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public class ReportManager extends Manager {
 	public static final int TYPE_AGEING_FROM_DUEDATE = 2;
@@ -2858,5 +2859,93 @@ public class ReportManager extends Manager {
 		// else if (diff > 150 && diff < 180)
 		// agedDebtors.setCategory(6);
 		return 0;
+	}
+
+	public ArrayList<TAXItemDetail> getTAXItemDetailReport(Long companyId,
+			long taxAgency, long startDate, long endDate) {
+
+		List<TAXItemDetail> vatItemDetails = new ArrayList<TAXItemDetail>();
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Company company = getCompany(companyId);
+		long transactionItemId = 0, vatItemId = 0;
+
+		// Entries from the VATRate calculation
+
+		Query query = session
+				.getNamedQuery("getTAXRateCalculation.by.dates.and.taxAgency")
+				.setParameter("taxAgency", taxAgency)
+				.setParameter("startDate", new FinanceDate(startDate))
+				.setParameter("endDate", new FinanceDate(endDate))
+				.setEntity("company", company);
+
+		List<TAXRateCalculation> taxRateCalculations = query.list();
+		for (TAXRateCalculation v : taxRateCalculations) {
+
+			TAXItemDetail vi = new TAXItemDetail();
+			double amount = (!v.getTransactionItem().isVoid()) ? v
+					.getLineTotal() : 0;
+			vi.setNetAmount(amount);
+			vi.setTransactionDate(new ClientFinanceDate(v.getTransactionDate()
+					.getDate()));
+
+			vi.setTransactionId(v.getTransactionItem().getTransaction().getID());
+
+			vi.setTransactionNumber(v.getTransactionItem().getTransaction()
+					.getNumber());
+			vi.setTransactionType(v.getTransactionItem().getTransaction()
+					.getType());
+
+			transactionItemId = v.getTransactionItem().getID();
+			vatItemId = v.getTaxItem().getID();
+			vi.setTaxItemName(v.getTaxItem().getName());
+			vi.setVatRate(v.getTaxItem().getTaxRate());
+			vi.setPercentage(true);
+			vi.setTaxAmount(v.getVatAmount());
+			vi.setTotal(v.getLineTotal() + v.getVatAmount());
+			vatItemDetails.add(vi);
+			// if (transactionItemId == v.getTransactionItem().getID() &&
+			// v.getVatItem().getID() == 4) {
+			// vi.
+			// }
+
+		}
+
+		// // Entries from the VATAdjustment
+		// query = session
+		// .getNamedQuery("getTAXAdjustment.by.dates.and.taxItemName")
+		// .setParameter("startDate", startDate)
+		// .setParameter("endDate", endDate)
+		// .setParameter("taxItemName", taxItemName)
+		// .setEntity("company", company);
+		//
+		// List<TAXAdjustment> vatAdjustments = query.list();
+		// for (TAXAdjustment v : vatAdjustments) {
+		//
+		// VATItemDetail vi = new VATItemDetail();
+		//
+		// if (v.getIncreaseVATLine()) {
+		// vi.setAmount(v.getJournalEntry().getTotal());
+		// } else {
+		// vi.setAmount(-1 * v.getJournalEntry().getTotal());
+		// }
+		// vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
+		// .getDate()));
+		// vi.setMemo("VAT Adjustment");
+		// vi.setName(v.getTaxItem().getTaxAgency().getName());
+		// vi.setTransactionId(v.getJournalEntry().getID());
+		// vi.setTransactionNumber(v.getJournalEntry().getNumber());
+		// vi.setTransactionType(v.getJournalEntry().getType());
+		// vatItemDetails.add(vi);
+		// }
+
+		return new ArrayList<TAXItemDetail>(vatItemDetails);
+	}
+
+	public ArrayList<VATDetail> getVATExceptionDetailReport(Long companyId,
+			ClientFinanceDate start, ClientFinanceDate end) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

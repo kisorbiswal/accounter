@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesClosedOrderServerR
 import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesTaxLiabilityServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
@@ -108,6 +109,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_SALESBYCLASSDETAILFORCLASS = 160;
 	public final static int REPORT_TYPE_PROFITANDLOSSBYCLASS = 161;
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
+	public final static int REPORT_TYPE_TAX_ITEM_DETAIL = 165;
 
 	// private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -1012,9 +1014,11 @@ public class ReportsGenerator {
 			updateReport(ecSalesListServerReport, finaTool);
 			ecSalesListServerReport.resetVariables();
 			try {
-				ecSalesListServerReport.onResultSuccess(reportsSerivce.getECSalesListReport(startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate(),getCompany().getID()));
-				
+				ecSalesListServerReport.onResultSuccess(reportsSerivce
+						.getECSalesListReport(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate(), getCompany()
+										.getID()));
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1232,6 +1236,24 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return budgetServerReport.getGridTemplate();
+
+		case REPORT_TYPE_TAX_ITEM_DETAIL:
+			TAXItemDetailServerReportView taxItemDetailServerReportView = new TAXItemDetailServerReportView(
+					startDate.getDate(), endDate.getDate(), generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(taxItemDetailServerReportView, finaTool);
+			taxItemDetailServerReportView.resetVariables();
+			taxItemDetailServerReportView.onResultSuccess(finaTool
+					.getReportManager().getTAXItemDetailReport(
+							getCompany().getId(), Long.parseLong(status),
+							startDate.getDate(), endDate.getDate()));
+
+			return taxItemDetailServerReportView.getGridTemplate();
 		default:
 			break;
 		}
@@ -1468,6 +1490,8 @@ public class ReportsGenerator {
 			return "Profit and Loss by Class";
 		case REPORT_TYPE_GENERAL_LEDGER_REPORT:
 			return "General Ledger Report";
+		case REPORT_TYPE_TAX_ITEM_DETAIL:
+			return "TAXItemDetail Report";
 		default:
 			break;
 		}

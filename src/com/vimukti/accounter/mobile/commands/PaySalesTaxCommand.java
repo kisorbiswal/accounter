@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 /**
  * 
  * @author Sai Prasad N
- *
+ * 
  */
 public class PaySalesTaxCommand extends AbstractVATCommand {
 
@@ -293,8 +293,6 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 				paySalesTxEntry.setID(salesTaxEntry.getID());
 				paySalesTxEntry.setAmount(salesTaxEntry.getAmount());
 				paySalesTxEntry.setBalance(salesTaxEntry.getBalance());
-				// paySalesTxEntry.setStatus(salesTaxEntry.getTransaction()
-				// .getStatus());
 				paySalesTxEntry.setTaxAgency(salesTaxEntry.getTaxAgency()
 						.getID());
 				if (salesTaxEntry.getTaxRateCalculation() != null)
@@ -306,9 +304,6 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 				if (salesTaxEntry.getTaxAdjustment() != null)
 					paySalesTxEntry.setTaxAdjustment(salesTaxEntry
 							.getTaxAdjustment().getID());
-
-				// paySalesTxEntry.setTransaction(salesTaxEntry.getTransaction()
-				// .getID());
 				paySalesTxEntry.setTransactionDate(salesTaxEntry
 						.getTransactionDate().getDate());
 

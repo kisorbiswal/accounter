@@ -144,6 +144,7 @@ import com.vimukti.accounter.web.client.ui.reports.SalesClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesTaxLiabilityAction;
 import com.vimukti.accounter.web.client.ui.reports.StatementReportAction;
+import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByTaxItemAction;
 import com.vimukti.accounter.web.client.ui.reports.TrialBalanceAction;
@@ -153,6 +154,7 @@ import com.vimukti.accounter.web.client.ui.reports.VATItemSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATUncategorisedAmountsReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VaTItemDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.VatExceptionDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VendorTransactionHistoryAction;
 import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.AutomaticSequenceAction;
@@ -179,6 +181,7 @@ import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 import com.vimukti.accounter.web.client.ui.vat.PayVATAction;
 import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
+import com.vimukti.accounter.web.client.ui.vat.TaxHistoryAction;
 import com.vimukti.accounter.web.client.ui.vat.VatItemListAction;
 import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationAction;
 import com.vimukti.accounter.web.client.ui.vendors.BillsAction;
@@ -1367,4 +1370,18 @@ public class ActionFactory {
 		}
 
 	}
+
+	public static TaxHistoryAction getTaxHistoryAction() {
+		return new TaxHistoryAction(actionsConstants.taxHistory());
+	}
+
+	public static VatExceptionDetailReportAction getVATExceptionDetailsReportAction() {
+		return new VatExceptionDetailReportAction(
+				actionsConstants.vatExceptionDetail());
+	}
+
+	public static TaxItemDetailReportAction getTaxItemDetailReportAction() {
+		return new TaxItemDetailReportAction(actionsConstants.taxItemDetailReport());
+	}
+
 }

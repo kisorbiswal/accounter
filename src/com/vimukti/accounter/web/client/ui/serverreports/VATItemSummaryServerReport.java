@@ -23,19 +23,25 @@ public class VATItemSummaryServerReport extends
 		case 0:
 			return record.getName();
 		case 1:
+			return record.getTaxRate() + "%";
+		case 2:
 			return record.getAmount();
+		case 3:
+			return record.getTaxAmount();
 		}
 		return null;
 	}
 
 	@Override
 	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT };
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().name(), getConstants().amount() };
+		return new String[] { getConstants().name(), getConstants().rate(),
+				getConstants().netAmount(), getConstants().taxAmount() };
 	}
 
 	@Override
@@ -94,8 +100,8 @@ public class VATItemSummaryServerReport extends
 
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -109,7 +115,8 @@ public class VATItemSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().name(), getConstants().amount() };
+		return new String[] { getConstants().name(), getConstants().rate(),
+				getConstants().netAmount(), getConstants().taxAmount() };
 	}
 
 }

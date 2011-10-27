@@ -38,6 +38,8 @@ import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public interface IAccounterReportServiceAsync {
 
@@ -320,4 +322,10 @@ public interface IAccounterReportServiceAsync {
 	public void getBudgetItemsList(long id, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int month,
 			AsyncCallback<ArrayList<ClientBudgetList>> callback);
+
+	public void getTAXItemDetailReport(long taxAgency, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
+
+	public void getVATExceptionDetailReport(ClientFinanceDate start,
+			ClientFinanceDate end, AsyncCallback<ArrayList<VATDetail>> callback);
 }

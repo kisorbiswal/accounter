@@ -5044,23 +5044,52 @@ public interface AccounterConstants extends Constants {
 
 	public String unableToGetHistoryOfThisView();
 
+	public String periodStartDate();
+
+	public String periodEndDate();
+
+	public String vatFileDate();
+
+	public String netAmountDue();
+
+	public String totalPaymentMade();
+
+	public String taxHistory();
+
+	public String taxHistoryEmpty();
+
+	public String vatExceptionDetail();
+
 	public String created();
 
 	public String inventory();
 
 	public String newCharge();
 
+
+	public String taxExceptionMesg();
+
+	public String InventoryLists();
+
+
+	public String taxItemDetailReport();
+
+	public String selectTaxAgency();
+
+	public String grossAmount();
+
+	public String warehouseCode();
+
+	public String validNumber();
+
 	public String addNewCharge();
 
 	public String Charges();
 
 	public String chargesList();
+public String getJournalEntry();
 
-	public String InventoryLists();
 
-	public String warehouseCode();
-
-	public String validNumber();
 
 	public String isBillable();
 

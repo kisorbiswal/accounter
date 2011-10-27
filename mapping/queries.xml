@@ -1298,6 +1298,16 @@
 		is not null and v.transactionDate between :startDate and :endDate and
 		v.taxItem.company=:company order by v.taxItem
 	</query>
+	
+	<query name="getTAXRateCalculation.by.dates.and.taxAgency">
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
+		<query-param name="taxAgency" type="long" />
+		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
+		is not null and v.transactionDate between :startDate and :endDate and
+		v.taxItem.company=:company and v.taxItem.taxAgency.id=:taxAgency order by v.taxItem
+	</query>
 
 
 	<query name="getTAXAdjustment.by.taxAgencyidanddates">
@@ -1310,7 +1320,7 @@
 		:fromDate and :toDate and v.isFiled = false and v.company=:company
 		order by v.taxItem
 	</query>
-
+	
 	<query
 		name="getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />

@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public interface IAccounterReportService extends RemoteService {
 
@@ -138,8 +139,7 @@ public interface IAccounterReportService extends RemoteService {
 			String accountName, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate);
 
-	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
-			);
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String taxItemname, ClientFinanceDate startDate,
@@ -209,6 +209,7 @@ public interface IAccounterReportService extends RemoteService {
 
 	public ArrayList<ECSalesList> getECSalesListReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
+
 	public ArrayList<ECSalesList> getECSalesListReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate, long companyId);
 
@@ -267,4 +268,11 @@ public interface IAccounterReportService extends RemoteService {
 
 	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int month);
+
+	ArrayList<TAXItemDetail> getTAXItemDetailReport(long taxAgency,
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException;
+
+	ArrayList<VATDetail> getVATExceptionDetailReport(ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException;;
 }

@@ -748,6 +748,16 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		}
 
 		if (isTrackTax() && isTrackPaidTax()) {
+
+			// Exception Report
+			// TODO need to get last vat period date
+			ClientFinanceDate date = new ClientFinanceDate(2011, 10, 30);
+
+			if (this.transactionDate.before(date)) {
+				result.addWarning(this.transactionDate, Accounter.constants()
+						.taxExceptionMesg());
+			}
+
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
@@ -32,9 +33,15 @@ public class PaySalesTaxAction extends Action {
 				// } else {
 				// UIUtils.setCanvas(new PaySalesTaxView(),
 				// getViewConfiguration());
-				MainFinanceWindow.getViewManager().showView(
-						new PaySalesTaxView(), data, false,
-						PaySalesTaxAction.this);
+
+				PaySalesTaxView paySalesTaxView = new PaySalesTaxView();
+
+				ClientVATReturn clientVATReturn = (ClientVATReturn) data;
+				paySalesTaxView.setFilterByDateList(clientVATReturn
+						.getTransactionPaySalesTax());
+
+				MainFinanceWindow.getViewManager().showView(paySalesTaxView,
+						data, false, PaySalesTaxAction.this);
 				// }
 
 			}
