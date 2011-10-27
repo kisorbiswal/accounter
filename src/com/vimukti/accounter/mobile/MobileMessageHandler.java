@@ -49,7 +49,7 @@ public class MobileMessageHandler {
 					userId, networkId, networkType);
 			Result result = getCommandProcessor().handleMessage(session,
 					preProcess);
-			boolean hasNextCommand = false;
+			boolean hasNextCommand = true;
 			if (preProcess.getCommand().isDone()) {
 				String nextCommand = result.getNextCommand();
 				if (nextCommand == null) {
