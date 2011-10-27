@@ -13,6 +13,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
@@ -29,6 +30,7 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
@@ -251,13 +253,27 @@ public class CustomerManager extends Manager {
 			// for (int j = 0; j < obj.length; j++)
 			{
 				EstimatesAndSalesOrdersList el = new EstimatesAndSalesOrdersList();
-				el.setTransactionId(((Long) obj[0]).longValue());
+				long transactionId = ((Long) obj[0]).longValue();
+				Estimate transaction = (Estimate) session.get(Estimate.class,
+						transactionId);
+				el.setTransactionId(transactionId);
 				el.setType(((Integer) obj[1]).intValue());
 				el.setTransactionNumber(((String) obj[2]));
 				el.setTotal(((Double) obj[3]).doubleValue());
 				el.setDate(new ClientFinanceDate((Long) obj[4]));
 				el.setCustomerName((String) obj[5]);
 				el.setRemainingTotal(((Double) obj[6]).doubleValue());
+				if (obj[7] != null) {
+					el.setEstimateType(((Integer) obj[7]).intValue());
+				}
+				try {
+					ClientEstimate clientTransaction = new ClientConvertUtil()
+							.toClientObject(transaction, ClientEstimate.class);
+					el.setTransactionItems(clientTransaction
+							.getTransactionItems());
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
 				esl.add(el);
 			}
 		}
