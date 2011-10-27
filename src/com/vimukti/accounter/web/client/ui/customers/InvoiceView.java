@@ -14,6 +14,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -63,6 +65,7 @@ import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerInventoryItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -94,6 +97,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private AmountLabel netAmountLabel, vatTotalNonEditableText,
 			balanceDueNonEditableText, paymentsNonEditableText,
 			salesTaxTextNonEditable;
+
+	private CustomerInventoryItemTransactionTable table;
+	private DisclosurePanel inventoryDisclosurePanel;
 
 	private AmountLabel transactionTotalinForeignCurrency,
 			transactionTotalinBaseCurrency;
@@ -181,8 +187,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						invoice.getPaymentTerm());
 				ClientFinanceDate transactionDate = this.transactionDateItem
 						.getEnteredDate();
-				ClientFinanceDate dueDate = new ClientFinanceDate(
-						invoice.getDueDate());
+				ClientFinanceDate dueDate = new ClientFinanceDate(invoice
+						.getDueDate());
 				dueDate = Utility.getCalculatedDueDate(transactionDate, terms);
 				if (dueDate != null) {
 					dueDateItem.setEnteredDate(dueDate);
@@ -198,7 +204,22 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	protected void createControls() {
 		Label lab1;
+		// Above tabels info
+		/*
+		 * FORMS
+		 */
+		// TODO
+		DynamicForm dateNoForm = new DynamicForm();
+		DynamicForm termsForm = new DynamicForm();
+		DynamicForm prodAndServiceForm1 = new DynamicForm();
+		DynamicForm prodAndServiceForm2 = new DynamicForm();
+		DynamicForm vatForm = new DynamicForm();
+		amountsForm = new DynamicForm();
+		DynamicForm priceLevelForm = new DynamicForm();
 
+		/*
+		 * 
+		 */
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 
@@ -231,11 +252,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		locationCombo = createLocationCombo();
 		locationCombo.setHelpInformation(true);
-
-		DynamicForm dateNoForm = new DynamicForm();
+		// DATE form
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		// ---date--
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -312,8 +333,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -361,8 +382,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "226px");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "226px");
 		custForm.setStyleName("align-form");
 
 		// if (UIUtils.isMSIEBrowser()) {
@@ -394,7 +415,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (transaction != null)
 			orderNumText.setDisabled(true);
 
-		DynamicForm termsForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		termsForm.setWidth("100%");
@@ -424,8 +444,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		termsForm.setStyleName("align-form");
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "200px");
 		// multi
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
@@ -446,7 +466,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		});
 
-		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
 		prodAndServiceForm1.setWidth("100%");
@@ -478,8 +497,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -511,7 +530,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		});
 
-		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("50%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
@@ -535,16 +553,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							ClientBrandingTheme selectItem) {
 					}
 				});
-		amountsForm = new DynamicForm();
+
 		amountsForm.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 
-		DynamicForm vatForm = new DynamicForm();
-
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				DynamicForm priceLevelForm = new DynamicForm();
+
 				// priceLevelForm.setCellSpacing(4);
 				priceLevelForm.setWidth("70%");
 				// priceLevelForm.setFields(priceLevelSelect);
@@ -678,6 +694,31 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		mainVLay.add(customerTransactionTable);
 		mainVLay.add(itemTableButton);
+		// Inventory table..
+		table = new CustomerInventoryItemTransactionTable(isTrackTax(),
+				isTaxPerDetailLine(), this) {
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return InvoiceView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			public void updateNonEditableItems() {
+				InvoiceView.this.updateNonEditableItems();
+			}
+
+		};
+		table.setDesable(isInViewMode());
+
+		FlowPanel inventoryFlowPanel = new FlowPanel();
+		inventoryDisclosurePanel = new DisclosurePanel("Warehouse Allocation");
+		inventoryFlowPanel.add(table);
+		inventoryDisclosurePanel.setContent(inventoryFlowPanel);
+		inventoryDisclosurePanel.setWidth("100%");
+
+		mainVLay.add(inventoryDisclosurePanel);
+		// ---Inverntory table-----
 
 		mainVLay.add(panel11);
 
@@ -1152,7 +1193,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						.getDeliverydate()));
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate()) : getTransactionDate());
+							transaction.getDueDate())
+							: getTransactionDate());
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
 					netAmountLabel
@@ -1160,7 +1202,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1486,8 +1529,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -1721,8 +1764,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		} else {
 			// if there is only one branding theme
 			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
-			UIUtils.downloadAttachment(((ClientInvoice) transaction).getID(),
-					ClientTransaction.TYPE_INVOICE, clientBrandingTheme.getID());
+			UIUtils
+					.downloadAttachment(((ClientInvoice) transaction).getID(),
+							ClientTransaction.TYPE_INVOICE, clientBrandingTheme
+									.getID());
 		}
 	}
 
