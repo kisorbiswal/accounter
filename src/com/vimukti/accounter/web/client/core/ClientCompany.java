@@ -1860,7 +1860,8 @@ public class ClientCompany implements IAccounterCore {
 			// break;
 			case CURRENCY:
 				ClientCurrency currency = (ClientCurrency) accounterCoreObject;
-				Utility.updateClientList(currency, currencies);
+				if (currency.getFormalName() != null)
+					Utility.updateClientList(currency, currencies);
 				break;
 			case COMPANY_PREFERENCES:
 				this.preferences = (ClientCompanyPreferences) accounterCoreObject;
@@ -2487,7 +2488,8 @@ public class ClientCompany implements IAccounterCore {
 	 */
 	public ClientCurrency getCurrency(String code) {
 		for (ClientCurrency currency : currencies) {
-			if (currency.getFormalName().equals(code)) {
+			if (currency.getFormalName() != null
+					&& currency.getFormalName().equals(code)) {
 				return currency;
 			}
 		}

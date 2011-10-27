@@ -166,7 +166,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private String decimalCharacte = ".";
 
 	// currency related properties
-	private ClientCurrency primaryCurrency;
+	private String primaryCurrency;
 	private List<ClientCurrency> supportingCurrenciesList;
 
 	// Organization type
@@ -785,7 +785,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public ClientCompanyPreferences clone() {
 		ClientCompanyPreferences preferences = (ClientCompanyPreferences) this
 				.clone();
-		preferences.primaryCurrency = this.primaryCurrency.clone();
+//		preferences.primaryCurrency = this.primaryCurrency.clone();
 		List<ClientCurrency> supportingCurrenciesList = new ArrayList<ClientCurrency>();
 		for (ClientCurrency currency : this.supportingCurrenciesList) {
 			supportingCurrenciesList.add(currency.clone());
@@ -794,11 +794,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		return preferences;
 	}
 
-	public ClientCurrency getPrimaryCurrency() {
+	public String getPrimaryCurrency() {
 		return primaryCurrency;
 	}
 
-	public void setPrimaryCurrency(ClientCurrency primaryCurrency) {
+	public void setPrimaryCurrency(String primaryCurrency) {
 		this.primaryCurrency = primaryCurrency;
 	}
 
