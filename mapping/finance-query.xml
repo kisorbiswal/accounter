@@ -150,6 +150,7 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="REMAINING_TOTAL" type="double" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -159,6 +160,7 @@
 		T.T_DATE AS
 		TRANSACTION_DATE,
 		P.NAME AS CUSTOMER_NAME,
+		E.ESTIMATETYPE AS ESTIMATE_TYPE,
 		(T.TOTAL - (SELECT
 		SUM(TI.INVOICED + (TI.VAT_FRACTION * (TI.INVOICED/TI.LINE_TOTAL)))
 		FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID = T.ID)) AS
