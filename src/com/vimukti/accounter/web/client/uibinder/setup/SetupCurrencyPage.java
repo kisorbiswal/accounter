@@ -65,7 +65,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		// currenciesList = UIUtils.getCurrenciesList();
 		headerLabel.setText(accounterConstants.selectCurrency());
 		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
-		currenciesList = CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
+		currenciesList = CoreUtils
+				.getCurrencies(new ArrayList<ClientCurrency>());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
@@ -85,10 +86,11 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void onLoad() {
-		ClientCurrency primaryCurrency = preferences.getPrimaryCurrency();
+		String primaryCurrency = preferences.getPrimaryCurrency();
 		if (primaryCurrency != null) {
 			for (int index = 0; index < currenciesList.size(); index++) {
-				if (currenciesList.get(index).equals(primaryCurrency)) {
+				if (currenciesList.get(index).getFormalName()
+						.equals(primaryCurrency)) {
 					primaryCurrencyListBox.setSelectedIndex(index);
 				}
 			}
@@ -99,8 +101,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	protected void onSave() {
 		if (primaryCurrencyListBox.getSelectedIndex() != -1) {
-			preferences.setPrimaryCurrency(currenciesList
-					.get(primaryCurrencyListBox.getSelectedIndex()));
+			preferences.setPrimaryCurrency(currenciesList.get(
+					primaryCurrencyListBox.getSelectedIndex()).getFormalName());
 		}
 		preferences.setEnableMultiCurrency(isMultiCurrencyAllowed.getValue());
 	}

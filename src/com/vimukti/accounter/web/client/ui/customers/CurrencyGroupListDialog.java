@@ -86,7 +86,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 	@Override
 	protected List<ClientCurrency> getRecords() {
-		return new ArrayList<ClientCurrency>( getCompany().getCurrencies());
+		return new ArrayList<ClientCurrency>(getCompany().getCurrencies());
 	}
 
 	@Override
@@ -105,8 +105,9 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		clientCurrency = (ClientCurrency) listGridView.getSelection();
-		if (clientCurrency.getID() == getCompany().getPreferences()
-				.getPrimaryCurrency().getID()) {
+		ClientCurrency currency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
+		if (currency != null && clientCurrency.getID() == currency.getID()) {
 			result.addError(this, Accounter.constants()
 					.CannotDeletePrimaryCurrency());
 		}

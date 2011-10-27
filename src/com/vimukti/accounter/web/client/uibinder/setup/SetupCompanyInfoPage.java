@@ -208,7 +208,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			for (int i = 0; i < currenciesList.size(); i++) {
 				if (countryPreferences.getPreferredCurrency().trim()
 						.equals(currenciesList.get(i).getFormalName())) {
-					preferences.setPrimaryCurrency(currenciesList.get(i));
+					preferences.setPrimaryCurrency(currenciesList.get(i)
+							.getFormalName());
 				}
 			}
 			List<String> monthNames = CoreUtils.getMonthNames();
