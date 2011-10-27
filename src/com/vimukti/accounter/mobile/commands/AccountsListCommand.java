@@ -5,150 +5,118 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class AccountsListCommand extends AbstractTransactionCommand {
+public class AccountsListCommand extends NewAbstractCommand {
+
+	private static final String ACCOUNT_TYPE = "accountType";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
+		list.add(new ShowListRequirement<Account>("Accounts",
+				"Please Enter name or number", 10) {
+			@Override
+			protected Record createRecord(Account value) {
+				Record record = new Record(value);
+				record.add("", value.getName());
+				record.add("", value.getTotalBalance());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Account");
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getNumber().startsWith(name);
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> list = new ArrayList<Account>();
+				Set<Account> accounts = context.getCompany().getAccounts();
+				String type = AccountsListCommand.this.get(ACCOUNT_TYPE)
+						.getValue();
+				if (type.equals("All Accounts")) {
+					return new ArrayList<Account>(accounts);
+				}
+				if (type.equals("Active Accounts")) {
+					for (Account a : accounts) {
+						if (a.getIsActive()) {
+							list.add(a);
+						}
+					}
+				} else {
+					for (Account a : accounts) {
+						if (!a.getIsActive()) {
+							list.add(a);
+						}
+					}
+				}
+				return list;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return "Accounts List:";
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return "There are no accounts";
+			}
+		});
+
+		list.add(new ActionRequirement(ACCOUNT_TYPE) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add("Active Accounts");
+				list.add("In Active Accounts");
+				list.add("All Accounts");
+				return list;
+			}
+		});
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = createAccountsList(context);
-		return result;
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result createAccountsList(Context context) {
-
-		ActionNames selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			switch (selection) {
-			case FINISH:
-				return closeCommand();
-			case ACTIVE:
-				context.setAttribute(ACCOUNT_TYPE, true);
-				break;
-			case IN_ACTIVE:
-				context.setAttribute(ACCOUNT_TYPE, false);
-				break;
-			case ALL:
-				context.setAttribute(ACCOUNT_TYPE, null);
-				break;
-			default:
-				break;
-			}
-		}
-		Result result = accountsList(context, selection);
-		return result;
+	@Override
+	protected String getDetailsMessage() {
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @param selection
-	 * @param isActive
-	 * @return
-	 */
-	private Result accountsList(Context context, ActionNames selection) {
-
-		Result result = context.makeResult();
-		ResultList accountsList = new ResultList("accountsList");
-		result.add(Global.get().Account() + "list");
-
-		Boolean accountType = (Boolean) context.getAttribute(ACCOUNT_TYPE);
-		List<Account> accounts = getAccounts(context.getCompany(), accountType);
-
-		ResultList actions = new ResultList("actions");
-
-		List<Account> pagination = pagination(context, selection, actions,
-				accounts, new ArrayList<Account>(), ACCOUNTS_TO_SHOW);
-
-		for (Account account : pagination) {
-			accountsList.add(createAccountRecord(account));
-		}
-
-		StringBuilder message = new StringBuilder();
-		if (accountsList.size() > 0) {
-			message.append(getMessages().selectAccountsToAssign(
-					Global.get().account()));
-		}
-
-		result.add(message.toString());
-		result.add(accountsList);
-
-		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", getConstants().active() + Global.get().Accounts());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec
-				.add("", getConstants().inActive() + Global.get().Accounts());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", getConstants().all());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", getConstants().close());
-		actions.add(inActiveRec);
-
-		result.add(actions);
-
-		CommandList commandList = new CommandList();
-		commandList.add(getMessages().addanewAccount(Global.get().account()));
-		result.add(commandList);
-		return result;
-
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(ACCOUNT_TYPE).setDefaultValue("All Accounts");
 	}
 
-	private List<Account> getAccounts(Company company, Boolean isActive) {
-		List<Account> list = new ArrayList<Account>();
-		Set<Account> accounts = company.getAccounts();
-		if (isActive == null) {
-			return new ArrayList<Account>(accounts);
-		}
-		for (Account a : accounts) {
-			if (a.getIsActive() == isActive) {
-				list.add(a);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * 
-	 */
-	protected Record createAccountRecord(Account account) {
-		Record record = new Record(account);
-		record.add("Name:", account.getName());
-		record.add("Balance", account.getTotalBalance());
-
-		return record;
+	@Override
+	public String getSuccessMessage() {
+		return null;
 	}
 
 }
