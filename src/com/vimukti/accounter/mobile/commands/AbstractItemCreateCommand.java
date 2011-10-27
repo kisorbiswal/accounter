@@ -5,6 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
@@ -41,7 +42,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	private static final String PREFERRED_SUPPLIER = "preferredSupplier";
 	private static final String SERVICE_NO = "supplierServiceNo";
 	protected static final String WEIGHT = "weight";
-	private static final String TAXCODE = null;
+	private static final String TAXCODE = "taxCode";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -62,17 +63,44 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 		list.add(new NameRequirement(SALES_DESCRIPTION, getMessages()
 				.pleaseEnter(getConstants().salesDescription()), getConstants()
-				.salesDescription(), true, true));
+				.salesDescription(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new AmountRequirement(SALES_PRICE, getMessages().pleaseEnter(
 				getConstants().salesPrice()), getConstants().salesPrice(),
-				true, true));
+				true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new AccountRequirement(INCOME_ACCOUNT, getMessages()
 				.pleaseEnter(
 						getMessages().incomeAccount(Global.get().Account())),
 				getMessages().incomeAccount(Global.get().Account()), false,
 				true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
@@ -120,6 +148,15 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		list.add(new BooleanRequirement(IS_TAXABLE, true) {
 
 			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
 			protected String getTrueString() {
 				return getConstants().taxable();
 			}
@@ -133,6 +170,15 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		list.add(new BooleanRequirement(IS_COMMISION_ITEM, true) {
 
 			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
 			protected String getTrueString() {
 				return getConstants().thisIsCommisionItem();
 			}
@@ -143,7 +189,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(STANDARD_COST, getMessages()
+		list.add(new AmountRequirement(STANDARD_COST, getMessages()
 				.pleaseEnter(getConstants().standardCost()), getConstants()
 				.standardCost(), true, true));
 
@@ -169,6 +215,16 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 		list.add(new TaxCodeRequirement(TAXCODE, "Enter the Tax Code name",
 				getConstants().taxCode(), false, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getCompany().getPreferences()
+						.isClassOnePerTransaction()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<ClientTAXCode> getLists(Context context) {
@@ -209,17 +265,44 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 		list.add(new NameRequirement(PURCHASE_DESCRIPTION, getMessages()
 				.pleaseEnter(getConstants().purchaseDescription()),
-				getConstants().purchaseDescription(), true, true));
+				getConstants().purchaseDescription(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new AmountRequirement(PURCHASE_PRICE, getMessages()
 				.pleaseEnter(getConstants().purchasePrice()), getConstants()
-				.purchasePrice(), true, true));
+				.purchasePrice(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
 				.pleaseEnter(
 						getMessages().expenseAccount(Global.get().Account())),
 				getMessages().expenseAccount(Global.get().Account()), false,
 				true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
@@ -268,6 +351,15 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				null) {
 
 			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
 			protected String getSetMessage() {
 				return "Preferred Supplier has been selected";
 			}
@@ -291,15 +383,28 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		list.add(new NumberRequirement(SERVICE_NO, getMessages().pleaseEnter(
 				getMessages().vendorServiceNo(Global.get().Vendor())),
 				getMessages().vendorServiceNo(Global.get().Vendor()), true,
-				true));
+				true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
+	}
+
+	@Override
+	public String getWelcomeMessage() {
+		return "Create Item Command is activated.";
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(I_SELL_THIS).setDefaultValue(Boolean.TRUE);
 		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
-		get(IS_COMMISION_ITEM).setDefaultValue(Boolean.TRUE);
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(SERVICE_NO).setDefaultValue("1");
 	}

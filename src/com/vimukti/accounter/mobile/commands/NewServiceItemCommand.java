@@ -8,9 +8,4 @@ public class NewServiceItemCommand extends AbstractItemCreateCommand {
 		return null;
 	}
 
-	@Override
-	protected String getWelcomeMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -3,14 +3,14 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 
 public class NewProductItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
-		list.add(new AmountRequirement(WEIGHT, getMessages().pleaseEnter(
+		list.add(new NumberRequirement(WEIGHT, getMessages().pleaseEnter(
 				getConstants().weight()), getConstants().weight(), true, true));
 	}
 
@@ -20,9 +20,4 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 		return null;
 	}
 
-	@Override
-	protected String getWelcomeMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

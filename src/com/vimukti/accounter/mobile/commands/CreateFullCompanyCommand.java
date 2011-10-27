@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -21,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 
 public class CreateFullCompanyCommand extends AbstractCompanyCommad {
@@ -493,6 +493,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		preferences.setTrackPaidTax(trackTaxPad);
 		preferences.setKeepTrackofBills(manageBills);
 		preferences.setDoyouwantEstimates(createEstimates);
+		preferences.setDateFormat(getDateFormat(countryName));
 		setStartDateOfFiscalYear(preferences);
 		Company company = AccounterCompanyInitializationServiceImpl
 				.intializeCompany(preferences, accounts, context.getIOSession()
@@ -501,6 +502,18 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			return new Result("Problem while creating the company.");
 		}
 		return null;
+	}
+
+	private String getDateFormat(String countryName) {
+		if (countryName.equals(CountryPreferenceFactory.UNITED_STATES)) {
+			return AccounterServerConstants.MMddyyyy;
+		} else if (countryName.equals(CountryPreferenceFactory.UNITED_KINGDOM)) {
+			return AccounterServerConstants.ddMMyyyy;
+		} else if (countryName.equals(CountryPreferenceFactory.INDIA)) {
+			return AccounterServerConstants.ddMMyyyy;
+		} else {
+			return AccounterServerConstants.ddMMyyyy;
+		}
 	}
 
 	@Override
