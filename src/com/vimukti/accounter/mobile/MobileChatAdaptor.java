@@ -47,6 +47,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (command == null && !session.isAuthenticated()) {
 			command = new AuthenticationCommand();
 			userMessage.setOriginalMsg("");// To know it is first
+			message = "";
 		}
 		if (command == null) {
 			long companyId = session.getCompanyID();
