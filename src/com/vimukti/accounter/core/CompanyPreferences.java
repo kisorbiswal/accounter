@@ -106,6 +106,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long DELAYED_CHARGES = 0x400000000000L;
 	private static final long BILLABLE_EXPENSE = 0x800000000000L;
 	private static final long PRODUCT_AND_SERVICES_TRACKING_CUSTOMER = 0x2000000000000L;
+	private static final long WAREHOUSE = 0x4000000000000L;
+	private static final long INVENTORY_ENABLED = 0x8000000000000L;
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -1418,5 +1420,21 @@ public class CompanyPreferences implements IAccounterServerCore {
 			boolean isProandSerTrackingByCustomerEnabled) {
 		this.set(PRODUCT_AND_SERVICES_TRACKING_CUSTOMER,
 				isProandSerTrackingByCustomerEnabled);
+	}
+
+	public void setwareHouseEnabled(boolean iswareHouseEnabled) {
+		this.set(WAREHOUSE, iswareHouseEnabled);
+	}
+
+	public boolean iswareHouseEnabled() {
+		return get(WAREHOUSE);
+	}
+
+	public void setInventoryEnabled(boolean isInventoryEnabled) {
+		this.set(INVENTORY_ENABLED, isInventoryEnabled);
+	}
+
+	public boolean isInventoryEnabled() {
+		return get(INVENTORY_ENABLED);
 	}
 }
