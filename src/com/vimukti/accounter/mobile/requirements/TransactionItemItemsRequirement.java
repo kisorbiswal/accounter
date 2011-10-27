@@ -102,28 +102,32 @@ public abstract class TransactionItemItemsRequirement extends
 					context.setAttribute(ITEM_PROPERTY_ATTR, QUANTITY);
 					return amount(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().quantity()), transactionItem
 									.getQuantity().getValue());
 				} else if (selection.equals(UNIT_PRICE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
 					return amount(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().unitPrice()),
 							transactionItem.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
 					return amount(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().discount()),
 							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
 					return taxCode(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().taxCode()), null);
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
@@ -131,7 +135,8 @@ public abstract class TransactionItemItemsRequirement extends
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
 					return number(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().description()),
 							transactionItem.getDescription());
 				}
@@ -230,11 +235,6 @@ public abstract class TransactionItemItemsRequirement extends
 		actions.add(record);
 		result.add(actions);
 		return result;
-	}
-
-	private String getItemName() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

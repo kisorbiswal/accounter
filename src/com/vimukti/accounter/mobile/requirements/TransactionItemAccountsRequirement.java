@@ -93,21 +93,24 @@ public abstract class TransactionItemAccountsRequirement extends
 					context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
 					return amount(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().amount()),
 							transactionItem.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
 					return amount(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().discount()),
 							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
 					return taxCode(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().taxCode()),
 							getClientCompany().getTAXCode(
 									transactionItem.getTaxCode()));
@@ -117,7 +120,8 @@ public abstract class TransactionItemAccountsRequirement extends
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
 					return show(
 							context,
-							getMessages().pleaseEnterThe(getItemName(),
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
 									getConstants().description()),
 							transactionItem.getDescription());
 				}
@@ -128,7 +132,8 @@ public abstract class TransactionItemAccountsRequirement extends
 						context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
 						return amount(
 								context,
-								getMessages().pleaseEnterThe(getItemName(),
+								getMessages().pleaseEnterThe(
+										getItemName(transactionItem),
 										getConstants().amount()),
 								transactionItem.getUnitPrice());
 					} else if (context.getCompany().getPreferences()
@@ -139,7 +144,8 @@ public abstract class TransactionItemAccountsRequirement extends
 						context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
 						return taxCode(
 								context,
-								getMessages().pleaseEnterThe(getItemName(),
+								getMessages().pleaseEnterThe(
+										getItemName(transactionItem),
 										getConstants().taxCode()),
 								getClientCompany().getTAXCode(
 										transactionItem.getTaxCode()));
@@ -224,11 +230,6 @@ public abstract class TransactionItemAccountsRequirement extends
 		actions.add(record);
 		result.add(actions);
 		return result;
-	}
-
-	private String getItemName() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -371,4 +371,8 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 	protected abstract String getItemDisplayValue(ClientTransactionItem item);
 
 	protected abstract ClientCompany getClientCompany();
+
+	protected String getItemName(ClientTransactionItem transactionItem) {
+		return getDisplayValue(getTransactionItem(transactionItem));
+	}
 }
