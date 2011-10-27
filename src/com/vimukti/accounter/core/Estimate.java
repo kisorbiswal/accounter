@@ -107,6 +107,9 @@ public class Estimate extends Transaction {
 	 */
 	boolean isTurnedToInvoiceOrSalesOrder = false;
 
+	@ReffereredObject
+	private EnterBill enterBill;
+
 	public Estimate() {
 		setType(Transaction.TYPE_ESTIMATE);
 	}
@@ -353,5 +356,13 @@ public class Estimate extends Transaction {
 
 	public void setEstimateType(int estimateType) {
 		this.estimateType = estimateType;
+	}
+
+	public EnterBill getEnterBill() {
+		return enterBill;
+	}
+
+	public void setEnterBill(EnterBill enterBill) {
+		this.enterBill = enterBill;
 	}
 }
