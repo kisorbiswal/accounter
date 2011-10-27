@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerInventoryItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -81,6 +82,8 @@ public class CashSalesView extends
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
 	private CurrencyWidget currencyWidget;
+	private CustomerInventoryItemTransactionTable inventoryTransactionTable;
+	private DisclosurePanel inventoryDisclosurePanel;
 
 	private AmountLabel transactionTotalBaseCurrency,
 			transactionTotalForeignCurrency;
@@ -158,8 +161,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect
@@ -214,8 +217,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -315,6 +318,29 @@ public class CashSalesView extends
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		itemsDisclosurePanel.setWidth("100%");
 
+		// Inventory table..
+		inventoryTransactionTable = new CustomerInventoryItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine(), this) {
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CashSalesView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			public void updateNonEditableItems() {
+				CashSalesView.this.updateNonEditableItems();
+			}
+
+		};
+		inventoryTransactionTable.setDesable(isInViewMode());
+		FlowPanel inventoryFlowPanel = new FlowPanel();
+		inventoryDisclosurePanel = new DisclosurePanel("Warehouse Allocation");
+		inventoryFlowPanel.add(inventoryTransactionTable);
+		inventoryDisclosurePanel.setContent(inventoryFlowPanel);
+		inventoryDisclosurePanel.setWidth("100%");
+		// ---Inverntory table-----
+
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
 		DynamicForm taxForm = new DynamicForm();
@@ -385,6 +411,7 @@ public class CashSalesView extends
 
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
+		mainVLay.add(inventoryDisclosurePanel);
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(vPanel);
@@ -742,7 +769,8 @@ public class CashSalesView extends
 									.getNetAmount()));
 					taxTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -894,8 +922,8 @@ public class CashSalesView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -1040,12 +1068,12 @@ public class CashSalesView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
@@ -1104,4 +1132,5 @@ public class CashSalesView extends
 		customerItemTransactionTable.updateAmountsFromGUI();
 		customerAccountTransactionTable.updateAmountsFromGUI();
 	}
+
 }
