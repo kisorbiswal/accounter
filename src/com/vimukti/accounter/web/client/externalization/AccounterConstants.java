@@ -5061,4 +5061,12 @@ public interface AccounterConstants extends Constants {
 	public String warehouseCode();
 
 	public String validNumber();
+
+	public String isBillable();
+
+	public String creditsList();
+
+	public String billabelList();
+
+	public String billabe();
 }
