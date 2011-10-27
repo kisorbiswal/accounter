@@ -379,9 +379,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ICountryPreferences countryPreferences = getClientCompany()
+		ICountryPreferences countryPreferences = context.getClientCompany()
 				.getCountryPreferences();
-		ClientCompanyPreferences preferences = getClientCompany()
+		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 
 		ClientCustomer customer = new ClientCustomer();
