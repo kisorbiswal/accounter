@@ -7,7 +7,6 @@ import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
@@ -60,10 +59,11 @@ public abstract class TemplateAccountRequirement extends
 		ActionNames actionName = (ActionNames) selection;
 		if (actionName != null) {
 			if (actionName == ActionNames.ADD_MORE_ACCOUNTS) {
+				context.setString(null);
 				return showList(context, values);
 			} else if (actionName == ActionNames.SET_DEFAULT) {
 				loadDefaultAccpunts();
-				values = getValue();
+				return showSlectedAccounts();
 			} else if (actionName == ActionNames.CLOSE) {
 				context.setAttribute(INPUT_ATTR, "");
 				Record record = new Record("accountsNumber");
@@ -175,7 +175,6 @@ public abstract class TemplateAccountRequirement extends
 				result.add("Found " + lists.size() + " record(s)");
 			} else {
 				result.add("Did not get any records with '" + name + "'.");
-				result.add(getEnterString());
 				lists = getLists(context);
 			}
 		} else {
@@ -196,27 +195,13 @@ public abstract class TemplateAccountRequirement extends
 			List<TemplateAccount> records, Result result, int recordsToShow,
 			List<TemplateAccount> oldRecords) {
 		ResultList customerList = new ResultList(getName());
-		Object last = context.getLast(RequirementType.CUSTOMER);
-		List<TemplateAccount> skipCustomers = new ArrayList<TemplateAccount>();
-		if (last != null) {
-			TemplateAccount lastRec = (TemplateAccount) last;
-			customerList.add(createRecord(lastRec));
-			skipCustomers.add(lastRec);
-		}
-
-		if (oldRecords != null) {
-			for (TemplateAccount t : oldRecords) {
-				// customerList.add(createRecord(t));
-				skipCustomers.add(t);
-			}
-		}
 
 		ResultList actions = new ResultList(ACTIONS);
 
 		ActionNames selection = context.getSelection(ACTIONS);
 
 		List<TemplateAccount> pagination = pagination(context, selection,
-				actions, records, skipCustomers, recordsToShow);
+				actions, records, oldRecords, recordsToShow);
 
 		for (TemplateAccount rec : pagination) {
 			customerList.add(createRecord(rec));
@@ -252,7 +237,7 @@ public abstract class TemplateAccountRequirement extends
 			context.setAttribute(RECORDS_START_INDEX, 0);
 		}
 
-		int num = skipRecords.size();
+		int num = 0;
 		Integer index = (Integer) context.getAttribute(RECORDS_START_INDEX);
 		if (index == null || index < 0) {
 			index = 0;

@@ -13,7 +13,7 @@ public class AmountRequirement extends SingleRequirement<Double> {
 
 	@Override
 	protected String getDisplayValue(Double value) {
-		return value.toString();
+		return value != null ? value.toString() : "";
 	}
 
 	@Override

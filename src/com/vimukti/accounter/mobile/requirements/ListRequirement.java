@@ -113,7 +113,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 						+ "'.");
 			} else {
 				result.add("Did not get any records with '" + name + "'.");
-				result.add(getEnterString());
+				context.setAttribute("oldValue", "");
 				lists = getLists(context);
 			}
 		} else {
