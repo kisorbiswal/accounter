@@ -324,9 +324,7 @@
 				lazy="false" cascade="save-update" column="DEFAULT_TAX_CODE">
 			</many-to-one>
 			
-			<many-to-one name="primaryCurrency" class="com.vimukti.accounter.core.Currency"
-				lazy="false" cascade="save-update" column="PRIMARY_CURRENCY">
-			</many-to-one>
+			<property name="primaryCurrency" column="PRIMARY_CURRENCY"></property>
 		</component>
 
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
