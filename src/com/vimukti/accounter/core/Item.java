@@ -94,6 +94,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	double purchasePrice;
 	TAXCode taxCode;
 
+	double openingBalance;
 	/**
 	 * Expense Account set to this Item
 	 * 
@@ -468,5 +469,13 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return ((Item) obj).getID() == this.getID();
 		}
 		return false;
+	}
+
+	public double getOpeningBalance() {
+		return openingBalance;
+	}
+
+	public void setOpeningBalance(double openingBalance) {
+		this.openingBalance = openingBalance;
 	}
 }
