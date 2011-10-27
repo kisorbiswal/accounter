@@ -50,6 +50,7 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	long taxCode;
 	double standardCost;
 	int version;
+	double openingBalance;
 
 	boolean isDefault;
 
@@ -405,6 +406,14 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 				return true;
 		}
 		return false;
+	}
+
+	public double getOpeningBalance() {
+		return openingBalance;
+	}
+
+	public void setOpeningBalance(double openingBalance) {
+		this.openingBalance = openingBalance;
 	}
 
 }
