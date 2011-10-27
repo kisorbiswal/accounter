@@ -157,7 +157,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public long id;
 
 	// currency related properties
-	private Currency primaryCurrency;
+	private String primaryCurrency;
 	private List<Currency> supportingCurrenciesList;
 
 	// Organization type
@@ -316,11 +316,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 		set(TRACK_EMPLOYEE_EXPENSES, value);
 	}
 
-	public Currency getPrimaryCurrency() {
+	public String getPrimaryCurrency() {
 		return primaryCurrency;
 	}
 
-	public void setPrimaryCurrency(Currency primaryCurrency) {
+	public void setPrimaryCurrency(String primaryCurrency) {
 		this.primaryCurrency = primaryCurrency;
 	}
 

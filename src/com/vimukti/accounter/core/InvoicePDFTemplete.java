@@ -103,8 +103,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// for primary curreny
-			Currency primaryCurrency = company.getPreferences()
-					.getPrimaryCurrency();
+			Currency primaryCurrency = company.getCurrency(company
+					.getPreferences().getPrimaryCurrency());
 			if (primaryCurrency != null)
 				if (primaryCurrency.getFormalName().trim().length() > 0) {
 					t.setVariable("currency", primaryCurrency.getFormalName()

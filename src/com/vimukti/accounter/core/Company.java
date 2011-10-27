@@ -559,10 +559,10 @@ public class Company implements IAccounterServerCore {
 	 */
 	public void setPreferences(CompanyPreferences preferences) {
 		this.preferences = preferences;
-		Currency currency = this.preferences.getPrimaryCurrency();
-		if(currency!=null){
-			currency.setCompany(this);
-		}
+		// Currency currency = this.preferences.getPrimaryCurrency();
+		// if (currency != null) {
+		// currency.setCompany(this);
+		// }
 	}
 
 	public String getBankAccountNo() {
@@ -1585,5 +1585,14 @@ public class Company implements IAccounterServerCore {
 
 	public String getCountry() {
 		return this.getRegisteredAddress().getCountryOrRegion();
+	}
+
+	public Currency getCurrency(String formalName) {
+		for (Currency currency : currencies) {
+			if (currency.getFormalName().equals(formalName)) {
+				return currency;
+			}
+		}
+		return null;
 	}
 }
