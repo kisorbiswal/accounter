@@ -74,7 +74,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				command = matchedCommand;
 			}
 		}
-		
+
 		UserMessage lastMessage = session.getLastMessage();
 		Result lastResult = lastMessage == null ? null : lastMessage
 				.getResult();
@@ -84,6 +84,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 					message);
 			if (selectCommand != null) {
 				command = selectCommand;
+				userMessage.setOriginalMsg("");// otherwise It comes as an input
 			}
 		}
 
