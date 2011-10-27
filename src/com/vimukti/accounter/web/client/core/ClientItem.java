@@ -403,8 +403,6 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 			ClientItem item = (ClientItem) obj;
 			if (this.getID() == item.getID())
 				return true;
-		} else {
-			return false;
 		}
 		return false;
 	}

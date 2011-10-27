@@ -36,6 +36,8 @@ public class ClientEnterBill extends ClientTransaction {
 
 	Set<ClientTransactionPayBill> transactionPayBills = new HashSet<ClientTransactionPayBill>();
 
+	private Set<ClientEstimate> estimates = new HashSet<ClientEstimate>();
+
 	long purchaseOrder;
 
 	long itemReceipt;
@@ -274,5 +276,13 @@ public class ClientEnterBill extends ClientTransaction {
 		}
 		clientEnterBillClone.transactionPayBills = transactionPayBills;
 		return clientEnterBillClone;
+	}
+
+	public Set<ClientEstimate> getEstimates() {
+		return estimates;
+	}
+
+	public void setEstimates(Set<ClientEstimate> estimates) {
+		this.estimates = estimates;
 	}
 }

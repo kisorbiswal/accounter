@@ -97,6 +97,10 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	private ClientAccounterClass accounterClass;
 
+	private long customer;
+
+	private boolean isBillable;
+
 	public double getVATfraction() {
 		return VATfraction;
 	}
@@ -522,5 +526,25 @@ public class ClientTransactionItem implements IAccounterCore {
 			return true;
 		}
 		return false;
+	}
+
+	public long getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(long customer) {
+		this.customer = customer;
+	}
+
+	public void setIsBillable(boolean value) {
+		this.setBillable(value);
+	}
+
+	public boolean isBillable() {
+		return isBillable;
+	}
+
+	public void setBillable(boolean isBillable) {
+		this.isBillable = isBillable;
 	}
 }

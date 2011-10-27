@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 public class ClientEstimate extends ClientTransaction {
 
 	/**
@@ -48,6 +49,7 @@ public class ClientEstimate extends ClientTransaction {
 	boolean isTurnedToInvoice = false;
 	private int transactionType;
 
+	private long enterBill;
 	/**
 	 * @return the version
 	 */
@@ -314,6 +316,14 @@ public class ClientEstimate extends ClientTransaction {
 
 	public void setEstimateType(int estimateType) {
 		this.estimateType = estimateType;
+	}
+
+	public long getEnterBill() {
+		return enterBill;
+	}
+
+	public void setEnterBill(long enterBill) {
+		this.enterBill = enterBill;
 	}
 
 }
