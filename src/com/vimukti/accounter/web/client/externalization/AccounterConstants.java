@@ -5066,11 +5066,9 @@ public interface AccounterConstants extends Constants {
 
 	public String newCharge();
 
-
 	public String taxExceptionMesg();
 
 	public String InventoryLists();
-
 
 	public String taxItemDetailReport();
 
@@ -5087,9 +5085,8 @@ public interface AccounterConstants extends Constants {
 	public String Charges();
 
 	public String chargesList();
-public String getJournalEntry();
 
-
+	public String getJournalEntry();
 
 	public String isBillable();
 
@@ -5098,4 +5095,6 @@ public String getJournalEntry();
 	public String billabelList();
 
 	public String billabe();
+
+	public String taxItemExceptionDetailReport();
 }

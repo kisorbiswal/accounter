@@ -7,9 +7,14 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class TaxItemDetailReportAction extends Action {
+/**
+ * 
+ * @author Sai Prasad N
+ * 
+ */
+public class TAXItemExceptionDetailReport extends Action {
 
-	public TaxItemDetailReportAction(String text) {
+	public TAXItemExceptionDetailReport(String text) {
 		super(text);
 		this.catagory = Accounter.constants().report();
 	}
@@ -27,9 +32,9 @@ public class TaxItemDetailReportAction extends Action {
 			public void onCreated() {
 
 				TaxItemDetailReportView report = new TaxItemDetailReportView(
-						false);
+						true);
 				MainFinanceWindow.getViewManager().showView(report, data,
-						dependent, TaxItemDetailReportAction.this);
+						dependent, TAXItemExceptionDetailReport.this);
 
 			}
 
@@ -53,12 +58,11 @@ public class TaxItemDetailReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "TaxItemDetail";
+		return "TaxItem ExceptionDetails";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "Tax Item Detail";
+		return "TaxItem-ExceptionDetails";
 	}
-
 }

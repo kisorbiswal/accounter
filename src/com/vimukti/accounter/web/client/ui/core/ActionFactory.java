@@ -144,6 +144,7 @@ import com.vimukti.accounter.web.client.ui.reports.SalesClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesTaxLiabilityAction;
 import com.vimukti.accounter.web.client.ui.reports.StatementReportAction;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemExceptionDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByTaxItemAction;
@@ -492,6 +493,7 @@ public class ActionFactory {
 	public static CurrencyGroupListAction getCurrencyGroupListAction() {
 		return new CurrencyGroupListAction(actionsConstants.currencyGroupList());
 	}
+
 	public static FormLayoutsListAction getFormLayoutsListAction() {
 		return new FormLayoutsListAction(actionsConstants.formLayoutsList());
 	}
@@ -1381,7 +1383,12 @@ public class ActionFactory {
 	}
 
 	public static TaxItemDetailReportAction getTaxItemDetailReportAction() {
-		return new TaxItemDetailReportAction(actionsConstants.taxItemDetailReport());
+		return new TaxItemDetailReportAction(
+				actionsConstants.taxItemDetailReport());
 	}
 
+	public static TAXItemExceptionDetailReport getTaxItemExceptionDetailReportAction() {
+		return new TAXItemExceptionDetailReport(
+				actionsConstants.taxItemExceptionDetailReport());
+	}
 }

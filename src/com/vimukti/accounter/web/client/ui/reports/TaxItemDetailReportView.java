@@ -14,10 +14,12 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 
 	private long taxAgency;
 	private int row;
+	private boolean isExceptionReport = false;
 
-	public TaxItemDetailReportView() {
+	public TaxItemDetailReportView(boolean isExceptionReport) {
 		super(false, Accounter.constants().noRecordsToShow());
 		this.serverReport = new TAXItemDetailServerReportView(this);
+		this.isExceptionReport = isExceptionReport;
 
 	}
 
@@ -37,8 +39,12 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 			ClientFinanceDate endDate) {
 		this.row = -1;
 		this.taxAgency = vatAgency;
-		Accounter.createReportService().getTAXItemDetailReport(this.taxAgency,
-				startDate, endDate, this);
+		if (!isExceptionReport) {
+			Accounter.createReportService().getTAXItemDetailReport(
+					this.taxAgency, startDate, endDate, this);
+		} else {
+			// TODO call Exception report RPC method
+		}
 	}
 
 	@Override

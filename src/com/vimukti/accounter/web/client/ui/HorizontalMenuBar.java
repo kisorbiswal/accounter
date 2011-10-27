@@ -552,7 +552,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (Accounter.getCompany().getPreferences().isTrackTax()) {
-			reportMenuBar.addItem(Accounter.constants().vat(),
+			reportMenuBar.addItem(Accounter.constants().tax(),
 					getVATReportMenu());
 		}
 		// reportMenuBar.addItem(Accounter.constants()
@@ -641,9 +641,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getVATReportMenu() {
 		CustomMenuBar vatReportMenuBar = getSubMenu();
-		ICountryPreferences countryPreferences = Accounter.getCompany().getCountryPreferences();
-		if( countryPreferences instanceof UnitedKingdom&&
-				countryPreferences.isVatAvailable()){
+		ICountryPreferences countryPreferences = Accounter.getCompany()
+				.getCountryPreferences();
+		if (countryPreferences instanceof UnitedKingdom
+				&& countryPreferences.isVatAvailable()) {
 			vatReportMenuBar.addItem(ActionFactory.getVATSummaryReportAction());
 			vatReportMenuBar.addItem(ActionFactory.getVATDetailsReportAction());
 			vatReportMenuBar.addItem(ActionFactory.getVAT100ReportAction());
@@ -652,13 +653,15 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			vatReportMenuBar.addItem(ActionFactory
 					.getVATUncategorisedAmountsReportAction());
 			vatReportMenuBar.addItem(ActionFactory.getECSalesListAction());
-		}else{
-			//TODO Add TAX Item Exception Report
-			vatReportMenuBar.addItem(ActionFactory.getTaxItemDetailReportAction());
+		} else {
+			vatReportMenuBar.addItem(ActionFactory
+					.getTaxItemDetailReportAction());
+			vatReportMenuBar.addItem(ActionFactory
+					.getTaxItemExceptionDetailReportAction());
 		}
-		
+
 		vatReportMenuBar.addItem(ActionFactory.getVATItemSummaryReportAction());
-		
+
 		return vatReportMenuBar;
 	}
 
@@ -1112,7 +1115,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getMergeAccountCommand());
 		mergeAccountsMenuBar.addItem(Accounter.constants().mergeItems(),
 				getMergeItemCommand());
-			return mergeAccountsMenuBar;
+		return mergeAccountsMenuBar;
 	}
 
 	private CustomMenuBar getCompanyListMenu() {
