@@ -1,10 +1,14 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -105,6 +109,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@ReffereredObject
 	Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
 
+	@ReffereredObject
+	private Set<Estimate> estimates = new HashSet<Estimate>();
 	/**
 	 * This will specify which purchase order has been used in this Bill.
 	 * 
@@ -219,7 +225,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -309,13 +314,31 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			this.itemReceipt.voidTransactionItems();
 			deleteCreatedEntries(session, this.itemReceipt);
 		}
-
+		if (getCompany().getPreferences()
+				.isProductandSerivesTrackingByCustomerEnabled()
+				&& getCompany().getPreferences()
+						.isBillableExpsesEnbldForProductandServices()) {
+			createAndSaveEstimates(this.transactionItems, session);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
+		Set<Estimate> estimates = this.getEstimates();
+		for (Estimate estimate : estimates) {
+			Query query = session.getNamedQuery("getInvoiceByEstimate")
+					.setParameter("estimate", estimate)
+					.setParameter("company", getCompany());
+			Invoice invoice = (Invoice) query.uniqueResult();
+			if (invoice != null) {
+				throw new HibernateException("Invoice Linked");
+			}
+			session.delete(estimate);
+			estimates.remove(estimate);
+		}
+		createAndSaveEstimates(this.transactionItems, session);
 		// if (this.isBecameVoid()) {
 		//
 		// for (TransactionPayBill tx : this.transactionPayBills) {
@@ -983,5 +1006,64 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		}
 		return map;
 
+	}
+
+	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
+			Session session) {
+		this.estimates.clear();
+		Set<Estimate> estimates = new HashSet<Estimate>();
+		for (TransactionItem transactionItem : transactionItems) {
+			if (transactionItem.isBillable()
+					&& transactionItem.getCustomer() != null) {
+				TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
+						TransactionItem.class).clone(null, transactionItem,
+						false);
+				newTransactionItem.setId(0);
+				newTransactionItem.setOnSaveProccessed(false);
+				newTransactionItem.setTaxRateCalculationEntriesList(null);
+				Estimate estimate = getCustomerEstimate(estimates,
+						newTransactionItem.getCustomer().getID());
+				if (estimate == null) {
+					estimate = new Estimate();
+					estimate.setCompany(getCompany());
+					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setTransactionItems(new ArrayList<TransactionItem>());
+					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
+					estimate.setType(Transaction.TYPE_ESTIMATE);
+					estimate.setDate(transactionDate);
+					estimate.setExpirationDate(transactionDate);
+					estimate.setDeliveryDate(transactionDate);
+					estimate.setNumber(NumberUtils.getNextTransactionNumber(
+							Transaction.TYPE_ESTIMATE, getCompany()));
+				}
+				List<TransactionItem> transactionItems2 = estimate
+						.getTransactionItems();
+				transactionItems2.add(newTransactionItem);
+				estimate.setTransactionItems(transactionItems2);
+				estimates.add(estimate);
+			}
+		}
+
+		for (Estimate estimate : estimates) {
+			session.save(estimate);
+		}
+		this.setEstimates(estimates);
+	}
+
+	private Estimate getCustomerEstimate(Set<Estimate> estimates, long customer) {
+		for (Estimate clientEstimate : estimates) {
+			if (clientEstimate.getCustomer().getID() == customer) {
+				return clientEstimate;
+			}
+		}
+		return null;
+	}
+
+	public Set<Estimate> getEstimates() {
+		return estimates;
+	}
+
+	public void setEstimates(Set<Estimate> estimates) {
+		this.estimates = estimates;
 	}
 }
