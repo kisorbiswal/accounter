@@ -77,7 +77,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new CustomerRequirement(CUSTOMER,
-				"Please Eneter Customer name or number to set InvoiceCustomer",
+				"Please Enter Customer name or number to set InvoiceCustomer",
 				"Customer", false, true, new ChangeListner<ClientCustomer>() {
 
 					@Override
