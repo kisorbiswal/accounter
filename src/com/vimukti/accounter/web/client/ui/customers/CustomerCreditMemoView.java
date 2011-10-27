@@ -63,12 +63,14 @@ public class CustomerCreditMemoView extends
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	protected ClientPriceLevel priceLevel;
 	protected ClientSalesPerson salesPerson;
-	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			taxTotalNonEditableText;
+	private AmountLabel netAmountLabel, taxTotalNonEditableText;
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
 	private CurrencyWidget currencyWidget;
+
+	private AmountLabel transactionTotalinBaseCurrency,
+			transactionTotalinForeignCurrency;
 
 	public CustomerCreditMemoView() {
 
@@ -188,8 +190,11 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
 		taxTotalNonEditableText = createVATTotalNonEditableLabel();
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
 				.getPreferences().getPrimaryCurrency());
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
@@ -271,18 +276,21 @@ public class CustomerCreditMemoView extends
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
-						disabletextbox, transactionTotalNonEditableText);
+						disabletextbox, transactionTotalinBaseCurrency,
+						disabletextbox, transactionTotalinForeignCurrency);
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
 				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
-						disabletextbox, transactionTotalNonEditableText);
+						disabletextbox, transactionTotalinBaseCurrency,
+						disabletextbox, transactionTotalinForeignCurrency);
 
 			}
 		} else {
 			prodAndServiceForm2.setFields(disabletextbox,
-					transactionTotalNonEditableText);
+					transactionTotalinBaseCurrency, disabletextbox,
+					transactionTotalinForeignCurrency);
 
 		}
 		prodAndServiceForm2.addStyleName("boldtext");
@@ -444,7 +452,7 @@ public class CustomerCreditMemoView extends
 			transaction.setTaxTotal(this.salesTax);
 		}
 		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+				.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
 						.getAmount()));
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -512,9 +520,13 @@ public class CustomerCreditMemoView extends
 				}
 			}
 
-			transactionTotalNonEditableText
+			transactionTotalinBaseCurrency
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+
+			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
+
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
 		}
@@ -594,8 +606,10 @@ public class CustomerCreditMemoView extends
 			Double transactionTotal = ((ClientCustomerCreditMemo) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
-				transactionTotalNonEditableText
-						.setAmount(getAmountInTransactionCurrency(transactionTotal));
+				transactionTotalinBaseCurrency.setAmount(transactionTotal);
+				transactionTotalinForeignCurrency
+						.setAmount(getAmountInTransactionCurrency(transaction
+								.getTotal()));
 			}
 
 		}
@@ -653,7 +667,9 @@ public class CustomerCreditMemoView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalNonEditableText
+		transactionTotalinBaseCurrency
+				.setAmount(getAmountInBaseCurrency(transactionTotal));
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(transactionTotal));
 	}
 
@@ -729,6 +745,9 @@ public class CustomerCreditMemoView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {

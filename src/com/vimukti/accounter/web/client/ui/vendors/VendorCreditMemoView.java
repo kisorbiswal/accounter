@@ -81,6 +81,9 @@ public class VendorCreditMemoView extends
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
 		}
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
+
 		if (vendor.getPhoneNo() != null)
 			phoneSelect.setValue(vendor.getPhoneNo());
 		else
@@ -116,7 +119,10 @@ public class VendorCreditMemoView extends
 						.setAmount(getAmountInTransactionCurrency(transaction
 								.getTotal() - transaction.getNetAmount()));
 			}
+
 			transactionTotalNonEditableText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 
@@ -211,6 +217,9 @@ public class VendorCreditMemoView extends
 		netAmount.setDisabled(true);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
@@ -356,7 +365,8 @@ public class VendorCreditMemoView extends
 		if (isTrackTax() && isTrackPaidTax()) {
 
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+					transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
@@ -378,7 +388,8 @@ public class VendorCreditMemoView extends
 			memoForm.setStyleName("align-form");
 			bottomLayout1.add(memoForm);
 
-			totalForm.setFields(transactionTotalNonEditableText);
+			totalForm.setFields(transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 
 			bottomLayout1.add(totalForm);
 
@@ -520,7 +531,10 @@ public class VendorCreditMemoView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
+
 		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (getPreferences().isTrackPaidTax()) {
 			vatTotalNonEditableText

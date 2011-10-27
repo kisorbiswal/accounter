@@ -45,8 +45,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class CashExpenseView extends
 		AbstractVendorTransactionView<ClientCashPurchase> {
 
-	// private ClientAccount pettycash;
-	// AccountCombo petycash;
 	protected DynamicForm vendorForm;
 	public List<String> selectedComboList;
 	private ArrayList<DynamicForm> listforms;
@@ -328,7 +326,11 @@ public class CashExpenseView extends
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
+
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
@@ -443,7 +445,8 @@ public class CashExpenseView extends
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+					transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
@@ -475,7 +478,8 @@ public class CashExpenseView extends
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
 
-			totalForm.setFields(transactionTotalNonEditableText);
+			totalForm.setFields(transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
 		}
@@ -594,6 +598,8 @@ public class CashExpenseView extends
 				}
 			}
 			transactionTotalNonEditableText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 
@@ -658,7 +664,8 @@ public class CashExpenseView extends
 
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
-
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 	}
 
 	@Override
@@ -714,6 +721,8 @@ public class CashExpenseView extends
 							- lineTotal));
 		}
 		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}
 

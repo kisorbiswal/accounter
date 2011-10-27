@@ -250,7 +250,7 @@ public class CashSalesView extends
 
 		transactionTotalBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
 				.getPreferences().getPrimaryCurrency());
-		transactionTotalForeignCurrency = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
@@ -521,6 +521,9 @@ public class CashSalesView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 
 	}
 

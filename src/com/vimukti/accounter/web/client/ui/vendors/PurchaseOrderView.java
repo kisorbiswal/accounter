@@ -170,6 +170,9 @@ public class PurchaseOrderView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
 
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
 		vatTotalNonEditableText = createVATTotalNonEditableLabelforPurchase();
 
 		// vendorCombo =
@@ -201,7 +204,8 @@ public class PurchaseOrderView extends
 				// .getTotal());
 			}
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+					transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 
 			amountsForm.setStyleName("boldtext");
 			// forms.add(priceLevelForm);
@@ -217,6 +221,10 @@ public class PurchaseOrderView extends
 
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
+
+			transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+					.getPreferences().getPrimaryCurrency());
+
 			paymentsNonEditableText = new AmountLabel(
 					accounterConstants.payments());
 			paymentsNonEditableText.setDisabled(true);
@@ -235,7 +243,8 @@ public class PurchaseOrderView extends
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("boldtext");
 			amountsForm.setFields(/* taxCodeSelect, salesTaxTextNonEditable, */
-			disabletextbox, transactionTotalNonEditableText, disabletextbox
+			disabletextbox, transactionTotalNonEditableText, disabletextbox,
+					transactionTotalinForeignCurrency, disabletextbox
 			/*
 			 * paymentsNonEditableText, disabletextbox,
 			 * balanceDueNonEditableText
@@ -971,9 +980,11 @@ public class PurchaseOrderView extends
 				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
-
 		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
+
 		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (getPreferences().isTrackPaidTax()) {
@@ -1108,6 +1119,9 @@ public class PurchaseOrderView extends
 		}
 		shippingMethodsCombo.setComboItem(shippingMethod);
 		vendorCombo.setComboItem(vendor);
+
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 	}
 
 	private void vendoraddressSelected(ClientAddress selectedAddress) {

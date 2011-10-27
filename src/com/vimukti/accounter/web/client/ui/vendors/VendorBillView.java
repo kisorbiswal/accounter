@@ -173,6 +173,8 @@ public class VendorBillView extends
 			}
 
 			transactionTotalNonEditableText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 
@@ -285,6 +287,9 @@ public class VendorBillView extends
 		} else {
 			phoneSelect.setValue("");
 		}
+
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 	}
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
@@ -501,6 +506,9 @@ public class VendorBillView extends
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
 
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -626,10 +634,12 @@ public class VendorBillView extends
 						HasHorizontalAlignment.ALIGN_LEFT);
 			}
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+					transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 
 		} else {
-			totalForm.setFields(transactionTotalNonEditableText);
+			totalForm.setFields(transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 		}
 		taxPanel.add(totalForm);
 
@@ -891,7 +901,10 @@ public class VendorBillView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
+
 		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (isTrackTax()) {
 			vatTotalNonEditableText

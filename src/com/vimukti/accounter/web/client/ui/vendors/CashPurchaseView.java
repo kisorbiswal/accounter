@@ -214,7 +214,11 @@ public class CashPurchaseView extends
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
+
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
@@ -329,7 +333,8 @@ public class CashPurchaseView extends
 
 		if (isTrackTax() && isTrackPaidTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+					transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -365,7 +370,8 @@ public class CashPurchaseView extends
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
 
-			totalForm.setFields(transactionTotalNonEditableText);
+			totalForm.setFields(transactionTotalNonEditableText,
+					transactionTotalinForeignCurrency);
 
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
@@ -521,6 +527,8 @@ public class CashPurchaseView extends
 			// }
 			//
 			transactionTotalNonEditableText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 
@@ -589,7 +597,8 @@ public class CashPurchaseView extends
 
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
-
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 	}
 
 	@Override
@@ -717,6 +726,8 @@ public class CashPurchaseView extends
 							- lineTotal));
 		}
 		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}
 

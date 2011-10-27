@@ -91,9 +91,12 @@ public class SalesOrderView extends
 	private AddNewButton itemTableButton;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientPaymentTerms paymentTerm;
-	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, balanceDueNonEditableText,
-			paymentsNonEditableText, salesTaxTextNonEditable;
+	private AmountLabel netAmountLabel, vatTotalNonEditableText,
+			balanceDueNonEditableText, paymentsNonEditableText,
+			salesTaxTextNonEditable;
+
+	private AmountLabel transactionTotalinBaseCurrency,
+			transactionTotalinForeignCurrency;
 
 	private Double salesTax;
 	private CurrencyWidget currencyWidget;
@@ -347,7 +350,9 @@ public class SalesOrderView extends
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
 
 		// priceLevelSelect = createPriceLevelSelectItem();
@@ -409,18 +414,21 @@ public class SalesOrderView extends
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
 						dummyItem, vatTotalNonEditableText, dummyItem,
-						transactionTotalNonEditableText);
+						transactionTotalinBaseCurrency, dummyItem,
+						transactionTotalinForeignCurrency);
 				prodAndServiceForm2.setStyleName("boldtext");
 			} else {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 				prodAndServiceForm2.setFields(netAmountLabel, dummyItem,
 						salesTaxTextNonEditable, dummyItem,
-						transactionTotalNonEditableText);
+						transactionTotalinBaseCurrency, dummyItem,
+						transactionTotalinForeignCurrency);
 				prodAndServiceForm2.setStyleName("boldtext");
 			}
 		} else {
 			prodAndServiceForm2.setFields(dummyItem,
-					transactionTotalNonEditableText);
+					transactionTotalinBaseCurrency, dummyItem,
+					transactionTotalinForeignCurrency);
 			prodAndServiceForm2.setStyleName("boldtext");
 		}
 		currencyWidget = createCurrencyWidget();
@@ -722,10 +730,14 @@ public class SalesOrderView extends
 					this.salesTaxTextNonEditable
 							.setAmount(getAmountInTransactionCurrency(transaction
 									.getTaxTotal()));
-					this.transactionTotalNonEditableText
+					this.transactionTotalinBaseCurrency
 							.setAmount(getAmountInTransactionCurrency(transaction
 									.getTotal()));
+					this.transactionTotalinForeignCurrency
+							.setAmount(getAmountInBaseCurrency(transaction
+									.getTotal()));
 				}
+
 			}
 			if (vatinclusiveCheck != null) {
 				vatinclusiveCheck.setValue(transaction.isAmountsIncludeVAT());
@@ -803,7 +815,8 @@ public class SalesOrderView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalNonEditableText
+		transactionTotalinBaseCurrency.setAmount(transactionTotal);
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(transactionTotal));
 
 	}
@@ -813,7 +826,10 @@ public class SalesOrderView extends
 		updateTransaction();
 
 		super.saveAndUpdateView();
-		transactionTotalNonEditableText
+		transactionTotalinBaseCurrency
+				.setAmount(getAmountInBaseCurrency(customerTransactionTable
+						.getGrandTotal()));
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
 						.getGrandTotal()));
 
@@ -879,7 +895,7 @@ public class SalesOrderView extends
 		}
 
 		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+				.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
 						.getAmount()));
 
 		transaction.setMemo(getMemoTextAreaItem());
@@ -946,6 +962,9 @@ public class SalesOrderView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -1047,7 +1066,11 @@ public class SalesOrderView extends
 							.getTotalTax()));
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
-		transactionTotalNonEditableText
+		transactionTotalinBaseCurrency
+				.setAmount(getAmountInBaseCurrency(customerTransactionTable
+						.getGrandTotal()));
+
+		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
 						.getGrandTotal()));
 		// Double payments = this.paymentsNonEditableText.getAmount();
