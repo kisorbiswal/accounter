@@ -62,7 +62,7 @@ public class AuthenticationCommand extends Command {
 					} else {
 						if (!context.getString().isEmpty()) {
 							makeResult
-									.add("There is no account found with given Email Id.");
+									.add("There is no account found with given Email Id. Or Sighn up");
 						}
 						makeResult.add("Enter valid Accounter Email Id");
 						CommandList commandList = new CommandList();
@@ -137,6 +137,7 @@ public class AuthenticationCommand extends Command {
 		Session currentSession = HibernateUtil.getCurrentSession();
 		IMUser imUser = new IMUser();
 		imUser.setClient(client);
+		networkId = networkId.substring(0, networkId.lastIndexOf("/"));
 		imUser.setNetworkId(networkId);
 		imUser.setNetworkType(networkType);
 		Transaction beginTransaction = currentSession.beginTransaction();
