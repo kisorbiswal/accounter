@@ -4,15 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
@@ -41,7 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
-public class NewCustomerCommand extends AbstractTransactionCommand {
+public class NewCustomerCommand extends NewAbstractCommand {
 
 	private static final String INPUT_ATTR = "input";
 	private static final int SALESPERSON_TO_SHOW = 5;
@@ -76,6 +70,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final String CST_NUM = "CST number";
 	private static final String SERVICE_TAX_NUM = "Service tax registration no";
 	private static final String TIN_NUM = "Taxpayer identification number";
+	private static final String ADDRESS = "address";
+	private static final String SHIPPING_METHODS = "shippingMethod";
+	private static final String PAYMENT_TERMS = "paymentTerms";
 
 	@Override
 	public String getId() {
@@ -316,68 +313,68 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				true));
 	}
 
-	@Override
-	public Result run(Context context) {
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
-		if (process != null) {
-			if (process.equals(CONTACT_PROCESS)) {
-				result = contactProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-			if (process.equals(ADDRESS_PROCESS)) {
-				result = addressProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().customer()));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		result = nameRequirement(context, list, CUSTOMER_NAME, Global.get()
-				.Customer(),
-				getMessages().pleaseEnterName(Global.get().Customer()));
-		if (result != null) {
-			return result;
-		}
-
-		if (context.getCompany().getPreferences().getUseCustomerId()) {
-			result = numberRequirement(context, list, NUMBER, getMessages()
-					.customerNumber(Global.get().Customer()), getMessages()
-					.pleaseEnter(getConstants().customerNumber()));
-			if (result != null) {
-				return result;
-			}
-		}
-		setDefaultValues();
-
-		result = optionalRequirements(context, list, actions, makeResult);
-		if (result != null) {
-			return result;
-		}
-
-		createCustomerObject(context);
-
-		markDone();
-
-		result = new Result();
-		result.add(getMessages().createSuccessfully(Global.get().Customer()));
-
-		return result;
-
-	}
+	// @Override
+	// public Result run(Context context) {
+	// Object attribute = context.getAttribute(INPUT_ATTR);
+	// if (attribute == null) {
+	// context.setAttribute(INPUT_ATTR, "optional");
+	// }
+	// String process = (String) context.getAttribute(PROCESS_ATTR);
+	// Result result = null;
+	// if (process != null) {
+	// if (process.equals(CONTACT_PROCESS)) {
+	// result = contactProcess(context);
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// if (process.equals(ADDRESS_PROCESS)) {
+	// result = addressProcess(context);
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// }
+	//
+	// Result makeResult = context.makeResult();
+	// makeResult.add(getMessages().readyToCreate(getConstants().customer()));
+	// ResultList list = new ResultList("values");
+	// makeResult.add(list);
+	// ResultList actions = new ResultList(ACTIONS);
+	// makeResult.add(actions);
+	//
+	// result = nameRequirement(context, list, CUSTOMER_NAME, Global.get()
+	// .Customer(),
+	// getMessages().pleaseEnterName(Global.get().Customer()));
+	// if (result != null) {
+	// return result;
+	// }
+	//
+	// if (context.getCompany().getPreferences().getUseCustomerId()) {
+	// result = numberRequirement(context, list, NUMBER, getMessages()
+	// .customerNumber(Global.get().Customer()), getMessages()
+	// .pleaseEnter(getConstants().customerNumber()));
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// setDefaultValues();
+	//
+	// result = optionalRequirements(context, list, actions, makeResult);
+	// if (result != null) {
+	// return result;
+	// }
+	//
+	// createCustomerObject(context);
+	//
+	// markDone();
+	//
+	// result = new Result();
+	// result.add(getMessages().createSuccessfully(Global.get().Customer()));
+	//
+	// return result;
+	//
+	// }
 
 	/**
 	 * Setting the default Values
@@ -506,213 +503,213 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param makeResult
 	 * @return
 	 */
-	private Result optionalRequirements(Context context, ResultList list,
-			ResultList actions, Result makeResult) {
-		Object selection = context.getSelection(ACTIONS);
-
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		selection = context.getSelection("values");
-		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				getMessages().active(getConstants().customer()), getMessages()
-						.inActive(getConstants().customer()));
-
-		Result result = dateOptionalRequirement(
-				context,
-				list,
-				CUSTOMER_SINCEDATE,
-				getMessages().customerSince(Global.get().Customer()),
-				getMessages().pleaseEnter(
-						getMessages().customerSince(Global.get().Customer())),
-				selection);
-
-		if (result != null) {
-			return result;
-		}
-		result = amountOptionalRequirement(context, list, selection, BALANCE,
-				getMessages().pleaseEnter(getConstants().balance()),
-				getConstants().balance());
-		if (result != null) {
-			return result;
-		}
-		result = dateOptionalRequirement(context, list, BALANCE_ASOF_DATE,
-				getConstants().balanceAsOfDate(),
-				getMessages().pleaseEnter(getConstants().balanceAsOfDate()),
-				selection);
-		if (result != null) {
-			return result;
-		}
-		result = addressOptionalRequirement(context, list, selection, ADDRESS,
-				getMessages().pleaseEnter(getConstants().address()),
-				getConstants().address());
-		if (result != null) {
-			return result;
-		}
-
-		result = contactOptionalRequirement(context, list, selection,
-				CUSTOMER_CONTACT,
-				getMessages().pleaseEnter(getConstants().contact()),
-				getConstants().contact());
-		if (result != null) {
-			return result;
-		}
-		result = numberOptionalRequirement(context, list, selection, FAX,
-				getConstants().faxNumber(),
-				getMessages().pleaseEnter(getConstants().fax()));
-		if (result != null) {
-			return result;
-		}
-		result = stringOptionalRequirement(context, list, selection, EMAIL,
-				getConstants().email(),
-				getMessages().pleaseEnter(getConstants().email()));
-		if (result != null) {
-			return result;
-		}
-		result = numberOptionalRequirement(context, list, selection, PHONE,
-				getConstants().phoneNumber(),
-				getMessages().pleaseEnter(getConstants().phoneNumber()));
-		if (result != null) {
-			return result;
-		}
-		result = stringOptionalRequirement(context, list, selection, WEBADRESS,
-				getConstants().webPageAddress(),
-				getMessages().pleaseEnter(getConstants().webPageAddress()));
-		if (result != null) {
-			return result;
-		}
-
-		result = salesPersonRequirement(context, list, selection,
-				getConstants().salesPerson());
-		if (result != null) {
-			return result;
-		}
-		// result = priceLevelRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-
-		result = creditRatingRequirement(context, list, selection,
-				getConstants().creditRating());
-		if (result != null) {
-			return result;
-		}
-		result = stringOptionalRequirement(context, list, selection, BANK_NAME,
-				getConstants().bankName(),
-				getMessages().pleaseEnter(getConstants().bankName()));
-		if (result != null) {
-			return result;
-		}
-		result = numberOptionalRequirement(context, list, selection,
-				BANK_ACCOUNT_NUM, getConstants().bankAccountNumber(),
-				getMessages().pleaseEnter(getConstants().bankAccountNumber()));
-		if (result != null) {
-			return result;
-		}
-		result = stringOptionalRequirement(context, list, selection,
-				BANK_BRANCH, getConstants().bankBranch(), getMessages()
-						.pleaseEnter(getConstants().bankBranch()));
-		if (result != null) {
-			return result;
-		}
-		ICountryPreferences countryPreferences = getClientCompany()
-				.getCountryPreferences();
-		ClientCompanyPreferences preferences = getClientCompany()
-				.getPreferences();
-
-		result = paymentMethodOptionalRequirement(context, list,
-				(String) selection);
-		if (result != null) {
-			return result;
-		}
-		result = paymentTermRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		if (preferences.isDoProductShipMents()) {
-			result = shippingMethodRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		result = customerGroupRequirement(context, list, selection,
-				getMessages().customerGroup(Global.get().Customer()));
-		if (result != null) {
-			return result;
-		}
-		if (preferences.isTrackTax()) {
-			if (countryPreferences.isVatAvailable()) {
-				result = numberOptionalRequirement(
-						context,
-						list,
-						selection,
-						VATREGISTER_NUM,
-						getConstants().vatRegistrationNumber(),
-						getMessages().pleaseEnter(
-								getConstants().vatRegistrationNumber()));
-				if (result != null) {
-					return result;
-				}
-			}
-			result = customerVatCodeRequirement(context, list, selection,
-					getConstants().vatCode());
-			if (result != null) {
-				return result;
-			}
-		}
-
-		if (preferences.isTrackTax()) {
-			// result = stringOptionalRequirement(context, list, selection,
-			// PAN_NUM, "Enter Personal Ledger number");
-			// if (result != null) {
-			// return result;
-			// }
-			if (countryPreferences.isSalesTaxAvailable()) {
-				result = numberOptionalRequirement(context, list, selection,
-						CST_NUM,
-						getMessages().pleaseEnter(getConstants().cstNumber()),
-						getConstants().cstNumber());
-				if (result != null) {
-					return result;
-				}
-			}
-			if (countryPreferences.isServiceTaxAvailable()) {
-				result = numberOptionalRequirement(
-						context,
-						list,
-						selection,
-						SERVICE_TAX_NUM,
-						getMessages().pleaseEnter(
-								getConstants().serviceTaxRegistrationNumber()),
-						getConstants().serviceTaxRegistrationNumber());
-				if (result != null) {
-					return result;
-				}
-			}
-			if (countryPreferences.isTDSAvailable()) {
-				result = numberOptionalRequirement(context, list, selection,
-						TIN_NUM,
-						getMessages().pleaseEnter(getConstants().tinNumber()),
-						getConstants().tinNumber());
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Customer.");
-		actions.add(finish);
-		return makeResult;
-	}
+	// private Result optionalRequirements(Context context, ResultList list,
+	// ResultList actions, Result makeResult) {
+	// Object selection = context.getSelection(ACTIONS);
+	//
+	// if (selection != null) {
+	// ActionNames actionName = (ActionNames) selection;
+	// switch (actionName) {
+	// case FINISH:
+	// context.removeAttribute(INPUT_ATTR);
+	// return null;
+	// default:
+	// break;
+	// }
+	// }
+	//
+	// selection = context.getSelection("values");
+	// booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
+	// getMessages().active(getConstants().customer()), getMessages()
+	// .inActive(getConstants().customer()));
+	//
+	// Result result = dateOptionalRequirement(
+	// context,
+	// list,
+	// CUSTOMER_SINCEDATE,
+	// getMessages().customerSince(Global.get().Customer()),
+	// getMessages().pleaseEnter(
+	// getMessages().customerSince(Global.get().Customer())),
+	// selection);
+	//
+	// if (result != null) {
+	// return result;
+	// }
+	// result = amountOptionalRequirement(context, list, selection, BALANCE,
+	// getMessages().pleaseEnter(getConstants().balance()),
+	// getConstants().balance());
+	// if (result != null) {
+	// return result;
+	// }
+	// result = dateOptionalRequirement(context, list, BALANCE_ASOF_DATE,
+	// getConstants().balanceAsOfDate(),
+	// getMessages().pleaseEnter(getConstants().balanceAsOfDate()),
+	// selection);
+	// if (result != null) {
+	// return result;
+	// }
+	// result = addressOptionalRequirement(context, list, selection, ADDRESS,
+	// getMessages().pleaseEnter(getConstants().address()),
+	// getConstants().address());
+	// if (result != null) {
+	// return result;
+	// }
+	//
+	// result = contactOptionalRequirement(context, list, selection,
+	// CUSTOMER_CONTACT,
+	// getMessages().pleaseEnter(getConstants().contact()),
+	// getConstants().contact());
+	// if (result != null) {
+	// return result;
+	// }
+	// result = numberOptionalRequirement(context, list, selection, FAX,
+	// getConstants().faxNumber(),
+	// getMessages().pleaseEnter(getConstants().fax()));
+	// if (result != null) {
+	// return result;
+	// }
+	// result = stringOptionalRequirement(context, list, selection, EMAIL,
+	// getConstants().email(),
+	// getMessages().pleaseEnter(getConstants().email()));
+	// if (result != null) {
+	// return result;
+	// }
+	// result = numberOptionalRequirement(context, list, selection, PHONE,
+	// getConstants().phoneNumber(),
+	// getMessages().pleaseEnter(getConstants().phoneNumber()));
+	// if (result != null) {
+	// return result;
+	// }
+	// result = stringOptionalRequirement(context, list, selection, WEBADRESS,
+	// getConstants().webPageAddress(),
+	// getMessages().pleaseEnter(getConstants().webPageAddress()));
+	// if (result != null) {
+	// return result;
+	// }
+	//
+	// result = salesPersonRequirement(context, list, selection,
+	// getConstants().salesPerson());
+	// if (result != null) {
+	// return result;
+	// }
+	// // result = priceLevelRequirement(context, list, selection);
+	// // if (result != null) {
+	// // return result;
+	// // }
+	//
+	// result = creditRatingRequirement(context, list, selection,
+	// getConstants().creditRating());
+	// if (result != null) {
+	// return result;
+	// }
+	// result = stringOptionalRequirement(context, list, selection, BANK_NAME,
+	// getConstants().bankName(),
+	// getMessages().pleaseEnter(getConstants().bankName()));
+	// if (result != null) {
+	// return result;
+	// }
+	// result = numberOptionalRequirement(context, list, selection,
+	// BANK_ACCOUNT_NUM, getConstants().bankAccountNumber(),
+	// getMessages().pleaseEnter(getConstants().bankAccountNumber()));
+	// if (result != null) {
+	// return result;
+	// }
+	// result = stringOptionalRequirement(context, list, selection,
+	// BANK_BRANCH, getConstants().bankBranch(), getMessages()
+	// .pleaseEnter(getConstants().bankBranch()));
+	// if (result != null) {
+	// return result;
+	// }
+	// ICountryPreferences countryPreferences = getClientCompany()
+	// .getCountryPreferences();
+	// ClientCompanyPreferences preferences = getClientCompany()
+	// .getPreferences();
+	//
+	// result = paymentMethodOptionalRequirement(context, list,
+	// (String) selection);
+	// if (result != null) {
+	// return result;
+	// }
+	// result = paymentTermRequirement(context, list, selection);
+	// if (result != null) {
+	// return result;
+	// }
+	// if (preferences.isDoProductShipMents()) {
+	// result = shippingMethodRequirement(context, list, selection);
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// result = customerGroupRequirement(context, list, selection,
+	// getMessages().customerGroup(Global.get().Customer()));
+	// if (result != null) {
+	// return result;
+	// }
+	// if (preferences.isTrackTax()) {
+	// if (countryPreferences.isVatAvailable()) {
+	// result = numberOptionalRequirement(
+	// context,
+	// list,
+	// selection,
+	// VATREGISTER_NUM,
+	// getConstants().vatRegistrationNumber(),
+	// getMessages().pleaseEnter(
+	// getConstants().vatRegistrationNumber()));
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// result = customerVatCodeRequirement(context, list, selection,
+	// getConstants().vatCode());
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	//
+	// if (preferences.isTrackTax()) {
+	// // result = stringOptionalRequirement(context, list, selection,
+	// // PAN_NUM, "Enter Personal Ledger number");
+	// // if (result != null) {
+	// // return result;
+	// // }
+	// if (countryPreferences.isSalesTaxAvailable()) {
+	// result = numberOptionalRequirement(context, list, selection,
+	// CST_NUM,
+	// getMessages().pleaseEnter(getConstants().cstNumber()),
+	// getConstants().cstNumber());
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// if (countryPreferences.isServiceTaxAvailable()) {
+	// result = numberOptionalRequirement(
+	// context,
+	// list,
+	// selection,
+	// SERVICE_TAX_NUM,
+	// getMessages().pleaseEnter(
+	// getConstants().serviceTaxRegistrationNumber()),
+	// getConstants().serviceTaxRegistrationNumber());
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// if (countryPreferences.isTDSAvailable()) {
+	// result = numberOptionalRequirement(context, list, selection,
+	// TIN_NUM,
+	// getMessages().pleaseEnter(getConstants().tinNumber()),
+	// getConstants().tinNumber());
+	// if (result != null) {
+	// return result;
+	// }
+	// }
+	// }
+	//
+	// Record finish = new Record(ActionNames.FINISH);
+	// finish.add("", "Finish to create Customer.");
+	// actions.add(finish);
+	// return makeResult;
+	// }
 
 	/**
 	 * 
@@ -721,37 +718,38 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param selection
 	 * @return
 	 */
-	private Result customerVatCodeRequirement(Context context, ResultList list,
-			Object selection, String name) {
-
-		Object customerVatCodeObj = context.getSelection(TAXCODE);
-		if (customerVatCodeObj instanceof ActionNames) {
-			customerVatCodeObj = null;
-			selection = "vatCode";
-		}
-		Requirement customerVatCodeReq = get(CUSTOMER_VATCODE);
-		ClientTAXCode vatCode = (ClientTAXCode) customerVatCodeReq.getValue();
-
-		if (customerVatCodeObj != null) {
-			vatCode = (ClientTAXCode) customerVatCodeObj;
-			customerVatCodeReq.setValue(vatCode);
-		}
-		if (selection != null) {
-			if (selection.equals("vatCode")) {
-				context.setAttribute(INPUT_ATTR, CUSTOMER_VATCODE);
-				return taxCode(context, vatCode);
-			}
-		}
-		Record customerVatCodeRecord = new Record("vatCode");
-		customerVatCodeRecord.add("", name);
-		customerVatCodeRecord.add("", vatCode == null ? "" : vatCode.getName()
-				+ "-" + vatCode.getSalesTaxRate());
-		list.add(customerVatCodeRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-	}
+	// private Result customerVatCodeRequirement(Context context, ResultList
+	// list,
+	// Object selection, String name) {
+	//
+	// Object customerVatCodeObj = context.getSelection(TAXCODE);
+	// if (customerVatCodeObj instanceof ActionNames) {
+	// customerVatCodeObj = null;
+	// selection = "vatCode";
+	// }
+	// Requirement customerVatCodeReq = get(CUSTOMER_VATCODE);
+	// ClientTAXCode vatCode = (ClientTAXCode) customerVatCodeReq.getValue();
+	//
+	// if (customerVatCodeObj != null) {
+	// vatCode = (ClientTAXCode) customerVatCodeObj;
+	// customerVatCodeReq.setValue(vatCode);
+	// }
+	// if (selection != null) {
+	// if (selection.equals("vatCode")) {
+	// context.setAttribute(INPUT_ATTR, CUSTOMER_VATCODE);
+	// return taxCode(context, vatCode);
+	// }
+	// }
+	// Record customerVatCodeRecord = new Record("vatCode");
+	// customerVatCodeRecord.add("", name);
+	// customerVatCodeRecord.add("", vatCode == null ? "" : vatCode.getName()
+	// + "-" + vatCode.getSalesTaxRate());
+	// list.add(customerVatCodeRecord);
+	//
+	// Result result = new Result();
+	// result.add(list);
+	// return null;
+	// }
 
 	/**
 	 * CustomerGroup
@@ -761,38 +759,39 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param selection
 	 * @return {@link CustomerGroupResult}
 	 */
-	private Result customerGroupRequirement(Context context, ResultList list,
-			Object selection, String name) {
-
-		Object customerGroupObj = context.getSelection(CUSTOMER_GROUP);
-		if (customerGroupObj instanceof ActionNames) {
-			customerGroupObj = null;
-			selection = CUSTOMER_GROUP;
-		}
-		Requirement customerGroupReq = get(CUSTOMER_GROUP);
-		ClientCustomerGroup customerGroup = (ClientCustomerGroup) customerGroupReq
-				.getValue();
-		if (customerGroupObj != null) {
-			customerGroup = (ClientCustomerGroup) customerGroupObj;
-			customerGroupReq.setValue(customerGroup);
-		}
-		if (selection != null)
-			if (selection == CUSTOMER_GROUP) {
-				context.setLast(RequirementType.CUSTOMERGROUP, customerGroup);
-				context.setAttribute(INPUT_ATTR, CUSTOMER_GROUP);
-				return customerGroups(context, customerGroup);
-			}
-
-		Record customerGroupRecord = new Record(CUSTOMER_GROUP);
-		customerGroupRecord.add("Name", name);
-		customerGroupRecord.add("Value", customerGroup == null ? ""
-				: customerGroup.getName());
-		list.add(customerGroupRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-	}
+	// private Result customerGroupRequirement(Context context, ResultList list,
+	// Object selection, String name) {
+	//
+	// Object customerGroupObj = context.getSelection(CUSTOMER_GROUP);
+	// if (customerGroupObj instanceof ActionNames) {
+	// customerGroupObj = null;
+	// selection = CUSTOMER_GROUP;
+	// }
+	// Requirement customerGroupReq = get(CUSTOMER_GROUP);
+	// ClientCustomerGroup customerGroup = (ClientCustomerGroup)
+	// customerGroupReq
+	// .getValue();
+	// if (customerGroupObj != null) {
+	// customerGroup = (ClientCustomerGroup) customerGroupObj;
+	// customerGroupReq.setValue(customerGroup);
+	// }
+	// if (selection != null)
+	// if (selection == CUSTOMER_GROUP) {
+	// context.setLast(RequirementType.CUSTOMERGROUP, customerGroup);
+	// context.setAttribute(INPUT_ATTR, CUSTOMER_GROUP);
+	// return customerGroups(context, customerGroup);
+	// }
+	//
+	// Record customerGroupRecord = new Record(CUSTOMER_GROUP);
+	// customerGroupRecord.add("Name", name);
+	// customerGroupRecord.add("Value", customerGroup == null ? ""
+	// : customerGroup.getName());
+	// list.add(customerGroupRecord);
+	//
+	// Result result = new Result();
+	// result.add(list);
+	// return null;
+	// }
 
 	/**
 	 * 
@@ -800,43 +799,44 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param string
 	 * @return
 	 */
-	private Result customerGroups(Context context,
-			ClientCustomerGroup oldCustomerGroup) {
-
-		List<ClientCustomerGroup> customerGroups = getClientCompany()
-				.getCustomerGroups();
-		Result result = context.makeResult();
-		result.add("Select CustomerGroup");
-		Object last = context.getLast(RequirementType.CUSTOMERGROUP);
-		ResultList list = new ResultList(CUSTOMER_GROUP);
-		List<ClientCustomerGroup> skipCustomerGroups = new ArrayList<ClientCustomerGroup>();
-		if (last != null) {
-			list.add(createCustomerGroupRecord(oldCustomerGroup));
-			skipCustomerGroups.add((ClientCustomerGroup) last);
-		}
-		ActionNames selection = context.getSelection(CUSTOMER_GROUP);
-
-		List<Record> actions = new ArrayList<Record>();
-
-		List<ClientCustomerGroup> pagination = pagination(context, selection,
-				actions, customerGroups, skipCustomerGroups,
-				CUSTOMERGROUP_TO_SHOW);
-
-		for (ClientCustomerGroup term : pagination) {
-			list.add(createCustomerGroupRecord(term));
-		}
-
-		for (Record record : actions) {
-			list.add(record);
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create CustomerGroup");
-		result.add(commandList);
-
-		return result;
-	}
+	// private Result customerGroups(Context context,
+	// ClientCustomerGroup oldCustomerGroup) {
+	//
+	// List<ClientCustomerGroup> customerGroups = getClientCompany()
+	// .getCustomerGroups();
+	// Result result = context.makeResult();
+	// result.add("Select CustomerGroup");
+	// Object last = context.getLast(RequirementType.CUSTOMERGROUP);
+	// ResultList list = new ResultList(CUSTOMER_GROUP);
+	// List<ClientCustomerGroup> skipCustomerGroups = new
+	// ArrayList<ClientCustomerGroup>();
+	// if (last != null) {
+	// list.add(createCustomerGroupRecord(oldCustomerGroup));
+	// skipCustomerGroups.add((ClientCustomerGroup) last);
+	// }
+	// ActionNames selection = context.getSelection(CUSTOMER_GROUP);
+	//
+	// List<Record> actions = new ArrayList<Record>();
+	//
+	// List<ClientCustomerGroup> pagination = pagination(context, selection,
+	// actions, customerGroups, skipCustomerGroups,
+	// CUSTOMERGROUP_TO_SHOW);
+	//
+	// for (ClientCustomerGroup term : pagination) {
+	// list.add(createCustomerGroupRecord(term));
+	// }
+	//
+	// for (Record record : actions) {
+	// list.add(record);
+	// }
+	// result.add(list);
+	//
+	// CommandList commandList = new CommandList();
+	// commandList.add("Create CustomerGroup");
+	// result.add(commandList);
+	//
+	// return result;
+	// }
 
 	private Record createCustomerGroupRecord(
 			ClientCustomerGroup oldCustomerGroup) {
@@ -852,38 +852,38 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param selection
 	 * @return
 	 */
-	private Result creditRatingRequirement(Context context, ResultList list,
-			Object selection, String name) {
-
-		Object crediRatingObj = context.getSelection(CREDIT_RATING);
-		if (crediRatingObj instanceof ActionNames) {
-			crediRatingObj = null;
-			selection = CREDIT_RATING;
-		}
-		Requirement creditRatingReq = get(CREDIT_RATING);
-		ClientCreditRating creditRating = (ClientCreditRating) creditRatingReq
-				.getValue();
-		if (crediRatingObj != null) {
-			creditRating = (ClientCreditRating) crediRatingObj;
-			creditRatingReq.setValue(creditRating);
-		}
-		if (selection != null)
-			if (selection == CREDIT_RATING) {
-				context.setAttribute(INPUT_ATTR, CREDIT_RATING);
-				context.setLast(RequirementType.CREDITRATING, creditRating);
-				return creditRatings(context, creditRating);
-			}
-
-		Record priceLevelRecord = new Record(CREDIT_RATING);
-		priceLevelRecord.add("Name", name);
-		priceLevelRecord.add("Value",
-				creditRating == null ? "" : creditRating.getName());
-		list.add(priceLevelRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-	}
+	// private Result creditRatingRequirement(Context context, ResultList list,
+	// Object selection, String name) {
+	//
+	// Object crediRatingObj = context.getSelection(CREDIT_RATING);
+	// if (crediRatingObj instanceof ActionNames) {
+	// crediRatingObj = null;
+	// selection = CREDIT_RATING;
+	// }
+	// Requirement creditRatingReq = get(CREDIT_RATING);
+	// ClientCreditRating creditRating = (ClientCreditRating) creditRatingReq
+	// .getValue();
+	// if (crediRatingObj != null) {
+	// creditRating = (ClientCreditRating) crediRatingObj;
+	// creditRatingReq.setValue(creditRating);
+	// }
+	// if (selection != null)
+	// if (selection == CREDIT_RATING) {
+	// context.setAttribute(INPUT_ATTR, CREDIT_RATING);
+	// context.setLast(RequirementType.CREDITRATING, creditRating);
+	// return creditRatings(context, creditRating);
+	// }
+	//
+	// Record priceLevelRecord = new Record(CREDIT_RATING);
+	// priceLevelRecord.add("Name", name);
+	// priceLevelRecord.add("Value",
+	// creditRating == null ? "" : creditRating.getName());
+	// list.add(priceLevelRecord);
+	//
+	// Result result = new Result();
+	// result.add(list);
+	// return null;
+	// }
 
 	/**
 	 * 
@@ -891,41 +891,42 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param string
 	 * @return
 	 */
-	private Result creditRatings(Context context,
-			ClientCreditRating oldCreditRating) {
-
-		List<ClientCreditRating> creditRatings = getCreditRatingsList();
-		Result result = context.makeResult();
-		result.add("Select CreditRating");
-
-		ResultList list = new ResultList(CREDIT_RATING);
-		List<ClientCreditRating> skipCreditRatings = new ArrayList<ClientCreditRating>();
-		Object last = context.getLast(RequirementType.CREDITRATING);
-		if (last != null) {
-			list.add(createCreditRatingRecord(oldCreditRating));
-			skipCreditRatings.add((ClientCreditRating) last);
-		}
-		ActionNames selection = context.getSelection(CREDIT_RATING);
-
-		List<Record> actions = new ArrayList<Record>();
-
-		List<ClientCreditRating> pagination = pagination(context, selection,
-				actions, creditRatings, skipCreditRatings, CREDITRATING_TO_SHOW);
-
-		for (ClientCreditRating term : pagination) {
-			list.add(createCreditRatingRecord(term));
-		}
-
-		for (Record record : actions) {
-			list.add(record);
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create creditRating");
-		result.add(commandList);
-		return result;
-	}
+	// private Result creditRatings(Context context,
+	// ClientCreditRating oldCreditRating) {
+	//
+	// List<ClientCreditRating> creditRatings = getCreditRatingsList();
+	// Result result = context.makeResult();
+	// result.add("Select CreditRating");
+	//
+	// ResultList list = new ResultList(CREDIT_RATING);
+	// List<ClientCreditRating> skipCreditRatings = new
+	// ArrayList<ClientCreditRating>();
+	// Object last = context.getLast(RequirementType.CREDITRATING);
+	// if (last != null) {
+	// list.add(createCreditRatingRecord(oldCreditRating));
+	// skipCreditRatings.add((ClientCreditRating) last);
+	// }
+	// ActionNames selection = context.getSelection(CREDIT_RATING);
+	//
+	// List<Record> actions = new ArrayList<Record>();
+	//
+	// List<ClientCreditRating> pagination = pagination(context, selection,
+	// actions, creditRatings, skipCreditRatings, CREDITRATING_TO_SHOW);
+	//
+	// for (ClientCreditRating term : pagination) {
+	// list.add(createCreditRatingRecord(term));
+	// }
+	//
+	// for (Record record : actions) {
+	// list.add(record);
+	// }
+	// result.add(list);
+	//
+	// CommandList commandList = new CommandList();
+	// commandList.add("Create creditRating");
+	// result.add(commandList);
+	// return result;
+	// }
 
 	/**
 	 * 
@@ -946,38 +947,38 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param name
 	 * @return {@link Result}
 	 */
-	private Result salesPersonRequirement(Context context, ResultList list,
-			Object selection, String name) {
-
-		Object salesPersonObj = context.getSelection(SALESPERSON);
-		if (salesPersonObj instanceof ActionNames) {
-			salesPersonObj = null;
-			selection = SALESPERSON;
-		}
-		Requirement salesPersonReq = get(SALESPERSON);
-		ClientSalesPerson salesPerson = (ClientSalesPerson) salesPersonReq
-				.getValue();
-		if (salesPersonObj != null) {
-			salesPerson = (ClientSalesPerson) salesPersonObj;
-			salesPersonReq.setValue(salesPerson);
-		}
-		if (selection != null)
-			if (selection == SALESPERSON) {
-				context.setLast(RequirementType.SALESPERSON, salesPerson);
-				context.setAttribute(INPUT_ATTR, SALESPERSON);
-				return salesPersons(context, salesPerson);
-			}
-
-		Record salesPersonRecord = new Record(SALESPERSON);
-		salesPersonRecord.add("Name", name);
-		salesPersonRecord.add("Value",
-				salesPerson == null ? "" : salesPerson.getFirstName());
-		list.add(salesPersonRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return null;
-	}
+	// private Result salesPersonRequirement(Context context, ResultList list,
+	// Object selection, String name) {
+	//
+	// Object salesPersonObj = context.getSelection(SALESPERSON);
+	// if (salesPersonObj instanceof ActionNames) {
+	// salesPersonObj = null;
+	// selection = SALESPERSON;
+	// }
+	// Requirement salesPersonReq = get(SALESPERSON);
+	// ClientSalesPerson salesPerson = (ClientSalesPerson) salesPersonReq
+	// .getValue();
+	// if (salesPersonObj != null) {
+	// salesPerson = (ClientSalesPerson) salesPersonObj;
+	// salesPersonReq.setValue(salesPerson);
+	// }
+	// if (selection != null)
+	// if (selection == SALESPERSON) {
+	// context.setLast(RequirementType.SALESPERSON, salesPerson);
+	// context.setAttribute(INPUT_ATTR, SALESPERSON);
+	// return salesPersons(context, salesPerson);
+	// }
+	//
+	// Record salesPersonRecord = new Record(SALESPERSON);
+	// salesPersonRecord.add("Name", name);
+	// salesPersonRecord.add("Value",
+	// salesPerson == null ? "" : salesPerson.getFirstName());
+	// list.add(salesPersonRecord);
+	//
+	// Result result = new Result();
+	// result.add(list);
+	// return null;
+	// }
 
 	/**
 	 * 
@@ -986,41 +987,42 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param string
 	 * @return {@link SalesPerson Result}
 	 */
-	protected Result salesPersons(Context context,
-			ClientSalesPerson oldsalesPerson) {
-		List<ClientSalesPerson> salesPersons = getClientCompany()
-				.getSalesPersons();
-		Result result = context.makeResult();
-		result.add("Select SalesPerson");
-		Object last = context.getLast(RequirementType.SALESPERSON);
-		List<ClientSalesPerson> skipingrecords = new ArrayList<ClientSalesPerson>();
-		ResultList list = new ResultList(SALESPERSON);
-		if (last != null) {
-			list.add(createSalesPersonRecord(oldsalesPerson));
-			skipingrecords.add((ClientSalesPerson) last);
-		}
-
-		ActionNames selection = context.getSelection(SALESPERSON);
-
-		List<Record> actions = new ArrayList<Record>();
-
-		List<ClientSalesPerson> pagination = pagination(context, selection,
-				actions, salesPersons, skipingrecords, SALESPERSON_TO_SHOW);
-
-		for (ClientSalesPerson term : pagination) {
-			list.add(createSalesPersonRecord(term));
-		}
-
-		for (Record record : actions) {
-			list.add(record);
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create Sales Person");
-		result.add(commandList);
-		return result;
-	}
+	// protected Result salesPersons(Context context,
+	// ClientSalesPerson oldsalesPerson) {
+	// List<ClientSalesPerson> salesPersons = getClientCompany()
+	// .getSalesPersons();
+	// Result result = context.makeResult();
+	// result.add("Select SalesPerson");
+	// Object last = context.getLast(RequirementType.SALESPERSON);
+	// List<ClientSalesPerson> skipingrecords = new
+	// ArrayList<ClientSalesPerson>();
+	// ResultList list = new ResultList(SALESPERSON);
+	// if (last != null) {
+	// list.add(createSalesPersonRecord(oldsalesPerson));
+	// skipingrecords.add((ClientSalesPerson) last);
+	// }
+	//
+	// ActionNames selection = context.getSelection(SALESPERSON);
+	//
+	// List<Record> actions = new ArrayList<Record>();
+	//
+	// List<ClientSalesPerson> pagination = pagination(context, selection,
+	// actions, salesPersons, skipingrecords, SALESPERSON_TO_SHOW);
+	//
+	// for (ClientSalesPerson term : pagination) {
+	// list.add(createSalesPersonRecord(term));
+	// }
+	//
+	// for (Record record : actions) {
+	// list.add(record);
+	// }
+	// result.add(list);
+	//
+	// CommandList commandList = new CommandList();
+	// commandList.add("Create Sales Person");
+	// result.add(commandList);
+	// return result;
+	// }
 
 	/**
 	 * 
@@ -1043,6 +1045,29 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ArrayList<ClientCreditRating> creditRatings = getClientCompany()
 				.getCreditRatings();
 		return new ArrayList<ClientCreditRating>(creditRatings);
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return "Creating New Customer..";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(Global.get().Customer());
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
+		get(CUSTOMER_SINCEDATE).setDefaultValue(new ClientFinanceDate());
+		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
+		get(ADDRESS).setDefaultValue(new ClientAddress());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(Global.get().Customer());
 	}
 
 }
