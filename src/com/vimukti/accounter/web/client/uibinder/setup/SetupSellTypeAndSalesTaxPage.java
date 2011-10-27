@@ -63,6 +63,15 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel hidePanel;
 
+	@UiField
+	CheckBox warehousesCheckBox;
+	@UiField
+	CheckBox inventoryCheckBox;
+	@UiField
+	VerticalPanel hiddenPanel;
+	@UiField
+	VerticalPanel totalPanel;
+
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
 	}
@@ -113,7 +122,44 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 			}
 		});
+		inventoryCheckBox.setText("Inventory tracking");
+		warehousesCheckBox.setText("Is enble Multiple ware houses ? ");
 
+		servicesOnly.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				inventoryCheckBox.setValue(false);
+				warehousesCheckBox.setValue(false);
+				totalPanel.setVisible(false);
+
+			}
+		});
+		productsOnly.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				totalPanel.setVisible(productsOnly.getValue());
+
+			}
+		});
+		both.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				totalPanel.setVisible(both.getValue());
+
+			}
+		});
+
+		inventoryCheckBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				hiddenPanel.setVisible(inventoryCheckBox.getValue());
+			}
+		});
 	}
 
 	@Override
@@ -134,7 +180,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			oneperdetaillineRadioButton.setValue(true);
 		else
 			onepeTransactionRadioButton.setValue(true);
-
+		if (preferences.isInventoryEnabled()) {
+			inventoryCheckBox.setValue(true);
+			hiddenPanel.setVisible(true);
+			warehousesCheckBox.setValue(preferences.iswareHouseEnabled());
+		} else {
+			hiddenPanel.setVisible(false);
+		}
 	}
 
 	public void onSave() {
@@ -151,7 +203,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		preferences.setTaxTrack(trackCheckbox.getValue());
 		preferences.setTaxPerDetailLine(oneperdetaillineRadioButton.getValue());
 		preferences.setTrackPaidTax(enableTaxCheckbox.getValue());
-
+		preferences.setInventoryEnabled(inventoryCheckBox.getValue());
+		if (inventoryCheckBox.getValue()) {
+			preferences.setwareHouseEnabled(true);
+		} else {
+			preferences.setwareHouseEnabled(false);
+		}
 	}
 
 	@Override
@@ -161,12 +218,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	protected boolean validate() {
-		/*if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
-				.getValue()))) {
-			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.details()));
-			return false;
-		} else*/if (!(servicesOnly.getValue() || productsOnly.getValue() || both
+		/*
+		 * if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
+		 * .getValue()))) { Accounter.showError(accounterMessages
+		 * .pleaseEnter(accounterConstants.details())); return false; } else
+		 */if (!(servicesOnly.getValue() || productsOnly.getValue() || both
 				.getValue())) {
 			Accounter.showMessage(accounterConstants.whatDoYouSell());
 			return false;
