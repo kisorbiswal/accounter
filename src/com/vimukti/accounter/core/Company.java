@@ -870,7 +870,7 @@ public class Company implements IAccounterServerCore {
 				transactionItem.transaction.getTransactionCategory(),
 				vc.getVatAmount());
 
-		transactionItem.taxRateCalculationEntriesList.add(vc);
+		transactionItem.getTaxRateCalculationEntriesList().add(vc);
 
 		// setPayVatEntries(transactionItem, vatItem);
 
