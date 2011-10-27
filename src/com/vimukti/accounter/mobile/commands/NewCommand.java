@@ -46,27 +46,31 @@ public abstract class NewCommand extends Command {
 			}
 		}
 		makeResult.add(actions);
+		String finish = getFinishCommandString();
+		if (finish != null) {
+			Record record = new Record(ActionNames.FINISH_COMMAND);
+			record.add("", finish);
+			actions.add(record);
+		}
 		Object selection = context.getSelection("actions");
 		if (selection != ActionNames.FINISH_COMMAND) {
-			String finish = getFinishCommandString();
-			if (finish != null) {
-				Record record = new Record(ActionNames.FINISH_COMMAND);
-				record.add("", finish);
-				actions.add(record);
-			}
 			beforeFinishing(makeResult);
 			return makeResult;
 		}
 
 		Result result = onCompleteProcess(context);
 		if (result != null) {
-			return result;
+			List<Object> resultParts = makeResult.getResultParts();
+			for (Object object : result.getResultParts()) {
+				resultParts.add(0, object);
+			}
+			return makeResult;
 		}
 
 		Result finishResult = context.makeResult();
 		String success = getSuccessMessage();
 		if (success != null) {
-			finishResult.add(getSuccessMessage());
+			finishResult.add(success);
 		}
 		markDone();
 		return finishResult;

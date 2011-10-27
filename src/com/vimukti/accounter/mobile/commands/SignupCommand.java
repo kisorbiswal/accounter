@@ -17,6 +17,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.TermsAndCunditionsRequirement;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
@@ -62,8 +63,9 @@ public class SignupCommand extends NewCommand {
 			protected String getTrueString() {
 				return "Subscribed";
 			}
-
 		});
+
+		list.add(new TermsAndCunditionsRequirement());
 	}
 
 	private void sendPasswordMail(String token, String emailId) {
@@ -100,6 +102,12 @@ public class SignupCommand extends NewCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		Result result = new Result();
+		Boolean boolean1 = get("TermsAndConditions").getValue();
+		if (!boolean1) {
+			result.add("Please 'Accept' the terms and conditions (Press '7' to accept)");
+			return result;
+		}
 		Client client = new Client();
 		client.setActive(false);
 		client.setUsers(new HashSet<User>());
