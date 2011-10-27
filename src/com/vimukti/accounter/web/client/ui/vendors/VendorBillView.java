@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -61,8 +62,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public class VendorBillView extends
 		AbstractVendorTransactionView<ClientEnterBill> {
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
-			.constants();
+	AccounterConstants accounterConstants = Accounter.constants();
 	private PaymentTermsCombo paymentTermsCombo;
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
@@ -116,7 +116,6 @@ public class VendorBillView extends
 		// phoneSelect.setValueMap();
 		setMemoTextAreaItem("");
 		// setRefText("");
-
 	}
 
 	@Override
@@ -535,7 +534,8 @@ public class VendorBillView extends
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this,
+				isCustomerAllowedToAdd()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -547,7 +547,6 @@ public class VendorBillView extends
 				return VendorBillView.this.isShowPriceWithVat();
 			}
 		};
-
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
@@ -570,7 +569,8 @@ public class VendorBillView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), this,
+				isCustomerAllowedToAdd()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -784,6 +784,25 @@ public class VendorBillView extends
 		settabIndexes();
 	}
 
+	private boolean isCustomerAllowedToAdd() {
+		if (transaction != null) {
+			List<ClientTransactionItem> transactionItems = transaction
+					.getTransactionItems();
+			for (ClientTransactionItem clientTransactionItem : transactionItems) {
+				if (clientTransactionItem.isBillable()
+						|| clientTransactionItem.getCustomer() != 0) {
+					return true;
+				}
+			}
+		} else if (getPreferences()
+				.isBillableExpsesEnbldForProductandServices()
+				&& getPreferences()
+						.isProductandSerivesTrackingByCustomerEnabled()) {
+			return true;
+		}
+		return false;
+	}
+
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
 		if (selectItem == null) {
 			return;
@@ -806,13 +825,9 @@ public class VendorBillView extends
 
 	@Override
 	public void saveAndUpdateView() {
-
 		updateTransaction();
-
 		super.saveAndUpdateView();
-
 		saveOrUpdate((ClientEnterBill) transaction);
-
 	}
 
 	protected void updateTransaction() {
