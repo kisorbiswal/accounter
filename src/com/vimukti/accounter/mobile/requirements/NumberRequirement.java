@@ -8,7 +8,6 @@ public class NumberRequirement extends SingleRequirement<String> {
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
 		super(requirementName, enterString, recordName, isOptional2,
 				isAllowFromContext2);
-		setDefaultValue(0.0d);
 	}
 
 	@Override

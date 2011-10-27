@@ -8,6 +8,7 @@ public class AmountRequirement extends SingleRequirement<Double> {
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
 		super(requirementName, displayString, recordName, isOptional2,
 				isAllowFromContext2);
+		setDefaultValue(0.0d);
 	}
 
 	@Override
