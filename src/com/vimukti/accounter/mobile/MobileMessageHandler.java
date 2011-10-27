@@ -49,6 +49,7 @@ public class MobileMessageHandler {
 					userId, networkId, networkType);
 			Result result = getCommandProcessor().handleMessage(session,
 					preProcess);
+			boolean hasNextCommand = false;
 			if (preProcess.getCommand().isDone()) {
 				String nextCommand = result.getNextCommand();
 				if (nextCommand == null) {
@@ -59,6 +60,9 @@ public class MobileMessageHandler {
 						lastMessage.setResult(lastMessage.getLastResult());
 						reloadCommand(networkId, userId, null, adaptorType,
 								networkType, commandSender);
+						hasNextCommand = true;
+					} else {
+						hasNextCommand = false;
 					}
 				}
 			}
@@ -68,7 +72,14 @@ public class MobileMessageHandler {
 			if (nextCommand != null) {
 				reloadCommand(networkId, userId, nextCommand, adaptorType,
 						networkType, commandSender);
+				hasNextCommand = true;
+			} else {
+				hasNextCommand = hasNextCommand || false;
 			}
+			if (!hasNextCommand) {
+				result.add("Enter Command");
+			}
+
 			String reply = adoptor.postProcess(result);
 			session.await();
 			commandSender.onReply(reply);
