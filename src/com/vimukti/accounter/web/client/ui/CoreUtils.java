@@ -1831,8 +1831,9 @@ public class CoreUtils {
 			clientCurrency.setName(currencyNames[i]);
 			clientCurrency.setSymbol(currencyCodes[i]);
 			for (ClientCurrency currency : existCurrencies) {
-				if (currency.getFormalName().equals(
-						clientCurrency.getFormalName())) {
+				if (currency.getFormalName() != null
+						&& currency.getFormalName().equals(
+								clientCurrency.getFormalName())) {
 					clientCurrency.setID(currency.getID());
 					break;
 				}
@@ -1842,4 +1843,18 @@ public class CoreUtils {
 		return currencies;
 	}
 
+	public static ClientCurrency getCurrency(String formalName) {
+		int index = 0;
+		for (int i = 0; i < currencyCodes.length; i++) {
+			if (currencyCodes[i].trim().equals(formalName)) {
+				index = i;
+				break;
+			}
+		}
+		ClientCurrency currency = new ClientCurrency();
+		currency.setFormalName(currencyCodes[index]);
+		currency.setName(currencyNames[index]);
+		currency.setSymbol(currencyCodes[index]);
+		return currency;
+	}
 }

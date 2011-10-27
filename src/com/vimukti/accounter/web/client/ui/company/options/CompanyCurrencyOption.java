@@ -84,9 +84,8 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	public void initData() {
 		for (int i = 0; i < currenciesList.size(); i++) {
 			if (getCompanyPreferences().getPrimaryCurrency() != null) {
-				if (getCompanyPreferences().getPrimaryCurrency()
-						.getFormalName()
-						.equals(currenciesList.get(i).getFormalName())) {
+				if (getCompanyPreferences().getPrimaryCurrency().equals(
+						currenciesList.get(i).getFormalName())) {
 					primaryCurrencyListBox.setSelectedIndex(i);
 				}
 			} else {
@@ -105,8 +104,9 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	public void onSave() {
 		if (primaryCurrencyListBox.getSelectedIndex() != -1) {
 			getCompanyPreferences().setPrimaryCurrency(
-					currenciesList.get(primaryCurrencyListBox
-							.getSelectedIndex()));
+					currenciesList.get(
+							primaryCurrencyListBox.getSelectedIndex())
+							.getFormalName());
 		}
 		getCompanyPreferences().setEnableMultiCurrency(
 				isEnableMultiCurrencyCheckBox.getValue());

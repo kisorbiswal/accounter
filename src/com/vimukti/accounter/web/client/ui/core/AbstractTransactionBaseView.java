@@ -1110,9 +1110,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected CurrencyWidget createCurrencyWidget() {
 		// FIXME test only.
-		ClientCurrency addnewCurrency = new ClientCurrency();
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
-		currenciesList.add(addnewCurrency);
 
 		// List<ClientCurrency> coreCurrencies = CoreUtils.getCurrencies();
 		// for (ClientCurrency clientCurrency : currenciesList) {
@@ -1124,8 +1122,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// }
 		// }
 
-		ClientCurrency baseCurrency = getCompany().getPreferences()
-				.getPrimaryCurrency();
+		ClientCurrency baseCurrency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
 
 		CurrencyWidget widget = new CurrencyWidget(currenciesList, baseCurrency);
 
