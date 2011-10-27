@@ -5,9 +5,9 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
 
-	public DateRequirement(String requirementName, String displayString,
+	public DateRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
-		super(requirementName, displayString, recordName, isOptional2,
+		super(requirementName, enterString, recordName, isOptional2,
 				isAllowFromContext2);
 	}
 

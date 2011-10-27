@@ -287,7 +287,8 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("Create Item");
+		list.add("Create Product Item");
+		list.add("Create Service Item");
 	}
 
 	@Override

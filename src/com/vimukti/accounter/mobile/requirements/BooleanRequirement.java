@@ -5,7 +5,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class BooleanRequirement extends AbstractRequirement {
+public abstract class BooleanRequirement extends AbstractRequirement<Boolean> {
 
 	public BooleanRequirement(String requirementName, boolean isAllowFromContext) {
 		super(requirementName, null, null, true, isAllowFromContext);

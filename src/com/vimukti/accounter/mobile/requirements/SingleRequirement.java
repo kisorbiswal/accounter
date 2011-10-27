@@ -5,11 +5,11 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class SingleRequirement<T> extends AbstractRequirement {
+public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 
-	public SingleRequirement(String requirementName, String displayString,
+	public SingleRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
-		super(requirementName, displayString, recordName, isOptional2,
+		super(requirementName, enterString, recordName, isOptional2,
 				isAllowFromContext2);
 	}
 

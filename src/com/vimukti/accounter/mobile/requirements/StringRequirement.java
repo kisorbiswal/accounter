@@ -2,12 +2,12 @@ package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Context;
 
-public class NameRequirement extends SingleRequirement<String> {
+public class StringRequirement extends SingleRequirement<String> {
 
-	public NameRequirement(String requirementName, String enterString,
-			String recordName, boolean isOptional, boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, isOptional,
-				isAllowFromContext);
+	public StringRequirement(String requirementName, String enterString,
+			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
+		super(requirementName, enterString, recordName, isOptional2,
+				isAllowFromContext2);
 		setDefaultValue("");
 	}
 
@@ -20,4 +20,5 @@ public class NameRequirement extends SingleRequirement<String> {
 	protected String getInputFromContext(Context context) {
 		return context.getString();
 	}
+
 }
