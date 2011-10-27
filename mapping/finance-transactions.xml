@@ -26,13 +26,8 @@
 		<property name="totalTaxableAmount" column="TOTAL_TAXABLE_AMOUNT"></property>
 		<property name="totalNonTaxableAmount" column="TOTAL_NON_TAXABLE_AMOUNT"></property>
 		<property name="amountsIncludeVAT" column="AMOUNTS_INCLUDE_VAT"></property>
-		<!--
-			<property name="EUVATExemptPayee"
-			column="EU_VAT_EXEMPT_PAYEE"></property>
-		-->
-		<!--
-			<property name="isVATreturned" column="IS_VAT_RETURNED"></property>
-		-->
+		<!-- <property name="EUVATExemptPayee" column="EU_VAT_EXEMPT_PAYEE"></property> -->
+		<!-- <property name="isVATreturned" column="IS_VAT_RETURNED"></property> -->
 		<list name="transactionItems" cascade="save-update,delete-orphan"
 			lazy="false">
 			<key column="TRANSACTION_ID" />
@@ -78,7 +73,8 @@
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
 			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
 		</many-to-one>
-		<many-to-one name="location" class="Location" lazy="false" column="LOCATION_ID">
+		<many-to-one name="location" class="Location" lazy="false"
+			column="LOCATION_ID">
 		</many-to-one>
 
 		<set name="reconciliationItems" inverse="true">
@@ -181,10 +177,7 @@
 			<many-to-one name="employee" class="User" lazy="false"
 				cascade="save-update" column="EMPLOYEE">
 			</many-to-one>
-			<!--
-				<property name="employeeName" column="EMPLOYEE_NAME"
-				type="string"></property>
-			-->
+			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -405,6 +398,11 @@
 				<key column="ENTER_BILL_ID"></key>
 				<one-to-many class="TransactionPayBill" />
 			</set>
+			<set name="estimates" inverse="true" cascade="save-update,delete"
+				lazy="false">
+				<key column="ESTIMATE_ENTER_BILL"></key>
+				<one-to-many class="Estimate" />
+			</set>
 			<many-to-one name="purchaseOrder" class="PurchaseOrder"
 				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
 			</many-to-one>
@@ -416,6 +414,9 @@
 			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<many-to-one name="enterBill" class="EnterBill" lazy="false"
+				cascade="save-update" column="ESTIMATE_ENTER_BILL">
 			</many-to-one>
 			<component name="contact" class="Contact" lazy="false">
 				<property name="isPrimary" column="EST_IS_PRIMARY"></property>
@@ -584,9 +585,7 @@
 				<property name="countryOrRegion" column="PAYBILL_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="PAYBILL_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<!--
-				<many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode"
-			-->
+			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
 			<!-- lazy="false"> -->
 			<!-- </many-to-one> -->
 			<!-- <property name="VATFraction" column="VAT_FRACTION"></property> -->
@@ -656,14 +655,11 @@
 				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
 			<property name="purchaseOrderNumber" column="PURCHASE_ORDER_NUMBER"></property>
-			<!--
-				<list name="enterBills" cascade="save-update,delete" lazy="false">
-				<key column="TRANSACTION_ID" /> <list-index column="EBX" />
-				<one-to-many class="EnterBill" /> </list> <list name="itemReceipts"
-				cascade="save-update,delete" lazy="false"> <key
-				column="TRANSACTION_ID" /> <list-index column="IRX" /> <one-to-many
-				class="ItemReceipt" /> </list>
-			-->
+			<!-- <list name="enterBills" cascade="save-update,delete" lazy="false"> 
+				<key column="TRANSACTION_ID" /> <list-index column="EBX" /> <one-to-many 
+				class="EnterBill" /> </list> <list name="itemReceipts" cascade="save-update,delete" 
+				lazy="false"> <key column="TRANSACTION_ID" /> <list-index column="IRX" /> 
+				<one-to-many class="ItemReceipt" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="ItemReceipt" table="ITEM_RECEIPT">
 			<key column="ID" />
@@ -720,11 +716,9 @@
 			<many-to-one name="shippingMethod" class="ShippingMethod"
 				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
-			<!--
-				<list name="enterBills" cascade="save-update,delete" lazy="false">
-				<key column="TRANSACTION_ID" /> <list-index column="EBX" />
-				<one-to-many class="EnterBill" /> </list>
-			-->
+			<!-- <list name="enterBills" cascade="save-update,delete" lazy="false"> 
+				<key column="TRANSACTION_ID" /> <list-index column="EBX" /> <one-to-many 
+				class="EnterBill" /> </list> -->
 			<many-to-one name="purchaseOrder" class="PurchaseOrder"
 				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
 			</many-to-one>
@@ -748,9 +742,7 @@
 			<property name="totalCashDiscount" column="TOTAL_CASH_DISCOUNT"></property>
 			<property name="totalWriteOff" column="TOTAL_WRITE_OFF"></property>
 			<property name="totalAppliedCredits" column="TOTAL_APPLIED_CREDITS"></property>
-			<!--
-				<many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode"
-			-->
+			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
 			<!-- lazy="false"> -->
 			<!-- </many-to-one> -->
 			<!-- <property name="VATFraction" column="VAT_FRACTION"></property> -->
@@ -824,11 +816,9 @@
 				cascade="save-update" column="ESTIMATE_ID">
 			</many-to-one>
 			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property>
-			<!--
-				<list name="invoices" cascade="save-update,delete" lazy="false">
-				<key column="TRANSACTION_ID" /> <list-index column="IDX" />
-				<one-to-many class="Invoice" /> </list>
-			-->
+			<!-- <list name="invoices" cascade="save-update,delete" lazy="false"> 
+				<key column="TRANSACTION_ID" /> <list-index column="IDX" /> <one-to-many 
+				class="Invoice" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="Expense" table="EXPENSE">
 			<key column="ID" />
@@ -998,18 +988,13 @@
 			</set>
 		</joined-subclass>
 
-		<!--
-			<joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT"> <key
-			column="id" /> <property name="increaseTAXLine"
-			column="INCREASE_TAX_LINE"></property> <many-to-one
-			name="adjustmentAccount" class="Account" lazy="false"
-			cascade="save-update" column="ADJUSTMENT_ACCOUNT_ID"> </many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-			cascade="save-update" column="TAX_AGENCY_ID"> </many-to-one>
-			<many-to-one name="journalEntry" class="JournalEntry" lazy="false"
-			cascade="save-update,delete" column="JOURNAL_ENTRY_ID">
-			</many-to-one> </joined-subclass>
-		-->
+		<!-- <joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT"> <key 
+			column="id" /> <property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property> 
+			<many-to-one name="adjustmentAccount" class="Account" lazy="false" cascade="save-update" 
+			column="ADJUSTMENT_ACCOUNT_ID"> </many-to-one> <many-to-one name="taxAgency" 
+			class="TAXAgency" lazy="false" cascade="save-update" column="TAX_AGENCY_ID"> 
+			</many-to-one> <many-to-one name="journalEntry" class="JournalEntry" lazy="false" 
+			cascade="save-update,delete" column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
 	</class>
 
 
@@ -1035,10 +1020,8 @@
 		<many-to-one name="taxCode" class="TAXCode" column="TAXCODE_ID"
 			lazy="false">
 		</many-to-one>
-		<!--
-			<many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID"
-			lazy="false"> </many-to-one>
-		-->
+		<!-- <many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID" lazy="false"> 
+			</many-to-one> -->
 		<property name="memo" column="MEMO"></property>
 		<property name="debit" column="DEBIT"></property>
 		<property name="credit" column="CREDIT"></property>
@@ -1046,10 +1029,7 @@
 		<many-to-one name="journalEntry" class="JournalEntry"
 			lazy="false" column="TRANSACTION_ID">
 		</many-to-one>
-		<!--
-			<many-to-one name="VATAgency" class="TaxAgency"
-			column="VAT_AGENCY_ID"
-		-->
+		<!-- <many-to-one name="VATAgency" class="TaxAgency" column="VAT_AGENCY_ID" -->
 		<!-- lazy="false"> -->
 		<!-- </many-to-one> -->
 		<property name="entryDate" column="ENTRY_DATE"
@@ -1063,16 +1043,17 @@
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
 		</many-to-one>
+		<many-to-one name="customer" class="Customer" lazy="false"
+			column="CUSTOMER_ID">
+		</many-to-one>
 		<many-to-one name="account" class="Account" lazy="false"
 			column="ACCOUNT_ID">
 		</many-to-one>
 		<many-to-one name="taxCode" class="TAXCode" lazy="false"
 			column="TAX_CODE">
 		</many-to-one>
-		<!--
-			<many-to-one name="vatItem" class="VATItem" lazy="false"
-			column="VAT_ITEM"> </many-to-one>
-		-->
+		<!-- <many-to-one name="vatItem" class="VATItem" lazy="false" column="VAT_ITEM"> 
+			</many-to-one> -->
 		<property name="description" column="DESCRIPTION"></property>
 		<!--<property name="quantity" column="QUANTITY"></property> -->
 		<component name="quantity" class="Quantity">
@@ -1084,18 +1065,16 @@
 		<property name="lineTotal" column="LINE_TOTAL"></property>
 		<property name="updateAmount" column="UPDATE_AMOUNT"></property>
 		<property name="isTaxable" column="IS_TAXABLE"></property>
+		<property name="isBillable" column="IS_BILLABLE"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
 		<many-to-one name="itemBackUp" class="ItemBackUp" cascade="save-update,delete"
 			lazy="false" column="ITEM_BACK_UP">
 		</many-to-one>
-		<!--
-			<set name="taxRateCalculationEntriesList" inverse="true"
-			cascade="all-delete-orphan" lazy="false"> <key
-			column="TRANSACTION_ITEM_ID"></key> <one-to-many
-			class="TaxRateCalculation" /> </set>
-		-->
+		<!-- <set name="taxRateCalculationEntriesList" inverse="true" cascade="all-delete-orphan" 
+			lazy="false"> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
+			/> </set> -->
 		<set name="taxRateCalculationEntriesList" inverse="true"
 			cascade="all-delete-orphan" lazy="false">
 			<key column="TRANSACTION_ITEM_ID"></key>
