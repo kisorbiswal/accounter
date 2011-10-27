@@ -7,6 +7,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
@@ -84,23 +85,11 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new NameRequirement(CUSTOMER_CONTACT,
-				"Please enter the customer name or number", getMessages()
-						.customerName(Global.get().Customer()), false, true));
+				"Please Enter Customer name", getMessages().customerName(
+						Global.get().Customer()), false, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().number()), getConstants().number(), false, true));
-
-		// TODO
-		// list.add(new ObjectListRequirement(CUSTOMER_CONTACT, true, true) {
-		// @Override
-		// public void addRequirements(List<Requirement> list) {
-		// list.add(new Requirement(PRIMARY, true, true));
-		// list.add(new Requirement(CONTACT_NAME, false, true));
-		// list.add(new Requirement(TITLE, true, true));
-		// list.add(new Requirement(BUSINESS_PHONE, true, true));
-		// list.add(new Requirement(EMAIL, true, true));
-		// }
-		// });
 
 		list.add(new BooleanRequirement(IS_ACTIVE, true) {
 
@@ -388,13 +377,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(ADDRESS).setDefaultValue(new ClientAddress());
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private void createCustomerObject(Context context) {
-
+	@Override
+	protected Result onCompleteProcess(Context context) {
 		ICountryPreferences countryPreferences = getClientCompany()
 				.getCountryPreferences();
 		ClientCompanyPreferences preferences = getClientCompany()
@@ -492,7 +476,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		}
 
 		create(customer, context);
-
+		return null;
 	}
 
 	/**
