@@ -57,11 +57,6 @@ public class MyCommand extends NewCommand {
 			protected List<ClientAccount> getLists(Context context) {
 				return getClientCompany().getAccounts();
 			}
-
-			@Override
-			protected ClientCompany getClientCompany() {
-				return MyCommand.this.getClientCompany();
-			}
 		});
 
 		list.add(new TransactionItemAccountsRequirement("accountItem2",
@@ -71,11 +66,6 @@ public class MyCommand extends NewCommand {
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
 				return getClientCompany().getAccounts();
-			}
-
-			@Override
-			protected ClientCompany getClientCompany() {
-				return MyCommand.this.getClientCompany();
 			}
 		});
 		//
@@ -128,5 +118,11 @@ public class MyCommand extends NewCommand {
 	@Override
 	public String getSuccessMessage() {
 		return "Success Command";
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

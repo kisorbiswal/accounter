@@ -100,21 +100,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			protected List<ClientItem> getLists(Context context) {
 				return getClientCompany().getItems();
 			}
-
-			@Override
-			protected ClientCompany getClientCompany() {
-				return NewInvoiceCommand.this.getClientCompany();
-			}
 		});
 
 		list.add(new TransactionItemAccountsRequirement(ACCOUNT_ITEMS,
 				"Please Enter Account name or number", getConstants().items(),
 				false, true) {
-
-			@Override
-			protected ClientCompany getClientCompany() {
-				return NewInvoiceCommand.this.getClientCompany();
-			}
 
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
@@ -339,7 +329,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		ClientCompanyPreferences preferences = getClientCompany()
+		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
@@ -368,7 +358,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
-		ArrayList<ClientPaymentTerms> paymentTerms = getClientCompany()
+		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
 				.getPaymentsTerms();
 		for (ClientPaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {

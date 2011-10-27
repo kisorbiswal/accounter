@@ -21,8 +21,10 @@ public abstract class NewCommand extends Command {
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
 			String welcomeMessage = getWelcomeMessage();
-			((List<String>) context.getAttribute("firstMessage"))
-					.add(welcomeMessage);
+			if (welcomeMessage != null) {
+				((List<String>) context.getAttribute("firstMessage"))
+						.add(welcomeMessage);
+			}
 			setAttribute("input", "");
 		}
 
@@ -33,7 +35,7 @@ public abstract class NewCommand extends Command {
 		makeResult.add(list);
 		List<Requirement> allRequirements = getRequirements();
 		for (Requirement req : allRequirements) {
-			Result result = req.run(context, makeResult, list, actions);
+			Result result = req.process(context, makeResult, list, actions);
 			if (result != null) {
 				List<String> first = (List<String>) context
 						.getAttribute("firstMessage");
@@ -70,9 +72,7 @@ public abstract class NewCommand extends Command {
 		return finishResult;
 	}
 
-	public String getWelcomeMessage() {
-		return null;
-	}
+	protected abstract String getWelcomeMessage();
 
 	protected Result onCompleteProcess(Context context) {
 		return null;

@@ -636,4 +636,10 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		return getMessages().createSuccessfully(getConstants().company());
 	}
 
+	@Override
+	protected String getWelcomeMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

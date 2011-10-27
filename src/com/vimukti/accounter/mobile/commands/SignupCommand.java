@@ -148,4 +148,9 @@ public class SignupCommand extends NewCommand {
 	public String getSuccessMessage() {
 		return "Your account was created successfully. We have sent an activation code to your mail";
 	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
 }

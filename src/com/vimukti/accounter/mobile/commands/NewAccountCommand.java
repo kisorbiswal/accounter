@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -38,6 +39,11 @@ public class NewAccountCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	public String getWelcomeMessage() {
+		return "Create Account Command is activated.";
+	}
+
+	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new StringListRequirement(ACCOUNT_TYPE,
 				"Please Enter Account Type", "Account Type", true, true, null) {
@@ -57,14 +63,14 @@ public class NewAccountCommand extends NewAbstractCommand {
 				return getAccountTypes();
 			}
 		});
-		
+
 		list.add(new NameRequirement(ACCOUNT_NAME, "Please Enter Account Name",
 				"Name", false, true));
 
 		list.add(new NumberRequirement(ACCOUNT_NUMBER,
 				"Please Enter Account number", "Account Number", false, true));
 
-		list.add(new NumberRequirement(OPENINGBALANCE,
+		list.add(new AmountRequirement(OPENINGBALANCE,
 				"Please Enter Opening balece", "Opening balence", true, true));
 
 		list.add(new BooleanRequirement(ACTIVE, true) {
@@ -123,6 +129,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(ACCOUNT_NUMBER).setDefaultValue("1");
 		get(ACCOUNT_TYPE).setDefaultValue("Income");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
