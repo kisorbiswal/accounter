@@ -10,6 +10,14 @@
 		<alias>Close</alias>
 	</command>
 
+	<command clazz="CreateFullCompanyCommand" name="Full Company Setup">
+		<alias>Create Company</alias>
+	</command>
+
+	<command clazz="CreatePartialCompanyCommand" name="Partial Company Setup">
+		<alias>Create Company</alias>
+	</command>
+
 	<command clazz="CompanyTypeCommand" name="Company Type Selection">
 		<alias>Create Company</alias>
 	</command>
@@ -40,7 +48,7 @@
 		<alias>Add a New Account</alias>
 	</command>
 
-	<command clazz="AccountsListCommand" name="New Account">
+	<command clazz="AccountsListCommand" name="Account List">
 		<alias>Accounts</alias>
 		<alias>Account List</alias>
 		<alias>Accounts List</alias>
