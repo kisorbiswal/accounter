@@ -8,12 +8,24 @@ import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CreditRatingRequirement;
+import com.vimukti.accounter.mobile.requirements.CustomerGroupRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.SalesPersonRequirement;
+import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -74,43 +86,234 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(CUSTOMER_NAME, false, true));
-		list.add(new Requirement(NUMBER, false, true));
-		list.add(new ObjectListRequirement(CUSTOMER_CONTACT, true, true) {
+		list.add(new NameRequirement(CUSTOMER_CONTACT,
+				"Please enter the customer name or number", getMessages()
+						.customerName(Global.get().Customer()), false, true));
+
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getConstants().number()), getConstants().number(), false, true));
+
+		// TODO
+		// list.add(new ObjectListRequirement(CUSTOMER_CONTACT, true, true) {
+		// @Override
+		// public void addRequirements(List<Requirement> list) {
+		// list.add(new Requirement(PRIMARY, true, true));
+		// list.add(new Requirement(CONTACT_NAME, false, true));
+		// list.add(new Requirement(TITLE, true, true));
+		// list.add(new Requirement(BUSINESS_PHONE, true, true));
+		// list.add(new Requirement(EMAIL, true, true));
+		// }
+		// });
+
+		list.add(new BooleanRequirement(IS_ACTIVE, true) {
+
 			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement(PRIMARY, true, true));
-				list.add(new Requirement(CONTACT_NAME, false, true));
-				list.add(new Requirement(TITLE, true, true));
-				list.add(new Requirement(BUSINESS_PHONE, true, true));
-				list.add(new Requirement(EMAIL, true, true));
+			protected String getTrueString() {
+				return getConstants().active();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().inActive();
 			}
 		});
-		list.add(new Requirement(IS_ACTIVE, true, true));
-		list.add(new Requirement(CUSTOMER_SINCEDATE, true, true));
-		list.add(new Requirement(BALANCE, true, true));
-		list.add(new Requirement(BALANCE_ASOF_DATE, true, true));
-		list.add(new Requirement(ADDRESS, true, true));
-		list.add(new Requirement(PHONE, true, true));
-		list.add(new Requirement(FAX, true, true));
-		list.add(new Requirement(EMAIL, true, true));
-		list.add(new Requirement(WEBADRESS, true, true));
-		list.add(new Requirement(SALESPERSON, true, true));
-		list.add(new Requirement(SHIPPING_METHODS, true, true));
-		list.add(new Requirement(PRICE_LEVEL, true, true));
-		list.add(new Requirement(CREDIT_RATING, true, true));
-		list.add(new Requirement(BANK_NAME, true, true));
-		list.add(new Requirement(BANK_ACCOUNT_NUM, true, true));
-		list.add(new Requirement(BANK_BRANCH, true, true));
-		list.add(new Requirement(PAYMENT_METHOD, true, true));
-		list.add(new Requirement(PAYMENT_TERMS, true, true));
-		list.add(new Requirement(CUSTOMER_GROUP, true, true));
-		list.add(new Requirement(VATREGISTER_NUM, true, true));
-		list.add(new Requirement(CUSTOMER_VATCODE, true, true));
-		list.add(new Requirement(PAN_NUM, true, true));
-		list.add(new Requirement(CST_NUM, true, true));
-		list.add(new Requirement(SERVICE_TAX_NUM, true, true));
-		list.add(new Requirement(TIN_NUM, true, true));
+
+		list.add(new DateRequirement(CUSTOMER_SINCEDATE, getMessages()
+				.pleaseEnter(
+						getMessages().customerSince(Global.get().Customer())),
+				getMessages().customerSince(Global.get().Customer()), true,
+				true));
+
+		list.add(new AmountRequirement(BALANCE, getMessages().pleaseEnter(
+				getConstants().openingBalance()), getConstants()
+				.openingBalance(), true, true));
+
+		list.add(new DateRequirement(BALANCE_ASOF_DATE, getMessages()
+				.pleaseEnter(getConstants().balanceAsOfDate()), getConstants()
+				.balanceAsOfDate(), true, true));
+
+		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
+				getConstants().address()), getConstants().address(), true, true));
+
+		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+				getConstants().phoneNumber()), getConstants().phoneNumber(),
+				true, true));
+
+		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
+				getConstants().fax()), getConstants().fax(), true, true));
+
+		list.add(new NameRequirement(EMAIL, getMessages().pleaseEnter(
+				getConstants().email()), getConstants().email(), true, true));
+
+		list.add(new NameRequirement(WEBADRESS, getMessages().pleaseEnter(
+				getConstants().webSite()), getConstants().webSite(), true, true));
+
+		list.add(new SalesPersonRequirement(SALESPERSON,
+				"please enter the sales person name", getConstants()
+						.salesPerson(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "sales person has been selected";
+			}
+
+			@Override
+			protected List<ClientSalesPerson> getLists(Context context) {
+				return getClientCompany().getSalesPersons();
+			}
+
+			@Override
+			protected boolean filter(ClientSalesPerson e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new ShippingMethodRequirement(SHIPPING_METHODS,
+				"please enter the shipping method name", getConstants()
+						.shippingMethod(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Shipping method has been selected";
+			}
+
+			@Override
+			protected List<ClientShippingMethod> getLists(Context context) {
+				return getClientCompany().getShippingMethods();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getConstants().shippingMethod());
+			}
+
+			@Override
+			protected boolean filter(ClientShippingMethod e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		// TODO list.add(new Requirement(PRICE_LEVEL, true, true));
+
+		list.add(new CreditRatingRequirement(CREDIT_RATING,
+				"Please enter the credit rating name", getConstants()
+						.creditRating(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Credit Rating has been selected";
+			}
+
+			@Override
+			protected List<ClientCreditRating> getLists(Context context) {
+				return getClientCompany().getCreditRatings();
+			}
+
+			@Override
+			protected boolean filter(ClientCreditRating e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
+				getConstants().bankName()), getConstants().bankName(), true,
+				true));
+
+		list.add(new NumberRequirement(BANK_ACCOUNT_NUM, getMessages()
+				.pleaseEnter(getConstants().bankAccounts()), getConstants()
+				.bankAccountNumber(), true, true));
+
+		list.add(new NameRequirement(BANK_BRANCH, getMessages().pleaseEnter(
+				getConstants().bankBranch()), getConstants().bankBranch(),
+				true, true));
+
+		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
+				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.paymentMethod(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Payment method has been selected";
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						getConstants().paymentMethod());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return new ArrayList<String>(getClientCompany()
+						.getPaymentMethods().values());
+			}
+		});
+
+		list.add(new PaymentTermRequirement(PAYMENT_TERMS,
+				"Please enter the payment term name", getConstants()
+						.paymentTerm(), true, true, null) {
+
+			@Override
+			protected List<ClientPaymentTerms> getLists(Context context) {
+				return getClientCompany().getPaymentsTerms();
+			}
+		});
+
+		list.add(new CustomerGroupRequirement(CUSTOMER_GROUP,
+				"Please enter the customer group", getMessages().customerGroup(
+						Global.get().Customer()), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Customer Group has been selected";
+			}
+
+			@Override
+			protected List<ClientCustomerGroup> getLists(Context context) {
+				return getClientCompany().getCustomerGroups();
+			}
+
+			@Override
+			protected boolean filter(ClientCustomerGroup e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NumberRequirement(VATREGISTER_NUM, getMessages()
+				.pleaseEnter(getConstants().vatRegistrationNumber()),
+				getConstants().vatRegistrationNumber(), true, true));
+
+		list.add(new TaxCodeRequirement(CUSTOMER_VATCODE,
+				"Please enter the tax code name", getConstants().taxCode(),
+				true, true, null) {
+
+			@Override
+			protected List<ClientTAXCode> getLists(Context context) {
+				return getClientCompany().getTaxCodes();
+			}
+
+			@Override
+			protected boolean filter(ClientTAXCode e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NumberRequirement(PAN_NUM, "Please enter the pan number",
+				"Pan Number", true, true));
+
+		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+				getMessages().customerNumber(Global.get().Customer())),
+				getMessages().customerNumber(Global.get().Customer()), true,
+				true));
+
+		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
+				.pleaseEnter(getConstants().serviceTax()), getConstants()
+				.serviceTax(), true, true));
+
+		list.add(new NumberRequirement(TIN_NUM, getMessages().pleaseEnter(
+				getConstants().tinNumber()), getConstants().tinNumber(), true,
+				true));
 	}
 
 	@Override
