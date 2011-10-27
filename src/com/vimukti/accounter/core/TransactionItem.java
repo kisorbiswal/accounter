@@ -154,7 +154,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * {@link TAXRateCalculation} for the purpose
 	 */
 	@ReffereredObject
-	Set<TAXRateCalculation> taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
+	private Set<TAXRateCalculation> taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
 
 	/**
 	 * For the purpose of SalesOrder. To know how much amount of this
@@ -186,13 +186,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	private boolean isOnSaveProccessed;
 
 	private AccounterClass accounterClass;
+	@ReffereredObject
+	private Customer customer;
+
+	private boolean isBillable;
 
 	public TransactionItem() {
 
-	}
-
-	public long getId() {
-		return id;
 	}
 
 	public double getVATfraction() {
@@ -432,10 +432,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (this.isOnSaveProccessed)
+		if (this.isOnSaveProccessed())
 			return true;
 
-		this.isOnSaveProccessed = true;
+		this.setOnSaveProccessed(true);
 
 		initVRCids();
 
@@ -448,8 +448,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	private void initVRCids() {
-		if (this.taxRateCalculationEntriesList == null
-				|| this.taxRateCalculationEntriesList.isEmpty())
+		if (this.getTaxRateCalculationEntriesList() == null
+				|| this.getTaxRateCalculationEntriesList().isEmpty())
 			return;
 
 		TAXRateCalculation vrc1 = null, vrc2 = null;
@@ -461,7 +461,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		 * if and only if the transaction is going to void otherwise we have to
 		 * remove all entries from the list.
 		 */
-		for (TAXRateCalculation vrc : this.taxRateCalculationEntriesList) {
+		for (TAXRateCalculation vrc : this.getTaxRateCalculationEntriesList()) {
 			if (this.isVoid && vrc.transactionItem == null) {
 				// vrcids.add(vrc.getID());
 
@@ -476,12 +476,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 
 		if (vrc1 != null)
-			this.taxRateCalculationEntriesList.remove(vrc1);
+			this.getTaxRateCalculationEntriesList().remove(vrc1);
 		if (vrc2 != null)
-			this.taxRateCalculationEntriesList.remove(vrc2);
+			this.getTaxRateCalculationEntriesList().remove(vrc2);
 
 		if (!this.isVoid())
-			this.taxRateCalculationEntriesList.clear();
+			this.getTaxRateCalculationEntriesList().clear();
 
 	}
 
@@ -748,8 +748,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// this.itemBackUpList.clear();
 		// }
 
-		if (this.taxRateCalculationEntriesList != null) {
-			this.taxRateCalculationEntriesList.clear();
+		if (this.getTaxRateCalculationEntriesList() != null) {
+			this.getTaxRateCalculationEntriesList().clear();
 		}
 	}
 
@@ -784,12 +784,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	protected TransactionItem clone() throws CloneNotSupportedException {
 		TransactionItem item = (TransactionItem) super.clone();
-		item.id = 0;
+		item.setId(0);
 		return item;
 	}
 
 	public void resetId() {
-		id = 0;
+		setId(0);
 	}
 
 	@Override
@@ -816,6 +816,43 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public boolean isBillable() {
+		return isBillable;
+	}
+
+	public void setBillable(boolean isBillable) {
+		this.isBillable = isBillable;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public boolean isOnSaveProccessed() {
+		return isOnSaveProccessed;
+	}
+
+	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
+		this.isOnSaveProccessed = isOnSaveProccessed;
+	}
+
+	public Set<TAXRateCalculation> getTaxRateCalculationEntriesList() {
+		return taxRateCalculationEntriesList;
+	}
+
+	public void setTaxRateCalculationEntriesList(
+			Set<TAXRateCalculation> taxRateCalculationEntriesList) {
+		this.taxRateCalculationEntriesList = taxRateCalculationEntriesList;
 	}
 
 }
