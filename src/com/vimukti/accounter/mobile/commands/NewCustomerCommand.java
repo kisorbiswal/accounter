@@ -24,13 +24,11 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -84,7 +82,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new NameRequirement(CUSTOMER_CONTACT,
+		list.add(new NameRequirement(CUSTOMER_NAME,
 				"Please Enter Customer name", getMessages().customerName(
 						Global.get().Customer()), false, true));
 
@@ -390,7 +388,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (preferences.getUseCustomerId()) {
 			number = get(NUMBER).getValue().toString();
 		}
-		ClientContact contact = (get(CUSTOMER_CONTACT).getValue());
+		// ClientContact contact = (get(CUSTOMER_CONTACT).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
 		double balance = get(BALANCE).getValue();
@@ -401,7 +399,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		String webaddress = get(WEBADRESS).getValue();
 		ClientSalesPerson salesPerson = get(SALESPERSON).getValue();
 		ClientCreditRating creditRating = get(CREDIT_RATING).getValue();
-		ClientPriceLevel priceLevel = get(PRICE_LEVEL).getValue();
+		// ClientPriceLevel priceLevel = get(PRICE_LEVEL).getValue();
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(BANK_ACCOUNT_NUM).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
@@ -423,10 +421,11 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (preferences.getUseCustomerId())
 			customer.setNumber(number);
 
-		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
-		if (contact != null)
-			contacts.add(contact);
-		customer.setContacts(contacts);
+		// HashSet<ClientContact> contacts = new HashSet<ClientContact>();
+		// if (contact != null)
+		// contacts.add(contact);
+		// customer.setContacts(contacts);
+
 		customer.setBalance(balance);
 		if (balancedate != null) {
 			customer.setBalanceAsOf(balancedate.getDate());
@@ -442,9 +441,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (salesPerson != null) {
 			customer.setSalesPerson(salesPerson.getID());
 		}
-		if (priceLevel != null) {
-			customer.setPriceLevel(priceLevel.getID());
-		}
+		// if (priceLevel != null) {
+		// customer.setPriceLevel(priceLevel.getID());
+		// }
 		if (creditRating != null) {
 			customer.setCreditRating(creditRating.getID());
 		}
