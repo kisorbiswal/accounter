@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Depreciation;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
@@ -36,12 +37,14 @@ import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
@@ -299,6 +302,8 @@ public class CompanyManager extends Manager {
 			session.save(activity);
 			session.update(cmp);
 
+			createOrUpdatePrimaryCurrency(cmp);
+
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
 			return cmp.getID();
@@ -308,6 +313,23 @@ public class CompanyManager extends Manager {
 			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
 
+	}
+
+	private void createOrUpdatePrimaryCurrency(Company company)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		String primaryCurrency = company.getPreferences().getPrimaryCurrency();
+		Currency existcurrency = company.getCurrency(primaryCurrency);
+		if (existcurrency == null) {
+			ClientCurrency clientCurrency = CoreUtils
+					.getCurrency(primaryCurrency);
+			Currency currency = new Currency();
+			currency = new ServerConvertUtil().toServerObject(currency,
+					clientCurrency, session);
+			currency.setCompany(company);
+			session.saveOrUpdate(currency);
+			ChangeTracker.put(currency);
+		}
 	}
 
 	private IS2SService getS2sSyncProxy(String domainName) {
