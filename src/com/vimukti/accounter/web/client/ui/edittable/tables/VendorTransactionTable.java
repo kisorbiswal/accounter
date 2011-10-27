@@ -9,4 +9,8 @@ public abstract class VendorTransactionTable extends AbstractTransactionTable {
 		super(needDiscount, false, currencyProvider);
 	}
 
+	public VendorTransactionTable(boolean needDiscount,
+			boolean isCustomerAllowedToAdd, ICurrencyProvider currencyProvider) {
+		super(needDiscount, false, isCustomerAllowedToAdd, currencyProvider);
+	}
 }

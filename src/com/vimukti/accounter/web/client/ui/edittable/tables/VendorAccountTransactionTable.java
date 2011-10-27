@@ -10,8 +10,10 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
+import com.vimukti.accounter.web.client.ui.edittable.CustomerColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionBillableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
@@ -25,6 +27,15 @@ public abstract class VendorAccountTransactionTable extends
 	public VendorAccountTransactionTable(boolean enableTax,
 			boolean showTaxCode, ICurrencyProvider currencyProvider) {
 		this(true, enableTax, showTaxCode, currencyProvider);
+	}
+
+	public VendorAccountTransactionTable(boolean enableTax,
+			boolean showTaxCode, ICurrencyProvider currencyProvider,
+			boolean isCustomerAllowedToAdd) {
+		super(true, isCustomerAllowedToAdd, currencyProvider);
+		this.enableTax = enableTax;
+		this.showTaxCode = showTaxCode;
+		addEmptyRecords();
 	}
 
 	public VendorAccountTransactionTable(boolean needDiscount,
@@ -144,6 +155,10 @@ public abstract class VendorAccountTransactionTable extends
 			} else {
 				this.addColumn(new TransactionTaxableColumn());
 			}
+		}
+		if (isCustomerAllowedToAdd) {
+			this.addColumn(new CustomerColumn());
+			this.addColumn(new TransactionBillableColumn());
 		}
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}

@@ -27,12 +27,21 @@ public abstract class AbstractTransactionTable extends
 
 	protected boolean enableTax;
 	protected boolean showTaxCode;
+	protected boolean isCustomerAllowedToAdd;
 
 	protected boolean needDiscount = true;
 
 	private final boolean isSales;
 
 	protected ICurrencyProvider currencyProvider;
+
+	public AbstractTransactionTable(boolean needDiscount, boolean isSales,
+			boolean isCustomerAllowedToAdd, ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
+		this.needDiscount = needDiscount;
+		this.isCustomerAllowedToAdd = isCustomerAllowedToAdd;
+		this.isSales = isSales;
+	}
 
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales,
 			ICurrencyProvider currencyProvider) {
@@ -268,7 +277,7 @@ public abstract class AbstractTransactionTable extends
 	}
 
 	public void updateAmountsFromGUI() {
-		for(ClientTransactionItem item:this.getAllRows()){
+		for (ClientTransactionItem item : this.getAllRows()) {
 			updateFromGUI(item);
 		}
 	}
