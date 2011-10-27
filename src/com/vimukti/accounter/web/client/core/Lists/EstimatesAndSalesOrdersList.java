@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.core.Lists;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class EstimatesAndSalesOrdersList implements IAccounterCore {
@@ -24,6 +27,10 @@ public class EstimatesAndSalesOrdersList implements IAccounterCore {
 	double total;
 
 	private double remainingTotal;
+
+	private List<ClientTransactionItem> transactionItems;
+
+	private int estimateType;
 
 	/**
 	 * @return the transactionId
@@ -171,4 +178,19 @@ public class EstimatesAndSalesOrdersList implements IAccounterCore {
 		return null;
 	}
 
+	public List<ClientTransactionItem> getTransactionItems() {
+		return transactionItems;
+	}
+
+	public void setTransactionItems(List<ClientTransactionItem> transactionItems) {
+		this.transactionItems = transactionItems;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
 }
