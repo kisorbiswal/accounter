@@ -51,39 +51,12 @@ public abstract class TemplateAccountRequirement extends
 			valuesSelection = getName();
 		}
 
-		if (attribute.equals(getName())) {
-			if (objSelection != null) {
-				List<TemplateAccount> accounts = getValue();
-				accounts.add((TemplateAccount) objSelection);
-				setValue(accounts);
-				context.setAttribute(INPUT_ATTR, "");
-			} else {
-				valuesSelection = getName();
-			}
-		}
-
 		if (!isDone()) {
-			valuesSelection = getName();
+			return showList(context, null);// No need
 		}
 
-		if (valuesSelection != null && valuesSelection.equals(getName())) {
-			List<TemplateAccount> accounts = getValue();
-			List<TemplateAccount> oldValues = new ArrayList<TemplateAccount>();
-			for (TemplateAccount templateAccount : accounts) {
-				oldValues.add(templateAccount);
-			}
-			return showList(context, oldValues);
-		}
 		List<TemplateAccount> values = getValue();
-		Object selection = context.getSelection(ACCOUNTS_LIST);
-		if (selection != null) {
-			values.remove(selection);
-		}
-
-		if (values.size() == 0) {
-			return showList(context, values);
-		}
-		selection = context.getSelection(ACTIONS);
+		Object selection = context.getSelection(ACTIONS);
 		ActionNames actionName = (ActionNames) selection;
 		if (actionName != null) {
 			if (actionName == ActionNames.ADD_MORE_ACCOUNTS) {
@@ -91,44 +64,76 @@ public abstract class TemplateAccountRequirement extends
 			} else if (actionName == ActionNames.SET_DEFAULT) {
 				loadDefaultAccpunts();
 				values = getValue();
+			} else if (actionName == ActionNames.CLOSE) {
+				context.setAttribute(INPUT_ATTR, "");
+				Record record = new Record("accountsNumber");
+				record.add("", values.size() + " accounts selected.");
+				list.add(record);
+				return null;
 			}
 
+		}
+
+		if (attribute.equals(getName())) {
+			if (objSelection != null) {
+				List<TemplateAccount> accounts = getValue();
+				accounts.add((TemplateAccount) objSelection);
+				return showSlectedAccounts();
+			} else {
+				valuesSelection = getName();
+			}
+		}
+
+		if (valuesSelection != null && valuesSelection.equals(getName())) {
+			return showList(context, values);
+		}
+
+		selection = context.getSelection(ACCOUNTS_LIST);
+		if (selection != null) {
+			values.remove(selection);
+			return showSlectedAccounts();
+		}
+
+		if (values.size() == 0) {
+			return showList(context, values);
 		}
 
 		Record record = new Record("accountsNumber");
 		record.add("", values.size() + " accounts selected.");
 		list.add(record);
 
-		if (actionName == ActionNames.CLOSE) {
-			return null;
-		}
-
 		if (valuesSelection == "accountsNumber") {
-			Result result = new Result();
-			result.add(getConstants().Accounts());
-			ResultList itemsList = new ResultList(ACCOUNTS_LIST);
-			for (TemplateAccount account : values) {
-				Record itemRec = new Record(account);
-				itemRec.add("", getRecordName());
-				itemRec.add("", getDisplayValue(account));
-				itemsList.add(itemRec);
-			}
-			result.add(itemsList);
-			Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
-			moreItems.add("", getMessages().addMore(getConstants().Accounts()));
-			actions.add(moreItems);
-			Record setDefault = new Record(ActionNames.SET_DEFAULT);
-			setDefault.add("", "set default accounts");
-			actions.add(setDefault);
-			Record close = new Record(ActionNames.CLOSE);
-			close.add("", getConstants().close());
-			actions.add(close);
-			result.add("Select account to delete");
-			result.add(actions);
-			return result;
+			return showSlectedAccounts();
 		}
 
 		return null;
+	}
+
+	private Result showSlectedAccounts() {
+		Result result = new Result();
+		result.add(getConstants().Accounts());
+		ResultList actions = new ResultList(ACTIONS);
+		ResultList itemsList = new ResultList(ACCOUNTS_LIST);
+		List<TemplateAccount> values = getValue();
+		for (TemplateAccount account : values) {
+			Record itemRec = new Record(account);
+			itemRec.add("", getRecordName());
+			itemRec.add("", getDisplayValue(account));
+			itemsList.add(itemRec);
+		}
+		result.add(itemsList);
+		Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
+		moreItems.add("", getMessages().addMore(getConstants().Accounts()));
+		actions.add(moreItems);
+		Record setDefault = new Record(ActionNames.SET_DEFAULT);
+		setDefault.add("", "Set default accounts");
+		actions.add(setDefault);
+		Record close = new Record(ActionNames.CLOSE);
+		close.add("", getConstants().close());
+		actions.add(close);
+		result.add(actions);
+		result.add("Select account to delete");
+		return result;
 	}
 
 	public Result showList(Context context, List<TemplateAccount> oldRecords) {

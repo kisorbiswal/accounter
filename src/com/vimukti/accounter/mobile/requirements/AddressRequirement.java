@@ -7,7 +7,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 
-public class AddressRequirement extends AbstractRequirement {
+public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 
 	private static final String ADDRESS_LINE_ATTR = "addressLine";
 	private static final String ADDRESS_ACTIONS = "addressAction";
