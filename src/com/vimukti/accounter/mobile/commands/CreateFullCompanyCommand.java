@@ -36,7 +36,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	public String getWelcomeMessage() {
-		return "Full Company company setup...";
+		return "Creating Full Company setup...";
 	}
 
 	@Override
@@ -47,21 +47,21 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		// First page
-		list.add(new NameRequirement(COMPANY_NAME, "Enter Company Name",
+		list.add(new NameRequirement(COMPANY_NAME, "Please Enter Company Name",
 				"Company Name", false, true));
 
-		list.add(new NameRequirement(LEGAL_NAME, "Enter Legal Name",
+		list.add(new NameRequirement(LEGAL_NAME, "Please Enter Legal Name",
 				"Legal Name", true, true));
 
-		list.add(new NameRequirement(TAX_ID, "Enter Tax Id", "Tax Id", true,
-				true));
+		list.add(new NameRequirement(TAX_ID, "Please Enter Tax Id", "Tax Id",
+				true, true));
 
 		list.add(new CountryRequirement(COUNTRY, getMessages().pleaseSelect(
 				getConstants().country()), getConstants().country(), true,
 				true, null));
 
-		list.add(new StringListRequirement(STATE, "Enter State", "State", true,
-				true, null) {
+		list.add(new StringListRequirement(STATE, "Please Enter State",
+				"State", true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -79,24 +79,27 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new NameRequirement(ADDRESS1, "Enter Address1", "Address1",
-				true, true));
+		list.add(new NameRequirement(ADDRESS1, "Please Enter Address1",
+				"Address1", true, true));
 
-		list.add(new NameRequirement(ADDRESS1, "Enter Address2", "Address2",
-				true, true));
+		list.add(new NameRequirement(ADDRESS1, "Please Enter Address2",
+				"Address2", true, true));
 
-		list.add(new NameRequirement(CITY, "Enter City", "City", true, true));
-
-		list.add(new NameRequirement(ZIPCODE, "Enter Zipcode", "Zipcode", true,
+		list.add(new NameRequirement(CITY, "Please Enter City", "City", true,
 				true));
 
-		list.add(new NameRequirement(PHONE, "Enter Phone", "Phone", true, true));
+		list.add(new NameRequirement(ZIPCODE, "Please Enter Zipcode",
+				"Zipcode", true, true));
 
-		list.add(new NameRequirement(FAX, "Enter Fax", "Fax", true, true));
+		list.add(new NameRequirement(PHONE, "Please Enter Phone", "Phone",
+				true, true));
 
-		list.add(new EmailRequirement(EMAIL, "Enter Email", "Email", true, true));
+		list.add(new NameRequirement(FAX, "Please Enter Fax", "Fax", true, true));
 
-		list.add(new NameRequirement(WEB_SITE, "Enter Web Site name",
+		list.add(new EmailRequirement(EMAIL, "Please Enter Email", "Email",
+				true, true));
+
+		list.add(new NameRequirement(WEB_SITE, "Please Enter Web Site name",
 				"Web Site", true, true));
 
 		list.add(new StringListRequirement(TIME_ZONE, getMessages()
@@ -147,8 +150,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new StringListRequirement(ORGANIZATION_REFER,
-				"Enter Organization name", "Company Organization", true, true,
-				null) {
+				"Please Enter Organization name", "Company Organization", true,
+				true, null) {
 
 			@Override
 			protected String getSelectString() {
@@ -168,8 +171,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY,
-				"Enter Customer terminology", "Customer Terminology", true,
-				true, null) {
+				"Please Enter Customer terminology", "Customer Terminology",
+				true, true, null) {
 
 			@Override
 			protected String getSelectString() {
@@ -408,7 +411,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				getServiceProductBothList().get(0));
 		get(ONE_PER_TRANSACTION).setDefaultValue(true);
 		get(SELECT_CURRENCY).setDefaultValue(getCurrenciesList().get(0));
-		get(FISCAL_YEAR).setDefaultValue("January");
+		get(FISCAL_YEAR).setDefaultValue(getConstants().april());
 	}
 
 	@Override
@@ -438,12 +441,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 		preferences.setPrimaryCurrency(currency.getFormalName());
 
-		ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(countryName);
-		if (countryPreferences != null) {
-			preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
-					countryPreferences.getDefaultFiscalYearStartingMonth()));
-		}
+		String fiscalYear = get(FISCAL_YEAR).getValue();
+		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
+				fiscalYear));
 
 		ClientAddress address = new ClientAddress();
 		preferences.setTradingName(companyName);

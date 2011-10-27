@@ -151,6 +151,6 @@ public class SignupCommand extends NewCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return null;
+		return "Sighn Up Command is Activated";
 	}
 }

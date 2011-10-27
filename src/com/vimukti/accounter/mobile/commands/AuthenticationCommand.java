@@ -91,7 +91,7 @@ public class AuthenticationCommand extends Command {
 				markDone();
 			} else {
 				if (context.getString().isEmpty()) {
-					makeResult.add("Enter Activation code");
+					makeResult.add("Please Enter Activation code");
 				} else {
 					Activation activation = getActivation(context.getString());
 					if (activation == null) {
