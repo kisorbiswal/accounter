@@ -55,13 +55,9 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="AccountTransaction" />
 		</set>
-		<set name="paySalesTaxEntriesList" inverse="true" cascade="save-update">
-			<key column="TRANSACTION_ID"></key>
-			<one-to-many class="PaySalesTaxEntries" />
-		</set>
 		<set name="payVATEntriesList" inverse="true" cascade="save-update">
 			<key column="TRANSACTION_ID"></key>
-			<one-to-many class="PayVATEntries" />
+			<one-to-many class="PayTAXEntries" />
 		</set>
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
 			column="CREDITS_AND_PAYMENTS_ID" cascade="delete">
@@ -90,25 +86,16 @@
 
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
-		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
-			<key column="ID" />
-			<property name="billsDueOnOrBefore" column="BILLS_DUE_ON_OR_BEFORE"
-				type="com.vimukti.accounter.core.LongUseType"></property>
-			<many-to-one name="payFrom" class="Account" lazy="false"
-				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
-			</many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TAX_AGENCY_ID">
-			</many-to-one>
-			<property name="endingBalance" column="ENDING_BALANCE"></property>
-			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionPaySalesTax" cascade="save-update" lazy="false">
-				<key column="TRANSACTION_ID" />
-				<list-index column="IDX" />
-				<one-to-many class="TransactionPaySalesTax" />
-			</list>
-		</joined-subclass>
-		<joined-subclass name="PayVAT" table="PAY_VAT">
+		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
+			<property name="billsDueOnOrBefore" column="BILLS_DUE_ON_OR_BEFORE" type="com.vimukti.accounter.core.LongUseType"></property> 
+			<many-to-one name="payFrom" class="Account" lazy="false" cascade="save-update" 
+			column="PAYFROM_ACCOUNT_ID"> </many-to-one> <many-to-one name="taxAgency" 
+			class="TAXAgency" lazy="false" cascade="save-update" column="TAX_AGENCY_ID"> 
+			</many-to-one> <property name="endingBalance" column="ENDING_BALANCE"></property> 
+			<property name="isEdited" column="IS_EDITED"></property> <list name="transactionPaySalesTax" 
+			cascade="save-update" lazy="false"> <key column="TRANSACTION_ID" /> <list-index 
+			column="IDX" /> <one-to-many class="TransactionPaySalesTax" /> </list> </joined-subclass> -->
+		<joined-subclass name="PayTAX" table="PAY_TAX">
 			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -120,10 +107,10 @@
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionPayVAT" cascade="save-update" lazy="false">
+			<list name="transactionPayTAX" cascade="save-update" lazy="false">
 				<key column="PAY_VAT_ID" />
 				<list-index column="IDX" />
-				<one-to-many class="TransactionPayVAT" />
+				<one-to-many class="TransactionPayTAX" />
 			</list>
 		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
@@ -566,8 +553,8 @@
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TDS_TAXAGENCY_ID">
+			<many-to-one name="tdsTaxItem" class="TAXItem" lazy="false"
+				cascade="save-update" column="TDS_TAXITEM">
 			</many-to-one>
 			<property name="isToBePrinted" column="IS_TO_BE_PRINTED"></property>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
@@ -596,6 +583,7 @@
 				<one-to-many class="TransactionPayBill" />
 			</list>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="isAmountIncludeTDS" column="IS_AMOUNT_INCLUDE_TDS"></property>
 		</joined-subclass>
 		<joined-subclass name="PurchaseOrder" table="PURCHASE_ORDER">
 			<key column="ID" />
@@ -948,21 +936,37 @@
 				<one-to-many class="TransactionPayBill" />
 			</set>
 		</joined-subclass>
-		<joined-subclass name="VATReturn" table="VAT_RETURN">
+		<joined-subclass name="AbstractTAXReturn" table="TAX_RETURN">
 			<key column="ID" />
-			<property name="VATperiodStartDate" column="VAT_PERIOD_START_DATE"
+			<property name="periodStartDate" column="START_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="VATperiodEndDate" column="VAT_PERIOD_END_DATE"
+			<property name="periodEndDate" column="END_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
+				
 			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 				cascade="save-update" column="TAX_AGENCY">
 			</many-to-one>
-			<list name="boxes" cascade="save-update" lazy="false">
-				<key column="BOX_ID" />
-				<list-index column="BX" />
-				<one-to-many class="Box" />
-			</list>
+
 			<property name="balance" column="BALANCE"></property>
+			<property name="totalTAXAmount" column="TAX_TOTAL"></property>
+			<joined-subclass name="VATReturn" table="VAT_RETURN">
+				<key column="ID" />
+				<list name="boxes" cascade="save-update" lazy="false">
+					<key column="BOX_ID" />
+					<list-index column="BX" />
+					<one-to-many class="Box" />
+				</list>
+			</joined-subclass>
+
+			<joined-subclass name="TAXReturn" table="TAX_RETURNS">
+				<key column="ID" />
+				<list name="taxEntries" cascade="save-update" lazy="false">
+					<key column="TAX_ENTRY_ID" />
+					<list-index column="TEI" />
+					<one-to-many class="TAXReturnEntry" />
+				</list>
+			</joined-subclass>
+
 		</joined-subclass>
 		<joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT">
 			<key column="ID" />
@@ -1280,7 +1284,7 @@
 		<many-to-one name="cashPurchase" class="CashPurchase"
 			lazy="false" column="CASH_PURCHASE_ID">
 		</many-to-one>
-		<many-to-one name="paySalesTax" class="PaySalesTax" lazy="false"
+		<many-to-one name="paySalesTax" class="PayTAX" lazy="false"
 			column="PAY_SALES_TAX_ID">
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
@@ -1292,30 +1296,7 @@
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 	</class>
-	<class name="TransactionPaySalesTax" table="TRANSACTION_PAY_SALES_TAX">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-			cascade="save-update" column="TAX_AGENCY_ID">
-		</many-to-one>
-		<many-to-one name="taxItem" class="TAXItem" lazy="false"
-			column="TAX_ITEM_ID">
-		</many-to-one>
-		<property name="amountToPay" column="AMOUNT_TO_PAY"></property>
-		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
-			column="TRANSACTION_ID">
-		</many-to-one>
-		<property name="version" column="VERSION"></property>
-		<many-to-one name="paySalesTaxEntry" class="PaySalesTaxEntries"
-			cascade="save-update" lazy="false" column="TRANSACTION_PAYSALES_TAX_ID">
-		</many-to-one>
-		<many-to-one name="liabilityAccount" class="Account"
-			column="LIABILITY_ACCOUNT_ID" cascade="save-update" lazy="false">
-		</many-to-one>
-	</class>
-	<class name="TransactionPayVAT" table="TRANSACTION_PAY_VAT">
+	<class name="TransactionPayTAX" table="TRANSACTION_PAY_TAX">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
@@ -1324,10 +1305,10 @@
 		</many-to-one>
 		<property name="amountToPay" column="AMOUNT_TO_PAY"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="vatReturn" class="VATReturn" lazy="false"
-			column="VAT_RETURN_ID">
+		<many-to-one name="taxReturn" class="AbstractTAXReturn"
+			lazy="false" column="VAT_RETURN_ID">
 		</many-to-one>
-		<many-to-one name="payVAT" class="PayVAT" lazy="false"
+		<many-to-one name="payVAT" class="PayTAX" lazy="false"
 			column="PAY_VAT_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
@@ -1341,15 +1322,15 @@
 		</many-to-one>
 		<property name="amountToReceive" column="AMOUNT_TO_RECEIVE"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="vatReturn" class="VATReturn" lazy="false"
-			column="VAT_RETURN_ID">
+		<many-to-one name="taxReturn" class="AbstractTAXReturn" lazy="false"
+			column="TAX_RETURN_ID">
 		</many-to-one>
 		<many-to-one name="receiveVAT" class="ReceiveVAT" lazy="false"
 			column="RECEIVE_VAT_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 	</class>
-	<class name="PaySalesTaxEntries" table="PAY_SALES_TAX_ENTRIES">
+	<class name="TAXReturnEntry" table="TAX_RETURN_ENTRY">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
@@ -1362,13 +1343,10 @@
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			column="TAXAGENCY_ID">
 		</many-to-one>
-		<property name="amount" column="AMOUNT"></property>
-		<property name="balance" column="BALANCE"></property>
+		<property name="taxAmount" column="AMOUNT"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="transactionDate" column="TRANSACTION_DATE"
-			type="com.vimukti.accounter.core.LongUseType"></property>
 	</class>
-	<class name="PayVATEntries" table="PAY_VAT_ENTRIES">
+	<class name="PayTAXEntries" table="PAY_TAX_ENTRIES">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>

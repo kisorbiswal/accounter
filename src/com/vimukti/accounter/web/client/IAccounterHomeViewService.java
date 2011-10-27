@@ -21,8 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
-import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
+import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -265,10 +264,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts);
 
-	public ArrayList<ClientPaySalesTaxEntries> getPaySalesTaxEntries(
-			long transactionDate);
+	// public ArrayList<ClientFileTAXEntry> getPaySalesTaxEntries(
+	// long transactionDate);
 
-	public ArrayList<ClientPayVATEntries> getPayVATEntries()
+	public ArrayList<ClientPayTAXEntries> getPayVATEntries()
 			throws AccounterException;
 
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()

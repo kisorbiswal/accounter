@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.PaySalesTaxEntries;
+import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -13,16 +13,14 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -113,18 +111,18 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 	}
 
 	private Result createPaySalesTax(Context context) {
-		ClientPaySalesTax paySalesTax = new ClientPaySalesTax();
+		ClientPayTAX paySalesTax = new ClientPayTAX();
 
 		ClientAccount payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		List<com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax> billsToPay = get(
+		List<com.vimukti.accounter.web.client.core.ClientTransactionPayTAX> billsToPay = get(
 				BILLS_TO_PAY).getValue();
 		ClientFinanceDate billsDueOnBefore = get(BILLS_DUE_ONBEFORE).getValue();
 		ClientFinanceDate transactionDate = get(DATE).getValue();
 		String orderNo = get(ORDER_NO).getValue();
 
-		for (ClientTransactionPaySalesTax c : billsToPay) {
-			c.setTransaction(paySalesTax);
+		for (ClientTransactionPayTAX c : billsToPay) {
+			c.setPayTAX(paySalesTax);
 
 		}
 		paySalesTax.setPayFrom(payFrom.getID());
@@ -133,7 +131,7 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		paySalesTax.setBillsDueOnOrBefore(billsDueOnBefore.getDate());
 		paySalesTax.setDate(transactionDate.getDate());
 		paySalesTax.setNumber(orderNo);
-		paySalesTax.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
+		paySalesTax.setType(ClientTransaction.TYPE_PAY_TAX);
 		ClientTAXAgency agency = get(TAX_AGENCY).getValue();
 		paySalesTax.setTaxAgency(agency.getID());
 
@@ -199,7 +197,7 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 	private Result billsToPayRequirement(Context context, Result result,
 			ResultList actions) {
 		Requirement billsToPayReq = get(BILLS_TO_PAY);
-		List<ClientTransactionPaySalesTax> transactionPaySalesTaxBills = context
+		List<ClientTransactionPayTAX> transactionPaySalesTaxBills = context
 				.getSelections(BILLS_TO_PAY_LIST);
 		if (!billsToPayReq.isDone()) {
 			if (transactionPaySalesTaxBills != null
@@ -209,14 +207,14 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 				return getBillsToPayResult(context);
 			}
 		}
-		List<ClientTransactionPaySalesTax> transPaySalesTaxes = billsToPayReq
+		List<ClientTransactionPayTAX> transPaySalesTaxes = billsToPayReq
 				.getValue();
 
 		ClientTAXAgency agency = get(TAX_AGENCY).getValue();
 
 		result.add(getConstants().payTax());
 		ResultList paySalesTaxs = new ResultList("transactionPayTaxes");
-		for (ClientTransactionPaySalesTax paySalesTax : transPaySalesTaxes) {
+		for (ClientTransactionPayTAX paySalesTax : transPaySalesTaxes) {
 			if (paySalesTax.getTaxAgency() == agency.getID()) {
 				Record itemRec = createTransactionPaySalesTaxRecord(paySalesTax);
 				paySalesTaxs.add(itemRec);
@@ -229,7 +227,7 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 
 	private Result getBillsToPayResult(Context context) {
 		Result result = context.makeResult();
-		List<ClientTransactionPaySalesTax> transactionPayTaxes = getTransactionPaySalesTaxBills(
+		List<ClientTransactionPayTAX> transactionPayTaxes = getTransactionPaySalesTaxBills(
 				context, context.getHibernateSession());
 		ResultList list = new ResultList(BILLS_TO_PAY_LIST);
 		Object last = context
@@ -237,18 +235,18 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		int num = 0;
 
 		if (last != null) {
-			list.add(createTransactionPaySalesTaxRecord((ClientTransactionPaySalesTax) last));
+			list.add(createTransactionPaySalesTaxRecord((ClientTransactionPayTAX) last));
 			num++;
 		}
 		Requirement payBillsReq = get(BILLS_TO_PAY);
-		List<ClientTransactionPaySalesTax> transPayTaxes = new ArrayList<ClientTransactionPaySalesTax>();
+		List<ClientTransactionPayTAX> transPayTaxes = new ArrayList<ClientTransactionPayTAX>();
 		transPayTaxes = payBillsReq.getValue();
-		List<ClientTransactionPaySalesTax> availablePayTaxes = new ArrayList<ClientTransactionPaySalesTax>();
+		List<ClientTransactionPayTAX> availablePayTaxes = new ArrayList<ClientTransactionPayTAX>();
 		if (transPayTaxes != null)
-			for (ClientTransactionPaySalesTax transactionItem : transPayTaxes) {
+			for (ClientTransactionPayTAX transactionItem : transPayTaxes) {
 				availablePayTaxes.add(transactionItem);
 			}
-		for (ClientTransactionPaySalesTax transactionPaySalesTax : transactionPayTaxes) {
+		for (ClientTransactionPayTAX transactionPaySalesTax : transactionPayTaxes) {
 			if (transactionPaySalesTax != last
 					|| !availablePayTaxes.contains(transactionPaySalesTax)) {
 				list.add(createTransactionPaySalesTaxRecord(transactionPaySalesTax));
@@ -269,30 +267,28 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private List<ClientTransactionPaySalesTax> getTransactionPaySalesTaxBills(
+	private List<ClientTransactionPayTAX> getTransactionPaySalesTaxBills(
 			Context context, Session hibernateSession) {
 		ClientFinanceDate date = (ClientFinanceDate) get(BILLS_DUE_ONBEFORE)
 				.getValue();
-		ArrayList<PaySalesTaxEntries> transactionPaySalesTaxEntriesList = null;
-		try {
-			transactionPaySalesTaxEntriesList = new FinanceTool()
-					.getTaxManager().getTransactionPaySalesTaxEntriesList(
-							date.getDate(), context.getCompany().getID());
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
+		ArrayList<TAXReturnEntry> transactionPaySalesTaxEntriesList = null;
+		// try {
+		// transactionPaySalesTaxEntriesList = new FinanceTool()
+		// .getTaxManager().getTransactionPaySalesTaxEntriesList(
+		// date.getDate(), context.getCompany().getID());
+		// } catch (DAOException e) {
+		// e.printStackTrace();
+		// }
 
 		ClientTAXAgency taxAGency = get(TAX_AGENCY).getValue();
-		List<ClientTransactionPaySalesTax> result = new ArrayList<ClientTransactionPaySalesTax>();
+		List<ClientTransactionPayTAX> result = new ArrayList<ClientTransactionPayTAX>();
 
-		for (PaySalesTaxEntries salesTaxEntry : transactionPaySalesTaxEntriesList) {
+		for (TAXReturnEntry salesTaxEntry : transactionPaySalesTaxEntriesList) {
 
 			if (salesTaxEntry.getTaxAgency().getName()
 					.equals(taxAGency.getName())) {
-				ClientPaySalesTaxEntries paySalesTxEntry = new ClientPaySalesTaxEntries();
+				ClientTAXReturnEntry paySalesTxEntry = new ClientTAXReturnEntry();
 				paySalesTxEntry.setID(salesTaxEntry.getID());
-				paySalesTxEntry.setAmount(salesTaxEntry.getAmount());
-				paySalesTxEntry.setBalance(salesTaxEntry.getBalance());
 				paySalesTxEntry.setTaxAgency(salesTaxEntry.getTaxAgency()
 						.getID());
 				if (salesTaxEntry.getTaxRateCalculation() != null)
@@ -304,17 +300,13 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 				if (salesTaxEntry.getTaxAdjustment() != null)
 					paySalesTxEntry.setTaxAdjustment(salesTaxEntry
 							.getTaxAdjustment().getID());
-				paySalesTxEntry.setTransactionDate(salesTaxEntry
-						.getTransactionDate().getDate());
 
-				ClientTransactionPaySalesTax c = new ClientTransactionPaySalesTax();
-				c.setPaySalesTaxEntry(paySalesTxEntry);
+				ClientTransactionPayTAX c = new ClientTransactionPayTAX();
+				// c.setPaySalesTaxEntry(paySalesTxEntry);
 				c.setTaxAgency(salesTaxEntry.getTaxAgency().getID());
-				c.setAmountToPay(salesTaxEntry.getAmount());
-				c.setTaxItem(salesTaxEntry.getTaxItem().getID());
-				c.setTaxDue(salesTaxEntry.getAmount());
-				c.setTaxRateCalculation(salesTaxEntry.getTaxRateCalculation()
-						.getID());
+				// c.setTaxItem(salesTaxEntry.getTaxItem().getID());
+				// c.setTaxRateCalculation(salesTaxEntry.getTaxRateCalculation()
+				// .getID());
 
 				result.add(c);
 			}
@@ -325,7 +317,7 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 	}
 
 	private Record createTransactionPaySalesTaxRecord(
-			ClientTransactionPaySalesTax payTaxBill) {
+			ClientTransactionPayTAX payTaxBill) {
 		Record record = new Record(payTaxBill);
 		long taxAgency = payTaxBill.getTaxAgency();
 		record.add("", "TaxAgency");
@@ -333,8 +325,8 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 				.getName());
 
 		record.add("", "Tax Item");
-		record.add("", getClientCompany().getTAXItem(payTaxBill.getTaxItem())
-				.getName());
+		// record.add("", getClientCompany().getTAXItem(payTaxBill.getTaxItem())
+		// .getName());
 		record.add("", "Tax Due");
 		record.add("", payTaxBill.getTaxDue());
 		record.add("", "Amount to pay");

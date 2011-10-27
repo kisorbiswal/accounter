@@ -171,7 +171,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TYPE_VENDOR_CREDIT_MEMO = "Vendor Credit";
 	public static final String TYPE_WRITE_CHECK = "Check";
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
-	public static final String TYPE_PAY_SALES_TAX = "Pay Sales Tax";
+	public static final String TYPE_PAY_TAX = "Pay Tax";
 	public static final String TYPE_PAY_VAT = "Pay VAT";
 	public static final String TYPE_RECEIVE_VAT = "Receive VAT";
 	public static final String TYPE_SALES_ORDER = "Sales Order";
@@ -439,8 +439,8 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String CREDIT_CARDS = "Credit Cards";
 	public static final String PAYEE_EMPLOYEMENT_TAX = "PAYEE (Employment Tax)";
 	public static final String NATIONAL_INSURANCE_TAX = "National Insurance tax";
-	public static final String SALES_TAX_VAT_FILED = "Sales Tax (VAT) Filed";
-	public static final String SALES_TAX_VAT_UNFILED = "Sales Tax (VAT) Unfiled";
+	public static final String TAX_VAT_FILED = "Tax Filed";
+	public static final String TAX_VAT_UNFILED = "Tax Unfiled";
 	public static final String CORPORATION_RAX = "Corporation Tax";
 	public static final String LOANS = "Loans";
 	public static final String MORTGAGES = "Mortgages";

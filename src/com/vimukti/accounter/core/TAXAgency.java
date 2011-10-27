@@ -47,9 +47,16 @@ public class TAXAgency extends Payee {
 	@ReffereredObject
 	Account salesLiabilityAccount;
 
-	public final static int RETURN_TYPE_NONE = 0;
+	@ReffereredObject
+	Account filedLiabilityAccount;
+
 	public final static int RETURN_TYPE_UK_VAT = 1;
 	public final static int RETURN_TYPE_IRELAND_VAT = 2;
+
+	public final static int TAX_RETURN_FREQUENCY_MONTHLY = 0;
+	public final static int TAX_RETURN_FREQUENCY_QUARTERLY = 1;
+	public final static int TAX_RETURN_FREQUENCY_HALF_YEARLY = 2;
+	public final static int TAX_RETURN_FREQUENCY_YEARLY = 3;
 
 	public final static int TAX_TYPE_SALESTAX = 1;
 	public final static int TAX_TYPE_VAT = 2;
@@ -59,6 +66,8 @@ public class TAXAgency extends Payee {
 
 	int VATReturn;
 	int taxType;
+
+	int tAXFilingFrequency;
 
 	public int getTaxType() {
 		return taxType;
@@ -191,6 +200,7 @@ public class TAXAgency extends Payee {
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		setType(TYPE_TAX_AGENCY);
+		this.filedLiabilityAccount = getCompany().getTAXFiledLiabilityAccount();
 		return false;
 	}
 
@@ -238,10 +248,40 @@ public class TAXAgency extends Payee {
 		return this.name;
 	}
 
+	/**
+	 * @return the tAXReturnFrequency
+	 */
+	public int getTAXFilingFrequency() {
+		return tAXFilingFrequency;
+	}
+
+	/**
+	 * @param tAXReturnFrequency
+	 *            the tAXReturnFrequency to set
+	 */
+	public void setTAXFilingFrequency(int tAXReturnFrequency) {
+		this.tAXFilingFrequency = tAXReturnFrequency;
+	}
+
 	@Override
 	protected JournalEntry createJournalEntry(Payee payee) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @return the filedLiabilityAccount
+	 */
+	public Account getFiledLiabilityAccount() {
+		return filedLiabilityAccount;
+	}
+
+	/**
+	 * @param filedLiabilityAccount
+	 *            the filedLiabilityAccount to set
+	 */
+	public void setFiledLiabilityAccount(Account filedLiabilityAccount) {
+		this.filedLiabilityAccount = filedLiabilityAccount;
 	}
 
 }

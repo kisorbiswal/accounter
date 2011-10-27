@@ -37,7 +37,7 @@ import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayExpense;
-import com.vimukti.accounter.core.PaySalesTax;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
@@ -279,18 +279,17 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	public PaySalesTax getPaySalesTax(long companyId, long id)
-			throws DAOException {
+	public PayTAX getPaySalesTax(long companyId, long id) throws DAOException {
 
 		HibernateTemplate template = getHibernateTemplate();
 
-		List<PaySalesTax> list = template.find(
-				"from PaySalesTax cs where cs.id = ? and cs.company.id = ? ",
+		List<PayTAX> list = template.find(
+				"from PayTax cs where cs.id = ? and cs.company.id = ? ",
 				new Object[] { id, companyId });
 
 		if (list.size() > 0) {
-			PaySalesTax pt = new PaySalesTax();
-			pt = (PaySalesTax) list.get(0);
+			PayTAX pt = new PayTAX();
+			pt = (PayTAX) list.get(0);
 			return pt;
 		} else
 			throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -298,17 +297,17 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	public ArrayList<PaySalesTax> getPaySalesTaxes(long companyId)
+	public ArrayList<PayTAX> getPaySalesTaxes(long companyId)
 			throws DAOException {
 
 		HibernateTemplate template = getHibernateTemplate();
 
-		List<PaySalesTax> list = template.find(
-				"from PaySalesTax cs where cs.company.id = ? ",
+		List<PayTAX> list = template.find(
+				"from PayTax cs where cs.company.id = ? ",
 				new Object[] { companyId });
 
 		// if (list.size() > 0) {
-		ArrayList<PaySalesTax> arrayList = new ArrayList<PaySalesTax>(list);
+		ArrayList<PayTAX> arrayList = new ArrayList<PayTAX>(list);
 		return arrayList;
 		// } else
 		// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,

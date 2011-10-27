@@ -7,9 +7,9 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.PayVAT;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TransactionPayVAT;
+import com.vimukti.accounter.core.TransactionPayTAX;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -95,11 +95,11 @@ public class PayVATCommand extends AbstractVATCommand {
 	}
 
 	private Result createPayVat(Context context) {
-		PayVAT payVAT = new PayVAT();
+		PayTAX payVAT = new PayTAX();
 
 		Account payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		List<TransactionPayVAT> billsToPay = get(BILLS_TO_PAY).getValue();
+		List<TransactionPayTAX> billsToPay = get(BILLS_TO_PAY).getValue();
 		FinanceDate vatReturnDate = get(VAT_RETURN_END_DATE).getValue();
 		FinanceDate transactionDate = get(DATE).getValue();
 		String orderNo = get(ORDER_NO).getValue();
@@ -147,7 +147,7 @@ public class PayVATCommand extends AbstractVATCommand {
 		}
 
 		Requirement billsToPayReq = get(BILLS_TO_PAY);
-		List<TransactionPayVAT> transPayVats = billsToPayReq.getValue();
+		List<TransactionPayTAX> transPayVats = billsToPayReq.getValue();
 
 		selection = context.getSelection("transactionPayVats");
 		if (selection != null) {
@@ -190,7 +190,7 @@ public class PayVATCommand extends AbstractVATCommand {
 		result.add(list);
 		result.add(getConstants().billsToPay() + " :-");
 		ResultList payVats = new ResultList("transactionPayVats");
-		for (TransactionPayVAT payVat : transPayVats) {
+		for (TransactionPayTAX payVat : transPayVats) {
 			Record itemRec = createTransactionPayVatRecord(payVat);
 			payVats.add(itemRec);
 		}
@@ -210,7 +210,7 @@ public class PayVATCommand extends AbstractVATCommand {
 
 	private Result billsToPayRequirement(Context context) {
 		Requirement billsToPayReq = get(BILLS_TO_PAY);
-		List<TransactionPayVAT> transactionPayVatBills = context
+		List<TransactionPayTAX> transactionPayVatBills = context
 				.getSelections(BILLS_TO_PAY);
 		if (!billsToPayReq.isDone()) {
 			if (transactionPayVatBills.size() > 0) {
@@ -220,7 +220,7 @@ public class PayVATCommand extends AbstractVATCommand {
 			}
 		}
 		if (transactionPayVatBills != null && transactionPayVatBills.size() > 0) {
-			List<TransactionPayVAT> items = billsToPayReq.getValue();
+			List<TransactionPayTAX> items = billsToPayReq.getValue();
 			items.addAll(transactionPayVatBills);
 		}
 		return null;
@@ -228,22 +228,22 @@ public class PayVATCommand extends AbstractVATCommand {
 
 	private Result getBillsToPayResult(Context context) {
 		Result result = context.makeResult();
-		List<TransactionPayVAT> transactionPayVats = getTransactionPayVatBills(context
+		List<TransactionPayTAX> transactionPayVats = getTransactionPayVatBills(context
 				.getHibernateSession());
 		ResultList list = new ResultList(BILLS_TO_PAY_LIST);
 		Object last = context.getLast(RequirementType.TRANSACTION_PAY_VAT);
 		int num = 0;
 		if (last != null) {
-			list.add(createTransactionPayVatRecord((TransactionPayVAT) last));
+			list.add(createTransactionPayVatRecord((TransactionPayTAX) last));
 			num++;
 		}
 		Requirement payBillsReq = get(BILLS_TO_PAY_LIST);
-		List<TransactionPayVAT> transPayVats = payBillsReq.getValue();
-		List<TransactionPayVAT> availablePayVats = new ArrayList<TransactionPayVAT>();
-		for (TransactionPayVAT transactionItem : transPayVats) {
+		List<TransactionPayTAX> transPayVats = payBillsReq.getValue();
+		List<TransactionPayTAX> availablePayVats = new ArrayList<TransactionPayTAX>();
+		for (TransactionPayTAX transactionItem : transPayVats) {
 			availablePayVats.add(transactionItem);
 		}
-		for (TransactionPayVAT transactionPayVat : transactionPayVats) {
+		for (TransactionPayTAX transactionPayVat : transactionPayVats) {
 			if (transactionPayVat != last
 					|| !availablePayVats.contains(transactionPayVat)) {
 				list.add(createTransactionPayVatRecord(transactionPayVat));
@@ -264,13 +264,13 @@ public class PayVATCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private List<TransactionPayVAT> getTransactionPayVatBills(
+	private List<TransactionPayTAX> getTransactionPayVatBills(
 			Session hibernateSession) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Record createTransactionPayVatRecord(TransactionPayVAT payVatBill) {
+	private Record createTransactionPayVatRecord(TransactionPayTAX payVatBill) {
 		Record record = new Record(payVatBill);
 		TAXAgency taxAgency = payVatBill.getTaxAgency();
 		record.add("Vat Agency", taxAgency != null ? taxAgency.getName() : "");

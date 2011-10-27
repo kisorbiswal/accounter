@@ -46,7 +46,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	double amountToReceive;
 
 	@ReffereredObject
-	VATReturn vatReturn;
+	AbstractTAXReturn taxReturn;
 
 	@ReffereredObject
 	ReceiveVAT receiveVAT;
@@ -110,16 +110,16 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public VATReturn getVatReturn() {
-		return vatReturn;
+	public AbstractTAXReturn getTAXReturn() {
+		return taxReturn;
 	}
 
 	/**
-	 * @param vatReturn
+	 * @param taxReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(VATReturn vatReturn) {
-		this.vatReturn = vatReturn;
+	public void setTAXReturn(AbstractTAXReturn taxReturn) {
+		this.taxReturn = taxReturn;
 	}
 
 	/**
@@ -193,16 +193,16 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 		this.isOnSaveProccessed = true;
 		if (this.id == 0l) {
 
-			this.taxAgency.updateBalance(session, this.vatReturn,
+			this.taxAgency.updateBalance(session, this.taxReturn,
 					this.amountToReceive);
 
 			// At the same time we need to update the vatReturn reference in it.
-			this.vatReturn.updateBalance(this.amountToReceive);
+			this.taxReturn.updateBalance(this.amountToReceive);
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = vatReturn.getCompany()
-					.getVATFiledLiabilityAccount();
+			Account account = taxReturn.getTaxAgency()
+					.getFiledLiabilityAccount();
 			if (account != null) {
 				account.updateCurrentBalance(this.receiveVAT,
 						this.amountToReceive);
@@ -222,16 +222,16 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
-			this.taxAgency.updateBalance(session, this.vatReturn, -1
+			this.taxAgency.updateBalance(session, this.taxReturn, -1
 					* this.amountToReceive);
 
 			// At the same time we need to update the vatReturn reference in it.
-			this.vatReturn.updateBalance(-1 * this.amountToReceive);
+			this.taxReturn.updateBalance(-1 * this.amountToReceive);
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = vatReturn.getCompany()
-					.getVATFiledLiabilityAccount();
+			Account account = taxReturn.getTaxAgency()
+					.getFiledLiabilityAccount();
 			account.updateCurrentBalance(this.receiveVAT, -1
 					* this.amountToReceive);
 		}

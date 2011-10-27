@@ -15,8 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
-import com.vimukti.accounter.web.client.core.ClientPayVAT;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
@@ -72,10 +71,6 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_PAY_BILL:
 			initCallBack(new ClientPayBill(),
 					ActionFactory.getPayBillsAction(), transactionId);
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
-			initCallBack(new ClientPayVAT(), ActionFactory.getpayVATAction(),
-					transactionId);
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			initCallBack(new ClientPayBill(),
@@ -140,9 +135,9 @@ public class ReportsRPC {
 			initCallBack(new ClientVendorCreditMemo(),
 					ActionFactory.getNewCreditMemoAction(), transactionId);
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
-			initCallBack(new ClientPaySalesTax(),
-					ActionFactory.getPaySalesTaxAction(), transactionId);
+		case ClientTransaction.TYPE_PAY_TAX:
+			initCallBack(new ClientPayTAX(), ActionFactory.getpayTAXAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			initCallBack(new ClientJournalEntry(),
@@ -183,7 +178,7 @@ public class ReportsRPC {
 			initCallBack(new ClientCustomerPrePayment(),
 					ActionFactory.getNewCustomerPaymentAction(), transactionId);
 			break;
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			initCallBack(new ClientReceiveVAT(),
 					ActionFactory.getreceiveVATAction(), transactionId);
 			break;

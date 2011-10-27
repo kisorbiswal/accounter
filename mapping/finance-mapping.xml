@@ -356,7 +356,7 @@
 		<many-to-one name="taxLiabilityAccount" class="Account"
 			lazy="false" column="TAX_LIABILITY_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
-		<many-to-one name="VATFiledLiabilityAccount" class="Account"
+		<many-to-one name="tAXFiledLiabilityAccount" class="Account"
 			lazy="false" column="VAT_FILED_LIABILITY_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="pendingItemReceiptsAccount" class="Account"
@@ -540,7 +540,7 @@
 		<set name="vatReturns" inverse="true" cascade="save-update,delete">
 			<!-- vr.taxAgency.name, vr.VATperiodStartDate -->
 			<key column="COMPANY_ID" />
-			<one-to-many class="VATReturn" />
+			<one-to-many class="AbstractTAXReturn" />
 		</set>
 
 		<set name="currencies" inverse="true" cascade="save-update,delete"
@@ -1107,8 +1107,13 @@
 			<many-to-one name="purchaseLiabilityAccount" class="Account"
 				column="PURCHASE_ACCOUNT_ID" cascade="save-update" lazy="false">
 			</many-to-one>
+			<many-to-one name="filedLiabilityAccount" class="Account"
+				column="FILED_LIABILITY_ACCOUNT" cascade="save-update" lazy="false">
+			</many-to-one>
 			<property name="VATReturn" column="VAT_RETURN"></property>
 			<property name="taxType" column="TAX_TYPE"></property>
+			<property name="tAXFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
+			
 		</joined-subclass>
 	</class>
 	<class name="PaymentTerms" table="PAYMENTTERMS">
@@ -1274,8 +1279,8 @@
 		<many-to-one name="salesLiabilityAccount" class="Account"
 			lazy="false" column="SALES_LIABILITY_ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="vatReturn" class="VATReturn" lazy="false"
-			column="VAT_RETURN">
+		<many-to-one name="vatReturn" class="AbstractTAXReturn" lazy="false"
+			column="TAX_RETURN">
 		</many-to-one>
 	</class>
 	<class name="ItemBackUp" table="ITEM_BACK_UP">

@@ -467,11 +467,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vatmenu.addItem(ActionFactory.getAdjustTaxAction());
-			vatmenu.addItem(ActionFactory.getFileVatAction());
+			vatmenu.addItem(ActionFactory.getFileTAXAction());
 		}
 		// vatmenu.addItem(ActionFactory.getCreateTaxesAction());
 		if (Accounter.getUser().canDoBanking()) {
-			vatmenu.addItem(ActionFactory.getPaySalesTaxAction());
+			vatmenu.addItem(ActionFactory.getpayTAXAction());
 			vatmenu.addItem(ActionFactory.getreceiveVATAction());
 			vatmenu.addItem(ActionFactory.getTaxHistoryAction());
 		}

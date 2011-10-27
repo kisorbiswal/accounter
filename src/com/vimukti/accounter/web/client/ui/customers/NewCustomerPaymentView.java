@@ -130,8 +130,8 @@ public class NewCustomerPaymentView extends
 				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
 						.check());
 		amountText.setAmount(getAmountInTransactionCurrency(0D));
-		endBalText.setAmount(getAmountInTransactionCurrency(0D));
-		customerBalText.setAmount(getAmountInTransactionCurrency(0D));
+		// endBalText.setAmount(getAmountInTransactionCurrency(0D));
+		// customerBalText.setAmount(getAmountInTransactionCurrency(0D));
 		memoTextAreaItem.setValue("");
 	}
 
@@ -259,7 +259,7 @@ public class NewCustomerPaymentView extends
 
 	}
 
-	private void accountSelected(ClientAccount account) {
+	protected void accountSelected(ClientAccount account) {
 		if (account == null)
 			return;
 		this.depositInAccount = account;
@@ -294,7 +294,7 @@ public class NewCustomerPaymentView extends
 				toBeSetCustomerBalance = getCustomer().getBalance()
 						- enteredBalance;
 			}
-			customerBalText.setAmount(toBeSetCustomerBalance);
+			// customerBalText.setAmount(toBeSetCustomerBalance);
 
 		}
 		if (depositInAccount != null) {
@@ -313,7 +313,7 @@ public class NewCustomerPaymentView extends
 				toBeSetEndingBalance = toBeSetEndingBalance
 						- transaction.getTotal();
 			}
-			endBalText.setAmount(toBeSetEndingBalance);
+			// endBalText.setAmount(toBeSetEndingBalance);
 
 		}
 	}
@@ -631,6 +631,7 @@ public class NewCustomerPaymentView extends
 		}
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
+		customerBalText.setAmount(customer.getBalance());
 		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
 		long currency = customer.getCurrency();
 		if (currency != 0) {
@@ -711,7 +712,7 @@ public class NewCustomerPaymentView extends
 		super.setTransactionDate(transactionDate);
 		if (this.transactionDateItem != null
 				&& this.transactionDateItem.getValue() != null) {
-			updateNonEditableItems();
+			// updateNonEditableItems();
 		}
 	}
 

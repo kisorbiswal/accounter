@@ -230,6 +230,15 @@ public abstract class EditTable<R> extends SimplePanel {
 		return table;
 	}
 
+	public void reDraw() {
+		clear();
+		columnsCreated = false;
+		columns.clear();
+		table.removeAllRows();
+		rowFormatter.addStyleName(0, "editheader");
+		createColumns();
+	}
+
 	public void updateColumnHeaders() {
 		for (EditColumn<R> column : columns) {
 			column.updateHeader();

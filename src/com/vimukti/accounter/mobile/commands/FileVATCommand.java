@@ -73,13 +73,13 @@ public class FileVATCommand extends AbstractVATCommand {
 	private Result createFileVat(Context context) {
 		ClientVATReturn clientVATReturn = new ClientVATReturn();
 		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
-		clientVATReturn.setVATperiodStartDate(fromDate.getDate());
+		clientVATReturn.setPeriodStartDate(fromDate.getDate());
 
 		ClientFinanceDate toDate = get(TO_DATE).getValue();
-		clientVATReturn.setVATperiodStartDate(toDate.getDate());
+		clientVATReturn.setPeriodStartDate(toDate.getDate());
 
 		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
-		clientVATReturn.setTaxAgency(taxAgency.getID());
+		clientVATReturn.setTAXAgency(taxAgency.getID());
 
 		List<ClientBox> boxes = get(BOXES).getValue();
 		clientVATReturn.setBoxes(boxes);

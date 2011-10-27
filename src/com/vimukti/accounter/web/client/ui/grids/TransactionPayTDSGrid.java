@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 
 public class TransactionPayTDSGrid extends
-		AbstractTransactionGrid<ClientTransactionPayVAT> {
+		AbstractTransactionGrid<ClientTransactionPayTAX> {
 
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
@@ -30,7 +30,7 @@ public class TransactionPayTDSGrid extends
 	}
 
 	@Override
-	public <E> CustomCombo<E> getCustomCombo(ClientTransactionPayVAT obj,
+	public <E> CustomCombo<E> getCustomCombo(ClientTransactionPayTAX obj,
 			int colIndex) {
 		// TODO Auto-generated method stub
 		return null;
@@ -49,13 +49,13 @@ public class TransactionPayTDSGrid extends
 	}
 
 	@Override
-	protected Object getColumnValue(ClientTransactionPayVAT obj, int index) {
+	protected Object getColumnValue(ClientTransactionPayTAX obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected boolean isEditable(ClientTransactionPayVAT obj, int row, int index) {
+	protected boolean isEditable(ClientTransactionPayTAX obj, int row, int index) {
 		if (index == 2)
 			return true;
 		return false;

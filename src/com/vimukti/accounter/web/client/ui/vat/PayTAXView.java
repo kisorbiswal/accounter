@@ -8,22 +8,22 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPayVAT;
-import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -38,10 +38,10 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.TransactionPayVATGrid;
+import com.vimukti.accounter.web.client.ui.grids.TransactionPayTAXGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
-public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
+public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	private ArrayList<DynamicForm> listforms;
 	private DateField date;
@@ -56,22 +56,22 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected double initialEndingBalance;
 	protected ClientTAXAgency selectedVATAgency;
 	private VerticalPanel gridLayout;
-	private TransactionPayVATGrid grid;
+	private TransactionPayTAXGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
-	protected List<ClientPayVATEntries> entries;
+	protected List<ClientPayTAXEntries> entries;
 	private ClientTAXAgency selectedTaxAgency;
 	private double endingBalance;
-	private ArrayList<ClientPayVATEntries> filterList;
-	private ArrayList<ClientPayVATEntries> tempList;
+	private ArrayList<ClientPayTAXEntries> filterList;
+	private ArrayList<ClientPayTAXEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
 	AccounterConstants accounterConstants = Accounter.constants();
 
-	public PayVATView() {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX);
+	public PayTAXView() {
+		super(ClientTransaction.TYPE_PAY_TAX);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .transaction()));
 
-		Label lab = new Label(Accounter.constants().payVAT());
+		Label lab = new Label(Accounter.constants().payTax());
 		lab.removeStyleName("gwt-Label");
 		lab.setStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("35px");
@@ -256,17 +256,17 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	protected void filterGrid() {
-		filterList = new ArrayList<ClientPayVATEntries>();
-		tempList = new ArrayList<ClientPayVATEntries>();
+		filterList = new ArrayList<ClientPayTAXEntries>();
+		tempList = new ArrayList<ClientPayTAXEntries>();
 
 		filterList.addAll(entries);
 
 		if (dueDateOnOrBefore != null) {
-			for (ClientPayVATEntries cont : filterList) {
-				ClientVATReturn clientVATReturn = Accounter.getCompany()
-						.getVatReturn(cont.getVatReturn());
+			for (ClientPayTAXEntries cont : filterList) {
+				ClientAbstractTAXReturn clientVATReturn = Accounter
+						.getCompany().getVatReturn(cont.getVatReturn());
 				ClientFinanceDate date = new ClientFinanceDate(
-						clientVATReturn.getVATperiodEndDate());
+						clientVATReturn.getPeriodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
 					tempList.add(cont);
@@ -298,9 +298,9 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	protected void filterlistbyVATAgency(ClientTAXAgency selectedVATAgency) {
-		List<ClientTransactionPayVAT> filterRecords = new ArrayList<ClientTransactionPayVAT>();
+		List<ClientTransactionPayTAX> filterRecords = new ArrayList<ClientTransactionPayTAX>();
 		String selectedagency = selectedVATAgency.getName();
-		for (ClientTransactionPayVAT payVAT : grid.getRecords()) {
+		for (ClientTransactionPayTAX payVAT : grid.getRecords()) {
 			String taxAgencyname = getCompany().getTaxAgency(
 					payVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
@@ -314,7 +314,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TransactionPayVATGrid(!isInViewMode(), true);
+		grid = new TransactionPayTAXGrid(!isInViewMode(), true);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
@@ -335,7 +335,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected void initTransactionViewData() {
 
 		if (transaction == null) {
-			setData(new ClientPayVAT());
+			setData(new ClientPayTAX());
 			initTransactionNumber();
 			fillGrid();
 			initPayFromAccounts();
@@ -346,12 +346,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				transaction.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
 		selectedVATAgency = getCompany().getTaxAgency(
-				transaction.getVatAgency());
+				transaction.getTaxAgency());
 		if (selectedVATAgency != null)
 			taxAgencyCombo.setComboItem(selectedVATAgency);
 
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
-				.getReturnsDueOnOrBefore()));
+				.getBillsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
 		transNumber.setValue(transaction.getNumber());
 
@@ -360,10 +360,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 		amountText
 				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
-		List<ClientTransactionPayVAT> list = transaction
-				.getClientTransactionPayVAT();
+		List<ClientTransactionPayTAX> list = transaction
+				.getTransactionPaySalesTax();
 		int count = 0;
-		for (ClientTransactionPayVAT record : list) {
+		for (ClientTransactionPayTAX record : list) {
 			if (record != null) {
 				grid.addData(record);
 				grid.selectRow(count);
@@ -390,7 +390,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private void fillGrid() {
 		grid.addLoadingImagePanel();
 		rpcUtilService
-				.getPayVATEntries(new AccounterAsyncCallback<ArrayList<ClientPayVATEntries>>() {
+				.getPayVATEntries(new AccounterAsyncCallback<ArrayList<ClientPayTAXEntries>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
@@ -403,7 +403,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 					@Override
 					public void onResultSuccess(
-							ArrayList<ClientPayVATEntries> result) {
+							ArrayList<ClientPayTAXEntries> result) {
 						if (result == null) {
 
 							onException(null);
@@ -427,11 +427,11 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	// fills the list grid with data.
-	protected void loadData(List<ClientPayVATEntries> result) {
+	protected void loadData(List<ClientPayTAXEntries> result) {
 
-		List<ClientTransactionPayVAT> records = new ArrayList<ClientTransactionPayVAT>();
-		for (ClientPayVATEntries entry : result) {
-			ClientTransactionPayVAT clientEntry = new ClientTransactionPayVAT();
+		List<ClientTransactionPayTAX> records = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientPayTAXEntries entry : result) {
+			ClientTransactionPayTAX clientEntry = new ClientTransactionPayTAX();
 
 			clientEntry.setTaxAgency(entry.getVatAgency());
 			clientEntry.setVatReturn(entry.getVatReturn());
@@ -453,7 +453,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	protected void initTransactionNumber() {
 
-		rpcUtilService.getNextTransactionNumber(ClientTransaction.TYPE_PAY_VAT,
+		rpcUtilService.getNextTransactionNumber(ClientTransaction.TYPE_PAY_TAX,
 				new AccounterAsyncCallback<String>() {
 
 					public void onException(AccounterException caught) {
@@ -519,7 +519,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected void updateTransaction() {
 		super.updateTransaction();
 		transaction.setNumber(transactionNumber);
-		transaction.setType(ClientTransaction.TYPE_PAY_VAT);
+		transaction.setType(ClientTransaction.TYPE_PAY_TAX);
 
 		if (transactionDateItem.getEnteredDate() != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
@@ -530,19 +530,18 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		transaction.setPaymentMethod(paymentMethod);
 
 		if (billsDue.getValue() != null)
-			transaction
-					.setReturnsDueOnOrBefore((billsDue.getValue()).getDate());
+			transaction.setBillsDueOnOrBefore((billsDue.getValue()).getDate());
 
 		if (selectedTaxAgency != null)
-			transaction.setVatAgency(selectedTaxAgency.getID());
+			transaction.setTaxAgency(selectedTaxAgency.getID());
 
 		transaction.setTotal(totalAmount);
 		transaction.setEndingBalance(endingBalance);
 
-		transaction.setClientTransactionPayVAT(getTransactionPayVATList());
+		transaction.setTransactionPayTax(getTransactionPayVATList());
 	}
 
-	private List<ClientTransactionPayVAT> getTransactionPayVATList() {
+	private List<ClientTransactionPayTAX> getTransactionPayVATList() {
 
 		// List<ClientTransactionPayVAT> payVATList = new
 		// ArrayList<ClientTransactionPayVAT>();
@@ -700,7 +699,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().payVAT();
+		return Accounter.constants().payTax();
 	}
 
 	@Override
@@ -717,7 +716,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	@Override
 	public void updateAmountsFromGUI() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

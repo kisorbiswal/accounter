@@ -14,14 +14,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.vimukti.accounter.core.AbstractTAXReturn;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
-import com.vimukti.accounter.core.PaySalesTaxEntries;
-import com.vimukti.accounter.core.PayVATEntries;
+import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ReceiveVATEntries;
@@ -32,11 +32,14 @@ import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.TAXRateCalculation;
+import com.vimukti.accounter.core.TAXReturnEntry;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -447,7 +450,7 @@ public class TaxManager extends Manager {
 		Criteria criteria = HibernateUtil.getCurrentSession().createCriteria(
 				VATReturn.class);
 
-		List list = criteria.add(Restrictions.ge("VATperiodEndDate", endDate))
+		List list = criteria.add(Restrictions.ge("periodEndDate", endDate))
 				.add(Restrictions.ge("company", company)).list();
 
 		if (list != null && list.size() > 0 && list.get(0) != null)
@@ -483,8 +486,8 @@ public class TaxManager extends Manager {
 
 		vatReturn.setTaxAgency(vatAgency);
 		vatReturn.setBoxes(boxes);
-		vatReturn.setVATperiodStartDate(fromDate);
-		vatReturn.setVATperiodEndDate(toDate);
+		vatReturn.setPeriodStartDate(fromDate);
+		vatReturn.setPeriodEndDate(toDate);
 
 		return vatReturn;
 
@@ -582,9 +585,9 @@ public class TaxManager extends Manager {
 				"getVATReturn.by.check.BalancelessThanzero").setEntity(
 				"company", company);
 
-		List<VATReturn> vatReturns = query.list();
+		List<AbstractTAXReturn> vatReturns = query.list();
 
-		for (VATReturn v : vatReturns) {
+		for (AbstractTAXReturn v : vatReturns) {
 
 			v.setBalance(-1 * v.getBalance());
 
@@ -602,6 +605,7 @@ public class TaxManager extends Manager {
 		// Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery("getTAXRateCalculations.by.taxAgencyIdand.Date")
+				.setParameter("fromDate", fromDate)
 				.setParameter("toDate", toDate)
 				.setParameter("vatAgency", vatAgency.getID())
 				.setEntity("company", company);
@@ -889,9 +893,9 @@ public class TaxManager extends Manager {
 		return new ArrayList<VATSummary>(vatSummaries);
 	}
 
-	public ArrayList<PayVATEntries> getPayVATEntries(long companyId) {
+	public ArrayList<PayTAXEntries> getPayVATEntries(long companyId) {
 
-		List<PayVATEntries> payVATEntries = new Vector<PayVATEntries>();
+		List<PayTAXEntries> payVATEntries = new Vector<PayTAXEntries>();
 		Company company = getCompany(companyId);
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -900,14 +904,14 @@ public class TaxManager extends Manager {
 				"getVATReturn.by.check.BalanceGraterThanzero").setEntity(
 				"company", company);
 
-		List<VATReturn> vatReturns = query.list();
+		List<AbstractTAXReturn> vatReturns = query.list();
 
-		for (VATReturn v : vatReturns) {
+		for (AbstractTAXReturn v : vatReturns) {
 
-			payVATEntries.add(new PayVATEntries(v));
+			payVATEntries.add(new PayTAXEntries(v));
 		}
 
-		return new ArrayList<PayVATEntries>(payVATEntries);
+		return new ArrayList<PayTAXEntries>(payVATEntries);
 
 	}
 
@@ -934,97 +938,99 @@ public class TaxManager extends Manager {
 		}
 	}
 
-	public ArrayList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
-			long billsDueOnOrBefore, long companyId) throws DAOException {
-
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		Query query = session
-				.getNamedQuery(
-						"getTAXRateCalculation.checkingby.salesLiabilityAccountName.taxDue")
-				.setEntity("company", company);
-
-		List<TAXRateCalculation> list = query.list();
-		List<PaySalesTaxEntries> resultPaySalesTaxEntries = new ArrayList<PaySalesTaxEntries>();
-		FinanceDate financeDate = new FinanceDate(billsDueOnOrBefore);
-
-		if (list != null) {
-			long previousTaxItem = 0;
-			long previousTaxAgency = 0;
-			PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-			for (TAXRateCalculation taxRateCalculation : list) {
-				long currentTaxAgency = taxRateCalculation.getTaxAgency()
-						.getID();
-				long currentTaxItem = taxRateCalculation.getTaxItem().getID();
-				if (previousTaxAgency != 0
-						&& previousTaxItem != 0
-						&& (previousTaxAgency != currentTaxAgency || previousTaxItem != currentTaxItem)) {
-					if (paySalesTaxList.getTaxAgency() != null
-							&& paySalesTaxList.getBalance() != 0) {
-						resultPaySalesTaxEntries.add(paySalesTaxList);
-					}
-					paySalesTaxList = new PaySalesTaxEntries();
-				}
-				if (canAddTaxRateCalculationToPaySalesTax(
-						taxRateCalculation.getTaxAgency(), financeDate,
-						taxRateCalculation.getTransactionDate())) {
-					paySalesTaxList.setBalance(paySalesTaxList.getBalance()
-							+ taxRateCalculation.getTaxDue());
-					paySalesTaxList.setAmount(paySalesTaxList.getAmount()
-							+ taxRateCalculation.getVatAmount());
-					paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem());
-					paySalesTaxList.setTaxAgency(taxRateCalculation
-							.getTaxAgency());
-					paySalesTaxList.setTaxRateCalculation(taxRateCalculation);
-					paySalesTaxList.setTransactionDate(taxRateCalculation
-							.getTransactionDate());
-				}
-				previousTaxAgency = currentTaxAgency;
-				previousTaxItem = currentTaxItem;
-			}
-			if (paySalesTaxList.getTaxAgency() != null
-					&& paySalesTaxList.getBalance() != 0) {
-				resultPaySalesTaxEntries.add(paySalesTaxList);
-			}
-		}
-
-		query = session
-				.getNamedQuery(
-						"getTAXAdjustment.checkingby.salesLiabilityAccount.nameandbalanceDue")
-				.setEntity("company", company);
-
-		List<TAXAdjustment> taxAdjustments = query.list();
-		if (list != null) {
-
-			for (TAXAdjustment taxAdjustment : taxAdjustments) {
-
-				PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-				paySalesTaxList.setBalance(taxAdjustment.getBalanceDue());
-				paySalesTaxList.setAmount(taxAdjustment.getTotal());
-				paySalesTaxList.setTaxAgency(taxAdjustment.getTaxAgency());
-				paySalesTaxList.setTransaction(taxAdjustment);
-				paySalesTaxList.setTransactionDate(taxAdjustment.getDate());
-				paySalesTaxList.setTaxAdjustment(taxAdjustment);
-
-				preParePaySalesTaxEntriesUsingPaymentTerms(
-						resultPaySalesTaxEntries, paySalesTaxList, financeDate);
-			}
-		}
-
-		// List<PaySalesTaxEntries> paySalesTaxEntries = query.list();
-		// FinanceDate financeDate = new FinanceDate(billsDueOnOrBefore);
-		//
-		// List<PaySalesTaxEntries> resultPaySalesTaxEntries = new
-		// ArrayList<PaySalesTaxEntries>();
-		// for (PaySalesTaxEntries pst : paySalesTaxEntries) {
-		//
-		// preParePaySalesTaxEntriesUsingPaymentTerms(
-		// resultPaySalesTaxEntries, pst, financeDate, pst
-		// .getTaxAgency());
-		// }
-
-		return new ArrayList<PaySalesTaxEntries>(resultPaySalesTaxEntries);
-	}
+	// public ArrayList<FileTAXEntry> getTransactionPaySalesTaxEntriesList(
+	// long billsDueOnOrBefore, long companyId) throws DAOException {
+	//
+	// Session session = HibernateUtil.getCurrentSession();
+	// Company company = getCompany(companyId);
+	// Query query = session
+	// .getNamedQuery(
+	// "getTAXRateCalculation.checkingby.salesLiabilityAccountName.taxDue")
+	// .setEntity("company", company);
+	//
+	// List<TAXRateCalculation> list = query.list();
+	// List<FileTAXEntry> resultPaySalesTaxEntries = new
+	// ArrayList<FileTAXEntry>();
+	// FinanceDate financeDate = new FinanceDate(billsDueOnOrBefore);
+	//
+	// if (list != null) {
+	// long previousTaxItem = 0;
+	// long previousTaxAgency = 0;
+	// FileTAXEntry paySalesTaxList = new FileTAXEntry();
+	// for (TAXRateCalculation taxRateCalculation : list) {
+	// long currentTaxAgency = taxRateCalculation.getTaxAgency()
+	// .getID();
+	// long currentTaxItem = taxRateCalculation.getTaxItem().getID();
+	// if (previousTaxAgency != 0
+	// && previousTaxItem != 0
+	// && (previousTaxAgency != currentTaxAgency || previousTaxItem !=
+	// currentTaxItem)) {
+	// if (paySalesTaxList.getTaxAgency() != null
+	// && paySalesTaxList.getBalance() != 0) {
+	// resultPaySalesTaxEntries.add(paySalesTaxList);
+	// }
+	// paySalesTaxList = new FileTAXEntry();
+	// }
+	// if (canAddTaxRateCalculationToPaySalesTax(
+	// taxRateCalculation.getTaxAgency(), financeDate,
+	// taxRateCalculation.getTransactionDate())) {
+	// paySalesTaxList.setBalance(paySalesTaxList.getBalance()
+	// + taxRateCalculation.getTaxDue());
+	// paySalesTaxList.setAmount(paySalesTaxList.getAmount()
+	// + taxRateCalculation.getVatAmount());
+	// paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem());
+	// paySalesTaxList.setTaxAgency(taxRateCalculation
+	// .getTaxAgency());
+	// paySalesTaxList.setTaxRateCalculation(taxRateCalculation);
+	// paySalesTaxList.setTransactionDate(taxRateCalculation
+	// .getTransactionDate());
+	// }
+	// previousTaxAgency = currentTaxAgency;
+	// previousTaxItem = currentTaxItem;
+	// }
+	// if (paySalesTaxList.getTaxAgency() != null
+	// && paySalesTaxList.getBalance() != 0) {
+	// resultPaySalesTaxEntries.add(paySalesTaxList);
+	// }
+	// }
+	//
+	// query = session
+	// .getNamedQuery(
+	// "getTAXAdjustment.checkingby.salesLiabilityAccount.nameandbalanceDue")
+	// .setEntity("company", company);
+	//
+	// List<TAXAdjustment> taxAdjustments = query.list();
+	// if (list != null) {
+	//
+	// for (TAXAdjustment taxAdjustment : taxAdjustments) {
+	//
+	// FileTAXEntry paySalesTaxList = new FileTAXEntry();
+	// paySalesTaxList.setBalance(taxAdjustment.getBalanceDue());
+	// paySalesTaxList.setAmount(taxAdjustment.getTotal());
+	// paySalesTaxList.setTaxAgency(taxAdjustment.getTaxAgency());
+	// paySalesTaxList.setTransaction(taxAdjustment);
+	// paySalesTaxList.setTransactionDate(taxAdjustment.getDate());
+	// paySalesTaxList.setTaxAdjustment(taxAdjustment);
+	//
+	// preParePaySalesTaxEntriesUsingPaymentTerms(
+	// resultPaySalesTaxEntries, paySalesTaxList, financeDate);
+	// }
+	// }
+	//
+	// // List<PaySalesTaxEntries> paySalesTaxEntries = query.list();
+	// // FinanceDate financeDate = new FinanceDate(billsDueOnOrBefore);
+	// //
+	// // List<PaySalesTaxEntries> resultPaySalesTaxEntries = new
+	// // ArrayList<PaySalesTaxEntries>();
+	// // for (PaySalesTaxEntries pst : paySalesTaxEntries) {
+	// //
+	// // preParePaySalesTaxEntriesUsingPaymentTerms(
+	// // resultPaySalesTaxEntries, pst, financeDate, pst
+	// // .getTaxAgency());
+	// // }
+	//
+	// return new ArrayList<FileTAXEntry>(resultPaySalesTaxEntries);
+	// }
 
 	private boolean canAddTaxRateCalculationToPaySalesTax(TAXAgency taxAgency,
 			FinanceDate dueDate, FinanceDate transactionDate) {
@@ -1079,71 +1085,71 @@ public class TaxManager extends Manager {
 		return false;
 	}
 
-	private void preParePaySalesTaxEntriesUsingPaymentTerms(
-			List<PaySalesTaxEntries> resultPaySalesTaxEntries,
-			PaySalesTaxEntries pst, FinanceDate financeDate) {
-
-		Calendar dueCalendar = Calendar.getInstance();
-		dueCalendar.setTime(financeDate.getAsDateObject());
-		PaymentTerms paymentTerm = pst.getTaxAgency().getPaymentTerm();
-		if (paymentTerm != null && paymentTerm.getDue() == 0) {
-			dueCalendar.add(Calendar.DAY_OF_MONTH, paymentTerm.getDueDays());
-			if (new FinanceDate(dueCalendar.getTime()).compareTo(pst
-					.getTransactionDate()) >= 0) {
-				resultPaySalesTaxEntries.add(pst);
-			}
-		} else {
-
-			Calendar transCal = Calendar.getInstance();
-			transCal.setTime(new FinanceDate().getAsDateObject());
-			// transCal.set(Calendar.DAY_OF_MONTH, 01);
-			if (paymentTerm != null) {
-				switch (paymentTerm.getDue()) {
-				case PaymentTerms.DUE_CURRENT_MONTH:
-					transCal.set(Calendar.MONTH,
-							transCal.get(Calendar.MONTH) - 1);
-					verifyCalendarDates(transCal, dueCalendar,
-							resultPaySalesTaxEntries, pst);
-					break;
-				case PaymentTerms.DUE_CURRENT_SIXTY:
-					transCal.set(Calendar.MONTH,
-							transCal.get(Calendar.MONTH) - 2);
-					verifyCalendarDates(transCal, dueCalendar,
-							resultPaySalesTaxEntries, pst);
-					break;
-				case PaymentTerms.DUE_CURRENT_QUARTER:
-					// verifyQuarterRange(transCal);
-					transCal.set(Calendar.MONTH,
-							transCal.get(Calendar.MONTH) - 3);
-					verifyCalendarDates(transCal, dueCalendar,
-							resultPaySalesTaxEntries, pst);
-					break;
-				case PaymentTerms.DUE_CURRENT_HALF_YEAR:
-					// int month = transCal.get(Calendar.MONTH);
-					// month++;
-					// if (month <= 6) {
-					// transCal.set(Calendar.MONTH, 6);
-					// } else {
-					// transCal.set(Calendar.MONTH, 12);
-					// }
-					transCal.set(Calendar.MONTH,
-							transCal.get(Calendar.MONTH) - 6);
-					verifyCalendarDates(transCal, dueCalendar,
-							resultPaySalesTaxEntries, pst);
-					break;
-				case PaymentTerms.DUE_CURRENT_YEAR:
-					// transCal.set(Calendar.MONTH, 12);
-					transCal.set(Calendar.MONTH,
-							transCal.get(Calendar.MONTH) - 12);
-					verifyCalendarDates(transCal, dueCalendar,
-							resultPaySalesTaxEntries, pst);
-					break;
-				}
-			}
-		}
-
-		// return resultPaySalesTaxEntries;
-	}
+	// private void preParePaySalesTaxEntriesUsingPaymentTerms(
+	// List<FileTAXEntry> resultPaySalesTaxEntries, FileTAXEntry pst,
+	// FinanceDate financeDate) {
+	//
+	// Calendar dueCalendar = Calendar.getInstance();
+	// dueCalendar.setTime(financeDate.getAsDateObject());
+	// PaymentTerms paymentTerm = pst.getTaxAgency().getPaymentTerm();
+	// if (paymentTerm != null && paymentTerm.getDue() == 0) {
+	// dueCalendar.add(Calendar.DAY_OF_MONTH, paymentTerm.getDueDays());
+	// if (new FinanceDate(dueCalendar.getTime()).compareTo(pst
+	// .getTransactionDate()) >= 0) {
+	// resultPaySalesTaxEntries.add(pst);
+	// }
+	// } else {
+	//
+	// Calendar transCal = Calendar.getInstance();
+	// transCal.setTime(new FinanceDate().getAsDateObject());
+	// // transCal.set(Calendar.DAY_OF_MONTH, 01);
+	// if (paymentTerm != null) {
+	// switch (paymentTerm.getDue()) {
+	// case PaymentTerms.DUE_CURRENT_MONTH:
+	// transCal.set(Calendar.MONTH,
+	// transCal.get(Calendar.MONTH) - 1);
+	// verifyCalendarDates(transCal, dueCalendar,
+	// resultPaySalesTaxEntries, pst);
+	// break;
+	// case PaymentTerms.DUE_CURRENT_SIXTY:
+	// transCal.set(Calendar.MONTH,
+	// transCal.get(Calendar.MONTH) - 2);
+	// verifyCalendarDates(transCal, dueCalendar,
+	// resultPaySalesTaxEntries, pst);
+	// break;
+	// case PaymentTerms.DUE_CURRENT_QUARTER:
+	// // verifyQuarterRange(transCal);
+	// transCal.set(Calendar.MONTH,
+	// transCal.get(Calendar.MONTH) - 3);
+	// verifyCalendarDates(transCal, dueCalendar,
+	// resultPaySalesTaxEntries, pst);
+	// break;
+	// case PaymentTerms.DUE_CURRENT_HALF_YEAR:
+	// // int month = transCal.get(Calendar.MONTH);
+	// // month++;
+	// // if (month <= 6) {
+	// // transCal.set(Calendar.MONTH, 6);
+	// // } else {
+	// // transCal.set(Calendar.MONTH, 12);
+	// // }
+	// transCal.set(Calendar.MONTH,
+	// transCal.get(Calendar.MONTH) - 6);
+	// verifyCalendarDates(transCal, dueCalendar,
+	// resultPaySalesTaxEntries, pst);
+	// break;
+	// case PaymentTerms.DUE_CURRENT_YEAR:
+	// // transCal.set(Calendar.MONTH, 12);
+	// transCal.set(Calendar.MONTH,
+	// transCal.get(Calendar.MONTH) - 12);
+	// verifyCalendarDates(transCal, dueCalendar,
+	// resultPaySalesTaxEntries, pst);
+	// break;
+	// }
+	// }
+	// }
+	//
+	// // return resultPaySalesTaxEntries;
+	// }
 
 	private void verifyQuarterRange(Calendar transCal) {
 		int month = transCal.get(Calendar.MONTH);
@@ -1160,17 +1166,18 @@ public class TaxManager extends Manager {
 		}
 	}
 
-	private void verifyCalendarDates(Calendar payTermCal, Calendar dueCalendar,
-			List<PaySalesTaxEntries> resultPaySalesTaxEntries,
-			PaySalesTaxEntries paySalesTaxEntries) {
-		Calendar transCal = Calendar.getInstance();
-		transCal.setTime(paySalesTaxEntries.getTransactionDate()
-				.getAsDateObject());
-		if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
-				&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
-			resultPaySalesTaxEntries.add(paySalesTaxEntries);
-		}
-	}
+	// private void verifyCalendarDates(Calendar payTermCal, Calendar
+	// dueCalendar,
+	// List<FileTAXEntry> resultPaySalesTaxEntries,
+	// FileTAXEntry paySalesTaxEntries) {
+	// Calendar transCal = Calendar.getInstance();
+	// transCal.setTime(paySalesTaxEntries.getTransactionDate()
+	// .getAsDateObject());
+	// if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+	// && transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
+	// resultPaySalesTaxEntries.add(paySalesTaxEntries);
+	// }
+	// }
 
 	private TAXAgency createVATAgency(Session session,
 			Account vatLiabilityAccount) {
@@ -1186,6 +1193,76 @@ public class TaxManager extends Manager {
 		collectorGeneral.setVATReturn(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 		session.save(collectorGeneral);
 		return collectorGeneral;
+	}
+
+	public long getLastTaxReturnEndDate(long agencyId, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = (Company) session.get(Company.class, companyId);
+		Object uniqueResult = session
+				.getNamedQuery("get.last.taxReturn.endDate")
+				.setParameter("company", company)
+				.setParameter("taxAgency", agencyId).uniqueResult();
+		if (uniqueResult != null) {
+			return ((FinanceDate) uniqueResult).getDate();
+		}
+
+		return 0;
+	}
+
+	public List<ClientTAXReturnEntry> getTaxItemsWithTransactions(
+			long companyId, long taxAgency, long startDate, long endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.between.startDate.endDate")
+				.setEntity("company", company)
+				.setParameter("startDate", new FinanceDate(startDate))
+				.setParameter("endDate", new FinanceDate(endDate))
+				.setParameter("taxAgency", taxAgency);
+
+		List<TAXRateCalculation> list = query.list();
+		List<ClientTAXReturnEntry> resultPaySalesTaxEntries = new ArrayList<ClientTAXReturnEntry>();
+
+		if (list != null) {
+			for (TAXRateCalculation taxRateCalculation : list) {
+				ClientTAXReturnEntry paySalesTaxList = new ClientTAXReturnEntry();
+				resultPaySalesTaxEntries.add(paySalesTaxList);
+				paySalesTaxList.setTaxAmount(taxRateCalculation.getVatAmount());
+				paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem()
+						.getID());
+				paySalesTaxList.setTaxAgency(taxRateCalculation.getTaxAgency()
+						.getID());
+				paySalesTaxList.setTaxRateCalculation(taxRateCalculation
+						.getID());
+				paySalesTaxList.setTransactionType(taxRateCalculation
+						.getTransactionItem().getTransaction().getType());
+				paySalesTaxList.setNetAmount(taxRateCalculation.getLineTotal());
+				paySalesTaxList.setGrassAmount(taxRateCalculation
+						.getLineTotal() + taxRateCalculation.getVatAmount());
+			}
+		}
+
+		query = session
+				.getNamedQuery(
+						"getTAXAdjustment.checkingby.salesLiabilityAccount.nameandbalanceDue")
+				.setEntity("company", company);
+
+		List<TAXAdjustment> taxAdjustments = query.list();
+		if (list != null) {
+
+			for (TAXAdjustment taxAdjustment : taxAdjustments) {
+				TAXReturnEntry paySalesTaxList = new TAXReturnEntry();
+				paySalesTaxList.setTaxAmount(taxAdjustment.getTotal());
+				paySalesTaxList.setTaxAgency(taxAdjustment.getTaxAgency());
+				paySalesTaxList.setTransaction(taxAdjustment);
+				paySalesTaxList.setTaxAdjustment(taxAdjustment);
+				paySalesTaxList
+						.setTransactionType(Transaction.TYPE_ADJUST_SALES_TAX);
+			}
+		}
+
+		return resultPaySalesTaxEntries;
 	}
 
 }

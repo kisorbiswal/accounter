@@ -93,7 +93,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// This is the Account created by default for the purpose of UK VAT
 		Account vATliabilityAccount = createAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
-				AccounterServerConstants.SALES_TAX_VAT_UNFILED,
+				AccounterServerConstants.TAX_VAT_UNFILED,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		createAccount(Account.TYPE_OTHER_ASSET,
@@ -102,11 +102,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		// This is the Account created by default for the purpose of UK when VAT
 		// is Filed
-
-		Account vATFiledLiabilityAccount = createAccount(
-				Account.TYPE_OTHER_CURRENT_LIABILITY,
-				AccounterServerConstants.SALES_TAX_VAT_FILED,
-				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// Account VATliabilityAccount = new Account(
 		// Account.TYPE_OTHER_CURRENT_LIABILITY, "2699",
@@ -322,7 +317,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// session.save(ECSale);
 
 		company.setTaxLiabilityAccount(vATliabilityAccount);
-		company.setVATFiledLiabilityAccount(vATFiledLiabilityAccount);
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 		// this.prepaidVATaccount = prepaidVATaccount;
 		// this.ECAcquisitionVATaccount = ECAcquisitionVAT;
@@ -627,14 +621,14 @@ public class UKCompanyInitializer extends CompanyInitializer {
 					.getNamedQuery("unique.name.Account")
 					.setEntity("company", company)
 					.setString("name",
-							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
+							AccounterServerConstants.TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
 					.setEntity("company", company)
 					.setString("name",
-							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
+							AccounterServerConstants.TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setDefault(true);

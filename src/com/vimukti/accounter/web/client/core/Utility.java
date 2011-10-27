@@ -93,10 +93,10 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			transactionName = AccounterClientConstants.TYPE_JOURNAL_ENTRY;
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
+		case ClientTransaction.TYPE_PAY_TAX:
 			transactionName = AccounterClientConstants.TYPE_PAY_SALES_TAX;
 			break;
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			transactionName = AccounterClientConstants.TYPE_RECEIVE_VAT;
 			break;
 		case ClientTransaction.TYPE_SALES_ORDER:
@@ -117,11 +117,8 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			transactionName = AccounterClientConstants.TYPE_CREDIT_CARD_EXPENSE;
 			break;
-		case ClientTransaction.TYPE_VAT_RETURN:
+		case ClientTransaction.TYPE_TAX_RETURN:
 			transactionName = AccounterClientConstants.TYPE_VAT_RETURN;
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
-			transactionName = AccounterClientConstants.TYPE_PAY_VAT;
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			transactionName = AccounterClientConstants.TYPE_CUSTOMER_PREPAYMENT;
@@ -1292,19 +1289,7 @@ public class Utility implements IsSerializable, Serializable {
 				break;
 			}
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
-			switch (status) {
-			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
-				break;
-			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				break;
-			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
-				break;
-			}
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
+		case ClientTransaction.TYPE_PAY_TAX:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
@@ -1317,7 +1302,7 @@ public class Utility implements IsSerializable, Serializable {
 			}
 			break;
 
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);

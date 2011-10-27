@@ -100,8 +100,8 @@
 	<query name="getVATReturn.checkingby.taxagencyidand.dates">
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
-		select min(v.VATperiodStartDate),
-		max(v.VATperiodEndDate) from
+		select min(v.periodStartDate),
+		max(v.periodEndDate) from
 		com.vimukti.accounter.core.VATReturn v
 		where v.company=:company and
 		v.taxAgency.id
@@ -486,7 +486,7 @@
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.PayVAT pv where pv.company=:company
+		from com.vimukti.accounter.core.PayTAX pv where pv.company=:company
 		and pv.payFrom.id =:accountId and pv.isVoid=false and pv.status
 		=:status
 	</query>
@@ -836,7 +836,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VATReturn v where v.company=:company
 		and
-		v.taxAgency.id=:taxAgency and v.VATperiodEndDate between :fromDate
+		v.taxAgency.id=:taxAgency and v.periodEndDate between :fromDate
 		and
 		:toDate
 	</query>
@@ -846,7 +846,7 @@
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VATReturn v where v.company=:company
-		and v.VATperiodEndDate between :fromDate and :toDate
+		and v.periodEndDate between :fromDate and :toDate
 	</query>
 
 	<query name="getAccount.by.name.and.type">
@@ -893,13 +893,14 @@
 	</query>
 
 	<query name="getTAXRateCalculations.by.taxAgencyIdand.Date">
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="vatAgency" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem
 		is not null and vr.taxItem.company=:company and
 		vr.taxItem.taxAgency.id=:vatAgency and
-		vr.transactionDate &lt;=:toDate
+		vr.transactionDate between	:fromDate and :toDate
 		and vr.vatReturn is null
 	</query>
 
@@ -962,7 +963,7 @@
 	<query name="getPaySalesTax.by.status">
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.PaySalesTax pst where
+		from com.vimukti.accounter.core.PayTAX pst where
 		pst.status =
 		status and pst.company=:company
 	</query>
@@ -980,7 +981,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.PaySalesTax pst where
+		from com.vimukti.accounter.core.PayTAX pst where
 		pst.payFrom.id =
 		:id and pst.isVoid=false and pst.status =:status and
 		pst.company=:company
@@ -1125,7 +1126,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayBill b
 		where b.company=:company and
-		b.taxAgency !=null
+		b.tdsTaxItem !=null
 	</query>
 
 	<query name="getJournalEntry">
@@ -1153,14 +1154,14 @@
 
 	<query name="getVATReturn.by.check.BalanceGraterThanzero">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VATReturn v where
+		from com.vimukti.accounter.core.AbstractTAXReturn v where
 		v.balance &gt;0 and
-		v.company=:comapny
+		v.company=:company
 	</query>
 
 	<query name="getVATReturn.by.check.BalancelessThanzero">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VATReturn v where
+		from com.vimukti.accounter.core.AbstractTAXReturn v where
 		v.balance &lt;0 and
 		v.company=:company
 	</query>
@@ -1170,14 +1171,14 @@
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VATReturn vt where
-		vt.taxAgency.id=:taxAgency and vt.VATperiodEndDate=:endDate and
+		vt.taxAgency.id=:taxAgency and vt.periodEndDate=:endDate and
 		vt.company=:company
 	</query>
 
 	<query name="getVATReturn.by.enddate">
 		<query-param name="company" type="Company" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
-		from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate =
+		from com.vimukti.accounter.core.VATReturn v where v.periodEndDate =
 		:endDate and v.company=:company
 	</query>
 
@@ -1255,6 +1256,21 @@
 		order by
 		pst.taxAgency.id, pst.taxItem.id
 	</query>
+	
+	<query
+		name="getTAXRateCalculation.between.startDate.endDate">
+		<query-param name="company" type="Company" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="taxAgency" type="long" />
+		from com.vimukti.accounter.core.TAXRateCalculation
+		pst where pst.taxAgency.id=:taxAgency and 
+		pst.taxAgency.salesLiabilityAccount.name != 'Un Deposited
+		Funds' and
+		pst.transactionItem.transaction != null and pst.taxDue != 0 and
+		pst.transactionItem.transaction.company=:company and pst.transactionItem.transaction.transactionDate  between :startDate and :endDate
+		order by pst.taxItem.id
+	</query>
 
 	<query
 		name="getTAXAdjustment.checkingby.salesLiabilityAccount.nameandbalanceDue">
@@ -1275,7 +1291,7 @@
 	<query name="getTAXAdjustment.checkingby.VATperiodEndDate">
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate
+		from com.vimukti.accounter.core.VATReturn v where v.periodEndDate
 		&lt;=:endDate and v.company=:company
 	</query>
 
@@ -1509,6 +1525,15 @@
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.JournalEntry je where
 		je.involvedPayee.id=:id
+	</query>
+
+	<query name="get.last.taxReturn.endDate">
+		<query-param name="company" type="Company" />
+		<query-param name="taxAgency" type="long" />
+		select max(t.periodEndDate)
+		from
+		com.vimukti.accounter.core.AbstractTAXReturn t where
+		t.company=:company and t.taxAgency.id=:taxAgency
 	</query>
 
 	<sql-query name="updateTaxCodeSalesTaxRate">

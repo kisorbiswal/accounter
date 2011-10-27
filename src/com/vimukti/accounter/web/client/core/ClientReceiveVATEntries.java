@@ -7,24 +7,24 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	long vatAgency;
+	long tAXAgency;
 
 	double amount;
 
 	double balance;
 
-	private long vatReturn;
+	private long tAXReturn;
 
 	private long id;
 
 	private int version;
 
-	public long getVatAgency() {
-		return vatAgency;
+	public long getTAXAgency() {
+		return tAXAgency;
 	}
 
-	public void setVatAgency(long vatAgency) {
-		this.vatAgency = vatAgency;
+	public void setTAXAgency(long vatAgency) {
+		this.tAXAgency = vatAgency;
 	}
 
 	public double getAmount() {
@@ -76,12 +76,12 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 		this.id = id;
 	}
 
-	public void setVatReturn(long vatReturn) {
-		this.vatReturn = vatReturn;
+	public void setTAXReturn(long vatReturn) {
+		this.tAXReturn = vatReturn;
 	}
 
-	public long getVatReturn() {
-		return vatReturn;
+	public long getTAXReturn() {
+		return tAXReturn;
 	}
 
 	public ClientReceiveVATEntries clone() {

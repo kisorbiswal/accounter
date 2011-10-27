@@ -374,8 +374,8 @@ public class ReportManager extends Manager {
 					.setTotal(object[6] != null ? (Double) object[6] : 0.0);
 
 			if (transactionDetailByAccount.getAccountName().equals(
-					AccounterServerConstants.SALES_TAX_VAT_UNFILED)
-					&& transactionDetailByAccount.getTransactionType() == Transaction.TYPE_VAT_RETURN) {
+					AccounterServerConstants.TAX_VAT_UNFILED)
+					&& transactionDetailByAccount.getTransactionType() == Transaction.TYPE_TAX_RETURN) {
 				if (transactionDetailByAccount.getTotal() < 0)
 					transactionDetailByAccount.setName("Box3");
 				if (transactionDetailByAccount.getTotal() > 0)
@@ -1251,7 +1251,6 @@ public class ReportManager extends Manager {
 
 			List<VATReturn> vatReturns = query.list();
 			for (VATReturn v : vatReturns) {
-
 				// Adding Filed vat entries to it's Respective boxes, except
 				// Box3 and Box5
 				Query query1 = session.getNamedQuery("getFiledBoxValues")
@@ -1401,7 +1400,7 @@ public class ReportManager extends Manager {
 										+ endDate.toString()));
 			}
 
-			startDate = vatReturn.getVATperiodStartDate();
+			startDate = vatReturn.getPeriodStartDate();
 
 		}
 
@@ -2340,6 +2339,8 @@ public class ReportManager extends Manager {
 				vi.setName(tempVATItemName);
 				// vi.setAmount(v.getVatAmount());
 				vi.setAmount(v.getLineTotal());
+				vi.setTaxAmount(v.getTaxDue());
+				vi.setTaxRate(v.getTaxItem().getTaxRate());
 				if (v.getTransactionItem() != null
 						&& v.getTransactionItem().isVoid()) {
 					vi.setAmount(vi.getAmount() - v.getLineTotal());

@@ -30,7 +30,7 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	TAXCode taxCode;
 
-	TAXAgency taxAgency;
+	TAXAgency tAXAgency;
 
 	double amount;
 
@@ -48,18 +48,18 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 		this.transaction = transaction;
 		this.taxCode = taxCode;
-		this.taxAgency = taxAgency;
+		this.tAXAgency = taxAgency;
 		this.amount = taxableAmount;
 		this.balance = (taxableAmount * rate) / 100;
 
 	}
 
-	public ReceiveVATEntries(VATReturn v) {
+	public ReceiveVATEntries(AbstractTAXReturn v) {
 
 		this.amount = v.getTotal();
 		this.balance = v.getBalance();
 		this.transaction = v;
-		this.taxAgency = v.getTaxAgency();
+		this.tAXAgency = v.getTaxAgency();
 	}
 
 	public Transaction getTransaction() {
@@ -92,16 +92,16 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatAgency
 	 */
-	public TAXAgency getTaxAgency() {
-		return taxAgency;
+	public TAXAgency getTAXAgency() {
+		return tAXAgency;
 	}
 
 	/**
 	 * @param vatAgency
 	 *            the vatAgency to set
 	 */
-	public void setTaxAgency(TAXAgency taxAgency) {
-		this.taxAgency = taxAgency;
+	public void setTAXAgency(TAXAgency taxAgency) {
+		this.tAXAgency = taxAgency;
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+
 	}
 }

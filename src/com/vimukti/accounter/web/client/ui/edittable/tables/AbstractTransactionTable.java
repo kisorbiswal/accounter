@@ -283,4 +283,16 @@ public abstract class AbstractTransactionTable extends
 		updateColumnHeaders();
 	}
 
+	public void setDisableTax(boolean isDisable) {
+		if (getCompany().getPreferences().isTrackTax()) {
+			enableTax = !isDisable;
+		}
+	}
+
+	public void setShowTax(boolean isShow) {
+		if (getCompany().getPreferences().isTrackTax()) {
+			showTaxCode = isShow;
+		}
+	}
+
 }

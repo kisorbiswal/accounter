@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientPayVATEntries implements IAccounterCore {
+public class ClientPayTAXEntries implements IAccounterCore {
 
 	/**
 	 * 
@@ -84,8 +84,8 @@ public class ClientPayVATEntries implements IAccounterCore {
 		return vatReturn;
 	}
 
-	public ClientPayVATEntries clone() {
-		ClientPayVATEntries payVATEntries = (ClientPayVATEntries) this.clone();
+	public ClientPayTAXEntries clone() {
+		ClientPayTAXEntries payVATEntries = (ClientPayTAXEntries) this.clone();
 		return payVATEntries;
 	}
 

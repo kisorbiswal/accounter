@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -29,7 +30,7 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 {
 	SelectCombo optionsCombo;
 	TaxHistoryTable grid;
-	ClientVATReturn clientVATReturn;
+	ClientAbstractTAXReturn clientVATReturn;
 
 	@Override
 	public void init() {
@@ -58,10 +59,10 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 		initComboItems();
 
 		this.grid = new TaxHistoryTable(
-				new SelectionChangedHandler<ClientVATReturn>() {
+				new SelectionChangedHandler<ClientAbstractTAXReturn>() {
 
 					@Override
-					public void selectionChanged(ClientVATReturn obj,
+					public void selectionChanged(ClientAbstractTAXReturn obj,
 							boolean isSelected) {
 						clientVATReturn = obj;
 
@@ -108,7 +109,8 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 	}
 
 	private void setData() {
-		ArrayList<ClientVATReturn> vatReturns = getCompany().getVatReturns();
+		ArrayList<ClientAbstractTAXReturn> vatReturns = getCompany()
+				.getVatReturns();
 		if (!vatReturns.isEmpty()) {
 			this.grid.setData(vatReturns);
 		}

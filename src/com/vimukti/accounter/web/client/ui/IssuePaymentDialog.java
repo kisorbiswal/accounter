@@ -161,9 +161,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			record.setCustomerRefund(entry.getTransactionId());
 			record.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
+		case ClientTransaction.TYPE_PAY_TAX:
 			record.setPaySalesTax(entry.getTransactionId());
-			record.setRecordType(ClientTransaction.TYPE_PAY_SALES_TAX);
+			record.setRecordType(ClientTransaction.TYPE_PAY_TAX);
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
 			record.setPayBill(entry.getTransactionId());
@@ -174,13 +174,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			record.setCreditCardCharge(entry.getTransactionId());
 			record.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 			break;
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			record.setReceiveVAT(entry.getTransactionId());
-			record.setRecordType(ClientTransaction.TYPE_RECEIVE_VAT);
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
-			record.setPayVAT(entry.getTransactionId());
-			record.setRecordType(ClientTransaction.TYPE_PAY_VAT);
+			record.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			record.setCustomerPrepayment(entry.getTransactionId());
@@ -537,9 +533,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 				entry.setCustomerRefund(record.getCustomerRefund());
 				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 				break;
-			case ClientTransaction.TYPE_PAY_SALES_TAX:
+			case ClientTransaction.TYPE_PAY_TAX:
 				entry.setPaySalesTax(record.getPaySalesTax());
-				entry.setRecordType(ClientTransaction.TYPE_PAY_SALES_TAX);
+				entry.setRecordType(ClientTransaction.TYPE_PAY_TAX);
 				break;
 			case ClientTransaction.TYPE_PAY_BILL:
 				entry.setPayBill(record.getPayBill());
@@ -550,13 +546,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 				entry.setCreditCardCharge(record.getCreditCardCharge());
 				entry.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 				break;
-			case ClientTransaction.TYPE_RECEIVE_VAT:
+			case ClientTransaction.TYPE_RECEIVE_TAX:
 				entry.setReceiveVAT(record.getReceiveVAT());
-				entry.setRecordType(ClientTransaction.TYPE_RECEIVE_VAT);
-				break;
-			case ClientTransaction.TYPE_PAY_VAT:
-				entry.setPayVAT(record.getPayVAT());
-				entry.setRecordType(ClientTransaction.TYPE_PAY_VAT);
+				entry.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
 				break;
 			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 				entry.setCustomerPrepayment(record.getCustomerPrepayment());

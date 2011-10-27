@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
+public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	/**
 	 * 
 	 */
@@ -42,11 +42,10 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 	 */
 	double amountToPay;
 
-	@ReffereredObject
-	VATReturn vatReturn;
+	AbstractTAXReturn taxReturn;
 
 	@ReffereredObject
-	PayVAT payVAT;
+	PayTAX payVAT;
 
 	int version;
 
@@ -107,16 +106,16 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public VATReturn getVatReturn() {
-		return vatReturn;
+	public AbstractTAXReturn getVatReturn() {
+		return taxReturn;
 	}
 
 	/**
 	 * @param vatReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(VATReturn vatReturn) {
-		this.vatReturn = vatReturn;
+	public void setVatReturn(AbstractTAXReturn vatReturn) {
+		this.taxReturn = vatReturn;
 	}
 
 	/**
@@ -137,7 +136,7 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the payVAT
 	 */
-	public PayVAT getPayVAT() {
+	public PayTAX getPayVAT() {
 		return payVAT;
 	}
 
@@ -145,7 +144,7 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 	 * @param payVAT
 	 *            the payVAT to set
 	 */
-	public void setPayVAT(PayVAT payVAT) {
+	public void setPayVAT(PayTAX payVAT) {
 		this.payVAT = payVAT;
 	}
 
@@ -172,16 +171,16 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
-			this.taxAgency.updateBalance(session, this.vatReturn, -1
+			this.taxAgency.updateBalance(session, this.taxReturn, -1
 					* this.amountToPay);
 
 			// At the same time we need to update the vatReturn reference in it.
-			this.vatReturn.updateBalance(-this.amountToPay);
+			this.taxReturn.updateBalance(-this.amountToPay);
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = vatReturn.getCompany()
-					.getVATFiledLiabilityAccount();
+			Account account = taxReturn.getTaxAgency()
+					.getFiledLiabilityAccount();
 			if (account != null) {
 				account.updateCurrentBalance(this.payVAT, -(this.amountToPay));
 				session.update(account);
@@ -199,15 +198,15 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
-			this.taxAgency.updateBalance(session, this.vatReturn,
+			this.taxAgency.updateBalance(session, this.taxReturn,
 					this.amountToPay);
 
 			// At the same time we need to update the vatReturn reference in it.
-			this.vatReturn.updateBalance(this.amountToPay);
+			this.taxReturn.updateBalance(this.amountToPay);
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			vatReturn.getCompany().getVATFiledLiabilityAccount()
+			taxReturn.getTaxAgency().getFiledLiabilityAccount()
 					.updateCurrentBalance(this.payVAT, this.amountToPay);
 		}
 		return false;

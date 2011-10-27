@@ -6,33 +6,33 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.vat.PayVATView;
+import com.vimukti.accounter.web.client.ui.vat.PayTAXView;
 
-public class TransactionPayVATGrid extends
-		AbstractTransactionGrid<ClientTransactionPayVAT> {
+public class TransactionPayTAXGrid extends
+		AbstractTransactionGrid<ClientTransactionPayTAX> {
 
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
-	private PayVATView payVATView;
+	private PayTAXView payVATView;
 
 	AccounterConstants accounterConstants = Accounter.constants();
 
-	public TransactionPayVATGrid(boolean isMultiSelectionEnable) {
+	public TransactionPayTAXGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 	}
 
-	public TransactionPayVATGrid(boolean isMultiSelectionEnable,
+	public TransactionPayTAXGrid(boolean isMultiSelectionEnable,
 			boolean showFooter) {
 		super(isMultiSelectionEnable, showFooter);
 	}
 
 	@Override
-	public <E> CustomCombo<E> getCustomCombo(ClientTransactionPayVAT obj,
+	public <E> CustomCombo<E> getCustomCombo(ClientTransactionPayTAX obj,
 			int colIndex) {
 		// currently not using anywhere in the project.
 		return null;
@@ -50,14 +50,14 @@ public class TransactionPayVATGrid extends
 	}
 
 	@Override
-	protected boolean isEditable(ClientTransactionPayVAT obj, int row, int index) {
+	protected boolean isEditable(ClientTransactionPayTAX obj, int row, int index) {
 		if (index == 2)
 			return true;
 		return false;
 	}
 
 	@Override
-	public void editComplete(ClientTransactionPayVAT editingRecord,
+	public void editComplete(ClientTransactionPayTAX editingRecord,
 			Object value, int col) {
 
 		try {
@@ -68,7 +68,7 @@ public class TransactionPayVATGrid extends
 			updateData(editingRecord);
 
 			double toBeSetAmount = 0.0;
-			for (ClientTransactionPayVAT rec : this.getSelectedRecords()) {
+			for (ClientTransactionPayTAX rec : this.getSelectedRecords()) {
 				toBeSetAmount += rec.getAmountToPay();
 			}
 
@@ -94,7 +94,7 @@ public class TransactionPayVATGrid extends
 	}
 
 	@Override
-	protected Object getColumnValue(ClientTransactionPayVAT payVAT, int index) {
+	protected Object getColumnValue(ClientTransactionPayTAX payVAT, int index) {
 		switch (index) {
 		case 0:
 			ClientTAXAgency taxAgency = Accounter.getCompany().getTaxAgency(
@@ -111,7 +111,7 @@ public class TransactionPayVATGrid extends
 		return null;
 	}
 
-	public void setPayVATView(PayVATView payVATView) {
+	public void setPayVATView(PayTAXView payVATView) {
 		this.payVATView = payVATView;
 	}
 
@@ -132,7 +132,7 @@ public class TransactionPayVATGrid extends
 	public void selectAllRows() {
 
 		double totalAmount = 0.0;
-		for (ClientTransactionPayVAT obj : this.getRecords()) {
+		for (ClientTransactionPayTAX obj : this.getRecords()) {
 			if (!isSelected(obj)) {
 				((CheckBox) this.body.getWidget(indexOf(obj), 0))
 						.setValue(true);
@@ -146,7 +146,7 @@ public class TransactionPayVATGrid extends
 		// updateFooterValues(amountAsString(totalAmount), 2);
 	}
 
-	public boolean isSelected(ClientTransactionPayVAT obj) {
+	public boolean isSelected(ClientTransactionPayTAX obj) {
 		return ((CheckBox) getWidget(indexOf(obj), 0)).getValue();
 
 	}
@@ -167,12 +167,12 @@ public class TransactionPayVATGrid extends
 	}
 
 	@Override
-	protected void onSelectionChanged(ClientTransactionPayVAT obj, int row,
+	protected void onSelectionChanged(ClientTransactionPayTAX obj, int row,
 			boolean isChecked) {
 		super.onSelectionChanged(obj, row, isChecked);
-
+		obj.setAmountToPay(obj.getTaxDue());
 		double toBeSetAmount = 0.0;
-		for (ClientTransactionPayVAT rec : this.getSelectedRecords()) {
+		for (ClientTransactionPayTAX rec : this.getSelectedRecords()) {
 			toBeSetAmount += rec.getAmountToPay();
 		}
 

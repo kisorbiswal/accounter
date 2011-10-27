@@ -166,7 +166,11 @@ public class PayBill extends Transaction {
 
 	String checkNumber;
 
-	private TAXAgency taxAgency;
+	private TAXItem tdsTaxItem;
+
+	private double tdsTotal;
+
+	private boolean isAmountIncludeTDS;
 
 	//
 
@@ -325,16 +329,14 @@ public class PayBill extends Transaction {
 			// } else {
 			// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			// }
-			if (this.transactionPayBill != null
-					&& this.transactionPayBill.size() > 0) {
-
+			if (this.transactionPayBill != null) {
 				for (TransactionPayBill tpb : this.transactionPayBill) {
 					if (DecimalUtil.isGreaterThan(
 							(tpb.payment - tpb.amountDue), 0)) {
-						unusedAmount += (tpb.payment + tpb.cashDiscount + tpb.appliedCredits)
+						unusedAmount += (tpb.payment + tpb.cashDiscount
+								+ tpb.appliedCredits + tpb.tdsAmount)
 								- tpb.amountDue;
 					}
-
 				}
 			}
 			this.subTotal = this.total - this.unusedAmount;
@@ -354,9 +356,31 @@ public class PayBill extends Transaction {
 				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 			}
+
 			if (this.payBillType != TYPE_VENDOR_PAYMENT) {
 				this.vendor.updateBalance(session, this, this.unusedAmount
 						- this.total);
+			}
+
+			double amountEffectedToAccount = total - tdsTotal;
+			if (DecimalUtil.isGreaterThan(amountEffectedToAccount, 0.00D)) {
+				payFrom.updateCurrentBalance(this, amountEffectedToAccount);
+				session.update(payFrom);
+				payFrom.onUpdate(HibernateUtil.getCurrentSession());
+			}
+
+			if (getCompany().getPreferences().isTDSEnabled()
+					&& this.getVendor().isTdsApplicable()) {
+				// Update TDS Account if Company is INDIA
+				if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
+					TAXItem taxItem = this.getTdsTaxItem();
+					if (taxItem != null) {
+						TAXAgency taxAgency = taxItem.getTaxAgency();
+						Account account = taxAgency
+								.getPurchaseLiabilityAccount();
+						account.updateCurrentBalance(this, tdsTotal);
+					}
+				}
 			}
 
 			// TODO Update TDS Account if Company is IND
@@ -407,7 +431,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public Account getEffectingAccount() {
-		return this.payFrom;
+		return null;
 	}
 
 	@Override
@@ -557,19 +581,24 @@ public class PayBill extends Transaction {
 
 				}
 
+				double effectToAccount = payBill.total - payBill.tdsTotal;
+				double preEffectedToAccount = this.total - this.tdsTotal;
 				if (!this.payFrom.equals(payBill.payFrom)) {
 					Account payFromAccount = (Account) session.get(
 							Account.class, payBill.payFrom.id);
-					payFromAccount.updateCurrentBalance(this, -payBill.total);
+					payFromAccount.updateCurrentBalance(this, effectToAccount);
 					payFromAccount.onUpdate(session);
-					this.payFrom.updateCurrentBalance(this, this.total);
+					this.payFrom.updateCurrentBalance(this,
+							preEffectedToAccount);
 					this.payFrom.onUpdate(session);
-				} else if (!DecimalUtil
-						.isEquals(this.total, clonedObject.total)) {
-					this.payFrom.updateCurrentBalance(this, this.total
-							- clonedObject.total);
+				} else if (!DecimalUtil.isEquals(effectToAccount,
+						preEffectedToAccount)) {
+					this.payFrom.updateCurrentBalance(this,
+							preEffectedToAccount - effectToAccount);
 					this.payFrom.onUpdate(session);
 				}
+
+				doEffectTDS(session, payBill);
 
 				if ((this.vendor.equals(payBill.vendor))
 						&& !(DecimalUtil.isEquals(this.total, payBill.total))) {
@@ -603,6 +632,43 @@ public class PayBill extends Transaction {
 		}
 
 		super.onEdit(payBill);
+	}
+
+	private void doEffectTDS(Session session, PayBill payBill) {
+		if (this.tdsTaxItem != null) {
+			if (payBill.tdsTaxItem != null) {
+				if (tdsTaxItem.id != payBill.tdsTaxItem.id) {
+					TAXAgency presentAgency = (TAXAgency) session.get(
+							TAXAgency.class, payBill.getTdsTaxItem()
+									.getTaxAgency().getID());
+					if (presentAgency != null) {
+						presentAgency.updateBalance(session, payBill,
+								payBill.tdsTotal);
+					}
+					TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
+					taxAgency.updateBalance(session, this, -tdsTotal);
+				} else if (!DecimalUtil.isEquals(tdsTotal, payBill.tdsTotal)) {
+					TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
+					Account account = taxAgency.getPurchaseLiabilityAccount();
+					account.updateCurrentBalance(this, payBill.tdsTotal
+							- this.tdsTotal);
+				}
+			} else {
+				TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
+				taxAgency.updateBalance(session, this, -tdsTotal);
+			}
+		} else {
+			if (payBill.tdsTaxItem != null) {
+				TAXAgency presentAgency = (TAXAgency) session.get(
+						TAXAgency.class, payBill.getTdsTaxItem().getTaxAgency()
+								.getID());
+				if (presentAgency != null) {
+					presentAgency.updateBalance(session, payBill,
+							payBill.tdsTotal);
+				}
+
+			}
+		}
 	}
 
 	private void doVoidEffect(Session session, PayBill payBill) {
@@ -698,14 +764,6 @@ public class PayBill extends Transaction {
 		this.billDueOnOrBefore = billDueOnOrBefore;
 	}
 
-	public TAXAgency getTaxAgency() {
-		return taxAgency;
-	}
-
-	public void setTaxAgency(TAXAgency taxAgency) {
-		this.taxAgency = taxAgency;
-	}
-
 	@Override
 	public Map<Account, Double> getEffectingAccountsWithAmounts() {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
@@ -716,5 +774,50 @@ public class PayBill extends Transaction {
 					* (total - unusedAmount) : (total - unusedAmount));
 		}
 		return map;
+	}
+
+	/**
+	 * @return the taxItem
+	 */
+	public TAXItem getTdsTaxItem() {
+		return tdsTaxItem;
+	}
+
+	/**
+	 * @param taxItem
+	 *            the taxItem to set
+	 */
+	public void setTdsTaxItem(TAXItem taxItem) {
+		this.tdsTaxItem = taxItem;
+	}
+
+	/**
+	 * @return the tdsTotal
+	 */
+	public double getTdsTotal() {
+		return tdsTotal;
+	}
+
+	/**
+	 * @param tdsTotal
+	 *            the tdsTotal to set
+	 */
+	public void setTdsTotal(double tdsTotal) {
+		this.tdsTotal = tdsTotal;
+	}
+
+	/**
+	 * @return the isAmountIncludeTDS
+	 */
+	public boolean isAmountIncludeTDS() {
+		return isAmountIncludeTDS;
+	}
+
+	/**
+	 * @param isAmountIncludeTDS
+	 *            the isAmountIncludeTDS to set
+	 */
+	public void setAmountIncludeTDS(boolean isAmountIncludeTDS) {
+		this.isAmountIncludeTDS = isAmountIncludeTDS;
 	}
 }

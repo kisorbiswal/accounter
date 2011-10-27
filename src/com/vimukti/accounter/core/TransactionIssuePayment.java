@@ -89,7 +89,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * Reference to a PaySalesTax to know that this TransactionIssuePayment is
 	 * caused by PaySalesTax
 	 */
-	PaySalesTax paySalesTax;
+	PayTAX paySalesTax;
 	/**
 	 * Reference to a ReceiveVAT to know that this TransactionIssuePayment is
 	 * caused by ReceiveVAT
@@ -99,7 +99,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * Reference to a PayVAT to know that this TransactionIssuePayment is caused
 	 * by PayVAT
 	 */
-	PayVAT payVAT;
+	PayTAX payVAT;
 	/**
 	 * Reference to a CustomerPrepayment to know that this
 	 * TransactionIssuePayment is caused by CustomerPrepayment
@@ -162,7 +162,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	/**
 	 * @return the paySalesTax
 	 */
-	public PaySalesTax getPaySalesTax() {
+	public PayTAX getPaySalesTax() {
 		return paySalesTax;
 	}
 
@@ -170,7 +170,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * @param paySalesTax
 	 *            the paySalesTax to set
 	 */
-	public void setPaySalesTax(PaySalesTax paySalesTax) {
+	public void setPaySalesTax(PayTAX paySalesTax) {
 		this.paySalesTax = paySalesTax;
 	}
 
@@ -178,7 +178,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * @return the payVAT
 	 */
 
-	public PayVAT getPayVAT() {
+	public PayTAX getPayVAT() {
 		return payVAT;
 	}
 
@@ -186,7 +186,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * @param payVAT
 	 *            the payVAT to set
 	 */
-	public void setPayVAT(PayVAT payVAT) {
+	public void setPayVAT(PayTAX payVAT) {
 		this.payVAT = payVAT;
 	}
 
@@ -430,7 +430,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;		
+		this.version = version;
 	}
 
 }

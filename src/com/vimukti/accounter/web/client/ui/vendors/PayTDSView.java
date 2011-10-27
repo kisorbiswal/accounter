@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTDS;
-import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
+import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -46,11 +46,11 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	private TransactionPayTDSGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
-	protected List<ClientPayVATEntries> entries;
+	protected List<ClientPayTAXEntries> entries;
 	private ClientTAXAgency selectedTaxAgency;
 	private double endingBalance;
-	private ArrayList<ClientPayVATEntries> filterList;
-	private ArrayList<ClientPayVATEntries> tempList;
+	private ArrayList<ClientPayTAXEntries> filterList;
+	private ArrayList<ClientPayTAXEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
@@ -58,7 +58,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	AccounterConstants accounterConstants = Accounter.constants();
 
 	public PayTDSView(int transactionType) {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX);
+		super(ClientTransaction.TYPE_PAY_TAX);
 
 	}
 

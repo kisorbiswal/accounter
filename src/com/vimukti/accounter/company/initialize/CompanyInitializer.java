@@ -12,7 +12,6 @@ import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.NominalCodeRange;
@@ -80,10 +79,20 @@ public abstract class CompanyInitializer {
 		initializeDefaultlLiabilitiesAccounts();
 		initializeDefaultEquityAccounts();
 
+		createDefaultFiledAccount();
+
 		session.saveOrUpdate(company);
 
 		init();
 
+	}
+
+	private void createDefaultFiledAccount() {
+		Account tAXFiledLiabilityAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.TAX_VAT_FILED,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+		company.setTAXFiledLiabilityAccount(tAXFiledLiabilityAccount);
 	}
 
 	/**
@@ -160,13 +169,13 @@ public abstract class CompanyInitializer {
 		FinanceDate currentDate = new FinanceDate();
 		int fiscalYearFirstMonth = this.company.getPreferences()
 				.getFiscalYearFirstMonth();
-		FinanceDate fiscalYearStartDate = new FinanceDate((int) currentDate
-				.getYear(), fiscalYearFirstMonth, 1);
+		FinanceDate fiscalYearStartDate = new FinanceDate(
+				(int) currentDate.getYear(), fiscalYearFirstMonth, 1);
 		Calendar endCal = Calendar.getInstance();
 		endCal.setTime(fiscalYearStartDate.getAsDateObject());
 		endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 11);
-		endCal.set(Calendar.DATE, endCal
-				.getActualMaximum(Calendar.DAY_OF_MONTH));
+		endCal.set(Calendar.DATE,
+				endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 		FinanceDate fiscalYearEndDate = new FinanceDate(endCal.getTime());
 
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
@@ -236,9 +245,9 @@ public abstract class CompanyInitializer {
 		creditCardCompanies.setCompany(company);
 		session.save(creditCardCompanies);
 
-		BrandingTheme brandingTheme = new BrandingTheme("Standard", SecureUtils
-				.createID(), 1.35, 1.00, 1.00, "Times New Roman", "10pt",
-				"INVOICE", "CREDIT", "STATEMENT", "(None Added)", true,
+		BrandingTheme brandingTheme = new BrandingTheme("Standard",
+				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
+				"10pt", "INVOICE", "CREDIT", "STATEMENT", "(None Added)", true,
 				"(None Added)", "(None Added)", "Classic Tempalate",
 				"Classic Template");
 		brandingTheme.setCompany(company);

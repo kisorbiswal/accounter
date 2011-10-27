@@ -66,12 +66,12 @@ public class ReceiveVATAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "receiveVat";
+		return "taxRefund";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "receive-vat";
+		return "tax-refund";
 	}
 
 }

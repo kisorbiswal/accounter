@@ -751,13 +751,16 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 			// Exception Report
 			// TODO need to get last vat period date
-			ClientFinanceDate date = new ClientFinanceDate(2011, 10, 30);
-
-			if (this.transactionDate.before(date)) {
-				result.addWarning(this.transactionDate, Accounter.constants()
-						.taxExceptionMesg());
+			for (ClientTransactionItem item : transaction.getTransactionItems()) {
+				long taxAgency = getCompany().getTaxItem(
+						getCompany().getTAXCode(item.getTaxCode())
+								.getTAXItemGrpForPurchases()).getTaxAgency();
+				if (this.transactionDate
+						.before(getLastTaxReturnEndDate(taxAgency))) {
+					result.addWarning(this.transactionDate, Accounter
+							.constants().taxExceptionMesg());
+				}
 			}
-
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {

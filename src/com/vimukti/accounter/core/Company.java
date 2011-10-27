@@ -202,13 +202,13 @@ public class Company implements IAccounterServerCore {
 	 * This is the Account created by default for the purpose of UK when VAT is
 	 * Filed
 	 */
-	Account VATFiledLiabilityAccount;
+	Account tAXFiledLiabilityAccount;
 
 	private Set<BrandingTheme> brandingTheme = new HashSet<BrandingTheme>();
 
 	private Set<User> usersList = new HashSet<User>();
 
-	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
+	private Set<AbstractTAXReturn> vatReturns = new HashSet<AbstractTAXReturn>();
 
 	private Set<Currency> currencies = new HashSet<Currency>();
 
@@ -234,7 +234,7 @@ public class Company implements IAccounterServerCore {
 
 	private Set<ItemGroup> itemGroups = new HashSet<ItemGroup>();
 
-	private Set<PaySalesTax> paySalesTaxs = new HashSet<PaySalesTax>();
+	private Set<PayTAX> payTaxs = new HashSet<PayTAX>();
 
 	private Set<CreditRating> creditRatings = new HashSet<CreditRating>();
 
@@ -626,12 +626,12 @@ public class Company implements IAccounterServerCore {
 		this.pendingItemReceiptsAccount = pendingItemReceiptsAccount;
 	}
 
-	public Account getVATFiledLiabilityAccount() {
-		return VATFiledLiabilityAccount;
+	public Account getTAXFiledLiabilityAccount() {
+		return tAXFiledLiabilityAccount;
 	}
 
-	public void setVATFiledLiabilityAccount(Account vATFiledLiabilityAccount) {
-		VATFiledLiabilityAccount = vATFiledLiabilityAccount;
+	public void setTAXFiledLiabilityAccount(Account tAXFiledLiabilityAccount) {
+		this.tAXFiledLiabilityAccount = tAXFiledLiabilityAccount;
 	}
 
 	@Override
@@ -983,7 +983,7 @@ public class Company implements IAccounterServerCore {
 
 		cmp.taxGroups = this.getTaxGroups();
 
-		cmp.paySalesTaxs = this.getPaySalesTaxs();
+		cmp.payTaxs = this.getPaySalesTaxs();
 
 		cmp.creditRatings = this.getCreditRatings();
 
@@ -1300,11 +1300,11 @@ public class Company implements IAccounterServerCore {
 		this.usersList = usersList;
 	}
 
-	public Set<VATReturn> getVatReturns() {
+	public Set<AbstractTAXReturn> getVatReturns() {
 		return vatReturns;
 	}
 
-	public void setVatReturns(Set<VATReturn> vatReturns) {
+	public void setVatReturns(Set<AbstractTAXReturn> vatReturns) {
 		this.vatReturns = vatReturns;
 	}
 
@@ -1396,12 +1396,12 @@ public class Company implements IAccounterServerCore {
 		this.itemGroups = itemGroups;
 	}
 
-	public Set<PaySalesTax> getPaySalesTaxs() {
-		return paySalesTaxs;
+	public Set<PayTAX> getPaySalesTaxs() {
+		return payTaxs;
 	}
 
-	public void setPaySalesTaxs(Set<PaySalesTax> paySalesTaxs) {
-		this.paySalesTaxs = paySalesTaxs;
+	public void setPaySalesTaxs(Set<PayTAX> paySalesTaxs) {
+		this.payTaxs = paySalesTaxs;
 	}
 
 	public Set<CreditRating> getCreditRatings() {
@@ -1537,7 +1537,7 @@ public class Company implements IAccounterServerCore {
 		delete(shippingTerms, session);
 		delete(priceLevels, session);
 		delete(itemGroups, session);
-		delete(paySalesTaxs, session);
+		delete(payTaxs, session);
 		delete(creditRatings, session);
 		delete(salesPersons, session);
 		delete(banks, session);

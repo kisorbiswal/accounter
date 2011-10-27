@@ -7,9 +7,9 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class FileVatAction extends Action {
+public class FileTAXAction extends Action {
 
-	public FileVatAction(String text) {
+	public FileTAXAction(String text) {
 		super(text);
 		this.catagory = Accounter.constants().tax();
 	}
@@ -45,12 +45,18 @@ public class FileVatAction extends Action {
 	public void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			private FileVATView view;
+			private AbstractFileTAXView view;
 
 			public void onCreated() {
-				view = new FileVATView();
+				if (Accounter.getCompany().getCountryPreferences()
+						.isVatAvailable()) {
+					view = new FileVATView();
+				} else {
+					view = new FileTAXView();
+				}
+
 				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, FileVatAction.this);
+						isDependent, FileTAXAction.this);
 
 			}
 		});
@@ -67,12 +73,12 @@ public class FileVatAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "fileVAT";
+		return Accounter.constants().fileTaxHistoryToken();
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "file-vat";
+		return Accounter.constants().filetaxHelp();
 	}
 
 }

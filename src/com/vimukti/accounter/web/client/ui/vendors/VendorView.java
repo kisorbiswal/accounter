@@ -245,6 +245,17 @@ public class VendorView extends BaseView<ClientVendor> {
 			result.addError(balanceDate, Accounter.constants().priorasOfDate());
 		}
 
+		if (getPreferences().isTDSEnabled()) {
+			if (isTDS.getValue()) {
+				ClientTAXItem selectedValue = vendorTDSTaxCode
+						.getSelectedValue();
+				if (selectedValue == null) {
+					result.addError(vendorTDSTaxCode,
+							constants.pleaseSelectTDS());
+				}
+			}
+		}
+
 		return result;
 	}
 
@@ -708,7 +719,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				.Vendor()), ClientTAXItem.TAX_TYPE_TDS);
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
-		vendorTDSTaxCode.setDisabled(isInViewMode());
+		vendorTDSTaxCode.setDisabled(true);
 		// panNumber=new TextItem(Accounter.constants().panNumber());
 		// panNumber.setHelpInformation(true);
 		// panNumber.setWidth("100%");
@@ -784,13 +795,13 @@ public class VendorView extends BaseView<ClientVendor> {
 				vatform.setFields(vatRegistrationNumber);
 			}
 			vatform.setFields(vendorTaxCode);
-			if (getCountryPreferences().isTDSAvailable()) {
-				vatform.setFields(isTDS, vendorTDSTaxCode);
-			}
 			if (getCountryPreferences().isServiceTaxAvailable()) {
 				vatform.setFields(serviceTaxRegisterationNumber);
 			}
 		}
+		DynamicForm tdsFrom = new DynamicForm();
+		tdsFrom.setFields(isTDS, vendorTDSTaxCode);
+
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
 		leftVLay.setHeight("350px");
@@ -805,6 +816,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		rVLayout.add(vendorGrpForm);
 		if (getPreferences().isTrackTax()) {
 			rVLayout.add(vatform);
+		}
+		if (getPreferences().isTDSEnabled()) {
+			rVLayout.add(tdsFrom);
 		}
 
 		HorizontalPanel mainHLay = new HorizontalPanel();
@@ -1262,9 +1276,6 @@ public class VendorView extends BaseView<ClientVendor> {
 				(data.getPaymentTermsId()));
 
 		isTDS.setValue(data.isTdsApplicable());
-		if (isTDS.getValue()) {
-			vendorTDSTaxCode.setDisabled(false);
-		}
 		vendorTDSTaxCode
 				.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
 						.getTAXItem(data.getTaxItemCode())));
@@ -1400,7 +1411,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		vatRegistrationNumber.setDisabled(isInViewMode());
 		vendorTaxCode.setDisabled(isInViewMode());
 		isTDS.setDisabled(isInViewMode());
-		vendorTDSTaxCode.setDisabled(isInViewMode());
+		if (getData().isTdsApplicable()) {
+			vendorTDSTaxCode.setDisabled(isInViewMode());
+		}
 		taxIDText.setDisabled(isInViewMode());
 		taxID.setDisabled(isInViewMode());
 		super.onEdit();

@@ -907,6 +907,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnterThe(String objectName, String name);
 
+	public String printTAXReturnLabel();
+
 	public String selectedit(String vendorPayment);
 
 	public String name(String taxGroup);
@@ -927,8 +929,9 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseSaveThisTransactionToAddNote();
 
-	public String unableToSaveNote(String string);
+	public String taxItemWithRate(String name, double taxRate);
 
+	public String unableToSaveNote(String string);
 	public SafeHtml transactionLink(String transactionName);
 
 	public String unitPrice(String currency);

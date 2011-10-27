@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXFilingFrequencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATAgencyAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -89,6 +90,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private static TAXAgencyView taxAgencyView;
 
 	private ArrayList<DynamicForm> listforms;
+
+	private TAXFilingFrequencyCombo tAXFilingFrequency;
 
 	public TAXAgencyView() {
 		super();
@@ -270,6 +273,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// Setting Memo
 		data.setMemo(UIUtils.toStr(memoArea.getValue()));
 
+		data.setTAXFilingFrequency(tAXFilingFrequency.getSelectedFrequency());
+
 	}
 
 	private VerticalPanel getTopLayout() {
@@ -384,12 +389,18 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo.setRequired(true);
 
+		tAXFilingFrequency = new TAXFilingFrequencyCombo(
+				constants.taxFilingFrequency());
+		tAXFilingFrequency.setDisabled(isInViewMode());
+		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
+		tAXFilingFrequency.setSelectedItem(0);
+
 		Label contacts = new Label(companyConstants.contacts());
 		initListGrid();
 		if (getPreferences().isTrackPaidTax()) {
 			accInfoForm.setFields(statusCheck, paymentTermsCombo, taxTypeCombo,
 					vatReturnCombo, liabilitySalesAccountCombo,
-					liabilityPurchaseAccountCombo);
+					liabilityPurchaseAccountCombo, tAXFilingFrequency);
 		} else {
 			accInfoForm.setFields(statusCheck, paymentTermsCombo, taxTypeCombo,
 					vatReturnCombo, liabilitySalesAccountCombo);
@@ -607,6 +618,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		return mainVlay;
 	}
 
+	private List<String> getTAXFilingFrequencies() {
+		List<String> list = new ArrayList<String>();
+		list.add(constants.monthly());
+		list.add(constants.quarterly());
+		list.add(constants.halfYearly());
+		list.add(constants.yearly());
+		return list;
+	}
+
 	private void initListGrid() {
 		gridView = new ContactsTable();
 		gridView.setDisabled(true);
@@ -636,6 +656,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 						data.getPurchaseLiabilityAccount());
 			}
 			taxTypeSelected(getTaxTypeString(data.getTaxType()));
+			liabilitySalesAccountCombo.select(selectedSalesAccount);
+			liabilityPurchaseAccountCombo.select(selectedPurchaseAccount);
+			tAXFilingFrequency.setSelectedItem(getData()
+					.getTAXFilingFrequency());
 		}
 	}
 
@@ -802,6 +826,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		phoneFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
 		gridView.setDisabled(isInViewMode());
+		tAXFilingFrequency.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

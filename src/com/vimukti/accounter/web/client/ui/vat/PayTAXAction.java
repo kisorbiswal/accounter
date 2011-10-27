@@ -7,9 +7,9 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class PayVATAction extends Action {
+public class PayTAXAction extends Action {
 
-	public PayVATAction(String text) {
+	public PayTAXAction(String text) {
 		super(text);
 		this.catagory = Accounter.constants().tax();
 	}
@@ -43,8 +43,8 @@ public class PayVATAction extends Action {
 
 			public void onCreated() {
 
-				MainFinanceWindow.getViewManager().showView(new PayVATView(),
-						data, isDependent, PayVATAction.this);
+				MainFinanceWindow.getViewManager().showView(new PayTAXView(),
+						data, isDependent, PayTAXAction.this);
 
 			}
 
@@ -59,12 +59,12 @@ public class PayVATAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "payVat";
+		return "payTAX";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "pay-vat";
+		return "pay-tax";
 	}
 
 }

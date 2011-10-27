@@ -58,24 +58,23 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
 	public static final int TYPE_WRITE_CHECK = 15;
 	public static final int TYPE_JOURNAL_ENTRY = 16;
-	public static final int TYPE_PAY_SALES_TAX = 17;
+	public static final int TYPE_PAY_TAX = 17;
 	public static final int TYPE_EXPENSE = 18;
 	public static final int TYPE_PAY_EXPENSE = 19;
-	public static final int TYPE_VAT_RETURN = 20;
+	public static final int TYPE_TAX_RETURN = 20;
 
 	public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
 	public static final int TYPE_ITEM_RECEIPT = 23;
 
 	public static final int TYPE_ADJUST_VAT_RETURN = 24;
-	public static final int TYPE_PAY_VAT = 30;
 
 	public static final int TYPE_CASH_EXPENSE = 26;
 	public static final int TYPE_CREDIT_CARD_EXPENSE = 27;
 	public static final int TYPE_EMPLOYEE_EXPENSE = 28;
 
 	public static final int TYPE_CUSTOMER_PRE_PAYMENT = 29;
-	public static final int TYPE_RECEIVE_VAT = 31;
+	public static final int TYPE_RECEIVE_TAX = 31;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
@@ -107,8 +106,6 @@ public abstract class Transaction extends CreatableObject implements
 	private Currency currency;
 
 	private RecurringTransaction recurringTransaction;
-
-	
 
 	private double currencyFactor;
 
@@ -212,9 +209,7 @@ public abstract class Transaction extends CreatableObject implements
 	/**
 	 * Not using now, this property has been shifted to Comapny.
 	 */
-	Set<PaySalesTaxEntries> paySalesTaxEntriesList = new HashSet<PaySalesTaxEntries>();
-
-	Set<PayVATEntries> payVATEntriesList = new HashSet<PayVATEntries>();
+	Set<PayTAXEntries> payVATEntriesList = new HashSet<PayTAXEntries>();
 	Set<ReceiveVATEntries> receiveVATEntriesList = new HashSet<ReceiveVATEntries>();
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
@@ -284,20 +279,11 @@ public abstract class Transaction extends CreatableObject implements
 		this.accountTransactionEntriesList = accountTransactionEntriesList;
 	}
 
-	public Set<PaySalesTaxEntries> getPaySalesTaxEntriesList() {
-		return paySalesTaxEntriesList;
-	}
-
-	public void setPaySalesTaxEntriesList(
-			Set<PaySalesTaxEntries> paySalesTaxEntriesList) {
-		this.paySalesTaxEntriesList = paySalesTaxEntriesList;
-	}
-
-	public Set<PayVATEntries> getPayVATEntriesList() {
+	public Set<PayTAXEntries> getPayVATEntriesList() {
 		return payVATEntriesList;
 	}
 
-	public void setPayVATEntriesList(Set<PayVATEntries> payVATEntriesList) {
+	public void setPayVATEntriesList(Set<PayTAXEntries> payVATEntriesList) {
 		this.payVATEntriesList = payVATEntriesList;
 	}
 
@@ -802,18 +788,14 @@ public abstract class Transaction extends CreatableObject implements
 			this.type = Transaction.TYPE_MAKE_DEPOSIT;
 		else if (this.isPayBill())
 			this.type = Transaction.TYPE_PAY_BILL;
-		else if (this.isPaySalesTax())
-			this.type = Transaction.TYPE_PAY_SALES_TAX;
-		else if (this.isPayVAT())
-			this.type = Transaction.TYPE_PAY_VAT;
+		else if (this.isPayTax())
+			this.type = Transaction.TYPE_PAY_TAX;
 		else if (this.isReceiveVAT())
-			this.type = Transaction.TYPE_RECEIVE_VAT;
+			this.type = Transaction.TYPE_RECEIVE_TAX;
 		else if (this.isQuote())
 			this.type = Transaction.TYPE_ESTIMATE;
 		else if (this.isReceivePayment())
 			this.type = Transaction.TYPE_RECEIVE_PAYMENT;
-		else if (this.isVATAdjustment())
-			this.type = Transaction.TYPE_ADJUST_VAT_RETURN;
 		else if (this.isVendorCreditMemo())
 			this.type = Transaction.TYPE_VENDOR_CREDIT_MEMO;
 		else if (this.isWriteCheck())
@@ -945,9 +927,6 @@ public abstract class Transaction extends CreatableObject implements
 		if (transaction.accountTransactionEntriesList != null) {
 			transaction.accountTransactionEntriesList.clear();
 		}
-		if (transaction.paySalesTaxEntriesList != null) {
-			transaction.paySalesTaxEntriesList.clear();
-		}
 		if (transaction.payVATEntriesList != null) {
 			transaction.payVATEntriesList.clear();
 		}
@@ -963,19 +942,9 @@ public abstract class Transaction extends CreatableObject implements
 		return this != null && this instanceof ReceivePayment;
 	}
 
-	public boolean isPaySalesTax() {
+	public boolean isPayTax() {
 
-		return this != null && this instanceof PaySalesTax;
-	}
-
-	public boolean isPayVAT() {
-
-		return this != null && this instanceof PayVAT;
-	}
-
-	public boolean isVATAdjustment() {
-
-		return this != null && this instanceof TAXAdjustment;
+		return this != null && this instanceof PayTAX;
 	}
 
 	public abstract boolean isPositiveTransaction();
@@ -1106,9 +1075,7 @@ public abstract class Transaction extends CreatableObject implements
 	private void updatePayee(double amount) {
 		Payee payee = getPayee();
 		if (payee != null) {
-			payee
-					.updateBalance(HibernateUtil.getCurrentSession(), this,
-							amount);
+			payee.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 		}
 
 	}
@@ -1318,7 +1285,7 @@ public abstract class Transaction extends CreatableObject implements
 	public List<TransactionLog> getHistory() {
 		return this.history;
 	}
-	
+
 	public Currency getCurrency() {
 		return currency;
 	}

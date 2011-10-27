@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class VATPaymentView extends
-		AbstractTransactionBaseView<ClientPaySalesTax> {
+		AbstractTransactionBaseView<ClientPayTAX> {
 	private AmountField vatBalance, amount, endingBalanceText;
 	private TextItem referenceNo, checkNoText, memo, vatAgency;
 	private AddressForm addressForm;
@@ -48,7 +48,7 @@ public class VATPaymentView extends
 	private ArrayList<DynamicForm> listforms;
 
 	public VATPaymentView() {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX);
+		super(ClientTransaction.TYPE_PAY_TAX);
 	}
 
 	@Override
@@ -268,7 +268,7 @@ public class VATPaymentView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		transaction.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
+		transaction.setType(ClientTransaction.TYPE_PAY_TAX);
 
 		transaction.setNumber(transactionNumber.getValue().toString());
 

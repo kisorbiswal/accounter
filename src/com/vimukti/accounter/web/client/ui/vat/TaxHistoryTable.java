@@ -7,8 +7,8 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
@@ -18,11 +18,11 @@ import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
  * @author Sai Prasad N
  * 
  */
-public class TaxHistoryTable extends CellTable<ClientVATReturn> {
-	private ListDataProvider<ClientVATReturn> dataprovider = new ListDataProvider<ClientVATReturn>();
-	private SelectionChangedHandler<ClientVATReturn> callBack;
+public class TaxHistoryTable extends CellTable<ClientAbstractTAXReturn> {
+	private ListDataProvider<ClientAbstractTAXReturn> dataprovider = new ListDataProvider<ClientAbstractTAXReturn>();
+	private SelectionChangedHandler<ClientAbstractTAXReturn> callBack;
 
-	TaxHistoryTable(SelectionChangedHandler<ClientVATReturn> callBack) {
+	TaxHistoryTable(SelectionChangedHandler<ClientAbstractTAXReturn> callBack) {
 		initColumns();
 		this.callBack = callBack;
 		HTML emptyMessage = new HTML(Accounter.constants().taxHistoryEmpty());
@@ -34,61 +34,62 @@ public class TaxHistoryTable extends CellTable<ClientVATReturn> {
 
 		dataprovider.addDataDisplay(this);
 
-		CheckBoxColumn<ClientVATReturn> check = new CheckBoxColumn<ClientVATReturn>() {
+		CheckBoxColumn<ClientAbstractTAXReturn> check = new CheckBoxColumn<ClientAbstractTAXReturn>() {
 
 			@Override
-			public void update(int arg0, ClientVATReturn arg1, Boolean arg2) {
+			public void update(int arg0, ClientAbstractTAXReturn arg1,
+					Boolean arg2) {
 
 				callBack.selectionChanged(arg1, arg2);
 			}
 
 			@Override
-			public Boolean getValue(ClientVATReturn arg0) {
+			public Boolean getValue(ClientAbstractTAXReturn arg0) {
 				return false;
 			}
 		};
 
-		TextColumn<ClientVATReturn> periodStartDate = new TextColumn<ClientVATReturn>() {
+		TextColumn<ClientAbstractTAXReturn> periodStartDate = new TextColumn<ClientAbstractTAXReturn>() {
 
 			@Override
-			public String getValue(ClientVATReturn object) {
+			public String getValue(ClientAbstractTAXReturn object) {
 
-				return new ClientFinanceDate(object.getVATperiodStartDate())
+				return new ClientFinanceDate(object.getPeriodStartDate())
 						.toString();
 			}
 		};
 
-		TextColumn<ClientVATReturn> periodEndDate = new TextColumn<ClientVATReturn>() {
+		TextColumn<ClientAbstractTAXReturn> periodEndDate = new TextColumn<ClientAbstractTAXReturn>() {
 
 			@Override
-			public String getValue(ClientVATReturn object) {
+			public String getValue(ClientAbstractTAXReturn object) {
 
-				return new ClientFinanceDate(object.getVATperiodEndDate())
+				return new ClientFinanceDate(object.getPeriodEndDate())
 						.toString();
 			}
 		};
-		TextColumn<ClientVATReturn> vatFileDate = new TextColumn<ClientVATReturn>() {
+		TextColumn<ClientAbstractTAXReturn> vatFileDate = new TextColumn<ClientAbstractTAXReturn>() {
 
 			@Override
-			public String getValue(ClientVATReturn object) {
+			public String getValue(ClientAbstractTAXReturn object) {
 
 				return null;
 			}
 		};
-		TextColumn<ClientVATReturn> netAmountDue = new TextColumn<ClientVATReturn>() {
+		TextColumn<ClientAbstractTAXReturn> netAmountDue = new TextColumn<ClientAbstractTAXReturn>() {
 
 			@Override
-			public String getValue(ClientVATReturn object) {
+			public String getValue(ClientAbstractTAXReturn object) {
 
 				return String.valueOf(object.getBalance());
 
 			}
 		};
 
-		TextColumn<ClientVATReturn> totalPaymentMade = new TextColumn<ClientVATReturn>() {
+		TextColumn<ClientAbstractTAXReturn> totalPaymentMade = new TextColumn<ClientAbstractTAXReturn>() {
 
 			@Override
-			public String getValue(ClientVATReturn object) {
+			public String getValue(ClientAbstractTAXReturn object) {
 
 				return String.valueOf(object.getNetAmount());
 			}
@@ -104,7 +105,7 @@ public class TaxHistoryTable extends CellTable<ClientVATReturn> {
 
 	}
 
-	public void setData(List<ClientVATReturn> data) {
+	public void setData(List<ClientAbstractTAXReturn> data) {
 		if (data == null) {
 			data = Collections.emptyList();
 		}
@@ -112,7 +113,7 @@ public class TaxHistoryTable extends CellTable<ClientVATReturn> {
 
 	}
 
-	public List<ClientVATReturn> getData() {
+	public List<ClientAbstractTAXReturn> getData() {
 		return this.dataprovider.getList();
 	}
 

@@ -23,8 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
-import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
+import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -306,11 +305,11 @@ public interface IAccounterHomeViewServiceAsync {
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts, AsyncCallback callBack);
 
-	public void getPaySalesTaxEntries(long transactionDate,
-			AsyncCallback<ArrayList<ClientPaySalesTaxEntries>> callBack);
+	// public void getPaySalesTaxEntries(long transactionDate,
+	// AsyncCallback<ArrayList<ClientFileTAXEntry>> callBack);
 
 	public void getPayVATEntries(
-			AsyncCallback<ArrayList<ClientPayVATEntries>> callBack);
+			AsyncCallback<ArrayList<ClientPayTAXEntries>> callBack);
 
 	public void getPayeeList(int transactionCategory,
 			AsyncCallback<ArrayList<PayeeList>> callBack);

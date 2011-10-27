@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
@@ -105,7 +105,7 @@ public class DemoCompanyManager {
 		xStream.alias("ClientTAXGroup", ClientTAXGroup.class);
 
 		xStream.alias("paySalesTaxs", List.class);
-		xStream.alias("ClientPaySalesTax", ClientPaySalesTax.class);
+		xStream.alias("ClientPayTAX", ClientPayTAX.class);
 
 		xStream.alias("creditRatings", List.class);
 		xStream.alias("ClientCreditRating", ClientCreditRating.class);

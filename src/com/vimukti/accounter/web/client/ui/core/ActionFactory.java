@@ -176,11 +176,11 @@ import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 import com.vimukti.accounter.web.client.ui.settings.WarehouseListAction;
 import com.vimukti.accounter.web.client.ui.settings.WarehouseTransferListAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
-import com.vimukti.accounter.web.client.ui.vat.FileVatAction;
+import com.vimukti.accounter.web.client.ui.vat.FileTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.ManageTAXCodesListAction;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
-import com.vimukti.accounter.web.client.ui.vat.PayVATAction;
+import com.vimukti.accounter.web.client.ui.vat.PayTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
 import com.vimukti.accounter.web.client.ui.vat.TaxHistoryAction;
 import com.vimukti.accounter.web.client.ui.vat.VatItemListAction;
@@ -1055,8 +1055,8 @@ public class ActionFactory {
 		return new NewVatItemAction(flag);
 	}
 
-	public static FileVatAction getFileVatAction() {
-		return new FileVatAction(actionsConstants.fileVAT());
+	public static FileTAXAction getFileTAXAction() {
+		return new FileTAXAction(actionsConstants.fileTAX());
 	}
 
 	public static VatItemListAction getVatItemListAction() {
@@ -1092,13 +1092,13 @@ public class ActionFactory {
 
 	}
 
-	public static PayVATAction getpayVATAction() {
-		return new PayVATAction(actionsConstants.payVAT());
+	public static PayTAXAction getpayTAXAction() {
+		return new PayTAXAction(actionsConstants.payTax());
 
 	}
 
 	public static Action getreceiveVATAction() {
-		return new ReceiveVATAction(actionsConstants.receiveVAT());
+		return new ReceiveVATAction(actionsConstants.tAXRefund());
 	}
 
 	public static VendorsHomeAction getVendorsHomeAction() {
@@ -1317,11 +1317,13 @@ public class ActionFactory {
 	}
 
 	public static UsersActivityListAction getUsersActivityListAction() {
-		return new UsersActivityListAction("Users Activity Log");
+		return new UsersActivityListAction(
+				actionsConstants.usersActivityLogTitle());
 	}
 
 	public static TDSVendorsListAction getTDSVendorsAction(boolean isTDSView) {
-		return new TDSVendorsListAction("TDS Vendors List", isTDSView);
+		return new TDSVendorsListAction(actionsConstants.tdsVendorsList(),
+				isTDSView);
 	}
 
 	public static NewReconcileAccountAction getNewReconciliationAction() {
@@ -1344,7 +1346,7 @@ public class ActionFactory {
 	}
 
 	public static TDSPayAction getpayTDSAction() {
-		return new TDSPayAction("Pay TDS");
+		return new TDSPayAction(actionsConstants.payTDS());
 	}
 
 	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {

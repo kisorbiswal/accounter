@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -171,14 +171,14 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 	}
 
 	public void fillEndingDatesCombo(ClientTAXAgency selectItem) {
-		List<ClientVATReturn> vatReturns = getCompany().getVatReturns();
+		List<ClientAbstractTAXReturn> vatReturns = getCompany().getVatReturns();
 		List<String> endDates = new ArrayList<String>();
 		// endDates.add("");
-		for (ClientVATReturn vatReturn : vatReturns) {
+		for (ClientAbstractTAXReturn vatReturn : vatReturns) {
 			if (vatReturn.getTAXAgency() == selectItem.getID()) {
 
 				endDates.add(UIUtils.dateToString(new ClientFinanceDate(
-						vatReturn.getVATperiodEndDate())));
+						vatReturn.getPeriodEndDate())));
 			}
 		}
 		endingDateCombo.initCombo(endDates);

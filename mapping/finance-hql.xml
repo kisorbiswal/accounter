@@ -231,7 +231,7 @@
 	<query name="list.VATReturn">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VATReturn vr where vr.company=:company
-		order by vr.taxAgency.name, vr.VATperiodStartDate
+		order by vr.taxAgency.name, vr.periodStartDate
 	</query>
 	<query name="list.currency">
 		<query-param name="company" type="Company" />

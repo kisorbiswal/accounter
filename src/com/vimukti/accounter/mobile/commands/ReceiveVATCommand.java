@@ -394,9 +394,9 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 			// VATReturn vatReturn =(VATReturn) entry.getTransaction();
 			// ClientVATReturn clientVATReturn = new
 			// ClientConvertUtil().toClientObject(vatReturn,ClientVATReturn.class);
-			clientEntry.setVatReturn(entry.getTransaction().getID());
-			clientEntry.setVatAgency(entry.getTaxAgency() != null ? entry
-					.getTaxAgency().getID() : null);
+			clientEntry.setTAXReturn(entry.getTransaction().getID());
+			clientEntry.setTAXAgency(entry.getTAXAgency() != null ? entry
+					.getTAXAgency().getID() : null);
 			clientEntry.setBalance(entry.getBalance());
 			clientEntry.setAmount(entry.getAmount());
 
@@ -412,8 +412,8 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 		for (ClientReceiveVATEntries entry : clientEntries) {
 			ClientTransactionReceiveVAT clientEntry = new ClientTransactionReceiveVAT();
 
-			clientEntry.setTaxAgency(entry.getVatAgency());
-			clientEntry.setVatReturn(entry.getVatReturn());
+			clientEntry.setTaxAgency(entry.getTAXAgency());
+			clientEntry.setTAXReturn(entry.getTAXReturn());
 			// clientEntry.setAmountToReceive(entry.getAmount())
 			double total = entry.getAmount();
 			double balance = entry.getBalance();

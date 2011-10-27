@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
+public class TAXReturnEntry implements IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -27,40 +27,36 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 
 	Transaction transaction;
 
+	int transactionType;
+
 	TAXItem taxItem;
 
 	TAXAgency taxAgency;
 
-	double amount;
-
-	double balance;
-
 	int version;
-
-	// int status = 0;
-	//
-	// boolean isVoid;
-
-	FinanceDate transactionDate;
 
 	TAXRateCalculation taxRateCalculation;
 
 	TAXAdjustment taxAdjustment;
 
+	double netAmount;
+
+	double grassAmount;
+
 	transient private boolean isOnSaveProccessed;
 
-	public PaySalesTaxEntries() {
+	private double taxAmount;
+
+	public TAXReturnEntry() {
 	}
 
-	public PaySalesTaxEntries(Transaction transaction, double taxableAmount,
+	public TAXReturnEntry(Transaction transaction, double taxableAmount,
 			double rate, TAXItem taxItem) {
 
 		this.transaction = transaction;
 		this.taxItem = taxItem;
 		this.taxAgency = taxItem.getTaxAgency();
-		this.amount = taxableAmount;
-		this.balance = (taxableAmount * rate) / 100;
-		this.transactionDate = this.transaction.getDate();
+		this.taxAmount = taxableAmount;
 		// this.status = transaction.status;
 
 	}
@@ -81,21 +77,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @return the transactionDate
-	 */
-	public FinanceDate getTransactionDate() {
-		return transactionDate;
-	}
-
-	/**
-	 * @param transactionDate
-	 *            the transactionDate to set
-	 */
-	public void setTransactionDate(FinanceDate transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-
-	/**
 	 * @param taxItem
 	 *            the taxItem to set
 	 */
@@ -110,22 +91,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
-	}
-
-	/**
-	 * @param amount
-	 *            the amount to set
-	 */
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	/**
-	 * @param balance
-	 *            the balance to set
-	 */
-	public void setBalance(double balance) {
-		this.balance = balance;
 	}
 
 	/**
@@ -156,24 +121,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 
 	public TAXAgency getTaxAgency() {
 		return taxAgency;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public double getBalance() {
-		return balance;
-	}
-
-	public void updateBalance(double amount) {
-
-		this.balance -= amount;
-	}
-
-	public void updateAmountAndBalane(double amount) {
-		this.amount += amount;
-		this.balance += amount;
 	}
 
 	@Override
@@ -234,5 +181,65 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 
 	public TAXAdjustment getTaxAdjustment() {
 		return taxAdjustment;
+	}
+
+	/**
+	 * @return the transactionType
+	 */
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	/**
+	 * @param transactionType
+	 *            the transactionType to set
+	 */
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	/**
+	 * @return the netAmount
+	 */
+	public double getNetAmount() {
+		return netAmount;
+	}
+
+	/**
+	 * @param netAmount
+	 *            the netAmount to set
+	 */
+	public void setNetAmount(double netAmount) {
+		this.netAmount = netAmount;
+	}
+
+	/**
+	 * @return the grassAmount
+	 */
+	public double getGrassAmount() {
+		return grassAmount;
+	}
+
+	/**
+	 * @param grassAmount
+	 *            the grassAmount to set
+	 */
+	public void setGrassAmount(double grassAmount) {
+		this.grassAmount = grassAmount;
+	}
+
+	/**
+	 * @return the taxAmount
+	 */
+	public double getTaxAmount() {
+		return taxAmount;
+	}
+
+	/**
+	 * @param taxAmount
+	 *            the taxAmount to set
+	 */
+	public void setTaxAmount(double taxAmount) {
+		this.taxAmount = taxAmount;
 	}
 }

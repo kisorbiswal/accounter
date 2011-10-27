@@ -260,7 +260,7 @@ T.STATUS as PAYMENT_STATUS
 	ITEM_RECEIPT IR
 		on T.ID = IR.ID
     left outer join
-        VAT_RETURN VR 
+        TAX_RETURN VR 
             on T.ID=VR.ID
    left outer join
 	ENTRY E

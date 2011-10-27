@@ -350,10 +350,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getNewTAXAgencyAction());
 		actions.put(ActionFactory.getAdjustTaxAction().getHistoryToken(),
 				ActionFactory.getAdjustTaxAction());
-		actions.put(ActionFactory.getFileVatAction().getHistoryToken(),
-				ActionFactory.getFileVatAction());
-		actions.put(ActionFactory.getpayVATAction().getHistoryToken(),
-				ActionFactory.getpayVATAction());
+		actions.put(ActionFactory.getFileTAXAction().getHistoryToken(),
+				ActionFactory.getFileTAXAction());
+		actions.put(ActionFactory.getpayTAXAction().getHistoryToken(),
+				ActionFactory.getpayTAXAction());
 		actions.put(ActionFactory.getreceiveVATAction().getHistoryToken(),
 				ActionFactory.getreceiveVATAction());
 		actions.put(ActionFactory.getVatItemListAction().getHistoryToken(),

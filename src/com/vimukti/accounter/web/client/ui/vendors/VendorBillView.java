@@ -41,7 +41,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -81,7 +80,6 @@ public class VendorBillView extends
 
 	private long selectedPurchaseOrder;
 	private long selectedItemReceipt;
-	private TaxItemCombo vendorTDSTaxCode;
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
@@ -265,16 +263,6 @@ public class VendorBillView extends
 
 		updatePurchaseOrderOrItemReceipt(vendor);
 
-		if (vendor.isTdsApplicable()) {
-			vendorTDSTaxCode.setSelected(vendorTDSTaxCode
-					.getDisplayName(getCompany().getTAXItem(
-							vendor.getTaxItemCode())));
-			vendorTDSTaxCode.setVisible(true);
-		} else {
-			vendorTDSTaxCode.setValue(null);
-			vendorTDSTaxCode.setVisible(false);
-		}
-
 		super.vendorSelected(vendor);
 		if (transaction == null)
 			vendorAccountTransactionTable.resetRecords();
@@ -414,9 +402,6 @@ public class VendorBillView extends
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
-		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
-				.Vendor()), 1);
-		vendorTDSTaxCode.setHelpInformation(true);
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
@@ -447,13 +432,7 @@ public class VendorBillView extends
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
-		if (getCompany().getPreferences().isTDSEnabled()) {
-			vendorForm.setFields(vendorCombo, emptylabel, contactCombo,
-					emptylabel, vendorTDSTaxCode);
-		} else {
-			vendorForm.setFields(vendorCombo, emptylabel, contactCombo,
-					emptylabel);
-		}
+		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -461,7 +440,6 @@ public class VendorBillView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorTDSTaxCode.setVisible(false);
 		// formItems.add(vendorCombo);
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -1249,7 +1227,6 @@ public class VendorBillView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		vendorTDSTaxCode.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
 		super.onEdit();
 	}

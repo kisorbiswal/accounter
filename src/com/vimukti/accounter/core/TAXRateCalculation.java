@@ -46,7 +46,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 * This reference to VATReturn is used to indicate whether this entry of
 	 * VATRateCalculation is filed to any VATReturn.
 	 */
-	VATReturn vatReturn;
+	AbstractTAXReturn vatReturn;
 	private transient double vatValue;
 
 	/**
@@ -204,7 +204,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public VATReturn getVatReturn() {
+	public AbstractTAXReturn getVatReturn() {
 		return vatReturn;
 	}
 
@@ -212,7 +212,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 * @param vatReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(VATReturn vatReturn) {
+	public void setVatReturn(AbstractTAXReturn vatReturn) {
 		this.vatReturn = vatReturn;
 	}
 

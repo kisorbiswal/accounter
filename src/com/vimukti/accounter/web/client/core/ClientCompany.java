@@ -145,7 +145,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientTAXGroup> taxGroups;
 
-	private ArrayList<ClientPaySalesTax> paySalesTaxs;
+	private ArrayList<ClientPayTAX> payTaxs;
 
 	private ArrayList<ClientCreditRating> creditRatings;
 
@@ -166,7 +166,7 @@ public class ClientCompany implements IAccounterCore {
 	// private ArrayList<ClientSellingOrDisposingFixedAsset>
 	// sellingDisposedItems;
 
-	private ArrayList<ClientVATReturn> vatReturns;
+	private ArrayList<ClientAbstractTAXReturn> vatReturns;
 
 	private ArrayList<ClientTAXAgency> taxAgencies;
 
@@ -247,7 +247,7 @@ public class ClientCompany implements IAccounterCore {
 	/**
 	 * @return the vatReturns
 	 */
-	public ArrayList<ClientVATReturn> getVatReturns() {
+	public ArrayList<ClientAbstractTAXReturn> getVatReturns() {
 		return vatReturns;
 	}
 
@@ -255,14 +255,14 @@ public class ClientCompany implements IAccounterCore {
 	 * @param vatReturns
 	 *            the vatReturns to set
 	 */
-	public void setVatReturns(ArrayList<ClientVATReturn> vatReturns) {
+	public void setVatReturns(ArrayList<ClientAbstractTAXReturn> vatReturns) {
 		this.vatReturns = vatReturns;
 	}
 
 	/**
 	 * @return the vatReturns
 	 */
-	public ClientVATReturn getVatReturn(long vatReturnID) {
+	public ClientAbstractTAXReturn getVatReturn(long vatReturnID) {
 		return Utility.getObject(this.vatReturns, vatReturnID);
 	}
 
@@ -784,12 +784,12 @@ public class ClientCompany implements IAccounterCore {
 		this.taxAgencies = taxAgencies;
 	}
 
-	public ArrayList<ClientPaySalesTax> getPaySalesTaxs() {
-		return paySalesTaxs;
+	public ArrayList<ClientPayTAX> getPaySalesTaxs() {
+		return payTaxs;
 	}
 
-	public void setPaySalesTaxs(ArrayList<ClientPaySalesTax> paySalesTaxs) {
-		this.paySalesTaxs = paySalesTaxs;
+	public void setPaySalesTaxs(ArrayList<ClientPayTAX> paySalesTaxs) {
+		this.payTaxs = paySalesTaxs;
 	}
 
 	public ArrayList<ClientCreditRating> getCreditRatings() {
@@ -1119,9 +1119,9 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.paymentTerms, paymentTermsId);
 	}
 
-	public ClientPaySalesTax getPaySalesTax(long paysalesTaxId) {
+	public ClientPayTAX getPaySalesTax(long paysalesTaxId) {
 
-		return Utility.getObject(this.paySalesTaxs, paysalesTaxId);
+		return Utility.getObject(this.payTaxs, paysalesTaxId);
 	}
 
 	public ClientCustomerGroup getCustomerGroup(long customerGroupId) {
@@ -1477,10 +1477,11 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void deleteVAtReturn(long vatReturnId) {
-		ClientVATReturn clientVatReturn = this.getVatReturn(vatReturnId);
+		ClientAbstractTAXReturn clientVatReturn = this
+				.getVatReturn(vatReturnId);
 		if (clientVatReturn != null) {
 			this.vatReturns.remove(clientVatReturn);
-			fireEvent(new CoreEvent<ClientVATReturn>(ChangeType.DELETE,
+			fireEvent(new CoreEvent<ClientAbstractTAXReturn>(ChangeType.DELETE,
 					clientVatReturn));
 		}
 	}
@@ -1801,11 +1802,11 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
-			case PAY_SALES_TAX:
+			case PAY_TAX:
 
-				ClientPaySalesTax paySalesTax = (ClientPaySalesTax) accounterCoreObject;
+				ClientPayTAX payTax = (ClientPayTAX) accounterCoreObject;
 
-				Utility.updateClientList(paySalesTax, paySalesTaxs);
+				Utility.updateClientList(payTax, payTaxs);
 
 				break;
 
@@ -1847,8 +1848,8 @@ public class ClientCompany implements IAccounterCore {
 			// Utility.updateClientList(vagy, this.vatAgencies);
 			// Utility.updateClientList(vagy, payees);
 			// break;
-			case VATRETURN:
-				ClientVATReturn vaReturn = (ClientVATReturn) accounterCoreObject;
+			case TAX_RETURN:
+				ClientAbstractTAXReturn vaReturn = (ClientAbstractTAXReturn) accounterCoreObject;
 				Utility.updateClientList(vaReturn, this.vatReturns);
 				break;
 
@@ -2585,11 +2586,11 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.paymentTerms = paymentTerms;
 
-		ArrayList<ClientPaySalesTax> paySalesTaxs = new ArrayList<ClientPaySalesTax>();
-		for (ClientPaySalesTax clientPaySalesTax : this.paySalesTaxs) {
+		ArrayList<ClientPayTAX> paySalesTaxs = new ArrayList<ClientPayTAX>();
+		for (ClientPayTAX clientPaySalesTax : this.payTaxs) {
 			paySalesTaxs.add(clientPaySalesTax.clone());
 		}
-		clientCompany.paySalesTaxs = paySalesTaxs;
+		clientCompany.payTaxs = paySalesTaxs;
 
 		ArrayList<ClientPriceLevel> priceLevels = new ArrayList<ClientPriceLevel>();
 		for (ClientPriceLevel clientPriceLevel : this.priceLevels) {

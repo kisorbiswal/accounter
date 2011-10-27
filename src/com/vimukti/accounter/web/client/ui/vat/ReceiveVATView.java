@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
@@ -16,15 +17,14 @@ import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -80,7 +80,7 @@ public class ReceiveVATView extends
 	private AccounterConstants companyConstants = Accounter.constants();
 
 	public ReceiveVATView() {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX);
+		super(ClientTransaction.TYPE_PAY_TAX);
 	}
 
 	protected void createControls() {
@@ -89,7 +89,7 @@ public class ReceiveVATView extends
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .payVAT()));
 
-		Label lab = new Label(Accounter.constants().receiveVAT());
+		Label lab = new Label(Accounter.constants().tAXRefund());
 		lab.setStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
@@ -260,10 +260,10 @@ public class ReceiveVATView extends
 
 		if (dueDateOnOrBefore != null) {
 			for (ClientReceiveVATEntries cont : filterList) {
-				ClientVATReturn clientVATReturn = Accounter.getCompany()
-						.getVatReturn(cont.getVatReturn());
+				ClientAbstractTAXReturn clientVATReturn = Accounter
+						.getCompany().getVatReturn(cont.getTAXReturn());
 				ClientFinanceDate date = new ClientFinanceDate(
-						clientVATReturn.getVATperiodEndDate());
+						clientVATReturn.getPeriodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
 					tempList.add(cont);
@@ -429,8 +429,8 @@ public class ReceiveVATView extends
 		for (ClientReceiveVATEntries entry : result) {
 			ClientTransactionReceiveVAT clientEntry = new ClientTransactionReceiveVAT();
 
-			clientEntry.setTaxAgency(entry.getVatAgency());
-			clientEntry.setVatReturn(entry.getVatReturn());
+			clientEntry.setTaxAgency(entry.getTAXAgency());
+			clientEntry.setTAXReturn(entry.getTAXReturn());
 			// clientEntry.setAmountToReceive(entry.getAmount())
 			double total = entry.getAmount();
 			double balance = entry.getBalance();
@@ -451,7 +451,7 @@ public class ReceiveVATView extends
 	protected void initTransactionNumber() {
 
 		rpcUtilService.getNextTransactionNumber(
-				ClientTransaction.TYPE_RECEIVE_VAT,
+				ClientTransaction.TYPE_RECEIVE_TAX,
 				new AccounterAsyncCallback<String>() {
 
 					public void onException(AccounterException caught) {
@@ -523,7 +523,7 @@ public class ReceiveVATView extends
 	protected void updateTransaction() {
 		super.updateTransaction();
 		transaction.setNumber(transactionNumber);
-		transaction.setType(ClientTransaction.TYPE_RECEIVE_VAT);
+		transaction.setType(ClientTransaction.TYPE_RECEIVE_TAX);
 
 		if (transactionDateItem.getEnteredDate() != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
@@ -704,7 +704,7 @@ public class ReceiveVATView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().receiveVAT();
+		return Accounter.constants().tAXRefund();
 	}
 
 	@Override
@@ -735,7 +735,7 @@ public class ReceiveVATView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

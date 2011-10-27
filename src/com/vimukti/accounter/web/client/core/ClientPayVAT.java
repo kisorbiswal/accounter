@@ -30,7 +30,7 @@ public class ClientPayVAT extends ClientTransaction {
 
 	boolean isEdited = false;
 
-	List<ClientTransactionPayVAT> transactionPayVAT;
+	List<ClientTransactionPayTAX> transactionPayVAT;
 
 	@Override
 	public String getClientClassSimpleName() {
@@ -147,7 +147,7 @@ public class ClientPayVAT extends ClientTransaction {
 	/**
 	 * @return the clientTransactionPayVAT
 	 */
-	public List<ClientTransactionPayVAT> getClientTransactionPayVAT() {
+	public List<ClientTransactionPayTAX> getClientTransactionPayVAT() {
 		return transactionPayVAT;
 	}
 
@@ -156,14 +156,14 @@ public class ClientPayVAT extends ClientTransaction {
 	 *            the clientTransactionPayVAT to set
 	 */
 	public void setClientTransactionPayVAT(
-			List<ClientTransactionPayVAT> clientTransactionPayVAT) {
+			List<ClientTransactionPayTAX> clientTransactionPayVAT) {
 		this.transactionPayVAT = clientTransactionPayVAT;
 	}
 
 	public ClientPayVAT clone() {
 		ClientPayVAT clientPayVATClone = (ClientPayVAT) this.clone();
-		List<ClientTransactionPayVAT> transactionPayVATList = new ArrayList<ClientTransactionPayVAT>();
-		for (ClientTransactionPayVAT clientTransactionPayVAT : this.transactionPayVAT) {
+		List<ClientTransactionPayTAX> transactionPayVATList = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPayVAT : this.transactionPayVAT) {
 			transactionPayVATList.add(clientTransactionPayVAT.clone());
 		}
 		clientPayVATClone.transactionPayVAT = transactionPayVATList;

@@ -28,8 +28,7 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.PayBill;
-import com.vimukti.accounter.core.PaySalesTax;
-import com.vimukti.accounter.core.PayVAT;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Transaction;
@@ -361,7 +360,7 @@ public class VendorManager extends Manager {
 			Iterator i = list.iterator();
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-				PaySalesTax pst = (PaySalesTax) i.next();
+				PayTAX pst = (PayTAX) i.next();
 				issuePaymentTransaction.setTransactionId(pst.getID());
 				issuePaymentTransaction.setType(pst.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate(
@@ -564,7 +563,7 @@ public class VendorManager extends Manager {
 				Iterator i = list.iterator();
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					PaySalesTax pst = (PaySalesTax) i.next();
+					PayTAX pst = (PayTAX) i.next();
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
@@ -623,7 +622,7 @@ public class VendorManager extends Manager {
 				Iterator i = list.iterator();
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					PayVAT pv = (PayVAT) i.next();
+					PayTAX pv = (PayTAX) i.next();
 					issuePaymentTransaction.setTransactionId(pv.getID());
 					issuePaymentTransaction.setType(pv.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(

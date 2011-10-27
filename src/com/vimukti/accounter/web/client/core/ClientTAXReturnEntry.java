@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientPaySalesTaxEntries implements IAccounterCore {
+public class ClientTAXReturnEntry implements IAccounterCore {
 
 	/**
 	 * 
@@ -11,6 +11,8 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 
 	long transaction;
 
+	int transactionType;
+
 	long taxItem;
 
 	long taxAgency;
@@ -19,17 +21,13 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 
 	long taxAdjustment;
 
-	double amount;
-
-	double balance;
-	long transactionDate;
 	int version;
-	int status = 0;
-	boolean isVoid;
 
-	public long getTransactionDate() {
-		return transactionDate;
-	}
+	double netAmount;
+
+	double grassAmount;
+
+	double taxAmount;
 
 	public long getTransaction() {
 		return transaction;
@@ -41,10 +39,6 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 
 	public int getVersion() {
 		return version;
-	}
-
-	public void setTransactionDate(long transactionDate) {
-		this.transactionDate = transactionDate;
 	}
 
 	public void setVersion(int version) {
@@ -67,22 +61,6 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 		this.taxAgency = taxAgency;
 	}
 
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	public double getBalance() {
-		return balance;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
 	@Override
 	public String getDisplayName() {
 		// /
@@ -96,8 +74,7 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-
-		return AccounterCoreType.PAYSALESTAX_ENTRIES;
+		return AccounterCoreType.FILE_TAX_ENTRY;
 	}
 
 	@Override
@@ -114,23 +91,7 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 	@Override
 	public String getClientClassSimpleName() {
 
-		return "ClientPaySalesTaxEntries";
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public boolean isVoid() {
-		return isVoid;
-	}
-
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
+		return "ClientFileTAXEntry";
 	}
 
 	public void setTaxRateCalculation(long taxRateCalculation) {
@@ -149,11 +110,71 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 		return taxAdjustment;
 	}
 
-	public ClientPaySalesTaxEntries clone() {
-		ClientPaySalesTaxEntries paySalesTaxEntries = (ClientPaySalesTaxEntries) this
+	public ClientTAXReturnEntry clone() {
+		ClientTAXReturnEntry paySalesTaxEntries = (ClientTAXReturnEntry) this
 				.clone();
 		return paySalesTaxEntries;
 
+	}
+
+	/**
+	 * @return the transactionType
+	 */
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	/**
+	 * @param transactionType
+	 *            the transactionType to set
+	 */
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	/**
+	 * @return the netAmount
+	 */
+	public double getNetAmount() {
+		return netAmount;
+	}
+
+	/**
+	 * @param netAmount
+	 *            the netAmount to set
+	 */
+	public void setNetAmount(double netAmount) {
+		this.netAmount = netAmount;
+	}
+
+	/**
+	 * @return the grassAmount
+	 */
+	public double getGrassAmount() {
+		return grassAmount;
+	}
+
+	/**
+	 * @param grassAmount
+	 *            the grassAmount to set
+	 */
+	public void setGrassAmount(double grassAmount) {
+		this.grassAmount = grassAmount;
+	}
+
+	/**
+	 * @return the taxAmount
+	 */
+	public double getTaxAmount() {
+		return taxAmount;
+	}
+
+	/**
+	 * @param taxAmount
+	 *            the taxAmount to set
+	 */
+	public void setTaxAmount(double taxAmount) {
+		this.taxAmount = taxAmount;
 	}
 
 }

@@ -30,17 +30,16 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
 	public static final int TYPE_WRITE_CHECK = 15;
 	public static final int TYPE_JOURNAL_ENTRY = 16;
-	public static final int TYPE_PAY_SALES_TAX = 17;
+	public static final int TYPE_PAY_TAX = 17;
 	public static final int TYPE_EXPENSE = 18;
 	public static final int TYPE_PAY_EXPENSE = 19;
-	public static final int TYPE_VAT_RETURN = 20;
+	public static final int TYPE_TAX_RETURN = 20;
 
 	public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
 	public static final int TYPE_ITEM_RECEIPT = 23;
 
 	public static final int TYPE_ADJUST_VAT_RETURN = 24;
-	public static final int TYPE_PAY_VAT = 30;
 
 	public static final int TYPE_CASH_EXPENSE = 26;
 	public static final int TYPE_CREDIT_CARD_EXPENSE = 27;
@@ -53,7 +52,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * transaction.This constant not exited @ server side.
 	 */
 	public static final int TYPE_VENDOR_PAYMENT = 25;
-	public static final int TYPE_RECEIVE_VAT = 31;
+	public static final int TYPE_RECEIVE_TAX = 31;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
@@ -92,7 +91,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	List<ClientTransactionPayBill> transactionPayBill;
 	List<ClientTransactionReceivePayment> transactionReceivePayment;
 	List<ClientTransactionIssuePayment> transactionIssuePayment;
-	List<ClientTransactionPaySalesTax> transactionPaySalesTax;
+	List<ClientTransactionPayTAX> transactionPaySalesTax;
 
 	// ClientCreditsAndPayments creditsAndPayments;
 
@@ -184,12 +183,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return subTotal;
 	}
 
-	public List<ClientTransactionPaySalesTax> getTransactionPaySalesTax() {
+	public List<ClientTransactionPayTAX> getTransactionPaySalesTax() {
 		return transactionPaySalesTax;
 	}
 
 	public void setTransactionPaySalesTax(
-			List<ClientTransactionPaySalesTax> transactionPaySalesTax) {
+			List<ClientTransactionPayTAX> transactionPaySalesTax) {
 		this.transactionPaySalesTax = transactionPaySalesTax;
 	}
 
@@ -710,7 +709,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public boolean isPaySalesTax() {
 
-		return this != null && this instanceof ClientPaySalesTax;
+		return this != null && this instanceof ClientPayTAX;
 	}
 
 	public boolean isPayVAT() {
@@ -803,8 +802,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 		}
 		clientTransactionClone.transactionIssuePayment = transactionIssuePayment;
 		// transactionPaySalestax list
-		List<ClientTransactionPaySalesTax> transactionPaySalesTax = new ArrayList<ClientTransactionPaySalesTax>();
-		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+		List<ClientTransactionPayTAX> transactionPaySalesTax = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
 			transactionPaySalesTax.add(clientTransactionPaySalesTax.clone());
 		}
 		clientTransactionClone.transactionPaySalesTax = transactionPaySalesTax;

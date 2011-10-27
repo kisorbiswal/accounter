@@ -53,7 +53,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	CREDIT_RATING("ClientCreditRating", "CreditRating"),
 
-	PAY_SALES_TAX("ClientPaySalesTax", "PaySalesTax"),
+	PAY_TAX("ClientPaySalesTax", "PaySalesTax"),
 
 	PAYMENT_METHOD, COMPANY("ClientCompany", "Company"),
 
@@ -79,7 +79,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	FAX("ClientFax", "Fax"),
 
-	PAYSALESTAX_ENTRIES("ClientPaySalesTaxEntries", "PaySalesTaxEntries"),
+	FILE_TAX_ENTRY("ClientFileTAXEntry", "FileTAXEntry"),
 
 	PHONE("ClientPhone", "Phone"),
 
@@ -201,8 +201,11 @@ public enum AccounterCoreType implements IsSerializable {
 
 	ACCOUNTER_CLASS("ClientAccounterClass", "AccounterClass"),
 
-	RECONCILIATION("ClientReconciliation", "Reconciliation"), TRANSACTION_LOG(
-			"ClientTransactionLog", "TransactionLog");
+	RECONCILIATION("ClientReconciliation", "Reconciliation"),
+
+	TRANSACTION_LOG("ClientTransactionLog", "TransactionLog"),
+
+	TAX_RETURN("ClientAbstractTAXReturn", "AbstractTAXReturn");
 
 	private String clientName;
 	private String serverName;
@@ -251,7 +254,7 @@ public enum AccounterCoreType implements IsSerializable {
 			} else if (upperCaseString.equals("CREDITRATING")) {
 				return CREDIT_RATING;
 			} else if (upperCaseString.equals("PAYSALESTAX")) {
-				return PAY_SALES_TAX;
+				return PAY_TAX;
 			} else if (upperCaseString.equals("PAYMENTMETHOD")) {
 				return PAYMENT_METHOD;
 			} else if (upperCaseString.equals("COMPANYPREFERENCES")) {
@@ -259,7 +262,7 @@ public enum AccounterCoreType implements IsSerializable {
 			} else if (upperCaseString.equals("CREDITSANDPAYMENTS")) {
 				return CREDITS_AND_PAYMENTS;
 			} else if (upperCaseString.equals("PAYSALESTAXENTRIES")) {
-				return PAYSALESTAX_ENTRIES;
+				return FILE_TAX_ENTRY;
 			} else if (upperCaseString.equals("UNITOFMEASURE")) {
 				return UNIT_OF_MEASURE;
 			} else if (upperCaseString.equals("USERPREFERENCES")) {

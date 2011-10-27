@@ -11,14 +11,17 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -28,12 +31,15 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -42,10 +48,7 @@ public class NewVendorPaymentView extends
 
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, vendorBalText;
-	protected double enteredBalance;
 	private DynamicForm payForm;
-	Double toBeSetEndingBalance = 0.0D;
-	Double toBeSetVendorBalance = 0.0D;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
 			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
@@ -56,6 +59,14 @@ public class NewVendorPaymentView extends
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 	private boolean locationTrackingEnabled;
+	private TaxItemCombo tdsCombo;
+	private CheckboxItem amountIncludeTds;
+	private AmountLabel vendorPayment;
+	private AmountLabel tdsAmount;
+	private AmountLabel totalAmount;
+	private VerticalPanel tdsPanel;
+	private double toBeSetEndingBalance;
+	private double toBeSetVendorBalance;
 
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
@@ -85,15 +96,21 @@ public class NewVendorPaymentView extends
 		} else {
 			ClientCompany comapny = getCompany();
 
-			amountText
-					.setAmount(getAmountInTransactionCurrency((Double) transaction
-							.getUnusedAmount()));
+			if (transaction.isAmountIncludeTDS()) {
+				amountText
+						.setAmount(getAmountInTransactionCurrency((Double) transaction
+								.getUnusedAmount()));
+			} else {
+				amountText.setAmount(getAmountInTransactionCurrency(transaction
+						.getTotal() - transaction.getTdsTotal()));
+			}
 			ClientVendor vendor = comapny.getVendor(transaction.getVendor());
+			vendorCombo.select(vendor);
 			vendorSelected(vendor);
 			billToaddressSelected(transaction.getAddress());
 			this.payFromAccount = comapny.getAccount(transaction.getPayFrom());
 			if (payFromAccount != null)
-				payFromCombo.setComboItem(payFromAccount);
+				payFromCombo.select(payFromAccount);
 			amountText.setDisabled(true);
 			paymentMethodSelected(transaction.getPaymentMethod());
 			if (transaction != null) {
@@ -121,6 +138,14 @@ public class NewVendorPaymentView extends
 				}
 			}
 			initAccounterClass();
+			if (getPreferences().isTDSEnabled()) {
+				ClientTAXItem tdsTaxItem = transaction.getTdsTaxItem();
+				tdsCombo.select(tdsTaxItem);
+				amountIncludeTds.setValue(transaction.isAmountIncludeTDS());
+				tdsCombo.setDisabled(true);
+				amountIncludeTds.setDisabled(true);
+			}
+			adjustBalance();
 		}
 		initMemoAndReference();
 		initTransactionNumber();
@@ -266,8 +291,53 @@ public class NewVendorPaymentView extends
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.setWidth("100%");
 		rightPanel.add(balForm);
+		rightPanel.setHeight("100%");
 		rightPanel.setCellHorizontalAlignment(balForm,
 				HasHorizontalAlignment.ALIGN_CENTER);
+		this.tdsCombo = new TaxItemCombo(constants.tds(),
+				ClientTAXItem.TAX_TYPE_TDS);
+		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+
+			@Override
+			public void selectedComboBoxItem(ClientTAXItem selectItem) {
+				adjustBalance();
+			}
+		});
+		this.amountIncludeTds = new CheckboxItem(constants.amountIncludesTDS());
+		amountIncludeTds.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				adjustBalance();
+			}
+		});
+		this.vendorPayment = new AmountLabel(messages.vendorPayment(Global
+				.get().Vendor()));
+		this.tdsAmount = new AmountLabel(constants.tdsAmount());
+		this.totalAmount = new AmountLabel(constants.total());
+
+		this.tdsPanel = new VerticalPanel();
+		this.tdsPanel.setWidth("100%");
+
+		if (getPreferences().isTDSEnabled()) {
+			DynamicForm form = new DynamicForm();
+			form.setNumCols(2);
+			form.setFields(tdsCombo, amountIncludeTds);
+			tdsPanel.add(form);
+
+			DynamicForm amountsForm = new DynamicForm();
+			amountsForm.setHeight("70px");
+			amountsForm.setStyleName("boldtext");
+			amountsForm.setNumCols(2);
+			amountsForm.setFields(vendorPayment);
+			amountsForm.setFields(tdsAmount);
+			amountsForm.setFields(totalAmount);
+			tdsPanel.add(amountsForm);
+			tdsPanel.setCellVerticalAlignment(amountsForm,
+					HasVerticalAlignment.ALIGN_BOTTOM);
+			tdsPanel.setCellHeight(amountsForm, "200px");
+			rightPanel.add(tdsPanel);
+		}
 
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.setWidth("100%");
@@ -325,6 +395,13 @@ public class NewVendorPaymentView extends
 
 	}
 
+	@Override
+	protected void accountSelected(ClientAccount account) {
+		super.accountSelected(account);
+		this.endBalText.setAmount(account.getCurrentBalance());
+		adjustBalance();
+	}
+
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (transaction != null) {
@@ -338,8 +415,18 @@ public class NewVendorPaymentView extends
 
 			if (payFromAccount != null)
 				transaction.setPayFrom(payFromAccount);
-
-			transaction.setTotal(enteredBalance);
+			if (getPreferences().isTDSEnabled()
+					&& getVendor().isTdsApplicable()) {
+				transaction.setTotal(totalAmount.getAmount());
+				ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
+				if (selectedValue != null) {
+					transaction.setTdsTaxItem(selectedValue);
+				}
+				transaction.setTdsTotal(tdsAmount.getAmount());
+				transaction.setAmountIncludeTDS(amountIncludeTds.getValue());
+			} else {
+				transaction.setTotal(amountText.getAmount());
+			}
 
 			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
@@ -368,8 +455,7 @@ public class NewVendorPaymentView extends
 			transaction.setVendorBalance(toBeSetVendorBalance);
 
 			// Setting UnusedAmount
-			transaction.setUnusedAmount(getAmountInBaseCurrency(amountText
-					.getAmount()));
+			transaction.setUnusedAmount(transaction.getTotal());
 
 		}
 	}
@@ -398,11 +484,15 @@ public class NewVendorPaymentView extends
 		if (vendor == null)
 			return;
 		this.setVendor(vendor);
-		if (vendor != null && vendorCombo != null) {
-			vendorCombo.setComboItem(getCompany().getVendor(vendor.getID()));
-		}
+		tdsPanel.setVisible(vendor.isTdsApplicable());
 		this.addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
+		long taxItemCode = vendor.getTaxItemCode();
+		ClientTAXItem taxItem = getCompany().getTAXItem(taxItemCode);
+		if (taxItem != null) {
+			tdsCombo.setComboItem(taxItem);
+		}
+		vendorBalText.setAmount(vendor.getBalance());
 		adjustBalance();
 	}
 
@@ -432,36 +522,67 @@ public class NewVendorPaymentView extends
 
 	public void adjustBalance() {
 
-		enteredBalance = getAmountInBaseCurrency(amountText.getAmount());
-
+		double enteredBalance = amountText.getAmount();
 		if (DecimalUtil.isLessThan(enteredBalance, 0)
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
 			amountText.setAmount(getAmountInTransactionCurrency(0D));
-			enteredBalance = 0D;
+			return;
 		}
+
+		double vendorPayment = 0.00D;
+		double tdsAmount = 0.00D;
+		double totalAmount = 0.00D;
+		if (getPreferences().isTDSEnabled() && getVendor() != null
+				&& getVendor().isTdsApplicable()) {
+			if (!amountIncludeTds.isChecked()) {
+				vendorPayment = amountText.getAmount();
+				ClientTAXItem selectedTax = tdsCombo.getSelectedValue();
+				if (selectedTax != null) {
+					tdsAmount = vendorPayment
+							* (selectedTax.getTaxRate() / 100);
+				}
+				totalAmount = vendorPayment + tdsAmount;
+			} else {
+				totalAmount = amountText.getAmount();
+				ClientTAXItem selectedTax = tdsCombo.getSelectedValue();
+				double taxRate = 0.00D;
+				if (selectedTax != null) {
+					taxRate = selectedTax.getTaxRate();
+				}
+				vendorPayment = (totalAmount * 100) / (100 + taxRate);
+				vendorPayment = DecimalUtil.round(vendorPayment);
+				tdsAmount = totalAmount - vendorPayment;
+			}
+		} else {
+			vendorPayment = enteredBalance;
+			totalAmount = enteredBalance;
+		}
+
+		this.vendorPayment.setAmount(vendorPayment);
+		this.tdsAmount.setAmount(tdsAmount);
+		this.totalAmount.setAmount(totalAmount);
+
 		if (getVendor() != null) {
-			toBeSetVendorBalance = getVendor().getBalance() - enteredBalance;
-			vendorBalText
-					.setAmount(getAmountInTransactionCurrency(toBeSetVendorBalance));
+			toBeSetVendorBalance = getVendor().getBalance() - totalAmount;
+			// vendorBalText
+			// .setAmount(getAmountInTransactionCurrency(toBeSetVendorBalance));
 
 		}
 		if (payFromAccount != null) {
 			if (payFromAccount.isIncrease()) {
 				toBeSetEndingBalance = payFromAccount.getTotalBalance()
-						+ enteredBalance;
+						+ vendorPayment;
 			} else {
 				toBeSetEndingBalance = payFromAccount.getTotalBalance()
-						- enteredBalance;
+						- vendorPayment;
 			}
-			endBalText
-					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
-
+			// endBalText
+			// .setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 		}
 	}
 
 	@Override
 	public void updateNonEditableItems() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -480,6 +601,13 @@ public class NewVendorPaymentView extends
 
 		result.add(payForm.validate());
 
+		if (getPreferences().isTDSEnabled() && vendor != null
+				&& vendor.isTdsApplicable()) {
+			ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
+			if (selectedValue == null) {
+				result.addError(tdsCombo, constants.pleaseSelectTDS());
+			}
+		}
 		return result;
 	}
 
@@ -605,6 +733,8 @@ public class NewVendorPaymentView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		tdsCombo.setDisabled(false);
+		amountIncludeTds.setDisabled(false);
 		super.onEdit();
 
 	}
@@ -621,7 +751,7 @@ public class NewVendorPaymentView extends
 	}
 
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.amountText.getAmount());
+		return getAmountInBaseCurrency(this.totalAmount.getAmount());
 	}
 
 	@Override

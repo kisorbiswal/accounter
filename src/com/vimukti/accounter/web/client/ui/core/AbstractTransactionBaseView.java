@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -1352,7 +1353,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return payFromCombo;
 	}
 
-	private void accountSelected(ClientAccount account) {
+	protected void accountSelected(ClientAccount account) {
 		if (account == null)
 			return;
 		this.payFromAccount = account;
@@ -1732,6 +1733,27 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					new Date(transactionLog.getTime()).toString(),
 					transactionLog.getUserName(),
 					transactionLog.getDescription()));
+	}
+
+	protected ClientFinanceDate getLastTaxReturnEndDate(long taxAgency) {
+		ClientFinanceDate lastTaxReturnDate = null;
+		for (ClientAbstractTAXReturn taxReturn : getCompany().getVatReturns()) {
+			if (taxReturn.getTaxAgency() != taxAgency) {
+				continue;
+			}
+			ClientFinanceDate clientFinanceDate = new ClientFinanceDate(
+					taxReturn.getPeriodEndDate());
+			if (lastTaxReturnDate == null) {
+				lastTaxReturnDate = clientFinanceDate;
+			}
+			if (lastTaxReturnDate.after(clientFinanceDate)) {
+				lastTaxReturnDate = clientFinanceDate;
+			}
+		}
+		if (lastTaxReturnDate == null) {
+			lastTaxReturnDate = new ClientFinanceDate();
+		}
+		return lastTaxReturnDate;
 	}
 
 }

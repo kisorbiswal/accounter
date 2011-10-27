@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientTransactionPayVAT implements IAccounterCore {
-
+public class ClientTransactionPayTAX implements IAccounterCore {
 
 	/**
 	 * 
@@ -26,9 +25,9 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	 */
 	double amountToPay;
 
-	long vatReturn;
+	long taxReturn;
 
-	ClientPayVAT payVAT;
+	ClientPayTAX payTAX;
 
 	int version;
 
@@ -96,7 +95,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	 * @return the vatReturn
 	 */
 	public long getVatReturn() {
-		return vatReturn;
+		return taxReturn;
 	}
 
 	/**
@@ -104,22 +103,22 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	 *            the vatReturn to set
 	 */
 	public void setVatReturn(long vatReturn) {
-		this.vatReturn = vatReturn;
+		this.taxReturn = vatReturn;
 	}
 
 	/**
 	 * @return the payVAT
 	 */
-	public ClientPayVAT getPayVAT() {
-		return payVAT;
+	public ClientPayTAX getPayTAX() {
+		return payTAX;
 	}
 
 	/**
 	 * @param payVAT
 	 *            the payVAT to set
 	 */
-	public void setPayVAT(ClientPayVAT payVAT) {
-		this.payVAT = payVAT;
+	public void setPayTAX(ClientPayTAX payVAT) {
+		this.payTAX = payVAT;
 	}
 
 	/**
@@ -161,10 +160,10 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 		return null;
 	}
 
-	public ClientTransactionPayVAT clone() {
-		ClientTransactionPayVAT clientTransactionPayVATClone = (ClientTransactionPayVAT) this
+	public ClientTransactionPayTAX clone() {
+		ClientTransactionPayTAX clientTransactionPayVATClone = (ClientTransactionPayTAX) this
 				.clone();
-		clientTransactionPayVATClone.payVAT = this.payVAT.clone();
+		clientTransactionPayVATClone.payTAX = this.payTAX.clone();
 
 		return clientTransactionPayVATClone;
 	}

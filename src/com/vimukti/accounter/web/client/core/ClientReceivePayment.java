@@ -335,8 +335,8 @@ public class ClientReceivePayment extends ClientTransaction {
 		}
 		receivePayment.transactionPayBill = transactionPayBills;
 
-		List<ClientTransactionPaySalesTax> transactionPaySalesTaxs = new ArrayList<ClientTransactionPaySalesTax>();
-		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+		List<ClientTransactionPayTAX> transactionPaySalesTaxs = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
 			transactionPaySalesTaxs.add(clientTransactionPaySalesTax.clone());
 		}
 		receivePayment.transactionPaySalesTax = transactionPaySalesTaxs;

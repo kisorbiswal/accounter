@@ -373,8 +373,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			ClientTAXItem taxItem = getClientCompany().getTAXItem(
 					vendor.getTaxItemCode());
 			if (taxItem != null) {
-				paybill.setTaxAgency(getClientCompany().getTaxAgency(
-						taxItem.getTaxAgency()));
+				paybill.setTdsTaxItem(taxItem);
 			}
 		}
 		setTransactionPayBills(paybill);
@@ -442,8 +441,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 			ClientTAXItem taxItem = getClientCompany().getTAXItem(
 					vendor.getTaxItemCode());
 			if (taxItem != null) {
-				paybill.setTaxAgency(getClientCompany().getTaxAgency(
-						taxItem.getTaxAgency()));
+				paybill.setTdsTaxItem(taxItem);
 			}
 		}
 		setTransactionPayBills(paybill);

@@ -331,7 +331,7 @@ public class TransactionPayBill extends CreatableObject implements
 			// We need to update the enterBill payments and balance due with the
 			// sum of cash discount and applied credits and payments.
 			double amount = (this.cashDiscount) + (this.appliedCredits)
-					+ (this.payment);
+					+ (this.payment) + this.tdsAmount;
 
 			if (this.enterBill != null) {
 				setCompany(enterBill.getCompany());
@@ -373,16 +373,6 @@ public class TransactionPayBill extends CreatableObject implements
 
 		}
 
-		// Update TDS Account if Company is INDIA
-		if (this.payBill.getVendor().getCompany().getPreferences()
-				.isTDSEnabled()) {
-			TAXItem taxItem = this.payBill.getVendor().getTAXItem();
-			if (taxItem != null) {
-				TAXAgency taxAgency = taxItem.getTaxAgency();
-				Account account = taxAgency.getSalesLiabilityAccount();
-				account.updateCurrentBalance(this.payBill, -tdsAmount);
-			}
-		}
 		return false;
 	}
 

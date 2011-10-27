@@ -16,7 +16,7 @@ import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
-import com.vimukti.accounter.core.PaySalesTaxEntries;
+import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
@@ -233,7 +233,7 @@ public interface IAccounterGUIDAOService {
 
 	public void test() throws Exception;
 
-	public ArrayList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
+	public ArrayList<TAXReturnEntry> getTransactionPaySalesTaxEntriesList(
 			Date transactionDate) throws DAOException;
 
 	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(

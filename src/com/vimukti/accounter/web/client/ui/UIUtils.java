@@ -1272,8 +1272,8 @@ public class UIUtils {
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
 			return AccounterCoreType.VENDORCREDITMEMO;
 
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
-			return AccounterCoreType.PAY_SALES_TAX;
+		case ClientTransaction.TYPE_PAY_TAX:
+			return AccounterCoreType.PAY_TAX;
 
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			return AccounterCoreType.JOURNALENTRY;
@@ -1299,11 +1299,8 @@ public class UIUtils {
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			return AccounterCoreType.CUSTOMERPREPAYMENT;
 
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			return AccounterCoreType.RECEIVEVAT;
-
-		case ClientTransaction.TYPE_PAY_VAT:
-			return AccounterCoreType.PAYVAT;
 
 		}
 		return null;

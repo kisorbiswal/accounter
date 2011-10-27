@@ -216,6 +216,17 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 	}
 
+	public void select(T obj) {
+		List<T> combo = comboItems;
+		for (T item : combo) {
+			if (getDisplayName(item).equals(getDisplayName(obj))) {
+				this.selectedObject = item;
+				this.setSelectedItem(comboItems.indexOf(item));
+			}
+		}
+
+	}
+
 	protected ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}

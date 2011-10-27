@@ -4960,6 +4960,8 @@ public interface AccounterConstants extends Constants {
 
 	public String purchaseNumber();
 
+	public String amountIncludesTDS();
+
 	public String unassignedAmount();
 
 	public String recalculate();
@@ -5026,6 +5028,24 @@ public interface AccounterConstants extends Constants {
 
 	public String command();
 
+	public String pleaseSelectTDS();
+
+	public String fileTaxHistoryToken();
+
+	public String filetaxHelp();
+
+	public String fileTAX();
+
+	public String printTAXReturn();
+
+	public String adjustTAXReturn();
+
+	public String taxFilingFrequency();
+
+	public String quarterly();
+
+	public String halfYearly();
+
 	public String faxNumber();
 
 	public String notIssuedPayments();
@@ -5066,6 +5086,10 @@ public interface AccounterConstants extends Constants {
 
 	public String newCharge();
 
+	public String selectTAXAgency();
+
+	public String grassAmount();
+
 	public String taxExceptionMesg();
 
 	public String InventoryLists();
@@ -5095,6 +5119,8 @@ public interface AccounterConstants extends Constants {
 	public String billabelList();
 
 	public String billabe();
+
+	public String tAXRefund();
 
 	public String taxItemExceptionDetailReport();
 }

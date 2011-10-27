@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class PayVATEntries implements IAccounterServerCore, Lifecycle {
+public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -39,10 +39,10 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 
 	transient private boolean isOnSaveProccessed;
 
-	public PayVATEntries() {
+	public PayTAXEntries() {
 	}
 
-	public PayVATEntries(double taxableAmount, double rate, TAXCode vatCode,
+	public PayTAXEntries(double taxableAmount, double rate, TAXCode vatCode,
 			TAXAgency vatAgency, Transaction transaction) {
 
 		this.transaction = transaction;
@@ -53,7 +53,7 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public PayVATEntries(VATReturn v) {
+	public PayTAXEntries(AbstractTAXReturn v) {
 
 		this.amount = v.getTotal();
 		this.balance = v.getBalance();
@@ -96,7 +96,7 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param vatAgency
+	 * @param tAXAgency
 	 *            the vatAgency to set
 	 */
 	public void setTaxAgency(TAXAgency taxAgency) {
@@ -177,6 +177,6 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

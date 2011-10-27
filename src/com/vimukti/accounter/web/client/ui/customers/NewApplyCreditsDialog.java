@@ -463,8 +463,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			ClientTransactionPayBill trPayBill = (ClientTransactionPayBill) transctn;
 			if (trPayBill.getTempCredits() != null) {
 				for (Integer indx : trPayBill.getTempCredits().keySet()) {
-					ClientCreditsAndPayments crdPayment = grid.getRecords()
-							.get(indx);
+					ClientCreditsAndPayments crdPayment = grid
+							.getRecordByIndex(indx);
 					crdPayment.setBalance(crdPayment.getActualAmt());
 					crdPayment
 							.setAmtTouse(((TransactionPayBillTable.TempCredit) trPayBill

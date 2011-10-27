@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -288,11 +288,11 @@ public interface IAccounterClientService {
 	public ClientBank createBank(long company, ClientBank bank)
 			throws DAOException;
 
-	public ClientPaySalesTax createPaySalesTax(long company,
-			ClientPaySalesTax paySalesTax) throws DAOException;
+	public ClientPayTAX createPaySalesTax(long company,
+			ClientPayTAX paySalesTax) throws DAOException;
 
-	public ClientPaySalesTax alterPaySalesTax(long company,
-			ClientPaySalesTax paySalesTax) throws DAOException;
+	public ClientPayTAX alterPaySalesTax(long company,
+			ClientPayTAX paySalesTax) throws DAOException;
 
 	
 	public Boolean deleteObject(final Class class1, final long Id)

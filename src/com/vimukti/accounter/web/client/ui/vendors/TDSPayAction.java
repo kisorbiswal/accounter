@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -46,13 +47,13 @@ public class TDSPayAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "Pay e-TDS";
+		return Accounter.constants().payTDS();
 	}
 
 	@Override
 	public String getHelpToken() {
 		//
-		return "pay e-TDS";
+		return Accounter.constants().payTDS();
 	}
 
 }

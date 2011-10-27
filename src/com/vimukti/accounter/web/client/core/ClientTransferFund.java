@@ -9,7 +9,7 @@ public class ClientTransferFund extends ClientTransaction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	long transferFrom;
 	long transferTo;
 
@@ -139,13 +139,13 @@ public class ClientTransferFund extends ClientTransaction {
 		taxAdjustment.transactionIssuePayment = transactionIssuePayment;
 
 		// transactionPaySalestax list
-		List<ClientTransactionPaySalesTax> transactionPaySalesTax = new ArrayList<ClientTransactionPaySalesTax>();
-		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+		List<ClientTransactionPayTAX> transactionPaySalesTax = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
 			transactionPaySalesTax.add(clientTransactionPaySalesTax.clone());
 		}
 		taxAdjustment.transactionPaySalesTax = transactionPaySalesTax;
 
-//		taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
+		// taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
 
 		return taxAdjustment;
 	}

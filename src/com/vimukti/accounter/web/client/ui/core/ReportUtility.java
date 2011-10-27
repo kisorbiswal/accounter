@@ -73,10 +73,10 @@ public class ReportUtility {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			transactionName = constants.journalEntry();
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
+		case ClientTransaction.TYPE_PAY_TAX:
 			transactionName = constants.payTax();
 			break;
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			transactionName = constants.receiveVAT();
 			break;
 		case ClientTransaction.TYPE_SALES_ORDER:
@@ -97,11 +97,8 @@ public class ReportUtility {
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			transactionName = constants.creditCardExpense();
 			break;
-		case ClientTransaction.TYPE_VAT_RETURN:
+		case ClientTransaction.TYPE_TAX_RETURN:
 			transactionName = constants.vatReturn();
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
-			transactionName = constants.payVAT();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			transactionName = Global.get().messages()

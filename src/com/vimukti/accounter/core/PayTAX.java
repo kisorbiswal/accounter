@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class PayVAT extends Transaction implements IAccounterServerCore,
+public class PayTAX extends Transaction implements IAccounterServerCore,
 		Lifecycle {
 
 	/**
@@ -49,7 +49,7 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 
 	boolean isEdited = false;
 
-	List<TransactionPayVAT> transactionPayVAT;
+	List<TransactionPayTAX> transactionPayTAX;
 
 	//
 
@@ -146,16 +146,16 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 	/**
 	 * @return the transactionPayVAT
 	 */
-	public List<TransactionPayVAT> getTransactionPayVAT() {
-		return transactionPayVAT;
+	public List<TransactionPayTAX> getTransactionPayVAT() {
+		return transactionPayTAX;
 	}
 
 	/**
 	 * @param transactionPayVAT
 	 *            the transactionPayVAT to set
 	 */
-	public void setTransactionPayVAT(List<TransactionPayVAT> transactionPayVAT) {
-		this.transactionPayVAT = transactionPayVAT;
+	public void setTransactionPayVAT(List<TransactionPayTAX> transactionPayVAT) {
+		this.transactionPayTAX = transactionPayVAT;
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		for (TransactionPayVAT t : transactionPayVAT) {
+		for (TransactionPayTAX t : transactionPayTAX) {
 			t.setPayVAT(this);
 		}
 		if (this.id == 0) {
@@ -199,8 +199,8 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 		if (isBecameVoid()) {
 
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			if (this.transactionPayVAT != null) {
-				for (TransactionPayVAT ti : this.transactionPayVAT) {
+			if (this.transactionPayTAX != null) {
+				for (TransactionPayTAX ti : this.transactionPayTAX) {
 					if (ti instanceof Lifecycle) {
 						Lifecycle lifeCycle = (Lifecycle) ti;
 						lifeCycle.onUpdate(session);
@@ -271,10 +271,10 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 	@Override
 	public Map<Account, Double> getEffectingAccountsWithAmounts() {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		for (TransactionPayVAT vat : transactionPayVAT) {
+		for (TransactionPayTAX vat : transactionPayTAX) {
 			map.put(vat.getTaxAgency().getAccount(), vat.getAmountToPay());
-			map.put(vat.getVatReturn().getCompany()
-					.getVATFiledLiabilityAccount(), vat.getAmountToPay());
+			map.put(vat.getVatReturn().getTaxAgency()
+					.getFiledLiabilityAccount(), vat.getAmountToPay());
 		}
 		return map;
 	}

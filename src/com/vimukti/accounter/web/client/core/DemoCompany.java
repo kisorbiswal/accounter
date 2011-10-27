@@ -128,7 +128,7 @@ public class DemoCompany implements IAccounterCore {
 
 	private ArrayList<ClientTAXGroup> taxGroups;
 
-	private ArrayList<ClientPaySalesTax> paySalesTaxs;
+	private ArrayList<ClientPayTAX> paySalesTaxs;
 
 	private ArrayList<ClientCreditRating> creditRatings;
 
@@ -213,11 +213,11 @@ public class DemoCompany implements IAccounterCore {
 		this.taxGroups = taxGroups;
 	}
 
-	public ArrayList<ClientPaySalesTax> getPaySalesTaxs() {
+	public ArrayList<ClientPayTAX> getPaySalesTaxs() {
 		return paySalesTaxs;
 	}
 
-	public void setPaySalesTaxs(ArrayList<ClientPaySalesTax> paySalesTaxs) {
+	public void setPaySalesTaxs(ArrayList<ClientPayTAX> paySalesTaxs) {
 		this.paySalesTaxs = paySalesTaxs;
 	}
 
