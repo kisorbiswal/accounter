@@ -38,7 +38,6 @@ public class CancelCommand extends Command {
 		currentCommand = context.getIOSession().getCurrentCommand();
 		if (currentCommand == null) {
 			makeResult.add("There are no pending commands");
-			makeResult.add("Type a new Coommand");
 		}
 		return makeResult;
 	}

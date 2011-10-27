@@ -49,8 +49,7 @@ public class SignupCommand extends NewCommand {
 		list.add(new NumberRequirement(PHONE, "Eneter Phone number",
 				"Phone No", false, true));
 
-		list.add(new CountryRequirement(COUNTRY, "Enter Country Name",
-				"Country", false, true, null));
+		list.add(new CountryRequirement(COUNTRY, false, true, null));
 
 		list.add(new BooleanRequirement(SUBSCRIBED_NEWSLETTER, true) {
 

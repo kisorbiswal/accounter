@@ -56,9 +56,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new NameRequirement(TAX_ID, "Please Enter Tax Id", "Tax Id",
 				true, true));
 
-		list.add(new CountryRequirement(COUNTRY, getMessages().pleaseSelect(
-				getConstants().country()), getConstants().country(), true,
-				true, null));
+		list.add(new CountryRequirement(COUNTRY, true, true, null));
 
 		list.add(new StringListRequirement(STATE, "Please Enter State",
 				"State", true, true, null) {

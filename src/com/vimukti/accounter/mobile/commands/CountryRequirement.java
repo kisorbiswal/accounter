@@ -11,11 +11,10 @@ import com.vimukti.accounter.mobile.requirements.ListRequirement;
 
 public class CountryRequirement extends ListRequirement<String> {
 
-	public CountryRequirement(String requirementName, String displayString,
-			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<String> listner) {
-		super(requirementName, displayString, recordName, isOptional,
-				isAllowFromContext, listner);
+	public CountryRequirement(String requirementName, boolean isOptional,
+			boolean isAllowFromContext, ChangeListner<String> listner) {
+		super(requirementName, "Please enter Country name", "Country",
+				isOptional, isAllowFromContext, listner);
 	}
 
 	@Override
@@ -51,7 +50,7 @@ public class CountryRequirement extends ListRequirement<String> {
 
 	@Override
 	protected boolean filter(String e, String name) {
-		return e.startsWith(name);
+		return e.toLowerCase().startsWith(name.toLowerCase());
 	}
 
 	@Override
@@ -60,6 +59,10 @@ public class CountryRequirement extends ListRequirement<String> {
 		countries.add("United Kingdom");
 		countries.add("US");
 		countries.add("India");
+		countries.add("Afganistan");
+		countries.add("China");
+		countries.add("Colombia");
+		countries.add("France");
 		return countries;
 	}
 
