@@ -5120,6 +5120,14 @@ public interface AccounterConstants extends Constants {
 
 	public String billabe();
 
+	public String productItemType();
+
+	public String salesTaxCode();
+
+	public String purchaseTaxCode();
+
+	public String addaNewInventoryItem();
+
 	public String tAXRefund();
 
 	public String taxItemExceptionDetailReport();
