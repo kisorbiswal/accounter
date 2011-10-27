@@ -180,29 +180,29 @@ public abstract class TransactionItemItemsRequirement extends
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
-		// if (getClientCompany().getPreferences().isTrackTax()
-		// && getClientCompany().getPreferences().isTaxPerDetailLine()) {
-		// record = new Record(TAXCODE);
-		// record.add("", getConstants().taxCode());
-		// if (transactionItem.getTaxCode() != 0) {
-		// record.add(
-		// "",
-		// getClientCompany().getTAXCode(
-		// transactionItem.getTaxCode()).getName());
-		// } else {
-		// record.add("", "");
-		// }
-		// list.add(record);
-		// } else {
-		// record = new Record(TAX);
-		// record.add("", getConstants().isTaxable());
-		// if (transactionItem.isTaxable()) {
-		// record.add("", getConstants().taxable());
-		// } else {
-		// record.add("", getConstants().taxExempt());
-		// }
-		// list.add(record);
-		// }
+		if (getClientCompany().getPreferences().isTrackTax()
+				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+			record = new Record(TAXCODE);
+			record.add("", getConstants().taxCode());
+			if (transactionItem.getTaxCode() != 0) {
+				record.add(
+						"",
+						getClientCompany().getTAXCode(
+								transactionItem.getTaxCode()).getName());
+			} else {
+				record.add("", "");
+			}
+			list.add(record);
+		} else {
+			record = new Record(TAX);
+			record.add("", getConstants().isTaxable());
+			if (transactionItem.isTaxable()) {
+				record.add("", getConstants().taxable());
+			} else {
+				record.add("", getConstants().taxExempt());
+			}
+			list.add(record);
+		}
 
 		record = new Record(DESCRIPTION);
 		record.add("", "Description:");
@@ -214,9 +214,9 @@ public abstract class TransactionItemItemsRequirement extends
 		result.add("Name : " + getItemDisplayValue(transactionItem));
 		result.add(list);
 
-		// if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
-		// result.add(getConstants().vat() + transactionItem.getVATfraction());
-		// }
+		if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
+			result.add(getConstants().vat() + transactionItem.getVATfraction());
+		}
 
 		double lt = transactionItem.getQuantity().getValue()
 				* transactionItem.getUnitPrice();

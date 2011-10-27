@@ -10,7 +10,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -174,14 +173,22 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 			name = context.getString();
 		}
 		if (name == null) {
-			context.setAttribute("oldValue", "");
-			result.add(displayName);
-			ResultList actions = new ResultList(ACTIONS);
-			Record record = new Record(ActionNames.ALL);
-			record.add("", "Show All Records");
-			actions.add(record);
-			result.add(actions);
-			return result;
+			List<ClientTAXCode> lists = getTaxCodeLists(context);
+			if (lists.size() > 5) {
+				context.setAttribute("oldValue", "");
+				result.add(displayName);
+				ResultList actions = new ResultList(ACTIONS);
+				Record record = new Record(ActionNames.ALL);
+				record.add("", "Show All Records");
+				actions.add(record);
+				result.add(actions);
+				return result;
+			}
+			List<ClientTAXCode> oldRecords = new ArrayList<ClientTAXCode>();
+			if (oldCode != null) {
+				oldRecords.add(oldCode);
+			}
+			return displayRecords2(context, lists, result, 5, oldRecords);
 		}
 
 		Object selection = context.getSelection(ACTIONS);
@@ -196,16 +203,12 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 			lists = getTaxCodeLists(context, name);
 			context.setAttribute("oldValue", name);
 			if (lists.size() != 0) {
-				result.add("Found " + lists.size() + " record(s)");
+				result.add("Found " + lists.size() + " record(s) with '" + name
+						+ "'.");
 			} else {
 				result.add("Did not get any records with '" + name + "'.");
-				result.add(displayName);
-				ResultList actions = new ResultList(ACTIONS);
-				Record record = new Record(ActionNames.ALL);
-				record.add("", "Show All Records");
-				actions.add(record);
-				result.add(actions);
-				return result;
+				context.setAttribute("oldValue", "");
+				lists = getTaxCodeLists(context);
 			}
 		} else {
 			String oldValue = (String) context.getAttribute("oldValue");
@@ -215,6 +218,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 				lists = getTaxCodeLists(context);
 			}
 		}
+
 		List<ClientTAXCode> oldRecords = new ArrayList<ClientTAXCode>();
 		if (oldCode != null) {
 			oldRecords.add(oldCode);
