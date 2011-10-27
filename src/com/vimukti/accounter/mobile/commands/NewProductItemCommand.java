@@ -1,17 +1,17 @@
 package com.vimukti.accounter.mobile.commands;
 
-import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import java.util.List;
+
+import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 
 public class NewProductItemCommand extends AbstractItemCreateCommand {
 
 	@Override
-	protected Result weightRequirement(Context context, ResultList list,
-			Object selection) {
-		return numberOptionalRequirement(context, list, selection, WEIGHT,
-				getConstants().weight(),
-				getMessages().pleaseEnter(getConstants().weight()));
+	protected void addRequirements(List<Requirement> list) {
+		super.addRequirements(list);
+		list.add(new AmountRequirement(WEIGHT, getMessages().pleaseEnter(
+				getConstants().weight()), getConstants().weight(), true, true));
 	}
 
 	@Override

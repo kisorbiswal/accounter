@@ -2,24 +2,27 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ItemGroupRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
+import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
-public abstract class AbstractItemCreateCommand extends AbstractCommand {
+public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 	private static final String NAME = "name";
 	private static final String I_SELL_THIS = "iSellthis";
@@ -38,374 +41,280 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	private static final String PREFERRED_SUPPLIER = "preferredSupplier";
 	private static final String SERVICE_NO = "supplierServiceNo";
 	protected static final String WEIGHT = "weight";
+	private static final String TAXCODE = null;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(NAME, false, true));
-		list.add(new Requirement(I_SELL_THIS, true, true));
-		list.add(new Requirement(SALES_DESCRIPTION, true, true));
-		list.add(new Requirement(SALES_PRICE, true, true));
-		list.add(new Requirement(INCOME_ACCOUNT, false, true));
-		list.add(new Requirement(IS_TAXABLE, true, true));
-		list.add(new Requirement(IS_COMMISION_ITEM, true, true));
-		list.add(new Requirement(STANDARD_COST, true, true));
-		list.add(new Requirement(ITEM_GROUP, true, true));
-		list.add(new Requirement(TAXCODE, false, true));
-		list.add(new Requirement(IS_ACTIVE, true, true));
-		list.add(new Requirement(I_BUY_THIS, true, true));
-		list.add(new Requirement(PURCHASE_DESCRIPTION, true, true));
-		list.add(new Requirement(PURCHASE_PRICE, true, true));
-		list.add(new Requirement(EXPENSE_ACCOUNT, false, true));
-		list.add(new Requirement(PREFERRED_SUPPLIER, true, true));
-		list.add(new Requirement(SERVICE_NO, true, true));
-		list.add(new Requirement(WEIGHT, true, true));
+		list.add(new NameRequirement(NAME, getMessages().pleaseEnter(
+				getConstants().itemName()), getConstants().name(), false, true));
+		list.add(new BooleanRequirement(I_SELL_THIS, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().isellthisservice();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().idontSellThisService();
+			}
+		});
+
+		list.add(new NameRequirement(SALES_DESCRIPTION, getMessages()
+				.pleaseEnter(getConstants().salesDescription()), getConstants()
+				.salesDescription(), true, true));
+
+		list.add(new AmountRequirement(SALES_PRICE, getMessages().pleaseEnter(
+				getConstants().salesPrice()), getConstants().salesPrice(),
+				true, true));
+
+		list.add(new AccountRequirement(INCOME_ACCOUNT, getMessages()
+				.pleaseEnter(
+						getMessages().incomeAccount(Global.get().Account())),
+				getMessages().incomeAccount(Global.get().Account()), false,
+				true, null) {
+
+			@Override
+			protected List<ClientAccount> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& e.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
+								&& e.getType() != ClientAccount.TYPE_OTHER_EXPENSE
+								&& e.getType() != ClientAccount.TYPE_EXPENSE
+								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
+								&& e.getType() != ClientAccount.TYPE_CASH
+								&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
+								&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& e.getType() != ClientAccount.TYPE_EQUITY) {
+							return true;
+						}
+						return false;
+					}
+				}, getClientCompany().getAccounts());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(Global.get().Account());
+			}
+
+			@Override
+			protected boolean filter(ClientAccount e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getNumber().equals(name);
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Income Account has been selected";
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_TAXABLE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().taxable();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().taxExempt();
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_COMMISION_ITEM, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().thisIsCommisionItem();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().thisIsNoCommisionItem();
+			}
+		});
+
+		list.add(new NumberRequirement(STANDARD_COST, getMessages()
+				.pleaseEnter(getConstants().standardCost()), getConstants()
+				.standardCost(), true, true));
+
+		list.add(new ItemGroupRequirement(ITEM_GROUP,
+				"Enter the item group name", getConstants().itemGroup(), true,
+				true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Item group has been selected";
+			}
+
+			@Override
+			protected List<ClientItemGroup> getLists(Context context) {
+				return getClientCompany().getItemGroups();
+			}
+
+			@Override
+			protected boolean filter(ClientItemGroup e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new TaxCodeRequirement(TAXCODE, "Enter the Tax Code name",
+				getConstants().taxCode(), false, true, null) {
+
+			@Override
+			protected List<ClientTAXCode> getLists(Context context) {
+				return getClientCompany().getTaxCodes();
+			}
+
+			@Override
+			protected boolean filter(ClientTAXCode e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_ACTIVE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().active();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().inActive();
+			}
+		});
+
+		list.add(new BooleanRequirement(I_BUY_THIS, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().iBuyThisItem();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().idontBuyThisService();
+			}
+		});
+
+		list.add(new NameRequirement(PURCHASE_DESCRIPTION, getMessages()
+				.pleaseEnter(getConstants().purchaseDescription()),
+				getConstants().purchaseDescription(), true, true));
+
+		list.add(new AmountRequirement(PURCHASE_PRICE, getMessages()
+				.pleaseEnter(getConstants().purchasePrice()), getConstants()
+				.purchasePrice(), true, true));
+
+		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
+				.pleaseEnter(
+						getMessages().expenseAccount(Global.get().Account())),
+				getMessages().expenseAccount(Global.get().Account()), false,
+				true, null) {
+
+			@Override
+			protected List<ClientAccount> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& e.getType() != ClientAccount.TYPE_INCOME
+								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
+								&& e.getType() != ClientAccount.TYPE_CASH
+								&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
+								&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& e.getType() != ClientAccount.TYPE_EQUITY) {
+							return true;
+						}
+						return false;
+					}
+				}, getClientCompany().getAccounts());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(Global.get().Account());
+			}
+
+			@Override
+			protected boolean filter(ClientAccount e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getNumber().equals(name);
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Expense Account has been selected";
+			}
+		});
+
+		list.add(new VendorRequirement(PREFERRED_SUPPLIER,
+				"enter the supplier name or number", getMessages()
+						.preferredVendor(Global.get().Vendor()), true, true,
+				null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Preferred Supplier has been selected";
+			}
+
+			@Override
+			protected List<ClientVendor> getLists(Context context) {
+				return getClientCompany().getVendors();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(Global.get().Vendor());
+			}
+
+			@Override
+			protected boolean filter(ClientVendor e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NumberRequirement(SERVICE_NO, getMessages().pleaseEnter(
+				getMessages().vendorServiceNo(Global.get().Vendor())),
+				getMessages().vendorServiceNo(Global.get().Vendor()), true,
+				true));
+
 	}
 
 	@Override
-	public Result run(Context context) {
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		Result result = context.makeResult();
-		setDefaultValues();
-
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().item()));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		result = nameRequirement(context, list, NAME,
-				getConstants().itemName(),
-				getMessages().pleaseEnter(getConstants().itemName()));
-		if (result != null) {
-			return result;
-		}
-
-		Object selection = context.getSelection("values");
-
-		booleanOptionalRequirement(context, selection, list, I_SELL_THIS,
-				getConstants().isellthisservice(), getConstants()
-						.idontSellThisService());
-
-		Boolean iSellThis = get(I_SELL_THIS).getValue();
-		if (iSellThis) {
-			result = accountRequirement(context, list, INCOME_ACCOUNT,
-					getMessages().incomeAccount(Global.get().Account()),
-					new ListFilter<ClientAccount>() {
-
-						@Override
-						public boolean filter(ClientAccount e) {
-							if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-									&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-									&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-									&& e.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
-									&& e.getType() != ClientAccount.TYPE_OTHER_EXPENSE
-									&& e.getType() != ClientAccount.TYPE_EXPENSE
-									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-									&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
-									&& e.getType() != ClientAccount.TYPE_CASH
-									&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
-									&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
-									&& e.getType() != ClientAccount.TYPE_EQUITY) {
-								return true;
-							}
-							return false;
-						}
-					});
-			if (result != null) {
-				return result;
-			}
-		}
-
-		if (context.getCompany().getPreferences().isClassOnePerTransaction()) {
-			result = taxCode(context, null);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		booleanOptionalRequirement(context, selection, list, I_BUY_THIS,
-				getConstants().ibuythisservice(), getConstants()
-						.idontBuyThisService());
-
-		Boolean buyService = get(I_BUY_THIS).getValue();
-		if (buyService) {
-			result = accountRequirement(context, list, EXPENSE_ACCOUNT,
-					getMessages().expenseAccount(Global.get().Account()),
-					new ListFilter<ClientAccount>() {
-
-						@Override
-						public boolean filter(ClientAccount e) {
-							if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-									&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-									&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-									&& e.getType() != ClientAccount.TYPE_INCOME
-									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-									&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-									&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
-									&& e.getType() != ClientAccount.TYPE_CASH
-									&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
-									&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
-									&& e.getType() != ClientAccount.TYPE_EQUITY) {
-								return true;
-							}
-							return false;
-						}
-					});
-			if (result != null) {
-				return result;
-			}
-		}
-
-		result = createOptionalResult(context, list, actions, makeResult);
-		if (result != null) {
-			return result;
-		}
-
-		return createNewItem(context);
-	}
-
-	private void setDefaultValues() {
+	protected void setDefaultValues(Context context) {
 		get(I_SELL_THIS).setDefaultValue(Boolean.TRUE);
-		get(SALES_DESCRIPTION).setDefaultValue(" ");
-		get(SALES_PRICE).setDefaultValue(0.0D);
 		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
 		get(IS_COMMISION_ITEM).setDefaultValue(Boolean.TRUE);
-		get(STANDARD_COST).setDefaultValue(0.0D);
-		get(ITEM_GROUP).setDefaultValue(null);
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
-		get(I_BUY_THIS).setDefaultValue(Boolean.FALSE);
-		get(PURCHASE_DESCRIPTION).setDefaultValue(" ");
-		get(PURCHASE_PRICE).setDefaultValue(0.0D);
-		get(PREFERRED_SUPPLIER).setDefaultValue(null);
 		get(SERVICE_NO).setDefaultValue("1");
 	}
 
-	/**
-	 * for checking of optionals
-	 * 
-	 * @param context
-	 * @param makeResult
-	 * @param actions
-	 * @param list
-	 * @return
-	 */
-
-	private Result createOptionalResult(Context context, ResultList list,
-			ResultList actions, Result makeResult) {
-		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				boolean iSell = get(I_SELL_THIS).getValue();
-				boolean iBuy = get(I_BUY_THIS).getValue();
-				if (!iSell && !iBuy) {
-					makeResult.add(getConstants().selectAnyone());
-				} else {
-					return null;
-				}
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		Result result = weightRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		boolean iSellThis = get(I_SELL_THIS).getValue();
-		if (iSellThis) {
-
-			booleanOptionalRequirement(context, selection, list,
-					IS_COMMISION_ITEM, getConstants().thisIsCommisionItem(),
-					getConstants().thisIsNoCommisionItem());
-
-			booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-					getConstants().taxable(), getConstants().taxExempt());
-
-			result = stringOptionalRequirement(context, list, selection,
-					SALES_DESCRIPTION, getConstants().salesDescription(),
-					getMessages()
-							.pleaseEnter(getConstants().salesDescription()));
-			if (result != null) {
-				return result;
-			}
-
-			result = amountOptionalRequirement(context, list, selection,
-					SALES_PRICE,
-					getMessages().pleaseEnter(getConstants().salesPrice()),
-					getConstants().salesPrice());
-			if (result != null) {
-				return result;
-			}
-
-		}
-		result = amountOptionalRequirement(context, list, selection,
-				STANDARD_COST,
-				getMessages().pleaseEnter(getConstants().cost()),
-				getConstants().cost());
-		if (result != null) {
-			return result;
-		}
-
-		result = itemGroupRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-				getMessages().active(getConstants().item()), getMessages()
-						.inActive(getConstants().item()));
-
-		Boolean buyService = get(I_BUY_THIS).getValue();
-		if (buyService) {
-			result = stringOptionalRequirement(
-					context,
-					list,
-					selection,
-					PURCHASE_DESCRIPTION,
-					getConstants().purchaseDescription(),
-					getMessages().pleaseEnter(
-							getConstants().purchaseDescription()));
-			if (result != null) {
-				return result;
-			}
-
-			result = amountOptionalRequirement(context, list, selection,
-					PURCHASE_PRICE,
-					getMessages().pleaseEnter(getConstants().purchasePrice()),
-					getConstants().purchasePrice());
-			if (result != null) {
-				return result;
-			}
-
-			// for prefferedSupplier
-			result = vendorOptionalRequirement(
-					context,
-					list,
-					selection,
-					PREFERRED_SUPPLIER,
-					getMessages().pleaseSelect(
-							getMessages()
-									.preferredVendor(Global.get().Vendor())),
-					getMessages().preferredVendor(Global.get().Vendor()));
-			if (result != null) {
-				return result;
-			}
-
-			result = numberOptionalRequirement(
-					context,
-					list,
-					selection,
-					SERVICE_NO,
-					getMessages().vendorServiceNo(Global.get().Vendor()),
-					getMessages().pleaseEnter(
-							getMessages()
-									.vendorServiceNo(Global.get().Vendor())));
-			if (result != null) {
-				return result;
-			}
-		}
-
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", getMessages().finishToCreate(getConstants().item()));
-		actions.add(finish);
-
-		return makeResult;
-	}
-
-	protected Result weightRequirement(Context context, ResultList list,
-			Object selection) {
-		return null;
-	}
-
-	protected Record createincomeAccountRecord(ClientAccount last) {
-		Record record = new Record(last);
-		record.add("Name", last.getName());
-		record.add("Account Number", last.getNumber());
-		return record;
-	}
-
-	private Result itemGroupRequirement(Context context) {
-		Requirement itemgroupReq = get(ITEM_GROUP);
-		ClientItemGroup itemgroup = context.getSelection("itemgroups");
-		if (itemgroup != null) {
-			itemgroupReq.setValue(itemgroup);
-		}
-		if (!itemgroupReq.isDone()) {
-			return itemgroups(context);
-		}
-		return null;
-
-	}
-
-	private Result itemgroups(Context context) {
-		Result result = context.makeResult();
-		ResultList itemgroupsList = new ResultList("itemgroups");
-
-		Object last = context.getLast(RequirementType.ITEM_GROUP);
-		int num = 0;
-		if (last != null) {
-			itemgroupsList.add(createitemGroupRecord((ClientItemGroup) last));
-			num++;
-		}
-		List<ClientItemGroup> itemgroups = getItemGroups(context);
-		for (ClientItemGroup itemGroup : itemgroups) {
-			if (itemGroup != last) {
-				itemgroupsList.add(createitemGroupRecord(itemGroup));
-				num++;
-			}
-			if (num == ITEMGROUPS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = itemgroupsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append(getMessages().pleaseSelect(
-					getConstants().itemGroup()));
-		}
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().create());
-
-		result.add(message.toString());
-		result.add(itemgroupsList);
-		result.add(commandList);
-		return result;
-
-	}
-
-	private List<ClientItemGroup> getItemGroups(Context context) {
-		ClientCompany company = getClientCompany();
-		return company.getItemGroups();
-	}
-
-	private Record createitemGroupRecord(ClientItemGroup last) {
-		Record record = new Record(last);
-		record.add("Name", last.getName());
-		return record;
-	}
-
-	private Result createNewItem(Context context) {
+	@Override
+	protected Result onCompleteProcess(Context context) {
 		ClientItem item = new ClientItem();
 
 		String name = (String) get(NAME).getValue();
 
 		// TODO:check weather it is product or service item
 		Integer weight = 0;
-		if (this instanceof NewProductItemCommand) {
-			String s = get(WEIGHT).getValue();
+		Requirement weightReq = get(WEIGHT);
+		if (weightReq != null) {
+			String s = weightReq.getValue();
 			weight = s != null ? Integer.parseInt(s) : 0;
 		}
 		Boolean iSellthis = (Boolean) get(I_SELL_THIS).getValue();
@@ -458,13 +367,17 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 		create(item, context);
 
-		markDone();
+		return null;
+	}
 
-		Result result = new Result();
-		result.add(getMessages().createSuccessfully(getConstants().item()));
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getConstants().item());
+	}
 
-		return result;
-
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getConstants().item());
 	}
 
 }
