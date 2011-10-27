@@ -20,6 +20,7 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
@@ -31,9 +32,11 @@ import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -145,6 +148,18 @@ public class AccounterCompanyInitializationServiceImpl extends
 			// Initializing Accounts
 			company.setPreferences(serverCompanyPreferences);
 			company.initialize(accounts);
+			if (serverCompanyPreferences.getPrimaryCurrency() == null) {
+				serverCompanyPreferences.setPrimaryCurrency(company
+						.getCountryPreferences().getPreferredCurrency());
+			}
+
+			ClientCurrency clientCurrency = CoreUtils
+					.getCurrency(serverCompanyPreferences.getPrimaryCurrency());
+			Currency currency = new Currency();
+			currency = new ServerConvertUtil().toServerObject(currency,
+					clientCurrency, session);
+			currency.setCompany(company);
+			session.save(currency);
 
 			session.saveOrUpdate(company);
 			transaction.commit();
