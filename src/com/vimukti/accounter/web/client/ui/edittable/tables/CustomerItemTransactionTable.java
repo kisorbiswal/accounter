@@ -126,4 +126,10 @@ public abstract class CustomerItemTransactionTable extends
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		super.updateAmountsFromGUI();
+
+	}
+
 }

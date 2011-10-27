@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public abstract class AmountColumn<T> extends TextEditColumn<T> {
 
-	private ICurrencyProvider currencyProvider;
+	ICurrencyProvider currencyProvider;
 
 	public AmountColumn(ICurrencyProvider currencyProvider) {
 		super();

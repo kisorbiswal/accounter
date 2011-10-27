@@ -347,7 +347,8 @@ public class SalesOrderView extends
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		// priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();

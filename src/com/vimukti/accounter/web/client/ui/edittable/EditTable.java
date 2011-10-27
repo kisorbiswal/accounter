@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 
 public abstract class EditTable<R> extends SimplePanel {
 
@@ -79,6 +79,7 @@ public abstract class EditTable<R> extends SimplePanel {
 			column.updateFromGUI(widget, row);
 		}
 	}
+
 	/**
 	 * Add a new row
 	 * 
@@ -229,5 +230,9 @@ public abstract class EditTable<R> extends SimplePanel {
 		return table;
 	}
 
-
+	public void updateColumnHeaders() {
+		for (EditColumn<R> column : columns) {
+			column.updateHeader();
+		}
+	}
 }

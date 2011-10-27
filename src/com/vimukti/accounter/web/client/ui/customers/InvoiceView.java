@@ -91,9 +91,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private DateField deliveryDate;
 	protected ClientSalesPerson salesPerson;
 	protected ClientPaymentTerms paymentTerm;
-	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, balanceDueNonEditableText,
-			paymentsNonEditableText, salesTaxTextNonEditable;
+	private AmountLabel netAmountLabel, vatTotalNonEditableText,
+			balanceDueNonEditableText, paymentsNonEditableText,
+			salesTaxTextNonEditable;
+
+	private AmountLabel transactionTotalinForeignCurrency,
+			transactionTotalinBaseCurrency;
 
 	// private Double currencyfactor;
 	// private ClientCurrency currencyCode;
@@ -343,6 +346,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm.setNumCols(3);
 		custForm.setWidth("100%");
 		currencyWidget = createCurrencyWidget();
+		// currencyWidget.setDisabled(isInViewMode());
 		// currencyWidget.setListener(new CurrencyChangeListener() {
 		//
 		//
@@ -462,7 +466,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		netAmountLabel = createNetAmountLabel();
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
@@ -541,7 +549,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				priceLevelForm.setWidth("70%");
 				// priceLevelForm.setFields(priceLevelSelect);
 				amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
-						transactionTotalNonEditableText,
+						transactionTotalinBaseCurrency,
+						transactionTotalinForeignCurrency,
 						paymentsNonEditableText, balanceDueNonEditableText);
 				amountsForm.setStyleName("boldtext");
 				prodAndServiceHLay.add(amountsForm);
@@ -567,7 +576,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
 
 				amountsForm.setFields(salesTaxTextNonEditable, disabletextbox,
-						transactionTotalNonEditableText, disabletextbox,
+						transactionTotalinBaseCurrency, disabletextbox,
+						transactionTotalinForeignCurrency, disabletextbox,
 						paymentsNonEditableText, disabletextbox,
 						balanceDueNonEditableText);
 
@@ -577,7 +587,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						ALIGN_RIGHT);
 			}
 		} else {
-			amountsForm.setFields(transactionTotalNonEditableText,
+			amountsForm.setFields(transactionTotalinBaseCurrency,
+					disabletextbox, transactionTotalinForeignCurrency,
 					disabletextbox, paymentsNonEditableText, disabletextbox,
 					balanceDueNonEditableText);
 			prodAndServiceHLay.add(amountsForm);
@@ -893,6 +904,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+
+		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+				.getFormalName());
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -1164,14 +1178,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
-			transactionTotalNonEditableText
+			transactionTotalinBaseCurrency
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 			paymentsNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
+					.setAmount(getAmountInBaseCurrency(transaction
 							.getPayments()));
 			balanceDueNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
+					.setAmount(getAmountInBaseCurrency(transaction
 							.getBalanceDue()));
 			quoteLabel.setDisabled(true);
 			memoTextAreaItem.setDisabled(true);
@@ -1269,9 +1285,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
 		this.transactionTotal = transactionTotal;
-		if (transactionTotalNonEditableText != null)
-			transactionTotalNonEditableText
+		if (transactionTotalinBaseCurrency != null) {
+			transactionTotalinBaseCurrency.setAmount(transactionTotal);
+			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		}
 
 	}
 
@@ -1412,8 +1430,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		}
 		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+				.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
 						.getAmount()));
+
 		// transaction.setBalanceDue(getBalanceDue());
 		transaction.setPayments(getPayments());
 		transaction.setMemo(getMemoTextAreaItem());

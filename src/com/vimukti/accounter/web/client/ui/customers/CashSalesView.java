@@ -75,13 +75,15 @@ public class CashSalesView extends
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	private ClientPriceLevel priceLevel;
 	private ClientSalesPerson salesPerson;
-	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			taxTotalNonEditableText;
+	private AmountLabel netAmountLabel, taxTotalNonEditableText;
 	private Double transactionTotal = 0.0D;
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
 	private CurrencyWidget currencyWidget;
+
+	private AmountLabel transactionTotalBaseCurrency,
+			transactionTotalForeignCurrency;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
@@ -242,7 +244,12 @@ public class CashSalesView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+
+		transactionTotalBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
+		transactionTotalForeignCurrency = createTransactionTotalNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), this) {
 
@@ -317,18 +324,21 @@ public class CashSalesView extends
 		if (isTrackTax()) {
 			prodAndServiceForm2.setFields(disabletextbox,
 					taxTotalNonEditableText, disabletextbox, netAmountLabel,
-					disabletextbox, transactionTotalNonEditableText);
+					disabletextbox, transactionTotalBaseCurrency,
+					disabletextbox, transactionTotalForeignCurrency);
 			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
-						disabletextbox, transactionTotalNonEditableText);
+						disabletextbox, transactionTotalBaseCurrency,
+						disabletextbox, transactionTotalForeignCurrency);
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		} else {
 			prodAndServiceForm2.setFields(disabletextbox,
-					transactionTotalNonEditableText);
+					transactionTotalBaseCurrency, disabletextbox,
+					transactionTotalForeignCurrency);
 		}
 		prodAndServiceForm2.addStyleName("boldtext");
 		currencyWidget = createCurrencyWidget();
@@ -586,8 +596,9 @@ public class CashSalesView extends
 		}
 
 		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+				.setTotal(getAmountInBaseCurrency(transactionTotalBaseCurrency
 						.getAmount()));
+
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -635,9 +646,11 @@ public class CashSalesView extends
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
 		this.transactionTotal = transactionTotal;
-		if (transactionTotalNonEditableText != null)
-			transactionTotalNonEditableText
+		if (transactionTotalBaseCurrency != null) {
+			transactionTotalBaseCurrency.setAmount(transactionTotal);
+			transactionTotalForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		}
 
 	}
 
@@ -745,7 +758,11 @@ public class CashSalesView extends
 			}
 
 			memoTextAreaItem.setDisabled(true);
-			transactionTotalNonEditableText
+
+			transactionTotalBaseCurrency
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+
+			transactionTotalForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 
@@ -854,7 +871,9 @@ public class CashSalesView extends
 
 		if (transaction != null) {
 			this.transactionTotal = ((ClientCashSales) transaction).getTotal();
-			this.transactionTotalNonEditableText
+			this.transactionTotalBaseCurrency
+					.setAmount(getAmountInBaseCurrency(this.transactionTotal));
+			this.transactionTotalForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(this.transactionTotal));
 
 		}

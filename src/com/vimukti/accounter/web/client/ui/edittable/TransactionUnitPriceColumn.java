@@ -41,6 +41,11 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().unitPrice();
+		if (currencyProvider.getTransactionCurrency() != null) {
+			return Accounter.messages().unitPrice(
+					currencyProvider.getTransactionCurrency().getFormalName());
+		} else {
+			return Accounter.messages().unitPrice("USD");
+		}
 	}
 }

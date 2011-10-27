@@ -719,9 +719,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableLabel() {
+	protected AmountLabel createTransactionTotalNonEditableLabel(String string) {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().total());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().total()
+				+ " (" + string + ")");
 
 		return amountLabel;
 

@@ -91,6 +91,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected int transactionType;
 
+	@Override
+	public ClientCurrency getTransactionCurrency() {
+		return this.currency;
+	}
+
 	protected T transaction;
 
 	private VerticalPanel addNotesPanel;
@@ -133,6 +138,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected ContactCombo contactCombo;
 	protected VendorCombo vendorCombo;
 	protected PayFromAccountsCombo payFromCombo;
+
+	AmountLabel foreignCurrencyamountLabel;
 
 	private Event event;
 	private boolean isMenuRequired = true;
@@ -465,6 +472,19 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		netAmountLabel.setTitle(Accounter.constants().netAmount());
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
+	}
+
+	protected AmountLabel createForeignCurrencyAmountLable(String string) {
+
+		foreignCurrencyamountLabel = new AmountLabel(Accounter.constants()
+				.total() + " (" + string + ")");
+		return foreignCurrencyamountLabel;
+	}
+
+	protected void changeForeignCurrencyTotalText(String string) {
+
+		foreignCurrencyamountLabel.setTitle(Accounter.constants().total()
+				+ " (" + string + ")");
 	}
 
 	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {

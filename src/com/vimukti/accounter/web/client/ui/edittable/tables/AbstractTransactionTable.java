@@ -280,6 +280,7 @@ public abstract class AbstractTransactionTable extends
 		for (ClientTransactionItem item : this.getAllRows()) {
 			updateFromGUI(item);
 		}
+		updateColumnHeaders();
 	}
 
 }

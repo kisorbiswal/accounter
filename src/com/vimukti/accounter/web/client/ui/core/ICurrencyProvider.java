@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+
 public interface ICurrencyProvider {
 
 	/**
@@ -21,4 +23,8 @@ public interface ICurrencyProvider {
 	 * @return
 	 */
 	public Double getAmountInBaseCurrency(Double amount);
+
+	public ClientCurrency getTransactionCurrency();
+
+	public Double getCurrencyFactor();
 }

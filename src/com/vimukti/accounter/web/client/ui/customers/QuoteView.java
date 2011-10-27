@@ -442,7 +442,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		customerTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), this) {

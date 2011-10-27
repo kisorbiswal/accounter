@@ -930,4 +930,6 @@ public interface AccounterMessages extends Messages {
 	public String unableToSaveNote(String string);
 
 	public SafeHtml transactionLink(String transactionName);
+
+	public String unitPrice(String currency);
 }

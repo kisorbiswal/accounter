@@ -188,7 +188,8 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
 		taxTotalNonEditableText = createVATTotalNonEditableLabel();
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
