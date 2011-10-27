@@ -792,14 +792,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (getPreferences().isTrackTax()) {
 			// Exception Report
 			// TODO need to get last vat period date
-
 			ClientFinanceDate date = new ClientFinanceDate(2011, 10, 30);
 			if (this.transactionDate.before(date)) {
 				result.addWarning(this.transactionDate,
 						accounterConstants.taxExceptionMesg());
 			}
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+
 		}
 
 		if (custForm != null) {
