@@ -104,6 +104,9 @@ public class AccounterChatServer implements ChatManagerListener,
 
 							@Override
 							public void onReply(String message) {
+								if (message.isEmpty()) {
+									return;
+								}
 								try {
 									chat.sendMessage(message);
 								} catch (XMPPException e) {
