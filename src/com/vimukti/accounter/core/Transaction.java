@@ -1044,7 +1044,7 @@ public abstract class Transaction extends CreatableObject implements
 		if (coreObject.getTransactionItems() != null) {
 			for (TransactionItem item : coreObject.getTransactionItems()) {
 				// item.itemBackUpList.clear();
-				item.taxRateCalculationEntriesList.clear();
+				item.getTaxRateCalculationEntriesList().clear();
 			}
 		}
 	}
