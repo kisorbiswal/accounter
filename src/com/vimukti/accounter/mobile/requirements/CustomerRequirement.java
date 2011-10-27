@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 
@@ -19,8 +20,8 @@ public abstract class CustomerRequirement extends
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return "Create Customer";
+	protected void setCreateCommand(CommandList list) {
+		list.add("Create Customer");
 	}
 
 	@Override

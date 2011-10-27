@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -27,8 +28,8 @@ public abstract class VendorRequirement extends ListRequirement<ClientVendor> {
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(Global.get().Vendor());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(Global.get().Vendor()));
 	}
 
 	@Override

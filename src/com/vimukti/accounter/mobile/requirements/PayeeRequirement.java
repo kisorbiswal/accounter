@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 
@@ -26,8 +27,8 @@ public abstract class PayeeRequirement extends ListRequirement<ClientPayee> {
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(getConstants().payee());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(getConstants().payee()));
 	}
 
 	@Override

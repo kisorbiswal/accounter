@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 
@@ -26,8 +27,8 @@ public abstract class CurrencyRequirement extends
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return null;
+	protected void setCreateCommand(CommandList list) {
+
 	}
 
 	@Override

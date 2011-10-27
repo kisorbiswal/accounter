@@ -166,19 +166,18 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			message.append(getSelectString());
 		} else {
 			message.append(getEmptyString());
-			String comm = getCreateCommandString();
-			if (comm != null) {
-				message.append(". Press 'a' to create " + getRecordName());
-			}
+			// String comm = getCreateCommandString();
+			// if (comm != null) {
+			// message.append(". Press 'a' to create " + getRecordName());
+			// }
 		}
 
 		result.add(message.toString());
 		result.add(customerList);
 		result.add(actions);
-		String comm = getCreateCommandString();
-		if (comm != null) {
-			CommandList commandList = new CommandList();
-			commandList.add(comm);
+		CommandList commandList = new CommandList();
+		setCreateCommand(commandList);
+		if (commandList.size() != 0) {
 			result.add(commandList);
 		}
 		return result;
@@ -280,7 +279,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 	 * 
 	 * @return
 	 */
-	protected abstract String getCreateCommandString();
+	protected abstract void setCreateCommand(CommandList list);
 
 	/**
 	 * When Show all Records,

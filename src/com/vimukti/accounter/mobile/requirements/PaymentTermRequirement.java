@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
@@ -36,8 +37,8 @@ public abstract class PaymentTermRequirement extends
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(getConstants().paymentTerm());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(getConstants().paymentTerm()));
 	}
 
 	@Override

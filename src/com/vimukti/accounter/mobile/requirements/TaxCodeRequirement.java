@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 
@@ -35,8 +36,8 @@ public abstract class TaxCodeRequirement extends ListRequirement<ClientTAXCode> 
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(getConstants().taxCode());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(getConstants().taxCode()));
 	}
 
 	@Override

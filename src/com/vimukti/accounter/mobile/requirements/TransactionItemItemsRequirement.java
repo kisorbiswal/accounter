@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
@@ -285,8 +286,8 @@ public abstract class TransactionItemItemsRequirement extends
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return "Create Item";
+	protected void setCreateCommand(CommandList list) {
+		list.add("Create Item");
 	}
 
 	@Override

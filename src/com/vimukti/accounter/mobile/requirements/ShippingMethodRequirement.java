@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 
@@ -28,8 +29,8 @@ public abstract class ShippingMethodRequirement extends
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(getConstants().shippingMethod());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(getConstants().shippingMethod()));
 	}
 
 	@Override

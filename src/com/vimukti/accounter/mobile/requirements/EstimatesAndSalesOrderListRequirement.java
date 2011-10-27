@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
@@ -44,8 +45,8 @@ public abstract class EstimatesAndSalesOrderListRequirement extends
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(getConstants().quote());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(getConstants().quote()));
 	}
 
 	@Override

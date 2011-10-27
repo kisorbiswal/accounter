@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientContact;
 
@@ -46,8 +47,8 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(getConstants().contact());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(getConstants().contact()));
 	}
 
 	@Override

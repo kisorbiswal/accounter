@@ -1,4 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
+
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
@@ -30,8 +32,7 @@ public abstract class StringListRequirement extends ListRequirement<String> {
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return null;
+	protected void setCreateCommand(CommandList list) {
 	}
 
 	@Override

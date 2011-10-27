@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 
@@ -26,8 +27,8 @@ public abstract class TaxAgencyRequirement extends
 	}
 
 	@Override
-	protected String getCreateCommandString() {
-		return getMessages().create(getConstants().taxAgency());
+	protected void setCreateCommand(CommandList list) {
+		list.add(getMessages().create(getConstants().taxAgency()));
 	}
 
 	@Override
