@@ -14,8 +14,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -66,7 +64,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
-import com.vimukti.accounter.web.client.ui.edittable.tables.WarehouseAllocationTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -98,8 +95,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			balanceDueNonEditableText, paymentsNonEditableText,
 			salesTaxTextNonEditable;
 
-	private WarehouseAllocationTable table;
-	private DisclosurePanel inventoryDisclosurePanel;
+	// private WarehouseAllocationTable table;
+	// private DisclosurePanel inventoryDisclosurePanel;
 
 	private AmountLabel transactionTotalinForeignCurrency,
 			transactionTotalinBaseCurrency;
@@ -695,17 +692,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		mainVLay.add(customerTransactionTable);
 		mainVLay.add(itemTableButton);
 		// Inventory table..
-		table = new WarehouseAllocationTable();
-		table.setDesable(isInViewMode());
-
-		FlowPanel inventoryFlowPanel = new FlowPanel();
-		inventoryDisclosurePanel = new DisclosurePanel("Warehouse Allocation");
-		inventoryFlowPanel.add(table);
-		inventoryDisclosurePanel.setContent(inventoryFlowPanel);
-		inventoryDisclosurePanel.setWidth("100%");
-		if (getCompany().getPreferences().isInventoryEnabled()
-				&& getCompany().getPreferences().iswareHouseEnabled())
-			mainVLay.add(inventoryDisclosurePanel);
+		// table = new WarehouseAllocationTable();
+		// table.setDesable(isInViewMode());
+		//
+		// FlowPanel inventoryFlowPanel = new FlowPanel();
+		// inventoryDisclosurePanel = new
+		// DisclosurePanel("Warehouse Allocation");
+		// inventoryFlowPanel.add(table);
+		// inventoryDisclosurePanel.setContent(inventoryFlowPanel);
+		// inventoryDisclosurePanel.setWidth("100%");
+		// if (getCompany().getPreferences().isInventoryEnabled()
+		// && getCompany().getPreferences().iswareHouseEnabled())
+		// mainVLay.add(inventoryDisclosurePanel);
 		// ---Inverntory table-----
 
 		mainVLay.add(panel11);
@@ -1456,9 +1454,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			transaction.setTaxTotal(this.salesTax);
 
-			if (getCompany().getPreferences().isInventoryEnabled()
-					&& getCompany().getPreferences().iswareHouseEnabled())
-				transaction.setWareHouseAllocations(table.getAllRows());
+			// if (getCompany().getPreferences().isInventoryEnabled()
+			// && getCompany().getPreferences().iswareHouseEnabled())
+			// transaction.setWareHouseAllocations(table.getAllRows());
 			// }
 
 		}
