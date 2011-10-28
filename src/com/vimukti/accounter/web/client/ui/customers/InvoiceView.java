@@ -1455,6 +1455,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			// }
 
 			transaction.setTaxTotal(this.salesTax);
+
+			if (getCompany().getPreferences().isInventoryEnabled()
+					&& getCompany().getPreferences().iswareHouseEnabled())
+				transaction.setWareHouseAllocations(table.getAllRows());
 			// }
 
 		}
