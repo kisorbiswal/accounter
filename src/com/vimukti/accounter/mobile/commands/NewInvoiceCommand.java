@@ -381,7 +381,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO
 		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
-		double[] result = getTgransactionTotal(context, true, allrecords, true);
+		double[] result = getTransactionTotal(context, true, allrecords, true);
 		makeResult.add("Net Amount: " + result[0]);
 		makeResult.add("Total Tax: " + result[1]);
 		makeResult.add("Total: " + (result[0] + result[1]));

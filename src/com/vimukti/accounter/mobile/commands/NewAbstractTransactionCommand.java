@@ -17,14 +17,14 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 			boolean isSales) {
 		List<ClientTransactionItem> allrecords = transaction
 				.getTransactionItems();
-		double[] result = getTgransactionTotal(context,
+		double[] result = getTransactionTotal(context,
 				transaction.isAmountsIncludeVAT(), allrecords, isSales);
 		double grandTotal = result[0] + result[1];
 		transaction.setTotal(grandTotal);
 		transaction.setNetAmount(result[0]);
 	}
 
-	public double[] getTgransactionTotal(Context context,
+	public double[] getTransactionTotal(Context context,
 			boolean isAmountsIncludeVAT,
 			List<ClientTransactionItem> allrecords, boolean isSales) {
 		double lineTotal = 0.0;
