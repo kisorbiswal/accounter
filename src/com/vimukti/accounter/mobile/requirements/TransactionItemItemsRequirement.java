@@ -95,17 +95,13 @@ public abstract class TransactionItemItemsRequirement extends
 				if (taxCode != null) {
 					transactionItem.setTaxCode(taxCode.getID());
 				} else {
-					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().taxCode()), null);
+					context.putSelection(ITEM_DETAILS, TAXCODE);
 				}
 			} else if (lineAttr.equals(DESCRIPTION)) {
 				transactionItem.setDescription(context.getString());
 			}
 		}
+		
 		Object selection = context.getSelection(ITEM_DETAILS);
 		if (selection != null) {
 			if (selection.equals(QUANTITY)) {
