@@ -1,29 +1,20 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWareHouseAllocation;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.QuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public class WarehouseAllocationTable extends
 		EditTable<ClientWareHouseAllocation> {
-
-	/**
-	 * This method will add 4 empty records to the table.
-	 */
-	public WarehouseAllocationTable() {
-		addEmptyRecords();
-	}
-
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			ClientWareHouseAllocation item = new ClientWareHouseAllocation();
-			add(item);
-		}
-	}
 
 	@Override
 	protected void initColumns() {
@@ -33,8 +24,7 @@ public class WarehouseAllocationTable extends
 			@Override
 			protected String getValue(ClientWareHouseAllocation row) {
 				ClientItem item = Accounter.getCompany().getItem(row.getItem());
-				// return item.getName();
-				return null;
+				return item.getName();
 			}
 
 			@Override
@@ -69,5 +59,62 @@ public class WarehouseAllocationTable extends
 		});
 
 		this.addColumn(new WareHouseColumn());
+	}
+
+	public void addOrUpdateRecords(ClientTransactionItem transactionItem) {
+		// FIXME Need to fix.
+		long item = transactionItem.getItem();
+		ClientQuantity quantity = transactionItem.getQuantity();
+		if (item == 0) {
+			return;
+		}
+		List<ClientWareHouseAllocation> records = getRecordsForItem(item);
+		if (records.isEmpty()) {
+			ClientWareHouseAllocation newRecord = new ClientWareHouseAllocation();
+			newRecord.setItem(item);
+			newRecord.setQuantity(transactionItem.getQuantity());
+			this.add(newRecord);
+		} else {
+			if (quantity.getValue() == 0) {
+				deleteRecords(records);
+			} else {
+				if (records.size() == 1) {
+					ClientWareHouseAllocation allocation = records.get(0);
+					allocation.setQuantity(quantity);
+					this.update(allocation);
+				} else {
+					boolean completed;
+					double value = quantity.getValue();
+					for (ClientWareHouseAllocation row : records) {
+						if (!DecimalUtil.isLessThan(row.getQuantity()
+								.getValue(), value)) {
+							row.setQuantity(quantity);
+							this.update(row);
+							records.remove(row);
+							deleteRecords(records);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	public void deleteRecords(List<ClientWareHouseAllocation> records) {
+		for (ClientWareHouseAllocation removable : records) {
+			this.delete(removable);
+		}
+	}
+
+	public List<ClientWareHouseAllocation> getRecordsForItem(long item) {
+		List<ClientWareHouseAllocation> allRows = this.getAllRows();
+		List<ClientWareHouseAllocation> result = new ArrayList<ClientWareHouseAllocation>();
+		for (ClientWareHouseAllocation record : allRows) {
+			if (record.getItem() == item) {
+				result.add(record);
+			}
+		}
+		return result;
 	}
 }
