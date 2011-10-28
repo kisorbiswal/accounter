@@ -10,6 +10,7 @@ import java.util.TimerTask;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IMUser;
@@ -238,6 +239,7 @@ public class MobileSession {
 		}
 		if (user != null) {
 			user = (User) hibernateSession.get(User.class, user.getID());
+			AccounterThreadLocal.set(user);
 		}
 		Company company = getCompany();
 		if (company != null) {
