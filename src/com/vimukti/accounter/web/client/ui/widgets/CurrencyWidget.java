@@ -28,8 +28,6 @@ public class CurrencyWidget extends DynamicForm {
 
 	private boolean showFactorField;
 
-	private boolean showFactorField;
-
 	public CurrencyWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
 		this.currencies = currencies;
