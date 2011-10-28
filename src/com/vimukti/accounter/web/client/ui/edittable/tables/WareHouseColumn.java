@@ -1,30 +1,31 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientWareHouseAllocation;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
+import com.vimukti.accounter.web.client.ui.edittable.WareHouseDropDownTable;
 
-public abstract class WareHouseColumn extends
-		ComboColumn<ClientTransactionItem, ClientWarehouse> {
+public class WareHouseColumn extends
+		ComboColumn<ClientWareHouseAllocation, ClientWarehouse> {
+	private AbstractDropDownTable<ClientWarehouse> wareHouseTable = new WareHouseDropDownTable();
 
 	@Override
 	public AbstractDropDownTable<ClientWarehouse> getDisplayTable(
-			ClientTransactionItem row) {
-		return null;
+			ClientWareHouseAllocation row) {
+		return wareHouseTable;
 	}
 
 	@Override
-	protected ClientWarehouse getValue(ClientTransactionItem row) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ClientWarehouse getValue(ClientWareHouseAllocation row) {
+		return Accounter.getCompany().getWarehouse(row.getWareHouse());
 	}
 
 	@Override
-	protected void setValue(ClientTransactionItem row, ClientWarehouse newValue) {
-		// TODO Auto-generated method stub
-
+	protected void setValue(ClientWareHouseAllocation row,
+			ClientWarehouse newValue) {
+		row.setWareHouse(newValue.getID());
 	}
 
 	@Override
