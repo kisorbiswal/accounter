@@ -148,9 +148,8 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		getCompanyPreferences().setInventoryEnabled(
 				inventoryCheckBox.getValue());
 		if (inventoryCheckBox.getValue()) {
-			getCompanyPreferences().setwareHouseEnabled(true);
-		} else {
-			getCompanyPreferences().setwareHouseEnabled(false);
+			getCompanyPreferences().setwareHouseEnabled(
+					warehousesCheckBox.getValue());
 		}
 	}
 
