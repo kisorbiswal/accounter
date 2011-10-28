@@ -46,7 +46,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
-import com.vimukti.accounter.web.client.ui.edittable.tables.WarehouseAllocationTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -82,8 +81,8 @@ public class CashSalesView extends
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
 	private CurrencyWidget currencyWidget;
-	private WarehouseAllocationTable inventoryTransactionTable;
-	private DisclosurePanel inventoryDisclosurePanel;
+	// private WarehouseAllocationTable inventoryTransactionTable;
+	// private DisclosurePanel inventoryDisclosurePanel;
 
 	private AmountLabel transactionTotalBaseCurrency,
 			transactionTotalForeignCurrency;
@@ -319,13 +318,14 @@ public class CashSalesView extends
 		itemsDisclosurePanel.setWidth("100%");
 
 		// Inventory table..
-		inventoryTransactionTable = new WarehouseAllocationTable();
-		inventoryTransactionTable.setDesable(isInViewMode());
-		FlowPanel inventoryFlowPanel = new FlowPanel();
-		inventoryDisclosurePanel = new DisclosurePanel("Warehouse Allocation");
-		inventoryFlowPanel.add(inventoryTransactionTable);
-		inventoryDisclosurePanel.setContent(inventoryFlowPanel);
-		inventoryDisclosurePanel.setWidth("100%");
+		// inventoryTransactionTable = new WarehouseAllocationTable();
+		// inventoryTransactionTable.setDesable(isInViewMode());
+		// FlowPanel inventoryFlowPanel = new FlowPanel();
+		// inventoryDisclosurePanel = new
+		// DisclosurePanel("Warehouse Allocation");
+		// inventoryFlowPanel.add(inventoryTransactionTable);
+		// inventoryDisclosurePanel.setContent(inventoryFlowPanel);
+		// inventoryDisclosurePanel.setWidth("100%");
 		// ---Inverntory table-----
 
 		final TextItem disabletextbox = new TextItem();
@@ -400,10 +400,10 @@ public class CashSalesView extends
 		mainVLay.add(itemsDisclosurePanel);
 		if (getCompany().getPreferences().isInventoryEnabled()
 				&& getCompany().getPreferences().iswareHouseEnabled())
-			mainVLay.add(inventoryDisclosurePanel);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
-		mainVLay.add(vPanel);
+			// mainVLay.add(inventoryDisclosurePanel);
+			// mainVLay.add(createAddNewButton());
+			// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+			mainVLay.add(vPanel);
 
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
@@ -622,10 +622,10 @@ public class CashSalesView extends
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
-		if (getCompany().getPreferences().isInventoryEnabled()
-				&& getCompany().getPreferences().iswareHouseEnabled())
-			transaction.setWareHouseAllocations(inventoryTransactionTable
-					.getAllRows());
+		// if (getCompany().getPreferences().isInventoryEnabled()
+		// && getCompany().getPreferences().iswareHouseEnabled())
+		// transaction.setWareHouseAllocations(inventoryTransactionTable
+		// .getAllRows());
 	}
 
 	@Override
