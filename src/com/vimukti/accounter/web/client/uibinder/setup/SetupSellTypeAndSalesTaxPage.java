@@ -180,6 +180,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			oneperdetaillineRadioButton.setValue(true);
 		else
 			onepeTransactionRadioButton.setValue(true);
+		if (sellServices) {
+			totalPanel.setVisible(false);
+		}
 		if (preferences.isInventoryEnabled()) {
 			inventoryCheckBox.setValue(true);
 			hiddenPanel.setVisible(true);
