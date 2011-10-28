@@ -564,7 +564,7 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="BrandingTheme" />
 		</set>
-		
+
 		<set name="warehouse" inverse="true" cascade="save-update,delete"
 			order-by="ID">
 			<key column="COMPANY_ID" />
@@ -1905,7 +1905,15 @@
 		<many-to-one name="transaction" lazy="false" column="TRANSACTION_ID"
 			class="Transaction" />
 	</class>
-
+	<class name="News" table="NEWS">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="sqlDate" column="SQLDATE"></property>
+		<property name="sticky" column="STICKY"></property>
+		<property name="url" column="URL"></property>
+		<property name="newsText" column="NEWSTEXT"></property>
+	</class>
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
 		<generator class="identity"></generator> </id> <property name="name" unique="true" 
 		column="NAME"></property> <property name="description" column="DESCRIPTION"></property> 
