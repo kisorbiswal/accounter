@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <patterns>
 	<include>reportpattern.xml</include>
-
 	<pattern>
 		<input>Invoice</input>
 		<input>Invoices</input>
@@ -41,14 +40,15 @@
 		</output>
 
 	</pattern>
+	
 	<pattern>
 		<input text="Customer">
-			<output>
-				<text text="Customer " />
-				<command code="1" text="Create New Customer" />
-				<command code="2" text="Customers List" />
-			</output>
 		</input>
+		<output>
+			<text text="Customer " />
+			<command text="Create New Customer" />
+			<command text="Customers List" />
+		</output>
 	</pattern>
 
 	<pattern>
