@@ -3,6 +3,8 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -18,6 +20,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Entity;
 import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
@@ -35,6 +38,7 @@ public class NewLoginServlet extends BaseServlet {
 	private static final String ACTIVATION_VIEW = "/WEB-INF/activation.jsp";
 
 	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
+	private String ENTITIES_LIST = "entitesList";
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -81,6 +85,7 @@ public class NewLoginServlet extends BaseServlet {
 				request.setAttribute(
 						"message",
 						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
+				addNewsToRequest(request);
 				dispatch(request, response, LOGIN_VIEW);
 			}
 			transaction.commit();
@@ -159,6 +164,7 @@ public class NewLoginServlet extends BaseServlet {
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession(false);
 		if (httpSession == null) {
+			addNewsToRequest(request);
 			dispatch(request, response, LOGIN_VIEW);
 			return;
 		}
@@ -176,6 +182,7 @@ public class NewLoginServlet extends BaseServlet {
 			// which gets submitted to same url
 			String userCookie = getCookie(request, OUR_COOKIE);
 			if (userCookie == null) {
+				addNewsToRequest(request);
 				dispatch(request, response, LOGIN_VIEW);
 				return;
 			}
@@ -190,11 +197,13 @@ public class NewLoginServlet extends BaseServlet {
 						.uniqueResult();
 
 				if (rememberMeKey == null) {
+					addNewsToRequest(request);
 					dispatch(request, response, LOGIN_VIEW);
 					return;
 				}
 				Client client = getClient(rememberMeKey.getEmailID());
 				if (client == null) {
+					addNewsToRequest(request);
 					dispatch(request, response, LOGIN_VIEW);
 					return;
 				}
@@ -287,4 +296,10 @@ public class NewLoginServlet extends BaseServlet {
 
 	}
 
+	private void addNewsToRequest(HttpServletRequest request) {
+		Session session = HibernateUtil.openSession();
+		Query namedQuery = session.getNamedQuery("getEntities");
+		List<Entity> entitesList = namedQuery.list();
+		request.setAttribute(ENTITIES_LIST, entitesList);
+	}
 }
