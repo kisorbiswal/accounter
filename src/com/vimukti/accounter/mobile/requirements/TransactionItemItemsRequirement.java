@@ -114,15 +114,17 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().quantity()), transactionItem
-								.getQuantity().getValue());
+								getConstants().quantity())
+								+ " of " + getItemDisplayValue(transactionItem),
+						transactionItem.getQuantity().getValue());
 			} else if (selection.equals(UNIT_PRICE)) {
 				context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
 				return amount(
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().unitPrice()),
+								getConstants().unitPrice())
+								+ " of " + getItemDisplayValue(transactionItem),
 						transactionItem.getUnitPrice());
 			} else if (selection.equals(DISCOUNT)) {
 				context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
@@ -130,7 +132,8 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().discount()),
+								getConstants().discount())
+								+ " of " + getItemDisplayValue(transactionItem),
 						transactionItem.getDiscount());
 			} else if (selection.equals(TAXCODE)) {
 				context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
@@ -138,7 +141,9 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().taxCode()), null);
+								getConstants().taxCode())
+								+ " for "
+								+ getItemDisplayValue(transactionItem), null);
 			} else if (selection.equals(TAX)) {
 				transactionItem.setTaxable(!transactionItem.isTaxable());
 			} else if (selection.equals(DESCRIPTION)) {
@@ -147,7 +152,9 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().description()),
+								getConstants().description())
+								+ " for "
+								+ getItemDisplayValue(transactionItem),
 						transactionItem.getDescription());
 			}
 		} else {
@@ -221,17 +228,21 @@ public abstract class TransactionItemItemsRequirement extends
 		result.add("Name : " + getItemDisplayValue(transactionItem));
 		result.add(list);
 
-		if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
-			result.add(getConstants().vat() + ": "
-					+ transactionItem.getVATfraction());
-		}
-
 		double lt = transactionItem.getQuantity().getValue()
 				* transactionItem.getUnitPrice();
 		double disc = transactionItem.getDiscount();
 		transactionItem
 				.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 						* disc / 100)) : lt);
+		if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
+			double salesTaxRate = getClientCompany().getTAXCode(
+					transactionItem.getTaxCode()).getSalesTaxRate();
+			transactionItem
+					.setVATfraction((transactionItem.getLineTotal() / 100)
+							* salesTaxRate);
+			result.add(getConstants().vat() + ": "
+					+ transactionItem.getVATfraction());
+		}
 		result.add("Total: " + transactionItem.getLineTotal());
 
 		ResultList actions = new ResultList(ACTIONS);
