@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -18,6 +17,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.News;
@@ -38,7 +39,6 @@ public class NewLoginServlet extends BaseServlet {
 	private static final String ACTIVATION_VIEW = "/WEB-INF/activation.jsp";
 
 	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
-	private String NEWS_LIST = "newsList";
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -85,8 +85,8 @@ public class NewLoginServlet extends BaseServlet {
 				request.setAttribute(
 						"message",
 						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
-				addNewsToRequest(request);
-				dispatch(request, response, LOGIN_VIEW);
+				showLogin(request, response);
+				return;
 			}
 			transaction.commit();
 		} catch (Exception e) {
@@ -164,8 +164,7 @@ public class NewLoginServlet extends BaseServlet {
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession(false);
 		if (httpSession == null) {
-			addNewsToRequest(request);
-			dispatch(request, response, LOGIN_VIEW);
+			showLogin(request, response);
 			return;
 		}
 		String activationType = (String) httpSession
@@ -182,8 +181,7 @@ public class NewLoginServlet extends BaseServlet {
 			// which gets submitted to same url
 			String userCookie = getCookie(request, OUR_COOKIE);
 			if (userCookie == null) {
-				addNewsToRequest(request);
-				dispatch(request, response, LOGIN_VIEW);
+				showLogin(request, response);
 				return;
 			}
 
@@ -197,14 +195,12 @@ public class NewLoginServlet extends BaseServlet {
 						.uniqueResult();
 
 				if (rememberMeKey == null) {
-					addNewsToRequest(request);
-					dispatch(request, response, LOGIN_VIEW);
+					showLogin(request, response);
 					return;
 				}
 				Client client = getClient(rememberMeKey.getEmailID());
 				if (client == null) {
-					addNewsToRequest(request);
-					dispatch(request, response, LOGIN_VIEW);
+					showLogin(request, response);
 					return;
 				}
 				httpSession.setAttribute(EMAIL_ID, rememberMeKey.getEmailID());
@@ -296,10 +292,28 @@ public class NewLoginServlet extends BaseServlet {
 
 	}
 
-	private void addNewsToRequest(HttpServletRequest request) {
-		Session session = HibernateUtil.openSession();
-		Query namedQuery = session.getNamedQuery("getNews");
-		List<News> entitesList = namedQuery.list();
-		request.setAttribute(NEWS_LIST, entitesList);
+	private void showLogin(HttpServletRequest request,
+			HttpServletResponse response) {
+		String news = getNews();
+		dispatch(request, response, LOGIN_VIEW);
+		return;
 	}
+
+	private String getNews() {
+		Session session = HibernateUtil.openSession();
+		try {
+
+			@SuppressWarnings("unchecked")
+			List<News> list = session.getNamedQuery("getNews").list();
+
+			XStream xstream = new XStream(new JettisonMappedXmlDriver());
+			xstream.setMode(XStream.NO_REFERENCES);
+			xstream.alias("news", News.class);
+
+			return xstream.toXML(list);
+		} finally {
+			session.close();
+		}
+	}
+
 }
