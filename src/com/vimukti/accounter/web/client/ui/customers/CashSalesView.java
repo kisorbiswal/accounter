@@ -621,6 +621,11 @@ public class CashSalesView extends
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
+
+		if (getCompany().getPreferences().isInventoryEnabled()
+				&& getCompany().getPreferences().iswareHouseEnabled())
+			transaction.setWareHouseAllocations(inventoryTransactionTable
+					.getAllRows());
 	}
 
 	@Override
