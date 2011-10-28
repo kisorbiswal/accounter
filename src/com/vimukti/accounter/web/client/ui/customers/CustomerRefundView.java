@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -234,8 +236,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -313,7 +315,10 @@ public class CustomerRefundView extends
 		rightPanel.add(balForm);
 		rightPanel.setCellHorizontalAlignment(balForm,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		rightPanel.add(currencyWidget);
+		if (isMultiCurrencyEnabled()) {
+			rightPanel.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.setWidth("100%");
 		hLay.setSpacing(10);
@@ -602,8 +607,8 @@ public class CustomerRefundView extends
 					.valueCannotBe0orlessthan0(Accounter.constants().amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
-				getAmountInBaseCurrency(amtText.getAmount()),
-				payFromSelect.getSelectedValue())) {
+				getAmountInBaseCurrency(amtText.getAmount()), payFromSelect
+						.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
@@ -692,6 +697,9 @@ public class CustomerRefundView extends
 		}
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 

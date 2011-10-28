@@ -570,8 +570,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		rightVLay.setHorizontalAlignment(ALIGN_CENTER);
 		if (type == ClientEstimate.QUOTES)
 			rightVLay.add(phoneForm);
+		if(isMultiCurrencyEnabled()){
 		rightVLay.add(currencyWidget);
-
+		currencyWidget.setDisabled(isInViewMode());
+		}
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
@@ -993,6 +995,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 

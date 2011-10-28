@@ -569,6 +569,7 @@ public class ReceivePaymentView extends
 		rightVLay.add(depoForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 
 		topHLay = new HorizontalPanel();
@@ -998,6 +999,9 @@ public class ReceivePaymentView extends
 		data = transaction;
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 	}
 
 	@Override

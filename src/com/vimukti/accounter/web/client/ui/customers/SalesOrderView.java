@@ -482,6 +482,7 @@ public class SalesOrderView extends
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -1388,6 +1389,9 @@ public class SalesOrderView extends
 		super.onEdit();
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 	}
 
 	@Override

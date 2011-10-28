@@ -865,6 +865,7 @@ public class WriteChequeView extends
 		topHLay.add(accPanel);
 		if (isMultiCurrencyEnabled()) {
 			topHLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 		// topHLay.add(amtForm);
 
@@ -1367,6 +1368,9 @@ public class WriteChequeView extends
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect.setDisabled(isInViewMode());
 			}
+		}
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
 		}
 
 		super.onEdit();
