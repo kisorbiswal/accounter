@@ -19,11 +19,9 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -60,7 +58,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	private static final String ORDER_NO = "orderNo";
 	private static final String MEMO = "memo";
 	private static final String TAXCODE = "taxCode";
-	private static final String ACCOUNT_ITEMS = "accountItems";
 
 	@Override
 	public String getId() {
