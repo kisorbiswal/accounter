@@ -2,7 +2,11 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -43,7 +47,7 @@ public class OpenIdServlet extends BaseServlet {
 	private static final String OPTIONAL_VALUE = "0";
 	private static final String REQUIRED_VALUE = "1";
 
-	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
+	private static final String OPENID_SIGNUP_VIEW = "/WEB-INF/OpenIdSignup.jsp";
 	private ConsumerManager manager;
 
 	/**
@@ -78,11 +82,12 @@ public class OpenIdServlet extends BaseServlet {
 			processReturn(req, resp);
 		} else {
 			String identifier = req.getParameter("openid_identifier");
+			//String identifier ="https://www.google.com/accounts/o8/id";
 			if (identifier != null) {
 				this.authRequest(identifier, req, resp);
 			} else {
 				this.getServletContext()
-						.getRequestDispatcher("/WEB-INF/openid.jsp")
+						.getRequestDispatcher("/WEB-INF/login.jsp")
 						.forward(req, resp);
 			}
 		}
@@ -205,7 +210,7 @@ public class OpenIdServlet extends BaseServlet {
 		Identifier identifier = this.verifyResponse(req);
 		if (identifier == null) {
 			this.getServletContext()
-					.getRequestDispatcher("/WEB-INF/openid.jsp")
+					.getRequestDispatcher("/WEB-INF/login.jsp")
 					.forward(req, resp);
 		} else {
 			req.setAttribute("identifier", identifier.getIdentifier());
@@ -250,8 +255,8 @@ public class OpenIdServlet extends BaseServlet {
 				}
 			} else {
 				request.setAttribute("message",
-						"No account exists with this emailid.");
-				dispatch(request, response, LOGIN_VIEW);
+						"No account exists with this emailid.please signup");
+				dispatch(request, response, OPENID_SIGNUP_VIEW);
 			}
 			transaction.commit();
 		} catch (Exception e) {
@@ -346,19 +351,22 @@ public class OpenIdServlet extends BaseServlet {
 
 			List emails = fetchResp.getAttributeValues("email");
 			String email = (String) emails.get(0);
+			List firstname = fetchResp.getAttributeValues("fullname");
+			String firstn = (String) firstname.get(0);
 
-			// List aliases = fetchResp.getAttributeAliases();
-			// Map attributes = new LinkedHashMap();
-			// for (Iterator iter = aliases.iterator(); iter.hasNext();) {
-			// String alias = (String) iter.next();
-			// List values = fetchResp.getAttributeValues(alias);
-			// if (values.size() > 0) {
-			// String[] arr = new String[values.size()];
-			// values.toArray(arr);
-			// attributes.put(alias, StringUtils.join(arr));
-			// }
-			// }
-			httpReq.setAttribute("email", email);
+//			 List aliases = fetchResp.getAttributeAliases();
+//			 Map attributes = new LinkedHashMap();
+//			 for (Iterator iter = aliases.iterator(); iter.hasNext();) {
+//			 String alias = (String) iter.next();
+//			 List values = fetchResp.getAttributeValues(alias);
+//			 if (values.size() > 0) {
+//			 String[] arr = new String[values.size()];
+//			 values.toArray(arr);
+//			 attributes.put(alias, StringUtils.join(arr));
+//			 }
+//			 }
+//			 httpReq.setAttribute("attributes", attributes);
+			 httpReq.setAttribute("email", email);
 		}
 	}
 
