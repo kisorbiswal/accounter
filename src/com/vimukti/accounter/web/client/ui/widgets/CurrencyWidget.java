@@ -99,11 +99,9 @@ public class CurrencyWidget extends DynamicForm {
 
 		// hide or show factor fields
 		if (showFactorField) {
-			// hide the fields
 			factorField.hide();
 			baseCurrencyLbl.hide();
 		} else {
-			// show the field
 			factorField.show();
 			baseCurrencyLbl.show();
 

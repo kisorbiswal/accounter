@@ -989,12 +989,17 @@ public class SalesOrderView extends
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
+		} else {
+			ClientCurrency clientCurrency = getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency());
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
 
-		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-		// .getFormalName());
-
-		modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			modifyForeignCurrencyTotalWidget();
+		}
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -1396,7 +1401,7 @@ public class SalesOrderView extends
 		super.onEdit();
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 	}

@@ -191,7 +191,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected ClientCurrency currency;
 
-	protected double currencyFactor;
+	protected double currencyFactor = 1.0;
 
 	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
 

@@ -762,9 +762,16 @@ public class CustomerCreditMemoView extends
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
+		} else {
+			ClientCurrency clientCurrency = getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency());
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
-
-		modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			modifyForeignCurrencyTotalWidget();
+		}
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -846,7 +853,7 @@ public class CustomerCreditMemoView extends
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();

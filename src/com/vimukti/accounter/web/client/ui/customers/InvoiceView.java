@@ -892,6 +892,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
+		} else {
+			ClientCurrency clientCurrency = getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency());
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
 		if (isMultiCurrencyEnabled()) {
 			modifyForeignCurrencyTotalWidget();
@@ -1059,7 +1065,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (transaction == null) {
 			setData(new ClientInvoice());
 		} else {
-			if (currencyWidget != null) {
+			if (isMultiCurrencyEnabled()) {
 				if (transaction.getCurrency() > 1) {
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
@@ -1372,6 +1378,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			transaction
 					.setDeliverydate(deliveryDate.getEnteredDate().getDate());
 		if (getCountryPreferences().isSalesTaxAvailable()) {
+
 			transaction
 					.setTaxTotal(getAmountInBaseCurrency(salesTaxTextNonEditable
 							.getAmount()));

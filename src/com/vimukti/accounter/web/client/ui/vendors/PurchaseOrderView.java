@@ -1126,11 +1126,19 @@ public class PurchaseOrderView extends
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
+		} else {
+			ClientCurrency clientCurrency = getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency());
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
 		shippingMethodsCombo.setComboItem(shippingMethod);
 		vendorCombo.setComboItem(vendor);
 
-		modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			modifyForeignCurrencyTotalWidget();
+		}
 	}
 
 	private void vendoraddressSelected(ClientAddress selectedAddress) {
@@ -1362,7 +1370,7 @@ public class PurchaseOrderView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		vendorCombo.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 

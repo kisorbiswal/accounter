@@ -678,12 +678,19 @@ public class CashExpenseView extends
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
+		} else {
+			ClientCurrency clientCurrency = getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency());
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
-
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
 
-		modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			modifyForeignCurrencyTotalWidget();
+		}
 	}
 
 	@Override
@@ -801,7 +808,7 @@ public class CashExpenseView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();

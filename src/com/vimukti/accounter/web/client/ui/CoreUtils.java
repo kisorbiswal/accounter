@@ -459,26 +459,26 @@ public class CoreUtils {
 
 			},
 			// AFGHANISTAN
-			{ "Badah_öan", "Badgis", "Baglan", "Balh_", "Bamiyan", "Farah",
+			{ "Badah_≈°an", "Badgis", "Baglan", "Balh_", "Bamiyan", "Farah",
 					"Faryab", "Gawr", "Gazni", "H_awst", "Herat", "Hilmand",
 					"Jawzjan", "Kabul", "Kandahar", "Kapisa", "Kunarha",
 					"Kunduz", "Lagman", "Lawgar", "Maydan-Wardak", "Nangarhar",
 					"Nimruz", "Nuristan", "Paktika", "Paktiya", "Parwan",
 					"Samangan", "Sar-e Pul", "Tah_ar", "Uruzgan", "Zabul" },// ALBANIA
-			{ "Berat", "BulqizÎ", "DelvinÎ", "Devoll", "DibrÎ", "DurrÎs",
-					"Elbasan", "Fier", "GjirokastÎr", "Gramsh", "Has",
-					"KavajÎ", "KolonjÎ", "KorÁÎ", "KrujÎ", "KuÁovÎ", "KukÎs",
-					"Kurbin", "LezhÎ", "Librazhd", "LushnjÎ", "MallakastÎr",
-					"Malsi e Madhe", "Mat", "MirditÎ", "Peqin", "PÎrmet",
-					"Pogradec", "PukÎ", "SarandÎ", "ShkodÎr", "Skrapar",
-					"TepelenÎ", "Tirana", "TropojÎ", "VlorÎ" },
+			{ "Berat", "Bulqiz√´", "Delvin√´", "Devoll", "Dibr√´", "Durr√´s",
+					"Elbasan", "Fier", "Gjirokast√´r", "Gramsh", "Has",
+					"Kavaj√´", "Kolonj√´", "Kor√ß√´", "Kruj√´", "Ku√ßov√´", "Kuk√´s",
+					"Kurbin", "Lezh√´", "Librazhd", "Lushnj√´", "Mallakast√´r",
+					"Malsi e Madhe", "Mat", "Mirdit√´", "Peqin", "P√´rmet",
+					"Pogradec", "Puk√´", "Sarand√´", "Shkod√´r", "Skrapar",
+					"Tepelen√´", "Tirana", "Tropoj√´", "Vlor√´" },
 			// ALGERIA
 			{ "Adrar", "al-Agwat", "al-Bayad", "al-Buirah", "Algier",
 					"al-Jilfah", "al-Masilah", "al-Midyah", "al-Wad",
-					"an-Na'amah", "Annabah", "aö-äalif", "at-Tarif",
-					"'Ayn ad-Dafla", "'Ayn Timuöanat", "Baööar", "Batnah",
+					"an-Na'amah", "Annabah", "a≈°-≈†alif", "at-Tarif",
+					"'Ayn ad-Dafla", "'Ayn Timu≈°anat", "Ba≈°≈°ar", "Batnah",
 					"Bijayah", "Biskrah", "Blidah", "Bumardas",
-					"Burj Bu Arririj", "Galizan", "Gardayah", "H_anöalah",
+					"Burj Bu Arririj", "Galizan", "Gardayah", "H_an≈°alah",
 					"Ilizi", "Jijili", "Milah", "Mu'askar", "Mustaganam",
 					"Qalmah", "Qusantinah", "Sa'idah", "Sakikdah", "Satif",
 					"Sidi bal'abbas", "Suq Ahras", "Tamanrasat", "Tibazah",
@@ -488,13 +488,13 @@ public class CoreUtils {
 			{ "Eastern", "Manu'a", "Swains Island", "Western" },
 			// ANDORRA
 			{ "Andorra la Vella", "Canillo", "Encamp", "Escaldes-Engordany",
-					"La Massana", "Ordino", "Sant Juli‡ de LÚria" }
+					"La Massana", "Ordino", "Sant Juli√† de L√≤ria" }
 			// ANGOLA
 			,
-			{ "Bengo", "Benguela", "BiÈ", "Cabinda", "Cuando-Cubango",
-					"Cuanza-Norte", "Cuanza-Sul", "Cunene", "Huambo", "HuÌla",
+			{ "Bengo", "Benguela", "Bi√©", "Cabinda", "Cuando-Cubango",
+					"Cuanza-Norte", "Cuanza-Sul", "Cunene", "Huambo", "Hu√≠la",
 					"Luanda", "Lunda Norte", "Lunda Sul", "Malanje", "Moxico",
-					"Namibe", "UÌge", "Zaire" }
+					"Namibe", "U√≠ge", "Zaire" }
 			// ANGUILLA
 			,
 			{ "" }
@@ -507,12 +507,12 @@ public class CoreUtils {
 					"Saint Paul", "Saint Peter", "Saint Philip" }
 			// ARGENTINA
 			,
-			{ "Buenos Aires", "Catamarca", "Chaco", "Chubut", "CÛrdoba",
-					"Corrientes", "Distrito Federal", "Entre RÌos", "Formosa",
+			{ "Buenos Aires", "Catamarca", "Chaco", "Chubut", "C√≥rdoba",
+					"Corrientes", "Distrito Federal", "Entre R√≠os", "Formosa",
 					"Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones",
-					"NeuquÈn", "RÌo Negro", "Salta", "San Juan", "San Luis",
-					"Santa Cruz", "Santa FÈ", "Santiago del Estero",
-					"Tierra del Fuego", "Tucum·n" }
+					"Neuqu√©n", "R√≠o Negro", "Salta", "San Juan", "San Luis",
+					"Santa Cruz", "Santa F√©", "Santiago del Estero",
+					"Tierra del Fuego", "Tucum√°n" }
 			// ARMENIA
 			,
 			{ "Aragatsotn", "Ararat", "Armavir", "Gegharkunik", "Kotayk",
@@ -523,7 +523,7 @@ public class CoreUtils {
 			{ "" }
 			// AUSTRIA
 			,
-			{ "Burgenland", "K‰rnten", "Niederˆsterreich", "Oberˆsterreich",
+			{ "Burgenland", "K√§rnten", "Nieder√∂sterreich", "Ober√∂sterreich",
 					"Salzburg", "Steiermark", "Tirol", "Vorarlberg", "Wien" }
 			// AUSTRALIA
 			,
@@ -533,7 +533,7 @@ public class CoreUtils {
 			// AZERBAIJAN
 			,
 			{ "Abseron", "Aran", "Baki", "Dagliq Sirvan", "G?nc?-Qazax",
-					"K?lb?c?r-LaÁin", "L?nk?ran", "NaxÁivan", "Quba-XaÁmaz",
+					"K?lb?c?r-La√ßin", "L?nk?ran", "Nax√ßivan", "Quba-Xa√ßmaz",
 					"S?ki-Zaqatala", "Yuxari Qarabag" }
 			// BAHAMAS, THE
 			,
@@ -545,7 +545,7 @@ public class CoreUtils {
 			// BAHRAIN
 			,
 			{ "al-Garbiyah", "al-H?idd", "al-Muh?arraq", "al-Wusta",
-					"ar-Rifa'a", "aö-äamaliyah", "'Isa", "Jidh?afs",
+					"ar-Rifa'a", "a≈°-≈†amaliyah", "'Isa", "Jidh?afs",
 					"Madinat H?amad", "Manama", "Sitrah" }
 			// BANGLADESH
 			,
@@ -578,8 +578,8 @@ public class CoreUtils {
 					"Saint Thomas" }
 			// BELGIUM
 			,
-			{ "Antwerpen", "Brabant Wallon", "Br¸ssel", "Fl‰misch Brabant",
-					"Hennegau", "Limburg", "L¸ttich", "Luxemburg", "Namur",
+			{ "Antwerpen", "Brabant Wallon", "Br√ºssel", "Fl√§misch Brabant",
+					"Hennegau", "Limburg", "L√ºttich", "Luxemburg", "Namur",
 					"Ost-Flandern", "West-Flandern" }
 			// BELIZE
 			,
@@ -588,7 +588,7 @@ public class CoreUtils {
 			// BENIN
 			,
 			{ "Alibori", "Atacora", "Atlantique", "Borgou", "Collines",
-					"Couffo", "Donga", "Littoral", "Mono", "OuÈmÈ", "Plateau",
+					"Couffo", "Donga", "Littoral", "Mono", "Ou√©m√©", "Plateau",
 					"Zou" }
 			// BERMUDA
 			,
@@ -620,13 +620,13 @@ public class CoreUtils {
 			{}
 			// BRAZIL
 			,
-			{ "Acre", "Alagoas", "Amap·", "Amazonas", "Bahia", "Cear·",
-					"Distrito Federal", "EspÌrito Santo", "Goi·s", "Maranh„o",
+			{ "Acre", "Alagoas", "Amap√°", "Amazonas", "Bahia", "Cear√°",
+					"Distrito Federal", "Esp√≠rito Santo", "Goi√°s", "Maranh√£o",
 					"Mato Grosso", "Mato Grosso do Sul", "Minas Gerais",
-					"Par·", "ParaÌba", "Paran·", "Pernambuco", "PiauÌ",
+					"Par√°", "Para√≠ba", "Paran√°", "Pernambuco", "Piau√≠",
 					"Rio de Janeiro", "Rio Grande do Norte",
-					"Rio Grande do Sul", "RondÙnia", "Roraima",
-					"Santa Catarina", "S„o Paulo", "Sergipe", "Tocantins" }
+					"Rio Grande do Sul", "Rond√¥nia", "Roraima",
+					"Santa Catarina", "S√£o Paulo", "Sergipe", "Tocantins" }
 			// BRITISH INDIAN OCEAN TERRITORY
 			,
 			{ "Tortola" }
@@ -636,22 +636,22 @@ public class CoreUtils {
 			// BULGARIA
 			,
 			{ "Blagoevgrad", "Burgas", "Dobric", "Gabrovo", "Haskovo",
-					"Jambol", "Kardûali", "Kjustendil", "Lovec", "Montana",
-					"Pazardûik", "Pernik", "Pleven", "Plovdiv", "Razgrad",
+					"Jambol", "Kard≈æali", "Kjustendil", "Lovec", "Montana",
+					"Pazard≈æik", "Pernik", "Pleven", "Plovdiv", "Razgrad",
 					"Ruse", "Silistra", "Sliven", "Smoljan", "Sofija grad",
-					"Sofijska oblast", "Stara Zagora", "äumen", "Targoviöte",
+					"Sofijska oblast", "Stara Zagora", "≈†umen", "Targovi≈°te",
 					"Varna", "Veliko Tarnovo", "Vidin", "Vraca" }
 			// BURKINA FASO
 			,
-			{ "BalÈ", "Bam", "Banwa", "BazÈga", "Bougouriba", "Boulgou",
-					"BoulkiemdÈ", "ComoÈ", "Ganzourgou", "Gnagna", "Gourma",
-					"Houet", "Ioba", "Kadiogo", "KÈnÈdougou", "Komandjoari",
-					"Kompienga", "Kossi", "KoulpÈlogo", "Kouritenga",
-					"KourwÈogo", "LÈraba", "Loroum", "Mouhoun", "Nahouri",
+			{ "Bal√©", "Bam", "Banwa", "Baz√©ga", "Bougouriba", "Boulgou",
+					"Boulkiemd√©", "Como√©", "Ganzourgou", "Gnagna", "Gourma",
+					"Houet", "Ioba", "Kadiogo", "K√©n√©dougou", "Komandjoari",
+					"Kompienga", "Kossi", "Koulp√©logo", "Kouritenga",
+					"Kourw√©ogo", "L√©raba", "Loroum", "Mouhoun", "Nahouri",
 					"Namentenga", "Nayala", "Noumbiel", "Oubritenga",
-					"Oudalan", "PassorÈ", "Poni", "SanguiÈ", "Sanmatenga",
-					"SÈno", "Sissili", "Soum", "Sourou", "Tapoa", "Tuy",
-					"Yagha", "Yatenga", "Ziro", "Zondoma", "ZoundwÈogo" }
+					"Oudalan", "Passor√©", "Poni", "Sangui√©", "Sanmatenga",
+					"S√©no", "Sissili", "Soum", "Sourou", "Tapoa", "Tuy",
+					"Yagha", "Yatenga", "Ziro", "Zondoma", "Zoundw√©ogo" }
 			// BURUNDI
 			,
 			{ "Bubanza", "Bujumbura", "Bururi", "Cankuzo", "Cibitoke",
@@ -659,48 +659,48 @@ public class CoreUtils {
 					"Muramvya", "Muyinga", "Ngozi", "Rutana", "Ruyigi" }
 			// CAMBODIA
 			,
-			{ "Banteay Mean Chey", "Bat D‚mb‚ng", "K‚mpÛng Cham",
-					"K‚mpÛng Chhnang", "K‚mpÛng Spoeu", "K‚mpÛng Thum",
-					"K‚mpÙt", "K‚ndal", "KaÙh KÙng", "Kr‚chÈh", "Krong Kaeb",
-					"Krong Pailin", "Krong Preah Sihanouk", "MÙndÙl Kiri",
-					"Otdar Mean Chey", "Phnum PÈnh", "Pousat", "Preah VihÈar",
-					"Prey Veaeng", "RÙtanak Kiri", "Siem Reab",
+			{ "Banteay Mean Chey", "Bat D√¢mb√¢ng", "K√¢mp√≥ng Cham",
+					"K√¢mp√≥ng Chhnang", "K√¢mp√≥ng Spoeu", "K√¢mp√≥ng Thum",
+					"K√¢mp√¥t", "K√¢ndal", "Ka√¥h K√¥ng", "Kr√¢ch√©h", "Krong Kaeb",
+					"Krong Pailin", "Krong Preah Sihanouk", "M√¥nd√¥l Kiri",
+					"Otdar Mean Chey", "Phnum P√©nh", "Pousat", "Preah Vih√©ar",
+					"Prey Veaeng", "R√¥tanak Kiri", "Siem Reab",
 					"Stueng Traeng", "Svay Rieng", "Takaev" }
 			// CAMEROON
 			,
-			{ "Adamaoua", "Centre", "Est", "Littoral", "Nord", "Nord ExtrËme",
+			{ "Adamaoua", "Centre", "Est", "Littoral", "Nord", "Nord Extr√®me",
 					"Nordouest", "Ouest", "Sud", "Sudouest" }
 			// CANADA
 			,
 			{ "Alberta", "British Columbia", "Manitoba", "New Brunswick",
 					"Newfoundland and Labrador", "Northwest Territories",
 					"Nova Scotia", "Nunavut", "Ontario",
-					"Prince Edward Island", "QuÈbec", "Saskatchewan", "Yukon" }
+					"Prince Edward Island", "Qu√©bec", "Saskatchewan", "Yukon" }
 			// CAPE VERDE
 			,
-			{ "Boavista", "Brava", "Fogo", "Maio", "Sal", "Santo Ant„o",
-					"S„o Nicolau", "S„o Tiago", "S„o Vicente" }
+			{ "Boavista", "Brava", "Fogo", "Maio", "Sal", "Santo Ant√£o",
+					"S√£o Nicolau", "S√£o Tiago", "S√£o Vicente" }
 			// CAYMAN ISLANDS
 			,
 			{ "Grand Cayman" }
 			// CENTRAL AFRICAN REPUBLIC
 			,
 			{ "Bamingui-Bangoran", "Bangui", "Basse-Kotto", "Haute-Kotto",
-					"Haut-Mbomou", "KÈmo", "Lobaye", "MambÈrÈ-KadÈÔ", "Mbomou",
-					"Nana-Gribizi", "Nana-MambÈrÈ", "Ombella Mpoko", "Ouaka",
-					"Ouham", "Ouham-PendÈ", "Sangha-MbaÈrÈ", "Vakaga" }
+					"Haut-Mbomou", "K√©mo", "Lobaye", "Mamb√©r√©-Kad√©√Ø", "Mbomou",
+					"Nana-Gribizi", "Nana-Mamb√©r√©", "Ombella Mpoko", "Ouaka",
+					"Ouham", "Ouham-Pend√©", "Sangha-Mba√©r√©", "Vakaga" }
 			// CHAD
 			,
 			{ "Batha", "Biltine", "Bourkou-Ennedi-Tibesti", "Chari-Baguirmi",
-					"GuÈra", "Kanem", "Lac", "Logone Occidental",
-					"Logone Oriental", "Mayo-KÈbbi", "Moyen-Chari", "OuaddaÔ",
-					"Salamat", "TandjilÈ" }
+					"Gu√©ra", "Kanem", "Lac", "Logone Occidental",
+					"Logone Oriental", "Mayo-K√©bbi", "Moyen-Chari", "Ouadda√Ø",
+					"Salamat", "Tandjil√©" }
 			// CHILE
 			,
-			{ "AisÈn", "Antofagasta", "AraucanÌa", "Atacama", "BÌo BÌo",
+			{ "Ais√©n", "Antofagasta", "Araucan√≠a", "Atacama", "B√≠o B√≠o",
 					"Coquimbo", "Libertador General Bernardo O'Higgins",
 					"Los Lagos", "Magellanes", "Maule", "Metropolitana",
-					"Tarapac·", "ValparaÌso" }
+					"Tarapac√°", "Valpara√≠so" }
 			// CHINA
 			,
 			{ "Anhui", "Aomen", "Beijing", "Chongqing", "Fujian", "Gansu",
@@ -718,26 +718,26 @@ public class CoreUtils {
 			{ "Home Island", "West Island" }
 			// COLOMBIA
 			,
-			{ "Amazonas", "Antioquia", "Arauca", "Atl·ntico", "Bogot·",
-					"BolÌvar", "Boyac·", "Caldas", "Caquet·", "Casanare",
-					"Cauca", "CÈsar", "ChocÛ", "CÛrdoba", "Cundinamarca",
-					"GuainÌa", "Guaviare", "Huila", "La Guajira", "Magdalena",
-					"Meta", "NariÒo", "Norte de Santander", "Putumayo",
-					"QuindiÛ", "Risaralda", "San AndrÈs y Providencia",
+			{ "Amazonas", "Antioquia", "Arauca", "Atl√°ntico", "Bogot√°",
+					"Bol√≠var", "Boyac√°", "Caldas", "Caquet√°", "Casanare",
+					"Cauca", "C√©sar", "Choc√≥", "C√≥rdoba", "Cundinamarca",
+					"Guain√≠a", "Guaviare", "Huila", "La Guajira", "Magdalena",
+					"Meta", "Nari√±o", "Norte de Santander", "Putumayo",
+					"Quindi√≥", "Risaralda", "San Andr√©s y Providencia",
 					"Santander", "Sucre", "Tolima", "Valle del Cauca",
-					"VaupÈs", "Vichada" }
+					"Vaup√©s", "Vichada" }
 			// COMOROS
 			,
 			{ "Mwali", "Ndzouani", "Ngazidja" }
 			// CONGO, DEMOCRATIC REPUBLIC OF THE
 			,
-			{ "Bandundu", "Bas-Congo", "…quateur", "Haut-Congo",
+			{ "Bandundu", "Bas-Congo", "√âquateur", "Haut-Congo",
 					"Kasai-Occidental", "Kasai-Oriental", "Katanga",
 					"Kinshasa", "Maniema", "Nord-Kivu", "Sud-Kivu" }
 			// CONGO, REPUBLIC OF THE
 			,
 			{ "Bouenza", "Brazzaville", "Cuvette", "Cuvette-Ouest", "Kouilou",
-					"LÈkoumou", "Likouala", "Niari", "Plateaux", "Pool",
+					"L√©koumou", "Likouala", "Niari", "Plateaux", "Pool",
 					"Sangha" }
 			// COOK ISLANDS
 			,
@@ -745,39 +745,39 @@ public class CoreUtils {
 					"Nassau", "Pukapuka", "Rakahanga", "Rarotonga", "Tongareva" }
 			// COSTA RICA
 			,
-			{ "Alajuela", "Cartago", "Guanacaste", "Heredia", "LimÛn",
-					"Puntarenas", "San JosÈ" }
+			{ "Alajuela", "Cartago", "Guanacaste", "Heredia", "Lim√≥n",
+					"Puntarenas", "San Jos√©" }
 			// COTE D'IVOIRE
 			,
-			{ "Abidjan", "BouakÈ", "Daloa", "Korhogo", "Yamoussoukro" }
+			{ "Abidjan", "Bouak√©", "Daloa", "Korhogo", "Yamoussoukro" }
 			// CROATIA
 			,
 			{ "Bjelovar-Bilogora", "Dubrovnik-Neretva", "Grad Zagreb", "Istra",
-					"Karlovac", "Koprivnica-Kriûevci", "Krapina-Zagorje",
+					"Karlovac", "Koprivnica-Kri≈æevci", "Krapina-Zagorje",
 					"Lika-Senj", "Medimurje", "Osijek-Baranja",
-					"Poûega-Slavonija", "Primorje-Gorski Kotar",
-					"äibenik-Knin", "Sisak-Moslavina",
-					"Slavonski Brod-Posavina", "Split-Dalmacija", "Varaûdin",
+					"Po≈æega-Slavonija", "Primorje-Gorski Kotar",
+					"≈†ibenik-Knin", "Sisak-Moslavina",
+					"Slavonski Brod-Posavina", "Split-Dalmacija", "Vara≈ædin",
 					"Virovitica-Podravina", "Vukovar-Srijem", "Zadar", "Zagreb" }
 			// CUBA
 			,
-			{ "Camag¸ey", "Ciego de ¡vila", "Cienfuegos",
-					"Ciudad de la Habana", "Granma", "Guant·namo", "HolguÌn",
+			{ "Camag√ºey", "Ciego de √Åvila", "Cienfuegos",
+					"Ciudad de la Habana", "Granma", "Guant√°namo", "Holgu√≠n",
 					"Isla de la Juventud", "La Habana", "Las Tunas",
-					"Matanzas", "Pinar del RÌo", "Sancti SpÌritus",
+					"Matanzas", "Pinar del R√≠o", "Sancti Sp√≠ritus",
 					"Santiago de Cuba", "Villa Clara" }
 			// CYPRUS
 			,
 			{ "Government controlled area", "Turkish controlled area" }
 			// CZECH REPUBLIC
 			,
-			{ "Jihocesk˝", "Jihomoravsk˝", "Karlovarsk˝", "Kr·lovÈhradeck˝",
-					"Libereck˝", "Moravskoslezsk˝", "Olomouck˝", "Pardubick˝",
-					"Plzensk˝", "Prag", "Stredocesk˝", "⁄steck˝", "Vysocina",
-					"ZlÌnsk˝" }
+			{ "Jihocesk√Ω", "Jihomoravsk√Ω", "Karlovarsk√Ω", "Kr√°lov√©hradeck√Ω",
+					"Libereck√Ω", "Moravskoslezsk√Ω", "Olomouck√Ω", "Pardubick√Ω",
+					"Plzensk√Ω", "Prag", "Stredocesk√Ω", "√östeck√Ω", "Vysocina",
+					"Zl√≠nsk√Ω" }
 			// DENMARK
 			,
-			{ "Hovedstaden", "Midtjylland", "Nordjylland", "SjÊlland",
+			{ "Hovedstaden", "Midtjylland", "Nordjylland", "Sj√¶lland",
 					"Syddanmark" }
 			// DJIBOUTI
 			,
@@ -789,40 +789,40 @@ public class CoreUtils {
 					"Saint Patrick", "Saint Paul", "Saint Peter" }
 			// DOMINICAN REPUBLIC
 			,
-			{ "Azua", "Baoruco", "Barahona", "DajabÛn", "Duarte", "ElÌas PiÒa",
+			{ "Azua", "Baoruco", "Barahona", "Dajab√≥n", "Duarte", "El√≠as Pi√±a",
 					"El Seibo", "Espaillat", "Hato Mayor", "Independencia",
 					"La Altagracia", "La Romana", "La Vega",
-					"MarÌa Trinidad S·nchez", "MonseÒor Nouel", "Monte Cristi",
+					"Mar√≠a Trinidad S√°nchez", "Monse√±or Nouel", "Monte Cristi",
 					"Monte Plata", "Pedernales", "Peravia", "Puerto Plata",
-					"Salcedo", "Saman·", "S·nchez RamÌrez", "San CristÛbal",
-					"San JosÈ de Ocoa", "San Juan", "San Pedro de MacorÌs",
-					"Santiago", "Santiago RodrÌguez", "Santo Domingo",
+					"Salcedo", "Saman√°", "S√°nchez Ram√≠rez", "San Crist√≥bal",
+					"San Jos√© de Ocoa", "San Juan", "San Pedro de Macor√≠s",
+					"Santiago", "Santiago Rodr√≠guez", "Santo Domingo",
 					"Valverde" }
 			// ECUADOR
 			,
-			{ "Azuay", "BolÌvar", "CaÒar", "Carchi", "Chimborazo", "Cotopaxi",
-					"El Oro", "Esmeraldas", "Gal·pagos", "Guayas", "Imbabura",
-					"Loja", "Los RÌos", "ManabÌ", "Morona Santiago", "Napo",
-					"Orellana", "Pastaza", "Pichincha", "SucumbÌos",
+			{ "Azuay", "Bol√≠var", "Ca√±ar", "Carchi", "Chimborazo", "Cotopaxi",
+					"El Oro", "Esmeraldas", "Gal√°pagos", "Guayas", "Imbabura",
+					"Loja", "Los R√≠os", "Manab√≠", "Morona Santiago", "Napo",
+					"Orellana", "Pastaza", "Pichincha", "Sucumb√≠os",
 					"Tungurahua", "Zamora Chinchipe" }
 			// EGYPT
 			,
 			{ "ad-Daqahliyah", "al-Bah?r-al-Ah?mar", "al-Buh?ayrah",
 					"Alexandria", "al-Fayyum", "al-Garbiyah", "al-Ismailiyah",
 					"al-Minufiyah", "al-Minya", "al-Qalyubiyah",
-					"al-Wadi al-Jadid", "aö-äarqiyah", "Assiut", "Assuan",
+					"al-Wadi al-Jadid", "a≈°-≈†arqiyah", "Assiut", "Assuan",
 					"as-Suways", "Bani Suwayf", "Bur Sa'id", "Dumyat", "Giseh",
-					"Kafr-aö-äayh_", "Kairo", "Luxor", "Matruh", "Qina",
-					"äamal Sina", "Sawhaj", "South Sinai" }
+					"Kafr-a≈°-≈†ayh_", "Kairo", "Luxor", "Matruh", "Qina",
+					"≈†amal Sina", "Sawhaj", "South Sinai" }
 			// EL SALVADOR
 			,
-			{ "Ahuachap·n", "CabaÒas", "Chalatenango", "Cuscatl·n",
-					"La Libertad", "La Paz", "La UniÛn", "Moraz·n",
+			{ "Ahuachap√°n", "Caba√±as", "Chalatenango", "Cuscatl√°n",
+					"La Libertad", "La Paz", "La Uni√≥n", "Moraz√°n",
 					"San Miguel", "San Salvador", "Santa Ana", "San Vicente",
-					"Sonsonate", "Usulut·n" }
+					"Sonsonate", "Usulut√°n" }
 			// EQUATORIAL GUINEA
 			,
-			{ "AnnobÛn", "Bioko Norte", "Bioko Sur", "Centro Sur", "KiÈ-Ntem",
+			{ "Annob√≥n", "Bioko Norte", "Bioko Sur", "Centro Sur", "Ki√©-Ntem",
 					"Litoral", "Wele-Nzas" }
 			// ERITREA
 			,
@@ -830,8 +830,8 @@ public class CoreUtils {
 					"Semien-Keih-Bahri" }
 			// ESTONIA
 			,
-			{ "Harju", "Hiiu", "Ida-Viru", "J‰rva", "Jogeva", "L‰‰ne",
-					"L‰‰ne-Viru", "P‰rnu", "Polva", "Rapla", "Saare", "Tartu",
+			{ "Harju", "Hiiu", "Ida-Viru", "J√§rva", "Jogeva", "L√§√§ne",
+					"L√§√§ne-Viru", "P√§rnu", "Polva", "Rapla", "Saare", "Tartu",
 					"Valga", "Viljandi", "Voru" }
 			// ETHIOPIA
 			,
@@ -843,16 +843,16 @@ public class CoreUtils {
 			{ "Falkland Islands", "South Georgia" }
 			// FAROE ISLANDS
 			,
-			{ "KlaksvÌk", "Norara Eysturoy", "Noroy", "Sandoy", "Streymoy",
-					"Suuroy", "Syra Eysturoy", "TÛrshavn", "V·ga" }
+			{ "Klaksv√≠k", "Nor√∞ara Eysturoy", "Nor√∞oy", "Sandoy", "Streymoy",
+					"Su√∞uroy", "Sy√∞ra Eysturoy", "T√≥rshavn", "V√°ga" }
 			// FIJI
 			,
 			{ "Central", "Eastern", "Northern", "Western" }
 			// FINLAND
 			,
-			{ "Ahvenanmaa", "Etel‰-Karjala", "Etel‰-Pohjanmaa", "Etel‰-Savo",
-					"It‰-Uusimaa", "Kainuu", "Kanta-H‰me", "Keski-Pohjanmaa",
-					"Keski-Suomi", "Kymenlaakso", "Lappland", "P‰ij‰t-H‰me",
+			{ "Ahvenanmaa", "Etel√§-Karjala", "Etel√§-Pohjanmaa", "Etel√§-Savo",
+					"It√§-Uusimaa", "Kainuu", "Kanta-H√§me", "Keski-Pohjanmaa",
+					"Keski-Suomi", "Kymenlaakso", "Lappland", "P√§ij√§t-H√§me",
 					"Pirkanmaa", "Pohjanmaa", "Pohjois-Karjala",
 					"Pohjois-Pohjanmaa", "Pohjois-Savo", "Satakunta",
 					"Uusimaa", "Varsinais-Suomi" }
@@ -860,25 +860,25 @@ public class CoreUtils {
 			,
 			{ "Alsace", "Aquitaine", "Auvergne", "Basse-Normandie",
 					"Bourgogne", "Bretagne", "Centre", "Champagne-Ardenne",
-					"Corse", "Franche-ComtÈ", "Haute-Normandie",
-					"Œle-de-France", "Languedoc-Roussillon", "Limousin",
-					"Lorraine", "Midi-PyrÈnÈes", "Nord-Pas-de-Calais",
+					"Corse", "Franche-Comt√©", "Haute-Normandie",
+					"√éle-de-France", "Languedoc-Roussillon", "Limousin",
+					"Lorraine", "Midi-Pyr√©n√©es", "Nord-Pas-de-Calais",
 					"Pays-de-la-Loire", "Picardie", "Poitou-Charentes",
-					"Provence-Alpes-CÙte-d'Azur", "RhÙne-Alpes" }
+					"Provence-Alpes-C√¥te-d'Azur", "Rh√¥ne-Alpes" }
 			// FRENCH GUIANA
 			,
 			{ "Cayenne", "Saint-Laurent-du-Maroni" }
 			// FRENCH POLYNESIA
 			,
-			{ "Œles du Vent", "Œles sous le Vent", "Marquises",
+			{ "√éles du Vent", "√éles sous le Vent", "Marquises",
 					"Tuamotu-Gambier", "Tubuai" }
 			// FRENCH SOUTHERN AND ANTARCTIC LANDS
 			,
 			{ "Amsterdam", "Crozet Islands", "Kerguelen" }
 			// GABON
 			,
-			{ "Estuaire", "Haut-OgoouÈ", "Moyen-OgoouÈ", "NgouniÈ", "Nyanga",
-					"OgoouÈ-Ivindo", "OgoouÈ-Lolo", "OgoouÈ-Maritime",
+			{ "Estuaire", "Haut-Ogoou√©", "Moyen-Ogoou√©", "Ngouni√©", "Nyanga",
+					"Ogoou√©-Ivindo", "Ogoou√©-Lolo", "Ogoou√©-Maritime",
 					"Woleu-Ntem" }
 			// GAMBIA, THE
 			,
@@ -893,11 +893,11 @@ public class CoreUtils {
 					"Shida Kartli", "Tiflis" }
 			// GERMANY
 			,
-			{ "Baden-W¸rttemberg", "Bayern", "Berlin", "Brandenburg", "Bremen",
+			{ "Baden-W√ºrttemberg", "Bayern", "Berlin", "Brandenburg", "Bremen",
 					"Hamburg", "Hessen", "Mecklenburg-Vorpommern",
 					"Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz",
 					"Saarland", "Sachsen", "Sachsen-Anhalt",
-					"Schleswig-Holstein", "Th¸ringen" }
+					"Schleswig-Holstein", "Th√ºringen" }
 			// GHANA
 			,
 			{ "Ashanti", "Brong-Ahafo", "Central", "Eastern", "Greater Accra",
@@ -907,7 +907,7 @@ public class CoreUtils {
 			{ "" }
 			// GREECE
 			,
-			{ "AttikÌ", "Kentriki Ellada", "Nisia Aigaiou Kriti",
+			{ "Attik√≠", "Kentriki Ellada", "Nisia Aigaiou Kriti",
 					"Voria Ellada" }
 			// GREENLAND
 			,
@@ -926,29 +926,29 @@ public class CoreUtils {
 			}
 			// GUADELOUPE
 			,
-			{ "Basse-Terre", "Grande-Terre", "Œles des Saintes", "La DÈsirade",
-					"Marie-Galante", "Saint BarthÈlemy", "Saint Martin" }
+			{ "Basse-Terre", "Grande-Terre", "√éles des Saintes", "La D√©sirade",
+					"Marie-Galante", "Saint Barth√©lemy", "Saint Martin" }
 			// GUAM
 			,
 			{ "Agana Heights", "Agat", "Barrigada", "Chalan-Pago-Ordot",
-					"Dededo", "HagatÒa", "Inarajan", "Mangilao", "Merizo",
+					"Dededo", "Hagat√±a", "Inarajan", "Mangilao", "Merizo",
 					"Mongmong-Toto-Maite", "Santa Rita", "Sinajana",
 					"Talofofo", "Tamuning", "Yigo", "Yona" }
 			// GUATEMALA
 			,
 			{ "Alta Verapaz", "Baja Verapaz", "Chimaltenango", "Chiquimula",
 					"El Progreso", "Escuintla", "Guatemala", "Huehuetenango",
-					"Izabal", "Jalapa", "Jutiapa", "PetÈn", "Quezaltenango",
-					"QuichÈ", "Retalhuleu", "SacatepÈquez", "San Marcos",
-					"Santa Rosa", "Solol·", "SuchitepÈquez", "Totonicap·n",
+					"Izabal", "Jalapa", "Jutiapa", "Pet√©n", "Quezaltenango",
+					"Quich√©", "Retalhuleu", "Sacatep√©quez", "San Marcos",
+					"Santa Rosa", "Solol√°", "Suchitep√©quez", "Totonicap√°n",
 					"Zacapa" }
 			// GUINEA
 			,
-			{ "Basse GuinÈe", "Conakry", "GuinÈe ForestiËre", "Haute GuinÈe",
-					"Moyenne GuinÈe" }
+			{ "Basse Guin√©e", "Conakry", "Guin√©e Foresti√®re", "Haute Guin√©e",
+					"Moyenne Guin√©e" }
 			// GUINEA-BISSAU
 			,
-			{ "Bafat·", "Biombo", "Bissau", "Bolama", "Cacheu", "Gab˙", "Oio",
+			{ "Bafat√°", "Biombo", "Bissau", "Bolama", "Cacheu", "Gab√∫", "Oio",
 					"Quinara", "Tombali" }
 			// GUYANA
 			,
@@ -969,26 +969,26 @@ public class CoreUtils {
 			{}
 			// HONDURAS
 			,
-			{ "Atl·ntida", "Choluteca", "ColÛn", "Comayagua", "Cop·n",
-					"CortÈs", "Distrito Central", "El ParaÌso",
-					"Francisco Moraz·n", "Gracias a Dios", "Intibuc·",
-					"Islas de la BahÌa", "La Paz", "Lempira", "Ocotepeque",
-					"Olancho", "Santa B·rbara", "Valle", "Yoro" }
+			{ "Atl√°ntida", "Choluteca", "Col√≥n", "Comayagua", "Cop√°n",
+					"Cort√©s", "Distrito Central", "El Para√≠so",
+					"Francisco Moraz√°n", "Gracias a Dios", "Intibuc√°",
+					"Islas de la Bah√≠a", "La Paz", "Lempira", "Ocotepeque",
+					"Olancho", "Santa B√°rbara", "Valle", "Yoro" }
 			// HONG KONG
 			,
 			{ "Hongkong", "Kowloon and New Kowl" }
 			// HUNGARY
 			,
-			{ "B·cs-Kiskun", "Baranya", "BÈkÈs", "Borsod-Aba˙j-ZemplÈn",
-					"Budapest", "Csongr·d", "FejÈr", "Gyor-Moson-Sopron",
-					"Hajd˙-Bihar", "Heves", "J·sz-Nagykun-Szolnok",
-					"Kom·rom-Esztergom", "NÛgr·d", "Pest", "Somogy",
-					"Szabolcs-Szatm·r-Bereg", "Tolna", "Vas", "VeszprÈm",
+			{ "B√°cs-Kiskun", "Baranya", "B√©k√©s", "Borsod-Aba√∫j-Zempl√©n",
+					"Budapest", "Csongr√°d", "Fej√©r", "Gyor-Moson-Sopron",
+					"Hajd√∫-Bihar", "Heves", "J√°sz-Nagykun-Szolnok",
+					"Kom√°rom-Esztergom", "N√≥gr√°d", "Pest", "Somogy",
+					"Szabolcs-Szatm√°r-Bereg", "Tolna", "Vas", "Veszpr√©m",
 					"Zala" }
 			// ICELAND
 			,
-			{ "Austurland", "HˆfuborgarsvÊi", "Norurland eystra",
-					"Norurland vestra", "Suurland", "Suurnes", "Vestfirir",
+			{ "Austurland", "H√∂fu√∞borgarsv√¶√∞i", "Nor√∞urland eystra",
+					"Nor√∞urland vestra", "Su√∞urland", "Su√∞urnes", "Vestfir√∞ir",
 					"Vesturland" }
 			// INDIA
 			,
@@ -1028,7 +1028,7 @@ public class CoreUtils {
 			,
 			{ "al-Anbar", "al-Basrah", "al-Mut_anna", "al-Qadisiyah",
 					"an-Najaf", "as-Sulaymaniyah", "at-Ta'mim", "Babil",
-					"Bagdad", "Dahuk", "–i Qar", "Diyala", "Irbil", "Karbala",
+					"Bagdad", "Dahuk", "√êi Qar", "Diyala", "Irbil", "Karbala",
 					"Maysan", "Ninawa", "Salah?-ad-Din", "Wasit" }
 			// IRELAND
 			,
@@ -1061,7 +1061,7 @@ public class CoreUtils {
 					"Saint Thomas", "Trelawney", "Westmoreland" }
 			// JAN MAYEN
 			,
-			{ "L‰nsimaa " }
+			{ "L√§nsimaa " }
 			// JAPAN
 			,
 			{ "Aichi", "Akita", "Aomori", "Chiba", "Ehime", "Fukui", "Fukuoka",
@@ -1076,14 +1076,14 @@ public class CoreUtils {
 			// JORDAN
 			,
 			{ "'Ajlun", "al-'Aqabah", "al-Balqa'", "al-Karak", "al-Mafraq",
-					"'Amman", "at-Tafilah", "az-Zarqa'", "Irbid", "Jaraö",
+					"'Amman", "at-Tafilah", "az-Zarqa'", "Irbid", "Jara≈°",
 					"Ma'an", "Madaba" }
 			// KAZAKHSTAN
 			,
-			{ "Akmechet", "Almaty", "Aqmola", "Aqtˆbe", "Atyrau",
-					"Batis Kazakstan", "Mankistau", "Ont¸stik Kazakstan",
+			{ "Akmechet", "Almaty", "Aqmola", "Aqt√∂be", "Atyrau",
+					"Batis Kazakstan", "Mankistau", "Ont√ºstik Kazakstan",
 					"Pavlodar", "Qaragandy", "Qostanay", "Sigis Kazakstan",
-					"Solt¸stik Kazakstan", "Taraz" }
+					"Solt√ºstik Kazakstan", "Taraz" }
 			// KENYA
 			,
 			{ "Central", "Coast", "Eastern", "Nairobi", "North Eastern",
@@ -1114,7 +1114,7 @@ public class CoreUtils {
 					"Hawalli", "Mubarak al-Kabir" }
 			// KYRGYZSTAN
 			,
-			{ "Batken", "Biskek", "Celalabad", "«uy", "Issik-Gˆl", "Narin",
+			{ "Batken", "Biskek", "Celalabad", "√áuy", "Issik-G√∂l", "Narin",
 					"Os", "Talas" }
 			// LAOS
 			,
@@ -1128,13 +1128,13 @@ public class CoreUtils {
 			{ "Aizkraukles", "Aluksnes", "Balvu", "Bauskas", "Cesu",
 					"Daugavpils", "Daugavpils pilseta", "Dobeles", "Gulbenes",
 					"Jekabspils", "Jelgava", "Jelgavas", "Jurmala pilseta",
-					"Kraslavas", "Kuldigas", "Liepaja", "Liepajas", "Limbaûu",
+					"Kraslavas", "Kuldigas", "Liepaja", "Liepajas", "Limba≈æu",
 					"Ludzas", "Madonas", "Ogres", "Preilu", "Rezekne",
 					"Rezeknes", "Riga", "Rigas", "Saldus", "Talsu", "Tukuma",
 					"Valkas", "Valmieras", "Ventspils", "Ventspils pilseta" }
 			// LEBANON
 			,
-			{ "al-Biqa'a", "al-Janub", "an-Nabatiyah", "aö-äamal",
+			{ "al-Biqa'a", "al-Janub", "an-Nabatiyah", "a≈°-≈†amal",
 					"Jabal Lubnan" }
 			// LESOTHO
 			,
@@ -1154,7 +1154,7 @@ public class CoreUtils {
 					"Bani Walid", "Darnah", "Gadamis", "Garyan", "Gat",
 					"Marzuq", "Misratah", "Mizdah", "Nalut", "Sabha",
 					"Sabratah wa Surman", "Surt", "Tarabulus",
-					"Tarhunah wa Masallatah", "Wadi al-H?ayat", "Wadi aö-äati",
+					"Tarhunah wa Masallatah", "Wadi al-H?ayat", "Wadi a≈°-≈†ati",
 					"Yafran wa Jadu" }
 			// LIECHTENSTEIN
 			,
@@ -1163,7 +1163,7 @@ public class CoreUtils {
 					"Vaduz", }
 			// LITHUANIA
 			,
-			{ "Kaunas", "Klaipeda", "Panevezys", "äiauliai", "Vilna" }
+			{ "Kaunas", "Klaipeda", "Panevezys", "≈†iauliai", "Vilna" }
 			// LUXEMBOURG
 			,
 			{ "Capellen", "Clervaux", "Diekirch", "Echternach",
@@ -1176,9 +1176,9 @@ public class CoreUtils {
 			,
 			{ "Berovo", "Bitola", "Brod", "Debar", "Delcevo", "Demir Hisar",
 					"Gevgelija", "Gostivar", "Kavadarci", "Kicevo", "Kocani",
-					"Kratovo", "Kriva Palanka", "Kruöevo", "Kumanovo",
-					"Negotino", "Ohrid", "Prilep", "Probiötip", "Radoviö",
-					"Resen", "Skopje", "ätip", "Struga", "Strumica",
+					"Kratovo", "Kriva Palanka", "Kru≈°evo", "Kumanovo",
+					"Negotino", "Ohrid", "Prilep", "Probi≈°tip", "Radovi≈°",
+					"Resen", "Skopje", "≈†tip", "Struga", "Strumica",
 					"Sveti Nikole", "Tetovo", "Valandovo", "Veles", "Vinica" }
 			// MADAGASCAR
 			,
@@ -1202,11 +1202,11 @@ public class CoreUtils {
 			,
 			{ "Alif Alif", "Alif Dhaal", "Baa", "Dhaal", "Faaf", "Gaaf Alif",
 					"Gaaf Dhaal", "Ghaviyani", "Haa Alif", "Haa Dhaal", "Kaaf",
-					"Laam", "Lhaviyani", "MalÈ", "Miim", "Nuun", "Raa",
+					"Laam", "Lhaviyani", "Mal√©", "Miim", "Nuun", "Raa",
 					"Shaviyani", "Siin", "Thaa", "Vaav" }
 			// MALI
 			,
-			{ "Bamako", "Gao", "Kayes", "Kidal", "Koulikoro", "Mopti", "SÈgou",
+			{ "Bamako", "Gao", "Kayes", "Kidal", "Koulikoro", "Mopti", "S√©gou",
 					"Sikasso", "Tombouctou" }
 			// MALTA
 			,
@@ -1221,12 +1221,12 @@ public class CoreUtils {
 					"Wotje" }
 			// MARTINIQUE
 			,
-			{ "Fort-de-France", "La TrinitÈ", "Le Marin", "Saint-Pierre" }
+			{ "Fort-de-France", "La Trinit√©", "Le Marin", "Saint-Pierre" }
 			// MAURITANIA
 			,
-			{ "Adrar", "Assaba", "Brakna", "–ah_lat Nawadibu", "Guidimagha",
-					"Gurgul", "Hud-al-Garbi", "Hud-aö-äarqi", "Inöiri",
-					"Nawaköut", "Takant", "Tiris Zammur", "Trarza" }
+			{ "Adrar", "Assaba", "Brakna", "√êah_lat Nawadibu", "Guidimagha",
+					"Gurgul", "Hud-al-Garbi", "Hud-a≈°-≈†arqi", "In≈°iri",
+					"Nawak≈°ut", "Takant", "Tiris Zammur", "Trarza" }
 			// MAURITIUS
 			,
 			{ "Black River", "Flacq", "Grand Port", "Moka", "Pamplemousses",
@@ -1240,10 +1240,10 @@ public class CoreUtils {
 			{ "Aguascalientes", "Baja California", "Baja California Sur",
 					"Campeche", "Chiapas", "Chihuahua", "Coahuila", "Colima",
 					"Distrito Federal", "Durango", "Guanajuato", "Guerrero",
-					"Hidalgo", "Jalisco", "MÈxico", "Michoac·n", "Morelos",
-					"Nayarit", "Nuevo LeÛn", "Oaxaca", "Puebla", "QuerÈtaro",
-					"Quintana Roo", "San Luis PotosÌ", "Sinaloa", "Sonora",
-					"Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucat·n",
+					"Hidalgo", "Jalisco", "M√©xico", "Michoac√°n", "Morelos",
+					"Nayarit", "Nuevo Le√≥n", "Oaxaca", "Puebla", "Quer√©taro",
+					"Quintana Roo", "San Luis Potos√≠", "Sinaloa", "Sonora",
+					"Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucat√°n",
 					"Zacatecas" }
 			// MICRONESIA, FEDERATED STATES OF
 			,
@@ -1254,9 +1254,9 @@ public class CoreUtils {
 					"Calarasi", "Camenca", "Cantemir", "Causeni", "Chisinau",
 					"Cimislia", "Criuleni", "Donduseni", "Drochia",
 					"Dubasari municipiu", "Edinet", "Falesti", "Floresti",
-					"Gagauzia", "Glodeni", "Grigoriopol", "HÓncesti",
+					"Gagauzia", "Glodeni", "Grigoriopol", "H√Æncesti",
 					"Ialoveni", "Leova", "Nisporeni", "Ocnita", "Orhei",
-					"Rezina", "RÓbnita", "RÓscani", "SÓngerei", "Slobozia",
+					"Rezina", "R√Æbnita", "R√Æscani", "S√Ængerei", "Slobozia",
 					"Soldanesti", "Soroca", "Stefan Voda", "Straseni",
 					"Taraclia", "Telenesti", "Tighina", "Tiraspol", "Ungheni" }
 			// MONACO
@@ -1264,10 +1264,10 @@ public class CoreUtils {
 			{ "Fontvieille", "La Condamine", "Monaco-Ville", "Monte Carlo" }
 			// MONGOLIA
 			,
-			{ "Arhangaj", "Bajanhongor", "Bajan-÷lgij", "Bulgan", "Darhan-Uul",
+			{ "Arhangaj", "Bajanhongor", "Bajan-√ñlgij", "Bulgan", "Darhan-Uul",
 					"Dornod", "Dornogovi", "Dundgovi", "Govi-Altaj",
-					"Govisumber", "HËntij", "Hovd", "Hˆvsgˆl", "÷mnˆgovi",
-					"Orhon", "÷vˆrhangaj", "SËlËngË", "S¸hbaatar", "Tˆv",
+					"Govisumber", "H√®ntij", "Hovd", "H√∂vsg√∂l", "√ñmn√∂govi",
+					"Orhon", "√ñv√∂rhangaj", "S√®l√®ng√®", "S√ºhbaatar", "T√∂v",
 					"Ulaanbaatar", "Uvs", "Zavhan" }
 			// MONTSERRAT
 			,
@@ -1275,10 +1275,10 @@ public class CoreUtils {
 			// MOROCCO
 			,
 			{ "Casablanca", "Chaouia-Ouardigha", "Doukkala-Abda",
-					"FËs-Boulemane", "Gharb-Chrarda-BÈni Hssen", "Guelmim",
+					"F√®s-Boulemane", "Gharb-Chrarda-B√©ni Hssen", "Guelmim",
 					"Marrakech-Tensift-Al Haouz", "Meknes-Tafilalet",
-					"Oriental", "Rabat-SalÈ-Zammour-Zaer", "Souss Massa-Dra‚",
-					"Tadla-Azilal", "Tangier-TÈtouan",
+					"Oriental", "Rabat-Sal√©-Zammour-Zaer", "Souss Massa-Dra√¢",
+					"Tadla-Azilal", "Tangier-T√©touan",
 					"Taza-Al Hoceima-Taounate" }
 			// MOZAMBIQUE
 			,
@@ -1312,10 +1312,10 @@ public class CoreUtils {
 					"Utrecht", "Zeeland", "Zuid-Holland" }
 			// NETHERLANDS ANTILLES
 			,
-			{ "Bonaire", "CuraÁao", "Saba", "Sint Eustatius", "Sint Maarten" }
+			{ "Bonaire", "Cura√ßao", "Saba", "Sint Eustatius", "Sint Maarten" }
 			// NEW CALEDONIA
 			,
-			{ "Œles", "Nord", "Sud" }
+			{ "√éles", "Nord", "Sud" }
 			// NEW ZEALAND
 			,
 			{ "Auckland", "Bay of Plenty", "Canterbury", "Gisborne",
@@ -1323,13 +1323,13 @@ public class CoreUtils {
 					"Nelson", "Northland", "Otago", "Southland", "Taranaki",
 					"Tasman", "Waikato", "Wellington", "West Coast" },
 			// NICARAGUA
-			{ "Atl·ntico Norte", "Atl·ntico Sur", "Boaco", "Carazo",
-					"Chinandega", "Chontales", "EstelÌ", "Granada", "Jinotega",
-					"LeÛn", "Madriz", "Managua", "Masaya", "Matagalpa",
-					"Nueva Segovia", "RÌo San Juan", "Rivas" },
+			{ "Atl√°ntico Norte", "Atl√°ntico Sur", "Boaco", "Carazo",
+					"Chinandega", "Chontales", "Estel√≠", "Granada", "Jinotega",
+					"Le√≥n", "Madriz", "Managua", "Masaya", "Matagalpa",
+					"Nueva Segovia", "R√≠o San Juan", "Rivas" },
 			// NIGER
 			{ "Agadez", "Diffa", "Dosso", "Maradi", "Niamey", "Tahoua",
-					"TillabÈry", "Zinder" },
+					"Tillab√©ry", "Zinder" },
 			// NIGERIA
 			{ "Abia", "Abuja Federal Capital Territory", "Adamawa",
 					"Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue",
@@ -1346,12 +1346,12 @@ public class CoreUtils {
 			{ "Northern Islands", "Rota", "Saipan", "Tinian" },
 			// NORWAY
 			{ "Akershus", "Aust-Agder", "Buskerud", "Finnmark", "Hedmark",
-					"Hordaland", "M¯re og Romsdal", "Nordland",
-					"Nord-Tr¯ndelag", "Oppland", "Oslo", "ÿstfold", "Rogaland",
-					"Sogn og Fjordane", "S¯r-Tr¯ndelag", "Telemark", "Troms",
+					"Hordaland", "M√∏re og Romsdal", "Nordland",
+					"Nord-Tr√∏ndelag", "Oppland", "Oslo", "√òstfold", "Rogaland",
+					"Sogn og Fjordane", "S√∏r-Tr√∏ndelag", "Telemark", "Troms",
 					"Vest-Agder", "Vestfold" },
 			// OMAN
-			{ "ad-Dah_iliyah", "al-Batinah", "aö-äarqiyah", "az?-Z?ahirah",
+			{ "ad-Dah_iliyah", "al-Batinah", "a≈°-≈†arqiyah", "az?-Z?ahirah",
 					"Maskat", "Musandam", "Z?ufar" },
 			// PAKISTAN
 			{ "Azad Kashmir", "Baluchistan", "Federal Capital Area",
@@ -1363,10 +1363,10 @@ public class CoreUtils {
 					"Ngatpang", "Ngchesar", "Ngerchelong", "Ngiwal", "Peleliu",
 					"Sonsorol" },
 			// PANAMA
-			{ "Bocas del Toro", "ChiriquÌ", "CoclÈ", "ColÛn", "DariÈn",
-					"Ember·", "Herrera", "Kuna de MadungandÌ",
-					"Kuna de WargandÌ", "Kuna Yala", "Los Santos",
-					"Ngˆbe BuglÈ", "Panam·", "Veraguas" }
+			{ "Bocas del Toro", "Chiriqu√≠", "Cocl√©", "Col√≥n", "Dari√©n",
+					"Ember√°", "Herrera", "Kuna de Madungand√≠",
+					"Kuna de Wargand√≠", "Kuna Yala", "Los Santos",
+					"Ng√∂be Bugl√©", "Panam√°", "Veraguas" }
 			// PAPUA NEW GUINEA
 			,
 			{ "Eastern Highlands", "East New Britain", "East Sepik", "Enga",
@@ -1377,17 +1377,17 @@ public class CoreUtils {
 					"West New Britain" },
 			// PARAGUAY
 
-			{ "Alto Paraguay", "Alto Paran·", "Amambay", "AsunciÛn",
-					"BoquerÛn", "Caaguaz˙", "Caazap·", "Canendiy˙", "Central",
-					"ConcepciÛn", "Cordillera", "Guair·", "Itap˙a", "Misiones",
-					"—eembuc˙", "ParaguarÌ", "Presidente Hayes", "San Pedro" },
+			{ "Alto Paraguay", "Alto Paran√°", "Amambay", "Asunci√≥n",
+					"Boquer√≥n", "Caaguaz√∫", "Caazap√°", "Canendiy√∫", "Central",
+					"Concepci√≥n", "Cordillera", "Guair√°", "Itap√∫a", "Misiones",
+					"√ëeembuc√∫", "Paraguar√≠", "Presidente Hayes", "San Pedro" },
 			// PERU
 
-			{ "Amazonas", "Ancash", "ApurÌmac", "Arequipa", "Ayacucho",
-					"Cajamarca", "Callao", "Cusco", "Huancavelica", "Hu·nuco",
-					"Ica", "JunÌn", "La Libertad", "Lambayeque",
+			{ "Amazonas", "Ancash", "Apur√≠mac", "Arequipa", "Ayacucho",
+					"Cajamarca", "Callao", "Cusco", "Huancavelica", "Hu√°nuco",
+					"Ica", "Jun√≠n", "La Libertad", "Lambayeque",
 					"Lima Provincias", "Loreto", "Madre de Dios", "Moquegua",
-					"Pasco", "Piura", "Puno", "San MartÌn", "Tacna", "Tumbes",
+					"Pasco", "Piura", "Puno", "San Mart√≠n", "Tacna", "Tumbes",
 					"Ucayali" },
 			// PHILIPPINES
 
@@ -1399,42 +1399,42 @@ public class CoreUtils {
 					"Western Mindanao", "Western Visayas" },
 
 			// POLAND
-			{ "Dolnoslaskie", "Kujawsko-Pomorskie", "LÛdzkie", "Lubelskie",
+			{ "Dolnoslaskie", "Kujawsko-Pomorskie", "L√≥dzkie", "Lubelskie",
 					"Lubuskie", "Malopolskie", "Mazowieckie", "Opolskie",
 					"Podkarpackie", "Podlaskie", "Pomorskie", "Slaskie",
 					"Swietokrzyskie", "Warminsko-Mazurskie", "Wielkopolskie",
 					"Zachodnio-Pomorskie" },
 			// PORTUGAL
 
-			{ "AÁores", "Alentejo", "Algarve", "Centro",
+			{ "A√ßores", "Alentejo", "Algarve", "Centro",
 					"Lisboa e Vale do Tejo", "Madeira", "Norte" },
 			// PUERTO RICO
 
-			{ "Arecibo", "BayamÛn", "Carolina", "Guayama", "Humacao",
-					"Mayag¸ez-Aguadilla", "Ponce", "San Juan" },
+			{ "Arecibo", "Bayam√≥n", "Carolina", "Guayama", "Humacao",
+					"Mayag√ºez-Aguadilla", "Ponce", "San Juan" },
 			// QATAR
 
 			{ "al-Guwayriyah", "al-H_awr", "al-Jumayliyah", "al-Wakrah",
-					"ar-Rayyan", "aö-äamal", "Doha", "Jariyan al-Batnah",
+					"ar-Rayyan", "a≈°-≈†amal", "Doha", "Jariyan al-Batnah",
 					"Musay'id", "Umm Salal" },
 			// REUNION
-			{ "Saint-BenoÓt", "Saint-Denis", "Saint-Paul", "Saint-Pierre" },
+			{ "Saint-Beno√Æt", "Saint-Denis", "Saint-Paul", "Saint-Pierre" },
 			// ROMANIA
 			{ "Alba", "Arad", "Arges", "Bacau", "Bihor", "Bistrita-Nasaud",
 					"Botosani", "Braila", "Brasov", "Bukarest", "Buzau",
 					"Calarasi", "Caras-Severin", "Cluj", "Constanta",
-					"Covasna", "D‚mbovita", "Dolj", "Galati", "Giurgiu",
+					"Covasna", "D√¢mbovita", "Dolj", "Galati", "Giurgiu",
 					"Gorj", "Harghita", "Hunedoara", "Ialomita", "Iasi",
 					"Ilfov", "Maramures", "Mehedinti", "Mures", "Neamt", "Olt",
 					"Prahova", "Salaj", "Satu Mare", "Sibiu", "Suceava",
-					"Teleorman", "Timis", "Tulcea", "V‚lcea", "Vaslui",
+					"Teleorman", "Timis", "Tulcea", "V√¢lcea", "Vaslui",
 					"Vrancea" },
 			// RUSSIA
 			{ "Adygeja", "Aga", "Alanija", "Altaj", "Amur", "Arhangelsk",
-					"Astrahan", "Baökortostan", "Belgorod", "Brjansk",
+					"Astrahan", "Ba≈°kortostan", "Belgorod", "Brjansk",
 					"Burjatija", "Cecenija", "Celjabinsk", "Cita", "Cukotka",
-					"Cuvaöija", "Dagestan", "Evenkija", "Gorno-Altaj",
-					"Habarovsk", "Hakasija", "Hanty-Mansija", "Inguöetija",
+					"Cuva≈°ija", "Dagestan", "Evenkija", "Gorno-Altaj",
+					"Habarovsk", "Hakasija", "Hanty-Mansija", "Ingu≈°etija",
 					"Irkutsk", "Ivanovo", "Jamalo-Nenets", "Jaroslavl",
 					"Jevrej", "Kabardino-Balkarija", "Kaliningrad",
 					"Kalmykija", "Kaluga", "Kamcatka", "Karacaj-Cerkessija",
@@ -1442,14 +1442,14 @@ public class CoreUtils {
 					"Korjakija", "Kostroma", "Krasnodar", "Krasnojarsk",
 					"Kurgan", "Kursk", "Leningrad", "Lipeck", "Magadan",
 					"Marij El", "Mordovija", "Moskau", "Moskovskaja Oblast",
-					"Murmansk", "Nenets", "Niûnij Novgorod", "Novgorod",
+					"Murmansk", "Nenets", "Ni≈ænij Novgorod", "Novgorod",
 					"Novosibirsk", "Omsk", "Orenburg", "Orjol", "Penza",
 					"Perm", "Primorje", "Pskov", "Rjazan", "Rostov", "Saha",
 					"Sahalin", "Samara", "Sankt Petersburg", "Saratov",
 					"Smolensk", "Stavropol", "Sverdlovsk", "Tajmyr", "Tambov",
 					"Tatarstan", "Tjumen", "Tomsk", "Tula", "Tver", "Tyva",
 					"Udmurtija", "Uljanovsk", "Ust-Orda", "Vladimir",
-					"Volgograd", "Vologda", "Voroneû" },
+					"Volgograd", "Vologda", "Vorone≈æ" },
 
 			// RWANDA
 			{ "Butare", "Byumba", "Cyangugu", "Gikongoro", "Gisenyi",
@@ -1467,7 +1467,7 @@ public class CoreUtils {
 					"Saint Thomas Middle Island", "Trinity Palmetto Point" },
 			// SAINT LUCIA
 			{ "Anse-la-Raye", "Canaries", "Castries", "Choiseul", "Dennery",
-					"Gros Inlet", "Laborie", "Micoud", "SoufriËre",
+					"Gros Inlet", "Laborie", "Micoud", "Soufri√®re",
 					"Vieux Fort" },
 			// SAINT PIERRE AND MIQUELON
 			{ "Miquelon-Langlade", "Saint-Pierre" },
@@ -1480,30 +1480,30 @@ public class CoreUtils {
 					"Faetano", "Fiorentino", "Montegiardino", "San Marino",
 					"Serravalle" },
 			// SAO TOME AND PRINCIPE
-			{ "¡gua Grande", "Cantagalo", "CauÈ", "Lemba", "Lobata",
-					"MÈ-Zochi", "PaguÈ" },
+			{ "√Ågua Grande", "Cantagalo", "Cau√©", "Lemba", "Lobata",
+					"M√©-Zochi", "Pagu√©" },
 			// SAUDI ARABIA
-			{ "al-Bah?ah", "al-H?udud-aö-äamaliyah", "al-Jawf", "al-Madinah",
-					"al-Qasim", "'Asir", "aö-äarqiyah", "H?a'il", "Jizan",
+			{ "al-Bah?ah", "al-H?udud-a≈°-≈†amaliyah", "al-Jawf", "al-Madinah",
+					"al-Qasim", "'Asir", "a≈°-≈†arqiyah", "H?a'il", "Jizan",
 					"Makkah", "Najran", "Riad", "Tabuk" },
 			// SENEGAL
 			{ "Dakar", "Diourbel", "Fatick", "Kaolack", "Kolda", "Louga",
-					"Matam", "Saint-Louis", "Tambacounda", "ThiËs",
+					"Matam", "Saint-Louis", "Tambacounda", "Thi√®s",
 					"Ziguinchor" },
 			// SERBIA AND MONTENEGRO
 			{ "Central Serbia", "Vojvodina" },
 			// SEYCHELLES
-			{ "MahÈ" },
+			{ "Mah√©" },
 			// SIERRA LEONE
 			{ "Eastern", "Northern", "Southern", "Western" },
 			// SINGAPORE
 			{ " " },
 			// SLOVAKIA
-			{ "Banskobystrick˝", "Bratislavsk˝", "Koöick˝", "Nitriansk˝",
-					"Preöovsk˝", "Trenciansk˝", "Trnavsk˝", "éilinsk˝" },
+			{ "Banskobystrick√Ω", "Bratislavsk√Ω", "Ko≈°ick√Ω", "Nitriansk√Ω",
+					"Pre≈°ovsk√Ω", "Trenciansk√Ω", "Trnavsk√Ω", "≈Ωilinsk√Ω" },
 			// SLOVENIA
-			{ "Gorenjska", "Goriöka", "Jugovûodna Slovenija", "Koroöka",
-					"Notranjsko-kraöka", "Obalno-kraöka", "Osrednjeslovenska",
+			{ "Gorenjska", "Gori≈°ka", "Jugov≈æodna Slovenija", "Koro≈°ka",
+					"Notranjsko-kra≈°ka", "Obalno-kra≈°ka", "Osrednjeslovenska",
 					"Podravska", "Pomurska", "Savinjska", "Spodnjeposavska",
 					"Zasavska" },
 			// SOLOMON ISLANDS
@@ -1524,7 +1524,7 @@ public class CoreUtils {
 			// SPAIN
 			{ "Andalusien", "Aragonien", "Asturien", "Balearen", "Baskenland",
 					"Ceuta", "Extremadura", "Galizien", "Kanaren",
-					"Kantabrien", "Kastilien-La Mancha", "Kastilien-LeÛn",
+					"Kantabrien", "Kastilien-La Mancha", "Kastilien-Le√≥n",
 					"Katalonien", "La Rioja", "Madrid", "Melilla", "Murcia",
 					"Navarra", "Valencia" },
 			// SRI LANKA
@@ -1539,12 +1539,12 @@ public class CoreUtils {
 
 			{ "A'ali-an-Nil", "al-Bah?r-al-Ah?mar", "al-Buh?ayrat",
 					"al-Jazirah", "al-Qad?arif", "al-Wah?dah",
-					"an-Nil-al-Abyad?", "an-Nil-al-Azraq", "aö-äamaliyah",
+					"an-Nil-al-Abyad?", "an-Nil-al-Azraq", "a≈°-≈†amaliyah",
 					"Bah?r-al-Jabal", "Garb-al-Istiwa'iyah",
 					"Garb Bah?r-al-Gazal", "Garb Darfur", "Garb Kurdufan",
 					"Janub Darfur", "Janub Kurdufan", "Junqali", "Kassala",
-					"Khartum", "Nahr-an-Nil", "äamal Bah?r-al-Gazal",
-					"äamal Darfur", "äamal Kurdufan", "äarq-al-Istiwa'iyah",
+					"Khartum", "Nahr-an-Nil", "≈†amal Bah?r-al-Gazal",
+					"≈†amal Darfur", "≈†amal Kurdufan", "≈†arq-al-Istiwa'iyah",
 					"Sinnar", "Warab" },
 			// SURINAME
 			{ "Brokopondo", "Commewijne", "Coronie", "Marowijne", "Nickerie",
@@ -1554,19 +1554,19 @@ public class CoreUtils {
 			// SWAZILAND
 			{ "Hhohho", "Lubombo", "Manzini", "Shiselweni" },
 			// SWEDEN
-			{ "Blekinge", "Dalarna", "G‰vleborg", "Gotland", "Halland",
-					"J‰mtland", "Jˆnkˆping", "Kalmar", "Kronoberg",
-					"Norrbotten", "÷rebro", "÷stergˆtland", "SkÂne",
-					"Sˆdermanland", "Stockholm", "Uppsala", "V‰rmland",
-					"V‰sterbotten", "V‰sternorrland", "V‰stmanland",
-					"V‰stra Gˆtaland" },
+			{ "Blekinge", "Dalarna", "G√§vleborg", "Gotland", "Halland",
+					"J√§mtland", "J√∂nk√∂ping", "Kalmar", "Kronoberg",
+					"Norrbotten", "√ñrebro", "√ñsterg√∂tland", "Sk√•ne",
+					"S√∂dermanland", "Stockholm", "Uppsala", "V√§rmland",
+					"V√§sterbotten", "V√§sternorrland", "V√§stmanland",
+					"V√§stra G√∂taland" },
 			// SWITZERLAND
 			{ "Aargau", "Appenzell-Ausser Rhoden", "Appenzell Inner-Rhoden",
 					"Basel-Landschaft", "Basel-Stadt", "Bern", "Freiburg",
-					"Genf", "Glarus", "Graub¸nden", "Jura", "Luzern",
+					"Genf", "Glarus", "Graub√ºnden", "Jura", "Luzern",
 					"Neuenburg", "Nidwalden", "Obwalden", "Sankt Gallen",
 					"Schaffhausen", "Schwyz", "Solothurn", "Tessin", "Thurgau",
-					"Uri", "Waadt", "Wallis", "Zug", "Z¸rich" },
+					"Uri", "Waadt", "Wallis", "Zug", "Z√ºrich" },
 
 			// SYRIA
 			{ "al-H?asakah", "al-Ladiqiyah", "al-Qunaytirah", "ar-Raqqah",
@@ -1607,8 +1607,8 @@ public class CoreUtils {
 			{ "Eua", "Ha'apai", "Niuas", "Tongatapu", "Vava'u" }
 			// TRINIDAD AND TOBAGO
 			,
-			{ "Arima", "Chaguanas", "Couva-Tabaquite-Talparo", "Diego MartÌn",
-					"Mayaro-RÌo Claro", "PeÒal DÈbÈ", "Point FortÌn",
+			{ "Arima", "Chaguanas", "Couva-Tabaquite-Talparo", "Diego Mart√≠n",
+					"Mayaro-R√≠o Claro", "Pe√±al D√©b√©", "Point Fort√≠n",
 					"Port of Spain", "Princes Town", "San Fernando",
 					"Sangre Grande", "San Juan-Laventville", "Siparia",
 					"Tobago", "Tunapuna-Piarco" }
@@ -1624,14 +1624,14 @@ public class CoreUtils {
 			{ "Adana", "Adiyaman", "Afyonkarahisar", "Agri", "Aksaray",
 					"Amasya", "Ankara", "Antalya", "Ardahan", "Artvin",
 					"Aydin", "Balikesir", "Bartin", "Batman", "Bayburt",
-					"Bilecik", "Bingˆl", "Bitlis", "Bolu", "Burdur", "Bursa",
-					"«anakkale", "«ankiri", "«orum", "Denizli", "Diyarbakir",
-					"D¸zce", "Edirne", "Elazig", "Erzincan", "Erzurum",
-					"Eskisehir", "Gaziantep", "Giresun", "G¸m¸shane",
+					"Bilecik", "Bing√∂l", "Bitlis", "Bolu", "Burdur", "Bursa",
+					"√áanakkale", "√áankiri", "√áorum", "Denizli", "Diyarbakir",
+					"D√ºzce", "Edirne", "Elazig", "Erzincan", "Erzurum",
+					"Eskisehir", "Gaziantep", "Giresun", "G√ºm√ºshane",
 					"Hakkari", "Hatay", "Igdir", "Isparta", "Istanbul",
-					"Izmir", "Kahramanmaras", "Karab¸k", "Karaman", "Kars",
+					"Izmir", "Kahramanmaras", "Karab√ºk", "Karaman", "Kars",
 					"Kastamonu", "Kayseri", "Kilis", "Kirikkale", "Kirklareli",
-					"Kirsehir", "Kocaeli", "Konya", "K¸tahya", "Malatya",
+					"Kirsehir", "Kocaeli", "Konya", "K√ºtahya", "Malatya",
 					"Manisa", "Mardin", "Mersin", "Mugla", "Mus", "Nevsehir",
 					"Nigde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun",
 					"Sanliurfa", "Siirt", "Sinop", "Sirnak", "Sivas",
@@ -1657,14 +1657,14 @@ public class CoreUtils {
 			{ "Central", "Eastern", "Northern", "Western" }
 			// UNITED ARAB EMIRATES
 			,
-			{ "Abu Dhabi", "'Ajman", "al-Fujayrah", "aö-äariqah", "Dubai",
+			{ "Abu Dhabi", "'Ajman", "al-Fujayrah", "a≈°-≈†ariqah", "Dubai",
 					"Ra's al-H_aymah", "Umm al-Qaywayn" }
 			// URUGUAY
 			,
 			{ "Artigas", "Canelones", "Cerro Largo", "Colonia", "Durazno",
 					"Flores", "Florida", "Lavalleja", "Maldonado",
-					"Montevideo", "Paysand˙", "RÌo Negro", "Rivera", "Rocha",
-					"Salto", "San JosÈ", "Soriano", "TacuarembÛ",
+					"Montevideo", "Paysand√∫", "R√≠o Negro", "Rivera", "Rocha",
+					"Salto", "San Jos√©", "Soriano", "Tacuaremb√≥",
 					"Treinta y Tres" }
 			// UZBEKISTAN
 			,
@@ -1676,17 +1676,17 @@ public class CoreUtils {
 			{ "Malampa", "Penama", "Sanma", "Shefa", "Tafea", "Torba" }
 			// VENEZUELA
 			,
-			{ "Amazonas", "Anzo·tegui", "Apure", "Aragua", "Barinas",
-					"BolÌvar", "Carabobo", "Cojedes", "Delta Amacuro",
-					"Distrito Capital", "FalcÛn", "Gu·rico", "Lara", "MÈrida",
+			{ "Amazonas", "Anzo√°tegui", "Apure", "Aragua", "Barinas",
+					"Bol√≠var", "Carabobo", "Cojedes", "Delta Amacuro",
+					"Distrito Capital", "Falc√≥n", "Gu√°rico", "Lara", "M√©rida",
 					"Miranda", "Monagas", "Nueva Esparta", "Portuguesa",
-					"Sucre", "T·chira", "Trujillo", "Vargas", "Yaracuy",
+					"Sucre", "T√°chira", "Trujillo", "Vargas", "Yaracuy",
 					"Zulia" }
 			// VIETNAM
 			,
-			{ "B?c Trung B?", "–?ng b?ng sÙng C?u Long", "–?ng b?ng sÙng H?ng",
-					"–Ùng B?c B?", "–Ùng Nam B?", "DuyÍn h?i Nam Trung B?",
-					"T‚y B?c B?", "T‚y NguyÍn" }
+			{ "B?c Trung B?", "√ê?ng b?ng s√¥ng C?u Long", "√ê?ng b?ng s√¥ng H?ng",
+					"√ê√¥ng B?c B?", "√ê√¥ng Nam B?", "Duy√™n h?i Nam Trung B?",
+					"T√¢y B?c B?", "T√¢y Nguy√™n" }
 			// VIRGIN ISLANDS
 			,
 			{ "Saint Croix", "Saint John", "Saint Thomas" }
@@ -1695,13 +1695,13 @@ public class CoreUtils {
 			{ "Alo", "Hahake", "Hihifo", "Mua", "Sigave" }
 			// WESTERN SAHARA
 			,
-			{ "al-'Ayun", "as-Samarah", "Bu Jaydur", "Wad-ad-–ahab" }
+			{ "al-'Ayun", "as-Samarah", "Bu Jaydur", "Wad-ad-√êahab" }
 			// YEMEN
 			,
 			{ "Abyan", "ad-Dali'", "Aden", "al-Bayda", "al-H?udaydah",
 					"al-Jawf", "al-Mahrah", "al-Mahwit", "Amanah al-'Asmah",
-					"Amran", "–amar", "Hadramaut", "Hajjah", "Ibb", "Lahij",
-					"Ma'rib", "Raymah", "äabwah", "Sa'dah", "San'a", "Ta'izz" }
+					"Amran", "√êamar", "Hadramaut", "Hajjah", "Ibb", "Lahij",
+					"Ma'rib", "Raymah", "≈†abwah", "Sa'dah", "San'a", "Ta'izz" }
 			// ZAMBIA
 			,
 			{ "Central", "Copperbelt", "Eastern", "Luapala", "Lusaka",
@@ -1745,7 +1745,7 @@ public class CoreUtils {
 			"Cambodian 	Riel", "Canadian 	Dollar", "Cape Verdean 	Escudo",
 			"Cayman Islands 	Dollar", "Chilean 	Peso", "Chinese 	Yuan",
 			"Colombian 	Peso", "Comorian 	Franc", "Congolese 	Franc",
-			"Congolese 	Franc", "Costa Rican 	ColÛn", "Croatian 	Kuna",
+			"Congolese 	Franc", "Costa Rican 	Col√≥n", "Croatian 	Kuna",
 			"Cuban Convertible 	Peso", "Czech 	Koruna", "Djiboutian 	Franc",
 			"Dominican 	Peso", "Dominican 	Peso", "Egyptian 	Pound",
 			"Eritrean 	Nakfa", "Estonian 	Kroon", "Ethiopian 	Birr",
@@ -1753,7 +1753,7 @@ public class CoreUtils {
 			"Georgian	 Lari", "Ghanaian 	Cedi", "Gibraltar 	Pound",
 			"Guatemalan 	Quetzal", "Guinean 	Franc", "Guyanese 	Dollar",
 			"Haitian 	Gourde", "Honduran 	Lempira", "Hong Kong 	Dollar",
-			"Hungarian 	Forint", "Icelandic 	KrÛna", "Indian	Rupee",
+			"Hungarian 	Forint", "Icelandic 	Kr√≥na", "Indian	Rupee",
 			"Indonesian 	Rupiah", "Iranian 	Rial", "Iraqi 	Dinar",
 			"Israeli 	New Sheqel", "Jamaican 	Dollar", "Japanese 	Yen",
 			"Jordanian 	Dinar", "Kazakhstani 	Tenge", "Kenyan 	Shilling",
@@ -1766,13 +1766,13 @@ public class CoreUtils {
 			"Moldovan 	Leu", "Mongolian	 Tugrik", "Moroccan 	Dirham",
 			"Mozambican	Metical", "Namibian 	Dollar", "Nepalese 	Rupee",
 			"Netherlands Antillean 	Guilder", "New Zealand 	Dollar",
-			"Nicaraguan 	CÛrdoba", "Nigerian	 Naira", "Norwegian 	Krone",
+			"Nicaraguan 	C√≥rdoba", "Nigerian	 Naira", "Norwegian 	Krone",
 			"Omani 	Rial", "Pakistani 	Rupee", "Panamanian 	Balboa",
-			"Papua New Guinean 	Kina", "Paraguayan 	GuaranÌ",
+			"Papua New Guinean 	Kina", "Paraguayan 	Guaran√≠",
 			"Peruvian Nuevo 	Sol", "Philippine 	Peso", "Qatari 	Riyal",
 			"Romanian 	Leu", "Russian 	Ruble", "Rwandan 	Franc",
 			"Saint Helenian 	Pound", "Samoan 	Tala",
-			"S„o TomÈ and PrÌncipe 	Dobra", "Saudi 	Riyal", "Serbian 	Dinar",
+			"S√£o Tom√© and Pr√≠ncipe 	Dobra", "Saudi 	Riyal", "Serbian 	Dinar",
 			"Seychellois 	Rupee", "Sierra Leonean 	Leone", "Singapore 	Dollar",
 			"Slovak 	Koruna", "Solomon Islands 	Dollar", "Somali  	Shilling",
 			"South African 	Rand", "Sri Lankan 	Rupee", "Surinamese 	Dollar",
@@ -1783,10 +1783,14 @@ public class CoreUtils {
 			"Turkmenistani 	Manat", "Turkish 	Lira", "Ugandan 	Shilling",
 			"Ukrainian 	Hryvnia", "United Arab Emirates 	Dirham",
 			"Uruguayan 	Peso", "Uzbekistani 	Som", "Vanuatu 	Vatu",
-			"Venezuelan BolÌvar 	Fuertes", "Vietnamese 	Dong", "Yemeni 	Rial",
+			"Venezuelan Bol√≠var 	Fuertes", "Vietnamese 	Dong", "Yemeni 	Rial",
 			"Zambian 	Kwacha", "Zimbabwean 	Dollar", "Danish Krone" };
 
-	private static String[] currencySymbols = new String[] {
+	private static String[] currencySymbols = new String[] { "\u0024", "Afs",
+			"Lek", "DA", "Kz", "\u0024", "", "Afl", "A$", "m", "B$", "BD", "‡ß≥",
+			"Bds$", "Br", "BZ$", "BD$", "Nu.", "Bs.", "KM", "P", "R$", "¬£",
+			"B$", "–ª–≤", "FBu", "f", "$", "Esc", "KY$", "$", "¬•", "Col$", "CF",
+			""
 
 	};
 

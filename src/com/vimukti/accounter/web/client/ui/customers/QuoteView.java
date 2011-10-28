@@ -178,11 +178,19 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
+		} else {
+			ClientCurrency clientCurrency = getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency());
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
 		}
 
 		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
 		// .getFormalName());
-		modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			modifyForeignCurrencyTotalWidget();
+		}
 	}
 
 	@Override
@@ -570,9 +578,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		rightVLay.setHorizontalAlignment(ALIGN_CENTER);
 		if (type == ClientEstimate.QUOTES)
 			rightVLay.add(phoneForm);
-		if(isMultiCurrencyEnabled()){
-		rightVLay.add(currencyWidget);
-		currencyWidget.setDisabled(isInViewMode());
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -997,7 +1005,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();
