@@ -102,17 +102,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionItemAccountsRequirement(ACCOUNT_ITEMS,
-				"Please Enter Account name or number", getConstants().items(),
-				false, true) {
-
-			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return getClientCompany().getAccounts();
-			}
-
-		});
-
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().transactionDate()), getConstants()
 				.transactionDate(), true, true));
@@ -135,8 +124,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(((ClientCustomer) get(
-						CUSTOMER).getValue()).getContacts());
+				return new ArrayList<ClientContact>(
+						((ClientCustomer) NewInvoiceCommand.this.get(CUSTOMER)
+								.getValue()).getContacts());
 			}
 		});
 
