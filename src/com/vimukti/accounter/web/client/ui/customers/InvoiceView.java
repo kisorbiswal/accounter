@@ -631,7 +631,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
-		if (isMultiCurrencyEnabled()) { 
+		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
 			currencyWidget.setDisabled(isInViewMode());
 		}
@@ -893,8 +893,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
-
-		modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			modifyForeignCurrencyTotalWidget();
+		}
 
 	}
 
@@ -1692,9 +1693,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		memoTextAreaItem.setDisabled(isInViewMode());
 		customerTransactionTable.setDisabled(isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
-			
+
 		}
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
