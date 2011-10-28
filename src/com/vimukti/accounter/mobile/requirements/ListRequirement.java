@@ -166,10 +166,6 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			message.append(getSelectString());
 		} else {
 			message.append(getEmptyString());
-			// String comm = getCreateCommandString();
-			// if (comm != null) {
-			// message.append(". Press 'a' to create " + getRecordName());
-			// }
 		}
 
 		result.add(message.toString());
