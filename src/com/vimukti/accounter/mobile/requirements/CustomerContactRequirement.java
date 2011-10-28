@@ -14,10 +14,10 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 public class CustomerContactRequirement extends
 		AbstractRequirement<ClientContact> {
 
-	private static final String PROCESS_ATTR = null;
-	private static final String OLD_CONTACT_ATTR = null;
-	private static final String CONTACT_LINE_ATTR = null;
-	private static final String CONTACT_ACTIONS = null;
+	private static final String PROCESS_ATTR = "processAttr";
+	private static final String OLD_CONTACT_ATTR = "oldContact";
+	private static final String CONTACT_LINE_ATTR = "contactLineAttr";
+	private static final String CONTACT_ACTIONS = "contactActions";
 
 	public CustomerContactRequirement(String requirementName) {
 		super(requirementName, null, null, true, true);
@@ -36,16 +36,25 @@ public class CustomerContactRequirement extends
 				}
 			}
 		}
+		Object selection = context.getSelection(getName() + ACTIONS);
+		if (selection == ActionNames.ADD_MORE_CONTACTS) {
+			return contactProcess(context);
+		} else if (selection == ActionNames.FINISH) {
+			context.setAttribute(INPUT_ATTR, "");
+			return null;
+		}
+
 		List<ClientContact> clientContacts = getValue();
-		String attribute = (String) context.getAttribute(VALUES);
-		if (!attribute.equals(getName())) {
+		String attribute = context.getSelection(VALUES);
+		if (attribute == null || !attribute.equals(getName())) {
 			Record e = new Record(getName());
 			e.add("", "Contacts");
 			e.add("", clientContacts.size() + " Contact(s)");
 			list.add(e);
+			return null;
 		}
 		Result result = new Result();
-		Object selection = context.getSelection(getName() + ACTIONS);
+
 		ClientContact contact = context.getSelection(getName());
 		if (contact != null) {
 			Result res = contact(context, contact);
@@ -54,14 +63,12 @@ public class CustomerContactRequirement extends
 			}
 		}
 
-		if (selection == ActionNames.ADD_MORE_CONTACTS) {
-			return contactProcess(context);
-		} else if (selection == ActionNames.FINISH) {
-			context.setAttribute(INPUT_ATTR, "");
-			return null;
-		}
-
 		ResultList contactsList = new ResultList(getName());
+		if (clientContacts.isEmpty()) {
+			result.add("There are no contacts.");
+		} else {
+			result.add("All Contacts");
+		}
 		for (ClientContact clientContact : clientContacts) {
 			Record record = new Record(clientContact);
 			record.add("", contact == null ? "" : contact.getName() + "-"
