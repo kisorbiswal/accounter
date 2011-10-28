@@ -183,7 +183,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices) {
 			totalPanel.setVisible(false);
 		}
-		if (sellProducts && sellServices) {
+		if ((sellProducts && sellServices) || sellProducts) {
 			totalPanel.setVisible(true);
 		}
 		if (preferences.isInventoryEnabled()) {
