@@ -68,6 +68,7 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 			} else if (lineAttr.equals("countryOrRegion")) {
 				oldAddress.setCountryOrRegion(input);
 			}
+			setValue(oldAddress);
 		} else {
 			Object selection = context.getSelection(getName());
 			if (selection != null) {
