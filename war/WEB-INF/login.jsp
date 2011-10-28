@@ -12,6 +12,11 @@
 <link type="text/css" href="../css/ss.css" rel="stylesheet" />
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script  type="text/javascript" >
+<%
+	String news = request.getAttribute("news").toString();
+%>
+	var news=<%= news%>;
+	
 	$(document).ready(function() {
 	$('#submitButton').click(function() {
 	 $("#submitButton").addClass("login-focus");
@@ -40,14 +45,7 @@
 	<body>
 	<table id="commanContainer">
 	<td>
-	 <c:if test="${newsList != null}">
-		   <c:forEach var="entity" items="${entitesList}">
-			   	<c:set var='url' value="${entity.url}"/>
-			    <c:set var='date' value="${entity.sqlDate}"/>
-			    <c:set var='sticky' value="${entity.sticky}"/>
-			    <c:set var='newsText' value="${entity.newsText}"/>
-		   </c:forEach>
-	    </c:if>
+	 
 	</td>
 	
 	<td>
