@@ -100,7 +100,7 @@ public abstract class CustomerAccountTransactionTable extends
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().amount();
+				return getColumnNameWithCurrency(Accounter.constants().amount());
 			}
 		});
 

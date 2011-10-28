@@ -30,7 +30,7 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	public int getWidth() {
-		return 80;
+		return 120;
 	}
 
 	@Override
@@ -41,11 +41,6 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	protected String getColumnName() {
-		if (currencyProvider.getTransactionCurrency() != null) {
-			return Accounter.messages().unitPrice(
-					currencyProvider.getTransactionCurrency().getFormalName());
-		} else {
-			return Accounter.messages().unitPrice("USD");
-		}
+		return getColumnNameWithCurrency(Accounter.constants().unitPrice());
 	}
 }

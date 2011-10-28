@@ -591,7 +591,7 @@ public class TransactionReceivePaymentGrid extends
 						updatePayment(selectedObject);
 						// paymentView.updateFooterValues();
 						paymentView.recalculateGridAmounts();
-						paymentView.unUsedCreditsText
+						paymentView.unUsedCreditsTextBaseCurrency
 								.setAmount(creditsAndPaymentsDialiog.totalBalances);
 						updateData(selectedObject);
 						return true;

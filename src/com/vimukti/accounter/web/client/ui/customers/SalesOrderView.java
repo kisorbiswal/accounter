@@ -110,15 +110,12 @@ public class SalesOrderView extends
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(FinanceApplication.constants()
-		// .salesOrder()));
 		LinkItem emptylabel = new LinkItem();
 		emptylabel.setLinkTitle("");
 		emptylabel.setShowTitle(false);
 
 		lab1 = new Label(Accounter.constants().salesOrder());
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("35px");
 		statusSelect = new SelectCombo(Accounter.constants().status());
 
 		ArrayList<String> selectComboList = new ArrayList<String>();
@@ -412,23 +409,45 @@ public class SalesOrderView extends
 
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
-						dummyItem, vatTotalNonEditableText, dummyItem,
-						transactionTotalinBaseCurrency, dummyItem,
-						transactionTotalinForeignCurrency);
+				if (isMultiCurrencyEnabled()) {
+					prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
+							dummyItem, vatTotalNonEditableText, dummyItem,
+							transactionTotalinBaseCurrency, dummyItem,
+							transactionTotalinForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
+							dummyItem, vatTotalNonEditableText, dummyItem,
+							transactionTotalinBaseCurrency);
+				}
+
 				prodAndServiceForm2.setStyleName("boldtext");
 			} else {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
-				prodAndServiceForm2.setFields(netAmountLabel, dummyItem,
-						salesTaxTextNonEditable, dummyItem,
-						transactionTotalinBaseCurrency, dummyItem,
-						transactionTotalinForeignCurrency);
+				if (isMultiCurrencyEnabled()) {
+					prodAndServiceForm2.setFields(netAmountLabel, dummyItem,
+							salesTaxTextNonEditable, dummyItem,
+							transactionTotalinBaseCurrency, dummyItem,
+							transactionTotalinForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(netAmountLabel, dummyItem,
+							salesTaxTextNonEditable, dummyItem,
+							transactionTotalinBaseCurrency);
+				}
+
 				prodAndServiceForm2.setStyleName("boldtext");
 			}
 		} else {
-			prodAndServiceForm2.setFields(dummyItem,
-					transactionTotalinBaseCurrency, dummyItem,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+
+				prodAndServiceForm2.setFields(dummyItem,
+						transactionTotalinBaseCurrency, dummyItem,
+						transactionTotalinForeignCurrency);
+			} else {
+
+				prodAndServiceForm2.setFields(dummyItem,
+						transactionTotalinBaseCurrency);
+			}
+
 			prodAndServiceForm2.setStyleName("boldtext");
 		}
 		currencyWidget = createCurrencyWidget();
@@ -502,6 +521,7 @@ public class SalesOrderView extends
 		listforms.add(prodAndServiceForm2);
 
 		settabIndexes();
+		transactionTotalinForeignCurrency.hide();
 
 	}
 
@@ -963,8 +983,10 @@ public class SalesOrderView extends
 			}
 		}
 
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+		// .getFormalName());
+
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -1465,6 +1487,20 @@ public class SalesOrderView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		customerTransactionTable.updateAmountsFromGUI();
 	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
+	}
+
 }

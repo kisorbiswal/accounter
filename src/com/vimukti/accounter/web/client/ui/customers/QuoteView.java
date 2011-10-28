@@ -180,8 +180,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 		}
 
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+		// .getFormalName());
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	@Override
@@ -497,22 +498,41 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		DynamicForm vatForm = new DynamicForm();
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-						disabletextbox, vatTotalNonEditableText,
-						disabletextbox, transactionTotalinBaseCurrency,
-						disabletextbox, transactionTotalinForeignCurrency);
+				if (isMultiCurrencyEnabled()) {
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							vatTotalNonEditableText, disabletextbox,
+							transactionTotalinBaseCurrency, disabletextbox,
+							transactionTotalinForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							vatTotalNonEditableText, disabletextbox,
+							transactionTotalinBaseCurrency);
+
+				}
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
 				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
-				prodAndServiceForm2.setFields(netAmountLabel, disabletextbox,
-						salesTaxTextNonEditable, disabletextbox,
-						transactionTotalinBaseCurrency, disabletextbox,
-						transactionTotalinForeignCurrency);
+				if (isMultiCurrencyEnabled()) {
+					prodAndServiceForm2.setFields(netAmountLabel,
+							disabletextbox, salesTaxTextNonEditable,
+							disabletextbox, transactionTotalinBaseCurrency,
+							disabletextbox, transactionTotalinForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(netAmountLabel,
+							disabletextbox, salesTaxTextNonEditable,
+							disabletextbox, transactionTotalinBaseCurrency);
+				}
 				prodAndServiceForm2.addStyleName("boldtext");
 			}
 		} else {
-			prodAndServiceForm2.setFields(transactionTotalinBaseCurrency,
-					disabletextbox, transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				prodAndServiceForm2.setFields(transactionTotalinBaseCurrency,
+						disabletextbox, transactionTotalinForeignCurrency);
+			} else {
+				prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+			}
 		}
 		currencyWidget = createCurrencyWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -564,14 +584,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		// mainVLay.add(buttLabHLay);
 		VerticalPanel gridPanel = new VerticalPanel();
 
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
 		mainVLay.add(itemTableButton);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(mainpanel);
 		gridPanel.setWidth("100%");
 
@@ -590,6 +607,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
 		settabIndexes();
+		transactionTotalinForeignCurrency.hide();
 	}
 
 	@Override
@@ -1072,6 +1090,19 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		customerTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 }

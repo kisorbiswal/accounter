@@ -932,7 +932,17 @@ public interface AccounterMessages extends Messages {
 	public String taxItemWithRate(String name, double taxRate);
 
 	public String unableToSaveNote(String string);
+
 	public SafeHtml transactionLink(String transactionName);
 
 	public String unitPrice(String currency);
+
+	public String currencyTotal(String string);
+
+	public String unusedCredits(String primaryCurrency);
+
+	public String unusedPayments(String primaryCurrency);
+
+	public String nameWithCurrency(String name, String formalName);
+
 }

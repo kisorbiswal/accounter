@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -24,12 +25,14 @@ public class CurrencyWidget extends DynamicForm {
 	private ClientCurrency baseCurrency, selectedCurrencyItem;
 	private List<ClientCurrency> currencies;
 
+	private boolean showFactorField;
+
 	public CurrencyWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
 		this.currencies = currencies;
 		this.baseCurrency = baseCurrency;
 		// setNumCols(3);
-		currencyCombo = new CurrencyCombo("Currency :");
+		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
 		currencyCombo.initCombo(currencies);
 		if (baseCurrency != null) {
 			currencyCombo.setSelected(baseCurrency.getFormalName());
@@ -40,6 +43,7 @@ public class CurrencyWidget extends DynamicForm {
 					@Override
 					public void selectedComboBoxItem(ClientCurrency selectItem) {
 						currencyChanged(selectItem);
+
 					}
 				});
 
@@ -60,6 +64,9 @@ public class CurrencyWidget extends DynamicForm {
 		setNumCols(4);
 		getCellFormatter().setWidth(0, 0, "200");
 		setFields(currencyCombo, new LabelItem());
+		setFields(factorField, baseCurrencyLbl);
+		factorField.hide();
+		baseCurrencyLbl.hide();
 	}
 
 	private void factorFieldChagned(double factor) {
@@ -72,10 +79,10 @@ public class CurrencyWidget extends DynamicForm {
 
 	public void currencyChanged(ClientCurrency selectItem) {
 		this.selectedCurrencyItem = selectItem;
-		boolean showFactorField = baseCurrency == null ? true : selectItem
-				.equals(baseCurrency);
+		setShowFactorField(baseCurrency == null ? true : selectItem
+				.equals(baseCurrency));
 
-		showFactorField(showFactorField);
+		showFactorField(isShowFactorField());
 		if (listener != null) {
 			listener.currencyChanged(selectedCurrencyItem, 1);
 		}
@@ -93,13 +100,14 @@ public class CurrencyWidget extends DynamicForm {
 		// hide or show factor fields
 		if (showFactorField) {
 			// hide the fields
-			remove(factorField);
-			remove(baseCurrencyLbl);
+			factorField.hide();
+			baseCurrencyLbl.hide();
 		} else {
 			// show the fields
-			if (!getFormItems().contains(factorField)) {
-				setFields(factorField, baseCurrencyLbl);
-			}
+
+			factorField.show();
+			baseCurrencyLbl.show();
+
 		}
 
 	}
@@ -122,14 +130,14 @@ public class CurrencyWidget extends DynamicForm {
 	private void updateFactorFieldTitle() {
 		ClientCurrency currency = currencyCombo.getSelectedValue();
 		StringBuffer sb = new StringBuffer();
-		sb.append(' ').append(1).append(currency.getFormalName()).append('=');
+		sb.append(1).append(" ").append(currency.getFormalName()).append(" =");
 		factorField.setTitle(sb.toString());
 	}
 
 	public void setSelectedCurrency(ClientCurrency clientCurrency) {
 		currencyCombo.setSelected(clientCurrency.getFormalName());
-		boolean showFactorField = baseCurrency == null ? true : clientCurrency
-				.equals(baseCurrency);
+		setShowFactorField(baseCurrency == null ? true : clientCurrency
+				.equals(baseCurrency));
 		showFactorField(showFactorField);
 
 	}
@@ -151,6 +159,14 @@ public class CurrencyWidget extends DynamicForm {
 
 	public void setTabIndex(int index) {
 		currencyCombo.setTabIndex(index);
-
 	}
+
+	public boolean isShowFactorField() {
+		return showFactorField;
+	}
+
+	public void setShowFactorField(boolean showFactorField) {
+		this.showFactorField = showFactorField;
+	}
+
 }

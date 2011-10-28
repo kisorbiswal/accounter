@@ -100,6 +100,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	private TAXCodeCombo taxCodeCombo;
 
+	private AmountLabel amountItem;
+
 	protected void initTransactionTotalNonEditableItem() {
 	}
 
@@ -184,9 +186,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		}
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableItem() {
+	protected AmountLabel createTransactionTotalNonEditableItem(String string) {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().total());
+		amountItem = new AmountLabel(Accounter.messages().currencyTotal(string));
 		amountItem.setDisabled(true);
 
 		return amountItem;

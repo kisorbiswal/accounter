@@ -477,15 +477,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected AmountLabel createForeignCurrencyAmountLable(String string) {
 
-		foreignCurrencyamountLabel = new AmountLabel(Accounter.constants()
-				.total() + " (" + string + ")");
+		foreignCurrencyamountLabel = new AmountLabel(Accounter.messages()
+				.currencyTotal(string));
+
 		return foreignCurrencyamountLabel;
 	}
 
 	protected void changeForeignCurrencyTotalText(String string) {
 
-		foreignCurrencyamountLabel.setTitle(Accounter.constants().total()
-				+ " (" + string + ")");
+		foreignCurrencyamountLabel.setTitle(Accounter.messages().currencyTotal(
+				string));
 	}
 
 	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {
@@ -1121,7 +1122,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					&& clientAccounterClass != null) {
 				transaction.setAccounterClass(clientAccounterClass);
 			}
-
+			if (currency == null) {
+				currency = getCompany().getCurrency(
+						getCompany().getPreferences().getPrimaryCurrency());
+			}
 		}
 	}
 

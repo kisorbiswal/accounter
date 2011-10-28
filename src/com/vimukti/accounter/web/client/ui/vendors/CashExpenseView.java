@@ -327,7 +327,8 @@ public class CashExpenseView extends
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
@@ -444,9 +445,18 @@ public class CashExpenseView extends
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+
+			if (isMultiCurrencyEnabled()) {
+
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText);
+			}
+
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
@@ -477,9 +487,13 @@ public class CashExpenseView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				totalForm.setFields(transactionTotalNonEditableText);
+			}
 
-			totalForm.setFields(transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
 		}
@@ -489,17 +503,12 @@ public class CashExpenseView extends
 		mainVLay.add(titlelabel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		// mainVLay.add(lab2);
 
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
 
-		// setOverflow(Overflow.SCROLL);
 		this.add(mainVLay);
-		// addChild(mainVLay);
 
 		setSize("100%", "100%");
 
@@ -513,6 +522,7 @@ public class CashExpenseView extends
 		// resetFormView();
 
 		settabIndexes();
+		transactionTotalinForeignCurrency.hide();
 	}
 
 	@Override
@@ -664,8 +674,8 @@ public class CashExpenseView extends
 
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	@Override
@@ -867,8 +877,22 @@ public class CashExpenseView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+
+		modifyForeignCurrencyTotalWidget();
+
 		vendorAccountTransactionTable.updateAmountsFromGUI();
 		vendorItemTransactionTable.updateAmountsFromGUI();
 	}
 
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
+	}
 }

@@ -52,6 +52,7 @@ public abstract class EditColumn<R> {
 	public abstract void updateFromGUI(IsWidget widget, R row);
 
 	public void updateHeader() {
-		columnHeader.setText(getColumnName());
+		if (getColumnName().length() > 0)
+			columnHeader.setText(getColumnName());
 	}
 }

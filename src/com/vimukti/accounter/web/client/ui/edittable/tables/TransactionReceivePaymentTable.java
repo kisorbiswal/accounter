@@ -166,7 +166,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().invoiceAmount();
+				return getColumnNameWithCurrency(Accounter.constants()
+						.invoiceAmount());
 			}
 
 			@Override
@@ -198,7 +199,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountDue();
+					return getColumnNameWithCurrency(Accounter.constants()
+							.amountDue());
 				}
 
 				@Override
@@ -1008,5 +1010,12 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public boolean isSelected(ClientTransactionReceivePayment trprecord) {
 		return super.isChecked(trprecord, 0);
+	}
+
+	public void updateAmountsFromGUI() {
+		for (ClientTransactionReceivePayment item : this.getAllRows()) {
+			updateFromGUI(item);
+		}
+		updateColumnHeaders();
 	}
 }

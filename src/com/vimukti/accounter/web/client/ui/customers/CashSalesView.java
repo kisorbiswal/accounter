@@ -335,23 +335,44 @@ public class CashSalesView extends
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		if (isTrackTax()) {
-			prodAndServiceForm2.setFields(disabletextbox,
-					taxTotalNonEditableText, disabletextbox, netAmountLabel,
-					disabletextbox, transactionTotalBaseCurrency,
-					disabletextbox, transactionTotalForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				prodAndServiceForm2.setFields(disabletextbox,
+						taxTotalNonEditableText, disabletextbox,
+						netAmountLabel, disabletextbox,
+						transactionTotalBaseCurrency, disabletextbox,
+						transactionTotalForeignCurrency);
+			} else {
+				prodAndServiceForm2.setFields(disabletextbox,
+						taxTotalNonEditableText, disabletextbox,
+						netAmountLabel, disabletextbox,
+						transactionTotalBaseCurrency);
+			}
 			if (isTaxPerDetailLine()) {
-				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-						disabletextbox, taxTotalNonEditableText,
-						disabletextbox, transactionTotalBaseCurrency,
-						disabletextbox, transactionTotalForeignCurrency);
+				if (isMultiCurrencyEnabled()) {
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							transactionTotalBaseCurrency, disabletextbox,
+							transactionTotalForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							transactionTotalBaseCurrency);
+				}
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		} else {
-			prodAndServiceForm2.setFields(disabletextbox,
-					transactionTotalBaseCurrency, disabletextbox,
-					transactionTotalForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				prodAndServiceForm2.setFields(disabletextbox,
+						transactionTotalBaseCurrency, disabletextbox,
+						transactionTotalForeignCurrency);
+			} else {
+				prodAndServiceForm2.setFields(disabletextbox,
+						transactionTotalBaseCurrency);
+			}
 		}
 		prodAndServiceForm2.addStyleName("boldtext");
 		currencyWidget = createCurrencyWidget();
@@ -419,6 +440,7 @@ public class CashSalesView extends
 		listforms.add(prodAndServiceForm2);
 
 		settabIndexes();
+		transactionTotalForeignCurrency.hide();
 
 	}
 
@@ -511,8 +533,10 @@ public class CashSalesView extends
 			}
 		}
 
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
+		// .getFormalName());
+
+		modifyForeignCurrencyTotalWidget();
 
 	}
 
@@ -1125,8 +1149,21 @@ public class CashSalesView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		customerItemTransactionTable.updateAmountsFromGUI();
 		customerAccountTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalForeignCurrency.hide();
+		} else {
+			transactionTotalForeignCurrency.show();
+			transactionTotalForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 
 }

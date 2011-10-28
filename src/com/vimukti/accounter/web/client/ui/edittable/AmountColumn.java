@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBox;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
@@ -49,6 +50,16 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 		FlexTable flexTable = (FlexTable) table.getWidget();
 		flexTable.getCellFormatter().addStyleName(0, flexTable.getCellCount(0),
 				"amount");
+	}
+
+	protected String getColumnNameWithCurrency(String name) {
+		String currencyName = Accounter.getCompany().getPreferences()
+				.getPrimaryCurrency();
+		if (currencyProvider.getTransactionCurrency() != null) {
+			currencyName = currencyProvider.getTransactionCurrency()
+					.getFormalName();
+		}
+		return Accounter.messages().nameWithCurrency(name, currencyName);
 	}
 
 }

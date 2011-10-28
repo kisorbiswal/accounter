@@ -84,8 +84,8 @@ public class PurchaseOrderView extends
 
 	private long dueDate;
 	private long despatchDate;
-
 	private long deliveryDate;
+
 	DynamicForm amountsForm;
 
 	private ArrayList<DynamicForm> listforms;
@@ -112,12 +112,9 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(FinanceApplication.constants()
-		// .purchaseOrder()));
 
 		lab1 = new HTML(Accounter.constants().purchaseOrder());
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("35px");
 
 		statusSelect = new SelectCombo(Accounter.constants().status());
 		listOfTypes = new ArrayList<String>();
@@ -168,7 +165,8 @@ public class PurchaseOrderView extends
 
 		netAmount = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
@@ -203,9 +201,14 @@ public class PurchaseOrderView extends
 				// this.transactionTotalNonEditableText.setAmount(transaction
 				// .getTotal());
 			}
-			amountsForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				amountsForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				amountsForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText);
+			}
 
 			amountsForm.setStyleName("boldtext");
 			// forms.add(priceLevelForm);
@@ -221,9 +224,6 @@ public class PurchaseOrderView extends
 
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
-
-			transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-					.getPreferences().getPrimaryCurrency());
 
 			paymentsNonEditableText = new AmountLabel(
 					accounterConstants.payments());
@@ -242,13 +242,14 @@ public class PurchaseOrderView extends
 
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("boldtext");
-			amountsForm.setFields(/* taxCodeSelect, salesTaxTextNonEditable, */
-			disabletextbox, transactionTotalNonEditableText, disabletextbox,
-					transactionTotalinForeignCurrency, disabletextbox
-			/*
-			 * paymentsNonEditableText, disabletextbox,
-			 * balanceDueNonEditableText
-			 */);
+			if (isMultiCurrencyEnabled()) {
+				amountsForm.setFields(disabletextbox,
+						transactionTotalNonEditableText, disabletextbox,
+						transactionTotalinForeignCurrency, disabletextbox);
+			} else {
+				amountsForm.setFields(disabletextbox,
+						transactionTotalNonEditableText, disabletextbox);
+			}
 
 			// prodAndServiceHLay.add(amountsForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
@@ -586,6 +587,8 @@ public class PurchaseOrderView extends
 		listforms.add(termsForm);
 		listforms.add(memoForm);
 		listforms.add(linksform);
+
+		transactionTotalinForeignCurrency.hide();
 		settabIndexes();
 	}
 
@@ -1120,8 +1123,7 @@ public class PurchaseOrderView extends
 		shippingMethodsCombo.setComboItem(shippingMethod);
 		vendorCombo.setComboItem(vendor);
 
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	private void vendoraddressSelected(ClientAddress selectedAddress) {
@@ -1456,8 +1458,21 @@ public class PurchaseOrderView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		vendorItemTransactionTable.updateAmountsFromGUI();
 		vendorAccountTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 
 }

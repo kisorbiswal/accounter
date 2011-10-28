@@ -80,7 +80,6 @@ public class CashPurchaseView extends
 	protected void createControls() {
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
-		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
 		titlelabel = new Label(Accounter.constants().cashPurchase());
 		titlelabel.setStyleName(Accounter.constants().labelTitle());
@@ -218,7 +217,8 @@ public class CashPurchaseView extends
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
@@ -347,9 +347,14 @@ public class CashPurchaseView extends
 		bottompanel.setWidth("100%");
 
 		if (isTrackTax() && isTrackPaidTax()) {
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText);
+			}
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -384,9 +389,12 @@ public class CashPurchaseView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
-
-			totalForm.setFields(transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				totalForm.setFields(transactionTotalNonEditableText);
+			}
 
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
@@ -424,10 +432,11 @@ public class CashPurchaseView extends
 
 		// if (UIUtils.isMSIEBrowser())
 		// resetFormView();
-
+		transactionTotalinForeignCurrency.hide();
 		initViewType();
 
 		settabIndexes();
+
 	}
 
 	@Override
@@ -615,8 +624,7 @@ public class CashPurchaseView extends
 
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	@Override
@@ -995,8 +1003,21 @@ public class CashPurchaseView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		vendorAccountTransactionTable.updateAmountsFromGUI();
 		vendorItemTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 
 }

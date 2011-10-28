@@ -59,8 +59,12 @@ public class ReceivePaymentView extends
 		AbstractTransactionBaseView<ClientReceivePayment> {
 
 	public AmountField customerNonEditablebalText;
-	public AmountLabel unUsedCreditsText;
-	private AmountLabel unUsedPaymentsText;
+
+	public AmountLabel unUsedCreditsTextBaseCurrency,
+			unUsedPaymentsTextBaseCurrency;
+
+	public AmountLabel unUsedCreditsTextForeignCurrency,
+			unUsedPaymentsTextForeignCurrency;
 
 	public AmountField amtText;
 	private DynamicForm payForm;
@@ -153,6 +157,13 @@ public class ReceivePaymentView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+
+		unUsedCreditsTextForeignCurrency.setTitle(Accounter.messages()
+				.unusedCredits(
+						getCompany().getCurrency(currency).getFormalName()));
+		unUsedPaymentsTextForeignCurrency.setTitle(Accounter.messages()
+				.unusedPayments(
+						getCompany().getCurrency(currency).getFormalName()));
 	}
 
 	private void getTransactionReceivePayments(
@@ -205,7 +216,10 @@ public class ReceivePaymentView extends
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsText
+		this.unUsedCreditsTextBaseCurrency
+				.setAmount(getAmountInBaseCurrency(totalCredits));
+
+		this.unUsedCreditsTextForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(totalCredits));
 
 	}
@@ -495,20 +509,42 @@ public class ReceivePaymentView extends
 
 		initListGrid();
 
-		unUsedCreditsText = new AmountLabel(Accounter.constants()
-				.unusedCredits());
-		unUsedCreditsText.setHelpInformation(true);
-		unUsedCreditsText.setDisabled(true);
+		unUsedCreditsTextBaseCurrency = new AmountLabel(Accounter.messages()
+				.unusedCredits(
+						getCompany().getPreferences().getPrimaryCurrency()));
+		unUsedCreditsTextBaseCurrency.setHelpInformation(true);
+		unUsedCreditsTextBaseCurrency.setDisabled(true);
 
-		unUsedPaymentsText = new AmountLabel(Accounter.constants()
-				.unusedPayments());
-		unUsedPaymentsText.setHelpInformation(true);
-		unUsedPaymentsText.setDisabled(true);
+		unUsedPaymentsTextBaseCurrency = new AmountLabel(Accounter.messages()
+				.unusedPayments(
+						getCompany().getPreferences().getPrimaryCurrency()));
+		unUsedPaymentsTextBaseCurrency.setHelpInformation(true);
+		unUsedPaymentsTextBaseCurrency.setDisabled(true);
+
+		unUsedCreditsTextForeignCurrency = new AmountLabel(Accounter.messages()
+				.unusedCredits(
+						getCompany().getPreferences().getPrimaryCurrency()));
+		unUsedCreditsTextForeignCurrency.setHelpInformation(true);
+		unUsedCreditsTextForeignCurrency.setDisabled(true);
+
+		unUsedPaymentsTextForeignCurrency = new AmountLabel(Accounter
+				.messages().unusedPayments(
+						getCompany().getPreferences().getPrimaryCurrency()));
+		unUsedPaymentsTextForeignCurrency.setHelpInformation(true);
+		unUsedPaymentsTextForeignCurrency.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
-		textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
-		textForm.addStyleName("textbold");
+		if (isMultiCurrencyEnabled()) {
+			textForm.setFields(unUsedCreditsTextBaseCurrency,
+					unUsedPaymentsTextBaseCurrency,
+					unUsedCreditsTextForeignCurrency,
+					unUsedPaymentsTextForeignCurrency);
+		} else {
+			textForm.setFields(unUsedCreditsTextBaseCurrency,
+					unUsedPaymentsTextBaseCurrency);
+		}
+		// textForm.addStyleName("textbold");
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
@@ -572,6 +608,7 @@ public class ReceivePaymentView extends
 		listforms.add(textForm);
 
 		settabIndexes();
+
 	}
 
 	private void settabIndexes() {
@@ -634,9 +671,8 @@ public class ReceivePaymentView extends
 
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(this.transactionTotal);
-		transaction
-				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
-						.getAmount()));
+		transaction.setUnUsedCredits(this.unUsedCreditsTextBaseCurrency
+				.getAmount());
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -647,13 +683,16 @@ public class ReceivePaymentView extends
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsText.setAmount(unusedAmounts);
+		this.unUsedPaymentsTextBaseCurrency.setAmount(unusedAmounts);
+		this.unUsedPaymentsTextForeignCurrency.setAmount(unusedAmounts);
 
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
 
-		unUsedCreditsText
+		unUsedCreditsTextBaseCurrency
+				.setAmount(getAmountInBaseCurrency(unusedCredits));
+		unUsedCreditsTextForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(unusedCredits));
 
 	}
@@ -828,11 +867,9 @@ public class ReceivePaymentView extends
 			}
 		}
 		if (!isInViewMode()
-				&& DecimalUtil
-						.isGreaterThan(
-								getAmountInBaseCurrency(unUsedPaymentsText
-										.getAmount()), 0))
-			result.addWarning(unUsedPaymentsText,
+				&& DecimalUtil.isGreaterThan(
+						unUsedPaymentsTextBaseCurrency.getAmount(), 0))
+			result.addWarning(unUsedPaymentsTextBaseCurrency,
 					AccounterWarningType.recievePayment);
 
 		return result;
@@ -1062,5 +1099,6 @@ public class ReceivePaymentView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		paymentAmountChanged(amtText.getAmount());
+		gridView.updateAmountsFromGUI();
 	}
 }

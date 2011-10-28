@@ -490,8 +490,9 @@ public class NewCustomerPaymentView extends
 		rightPanel.add(balForm);
 		rightPanel.setCellHorizontalAlignment(balForm,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		rightPanel.add(currencyWidget);
-
+		if (isMultiCurrencyEnabled()) {
+			rightPanel.add(currencyWidget);
+		}
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.setWidth("100%");
 		hLay.setSpacing(10);

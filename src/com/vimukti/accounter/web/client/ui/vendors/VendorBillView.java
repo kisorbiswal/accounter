@@ -291,8 +291,7 @@ public class VendorBillView extends
 			phoneSelect.setValue("");
 		}
 
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
@@ -358,18 +357,10 @@ public class VendorBillView extends
 	protected void createControls() {
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
-		// setTitle(UIUtils.title(Accounter.constants().vendorBill()));
 		Label lab1;
-		// if (transactionObject == null
-		// || transactionObject.getStatus() ==
-		// ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 		lab1 = new Label(Accounter.constants().enterBill());
 
-		// else
-		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
-
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem.setTitle(Accounter.constants().billDate());
 		transactionDateItem
@@ -385,8 +376,6 @@ public class VendorBillView extends
 					}
 				});
 		transactionNumber = createTransactionNumberItem();
-		// transactionNumber.setTitle(UIUtils.getVendorString("Supplier Bill no",
-		// "Vendor Bill No"));
 		transactionNumber.setTitle(Accounter.constants().invNo());
 		listforms = new ArrayList<DynamicForm>();
 
@@ -507,7 +496,8 @@ public class VendorBillView extends
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
@@ -647,13 +637,22 @@ public class VendorBillView extends
 				taxPanel.setCellHorizontalAlignment(form,
 						HasHorizontalAlignment.ALIGN_LEFT);
 			}
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText);
+			}
 
 		} else {
-			totalForm.setFields(transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				totalForm.setFields(transactionTotalNonEditableText);
+			}
 		}
 		taxPanel.add(totalForm);
 
@@ -785,7 +784,7 @@ public class VendorBillView extends
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
-
+		transactionTotalinForeignCurrency.hide();
 		settabIndexes();
 	}
 
@@ -1371,8 +1370,22 @@ public class VendorBillView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
+
 		vendorAccountTransactionTable.updateAmountsFromGUI();
 		vendorItemTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 
 }

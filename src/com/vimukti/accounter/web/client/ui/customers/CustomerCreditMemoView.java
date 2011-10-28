@@ -85,7 +85,6 @@ public class CustomerCreditMemoView extends
 		Label lab1 = new Label(Accounter.messages().customerCreditNote(
 				Global.get().Customer()));
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -128,7 +127,6 @@ public class CustomerCreditMemoView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(Accounter.messages()
@@ -136,7 +134,6 @@ public class CustomerCreditMemoView extends
 
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
-		// billToCombo = createBillToComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
@@ -163,8 +160,6 @@ public class CustomerCreditMemoView extends
 		phoneForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			phoneForm.setFields(locationCombo);
-		// phoneForm.setFields(phoneSelect, salesPersonCombo);
-		// phoneForm.setFields(salesPersonCombo);
 		phoneForm.setStyleName("align-form");
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -177,10 +172,6 @@ public class CustomerCreditMemoView extends
 		memoTextAreaItem.setTitle(Accounter.constants().reasonForIssue());
 
 		taxCodeSelect = createTaxCodeSelectItem();
-
-		// priceLevelSelect = createPriceLevelSelectItem();
-
-		// refText = createRefereceText();
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
@@ -274,23 +265,44 @@ public class CustomerCreditMemoView extends
 		form.setWidth("100%");
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-						disabletextbox, taxTotalNonEditableText,
-						disabletextbox, transactionTotalinBaseCurrency,
-						disabletextbox, transactionTotalinForeignCurrency);
+				if (isMultiCurrencyEnabled()) {
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							transactionTotalinBaseCurrency, disabletextbox,
+							transactionTotalinForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							transactionTotalinBaseCurrency);
+				}
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
-				form.setFields(taxCodeSelect, vatinclusiveCheck);
-				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-						disabletextbox, taxTotalNonEditableText,
-						disabletextbox, transactionTotalinBaseCurrency,
-						disabletextbox, transactionTotalinForeignCurrency);
+				if (isMultiCurrencyEnabled()) {
+					form.setFields(taxCodeSelect, vatinclusiveCheck);
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							transactionTotalinBaseCurrency, disabletextbox,
+							transactionTotalinForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(disabletextbox,
+							netAmountLabel, disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							transactionTotalinBaseCurrency);
+				}
 
 			}
 		} else {
-			prodAndServiceForm2.setFields(disabletextbox,
-					transactionTotalinBaseCurrency, disabletextbox,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				prodAndServiceForm2.setFields(disabletextbox,
+						transactionTotalinBaseCurrency, disabletextbox,
+						transactionTotalinForeignCurrency);
+			} else {
+				prodAndServiceForm2.setFields(disabletextbox,
+						transactionTotalinBaseCurrency);
+			}
 
 		}
 		prodAndServiceForm2.addStyleName("boldtext");
@@ -340,15 +352,12 @@ public class CustomerCreditMemoView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(mainPanel);
 
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();
 		} else {
 			memoTextAreaItem.setWidth("400px");
-			// refText.setWidth(130);
 		}
 
 		this.add(mainVLay);
@@ -360,6 +369,7 @@ public class CustomerCreditMemoView extends
 		listforms.add(prodAndServiceForm2);
 
 		settabIndexes();
+		transactionTotalinForeignCurrency.hide();
 	}
 
 	@Override
@@ -746,8 +756,7 @@ public class CustomerCreditMemoView extends
 			}
 		}
 
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -977,7 +986,21 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
+
 		customerAccountTransactionTable.updateAmountsFromGUI();
 		customerItemTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 }

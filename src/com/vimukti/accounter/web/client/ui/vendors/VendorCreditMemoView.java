@@ -81,8 +81,7 @@ public class VendorCreditMemoView extends
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
 		}
-		changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-				.getFormalName());
+		modifyForeignCurrencyTotalWidget();
 
 		if (vendor.getPhoneNo() != null)
 			phoneSelect.setValue(vendor.getPhoneNo());
@@ -216,7 +215,8 @@ public class VendorCreditMemoView extends
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
@@ -363,10 +363,14 @@ public class VendorCreditMemoView extends
 		bottomPanel.setWidth("100%");
 
 		if (isTrackTax() && isTrackPaidTax()) {
-
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalNonEditableText);
+			}
 
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
@@ -387,9 +391,12 @@ public class VendorCreditMemoView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout1.add(memoForm);
-
-			totalForm.setFields(transactionTotalNonEditableText,
-					transactionTotalinForeignCurrency);
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
+			} else {
+				totalForm.setFields(transactionTotalNonEditableText);
+			}
 
 			bottomLayout1.add(totalForm);
 
@@ -402,12 +409,9 @@ public class VendorCreditMemoView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay1);
-		// mainVLay.add(lab2);
 
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomPanel);
 
 		// if (UIUtils.isMSIEBrowser())
@@ -425,6 +429,8 @@ public class VendorCreditMemoView extends
 
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
+		transactionTotalinForeignCurrency.hide();
+
 		settabIndexes();
 	}
 
@@ -730,8 +736,21 @@ public class VendorCreditMemoView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		vendorAccountTransactionTable.updateAmountsFromGUI();
 		vendorItemTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalinForeignCurrency.hide();
+		} else {
+			transactionTotalinForeignCurrency.show();
+			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 
 }
