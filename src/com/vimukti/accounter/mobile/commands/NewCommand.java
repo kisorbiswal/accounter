@@ -61,7 +61,7 @@ public abstract class NewCommand extends Command {
 		}
 		Object selection = context.getSelection("actions");
 		if (selection != ActionNames.FINISH_COMMAND) {
-			beforeFinishing(makeResult);
+			beforeFinishing(context, makeResult);
 			return makeResult;
 		}
 
@@ -89,7 +89,7 @@ public abstract class NewCommand extends Command {
 		return null;
 	}
 
-	public void beforeFinishing(Result makeResult) {
+	public void beforeFinishing(Context context, Result makeResult) {
 	}
 
 	public String getFinishCommandString() {

@@ -64,7 +64,7 @@ public class SelectCompanyCommand extends Command {
 					Company company = companies.get(0);
 					companyReq.setValue(company);
 					makeResult.add("You have only '" + company.getDisplayName()
-							+ "' company is there.");
+							+ "' company.");
 					makeResult.add("It has been selected.");
 					makeResult.add("Press 'a' to create Another Company.");
 					CommandList commandList = new CommandList();

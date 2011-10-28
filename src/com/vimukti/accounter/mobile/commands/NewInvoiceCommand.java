@@ -343,7 +343,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		}
 
 		invoice.setTransactionItems(items);
-		updateTotals(invoice, true);
+		updateTotals(context, invoice, true);
 
 		create(invoice, context);
 
@@ -375,6 +375,16 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return getMessages().createSuccessfully(getConstants().invoice());
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		// TODO
+		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
+		double[] result = getTgransactionTotal(context, true, allrecords, true);
+		makeResult.add("Net Amount: " + result[0]);
+		makeResult.add("Total Tax: " + result[1]);
+		makeResult.add("Total: " + (result[0] + result[1]));
 	}
 
 }
