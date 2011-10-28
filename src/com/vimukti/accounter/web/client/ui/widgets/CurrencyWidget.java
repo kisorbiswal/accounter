@@ -24,7 +24,6 @@ public class CurrencyWidget extends DynamicForm {
 
 	private ClientCurrency baseCurrency, selectedCurrencyItem;
 	private List<ClientCurrency> currencies;
-	private boolean IsfactorFieldDisabled;
 
 	private boolean showFactorField;
 
@@ -33,8 +32,6 @@ public class CurrencyWidget extends DynamicForm {
 		this.currencies = currencies;
 		this.baseCurrency = baseCurrency;
 		// setNumCols(3);
-		currencyCombo = new CurrencyCombo("Currency :");
-		//currencyCombo.initCombo(currencies);
 		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
 		currencyCombo.initCombo(currencies);
 		if (baseCurrency != null) {
@@ -106,12 +103,7 @@ public class CurrencyWidget extends DynamicForm {
 			factorField.hide();
 			baseCurrencyLbl.hide();
 		} else {
-			// show the fields
-			if (!getFormItems().contains(factorField)) {
-				setFields(factorField, baseCurrencyLbl);
-				factorField.setDisabled(IsfactorFieldDisabled);
-			}
-
+			// show the field
 			factorField.show();
 			baseCurrencyLbl.show();
 
@@ -131,7 +123,7 @@ public class CurrencyWidget extends DynamicForm {
 
 	public void setCurrencies(List<ClientCurrency> currencies) {
 		this.currencies = currencies;
-		//currencyCombo.initCombo(this.currencies);
+		currencyCombo.initCombo(this.currencies);
 	}
 
 	private void updateFactorFieldTitle() {
@@ -174,13 +166,6 @@ public class CurrencyWidget extends DynamicForm {
 
 	public void setShowFactorField(boolean showFactorField) {
 		this.showFactorField = showFactorField;
-	}
-	@Override
-	public void setDisabled(boolean isDisabled) {
-		 this.IsfactorFieldDisabled= isDisabled;
-		 currencyCombo.setDisabled(isDisabled);
-		 factorField.setDisabled(isDisabled);
-		 
 	}
 
 }
