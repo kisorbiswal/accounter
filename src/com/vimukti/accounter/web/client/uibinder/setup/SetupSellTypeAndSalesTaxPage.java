@@ -183,6 +183,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices) {
 			totalPanel.setVisible(false);
 		}
+		if (sellProducts || sellServices) {
+			totalPanel.setVisible(true);
+		}
 		if (preferences.isInventoryEnabled()) {
 			inventoryCheckBox.setValue(true);
 			hiddenPanel.setVisible(true);
@@ -207,10 +210,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		preferences.setTaxPerDetailLine(oneperdetaillineRadioButton.getValue());
 		preferences.setTrackPaidTax(enableTaxCheckbox.getValue());
 		preferences.setInventoryEnabled(inventoryCheckBox.getValue());
+		preferences.setInventoryEnabled(inventoryCheckBox.getValue());
 		if (inventoryCheckBox.getValue()) {
-			preferences.setwareHouseEnabled(true);
-		} else {
-			preferences.setwareHouseEnabled(false);
+			preferences.setwareHouseEnabled(warehousesCheckBox.getValue());
 		}
 	}
 
