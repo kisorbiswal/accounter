@@ -18,7 +18,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.News;
@@ -295,7 +295,9 @@ public class NewLoginServlet extends BaseServlet {
 	private void showLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 		String news = getNews();
+		request.setAttribute("news", news);
 		dispatch(request, response, LOGIN_VIEW);
+		System.out.println("NEWS------>" + news);
 		return;
 	}
 
@@ -306,7 +308,7 @@ public class NewLoginServlet extends BaseServlet {
 			@SuppressWarnings("unchecked")
 			List<News> list = session.getNamedQuery("getNews").list();
 
-			XStream xstream = new XStream(new JettisonMappedXmlDriver());
+			XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
 			xstream.setMode(XStream.NO_REFERENCES);
 			xstream.alias("news", News.class);
 
