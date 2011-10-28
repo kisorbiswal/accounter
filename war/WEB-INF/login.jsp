@@ -43,12 +43,7 @@
    <% } %>
 </head>
 	<body>
-	<table id="commanContainer">
-	<td>
 	 
-	</td>
-	
-	<td>
 	     <div id="commanContainer">
 			   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/>
 			   <c:if test="${message != null}">
@@ -81,9 +76,14 @@
 			    <div class="form-bottom-options">
 			      <a href="/main/signup" id="signUp-link1" tabindex="6"> Sign up Accounter?</a>
 			   </div>
+			   
+			   <form id="openIdForm" method="post" action="/main/openid">
+			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" id="openIdLink" tabindex="5"> Sign in with Google </a>
+			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com"  tabindex="6"> Sign in with Yahoo</a>
+			   <a href ="/main/openid?openid_identifier=https://openid.aol.com"  tabindex="6"> Sign in with AOL</a>
+			   </form>
 			</div>
-			</td>
-	</table>
+			
 		
 	     <!-- Footer Section-->
 		
