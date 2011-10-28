@@ -173,7 +173,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		if (sellServices) {
 			totalPanel.setVisible(false);
 		}
-		if (sellProducts && sellServices) {
+		if ((sellProducts && sellServices) || sellProducts) {
 			totalPanel.setVisible(true);
 		}
 		if (getCompanyPreferences().isInventoryEnabled()) {
