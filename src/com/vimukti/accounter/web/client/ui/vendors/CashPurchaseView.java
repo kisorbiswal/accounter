@@ -205,8 +205,8 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -413,7 +413,8 @@ public class CashPurchaseView extends
 
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		mainVLay.add(inventoryDisclosurePanel);
+		if (getCompany().getPreferences().isInventoryEnabled())
+			mainVLay.add(inventoryDisclosurePanel);
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
@@ -527,8 +528,7 @@ public class CashPurchaseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -572,12 +572,12 @@ public class CashPurchaseView extends
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 
@@ -698,8 +698,7 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID()
-						: 0);
+						.getSelectedValue().getID() : 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -779,15 +778,15 @@ public class CashPurchaseView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -798,8 +797,8 @@ public class CashPurchaseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
