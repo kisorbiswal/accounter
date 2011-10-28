@@ -555,5 +555,17 @@
 		<servlet-name>OpenIdServlet </servlet-name>
 		<url-pattern>/main/openid</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>openIdSignupServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.SignupOpenIdServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>openIdSignupServlet </servlet-name>
+		<url-pattern>/main/openidsignup</url-pattern>
+	</servlet-mapping>
 
 </web-app>

@@ -14,7 +14,7 @@
         <c:forEach var="parameter" items="${message.parameterMap}">
         <input type="hidden" name="${parameter.key}" value="${parameter.value}"/>
         </c:forEach>
-        <button type="submit">Continue...</button>
+        <input type="hidden">Loading...</input>
     </form>
     <%@ include file="./scripts.jsp" %>
 </body>
