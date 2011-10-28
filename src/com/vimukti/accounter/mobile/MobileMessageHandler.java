@@ -45,12 +45,13 @@ public class MobileMessageHandler {
 
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 
-			UserMessage preProcess = adoptor.preProcess(session, message,
+			UserMessage userMessage = adoptor.preProcess(session, message,
 					userId, networkId, networkType);
 			Result result = getCommandProcessor().handleMessage(session,
-					preProcess);
+					userMessage);
 			boolean hasNextCommand = true;
-			if (preProcess.getCommand().isDone()) {
+			if (userMessage.getCommand() != null
+					&& userMessage.getCommand().isDone()) {
 				String nextCommand = result.getNextCommand();
 				if (nextCommand == null) {
 					session.refreshCurrentCommand();
