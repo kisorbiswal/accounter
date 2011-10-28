@@ -56,14 +56,17 @@ public class CustomerContactRequirement extends
 		}
 
 		List<ClientContact> clientContacts = getValue();
-		if (attribute == null || !attribute.equals(getName())) {
-			Record e = new Record(getName());
-			e.add("", "Contacts");
-			e.add("", clientContacts.size() + " Contact(s)");
-			list.add(e);
-			return null;
+		String attr = (String) context.getAttribute(INPUT_ATTR);
+		if (attr != getName()) {
+			if (attribute == null || !attribute.equals(getName())) {
+				Record e = new Record(getName());
+				e.add("", "Contacts");
+				e.add("", clientContacts.size() + " Contact(s)");
+				list.add(e);
+				return null;
+			}
 		}
-
+		context.setAttribute(INPUT_ATTR, getName());
 		Result result = new Result();
 
 		ResultList contactsList = new ResultList(getName());
