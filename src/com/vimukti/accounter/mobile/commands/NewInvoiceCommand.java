@@ -25,7 +25,6 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -127,6 +126,12 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				return new ArrayList<ClientContact>(
 						((ClientCustomer) NewInvoiceCommand.this.get(CUSTOMER)
 								.getValue()).getContacts());
+			}
+
+			@Override
+			protected String getContactHolderName() {
+				return ((ClientCustomer) get(CUSTOMER).getValue())
+						.getDisplayName();
 			}
 		});
 
