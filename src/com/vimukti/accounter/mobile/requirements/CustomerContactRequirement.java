@@ -78,10 +78,7 @@ public class CustomerContactRequirement extends
 		}
 		for (ClientContact clientContact : clientContacts) {
 			Record record = new Record(clientContact);
-			record.add("",
-					clientContact.getName() + "-" + clientContact.getTitle()
-							+ "-" + clientContact.getBusinessPhone() + "-"
-							+ clientContact.getEmail());
+			record.add("", clientContact.toString());
 			contactsList.add(record);
 		}
 		result.add(contactsList);
