@@ -901,6 +901,11 @@ public class VendorBillView extends
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
+
+		if (getCompany().getPreferences().isInventoryEnabled()
+				&& getCompany().getPreferences().iswareHouseEnabled())
+			transaction.setWareHouseAllocations(inventoryTransactionTable
+					.getAllRows());
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 	}
