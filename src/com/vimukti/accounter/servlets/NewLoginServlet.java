@@ -297,7 +297,6 @@ public class NewLoginServlet extends BaseServlet {
 		String news = getNews();
 		request.setAttribute("news", news);
 		dispatch(request, response, LOGIN_VIEW);
-		System.out.println("NEWS------>" + news);
 		return;
 	}
 
