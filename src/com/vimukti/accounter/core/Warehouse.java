@@ -91,7 +91,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
-		super.onSave(s);
+		super.onUpdate(s);
 		return false;
 	}
 
@@ -119,5 +119,28 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	public void setDefaultWarehouse(boolean isDefaultWarehouse) {
 		this.isDefaultWarehouse = isDefaultWarehouse;
+	}
+
+	public void updateItemStatus(Item item, Quantity quantity, boolean substract) {
+		ItemStatus itemStatus = getItemStatus(item);
+		if (itemStatus != null) {
+			Quantity tempQ = itemStatus.getQuantity();
+			if (substract) {
+				itemStatus.getQuantity().setValue(
+						tempQ.getValue() - quantity.getValue());
+			} else {
+				itemStatus.getQuantity().setValue(
+						tempQ.getValue() + quantity.getValue());
+			}
+		}
+	}
+
+	public ItemStatus getItemStatus(Item item) {
+		for (ItemStatus itemStatus : itemStatuses) {
+			if (itemStatus.getItem().equals(item)) {
+				return itemStatus;
+			}
+		}
+		return null;
 	}
 }

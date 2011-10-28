@@ -214,6 +214,8 @@ public abstract class Transaction extends CreatableObject implements
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
 
+	List<WareHouseAllocation> wareHouseAllocations;
+
 	// For UK version only
 	boolean amountsIncludeVAT;
 	transient protected boolean isOnSaveProccessed;
@@ -1300,5 +1302,14 @@ public abstract class Transaction extends CreatableObject implements
 
 	public void setCurrencyFactor(double currencyFactor) {
 		this.currencyFactor = currencyFactor;
+	}
+
+	public List<WareHouseAllocation> getWareHouseAllocations() {
+		return wareHouseAllocations;
+	}
+
+	public void setWareHouseAllocations(
+			List<WareHouseAllocation> wareHouseAllocations) {
+		this.wareHouseAllocations = wareHouseAllocations;
 	}
 }

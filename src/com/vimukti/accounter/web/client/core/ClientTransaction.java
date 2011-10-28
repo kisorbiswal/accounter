@@ -92,6 +92,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	List<ClientTransactionReceivePayment> transactionReceivePayment;
 	List<ClientTransactionIssuePayment> transactionIssuePayment;
 	List<ClientTransactionPayTAX> transactionPaySalesTax;
+	List<ClientWareHouseAllocation> wareHouseAllocations;
 
 	// ClientCreditsAndPayments creditsAndPayments;
 
@@ -893,5 +894,14 @@ public abstract class ClientTransaction implements IAccounterCore {
 			}
 		}
 		return false;
+	}
+
+	public List<ClientWareHouseAllocation> getWareHouseAllocations() {
+		return wareHouseAllocations;
+	}
+
+	public void setWareHouseAllocations(
+			List<ClientWareHouseAllocation> wareHouseAllocations) {
+		this.wareHouseAllocations = wareHouseAllocations;
 	}
 }
