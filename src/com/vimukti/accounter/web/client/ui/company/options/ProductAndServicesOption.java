@@ -174,6 +174,9 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		if (sellServices) {
 			totalPanel.setVisible(false);
 		}
+		if (sellProducts || sellServices) {
+			totalPanel.setVisible(true);
+		}
 		if (getCompanyPreferences().isInventoryEnabled()) {
 			inventoryCheckBox.setValue(true);
 			hiddenPanel
