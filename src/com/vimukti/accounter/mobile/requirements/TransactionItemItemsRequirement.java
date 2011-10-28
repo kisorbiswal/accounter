@@ -101,7 +101,7 @@ public abstract class TransactionItemItemsRequirement extends
 				transactionItem.setDescription(context.getString());
 			}
 		}
-		
+
 		Object selection = context.getSelection(ITEM_DETAILS);
 		if (selection != null) {
 			if (selection.equals(QUANTITY)) {
@@ -110,17 +110,15 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().quantity())
-								+ " of " + getItemDisplayValue(transactionItem),
-						transactionItem.getQuantity().getValue());
+								getConstants().quantity()), transactionItem
+								.getQuantity().getValue());
 			} else if (selection.equals(UNIT_PRICE)) {
 				context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
 				return amount(
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().unitPrice())
-								+ " of " + getItemDisplayValue(transactionItem),
+								getConstants().unitPrice()),
 						transactionItem.getUnitPrice());
 			} else if (selection.equals(DISCOUNT)) {
 				context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
@@ -128,8 +126,7 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().discount())
-								+ " of " + getItemDisplayValue(transactionItem),
+								getConstants().discount()),
 						transactionItem.getDiscount());
 			} else if (selection.equals(TAXCODE)) {
 				context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
@@ -137,9 +134,8 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().taxCode())
-								+ " for "
-								+ getItemDisplayValue(transactionItem), null);
+								getConstants().taxCode()), null,
+						getItemDisplayValue(transactionItem));
 			} else if (selection.equals(TAX)) {
 				transactionItem.setTaxable(!transactionItem.isTaxable());
 			} else if (selection.equals(DESCRIPTION)) {
@@ -148,9 +144,7 @@ public abstract class TransactionItemItemsRequirement extends
 						context,
 						getMessages().pleaseEnterThe(
 								getItemName(transactionItem),
-								getConstants().description())
-								+ " for "
-								+ getItemDisplayValue(transactionItem),
+								getConstants().description()),
 						transactionItem.getDescription());
 			}
 		} else {
@@ -164,7 +158,8 @@ public abstract class TransactionItemItemsRequirement extends
 								.isTaxPerDetailLine()
 						&& transactionItem.getTaxCode() == 0) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(context, "", null);
+					return taxCode(context, "", null,
+							getItemDisplayValue(transactionItem));
 				}
 				context.removeAttribute(PROCESS_ATTR);
 				context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);

@@ -82,7 +82,11 @@ public abstract class TransactionItemAccountsRequirement extends
 				}
 			} else if (lineAttr.equals(TAXCODE)) {
 				ClientTAXCode taxCode = context.getSelection(TAXCODE);
-				transactionItem.setTaxCode(taxCode.getID());
+				if (taxCode != null) {
+					transactionItem.setTaxCode(taxCode.getID());
+				} else {
+					context.putSelection(ITEM_DETAILS, TAXCODE);
+				}
 			} else if (lineAttr.equals(DESCRIPTION)) {
 				transactionItem.setDescription(context.getString());
 			}
@@ -113,7 +117,8 @@ public abstract class TransactionItemAccountsRequirement extends
 									getItemName(transactionItem),
 									getConstants().taxCode()),
 							getClientCompany().getTAXCode(
-									transactionItem.getTaxCode()));
+									transactionItem.getTaxCode()),
+							getItemDisplayValue(transactionItem));
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
@@ -148,7 +153,8 @@ public abstract class TransactionItemAccountsRequirement extends
 										getItemName(transactionItem),
 										getConstants().taxCode()),
 								getClientCompany().getTAXCode(
-										transactionItem.getTaxCode()));
+										transactionItem.getTaxCode()),
+								getItemDisplayValue(transactionItem));
 					}
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);

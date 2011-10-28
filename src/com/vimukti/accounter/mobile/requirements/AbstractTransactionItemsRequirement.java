@@ -170,7 +170,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 	}
 
 	protected Result taxCode(Context context, String displayName,
-			ClientTAXCode oldCode) {
+			ClientTAXCode oldCode, String itemName) {
 		Result result = context.makeResult();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		context.setAttribute(INPUT_ATTR, getName());
@@ -194,7 +194,8 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 			if (oldCode != null) {
 				oldRecords.add(oldCode);
 			}
-			return displayRecords2(context, lists, result, 5, oldRecords);
+			return displayRecords2(context, lists, result, 5, oldRecords,
+					itemName);
 		}
 
 		Object selection = context.getSelection(ACTIONS);
@@ -229,11 +230,12 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		if (oldCode != null) {
 			oldRecords.add(oldCode);
 		}
-		return displayRecords2(context, lists, result, 5, oldRecords);
+		return displayRecords2(context, lists, result, 5, oldRecords, itemName);
 	}
 
 	private Result displayRecords2(Context context, List<ClientTAXCode> lists,
-			Result result, int recordsToShow, List<ClientTAXCode> oldRecords) {
+			Result result, int recordsToShow, List<ClientTAXCode> oldRecords,
+			String itemName) {
 		ResultList customerList = new ResultList(TAXCODES);
 		Object last = context.getLast(RequirementType.CUSTOMER);
 		List<ClientTAXCode> skipCustomers = new ArrayList<ClientTAXCode>();
@@ -264,7 +266,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		int size = customerList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select a Tax Code");
+			message.append("Select a Tax Code for " + itemName);
 		} else {
 			message.append("No Tax Codes");
 		}
