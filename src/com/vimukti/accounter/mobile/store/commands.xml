@@ -34,7 +34,6 @@
 		<alias>Create Invoice</alias>
 		<alias>Add Invoice</alias>
 		<alias>Create New Invoice</alias>
-		<alias>Invoice</alias>
 	</command>
 
 	<command clazz="NewVendorGroupCommand" name="New Vendor Group">
@@ -463,7 +462,6 @@
 		<alias>create Customer</alias>
 		<alias>Add Customer</alias>
 		<alias>New Customer</alias>
-		<alias>Customer</alias>
 	</command>
 
 	<command clazz="NewCreditRatingCommand" name="New CreditRating">
