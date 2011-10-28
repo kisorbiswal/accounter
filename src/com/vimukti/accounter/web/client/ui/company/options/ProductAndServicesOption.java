@@ -176,7 +176,8 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		}
 		if (getCompanyPreferences().isInventoryEnabled()) {
 			inventoryCheckBox.setValue(true);
-			hiddenPanel.setVisible(true);
+			hiddenPanel
+					.setVisible(getCompanyPreferences().iswareHouseEnabled());
 			warehousesCheckBox.setValue(getCompanyPreferences()
 					.iswareHouseEnabled());
 		} else {
