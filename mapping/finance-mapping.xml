@@ -565,7 +565,7 @@
 			<one-to-many class="BrandingTheme" />
 		</set>
 
-		<set name="warehouse" inverse="true" cascade="save-update,delete"
+		<set name="warehouses" inverse="true" cascade="save-update,delete"
 			order-by="ID">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Warehouse" />
