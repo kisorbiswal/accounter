@@ -9,8 +9,12 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class ActionRequirement extends AbstractRequirement<String> {
 
-	public ActionRequirement(String requirementName) {
+	private ChangeListner<String> listner;
+
+	public ActionRequirement(String requirementName,
+			ChangeListner<String> listner) {
 		super(requirementName, null, null, true, false);
+		this.listner = listner;
 	}
 
 	@Override
@@ -19,6 +23,9 @@ public abstract class ActionRequirement extends AbstractRequirement<String> {
 		String value = context.getSelection(getName());
 		if (value != null) {
 			setValue(value);
+			if (listner != null) {
+				listner.onSelection(value);
+			}
 			context.setString("");
 		}
 		ResultList resultList = new ResultList(getName());

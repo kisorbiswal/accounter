@@ -108,7 +108,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		} else if (selection == null) {
 			lists = getLists(context, name);
 			context.setAttribute("oldValue", name);
-			if (lists.size() != 0) {
+			if (!lists.isEmpty()) {
 				result.add("Found " + lists.size() + " record(s) with '" + name
 						+ "'.");
 			} else {

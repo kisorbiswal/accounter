@@ -137,7 +137,7 @@ public class AuthenticationCommand extends Command {
 		Session currentSession = HibernateUtil.getCurrentSession();
 		IMUser imUser = new IMUser();
 		imUser.setClient(client);
-		networkId = networkId.substring(0, networkId.lastIndexOf("/"));
+		// networkId = networkId.substring(0, networkId.lastIndexOf("/"));
 		imUser.setNetworkId(networkId);
 		imUser.setNetworkType(networkType);
 		Transaction beginTransaction = currentSession.beginTransaction();

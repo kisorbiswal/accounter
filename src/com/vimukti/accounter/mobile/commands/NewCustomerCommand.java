@@ -8,10 +8,13 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CreditRatingRequirement;
+import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerGroupRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -36,10 +39,6 @@ import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends NewAbstractCommand {
 
-	private static final String INPUT_ATTR = "input";
-	private static final int SALESPERSON_TO_SHOW = 5;
-	private static final int CREDITRATING_TO_SHOW = 5;
-	private static final int CUSTOMERGROUP_TO_SHOW = 5;
 	protected static final String NUMBER = "customerNumber";
 	protected static final String BALANCE = "balance";
 	private static final String PHONE = "phone";
@@ -72,6 +71,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	private static final String ADDRESS = "address";
 	private static final String SHIPPING_METHODS = "shippingMethod";
 	private static final String PAYMENT_TERMS = "paymentTerms";
+	private static final String CONTACT = "contact";
 
 	@Override
 	public String getId() {
@@ -283,7 +283,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PAN_NUM, "Please enter the pan number",
+		list.add(new NumberRequirement(PAN_NUM, "Please Enter the pan number",
 				"Pan Number", true, true));
 
 		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
@@ -298,6 +298,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new NumberRequirement(TIN_NUM, getMessages().pleaseEnter(
 				getConstants().tinNumber()), getConstants().tinNumber(), true,
 				true));
+
+		list.add(new CustomerContactRequirement(CONTACT));
+
 	}
 
 	// @Override
