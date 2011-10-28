@@ -155,6 +155,11 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 				transItems.remove(transactionItem);
 				context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
 			}
+
+			result = checkItemToEdit(context, transactionItem);
+			if (result != null) {
+				return result;
+			}
 			context.setAttribute(INPUT_ATTR, "");
 			addFirstMessage(context,
 					getDisplayValue(getTransactionItem(transactionItem))

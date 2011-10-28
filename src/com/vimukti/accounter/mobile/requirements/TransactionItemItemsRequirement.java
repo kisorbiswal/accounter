@@ -46,7 +46,8 @@ public abstract class TransactionItemItemsRequirement extends
 			if (transactionItemResult != null) {
 				return transactionItemResult;
 			}
-		} else if (context.getCompany().getPreferences().isTrackTax()
+		}
+		if (context.getCompany().getPreferences().isTrackTax()
 				&& context.getCompany().getPreferences().isTaxPerDetailLine()
 				&& transactionItem.getTaxCode() == 0) {
 			context.putSelection(ITEM_DETAILS, TAXCODE);
