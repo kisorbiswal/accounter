@@ -165,6 +165,12 @@ public abstract class TransactionItemAccountsRequirement extends
 				}
 			}
 		}
+
+		Result chekResult = checkItemToEdit(context, transactionItem);
+		if (chekResult != null) {
+			return chekResult;
+		}
+
 		ResultList list = new ResultList(ITEM_DETAILS);
 		Record record = new Record(AMOUNT);
 		record.add("", getConstants().amount());
@@ -248,7 +254,8 @@ public abstract class TransactionItemAccountsRequirement extends
 			if (transactionItemResult != null) {
 				return transactionItemResult;
 			}
-		} else if (context.getCompany().getPreferences().isTrackTax()
+		}
+		if (context.getCompany().getPreferences().isTrackTax()
 				&& context.getCompany().getPreferences().isTaxPerDetailLine()
 				&& transactionItem.getTaxCode() == 0) {
 			context.putSelection(ITEM_DETAILS, TAXCODE);

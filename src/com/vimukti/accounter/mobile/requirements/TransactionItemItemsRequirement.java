@@ -169,6 +169,11 @@ public abstract class TransactionItemItemsRequirement extends
 				return null;
 			}
 		}
+
+		Result chekResult = checkItemToEdit(context, transactionItem);
+		if (chekResult != null) {
+			return chekResult;
+		}
 		ResultList list = new ResultList(ITEM_DETAILS);
 		Record record = new Record(QUANTITY);
 		record.add("", "Quantity:");
@@ -225,7 +230,8 @@ public abstract class TransactionItemItemsRequirement extends
 		transactionItem
 				.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 						* disc / 100)) : lt);
-		if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (context.getCompany().getPreferences().isTrackTax()
+				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
 			double salesTaxRate = getClientCompany().getTAXCode(
 					transactionItem.getTaxCode()).getSalesTaxRate();
 			transactionItem
