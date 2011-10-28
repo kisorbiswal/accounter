@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -172,6 +173,17 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
 				getConstants().taxCode()), getConstants().taxCode(), false,
 				true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& !getClientCompany().getPreferences()
+								.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<ClientTAXCode> getLists(Context context) {

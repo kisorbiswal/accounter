@@ -24,6 +24,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 	protected static final String OLD_TRANSACTION_ITEM_ATTR = "oldTransactionItemAttr";
 
 	protected static final String PROCESS_ATTR = "processAttr";
+	protected static final String TAXCODES = "taxcodes";
 
 	public AbstractTransactionItemsRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
@@ -233,7 +234,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 	private Result displayRecords2(Context context, List<ClientTAXCode> lists,
 			Result result, int recordsToShow, List<ClientTAXCode> oldRecords) {
-		ResultList customerList = new ResultList(getName());
+		ResultList customerList = new ResultList(TAXCODES);
 		Object last = context.getLast(RequirementType.CUSTOMER);
 		List<ClientTAXCode> skipCustomers = new ArrayList<ClientTAXCode>();
 		if (last != null) {
