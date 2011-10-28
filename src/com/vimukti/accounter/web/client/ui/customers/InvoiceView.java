@@ -65,8 +65,8 @@ import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
-import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerInventoryItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.WarehouseAllocationTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -98,7 +98,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			balanceDueNonEditableText, paymentsNonEditableText,
 			salesTaxTextNonEditable;
 
-	private CustomerInventoryItemTransactionTable table;
+	private WarehouseAllocationTable table;
 	private DisclosurePanel inventoryDisclosurePanel;
 
 	private AmountLabel transactionTotalinForeignCurrency,
@@ -695,20 +695,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		mainVLay.add(customerTransactionTable);
 		mainVLay.add(itemTableButton);
 		// Inventory table..
-		table = new CustomerInventoryItemTransactionTable(isTrackTax(),
-				isTaxPerDetailLine(), this) {
-
-			@Override
-			public boolean isShowPriceWithVat() {
-				return InvoiceView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			public void updateNonEditableItems() {
-				InvoiceView.this.updateNonEditableItems();
-			}
-
-		};
+		table = new WarehouseAllocationTable();
 		table.setDesable(isInViewMode());
 
 		FlowPanel inventoryFlowPanel = new FlowPanel();
@@ -716,7 +703,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		inventoryFlowPanel.add(table);
 		inventoryDisclosurePanel.setContent(inventoryFlowPanel);
 		inventoryDisclosurePanel.setWidth("100%");
-		if (getCompany().getPreferences().isInventoryEnabled())
+		if (getCompany().getPreferences().isInventoryEnabled()
+				&& getCompany().getPreferences().iswareHouseEnabled())
 			mainVLay.add(inventoryDisclosurePanel);
 		// ---Inverntory table-----
 
