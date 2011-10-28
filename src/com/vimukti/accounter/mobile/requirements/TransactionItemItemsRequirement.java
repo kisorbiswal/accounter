@@ -94,77 +94,81 @@ public abstract class TransactionItemItemsRequirement extends
 				ClientTAXCode taxCode = context.getSelection(TAXCODES);
 				if (taxCode != null) {
 					transactionItem.setTaxCode(taxCode.getID());
-				}
-			} else if (lineAttr.equals(DESCRIPTION)) {
-				transactionItem.setDescription(context.getString());
-			}
-		} else {
-			Object selection = context.getSelection(ITEM_DETAILS);
-			if (selection != null) {
-				if (selection.equals(QUANTITY)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, QUANTITY);
-					return amount(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().quantity()), transactionItem
-									.getQuantity().getValue());
-				} else if (selection.equals(UNIT_PRICE)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
-					return amount(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().unitPrice()),
-							transactionItem.getUnitPrice());
-				} else if (selection.equals(DISCOUNT)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().discount()),
-							transactionItem.getDiscount());
-				} else if (selection.equals(TAXCODE)) {
+				} else {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
 					return taxCode(
 							context,
 							getMessages().pleaseEnterThe(
 									getItemName(transactionItem),
 									getConstants().taxCode()), null);
-				} else if (selection.equals(TAX)) {
-					transactionItem.setTaxable(!transactionItem.isTaxable());
-				} else if (selection.equals(DESCRIPTION)) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
-					return number(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().description()),
-							transactionItem.getDescription());
 				}
-			} else {
-				selection = context.getSelection(ACTIONS);
-				if (selection == ActionNames.FINISH_ITEM) {
-					if (transactionItem.getUnitPrice() == 0) {
-						context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
-						return amount(context, "",
-								transactionItem.getUnitPrice());
-					} else if (context.getCompany().getPreferences()
-							.isTrackTax()
-							&& context.getCompany().getPreferences()
-									.isTaxPerDetailLine()
-							&& transactionItem.getTaxCode() == 0) {
-						context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-						return taxCode(context, "", null);
-					}
-					context.removeAttribute(PROCESS_ATTR);
-					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
-					return null;
-				} else if (selection == ActionNames.DELETE_ITEM) {
-					context.removeAttribute(PROCESS_ATTR);
-					return null;
+			} else if (lineAttr.equals(DESCRIPTION)) {
+				transactionItem.setDescription(context.getString());
+			}
+		}
+		Object selection = context.getSelection(ITEM_DETAILS);
+		if (selection != null) {
+			if (selection.equals(QUANTITY)) {
+				context.setAttribute(ITEM_PROPERTY_ATTR, QUANTITY);
+				return amount(
+						context,
+						getMessages().pleaseEnterThe(
+								getItemName(transactionItem),
+								getConstants().quantity()), transactionItem
+								.getQuantity().getValue());
+			} else if (selection.equals(UNIT_PRICE)) {
+				context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
+				return amount(
+						context,
+						getMessages().pleaseEnterThe(
+								getItemName(transactionItem),
+								getConstants().unitPrice()),
+						transactionItem.getUnitPrice());
+			} else if (selection.equals(DISCOUNT)) {
+				context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
+				return amount(
+						context,
+						getMessages().pleaseEnterThe(
+								getItemName(transactionItem),
+								getConstants().discount()),
+						transactionItem.getDiscount());
+			} else if (selection.equals(TAXCODE)) {
+				context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
+				return taxCode(
+						context,
+						getMessages().pleaseEnterThe(
+								getItemName(transactionItem),
+								getConstants().taxCode()), null);
+			} else if (selection.equals(TAX)) {
+				transactionItem.setTaxable(!transactionItem.isTaxable());
+			} else if (selection.equals(DESCRIPTION)) {
+				context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
+				return number(
+						context,
+						getMessages().pleaseEnterThe(
+								getItemName(transactionItem),
+								getConstants().description()),
+						transactionItem.getDescription());
+			}
+		} else {
+			selection = context.getSelection(ACTIONS);
+			if (selection == ActionNames.FINISH_ITEM) {
+				if (transactionItem.getUnitPrice() == 0) {
+					context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
+					return amount(context, "", transactionItem.getUnitPrice());
+				} else if (context.getCompany().getPreferences().isTrackTax()
+						&& context.getCompany().getPreferences()
+								.isTaxPerDetailLine()
+						&& transactionItem.getTaxCode() == 0) {
+					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
+					return taxCode(context, "", null);
 				}
+				context.removeAttribute(PROCESS_ATTR);
+				context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
+				return null;
+			} else if (selection == ActionNames.DELETE_ITEM) {
+				context.removeAttribute(PROCESS_ATTR);
+				return null;
 			}
 		}
 		ResultList list = new ResultList(ITEM_DETAILS);
@@ -218,7 +222,8 @@ public abstract class TransactionItemItemsRequirement extends
 		result.add(list);
 
 		if (getClientCompany().getPreferences().isTaxPerDetailLine()) {
-			result.add(getConstants().vat() + transactionItem.getVATfraction());
+			result.add(getConstants().vat() + ": "
+					+ transactionItem.getVATfraction());
 		}
 
 		double lt = transactionItem.getQuantity().getValue()
@@ -227,7 +232,7 @@ public abstract class TransactionItemItemsRequirement extends
 		transactionItem
 				.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 						* disc / 100)) : lt);
-		result.add("Total" + transactionItem.getLineTotal());
+		result.add("Total: " + transactionItem.getLineTotal());
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
