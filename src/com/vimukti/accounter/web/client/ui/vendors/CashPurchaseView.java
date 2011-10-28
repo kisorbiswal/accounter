@@ -34,9 +34,9 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerInventoryItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.WarehouseAllocationTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -65,7 +65,7 @@ public class CashPurchaseView extends
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 	private CurrencyWidget currencyWidget;
-	private CustomerInventoryItemTransactionTable inventoryTransactionTable;
+	private WarehouseAllocationTable inventoryTransactionTable;
 	private DisclosurePanel inventoryDisclosurePanel;
 
 	public CashPurchaseView() {
@@ -294,20 +294,7 @@ public class CashPurchaseView extends
 		itemsDisclosurePanel.setWidth("100%");
 
 		// Inventory table..
-		inventoryTransactionTable = new CustomerInventoryItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
-
-			@Override
-			public boolean isShowPriceWithVat() {
-				return CashPurchaseView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			public void updateNonEditableItems() {
-				CashPurchaseView.this.updateNonEditableItems();
-			}
-
-		};
+		inventoryTransactionTable = new WarehouseAllocationTable();
 		inventoryTransactionTable.setDesable(isInViewMode());
 
 		FlowPanel inventoryFlowPanel = new FlowPanel();
@@ -413,7 +400,8 @@ public class CashPurchaseView extends
 
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		if (getCompany().getPreferences().isInventoryEnabled())
+		if (getCompany().getPreferences().isInventoryEnabled()
+				&& getCompany().getPreferences().iswareHouseEnabled())
 			mainVLay.add(inventoryDisclosurePanel);
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
