@@ -1532,9 +1532,9 @@ public interface AccounterConstants extends Constants {
 
 	public String get();
 
-	public String getAddMeasurementName();
+	public String addMeasurementName();
 
-	public String getAddUnitButton();
+	public String addUnitButton();
 
 	public String getCompanyFailed();
 
@@ -5131,4 +5131,10 @@ public interface AccounterConstants extends Constants {
 	public String tAXRefund();
 
 	public String taxItemExceptionDetailReport();
+
+	public String unitName();
+
+	public String measurementList();
+
+	public String defaultWare();
 }

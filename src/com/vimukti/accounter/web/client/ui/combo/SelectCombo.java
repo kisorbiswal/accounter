@@ -6,13 +6,17 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class SelectCombo extends CustomCombo<String> {
 
-
 	public SelectCombo(String title) {
 		super(title, false, 1);
 		super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompany(
 				title));
 	}
 
+	public SelectCombo(String title, boolean isAddNewRequired) {
+		super(title, isAddNewRequired, 1);
+		super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompany(
+				title));
+	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
@@ -39,7 +43,7 @@ public class SelectCombo extends CustomCombo<String> {
 	}
 
 	@Override
-	protected String getColumnData(String object,  int col) {
+	protected String getColumnData(String object, int col) {
 		switch (col) {
 		case 0:
 			return object.toString();
@@ -60,7 +64,7 @@ public class SelectCombo extends CustomCombo<String> {
 		comboItems.addAll(Arrays.asList(strings));
 	}
 
-	public int getSelectedIndex(){
+	public int getSelectedIndex() {
 		return comboItems.indexOf(selectedObject);
 	}
 }

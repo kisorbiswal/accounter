@@ -84,8 +84,9 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 		ClientQuantity quantity = new ClientQuantity();
 		quantity.setValue(value * conversionFactor);
 		if (unit != null)
-			quantity.setUnit(unit.getMeasurement().getDefaultUnit().getId());
+			// quantity.setUnit(unit.getMeasurement().getDefaultUnit().getId());
 
+			return quantity;
 		return quantity;
 	}
 

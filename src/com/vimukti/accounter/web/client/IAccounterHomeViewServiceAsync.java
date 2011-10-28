@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -365,5 +367,9 @@ public interface IAccounterHomeViewServiceAsync {
 	// For tds
 	public void getPayBillsByTDS(
 			AsyncCallback<ArrayList<ClientTDSInfo>> callback);
+
+	public void getWarehouses(AsyncCallback<ArrayList<ClientWarehouse>> callBack);
+
+	public void getAllUnits(AsyncCallback<ArrayList<ClientMeasurement>> callBack);
 
 }

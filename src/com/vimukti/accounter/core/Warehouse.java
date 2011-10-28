@@ -32,6 +32,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private Set<ItemStatus> itemStatuses;
 
 	private String name;
+	private String warehouseCode;
 	private Contact contact;
 	private boolean isDefaultWarehouse;
 
@@ -119,6 +120,14 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	public void setDefaultWarehouse(boolean isDefaultWarehouse) {
 		this.isDefaultWarehouse = isDefaultWarehouse;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
 	}
 
 	public void updateItemStatus(Item item, Quantity quantity, boolean substract) {

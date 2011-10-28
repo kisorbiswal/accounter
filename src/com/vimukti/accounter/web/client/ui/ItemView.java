@@ -29,11 +29,12 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ItemGroupCombo;
+import com.vimukti.accounter.web.client.ui.combo.MeasurementCombo;
 import com.vimukti.accounter.web.client.ui.combo.PurchaseItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesItemCombo;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -92,7 +93,9 @@ public class ItemView extends BaseView<ClientItem> {
 	String name;
 	private String itemName;
 
-	private SelectCombo measurement, wareHouse;
+	private MeasurementCombo measurement;
+
+	private WarehouseCombo wareHouse;
 
 	public ItemView(int type, boolean isGeneratedFromCustomer) {
 
@@ -204,7 +207,7 @@ public class ItemView extends BaseView<ClientItem> {
 			// else
 			// itemForm.setFields(nameText, skuText, weightText);
 		}
-		//itemForm.getCellFormatter().setWidth(0, 0, "185px");
+		// itemForm.getCellFormatter().setWidth(0, 0, "185px");
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
@@ -433,7 +436,7 @@ public class ItemView extends BaseView<ClientItem> {
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
-		//itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
+		// itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
 		purchaseInfoForm = UIUtils.form(Accounter.constants()
 				.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
@@ -507,6 +510,9 @@ public class ItemView extends BaseView<ClientItem> {
 		mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
+		mainVLay.add(getStockPanel());
+		mainVLay.setCellHorizontalAlignment(getStockPanel(),
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		this.add(mainVLay);
 
@@ -562,15 +568,16 @@ public class ItemView extends BaseView<ClientItem> {
 		listforms.add(stdCostForm);
 		listforms.add(itemInfoForm);
 		listforms.add(purchaseInfoForm);
+		listforms.add(getStockPanel());
 		settabIndexes();
 
 	}
 
-	private VerticalPanel getStockPanel() {
-		VerticalPanel stockPanel = new VerticalPanel();
+	private DynamicForm getStockPanel() {
+
 		DynamicForm stockForm = new DynamicForm();
-		measurement = new SelectCombo(Accounter.constants().measurement());
-		wareHouse = new SelectCombo(Accounter.constants().wareHouse());
+		measurement = new MeasurementCombo(Accounter.constants().measurement());
+		wareHouse = new WarehouseCombo(Accounter.constants().wareHouse());
 		minStock = new IntegerField(this, Accounter.constants()
 				.minStockAlertLevel());
 		maxStock = new IntegerField(this, Accounter.constants()
@@ -583,14 +590,13 @@ public class ItemView extends BaseView<ClientItem> {
 				.salesTaxRate());
 		purcahseTaxRate = new IntegerField(this, Accounter.constants()
 				.purchaseTaxRate());
+		stockForm.setNumCols(4);
 		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
 				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
 				purcahseTaxRate);
 
-		stockPanel.add(stockForm);
-		stockPanel.setWidth("100%");
-
-		return stockPanel;
+		stockForm.setWidth("98%");
+		return stockForm;
 	}
 
 	@Override

@@ -3,8 +3,8 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -19,31 +19,30 @@ public class ClientMeasurement implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ClientUnit defaultUnit;
-
 	private String desctiption;
 
 	private long id;
 
 	private String name;
-	private Set<ClientUnit> units;
+
+	private List<ClientUnit> units;
 
 	private int version;
 
-	/**
-	 * @return the defaultUnit
-	 */
-	public ClientUnit getDefaultUnit() {
-		return defaultUnit;
-	}
-
-	/**
-	 * @param defaultUnit
-	 *            the defaultUnit to set
-	 */
-	public void setDefaultUnit(ClientUnit defaultUnit) {
-		this.defaultUnit = defaultUnit;
-	}
+	// /**
+	// * @return the defaultUnit
+	// */
+	// public ClientUnit getDefaultUnit() {
+	// return defaultUnit;
+	// }
+	//
+	// /**
+	// * @param defaultUnit
+	// * the defaultUnit to set
+	// */
+	// public void setDefaultUnit(ClientUnit defaultUnit) {
+	// this.defaultUnit = defaultUnit;
+	// }
 
 	/**
 	 * @return the desctiption
@@ -93,7 +92,7 @@ public class ClientMeasurement implements IAccounterCore {
 	/**
 	 * @return the units
 	 */
-	public Set<ClientUnit> getUnits() {
+	public List<ClientUnit> getUnits() {
 		return units;
 	}
 
@@ -101,7 +100,7 @@ public class ClientMeasurement implements IAccounterCore {
 	 * @param units
 	 *            the units to set
 	 */
-	public void setUnits(Set<ClientUnit> units) {
+	public void setUnits(List<ClientUnit> units) {
 		this.units = units;
 	}
 
@@ -112,7 +111,17 @@ public class ClientMeasurement implements IAccounterCore {
 	 * @return
 	 */
 	public double getConversionFactor(String fromMeasure) {
-		return getConversionFactor(fromMeasure, defaultUnit.getType());
+		return getConversionFactor(fromMeasure, getDefaultUnitType());
+	}
+
+	private String getDefaultUnitType() {
+		for (ClientUnit unit : this.units) {
+			if (unit.isDefault()) {
+				return unit.getType();
+			} else
+				return "";
+		}
+		return null;
 	}
 
 	/**
@@ -158,8 +167,9 @@ public class ClientMeasurement implements IAccounterCore {
 	 * @param factor
 	 */
 	public void addUnit(String unitType, double factor) {
+		if (units == null)
+			units = new ArrayList<ClientUnit>();
 		ClientUnit unit = new ClientUnit(unitType, factor);
-		unit.setMeasurement(this);
 		units.add(unit);
 	}
 
@@ -190,7 +200,7 @@ public class ClientMeasurement implements IAccounterCore {
 
 	public ClientMeasurement clone() {
 		ClientMeasurement measurement = (ClientMeasurement) this.clone();
-		Set<ClientUnit> units = new HashSet<ClientUnit>();
+		List<ClientUnit> units = new ArrayList<ClientUnit>();
 		for (ClientUnit clientUnit : this.units) {
 			units.add(clientUnit.clone());
 		}
@@ -216,8 +226,8 @@ public class ClientMeasurement implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+
 	}
 
 }

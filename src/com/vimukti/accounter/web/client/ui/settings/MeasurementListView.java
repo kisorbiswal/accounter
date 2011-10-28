@@ -1,14 +1,12 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.vimukti.accounter.web.client.core.ClientWarehouse;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
-public class WarehouseListView extends BaseListView<ClientWarehouse> {
+public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	public void init() {
@@ -17,40 +15,40 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().warehouseList();
+		return Accounter.constants().measurementList();
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getWarehouses(this);
-
+		Accounter.createHomeService().getAllUnits(this);
 	}
 
 	@Override
 	protected void initGrid() {
-		grid = new WarehouseListGrid(false);
+		grid = new MeasurementsListGrid(false);
 		grid.init();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().warehouseList();
+		return Accounter.constants().measurementList();
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getWareHouseViewAction();
+		return ActionFactory.getAddMeasurementAction();
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().wareHouse();
+		return Accounter.constants().addNewMeasurement();
 	}
 
 	@Override
-	public void updateInGrid(ClientWarehouse objectTobeModified) {
+	public void updateInGrid(ClientMeasurement objectTobeModified) {
 		// TODO Auto-generated method stub
 
 	}
+
 }

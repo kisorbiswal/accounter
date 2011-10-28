@@ -3,26 +3,30 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
  * @author Srikanth.J
  * 
  */
-public class Measurement extends CreatableObject implements IAccounterCore {
+public class Measurement extends CreatableObject implements
+		IAccounterServerCore {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Unit defaultUnit;
+	// private Unit defaultUnit;
 
 	private String desctiption;
 
 	private String name;
+
 	private Set<Unit> units;
 
 	public Measurement() {
@@ -50,7 +54,17 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 	 * @return
 	 */
 	public double getConversionFactor(String fromMeasure) {
-		return getConversionFactor(fromMeasure, defaultUnit.getType());
+		return getConversionFactor(fromMeasure, getDefaultUnitType());
+	}
+
+	private String getDefaultUnitType() {
+		for (Unit unit : this.units) {
+			if (unit.isDefault()) {
+				return unit.getType();
+			} else
+				return "";
+		}
+		return null;
 	}
 
 	/**
@@ -68,9 +82,10 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 		return getFactor(fromUnit) / getFactor(toUnit);
 	}
 
-	public Unit getDefaultUnit() {
-		return defaultUnit;
-	}
+	//
+	// public Unit getDefaultUnit() {
+	// return defaultUnit;
+	// }
 
 	public String getDesctiption() {
 		return desctiption;
@@ -110,9 +125,9 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 	 *             defaultMeasurement may be null or not registered in this
 	 *             Unit.
 	 */
-	public void setDefaultUnit(Unit unit) {
-		this.defaultUnit = unit;
-	}
+	// public void setDefaultUnit(Unit unit) {
+	// this.defaultUnit = unit;
+	// }
 
 	public void setDesctiption(String desctiption) {
 		this.desctiption = desctiption;
@@ -123,32 +138,7 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 	}
 
 	@Override
-	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return "Measurement";
-	}
-
-	@Override
-	public void setID(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -163,4 +153,18 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 		return measurementClone;
 	}
 
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		for (Unit unit : this.units) {
+			unit.setMeasurement(this);
+		}
+		return super.onSave(session);
+	}
 }

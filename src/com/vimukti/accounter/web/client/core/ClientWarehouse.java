@@ -14,6 +14,7 @@ public class ClientWarehouse implements IAccounterCore {
 	private Set<ClientItemStatus> itemStatuses;
 
 	private String name;
+	private String warehouseCode;
 	private ClientContact contact;
 
 	private boolean isDefaultWarehouse;
@@ -137,6 +138,14 @@ public class ClientWarehouse implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
 	}
 }

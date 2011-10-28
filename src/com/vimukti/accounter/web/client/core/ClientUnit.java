@@ -11,12 +11,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientUnit implements Serializable, IsSerializable, Cloneable {
+public class ClientUnit implements IAccounterCore, Serializable,
+		IsSerializable, Cloneable {
 
 	private long id;
 	private ClientMeasurement measurement;
 	private String type;
 	private double factor;
+	private boolean isDefault;
 
 	/**
 	 * Creates new Instance
@@ -97,5 +99,58 @@ public class ClientUnit implements Serializable, IsSerializable, Cloneable {
 		ClientUnit unit = this.clone();
 		unit.measurement = this.measurement.clone();
 		return unit;
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getName() {
+		return type;
+	}
+
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.UNIT;
+	}
+
+	@Override
+	public void setID(long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientUnit";
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 }

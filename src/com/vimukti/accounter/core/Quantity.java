@@ -59,7 +59,7 @@ public class Quantity implements Comparable<Quantity> {
 		 */
 		Quantity resultQuantity = new Quantity();
 		if (unit != null) {
-			resultQuantity.setUnit(unit.getMeasurement().getDefaultUnit());
+			// resultQuantity.setUnit(unit.getMeasurement().getDefaultUnit());
 		}
 		resultQuantity.setValue(thisQuantity.getValue()
 				+ otherQuantity.getValue());
@@ -108,8 +108,8 @@ public class Quantity implements Comparable<Quantity> {
 		Quantity quantity = new Quantity();
 		quantity.setValue(value * conversionFactor);
 		if (unit != null)
-			quantity.setUnit(unit.getMeasurement().getDefaultUnit());
-
+			// quantity.setUnit(unit.getMeasurement().getDefaultUnit());
+			return quantity;
 		return quantity;
 	}
 

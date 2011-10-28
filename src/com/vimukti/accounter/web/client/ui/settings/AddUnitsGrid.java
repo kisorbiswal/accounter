@@ -1,115 +1,62 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientUnit;
-import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
-public class AddUnitsGrid extends ListGrid<ClientUnit> {
+public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 
-	private AddMeasurementView view;
-	boolean isEditMode;
-	private AccounterConstants settingsMessages = Accounter.constants();
-
-	public AddUnitsGrid(boolean isMultiSelectionEnable) {
-		super(false);
+	public AddUnitsGrid() {
 	}
 
-	@Override
-	protected int getColumnType(int index) {
-		switch (index) {
-		case 0:
-			return ListGrid.COLUMN_TYPE_TEXTBOX;
-		case 1:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
+	protected void addEmptyRecords() {
+		for (int i = 0; i < 4; i++) {
+			ClientUnit item = new ClientUnit();
+			add(item);
 		}
-		return 0;
 	}
 
 	@Override
-	public ValidationResult validateGrid() {
-		return new ValidationResult();
+	protected void initColumns() {
+		this.addColumn(new TextEditColumn<ClientUnit>() {
+
+			@Override
+			protected String getValue(ClientUnit row) {
+				return row.getType();
+			}
+
+			@Override
+			protected void setValue(ClientUnit row, String value) {
+				row.setType(value);
+				updateUnits(row);
+			}
+
+			@Override
+			protected String getColumnName() {
+				return Accounter.constants().unitName();
+			}
+		});
+		this.addColumn(new TextEditColumn<ClientUnit>() {
+
+			@Override
+			protected String getValue(ClientUnit row) {
+				return String.valueOf(row.getFactor());
+			}
+
+			@Override
+			protected void setValue(ClientUnit row, String value) {
+				row.setFactor(Double.parseDouble(value));
+				updateUnits(row);
+			}
+
+			@Override
+			protected String getColumnName() {
+				return Accounter.constants().getFactorName();
+			}
+
+		});
 	}
 
-	@Override
-	protected int getCellWidth(int index) {
-		return -1;
-	}
-
-	@Override
-	protected String[] getColumns() {
-		return new String[] { settingsMessages.getUnitName(),
-				settingsMessages.getFactorName() };
-	}
-
-	public void setView(AddMeasurementView addMeasurementView) {
-		this.view = addMeasurementView;
-	}
-
-	@Override
-	protected Object getColumnValue(ClientUnit obj, int col) {
-		switch (col) {
-		case 0:
-			return obj.getType();
-		case 1:
-			return obj.getFactor();
-		}
-		return "";
-	}
-
-	@Override
-	protected String[] getSelectValues(ClientUnit obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void onValueChange(ClientUnit obj, int index, Object value) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected boolean isEditable(ClientUnit obj, int row, int index) {
-		return true;
-	}
-
-	@Override
-	public void editComplete(ClientUnit item, Object value, int col) {
-		switch (col) {
-		case 0:
-			item.setType(value.toString());
-		case 1:
-			item.setFactor(Double.parseDouble(value.toString()));
-			break;
-		}
-		updateRecord(item, currentRow, col);
-		super.editComplete(item, value, col);
-		view.setDefaultComboValue(item);
-	}
-
-	@Override
-	protected void onClick(ClientUnit obj, int row, int index) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onDoubleClick(ClientUnit obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected int sort(ClientUnit obj1, ClientUnit obj2, int index) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void addData(ClientUnit obj) {
-		super.addData(obj);
-	}
-
+	public abstract void updateUnits(ClientUnit clientUnit);
 }

@@ -7,10 +7,17 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Measurement;
+import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class InventoryManager extends Manager {
 	public ArrayList<InvoicesList> getInvoiceList(long companyId)
@@ -123,6 +130,53 @@ public class InventoryManager extends Manager {
 		} catch (DAOException e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
+	}
+
+	public ArrayList<ClientMeasurement> getAllUnits(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("list.All.Units").setEntity(
+				"company", company);
+		List<Measurement> measurements = query.list();
+		if (measurements == null) {
+			return null;
+		}
+		ArrayList<ClientMeasurement> clientMeasurements = new ArrayList<ClientMeasurement>();
+		for (Measurement measurement : measurements) {
+			ClientMeasurement clientMeasurement;
+			try {
+				clientMeasurement = new ClientConvertUtil().toClientObject(
+						measurement, ClientMeasurement.class);
+				clientMeasurements.add(clientMeasurement);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientMeasurements;
+	}
+
+	public ArrayList<ClientWarehouse> getWarehouses(long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("list.Warehouse").setEntity(
+				"company", company);
+		List<Warehouse> warehouses = query.list();
+		if (warehouses == null) {
+			return null;
+		}
+		ArrayList<ClientWarehouse> clientWarehouses = new ArrayList<ClientWarehouse>();
+		for (Warehouse warehouse : warehouses) {
+			ClientWarehouse clientWarehouse;
+			try {
+				clientWarehouse = new ClientConvertUtil().toClientObject(
+						warehouse, ClientWarehouse.class);
+				clientWarehouses.add(clientWarehouse);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientWarehouses;
+
 	}
 
 }

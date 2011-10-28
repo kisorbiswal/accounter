@@ -167,7 +167,7 @@ import com.vimukti.accounter.web.client.ui.settings.DeleteThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.GeneralSettingsAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
-import com.vimukti.accounter.web.client.ui.settings.MeasurementAction;
+import com.vimukti.accounter.web.client.ui.settings.MeasurementListAction;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.StockSettingsAction;
 import com.vimukti.accounter.web.client.ui.settings.UsersAction;
@@ -1253,12 +1253,12 @@ public class ActionFactory {
 				selectedTab);
 	}
 
-	public static MeasurementAction getMeasurementsAction() {
-		return new MeasurementAction(messages.measurement());
+	public static MeasurementListAction getMeasurementsAction() {
+		return new MeasurementListAction(messages.measurement());
 	}
 
 	public static AddMeasurementAction getAddMeasurementAction() {
-		return new AddMeasurementAction(messages.getAddMeasurementName());
+		return new AddMeasurementAction(messages.addMeasurementName());
 	}
 
 	public static NewCurrencyAction getNewCurrencyAction() {

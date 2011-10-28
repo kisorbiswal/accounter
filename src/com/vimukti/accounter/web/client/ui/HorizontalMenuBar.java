@@ -83,6 +83,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					getReportMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
+
+		menuitem = menuBar.addItem(Accounter.constants().inventory(),
+				getInventoryMenu());
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+
 		// menuBar.addItem(Accounter.constants().help(),
 		// getHelpMenu());
 		if (Accounter.getUser().canChangeSettings()) {
@@ -90,9 +95,6 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					getSettingsMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
-
-		menuitem = menuBar.addItem(Accounter.constants().inventory(),
-				getInventoryMenu());
 
 		//
 		// if (!GWT.isScript()) {
@@ -107,12 +109,40 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	}
 
 	private CustomMenuBar getInventoryMenu() {
+
 		CustomMenuBar settingsMenuBar = new CustomMenuBar();
-		settingsMenuBar.addItem(ActionFactory.getWareHouseViewAction());
 		settingsMenuBar.addItem(ActionFactory.getStockSettingsAction());
-		settingsMenuBar.addItem(ActionFactory.getMeasurementsAction());
-		settingsMenuBar.addItem(ActionFactory.getInventoryItemsAction());
+		settingsMenuBar.addItem(Accounter.constants().new1(),
+				getNewInventoryMenu());
+		settingsMenuBar.addItem(Accounter.constants().InventoryLists(),
+				getInventoryListsMenu());
+
 		return settingsMenuBar;
+
+	}
+
+	private CustomMenuBar getInventoryListsMenu() {
+		CustomMenuBar inventoryMenu = new CustomMenuBar();
+		inventoryMenu.addItem(Accounter.constants().inventoryItems(),
+				ActionFactory.getInventoryItemsAction());
+		inventoryMenu.addItem(Accounter.constants().warehouseList(),
+				ActionFactory.getWarehouseListAction());
+		inventoryMenu.addItem(Accounter.constants().warehouseTransferList(),
+				ActionFactory.getWarehouseTransferListAction());
+		inventoryMenu.addItem(Accounter.constants().measurement(),
+				ActionFactory.getMeasurementsAction());
+		return inventoryMenu;
+	}
+
+	private CustomMenuBar getNewInventoryMenu() {
+		CustomMenuBar inventoryMenu = new CustomMenuBar();
+		inventoryMenu.addItem(Accounter.constants().wareHouse(),
+				ActionFactory.getWareHouseViewAction());
+		inventoryMenu.addItem(Accounter.constants().measurement(),
+				ActionFactory.getAddMeasurementAction());
+		inventoryMenu.addItem(Accounter.constants().wareHouseTransfer(),
+				ActionFactory.getWareHouseTransferAction());
+		return inventoryMenu;
 	}
 
 	private CustomMenuBar getTaxMenu() {
@@ -125,8 +155,6 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	private CustomMenuBar getSettingsMenu() {
 		CustomMenuBar settingsMenuBar = new CustomMenuBar();
 		settingsMenuBar.addItem(ActionFactory.getGeneralSettingsAction());
-
-		// settingsMenuBar.addItem(ActionFactory.getChartOfAccountsAction());
 		return settingsMenuBar;
 	}
 

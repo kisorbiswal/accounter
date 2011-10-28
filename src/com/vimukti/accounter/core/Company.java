@@ -206,6 +206,8 @@ public class Company implements IAccounterServerCore {
 
 	private Set<BrandingTheme> brandingTheme = new HashSet<BrandingTheme>();
 
+	private Set<Warehouse> warehouses = new HashSet<Warehouse>();
+
 	private Set<User> usersList = new HashSet<User>();
 
 	private Set<AbstractTAXReturn> vatReturns = new HashSet<AbstractTAXReturn>();
@@ -1018,9 +1020,16 @@ public class Company implements IAccounterServerCore {
 		cmp.accounterClasses = this.getAccounterClasses();
 
 		cmp.locations = this.getLocations();
+
 		cmp.currencies = this.getCurrencies();
 
+		cmp.warehouses = this.getWarehouse();
+
 		return cmp;
+	}
+
+	private Set<Warehouse> getWarehouse() {
+		return warehouses;
 	}
 
 	public Set<BrandingTheme> getBrandingTheme() {
@@ -1549,6 +1558,7 @@ public class Company implements IAccounterServerCore {
 		delete(vatBoxes, session);
 		delete(activities, session);
 		delete(reconciliations, session);
+		delete(warehouses, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {

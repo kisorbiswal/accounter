@@ -174,6 +174,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientBrandingTheme> brandingTheme;
 
+	private ArrayList<ClientWarehouse> warehouses;
+
 	private ArrayList<ClientUserInfo> usersList;
 	private ArrayList<ClientCurrency> currencies;
 
@@ -1243,7 +1245,6 @@ public class ClientCompany implements IAccounterCore {
 	// }
 
 	public ClientTAXItemGroup getTAXItemGroup(long taxItemGrpId) {
-
 		return Utility.getObject(this.taxItemGroups, taxItemGrpId);
 	}
 
@@ -1269,6 +1270,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientBrandingTheme getBrandingTheme(long id) {
 		return Utility.getObject(this.brandingTheme, id);
+	}
+
+	public ClientWarehouse getWarehouse(long id) {
+		return Utility.getObject(this.warehouses, id);
 	}
 
 	public ClientTAXAgency getVatAgencyByName(String name) {
@@ -1503,6 +1508,15 @@ public class ClientCompany implements IAccounterCore {
 			this.brandingTheme.remove(clientBrandingTheme);
 			fireEvent(new CoreEvent<ClientBrandingTheme>(ChangeType.DELETE,
 					clientBrandingTheme));
+		}
+	}
+
+	public void deleteWarehouse(long themeId) {
+		ClientWarehouse clientWarehouse = this.getWarehouse(themeId);
+		if (clientWarehouse != null) {
+			this.warehouses.remove(clientWarehouse);
+			fireEvent(new CoreEvent<ClientWarehouse>(ChangeType.DELETE,
+					clientWarehouse));
 		}
 	}
 
@@ -1894,6 +1908,10 @@ public class ClientCompany implements IAccounterCore {
 				Utility.updateClientList(accounterClass, accounterClasses);
 
 				break;
+			case WAREHOUSE:
+				ClientWarehouse warehouse = (ClientWarehouse) accounterCoreObject;
+				Utility.updateClientList(warehouse, warehouses);
+				break;
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
@@ -2046,6 +2064,9 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case ACCOUNTER_CLASS:
 			deleteAccounterClass(id);
+			break;
+		case WAREHOUSE:
+			deleteWarehouse(id);
 			break;
 		}
 	}
@@ -2277,8 +2298,16 @@ public class ClientCompany implements IAccounterCore {
 		this.brandingTheme = brandingTheme;
 	}
 
+	public void setWareHouses(ArrayList<ClientWarehouse> warehouse) {
+		this.warehouses = warehouse;
+	}
+
 	public ArrayList<ClientBrandingTheme> getBrandingTheme() {
 		return brandingTheme;
+	}
+	
+	public ArrayList<ClientWarehouse> getWarehouses() {
+		return warehouses;
 	}
 
 	public void setUsersList(ArrayList<ClientUserInfo> users) {
@@ -2516,6 +2545,12 @@ public class ClientCompany implements IAccounterCore {
 			brandingThemes.add(clientBrandingTheme.clone());
 		}
 		clientCompany.brandingTheme = brandingTheme;
+		
+		ArrayList<ClientWarehouse> clientWarehouses= new ArrayList<ClientWarehouse>();
+		for (ClientWarehouse clientWarehouse : this.warehouses) {
+			clientWarehouses.add(clientWarehouse.clone());
+		}
+		clientCompany.warehouses = warehouses;
 
 		ArrayList<ClientCreditRating> creditRatings = new ArrayList<ClientCreditRating>();
 		for (ClientCreditRating clientCreditRating : this.creditRatings) {
@@ -2756,6 +2791,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientBrandingTheme getBrandingThemeByName(String name) {
 		return Utility.getObjectByName(getBrandingTheme(), name);
+	}
+	
+	public ClientWarehouse getWarehouseByName(String name) {
+		return Utility.getObjectByName(getWarehouses(), name);
 	}
 
 	public ClientTAXItem getTaxItemByName(String name) {

@@ -1613,6 +1613,13 @@
 		select month from ACCOUNT_AMOUNTS group by
 		month order by month
 	</sql-query>
+	
+	<sql-query name="getWarehouses">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="name" type="string" />
+		select  * from WAREHOUSE group by name order by name
+	</sql-query>
+
 	<query name="getInvoiceByEstimate">
 		<query-param name="estimate" type="Estimate" />
 		<query-param name="company" type="Company" />

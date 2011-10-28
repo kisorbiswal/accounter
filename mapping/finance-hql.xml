@@ -267,6 +267,20 @@
 		bt.company=:company order by bt.id
 	</query>
 
+	<query name="list.Warehouse">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Warehouse w where
+		w.company=:company
+		order by w.id
+	</query>
+
+	<query name="list.All.Units">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Measurement m where
+		m.company=:company
+		order by m.id
+	</query>
+
 	<query name="list.Activity">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Activity at where at.company=:company
