@@ -362,7 +362,7 @@ public abstract class TransactionItemAccountsRequirement extends
 
 	@Override
 	protected String getSelectString() {
-		return "Select an account";
+		return "Select an account for Transaction Item";
 	}
 
 }

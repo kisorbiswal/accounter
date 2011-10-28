@@ -27,6 +27,7 @@ public class CustomerContactRequirement extends
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
+		String attribute = context.getSelection(VALUES);
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		if (process != null) {
 			if (process.equals(getName())) {
@@ -34,26 +35,17 @@ public class CustomerContactRequirement extends
 				if (result != null) {
 					return result;
 				}
+				attribute = getName();
 			}
 		}
+
 		Object selection = context.getSelection(getName() + ACTIONS);
 		if (selection == ActionNames.ADD_MORE_CONTACTS) {
 			return contactProcess(context);
 		} else if (selection == ActionNames.FINISH) {
 			context.setAttribute(INPUT_ATTR, "");
-			return null;
+			attribute = null;
 		}
-
-		List<ClientContact> clientContacts = getValue();
-		String attribute = context.getSelection(VALUES);
-		if (attribute == null || !attribute.equals(getName())) {
-			Record e = new Record(getName());
-			e.add("", "Contacts");
-			e.add("", clientContacts.size() + " Contact(s)");
-			list.add(e);
-			return null;
-		}
-		Result result = new Result();
 
 		ClientContact contact = context.getSelection(getName());
 		if (contact != null) {
@@ -63,17 +55,30 @@ public class CustomerContactRequirement extends
 			}
 		}
 
+		List<ClientContact> clientContacts = getValue();
+		if (attribute == null || !attribute.equals(getName())) {
+			Record e = new Record(getName());
+			e.add("", "Contacts");
+			e.add("", clientContacts.size() + " Contact(s)");
+			list.add(e);
+			return null;
+		}
+
+		Result result = new Result();
+
 		ResultList contactsList = new ResultList(getName());
 		if (clientContacts.isEmpty()) {
-			result.add("There are no contacts.");
+			addFirstMessage(context, "There are no contacts.");
+			// return contactProcess(context);
 		} else {
 			result.add("All Contacts");
 		}
 		for (ClientContact clientContact : clientContacts) {
 			Record record = new Record(clientContact);
-			record.add("", contact == null ? "" : contact.getName() + "-"
-					+ contact.getTitle() + "-" + contact.getBusinessPhone()
-					+ "-" + contact.getEmail());
+			record.add("",
+					clientContact.getName() + "-" + clientContact.getTitle()
+							+ "-" + clientContact.getBusinessPhone() + "-"
+							+ clientContact.getEmail());
 			contactsList.add(record);
 		}
 		result.add(contactsList);
@@ -116,6 +121,7 @@ public class CustomerContactRequirement extends
 		}
 
 		Object selection = context.getSelection(CONTACT_ACTIONS);
+
 		if (selection == ActionNames.FINISH) {
 			context.removeAttribute(PROCESS_ATTR);
 			context.removeAttribute(OLD_CONTACT_ATTR);
@@ -125,6 +131,9 @@ public class CustomerContactRequirement extends
 		} else if (selection == ActionNames.DELETE_CONTACT) {
 			List<ClientContact> contacts = getValue();
 			contacts.remove(oldContact);
+			context.removeAttribute(PROCESS_ATTR);
+			context.removeAttribute(OLD_CONTACT_ATTR);
+			context.removeAttribute(CONTACT_LINE_ATTR);// No need
 			return null;
 		} else {
 			selection = context.getSelection(CONTACT_LINE_ATTR);
