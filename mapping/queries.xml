@@ -900,7 +900,8 @@
 		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem
 		is not null and vr.taxItem.company=:company and
 		vr.taxItem.taxAgency.id=:vatAgency and
-		vr.transactionDate between	:fromDate and :toDate
+		vr.transactionDate between
+		:fromDate and :toDate
 		and vr.vatReturn is null
 	</query>
 
@@ -965,7 +966,8 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayTAX pst where
 		pst.status =
-		status and pst.company=:company
+		status and
+		pst.company=:company
 	</query>
 
 	<query name="getCustomerRefund.by.payFromand.isvoid.status">
@@ -983,7 +985,8 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayTAX pst where
 		pst.payFrom.id =
-		:id and pst.isVoid=false and pst.status =:status and
+		:id
+		and pst.isVoid=false and pst.status =:status and
 		pst.company=:company
 	</query>
 
@@ -1155,14 +1158,16 @@
 	<query name="getVATReturn.by.check.BalanceGraterThanzero">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.AbstractTAXReturn v where
-		v.balance &gt;0 and
+		v.balance
+		&gt;0 and
 		v.company=:company
 	</query>
 
 	<query name="getVATReturn.by.check.BalancelessThanzero">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.AbstractTAXReturn v where
-		v.balance &lt;0 and
+		v.balance
+		&lt;0 and
 		v.company=:company
 	</query>
 
@@ -1256,19 +1261,21 @@
 		order by
 		pst.taxAgency.id, pst.taxItem.id
 	</query>
-	
-	<query
-		name="getTAXRateCalculation.between.startDate.endDate">
+
+	<query name="getTAXRateCalculation.between.startDate.endDate">
 		<query-param name="company" type="Company" />
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="taxAgency" type="long" />
 		from com.vimukti.accounter.core.TAXRateCalculation
-		pst where pst.taxAgency.id=:taxAgency and 
+		pst where
+		pst.taxAgency.id=:taxAgency and
 		pst.taxAgency.salesLiabilityAccount.name != 'Un Deposited
 		Funds' and
 		pst.transactionItem.transaction != null and pst.taxDue != 0 and
-		pst.transactionItem.transaction.company=:company and pst.transactionItem.transaction.transactionDate  between :startDate and :endDate
+		pst.transactionItem.transaction.company=:company and
+		pst.transactionItem.transaction.transactionDate between :startDate and
+		:endDate
 		order by pst.taxItem.id
 	</query>
 
@@ -1314,7 +1321,7 @@
 		is not null and v.transactionDate between :startDate and :endDate and
 		v.taxItem.company=:company order by v.taxItem
 	</query>
-	
+
 	<query name="getTAXRateCalculation.by.dates.and.taxAgency">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
@@ -1322,7 +1329,8 @@
 		<query-param name="taxAgency" type="long" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
 		is not null and v.transactionDate between :startDate and :endDate and
-		v.taxItem.company=:company and v.taxItem.taxAgency.id=:taxAgency order by v.taxItem
+		v.taxItem.company=:company and v.taxItem.taxAgency.id=:taxAgency order
+		by v.taxItem
 	</query>
 
 
@@ -1336,7 +1344,7 @@
 		:fromDate and :toDate and v.isFiled = false and v.company=:company
 		order by v.taxItem
 	</query>
-	
+
 	<query
 		name="getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
@@ -1520,7 +1528,7 @@
 		from com.vimukti.accounter.core.Activity act where
 		act.objectID=:transactionId and act.company=:company
 	</query>
-	
+
 	<query name="getJournalEntryForCustomer">
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.JournalEntry je where
@@ -1626,4 +1634,9 @@
 		from com.vimukti.accounter.core.Invoice f where f.company=:company and
 		f.estimate=:estimate
 	</query>
+
+	<query name="getEntities">
+		from com.vimukti.accounter.core.Entity
+	</query>
+
 </hibernate-mapping>
