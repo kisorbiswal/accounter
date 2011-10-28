@@ -24,7 +24,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	public static final int TYPE_COMMENT = 2;
 	// public static final int TYPE_SALESTAX = 3;
 	public static final int TYPE_ACCOUNT = 4;
-	// public static final int TYPE_SERVICE = 6;
+	public static final int TYPE_INVENTORY_ITEM = 3;
 
 	int version;
 
@@ -96,6 +96,8 @@ public class ClientTransactionItem implements IAccounterCore {
 	long referringTransactionItem;
 
 	private ClientAccounterClass accounterClass;
+
+	private ClientQuantity availableQuantity;
 
 	private long customer;
 
@@ -526,6 +528,14 @@ public class ClientTransactionItem implements IAccounterCore {
 			return true;
 		}
 		return false;
+	}
+
+	public void setAvailableQuantity(ClientQuantity availableQuantity) {
+		this.availableQuantity = availableQuantity;
+	}
+
+	public ClientQuantity getAvailableQuantity() {
+		return availableQuantity;
 	}
 
 	public long getCustomer() {
