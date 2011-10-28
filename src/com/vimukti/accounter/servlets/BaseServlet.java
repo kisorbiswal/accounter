@@ -33,7 +33,7 @@ public class BaseServlet extends HttpServlet {
 	public static final String COMPANY_COOKIE = "cid";
 
 	public static final String COMPANY_ID = "companyId";
-	
+
 	public static final String CREATE = "create";
 
 	public static final String EMAIL_ID = "emailId";
@@ -354,7 +354,7 @@ public class BaseServlet extends HttpServlet {
 		StringBuffer link = new StringBuffer("https://");
 		link.append(ServerConfiguration.getMainServerDomain());
 		link.append(ACTIVATION_URL);
-
+		System.out.println("@@@ ACTIVATION CODE::" + activationCode);
 		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
 				activationCode, client.getEmailId());
 	}
