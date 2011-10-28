@@ -47,7 +47,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
-import com.vimukti.accounter.web.client.ui.edittable.tables.WarehouseAllocationTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -91,8 +90,9 @@ public class VendorBillView extends
 	private DynamicForm totalForm = new DynamicForm();
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 	private CurrencyWidget currencyWidget;
-	private WarehouseAllocationTable inventoryTransactionTable;
-	private DisclosurePanel inventoryDisclosurePanel;
+
+	// private WarehouseAllocationTable inventoryTransactionTable;
+	// private DisclosurePanel inventoryDisclosurePanel;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -591,14 +591,15 @@ public class VendorBillView extends
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		itemsDisclosurePanel.setWidth("100%");
 		// Inventory table..
-		inventoryTransactionTable = new WarehouseAllocationTable();
-		inventoryTransactionTable.setDesable(isInViewMode());
-
-		FlowPanel inventoryFlowPanel = new FlowPanel();
-		inventoryDisclosurePanel = new DisclosurePanel("Warehouse Allocation");
-		inventoryFlowPanel.add(inventoryTransactionTable);
-		inventoryDisclosurePanel.setContent(inventoryFlowPanel);
-		inventoryDisclosurePanel.setWidth("100%");
+		// inventoryTransactionTable = new WarehouseAllocationTable();
+		// inventoryTransactionTable.setDesable(isInViewMode());
+		//
+		// FlowPanel inventoryFlowPanel = new FlowPanel();
+		// inventoryDisclosurePanel = new
+		// DisclosurePanel("Warehouse Allocation");
+		// inventoryFlowPanel.add(inventoryTransactionTable);
+		// inventoryDisclosurePanel.setContent(inventoryFlowPanel);
+		// inventoryDisclosurePanel.setWidth("100%");
 		// ---Inverntory table-----
 		memoTextAreaItem = createMemoTextAreaItem();
 		// memoTextAreaItem.setWidth(100);
@@ -759,10 +760,10 @@ public class VendorBillView extends
 		mainVLay.add(itemsDisclosurePanel);
 		if (getCompany().getPreferences().isInventoryEnabled()
 				&& getCompany().getPreferences().iswareHouseEnabled())
-			mainVLay.add(inventoryDisclosurePanel);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
-		mainVLay.add(bottompanel);
+			// mainVLay.add(inventoryDisclosurePanel);
+			// mainVLay.add(createAddNewButton());
+			// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+			mainVLay.add(bottompanel);
 
 		// if (UIUtils.isMSIEBrowser()) {
 		// resetFormView();
@@ -902,10 +903,10 @@ public class VendorBillView extends
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
-		if (getCompany().getPreferences().isInventoryEnabled()
-				&& getCompany().getPreferences().iswareHouseEnabled())
-			transaction.setWareHouseAllocations(inventoryTransactionTable
-					.getAllRows());
+		// if (getCompany().getPreferences().isInventoryEnabled()
+		// && getCompany().getPreferences().iswareHouseEnabled())
+		// transaction.setWareHouseAllocations(inventoryTransactionTable
+		// .getAllRows());
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 	}
