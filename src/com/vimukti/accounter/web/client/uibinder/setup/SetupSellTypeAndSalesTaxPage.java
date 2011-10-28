@@ -210,7 +210,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		preferences.setTaxPerDetailLine(oneperdetaillineRadioButton.getValue());
 		preferences.setTrackPaidTax(enableTaxCheckbox.getValue());
 		preferences.setInventoryEnabled(inventoryCheckBox.getValue());
-		preferences.setInventoryEnabled(inventoryCheckBox.getValue());
 		if (inventoryCheckBox.getValue()) {
 			preferences.setwareHouseEnabled(warehousesCheckBox.getValue());
 		}
