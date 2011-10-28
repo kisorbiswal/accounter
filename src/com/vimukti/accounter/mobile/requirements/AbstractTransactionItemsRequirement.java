@@ -67,7 +67,9 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		List<ClientTransactionItem> transactionItems = getValue();
 		if (items != null && items.size() > 0) {
 			for (T item : items) {
+				context.setString(null);
 				ClientTransactionItem transactionItem = new ClientTransactionItem();
+				transactionItem.setTaxable(true);
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 				setItem(transactionItem, item);
 				setPrice(transactionItem, item);
