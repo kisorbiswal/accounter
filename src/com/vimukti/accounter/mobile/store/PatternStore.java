@@ -90,11 +90,14 @@ public class PatternStore {
 				Pattern pattern = (Pattern) obj;
 				PatternResult result = new PatternResult();
 				CommandList commands = new CommandList();
-				if (pattern.output != null && !pattern.output.isEmpty()) {
-					String message = pattern.output.get(0);
-					result.setTitle(message);
-					pattern.output.remove(message);
-					commands.addAll(pattern.output);
+				if (pattern.output != null) {
+					List<String> texts = pattern.output.texts;
+					if (texts != null) {
+						for (String s : texts) {
+							result.add(s);
+						}
+					}
+					commands.addAll(pattern.output.commands);
 				}
 				result.setCommands(commands);
 				if (pattern.inputs != null) {
@@ -116,11 +119,18 @@ public class PatternStore {
 
 	public static class Pattern {
 		List<String> inputs;
-		List<String> output;
+		Output output;
 
 		public Pattern() {
 
 		}
 	}
 
+	public static class Output {
+		List<String> texts;
+		List<String> commands;
+
+		public Output() {
+		}
+	}
 }
