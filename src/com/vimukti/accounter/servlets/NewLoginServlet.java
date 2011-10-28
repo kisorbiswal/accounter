@@ -20,7 +20,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.Entity;
+import com.vimukti.accounter.core.News;
 import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
@@ -38,7 +38,7 @@ public class NewLoginServlet extends BaseServlet {
 	private static final String ACTIVATION_VIEW = "/WEB-INF/activation.jsp";
 
 	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
-	private String ENTITIES_LIST = "entitesList";
+	private String NEWS_LIST = "newsList";
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -298,8 +298,8 @@ public class NewLoginServlet extends BaseServlet {
 
 	private void addNewsToRequest(HttpServletRequest request) {
 		Session session = HibernateUtil.openSession();
-		Query namedQuery = session.getNamedQuery("getEntities");
-		List<Entity> entitesList = namedQuery.list();
-		request.setAttribute(ENTITIES_LIST, entitesList);
+		Query namedQuery = session.getNamedQuery("getNews");
+		List<News> entitesList = namedQuery.list();
+		request.setAttribute(NEWS_LIST, entitesList);
 	}
 }
