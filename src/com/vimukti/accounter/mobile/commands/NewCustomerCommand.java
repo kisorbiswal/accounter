@@ -8,11 +8,10 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CreditRatingRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerGroupRequirement;
@@ -87,7 +86,16 @@ public class NewCustomerCommand extends NewAbstractCommand {
 						Global.get().Customer()), false, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), false, true));
+				getConstants().number()), getConstants().number(), false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().getUseCustomerId()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new BooleanRequirement(IS_ACTIVE, true) {
 
@@ -155,6 +163,15 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new ShippingMethodRequirement(SHIPPING_METHODS,
 				"please enter the shipping method name", getConstants()
 						.shippingMethod(), true, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isDoProductShipMents()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected String getSetMessage() {
@@ -232,6 +249,12 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				return new ArrayList<String>(getClientCompany()
 						.getPaymentMethods().values());
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getConstants().paymentMethod());
+			}
 		});
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS,
@@ -266,11 +289,31 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 		list.add(new NumberRequirement(VATREGISTER_NUM, getMessages()
 				.pleaseEnter(getConstants().vatRegistrationNumber()),
-				getConstants().vatRegistrationNumber(), true, true));
+				getConstants().vatRegistrationNumber(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getCountryPreferences()
+								.isVatAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new TaxCodeRequirement(CUSTOMER_VATCODE,
 				"Please enter the tax code name", getConstants().taxCode(),
 				true, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<ClientTAXCode> getLists(Context context) {
@@ -284,20 +327,62 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NumberRequirement(PAN_NUM, "Please Enter the pan number",
-				"Pan Number", true, true));
+				"Pan Number", true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
 				getMessages().customerNumber(Global.get().Customer())),
 				getMessages().customerNumber(Global.get().Customer()), true,
-				true));
+				true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getCountryPreferences()
+								.isSalesTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getConstants().serviceTax()), getConstants()
-				.serviceTax(), true, true));
+				.serviceTax(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getCountryPreferences()
+								.isServiceTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new NumberRequirement(TIN_NUM, getMessages().pleaseEnter(
 				getConstants().tinNumber()), getConstants().tinNumber(), true,
-				true));
+				true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getCountryPreferences()
+								.isTDSAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new CustomerContactRequirement(CONTACT));
 

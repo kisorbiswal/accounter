@@ -62,6 +62,11 @@ public class NewAccountCommand extends NewAbstractCommand {
 			protected List<String> getLists(Context context) {
 				return getAccountTypes();
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
 		});
 
 		list.add(new NameRequirement(ACCOUNT_NAME, "Please Enter Account Name",

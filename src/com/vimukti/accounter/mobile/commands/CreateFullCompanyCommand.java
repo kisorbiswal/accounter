@@ -75,6 +75,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected List<String> getLists(Context context) {
 				return getStatesList((String) get(COUNTRY).getValue());
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
 		});
 
 		list.add(new NameRequirement(ADDRESS1, "Please Enter Address1",
@@ -118,6 +123,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getSetMessage() {
 				return "Time Zone has been selected";
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
 		});
 
 		// Second Page
@@ -145,6 +155,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				return "Industry has been selected";
 			}
 
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+
 		});
 
 		list.add(new StringListRequirement(ORGANIZATION_REFER,
@@ -164,6 +179,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Company Organization has been selected";
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
 			}
 
 		});
@@ -186,6 +206,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getSetMessage() {
 				return "Customer Terminology has been selected";
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
 		});
 
 		list.add(new StringListRequirement(SUPPLIER_TERMINOLOGY, getMessages()
@@ -206,6 +231,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getSetMessage() {
 				return "Vendor Terminology has been selected";
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
 		});
 
 		list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
@@ -225,6 +255,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Account Terminology has been selected";
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
 			}
 		});
 
@@ -247,6 +282,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getSetMessage() {
 				String v = getValue();
 				return "You have " + v + " selected";
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
 			}
 		});
 
@@ -361,6 +401,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return "Fiscal year has been selected";
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
 			}
 		});
 
