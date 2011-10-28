@@ -523,7 +523,9 @@ public class CashExpenseView extends
 		// resetFormView();
 
 		settabIndexes();
-		transactionTotalinForeignCurrency.hide();
+		if (isMultiCurrencyEnabled()) {
+			transactionTotalinForeignCurrency.hide();
+		}
 	}
 
 	@Override
@@ -577,8 +579,13 @@ public class CashExpenseView extends
 			setData(new ClientCashPurchase());
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(
-						transaction.getCurrency());
+				if (transaction.getCurrency() > 1) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency());
+				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);

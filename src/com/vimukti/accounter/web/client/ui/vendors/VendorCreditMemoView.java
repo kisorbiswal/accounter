@@ -98,8 +98,13 @@ public class VendorCreditMemoView extends
 			setData(new ClientVendorCreditMemo());
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(
-						transaction.getCurrency());
+				if (transaction.getCurrency() > 1) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency());
+				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
@@ -430,7 +435,9 @@ public class VendorCreditMemoView extends
 
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
-		transactionTotalinForeignCurrency.hide();
+		if (isMultiCurrencyEnabled()) {
+			transactionTotalinForeignCurrency.hide();
+		}
 
 		settabIndexes();
 	}

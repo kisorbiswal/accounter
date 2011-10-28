@@ -588,8 +588,9 @@ public class PurchaseOrderView extends
 		listforms.add(termsForm);
 		listforms.add(memoForm);
 		listforms.add(linksform);
-
-		transactionTotalinForeignCurrency.hide();
+		if (isMultiCurrencyEnabled()) {
+			transactionTotalinForeignCurrency.hide();
+		}
 		settabIndexes();
 	}
 
@@ -722,8 +723,13 @@ public class PurchaseOrderView extends
 			initShippingMethod();
 		} else {
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(
-						transaction.getCurrency());
+				if (transaction.getCurrency() > 1) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency());
+				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);

@@ -672,8 +672,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		this.add(mainVLay);
 
+		if (isMultiCurrencyEnabled()) {
+			transactionTotalinForeignCurrency.hide();
+		}
 		settabIndexes();
-		transactionTotalinForeignCurrency.hide();
 
 	}
 
@@ -1057,14 +1059,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			setData(new ClientInvoice());
 		} else {
 			if (currencyWidget != null) {
-				if (isMultiCurrencyEnabled()) {
+				if (transaction.getCurrency() > 1) {
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency());
 				}
-
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
-				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
 			}

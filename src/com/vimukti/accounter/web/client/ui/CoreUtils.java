@@ -1786,6 +1786,10 @@ public class CoreUtils {
 			"Venezuelan Bolívar 	Fuertes", "Vietnamese 	Dong", "Yemeni 	Rial",
 			"Zambian 	Kwacha", "Zimbabwean 	Dollar", "Danish Krone" };
 
+	private static String[] currencySymbols = new String[] {
+
+	};
+
 	public static String[] getCountries() {
 		return countries;
 	}

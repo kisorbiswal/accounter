@@ -609,17 +609,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
 		settabIndexes();
-		transactionTotalinForeignCurrency.hide();
+		if (isMultiCurrencyEnabled()) {
+			transactionTotalinForeignCurrency.hide();
+		}
 	}
 
 	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
-		// if (taxCode != null && transactionItems != null) {
-		// for (ClientTransactionItem item : transactionItems) {
-		// item.setTaxCode(taxCode.getID());
-		// }
-		// }
+
 		transaction
 				.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
 						.getAmount()));
@@ -649,7 +647,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (memo != null) {
 				memoTextAreaItem.setValue(memo);
 			}
-			// refText.setValue(quote.getReference());
 		}
 
 	}
@@ -690,8 +687,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else {
 
 			if (currencyWidget != null) {
-				this.currency = getCompany().getCurrency(
-						transaction.getCurrency());
+				if (transaction.getCurrency() > 1) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency());
+				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);

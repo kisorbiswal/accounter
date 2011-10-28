@@ -1137,16 +1137,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// FIXME test only.
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
 
-		// List<ClientCurrency> coreCurrencies = CoreUtils.getCurrencies();
-		// for (ClientCurrency clientCurrency : currenciesList) {
-		// for (int x = 0; x < currenciesList.size(); x++) {
-		// ClientCurrency c = currenciesList.get(x);
-		// if (c.getFormalName().equals(clientCurrency.getFormalName())) {
-		// c.setID(clientCurrency.getID());
-		// }
-		// }
-		// }
-
 		ClientCurrency baseCurrency = getCompany().getCurrency(
 				getCompany().getPreferences().getPrimaryCurrency());
 
