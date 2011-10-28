@@ -40,7 +40,7 @@
 	<body>
 	<table id="commanContainer">
 	<td>
-	 <c:if test="${entitesList != null}">
+	 <c:if test="${newsList != null}">
 		   <c:forEach var="entity" items="${entitesList}">
 			   	<c:set var='url' value="${entity.url}"/>
 			    <c:set var='date' value="${entity.sqlDate}"/>
