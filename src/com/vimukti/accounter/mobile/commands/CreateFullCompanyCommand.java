@@ -416,7 +416,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected int getIndustryType() {
 				return getIndustryList().indexOf(
-						(String) get(INDUSTRY).getValue()) + 1;
+						(String) get(INDUSTRY).getValue());
 			}
 		});
 	}
@@ -504,25 +504,24 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		address.setCountryOrRegion(countryName);
 		preferences.setTradingAddress(address);
 		preferences.setTimezone(timeZone);
-		preferences
-				.setIndustryType(getIndustryList().indexOf(industryType) + 1);
+		preferences.setIndustryType(getIndustryList().indexOf(industryType));
 
 		String organizationRefer = get(ORGANIZATION_REFER).getValue();
 		preferences.setOrganizationType(getOrganizationTypes().indexOf(
-				organizationRefer) + 1);
+				organizationRefer));
 		String customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
 		String supplierTerm = get(SUPPLIER_TERMINOLOGY).getValue();
 		String accountTerm = get(ACCOUNT_TERMINOLOGY).getValue();
 
 		preferences.setReferCustomers(getCustomerTerminologies().indexOf(
-				customerTerm) + 1);
+				customerTerm));
 		preferences.setReferVendors(getSupplierTerminologies().indexOf(
-				supplierTerm) + 1);
+				supplierTerm));
 		preferences.setReferAccounts(getAccountTerminologies().indexOf(
-				accountTerm) + 1);
+				accountTerm));
 		String serviceProductBoth = get(SERVICE_PRODUCTS_BOTH).getValue();
 		Integer servProBoth = getServiceProductBothList().indexOf(
-				serviceProductBoth) + 1;
+				serviceProductBoth);
 		if (servProBoth == 1) {
 			preferences.setSellServices(true);
 		} else if (servProBoth == 2) {
