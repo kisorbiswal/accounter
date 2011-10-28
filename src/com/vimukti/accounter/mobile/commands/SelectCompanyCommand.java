@@ -85,6 +85,9 @@ public class SelectCompanyCommand extends Command {
 						companyList.add(record);
 					}
 					makeResult.add(companyList);
+					CommandList commandList = new CommandList();
+					commandList.add("Create Company");
+					makeResult.add(commandList);
 					return makeResult;
 				}
 			}
