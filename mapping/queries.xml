@@ -1621,11 +1621,11 @@
 		select month from ACCOUNT_AMOUNTS group by
 		month order by month
 	</sql-query>
-	
+
 	<sql-query name="getWarehouses">
 		<query-param name="companyId" type="long" />
 		<return-scalar column="name" type="string" />
-		select  * from WAREHOUSE group by name order by name
+		select * from WAREHOUSE group by name order by name
 	</sql-query>
 
 	<query name="getInvoiceByEstimate">
@@ -1635,8 +1635,8 @@
 		f.estimate=:estimate
 	</query>
 
-	<query name="getEntities">
-		from com.vimukti.accounter.core.Entity
+	<query name="getNews">
+		from com.vimukti.accounter.core.News
 	</query>
 
 </hibernate-mapping>
