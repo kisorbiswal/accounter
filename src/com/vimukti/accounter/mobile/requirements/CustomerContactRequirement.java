@@ -141,7 +141,11 @@ public class CustomerContactRequirement extends
 				selection = "Contact Name";
 			}
 			if (selection != null) {
-				if (selection.equals("isActive")) {
+				if (selection.equals("isPrimary")) {
+					List<ClientContact> clientContacts = getValue();
+					for (ClientContact cc : clientContacts) {
+						cc.setPrimary(false);
+					}
 					oldContact.setPrimary(!oldContact.isPrimary());
 				} else if (selection == "Contact Name") {
 					context.setAttribute(CONTACT_LINE_ATTR, "contactName");
@@ -162,9 +166,9 @@ public class CustomerContactRequirement extends
 		}
 
 		ResultList list = new ResultList(CONTACT_LINE_ATTR);
-		Record record = new Record("isActive");
-		record.add("", "IsActive");
-		record.add("", oldContact.isPrimary());
+		Record record = new Record("isPrimary");
+		record.add("", oldContact.isPrimary() ? "It is primary contact."
+				: "This is not primary contact");
 		list.add(record);
 
 		record = new Record("Contact Name");
