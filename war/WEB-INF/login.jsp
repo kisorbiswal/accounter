@@ -38,39 +38,54 @@
    <% } %>
 </head>
 	<body>
-     <div id="commanContainer">
-		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/>
-		   <c:if test="${message != null}">
-		   <div id="login_error" class="common-box">
-				<span>${message} </span>
-		   </div>
-		   </c:if>	
-		   <form id="accounterForm" method="post" action="/main/login">
-		      <div class="email_password">
-			    <label>Email</label>
-				<br \>
-				<input id="mid-box"  type="text" name="emailId" tabindex="1" />
-			  </div>
-			  <div class="email_password">
-			    <label>Password</label>
-				<br \>
-				<input id="mid-box1"  type="password" name="password" tabindex="2" />
-			  </div>
-			  <div class="rememberMe">
-			    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
-				<label>Remember Me</label>
-			  </div>
-			  <div class="loginbutton">
-			     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="Login" tabindex="6"/>
-			  </div>
-		   </form>
-		   <div class="form-bottom-options">
-		      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
-		   </div>
-		    <div class="form-bottom-options">
-		      <a href="/main/signup" id="signUp-link1" tabindex="6"> Sign up Accounter?</a>
-		   </div>
-		</div>
+	<table id="commanContainer">
+	<td>
+	 <c:if test="${entitesList != null}">
+		   <c:forEach var="entity" items="${entitesList}">
+			   	<c:set var='url' value="${entity.url}"/>
+			    <c:set var='date' value="${entity.sqlDate}"/>
+			    <c:set var='sticky' value="${entity.sticky}"/>
+			    <c:set var='newsText' value="${entity.newsText}"/>
+		   </c:forEach>
+	    </c:if>
+	</td>
+	
+	<td>
+	     <div id="commanContainer">
+			   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/>
+			   <c:if test="${message != null}">
+			   <div id="login_error" class="common-box">
+					<span>${message} </span>
+			   </div>
+			   </c:if>	
+			   <form id="accounterForm" method="post" action="/main/login">
+			      <div class="email_password">
+				    <label>Email</label>
+					<br \>
+					<input id="mid-box"  type="text" name="emailId" tabindex="1" />
+				  </div>
+				  <div class="email_password">
+				    <label>Password</label>
+					<br \>
+					<input id="mid-box1"  type="password" name="password" tabindex="2" />
+				  </div>
+				  <div class="rememberMe">
+				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
+					<label>Remember Me</label>
+				  </div>
+				  <div class="loginbutton">
+				     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="Login" tabindex="6"/>
+				  </div>
+			   </form>
+			   <div class="form-bottom-options">
+			      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
+			   </div>
+			    <div class="form-bottom-options">
+			      <a href="/main/signup" id="signUp-link1" tabindex="6"> Sign up Accounter?</a>
+			   </div>
+			</div>
+			</td>
+	</table>
 		
 	     <!-- Footer Section-->
 		
