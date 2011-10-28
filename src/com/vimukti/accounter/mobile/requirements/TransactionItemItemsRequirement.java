@@ -176,17 +176,17 @@ public abstract class TransactionItemItemsRequirement extends
 		}
 		ResultList list = new ResultList(ITEM_DETAILS);
 		Record record = new Record(QUANTITY);
-		record.add("", "Quantity:");
+		record.add("", "Quantity");
 		record.add("", transactionItem.getQuantity());
 		list.add(record);
 
 		record = new Record(UNIT_PRICE);
-		record.add("", "Unit Price:");
+		record.add("", "Unit Price");
 		record.add("", transactionItem.getUnitPrice());
 		list.add(record);
 
 		record = new Record(DISCOUNT);
-		record.add("", "Discount:");
+		record.add("", "Discount");
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
@@ -215,12 +215,12 @@ public abstract class TransactionItemItemsRequirement extends
 		}
 
 		record = new Record(DESCRIPTION);
-		record.add("", "Description:");
+		record.add("", "Description");
 		record.add("", transactionItem.getDescription());
 		list.add(record);
 
 		Result result = context.makeResult();
-		result.add("Item Details:");
+		result.add("Item Details");
 		result.add("Name : " + getItemDisplayValue(transactionItem));
 		result.add(list);
 
@@ -237,7 +237,7 @@ public abstract class TransactionItemItemsRequirement extends
 			transactionItem
 					.setVATfraction((transactionItem.getLineTotal() / 100)
 							* salesTaxRate);
-			result.add(getConstants().vat() + ": "
+			result.add(getConstants().vat() + " "
 					+ transactionItem.getVATfraction());
 		}
 		result.add("Total: " + transactionItem.getLineTotal());
