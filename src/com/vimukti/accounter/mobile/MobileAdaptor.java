@@ -14,8 +14,7 @@ public interface MobileAdaptor {
 	};
 
 	public UserMessage preProcess(MobileSession session, String userMessage,
-			String userId, String networkId, int networkType)
-			throws AccounterMobileException;
+			String networkId, int networkType) throws AccounterMobileException;
 
 	public String postProcess(Result userMessage);
 }

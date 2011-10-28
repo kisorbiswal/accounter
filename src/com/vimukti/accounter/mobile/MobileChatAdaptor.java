@@ -28,9 +28,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 	 * @throws AccounterMobileException
 	 */
 	public UserMessage preProcess(MobileSession session, String message,
-			String userId, String networkId, int networkType)
-			throws AccounterMobileException {
-		UserMessage userMessage = new UserMessage(message, userId, networkId,
+			String networkId, int networkType) throws AccounterMobileException {
+		UserMessage userMessage = new UserMessage(message, networkId,
 				networkType);
 
 		if (message == null || message.isEmpty()) {
@@ -86,6 +85,10 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			if (selectCommand != null) {
 				command = selectCommand;
 				userMessage.setOriginalMsg("");// otherwise It comes as an input
+				UserMessage lastMessage2 = session.getLastMessage();
+				if (lastMessage2 != null) {
+					lastMessage2.setOriginalMsg("");
+				}
 			}
 		}
 

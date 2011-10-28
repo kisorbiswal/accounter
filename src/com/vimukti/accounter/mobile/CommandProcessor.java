@@ -188,7 +188,6 @@ public class CommandProcessor {
 		Context context = new Context(mSession);
 		context.setNetworkId(message.getNetworkId());
 		context.setNetworkType(message.getNetworkType());
-		context.setUserId(message.getUserId());
 		return context;
 	}
 }

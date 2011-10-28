@@ -28,8 +28,8 @@ public class MobileMessageHandler {
 	 * @return
 	 * @throws AccounterMobileException
 	 */
-	public String messageReceived(String networkId, String userId,
-			String message, AdaptorType adaptorType, int networkType,
+	public String messageReceived(String networkId, String message,
+			AdaptorType adaptorType, int networkType,
 			CommandSender commandSender) throws AccounterMobileException {
 		Session openSession = HibernateUtil.openSession();
 		try {
@@ -46,7 +46,7 @@ public class MobileMessageHandler {
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 
 			UserMessage userMessage = adoptor.preProcess(session, message,
-					userId, networkId, networkType);
+					networkId, networkType);
 			Result result = getCommandProcessor().handleMessage(session,
 					userMessage);
 			boolean hasNextCommand = true;
@@ -59,7 +59,7 @@ public class MobileMessageHandler {
 					if (currentCommand != null) {
 						UserMessage lastMessage = session.getLastMessage();
 						lastMessage.setResult(lastMessage.getLastResult());
-						reloadCommand(networkId, userId, null, adaptorType,
+						reloadCommand(networkId, null, adaptorType,
 								networkType, commandSender);
 						hasNextCommand = true;
 					} else {
@@ -71,8 +71,8 @@ public class MobileMessageHandler {
 			// To check if there is only on command
 			String nextCommand = result.getNextCommand();
 			if (nextCommand != null) {
-				reloadCommand(networkId, userId, nextCommand, adaptorType,
-						networkType, commandSender);
+				reloadCommand(networkId, nextCommand, adaptorType, networkType,
+						commandSender);
 				hasNextCommand = true;
 			} else {
 				hasNextCommand = hasNextCommand || false;
@@ -95,14 +95,14 @@ public class MobileMessageHandler {
 		}
 	}
 
-	protected void reloadCommand(final String networkId, final String userId,
-			final String message, final AdaptorType adaptorType,
-			final int networkType, final CommandSender commandSender) {
+	protected void reloadCommand(final String networkId, final String message,
+			final AdaptorType adaptorType, final int networkType,
+			final CommandSender commandSender) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					messageReceived(networkId, userId, message, adaptorType,
+					messageReceived(networkId, message, adaptorType,
 							networkType, commandSender);
 				} catch (AccounterMobileException e) {
 					e.printStackTrace();

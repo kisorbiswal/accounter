@@ -24,18 +24,9 @@ public class Context {
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 	private Map<String, List<Object>> selectedRecords = new HashMap<String, List<Object>>();
 
-	private String userId;
 	private String networkId;
 	private String string;
 	private ClientCompany clientCompany;
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 	public String getNetworkId() {
 		return networkId;

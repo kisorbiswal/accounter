@@ -13,8 +13,7 @@ public class MobileApplicationAdaptor implements MobileAdaptor {
 
 	@Override
 	public UserMessage preProcess(MobileSession session, String userMessage,
-			String userId, String networkId, int networkType)
-			throws AccounterMobileException {
+			String networkId, int networkType) throws AccounterMobileException {
 		// TODO Auto-generated method stub
 		return null;
 	}

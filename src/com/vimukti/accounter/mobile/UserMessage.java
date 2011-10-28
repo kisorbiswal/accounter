@@ -23,20 +23,13 @@ public class UserMessage {
 	private Command command;
 	private List<String> inputs = new ArrayList<String>();
 	private String originalMsg;
-	private String userId;
 	private String networkId;
 	private int networkType;
 
-	public UserMessage(String message, String userId, String networkId,
-			int networkType) {
+	public UserMessage(String message, String networkId, int networkType) {
 		this.originalMsg = message;
-		this.userId = userId;
 		this.networkId = networkId;
 		this.networkType = networkType;
-	}
-
-	public String getUserId() {
-		return userId;
 	}
 
 	public String getNetworkId() {

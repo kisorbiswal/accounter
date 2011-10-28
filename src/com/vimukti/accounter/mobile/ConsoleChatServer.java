@@ -81,8 +81,7 @@ public class ConsoleChatServer extends Thread {
 					String msg = (String) readObject;
 					System.out.println(msg);
 					try {
-						handler.messageReceived(user, user, msg,
-								AdaptorType.CHAT,
+						handler.messageReceived(user, msg, AdaptorType.CHAT,
 								AccounterChatServer.NETWORK_TYPE_CONSOLE,
 								new CommandSender() {
 

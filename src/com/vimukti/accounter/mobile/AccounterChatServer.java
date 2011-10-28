@@ -93,14 +93,14 @@ public class AccounterChatServer implements ChatManagerListener,
 
 		String message = msg.getBody();
 		String from = msg.getFrom();
+		System.out.println("from: " + from);
 		if (from.contains("/")) {
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}
 		if (message != null) {
 			try {
-				messageHandler.messageReceived(msg.getFrom(), from, message,
-						AdaptorType.CHAT, NETWORK_TYPE_GTALK,
-						new CommandSender() {
+				messageHandler.messageReceived(from, message, AdaptorType.CHAT,
+						NETWORK_TYPE_GTALK, new CommandSender() {
 
 							@Override
 							public void onReply(String message) {
