@@ -319,6 +319,7 @@ public class VendorCreditMemoView extends
 		rightVLay.setWidth("100%");
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -636,7 +637,9 @@ public class VendorCreditMemoView extends
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 

@@ -633,7 +633,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		vpPanel.add(balForm);
 		if (isMultiCurrencyEnabled()) {
 			vpPanel.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
+		
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -1172,6 +1174,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		paymentMethodCombo.setDisabled(isInViewMode());
 		dueDate.setDisabled(isInViewMode());
 		grid.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		super.onEdit();
 		grid.removeFromParent();

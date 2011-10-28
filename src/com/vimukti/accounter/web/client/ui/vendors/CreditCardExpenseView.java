@@ -598,6 +598,7 @@ public class CreditCardExpenseView extends
 		rightHLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightHLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -1033,6 +1034,9 @@ public class CreditCardExpenseView extends
 			locationCombo.setDisabled(isInViewMode());
 		if (taxCodeSelect != null)
 			taxCodeSelect.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 

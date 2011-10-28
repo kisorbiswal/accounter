@@ -523,6 +523,7 @@ public class PurchaseOrderView extends
 		rightVLay.add(dateform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 		// rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		// rightVLay.setCellHorizontalAlignment(dateform, ALIGN_RIGHT);
@@ -1355,6 +1356,9 @@ public class PurchaseOrderView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		vendorCombo.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		super.onEdit();
 	}

@@ -428,6 +428,7 @@ public class CashExpenseView extends
 		rightVLay.add(locationform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -793,6 +794,9 @@ public class CashExpenseView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 

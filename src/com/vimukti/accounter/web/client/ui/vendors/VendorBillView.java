@@ -672,6 +672,7 @@ public class VendorBillView extends
 		rightVLay.add(dateform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -1262,6 +1263,9 @@ public class VendorBillView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 

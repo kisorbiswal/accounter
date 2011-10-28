@@ -330,6 +330,7 @@ public class CashPurchaseView extends
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
 		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -890,6 +891,9 @@ public class CashPurchaseView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
+		if(currencyWidget !=null){
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 
 	}
