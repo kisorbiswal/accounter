@@ -397,11 +397,6 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	}
 
 	@Override
-	public String getWelcomeMessage() {
-		return "Create Item Command is activated.";
-	}
-
-	@Override
 	protected void setDefaultValues(Context context) {
 		get(I_SELL_THIS).setDefaultValue(Boolean.TRUE);
 		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);

@@ -16,18 +16,6 @@ public abstract class NewCommand extends Command {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Result run(Context context) {
-		Result process = process(context);
-		List<String> first = (List<String>) context
-				.getAttribute("firstMessage");
-		for (String f : first) {
-			process.add(0, f);
-		}
-		return process;
-
-	}
-
-	@SuppressWarnings("unchecked")
-	private Result process(Context context) {
 		context.setAttribute("firstMessage", new ArrayList<String>());
 		setDefaultValues(context);
 		Result makeResult = context.makeResult();
@@ -49,6 +37,11 @@ public abstract class NewCommand extends Command {
 		for (Requirement req : allRequirements) {
 			Result result = req.process(context, makeResult, list, actions);
 			if (result != null) {
+				List<String> first = (List<String>) context
+						.getAttribute("firstMessage");
+				for (String f : first) {
+					result.add(0, f);
+				}
 				return result;
 			}
 		}
@@ -62,6 +55,11 @@ public abstract class NewCommand extends Command {
 		Object selection = context.getSelection("actions");
 		if (selection != ActionNames.FINISH_COMMAND) {
 			beforeFinishing(context, makeResult);
+			List<String> first = (List<String>) context
+					.getAttribute("firstMessage");
+			for (String f : first) {
+				makeResult.add(0, f);
+			}
 			return makeResult;
 		}
 

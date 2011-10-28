@@ -20,4 +20,9 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 		return null;
 	}
 
+	@Override
+	protected String getWelcomeMessage() {
+		return "Creating Product Item";
+	}
+
 }

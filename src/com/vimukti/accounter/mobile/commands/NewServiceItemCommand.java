@@ -4,8 +4,12 @@ public class NewServiceItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return "Creating Service Item";
 	}
 
 }

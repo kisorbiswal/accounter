@@ -49,7 +49,7 @@ public class AuthenticationCommand extends Command {
 				List<IMActivation> activationList = getImActivationByNetworkId(context
 						.getNetworkId());
 				if (activationList == null || activationList.size() == 0) {
-					Client client = getClient(context.getUserId());
+					Client client = getClient(context.getNetworkId());
 					if (client == null) {
 						client = getClient(context.getString());
 					}
