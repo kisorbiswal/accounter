@@ -156,7 +156,7 @@
 	<pattern>
 		<input>AddItem</input>
 		<input>New Item</input>
-		<input>New Item</input>
+		<input>Create Item</input>
 		<output>
 			<command>Create New Service Item</command>
 			<command>Create New Product Item</command>
