@@ -230,4 +230,12 @@ public class ClientMeasurement implements IAccounterCore {
 
 	}
 
+	public ClientUnit getDefaultUnit() {
+		for (ClientUnit unit : units) {
+			if (unit.isDefault()) {
+				return unit;
+			}
+		}
+		return null;
+	}
 }
