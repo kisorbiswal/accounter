@@ -81,7 +81,7 @@ public abstract class TransactionItemAccountsRequirement extends
 							.doubleValue());
 				}
 			} else if (lineAttr.equals(TAXCODE)) {
-				ClientTAXCode taxCode = context.getSelection(TAXCODE);
+				ClientTAXCode taxCode = context.getSelection(TAXCODES);
 				if (taxCode != null) {
 					transactionItem.setTaxCode(taxCode.getID());
 				} else {

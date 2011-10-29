@@ -81,7 +81,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		if (attribute.equals(getName())) {
 			name = context.getString();
 		}
-		if (name == null || name.isEmpty()) {
+		if (name == null) {
 			List<T> lists = getLists(context);
 			if (lists.size() > RECORDS_TO_SHOW) {
 				context.setAttribute("oldValue", "");

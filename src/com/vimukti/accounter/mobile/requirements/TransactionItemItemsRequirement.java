@@ -271,7 +271,10 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected String getItemDisplayValue(ClientTransactionItem item) {
-		return getClientCompany().getItem(item.getItem()).getDisplayName();
+		if (item.getItem() > 0) {
+			return getClientCompany().getItem(item.getItem()).getDisplayName();
+		}
+		return null;
 	}
 
 	@Override
