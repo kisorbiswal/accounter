@@ -4,7 +4,7 @@ public class Requirement {
 	Object value;
 	Object defaultValue;
 	String name;
-
+	private boolean isEditable;
 	RequirementType type;
 
 	boolean isOptional;
@@ -17,6 +17,7 @@ public class Requirement {
 		this.name = name;
 		this.isOptional = isOptional;
 		this.isAllowFromContext = isAllowFromContext;
+		isEditable = true;
 	}
 
 	public Requirement(String requirementName, String enterString,
@@ -84,5 +85,13 @@ public class Requirement {
 
 	public String getEnterString() {
 		return enterString;
+	}
+
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	public void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
 	}
 }

@@ -18,7 +18,6 @@ import com.vimukti.accounter.mobile.store.PatternStore;
 public class MobileChatAdaptor implements MobileAdaptor {
 
 	public static MobileAdaptor INSTANCE = new MobileChatAdaptor();
-	public static String CANCEL_COMMAND = "cancel";
 
 	/**
 	 * PreProcess the UserMessage
@@ -46,11 +45,13 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			command = new AuthenticationCommand();
 			userMessage.setOriginalMsg("");// To know it is first
 			message = "";
+			userMessage.setCommandString("");
 		}
 		if (command == null) {
 			long companyId = session.getCompanyID();
 			if (companyId == 0) {
 				command = new SelectCompanyCommand();
+				userMessage.setCommandString("");
 			}
 		}
 
@@ -99,10 +100,9 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
 			Command selectCommand = getCommand(patternResult.getCommands(),
-					message);
+					message, userMessage);
 			if (selectCommand != null) {
 				command = selectCommand;
-				userMessage.setOriginalMsg("");// otherwise It comes as an input
 				UserMessage lastMessage2 = session.getLastMessage();
 				if (lastMessage2 != null) {
 					lastMessage2.setOriginalMsg("");
@@ -158,7 +158,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		return PatternStore.INSTANCE.find(commandString);
 	}
 
-	private Command getCommand(CommandList commands, String input) {
+	private Command getCommand(CommandList commands, String input,
+			UserMessage userMessage) {
 		// Getting the First Character of the Input
 		if (input == null || input.isEmpty() || input.length() > 1) {
 			return null;
@@ -173,7 +174,20 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (commandString == null) {
 			return null;
 		}
-		return CommandsFactory.INSTANCE.getCommand(commandString);
+		Command command = null;
+		String str = "";
+		for (String s : commandString.split(" ")) {
+			str += s;
+			command = CommandsFactory.INSTANCE.getCommand(str);
+			if (command != null) {
+				break;
+			}
+			str += " ";
+		}
+		commandString = commandString.replaceAll(str.trim(), "").trim();
+		userMessage.setOriginalMsg(commandString);
+		userMessage.setCommandString(str);
+		return command;
 	}
 
 	/**
