@@ -86,19 +86,21 @@
 </head>
 	<body>
 	 
-	     <div id="commanContainer">
-			   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/>
+	     <div id="commanNewContainer">
+			  <div class="new_logo_field"><img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/></div>
+			  <div class="new_login_page">
 			  <div id ="feedDiv">
 			  <div id="unChangedNewsDiv" class = "news"><h4></h4><span><span><p></p></div>
 			  <ul id="feedDivUl"></ul>
 			  </div>
 			   
-			   
+			   <div class="new_login_accounterform">
 			   <c:if test="${message != null}">
 			   <div id="login_error" class="common-box">
 					<span>${message} </span>
 			   </div>
 			   </c:if>	
+			   <h3>Sign In</h3>
 			   <form id="accounterForm" method="post" action="/main/login">
 			      <div class="email_password">
 				    <label>Email</label>
@@ -126,13 +128,15 @@
 			   </div>
 			   
 			   <form id="openIdForm" method="post" action="/main/openid">
-			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" id="openIdLink" tabindex="5"> Sign in with Google </a>
-			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com"  tabindex="6"> Sign in with Yahoo</a>
-			   <a href ="/main/openid?openid_identifier=https://openid.aol.com"  tabindex="6"> Sign in with AOL</a>
+			   <span>Sign In using : </span>
+			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" id="openIdLink" tabindex="5"> Google  </a>
+			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com"  tabindex="6">  Yahoo</a>
+			   <a href ="/main/openid?openid_identifier=https://openid.aol.com"  tabindex="6">  AOL</a>
 			   <a href ="/main/fbauth"  tabindex="6"> Sign in with Facebook</a>
 			   </form>
+			 </div>
 			</div>
-			
+			</div>
 		
 	     <!-- Footer Section-->
 		
