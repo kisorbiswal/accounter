@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -37,7 +38,10 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 4:
 				return amountAsString(!DecimalUtil.isEquals(
 						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
-						: 0.0);
+						: 0.0)
+						+ " "
+						+ CoreUtils.getCurrencySymbol(getCompany()
+								.getPreferences().getPrimaryCurrency());
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";

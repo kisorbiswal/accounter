@@ -17,8 +17,18 @@ public class ClientCurrency implements IAccounterCore {
 	String name;
 
 	String formalName;
-	
+
 	String symbol;
+
+	public ClientCurrency(String name, String formalName, String symbol) {
+		this.name = name;
+		this.formalName = formalName;
+		this.symbol = symbol;
+	}
+
+	public ClientCurrency() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/*
 	 * String countryName;

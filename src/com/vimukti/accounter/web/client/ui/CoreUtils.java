@@ -1732,6 +1732,155 @@ public class CoreUtils {
 			"AED ", "UYU ", "UZS ", "VUV", "VEF ", "VND", "YER", "ZMK ", "ZWD",
 			"DKK" };
 
+	private static ClientCurrency[] currencies = new ClientCurrency[] {
+			new ClientCurrency("United States 	Dollar", "USD", "$"),
+			new ClientCurrency("Afghan Afghani", "AFN", "Af"),
+			new ClientCurrency("Albanian Lek", "ALL", "Lek"),
+			new ClientCurrency("Angolan Kwanza", "AOA", "Kz"),
+			new ClientCurrency("Argentine	Peso", "ARS", "$"),
+			new ClientCurrency("Armenian	Dram", "AMD", ""),
+			new ClientCurrency("Aruban	Guilder", "AWG", "ƒ"),
+			new ClientCurrency("Australian	Dollar", "AUD", "$"),
+			new ClientCurrency("Azerbaijani	Manat", "AZN", "qəpik"),
+			new ClientCurrency("Bahamian	Dollar", "BSD", "B$"),
+			new ClientCurrency("Bahraini	Dinar", "BHD", "BD"),
+			new ClientCurrency("Bangladeshi	Taka", "BDT", "Tk"),
+			new ClientCurrency("Barbadian	Dollar", "BBD", "Bds$"),
+			new ClientCurrency("Belarusian	Ruble", "BYR", "Br"),
+			new ClientCurrency("Belize	Dollar", "BZD", "BZ$"),
+			new ClientCurrency("Bhutanese	Ngultrum", "BTN", "Nu."),
+			new ClientCurrency("Bolivian	Boliviano", "BOB", "Bs."),
+			new ClientCurrency("BosniaandHerzegovinaConvertible	Mark", "BAM",
+					"KM"), new ClientCurrency("Botswana	Pula", "BWP", "P"),
+			new ClientCurrency("Brazilian	Real", "BRL", "R$"),
+			new ClientCurrency("British	Pound", "GBP", "£"),
+			new ClientCurrency("Brunei	Dollar", "BND", "B$"),
+			new ClientCurrency("Bulgarian	Lev", "BGN", "лв"),
+			new ClientCurrency("Burundian	Franc", "BIF", "Fbu"),
+			new ClientCurrency("Cambodian	Riel", "KHR", "f"),
+			new ClientCurrency("Canadian	Dollar", "CAD", "$"),
+			new ClientCurrency("CapeVerdean	Escudo", "CVE", "Esc"),
+			new ClientCurrency("CaymanIslands	Dollar", "KYD", "KY$"),
+			new ClientCurrency("Chilean	Peso", "CLP", "$"),
+			new ClientCurrency("Chinese	Yuan", "CNY", "¥"),
+			new ClientCurrency("Colombian	Peso", "COP", "Col$"),
+			new ClientCurrency("Comorian	Franc", "KMF", "CF"),
+			new ClientCurrency("Congolese	Franc", "CDF", "F"),
+			new ClientCurrency("Congolese	Franc", "CDF", "F"),
+			new ClientCurrency("CostaRican	Colón", "CRC", "₡"),
+			new ClientCurrency("Croatian	Kuna", "HRK", "kn"),
+			new ClientCurrency("CubanConvertible	Peso", "CUC", "$"),
+			new ClientCurrency("Czech	Koruna", "CZK", "Kč"),
+			new ClientCurrency("Djiboutian	Franc", "DJF", "Fdj"),
+			new ClientCurrency("Dominican	Peso", "DOP", "RD$"),
+			new ClientCurrency("Dominican	Peso", "DOP", "RD$"),
+			new ClientCurrency("Egyptian	Pound", "EGP", "£"),
+			new ClientCurrency("Eritrean	Nakfa", "ERN", "Nfa"),
+			new ClientCurrency("Estonian	Kroon", "EEK", "KR"),
+			new ClientCurrency("Ethiopian	Birr", "ETB", "Br"),
+			new ClientCurrency("FalklandIsland	Pound", "FKP", "£"),
+			new ClientCurrency("Fijian	Dollar", "FJD", "FJ$"),
+			new ClientCurrency("Gambian	dalasi", "GMD", "D"),
+			new ClientCurrency("Georgian	Lari", "GEL", ""),
+			new ClientCurrency("Ghanaian	Cedi", "GHS", "U+20A1"),
+			new ClientCurrency("Gibraltar	Pound", "GIP", "£"),
+			new ClientCurrency("Guatemalan	Quetzal", "GTQ", "Q"),
+			new ClientCurrency("Guinean	Franc", "GNF", "FG"),
+			new ClientCurrency("Guyanese	Dollar", "GYD", "GY$"),
+			new ClientCurrency("Haitian	Gourde", "HTG", "G"),
+			new ClientCurrency("Honduran	Lempira", "HNL", "L"),
+			new ClientCurrency("HongKong	Dollar", "HKD", "HK$"),
+			new ClientCurrency("Hungarian	Forint", "HUF", "Ft"),
+			new ClientCurrency("Icelandic	Króna", "ISK", "kr"),
+			new ClientCurrency("Indian	Rupee", "INR", "Rs"),
+			new ClientCurrency("Indonesian	Rupiah", "IDR", "Rp"),
+			new ClientCurrency("Iranian	Rial", "IRR", "U+FDFC"),
+			new ClientCurrency("Iraqi	Dinar", "IQD", "dinar"),
+			new ClientCurrency("Israeli	NewSheqel", "ILS", "₪"),
+			new ClientCurrency("Jamaican	Dollar", "JMD", "J$"),
+			new ClientCurrency("Japanese	Yen", "JPY", "¥"),
+			new ClientCurrency("Jordanian	Dinar", "JOD", "dinar"),
+			new ClientCurrency("Kazakhstani	Tenge", "KZT", "T"),
+			new ClientCurrency("Kenyan	Shilling", "KES", "KSh"),
+			new ClientCurrency("NorthKorean	Won", "KPW", "W"),
+			new ClientCurrency("SouthKorean	Won", "KRW", "W"),
+			new ClientCurrency("Kuwaiti	Dinar", "KWD", "dinar "),
+			new ClientCurrency("Kyrgyzstani	Som", "KGS", "som "),
+			new ClientCurrency("Lao	Pound", "LAK", "KN"),
+			new ClientCurrency("Latvian	Lats", "LVL", "Ls"),
+			new ClientCurrency("Lebanese	Pound", "LBP", "L£"),
+			new ClientCurrency("Lesotho	Loti", "LSL", "M"),
+			new ClientCurrency("Liberian	Dollar", "LRD", "L$"),
+			new ClientCurrency("Libyan	Dinar", "LYD", "LD"),
+			new ClientCurrency("Lithuanian	Litas", "LTL", "Lt"),
+			new ClientCurrency("Macedonian	Denar", "MKD", "denar"),
+			new ClientCurrency("Malawian	Kwacha", "MWK", "MK"),
+			new ClientCurrency("Malaysian	Ringgit", "MYR", "RM"),
+			new ClientCurrency("Maldivian	Rufiyaa", "MVR", "Rf"),
+			new ClientCurrency("Mauritanian	Ouguiya", "MRO", "UM"),
+			new ClientCurrency("Mauritian	Rupee", "MUR", "Rs"),
+			new ClientCurrency("Mexican	Peso", "MXN", "$"),
+			new ClientCurrency("Moldovan	Leu", "MDL", "leu"),
+			new ClientCurrency("Mongolian	Tugrik", "MNT", "₮"),
+			new ClientCurrency("Moroccan	Dirham", "MAD", "dirham "),
+			new ClientCurrency("Mozambican	Metical", "MZN", "MTn"),
+			new ClientCurrency("Namibian	Dollar", "NAD", "N$"),
+			new ClientCurrency("Nepalese	Rupee", "NPR", "NRs"),
+			new ClientCurrency("NetherlandsAntillean	Guilder", "ANG", "NAƒ"),
+			new ClientCurrency("NewZealand	Dollar", "NZD", "NZ$"),
+			new ClientCurrency("Nicaraguan	Córdoba", "NIO", "C$"),
+			new ClientCurrency("Nigerian	Naira", "NGN", "₦"),
+			new ClientCurrency("Norwegian	Krone", "NOK", "kr"),
+			new ClientCurrency("Omani	Rial", "OMR", "rial"),
+			new ClientCurrency("Pakistani	Rupee", "PKR", "Rs."),
+			new ClientCurrency("Panamanian	Balboa", "PAB", "B./"),
+			new ClientCurrency("PapuaNewGuinean	Kina", "PGK", "K"),
+			new ClientCurrency("Paraguayan	Guaraní	PYG", "₲", "U+20B2"),
+			new ClientCurrency("PeruvianNuevo	Sol", "PEN", "S/."),
+			new ClientCurrency("Philippine	Peso", "PHP", "₱"),
+			new ClientCurrency("Qatari	Riyal", "QAR", "QR"),
+			new ClientCurrency("Romanian	Leu", "RON", "L"),
+			new ClientCurrency("Russian	Ruble", "RUB", "R"),
+			new ClientCurrency("Rwandan	Franc", "RWF", "RF"),
+			new ClientCurrency("SaintHelenian	Pound", "SHP", "£"),
+			new ClientCurrency("Samoan	Tala", "WST", "WS$"),
+			new ClientCurrency("SãoToméandPríncipe	Dobra", "STD", "Db"),
+			new ClientCurrency("Saudi	Riyal", "SAR", "SR"),
+			new ClientCurrency("Serbian	Dinar", "RSD", "din."),
+			new ClientCurrency("Seychellois	Rupee", "SCR", "SR"),
+			new ClientCurrency("SierraLeonean	Leone", "SLL", "Le"),
+			new ClientCurrency("Singapore	Dollar", "SGD", "S$"),
+			new ClientCurrency("Slovak	Koruna", "SKK", ""),
+			new ClientCurrency("SolomonIslands	Dollar", "SBD", "SI$"),
+			new ClientCurrency("Somali	Shilling", "SOS", "Sh."),
+			new ClientCurrency("SouthAfrican	Rand", "ZAR", "R"),
+			new ClientCurrency("SriLankan	Rupee", "LKR", "Rs"),
+			new ClientCurrency("Surinamese	Dollar", "SRD", "$"),
+			new ClientCurrency("Swazi	Lilangeni", "SZL", "E"),
+			new ClientCurrency("Swiss	Franc", "CHF", "Fr."),
+			new ClientCurrency("Syrian	Pound", "SYP", "£S"),
+			new ClientCurrency("TaiwaneseNew	Dollar", "TWD", "NT$"),
+			new ClientCurrency("Tajikistani	Somoni", "TJS", "somoni"),
+			new ClientCurrency("Tanzanian	Shilling", "TZS", "x/y"),
+			new ClientCurrency("Thai	Baht", "THB", "฿"),
+			new ClientCurrency("Tongan	Pa?anga", "TOP", ""),
+			new ClientCurrency("TrinidadandTobago	Dollar", "TTD", "TT$"),
+			new ClientCurrency("Tunisian	Dinar", "TND", "DT"),
+			new ClientCurrency("Turkmenistani	Manat", "TMT", "m"),
+			new ClientCurrency("Turkish	Lira", "TRY", "YTL"),
+			new ClientCurrency("Ugandan	Shilling", "UGX", "USh"),
+			new ClientCurrency("Ukrainian	Hryvnia", "UAH", "₴"),
+			new ClientCurrency("UnitedArabEmirates	Dirham", "AED", "Dhs"),
+			new ClientCurrency("Uruguayan	Peso", "UYU", "$U"),
+			new ClientCurrency("Uzbekistani	Som", "UZS", ""),
+			new ClientCurrency("Vanuatu	Vatu", "VUV", "VT"),
+			new ClientCurrency("VenezuelanBolívar	Fuertes", "VEF", "Bs"),
+			new ClientCurrency("Vietnamese	Dong", "VND", "₫"),
+			new ClientCurrency("Yemeni	Rial", "YER", ""),
+			new ClientCurrency("Zambian	Kwacha", "ZMK", "ZK"),
+			new ClientCurrency("Zimbabwean	Dollar", "ZWD", "Z$"),
+			new ClientCurrency("DanishKrone", "DKK", "Kr") };
+
 	private static String[] currencyNames = new String[] {
 			"United States 	Dollar", "Afghan 	Afghani", "Albanian 	Lek",
 			"Algerian 	Dinar", "Angolan 	Kwanza", "Argentine 	Peso",
@@ -1749,7 +1898,7 @@ public class CoreUtils {
 			"Cuban Convertible 	Peso", "Czech 	Koruna", "Djiboutian 	Franc",
 			"Dominican 	Peso", "Dominican 	Peso", "Egyptian 	Pound",
 			"Eritrean 	Nakfa", "Estonian 	Kroon", "Ethiopian 	Birr",
-			"Falkland Island	Pound", "Fijian 	Dollar", "Gambian 	alasi",
+			"Falkland Island	Pound", "Fijian 	Dollar", "Gambian 	dalasi",
 			"Georgian	 Lari", "Ghanaian 	Cedi", "Gibraltar 	Pound",
 			"Guatemalan 	Quetzal", "Guinean 	Franc", "Guyanese 	Dollar",
 			"Haitian 	Gourde", "Honduran 	Lempira", "Hong Kong 	Dollar",
@@ -1790,9 +1939,8 @@ public class CoreUtils {
 			"Lek", "DA", "Kz", "\u0024", "", "Afl", "A$", "m", "B$", "BD", "৳",
 			"Bds$", "Br", "BZ$", "BD$", "Nu.", "Bs.", "KM", "P", "R$", "£",
 			"B$", "лв", "FBu", "f", "$", "Esc", "KY$", "$", "¥", "Col$", "CF",
-			""
-
-	};
+			"F", "F", "₡", "kn", "$", "Kč", "Fdj", "RD$", "£", "Nfa", "KR",
+			"Br", "£", "FJ$", "D", "GEL" };
 
 	public static String[] getCountries() {
 		return countries;
@@ -1832,23 +1980,7 @@ public class CoreUtils {
 
 	public static List<ClientCurrency> getCurrencies(
 			List<ClientCurrency> existCurrencies) {
-		List<ClientCurrency> currencies = new ArrayList<ClientCurrency>();
-		for (int i = 0; i < currencyCodes.length; i++) {
-			ClientCurrency clientCurrency = new ClientCurrency();
-			clientCurrency.setFormalName(currencyCodes[i]);
-			clientCurrency.setName(currencyNames[i]);
-			clientCurrency.setSymbol(currencyCodes[i]);
-			for (ClientCurrency currency : existCurrencies) {
-				if (currency.getFormalName() != null
-						&& currency.getFormalName().equals(
-								clientCurrency.getFormalName())) {
-					clientCurrency.setID(currency.getID());
-					break;
-				}
-			}
-			currencies.add(clientCurrency);
-		}
-		return currencies;
+		return Arrays.asList(currencies);
 	}
 
 	public static ClientCurrency getCurrency(String formalName) {
@@ -1865,4 +1997,19 @@ public class CoreUtils {
 		currency.setSymbol(currencyCodes[index]);
 		return currency;
 	}
+
+	public static String getCurrencySymbol(String currencyFormalName) {
+		int index = 0;
+		for (int i = 0; i < currencies.length; i++) {
+			if (currencyFormalName.equalsIgnoreCase(currencies[i]
+					.getFormalName())) {
+				index = i;
+				break;
+
+			}
+		}
+		return currencies[index].getSymbol();
+
+	}
+
 }
