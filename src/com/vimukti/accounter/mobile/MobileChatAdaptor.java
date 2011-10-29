@@ -72,13 +72,13 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				userMessage.setOriginalMsg(message);
 				command = matchedCommand;
 			}
-		}
 
-		Result result = PatternStore.INSTANCE.find(message);
-		if (result != null) {
-			userMessage.setType(Type.HELP);
-			userMessage.setResult(result);
-			return userMessage;
+			Result result = PatternStore.INSTANCE.find(message);
+			if (result != null) {
+				userMessage.setType(Type.HELP);
+				userMessage.setResult(result);
+				return userMessage;
+			}
 		}
 
 		UserMessage lastMessage = session.getLastMessage();
@@ -86,7 +86,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				.getResult();
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
-			result = getPatternResult(patternResult.getCommands(), message);
+			Result result = getPatternResult(patternResult.getCommands(),
+					message);
 			if (result != null) {
 				userMessage.setType(Type.HELP);
 				userMessage.setResult(result);

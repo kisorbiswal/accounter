@@ -31,6 +31,9 @@ public class PatternStore {
 	private Map<String, Result> patterns = new HashMap<String, Result>();
 
 	public Result find(String pattern) {
+		if (pattern.isEmpty()) {
+			return null;
+		}
 		return patterns.get(pattern.toLowerCase().trim());
 	}
 

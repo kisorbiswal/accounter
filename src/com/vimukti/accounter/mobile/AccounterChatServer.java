@@ -93,7 +93,6 @@ public class AccounterChatServer implements ChatManagerListener,
 
 		String message = msg.getBody();
 		String from = msg.getFrom();
-		System.out.println("from: " + from);
 		if (from.contains("/")) {
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}

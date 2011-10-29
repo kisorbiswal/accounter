@@ -62,7 +62,7 @@ public class AuthenticationCommand extends Command {
 					} else {
 						if (!context.getString().isEmpty()) {
 							makeResult
-									.add("There is no account found with given Email Id. Or Sighn up");
+									.add("There is no account found with given Email Id. Or press 'a' to Sighn up");
 						}
 						makeResult.add("Enter valid Accounter Email Id");
 						CommandList commandList = new CommandList();
