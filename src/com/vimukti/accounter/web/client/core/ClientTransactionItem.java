@@ -77,6 +77,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	boolean isVoid;
 
+	long wareHouse;
 	/**
 	 * Every TransactionItem consists of a set of for the purpose
 	 */
@@ -556,5 +557,13 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	public void setBillable(boolean isBillable) {
 		this.isBillable = isBillable;
+	}
+
+	public long getWareHouse() {
+		return wareHouse;
+	}
+
+	public void setWareHouse(long wareHouse) {
+		this.wareHouse = wareHouse;
 	}
 }
