@@ -949,4 +949,8 @@ public interface AccounterMessages extends Messages {
 
 	public String creating(String quote);
 
+	public String hasSelected(String paymentMethod);
+
+	public String depositAccount(String account);
+
 }
