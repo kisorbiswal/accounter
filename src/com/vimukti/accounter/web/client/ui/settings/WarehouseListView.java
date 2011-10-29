@@ -43,7 +43,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().wareHouse();
+		return Accounter.constants().addNewWarehouse();
 	}
 
 	@Override

@@ -5152,4 +5152,6 @@ public interface AccounterConstants extends Constants {
 
 	public String amountDifference();
 
+	public String addNewWarehouse();
+
 }
