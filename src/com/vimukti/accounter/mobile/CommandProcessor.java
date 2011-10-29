@@ -105,6 +105,7 @@ public class CommandProcessor {
 		UserMessage lastMessage = session.getLastMessage();
 		Result lastResult = lastMessage == null ? null : lastMessage
 				.getResult();
+		boolean isSelected = false;
 		if (lastResult != null) {
 			List<Object> resultParts = lastResult.getResultParts();
 			Iterator<Object> iterator = resultParts.iterator();
@@ -112,14 +113,19 @@ public class CommandProcessor {
 				Object next = iterator.next();
 				if (next instanceof ResultList) {
 					// Setting Selections
-					setSelections((ResultList) next, message.getInputs(),
-							context);
+					isSelected = isSelected
+							|| setSelections((ResultList) next,
+									message.getInputs(), context);
 				}
 			}
 		}
 
 		context.setInputs(message.getInputs());
-		context.setString(message.getOriginalMsg());
+		if (!isSelected) {
+			context.setString(message.getOriginalMsg());
+		} else {
+			context.setString("");
+		}
 		Result result = null;
 		try {
 			if (session.getCompanyID() != 0) {
@@ -163,11 +169,13 @@ public class CommandProcessor {
 	 * @param inputs
 	 * @param context
 	 */
-	private void setSelections(ResultList next, List<String> inputs,
+	private boolean setSelections(ResultList next, List<String> inputs,
 			Context context) {
+		boolean isSelected = false;
 		ResultList resultList = (ResultList) next;
 		for (Record record : resultList) {
 			if (inputs.contains(record.getCode())) {
+				isSelected = true;
 				if (!resultList.isMultiSelection()) {
 					context.putSelection(resultList.getName(),
 							record.getObject());
@@ -180,6 +188,7 @@ public class CommandProcessor {
 				}
 			}
 		}
+		return isSelected;
 	}
 
 	private Context getContext(MobileSession mSession, UserMessage message) {
@@ -188,6 +197,7 @@ public class CommandProcessor {
 		Context context = new Context(mSession);
 		context.setNetworkId(message.getNetworkId());
 		context.setNetworkType(message.getNetworkType());
+		context.setCommandString(message.getCommandString());
 		return context;
 	}
 }
