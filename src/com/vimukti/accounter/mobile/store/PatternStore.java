@@ -68,6 +68,8 @@ public class PatternStore {
 		xStream.alias("text", String.class);
 		xStream.alias("command", String.class);
 
+		xStream.addImplicitCollection(Output.class, "commands");
+
 		return xStream;
 
 	}
