@@ -160,13 +160,12 @@ public class NewAccountCommand extends NewAbstractCommand {
 	protected Result onCompleteProcess(Context context) {
 		ClientAccount account = new ClientAccount();
 
-		String accType = (String) get(ACCOUNT_TYPE).getValue();
-		String accname = (String) get(ACCOUNT_NAME).getValue();
-		String accountNum = (String) get(ACCOUNT_NUMBER).getValue();
-		double openingBal = (Double) get(OPENINGBALANCE).getValue();
-		boolean isActive = (Boolean) get(ACTIVE).getValue();
-		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
-				.getValue();
+		String accType = get(ACCOUNT_TYPE).getValue();
+		String accname = get(ACCOUNT_NAME).getValue();
+		String accountNum = get(ACCOUNT_NUMBER).getValue();
+		double openingBal = get(OPENINGBALANCE).getValue();
+		boolean isActive = get(ACTIVE).getValue();
+		boolean isCashAcount = get(CONSIDER_AS_CASH_ACCOUNT).getValue();
 		ClientFinanceDate asOf = get(ASOF).getValue();
 		String comment = get(COMMENTS).getValue();
 
