@@ -42,12 +42,11 @@ import org.openid4java.util.ProxyProperties;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class OpenIdServlet extends BaseServlet {
+public class OpenIdServlet extends ThirdPartySignupServlet {
 
 	private static final String OPTIONAL_VALUE = "0";
 	private static final String REQUIRED_VALUE = "1";
 
-	private static final String OPENID_SIGNUP_VIEW = "/WEB-INF/OpenIdSignup.jsp";
 	private ConsumerManager manager;
 
 	/**
@@ -202,6 +201,11 @@ public class OpenIdServlet extends BaseServlet {
 		FetchRequest fetch = FetchRequest.createFetchRequest();
 		fetch.addAttribute("email", "http://axschema.org/contact/email", true,
 				1);
+		fetch.addAttribute("firstname", "http://axschema.org/namePerson/first", true,
+				1);
+		fetch.addAttribute("lastname", "http://axschema.org/namePerson/last", true,
+				1);
+		
 		authReq.addExtension(fetch);
 	}
 
@@ -209,65 +213,14 @@ public class OpenIdServlet extends BaseServlet {
 			throws ServletException, IOException {
 		Identifier identifier = this.verifyResponse(req);
 		if (identifier == null) {
-			this.getServletContext()
-					.getRequestDispatcher("/WEB-INF/login.jsp")
-					.forward(req, resp);
+			redirectExternal(req, resp, LOGIN_URL);
+			return ;
 		} else {
 			req.setAttribute("identifier", identifier.getIdentifier());
 			String email = (String) req.getAttribute("email");
-			loginForUser(email, req, resp);
-		}
-	}
-
-	private void loginForUser(String email, HttpServletRequest request,
-			HttpServletResponse response) {
-		Session session = HibernateUtil.openSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			Client client = (Client) session
-					.getNamedQuery("getClient.by.mailId")
-					.setString("emailId", email).uniqueResult();
-			if (client != null) {
-				// if valid credentials are there we redirect to <dest> param or
-				// /companies
-
-				if (!client.isActive()) {
-					client.setActive(true);
-				} else {
-					if (client.isRequirePasswordReset()) {
-						client.setRequirePasswordReset(false);
-						session.saveOrUpdate(client);
-					}
-
-					String destUrl = request.getParameter(PARAM_DESTINATION);
-					HttpSession httpSession = request.getSession();
-					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
-					if (destUrl == null || destUrl.isEmpty()) {
-						client.setLoginCount(client.getLoginCount() + 1);
-						client.setLastLoginTime(System.currentTimeMillis());
-						session.saveOrUpdate(client);
-						redirectExternal(request, response, COMPANIES_URL);
-					} else {
-						redirectExternal(request, response, destUrl);
-					}
-
-				}
-			} else {
-				request.setAttribute("message",
-						"No account exists with this emailid.please signup");
-				dispatch(request, response, OPENID_SIGNUP_VIEW);
-			}
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		} finally {
-			if (session.isOpen()) {
-				session.close();
-			}
+			String firstname = (String) req.getAttribute("firstname");
+			String lasename = (String) req.getAttribute("lastname");
+			loginForUser(email,firstname,lasename, req, resp);
 		}
 	}
 
