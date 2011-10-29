@@ -55,8 +55,8 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	private ClientQuantity maxStockAlertLevel;
 	private ClientQuantity minStockAlertLevel;
 
-	private ClientWarehouse warehouse;
-	private ClientMeasurement measurement;
+	private long warehouse;
+	private long measurement;
 
 	boolean isDefault;
 
@@ -438,19 +438,19 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 		this.minStockAlertLevel = minStockAlertLevel;
 	}
 
-	public ClientWarehouse getWarehouse() {
+	public long getWarehouse() {
 		return warehouse;
 	}
 
-	public void setWarehouse(ClientWarehouse warehouse) {
+	public void setWarehouse(long warehouse) {
 		this.warehouse = warehouse;
 	}
 
-	public ClientMeasurement getMeasurement() {
+	public long getMeasurement() {
 		return measurement;
 	}
 
-	public void setMeasurement(ClientMeasurement measurement) {
+	public void setMeasurement(long measurement) {
 		this.measurement = measurement;
 	}
 
