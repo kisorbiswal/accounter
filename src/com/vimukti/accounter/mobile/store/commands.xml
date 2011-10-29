@@ -587,8 +587,9 @@
 		<alias>New Supplier </alias>
 		<alias>Add Supplier </alias>
 		<alias>Create Supplier</alias>
-		<alias>New Vendor </alias>
-		<alias>Add Vendor </alias>
+		<alias>New Vendor</alias>
+		<alias>Create Vendor</alias>
+		<alias>Add Vendor</alias>
 		<alias>Create New Vendor</alias>
 	</command>
 
