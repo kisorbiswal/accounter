@@ -10,6 +10,8 @@ public class ClientWarehouse implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	long id;
+
 	private ClientAddress address;
 	private Set<ClientItemStatus> itemStatuses;
 
@@ -100,12 +102,12 @@ public class ClientWarehouse implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		return 0;
+		return id;
 	}
 
 	public ClientWarehouse clone() {
