@@ -26,8 +26,7 @@ public class TaxItemDetailReportAction extends Action {
 
 			public void onCreated() {
 
-				TaxItemDetailReportView report = new TaxItemDetailReportView(
-						false);
+				TaxItemDetailReportView report = new TaxItemDetailReportView();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, TaxItemDetailReportAction.this);
 

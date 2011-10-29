@@ -57,6 +57,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
 	public boolean isTAXItemDetailsReport;
+	public boolean isVATPriorReport;
 
 	protected IFinanceReport<R> serverReport = null;
 
@@ -485,7 +486,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				break;
 
 			case TOOLBAR_TYPE_TAXAGENCY:
-				toolbar = new TaxAgencyStartDateEndDateToolbar();
+				toolbar = new TaxAgencyStartDateEndDateToolbar(isVATPriorReport);
 				break;
 			default:
 				toolbar = new AsOfReportToolbar();

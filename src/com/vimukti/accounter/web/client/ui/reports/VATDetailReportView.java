@@ -13,13 +13,11 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATDetailServerReportVi
 
 public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
-	private Boolean isVatExceptionDetailReport = false;
-
-	public VATDetailReportView(Boolean isVatExceptionDetailReport) {
+	public VATDetailReportView() {
 		super(false, Accounter.constants().noRecordsToShow());
 		isVATDetailReport = true;
 		this.serverReport = new VATDetailServerReportView(this);
-		this.isVatExceptionDetailReport = isVatExceptionDetailReport;
+
 	}
 
 	@Override
@@ -41,13 +39,8 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		if (!isVatExceptionDetailReport) {
-			Accounter.createReportService().getPriorVATReturnVATDetailReport(
-					start, end, this);
-		} else {
-			Accounter.createReportService().getVATExceptionDetailReport(
-					start, end, this);
-		}
+		Accounter.createReportService().getPriorVATReturnVATDetailReport(start,
+				end, this);
 
 	}
 

@@ -21,11 +21,13 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 	public DateItem fromItem;
 	public DateItem toItem;
 
-	TAXAgencyCombo taxAgencyCombo;
+	public TAXAgencyCombo taxAgencyCombo;
 	ClientTAXAgency selectedAgency;
-	private Button updateButton;
+	public Button updateButton;
+	private boolean isVATPriorReport;
 
-	public TaxAgencyStartDateEndDateToolbar() {
+	public TaxAgencyStartDateEndDateToolbar(boolean isVATPriorReport) {
+		this.isVATPriorReport = isVATPriorReport;
 		createControls();
 	}
 
@@ -44,8 +46,6 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 					public void selectedComboBoxItem(ClientTAXAgency selectItem) {
 						if (selectItem != null) {
 							selectedAgency = selectItem;
-							setStartDate(fromItem.getDate());
-							setEndDate(toItem.getDate());
 							reportRequest();
 						}
 
@@ -59,7 +59,6 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-
 		toItem.setEnteredDate(new ClientFinanceDate());
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
@@ -107,7 +106,9 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		});
 
 		addItems(taxAgencyCombo, fromItem, toItem);
+
 		add(updateButton);
+
 		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
 				.getActiveTAXAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
@@ -132,10 +133,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		fromItem.setEnteredDate(startDate);
-		toItem.setEnteredDate(endDate);
-		setStartDate(startDate);
-		setEndDate(endDate);
+
 	}
 
 	@Override

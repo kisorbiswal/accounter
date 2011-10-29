@@ -7,9 +7,14 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
+/**
+ * 
+ * @author Sai Prasad N
+ * 
+ */
 public class VatExceptionDetailReportAction extends Action {
 
-	private VATDetailReportView report;
+	private VATExceptionDetailReportView report;
 
 	public VatExceptionDetailReportAction(String text) {
 		super(text);
@@ -32,7 +37,7 @@ public class VatExceptionDetailReportAction extends Action {
 
 			public void onCreated() {
 
-				report = new VATDetailReportView(true);
+				report = new VATExceptionDetailReportView();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, VatExceptionDetailReportAction.this);
 

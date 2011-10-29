@@ -31,8 +31,7 @@ public class TAXItemExceptionDetailReport extends Action {
 
 			public void onCreated() {
 
-				TaxItemDetailReportView report = new TaxItemDetailReportView(
-						true);
+				TAXitemExceptionReport report = new TAXitemExceptionReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, TAXItemExceptionDetailReport.this);
 

@@ -1543,7 +1543,7 @@ public interface AccounterConstants extends Constants {
 	public String getdefaultUnit();
 
 	public String getFactorName();
-	
+
 	public String factor();
 
 	public String getLogUpto();
@@ -5139,5 +5139,17 @@ public interface AccounterConstants extends Constants {
 	public String measurementList();
 
 	public String defaultWare();
+
+	public String paid();
+
+	public String unPaid();
+
+	public String filedAmount();
+
+	public String currentAmount();
+
+	public String exceptionDetails();
+
+	public String amountDifference();
 
 }

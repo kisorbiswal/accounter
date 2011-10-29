@@ -44,7 +44,7 @@ public class VATDetailsReportAction extends Action {
 
 			public void onCreated() {
 
-				report = new VATDetailReportView(false);
+				report = new VATDetailReportView();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, VATDetailsReportAction.this);
 

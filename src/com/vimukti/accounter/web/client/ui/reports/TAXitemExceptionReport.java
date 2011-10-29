@@ -14,12 +14,12 @@ import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerRepo
  * @author Sai Prasad N
  * 
  */
-public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
+public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 
 	private long taxAgency;
 	private int row;
 
-	public TaxItemDetailReportView() {
+	public TAXitemExceptionReport() {
 		super(false, Accounter.constants().noRecordsToShow());
 		this.serverReport = new TAXItemDetailServerReportView(this);
 
@@ -92,6 +92,7 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 			toolBar.toItem.setDisabled(true);
 			toolBar.updateButton.setEnabled(false);
 			this.serverReport.initRecords(detail);
+
 		} else {
 			super.initData();
 		}

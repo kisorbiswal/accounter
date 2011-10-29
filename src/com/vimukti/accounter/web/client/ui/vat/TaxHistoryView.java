@@ -3,21 +3,18 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.company.PaySalesTaxAction;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -29,13 +26,17 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 
 {
 	SelectCombo optionsCombo;
-	TaxHistoryTable grid;
+	TAXHistoryGrid grid;
 	ClientAbstractTAXReturn clientVATReturn;
+	VerticalPanel gridLayout;
+	List<ClientAbstractTAXReturn> clientAbstractTAXReturns;
 
 	@Override
 	public void init() {
 		super.init();
+		initListGrid();
 		createControls();
+
 	}
 
 	private void createControls() {
@@ -58,17 +59,8 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 				});
 		initComboItems();
 
-		this.grid = new TaxHistoryTable(
-				new SelectionChangedHandler<ClientAbstractTAXReturn>() {
-
-					@Override
-					public void selectionChanged(ClientAbstractTAXReturn obj,
-							boolean isSelected) {
-						clientVATReturn = obj;
-
-					}
-				});
-		this.grid.setWidth("100%");
+		;
+		// this.grid.setWidth("100%");
 		DynamicForm form2 = new DynamicForm();
 
 		form2.setFields(optionsCombo);
@@ -76,48 +68,82 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 		mainPanel.setWidth("100%");
 		mainPanel.add(label);
 		mainPanel.add(form2);
-		mainPanel.add(grid);
+		mainPanel.add(gridLayout);
 
-		grid.getElement().getParentElement()
-				.addClassName("recounciliation_grid");
+		// grid.getElement().getParentElement()
+		// .addClassName("recounciliation_grid");
 		setData();
 		this.add(mainPanel);
 		saveAndCloseButton.setVisible(false);
+		saveAndNewButton.setVisible(true);
 		saveAndNewButton.setText(Accounter.constants().payTax());
-		saveAndNewButton.addClickHandler(new ClickHandler() {
+	}
 
-			@Override
-			public void onClick(ClickEvent arg0) {
+	@Override
+	public void onSave(boolean reopen) {
+		ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();
 
-				PaySalesTaxAction paySalesTaxAction = ActionFactory
-						.getPaySalesTaxAction();
-				paySalesTaxAction.run(clientVATReturn, true);
-
-			}
-		});
-
+		ClientAbstractTAXReturn selection = grid.getSelection();
+		ClientPayTAX clientPayTAX = new ClientPayTAX();
+		clientTransactionPayTAX.setTaxAgency(selection.getTaxAgency());
+		clientTransactionPayTAX.setTaxDue(selection.getBalance());
+		List<ClientTransactionPayTAX> data = new ArrayList<ClientTransactionPayTAX>();
+		data.add(clientTransactionPayTAX);
+		clientPayTAX.setTransactionPayTax(data);
+		// TODO
+		// ActionFactory.getpayTAXAction().run(clientPayTAX, true);
 	}
 
 	private void initComboItems() {
 		List<String> options = new ArrayList<String>();
-		options.add(new String("All"));
-		options.add(new String("Paid"));
-		options.add(new String("UnPaid"));
+		options.add(new String(Accounter.constants().all()));
+		options.add(new String(Accounter.constants().paid()));
+		options.add(new String(Accounter.constants().unPaid()));
 		optionsCombo.initCombo(options);
 		optionsCombo.setSelectedItem(0);
 
 	}
 
+	private void initListGrid() {
+
+		gridLayout = new VerticalPanel();
+		gridLayout.setWidth("100%");
+		grid = new TAXHistoryGrid(true);
+		grid.setCanEdit(!isInViewMode());
+		grid.isEnable = false;
+		grid.init();
+		grid.setTaxHistoryView(this);
+		grid.setDisabled(isInViewMode());
+
+		gridLayout.add(grid);
+
+	}
+
 	private void setData() {
+
 		ArrayList<ClientAbstractTAXReturn> vatReturns = getCompany()
 				.getVatReturns();
+		clientAbstractTAXReturns = vatReturns;
 		if (!vatReturns.isEmpty()) {
-			this.grid.setData(vatReturns);
+			for (ClientAbstractTAXReturn a : vatReturns)
+				this.grid.addData(a);
 		}
 	}
 
 	private void filterList(String selectItem) {
-		// TODO Auto-generated method stub
+		this.grid.clear();
+		if (selectItem.equals(constants.paid())) {
+			for (ClientAbstractTAXReturn a : clientAbstractTAXReturns)
+				if (a.getBalance() == 0)
+					this.grid.addData(a);
+		} else if (selectItem.equals(constants.unPaid())) {
+			for (ClientAbstractTAXReturn a : clientAbstractTAXReturns)
+				if (a.getBalance() > 0)
+					this.grid.addData(a);
+		} else {
+			for (ClientAbstractTAXReturn a : clientAbstractTAXReturns)
+				this.grid.addData(a);
+		}
 
 	}
 

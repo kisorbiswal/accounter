@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxI
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VATDetailServerReportView;
+import com.vimukti.accounter.web.client.ui.serverreports.VATExceptionServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VATItemDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VATItemSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VATUncategorisedAmountsServerReport;
@@ -110,6 +111,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_PROFITANDLOSSBYCLASS = 161;
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TAX_ITEM_DETAIL = 165;
+	public final static int REPORT_TYPE_VAT_EXCEPTION_DETAIL = 166;
 
 	// private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -1254,6 +1256,27 @@ public class ReportsGenerator {
 							startDate.getDate(), endDate.getDate()));
 
 			return taxItemDetailServerReportView.getGridTemplate();
+		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
+			VATExceptionServerReport report = new VATExceptionServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(report, finaTool);
+			report.resetVariables();
+			try {
+				report.onResultSuccess(finaTool.getReportManager()
+						.getVATExceptionDetailReport(company.getID(),
+								startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return report.getGridTemplate();
 		default:
 			break;
 		}
@@ -1492,6 +1515,8 @@ public class ReportsGenerator {
 			return "General Ledger Report";
 		case REPORT_TYPE_TAX_ITEM_DETAIL:
 			return "TAXItemDetail Report";
+		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
+			return "VAT Exception Detail Report";
 		default:
 			break;
 		}
