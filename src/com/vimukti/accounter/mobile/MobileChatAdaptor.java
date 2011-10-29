@@ -36,8 +36,26 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			userMessage = session.getLastMessage();
 			message = userMessage.getOriginalMsg();
 		}
-
 		Command command = null;
+		Result result = PatternStore.INSTANCE.find(message);
+		if (result != null) {
+			userMessage.setType(Type.HELP);
+			userMessage.setResult(result);
+			return userMessage;
+		}
+
+		UserMessage lastMessage = session.getLastMessage();
+		Result lastResult = lastMessage == null ? null : lastMessage
+				.getResult();
+		if (lastResult instanceof PatternResult) {
+			PatternResult patternResult = (PatternResult) lastResult;
+			result = getPatternResult(patternResult.getCommands(), message);
+			if (result != null) {
+				userMessage.setType(Type.HELP);
+				userMessage.setResult(result);
+				return userMessage;
+			}
+		}
 
 		if (command == null) {
 			command = session.getCurrentCommand();
@@ -75,9 +93,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			}
 		}
 
-		UserMessage lastMessage = session.getLastMessage();
-		Result lastResult = lastMessage == null ? null : lastMessage
-				.getResult();
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
 			Command selectCommand = getCommand(patternResult.getCommands(),
@@ -105,13 +120,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			return userMessage;
 		}
 
-		Result result = PatternStore.INSTANCE.find(message);
-		if (result != null) {
-			userMessage.setType(Type.HELP);
-			userMessage.setResult(result);
-			return userMessage;
-		}
-
 		if (message.startsWith("#")) {
 			userMessage.setType(Type.NUMBER);
 			userMessage.setInputs(message.replaceAll("#", "").split(" "));
@@ -127,6 +135,24 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		userMessage.setInputs(new String[] { message });
 
 		return userMessage;
+	}
+
+	private Result getPatternResult(CommandList commands, String input) {
+		// Getting the First Character of the Input
+		if (input == null || input.isEmpty() || input.length() > 1) {
+			return null;
+		}
+		char ch = input.charAt(0);
+		// Finding the Command for Input
+		int index = ch - 97;// If ch is number
+		if (index < 0) {
+			return null;
+		}
+		String commandString = commands.get(index);
+		if (commandString == null) {
+			return null;
+		}
+		return PatternStore.INSTANCE.find(commandString);
 	}
 
 	private Command getCommand(CommandList commands, String input) {
