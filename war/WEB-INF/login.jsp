@@ -31,8 +31,50 @@
 			}
 		});
 	});
+		$('#unChangedNewsDiv>h4').html("<div><h4>"+news.list[0].newsText+"</h4></br><h3>"+news.list[0].newsText+"</h3></div>");
+		var changingindex =1;
+		var setTimeIntervel;
+		timerStarted();
+			for(var i=0; i <  news.list.length; i++){
+					var listItemDiv = $("<li id="+news.list[i].id+"><a href="+news.list[i].url+"</a>"+news.list[i].newsText+"</li></br>");
+					$('#feedDivUl').append($(listItemDiv));
+			}
+			
+			$('li').each(function(index) {
+					var id=$(this).attr("id");
+			$('#'+id).mouseover(function(){
+				$(this).addClass("listItemHover");
+				changingindex = parseInt(id);
+				cahngeContent();
+			}).mouseout(function(){
+				$(this).removeClass("listItemHover");
+				})
+			});
+			
+			$('#feedDiv').mouseover(function(){
+				clearInterval(setTimeIntervel);
+			}).mouseout(function(){
+				timerStarted();
+				})
+			
+			function timerStarted(){
+			  setTimeIntervel =	setInterval ( function (){
+				  if(changingindex <news.list.length)
+					changingindex = changingindex+1;	
+					$('#unChangedNewsDiv>h4').html("<div><h4><a>"+news.list[changingindex-1].url+"</a></h4></br><h3>"+news.list[changingindex-1].newsText+"</h3></div>");
+					if(changingindex ==news.list.length){
+						changingindex=0;
+					}
+				}, 3000 );
+				
+				
+			}
+			function cahngeContent(){
+				$('#unChangedNewsDiv>h4').html("<div><h4>"+news.list[changingindex-1].newsText+"</h4></br><h3>"+news.list[changingindex-1].newsText+"</h3></div>");
+			}
+		 
 	 
-});	
+	});	
 </script>
 
 <%
@@ -46,6 +88,12 @@
 	 
 	     <div id="commanContainer">
 			   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/>
+			  <div id ="feedDiv">
+			  <div id="unChangedNewsDiv" class = "news"><h4></h4><span><span><p></p></div>
+			  <ul id="feedDivUl"></ul>
+			  </div>
+			   
+			   
 			   <c:if test="${message != null}">
 			   <div id="login_error" class="common-box">
 					<span>${message} </span>
