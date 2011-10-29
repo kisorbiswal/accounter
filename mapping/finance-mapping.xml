@@ -1635,28 +1635,9 @@
 			<property name="email" column="CONTACT_EMAIL"></property>
 		</component>
 
-		<set name="itemStatuses" table="ITEM_STATUS" inverse="true"
-			cascade="save-update,delete" lazy="false">
-			<key column="WAREHOUSE" />
-			<composite-element class="ItemStatus"> <!-- class attribute required -->
-				<parent name="warehouse" />
-				<many-to-one name="item" column="ITEM_ID" class="Item"
-					lazy="false">
-				</many-to-one>
-				<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
-					<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
-					<property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
-					column="LAST_MODIFIED_DATE" /> -->
-
-				<nested-composite-element name="quantity"
-					class="Quantity">
-					<property name="value" column="VALUE" />
-					<!-- DOUBT on this mapping -->
-					<many-to-one name="unit" column="UNIT" class="Unit"
-						lazy="false" cascade="save-update" />
-				</nested-composite-element>
-
-			</composite-element>
+		<set name="itemStatuses" inverse="true"	cascade="save-update,delete" lazy="false">
+			<key column="WARE_HOUSE" />
+			<one-to-many class="ItemStatus" />
 		</set>
 
 	</class>
@@ -1665,14 +1646,12 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
+		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse"
+			lazy="false">
+		</many-to-one>
 		<many-to-one name="item" column="ITEM_ID" class="Item"
 			lazy="false">
 		</many-to-one>
-		<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
-			<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
-			<property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
-			column="LAST_MODIFIED_DATE" /> -->
-
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
 			<many-to-one name="unit" column="UNIT" class="Unit" lazy="false"
