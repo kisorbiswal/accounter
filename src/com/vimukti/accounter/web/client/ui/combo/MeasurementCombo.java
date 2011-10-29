@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.settings.MeasurementListAction;
+import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 
 public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
@@ -33,15 +33,15 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
 	@Override
 	public void onAddNew() {
-		MeasurementListAction action = ActionFactory.getMeasurementsAction();
+		AddMeasurementAction action = ActionFactory.getAddMeasurementAction();
 		action.setCallback(new ActionCallback<ClientMeasurement>() {
 
 			@Override
 			public void actionResult(ClientMeasurement result) {
-				addItemThenfireEvent(result);
+				if (result.getDisplayName() != null)
+					addItemThenfireEvent(result);
 			}
 		});
-		action.run(null, true);
+		action.run(null, false);
 	}
-
 }

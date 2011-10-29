@@ -86,6 +86,31 @@ public class RadioGroupItem extends FormItem<String> {
 
 	}
 
+	public void setValueMap(String title1, String title2, String title3) {
+
+		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
+				title1);
+		if (this.clickHandler != null) {
+			this.radioButton.addClickHandler(clickHandler);
+		}
+		this.radioButtonList.add(radioButton);
+
+		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
+				title2);
+		if (this.clickHandler != null) {
+			this.radioButton.addClickHandler(clickHandler);
+		}
+		this.radioButtonList.add(radioButton);
+
+		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
+				title3);
+		if (this.clickHandler != null) {
+			this.radioButton.addClickHandler(clickHandler);
+		}
+		this.radioButtonList.add(radioButton);
+
+	}
+
 	/**
 	 * Set the Alignment of the RadioButtonGroupItem by default it shows in
 	 * vertical manner

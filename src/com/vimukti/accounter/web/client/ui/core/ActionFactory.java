@@ -165,6 +165,7 @@ import com.vimukti.accounter.web.client.ui.settings.CopyThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.CustomThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.DeleteThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.GeneralSettingsAction;
+import com.vimukti.accounter.web.client.ui.settings.InventoryItemsAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
 import com.vimukti.accounter.web.client.ui.settings.MeasurementListAction;

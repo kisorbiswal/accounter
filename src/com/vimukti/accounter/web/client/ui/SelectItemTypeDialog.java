@@ -24,8 +24,6 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	private boolean isDependent = true;
 	private String itemname;
 
-	
-
 	public SelectItemTypeDialog(boolean isGeneratedFromCustomer) {
 		super(Accounter.constants().selectItemType(), Accounter.constants()
 				.selectOneOfItem());
@@ -45,9 +43,16 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		// typeMap.put("service", "Service");
 		// typeMap.put("non-inventory", "Non-Inventory&nbsp;Item");
 
-		typeRadio.setValueMap(Accounter.constants().service(), Accounter
-				.constants().product());
-		typeRadio.setDefaultValue(Accounter.constants().service());
+		if (getPreferences().isInventoryEnabled()) {
+			typeRadio.setValueMap(Accounter.constants().service(), Accounter
+					.constants().inventory(), Accounter.constants()
+					.nonInventory());
+			typeRadio.setDefaultValue(Accounter.constants().service());
+		} else {
+			typeRadio.setValueMap(Accounter.constants().service(), Accounter
+					.constants().product());
+			typeRadio.setDefaultValue(Accounter.constants().service());
+		}
 
 		typeForm = new DynamicForm();
 		typeForm.setFields(typeRadio);
@@ -80,6 +85,22 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
+			} else if (radio.equals(Accounter.constants().inventory())) {
+				NewItemAction action = new NewItemAction(Accounter.constants()
+						.newItem(), forCustomer);
+				action.setDependent(isDependent);
+				action.setType(ClientItem.TYPE_INVENTORY_PART);
+				action.setCallback(getCallback());
+				action.setItemText(itemname);
+				action.run();
+			} else if (radio.equals(Accounter.constants().nonInventory())) {
+				NewItemAction action = new NewItemAction(Accounter.constants()
+						.newItem(), forCustomer);
+				action.setDependent(isDependent);
+				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
+				action.setCallback(getCallback());
+				action.setItemText(itemname);
+				action.run();
 			} else if (radio.equals(Accounter.constants().product())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
@@ -104,7 +125,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void setItemname(String itemname) {
 		this.itemname = itemname;
 	}

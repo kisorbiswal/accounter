@@ -73,9 +73,9 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	@Override
 	public ValidationResult validate() {
-		
+
 		ValidationResult result = new ValidationResult();
-		
+		result.add(leftSideForm.validate());
 		return result;
 	}
 

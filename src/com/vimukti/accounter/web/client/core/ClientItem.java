@@ -52,6 +52,12 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	int version;
 	double openingBalance;
 
+	private ClientQuantity maxStockAlertLevel;
+	private ClientQuantity minStockAlertLevel;
+
+	private ClientWarehouse warehouse;
+	private ClientMeasurement measurement;
+
 	boolean isDefault;
 
 	public ClientItem() {
@@ -414,6 +420,38 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 
 	public void setOpeningBalance(double openingBalance) {
 		this.openingBalance = openingBalance;
+	}
+
+	public ClientQuantity getMaxStockAlertLevel() {
+		return maxStockAlertLevel;
+	}
+
+	public void setMaxStockAlertLevel(ClientQuantity maxStockAlertLevel) {
+		this.maxStockAlertLevel = maxStockAlertLevel;
+	}
+
+	public ClientQuantity getMinStockAlertLevel() {
+		return minStockAlertLevel;
+	}
+
+	public void setMinStockAlertLevel(ClientQuantity minStockAlertLevel) {
+		this.minStockAlertLevel = minStockAlertLevel;
+	}
+
+	public ClientWarehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(ClientWarehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public ClientMeasurement getMeasurement() {
+		return measurement;
+	}
+
+	public void setMeasurement(ClientMeasurement measurement) {
+		this.measurement = measurement;
 	}
 
 }

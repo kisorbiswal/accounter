@@ -570,6 +570,12 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="Warehouse" />
 		</set>
+		
+		<set name="measurements" inverse="true" cascade="save-update,delete"
+			order-by="ID">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Measurement" />
+		</set>
 
 		<set name="locations" inverse="true" cascade="save-update,delete"
 			order-by="ID">
@@ -701,12 +707,21 @@
 			column="INCOME_ACCOUNT_ID" lazy="false">
 		</many-to-one>
 
-		<property name="minStockAlertLevel" column="MIN_STOCK_ALERT_LEVEL" />
-		<property name="maxStockAlertLevel" column="MAX_STOCK_ALERT_LEVEL" />
-
+		<component name="minStockAlertLevel" class="Quantity">
+			<property name="value" column="MIN_QTY_VALUE" />
+			<many-to-one name="unit" column="MIN_UNIT" class="Unit" lazy="false"
+				cascade="save-update" />
+		</component>
+		<component name="maxStockAlertLevel" class="Quantity">
+			<property name="value" column="MAX_QTY_VALUE" />
+			<many-to-one name="unit" column="MAX_UNIT" class="Unit" lazy="false"
+				cascade="save-update" />
+		</component>
 		<many-to-one name="measurement" class="Measurement"
 			column="MEASUREMENT" lazy="false" />
-
+		<many-to-one name="warehouse" class="Warehouse" column="WAREHOUSE"
+			lazy="false" />
+		<property name="openingBalance" column="OPENING_BALANCE"></property>
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
 		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>

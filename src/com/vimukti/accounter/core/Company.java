@@ -208,6 +208,8 @@ public class Company implements IAccounterServerCore {
 
 	private Set<Warehouse> warehouses = new HashSet<Warehouse>();
 
+	private Set<Measurement> measurements = new HashSet<Measurement>();
+
 	private Set<User> usersList = new HashSet<User>();
 
 	private Set<AbstractTAXReturn> vatReturns = new HashSet<AbstractTAXReturn>();
@@ -1025,7 +1027,13 @@ public class Company implements IAccounterServerCore {
 
 		cmp.warehouses = this.getWarehouse();
 
+		cmp.measurements = this.getMeasurements();
+
 		return cmp;
+	}
+
+	private Set<Measurement> getMeasurements() {
+		return measurements;
 	}
 
 	private Set<Warehouse> getWarehouse() {
@@ -1559,6 +1567,8 @@ public class Company implements IAccounterServerCore {
 		delete(activities, session);
 		delete(reconciliations, session);
 		delete(warehouses, session);
+		delete(measurements, session);
+		
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {

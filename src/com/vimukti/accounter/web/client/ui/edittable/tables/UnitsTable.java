@@ -71,7 +71,7 @@ public class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().getFactorName();
+				return Accounter.constants().factor();
 			}
 
 		});

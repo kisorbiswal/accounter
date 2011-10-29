@@ -56,7 +56,8 @@ public class ItemView extends BaseView<ClientItem> {
 	public static final int NON_INVENTORY_PART = 3;
 	private int type;
 	private TextItem nameText, skuText;
-	private AmountField salesPriceText, stdCostText, purchasePriceTxt;
+	private AmountField salesPriceText, stdCostText, purchasePriceTxt,
+			openingBalTxt;
 	private IntegerField vendItemNumText, weightText, minStock, maxStock,
 			defaultSellPrice, defaultPurchasePrice, salesTaxRate,
 			purcahseTaxRate;
@@ -94,8 +95,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private String itemName;
 
 	private MeasurementCombo measurement;
-
 	private WarehouseCombo wareHouse;
+	private VerticalPanel stockPanel;
 
 	public ItemView(int type, boolean isGeneratedFromCustomer) {
 
@@ -194,7 +195,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (isInViewMode()) {
 			this.type = data.getType();
 		}
-		if (type == TYPE_SERVICE) {
+		if (type == ClientItem.TYPE_SERVICE) {
 			lab1.setText(Accounter.constants().newService());
 			// if (getCompany().getAccountingType() == 1)
 			itemForm.setFields(nameText/* , isservice */);
@@ -243,12 +244,12 @@ public class ItemView extends BaseView<ClientItem> {
 						if (selectAccount != null
 								&& selectAccount != defaultIncomeAccount
 								&& defaultIncomeAccount != null) {
-							if (type == TYPE_SERVICE)
+							if (type == ClientItem.TYPE_SERVICE)
 								AccounterValidator
 										.defaultIncomeAccountServiceItem(
 												selectAccount,
 												defaultIncomeAccount);
-							if (type == NON_INVENTORY_PART)
+							if (type == ClientItem.TYPE_NON_INVENTORY_PART)
 								AccounterValidator
 										.defaultIncomeAccountNonInventory(
 												selectAccount,
@@ -337,12 +338,12 @@ public class ItemView extends BaseView<ClientItem> {
 						selectExpAccount = selectItem;
 						if (selectExpAccount != null
 								&& selectExpAccount != defaultExpAccount) {
-							if (type == TYPE_SERVICE)
+							if (type == ClientItem.TYPE_SERVICE)
 								AccounterValidator
 										.defaultExpenseAccountServiceItem(
 												selectExpAccount,
 												defaultExpAccount);
-							if (type == NON_INVENTORY_PART)
+							if (type == ClientItem.TYPE_NON_INVENTORY_PART)
 								AccounterValidator
 										.defaultExpenseAccountNonInventory(
 												selectExpAccount,
@@ -363,18 +364,19 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 
 		vendItemNumText = new IntegerField(this,
-				this.type != TYPE_SERVICE ? messages.vendorProductNo(Global
-						.get().Vendor()) : messages.vendorServiceNo(Global
-						.get().Vendor()));
+				this.type != ClientItem.TYPE_SERVICE ? messages
+						.vendorProductNo(Global.get().Vendor()) : messages
+						.vendorServiceNo(Global.get().Vendor()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 		vendItemNumText.setDisabled(isInViewMode());
 
 		// isellCheck = new CheckboxItem(FinanceApplication
 		// .constants().iSellThisItem());
-		isellCheck = new CheckboxItem(this.type == TYPE_SERVICE ? Accounter
-				.constants().isellthisservice() : Accounter.constants()
-				.isellthisproduct());
+		isellCheck = new CheckboxItem(
+				this.type == ClientItem.TYPE_SERVICE ? Accounter.constants()
+						.isellthisservice() : Accounter.constants()
+						.isellthisproduct());
 		isellCheck.setDisabled(isInViewMode());
 
 		isellCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -389,9 +391,10 @@ public class ItemView extends BaseView<ClientItem> {
 		// ibuyCheck = new
 		// CheckboxItem(FinanceApplication.constants()
 		// .iBuyThisItem());
-		ibuyCheck = new CheckboxItem(this.type == TYPE_SERVICE ? Accounter
-				.constants().ibuythisservice() : Accounter.constants()
-				.ibuythisproduct());
+		ibuyCheck = new CheckboxItem(
+				this.type == ClientItem.TYPE_SERVICE ? Accounter.constants()
+						.ibuythisservice() : Accounter.constants()
+						.ibuythisproduct());
 		// ibuyCheck.setDisabled(isGeneratedFromCustomer);
 
 		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -510,10 +513,12 @@ public class ItemView extends BaseView<ClientItem> {
 		mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
-		mainVLay.add(getStockPanel());
-		mainVLay.setCellHorizontalAlignment(getStockPanel(),
-				HasHorizontalAlignment.ALIGN_RIGHT);
-
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			mainVLay.add(getStockPanel());
+			mainVLay.setCellWidth(stockPanel, "98%");
+			mainVLay.setCellHorizontalAlignment(stockPanel,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+		}
 		this.add(mainVLay);
 
 		if (getData() != null) {
@@ -554,7 +559,6 @@ public class ItemView extends BaseView<ClientItem> {
 					&& getPreferences().isTaxPerDetailLine()) {
 				selectTaxCode = company.getTAXCode(data.getTaxCode());
 			}
-
 			itemTaxCheck.setValue(data.isTaxable());
 
 		} else {
@@ -568,13 +572,13 @@ public class ItemView extends BaseView<ClientItem> {
 		listforms.add(stdCostForm);
 		listforms.add(itemInfoForm);
 		listforms.add(purchaseInfoForm);
-		listforms.add(getStockPanel());
 		settabIndexes();
 
 	}
 
-	private DynamicForm getStockPanel() {
+	private VerticalPanel getStockPanel() {
 
+		stockPanel = new VerticalPanel();
 		DynamicForm stockForm = new DynamicForm();
 		measurement = new MeasurementCombo(Accounter.constants().measurement());
 		wareHouse = new WarehouseCombo(Accounter.constants().wareHouse());
@@ -590,25 +594,36 @@ public class ItemView extends BaseView<ClientItem> {
 				.salesTaxRate());
 		purcahseTaxRate = new IntegerField(this, Accounter.constants()
 				.purchaseTaxRate());
+		openingBalTxt = new AmountField(Accounter.constants().openingBalance(),
+				this);
 		stockForm.setNumCols(4);
-		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
-				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
-				purcahseTaxRate);
+		stockForm.setFields(openingBalTxt, measurement, wareHouse, minStock,
+				maxStock);
+		measurement.setDisabled(isInViewMode());
+		wareHouse.setDisabled(isInViewMode());
+		minStock.setDisabled(isInViewMode());
+		maxStock.setDisabled(isInViewMode());
+		stockPanel.add(stockForm);
 
-		stockForm.setWidth("98%");
-		return stockForm;
+		listforms.add(stockForm);
+
+		stockForm.setWidth("100%");
+		stockPanel.setWidth("100%");
+		return stockPanel;
+
 	}
 
 	@Override
 	public void saveAndUpdateView() {
 		updateItem();
-
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			getStockPanelData();
+		}
 		saveOrUpdate(data);
 
 	}
 
 	protected void disableSalesFormItems(Boolean isEdit) {
-
 		salesDescArea.setDisabled(isEdit);
 		salesPriceText.setDisabled(isEdit);
 		accountCombo.setDisabled(isEdit);
@@ -635,7 +650,8 @@ public class ItemView extends BaseView<ClientItem> {
 
 		data.setUPCorSKU((String) skuText.getValue());
 
-		if (type == NON_INVENTORY_PART && weightText.getNumber() != null)
+		if (type == ClientItem.TYPE_NON_INVENTORY_PART
+				&& weightText.getNumber() != null)
 			data.setWeight(UIUtils.toInt(weightText.getNumber()));
 
 		data.setISellThisItem(getBooleanValue(isellCheck));
@@ -662,7 +678,8 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
 		data.setTaxable(getBooleanValue(itemTaxCheck));
-		if (type == NON_INVENTORY_PART || type == TYPE_SERVICE)
+		if (type == ClientItem.TYPE_NON_INVENTORY_PART
+				|| type == ClientItem.TYPE_SERVICE)
 			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);
 	}
 
@@ -674,12 +691,13 @@ public class ItemView extends BaseView<ClientItem> {
 		// addError(this,exceptionMessage);
 
 		// BaseView.errordata
-		// .setHTML(this.type != TYPE_SERVICE ?
+		// .setHTML(this.type != ClientItem.TYPE_SERVICE ?
 		// "Duplication of Product name are not allowed..."
 		// : "Duplication of Service name are not allowed...");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		// addError(this, this.type != TYPE_SERVICE ? Accounter.constants()
+		// addError(this, this.type != ClientItem.TYPE_SERVICE ?
+		// Accounter.constants()
 		// .duplicationofProductnamearenotallowed3dots() : Accounter
 		// .constants().duplicationofServicenamearenotallowed3dots());
 		AccounterException accounterException = (AccounterException) exception;
@@ -745,11 +763,34 @@ public class ItemView extends BaseView<ClientItem> {
 		initAccountList();
 		initVendorsList();
 		initItemGroups();
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			setStockPanelData();
+		}
 		if (getPreferences().isTrackTax()
-				&& getPreferences().isTaxPerDetailLine())
-			initTaxCodes();
+				&& getPreferences().isTaxPerDetailLine()) {
+			if (data != null) {
+				if (getPreferences().isTaxPerDetailLine())
+					initTaxCodes();
+			}
+		}
 		super.initData();
 
+	}
+
+	private void setStockPanelData() {
+		measurement.setComboItem(data.getMeasurement());
+		wareHouse.setComboItem(data.getWarehouse());
+		minStock.setValue(null);
+		maxStock.setValue(null);
+	}
+
+	private void getStockPanelData() {
+		if (measurement.getSelectedValue() != null)
+			data.setMeasurement(measurement.getSelectedValue());
+		if (wareHouse.getSelectedValue() != null)
+			data.setWarehouse(wareHouse.getSelectedValue());
+		data.setMinStockAlertLevel(null);
+		data.setMaxStockAlertLevel(null);
 	}
 
 	private void initItemGroups() {
@@ -803,7 +844,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (listAccount != null) {
 			accountCombo.initCombo(listAccount);
 			expAccCombo.initCombo(listExpAccount);
-			if (type == TYPE_SERVICE) {
+			if (type == ClientItem.TYPE_SERVICE) {
 				// if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				// defaultIncomeAccount = getDefaultAccount(company
 				// .getUkServiceItemDefaultIncomeAccount());
@@ -820,7 +861,7 @@ public class ItemView extends BaseView<ClientItem> {
 				selectExpAccount = defaultExpAccount;
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
-			if (type == NON_INVENTORY_PART) {
+			if (type == ClientItem.TYPE_NON_INVENTORY_PART) {
 				// if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				// defaultIncomeAccount = getDefaultAccount(company
 				// .getUkNonInventoryItemDefaultIncomeAccount());
@@ -1001,6 +1042,13 @@ public class ItemView extends BaseView<ClientItem> {
 			prefVendorCombo.setDisabled(isInViewMode());
 			purchasePriceTxt.setDisabled(isInViewMode());
 			vendItemNumText.setDisabled(isInViewMode());
+		}
+
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			measurement.setDisabled(isInViewMode());
+			wareHouse.setDisabled(isInViewMode());
+			minStock.setDisabled(isInViewMode());
+			maxStock.setDisabled(isInViewMode());
 		}
 		activeCheck.setDisabled(isInViewMode());
 

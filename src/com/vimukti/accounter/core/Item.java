@@ -115,27 +115,13 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 
+	private Quantity maxStockAlertLevel;
+	private Quantity minStockAlertLevel;
+
+	private Warehouse warehouse;
 	private Measurement measurement;
-	private int maxStockAlertLevel;
-	private int minStockAlertLevel;
 
 	// TaxCode VATCode;
-
-	public int getMaxStockAlertLevel() {
-		return maxStockAlertLevel;
-	}
-
-	public void setMaxStockAlertLevel(int maxStockAlertLevel) {
-		this.maxStockAlertLevel = maxStockAlertLevel;
-	}
-
-	public int getMinStockAlertLevel() {
-		return minStockAlertLevel;
-	}
-
-	public void setMinStockAlertLevel(int minStockAlertLevel) {
-		this.minStockAlertLevel = minStockAlertLevel;
-	}
 
 	public Item() {
 	}
@@ -145,6 +131,22 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 */
 	public boolean isDefault() {
 		return isDefault;
+	}
+
+	public Quantity getMaxStockAlertLevel() {
+		return maxStockAlertLevel;
+	}
+
+	public void setMaxStockAlertLevel(Quantity maxStockAlertLevel) {
+		this.maxStockAlertLevel = maxStockAlertLevel;
+	}
+
+	public Quantity getMinStockAlertLevel() {
+		return minStockAlertLevel;
+	}
+
+	public void setMinStockAlertLevel(Quantity minStockAlertLevel) {
+		this.minStockAlertLevel = minStockAlertLevel;
 	}
 
 	/**
@@ -477,5 +479,13 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	public void setOpeningBalance(double openingBalance) {
 		this.openingBalance = openingBalance;
+	}
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
 	}
 }
