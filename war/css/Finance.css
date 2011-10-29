@@ -1499,3 +1499,15 @@ button.disable,button.disable:hover{
 .datenumber-panel .gwt-TextBox{
 	width:120px !important;
 }
+.main_horzontal_menubar table .gwt-MenuItem{
+	background:url("../images/Dropdown_indicator_5x3.png")no-repeat scroll right center ;
+}
+.main_horzontal_menubar table .gwt-MenuItem-selected{
+	background:url("../images/Dropdown_indicator_5x3.png")no-repeat scroll right center #29646C;
+}
+.main_horzontal_menubar .gwt-MenuItemSeparator .menuSeparatorInner{
+	background: url("../images/Seperator_2x20.png") no-repeat scroll 7px 3px transparent;
+    height: 21px;
+    padding: 2px;
+    width: 5px;
+}
