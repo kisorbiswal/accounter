@@ -114,7 +114,9 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 		panel.add(valueBox);
 		panel.add(unitBox.getMainWidget());
-		panel.add(whCombo.getMainWidget());
+		if (getPreferences().iswareHouseEnabled()) {
+			panel.add(whCombo.getMainWidget());
+		}
 		popup.add(panel);
 		popup.addCloseHandler(new CloseHandler<PopupPanel>() {
 
