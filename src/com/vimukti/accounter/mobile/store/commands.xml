@@ -44,6 +44,7 @@
 		<alias>Create Account</alias>
 		<alias>Add Account</alias>
 		<alias>New Account</alias>
+		<alias>Update Account</alias>
 		<alias>Add a New Account</alias>
 	</command>
 
