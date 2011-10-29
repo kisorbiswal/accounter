@@ -299,4 +299,10 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		create(cashPurchase, context);
 		return null;
 	}
+
+	@Override
+	protected String initObject(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

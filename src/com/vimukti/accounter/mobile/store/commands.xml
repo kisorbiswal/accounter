@@ -442,6 +442,7 @@
 		<alias>Add Supplier Credit Memo</alias>
 		<alias>Create Supplier Credit Memo</alias>
 		<alias>Create Vendor Credit</alias>
+		<alias>VedorCredit</alias>
 	</command>
 
 	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
