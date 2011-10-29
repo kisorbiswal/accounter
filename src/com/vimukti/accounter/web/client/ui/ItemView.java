@@ -20,8 +20,10 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -777,17 +779,31 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void setStockPanelData() {
-		measurement.setComboItem(data.getMeasurement());
-		wareHouse.setComboItem(data.getWarehouse());
+		ClientMeasurement measurement;
+		if (data.getMeasurement() != 0) {
+			measurement = getCompany().getMeasurement(data.getMeasurement());
+		} else {
+			measurement = getCompany().getMeasurement(
+					getCompany().getDefaultMeasurement());
+		}
+		this.measurement.setComboItem(measurement);
+		ClientWarehouse wareHouse;
+		if (data.getWarehouse() != 0) {
+			wareHouse = getCompany().getWarehouse(data.getWarehouse());
+		} else {
+			wareHouse = getCompany().getWarehouse(
+					getCompany().getDefaultWarehouse());
+		}
+		this.wareHouse.setComboItem(wareHouse);
 		minStock.setValue(null);
 		maxStock.setValue(null);
 	}
 
 	private void getStockPanelData() {
 		if (measurement.getSelectedValue() != null)
-			data.setMeasurement(measurement.getSelectedValue());
+			data.setMeasurement(measurement.getSelectedValue().getId());
 		if (wareHouse.getSelectedValue() != null)
-			data.setWarehouse(wareHouse.getSelectedValue());
+			data.setWarehouse(wareHouse.getSelectedValue().getID());
 		data.setMinStockAlertLevel(null);
 		data.setMaxStockAlertLevel(null);
 	}
