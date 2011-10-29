@@ -60,13 +60,7 @@
 			<command>Delete Account</command>
 		</output>
 	</pattern>
-	<pattern>
-		<input>Accounts</input>
-		<output>
-			<command>Accounts List</command>
-		</output>
 
-	</pattern>
 	<pattern>
 		<input>JounalEntry</input>
 		<output>
@@ -97,24 +91,22 @@
 			<command>Purchase Order List</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>UserActiviityLog</input>
 		<output>
 			<command>Show ActiviityLog</command>
 		</output>
 	</pattern>
+
 	<pattern>
-		<input>ExpensesList</input>
+		<input>Bill</input>
 		<output>
-			<command>ExpensesListCommand</command>
+			<command>EnterBill</command>
+			<command>PayBill</command>
 		</output>
 	</pattern>
-	<pattern>
-		<input>EnterBill</input>
-		<output>
-			<command>EnterBillCommand</command>
-		</output>
-	</pattern>
+
 	<pattern>
 		<input>Invoice Branding</input>
 		<output>
@@ -126,18 +118,6 @@
 		<input>Users</input>
 		<output>
 			<command>InviteAUserCommand</command>
-		</output>
-	</pattern>
-	<pattern>
-		<input>PayBill</input>
-		<output>
-			<command>PayBillCommand</command>
-		</output>
-	</pattern>
-	<pattern>
-		<input>BillsList</input>
-		<output>
-			<command>BillsListCommand</command>
 		</output>
 	</pattern>
 
@@ -287,6 +267,41 @@
 			<command>Shipping Terms List</command>
 			<command>Location List</command>
 			<command>Class List</command>
+		</output>
+	</pattern>
+	
+	
+	<pattern>
+		<input>Quote</input>
+		<output>
+			<command>New Quote</command>
+			<command>Edit Quote</command>
+			<command>Quotes List</command>
+			<command>Delete Quote</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Order</input>
+		<output>
+			<command>Create Purchase Order</command>
+			<command>Create Sales Order</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Expense</input>
+		<output>
+			<command>Create Cash Expense</command>
+			<command>Create Credit Card Expense</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Payment</input>
+		<output>
+			<command>Create Customer Payment</command>
+			<command>Create Vendor Payment</command>
 		</output>
 	</pattern>
 </patterns>
