@@ -56,12 +56,17 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		}
 
 		if (valuesSelection != null && valuesSelection.equals(getName())) {
-			T value = getValue();
-			List<T> oldValues = new ArrayList<T>();
-			if (value != null) {
-				oldValues.add(value);
+			if (isEditable()) {
+				T value = getValue();
+				List<T> oldValues = new ArrayList<T>();
+				if (value != null) {
+					oldValues.add(value);
+				}
+				return showList(makeResult, context, oldValues);
+			} else {
+				addFirstMessage(context, "You can't edit '" + getRecordName()
+						+ "'");
 			}
-			return showList(makeResult, context, oldValues);
 		}
 
 		T value = getValue();

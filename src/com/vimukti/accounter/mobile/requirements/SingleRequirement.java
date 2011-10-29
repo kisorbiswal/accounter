@@ -28,10 +28,15 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 
 		Object selection = context.getSelection(VALUES);
 		if (!isDone() || (selection != null && selection.equals(getName()))) {
-			context.setAttribute(INPUT_ATTR, getName());
-			T v = getValue();
-			return show(context, getEnterString(), v == null ? null
-					: getDisplayValue(v));
+			if (isEditable()) {
+				context.setAttribute(INPUT_ATTR, getName());
+				T v = getValue();
+				return show(context, getEnterString(), v == null ? null
+						: getDisplayValue(v));
+			} else {
+				addFirstMessage(context, "You can't edit '" + getRecordName()
+						+ "'");
+			}
 		}
 
 		T customerName = getValue();

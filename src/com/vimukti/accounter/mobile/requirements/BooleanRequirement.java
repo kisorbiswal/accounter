@@ -18,8 +18,13 @@ public abstract class BooleanRequirement extends AbstractRequirement<Boolean> {
 
 		String attribute = context.getSelection(VALUES);
 		if (attribute == getName()) {
-			Boolean isActive = getValue();
-			setValue(!isActive);
+			if (isEditable()) {
+				Boolean isActive = getValue();
+				setValue(!isActive);
+			} else {
+				addFirstMessage(context, "You can't edit '" + getRecordName()
+						+ "'");
+			}
 		}
 
 		Boolean isActive = getValue();

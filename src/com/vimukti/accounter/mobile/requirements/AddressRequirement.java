@@ -37,10 +37,15 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 		}
 
 		if (show) {
-			context.setAttribute(INPUT_ATTR, getName());
-			Result result = address(context);
-			if (result != null) {
-				return result;
+			if (isEditable()) {
+				context.setAttribute(INPUT_ATTR, getName());
+				Result result = address(context);
+				if (result != null) {
+					return result;
+				}
+			} else {
+				addFirstMessage(context, "You can't edit '" + getRecordName()
+						+ "'");
 			}
 		}
 		ClientAddress address = getValue();
