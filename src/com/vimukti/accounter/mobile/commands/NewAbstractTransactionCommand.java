@@ -42,7 +42,8 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 
 			if (record != null && record.isTaxable()) {
 				double taxAmount = getVATAmount(context, isAmountsIncludeVAT,
-						record.getTaxCode(), record, isSales);
+						record.getTaxCode(), record, isSales)
+						* record.getQuantity().getValue();
 				if (isAmountsIncludeVAT) {
 					lineTotal -= taxAmount;
 				}
