@@ -156,7 +156,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 		ClientEstimate estimate = new ClientEstimate();
 
-		ClientCustomer customer = get("customer").getValue();
+		ClientCustomer customer = get(CUSTOMER).getValue();
 		estimate.setCustomer(customer);
 		estimate.setType(ClientEstimate.TYPE_ESTIMATE);
 
@@ -177,7 +177,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		estimate.setPhone(phone);
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		ClientCompanyPreferences preferences = getClientCompany()
+		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
@@ -195,9 +195,9 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate d = get(DATE).getValue();
 		estimate.setDate(d.getDate());
 
-		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
 		estimate.setDeliveryDate(deliveryDate.getDate());
-		ClientFinanceDate expiryDdate = get("expirationDate").getValue();
+		ClientFinanceDate expiryDdate = get(EXPIRATION_DATE).getValue();
 		estimate.setExpirationDate(expiryDdate.getDate());
 
 		String memo = get(MEMO).getValue();
@@ -225,7 +225,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(CONTACT).setDefaultValue(null);
-		ArrayList<ClientPaymentTerms> paymentTerms = getClientCompany()
+		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
 				.getPaymentsTerms();
 		for (ClientPaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {
