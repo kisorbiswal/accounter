@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.Warehouse;
@@ -262,7 +263,12 @@ public abstract class CompanyInitializer {
 
 		Measurement measurement = new Measurement("Items", "Description");
 		measurement.setCompany(company);
-		measurement.addUnit("Items", 1);
+		Unit unit = new Unit();
+		unit.setType("Items");
+		unit.setFactor(1);
+		unit.setDefault(true);
+		unit.setCompany(company);
+		measurement.addUnit(unit);
 		session.save(measurement);
 		company.setDefaultMeasurement(measurement);
 		company.setDefaultWarehouse(warehouse);
