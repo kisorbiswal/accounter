@@ -124,7 +124,7 @@ public class CommandProcessor {
 		if (!isSelected) {
 			context.setString(message.getOriginalMsg());
 		} else {
-			context.setString("");
+			context.setString(null);
 		}
 		Result result = null;
 		try {
@@ -197,7 +197,7 @@ public class CommandProcessor {
 		Context context = new Context(mSession);
 		context.setNetworkId(message.getNetworkId());
 		context.setNetworkType(message.getNetworkType());
-		context.setCommandString(message.getCommandString());
+		// context.setCommandString(message.getCommandString());
 		return context;
 	}
 }
