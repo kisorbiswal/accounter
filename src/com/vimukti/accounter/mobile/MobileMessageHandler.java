@@ -31,6 +31,7 @@ public class MobileMessageHandler {
 	public String messageReceived(String networkId, String message,
 			AdaptorType adaptorType, int networkType,
 			CommandSender commandSender) throws AccounterMobileException {
+		boolean isAnyCommandInProcess = true;
 		Session openSession = HibernateUtil.openSession();
 		try {
 			MobileSession session = sessions.get(networkId);
@@ -49,6 +50,7 @@ public class MobileMessageHandler {
 					networkId, networkType);
 			Result result = getCommandProcessor().handleMessage(session,
 					userMessage);
+			isAnyCommandInProcess = false;
 			boolean hasNextCommand = true;
 			if (userMessage.getCommand() != null
 					&& userMessage.getCommand().isDone()) {
@@ -57,6 +59,7 @@ public class MobileMessageHandler {
 					session.refreshCurrentCommand();
 					Command currentCommand = session.getCurrentCommand();
 					if (currentCommand != null) {
+						isAnyCommandInProcess = true;
 						UserMessage lastMessage = session.getLastMessage();
 						lastMessage.setResult(lastMessage.getLastResult());
 						reloadCommand(networkId, null, adaptorType,
@@ -71,6 +74,7 @@ public class MobileMessageHandler {
 			// To check if there is only on command
 			String nextCommand = result.getNextCommand();
 			if (nextCommand != null) {
+				isAnyCommandInProcess = true;
 				reloadCommand(networkId, nextCommand, adaptorType, networkType,
 						commandSender);
 				hasNextCommand = true;
@@ -83,7 +87,10 @@ public class MobileMessageHandler {
 
 			String reply = adoptor.postProcess(result);
 			session.await();
-			commandSender.onReply(reply);
+			String newReplay = getReply(session, reply, isAnyCommandInProcess);
+			if (newReplay != null && !newReplay.isEmpty()) {
+				commandSender.onReply(newReplay);
+			}
 			return reply;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,6 +100,19 @@ public class MobileMessageHandler {
 				openSession.close();
 			}
 		}
+	}
+
+	private String getReply(MobileSession session, String reply,
+			boolean isAnyCommandInProcess) {
+		String last = session.getLastReply();
+		last += "\n" + reply;
+		if (isAnyCommandInProcess) {
+			session.setLastReply(last);
+			last = null;
+		} else {
+			session.setLastReply("");
+		}
+		return last;
 	}
 
 	protected void reloadCommand(final String networkId, final String message,

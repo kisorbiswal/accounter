@@ -43,6 +43,8 @@ public class MobileSession {
 
 	private boolean isAuthenicated;
 
+	private String lastReply = "";
+
 	/**
 	 * Creates new Instance
 	 */
@@ -261,5 +263,13 @@ public class MobileSession {
 
 	public void setAuthentication(boolean b) {
 		isAuthenicated = b;
+	}
+
+	public String getLastReply() {
+		return lastReply;
+	}
+
+	public void setLastReply(String lastReply) {
+		this.lastReply = lastReply;
 	}
 }
