@@ -1060,9 +1060,12 @@
 			</many-to-one> -->
 		<property name="description" column="DESCRIPTION"></property>
 		<!--<property name="quantity" column="QUANTITY"></property> -->
+		<many-to-one name="wareHouse" class="Warehouse" lazy="false"
+			column="WARE_HOUSE">
+		</many-to-one>
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE"></property>
-			<many-to-one name="unit" class="Unit" column="QTY_UNIT"></many-to-one>
+			<many-to-one name="unit" class="Unit" column="QTY_UNIT" lazy="false"></many-to-one>
 		</component>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="discount" column="DISCOUNT"></property>
