@@ -171,7 +171,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static void reset() {
-		HorizontalMenuBar menubar = new HorizontalMenuBar();
+		//HorizontalMenuBar menubar = new HorizontalMenuBar();
+		AccounterMenuBar menubar = new AccounterMenuBar(new DesktopMenuFactory());
 		mainWindow.remove(1);
 		mainWindow.insert(menubar, 1);
 		reloadMacMenu();

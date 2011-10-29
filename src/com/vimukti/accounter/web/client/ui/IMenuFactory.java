@@ -1,18 +1,28 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public interface IMenuFactory {
 
 	public static interface IMenu extends IsWidget{
-		void addItem(String text, IMenu menu);
+		void addMenuItem(String text, IMenu menu);
 		
-		void addItem(Action<?> action);
+		void addMenuItem(String text,Command cmd);
 		
-		void addSeparator();
+		void addMenuItem(Action<?> action);
+		
+		void addSeparatorItem();
+	}
+	
+	public static interface IMenuBar extends IsWidget{
+		void addMenuItem(String text, IMenu menu);
+		
 	}
 
-	IMenu createMenuBar();
+	IMenu createMenu();
+
+	IMenuBar createMenuBar();
 
 }

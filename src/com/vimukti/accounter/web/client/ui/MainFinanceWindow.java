@@ -14,6 +14,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
@@ -24,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -58,16 +60,27 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	private void createControls() {
+
 		viewManager = new ViewManager(this);
 		header = new Header(Accounter.getCompany());
 
 		add(header);
 		// If company is configured then show the dashboard
 		// if (company.isConfigured()) {
-		HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
+		// HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
 		// if (!Accounter.isMacApp()) {
-		add(hMenuBar);
+		// add(hMenuBar);
 		// }
+		boolean isTouch = false;/*isTablet*/
+		IMenuFactory menuFactory = null;
+		if (isTouch) {
+			menuFactory = new TouchMenuFactory();
+		} else {
+			menuFactory = new DesktopMenuFactory();
+		}
+
+		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
+		add(menubar);
 
 		add(viewManager);
 		Label help = new Label(Accounter.constants().helpLinks());
@@ -89,6 +102,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		// add(setupWizard);
 		// }
 
+	}
+
+	private boolean isTablet() {
+		
+		return false;
 	}
 
 	public HelpItem getHelpItem() {
