@@ -945,4 +945,8 @@ public interface AccounterMessages extends Messages {
 
 	public String nameWithCurrency(String name, String formalName);
 
+	public String pleaseEnterNameOrNumber(String customer);
+
+	public String creating(String quote);
+
 }

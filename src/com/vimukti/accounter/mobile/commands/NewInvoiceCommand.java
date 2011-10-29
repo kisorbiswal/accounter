@@ -48,17 +48,9 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	private static final String ESTIMATEANDSALESORDER = "estimateAndSalesOrder";
-	private static final String CUSTOMER = "customer";
-	private static final String ITEMS = "items";
 	private static final String PAYMENT_TERMS = "paymentTerms";
 	private static final String DUE_DATE = "duedate";
-	private static final String CONTACT = "contact";
-	private static final String BILL_TO = "billto";
-	private static final String DATE = "date";
-	private static final String NUMBER = "number";
 	private static final String ORDER_NO = "orderNo";
-	private static final String MEMO = "memo";
-	private static final String TAXCODE = "taxCode";
 
 	@Override
 	public String getId() {

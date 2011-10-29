@@ -12,6 +12,14 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
+	protected static final String CUSTOMER = "customer";
+	protected static final String ITEMS = "items";
+	protected static final String DATE = "date";
+	protected static final String NUMBER = "number";
+	protected static final String CONTACT = "contact";
+	protected static final String BILL_TO = "billto";
+	protected static final String MEMO = "memo";
+	protected static final String TAXCODE = "taxCode";
 
 	public void updateTotals(Context context, ClientTransaction transaction,
 			boolean isSales) {
