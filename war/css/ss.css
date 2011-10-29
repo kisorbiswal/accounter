@@ -1924,19 +1924,24 @@ form {
 	font-family: sans-serif;
 }
 
-#commanContainer {
-	margin: 7em auto;
+#commanContainer{
 	width: 320px;
+}
+#commanNewContainer,#commanContainer{
+	margin: 7em auto;
 	text-align: left;
 }
+#commanNewContainer{
+	width: 920px;
+}
 
-#commanContainer label {
+#commanContainer label,#commanNewContainer label {
 	color: #777777;
 	font-size: 14px;
 	margin: 0;
 }
 
-#commanContainer form,.form-box {
+#commanContainer form,.form-box,.new_login_page {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #B1B1B1;
 	border-radius: 3px 3px 3px 3px;
@@ -1944,9 +1949,11 @@ form {
 	font-weight: normal;
 	margin-left: 8px;
 	padding: 26px 24px 55px;
+	overflow: auto;
 }
 
-#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select
+#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],
+#commanNewContainer input[type="password"],#commanNewContainer select
 	{
 	background: none repeat scroll 0 0 #FBFBFB;
 	border: 1px solid #B1B1B1;
@@ -1954,11 +1961,11 @@ form {
 	margin: 2px 6px 3px 0px;
 	outline: medium none;
 	padding: 0px 0px 0px 3px;
-	width: 97%;
+	width: 250px;
 	height: 28px;
 }
 
-.rememberMe {
+.rememberMe,#feedDiv,.new_login_accounterform {
 	float: left;
 }
 
@@ -1998,9 +2005,10 @@ input [type="checkbox"] {
 	margin: 0 0 0 16px;
 	padding: 16px 16px 0;
 	text-shadow: 0 1px 0 #FFFFFF;
+	clear:both;
 }
 
-.form-bottom-options a,#commanContainer a {
+.form-bottom-options a,#commanContainer a,#commanNewContainer a {
 	color: #28757D;
 	text-decoration: underline;
 }
@@ -2024,7 +2032,7 @@ input [type="checkbox"] {
 	border-color: #CC0000;
 }
 
-#login_success {
+#login_success,#gmailregister{
 	background-color: #FFEBE8;
 	border-color: #99C68E;
 }
@@ -2246,5 +2254,16 @@ a#fdbk_tab:hover {
 	margin: -37px 0 0 265px;
 	position: absolute;
 	z-index: 1;
+}
+.new_logo_field{
+	margin:20px auto;
+	width:300px;
+}
+#feedDiv{
+	width:445px;
+}
+.new_login_accounterform{
+	border-left:1px solid #28757D;
+	padding-left:30px;
 }
 /* End of the new Login and forgot password page*/
