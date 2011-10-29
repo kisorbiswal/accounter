@@ -151,4 +151,17 @@ public class ClientUnit implements IAccounterCore, Serializable,
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof ClientUnit) {
+			ClientUnit unit = (ClientUnit) obj;
+			return this.getID() == unit.getID() ? (this.getType() != null && this
+					.getType().equals(unit.getType())) ? true : false : false;
+		}
+		return false;
+	}
 }
