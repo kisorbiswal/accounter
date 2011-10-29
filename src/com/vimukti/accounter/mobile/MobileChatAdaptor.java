@@ -37,25 +37,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			message = userMessage.getOriginalMsg();
 		}
 		Command command = null;
-		Result result = PatternStore.INSTANCE.find(message);
-		if (result != null) {
-			userMessage.setType(Type.HELP);
-			userMessage.setResult(result);
-			return userMessage;
-		}
-
-		UserMessage lastMessage = session.getLastMessage();
-		Result lastResult = lastMessage == null ? null : lastMessage
-				.getResult();
-		if (lastResult instanceof PatternResult) {
-			PatternResult patternResult = (PatternResult) lastResult;
-			result = getPatternResult(patternResult.getCommands(), message);
-			if (result != null) {
-				userMessage.setType(Type.HELP);
-				userMessage.setResult(result);
-				return userMessage;
-			}
-		}
 
 		if (command == null) {
 			command = session.getCurrentCommand();
@@ -90,6 +71,26 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				message = message.replaceAll(commandString.trim(), "");
 				userMessage.setOriginalMsg(message);
 				command = matchedCommand;
+			}
+		}
+
+		Result result = PatternStore.INSTANCE.find(message);
+		if (result != null) {
+			userMessage.setType(Type.HELP);
+			userMessage.setResult(result);
+			return userMessage;
+		}
+
+		UserMessage lastMessage = session.getLastMessage();
+		Result lastResult = lastMessage == null ? null : lastMessage
+				.getResult();
+		if (lastResult instanceof PatternResult) {
+			PatternResult patternResult = (PatternResult) lastResult;
+			result = getPatternResult(patternResult.getCommands(), message);
+			if (result != null) {
+				userMessage.setType(Type.HELP);
+				userMessage.setResult(result);
+				return userMessage;
 			}
 		}
 
