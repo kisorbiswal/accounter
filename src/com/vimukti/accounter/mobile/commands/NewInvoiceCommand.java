@@ -379,4 +379,10 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		makeResult.add("Total: " + (result[0] + result[1]));
 	}
 
+	@Override
+	protected String initObject(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

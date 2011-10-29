@@ -47,7 +47,8 @@ public class AccountsListCommand extends NewAbstractCommand {
 			@Override
 			protected boolean filter(Account e, String name) {
 				return e.getName().startsWith(name)
-						|| e.getNumber().startsWith(name);
+						|| e.getNumber().startsWith(
+								"" + getNumberFromString(name));
 			}
 
 			@Override
@@ -84,6 +85,11 @@ public class AccountsListCommand extends NewAbstractCommand {
 			protected String getEmptyString() {
 				return "There are no accounts";
 			}
+
+			@Override
+			protected String onSelection(Account value) {
+				return "update account " + value.getName();
+			}
 		});
 
 		list.add(new ActionRequirement(ACCOUNT_TYPE, null) {
@@ -97,6 +103,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 				return list;
 			}
 		});
+
 	}
 
 	@Override
@@ -119,4 +126,8 @@ public class AccountsListCommand extends NewAbstractCommand {
 		return null;
 	}
 
+	@Override
+	protected String initObject(Context context) {
+		return null;
+	}
 }

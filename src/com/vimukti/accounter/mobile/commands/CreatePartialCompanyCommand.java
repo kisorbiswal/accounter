@@ -642,4 +642,10 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		return null;
 	}
 
+	@Override
+	protected String initObject(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

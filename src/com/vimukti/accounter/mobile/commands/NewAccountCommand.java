@@ -33,6 +33,8 @@ public class NewAccountCommand extends NewAbstractCommand {
 	private static final String COMMENTS = "Comments";
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
 
+	private ClientAccount account;
+
 	@Override
 	public String getId() {
 		return null;
@@ -40,7 +42,11 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	public String getWelcomeMessage() {
-		return "Create Account Command is activated.";
+		if (account.getID() == 0) {
+			return "Create Account Command is activated.";
+		}
+		return "Update Account(" + account.getName()
+				+ ") Command is activated.";
 	}
 
 	@Override
@@ -153,13 +159,15 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().account());
+		if (account.getID() == 0) {
+			return "Account is created succesfully.";
+		} else {
+			return "Account is updated successfully.";
+		}
 	}
 
 	@Override
-	protected Result onCompleteProcess(Context context) {
-		ClientAccount account = new ClientAccount();
-
+	public Result onCompleteProcess(Context context) {
 		String accType = get(ACCOUNT_TYPE).getValue();
 		String accname = get(ACCOUNT_NAME).getValue();
 		String accountNum = get(ACCOUNT_NUMBER).getValue();
@@ -172,13 +180,45 @@ public class NewAccountCommand extends NewAbstractCommand {
 		account.setDefault(true);
 		account.setType(getAccountTypes().indexOf(accType) + 1);
 		account.setName(accname);
-		account.setNumber(String.valueOf(accountNum));
+		account.setNumber(accountNum);
 		account.setOpeningBalance(openingBal);
 		account.setIsActive(isActive);
 		account.setAsOf(asOf.getDate());
 		account.setConsiderAsCashAccount(isCashAcount);
 		account.setComment(comment);
 		create(account, context);
+		return null;
+	}
+
+	@Override
+	protected String initObject(Context context) {
+		String string = context.getString();
+		if (string.isEmpty()) {
+			if (!context.getCommandString().toLowerCase().contains("update")) {
+				account = new ClientAccount();
+				return null;
+			}
+		}
+
+		account = context.getClientCompany().getAccountByName(string);
+		if (account == null) {
+			account = context.getClientCompany().getAccountByNumber(
+					getNumberFromString(string));
+		}
+		if (account == null) {
+			return "Accounts " + string.trim();
+		}
+
+		get(ACCOUNT_TYPE)
+				.setValue(getAccountTypes().get(account.getType() - 1));
+		get(ACCOUNT_NAME).setValue(account.getName());
+		get(ACCOUNT_NUMBER).setValue(account.getNumber());
+		get(OPENINGBALANCE).setValue(account.getOpeningBalance());
+		get(ACTIVE).setValue(account.getIsActive());
+		get(CONSIDER_AS_CASH_ACCOUNT).setValue(
+				account.isConsiderAsCashAccount());
+		get(ASOF).setValue(new ClientFinanceDate(account.getAsOf()));
+		get(COMMENTS).setValue(account.getComment());
 		return null;
 	}
 }

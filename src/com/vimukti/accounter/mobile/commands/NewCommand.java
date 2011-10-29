@@ -16,10 +16,28 @@ public abstract class NewCommand extends Command {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Result run(Context context) {
+		Result result = process(context);
+		List<String> first = (List<String>) context
+				.getAttribute("firstMessage");
+		for (String f : first) {
+			result.add(0, f);
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Result process(Context context) {
 		context.setAttribute("firstMessage", new ArrayList<String>());
 		setDefaultValues(context);
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
+			String nextCommandString = initObject(context);
+			if (nextCommandString != null) {
+				Result result = new Result();
+				result.setNextCommand(nextCommandString);
+				markDone();
+				return result;
+			}
 			String welcomeMessage = getWelcomeMessage();
 			if (welcomeMessage != null) {
 				((List<String>) context.getAttribute("firstMessage"))
@@ -37,11 +55,6 @@ public abstract class NewCommand extends Command {
 		for (Requirement req : allRequirements) {
 			Result result = req.process(context, makeResult, list, actions);
 			if (result != null) {
-				List<String> first = (List<String>) context
-						.getAttribute("firstMessage");
-				for (String f : first) {
-					result.add(0, f);
-				}
 				return result;
 			}
 		}
@@ -55,11 +68,6 @@ public abstract class NewCommand extends Command {
 		Object selection = context.getSelection("actions");
 		if (selection != ActionNames.FINISH_COMMAND) {
 			beforeFinishing(context, makeResult);
-			List<String> first = (List<String>) context
-					.getAttribute("firstMessage");
-			for (String f : first) {
-				makeResult.add(0, f);
-			}
 			return makeResult;
 		}
 
@@ -80,6 +88,8 @@ public abstract class NewCommand extends Command {
 		markDone();
 		return finishResult;
 	}
+
+	protected abstract String initObject(Context context);
 
 	protected abstract String getWelcomeMessage();
 

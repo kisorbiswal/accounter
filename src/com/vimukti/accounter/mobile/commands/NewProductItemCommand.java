@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 
@@ -23,6 +24,12 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return "Creating Product Item";
+	}
+
+	@Override
+	protected String initObject(Context context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

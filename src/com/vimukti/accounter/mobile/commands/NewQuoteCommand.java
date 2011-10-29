@@ -246,4 +246,10 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		return getMessages().createSuccessfully(getConstants().quote());
 	}
 
+	@Override
+	protected String initObject(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

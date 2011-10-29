@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -51,16 +52,42 @@ public abstract class NewAbstractCommand extends NewCommand {
 
 	protected void create(IAccounterCore coreObject, Context context) {
 		try {
-			String clientClassSimpleName = coreObject.getObjectType()
-					.getClientClassSimpleName();
+			if (coreObject.getID() == 0) {
+				String clientClassSimpleName = coreObject.getObjectType()
+						.getClientClassSimpleName();
 
-			OperationContext opContext = new OperationContext(context
-					.getCompany().getID(), coreObject, context.getIOSession()
-					.getUserEmail());
-			opContext.setArg2(clientClassSimpleName);
-			new FinanceTool().create(opContext);
+				OperationContext opContext = new OperationContext(context
+						.getCompany().getID(), coreObject, context
+						.getIOSession().getUserEmail());
+
+				opContext.setArg2(clientClassSimpleName);
+
+				new FinanceTool().create(opContext);
+			} else {
+				String serverClassFullyQualifiedName = coreObject
+						.getObjectType().getServerClassFullyQualifiedName();
+
+				OperationContext opContext = new OperationContext(context
+						.getCompany().getID(), coreObject, context
+						.getIOSession().getUserEmail(),
+						String.valueOf(coreObject.getID()),
+						serverClassFullyQualifiedName);
+
+				new FinanceTool().update(opContext);
+			}
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected long getNumberFromString(String string) {
+		if (string.isEmpty()) {
+			return 0;
+		}
+		if (string.charAt(0) != '#') {
+			return 0;
+		}
+		string = string.substring(1);
+		return Long.parseLong(string);
 	}
 }

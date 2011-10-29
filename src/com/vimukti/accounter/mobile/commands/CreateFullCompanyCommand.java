@@ -563,4 +563,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		return getMessages().createSuccessfully(getConstants().company());
 	}
 
+	@Override
+	protected String initObject(Context context) {
+		return null;
+	}
+
 }

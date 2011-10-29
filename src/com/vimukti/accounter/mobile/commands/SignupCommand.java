@@ -122,7 +122,7 @@ public class SignupCommand extends NewCommand {
 		client.setFullName(Global.get().messages()
 				.fullName(firstName, lastName));
 
-		String password = SecureUtils.createID(16);
+		String password = "***REMOVED***";// SecureUtils.createID(16);
 		sendPasswordMail(password, emailId);
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password));
@@ -159,5 +159,12 @@ public class SignupCommand extends NewCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return "Sighn Up Command is Activated";
+	}
+
+	@Override
+	protected String initObject(Context context) {
+		return null;
+		// TODO Auto-generated method stub
+
 	}
 }

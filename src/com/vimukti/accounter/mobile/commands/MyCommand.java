@@ -8,9 +8,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class MyCommand extends NewCommand {
 
@@ -122,6 +119,12 @@ public class MyCommand extends NewCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String initObject(Context context) {
 		// TODO Auto-generated method stub
 		return null;
 	}

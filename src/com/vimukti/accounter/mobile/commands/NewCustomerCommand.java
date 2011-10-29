@@ -489,4 +489,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		return getMessages().createSuccessfully(Global.get().Customer());
 	}
 
+	@Override
+	protected String initObject(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
