@@ -567,5 +567,18 @@
 		<servlet-name>openIdSignupServlet </servlet-name>
 		<url-pattern>/main/openidsignup</url-pattern>
 	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>FacebookLoginServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.FacebookLoginServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FacebookLoginServlet </servlet-name>
+		<url-pattern>/main/fbauth</url-pattern>
+	</servlet-mapping>
 
 </web-app>

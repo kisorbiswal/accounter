@@ -98,7 +98,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 
 <%
    String app = request.getHeader( "Nativeapp" );
-	String emailId = request.getAttribute("email").toString(); 
+	String emailId = request.getAttribute("email").toString();
+	String firstname = request.getAttribute("firstname").toString(); 
+	String lastname = request.getAttribute("lastname").toString(); 
    boolean isNative = ( app != null && !app.equals(""));
    if( isNative ){ %>
    <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>" />
@@ -132,11 +134,11 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   <div style="clear:both" class="check_label">
 	     <label>First Name</label><br />
-		 <input id="mid-box"  type="text" tabindex="4" name="firstName" />	
+		 <input id="mid-box"  type="text" tabindex="4" name="firstName"  value = "<%= firstname %>" />	
 	   </div>
 	    <div class="check_label">
 	     <label>Last Name</label><br />
-		 <input id="mid-box1"  type="text" tabindex="5" name="lastName" />	
+		 <input id="mid-box1"  type="text" tabindex="5" name="lastName"  value = "<%= lastname %>"/>	
 	   </div>
 	   <div class="check_label">
 	     <label>Email Address</label><br />
