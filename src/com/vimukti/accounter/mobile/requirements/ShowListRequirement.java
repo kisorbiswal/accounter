@@ -21,6 +21,19 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
+
+		T values = context.getSelection(getName());
+		if (values != null) {
+			String onSelection = onSelection(values);
+			if (onSelection != null) {
+				Result result = new Result();
+				result.setNextCommand(onSelection);
+				context.getIOSession().getCurrentCommand().markDone();
+				return result;
+			}
+			context.setString("");
+		}
+
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			context.setString("");
@@ -52,9 +65,12 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 				makeResult.add(0, str);
 			}
 		}
+
+		ResultList resultList = new ResultList(getName());
 		for (T t : pagination) {
-			list.add(createRecord(t));
+			resultList.add(createRecord(t));
 		}
+		makeResult.add(resultList);
 
 		CommandList commandList = new CommandList();
 		setCreateCommand(commandList);
@@ -92,6 +108,8 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 	protected String getSelectString() {
 		return null;
 	}
+
+	protected abstract String onSelection(T value);
 
 	protected abstract String getShowMessage();
 }
