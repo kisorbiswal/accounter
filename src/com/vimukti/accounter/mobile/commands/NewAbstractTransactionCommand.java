@@ -20,6 +20,14 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String BILL_TO = "billto";
 	protected static final String MEMO = "memo";
 	protected static final String TAXCODE = "taxCode";
+	protected static final String VENDOR = "vendor";
+	protected static final String PHONE = "phone";
+	protected static final String ACCOUNTS = "acounts";
+	protected static final String PAYMENT_TERMS = "paymentTerms";
+	protected static final String DUE_DATE = "duedate";
+	protected static final String DELIVERY_DATE = "deliveryDate";
+	protected static final String CHEQUE_NO = "chequeNo";
+	protected static final String PAYMENT_METHOD = "paymentMethod";
 
 	public void updateTotals(Context context, ClientTransaction transaction,
 			boolean isSales) {
