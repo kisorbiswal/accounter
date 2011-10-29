@@ -10,7 +10,7 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
 	public MeasurementCombo(String title) {
 		super(title);
-		// initCombo(getCompany().getMeasurements());
+		initCombo(getCompany().getMeasurements());
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
 	@Override
 	protected String getColumnData(ClientMeasurement object, int col) {
-		return null;
+		return object.getName();
 	}
 
 	@Override
