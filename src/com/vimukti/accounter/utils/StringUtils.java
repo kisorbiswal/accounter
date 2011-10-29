@@ -2,6 +2,8 @@ package com.vimukti.accounter.utils;
 
 import java.util.Collection;
 
+import com.vimukti.accounter.servlets.Facebook.StringConverter;
+
 /**
  * This class is a util class with different String operations.
  * 
@@ -103,5 +105,73 @@ public class StringUtils {
 		return buffer.toString();
 
 	}
+	  public static <T> String delimitObjectsToString(String delim, T... objects) {
+	        return delimitObjectsToString(delim, delim, objects);
+	    }
+
+	    public static <T> String delimitObjectsToString(String delim, String lastDelim, T... objects) {
+	        return delimitObjectsToString(delim, lastDelim, false, objects);
+	    }
+
+	    public static <T> String delimitObjectsToString(String delim, String lastDelim, boolean skipNulls, T... objects) {
+	        return delimitObjectsToString(delim, lastDelim, skipNulls, new StringConverter<T>() {
+	            public String toString(T object) {
+	                return (object == null ? "null" : object.toString());
+	            }
+	        }, objects);
+	    }
+
+	    public static <T> String delimitObjectsToString(String delim, String lastDelim, boolean skipNulls, StringConverter<T> conv, T... objects) {
+	        if (objects == null || objects.length == 0) {
+	            return null;
+	        }
+	        if (objects.length == 1 && Collection.class.isAssignableFrom(objects[0].getClass())) {
+	            objects = (T[])((Collection)objects[0]).toArray();
+	        }
+	        StringBuffer sb = new StringBuffer();
+	        boolean firstDone = false;
+	        for (int n = 0; n < objects.length; n++) {
+	            if (firstDone) {
+	                if (n == objects.length - 1) {
+	                    sb.append(nvl(lastDelim, delim));
+	                } else {
+	                    sb.append(delim);
+	                }
+	            }
+	            if (objects[n] != null || !skipNulls) {
+	                sb.append(conv.toString(objects[n]));
+	                firstDone = true;
+	            }
+	        }
+	        return sb.toString();
+	    }
+	    /**
+	     * Allows a list of values to be provided, the first non-null value in
+	     * the list is returned as the result.
+	     * @param <T>
+	     * @param mainValue
+	     * @param fallbackValues
+	     * @return
+	     */
+	    public static <T> T nvl(T mainValue, T... fallbackValues) {
+	        T result = mainValue;
+	        int idx = 0;
+	        while (result == null && idx < fallbackValues.length) {
+	            result = fallbackValues[idx++];
+	        }
+	        return result;
+	    }
+	    /**
+	     * @param str string to inspect
+	     * @return true if string is not null or empty
+	     */
+	    public static boolean isNotEmptyStr(String str) {
+	        return !(str == null || str.isEmpty());
+	    }
+
+	    public static boolean isNotBlankStr(String str) {
+	        return !(str == null || str.trim().isEmpty());
+	    }
+
 
 }
