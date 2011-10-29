@@ -38,7 +38,16 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	private transient boolean isOnSaveProccessed;
 
+	public Warehouse(String warehouseCode, String name, Address address,
+			boolean isDefault) {
+		this.name = name;
+		this.warehouseCode = warehouseCode;
+		this.isDefaultWarehouse = isDefault;
+		this.address = address;
+	}
+
 	public Warehouse() {
+
 	}
 
 	public Address getAddress() {
@@ -68,7 +77,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

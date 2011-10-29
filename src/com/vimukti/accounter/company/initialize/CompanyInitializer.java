@@ -14,10 +14,12 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.VendorGroup;
+import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -252,6 +254,18 @@ public abstract class CompanyInitializer {
 				"Classic Template");
 		brandingTheme.setCompany(company);
 		session.save(brandingTheme);
+
+		Warehouse warehouse = new Warehouse("DW-1", "Default Warehouse",
+				company.getTradingAddress(), true);
+		warehouse.setCompany(company);
+		session.save(warehouse);
+
+		Measurement measurement = new Measurement("Items", "Description");
+		measurement.setCompany(company);
+		measurement.addUnit("Items", 1);
+		session.save(measurement);
+		company.setDefaultMeasurement(measurement);
+		company.setDefaultWarehouse(warehouse);
 
 		createNominalCodesRanges();
 

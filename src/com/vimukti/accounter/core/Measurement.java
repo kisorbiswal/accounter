@@ -33,6 +33,11 @@ public class Measurement extends CreatableObject implements
 		units = new HashSet<Unit>();
 	}
 
+	public Measurement(String name, String description) {
+		this.name = name;
+		this.desctiption = description;
+	}
+
 	/**
 	 * 
 	 * NOTE: the 'factor' value should be pre-calculated to default measure [or]
@@ -42,7 +47,11 @@ public class Measurement extends CreatableObject implements
 	 * @param factor
 	 */
 	public void addUnit(String unitType, double factor) {
+		if (units == null) {
+			units = new HashSet<Unit>();
+		}
 		Unit unit = new Unit(unitType, factor);
+		unit.setCompany(getCompany());
 		unit.setMeasurement(this);
 		units.add(unit);
 	}
@@ -156,7 +165,6 @@ public class Measurement extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

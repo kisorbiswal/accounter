@@ -74,6 +74,12 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
+		if (getPreferences().isInventoryEnabled()) {
+			menuitem = menuBar.addItem(Accounter.constants().inventory(),
+					getInventoryMenu());
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+		}
+
 		// menuitem = menuBar.addItem(Accounter.constants().fixedAssets(),
 		// getFixedAssetsMenu());
 		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
@@ -81,12 +87,6 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (Accounter.getUser().canViewReports()) {
 			menuitem = menuBar.addItem(Accounter.constants().reports(),
 					getReportMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-		}
-
-		if (getPreferences().isInventoryEnabled()) {
-			menuitem = menuBar.addItem(Accounter.constants().inventory(),
-					getInventoryMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
@@ -131,7 +131,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				ActionFactory.getWarehouseListAction());
 		inventoryMenu.addItem(Accounter.constants().warehouseTransferList(),
 				ActionFactory.getWarehouseTransferListAction());
-		inventoryMenu.addItem(Accounter.constants().measurement(),
+		inventoryMenu.addItem(Accounter.constants().measurementList(),
 				ActionFactory.getMeasurementsAction());
 		return inventoryMenu;
 	}

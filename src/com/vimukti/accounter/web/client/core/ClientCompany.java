@@ -44,6 +44,10 @@ public class ClientCompany implements IAccounterCore {
 
 	boolean isConfigured;
 
+	private long defaultMeasurement;
+
+	private long defaultWarehouse;
+
 	private String ein;
 
 	private int firstMonthOfFiscalYear;
@@ -3011,5 +3015,21 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setWarehouses(ArrayList<ClientWarehouse> warehouses) {
 		this.warehouses = warehouses;
+	}
+
+	public long getDefaultMeasurement() {
+		return defaultMeasurement;
+	}
+
+	public void setDefaultMeasurement(long defaultMeasurement) {
+		this.defaultMeasurement = defaultMeasurement;
+	}
+
+	public long getDefaultWarehouse() {
+		return defaultWarehouse;
+	}
+
+	public void setDefaultWarehouse(long defaultWarehouse) {
+		this.defaultWarehouse = defaultWarehouse;
 	}
 }

@@ -41,6 +41,8 @@ public class Company implements IAccounterServerCore {
 
 	private long id;
 	private int version;
+	private Measurement defaultMeasurement;
+	private Warehouse defaultWarehouse;
 	// int accountingType = 0;
 
 	// String companyID;
@@ -1568,7 +1570,7 @@ public class Company implements IAccounterServerCore {
 		delete(reconciliations, session);
 		delete(warehouses, session);
 		delete(measurements, session);
-		
+
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {
@@ -1614,5 +1616,21 @@ public class Company implements IAccounterServerCore {
 			}
 		}
 		return null;
+	}
+
+	public Measurement getDefaultMeasurement() {
+		return defaultMeasurement;
+	}
+
+	public void setDefaultMeasurement(Measurement defaultMeasurement) {
+		this.defaultMeasurement = defaultMeasurement;
+	}
+
+	public Warehouse getDefaultWarehouse() {
+		return defaultWarehouse;
+	}
+
+	public void setDefaultWarehouse(Warehouse defaultWarehouse) {
+		this.defaultWarehouse = defaultWarehouse;
 	}
 }

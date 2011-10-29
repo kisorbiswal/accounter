@@ -59,8 +59,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private AmountField salesPriceText, stdCostText, purchasePriceTxt,
 			openingBalTxt;
 	private IntegerField vendItemNumText, weightText, minStock, maxStock,
-			defaultSellPrice, defaultPurchasePrice, salesTaxRate,
-			purcahseTaxRate;
+			defaultSellPrice, defaultPurchasePrice;
+	// , salesTaxRate, purcahseTaxRate;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem /* isservice, */isellCheck, comCheck, activeCheck, ibuyCheck,
 			itemTaxCheck;
@@ -590,15 +590,14 @@ public class ItemView extends BaseView<ClientItem> {
 				.defaultSellPrice());
 		defaultPurchasePrice = new IntegerField(this, Accounter.constants()
 				.defaultPurchasePrice());
-		salesTaxRate = new IntegerField(this, Accounter.constants()
-				.salesTaxRate());
-		purcahseTaxRate = new IntegerField(this, Accounter.constants()
-				.purchaseTaxRate());
+		// salesTaxRate = new IntegerField(this, Accounter.constants()
+		// .salesTaxRate());
+		// purcahseTaxRate = new IntegerField(this, Accounter.constants()
+		// .purchaseTaxRate());
 		openingBalTxt = new AmountField(Accounter.constants().openingBalance(),
 				this);
 		stockForm.setNumCols(4);
-		stockForm.setFields(openingBalTxt, measurement, wareHouse, minStock,
-				maxStock);
+		stockForm.setFields(openingBalTxt, measurement, wareHouse);
 		measurement.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
 		minStock.setDisabled(isInViewMode());

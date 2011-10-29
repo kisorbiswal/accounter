@@ -389,6 +389,12 @@
 			name="isSelected" column="TRADING_IS_SELECTED" not-null="true"></property> 
 			</component> -->
 
+		<many-to-one name="defaultMeasurement" class="Measurement"
+			lazy="false" column="DEFAULT_MEASUREMENT" cascade="delete">
+		</many-to-one>
+		<many-to-one name="defaultWarehouse" class="Warehouse"
+			lazy="false" column="DEFAULT_WAREHOUSE" cascade="delete">
+		</many-to-one>
 		<component name="registeredAddress" class="Address" lazy="false">
 			<property name="type" column="REGISTRED_ADDRESS_TYPE"></property>
 			<property name="address1" column="REGISTRED_ADDRESS1"
@@ -570,7 +576,7 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="Warehouse" />
 		</set>
-		
+
 		<set name="measurements" inverse="true" cascade="save-update,delete"
 			order-by="ID">
 			<key column="COMPANY_ID" />
@@ -709,13 +715,13 @@
 
 		<component name="minStockAlertLevel" class="Quantity">
 			<property name="value" column="MIN_QTY_VALUE" />
-			<many-to-one name="unit" column="MIN_UNIT" class="Unit" lazy="false"
-				cascade="save-update" />
+			<many-to-one name="unit" column="MIN_UNIT" class="Unit"
+				lazy="false" cascade="save-update" />
 		</component>
 		<component name="maxStockAlertLevel" class="Quantity">
 			<property name="value" column="MAX_QTY_VALUE" />
-			<many-to-one name="unit" column="MAX_UNIT" class="Unit" lazy="false"
-				cascade="save-update" />
+			<many-to-one name="unit" column="MAX_UNIT" class="Unit"
+				lazy="false" cascade="save-update" />
 		</component>
 		<many-to-one name="measurement" class="Measurement"
 			column="MEASUREMENT" lazy="false" />
@@ -1611,32 +1617,22 @@
 			/> -->
 
 		<component name="address" class="Address" lazy="false">
-			<property name="type" column="TYPE" not-null="true"></property>
-			<property name="address1" column="ADDRESS1" not-null="true"
-				length="100"></property>
-			<property name="street" column="STREET" not-null="true"
-				length="100"></property>
-			<property name="city" column="CITY" not-null="true" length="100"></property>
-			<property name="stateOrProvinence" column="STATE" not-null="true"
-				length="100"></property>
-			<property name="zipOrPostalCode" column="ZIP" not-null="true"
-				length="100"></property>
-			<property name="countryOrRegion" column="COUNTRY" not-null="true"
-				length="100"></property>
-			<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
+			<property name="type" column="TYPE"></property>
+			<property name="address1" column="ADDRESS1" length="100"></property>
+			<property name="street" column="STREET" length="100"></property>
+			<property name="city" column="CITY" length="100"></property>
+			<property name="stateOrProvinence" column="STATE" length="100"></property>
+			<property name="zipOrPostalCode" column="ZIP" length="100"></property>
+			<property name="countryOrRegion" column="COUNTRY" length="100"></property>
+			<property name="isSelected" column="IS_SELECTED"></property>
 		</component>
 
 		<component name="contact" class="Contact" lazy="false">
-			<property name="isPrimary" column="COMPANY_CONTACT__IS_PRIMARY"
-				not-null="true"></property>
-			<property name="name" column="COMPANY_CONTACT__NAME"
-				not-null="true"></property>
-			<property name="title" column="COMPANY_CONTACT__TITLE"
-				not-null="true"></property>
-			<property name="businessPhone" column="COMPANY_CONTACT__BUSINESS_PHONE"
-				not-null="true"></property>
-			<property name="email" column="COMPANY_CONTACT_EMAIL"
-				not-null="true"></property>
+			<property name="isPrimary" column="IS_PRIMARY"></property>
+			<property name="name" column="CONTACT__NAME"></property>
+			<property name="title" column="CONTACT__TITLE"></property>
+			<property name="businessPhone" column="_BUSINESS_PHONE"></property>
+			<property name="email" column="CONTACT_EMAIL"></property>
 		</component>
 
 		<set name="itemStatuses" table="ITEM_STATUS" inverse="true"
