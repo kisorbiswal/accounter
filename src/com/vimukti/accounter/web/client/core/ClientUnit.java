@@ -131,14 +131,12 @@ public class ClientUnit implements IAccounterCore, Serializable,
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	@Override
