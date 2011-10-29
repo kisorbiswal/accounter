@@ -124,7 +124,7 @@ public class CommandProcessor {
 		if (!isSelected) {
 			context.setString(message.getOriginalMsg());
 		} else {
-			context.setString(null);
+			context.setString("");
 		}
 		Result result = null;
 		try {
