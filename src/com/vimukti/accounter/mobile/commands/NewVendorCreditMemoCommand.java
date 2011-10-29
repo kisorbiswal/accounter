@@ -36,12 +36,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 	@Override
-	protected String initObject(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected String getWelcomeMessage() {
 		return getMessages().create(getConstants().vendorCreditMemo());
 	}
@@ -254,6 +248,12 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		vendorCreditMemo.setMemo(memo);
 		updateTotals(context, vendorCreditMemo, false);
 		create(vendorCreditMemo, context);
+		return null;
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
