@@ -4,6 +4,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -29,7 +30,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private static final long serialVersionUID = 640523202925694992L;
 
 	private Address address;
-	private Set<ItemStatus> itemStatuses;
+	private Set<ItemStatus> itemStatuses = new HashSet<ItemStatus>();
 
 	private String name;
 	private String warehouseCode;
@@ -94,13 +95,18 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(s);
 		isOnSaveProccessed = true;
-
+		for (ItemStatus itemStatus : itemStatuses) {
+			itemStatus.setWarehouse(this);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
 		super.onUpdate(s);
+		for (ItemStatus itemStatus : itemStatuses) {
+			itemStatus.setWarehouse(this);
+		}
 		return false;
 	}
 
@@ -138,16 +144,28 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 		this.warehouseCode = warehouseCode;
 	}
 
-	public void updateItemStatus(Item item, Quantity quantity, boolean substract) {
+	public void updateItemStatus(Item item, double value, boolean substract) {
 		ItemStatus itemStatus = getItemStatus(item);
 		if (itemStatus != null) {
 			Quantity tempQ = itemStatus.getQuantity();
 			if (substract) {
-				itemStatus.getQuantity().setValue(
-						tempQ.getValue() - quantity.getValue());
+				itemStatus.getQuantity().setValue(tempQ.getValue() - value);
 			} else {
-				itemStatus.getQuantity().setValue(
-						tempQ.getValue() + quantity.getValue());
+				itemStatus.getQuantity().setValue(tempQ.getValue() + value);
+			}
+		} else {
+			if (!substract) {
+				if (itemStatuses == null) {
+					itemStatuses = new HashSet<ItemStatus>();
+				}
+				ItemStatus newItemStatus = new ItemStatus();
+				newItemStatus.setItem(item);
+				Quantity quantity = new Quantity();
+				quantity.setValue(value);
+				quantity.setUnit(item.getMeasurement().getDefaultUnit());
+				newItemStatus.setQuantity(quantity);
+				newItemStatus.setWarehouse(this);
+				itemStatuses.add(newItemStatus);
 			}
 		}
 	}

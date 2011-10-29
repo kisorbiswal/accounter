@@ -42,7 +42,7 @@ public class WareHouseAllocation implements IAccounterServerCore, Lifecycle {
 		if (!transaction.isDebitTransaction()) {
 			quantity.setValue(-1 * quantity.getValue());
 		}
-		wareHouse.updateItemStatus(item, quantity, true);
+		// wareHouse.updateItemStatus(item, quantity, true);
 		return false;
 	}
 
@@ -51,7 +51,7 @@ public class WareHouseAllocation implements IAccounterServerCore, Lifecycle {
 		if ((transaction.isVoid() && !transaction.isVoidBefore())
 				|| (transaction.isDeleted()
 						&& !transaction.oldTransaction.isDeleted() && !transaction.isVoid)) {
-			wareHouse.updateItemStatus(item, quantity, false);
+			// wareHouse.updateItemStatus(item, quantity, false);
 		}
 		return false;
 	}
@@ -59,7 +59,7 @@ public class WareHouseAllocation implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!transaction.isVoid()) {
-			wareHouse.updateItemStatus(item, quantity, false);
+			// wareHouse.updateItemStatus(item, quantity, false);
 			session.saveOrUpdate(wareHouse);
 		}
 		return false;

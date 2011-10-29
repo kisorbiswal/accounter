@@ -34,6 +34,7 @@ public class Measurement extends CreatableObject implements
 	}
 
 	public Measurement(String name, String description) {
+		units = new HashSet<Unit>();
 		this.name = name;
 		this.desctiption = description;
 	}
@@ -47,11 +48,13 @@ public class Measurement extends CreatableObject implements
 	 * @param factor
 	 */
 	public void addUnit(String unitType, double factor) {
-		if (units == null) {
-			units = new HashSet<Unit>();
-		}
 		Unit unit = new Unit(unitType, factor);
 		unit.setCompany(getCompany());
+		unit.setMeasurement(this);
+		units.add(unit);
+	}
+
+	public void addUnit(Unit unit) {
 		unit.setMeasurement(this);
 		units.add(unit);
 	}
@@ -174,5 +177,14 @@ public class Measurement extends CreatableObject implements
 			unit.setMeasurement(this);
 		}
 		return super.onSave(session);
+	}
+
+	public Unit getDefaultUnit() {
+		for (Unit unit : units) {
+			if (unit.isDefault()) {
+				return unit;
+			}
+		}
+		return null;
 	}
 }

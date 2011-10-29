@@ -9,6 +9,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -188,6 +189,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	private AccounterClass accounterClass;
 	@ReffereredObject
 	private Customer customer;
+
+	private Warehouse wareHouse;
 
 	private boolean isBillable;
 
@@ -396,6 +399,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					session.saveOrUpdate(effectingAccount);
 					effectingAccount.onUpdate(session);
 				}
+
+				if (this.type == TYPE_ITEM
+						&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
+					this.updateWareHouse(true);
+				}
 			}
 		}
 
@@ -519,6 +527,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 							&& this.isTaxable)
 						Company.setTAXRateCalculation(this, session);
 
+					if (this.type == TYPE_ITEM
+							&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
+						this.updateWareHouse(false);
+					}
 				}
 				// else if (this.type == TYPE_SALESTAX) {
 				// if (Company.getCompany().getAccountingType() ==
@@ -532,6 +544,24 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			}
 		}
 		// ChangeTracker.put(this);
+	}
+
+	public void updateWareHouse(boolean isVoidOrDelete) {
+		if (wareHouse == null) {
+			return;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		Unit selectedUnit = this.quantity.getUnit();
+		Measurement defaultMeasurement = this.getItem().getMeasurement();
+		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
+		double value = this.quantity.getValue()
+				* (defaultUnit.getFactor() / selectedUnit.getFactor());
+		if (transaction.isDebitTransaction()) {
+			wareHouse.updateItemStatus(item, value, isVoidOrDelete);
+		} else {
+			wareHouse.updateItemStatus(item, value, !isVoidOrDelete);
+		}
+		session.saveOrUpdate(wareHouse);
 	}
 
 	private Company getCompany() {
@@ -580,6 +610,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 			if (this.isTaxable)
 				Company.setTAXRateCalculation(this, session);
+
+			if (this.type == TYPE_ITEM
+					&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
+				this.updateWareHouse(true);
+			}
 
 		}
 		// else if (this.type == TYPE_SALESTAX) {
@@ -853,6 +888,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	public void setTaxRateCalculationEntriesList(
 			Set<TAXRateCalculation> taxRateCalculationEntriesList) {
 		this.taxRateCalculationEntriesList = taxRateCalculationEntriesList;
+	}
+
+	public Warehouse getWareHouse() {
+		return wareHouse;
+	}
+
+	public void setWareHouse(Warehouse wareHouse) {
+		this.wareHouse = wareHouse;
 	}
 
 }
