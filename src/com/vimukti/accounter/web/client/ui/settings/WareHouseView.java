@@ -27,7 +27,6 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 			stateItem, countryItem, postalCodeItem, warehouseCodeItem;
 	private VerticalPanel vPanel;
 	private CheckboxItem defaultWareHouse;
-	private ClientWarehouse takenWarehouse;
 	private Label titleItem;
 
 	public AccounterConstants settingsConstants = Accounter.constants();
@@ -165,13 +164,11 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	private ClientWarehouse getWarehouseObject() {
 
-		ClientWarehouse warehouse = takenWarehouse != null ? takenWarehouse
-				: new ClientWarehouse();
-		warehouse.setWarehouseCode(warehouseCodeItem.getValue());
-		warehouse.setName(wareHouseNameItem.getValue().toString());
-		warehouse.setMobileNumber(mobileNumberItem.getValue().toString());
-		warehouse.setDDINumber(DDINumberItem.getValue().toString());
-		warehouse.setDefaultWarehouse(getBooleanValue());
+		data.setWarehouseCode(warehouseCodeItem.getValue());
+		data.setName(wareHouseNameItem.getValue().toString());
+		data.setMobileNumber(mobileNumberItem.getValue().toString());
+		data.setDDINumber(DDINumberItem.getValue().toString());
+		data.setDefaultWarehouse(getBooleanValue());
 
 		ClientAddress address = new ClientAddress();
 		address.setType(ClientAddress.TYPE_WAREHOUSE);
@@ -181,15 +178,15 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		address.setStreet(streetItem.getValue());
 		address.setStateOrProvinence(stateItem.getValue());
 		address.setZipOrPostalCode(postalCodeItem.getValue());
-		warehouse.setAddress(address);
+		data.setAddress(address);
 
 		ClientContact contact = new ClientContact();
 		contact.setName(contactNameItem.getValue());
 		contact.setBusinessPhone(contactNumberItem.getValue());
 
-		warehouse.setContact(contact);
+		data.setContact(contact);
 
-		return warehouse;
+		return data;
 	}
 
 	private boolean getBooleanValue() {
