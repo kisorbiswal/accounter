@@ -1,20 +1,29 @@
-.gwt-MenuBar-horizontal,.decor02,.finance-portlet .decor00,.td01,#branding,
-.editTable .editheader, .gwt-StackPanel .gwt-StackPanelItem, .recounciliation_grid thead tr,.gwt-DecoratedTabBar .gwt-TabBarItem{
+.MENU_BAR_BG table,.decor02,.finance-portlet .decor00,.td01,#branding,.tabletmainmenu,
+.editTable .editheader, .gwt-StackPanel .gwt-StackPanelItem, .recounciliation_grid thead tr,.gwt-DecoratedTabBar .gwt-TabBarItem,.tabletmenu{
 	background:-moz-linear-gradient(center top , #F9F7F7, #C4C0C0) repeat scroll 0 0 transparent;
 	background: -webkit-gradient(linear, left top, left bottom, from(#F9F7F7), to(#C4C0C0));
 }
-.gwt-MenuBar-horizontal,.gwt-DialogBox,.gwt-MenuBarPopup div table:only-child,.recounciliation_grid,.editTable,.company_stackpanel_view,
+.touch_submenu{
+	background: -webkit-gradient(linear, left top, left bottom, from(#686666), to(#565454));
+	background:-moz-linear-gradient(center top , #686666, #565454) repeat scroll 0 0 transparent;
+}
+.popupContent .touch_submenu .subMenu{
+	background:url("../images/icon_arrow.png") no-repeat scroll right center white;
+}
+.MENU_BAR_BG table,.gwt-DialogBox,.gwt-MenuBarPopup div table:only-child,.recounciliation_grid,.editTable,.company_stackpanel_view,
 .gwt-StackPanelContent{
 	 border:1px solid #918C8C;
 }
 .main-class-pannel,.gwt-PopupPanel,.gwt-TabPanelBottom{
 	border:1px solid #918C8C !important;
 }
-.gwt-MenuBar-horizontal .gwt-MenuItem{
-    border-right:1px solid 	#918C8C;
-    padding:0 10px 4px;
+.MENU_BAR_BG table td .gwt-Label{
+	 padding:0 10px 4px;
 }
-.MENU_BAR_BG{
+.MENU_BAR_BG table td{
+    border-right:1px solid 	#918C8C;
+}
+.MENU_BAR_BG table,.tabletmainmenu{
 	margin:0 auto;
 }
 .editTable .editheader td,.borders,.grouped-buttons .Empty-text{
@@ -29,7 +38,7 @@
 .gwt-TabBarItem-selected .tabMiddleCenterInner .gwt-Label{
 	color:#ffffff !important;
 }
-.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.logout-help-welcome,
+.main-finance-window,.touch_submenu .menuItem,.touch_submenu .subMenu,.gwt-DialogBox,#mainFooter,.popup,.logout-help-welcome,
 .setup_panel{
 	font-size:0.8em;
 }
@@ -42,7 +51,7 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 .error-panel,.commentPanel,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
-.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table {
+.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.view_manager_body,.MENU_BAR_BG {
 	width: 100%;
 }
 .textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,.financialDataTitle:FIRST-CHILD,
@@ -54,13 +63,13 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 .select_industry,.organized_radio,.employee_yesno,.billing_question {
 	font-weight: bold;
 }
-.image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:HOVER,.gwt-MenuBar-horizontal .gwt-MenuItem,
+.image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:HOVER,.MENU_BAR_BG table td,
 .cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,
 .gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,
-.users-grid tr:hover,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter{
+.users-grid tr:hover,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,.touch_submenu .gwt-Label{
 	cursor: pointer;
 }
-.gwt-MenuBar-vertical .gwt-MenuItem,.no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,
+.touch_submenu .menuItem,.touch_submenu .subMenu,.no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,select[multiple],
 .selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,.dateBoxPopup{
 	background: none repeat scroll 0 0 #FFFFFF;
@@ -88,7 +97,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 .editheader .gwt-Label,.viewTitle,.blue-month-line,.blue-week-line,.gwt-StackPanel .gwt-StackPanelItem,.image-button,.portletLabel,
 .custom-button,.portlet .panel-title,.gwt-DialogBox .caption,.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,
 .helpdialog .dialogTopCenter table div,.breadcrumb a,.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,
-.gwt-TabBar .gwt-TabBarItem,.tabMiddle .tabMiddleCenterInner .gwt-Label,.gwt-MenuBar table tr td,.gwt-MenuBar-horizontal .gwt-MenuItem {
+.gwt-TabBar .gwt-TabBarItem,.tabMiddle .tabMiddleCenterInner .gwt-Label,.gwt-MenuBar table tr td,.MENU_BAR_BG table td {
 	color:#5B5959;
 }
 .gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridTextBoxCell input[type="text"],.downarrow-button,
@@ -125,7 +134,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 .report-toolbar,.datePickerDayIsValue{
 	background: none repeat scroll 0 0 #CCCCCC !important;
 }
-.MENU_BAR_BG .gwt-MenuBar-horizontal table,.gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.boldtext,.borders,.biz-decor-panel,
+.gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.boldtext,.borders,.biz-decor-panel,
 .gwt-DecoratedTabBar .gwt-TabBarItem,.td00,.td01,.td02,.biz-decor-panel,.gwt-DatePicker .datePickerDays{
 	border-collapse: collapse;
 }
@@ -133,8 +142,8 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 .discussion-dialog .dialogMiddleRight,.gwt-DialogBox .dialogTopRight{
 	width: 5px !important;
 }
-.main-class-pannel,.change_password_view,.error-panel,#loading .loadingIndicator,.skip_setup,.start_setup,
-.back_next_buttons,.setting-class-panel,.view_panel,.gwt-MenuBarPopup div table:only-child{
+.main-class-pannel,.change_password_view,.error-panel,#loading .loadingIndicator,.skip_setup,.start_setup,.touch_submenu,
+.back_next_buttons,.setting-class-panel,.view_panel,.gwt-MenuBarPopup div table:only-child,.tabletmenu td div{
 	padding: 10px;
 }
 .setting-class-panel,.change_password_view,.ReportGrid .gridBody,.editTable .editheader td,.editTable td,
@@ -163,7 +172,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 	overflow-x: hidden;
 }
 .view_help_panel td:FIRST-CHILD table td,.helpdialog .dialogTopCenter table td,.fiscal_panel td:FIRST-CHILD,
-.refer_panel td:FIRST-CHILD,.select_grid td:FIRST-CHILD,.upload-logo td{
+.refer_panel td:FIRST-CHILD,.select_grid td:FIRST-CHILD,.upload-logo td,.MENU_BAR_BG table td{
 	vertical-align: middle !important;
 }
 input[type="text"],textarea,.view_help_panel td:FIRST-CHILD table td,.helpdialog .dialogTopCenter table td,
@@ -180,7 +189,7 @@ input[type="text"],textarea,.view_help_panel td:FIRST-CHILD table td,.helpdialog
 .blue-day-grid tr,.popup,.message,.gwt-DatePicker .datePickerDays tr {
 	border: 1px solid #AAAAAA;
 }
-.gridSelectBoxCell .downarrow-button,.page-layout,.gwt-DecoratedPopupPanel,.accounter-button-seperater{
+.gridSelectBoxCell .downarrow-button,.page-layout,.gwt-DecoratedPopupPanel,.accounter-button-seperater,.tabletmenu{
 	position: absolute;
 }
 a,.falseHyperlink,.update-link span,.actionOver,.hr-reports a,.handCursor{
@@ -204,7 +213,7 @@ html,body{
 .imageLink img {
 	margin-right: 3px;
 }
-.toolbox,.gridSelectBoxCell .downarrow-button,.downarrow-button{
+.toolbox,.gridSelectBoxCell .downarrow-button,.downarrow-button,.tabletmenu{
 	z-index:1;
 }
 .toolbox,.helpPanel {
@@ -302,8 +311,10 @@ select[multiple] {
 .page-layout,.MenuBarParent table,.dropdownFlex,.td00,.td01,.td02,.biz-decor-panel{
 	border-spacing: 0;
 }
-.abstract_base_view{
+.abstract_base_view,.tabletmenu td button{
 	margin:10px;
+}
+.abstract_base_view{
 	border:1px solid #918c8c;
 	padding:10px;
 	width:98% !important;
@@ -327,8 +338,10 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .border,.treeGrid {
 	border: 1px solid #A7ABB4;
 }
-.address {
+.MENU_BAR_BG table,.address{
 	margin-top: 5px;
+}
+.address {
 	border: 1px solid #888888;
 	font-size: small;
 }
@@ -508,8 +521,8 @@ tr.net-profit td {
     padding: 16px;
     margin-top:13px;
 }
-.gwt-MenuBar-horizontal .gwt-MenuItem { 
-	height: 31px;
+.MENU_BAR_BG table { 
+	height: 25px;
 }
 .gridBody tr td,.companyInfoPanel .header,.label-title-list,.gwt-RadioButton label,.portletLabel,.organisation_Info {
 	font-size: 13px;
@@ -580,10 +593,11 @@ tr.net-profit td {
 .gwt-TabPanelBottom,.gwt-StackPanel .gwt-StackPanelItem{
 	padding:6px;
 }
-.gwt-MenuBar-vertical .gwt-MenuItem {
-	border: 1px solid;
+.touch_submenu .menuItem,.touch_submenu .subMenu {
+	border-top: 1px solid #A5A4A4;
     padding: 6px 10px;
     width: 200px;
+    /*margin-top:5px;*/
 }
 .floatright,.button_bar,.panel-right-align,.image-button,.upload-logo,.gridSelectBoxCell .downarrow-button{
 	float:right;
@@ -614,7 +628,7 @@ tr.net-profit td {
 iframe,.address div {
 	display: block;
 }
-.helpBar,.gwt-MenuBar-horizontal .gwt-MenuItem,.gwt-TabBar .gwt-TabBarItem,table td,select{
+.helpBar,.MENU_BAR_BG table td,.gwt-TabBar .gwt-TabBarItem,table td,select{
 	font-weight: normal;
 }
 .general-setting-invoice {
@@ -764,7 +778,7 @@ iframe,.address div {
 .view_panel,.setup_panel{
 	height: 500px;
 }
-.gwt-MenuBar-horizontal,.addAccountPortlet,.addButtonPortlet,.account_portlet,.setting-class-panel{
+.addAccountPortlet,.addButtonPortlet,.account_portlet,.setting-class-panel{
 	margin-top:10px;
 }
 .general-image,.addAccountPortlet,.addButtonPortlet,.account_portlet{
@@ -926,7 +940,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button{
 .main-finance-window{
 	min-height: 100%;
 }
-.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox{
+.main-finance-window,.touch_submenu .menuItem,.touch_submenu .subMenu,.gwt-DialogBox{
 	font-size:0.8em;
 }
 .billing_stmt_footer{
@@ -1078,7 +1092,7 @@ input[type="text"]{
 .new_vat_item tr td:FIRST-CHILD {
 	width:250px;
 }
-.gwt-DialogBox,.gwt-MenuBar-horizontal,.gwt-DialogBox,.gwt-MenuBar-vertical .gwt-MenuItem{
+.gwt-DialogBox,.MENU_BAR_BG table,.gwt-DialogBox,.menupopup .popupContent{
 	border-radius:5px 5px 5px 5px;
 }
 .decor02{
@@ -1086,6 +1100,15 @@ input[type="text"]{
 	  -webkit-border-radius:0 5px 0 0;
 	  -moz-border-radius:0 5px 0 0;
 	  margin-left:-2px;
+}
+.editTable input[type="text"],.editTable .gwt-TextBox{
+	box-shadow:0px 0px 0px 0px #000 inset;
+	-webkit-box-shadow:0px 0px 0px 0px #000 inset;
+	box-shadow:none;
+	-webkit-box-shadow:none;
+}
+.editTable .downarrow-button{
+	margin-left:-24px;
 }
 .decor00{
 	margin-right:-2px;
@@ -1102,7 +1125,7 @@ input[type="text"]{
 	-webkit-border-radius:5px 5px 0 0;
 	-moz-border-radius:5px 5px 0 0;
 }
-.gwt-MenuBarPopup .menuPopupTopLeft .menuPopupTopLeftInner{
+/*.gwt-MenuBarPopup .menuPopupTopLeft .menuPopupTopLeftInner.touch_submenu{
 	border-color: transparent transparent #C4C0C0;
     border-style: solid;
     border-width: 0 20px 20px;
@@ -1110,7 +1133,7 @@ input[type="text"]{
     width: 0;
     z-index: 1;
     top:1px;
-}
+}*/
 .gwt-MenuBarPopup {
     padding-top:20px;
     z-index: 1;
@@ -1123,4 +1146,27 @@ input[type="text"]{
 }
 .editTable .selected,.editTable input[disabled]{
 	background:#fff !important;
+}
+.tabletmainmenu{
+	border:1px solid #000;
+}
+
+.touch_submenu .separator{
+    /*background: none repeat scroll 0 0 white;
+    border-radius: 5px 5px 0 0;
+    border-top: 1px solid;
+    margin-top: 5px;*/
+    height: 5px;
+}
+.menupopup{
+	background: url("../images/iconArrows.gif") no-repeat scroll -8px -3px transparent;
+    border: 0 none !important;
+    margin-top: 3px;
+    padding-top: 24px;
+}
+.menupopup .popupContent{
+	border: 1px solid #686666;
+}
+.touch_submenu .gwt-Button{
+	margin-bottom:5px;
 }
