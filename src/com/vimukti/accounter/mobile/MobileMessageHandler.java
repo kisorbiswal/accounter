@@ -29,9 +29,17 @@ public class MobileMessageHandler {
 	 * @throws AccounterMobileException
 	 */
 	public String messageReceived(String networkId, String message,
-			AdaptorType adaptorType, int networkType,
-			CommandSender commandSender) throws AccounterMobileException {
-		boolean isAnyCommandInProcess = true;
+			AdaptorType adaptorType, int networkType)
+			throws AccounterMobileException {
+		String processMessage = processMessage(networkId, message, adaptorType,
+				networkType, null);
+		sessions.get(networkId).await();
+		return processMessage;
+	}
+
+	private String processMessage(String networkId, String message,
+			AdaptorType adaptorType, int networkType, String oldReplay)
+			throws AccounterMobileException {
 		Session openSession = HibernateUtil.openSession();
 		try {
 			MobileSession session = sessions.get(networkId);
@@ -45,12 +53,14 @@ public class MobileMessageHandler {
 			session.reloadObjects();
 
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
-
 			UserMessage userMessage = adoptor.preProcess(session, message,
 					networkId, networkType);
 			Result result = getCommandProcessor().handleMessage(session,
 					userMessage);
-			isAnyCommandInProcess = false;
+			String reply = adoptor.postProcess(result);
+			if (oldReplay != null && !oldReplay.isEmpty()) {
+				reply = oldReplay + "\n" + reply;
+			}
 			boolean hasNextCommand = true;
 			if (userMessage.getCommand() != null
 					&& userMessage.getCommand().isDone()) {
@@ -59,37 +69,26 @@ public class MobileMessageHandler {
 					session.refreshCurrentCommand();
 					Command currentCommand = session.getCurrentCommand();
 					if (currentCommand != null) {
-						isAnyCommandInProcess = true;
 						UserMessage lastMessage = session.getLastMessage();
 						lastMessage.setResult(lastMessage.getLastResult());
-						reloadCommand(networkId, null, adaptorType,
-								networkType, commandSender);
-						hasNextCommand = true;
+
+						return processMessage(networkId, null, adaptorType,
+								networkType, reply);
 					} else {
 						hasNextCommand = false;
 					}
 				}
 			}
 
-			// To check if there is only on command
 			String nextCommand = result.getNextCommand();
 			if (nextCommand != null) {
-				isAnyCommandInProcess = true;
-				reloadCommand(networkId, nextCommand, adaptorType, networkType,
-						commandSender);
-				hasNextCommand = true;
-			} else {
-				hasNextCommand = hasNextCommand || false;
-			}
-			if (!hasNextCommand) {
-				result.add("Enter Command");
+				result.setNextCommand(null);
+				return processMessage(networkId, nextCommand, adaptorType,
+						networkType, reply);
 			}
 
-			String reply = adoptor.postProcess(result);
-			session.await();
-			String newReplay = getReply(session, reply, isAnyCommandInProcess);
-			if (newReplay != null && !newReplay.isEmpty()) {
-				commandSender.onReply(newReplay);
+			if (!hasNextCommand) {
+				reply += "\nEnter Command";
 			}
 			return reply;
 		} catch (Exception e) {
@@ -102,34 +101,22 @@ public class MobileMessageHandler {
 		}
 	}
 
-	private String getReply(MobileSession session, String reply,
-			boolean isAnyCommandInProcess) {
-		String last = session.getLastReply();
-		last += "\n" + reply;
-		if (isAnyCommandInProcess) {
-			session.setLastReply(last);
-			last = null;
-		} else {
-			session.setLastReply("");
-		}
-		return last;
-	}
-
-	protected void reloadCommand(final String networkId, final String message,
-			final AdaptorType adaptorType, final int networkType,
-			final CommandSender commandSender) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					messageReceived(networkId, message, adaptorType,
-							networkType, commandSender);
-				} catch (AccounterMobileException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-	}
+	// protected void reloadCommand(final String networkId, final String
+	// message,
+	// final AdaptorType adaptorType, final int networkType,
+	// final CommandSender commandSender) {
+	// new Thread(new Runnable() {
+	// @Override
+	// public void run() {
+	// try {
+	// messageReceived(networkId, message, adaptorType,
+	// networkType, commandSender);
+	// } catch (AccounterMobileException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }).start();
+	// }
 
 	/**
 	 * Returns the Adaptor of given Type

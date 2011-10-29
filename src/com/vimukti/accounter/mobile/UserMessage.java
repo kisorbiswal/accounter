@@ -25,6 +25,7 @@ public class UserMessage {
 	private String originalMsg;
 	private String networkId;
 	private int networkType;
+	private String commandString;
 
 	public UserMessage(String message, String networkId, int networkType) {
 		this.originalMsg = message;
@@ -110,5 +111,13 @@ public class UserMessage {
 
 	public void setLastResult(Result lastResult) {
 		this.lastResult = lastResult;
+	}
+
+	public String getCommandString() {
+		return commandString;
+	}
+
+	public void setCommandString(String commandString) {
+		this.commandString = commandString;
 	}
 }

@@ -68,9 +68,10 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			}
 
 			if (matchedCommand != null) {
-				message = message.replaceAll(commandString.trim(), "");
+				message = message.replaceAll(commandString.trim(), "").trim();
 				userMessage.setOriginalMsg(message);
 				command = matchedCommand;
+				userMessage.setCommandString(commandString.trim());
 			}
 
 			Result result = PatternStore.INSTANCE.find(message);

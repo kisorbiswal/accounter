@@ -77,10 +77,7 @@ public class MobileSession {
 	 * @return
 	 */
 	public Command getCurrentCommand() {
-		if (currentCommand != null && !currentCommand.isDone()) {
-			return this.currentCommand;
-		}
-		return null;
+		return this.currentCommand;
 	}
 
 	/**

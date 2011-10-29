@@ -27,6 +27,7 @@ public class Context {
 	private String networkId;
 	private String string;
 	private ClientCompany clientCompany;
+	private String commandString;
 
 	public String getNetworkId() {
 		return networkId;
@@ -327,5 +328,13 @@ public class Context {
 				AccounterThreadLocal.set(user);
 			}
 		}
+	}
+
+	public String getCommandString() {
+		return commandString;
+	}
+
+	public void setCommandString(String commandString) {
+		this.commandString = commandString;
 	}
 }
