@@ -1,10 +1,10 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
 public abstract class NewAbstractCommand extends NewCommand {
-
+	public static final String FIRST_MESSAGE = "firstMessage";
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
@@ -89,5 +89,10 @@ public abstract class NewAbstractCommand extends NewCommand {
 		}
 		string = string.substring(1);
 		return Long.parseLong(string);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void addFirstMessage(Context context, String string) {
+		((List<String>) context.getAttribute(FIRST_MESSAGE)).add(string);
 	}
 }

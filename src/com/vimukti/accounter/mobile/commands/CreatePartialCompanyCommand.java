@@ -643,7 +643,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 	}
 
 	@Override
-	protected String initObject(Context context) {
+	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
 		return null;
 	}

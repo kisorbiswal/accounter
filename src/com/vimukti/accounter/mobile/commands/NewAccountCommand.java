@@ -146,7 +146,11 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().account());
+		if (account.getID() == 0) {
+			return "Account is ready to created with following details.";
+		} else {
+			return "Account is ready to updated with following details.";
+		}
 	}
 
 	@Override
@@ -191,10 +195,10 @@ public class NewAccountCommand extends NewAbstractCommand {
 	}
 
 	@Override
-	protected String initObject(Context context) {
+	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
 		if (string.isEmpty()) {
-			if (!context.getCommandString().toLowerCase().contains("update")) {
+			if (!isUpdate) {
 				account = new ClientAccount();
 				return null;
 			}
@@ -206,13 +210,19 @@ public class NewAccountCommand extends NewAbstractCommand {
 					getNumberFromString(string));
 		}
 		if (account == null) {
+			addFirstMessage(context, "Select an account to update.");
 			return "Accounts " + string.trim();
 		}
 
 		get(ACCOUNT_TYPE)
 				.setValue(getAccountTypes().get(account.getType() - 1));
+
 		get(ACCOUNT_NAME).setValue(account.getName());
+		get(ACCOUNT_NAME).setEditable(false);
+
 		get(ACCOUNT_NUMBER).setValue(account.getNumber());
+		get(ACCOUNT_NUMBER).setEditable(false);
+
 		get(OPENINGBALANCE).setValue(account.getOpeningBalance());
 		get(ACTIVE).setValue(account.getIsActive());
 		get(CONSIDER_AS_CASH_ACCOUNT).setValue(

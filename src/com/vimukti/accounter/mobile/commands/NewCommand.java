@@ -31,7 +31,9 @@ public abstract class NewCommand extends Command {
 		setDefaultValues(context);
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
-			String nextCommandString = initObject(context);
+			String lowerCase = context.getCommandString().toLowerCase();
+			String nextCommandString = initObject(context,
+					lowerCase.contains("update") || lowerCase.contains("edit"));
 			if (nextCommandString != null) {
 				Result result = new Result();
 				result.setNextCommand(nextCommandString);
@@ -89,7 +91,7 @@ public abstract class NewCommand extends Command {
 		return finishResult;
 	}
 
-	protected abstract String initObject(Context context);
+	protected abstract String initObject(Context context, boolean isUpdate);
 
 	protected abstract String getWelcomeMessage();
 

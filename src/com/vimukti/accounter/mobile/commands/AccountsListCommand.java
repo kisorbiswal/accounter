@@ -127,7 +127,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 	}
 
 	@Override
-	protected String initObject(Context context) {
+	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
 }

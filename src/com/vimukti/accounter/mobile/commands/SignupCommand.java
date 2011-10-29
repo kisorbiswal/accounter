@@ -69,7 +69,6 @@ public class SignupCommand extends NewCommand {
 
 	private void sendPasswordMail(String token, String emailId) {
 		System.out.println("Password : " + token);
-		// TODO
 	}
 
 	protected String createActivation(String emailID, Context context) {
@@ -162,9 +161,17 @@ public class SignupCommand extends NewCommand {
 	}
 
 	@Override
-	protected String initObject(Context context) {
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		context.setString(null);
+		if (string == null || string.isEmpty()) {
+			return null;
+		}
+		if (string.contains("@")) {
+			get(EMAIL).setValue(string);
+		} else {
+			get(FIRST_NAME).setValue(string);
+		}
 		return null;
-		// TODO Auto-generated method stub
-
 	}
 }

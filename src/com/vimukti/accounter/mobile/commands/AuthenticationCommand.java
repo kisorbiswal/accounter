@@ -67,6 +67,7 @@ public class AuthenticationCommand extends Command {
 						makeResult.add("Enter valid Accounter Email Id");
 						CommandList commandList = new CommandList();
 						commandList.add("Signup");
+						commandList.add("Signup " + context.getNetworkId());
 						makeResult.add(commandList);
 					}
 

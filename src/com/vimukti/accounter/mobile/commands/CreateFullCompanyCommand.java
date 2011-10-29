@@ -564,7 +564,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	}
 
 	@Override
-	protected String initObject(Context context) {
+	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
 
