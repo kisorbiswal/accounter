@@ -247,6 +247,17 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	}
 
 	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
+		double[] result = getTransactionTotal(context, false, allrecords, true);
+		makeResult.add("Net Amount: " + result[0]);
+		if (context.getClientCompany().getPreferences().isTrackTax()) {
+			makeResult.add("Total Tax: " + result[1]);
+		}
+		makeResult.add("Total: " + (result[0] + result[1]));
+	}
+
+	@Override
 	protected String initObject(Context context) {
 		// TODO Auto-generated method stub
 		return null;

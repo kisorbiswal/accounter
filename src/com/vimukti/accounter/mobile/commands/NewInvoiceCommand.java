@@ -375,7 +375,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
 		double[] result = getTransactionTotal(context, false, allrecords, true);
 		makeResult.add("Net Amount: " + result[0]);
-		makeResult.add("Total Tax: " + result[1]);
+		if (context.getClientCompany().getPreferences().isTrackTax()) {
+			makeResult.add("Total Tax: " + result[1]);
+		}
 		makeResult.add("Total: " + (result[0] + result[1]));
 	}
 
