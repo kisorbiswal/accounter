@@ -37,4 +37,9 @@ public abstract class VendorRequirement extends ListRequirement<ClientVendor> {
 		return getMessages().pleaseSelect(Global.get().Vendor());
 	}
 
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAny(Global.get().Vendor());
+	}
+
 }
