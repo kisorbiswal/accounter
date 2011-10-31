@@ -5627,7 +5627,7 @@
 
 		WHERE
 		W.NAME
-		=:Name AND
+		=:name AND
 		W.ID !=:id AND W.COMPANY_ID=:companyId
 	</sql-query>
 
@@ -5659,12 +5659,29 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="inputId" type="long" />
 
-		<return-scalar column="WAREHOUSE_ID" type="long" />
+		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		<return-scalar column="STOCK_TRANSFER_ID" type="long" />
+		<return-scalar column="ITEM_STATUS_ID" type="long" />
+		<return-scalar column="STOCK_ADJUSTMENT_ID" type="long" />
 
 		SELECT
-		W.ID AS WAREHOUSE_ID
-		FROM
-		WAREHOUSE W
+		C.ID AS COMPANY_ID,
+		I.ID AS ITEM_ID,
+		TI.ID AS TRANSACTION_ITEM_ID,
+		ST.ID AS STOCK_TRANSFER_ID,
+		IST.ID AS ITEM_STATUS_ID,
+		SA.ID AS STOCK_ADJUSTMENT_ID
+
+		FROM WAREHOUSE W
+		LEFT OUTER JOIN COMPANY C ON C.DEFAULT_WAREHOUSE = W.ID
+		LEFT OUTER JOIN ITEM I ON I.WAREHOUSE = W.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.WARE_HOUSE = W.ID
+		LEFT OUTER JOIN STOCK_TRANSFER ST ON ST.FROM_WAREHOUSE = W.ID
+											OR ST.TO_WAREHOUSE = W.ID
+		LEFT OUTER JOIN ITEM_STATUS IST ON IST.WARE_HOUSE = W.ID
+		LEFT OUTER JOIN STOCK_ADJUSTMENT_ITEM SA ON SA.WAREHOUSE = W.ID
 		WHERE
 		W.ID
 		=:inputId AND W.COMPANY_ID=:companyId
@@ -5675,12 +5692,16 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="inputId" type="long" />
 
-		<return-scalar column="MEASUREMENT_ID" type="long" />
+		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="ITEM_ID" type="long" />
 
-		SELECT
-		M.ID AS MEASUREMENT_ID
-		FROM
-		MEASUREMENT W
+		SELECT 
+			C.ID AS COMPANY_ID,
+			I.ID AS ITEM_ID
+
+			FROM MEASUREMENT M
+			LEFT OUTER JOIN COMPANY C ON C.DEFAULT_MEASUREMENT = M.ID
+			LEFT OUTER JOIN ITEM I ON I.MEASUREMENT = M.ID
 		WHERE
 		M.ID
 		=:inputId AND M.COMPANY_ID=:companyId
