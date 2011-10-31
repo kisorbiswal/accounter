@@ -90,7 +90,6 @@ public abstract class TransactionPayBillRequirement extends
 	public Result showList(Context context,
 			List<ClientTransactionPayBill> oldRecords) {
 		Result result = context.makeResult();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		context.setAttribute(INPUT_ATTR, getName());
 
 		Object selection = context.getSelection(ACTIONS);
@@ -126,7 +125,6 @@ public abstract class TransactionPayBillRequirement extends
 
 		if (oldRecords != null) {
 			for (ClientTransactionPayBill t : oldRecords) {
-				// customerList.add(createRecord(t));
 				skipCustomers.add(t);
 			}
 		}
