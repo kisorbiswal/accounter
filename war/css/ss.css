@@ -2119,4 +2119,7 @@ a#fdbk_tab:hover {
 #unChangedNewsDiv{
 	height:90px
 }
+.display-none {
+display: none;
+}
 /* End of the new Login and forgot password page*/
