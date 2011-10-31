@@ -367,6 +367,7 @@
 		from com.vimukti.accounter.core.ResetPasswordToken r
 		where r.token=?
 	</query>
-	<query name="gettokens.by.userid">from com.vimukti.accounter.core.ResetPasswordToken r
-		where r.userId=?</query>
+		<query name="getallMaintanaceInfoUsers">
+		from com.vimukti.accounter.core.MaintananceInfoUser m
+	</query>
 </hibernate-mapping>
