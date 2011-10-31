@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -55,7 +55,10 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 7:
 			return obj.getCheckNumber();
 		case 8:
-			return amountAsString(obj.getAmountPaid());
+			return amountAsString(
+					obj.getAmountPaid(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 9:
 			if (!obj.isVoided())
 				return Accounter.getFinanceImages().notvoid();

@@ -99,12 +99,16 @@ public class TransactionReceiveVATGrid extends
 					payVAT.getTaxAgency());
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:
-			return amountAsString(getAmountInForeignCurrency(payVAT
-							.getTaxDue()));
+			return amountAsString(
+					getAmountInForeignCurrency(payVAT.getTaxDue()),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 
 		case 2:
-			return amountAsString(getAmountInForeignCurrency(payVAT
-							.getAmountToReceive()));
+			return amountAsString(
+					getAmountInForeignCurrency(payVAT.getAmountToReceive()),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		default:
 			break;
 		}

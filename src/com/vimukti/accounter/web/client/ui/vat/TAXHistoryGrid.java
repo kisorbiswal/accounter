@@ -143,9 +143,11 @@ public class TAXHistoryGrid extends
 		case 2:
 			return new ClientFinanceDate(obj.getTransactionDate());
 		case 3:
-			return amountAsString((obj.getBalance()));
+			return amountAsString((obj.getBalance()),
+					getCompany().getCurrency(obj.getCurrency()));
 		case 4:
-			return amountAsString(obj.getTotal() - obj.getBalance());
+			return amountAsString((obj.getTotal() - obj.getBalance()),
+					getCompany().getCurrency(obj.getCurrency()));
 		case 5:
 			return companyConstants.exceptionDetails();
 		default:

@@ -13,6 +13,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,11 +24,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -560,12 +561,12 @@ public abstract class CustomTable extends VerticalPanel {
 			// }
 
 			if (isMultiSelectionEnable) {
-//				if (UIUtils.isMSIEBrowser())
-//					table.getCellFormatter().getElement(row, 0)
-//							.setAttribute("width", "" + 25);
-//				else
-					table.getCellFormatter().getElement(row, 0)
-							.setAttribute("width", "" + 15);
+				// if (UIUtils.isMSIEBrowser())
+				// table.getCellFormatter().getElement(row, 0)
+				// .setAttribute("width", "" + 25);
+				// else
+				table.getCellFormatter().getElement(row, 0)
+						.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -752,7 +753,7 @@ public abstract class CustomTable extends VerticalPanel {
 		return getPreferences().getDecimalCharacter();
 	}
 
-	public String amountAsString(Double amount) {
-		return DataUtils.getAmountAsString(amount);
+	public String amountAsString(Double amount, ClientCurrency currency) {
+		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
 	}
 }

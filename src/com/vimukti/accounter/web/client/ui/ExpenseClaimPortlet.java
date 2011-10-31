@@ -85,11 +85,15 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		updateAmounts();
 
-		allExpAmtLabel = getAmountLabel(amountAsString(allExpensesAmount));
-		cashExpAmtLabel = getAmountLabel(amountAsString(cashExpenseAmount));
+		allExpAmtLabel = getAmountLabel(amountAsString(allExpensesAmount) + " "
+				+ getPrimaryCurrencySymbol());
+		cashExpAmtLabel = getAmountLabel(amountAsString(cashExpenseAmount)
+				+ " " + getPrimaryCurrencySymbol());
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(amountAsString(employeeExpenseAmount));
-		ccExpAmtLabel = getAmountLabel(amountAsString(ccExpenseAmount));
+		empExpAmtLabel = getAmountLabel(amountAsString(employeeExpenseAmount)
+				+ " " + getPrimaryCurrencySymbol());
+		ccExpAmtLabel = getAmountLabel(amountAsString(ccExpenseAmount) + " "
+				+ getPrimaryCurrencySymbol());
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		fTable.setWidget(0, 0, allExpLabel);
@@ -163,8 +167,10 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
+
 				if (title.equals(Accounter.constants().cashExpenses())) {
 					ActionFactory.getExpensesAction(
 							Accounter.constants().cash()).run(null, true);
@@ -181,6 +187,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				}
 			}
 		});
+
 		label.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		label.getElement().getStyle().setMarginTop(10, Unit.PX);
 		return label;
@@ -205,11 +212,15 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(amountAsString(cashExpenseAmount));
-		ccExpAmtLabel.setText(amountAsString(ccExpenseAmount));
-		empExpAmtLabel.setText(amountAsString(employeeExpenseAmount));
+		cashExpAmtLabel.setText(amountAsString(cashExpenseAmount) + " "
+				+ getPrimaryCurrencySymbol());
+		ccExpAmtLabel.setText(amountAsString(ccExpenseAmount) + " "
+				+ getPrimaryCurrencySymbol());
+		empExpAmtLabel.setText(amountAsString(employeeExpenseAmount) + " "
+				+ getPrimaryCurrencySymbol());
 
-		allExpAmtLabel.setText(amountAsString(allExpensesAmount));
+		allExpAmtLabel.setText(amountAsString(allExpensesAmount) + " "
+				+ getPrimaryCurrencySymbol());
 	}
 
 }

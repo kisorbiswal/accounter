@@ -10,9 +10,9 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.vimukti.accounter.web.client.core.Sorting;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.CustomTable;
@@ -126,8 +126,11 @@ public class ReportGrid<R> extends CustomTable {
 	}
 
 	private String getValue(Object object) {
-		return (object instanceof Double ? amountAsString((Double) object)
-				: object.toString());
+		return (object instanceof Double ? amountAsString(
+				(Double) object,
+				Accounter.getCompany().getCurrency(
+						Accounter.getCompany().getPreferences()
+								.getPrimaryCurrency())) : object.toString());
 	}
 
 	private void addDefaultStyleNames(int rowCount, boolean bold,
@@ -156,8 +159,8 @@ public class ReportGrid<R> extends CustomTable {
 					HasHorizontalAlignment.ALIGN_LEFT,
 					HasVerticalAlignment.ALIGN_MIDDLE);
 
-			addStyleNameByCol(0, columnTypes[i], i, this.footer
-					.getCellFormatter());
+			addStyleNameByCol(0, columnTypes[i], i,
+					this.footer.getCellFormatter());
 		}
 	}
 
@@ -180,8 +183,8 @@ public class ReportGrid<R> extends CustomTable {
 				this.header.getCellFormatter().getElement(rowCount, i)
 						.getStyle().setFontWeight(FontWeight.BOLD);
 
-				addStyleNameByCol(0, columnTypes[i], i, this.header
-						.getCellFormatter());
+				addStyleNameByCol(0, columnTypes[i], i,
+						this.header.getCellFormatter());
 			}
 		}
 		rowFormatter.addStyleName(rowCount, Accounter.constants()
@@ -234,8 +237,7 @@ public class ReportGrid<R> extends CustomTable {
 		}
 		if (flag)
 			cellFormatter.addStyleName(row, column, Accounter.constants()
-					.depth()
-					+ depth);
+					.depth() + depth);
 
 	}
 
@@ -336,8 +338,8 @@ public class ReportGrid<R> extends CustomTable {
 			// }
 
 			if (isMultiSelectionEnable) {
-				table.getCellFormatter().getElement(row, 0).setAttribute(
-						Accounter.constants().width(), "" + 15);
+				table.getCellFormatter().getElement(row, 0)
+						.setAttribute(Accounter.constants().width(), "" + 15);
 			}
 
 		} catch (Exception e) {

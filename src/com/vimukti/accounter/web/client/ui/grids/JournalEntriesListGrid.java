@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -42,7 +42,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		case 2:
 			return obj.getMemo() != null ? obj.getMemo() : "";
 		case 3:
-			return amountAsString(obj.getTotal());
+			return amountAsString(obj.getTotal(),
+					getCompany().getCurrency(obj.getCurrency()));
 		case 4:
 			if (!obj.isVoid())
 				return Accounter.getFinanceImages().notvoid();
@@ -87,9 +88,9 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	@Override
 	protected String[] getColumns() {
 		companyConstants = Accounter.constants();
-		return new String[] { companyConstants.no(),
-				companyConstants.date(), companyConstants.memo(),
-				companyConstants.amount(), companyConstants.Voided()
+		return new String[] { companyConstants.no(), companyConstants.date(),
+				companyConstants.memo(), companyConstants.amount(),
+				companyConstants.Voided()
 
 		};
 	}

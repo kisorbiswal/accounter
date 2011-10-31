@@ -43,9 +43,13 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		case 1:
 			return obj.getQuantity();
 		case 2:
-			return amountAsString(obj.getUnitPrice());
+			return amountAsString(obj.getUnitPrice(),
+					getCompany()
+							.getCurrency(obj.getTransaction().getCurrency()));
 		case 3:
-			return amountAsString(obj.getLineTotal());
+			return amountAsString(obj.getLineTotal(),
+					getCompany()
+							.getCurrency(obj.getTransaction().getCurrency()));
 		default:
 			return null;
 		}
@@ -108,7 +112,6 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 			return 0;
 		}
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.ITEM;

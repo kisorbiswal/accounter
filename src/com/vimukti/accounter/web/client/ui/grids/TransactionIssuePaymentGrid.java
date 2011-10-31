@@ -71,7 +71,8 @@ public class TransactionIssuePaymentGrid extends
 		case 3:
 			return issuepayment.getMemo();
 		case 4:
-			return amountAsString(issuepayment.getAmount());
+			return amountAsString(issuepayment.getAmount(), getCompany()
+					.getCurrency(issuepayment.getTransaction().getCurrency()));
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment
 					.getPaymentMethod() : Accounter.constants().check();

@@ -89,9 +89,13 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		updateAmounts();
 
 		draftAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(draftInvoiceAmount));
+				.getAmountAsString(draftInvoiceAmount)
+				+ " "
+				+ super.getPrimaryCurrencySymbol());
 		overDueAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(overDueInvoiceAmount));
+				.getAmountAsString(overDueInvoiceAmount)
+				+ " "
+				+ super.getPrimaryCurrencySymbol());
 		overDueAmtLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		fTable.setWidget(0, 0, draftLabel);
@@ -124,12 +128,14 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
 					overDueAmtLabel
-							.setText(amountAsString(overDueInvoiceAmount));
+							.setText(amountAsString(overDueInvoiceAmount) + " "
+									+ getPrimaryCurrencySymbol());
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel.setText(amountAsString(draftInvoiceAmount));
+					draftAmtLabel.setText(amountAsString(draftInvoiceAmount)
+							+ " " + getPrimaryCurrencySymbol());
 				}
 
 				Runnable runnable = new Runnable() {
@@ -183,24 +189,24 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 				if (title.equals(Accounter.constants().billsDue())) {
 					ActionFactory.getBillsAction().run(null, true,
 							Accounter.constants().open());

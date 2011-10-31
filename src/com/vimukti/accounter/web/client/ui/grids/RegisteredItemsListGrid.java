@@ -83,9 +83,15 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(item
 							.getPurchaseDate())) : "";
 		case 4:
-			return amountAsString(item.getPurchasePrice());
+			return amountAsString(
+					item.getPurchasePrice(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 5:
-			return amountAsString(item.getBookValue());
+			return amountAsString(
+					item.getBookValue(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 6:
 			return Accounter.constants().showHistory();
 		case 7:
@@ -223,7 +229,6 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				.getCompany().getAccount(obj.getAssetAccount()).getName()
 				: "";
 	}
-
 
 	public AccounterCoreType getType() {
 		return null;

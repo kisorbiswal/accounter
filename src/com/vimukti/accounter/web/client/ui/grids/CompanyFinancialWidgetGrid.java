@@ -57,7 +57,10 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 			rowTotal = 0.0;
 			return account.getKeyIndicator();
 		case 7:
-			return amountAsString(rowTotal);
+			return amountAsString(
+					rowTotal,
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		}
 		Double amt = account.getIndicators().get(colsMap.get(index));
 		if (amt == null) {
@@ -68,7 +71,10 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 			// rowTotal += amt;
 			// }
 		}
-		return amountAsString(amt);
+		return amountAsString(
+				amt,
+				getCompany().getCurrency(
+						getCompany().getPreferences().getPrimaryCurrency()));
 	}
 
 	@Override

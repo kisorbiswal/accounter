@@ -4,9 +4,9 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -15,6 +15,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+
 	}
 
 	@Override
@@ -24,6 +25,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected Object getColumnValue(ClientAccount obj, int col) {
+
+		ClientCurrency currency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
 
 		if (getPreferences().getUseAccountNumbers() == true) {
 			switch (col) {
@@ -38,10 +42,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 4:
 				return amountAsString(!DecimalUtil.isEquals(
 						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
-						: 0.0)
-						+ " "
-						+ CoreUtils.getCurrencySymbol(getCompany()
-								.getPreferences().getPrimaryCurrency());
+						: 0.0, currency);
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -63,7 +64,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return amountAsString(!DecimalUtil.isEquals(
 						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
-						: 0.0);
+						: 0.0, currency);
 			case 4:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";

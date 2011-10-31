@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -21,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class VendorListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
+	private ClientCurrency currency;
 
 	public VendorListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable, true);
@@ -124,31 +126,33 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected Object getColumnValue(PayeeList payee, int col) {
+		currency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
 		switch (col) {
 		case 0:
 			return payee.isActive();
 		case 1:
 			return payee.getPayeeName();
 		case 2:
-			return amountAsString(payee.getCurrentMonth());
+			return amountAsString(payee.getCurrentMonth(), currency);
 		case 3:
-			return amountAsString(payee.getPreviousMonth());
+			return amountAsString(payee.getPreviousMonth(), currency);
 		case 4:
-			return amountAsString(payee.getPreviousSecondMonth());
+			return amountAsString(payee.getPreviousSecondMonth(), currency);
 
 		case 5:
-			return amountAsString(payee.getPreviousThirdMonth());
+			return amountAsString(payee.getPreviousThirdMonth(), currency);
 
 		case 6:
-			return amountAsString(payee.getPreviousFourthMonth());
+			return amountAsString(payee.getPreviousFourthMonth(), currency);
 
 		case 7:
-			return amountAsString(payee.getPreviousFifthMonth());
+			return amountAsString(payee.getPreviousFifthMonth(), currency);
 
 		case 8:
-			return amountAsString(payee.getYearToDate());
+			return amountAsString(payee.getYearToDate(), currency);
 		case 9:
-			return amountAsString(payee.getBalance());
+			return amountAsString(payee.getBalance(), currency);
 		case 10:
 			updateTotal(payee, true);
 			return Accounter.getFinanceMenuImages().delete();
@@ -331,8 +335,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase().compareTo(
-					obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase()
+					.compareTo(obj2.getPayeeName().toLowerCase());
 			//
 			// case 3:
 			//

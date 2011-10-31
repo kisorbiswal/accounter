@@ -188,4 +188,9 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	public String amountAsString(Double amount) {
 		return DataUtils.getAmountAsString(amount);
 	}
+
+	public String getPrimaryCurrencySymbol() {
+		return CoreUtils.getCurrencySymbol(getCompany().getPreferences()
+				.getPrimaryCurrency());
+	}
 }

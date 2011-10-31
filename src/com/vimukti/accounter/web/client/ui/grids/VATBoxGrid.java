@@ -31,7 +31,10 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 			return obj.getName();
 		}
 		if (index == 1) {
-			return amountAsString(obj.getAmount());
+			return amountAsString(
+					obj.getAmount(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		}
 		return null;
 	}

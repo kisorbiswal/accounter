@@ -88,9 +88,15 @@ public class SoldAndDisposedItemsListGrid extends
 					.getDateByCompanyType(new ClientFinanceDate(date)) : "";
 
 		case 4:
-			return amountAsString(asset.getSalePrice());
+			return amountAsString(
+					asset.getSalePrice(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 5:
-			return amountAsString(asset.getLossOrGain());
+			return amountAsString(
+					asset.getLossOrGain(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 
 		case 6:
 			return Accounter.constants().showHistory();

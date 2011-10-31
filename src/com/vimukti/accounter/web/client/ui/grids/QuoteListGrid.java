@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -89,7 +89,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getDeliveryDate()));
 			case 7:
-				return amountAsString(estimate.getTotal());
+				return amountAsString(estimate.getTotal(), getCompany()
+						.getCurrency(estimate.getCurrency()));
 			case 8:
 
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
@@ -394,7 +395,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				break;
 
 			case 3:
-				return amountAsString(estimate.getTotal());
+				return amountAsString(estimate.getTotal(), getCompany()
+						.getCurrency(estimate.getCurrency()));
 			case 4:
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					return Accounter.getFinanceImages().beforereject();

@@ -81,7 +81,10 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(asset
 							.getPurchaseDate())) : "";
 		case 4:
-			return amountAsString(asset.getPurchasePrice());
+			return amountAsString(
+					asset.getPurchasePrice(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 5:
 			return Accounter.constants().showHistory();
 		case 6:
@@ -218,7 +221,6 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				.getCompany().getAccount(obj.getAssetAccount()).getName()
 				: "";
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.FIXEDASSET;

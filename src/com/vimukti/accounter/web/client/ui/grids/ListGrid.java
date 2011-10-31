@@ -27,6 +27,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -35,9 +36,9 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -379,6 +380,9 @@ public abstract class ListGrid<T> extends CustomTable {
 		currentCol = col;
 		type = getColumnType(col);
 
+		ClientCurrency currency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
+
 		if (col == getColumnsCount() - 1) {
 			addCellStyles("removeRightBorder");
 		}
@@ -408,7 +412,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_TEXT:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = amountAsString((Double) data, currency);
 			}
 			if (data != null) {
 				setText(currentRow, currentCol, data.toString());
@@ -417,14 +421,14 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_TEXTBOX:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = amountAsString((Double) data, currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridTextBoxCell");
 			break;
 		case COLUMN_TYPE_LABEL:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = amountAsString((Double) data, currency);
 			}
 			addLabel(obj, data);
 			addCellStyles("gridLabelCell");
@@ -439,7 +443,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXTBOX:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = amountAsString((Double) data, currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridTextBoxCell");
@@ -447,7 +451,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXT:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = amountAsString((Double) data, currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridDecimalCell");

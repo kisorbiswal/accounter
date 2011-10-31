@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -67,6 +68,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	protected Object getColumnValue(ClientItem obj, int col) {
+		ClientCurrency currency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
+
 		if ((ItemListView.isPurchaseType && ItemListView.isSalesType)
 				&& (col == 6)) {
 			return Accounter.getFinanceMenuImages().delete();
@@ -89,19 +93,16 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 						.getItemTypeText(obj) : "";
 			case 4:
 				if (ItemListView.isSalesType) {
-					return amountAsString(obj.getSalesPrice()) != null ? amountAsString(obj
-							.getSalesPrice())
-							: "";
+					return amountAsString(obj.getSalesPrice(), currency) != null ? amountAsString(
+							obj.getSalesPrice(), currency) : "";
 				} else
-					return amountAsString(obj.getPurchasePrice()) != null ? amountAsString(obj
-							.getPurchasePrice())
-							: "";
+					return amountAsString(obj.getPurchasePrice(), currency) != null ? amountAsString(
+							obj.getPurchasePrice(), currency) : "";
 
 			case 5:
 				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-					return amountAsString(obj.getPurchasePrice()) != null ? amountAsString(obj
-							.getPurchasePrice())
-							: "";
+					return amountAsString(obj.getPurchasePrice(), currency) != null ? amountAsString(
+							obj.getPurchasePrice(), currency) : "";
 				} else
 					return Accounter.getFinanceMenuImages().delete();
 			}
@@ -179,8 +180,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		} else {
 			switch (index) {
 			case 1:
-				return item1.getName().toLowerCase().compareTo(
-						item2.getName().toLowerCase());
+				return item1.getName().toLowerCase()
+						.compareTo(item2.getName().toLowerCase());
 			case 2:
 				if (!ItemListView.isPurchaseType) {
 					String obj1 = item1.getSalesDescription() != null ? item1
@@ -190,11 +191,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 					return obj1.toLowerCase().compareTo(obj2.toLowerCase());
 				} else {
 					String obj1 = item1.getPurchaseDescription() != null ? item1
-							.getPurchaseDescription()
-							: "";
+							.getPurchaseDescription() : "";
 					String obj2 = item2.getPurchaseDescription() != null ? item2
-							.getPurchaseDescription()
-							: "";
+							.getPurchaseDescription() : "";
 					return obj1.toLowerCase().compareTo(obj2.toLowerCase());
 				}
 

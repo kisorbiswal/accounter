@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
@@ -205,8 +206,14 @@ public class CreditsandPaymentsGrid extends
 					// : false) {
 					Accounter.showError(Accounter.constants()
 							.receivedPaymentAppliedCreditsAmount());
-					setText(indexOf(item), 4,
-							amountAsString(item.getAmtTouse()));
+					setText(indexOf(item),
+							4,
+							amountAsString(
+									item.getAmtTouse(),
+									getCompany()
+											.getCurrency(
+													item.getTransaction()
+															.getCurrency())));
 				} else {
 					if (DecimalUtil.isLessThan(amtTouse,
 							item.getRemaoningBalance())
@@ -215,8 +222,13 @@ public class CreditsandPaymentsGrid extends
 							&& DecimalUtil.isGreaterThan(amtTouse, balance)) {
 						Accounter.showError(Accounter.constants()
 								.receivedPaymentAppliedCreditsAmount());
-						setText(indexOf(item), 4,
-								amountAsString(item.getAmtTouse()));
+						setText(indexOf(item),
+								4,
+								amountAsString(
+										item.getAmtTouse(),
+										getCompany().getCurrency(
+												item.getTransaction()
+														.getCurrency())));
 					} else {
 						double newValue = getAmountInBaseCurrency((Double) amtTouse);
 						editingRecord.setAmtTouse(newValue);
@@ -320,6 +332,8 @@ public class CreditsandPaymentsGrid extends
 	protected Object getColumnValue(
 			ClientCreditsAndPayments creditsAndPayments, int index) {
 
+		ClientCurrency currency = getCompany().getCurrency(
+				creditsAndPayments.getTransaction().getCurrency());
 		switch (index) {
 		case 0:
 			return UIUtils.dateFormat(creditsAndPayments.getTransaction()
@@ -327,14 +341,18 @@ public class CreditsandPaymentsGrid extends
 		case 1:
 			return creditsAndPayments.getMemo();
 		case 2:
-			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-					.getCreditAmount()));
+			return amountAsString(
+					getAmountInForeignCurrency(creditsAndPayments
+							.getCreditAmount()),
+					currency);
 		case 3:
-			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-					.getBalance()));
+			return amountAsString(
+					getAmountInForeignCurrency(creditsAndPayments.getBalance()),
+					currency);
 		case 4:
-			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-					.getAmtTouse()));
+			return amountAsString(
+					getAmountInForeignCurrency(creditsAndPayments.getAmtTouse()),
+					currency);
 		default:
 			break;
 		}

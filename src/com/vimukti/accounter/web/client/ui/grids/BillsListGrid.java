@@ -37,9 +37,15 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		case 3:
 			return bills.getVendorName();
 		case 4:
-			return amountAsString(bills.getOriginalAmount());
+			return amountAsString(
+					bills.getOriginalAmount(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 5:
-			return amountAsString(bills.getBalance());
+			return amountAsString(
+					bills.getBalance(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 6:
 			if (!bills.isVoided())
 				return Accounter.getFinanceImages().notvoid();

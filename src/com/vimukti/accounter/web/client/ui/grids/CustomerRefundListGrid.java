@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -41,7 +41,10 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 6:
 			return customerRefund.getPaymentMethod();
 		case 7:
-			return amountAsString(customerRefund.getAmountPaid());
+			return amountAsString(
+					customerRefund.getAmountPaid(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 8:
 			if (!customerRefund.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -140,8 +143,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	}
 
 	protected void voidTransaction(final CustomerRefundsList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
-				.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	protected void deleteTransaction(final CustomerRefundsList obj) {
@@ -233,8 +236,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			break;
 
 		case 4:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
 			String type1 = Utility.getTransactionName((obj1.getType()))
@@ -244,8 +247,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			return type1.compareTo(type2);
 
 		case 6:
-			return obj1.getPaymentMethod().toLowerCase().compareTo(
-					obj2.getPaymentMethod().toLowerCase());
+			return obj1.getPaymentMethod().toLowerCase()
+					.compareTo(obj2.getPaymentMethod().toLowerCase());
 
 		case 7:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());
@@ -255,7 +258,6 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		}
 		return 0;
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.CUSTOMERREFUND;

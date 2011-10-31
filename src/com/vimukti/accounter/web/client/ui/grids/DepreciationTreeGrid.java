@@ -31,7 +31,11 @@ public class DepreciationTreeGrid extends
 		case 0:
 			return obj.getFixedAssetName();
 		case 1:
-			return amountAsString(obj.getAmountToBeDepreciated());
+			return amountAsString(
+					obj.getAmountToBeDepreciated(),
+					Accounter.getCompany().getCurrency(
+							Accounter.getCompany().getPreferences()
+									.getPrimaryCurrency()));
 		case 2:
 			return obj.getAssetAccount() != 0 ? Accounter.getCompany()
 					.getAccount(obj.getAssetAccount()).getName() : "";
@@ -74,8 +78,14 @@ public class DepreciationTreeGrid extends
 						+ entry.getAmountToBeDepreciated());
 			}
 			addParentOrEdit(0, currentRow, name);
-			addParentOrEdit(1, currentRow,
-					amountAsString(parent.getAmountToBeDepreciated()));
+			addParentOrEdit(
+					1,
+					currentRow,
+					amountAsString(
+							parent.getAmountToBeDepreciated(),
+							Accounter.getCompany().getCurrency(
+									Accounter.getCompany().getPreferences()
+											.getPrimaryCurrency())));
 			addParentOrEdit(2, currentRow, "");
 			super.addNodes(childNodes);
 		} else

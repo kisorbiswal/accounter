@@ -43,7 +43,10 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		case 2:
 			return obj.getVendorName();
 		case 3:
-			return amountAsString(obj.getPurchasePrice());
+			return amountAsString(
+					obj.getPurchasePrice(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 
 		default:
 			break;
@@ -54,8 +57,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(), obj
-					.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
 
 	}
 

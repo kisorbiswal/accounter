@@ -101,10 +101,16 @@ public class TransactionPayTAXGrid extends
 					payVAT.getTaxAgency());
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:
-			return amountAsString(payVAT.getTaxDue());
+			return amountAsString(
+					payVAT.getTaxDue(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 
 		case 2:
-			return amountAsString(payVAT.getAmountToPay());
+			return amountAsString(
+					payVAT.getAmountToPay(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		default:
 			break;
 		}

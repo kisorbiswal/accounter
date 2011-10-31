@@ -2,37 +2,44 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
+	ClientCurrency currency;
+
 	public CustomerWidgetGrid() {
 		super(Accounter.constants().noDebitorstoShow());
+		currency = Accounter.getCompany().getCurrency(
+				Accounter.getCompany().getPreferences().getPrimaryCurrency());
 	}
 
 	@Override
 	protected Object getColumnValue(DummyDebitor customer, int index) {
+
 		switch (index) {
 		case 0:
 			return customer.getDebitorName();
 		case 1:
-			return amountAsString(customer.getDebitdays_in30()
-					+ customer.getDebitdays_incurrent());
+			return amountAsString(
+					customer.getDebitdays_in30()
+							+ customer.getDebitdays_incurrent(), currency);
 		case 2:
 
-			return amountAsString(customer.getDebitdays_in60());
+			return amountAsString(customer.getDebitdays_in60(), currency);
 		case 3:
-			return amountAsString(customer.getDebitdays_in90());
+			return amountAsString(customer.getDebitdays_in90(), currency);
 		case 4:
-			return amountAsString(customer.getDebitdays_inolder());
+			return amountAsString(customer.getDebitdays_inolder(), currency);
 		case 5:
-			return amountAsString(customer.getDebitdays_in30()
-					+ customer.getDebitdays_in60()
-					+ customer.getDebitdays_in90()
-					+ customer.getDebitdays_inolder()
-					+ customer.getDebitdays_incurrent());
+			return amountAsString(
+					customer.getDebitdays_in30() + customer.getDebitdays_in60()
+							+ customer.getDebitdays_in90()
+							+ customer.getDebitdays_inolder()
+							+ customer.getDebitdays_incurrent(), currency);
 		}
 
 		return null;
@@ -52,7 +59,6 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 	protected void onClick(DummyDebitor obj, int row, int index) {
 
 	}
-
 
 	@Override
 	protected String[] getColumns() {
@@ -137,22 +143,24 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 			addParentOrEdit(
 					1,
 					0,
-					amountAsString(parent.getDebitdays_in30()
-							+ parent.getDebitdays_incurrent()));
+					amountAsString(
+							parent.getDebitdays_in30()
+									+ parent.getDebitdays_incurrent(), currency));
 			addParentOrEdit(2, 0,
-					amountAsString(parent.getDebitdays_in60()));
+					amountAsString(parent.getDebitdays_in60(), currency));
 			addParentOrEdit(3, 0,
-					amountAsString(parent.getDebitdays_in90()));
+					amountAsString(parent.getDebitdays_in90(), currency));
 			addParentOrEdit(4, 0,
-					amountAsString(parent.getDebitdays_inolder()));
+					amountAsString(parent.getDebitdays_inolder(), currency));
 			addParentOrEdit(
 					5,
 					0,
-					amountAsString(parent.getDebitdays_in30()
-							+ parent.getDebitdays_in60()
-							+ parent.getDebitdays_in90()
-							+ parent.getDebitdays_inolder()
-							+ parent.getDebitdays_incurrent()));
+					amountAsString(
+							parent.getDebitdays_in30()
+									+ parent.getDebitdays_in60()
+									+ parent.getDebitdays_in90()
+									+ parent.getDebitdays_inolder()
+									+ parent.getDebitdays_incurrent(), currency));
 			super.addNodes(childNodes);
 		} else {
 			super.addParentWithChilds(name, null);

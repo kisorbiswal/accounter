@@ -1711,26 +1711,26 @@ public class CoreUtils {
 					"Mashonaland East", "Mashonaland West", "Masvingo",
 					"Matabeleland North", "Matabeleland South", "Midlands" } };
 
-	private static String[] currencyCodes = new String[] { "USD ", "AFN ",
-			"ALL ", "DZD ", "AOA ", "ARS ", "AMD ", "AWG ", "AUD ", "AZN ",
-			"BSD ", "BHD ", "BDT ", "BBD ", "BYR ", "BZD ", "BMD ", "BTN ",
-			"BOB ", "BAM ", "BWP ", "BRL ", "GBP ", "BND ", "BGN ", "BIF ",
-			"KHR ", "CAD ", "CVE ", "KYD ", "CLP ", "CNY ", "COP ", "KMF ",
-			"CDF ", "CDF ", "CRC ", "HRK ", "CUC ", "CZK ", "DJF ", "DOP ",
-			"DOP ", "EGP ", "ERN ", "EEK ", "ETB ", "FKP ", "FJD ", "GMD ",
-			"GEL ", "GHS ", "GIP ", "GTQ ", "GNF ", "GYD ", "HTG ", "HNL ",
-			"HKD ", "HUF ", "ISK ", "INR", "IDR ", "IRR ", "IQD ", "ILS ",
-			"JMD ", "JPY ", "JOD ", "KZT ", "KES ", "KPW ", "KRW ", "KWD ",
-			"KGS ", "LAK ", "LVL ", "LBP", "LSL ", "LRD ", "LYD", "LTL ",
-			"MKD", "MWK", "MYR ", "MVR ", "MRO ", "MUR ", "MXN ", "MDL ",
-			"MNT ", "MAD ", "MZN ", "NAD ", "NPR ", "ANG ", "NZD ", "NIO ",
-			"NGN ", "NOK ", "OMR", "PKR ", "PAB ", "PGK", "PYG ", "PEN ",
-			"PHP", "QAR ", "RON ", "RUB ", "RWF", "SHP", "WST ", "STD ", "SAR",
-			"RSD ", "SCR ", "SLL ", "SGD ", "SKK ", "SBD ", "SOS ", "ZAR ",
-			"LKR ", "SRD", "SZL ", "CHF ", "SYP ", "TWD", "TJS ", "TZS ",
-			"THB ", "TOP ", "TTD ", "TND ", "TMT ", "TRY ", "UGX", "UAH ",
-			"AED ", "UYU ", "UZS ", "VUV", "VEF ", "VND", "YER", "ZMK ", "ZWD",
-			"DKK" };
+	/*
+	 * private static String[] currencyCodes = new String[] { "USD ", "AFN ",
+	 * "ALL ", "DZD ", "AOA ", "ARS ", "AMD ", "AWG ", "AUD ", "AZN ", "BSD ",
+	 * "BHD ", "BDT ", "BBD ", "BYR ", "BZD ", "BMD ", "BTN ", "BOB ", "BAM ",
+	 * "BWP ", "BRL ", "GBP ", "BND ", "BGN ", "BIF ", "KHR ", "CAD ", "CVE ",
+	 * "KYD ", "CLP ", "CNY ", "COP ", "KMF ", "CDF ", "CDF ", "CRC ", "HRK ",
+	 * "CUC ", "CZK ", "DJF ", "DOP ", "DOP ", "EGP ", "ERN ", "EEK ", "ETB ",
+	 * "FKP ", "FJD ", "GMD ", "GEL ", "GHS ", "GIP ", "GTQ ", "GNF ", "GYD ",
+	 * "HTG ", "HNL ", "HKD ", "HUF ", "ISK ", "INR", "IDR ", "IRR ", "IQD ",
+	 * "ILS ", "JMD ", "JPY ", "JOD ", "KZT ", "KES ", "KPW ", "KRW ", "KWD ",
+	 * "KGS ", "LAK ", "LVL ", "LBP", "LSL ", "LRD ", "LYD", "LTL ", "MKD",
+	 * "MWK", "MYR ", "MVR ", "MRO ", "MUR ", "MXN ", "MDL ", "MNT ", "MAD ",
+	 * "MZN ", "NAD ", "NPR ", "ANG ", "NZD ", "NIO ", "NGN ", "NOK ", "OMR",
+	 * "PKR ", "PAB ", "PGK", "PYG ", "PEN ", "PHP", "QAR ", "RON ", "RUB ",
+	 * "RWF", "SHP", "WST ", "STD ", "SAR", "RSD ", "SCR ", "SLL ", "SGD ",
+	 * "SKK ", "SBD ", "SOS ", "ZAR ", "LKR ", "SRD", "SZL ", "CHF ", "SYP ",
+	 * "TWD", "TJS ", "TZS ", "THB ", "TOP ", "TTD ", "TND ", "TMT ", "TRY ",
+	 * "UGX", "UAH ", "AED ", "UYU ", "UZS ", "VUV", "VEF ", "VND", "YER",
+	 * "ZMK ", "ZWD", "DKK" };
+	 */
 
 	private static ClientCurrency[] currencies = new ClientCurrency[] {
 			new ClientCurrency("United States 	Dollar", "USD", "$"),
@@ -1792,7 +1792,7 @@ public class CoreUtils {
 			new ClientCurrency("HongKong	Dollar", "HKD", "HK$"),
 			new ClientCurrency("Hungarian	Forint", "HUF", "Ft"),
 			new ClientCurrency("Icelandic	Króna", "ISK", "kr"),
-			new ClientCurrency("Indian	Rupee", "INR", "Rs"),
+			new ClientCurrency("Indian	Rupee", "INR", "₹"),
 			new ClientCurrency("Indonesian	Rupiah", "IDR", "Rp"),
 			new ClientCurrency("Iranian	Rial", "IRR", "U+FDFC"),
 			new ClientCurrency("Iraqi	Dinar", "IQD", "dinar"),
@@ -1835,7 +1835,7 @@ public class CoreUtils {
 			new ClientCurrency("Pakistani	Rupee", "PKR", "Rs."),
 			new ClientCurrency("Panamanian	Balboa", "PAB", "B./"),
 			new ClientCurrency("PapuaNewGuinean	Kina", "PGK", "K"),
-			new ClientCurrency("Paraguayan	Guaraní	PYG", "₲", "U+20B2"),
+			new ClientCurrency("Paraguayan	Guaraní", "PYG", "₲"),
 			new ClientCurrency("PeruvianNuevo	Sol", "PEN", "S/."),
 			new ClientCurrency("Philippine	Peso", "PHP", "₱"),
 			new ClientCurrency("Qatari	Riyal", "QAR", "QR"),
@@ -1881,66 +1881,65 @@ public class CoreUtils {
 			new ClientCurrency("Zimbabwean	Dollar", "ZWD", "Z$"),
 			new ClientCurrency("DanishKrone", "DKK", "Kr") };
 
-	private static String[] currencyNames = new String[] {
-			"United States 	Dollar", "Afghan 	Afghani", "Albanian 	Lek",
-			"Algerian 	Dinar", "Angolan 	Kwanza", "Argentine 	Peso",
-			"Armenian 	Dram", "Aruban 	Guilder", "Australian 	Dollar",
-			"Azerbaijani 	Manat", "Bahamian 	Dollar", "Bahraini 	Dinar",
-			"Bangladeshi 	Taka", "Barbadian 	Dollar", "Belarusian 	Ruble",
-			"Belize  	Dollar", "Bermudian 	Dollar", "Bhutanese 	Ngultrum",
-			"Bolivian 	Boliviano", "Bosnia and Herzegovina Convertible 	Mark",
-			"Botswana 	Pula", "Brazilian 	Real", "British 	Pound",
-			"Brunei 	Dollar", "Bulgarian 	Lev", "Burundian 	Franc",
-			"Cambodian 	Riel", "Canadian 	Dollar", "Cape Verdean 	Escudo",
-			"Cayman Islands 	Dollar", "Chilean 	Peso", "Chinese 	Yuan",
-			"Colombian 	Peso", "Comorian 	Franc", "Congolese 	Franc",
-			"Congolese 	Franc", "Costa Rican 	Colón", "Croatian 	Kuna",
-			"Cuban Convertible 	Peso", "Czech 	Koruna", "Djiboutian 	Franc",
-			"Dominican 	Peso", "Dominican 	Peso", "Egyptian 	Pound",
-			"Eritrean 	Nakfa", "Estonian 	Kroon", "Ethiopian 	Birr",
-			"Falkland Island	Pound", "Fijian 	Dollar", "Gambian 	dalasi",
-			"Georgian	 Lari", "Ghanaian 	Cedi", "Gibraltar 	Pound",
-			"Guatemalan 	Quetzal", "Guinean 	Franc", "Guyanese 	Dollar",
-			"Haitian 	Gourde", "Honduran 	Lempira", "Hong Kong 	Dollar",
-			"Hungarian 	Forint", "Icelandic 	Króna", "Indian	Rupee",
-			"Indonesian 	Rupiah", "Iranian 	Rial", "Iraqi 	Dinar",
-			"Israeli 	New Sheqel", "Jamaican 	Dollar", "Japanese 	Yen",
-			"Jordanian 	Dinar", "Kazakhstani 	Tenge", "Kenyan 	Shilling",
-			"North Korean 	Won", "South Korean 	Won", "Kuwaiti 	Dinar",
-			"Kyrgyzstani 	Som", "Lao 	Pound", "Latvian	Lats",
-			"Lebanese 	Pound", "Lesotho	 Loti", "Liberian 	Dollar",
-			"Libyan 	Dinar", "Lithuanian 	Litas", "Macedonian 	Denar",
-			"Malawian 	Kwacha", "Malaysian 	Ringgit", "Maldivian 	Rufiyaa",
-			"Mauritanian 	Ouguiya", "Mauritian 	Rupee", "Mexican 	Peso",
-			"Moldovan 	Leu", "Mongolian	 Tugrik", "Moroccan 	Dirham",
-			"Mozambican	Metical", "Namibian 	Dollar", "Nepalese 	Rupee",
-			"Netherlands Antillean 	Guilder", "New Zealand 	Dollar",
-			"Nicaraguan 	Córdoba", "Nigerian	 Naira", "Norwegian 	Krone",
-			"Omani 	Rial", "Pakistani 	Rupee", "Panamanian 	Balboa",
-			"Papua New Guinean 	Kina", "Paraguayan 	Guaraní",
-			"Peruvian Nuevo 	Sol", "Philippine 	Peso", "Qatari 	Riyal",
-			"Romanian 	Leu", "Russian 	Ruble", "Rwandan 	Franc",
-			"Saint Helenian 	Pound", "Samoan 	Tala",
-			"São Tomé and Príncipe 	Dobra", "Saudi 	Riyal", "Serbian 	Dinar",
-			"Seychellois 	Rupee", "Sierra Leonean 	Leone", "Singapore 	Dollar",
-			"Slovak 	Koruna", "Solomon Islands 	Dollar", "Somali  	Shilling",
-			"South African 	Rand", "Sri Lankan 	Rupee", "Surinamese 	Dollar",
-			"Swazi 	Lilangeni", "Swiss 	Franc", "Syrian 	Pound",
-			"Taiwanese New 	Dollar", "Tajikistani 	Somoni",
-			"Tanzanian 	Shilling", "Thai 	Baht", "Tongan 	Pa?anga",
-			"Trinidad and Tobago 	Dollar", "Tunisian 	Dinar",
-			"Turkmenistani 	Manat", "Turkish 	Lira", "Ugandan 	Shilling",
-			"Ukrainian 	Hryvnia", "United Arab Emirates 	Dirham",
-			"Uruguayan 	Peso", "Uzbekistani 	Som", "Vanuatu 	Vatu",
-			"Venezuelan Bolívar 	Fuertes", "Vietnamese 	Dong", "Yemeni 	Rial",
-			"Zambian 	Kwacha", "Zimbabwean 	Dollar", "Danish Krone" };
-
-	private static String[] currencySymbols = new String[] { "\u0024", "Afs",
-			"Lek", "DA", "Kz", "\u0024", "", "Afl", "A$", "m", "B$", "BD", "৳",
-			"Bds$", "Br", "BZ$", "BD$", "Nu.", "Bs.", "KM", "P", "R$", "£",
-			"B$", "лв", "FBu", "f", "$", "Esc", "KY$", "$", "¥", "Col$", "CF",
-			"F", "F", "₡", "kn", "$", "Kč", "Fdj", "RD$", "£", "Nfa", "KR",
-			"Br", "£", "FJ$", "D", "GEL" };
+	/*
+	 * private static String[] currencyNames = new String[] {
+	 * "United States 	Dollar", "Afghan 	Afghani", "Albanian 	Lek",
+	 * "Algerian 	Dinar", "Angolan 	Kwanza", "Argentine 	Peso",
+	 * "Armenian 	Dram", "Aruban 	Guilder", "Australian 	Dollar",
+	 * "Azerbaijani 	Manat", "Bahamian 	Dollar", "Bahraini 	Dinar",
+	 * "Bangladeshi 	Taka", "Barbadian 	Dollar", "Belarusian 	Ruble",
+	 * "Belize  	Dollar", "Bermudian 	Dollar", "Bhutanese 	Ngultrum",
+	 * "Bolivian 	Boliviano", "Bosnia and Herzegovina Convertible 	Mark",
+	 * "Botswana 	Pula", "Brazilian 	Real", "British 	Pound", "Brunei 	Dollar",
+	 * "Bulgarian 	Lev", "Burundian 	Franc", "Cambodian 	Riel",
+	 * "Canadian 	Dollar", "Cape Verdean 	Escudo", "Cayman Islands 	Dollar",
+	 * "Chilean 	Peso", "Chinese 	Yuan", "Colombian 	Peso", "Comorian 	Franc",
+	 * "Congolese 	Franc", "Congolese 	Franc", "Costa Rican 	Colón",
+	 * "Croatian 	Kuna", "Cuban Convertible 	Peso", "Czech 	Koruna",
+	 * "Djiboutian 	Franc", "Dominican 	Peso", "Dominican 	Peso",
+	 * "Egyptian 	Pound", "Eritrean 	Nakfa", "Estonian 	Kroon",
+	 * "Ethiopian 	Birr", "Falkland Island	Pound", "Fijian 	Dollar",
+	 * "Gambian 	dalasi", "Georgian	 Lari", "Ghanaian 	Cedi",
+	 * "Gibraltar 	Pound", "Guatemalan 	Quetzal", "Guinean 	Franc",
+	 * "Guyanese 	Dollar", "Haitian 	Gourde", "Honduran 	Lempira",
+	 * "Hong Kong 	Dollar", "Hungarian 	Forint", "Icelandic 	Króna",
+	 * "Indian	Rupee", "Indonesian 	Rupiah", "Iranian 	Rial", "Iraqi 	Dinar",
+	 * "Israeli 	New Sheqel", "Jamaican 	Dollar", "Japanese 	Yen",
+	 * "Jordanian 	Dinar", "Kazakhstani 	Tenge", "Kenyan 	Shilling",
+	 * "North Korean 	Won", "South Korean 	Won", "Kuwaiti 	Dinar",
+	 * "Kyrgyzstani 	Som", "Lao 	Pound", "Latvian	Lats", "Lebanese 	Pound",
+	 * "Lesotho	 Loti", "Liberian 	Dollar", "Libyan 	Dinar",
+	 * "Lithuanian 	Litas", "Macedonian 	Denar", "Malawian 	Kwacha",
+	 * "Malaysian 	Ringgit", "Maldivian 	Rufiyaa", "Mauritanian 	Ouguiya",
+	 * "Mauritian 	Rupee", "Mexican 	Peso", "Moldovan 	Leu",
+	 * "Mongolian	 Tugrik", "Moroccan 	Dirham", "Mozambican	Metical",
+	 * "Namibian 	Dollar", "Nepalese 	Rupee", "Netherlands Antillean 	Guilder",
+	 * "New Zealand 	Dollar", "Nicaraguan 	Córdoba", "Nigerian	 Naira",
+	 * "Norwegian 	Krone", "Omani 	Rial", "Pakistani 	Rupee",
+	 * "Panamanian 	Balboa", "Papua New Guinean 	Kina", "Paraguayan 	Guaraní",
+	 * "Peruvian Nuevo 	Sol", "Philippine 	Peso", "Qatari 	Riyal",
+	 * "Romanian 	Leu", "Russian 	Ruble", "Rwandan 	Franc",
+	 * "Saint Helenian 	Pound", "Samoan 	Tala", "São Tomé and Príncipe 	Dobra",
+	 * "Saudi 	Riyal", "Serbian 	Dinar", "Seychellois 	Rupee",
+	 * "Sierra Leonean 	Leone", "Singapore 	Dollar", "Slovak 	Koruna",
+	 * "Solomon Islands 	Dollar", "Somali  	Shilling", "South African 	Rand",
+	 * "Sri Lankan 	Rupee", "Surinamese 	Dollar", "Swazi 	Lilangeni",
+	 * "Swiss 	Franc", "Syrian 	Pound", "Taiwanese New 	Dollar",
+	 * "Tajikistani 	Somoni", "Tanzanian 	Shilling", "Thai 	Baht",
+	 * "Tongan 	Pa?anga", "Trinidad and Tobago 	Dollar", "Tunisian 	Dinar",
+	 * "Turkmenistani 	Manat", "Turkish 	Lira", "Ugandan 	Shilling",
+	 * "Ukrainian 	Hryvnia", "United Arab Emirates 	Dirham", "Uruguayan 	Peso",
+	 * "Uzbekistani 	Som", "Vanuatu 	Vatu", "Venezuelan Bolívar 	Fuertes",
+	 * "Vietnamese 	Dong", "Yemeni 	Rial", "Zambian 	Kwacha",
+	 * "Zimbabwean 	Dollar", "Danish Krone" };
+	 * 
+	 * private static String[] currencySymbols = new String[] { "\u0024", "Afs",
+	 * "Lek", "DA", "Kz", "\u0024", "", "Afl", "A$", "m", "B$", "BD", "৳",
+	 * "Bds$", "Br", "BZ$", "BD$", "Nu.", "Bs.", "KM", "P", "R$", "£", "B$",
+	 * "лв", "FBu", "f", "$", "Esc", "KY$", "$", "¥", "Col$", "CF", "F", "F",
+	 * "₡", "kn", "$", "Kč", "Fdj", "RD$", "£", "Nfa", "KR", "Br", "£", "FJ$",
+	 * "D", "GEL" };
+	 */
 
 	public static String[] getCountries() {
 		return countries;
@@ -1985,31 +1984,24 @@ public class CoreUtils {
 
 	public static ClientCurrency getCurrency(String formalName) {
 		int index = 0;
-		for (int i = 0; i < currencyCodes.length; i++) {
-			if (currencyCodes[i].trim().equals(formalName)) {
+		for (int i = 0; i < currencies.length; i++) {
+			if (currencies[i].getFormalName().equals(formalName)) {
 				index = i;
 				break;
 			}
 		}
-		ClientCurrency currency = new ClientCurrency();
-		currency.setFormalName(currencyCodes[index]);
-		currency.setName(currencyNames[index]);
-		currency.setSymbol(currencyCodes[index]);
-		return currency;
+		return currencies[index];
 	}
 
-	public static String getCurrencySymbol(String currencyFormalName) {
+	public static String getCurrencySymbol(String primaryCurrency) {
 		int index = 0;
 		for (int i = 0; i < currencies.length; i++) {
-			if (currencyFormalName.equalsIgnoreCase(currencies[i]
-					.getFormalName())) {
+			if (currencies[i].getFormalName().equals(primaryCurrency)) {
 				index = i;
 				break;
-
 			}
 		}
 		return currencies[index].getSymbol();
-
 	}
 
 }

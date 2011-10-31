@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -64,6 +65,7 @@ public class TransactionReceivePaymentGrid extends
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
+	private ClientCurrency currency;
 
 	@Override
 	public void init() {
@@ -124,7 +126,8 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	protected Object getColumnValue(
 			ClientTransactionReceivePayment receivePayment, int col) {
-
+		currency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
 		if (canEdit) {
 			switch (col) {
 			case 0:
@@ -135,28 +138,37 @@ public class TransactionReceivePaymentGrid extends
 			case 1:
 				return receivePayment.getNumber();
 			case 2:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getInvoiceAmount()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment
+								.getInvoiceAmount()),
+						currency);
 			case 3:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getDummyDue()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment.getDummyDue()),
+						currency);
 			case 4:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 5:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getCashDiscount()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment
+								.getCashDiscount()),
+						currency);
 			case 6:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getWriteOff()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment.getWriteOff()),
+						currency);
 			case 7:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getAppliedCredits()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment
+								.getAppliedCredits()),
+						currency);
 
 			case 8:
 
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getPayment()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment.getPayment()),
+						currency);
 
 			default:
 				break;
@@ -166,23 +178,31 @@ public class TransactionReceivePaymentGrid extends
 			case 0:
 				return receivePayment.getNumber();
 			case 1:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getInvoiceAmount()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment
+								.getInvoiceAmount()),
+						currency);
 			case 2:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 3:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getCashDiscount()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment
+								.getCashDiscount()),
+						currency);
 			case 4:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getWriteOff()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment.getWriteOff()),
+						currency);
 			case 5:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getAppliedCredits()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment
+								.getAppliedCredits()),
+						currency);
 			case 6:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getPayment()));
+				return amountAsString(
+						getAmountInForeignCurrency(receivePayment.getPayment()),
+						currency);
 			default:
 				break;
 			}
