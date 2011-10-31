@@ -35,6 +35,10 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String ESTIMATE = "estimate";
 	protected static final String DISPATCH_DATE = "dispathDate";
 	protected static final String RECIEVED_DATE = "deliveryDate";
+	protected static final String AMOUNT = "amount";
+	protected static final String TO_BE_PRINTED = "toBePrinted";
+	protected static final String FILTER_BY_DUE_ON_BEFORE = "filterByDueOnBefore";
+	protected static final String BILLS_DUE = "BillsDue";
 
 	public void updateTotals(Context context, ClientTransaction transaction,
 			boolean isSales) {

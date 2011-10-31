@@ -1,18 +1,22 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaybillTableRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.services.DAOException;
@@ -20,6 +24,10 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -49,7 +57,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		// TODO Auto-generated method stub
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_PAY_BILL, context.getCompany()));
+
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(FILTER_BY_DUE_ON_BEFORE).setDefaultValue(new ClientFinanceDate());
 
 	}
 
@@ -104,48 +117,6 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				getConstants().transactionDate()), getConstants()
 				.transactionDate(), true, true));
 
-		// list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-		// .pleaseSelect(getConstants().paymentMethod()), getConstants()
-		// .paymentMethod(), false, true, null) {
-		//
-		// @Override
-		// protected String getSetMessage() {
-		// // TODO Auto-generated method stub
-		// return null;
-		// }
-		//
-		// @Override
-		// protected String getSelectString() {
-		// // TODO Auto-generated method stub
-		// return null;
-		// }
-		//
-		// @Override
-		// protected List<String> getLists(Context context) {
-		//
-		// /*
-		// * Map<String, String> paymentMethods =
-		// * context.getClientCompany() .getPaymentMethods(); List<String>
-		// * paymentMethod = new ArrayList<String>(
-		// * paymentMethods.values());
-		// */
-		// String payVatMethodArray[] = new String[] {
-		// getConstants().cash(), getConstants().creditCard(),
-		// getConstants().directDebit(),
-		// getConstants().masterCard(),
-		// getConstants().onlineBanking(),
-		// getConstants().standingOrder(),
-		// getConstants().switchMaestro() };
-		// List<String> wordList = Arrays.asList(payVatMethodArray);
-		// return wordList;
-		// }
-		//
-		// @Override
-		// protected String getEmptyString() {
-		// return "Empty List";
-		// }
-		// });
-
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
 				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
 				getConstants().bankAccount(), false, false, null) {
@@ -182,6 +153,51 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
+		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
+				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.paymentMethod(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+
+				/*
+				 * Map<String, String> paymentMethods =
+				 * context.getClientCompany() .getPaymentMethods(); List<String>
+				 * paymentMethod = new ArrayList<String>(
+				 * paymentMethods.values());
+				 */
+				String payVatMethodArray[] = new String[] {
+						getConstants().cash(), getConstants().creditCard(),
+						getConstants().check(), getConstants().directDebit(),
+						getConstants().masterCard(),
+						getConstants().onlineBanking(),
+						getConstants().standingOrder(),
+						getConstants().switchMaestro() };
+				List<String> wordList = Arrays.asList(payVatMethodArray);
+				return wordList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return "Empty List";
+			}
+		});
+
+		list.add(new DateRequirement(FILTER_BY_DUE_ON_BEFORE, getMessages()
+				.pleaseEnter(getConstants().filterByBilldueonorbefore()),
+				getConstants().filterByBilldueonorbefore(), true, true));
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -195,7 +211,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 
-		list.add(new PaybillTableRequirement("BillsDue") {
+		list.add(new PaybillTableRequirement(BILLS_DUE) {
 
 			@Override
 			protected List<ClientTransactionPayBill> getList() {
@@ -280,6 +296,76 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		ClientPayBill paybill = new ClientPayBill();
+		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
+		paybill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
+		paybill.setAccountsPayable(context.getClientCompany()
+				.getAccountsPayableAccount());
+		ClientVendor vendor = get(VENDOR).getValue();
+		ClientAccount payFrom = get(PAY_FROM).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		ClientFinanceDate dueDate = get(FILTER_BY_DUE_ON_BEFORE).getValue();
+		String number = get(NUMBER).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
+		paybill.setVendor(vendor);
+		paybill.setPayFrom(payFrom);
+		paybill.setPaymentMethod(paymentMethod);
+
+		paybill.setBillDueOnOrBefore(dueDate);
+		paybill.setNumber(number);
+		paybill.setDate(date.getDate());
+		String memo = get(MEMO).getValue();
+		paybill.setMemo(memo);
+		if (context.getClientCompany().getPreferences().isTDSEnabled()) {
+
+			ClientTAXItem taxItem = context.getClientCompany().getTAXItem(
+					vendor.getTaxItemCode());
+			if (taxItem != null) {
+				paybill.setTdsTaxItem(taxItem);
+			}
+		}
+		List<ClientTransactionPayBill> paybills = get(BILLS_DUE).getValue();
+		paybill.setTransactionPayBill(paybills);
+		Double totalCredits = 0D;
+		for (ClientCreditsAndPayments credit : getVendorCreditsAndPayments(
+				vendor.getID(), context.getCompany().getId())) {
+			totalCredits += credit.getBalance();
+		}
+		paybill.setUnUsedCredits(totalCredits);
+		adjustAmountAndEndingBalance(paybill, context);
+		create(paybill, context);
+
+		return null;
+	}
+
+	private void adjustAmountAndEndingBalance(ClientPayBill transaction,
+			Context context) {
+		List<ClientTransactionPayBill> selectedRecords = get(BILLS_DUE)
+				.getValue();
+		double toBeSetAmount = 0.0;
+		for (ClientTransactionPayBill rec : selectedRecords) {
+			toBeSetAmount += rec.getPayment();
+		}
+		if (transaction != null) {
+			transaction.setTotal(toBeSetAmount);
+
+			if (get(VENDOR).getValue() != null) {
+				double toBeSetEndingBalance = 0.0;
+				ClientAccount payFromAccount = get(PAY_FROM).getValue();
+				if (payFromAccount.isIncrease())
+					toBeSetEndingBalance = payFromAccount.getTotalBalance()
+							+ transaction.getTotal();
+				else
+					toBeSetEndingBalance = payFromAccount.getTotalBalance()
+							- transaction.getTotal();
+				transaction.setEndingBalance(toBeSetEndingBalance);
+			}
+		}
+
 	}
 
 }
