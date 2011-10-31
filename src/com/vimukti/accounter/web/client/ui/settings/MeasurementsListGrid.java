@@ -87,7 +87,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	@Override
 	protected void onClick(ClientMeasurement obj, int row, int col) {
 		switch (col) {
-		case 3:
+		case 4:
 			showWarnDialog(obj);
 			break;
 
