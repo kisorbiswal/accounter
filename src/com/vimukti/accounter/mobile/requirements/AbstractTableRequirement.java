@@ -131,6 +131,7 @@ public abstract class AbstractTableRequirement<T> extends
 			return null;
 		}
 
+		resetRequirementsValues(obj);
 		setRequirementsDefaultValues(obj);
 		Result makeResult = new Result();
 		ResultList list = new ResultList(VALUES);
@@ -159,7 +160,10 @@ public abstract class AbstractTableRequirement<T> extends
 	}
 
 	public void resetRequirementsValues(T obj) {
-
+		for (Requirement requirement : requirements) {
+			requirement.setValue(null);
+			requirement.setDefaultValue(null);
+		}
 	}
 
 	public void setOtherFields(ResultList list) {

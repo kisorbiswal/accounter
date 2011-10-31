@@ -77,12 +77,6 @@ public abstract class PaybillTableRequirement extends
 	}
 
 	@Override
-	public void resetRequirementsValues(ClientTransactionPayBill obj) {
-		get(ORIGINAL_AMOUNT).setValue(obj.getOriginalAmount());
-		get(AMOUNT).setValue(obj.getOriginalAmount());
-	}
-
-	@Override
 	protected ClientTransactionPayBill getNewObject() {
 		// TODO Auto-generated method stub
 		return null;
