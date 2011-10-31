@@ -700,10 +700,10 @@ public class ActionFactory {
 	}
 
 	public static ItemsAction getItemsAction(boolean customer, boolean vendor) {
-		if (customer == true) {
+		if (customer) {
 			return new ItemsAction(actionsConstants.items(), Global.get()
 					.customer());
-		} else if (vendor == true) {
+		} else if (vendor) {
 			return new ItemsAction(actionsConstants.items(), Global.get()
 					.vendor());
 		} else
