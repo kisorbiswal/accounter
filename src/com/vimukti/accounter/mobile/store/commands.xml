@@ -479,6 +479,7 @@
 	</command>
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
+		<alias>Receive Payment</alias>
 		<alias>create ReceivePayment</alias>
 		<alias>new Receive Payment</alias>
 		<alias>Add ReceivePayment</alias>
