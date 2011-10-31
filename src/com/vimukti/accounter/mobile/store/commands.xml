@@ -376,15 +376,8 @@
 	</command>
 
 	<command clazz="NewCashPurchaseCommand" name="New Cash Purchase">
-		<alias>New Cash Purchase</alias>
-		<alias>Add Cash Purchase</alias>
-		<alias>Create Cash Purchase</alias>
-		<alias>New Vendor Purchase</alias>
-		<alias>Add Vendor Purchase</alias>
-		<alias>Create Vendor Purchase</alias>
-		<alias>New Supplier Purchase</alias>
-		<alias>Add Supplier Purchase</alias>
-		<alias>Create Supplier Purchase</alias>
+		<alias>Vendor Cash Purchase</alias>
+		<alias>Cash Purchase</alias>
 	</command>
 
 	<command clazz="NewCashSaleCommand" name="New Cash Sale">
