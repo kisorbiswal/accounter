@@ -17,6 +17,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 	private static final String TABLE_ROW = "tableRow";
 	private List<Requirement> requirements;
 	private boolean isCreatable;
+	protected static final String DUE_DATE = "BillDueDate";
 
 	public AbstractTableRequirement(String requirementName, String enterString,
 			String recordName, boolean isCreatable, boolean isOptional,
@@ -94,10 +95,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		return null;
 	}
 
-	private String getEmptyString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected abstract String getEmptyString();
 
 	private Result showlist(Context context) {
 		if (isCreatable) {

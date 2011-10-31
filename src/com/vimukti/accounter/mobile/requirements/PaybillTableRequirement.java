@@ -10,15 +10,13 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 
 public abstract class PaybillTableRequirement extends
 		AbstractTableRequirement<ClientTransactionPayBill> {
-
-	private static final String DUE_DATE = "BillDueDate";
 	private static final String BILL_NO = "BillNo";
 	private static final String ORIGINAL_AMOUNT = "OriginalAmount";
 	private static final String AMOUNT = "Amount";
 
-	public PaybillTableRequirement(String requirementName) {
-		super(requirementName, "Please Select Bills Due", "Bills Due", false,
-				false, true);
+	public PaybillTableRequirement(String requirementName, String enterString,
+			String recordName) {
+		super(requirementName, enterString, recordName, false, false, true);
 	}
 
 	@Override
@@ -105,7 +103,12 @@ public abstract class PaybillTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return "Add more bills";
+		return getMessages().addMore(getConstants().billsToPay());
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAny(getConstants().billsToPay());
 	}
 
 }
