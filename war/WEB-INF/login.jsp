@@ -88,11 +88,7 @@
 	 
 	     <div id="commanNewContainer">
 			  <div class="new_logo_field"><img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/></div>
-			  <c:if test="${message != null}">
-			   <div id="login_error" class="common-box">
-					<span>${message} </span>
-			   </div>
-			   </c:if>	
+			  
 			  <div class="new_login_page">
 			  <div id ="feedDiv">
 			  <h2>Keep in the Know.</h2>
@@ -101,7 +97,11 @@
 			  </div>
 			   
 			   <div class="new_login_accounterform">
-			   
+			   <c:if test="${message != null}">
+			   <div id="login_error" class="common-box">
+					<span>${message} </span>
+			   </div>
+			   </c:if>	
 			   <h3>Sign In</h3>
 			   <form id="accounterForm" method="post" action="/main/login">
 			      <div class="email_password">
