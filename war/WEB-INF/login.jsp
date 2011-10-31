@@ -90,6 +90,7 @@
 			  <div class="new_logo_field"><img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/></div>
 			  <div class="new_login_page">
 			  <div id ="feedDiv">
+			  <h2>Keep in the Know.</h2>
 			  <div id="unChangedNewsDiv" class = "news"><h4></h4><span><span><p></p></div>
 			  <ul id="feedDivUl"></ul>
 			  </div>

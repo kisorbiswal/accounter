@@ -151,7 +151,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber" />
 	   </div>
 	   <div class="check_label">
-	     <label>Country</label>
+	     <label>Country</label><br />
 		 <select id="select-box" tabindex="10" name="country">
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
@@ -404,7 +404,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		  <label>Yes, Subscribe me to Accounter Newsletter <b>(Optional)</b></label>
 	   </div>
 	   <div class="signup-submit">
-	   <a href="/main/login" id="forget-link1">Cancel</a>
+	   <a href="/main/login" class="allviews-common-button" id="openid-cancel">Cancel</a>
 	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="Sign Up" tabindex="13" />
 	   </div>
 	</form>

@@ -165,7 +165,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber" />
 	   </div>
 	   <div class="check_label">
-	     <label>Country</label>
+	     <label>Country</label><br />
 		 <select id="select-box" tabindex="10" name="country">
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
