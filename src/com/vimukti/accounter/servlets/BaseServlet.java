@@ -204,10 +204,8 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected void saveEntry(Object object) {
-
 		Session currentSession = HibernateUtil.getCurrentSession();
 		currentSession.saveOrUpdate(object);
-
 	}
 
 	protected Client getClient(String emailId) {
