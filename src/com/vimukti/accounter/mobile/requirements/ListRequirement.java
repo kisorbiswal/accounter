@@ -71,8 +71,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 
 		T value = getValue();
 		Record customerRecord = new Record(getName());
-		customerRecord.add("", getRecordName());
-		customerRecord.add("", getDisplayValue(value));
+		customerRecord.add(getRecordName(), getDisplayValue(value));
 		list.add(customerRecord);
 
 		return null;

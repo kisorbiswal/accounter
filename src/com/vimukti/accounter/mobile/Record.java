@@ -40,11 +40,16 @@ public class Record extends ArrayList<Cell> {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		if (!isEmpty()) {
-			builder.append(get(0).toString());
-			for (int i = 1; i < size(); i++) {
-				Cell cell = get(i);
-				builder.append(":\t\t").append(cell.toString());
+		if (size() == 1) {
+			Cell cell = get(0);
+			if (cell.name.isEmpty()) {
+				builder.append(cell);
+			} else {
+				builder.append(cell.name).append(":\t").append(cell);
+			}
+		} else {
+			for (Cell cell : this) {
+				builder.append("\t\t").append(cell);
 			}
 		}
 		return "\n" + code + ". " + builder.toString();

@@ -117,8 +117,7 @@ public abstract class TemplateAccountRequirement extends
 		List<TemplateAccount> values = getValue();
 		for (TemplateAccount account : values) {
 			Record itemRec = new Record(account);
-			itemRec.add("", getRecordName());
-			itemRec.add("", getDisplayValue(account));
+			itemRec.add(getRecordName(), getDisplayValue(account));
 			itemsList.add(itemRec);
 		}
 		result.add(itemsList);
