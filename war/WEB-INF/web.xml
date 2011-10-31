@@ -580,5 +580,17 @@
 		<servlet-name>FacebookLoginServlet </servlet-name>
 		<url-pattern>/main/fbauth</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MaintanaceInfoMailServelet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.MaintanaceInfoMailServelet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MaintanaceInfoMailServelet </servlet-name>
+		<url-pattern>/site/maintanaceinform</url-pattern>
+	</servlet-mapping>
 
 </web-app>
