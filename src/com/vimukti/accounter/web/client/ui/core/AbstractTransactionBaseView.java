@@ -375,9 +375,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem.setToolTip(Accounter
-				.messages()
-				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
+		dateItem
+				.setToolTip(Accounter.messages()
+						.selectDateWhenTransactioCreated(
+								this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -692,7 +693,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString() : "";
+				.getValue().toString()
+				: "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -985,9 +987,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
 				if (transaction instanceof ClientPayBill) {
-					result.addError(
-							this,
-							Accounter.messages().valueCannotBe0orlessthan0(
+					result.addError(this, Accounter.messages()
+							.valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
@@ -1007,11 +1008,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			for (ClientTransactionItem transactionItem : transactionItems) {
 
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError(
-							"TransactionItem" + transactionItem.getAccount()
-									+ transactionItem.getAccount(), Accounter
-									.constants()
-									.transactionitemtotalcannotbe0orlessthan0());
+					result.addError("TransactionItem"
+							+ transactionItem.getAccount()
+							+ transactionItem.getAccount(), Accounter
+							.constants()
+							.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getPreferences().isClassTrackingEnabled()
@@ -1594,27 +1595,22 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		tablesPanel.add(addNotesPanel);
 		tablesPanel.setSpacing(10);
 
-		if (data != null) {
-			final VerticalPanel historyPanel = getHistoryPanel(data.getID());
-			historyPanel.setVisible(false);
-			tablesPanel.add(historyPanel);
-			historyLink.addClickHandler(new ClickHandler() {
+		final VerticalPanel historyPanel = getHistoryPanel(data.getID());
+		historyPanel.setVisible(false);
+		tablesPanel.add(historyPanel);
+		historyLink.addClickHandler(new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					historyPanel.setVisible(!historyPanel.isVisible());
-					if (historyPanel.isVisible())
-						historyLink.setHTML(messages.hideHistory());
-					else
-						historyLink.setHTML(messages.showHistory());
-				}
-			});
+			@Override
+			public void onClick(ClickEvent event) {
+				historyPanel.setVisible(!historyPanel.isVisible());
+				if (historyPanel.isVisible())
+					historyLink.setHTML(messages.hideHistory());
+				else
+					historyLink.setHTML(messages.showHistory());
+			}
+		});
 
-			historyPanel.addStyleName("history_notes_view");
-		} else {
-			historyLink.setVisible(false);
-			lastActivityPanel.setVisible(false);
-		}
+		historyPanel.addStyleName("history_notes_view");
 
 		addNotesLink.addClickHandler(new ClickHandler() {
 
@@ -1657,35 +1653,30 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// buttons...
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 
-		final SaveAndCloseButton saveButton = new SaveAndCloseButton(
-				constants.save());
+		final SaveAndCloseButton saveButton = new SaveAndCloseButton(constants
+				.save());
 		CancelButton cancelButton = new CancelButton();
 
 		saveButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (data == null) {
-					addError(saveButton,
-							messages.pleaseSaveThisTransactionToAddNote());
-				} else {
-					Accounter.createCRUDService().createNote(data.getID(),
-							notesArea.getText(), new AsyncCallback<Long>() {
+				Accounter.createCRUDService().createNote(data.getID(),
+						notesArea.getText(), new AsyncCallback<Long>() {
 
-								@Override
-								public void onSuccess(Long result) {
-									historyTable.updateColumnsData();
-									notesArea.setText("");
-								}
+							@Override
+							public void onSuccess(Long result) {
+								historyTable.updateColumnsData();
+								notesArea.setText("");
+							}
 
-								@Override
-								public void onFailure(Throwable caught) {
-									notesArea.setText("");
-									Accounter.showError(messages
-											.unableToSaveNote(caught.toString()));
-								}
-							});
-				}
+							@Override
+							public void onFailure(Throwable caught) {
+								notesArea.setText("");
+								Accounter.showError(messages
+										.unableToSaveNote(caught.toString()));
+							}
+						});
 				addNotesPanel.setVisible(false);
 			}
 		});
@@ -1717,16 +1708,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public void updateLastActivityPanel(ClientTransactionLog transactionLog) {
 		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE)
-			lastActivityHTML.setHTML(messages.lastActivityMessages(
-					historyTable.getActivityType(transactionLog.getType()),
-					transactionLog.getUserName(),
-					new Date(transactionLog.getTime()).toString()));
+			lastActivityHTML.setHTML(messages.lastActivityMessages(historyTable
+					.getActivityType(transactionLog.getType()), transactionLog
+					.getUserName(), new Date(transactionLog.getTime())
+					.toString()));
 		else
 
 			lastActivityHTML.setHTML(messages.lastActivityMessageForNote(
 					new Date(transactionLog.getTime()).toString(),
-					transactionLog.getUserName(),
-					transactionLog.getDescription()));
+					transactionLog.getUserName(), transactionLog
+							.getDescription()));
 	}
 
 	protected ClientFinanceDate getLastTaxReturnEndDate(long taxAgency) {

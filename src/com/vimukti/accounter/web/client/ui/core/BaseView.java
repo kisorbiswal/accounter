@@ -60,7 +60,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		buttonBar.setStyleName("button_bar");
 
 		super.add(buttonBar);
-		super.add(createHistoryView());
+		if (data != null)
+			super.add(createHistoryView());
 	}
 
 	protected VerticalPanel createHistoryView() {
@@ -152,7 +153,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	private void showSaveButtons() {
 		// if (approveButton != null) {
-		// this.buttonBar.insert(approveButton, 0);	
+		// this.buttonBar.insert(approveButton, 0);
 		// }
 		if (saveAndNewButton != null) {
 			this.buttonBar.insert(saveAndNewButton, 0);
