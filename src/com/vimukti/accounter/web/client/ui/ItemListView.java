@@ -79,17 +79,12 @@ public class ItemListView extends BaseListView<ClientItem> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return null;
 		else {
-			NewItemAction action = ActionFactory.getNewItemAction(true);
-			// if (this.catageory.equals(Global.get().customer())) {
-			// action.setType(3);
-			// return action;
-			// } else if (this.catageory.equals(Accounter.constants().vendor())
-			// || this.catageory.equals(Accounter.constants().vendor())) {
-			// action.setType(3);
-			// return action;
-			// }
-			//
-			// action.setType(3);
+			NewItemAction action;
+			if (this.catageory.equals(Global.get().customer())) {
+				action = ActionFactory.getNewItemAction(true);
+			} else {
+				action = ActionFactory.getNewItemAction(false);
+			}
 			return action;
 		}
 	}
