@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.MaintananceInfoUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.PropertyParser;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -15,10 +16,6 @@ public class UsersMailSendar {
 	private static PropertyParser propertyParser;
 
 	private static Logger LOG = Logger.getLogger(UsersMailSendar.class);
-
-		
-
-	
 
 	public static PropertyParser getPropertyParser() {
 		return propertyParser;
@@ -58,8 +55,6 @@ public class UsersMailSendar {
 
 	}
 
-	
-
 	public static void sendPdfMail(File file, String comapanyName,
 			String subject, String content, String senderEmail,
 			String recipientEmail, String ccEmail) throws IOException {
@@ -98,10 +93,6 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 
 	}
-
-	
-
-	
 
 	public static void sendMailToInvitedUser(Client user, String password,
 			String companyName) {
@@ -164,8 +155,8 @@ public class UsersMailSendar {
 		Client client = admin.getClient();
 		String content = propertyParser
 				.getProperty("contentForDefaultUser", "");
-		content = content.replaceAll("%USERNAME%",
-				getUserName(client.getFirstName()));
+		content = content.replaceAll("%USERNAME%", getUserName(client
+				.getFirstName()));
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = replaceServerUrl(content);
 
@@ -324,8 +315,8 @@ public class UsersMailSendar {
 		// String content = getContentForExternalUser();
 		String content = propertyParser.getProperty(
 				"contentForInviteExternalUser", "");
-		content = content.replaceAll("%USER%",
-				getUserName(invitedClient.getFirstName()));
+		content = content.replaceAll("%USER%", getUserName(invitedClient
+				.getFirstName()));
 		content = content.replaceAll("%USERID%", invitedClient.getEmailId());
 		content = content.replaceAll("%SENDERNAME%", inviter.getEmailId());
 		content = content.replaceAll("%COMPANY%", companyName);
@@ -346,11 +337,9 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
-	
-
 	private static String replaceServerUrl(String content) {
-		return content.replaceAll("%SERVERURL%",
-				ServerConfiguration.getMainServerDomain());
+		return content.replaceAll("%SERVERURL%", ServerConfiguration
+				.getMainServerDomain());
 	}
 
 	private static String getUserName(String name) {
@@ -361,5 +350,34 @@ public class UsersMailSendar {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(firstChar.toUpperCase()).append(substring);
 		return buffer.toString();
+	}
+
+	public static void sendMailToMaintanaceInfoUsers(
+			MaintananceInfoUser mainInfoUser) throws IOException {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Maintanace Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new IOException();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IOException();
+		}
+
+		String content = propertyParser.getProperty("contentForMaintanaceInfo",
+				"");
+		content = content.replaceAll("%USER%", getUserName(mainInfoUser
+				.getUserEmail()));
+
+		String subject = propertyParser.getProperty("subjectForMaintanaceInfo",
+				"");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(mainInfoUser.getUserEmail());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+		EmailManager.getInstance().addJob(job);
 	}
 }
