@@ -127,6 +127,7 @@ public abstract class AbstractTableRequirement<T> extends
 			values.remove(obj);
 			context.removeAttribute(TABLE_ROW);
 			context.removeAttribute(PROCESS_ATR);
+			resetRequirementsValues(obj);
 			return null;
 		}
 
@@ -140,6 +141,9 @@ public abstract class AbstractTableRequirement<T> extends
 				return res;
 			}
 		}
+
+		setOtherFields(list);
+
 		Record record = new Record(ActionNames.FINISH);
 		record.add("", "Finish");
 		actions.add(record);
@@ -150,7 +154,16 @@ public abstract class AbstractTableRequirement<T> extends
 
 		makeResult.add(list);
 		makeResult.add(actions);
+
 		return makeResult;
+	}
+
+	public void resetRequirementsValues(T obj) {
+
+	}
+
+	public void setOtherFields(ResultList list) {
+
 	}
 
 	protected abstract void getRequirementsValues(T obj);
