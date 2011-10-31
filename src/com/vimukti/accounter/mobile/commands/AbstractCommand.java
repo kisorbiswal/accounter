@@ -24,6 +24,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -358,6 +359,10 @@ public abstract class AbstractCommand extends Command {
 		nameRecord.add("", name);
 		nameRecord.add("", customerName);
 		list.add(nameRecord);
+		return null;
+	}
+
+	public ClientCompany getClientCompany() {
 		return null;
 	}
 
