@@ -38,10 +38,9 @@ public abstract class TransactionPayBillRequirement extends
 			objSelection = null;
 			valuesSelection = getName();
 		}
-
+		List<ClientTransactionPayBill> accounts = getValue();
 		if (attribute.equals(getName())) {
 			if (objSelection != null) {
-				List<ClientTransactionPayBill> accounts = getValue();
 				accounts.add((ClientTransactionPayBill) objSelection);
 				setValue(accounts);
 				context.setAttribute(INPUT_ATTR, "");
@@ -56,7 +55,7 @@ public abstract class TransactionPayBillRequirement extends
 
 		if (valuesSelection != null && valuesSelection.equals(getName())) {
 			List<ClientTransactionPayBill> oldValues = new ArrayList<ClientTransactionPayBill>();
-			for (ClientTransactionPayBill templateAccount : oldValues) {
+			for (ClientTransactionPayBill templateAccount : accounts) {
 				oldValues.add(templateAccount);
 			}
 			return showList(context, oldValues);
