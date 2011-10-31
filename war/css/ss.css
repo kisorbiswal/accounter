@@ -2,90 +2,80 @@
 	font-family: "ColabThi";
 	src: url("Fonts/ColabThi.otf") format("truetype");
 }
-
-* {
+*{
 	outline: none;
 }
-
-button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner
-	{
+button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner{
 	border: none;
 }
-
-/*.icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
-	background: url("../images/zb-online-books-icon.png") no-repeat scroll 0
-		0 transparent;
-	float: left;
-	height: 54px;
-	margin-right: 10px;
-	width: 50px;
-}*/
-body {
-	margin: 0px;
-	padding: 0px;
+.forgot-cancel-button,.forgot-ok-button,.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,
+.focus-bar-right,.footer-options,.right-middle,.remaining-header-part-login,.maintainence_message,.delete_company,.createbutton,
+.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory{
+	float: right;
+}
+#label_holder,#label_holder,.right-side-options,.signup-submit #openid-cancel,p,div ul li,.delete_company,.create_new_company,
+.allviews-common-button,.mid-login-box1 td,.terms-error,#accounterForm fieldset td{
+	font-size: 13px;
+}
+body,.accounter-business-dashboard-header h2,.email,.password,.company-name,.button-signup-page,.demo-buttons-image,.body-container,
+.company_list_buttons,#mainFooter,.success_box,#signup-mid,.button-tryfree-pricing-page {
 	text-align: center;
+}
+body {
 	font-family: Arial Unicode MS, Arial, sans-serif;
 }
-
 table {
 	border-collapse: collapse;
 }
-
 body,ul,li,ol,p,table,tr,td,table,html {
 	margin: 0px;
 	padding: 0px;
 }
-
-.header,.middle-part,.footer {
+.header,.middle-part,.footer,#commanNewContainer,#commanContainer,.signup-box,#maintananceContainer {
 	text-align: left;
 }
-
 .lower-part ol {
 	padding: 0 15px 25px;
 }
-
 .lower-part ol li {
 	width: 290px;
 	vertical-align: top;
 }
-
 div ul li {
 	color: #000;
-	font-size: 13px;
 }
-
 div ul li hover {
 	color: #c5c5c5;
 }
-
-.header_p_style {
-	font-size: 15px;
+.create_new_company,.allviews-common-button,.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant,.header_p_style{
 	font-weight: bold;
-	margin-bottom: 8px;
+}
+.header_p_style,.common-box,.allviews-common-button,form,.easiest-label,.account-sys-label{
 	font-family: sans-serif;
 }
-
-.main_body-container {
+.header_p_style {
+	font-size: 15px;
+	margin-bottom: 8px;
+}
+.main_body-container,.body-container,#maintananceContainer,.login_box,.left-side-box,#mid-1{
 	margin: 0px auto;
+}
+.main_body-container {
 	font-family: arial;
 	background: none repeat scroll 0 0 #28757D;
 }
-
 .body-container {
 	width: 956px !important;
-	margin: 0px auto;
-	text-align: center;
 	font-family: arial;
 }
 
 .remaining-header-part-login {
-	float: right;
 	font-size: 23px;
 	margin: 5px 15px 0 0;
 }
 
 p {
-	font-size: 13px;
 	line-height: 18px;
 }
 
@@ -95,18 +85,20 @@ p {
 	margin-left: 16px;
 	line-height: 2;
 }
-
+.signup-submit #openid-cancel,.easiest-label,.account-sys-label{
+	color:white;
+}
+.signup-submit #openid-cancel{
+	
+	text-decoration: none;
+}
 .account-sys-label {
 	font-weight: normal;
-	color: white;
 	font-size: 35px;
-	font-family: sans-serif;
 }
 
 .easiest-label {
-	color: white;
 	font-size: 18px;
-	font-family: sans-serif;
 }
 
 .logo-image {
@@ -119,7 +111,6 @@ p {
 	margin-right: 23pt;
 	width: 190px;
 	font-family: arial;
-	font-weight: bold;
 }
 
 #but-mid {
@@ -192,7 +183,6 @@ a:link {
 	font-family: arial;
 	font-size: 15px;
 	height: auto;
-	margin: 0 auto;
 	width: 720px;
 }
 
@@ -407,31 +397,6 @@ li {
 	outline: 0 none;
 	text-decoration: none;
 }
-
-/*#fea-bg {
-	float: left;
-	margin-left: 13px;
-	padding: 4px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #FFFFFF;
-	font-size: 17px;
-	font-weight:bold;
-}*/ /*.home-jbg {
-	float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #3299a4 !important;
-}*/ /*.fea-jbg {
-	float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #3299a4 !important;
-}*/
 #home-normal {
 	float: left;
 	background: url("../images/normal-left.png") no-repeat scroll 0 0
@@ -464,16 +429,6 @@ li {
 		transparent !important;
 }
 
-/*#abt-bg {
-	float: left;
-	margin-left: 13px;
-	padding: 4px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #FFFFFF;
-	font-size: 17px;
-	font-weight:bold;
-}*/
 #about-normal {
 	float: left;
 	background: url("../images/normal-left.png") no-repeat scroll 0 0
@@ -484,12 +439,6 @@ li {
 
 .header-hover {
 	color: #3299a4 !important;
-	/*float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	*/
 }
 
 .about-page {
@@ -534,33 +483,12 @@ li {
 	margin-right: -19px;
 	padding: 1px 6px;
 }
-
-/*#sup-bg {
-	float: left;
-	margin-left: 13px;
-	padding: 4px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #FFFFFF;
-	font-size: 17px;
-	font-weight:bold;
-}*/
 #support-normal {
 	float: left;
 	background: url("../images/normal-left.png") no-repeat scroll 0 0
 		transparent;
 	padding: 1px 6px;
 }
-
-/*.sup-jbg {
-	float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #3299a4 !important;
-}
-*/
 .support-page {
 	float: left;
 	background: url("../images/focus-left.png") no-repeat scroll 0 0
@@ -587,7 +515,6 @@ li {
 
 .right-middle {
 	margin-left: 20px;
-	float: right;
 	margin-top: 15px;
 	width: 521px;
 }
@@ -631,11 +558,6 @@ a:visited {
 	color: #A0A0A0 !important;
 }
 
-/*.image-text-button p {	color: white;
-    font-family: sans-serif;
-    font-size: 19px;
-    margin-top: 37px;
-}*/
 .image-text-button input[type="button"] {
 	height: 45px;
 	width: 200px;
@@ -681,7 +603,6 @@ a:visited {
 }
 
 .footer-options {
-	float: right;
 	font-size: 17px;
 	padding: 7px;
 	line-height: 2.3;
@@ -720,10 +641,6 @@ ul li a:HOVER,ul li a:FOCUS {
 
 .right-button,.left-button {
 	margin-left: 20px;
-}
-
-.demo-buttons-image {
-	text-align: center;
 }
 
 .screen-dot {
@@ -802,7 +719,6 @@ input[type="text"] {
 .right-side-options {
 	float: left;
 	margin-top: -23px;
-	font-size: 13px;
 }
 
 .left-side-box { /*margin-bottom: 65px;
@@ -810,7 +726,6 @@ input[type="text"] {
 	margin-left: -64px;
 	margin-top: 25px;*/
 	width: 760px;
-	margin: 0 auto;
 }
 
 .try,.ben,.price,.left-side-box a {
@@ -837,10 +752,6 @@ input[type="text"] {
 	margin-top: -8px;
 	padding: 17px;*/
 	
-}
-
-.signup-box {
-	text-align: left;
 }
 
 .signup-box-left-bot {
@@ -879,7 +790,6 @@ input[type="text"] {
 	height: 27px;
 	margin: 20px 0 0 130px;
 	padding: 2px 0 0;
-	text-align: center;
 	width: 100px;
 }
 
@@ -922,7 +832,6 @@ input[type="text"] {
 
 .email,.password,.company-name {
 	color: #A0A0A0;
-	text-align: center;
 }
 
 .contact_form_cont table tr td:first-child,.left-side-box table tr td:first-child
@@ -1091,7 +1000,6 @@ ul li {
 
 .accounter-business-dashboard-header h2 {
 	color: #079dd2;
-	text-align: center;
 }
 
 .top-paragraph-data p {
@@ -1123,7 +1031,6 @@ ul li {
 }
 
 .focus-bar-right {
-	float: right;
 	margin-right: -15px;
 	margin-top: 7px;
 	margin-right: -13px\0;
@@ -1142,7 +1049,6 @@ ul li {
 	height: 25px;
 	margin-left: 70px;
 	margin-top: -25px;
-	text-align: center;
 	width: 100px;
 }
 
@@ -1339,7 +1245,6 @@ ul li {
 	margin-right: 0;
 	margin-top: 9px;
 	padding: 4px;
-	text-align: center;
 	width: 85px;
 }
 
@@ -1452,13 +1357,6 @@ ul li {
 	margin: 117px 0 120px 80px;
 }
 
-.terms-error label { /*float: right;
-	margin-right: 230px;
-	font-size: 12px;
-	margin-right: 250px\0  !important;*/
-	
-}
-
 .stepcarousel {
 	position: relative; /*leave this value alone*/
 	border: 0px none;
@@ -1484,7 +1382,6 @@ ul li {
 }
 
 #contact_form_cont,#services_form_cont {
-	float: right;
 	margin: 15px 25px 0 0;
 }
 
@@ -1503,7 +1400,6 @@ ul li {
 #label_holder {
 	color: #666666;
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 13px;
 	margin-left: 10px;
 	position: absolute;
 }
@@ -1526,7 +1422,6 @@ ul li {
 #label_holder {
 	color: #666666;
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 13px;
 	margin-left: 10px;
 	position: absolute;
 }
@@ -1557,12 +1452,7 @@ ul li {
 	padding-right: 35px;
 }
 
-#accounterForm fieldset td {
-	font-size: 13px;
-}
-
 .terms-error {
-	font-size: 13px;
 	padding-top: 5px;
 }
 
@@ -1588,7 +1478,6 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 }
 
 .mid-login-box1 td {
-	font-size: 13px;
 	padding-right: 5px;
 }
 
@@ -1675,7 +1564,6 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 		transparent;
 	border: 0 none;
 	color: white;
-	float: right;
 	font-size: 15px;
 	height: 29px;
 	margin: 0 -6px;
@@ -1685,7 +1573,6 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 }
 
 .signup-submit-button {
-	float: right;
 	margin-top: 15px;
 }
 
@@ -1706,9 +1593,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 .getstarted-submit-button {
 	margin: 10px 8px 0 0;
 }
-
 .forgot-cancel-button,.forgot-ok-button {
-	float: right;
 	margin: 5px;
 }
 
@@ -1859,14 +1744,12 @@ input[type="submit"]:FOCUS {
 	font-weight: normal;
 	margin-left: 8px;
 	padding: 26px 24px 46px;
-	text-align: center;
 }
 
 .mandatory {
 	background-color: #FFFFE6;
 	border: 1px solid #E6EACD;
 	color: red;
-	float: right;
 	font-size: 11px;
 	font-weight: normal
 }
@@ -1909,7 +1792,6 @@ input[type="submit"]:FOCUS {
 .login_box {
 	background: none repeat scroll 0 0 white;
 	border: 1px solid #929292;
-	margin: 0 auto;
 	width: 500px;
 }
 
@@ -1921,7 +1803,6 @@ input[type="submit"]:FOCUS {
 
 form {
 	font-weight: normal;
-	font-family: sans-serif;
 }
 
 #commanContainer{
@@ -1929,7 +1810,6 @@ form {
 }
 #commanNewContainer,#commanContainer{
 	margin: 7em auto;
-	text-align: left;
 }
 #commanNewContainer{
 	width: 920px;
@@ -1948,7 +1828,7 @@ form {
 	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
 	font-weight: normal;
 	margin-left: 8px;
-	padding: 26px 24px 55px;
+	padding: 26px 24px 15px;
 	overflow: auto;
 }
 
@@ -1970,7 +1850,6 @@ form {
 }
 
 .loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton {
-	float: right;
 	margin-right: 8px;
 }
 
@@ -1988,9 +1867,6 @@ input [type="checkbox"] {
 	border-radius: 5px 5px 5px 5px;
 	color: white;
 	cursor: pointer;
-	font-family: sans-serif;
-	font-size: 13px;
-	font-weight: bold;
 	margin-top: 10px;
 	padding: 3px 10px;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
@@ -2003,7 +1879,7 @@ input [type="checkbox"] {
 
 .form-bottom-options,.activate-code {
 	margin: 0 0 0 16px;
-	padding: 16px 16px 0;
+	padding: 16px 16px 10px;
 	text-shadow: 0 1px 0 #FFFFFF;
 	clear:both;
 }
@@ -2016,7 +1892,6 @@ input [type="checkbox"] {
 .accounterLogo {
 	padding: 0 0 15px 10px;
 }
-
 .common-box {
 	border-radius: 3px 3px 3px 3px;
 	border-style: solid;
@@ -2024,7 +1899,6 @@ input [type="checkbox"] {
 	margin: 0 0 16px 8px;
 	padding: 12px;
 	font-size: 12px;
-	font-family: sans-serif;
 }
 
 #login_error {
@@ -2058,10 +1932,6 @@ input [type="checkbox"] {
 
 #select-box {
 	padding: 0px !important;
-}
-
-.createbutton {
-	float: right;
 }
 
 .form-box li {
@@ -2108,12 +1978,6 @@ a#fdbk_tab:hover {
 .resend-code {
 	padding: 10px 0 0 35px;
 }
-
-.create_new_company {
-	font-weight: bold;
-	font-size: 13px
-}
-
 .companies-list a:FIRST-CHILD {
 	float: left;
 	font-size: 18px;
@@ -2121,8 +1985,6 @@ a#fdbk_tab:hover {
 }
 
 .delete_company {
-	float: right;
-	font-size: 13px;
 	text-decoration: none !important;
 	padding-top: 3px;
 }
@@ -2169,14 +2031,13 @@ a#fdbk_tab:hover {
 #mainFooter {
 	clear: both;
 	height: 25px;
-	margin-top: -35px;
+	margin-top: 0;
 	position: relative;
 	width: 100%;
 	z-index: 10;
 	border-top: 1px solid #CCCCCC;
 	color: #666666;
 	padding-top: 8px;
-	text-align: center;
 }
 
 #mainFooter a,#mainFooter span {
@@ -2192,11 +2053,9 @@ a#fdbk_tab:hover {
 
 #maintananceContainer {
 	background: none repeat scroll 0 0 #EAEEF1;
-	margin: 0 auto;
 	overflow: auto;
 	width: 960px;
 	height: 300px;
-	text-align: left;
 }
 
 .maintainence_logo {
@@ -2205,7 +2064,6 @@ a#fdbk_tab:hover {
 
 .maintainence_message {
 	color: #395169;
-	float: right;
 	line-height: 2;
 }
 
@@ -2246,10 +2104,6 @@ a#fdbk_tab:hover {
 	width: 50px !important;
 }
 
-.company_list_buttons {
-	text-align: center;
-}
-
 #reset_hint_box {
 	margin: -37px 0 0 265px;
 	position: absolute;
@@ -2259,11 +2113,37 @@ a#fdbk_tab:hover {
 	margin:20px auto;
 	width:300px;
 }
+.new_login_page{
+	height:325px;
+}
 #feedDiv{
-	width:445px;
+	width:400px;
+	padding: 0 34px 0 16px;
 }
 .new_login_accounterform{
 	border-left:1px solid #28757D;
 	padding-left:30px;
+}
+#feedDivUl li a,#unChangedNewsDiv a{
+	text-decoration: none;
+}
+#feedDivUl li{
+	border-bottom: 1px solid #B1B1B1;
+    padding: 3px;
+    width: 100%;
+}
+#feedDivUl{
+	margin-top:15px;
+}
+#feedDivUl .listItemHover{
+	background: none repeat scroll 0 0 #D4EFFB;
+    border-bottom: 1px solid #5EC2ED;
+}
+#feedDiv h2{
+	color:#0079C6;
+	margin-bottom: 10px;
+}
+#unChangedNewsDiv{
+	height:90px
 }
 /* End of the new Login and forgot password page*/
