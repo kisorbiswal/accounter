@@ -3,13 +3,19 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Arrays;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.ObjectListRequirement;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PayeeRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -20,14 +26,13 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
-public class WriteCheckCommand extends AbstractTransactionCommand {
+public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 	private static final String PAYEE = "payee";
 	private static final String BANK_ACCOUNT = "bankAccount";
 	private static final String AMOUNT = "amount";
-	private static final String OPTIONAL = "optional";
-	private static final String VALUES = "values";
 
 	@Override
 	public String getId() {
@@ -36,103 +41,75 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(PAYEE, false, true));
-		list.add(new Requirement(BANK_ACCOUNT, false, true));
-		list.add(new ObjectListRequirement(ITEMS, false, true) {
+		list.add(new PayeeRequirement(PAYEE, getMessages().pleaseEnterName(
+				getConstants().payee()), getConstants().payee(), false, true,
+				null) {
 
 			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement("name", false, true));
-				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("quantity", true, true));
-				list.add(new Requirement("price", true, true));
-				list.add(new Requirement("discount", true, true));
-				list.add(new Requirement("vatCode", true, true));
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getConstants().payee());
 			}
-		});
-		list.add(new ObjectListRequirement(ACCOUNTS, false, true) {
 
 			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement("name", false, true));
-				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("amount", false, true));
-				list.add(new Requirement("discount", true, true));
-				list.add(new Requirement("vatCode", true, true));
+			protected List<ClientPayee> getLists(Context context) {
+				return context.getClientCompany().getPayees();
 			}
-		});
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(NUMBER, true, false));
-		list.add(new Requirement(AMOUNT, true, true));
-		list.add(new ObjectListRequirement(BILL_TO, true, true) {
-			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement("address1", false, true));
-				list.add(new Requirement("city", true, true));
-				list.add(new Requirement("street", true, true));
-				list.add(new Requirement("stateOrProvinence", true, true));
-				list.add(new Requirement("countryOrRegion", true, true));
-			}
-		});
-		list.add(new Requirement(TAXCODE, false, true));
-		list.add(new Requirement(MEMO, true, true));
-	}
-
-	@Override
-	public Result run(Context context) {
-		setDefaultValues();
-		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, OPTIONAL);
-		}
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result makeResult = context.makeResult();
-		ResultList actions = new ResultList(ACTIONS);
-		ResultList list = new ResultList(VALUES);
-		makeResult.add(list);
-		Result result = null;
-
-		if (process != null) {
-			if (process.equals(ADDRESS_PROCESS)) {
-				result = addressProcess(context);
-				if (result != null) {
-					return result;
-				}
-			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-				result = transactionItemProcess(context);
-				if (result != null) {
-					return result;
-				}
-			} else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
-				result = transactionAccountProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-
-		result = payeeRequirement(context, list, PAYEE);
-		if (result != null) {
-			return result;
-		}
-
-		result = accountRequirement(context, list, BANK_ACCOUNT, getConstants()
-				.bankAccounts(), new ListFilter<ClientAccount>() {
 
 			@Override
-			public boolean filter(ClientAccount account) {
-				return Arrays.asList(ClientAccount.TYPE_BANK,
-						ClientAccount.TYPE_CREDIT_CARD,
-						ClientAccount.TYPE_PAYPAL,
-						ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
-						account.getType());
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getConstants().payee());
+			}
+
+			@Override
+			protected boolean filter(ClientPayee e, String name) {
+				return e.getName().startsWith(name);
 			}
 		});
-		if (result != null) {
-			return result;
-		}
 
-		result = itemsAndAccountsRequirement(context, makeResult, actions,
-				new ListFilter<ClientAccount>() {
+		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()
+				.pleaseEnterNameOrNumber(getConstants().bankAccount()),
+				getConstants().bankAccount(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getConstants().bankAccount());
+			}
+
+			@Override
+			protected List<ClientAccount> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						return Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_CREDIT_CARD,
+								ClientAccount.TYPE_PAYPAL,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+								.contains(e.getType());
+					}
+				}, context.getClientCompany().getAccounts());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getConstants().bankAccount());
+			}
+
+			@Override
+			protected boolean filter(ClientAccount e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getNumber().equals(name);
+			}
+		});
+
+		list.add(new TransactionItemAccountsRequirement(ACCOUNTS, getMessages()
+				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
+				.Account(), false, true) {
+
+			@Override
+			protected List<ClientAccount> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 					@Override
 					public boolean filter(ClientAccount account) {
@@ -153,43 +130,43 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 							return false;
 						}
 					}
-				}, false);
-
-		if (result != null) {
-			return result;
-		}
-
-		ClientCompanyPreferences preferences = getClientCompany()
-				.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			result = taxCodeRequirement(context, list);
-			if (result != null) {
-				return result;
+				}, getClientCompany().getAccounts());
 			}
-		}
+		});
 
-		makeResult.add(actions);
-		result = createOptionalResult(context, list, actions, makeResult);
-		if (result != null) {
-			return result;
-		}
-		completeProcess(context);
-		markDone();
-		result = new Result();
-		result.add(getMessages()
-				.createSuccessfully(getConstants().writeCheck()));
-		return result;
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getConstants().date()), getConstants().date(), true, true));
+
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getConstants().number()), getConstants().number(), true, false));
+
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getConstants().amount()), getConstants().amount(), true, true));
+
+		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
+				getConstants().billTo()), getConstants().billTo(), true, true));
+
+		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
+				getConstants().taxCode()), getConstants().taxCode(), false,
+				true, null) {
+
+			@Override
+			protected List<ClientTAXCode> getLists(Context context) {
+				return context.getClientCompany().getTaxCodes();
+			}
+
+			@Override
+			protected boolean filter(ClientTAXCode e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+				getConstants().memo()), getConstants().memo(), true, true));
 	}
 
-	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue("1");
-		get(BILL_TO).setDefaultValue(new ClientAddress());
-		get(AMOUNT).setDefaultValue(0.0);
-		get(MEMO).setDefaultValue(" ");
-	}
-
-	private void completeProcess(Context context) {
+	@Override
+	protected Result onCompleteProcess(Context context) {
 		ClientWriteCheck writeCheck = new ClientWriteCheck();
 		ClientPayee payee = (ClientPayee) get(PAYEE).getValue();
 		if (payee.getType() == ClientPayee.TYPE_CUSTOMER) {
@@ -214,80 +191,56 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 		writeCheck.setType(ClientTransaction.TYPE_WRITE_CHECK);
 
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
-		items.addAll(accounts);
-		ClientCompanyPreferences preferences = getClientCompany()
+		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : items) {
+			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-		writeCheck.setTransactionItems(items);
+		writeCheck.setTransactionItems(accounts);
 
-		updateTotals(writeCheck, false);
+		updateTotals(context, writeCheck, false);
+		if (amount < writeCheck.getTotal()) {
+			amount = writeCheck.getTotal();
+			writeCheck.setAmount(amount);
+		}
 		String memo = get(MEMO).getValue();
 		writeCheck.setMemo(memo);
 		create(writeCheck, context);
+
+		return null;
 	}
 
-	private Result createOptionalResult(Context context, ResultList list,
-			ResultList actions, Result makeResult) {
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				markDone();
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection(VALUES);
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		Result result = dateRequirement(context, list, selection, DATE,
-				getMessages().pleaseEnter(getConstants().date()),
-				getConstants().date());
-		if (result != null) {
-			return result;
-		}
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().creating(getConstants().writeCheck());
+	}
 
-		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				getConstants().number(),
-				getMessages().pleaseEnter(getConstants().number()));
-		if (result != null) {
-			return result;
-		}
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getConstants().writeCheck());
+	}
 
-		result = addressOptionalRequirement(context, list, selection, BILL_TO,
-				getMessages().pleaseEnter(getConstants().billTo()),
-				getConstants().billTo());
-		if (result != null) {
-			return result;
-		}
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(NUMBER).setDefaultValue("1");
+		get(BILL_TO).setDefaultValue(new ClientAddress());
+		get(AMOUNT).setDefaultValue(0.0);
+	}
 
-		result = amountOptionalRequirement(context, list, selection, AMOUNT,
-				getMessages().pleaseEnter(getConstants().amount()),
-				getConstants().amount());
-		if (result != null) {
-			return result;
-		}
-
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				getConstants().memo(),
-				getMessages().pleaseEnter(getConstants().memo()));
-		if (result != null) {
-			return result;
-		}
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", getMessages()
-				.finishToCreate(getConstants().writeCheck()));
-		actions.add(finish);
-		return makeResult;
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getConstants().writeCheck());
 	}
 
 }
