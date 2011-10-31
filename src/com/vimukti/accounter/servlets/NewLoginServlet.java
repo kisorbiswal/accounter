@@ -23,7 +23,6 @@ import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.News;
 import com.vimukti.accounter.core.RememberMeKey;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -128,8 +127,8 @@ public class NewLoginServlet extends BaseServlet {
 	protected void addUserCookies(HttpServletResponse resp, String key) {
 		Cookie userCookie = new Cookie(OUR_COOKIE, key);
 		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
-		userCookie.setPath("/");
-		userCookie.setDomain(ServerConfiguration.getServerCookieDomain());
+		// userCookie.setPath("/");
+		// userCookie.setDomain(ServerConfiguration.getServerCookieDomain());
 		resp.addCookie(userCookie);
 	}
 
@@ -162,11 +161,8 @@ public class NewLoginServlet extends BaseServlet {
 		LOG.info(request);
 		// We check if the session is already there, if it is, we check if user
 		// have to reset his password(by using a flag on the user object)
-		HttpSession httpSession = request.getSession(false);
-		if (httpSession == null) {
-			showLogin(request, response);
-			return;
-		}
+		HttpSession httpSession = request.getSession(true);
+
 		String activationType = (String) httpSession
 				.getAttribute(ACTIVATION_TYPE);
 		if (activationType != null && activationType.equals("resetpassword")) {
