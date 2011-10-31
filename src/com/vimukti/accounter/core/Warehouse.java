@@ -154,19 +154,21 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 				itemStatus.getQuantity().setValue(tempQ.getValue() + value);
 			}
 		} else {
-			if (!substract) {
-				if (itemStatuses == null) {
-					itemStatuses = new HashSet<ItemStatus>();
-				}
-				ItemStatus newItemStatus = new ItemStatus();
-				newItemStatus.setItem(item);
-				Quantity quantity = new Quantity();
-				quantity.setValue(value);
-				quantity.setUnit(item.getMeasurement().getDefaultUnit());
-				newItemStatus.setQuantity(quantity);
-				newItemStatus.setWarehouse(this);
-				itemStatuses.add(newItemStatus);
+			if (itemStatuses == null) {
+				itemStatuses = new HashSet<ItemStatus>();
 			}
+			ItemStatus newItemStatus = new ItemStatus();
+			newItemStatus.setItem(item);
+			Quantity quantity = new Quantity();
+			quantity.setUnit(item.getMeasurement().getDefaultUnit());
+			if (substract) {
+				quantity.setValue(-1 * value);
+			} else {
+				quantity.setValue(value);
+			}
+			newItemStatus.setQuantity(quantity);
+			newItemStatus.setWarehouse(this);
+			itemStatuses.add(newItemStatus);
 		}
 	}
 
