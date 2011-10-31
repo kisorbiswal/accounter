@@ -1,12 +1,7 @@
 package com.vimukti.accounter.core;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,16 +9,10 @@ import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 
-import fr.opensagres.xdocreport.converter.ConverterTypeTo;
-import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.Options;
-import fr.opensagres.xdocreport.core.XDocReportException;
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
 import fr.opensagres.xdocreport.document.images.IImageProvider;
-import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.template.IContext;
-import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
 public class InvoicePdfGeneration {
@@ -140,12 +129,7 @@ public class InvoicePdfGeneration {
 			context.put("inv", i);
 			context.put("companyImg", footerImg);
 
-			// 3) Generate report by merging Java model with the ODT
-			/*String fileName = "Invoice_" + invoice.getNumber() + ".pdf";
-			OutputStream out = new FileOutputStream(new File(fileName));
-			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.ITEXT);
-			report.convert(context, options, out);*/
+			
 
 			
 			return context;
