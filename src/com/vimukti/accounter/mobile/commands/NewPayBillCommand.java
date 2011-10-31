@@ -8,6 +8,7 @@ import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -32,6 +33,8 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * 
  */
 public class NewPayBillCommand extends NewAbstractTransactionCommand {
+
+	private ArrayList<ClientTransactionPayBill> records;
 
 	@Override
 	protected String getWelcomeMessage() {
@@ -64,7 +67,13 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages()
 				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, null) {
+				.vendor(), false, true, new ChangeListner<ClientVendor>() {
+
+			@Override
+			public void onSelection(ClientVendor value) {
+				records = null;
+			}
+		}) {
 
 			@Override
 			protected String getSetMessage() {
@@ -199,13 +208,16 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	private List<ClientTransactionPayBill> getTransactionPayBills(
 			ClientVendor clinetVendor, ClientCompany clientCompany) {
+		if (records != null) {
+			return records;
+		}
 		try {
 			ArrayList<PayBillTransactionList> billsList = new FinanceTool()
 					.getVendorManager().getTransactionPayBills(
 							clinetVendor.getID(), clientCompany.getID());
 
 			if (billsList != null) {
-				List<ClientTransactionPayBill> records = new ArrayList<ClientTransactionPayBill>();
+				records = new ArrayList<ClientTransactionPayBill>();
 				for (PayBillTransactionList curntRec : billsList) {
 					ClientTransactionPayBill record = new ClientTransactionPayBill();
 

@@ -9,9 +9,10 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public abstract class AbstractTableRequirement<T> extends
-		AbstractRequirement<T> {
+public abstract class AbstractTableRequirement<T extends IAccounterCore>
+		extends AbstractRequirement<T> {
 	private static final String PROCESS_ATR = "processAttr";
 	private static final String TABLE_ROW = "tableRow";
 	private List<Requirement> requirements;
@@ -83,11 +84,18 @@ public abstract class AbstractTableRequirement<T> extends
 			}
 			makeResult.add(resultList);
 		} else {
-			makeResult.add("There are no bills. " + getEnterString());
+			makeResult.add(getEmptyString() + getEnterString());
 		}
-		Record addMoreRecord = new Record(getAddMoreString());
-		addMoreRecord.add("", getAddMoreString());
-		actions.add(addMoreRecord);
+		if (values.size() < getList().size()) {
+			Record addMoreRecord = new Record(getAddMoreString());
+			addMoreRecord.add("", getAddMoreString());
+			actions.add(addMoreRecord);
+		}
+		return null;
+	}
+
+	private String getEmptyString() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -107,8 +115,13 @@ public abstract class AbstractTableRequirement<T> extends
 			}
 		}
 		Result result = new Result();
-		result.add(getEnterString());
-		result.add(list);
+		if (list.size() > 0) {
+			result.add(getEnterString());
+			result.add(list);
+		} else {
+			result.add(getEmptyString());
+		}
+
 		return result;
 	}
 
