@@ -88,14 +88,10 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 		updateAmounts();
 
-		draftAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(draftInvoiceAmount)
-				+ " "
-				+ super.getPrimaryCurrencySymbol());
-		overDueAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(overDueInvoiceAmount)
-				+ " "
-				+ super.getPrimaryCurrencySymbol());
+		draftAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ DataUtils.getAmountAsString(draftInvoiceAmount));
+		overDueAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ DataUtils.getAmountAsString(overDueInvoiceAmount));
 		overDueAmtLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		fTable.setWidget(0, 0, draftLabel);
@@ -127,15 +123,14 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel
-							.setText(amountAsString(overDueInvoiceAmount) + " "
-									+ getPrimaryCurrencySymbol());
+					overDueAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+							+ amountAsString(overDueInvoiceAmount));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel.setText(amountAsString(draftInvoiceAmount)
-							+ " " + getPrimaryCurrencySymbol());
+					draftAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+							+ amountAsString(draftInvoiceAmount));
 				}
 
 				Runnable runnable = new Runnable() {

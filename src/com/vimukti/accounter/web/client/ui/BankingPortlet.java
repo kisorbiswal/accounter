@@ -128,7 +128,10 @@ public class BankingPortlet extends DashBoardPortlet {
 					}
 				});
 				final Label amountLabel = new Label(
-						DataUtils.getAmountAsString(account.getTotalBalance()));
+						getPrimaryCurrencySymbol()
+								+ " "
+								+ DataUtils.getAmountAsString(account
+										.getTotalBalance()));
 				// amountLabel.setStyleName("tool-box");
 				amountLabel.addStyleName("label-banking");
 				// amountLabel.getElement().getStyle().setMarginLeft(295,

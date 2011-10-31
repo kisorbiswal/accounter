@@ -85,15 +85,15 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		updateAmounts();
 
-		allExpAmtLabel = getAmountLabel(amountAsString(allExpensesAmount) + " "
-				+ getPrimaryCurrencySymbol());
-		cashExpAmtLabel = getAmountLabel(amountAsString(cashExpenseAmount)
-				+ " " + getPrimaryCurrencySymbol());
+		allExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(allExpensesAmount));
+		cashExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(amountAsString(employeeExpenseAmount)
-				+ " " + getPrimaryCurrencySymbol());
-		ccExpAmtLabel = getAmountLabel(amountAsString(ccExpenseAmount) + " "
-				+ getPrimaryCurrencySymbol());
+		empExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(employeeExpenseAmount));
+		ccExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		fTable.setWidget(0, 0, allExpLabel);
@@ -212,15 +212,15 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(amountAsString(cashExpenseAmount) + " "
-				+ getPrimaryCurrencySymbol());
-		ccExpAmtLabel.setText(amountAsString(ccExpenseAmount) + " "
-				+ getPrimaryCurrencySymbol());
-		empExpAmtLabel.setText(amountAsString(employeeExpenseAmount) + " "
-				+ getPrimaryCurrencySymbol());
+		cashExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(cashExpenseAmount));
+		ccExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(ccExpenseAmount));
+		empExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(employeeExpenseAmount));
 
-		allExpAmtLabel.setText(amountAsString(allExpensesAmount) + " "
-				+ getPrimaryCurrencySymbol());
+		allExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(allExpensesAmount));
 	}
 
 }

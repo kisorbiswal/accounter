@@ -1758,7 +1758,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			customerTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
-
 	}
 
 	@Override

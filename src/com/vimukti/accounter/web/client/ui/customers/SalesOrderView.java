@@ -758,11 +758,10 @@ public class SalesOrderView extends
 					this.salesTaxTextNonEditable
 							.setAmount(getAmountInTransactionCurrency(transaction
 									.getTaxTotal()));
-					this.transactionTotalinBaseCurrency
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()));
+					this.transactionTotalinBaseCurrency.setAmount(transaction
+							.getTotal());
 					this.transactionTotalinForeignCurrency
-							.setAmount(getAmountInBaseCurrency(transaction
+							.setAmount(getAmountInTransactionCurrency(transaction
 									.getTotal()));
 				}
 
@@ -854,9 +853,8 @@ public class SalesOrderView extends
 		updateTransaction();
 
 		super.saveAndUpdateView();
-		transactionTotalinBaseCurrency
-				.setAmount(getAmountInBaseCurrency(customerTransactionTable
-						.getGrandTotal()));
+		transactionTotalinBaseCurrency.setAmount(customerTransactionTable
+				.getGrandTotal());
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
 						.getGrandTotal()));
@@ -922,9 +920,7 @@ public class SalesOrderView extends
 			}
 		}
 
-		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
-						.getAmount()));
+		transaction.setTotal(transactionTotalinBaseCurrency.getAmount());
 
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
@@ -1101,9 +1097,8 @@ public class SalesOrderView extends
 							.getTotalTax()));
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
-		transactionTotalinBaseCurrency
-				.setAmount(getAmountInBaseCurrency(customerTransactionTable
-						.getGrandTotal()));
+		transactionTotalinBaseCurrency.setAmount(customerTransactionTable
+				.getGrandTotal());
 
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(customerTransactionTable

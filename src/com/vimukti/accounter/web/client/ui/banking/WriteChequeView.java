@@ -579,8 +579,7 @@ public class WriteChequeView extends
 
 		// Setting Balance
 		if (balText.getAmount() != null)
-			transaction
-					.setBalance(getAmountInBaseCurrency(balText.getAmount()));
+			transaction.setBalance(balText.getAmount());
 		// setting paymentmethod
 		transaction.setPaymentMethod("Check");
 
@@ -1369,7 +1368,7 @@ public class WriteChequeView extends
 				taxCodeSelect.setDisabled(isInViewMode());
 			}
 		}
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
