@@ -5160,4 +5160,6 @@ public interface AccounterConstants extends Constants {
 
 	public String vendorCreditMemo();
 
+	public String paymentsToIssue();
+
 }
