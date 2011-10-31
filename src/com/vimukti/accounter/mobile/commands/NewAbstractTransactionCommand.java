@@ -30,6 +30,11 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String PAYMENT_METHOD = "paymentMethod";
 	protected static final String CURRENCY = "currency";
 	protected static final String PAY_FROM = "payFrom";
+	protected static final String ORDER_NO = "orderNo";
+	protected static final String ESTIMATEANDSALESORDER = "estimateAndSalesOrder";
+	protected static final String ESTIMATE = "estimate";
+	protected static final String DISPATCH_DATE = "dispathDate";
+	protected static final String RECIEVED_DATE = "deliveryDate";
 
 	public void updateTotals(Context context, ClientTransaction transaction,
 			boolean isSales) {

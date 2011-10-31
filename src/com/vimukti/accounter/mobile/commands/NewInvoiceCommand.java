@@ -352,7 +352,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
+						ClientTransaction.TYPE_INVOICE, context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
 		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
 				.getPaymentsTerms();
