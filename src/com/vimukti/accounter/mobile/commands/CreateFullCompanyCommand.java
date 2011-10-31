@@ -481,6 +481,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		ClientCurrency currency = get(SELECT_CURRENCY).getValue();
 		Boolean manageBills = get(MANAGE_BILLS_OWE).getValue();
 		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
+
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 		preferences.setPrimaryCurrency(currency.getFormalName());
 
@@ -488,7 +489,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
 				fiscalYear));
 
-		ClientAddress address = new ClientAddress();
 		preferences.setTradingName(companyName);
 		preferences.setLegalName(legalName);
 		preferences.setPhone(phoneNum);
@@ -496,12 +496,15 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		preferences.setTaxId(taxId);
 		preferences.setFax(fax);
 		preferences.setWebSite(webSite);
+
+		ClientAddress address = new ClientAddress();
 		address.setAddress1(address1);
 		address.setStreet(address2);
 		address.setCity(city);
 		address.setZipOrPostalCode(zipCode);
 		address.setStateOrProvinence(state);
 		address.setCountryOrRegion(countryName);
+
 		preferences.setTradingAddress(address);
 		preferences.setTimezone(timeZone);
 		preferences.setIndustryType(getIndustryList().indexOf(industryType));
@@ -537,6 +540,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		preferences.setDoyouwantEstimates(createEstimates);
 		preferences.setDateFormat(getDateFormat(countryName));
 		setStartDateOfFiscalYear(preferences);
+
 		Company company = AccounterCompanyInitializationServiceImpl
 				.intializeCompany(preferences, accounts, context.getIOSession()
 						.getClient());
