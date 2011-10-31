@@ -5,12 +5,16 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -78,7 +82,28 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		return false;
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session
+				.getNamedQuery("getWarehouse")
+				.setParameter("companyId",
+						((BrandingTheme) clientObject).getCompany().getID())
+				.setString("name", this.name).setLong("id", this.id);
+		List list = query.list();
+
+		if (list != null || list.size() > 0 || list.get(0) != null) {
+			Iterator iterator = list.iterator();
+
+			while (iterator.hasNext()) {
+
+				String object = (String) iterator.next();
+				if (this.getName().equals(object)) {
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_CONFLICT);
+
+				}
+			}
+		}
+		return true;
 	}
 
 	public void setContact(Contact contact) {
@@ -115,6 +140,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.WAREHOUSE);
 		ChangeTracker.put(accounterCore);
 

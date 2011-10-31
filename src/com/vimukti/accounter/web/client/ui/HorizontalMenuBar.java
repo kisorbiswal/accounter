@@ -127,10 +127,13 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar inventoryMenu = new CustomMenuBar();
 		inventoryMenu.addItem(Accounter.constants().inventoryItems(),
 				ActionFactory.getInventoryItemsAction());
-		inventoryMenu.addItem(Accounter.constants().warehouseList(),
-				ActionFactory.getWarehouseListAction());
-		inventoryMenu.addItem(Accounter.constants().warehouseTransferList(),
-				ActionFactory.getWarehouseTransferListAction());
+		if (getPreferences().iswareHouseEnabled()) {
+			inventoryMenu.addItem(Accounter.constants().warehouseList(),
+					ActionFactory.getWarehouseListAction());
+			inventoryMenu.addItem(
+					Accounter.constants().warehouseTransferList(),
+					ActionFactory.getWarehouseTransferListAction());
+		}
 		inventoryMenu.addItem(Accounter.constants().measurementList(),
 				ActionFactory.getMeasurementsAction());
 		return inventoryMenu;
@@ -138,12 +141,14 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getNewInventoryMenu() {
 		CustomMenuBar inventoryMenu = new CustomMenuBar();
-		inventoryMenu.addItem(Accounter.constants().wareHouse(),
-				ActionFactory.getWareHouseViewAction());
+		if (getPreferences().iswareHouseEnabled()) {
+			inventoryMenu.addItem(Accounter.constants().wareHouse(),
+					ActionFactory.getWareHouseViewAction());
+			inventoryMenu.addItem(Accounter.constants().wareHouseTransfer(),
+					ActionFactory.getWareHouseTransferAction());
+		}
 		inventoryMenu.addItem(Accounter.constants().measurement(),
 				ActionFactory.getAddMeasurementAction());
-		inventoryMenu.addItem(Accounter.constants().wareHouseTransfer(),
-				ActionFactory.getWareHouseTransferAction());
 		return inventoryMenu;
 	}
 

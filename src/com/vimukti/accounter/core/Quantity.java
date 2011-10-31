@@ -3,6 +3,8 @@
  */
 package com.vimukti.accounter.core;
 
+import java.util.Set;
+
 /**
  * This class contains Quantity calculation methods and price calculation
  * method. <br>
@@ -59,7 +61,7 @@ public class Quantity implements Comparable<Quantity> {
 		 */
 		Quantity resultQuantity = new Quantity();
 		if (unit != null) {
-			// resultQuantity.setUnit(unit.getMeasurement().getDefaultUnit());
+			resultQuantity.setUnit(getDefaultUnit(unit));
 		}
 		resultQuantity.setValue(thisQuantity.getValue()
 				+ otherQuantity.getValue());
@@ -108,9 +110,20 @@ public class Quantity implements Comparable<Quantity> {
 		Quantity quantity = new Quantity();
 		quantity.setValue(value * conversionFactor);
 		if (unit != null)
-			// quantity.setUnit(unit.getMeasurement().getDefaultUnit());
-			return quantity;
+			quantity.setUnit(getDefaultUnit(unit));
 		return quantity;
+	}
+
+	private Unit getDefaultUnit(Unit unit) {
+		Unit defaultUnit1 = new Unit();
+		Measurement measurement = unit.getMeasurement();
+		Set<Unit> units = measurement.getUnits();
+		for (Unit unit1 : units) {
+			if (unit1.isDefault()) {
+				return defaultUnit1 = unit1;
+			}
+		}
+		return defaultUnit1;
 	}
 
 	public Unit getUnit() {

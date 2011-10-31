@@ -168,7 +168,7 @@ public class Measurement extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		return false;
+		return true;
 	}
 
 	@Override

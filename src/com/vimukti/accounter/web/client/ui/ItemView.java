@@ -60,8 +60,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private TextItem nameText, skuText;
 	private AmountField salesPriceText, stdCostText, purchasePriceTxt,
 			openingBalTxt;
-	private IntegerField vendItemNumText, weightText, minStock, maxStock,
-			defaultSellPrice, defaultPurchasePrice;
+	private IntegerField vendItemNumText, weightText, minStock, maxStock;
+	// defaultSellPrice, defaultPurchasePrice;
 	// , salesTaxRate, purcahseTaxRate;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem /* isservice, */isellCheck, comCheck, activeCheck, ibuyCheck,
@@ -588,10 +588,10 @@ public class ItemView extends BaseView<ClientItem> {
 				.minStockAlertLevel());
 		maxStock = new IntegerField(this, Accounter.constants()
 				.maxStockAlertLevel());
-		defaultSellPrice = new IntegerField(this, Accounter.constants()
-				.defaultSellPrice());
-		defaultPurchasePrice = new IntegerField(this, Accounter.constants()
-				.defaultPurchasePrice());
+		// defaultSellPrice = new IntegerField(this, Accounter.constants()
+		// .defaultSellPrice());
+		// defaultPurchasePrice = new IntegerField(this, Accounter.constants()
+		// .defaultPurchasePrice());
 		// salesTaxRate = new IntegerField(this, Accounter.constants()
 		// .salesTaxRate());
 		// purcahseTaxRate = new IntegerField(this, Accounter.constants()
@@ -599,13 +599,17 @@ public class ItemView extends BaseView<ClientItem> {
 		openingBalTxt = new AmountField(Accounter.constants().openingBalance(),
 				this);
 		stockForm.setNumCols(4);
-		stockForm.setFields(openingBalTxt, measurement, wareHouse);
 		measurement.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
 		minStock.setDisabled(isInViewMode());
 		maxStock.setDisabled(isInViewMode());
-		stockPanel.add(stockForm);
+		if (getPreferences().iswareHouseEnabled()) {
+			stockForm.setFields(openingBalTxt, measurement, wareHouse);
+		} else {
+			stockForm.setFields(openingBalTxt, measurement);
+		}
 
+		stockPanel.add(stockForm);
 		listforms.add(stockForm);
 
 		stockForm.setWidth("100%");

@@ -1603,6 +1603,8 @@
 		<property name="name" column="NAME" not-null="true" />
 		<property name="warehouseCode" column="WAREHOUSE_CODE"
 			not-null="true" />
+		<property name="isDefaultWarehouse" column="IS_DEFAULT_WAREHOUSE"
+			not-null="true" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
@@ -1635,7 +1637,8 @@
 			<property name="email" column="CONTACT_EMAIL"></property>
 		</component>
 
-		<set name="itemStatuses" inverse="true"	cascade="save-update,delete" lazy="false">
+		<set name="itemStatuses" inverse="true" cascade="save-update,delete"
+			lazy="false">
 			<key column="WARE_HOUSE" />
 			<one-to-many class="ItemStatus" />
 		</set>
