@@ -8,6 +8,9 @@ import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
+	// private ArrayList<ClientWarehouse> listOfWarehouses = new
+	// ArrayList<ClientWarehouse>();
+
 	@Override
 	public void init() {
 		super.init();
@@ -29,7 +32,25 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 	protected void initGrid() {
 		grid = new WarehouseListGrid(false);
 		grid.init();
+		// listOfWarehouses = getCompany().getWarehouses();
+		// filterList(true);
 	}
+
+	// @Override
+	// protected void filterList(boolean isActive) {
+	// grid.removeAllRecords();
+	// for (ClientWarehouse warehouse : listOfWarehouses) {
+	// if (isActive) {
+	// if (warehouse.isDefaultWarehouse() == true)
+	// grid.addData(warehouse);
+	// } else if (warehouse.isDefaultWarehouse() == false) {
+	// grid.addData(warehouse);
+	// }
+	//
+	// }
+	// if (grid.getRecords().isEmpty())
+	// grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+	// }
 
 	@Override
 	protected String getListViewHeading() {

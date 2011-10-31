@@ -6,6 +6,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -17,56 +19,18 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.UnitsTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
-	private TextItem nameItem, description;
+	private TextItem nameItem;
+	private TextAreaItem description;
 	private UnitsTable unitsTable;
 	private DynamicForm addMeasurmentForm;
 	private AccounterConstants settingsMessages = Accounter.constants();
 
 	public AddMeasurementView() {
-		// init();
-	}
-
-	@Override
-	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
-	}
-	@Override
-	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void onEdit() {
-		setMode(EditMode.EDIT);
-	}
-
-	@Override
-	public void printPreview() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -82,7 +46,27 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		super.initData();
 		if (data == null) {
 			data = new ClientMeasurement();
+		} else {
+			initMeasurementData(getData());
 		}
+	}
+
+	private void initMeasurementData(ClientMeasurement measurement) {
+
+		nameItem.setValue(measurement.getName());
+		description.setValue(measurement.getDesctiption());
+
+		int row = 0;
+		for (ClientUnit clientUnit : data.getUnits()) {
+			if (clientUnit.isDefault()) {
+				unitsTable.add(clientUnit);
+				unitsTable.checkColumn(row, 0, true);
+			} else {
+				unitsTable.add(clientUnit);
+			}
+			row++;
+		}
+
 	}
 
 	private void createControls() {
@@ -93,10 +77,14 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		addMeasurmentForm = new DynamicForm();
 		nameItem = new TextItem(settingsMessages.measurementName());
 		nameItem.setRequired(true);
+		nameItem.setDisabled(isInViewMode());
 
-		description = new TextItem(settingsMessages.measurementDescription());
+		description = new TextAreaItem(
+				settingsMessages.measurementDescription());
+		description.setDisabled(isInViewMode());
 
 		unitsTable = new UnitsTable();
+		unitsTable.setDisabled(isInViewMode());
 
 		Button addUnitButton = new Button();
 		addUnitButton.setText(settingsMessages.addUnitButton());
@@ -121,15 +109,17 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
 
+		ValidationResult result = new ValidationResult();
+		result.add(addMeasurmentForm.validate());
+		unitsTable.validate(result);
 		// validate measurement name?
 		// validate units grid
-		if (nameItem.getValue().toString() == null
-				|| nameItem.getValue().toString().isEmpty()) {
-			result.addError(nameItem, Accounter.constants()
-					.pleaseEnteraValidMeasurementName());
-		}
+		// if (nameItem.getValue().toString() == null
+		// || nameItem.getValue().toString().isEmpty()) {
+		// result.addError(nameItem, Accounter.constants()
+		// .pleaseEnteraValidMeasurementName());
+		// }
 		return result;
 	}
 
@@ -151,18 +141,62 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	}
 
-	// public void updateUnitsTable() {
-	// if (addUnitsTable.getAllRows() != null) {
-	// for (ClientUnit unit : addUnitsTable.getAllRows()) {
-	// data.addUnit(unit.getType(), unit.getFactor());
-	// }
-	// }
-	// defaultItem.initCombo(addUnitsTable.getAllRows());
-	// if ((addUnitsTable.getAllRows().get(0) != null)
-	// && (addUnitsTable.getAllRows().get(0).getType() != null))
-	// defaultItem.setComboItem(addUnitsTable.getAllRows().get(0));
-	// else
-	// defaultItem.setSelected("");
-	// }
+	@Override
+	public void deleteFailed(AccounterException caught) {
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return null;
+	}
+
+	@Override
+	public List<DynamicForm> getForms() {
+		return null;
+	}
+
+	@Override
+	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallback = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result) {
+					enableFormItems();
+				}
+			}
+
+			@Override
+			public void onException(AccounterException exception) {
+				Accounter.showError(exception.getMessage());
+			}
+		};
+		this.rpcDoSerivce.canEdit(AccounterCoreType.MEASUREMENT, data.getID(),
+				editCallback);
+
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+		nameItem.setDisabled(isInViewMode());
+		description.setDisabled(isInViewMode());
+		unitsTable.setDisabled(isInViewMode());
+	}
+
+	@Override
+	public void printPreview() {
+
+	}
+
+	@Override
+	public void print() {
+
+	}
 
 }

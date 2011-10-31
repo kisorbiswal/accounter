@@ -68,7 +68,6 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

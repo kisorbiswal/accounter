@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -84,10 +85,21 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 		ClientQuantity quantity = new ClientQuantity();
 		quantity.setValue(value * conversionFactor);
 		if (unit != null)
-			// quantity.setUnit(unit.getMeasurement().getDefaultUnit().getId());
+			quantity.setUnit(getDefaultUnitId(unit));
 
-			return quantity;
 		return quantity;
+	}
+
+	private long getDefaultUnitId(ClientUnit unit2) {
+		long id = 0;
+		ClientMeasurement measurement = unit2.getMeasurement();
+		List<ClientUnit> units = measurement.getUnits();
+		for (ClientUnit clientUnit : units) {
+			if (clientUnit.isDefault()) {
+				return id = clientUnit.getId();
+			}
+		}
+		return id;
 	}
 
 	@Override
@@ -123,7 +135,7 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 	@Override
 	public void setID(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -135,6 +147,6 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

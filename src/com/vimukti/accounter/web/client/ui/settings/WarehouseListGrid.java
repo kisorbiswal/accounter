@@ -2,11 +2,9 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -25,27 +23,55 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 			return ListGrid.COLUMN_TYPE_TEXT;
 		case 2:
 			return ListGrid.COLUMN_TYPE_TEXT;
+		case 3:
+			return ListGrid.COLUMN_TYPE_IMAGE;
 		default:
 			return 0;
 		}
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 3:
+			return 40;
+		default:
+			break;
+		}
+		return 0;
+	}
+
+	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().warehouseCode(),
 				Accounter.constants().warehouseName(),
-				Accounter.constants().ddiNumber() };
+				Accounter.constants().ddiNumber(),
+				Accounter.constants().delete() };
 	}
 
 	@Override
 	protected void executeDelete(ClientWarehouse object) {
-		// TODO Auto-generated method stub
+
+		AccounterAsyncCallback<ClientWarehouse> callback = new AccounterAsyncCallback<ClientWarehouse>() {
+
+			public void onException(AccounterException caught) {
+			}
+
+			public void onResultSuccess(ClientWarehouse result) {
+				if (result != null) {
+					deleteObject(result);
+				}
+			}
+		};
+		Accounter.createGETService().getObjectById(AccounterCoreType.WAREHOUSE,
+				object.getID(), callback);
 
 	}
 
@@ -58,7 +84,8 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 			return obj.getName();
 		case 2:
 			return obj.getDDINumber();
-
+		case 3:
+			return Accounter.getFinanceMenuImages().delete();
 		default:
 			break;
 		}
@@ -66,21 +93,21 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	}
 
 	@Override
-	public void onDoubleClick(ClientWarehouse obj) {
-		AccounterAsyncCallback<ClientWarehouse> callback = new AccounterAsyncCallback<ClientWarehouse>() {
+	protected void onClick(ClientWarehouse obj, int row, int col) {
+		switch (col) {
+		case 3:
+			showWarnDialog(obj);
+			break;
 
-			public void onException(AccounterException caught) {
-			}
-
-			public void onResultSuccess(ClientWarehouse result) {
-				if (result != null) {
-					ActionFactory.getWareHouseViewAction().run(result, false);
-				}
-			}
-
-		};
-		Accounter.createGETService().getObjectById(AccounterCoreType.WAREHOUSE,
-				obj.getID(), callback);
+		default:
+			break;
+		}
 	}
 
+	@Override
+	public void onDoubleClick(ClientWarehouse obj) {
+		WareHouseViewAction action = new WareHouseViewAction(Accounter
+				.constants().wareHouse());
+		action.run(obj, false);
+	}
 }
