@@ -1830,6 +1830,7 @@ form {
 	margin-left: 8px;
 	padding: 26px 24px 15px;
 	overflow: auto;
+	border-radius: 10px 10px 10px 10px;
 }
 
 #commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],
