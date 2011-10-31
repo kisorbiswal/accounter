@@ -21,8 +21,6 @@ public class NewItemAction extends Action<ClientItem> {
 
 	int type;
 	private boolean forCustomer;
-	public static final int TYPE_SERVICE = 1;
-	public static final int NON_INVENTORY_PART = 3;
 	private String itemName;
 
 	public NewItemAction(String text) {
@@ -75,7 +73,8 @@ public class NewItemAction extends Action<ClientItem> {
 
 					}
 				} else if (sellServices) {
-					ItemView view = new ItemView(TYPE_SERVICE, forCustomer);
+					ItemView view = new ItemView(ClientItem.TYPE_SERVICE,
+							forCustomer);
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
