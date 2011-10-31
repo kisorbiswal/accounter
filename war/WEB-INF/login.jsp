@@ -134,7 +134,7 @@
 			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" id="openIdLink" tabindex="5"> Google  </a>
 			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com"  tabindex="6">  Yahoo</a>
 			   <a href ="/main/openid?openid_identifier=https://openid.aol.com"  tabindex="6">  AOL</a>
-			   <a href ="/main/fbauth"  tabindex="6"> Sign in with Facebook</a>
+			   <a href ="/main/fbauth"  tabindex="6"> Facebook</a>
 			   </form>
 			 </div>
 			</div>
