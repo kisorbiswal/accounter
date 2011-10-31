@@ -125,11 +125,24 @@ public class VendorCreditMemoView extends
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(getAmountInTransactionCurrency(transaction
-						.getNetAmount()));
-				vatTotalNonEditableText
-						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTotal() - transaction.getNetAmount()));
+				if (getPreferences().isTaxPerDetailLine()) {
+					netAmount
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getNetAmount()));
+					vatTotalNonEditableText
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTotal() - transaction.getNetAmount()));
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(transaction
+							.getTransactionItems());
+					if (taxCode != null) {
+						this.taxCodeSelect.setComboItem(taxCode);
+					}
+				}
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
+
 			}
 
 			transactionTotalNonEditableText
@@ -137,10 +150,6 @@ public class VendorCreditMemoView extends
 			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
-
-			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
-			}
 			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
