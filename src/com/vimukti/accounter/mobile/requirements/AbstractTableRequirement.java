@@ -37,6 +37,15 @@ public abstract class AbstractTableRequirement<T> extends
 		return null;
 	}
 
+	@Override
+	public boolean isDone() {
+		List<T> values = getValue();
+		if (isOptional()) {
+			return true;
+		}
+		return !values.isEmpty();
+	}
+
 	protected abstract void addRequirement(List<Requirement> list);
 
 	@Override
@@ -63,7 +72,7 @@ public abstract class AbstractTableRequirement<T> extends
 			return edit(selectedValue, context);
 		}
 		Object actionName = context.getSelection(ACTIONS);
-		if (actionName == getAddMoreString()) {
+		if (!isDone() || actionName == getAddMoreString()) {
 			return showlist(context);
 		}
 		if (!values.isEmpty()) {
