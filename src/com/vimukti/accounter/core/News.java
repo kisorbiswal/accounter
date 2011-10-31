@@ -18,7 +18,9 @@ public class News {
 
 	private String url;
 
-	private String newsText;
+	private String body;
+	
+	private String title;
 
 	public boolean isSticky() {
 		return sticky;
@@ -36,13 +38,6 @@ public class News {
 		this.url = url;
 	}
 
-	public String getNewsText() {
-		return newsText;
-	}
-
-	public void setNewsText(String newsText) {
-		this.newsText = newsText;
-	}
 
 	public Date getSqlDate() {
 		return sqlDate;
@@ -58,5 +53,21 @@ public class News {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
 	}
 }
