@@ -3,12 +3,17 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxItemRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -16,11 +21,15 @@ import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
-public class VATAdjustmentCommand extends AbstractVATCommand {
+public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 	private static final String IS_INCREASE_VATLINE = "isIncreaseVatLine";
 	private static final String ADJUSTMENT_ACCOUNT = "adjustmentAccount";
+	private static final String TAX_AGENCY = "taxAgency";
+	private static final String TAX_ITEM = "taxItem";
+	private static final String AMOUNT = "amount";
 
 	@Override
 	public String getId() {
@@ -29,90 +38,132 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(TAX_AGENCY, false, true));
-		list.add(new Requirement(TAX_ITEM, false, true));
-		list.add(new Requirement(ADJUSTMENT_ACCOUNT, false, true));
-		list.add(new Requirement(AMOUNT, false, true));
-		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(ORDER_NO, true, true));
-		list.add(new Requirement(MEMO, true, true));
+		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
+				.pleaseEnterName(getConstants().taxAgency()), getConstants()
+				.taxAgency(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getConstants().taxAgency());
+			}
+
+			@Override
+			protected List<ClientTAXAgency> getLists(Context context) {
+				return context.getClientCompany().gettaxAgencies();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getConstants().taxAgency());
+			}
+
+			@Override
+			protected boolean filter(ClientTAXAgency e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new TaxItemRequirement(TAX_ITEM, getMessages()
+				.pleaseEnterName(getConstants().taxItem()), getConstants()
+				.taxItem(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getConstants().taxItem());
+			}
+
+			@Override
+			protected List<ClientTAXItem> getLists(Context context) {
+				return context.getClientCompany().getTaxItems();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getConstants().taxItem());
+			}
+
+			@Override
+			protected boolean filter(ClientTAXItem e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new AccountRequirement(ADJUSTMENT_ACCOUNT,
+				getMessages()
+						.pleaseEnterName(
+								getMessages().adjustmentAccount(
+										Global.get().Account())), getMessages()
+						.adjustmentAccount(Global.get().Account()), false,
+				true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages()
+						.hasSelected(
+								getMessages().adjustmentAccount(
+										Global.get().Account()));
+			}
+
+			@Override
+			protected List<ClientAccount> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+					@Override
+					public boolean filter(ClientAccount e) {
+						return e.getIsActive()
+								&& e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET;
+					}
+				}, context.getClientCompany().getAccounts());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages()
+						.youDontHaveAny(
+								getMessages().adjustmentAccount(
+										Global.get().Account()));
+			}
+
+			@Override
+			protected boolean filter(ClientAccount e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getConstants().amount()), getConstants().amount(), false, true));
+
+		list.add(new BooleanRequirement(IS_INCREASE_VATLINE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().increaseVATLine();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().decreaseVATLine();
+			}
+		});
+
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getConstants().date()), getConstants().date(), true, true));
+
+		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
+				getConstants().orderNo()), getConstants().orderNo(), true, true));
+
+		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+				getConstants().memo()), getConstants().memo(), true, true));
 	}
 
 	@Override
-	public Result run(Context context) {
-		setOptionalValues();
-		Result result = null;
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(
-				getConstants().taxAdjustment()));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		result = taxAgencyRequirement(context, list, TAX_AGENCY);
-		if (result != null) {
-			return result;
-		}
-
-		result = taxItemRequirement(context, list, TAX_ITEM, getMessages()
-				.pleaseSelect(getConstants().taxItem()), getConstants()
-				.taxItem(), new ListFilter<ClientTAXItem>() {
-
-			@Override
-			public boolean filter(ClientTAXItem e) {
-				return true;
-			}
-		});
-		if (result != null) {
-			return result;
-		}
-
-		result = accountRequirement(context, list, ADJUSTMENT_ACCOUNT,
-				getMessages().adjustmentAccount(Global.get().Account()),
-				new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount account) {
-						return account.getIsActive()
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET;
-					}
-				});
-		if (result != null) {
-			return result;
-		}
-
-		result = amountRequirement(context, list, AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()), getConstants().amount());
-		if (result != null) {
-			return result;
-		}
-
-		result = createOptionalRequirement(context, list, actions, makeResult);
-		if (result != null) {
-			return result;
-		}
-
-		return createTaxAdjustment(context);
-	}
-
-	private void setOptionalValues() {
-		get(IS_INCREASE_VATLINE).setDefaultValue(true);
-		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(ORDER_NO).setDefaultValue("1");
-		get(MEMO).setDefaultValue(new String());
-	}
-
-	private Result createTaxAdjustment(Context context) {
-
+	protected Result onCompleteProcess(Context context) {
 		ClientTAXAdjustment taxAdjustment = new ClientTAXAdjustment();
 		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		ClientAccount account = get(ADJUSTMENT_ACCOUNT).getValue();
-		String amount1 = get(AMOUNT).getValue();
-		double amount = Double.parseDouble(amount1);
+		Double amount = get(AMOUNT).getValue();
 		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
 		String number = get(ORDER_NO).getValue();
@@ -130,63 +181,37 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		taxAdjustment.setTaxItem(taxItem.getID());
 
 		create(taxAdjustment, context);
-		markDone();
 
-		Result result = new Result();
-		result.add(getMessages().createSuccessfully(
-				getConstants().taxAdjustment()));
-
-		return result;
+		return null;
 	}
 
-	private Result createOptionalRequirement(Context context, ResultList list,
-			ResultList actions, Result makeResult) {
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		booleanOptionalRequirement(context, selection, list,
-				IS_INCREASE_VATLINE, getConstants().increaseVATLine(),
-				getConstants().decreaseVATLine());
-
-		Result result = stringOptionalRequirement(context, list, selection,
-				MEMO, getConstants().memo(),
-				getMessages().pleaseEnter(getConstants().memo()));
-		if (result != null) {
-			return result;
-		}
-
-		result = numberRequirement(context, list, ORDER_NO, getMessages()
-				.pleaseEnter(getConstants().orderNo()), getConstants()
-				.orderNo());
-		if (result != null) {
-			return result;
-		}
-
-		result = dateRequirement(context, list, selection, DATE, getMessages()
-				.pleaseEnter(getConstants().date()), getConstants().date());
-		if (result != null) {
-			return result;
-		}
-
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("",
-				getMessages().finishToCreate(getConstants().taxAdjustment()));
-		actions.add(finish);
-
-		return makeResult;
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().creating(getConstants().vatAdjustment());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getConstants().vatAdjustment());
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(IS_INCREASE_VATLINE).setDefaultValue(true);
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(ORDER_NO).setDefaultValue("1");
+		get(MEMO).setDefaultValue(new String());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getConstants().vatAdjustment());
+	}
+
 }
