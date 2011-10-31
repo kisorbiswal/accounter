@@ -5154,6 +5154,8 @@ public interface AccounterConstants extends Constants {
 
 	public String addNewWarehouse();
 
+	public String dontTrackPaymentsFor1099();
+
 	public String CustomerCreditNote();
 
 	public String vendorCreditMemo();
