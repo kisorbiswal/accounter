@@ -18,10 +18,8 @@ public abstract class IssuePaymentTableRequirement extends
 	private static final String PAYMENT_METHOD = "paymentMethod";
 
 	public IssuePaymentTableRequirement(String requirementName,
-			String enterString, String recordName, boolean isCreatable,
-			boolean isOptional, boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, isCreatable,
-				isOptional, isAllowFromContext);
+			String enterString, String recordName) {
+		super(requirementName, enterString, recordName, false, false, true);
 	}
 
 	@Override

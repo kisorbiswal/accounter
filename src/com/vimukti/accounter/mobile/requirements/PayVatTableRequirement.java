@@ -16,10 +16,8 @@ public abstract class PayVatTableRequirement extends
 	private static final String AMOUNT = "amount";
 
 	public PayVatTableRequirement(String requirementName, String enterString,
-			String recordName, boolean isCreatable, boolean isOptional,
-			boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, isCreatable,
-				isOptional, isAllowFromContext);
+			String recordName) {
+		super(requirementName, enterString, recordName, false, false, true);
 	}
 
 	@Override

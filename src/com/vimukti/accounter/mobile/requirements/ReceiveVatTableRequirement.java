@@ -15,10 +15,8 @@ public abstract class ReceiveVatTableRequirement extends
 	private static final String AMOUNT = "amount";
 
 	public ReceiveVatTableRequirement(String requirementName,
-			String enterString, String recordName, boolean isCreatable,
-			boolean isOptional, boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, isCreatable,
-				isOptional, isAllowFromContext);
+			String enterString, String recordName) {
+		super(requirementName, enterString, recordName, false, false, true);
 	}
 
 	@Override

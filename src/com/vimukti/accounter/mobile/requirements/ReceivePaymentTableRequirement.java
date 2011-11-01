@@ -15,10 +15,8 @@ public abstract class ReceivePaymentTableRequirement extends
 	private static final String PAYMENT = "payment";
 
 	public ReceivePaymentTableRequirement(String requirementName,
-			String enterString, String recordName, boolean isCreatable,
-			boolean isOptional, boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, isCreatable,
-				isOptional, isAllowFromContext);
+			String enterString, String recordName) {
+		super(requirementName, enterString, recordName, false, false, true);
 	}
 
 	@Override

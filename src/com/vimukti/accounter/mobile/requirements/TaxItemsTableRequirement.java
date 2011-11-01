@@ -13,10 +13,8 @@ public abstract class TaxItemsTableRequirement extends
 	private static final String TAX_RATE = "taxRate";
 
 	public TaxItemsTableRequirement(String requirementName, String enterString,
-			String recordName, boolean isCreatable, boolean isOptional,
-			boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, isCreatable,
-				isOptional, isAllowFromContext);
+			String recordName) {
+		super(requirementName, enterString, recordName, false, false, true);
 	}
 
 	@Override
