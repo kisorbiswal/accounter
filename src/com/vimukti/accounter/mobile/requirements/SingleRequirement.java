@@ -32,7 +32,7 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 				context.setAttribute(INPUT_ATTR, getName());
 				T v = getValue();
 				return show(context, getEnterString(), v == null ? null
-						: getDisplayValue(v));
+						: getDisplayValue(v), v);
 			} else {
 				addFirstMessage(context, "You can't edit '" + getRecordName()
 						+ "'");

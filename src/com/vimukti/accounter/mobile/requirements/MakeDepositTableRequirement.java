@@ -86,8 +86,18 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected void getRequirementsValues(ClientTransactionMakeDeposit obj) {
-		// TODO Auto-generated method stub
+		ClientAccount accountFrom = get(ACCOUNT_FROM).getValue();
+		obj.setAccount(accountFrom.getID());
 
+		String reference = get(REFERENCE).getValue();
+		obj.setReference(reference);
+
+		Double amount = get(AMOUNT).getValue();
+		obj.setAmount(amount);
+		
+		String receivedFrom = get(REFERENCE).getValue();
+		
+		obj.setType(type)
 	}
 
 	@Override
@@ -97,8 +107,7 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected ClientTransactionMakeDeposit getNewObject() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ClientTransactionMakeDeposit();
 	}
 
 	@Override

@@ -365,12 +365,12 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 	protected Result number(Context context, String displayString,
 			String oldValu) {
-		return show(context, displayString, oldValu);
+		return show(context, displayString, oldValu, oldValu);
 	}
 
 	protected Result amount(Context context, String displayString,
 			double oldValu) {
-		return show(context, displayString, String.valueOf(oldValu));
+		return show(context, displayString, String.valueOf(oldValu), oldValu);
 	}
 
 	protected abstract T getTransactionItem(ClientTransactionItem item);

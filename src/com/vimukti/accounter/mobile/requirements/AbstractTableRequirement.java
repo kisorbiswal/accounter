@@ -74,7 +74,9 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 			return edit(selectedValue, context);
 		}
 		Object actionName = context.getSelection(ACTIONS);
-		if (!isDone() || actionName == getAddMoreString()) {
+		if (!isDone()
+				|| (actionName != null && actionName.equals(getAddMoreString()))) {
+			resetRequirementsValues();
 			return showlist(context);
 		}
 		if (!values.isEmpty()) {
@@ -87,7 +89,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		} else {
 			makeResult.add(getEmptyString() + getEnterString());
 		}
-		if (values.size() < getList().size()) {
+		if (isCreatable || values.size() < getList().size()) {
 			Record addMoreRecord = new Record(getAddMoreString());
 			addMoreRecord.add("", getAddMoreString());
 			actions.add(addMoreRecord);
@@ -98,15 +100,16 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 	protected abstract String getEmptyString();
 
 	private Result showlist(Context context) {
+		List<T> oldValues = getValue();
 		if (isCreatable) {
 			T newObj = getNewObject();
+			oldValues.add(newObj);
 			return edit(newObj, context);
 		}
 
 		ResultList list = new ResultList(getName() + "items");
 		List<T> allValues = getList();
 
-		List<T> oldValues = getValue();
 		for (T t : allValues) {
 			if (!oldValues.contains(t)) {
 				list.add(createFullRecord(t));
@@ -138,11 +141,10 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 			values.remove(obj);
 			context.removeAttribute(TABLE_ROW);
 			context.removeAttribute(PROCESS_ATR);
-			resetRequirementsValues(obj);
+			resetRequirementsValues();
 			return null;
 		}
 
-		resetRequirementsValues(obj);
 		setRequirementsDefaultValues(obj);
 		Result makeResult = new Result();
 		ResultList list = new ResultList(VALUES);
@@ -170,7 +172,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		return makeResult;
 	}
 
-	public void resetRequirementsValues(T obj) {
+	public void resetRequirementsValues() {
 		for (Requirement requirement : requirements) {
 			requirement.setValue(null);
 			requirement.setDefaultValue(null);

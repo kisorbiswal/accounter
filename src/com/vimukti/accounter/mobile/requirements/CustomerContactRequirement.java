@@ -8,7 +8,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.requirements.AbstractRequirement;
 import com.vimukti.accounter.web.client.core.ClientContact;
 
 public class CustomerContactRequirement extends
@@ -149,18 +148,25 @@ public class CustomerContactRequirement extends
 					oldContact.setPrimary(!oldContact.isPrimary());
 				} else if (selection == "Contact Name") {
 					context.setAttribute(CONTACT_LINE_ATTR, "contactName");
-					return show(context, "Enter conatactName",
-							oldContact != null ? oldContact.getName() : null);
+					String contact = oldContact != null ? oldContact.getName()
+							: null;
+					return show(context, "Enter conatactName", contact, contact);
 				} else if (selection == "Title") {
 					context.setAttribute(CONTACT_LINE_ATTR, "title");
-					return show(context, "Enter Title", oldContact.getTitle());
+					String title = oldContact != null ? oldContact.getTitle()
+							: null;
+					return show(context, "Enter Title", title, title);
 				} else if (selection == "BusinessPhone") {
 					context.setAttribute(CONTACT_LINE_ATTR, "businessPhone");
-					return show(context, "Enter Businessphone Number ",
-							oldContact.getBusinessPhone());
+					String phone = oldContact != null ? oldContact
+							.getBusinessPhone() : null;
+					return show(context, "Enter Businessphone Number ", phone,
+							phone);
 				} else if (selection == "Email") {
 					context.setAttribute(CONTACT_LINE_ATTR, "email");
-					return show(context, "Enter Email", oldContact.getEmail());
+					String email = oldContact != null ? oldContact.getEmail()
+							: null;
+					return show(context, "Enter Email", email, email);
 				}
 			}
 		}

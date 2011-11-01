@@ -79,20 +79,24 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 				if (selection == "Address1") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "address1");
 					return show(context, "Enter Address1",
-							oldAddress.getAddress1());
+							oldAddress.getAddress1(), oldAddress.getAddress1());
 				} else if (selection == "City") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "city");
-					return show(context, "Enter City", oldAddress.getCity());
+					return show(context, "Enter City", oldAddress.getCity(),
+							oldAddress.getCity());
 				} else if (selection == "Street") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "street");
-					return show(context, "Enter Street", oldAddress.getStreet());
+					return show(context, "Enter Street",
+							oldAddress.getStreet(), oldAddress.getStreet());
 				} else if (selection == "State/Provinence") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "stateOrProvinence");
 					return show(context, "Enter State/Provinence",
+							oldAddress.getStateOrProvinence(),
 							oldAddress.getStateOrProvinence());
 				} else if (selection == "Country/Region") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "countryOrRegion");
 					return show(context, "Enter Country/Region",
+							oldAddress.getCountryOrRegion(),
 							oldAddress.getCountryOrRegion());
 				}
 			} else {

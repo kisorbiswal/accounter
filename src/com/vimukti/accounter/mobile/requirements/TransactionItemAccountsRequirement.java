@@ -128,6 +128,7 @@ public abstract class TransactionItemAccountsRequirement extends
 							getMessages().pleaseEnterThe(
 									getItemName(transactionItem),
 									getConstants().description()),
+							transactionItem.getDescription(),
 							transactionItem.getDescription());
 				}
 			} else {
