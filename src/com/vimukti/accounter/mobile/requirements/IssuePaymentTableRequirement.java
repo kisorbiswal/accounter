@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 
 public abstract class IssuePaymentTableRequirement extends
@@ -14,6 +15,7 @@ public abstract class IssuePaymentTableRequirement extends
 	private static final String NAME = "name";
 	private static final String MEMO = "memo";
 	private static final String AMOUNT = "amount";
+	private static final String PAYMENT_METHOD = "paymentMethod";
 
 	public IssuePaymentTableRequirement(String requirementName,
 			String enterString, String recordName, boolean isCreatable,
@@ -50,6 +52,12 @@ public abstract class IssuePaymentTableRequirement extends
 				true, true);
 		amount.setEditable(false);
 		list.add(amount);
+
+		NameRequirement paymentMethod = new NameRequirement(PAYMENT_METHOD,
+				getMessages().pleaseEnter(getConstants().paymentMethod()),
+				getConstants().paymentMethod(), true, true);
+		paymentMethod.setEditable(false);
+		list.add(paymentMethod);
 	}
 
 	@Override
@@ -66,8 +74,13 @@ public abstract class IssuePaymentTableRequirement extends
 	@Override
 	protected void setRequirementsDefaultValues(
 			ClientTransactionIssuePayment obj) {
-		// TODO Auto-generated method stub
 
+		get(DATE).setDefaultValue(new ClientFinanceDate(obj.getDate()));
+		get(NUMBER).setDefaultValue(obj.getNumber());
+		get(NAME).setDefaultValue(obj.getName());
+		get(MEMO).setDefaultValue(obj.getMemo());
+		get(AMOUNT).setDefaultValue(obj.getAmount());
+		get(PAYMENT_METHOD).setDefaultValue(obj.getPaymentMethod());
 	}
 
 	@Override
