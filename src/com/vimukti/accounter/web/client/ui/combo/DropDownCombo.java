@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Unit;
@@ -168,15 +170,25 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				//
 				// @Override
 				// public boolean execute() {
-				if (!getValue().equals("")) {
-					if (selectedObject == null
-							|| !getValue().equals(
-									getFullDisplayName(selectedObject))) {
-						// setValue("");
-						// selectedObject = null;
-						setRelatedComboItem((String) getValue());
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+					@Override
+					public void execute() {
+						if (popup.isShowing()) {
+							Scheduler.get().scheduleDeferred(this);
+							return;
+						}
+						if (!getValue().equals("")) {
+							if (selectedObject == null
+									|| !getValue().equals(
+											getFullDisplayName(selectedObject))) {
+								// setValue("");
+								// selectedObject = null;
+								setRelatedComboItem((String) getValue());
+							}
+						}
 					}
-				}
+				});
 
 				// return false;
 				// }
