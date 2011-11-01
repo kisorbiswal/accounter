@@ -39,8 +39,9 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new AccountRequirement(DEPOSIT_TO, getMessages().pleaseSelect(
-				getConstants().depositAccount()), getConstants()
-				.depositAccount(), false, true, null) {
+				getMessages().depositAccount(Global.get().Account())),
+				getMessages().depositAccount(Global.get().Account()), false,
+				true, null) {
 
 			@Override
 			protected String getSetMessage() {
