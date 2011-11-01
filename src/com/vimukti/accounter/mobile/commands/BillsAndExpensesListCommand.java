@@ -3,18 +3,16 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -24,114 +22,122 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Sai Prasad N
  * 
  */
-public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
+public class BillsAndExpensesListCommand extends NewAbstractCommand {
 
-	private static final String BILLS_VIEW_BY = "Current View";
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+
+		return "BillsAndExpensesList";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+
+		get(VIEW_BY).setDefaultValue(getConstants().open());
+
+	}
+
+	@Override
+	public String getSuccessMessage() {
+
+		return "Success";
+
+	}
 
 	@Override
 	public String getId() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(BILLS_VIEW_BY, true, true));
-	}
+		list.add(new ActionRequirement(VIEW_BY, null) {
 
-	@Override
-	public Result run(Context context) {
-		Result result = context.makeResult();
-
-		setDefaultValues();
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	private void setDefaultValues() {
-		get(BILLS_VIEW_BY).setDefaultValue(ALL);
-	}
-
-	private Result createOptionalResult(Context context) {
-
-		List<String> viewType = new ArrayList<String>();
-		viewType.add(NOT_ISSUED);
-		viewType.add(ISSUED);
-		viewType.add(VOIDED);
-		viewType.add(ALL);
-
-		ResultList resultList = new ResultList("values");
-		Object selection = context.getSelection(ACTIONS);
-		ActionNames actionNames;
-		if (selection != null) {
-			actionNames = (ActionNames) selection;
-			switch (actionNames) {
-			case FINISH:
-				return closeCommand();
-			default:
-				break;
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().open());
+				list.add(getConstants().voided());
+				list.add(getConstants().overDue());
+				list.add(getConstants().all());
+				return list;
 			}
-		}
-		selection = context.getSelection("values");
-		Result result = stringListOptionalRequirement(context, resultList,
-				selection, BILLS_VIEW_BY, BILLS_VIEW_BY, viewType,
-				getMessages().pleaseSelect(getConstants().currentView()),
-				ITEMS_TO_SHOW);
-		if (result != null) {
-			return result;
-		}
+		});
 
-		String view = get(BILLS_VIEW_BY).getValue();
-		result = getBillsList(context, view);
-		result.add(resultList);
-		return result;
+		list.add(new ShowListRequirement<BillsList>("BillsAndExpenses", "", 10) {
 
+			@Override
+			protected String onSelection(BillsList value) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getConstants().bills();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return "No bills";
+			}
+
+			@Override
+			protected Record createRecord(BillsList value) {
+				Record rec = new Record(value);
+				rec.add("", Utility.getTransactionName((value.getType())));
+				rec.add("", value.getNumber());
+				rec.add("", value.getVendorName());
+				rec.add("", value.getOriginalAmount());
+				rec.add("", value.getBalance());
+				return rec;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Enter Bill");
+
+			}
+
+			@Override
+			protected boolean filter(BillsList e, String name) {
+				return e.getVendorName().startsWith(name)
+						|| e.getNumber().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<BillsList> getLists(Context context) {
+
+				return getListData(context);
+			}
+		});
 	}
 
-	private Result getBillsList(Context context, String view) {
-
+	protected List<BillsList> getListData(Context context) {
+		String viewBY = get(VIEW_BY).getValue();
+		ArrayList<BillsList> list = new ArrayList<BillsList>();
+		ArrayList<BillsList> allRecords = null;
 		try {
-			ArrayList<BillsList> billsList = new FinanceTool()
-					.getVendorManager().getBillsList(false,
-							context.getCompany().getID());
-			ArrayList<BillsList> filterList = filterList(view, billsList);
-			ResultList actions = new ResultList("actions");
-			Result result = context.makeResult();
-			ResultList resultList = new ResultList("billsList");
-			for (BillsList bill : filterList) {
-				resultList.add(createBillRecord(bill));
-			}
-
-			StringBuilder message = new StringBuilder();
-			if (resultList.size() == 0) {
-				message.append(getConstants().addaNewBill());
-			}
-
-			result.add(message.toString());
-			result.add(resultList);
-
-			CommandList commandList = new CommandList();
-			commandList.add(getConstants().addaNewBill());
-			result.add(commandList);
-
-			Record finishRecord = new Record(ActionNames.FINISH);
-			finishRecord.add("", getConstants().close());
-			actions.add(finishRecord);
-			result.add(actions);
-
-			return result;
+			allRecords = new FinanceTool().getVendorManager().getBillsList(
+					false, context.getCompany().getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	protected ArrayList<BillsList> filterList(String text,
-			List<BillsList> allRecords) {
-		ArrayList<BillsList> list = new ArrayList<BillsList>();
-		if (text.equalsIgnoreCase(OPEN)) {
+		if (viewBY.equalsIgnoreCase(getConstants().open())) {
 
 			for (BillsList rec : allRecords) {
 				if ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
@@ -142,14 +148,14 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 				}
 			}
 
-		} else if (text.equalsIgnoreCase(VOIDED)) {
+		} else if (viewBY.equalsIgnoreCase(getConstants().voided())) {
 			for (BillsList rec : allRecords) {
 				if (rec.isVoided() && !rec.isDeleted()) {
 					list.add(rec);
 				}
 			}
 
-		} else if (text.equalsIgnoreCase(OVER_DUE)) {
+		} else if (viewBY.equalsIgnoreCase(getConstants().overDue())) {
 			for (BillsList rec : allRecords) {
 				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
 						&& new ClientFinanceDate().after(rec.getDueDate())
@@ -159,32 +165,10 @@ public class BillsAndExpensesListCommand extends AbstractTransactionCommand {
 			}
 
 		}
-		if (text.equalsIgnoreCase(ALL)) {
+		if (viewBY.equalsIgnoreCase(getConstants().all())) {
 			list.addAll(allRecords);
 		}
 		return list;
-	}
-
-	private Record createBillRecord(BillsList bill) {
-
-		Record rec = new Record(bill);
-
-		rec.add("", getConstants().type());
-		rec.add("", Utility.getTransactionName((bill.getType())));
-
-		rec.add("", getConstants().no());
-		rec.add("", bill.getNumber());
-
-		rec.add("", getMessages().vendorName(Global.get().Vendor()));
-		rec.add("", bill.getVendorName());
-
-		rec.add("", getConstants().originalAmount());
-		rec.add("", bill.getOriginalAmount());
-
-		rec.add("", getConstants().balance());
-		rec.add("", bill.getBalance());
-
-		return rec;
 	}
 
 }
