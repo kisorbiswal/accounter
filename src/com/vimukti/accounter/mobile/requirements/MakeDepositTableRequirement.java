@@ -94,6 +94,8 @@ public class MakeDepositTableRequirement extends
 
 		Double amount = get(AMOUNT).getValue();
 		obj.setAmount(amount);
+
+		obj.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 	}
 
 	@Override
@@ -124,7 +126,7 @@ public class MakeDepositTableRequirement extends
 	private String getReceivedFrom(ClientTransactionMakeDeposit value) {
 		switch (value.getType()) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return Accounter.constants().transfer();
+			return getConstants().transfer();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
 			return Global.get().vendor();
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
