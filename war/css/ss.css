@@ -884,13 +884,13 @@ a#fdbk_tab:hover {
 	width:335px;
 }
 #feedDiv{
-	width:382px;
+	width:400px;
 	padding: 0 34px 0 16px;
 }
 .new_login_accounterform{
 	border-left: 1px solid #28757D;
     padding-left: 30px;
-    width: 448px;
+    width: 420px;
 }
 #feedDivUl li{
 	border-bottom: 1px solid #B1B1B1;
@@ -952,5 +952,8 @@ a#fdbk_tab:hover {
 }
 .new_login_accounterform #openIdForm span{
 	display: block;
+}
+.new_login_accounterform #accounterForm{
+	  width: 264px;
 }
 /* End of the new Login and forgot password page*/
