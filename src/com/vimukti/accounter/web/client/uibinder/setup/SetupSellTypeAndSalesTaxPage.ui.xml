@@ -6,6 +6,10 @@
 		.important {
 			font-weight: bold;
 		}
+		
+		.subPanel {
+			padding-left: 20px;
+		}
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
@@ -20,25 +24,30 @@
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 
-		<g:VerticalPanel spacing="8" ui:field="totalPanel">
-			<g:HorizontalPanel spacing="10">
+		<g:VerticalPanel spacing="8" ui:field="totalPanel" styleName="{style.subPanel}">
+			<g:VerticalPanel>
 				<g:CheckBox ui:field="inventoryCheckBox" />
-			</g:HorizontalPanel>
+				<g:Label ui:field="inventoryCommentLabel" styleName="organisation_comment" />
+			</g:VerticalPanel>
 			<g:VerticalPanel ui:field="hiddenPanel"
-				horizontalAlignment="ALIGN_LEFT" spacing="20">
-				<g:HorizontalPanel horizontalAlignment="ALIGN_LEFT">
-					<g:CheckBox ui:field="warehousesCheckBox" />
-				</g:HorizontalPanel>
+				horizontalAlignment="ALIGN_LEFT" styleName="{style.subPanel}">
+				<g:CheckBox ui:field="warehousesCheckBox" />
+				<g:Label ui:field="wareHouseCommentLabel" styleName="organisation_comment" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
-		<!-- <g:VerticalPanel ui:field="vat" styleName="sales_tax"> <g:HTML wordWrap="true" 
-			ui:field="vatHeader" styleName="setup_header_label" /> <g:RadioButton name="vat" 
-			ui:field="vatYes" styleName="employee_yesno" /> <g:RadioButton name="vat" 
-			ui:field="vatNo" styleName="employee_yesno" /> </g:VerticalPanel> <g:VerticalPanel 
-			ui:field="salesTax" styleName="sales_tax"> <g:HTML wordWrap="true" ui:field="salesTaxHead" 
-			styleName="setup_header_label" /> <g:RadioButton name="sales_tax" ui:field="salesTaxYes" 
-			styleName="employee_yesno" /> <g:RadioButton name="sales_tax" ui:field="salesTaxNo" 
-			styleName="employee_yesno" /> </g:VerticalPanel> -->
+		<!--
+			<g:VerticalPanel ui:field="vat" styleName="sales_tax"> <g:HTML
+			wordWrap="true" ui:field="vatHeader" styleName="setup_header_label"
+			/> <g:RadioButton name="vat" ui:field="vatYes"
+			styleName="employee_yesno" /> <g:RadioButton name="vat"
+			ui:field="vatNo" styleName="employee_yesno" /> </g:VerticalPanel>
+			<g:VerticalPanel ui:field="salesTax" styleName="sales_tax"> <g:HTML
+			wordWrap="true" ui:field="salesTaxHead"
+			styleName="setup_header_label" /> <g:RadioButton name="sales_tax"
+			ui:field="salesTaxYes" styleName="employee_yesno" /> <g:RadioButton
+			name="sales_tax" ui:field="salesTaxNo" styleName="employee_yesno" />
+			</g:VerticalPanel>
+		-->
 		<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
 			<g:HorizontalPanel>
 				<g:CheckBox ui:field="trackCheckbox" styleName="header" />

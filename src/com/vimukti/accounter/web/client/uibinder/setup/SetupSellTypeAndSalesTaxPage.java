@@ -62,15 +62,18 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	Label trackLabel;
 	@UiField
 	VerticalPanel hidePanel;
-
-	@UiField
-	CheckBox warehousesCheckBox;
 	@UiField
 	CheckBox inventoryCheckBox;
 	@UiField
 	VerticalPanel hiddenPanel;
 	@UiField
 	VerticalPanel totalPanel;
+	@UiField
+	CheckBox warehousesCheckBox;
+	@UiField
+	Label wareHouseCommentLabel;
+	@UiField
+	Label inventoryCommentLabel;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -122,8 +125,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 			}
 		});
-		inventoryCheckBox.setText("Inventory tracking");
-		warehousesCheckBox.setText("Is enble Multiple ware houses ? ");
+		inventoryCheckBox.setText(accounterConstants.enableInventoryTracking());
+		inventoryCommentLabel.setText(accounterConstants
+				.inventoryTrackingComment());
+		warehousesCheckBox.setText(accounterConstants.haveMultipleWarehouses());
+		wareHouseCommentLabel.setText(accounterConstants
+				.multipleWarehousesComment());
 
 		servicesOnly.addClickHandler(new ClickHandler() {
 
@@ -165,13 +172,15 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 		boolean sellServices = preferences.isSellServices();
-		if (sellServices)
-			servicesOnly.setValue(true);
 		boolean sellProducts = preferences.isSellProducts();
-		if (sellProducts)
-			productsOnly.setValue(true);
-		if (sellServices && sellProducts)
+
+		if (sellServices && sellProducts) {
 			both.setValue(true);
+		} else if (sellServices) {
+			servicesOnly.setValue(true);
+		} else if (sellProducts) {
+			productsOnly.setValue(true);
+		}
 
 		trackCheckbox.setValue(preferences.isTrackTax());
 		hidePanel.setVisible(preferences.isTrackTax());
@@ -196,12 +205,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	}
 
 	public void onSave() {
-
-		if (servicesOnly.getValue())
+		if (servicesOnly.getValue()) {
 			preferences.setSellServices(true);
-		if (productsOnly.getValue())
+			preferences.setSellProducts(false);
+		} else if (productsOnly.getValue()) {
 			preferences.setSellProducts(true);
-		if (both.getValue()) {
+			preferences.setSellServices(false);
+		} else if (both.getValue()) {
 			preferences.setSellServices(true);
 			preferences.setSellProducts(true);
 		}
