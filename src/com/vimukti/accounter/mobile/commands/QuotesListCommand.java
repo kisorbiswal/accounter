@@ -3,209 +3,158 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Estimate;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientEstimate;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class QuotesListCommand extends AbstractTransactionCommand {
+public class QuotesListCommand extends NewAbstractCommand {
 
-	private static final String CURRENT_VIEW = "Current View";
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	private static final int STATUS_OPEN = 0;
-	private static final int STATUS_REJECTED = 1;
-	private static final int STATUS_ACCECPTED = 2;
+	@Override
+	protected String getWelcomeMessage() {
+
+		return getConstants().quotesList();
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(VIEW_BY).setDefaultValue(getConstants().open());
+
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public String getId() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new ActionRequirement(VIEW_BY, null) {
 
-		list.add(new Requirement(CURRENT_VIEW, true, true));
-	}
-
-	@Override
-	public Result run(Context context) {
-
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		Result result = null;
-		setDefaultValues();
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
-
-	}
-
-	private void setDefaultValues() {
-		get(CURRENT_VIEW).setDefaultValue(OPEN);
-
-	}
-
-	private Result createOptionalResult(Context context) {
-
-		List<String> viewType = new ArrayList<String>();
-		viewType.add(OPEN);
-		viewType.add(REJECTED);
-		viewType.add(ACCEPTED);
-		viewType.add(EXPIRED);
-		viewType.add(ALL);
-
-		ResultList resultList = new ResultList("values");
-		Object selection = context.getSelection(ACTIONS);
-		ActionNames actionNames;
-		if (selection != null) {
-			actionNames = (ActionNames) selection;
-			switch (actionNames) {
-			case FINISH:
-				return closeCommand();
-			default:
-				break;
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().open());
+				list.add(getConstants().rejected());
+				list.add(getConstants().accepted());
+				list.add(getConstants().expired());
+				list.add(getConstants().all());
+				return list;
 			}
-		}
+		});
 
-		selection = context.getSelection("values");
-		Result result = stringListOptionalRequirement(context, resultList,
-				selection, CURRENT_VIEW, "Current View", viewType,
-				"Select View type", ITEMS_TO_SHOW);
-		if (result != null) {
-			return result;
-		}
+		list.add(new ShowListRequirement<Estimate>("Estimates",
+				"Please select.", 10) {
 
-		String view = get(CURRENT_VIEW).getValue();
-		result = getEstimatesList(context, view);
-		result.add(resultList);
-		return result;
+			@Override
+			protected String onSelection(Estimate value) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getShowMessage() {
+
+				return "Qoutes List";
+			}
+
+			@Override
+			protected String getEmptyString() {
+
+				return "No Qoutes are available";
+			}
+
+			@Override
+			protected Record createRecord(Estimate value) {
+				Record estrecord = new Record(value);
+				estrecord.add("", value.getDate());
+				estrecord.add("", value.getNumber());
+				estrecord.add("", value.getCustomer().getName() != null ? value
+						.getCustomer().getName() : "");
+				estrecord.add("", value.getExpirationDate().toString());
+				estrecord.add("", value.getTotal());
+				return estrecord;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Quote");
+
+			}
+
+			@Override
+			protected boolean filter(Estimate e, String name) {
+				return e.getCustomer().getName().startsWith(name)
+						|| e.getNumber().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<Estimate> getLists(Context context) {
+
+				return getEstimates(context);
+			}
+
+		});
+
 	}
 
-	private Result getEstimatesList(Context context, String view) {
-		ArrayList<ClientEstimate> estimates = getEstimates(context);
+	private List<Estimate> getEstimates(Context context) {
 
-		Result result = context.makeResult();
-		ResultList resultList = new ResultList("quotesList");
-		ResultList actions = new ResultList("actions");
-
-		ArrayList<ClientEstimate> list = filterList(estimates, view);
-		for (ClientEstimate estimate : list) {
-
-			resultList.add(createEstimateRecord(estimate));
-
-		}
-
-		StringBuilder message = new StringBuilder();
-		if (resultList.size() > 0) {
-			message.append("Select a Quote");
-		}
-
-		result.add(message.toString());
-		result.add(resultList);
-
-		Record finishRecord = new Record(ActionNames.FINISH);
-		finishRecord.add("", getConstants().close());
-		actions.add(finishRecord);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Add a New Quote");
-		result.add(commandList);
-
-		result.add(actions);
-
-		return result;
-	}
-
-	public ArrayList<ClientEstimate> getEstimates(Context context) {
-		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
-		List<Estimate> serverEstimates = null;
-
+		String viewType = get(VIEW_BY).getValue();
+		List<Estimate> result = new ArrayList<Estimate>();
+		List<Estimate> data = null;
 		try {
-
-			serverEstimates = new FinanceTool().getCustomerManager()
-					.getEstimates(context.getCompany().getID(), 1);
-			for (Estimate estimate : serverEstimates) {
-				clientEstimate.add(new ClientConvertUtil().toClientObject(
-						estimate, ClientEstimate.class));
-			}
-
-		} catch (Exception e) {
+			data = new FinanceTool().getCustomerManager().getEstimates(
+					context.getClientCompany().getID(), 1);
+		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientEstimate>(clientEstimate);
-	}
+		for (Estimate e : data) {
+			if (viewType.equals(getConstants().open())) {
+				if (e.getStatus() == Estimate.STATUS_OPEN)
+					result.add(e);
 
-	private ArrayList<ClientEstimate> filterList(
-			ArrayList<ClientEstimate> list, String text) {
+			} else if (viewType.equals(getConstants().accepted())) {
+				if (e.getStatus() == Estimate.STATUS_ACCECPTED) {
+					result.add(e);
+				}
+			} else if (viewType.equals(getConstants().rejected())) {
+				if (e.getStatus() == Estimate.STATUS_REJECTED) {
+					result.add(e);
+				}
+			} else if (viewType.equals(getConstants().all())) {
+				result.add(e);
 
-		ArrayList<ClientEstimate> estimatesList = new ArrayList<ClientEstimate>();
-
-		for (ClientEstimate estimate : list) {
-			if (text.equals(OPEN)) {
-				if (estimate.getStatus() == STATUS_OPEN)
-					estimatesList.add(estimate);
-				continue;
-			}
-			if (text.equals(REJECTED)) {
-				if (estimate.getStatus() == STATUS_REJECTED)
-					estimatesList.add(estimate);
-			}
-			if (text.equals(ACCEPTED)) {
-				if (estimate.getStatus() == STATUS_ACCECPTED)
-					estimatesList.add(estimate);
-			}
-			if (text.equals(EXPIRED)) {
-				ClientFinanceDate expiryDate = new ClientFinanceDate(
-						estimate.getExpirationDate());
-				if (expiryDate.before(new ClientFinanceDate()))
-					estimatesList.add(estimate);
-			}
-			if (text.equals(ALL)) {
-				estimatesList.add(estimate);
 			}
 		}
 
-		return estimatesList;
+		return result;
 
 	}
-
-	private Record createEstimateRecord(ClientEstimate est) {
-		Record estrecord = new Record(est);
-
-		estrecord.add("", getConstants().date());
-		estrecord.add("", est.getDate());
-		estrecord.add("", getConstants().number());
-		estrecord.add("", est.getNumber());
-
-		ClientCustomer customer = getClientCompany().getCustomer(
-				est.getCustomer());
-		estrecord.add("", getMessages().customerName(Global.get().Customer()));
-		estrecord.add("", customer != null ? customer.getName() : "");
-		estrecord.add("", getConstants().phone());
-		estrecord.add("", est.getPhone());
-		estrecord.add("", getConstants().expirationDate());
-		estrecord.add("", new ClientFinanceDate(est.getExpirationDate()));
-		estrecord.add("", getConstants().deliveryDate());
-		estrecord.add("", new ClientFinanceDate(est.getDeliveryDate()));
-		estrecord.add("", getConstants().total());
-		estrecord.add("", est.getTotal());
-		return estrecord;
-
-	}
-
 }
