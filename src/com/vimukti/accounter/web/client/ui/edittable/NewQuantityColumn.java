@@ -62,7 +62,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 	@Override
 	public IsWidget getWidget(RenderContext<ClientTransactionItem> context) {
-		IsWidget widget = super.getWidget(context);
+		final IsWidget widget = super.getWidget(context);
 		final ClientTransactionItem row = context.getRow();
 		if (widget instanceof TextBox) {
 			((TextBox) widget).addFocusListener(new FocusListener() {
@@ -80,6 +80,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 					if (item != null
 							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
 						showPopUp(row);
+						((TextBox) widget).setFocus(false);
 					}
 				}
 			});
@@ -99,6 +100,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		ClientItem item = Accounter.getCompany().getItem(row.getItem());
 		HorizontalPanel panel = new HorizontalPanel();
 		final TextBox valueBox = new TextBox();
+		valueBox.setFocus(true);
 		valueBox.setText(String.valueOf(row.getQuantity().getValue()));
 		final UnitCombo unitBox = new UnitCombo("");
 		if (item != null) {
