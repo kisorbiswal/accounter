@@ -5168,6 +5168,8 @@ public interface AccounterConstants extends Constants {
 
 	public String paymentsToIssue();
 
+	public String depositAccount();
+
 	public String enableInventoryTracking();
 
 	public String inventoryTrackingComment();
