@@ -206,8 +206,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			List<ClientCurrency> currenciesList = CoreUtils
 					.getCurrencies(new ArrayList<ClientCurrency>());
 			for (int i = 0; i < currenciesList.size(); i++) {
-				if (countryPreferences.getPreferredCurrency().trim()
-						.equals(currenciesList.get(i).getFormalName())) {
+				if (countryPreferences.getPreferredCurrency().trim().equals(
+						currenciesList.get(i).getFormalName())) {
 					preferences.setPrimaryCurrency(currenciesList.get(i)
 							.getFormalName());
 				}
@@ -296,7 +296,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)
-			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries
+					.get(country.getSelectedIndex()));
 		preferences.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)
@@ -357,6 +358,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			return true;
 
 		} else {
+			Accounter.showError(accounterMessages.pleaseEnter(displayNameLabel
+					.getText()));
 			return false;
 		}
 
