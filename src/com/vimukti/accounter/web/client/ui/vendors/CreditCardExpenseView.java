@@ -255,23 +255,27 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
+		Ccard.setRequired(false);
 		if (!isTaxPerDetailLine())
 			taxCodeSelect = createTaxCodeSelectItem();
-		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientVendor selectItem) {
-				selectedVendor = selectItem;
-				Ccard.setComboItem(selectItem);
-				addPhonesContactsAndAddress();
-				long code = selectedVendor.getTAXCode();
-				if (taxCodeSelect != null) {
-					if (code == 0)
-						code = Accounter.getCompany().getDefaultTaxCode();
-					taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
-				}
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						selectedVendor = selectItem;
+						Ccard.setComboItem(selectItem);
+						addPhonesContactsAndAddress();
+						long code = selectedVendor.getTAXCode();
+						if (taxCodeSelect != null) {
+							if (code == 0)
+								code = Accounter.getCompany()
+										.getDefaultTaxCode();
+							taxCodeSelect.setComboItem(getCompany().getTAXCode(
+									code));
+						}
+					}
+				});
 
 		// Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -429,8 +433,8 @@ public class CreditCardExpenseView extends
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -655,8 +659,8 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		// if (Ccard.getSelectedValue() == null)
@@ -673,8 +677,8 @@ public class CreditCardExpenseView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 			}
 		}
@@ -727,7 +731,8 @@ public class CreditCardExpenseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -767,12 +772,12 @@ public class CreditCardExpenseView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initpayFromAccountCombo() {
@@ -1034,7 +1039,7 @@ public class CreditCardExpenseView extends
 			locationCombo.setDisabled(isInViewMode());
 		if (taxCodeSelect != null)
 			taxCodeSelect.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();

@@ -63,7 +63,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class CashSalesView extends
 		AbstractCustomerTransactionView<ClientCashSales> {
 	private ShippingTermsCombo shippingTermsCombo;
-	// private PriceLevelCombo priceLevelSelect;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private Double salesTax = 0.0D;
@@ -145,7 +144,7 @@ public class CashSalesView extends
 
 		customerCombo = createCustomerComboItem(Accounter.messages()
 				.customerName(Global.get().Customer()));
-
+		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 
 		phoneSelect = new TextItem(customerConstants.phone());
@@ -160,8 +159,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect
@@ -216,8 +215,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -798,7 +797,8 @@ public class CashSalesView extends
 									.getNetAmount()));
 					taxTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -950,8 +950,8 @@ public class CashSalesView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -1043,7 +1043,7 @@ public class CashSalesView extends
 			locationCombo.setDisabled(isInViewMode());
 		if (shippingTermsCombo != null)
 			shippingTermsCombo.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();
@@ -1099,12 +1099,12 @@ public class CashSalesView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
