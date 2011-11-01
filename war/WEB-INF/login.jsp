@@ -137,7 +137,7 @@
 			   </div>
 			   
 			   <form id="openIdForm" method="post" action="/main/openid">
-			   <span>Sign In using : </span>
+			   <span style="display:block">Sign In using : </span>
 			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"> Google  </a>
 			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
 			   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
