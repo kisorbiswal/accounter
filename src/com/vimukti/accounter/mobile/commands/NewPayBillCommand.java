@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	private ArrayList<ClientTransactionPayBill> records;
+	ArrayList<PayBillTransactionList> billsList = new ArrayList<PayBillTransactionList>();
 
 	@Override
 	protected String getWelcomeMessage() {
@@ -241,15 +242,17 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			return records;
 		}
 		try {
-			ArrayList<PayBillTransactionList> billsList = new FinanceTool()
-					.getVendorManager().getTransactionPayBills(
-							clinetVendor.getID(), clientCompany.getID());
+			billsList = new FinanceTool().getVendorManager()
+					.getTransactionPayBills(clinetVendor.getID(),
+							clientCompany.getID());
 
 			if (billsList != null) {
 				records = new ArrayList<ClientTransactionPayBill>();
 				for (PayBillTransactionList curntRec : billsList) {
 					ClientTransactionPayBill record = new ClientTransactionPayBill();
-
+					if (curntRec.getType() == ClientTransaction.TYPE_ENTER_BILL) {
+						record.setEnterBill(curntRec.getTransactionId());
+					}
 					record.setAmountDue(curntRec.getAmountDue());
 					record.setDummyDue(curntRec.getAmountDue());
 
@@ -315,7 +318,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		ClientPayBill paybill = new ClientPayBill();
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
-		paybill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
+		paybill.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 		paybill.setAccountsPayable(context.getClientCompany()
 				.getAccountsPayableAccount());
 		ClientVendor vendor = get(VENDOR).getValue();
@@ -342,6 +345,11 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 		}
 		List<ClientTransactionPayBill> paybills = get(BILLS_DUE).getValue();
+		for (ClientTransactionPayBill p : paybills) {
+			p.setAmountDue(p.getPayment());
+			p.setPayBill(paybill);
+		}
+
 		paybill.setTransactionPayBill(paybills);
 		Double totalCredits = 0D;
 		for (ClientCreditsAndPayments credit : getVendorCreditsAndPayments(
@@ -349,6 +357,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			totalCredits += credit.getBalance();
 		}
 		paybill.setUnUsedCredits(totalCredits);
+
 		adjustAmountAndEndingBalance(paybill, context);
 		create(paybill, context);
 
