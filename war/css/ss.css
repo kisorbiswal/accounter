@@ -950,4 +950,7 @@ a#fdbk_tab:hover {
 	border: 1px solid #CCCCCC;
     border-radius: 5px 5px 5px 5px;
 }
+.new_login_accounterform #openIdForm span{
+	display: block;
+}
 /* End of the new Login and forgot password page*/
