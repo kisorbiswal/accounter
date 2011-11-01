@@ -2,9 +2,10 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusListener;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -93,12 +94,16 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			return;
 		}
 		popup.clear();
+		FlexTable table = new FlexTable();
+		Label valueLabel = new Label(Accounter.constants().value());
+		Label unitLabel = new Label(Accounter.constants().unit());
+		Label wareHouseLabel = new Label(Accounter.constants().wareHouse());
+
 		ClientUnit unit = Accounter.getCompany().getUnitById(
 				row.getQuantity().getUnit());
 		ClientWarehouse wareHouse = Accounter.getCompany().getWarehouse(
 				row.getWareHouse());
 		ClientItem item = Accounter.getCompany().getItem(row.getItem());
-		HorizontalPanel panel = new HorizontalPanel();
 		final TextBox valueBox = new TextBox();
 		valueBox.setFocus(true);
 		valueBox.setText(String.valueOf(row.getQuantity().getValue()));
@@ -114,12 +119,15 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		whCombo.setComboItem(wareHouse);
 		whCombo.setShowTitle(false);
 
-		panel.add(valueBox);
-		panel.add(unitBox.getMainWidget());
+		table.setWidget(0, 0, valueLabel);
+		table.setWidget(1, 0, valueBox);
+		table.setWidget(0, 1, unitLabel);
+		table.setWidget(1, 1, unitBox.getMainWidget());
 		if (getPreferences().iswareHouseEnabled()) {
-			panel.add(whCombo.getMainWidget());
+			table.setWidget(0, 2, wareHouseLabel);
+			table.setWidget(1, 2, whCombo.getMainWidget());
 		}
-		popup.add(panel);
+		popup.add(table);
 		popup.addCloseHandler(new CloseHandler<PopupPanel>() {
 
 			@Override
