@@ -161,6 +161,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 						getConstants().paymentMethod());
 			}
 		});
+		
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
 				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
 				getConstants().bankAccount(), false, false, null) {
@@ -248,10 +249,10 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		String phone = get(PHONE).getValue();
 		creditCardCharge.setPhone(phone);
 
-		ClientAccount account = get("payFrom").getValue();
+		ClientAccount account = get(PAY_FROM).getValue();
 		creditCardCharge.setPayFrom(account.getID());
 
-		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
 		creditCardCharge.setDeliveryDate(deliveryDate);
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
