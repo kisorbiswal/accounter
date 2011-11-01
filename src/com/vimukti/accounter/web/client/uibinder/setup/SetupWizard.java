@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -81,7 +82,6 @@ public class SetupWizard extends VerticalPanel {
 			new SetupIndustrySelectionWithAccountsPage(this),
 			new SetupComplitionPage() };
 
-	private Image startProgressImages[] = new Image[viewList.length - 2];
 	private Image startProgressImages1[] = new Image[viewList1.length - 2];
 
 	private String startProgressLabels[] = new String[] {
@@ -128,6 +128,21 @@ public class SetupWizard extends VerticalPanel {
 
 	public SetupWizard(AsyncCallback<Boolean> callback) {
 		preferences = new ClientCompanyPreferences();
+		Accounter.createCompanyInitializationService().getCountry(
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onSuccess(String result) {
+						preferences.setTradingAddress(new ClientAddress());
+						preferences.getTradingAddress().setCountryOrRegion(
+								result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
 		AbstractSetupPage.setPreferences(preferences);
 		creteControls();
 		this.addStyleName("setup_panel");

@@ -164,8 +164,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 			session.saveOrUpdate(company);
 			transaction.commit();
 
-			UsersMailSendar.sendMailToDefaultUser(user,
-					company.getTradingName());
+			UsersMailSendar.sendMailToDefaultUser(user, company
+					.getTradingName());
 			return company;
 		} catch (AccounterException e) {
 			e.printStackTrace();
@@ -259,5 +259,11 @@ public class AccounterCompanyInitializationServiceImpl extends
 		} catch (Exception e) {
 			throw new AccounterException(e);
 		}
+	}
+
+	@Override
+	public String getCountry() {
+		Client client = getClient(getUserEmail());
+		return client.getCountry();
 	}
 }

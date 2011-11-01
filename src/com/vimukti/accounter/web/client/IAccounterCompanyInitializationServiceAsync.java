@@ -23,5 +23,7 @@ public interface IAccounterCompanyInitializationServiceAsync {
 
 	void getAccountsTemplate(AsyncCallback<List<AccountsTemplate>> callback);
 
+	void getCountry(AsyncCallback<String> callback);
+
 	void getCompany(AsyncCallback<ClientCompany> callback);
 }
