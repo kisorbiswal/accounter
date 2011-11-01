@@ -110,7 +110,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
 				getConstants().checkNo()), getConstants().checkNo(), true, true));
 		list.add(new IssuePaymentTableRequirement(PAYMENTS_TO_ISSUED,
-				"Please Select Payment", "payments list", false, false, true) {
+				"Please Select Payment", "payments list") {
 
 			@Override
 			protected List<ClientTransactionIssuePayment> getList() {
