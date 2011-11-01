@@ -9,6 +9,9 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -16,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
-public class NewInviteAUserCommand extends AbstractTransactionCommand {
+public class NewInviteAUserCommand extends NewAbstractCommand {
 
 	private static final String FIRST_NAME = "First Name";
 	private static final String LAST_NAME = "Last Name";
@@ -33,63 +36,45 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(FIRST_NAME, false, true));
-		list.add(new Requirement(LAST_NAME, false, true));
-		list.add(new Requirement(EMAIL, false, true));
+		list.add(new NameRequirement(FIRST_NAME, getMessages().pleaseEnter(
+				getConstants().firstName()), getConstants().firstName(), false,
+				true));
 
-		list.add(new Requirement(LEVEL_ACCESS, true, true));
+		list.add(new NameRequirement(LAST_NAME, getMessages().pleaseEnter(
+				getConstants().lastName()), getConstants().lastName(), false,
+				true));
+
+		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
+				getConstants().email()), getConstants().email(), false, true));
+
+		list.add(new StringListRequirement(LEVEL_ACCESS, getMessages()
+				.pleaseEnter(getConstants().permissions()), getConstants()
+				.permissions(), true, true, null) {
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getConstants().permissions());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getPermissions();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getConstants().permissions());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
 	}
 
 	@Override
-	public Result run(Context context) {
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		setDefaultValues();
-
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages()
-				.readyToCreate(getConstants().cashExpense()));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		Result result = nameRequirement(context, list, FIRST_NAME,
-				getConstants().firstName(),
-				getMessages().pleaseEnter(getConstants().firstName()));
-		if (result != null) {
-			return result;
-		}
-
-		result = nameRequirement(context, list, LAST_NAME, getConstants()
-				.lastName(),
-				getMessages().pleaseEnter(getConstants().lastName()));
-		if (result != null) {
-			return result;
-		}
-
-		result = nameRequirement(context, list, EMAIL, getConstants().email(),
-				getMessages().pleaseEnter(getConstants().email()));
-		if (result != null) {
-			return result;
-		}
-
-		result = getOptionalRequirement(context, list, actions, makeResult);
-		if (result != null) {
-			return result;
-		}
-
-		return createUser(context);
-
-	}
-
-	private void setDefaultValues() {
-		get(LEVEL_ACCESS).setDefaultValue(RolePermissions.BASIC_EMPLOYEE);
-	}
-
-	private Result createUser(Context context) {
+	protected Result onCompleteProcess(Context context) {
 
 		String firstName = get(FIRST_NAME).getValue();
 		String lastName = get(LAST_NAME).getValue();
@@ -134,12 +119,8 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		user.setUserRole(rolePermissions.getRoleName());
 
 		inviteUser(user, context);
-		markDone();
+		return null;
 
-		Result result = new Result();
-		result.add(getConstants().userInvited());
-
-		return result;
 	}
 
 	private void inviteUser(ClientUser user, Context context) {
@@ -178,104 +159,6 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		return userPermissions;
 	}
 
-	private Result getOptionalRequirement(Context context, ResultList list,
-			ResultList actions, Result makeResult) {
-		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection(ACTIONS);
-
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		Result result = accessLevelOptionalRequirement(context, selection,
-				list, LEVEL_ACCESS, getConstants().userPermissions(),
-				getMessages().pleaseEnter(getConstants().userPermissions()));
-		if (result != null) {
-			return result;
-		}
-
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("",
-				getMessages().finishToCreate(getConstants().cashExpense()));
-		actions.add(finish);
-
-		return makeResult;
-	}
-
-	private Result accessLevelOptionalRequirement(Context context,
-			Object selection, ResultList list, String reqName, String name,
-			String displayString) {
-		Object permissionObj = context.getSelection(PERMISSIONS);
-		if (permissionObj instanceof ActionNames) {
-			permissionObj = null;
-			selection = reqName;
-		}
-
-		Requirement permissionReq = get(reqName);
-		String permission = (String) permissionReq.getValue();
-
-		if (permissionObj != null) {
-			permission = (String) permissionObj;
-			permissionReq.setValue(permission);
-		}
-
-		if (selection != null)
-			if (selection.equals(reqName)) {
-				context.setAttribute(INPUT_ATTR, reqName);
-				return permisions(context, displayString);
-
-			}
-
-		Record vendorRecord = new Record(reqName);
-		vendorRecord.add("", name);
-		vendorRecord.add("", permission);
-		list.add(vendorRecord);
-
-		return null;
-	}
-
-	private Result permisions(Context context, String displayString) {
-		Result result = context.makeResult();
-
-		ResultList supplierList = new ResultList(PERMISSIONS);
-
-		Object last = context.getString();
-		List<String> skipPermissions = new ArrayList<String>();
-		if (last != null) {
-			supplierList.add(createPermissionRecord((String) last));
-			skipPermissions.add((String) last);
-		}
-		List<String> permissions = getPermissions();
-
-		ResultList actions = new ResultList("actions");
-		ActionNames selection = context.getSelection("actions");
-
-		List<String> pagination = pagination(context, selection, actions,
-				permissions, skipPermissions, VALUES_TO_SHOW);
-
-		for (String permission : pagination) {
-			supplierList.add(createPermissionRecord(permission));
-		}
-
-		int size = supplierList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append(displayString);
-		}
-
-		result.add(message.toString());
-		result.add(supplierList);
-		result.add(actions);
-		return result;
-	}
-
 	private List<String> getPermissions() {
 		List<String> permissions = new ArrayList<String>();
 		permissions.add(RolePermissions.READ_ONLY);
@@ -287,14 +170,7 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		return permissions;
 	}
 
-	private Record createPermissionRecord(String last) {
-		Record record = new Record(last);
-		record.add("", last);
-		return record;
-	}
-
 	public RolePermissions getReadOnlyPermission() {
-
 		RolePermissions readOnly = new RolePermissions();
 		readOnly.setRoleName(RolePermissions.READ_ONLY);
 		readOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
@@ -379,6 +255,34 @@ public class NewInviteAUserCommand extends AbstractTransactionCommand {
 		admin.setCanDoUserManagement(true);
 
 		return admin;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getConstants().user());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getConstants().user());
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().creating(getConstants().user());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+
+		get(LEVEL_ACCESS).setDefaultValue(RolePermissions.BASIC_EMPLOYEE);
+
 	}
 
 }
