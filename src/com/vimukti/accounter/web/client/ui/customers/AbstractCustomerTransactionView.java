@@ -376,12 +376,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		clientContacts.addAll(selectedCutomer.getContacts());
 		for (int j = 0; j < clientContacts.size(); j++) {
 			if (clientContacts.get(j).getTitle().equals(contact.getTitle())
-					&& clientContacts.get(j).getEmail()
-							.equals(contact.getEmail())
-					&& clientContacts.get(j).getDisplayName()
-							.equals(contact.getDisplayName())
-					&& clientContacts.get(j).getBusinessPhone()
-							.equals(contact.getBusinessPhone())) {
+					&& clientContacts.get(j).getEmail().equals(
+							contact.getEmail())
+					&& clientContacts.get(j).getDisplayName().equals(
+							contact.getDisplayName())
+					&& clientContacts.get(j).getBusinessPhone().equals(
+							contact.getBusinessPhone())) {
 				Accounter.showError(Accounter.constants()
 						.youHaveEnteredduplicateContacts());
 				return;
@@ -783,21 +783,24 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		if (getPreferences().isTrackTax()) {
 			// Exception Report
 			// TODO need to get last vat period date
 			for (ClientTransactionItem item : transaction.getTransactionItems()) {
-				long taxAgency = getCompany().getTaxItem(
-						getCompany().getTAXCode(item.getTaxCode())
-								.getTAXItemGrpForSales()).getTaxAgency();
-				if (this.transactionDate
-						.before(getLastTaxReturnEndDate(taxAgency))) {
-					result.addWarning(this.transactionDate,
-							accounterConstants.taxExceptionMesg());
+				if (item.getTaxCode() != 0) {
+					long taxAgency = getCompany().getTaxItem(
+							getCompany().getTAXCode(item.getTaxCode())
+									.getTAXItemGrpForSales()).getTaxAgency();
+
+					if (this.transactionDate
+							.before(getLastTaxReturnEndDate(taxAgency))) {
+						result.addWarning(this.transactionDate,
+								accounterConstants.taxExceptionMesg());
+					}
 				}
 			}
 		}
