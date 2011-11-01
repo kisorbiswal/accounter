@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class Header extends HorizontalPanel {
 
@@ -80,7 +79,7 @@ public class Header extends HorizontalPanel {
 		} else {
 			userName = new HTML();
 		}
-		
+
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		if (company != null) {
 			if (!Accounter.isLoggedInFromDomain()
@@ -114,12 +113,12 @@ public class Header extends HorizontalPanel {
 		help.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ViewManager viewManager = MainFinanceWindow.getViewManager();
-				if (viewManager != null) {
-					viewManager.addRemoveHelpPanel();
-				} else {
-					Window.open("http://help.accounterlive.com", "_blank", "");
-				}
+				// ViewManager viewManager = MainFinanceWindow.getViewManager();
+				// if (viewManager != null) {
+				// viewManager.addRemoveHelpPanel();
+				// } else {
+				Window.open("http://help.accounterlive.com", "_blank", "");
+				// }
 			}
 		});
 
