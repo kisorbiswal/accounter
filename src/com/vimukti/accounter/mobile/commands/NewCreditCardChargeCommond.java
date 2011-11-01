@@ -7,6 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -202,7 +203,13 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
 				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, null) {
+				true, new ChangeListner<ClientTAXCode>() {
+
+					@Override
+					public void onSelection(ClientTAXCode value) {
+						setTaxCodeToItems(value);
+					}
+				}) {
 
 			@Override
 			protected List<ClientTAXCode> getLists(Context context) {
@@ -264,6 +271,17 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		create(creditCardCharge, context);
 
 		return null;
+	}
+
+	protected void setTaxCodeToItems(ClientTAXCode value) {
+		List<ClientTransactionItem> items = this.get(ITEMS).getValue();
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
+		allrecords.addAll(items);
+		allrecords.addAll(accounts);
+		for (ClientTransactionItem clientTransactionItem : allrecords) {
+			clientTransactionItem.setTaxCode(value.getID());
+		}
 	}
 
 	@Override
