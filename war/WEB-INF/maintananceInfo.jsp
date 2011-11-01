@@ -68,7 +68,7 @@ $(document).ready(function() {
 	    <form id="submitForm">
 	    <span>Please enter your emailid</span>
 	    <input id="emailField"type="text" />
-	    <input id= "submitButton" type="button" value ="submit"/></form>
+	    <input id= "submitButton" type="button" class="allviews-common-button" value ="submit"/></form>
 	    </div>
 	    <div class ="display-none" id="successmsgDiv">successfully registered your email</div>
 	    <div class ="display-none" id="errorMsg">Please Enter Valid Email Id</div>
