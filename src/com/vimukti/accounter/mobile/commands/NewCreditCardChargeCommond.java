@@ -216,164 +216,6 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		});
 	}
 
-	// @Override
-	// public Result run(Context context) {
-	// setDefaultValues();
-	// String process = (String) context.getAttribute(PROCESS_ATTR);
-	// Result result = context.makeResult();
-	// if (process != null) {
-	// if (process.equals(ADDRESS_PROCESS)) {
-	// result = addressProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// } else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-	// result = transactionItemProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// } else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
-	// result = transactionAccountProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// }
-	// }
-	// Result makeResult = context.makeResult();
-	// makeResult.add(getMessages().readyToCreate(
-	// getConstants().creditCardCharge()));
-	// ResultList list = new ResultList("values");
-	// makeResult.add(list);
-	// ResultList actions = new ResultList(ACTIONS);
-	// setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
-	// result = createSupplierRequirement(context, list, SUPPLIER, Global
-	// .get().Vendor());
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = itemsAndAccountsRequirement(context, makeResult, actions,
-	// new ListFilter<ClientAccount>() {
-	//
-	// @Override
-	// public boolean filter(ClientAccount account) {
-	// if (account.getType() != ClientAccount.TYPE_CASH
-	// && account.getType() != ClientAccount.TYPE_BANK
-	// && account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-	// && account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-	// && account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-	// && account.getType() != ClientAccount.TYPE_INCOME
-	// && account.getType() != ClientAccount.TYPE_OTHER_INCOME
-	// && account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-	// && account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-	// && account.getType() != ClientAccount.TYPE_OTHER_ASSET
-	// && account.getType() != ClientAccount.TYPE_EQUITY
-	// && account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
-	// return true;
-	// } else {
-	// return false;
-	// }
-	// }
-	// }, false);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = accountRequirement(context, list, "payFrom", getConstants()
-	// .Account(), new ListFilter<ClientAccount>() {
-	//
-	// @Override
-	// public boolean filter(ClientAccount account) {
-	// return account.getIsActive()
-	// && Arrays.asList(ClientAccount.TYPE_BANK,
-	// ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-	// .contains(account.getType());
-	// }
-	// });
-	// if (result != null) {
-	// return result;
-	// }
-	// makeResult.add(actions);
-	// ClientCompanyPreferences preferences = getClientCompany()
-	// .getPreferences();
-	// if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-	// result = taxCodeRequirement(context, list);
-	// if (result != null) {
-	// return result;
-	// }
-	// }
-	//
-	// result = createOptionalResult(context, list, actions, makeResult);
-	// if (result != null) {
-	// return result;
-	// }
-	// completeProcess(context);
-	// markDone();
-	// result = new Result();
-	// result.add(getMessages().createSuccessfully(
-	// getConstants().creditCardCharge()));
-	// return result;
-	// }
-
-	private void setDefaultValues() {
-		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue("1");
-		get(PHONE).setDefaultValue("");
-		ClientContact contact = new ClientContact();
-		contact.setName(null);
-		get(CONTACT).setDefaultValue(contact);
-		get(MEMO).setDefaultValue("");
-		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
-		get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
-	}
-
-	private void completeProcess(Context context) {
-
-		ClientCreditCardCharge creditCardCharge = new ClientCreditCardCharge();
-
-		ClientVendor supplier = get(VENDOR).getValue();
-		creditCardCharge.setVendor(supplier.getID());
-
-		ClientContact contact = get(CONTACT).getValue();
-		creditCardCharge.setContact(contact);
-
-		ClientFinanceDate date = get(DATE).getValue();
-		creditCardCharge.setDate(date.getDate());
-
-		creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
-
-		String number = get(NUMBER).getValue();
-		creditCardCharge.setNumber(number);
-
-		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		creditCardCharge.setPaymentMethod(paymentMethod);
-
-		String phone = get(PHONE).getValue();
-		creditCardCharge.setPhone(phone);
-
-		ClientAccount account = get("payFrom").getValue();
-		creditCardCharge.setPayFrom(account.getID());
-
-		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
-		creditCardCharge.setDeliveryDate(deliveryDate);
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
-		items.addAll(accounts);
-		creditCardCharge.setTransactionItems(items);
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : items) {
-				item.setTaxCode(taxCode.getID());
-			}
-		}
-		String memo = get(MEMO).getValue();
-		creditCardCharge.setMemo(memo);
-		updateTotals(context, creditCardCharge, false);
-		create(creditCardCharge, context);
-	}
-
 	@Override
 	protected Result onCompleteProcess(Context context) {
 
@@ -459,79 +301,18 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				getConstants().creditCardCharge());
 	}
 
-	// private Result createOptionalResult(Context context, ResultList list,
-	// ResultList actions, Result makeResult) {
-	//
-	// if (context.getAttribute(INPUT_ATTR) == null) {
-	// context.setAttribute(INPUT_ATTR, "optional");
-	// }
-	//
-	// Object selection = context.getSelection(ACTIONS);
-	// if (selection != null) {
-	// ActionNames actionName = (ActionNames) selection;
-	// switch (actionName) {
-	// case FINISH:
-	// context.removeAttribute(INPUT_ATTR);
-	// markDone();
-	// return null;
-	// default:
-	// break;
-	// }
-	// }
-	//
-	// selection = context.getSelection("values");
-	// Result result = dateOptionalRequirement(context, list, DATE,
-	// getConstants().date(),
-	// getMessages().pleaseEnter(getConstants().date()), selection);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = numberOptionalRequirement(
-	// context,
-	// list,
-	// selection,
-	// NUMBER,
-	// getConstants().creditCard() + getConstants().number(),
-	// getMessages().pleaseEnter(
-	// getConstants().creditCardCharge()
-	// + getConstants().number()));
-	// if (result != null) {
-	// return result;
-	// }
-	// Requirement vendorReq = get(SUPPLIER);
-	// ClientVendor vendor = vendorReq.getValue();
-	// result = contactRequirement(context, list, selection, vendor);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = numberOptionalRequirement(context, list, selection, PHONE,
-	// getConstants().phoneNumber(),
-	// getMessages().pleaseEnter(getConstants().phoneNumber()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = dateOptionalRequirement(context, list, "deliveryDate",
-	// getConstants().deliveryDate(),
-	// getMessages().pleaseEnter(getConstants().deliveryDate()),
-	// selection);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = stringOptionalRequirement(context, list, selection, MEMO,
-	// getConstants().addMemo(),
-	// getMessages().pleaseEnter(getConstants().memo()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// Record finish = new Record(ActionNames.FINISH);
-	// finish.add("",
-	// getMessages().finishToCreate(getConstants().creditCardCharge()));
-	// actions.add(finish);
-	// return makeResult;
-	// }
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
+		allrecords.addAll(items);
+		allrecords.addAll(accounts);
+		double[] result = getTransactionTotal(context, false, allrecords, true);
+		makeResult.add("Net Amount: " + result[0]);
+		if (context.getClientCompany().getPreferences().isTrackTax()) {
+			makeResult.add("Total Tax: " + result[1]);
+		}
+		makeResult.add("Total: " + (result[0] + result[1]));
+	}
 }
