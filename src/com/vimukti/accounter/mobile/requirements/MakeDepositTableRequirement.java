@@ -94,10 +94,6 @@ public class MakeDepositTableRequirement extends
 
 		Double amount = get(AMOUNT).getValue();
 		obj.setAmount(amount);
-		
-		String receivedFrom = get(REFERENCE).getValue();
-		
-		obj.setType(type)
 	}
 
 	@Override
