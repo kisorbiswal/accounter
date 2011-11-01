@@ -644,7 +644,7 @@ form {
 	margin: 7em auto;
 }
 #commanNewContainer{
-	width: 920px;
+	width: 960px;
 }
 #commanContainer label,#commanNewContainer label {
 	color: #777777;
@@ -658,7 +658,7 @@ form {
 	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
 	font-weight: normal;
 	margin-left: 8px;
-	padding: 26px 24px 15px;
+	padding: 26px 10px 15px;
 	border-radius: 10px 10px 10px 10px;
 }
 #commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],
@@ -884,13 +884,13 @@ a#fdbk_tab:hover {
 	width:335px;
 }
 #feedDiv{
-	width:400px;
+	width:382px;
 	padding: 0 34px 0 16px;
 }
 .new_login_accounterform{
-	border-left:1px solid #28757D;
-	padding-left:30px;
-	width:350px;
+	border-left: 1px solid #28757D;
+    padding-left: 30px;
+    width: 448px;
 }
 #feedDivUl li{
 	border-bottom: 1px solid #B1B1B1;
@@ -926,22 +926,28 @@ a#fdbk_tab:hover {
 .maintainence_message #successmsgDiv{
 	color:green;
 }
-.google_icon,.yahoo_icon,.facebook_icon{
+.google_icon,.yahoo_icon,.facebook_icon,.aol_icon{
 	display: inline-block;
-    height: 18px;
+    height: 34px;
     text-indent: -999em;
-    width: 21px;
+    width: 90px;
+    margin-top: 10px;
+    padding:3px;
 }
 .google_icon{
-	background: url("../images/googleIcon.jpg") no-repeat scroll 0 0 transparent;
+	background: url("../images/Google.jpg") no-repeat scroll 4px 5px transparent;
 }
 .yahoo_icon{
-	background: url("../images/yahooIcon.jpg") no-repeat scroll 0 0 transparent;
+	background: url("../images/Yahoo.jpg") no-repeat scroll 5px 5px transparent;
 }
 .aol_icon{
-	
+	background: url("../images/AOL.jpg") no-repeat scroll 5px 5px transparent;
 }
 .facebook_icon{
-	background: url("../images/facebookIcon.jpg") no-repeat scroll 0 0 transparent;
+	background: url("../images/Facebook.jpg") no-repeat scroll 5px 5px transparent;
+}
+.new_login_accounterform #openIdForm a:hover{
+	border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
 }
 /* End of the new Login and forgot password page*/
