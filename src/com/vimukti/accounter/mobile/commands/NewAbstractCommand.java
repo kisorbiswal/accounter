@@ -25,6 +25,10 @@ public abstract class NewAbstractCommand extends NewCommand {
 	protected static final String ACTIONS = "actions";
 	protected static final int VALUES_TO_SHOW = 5;
 	protected static final int COUNTRIES_TO_SHOW = 5;
+	protected static final String VIEW_BY = "viewBy";
+	protected static final String FROM_DATE = "fromDate";
+	protected static final String TO_DATE = "to_date";
+	protected static final String DATE_RANGE = "dateRange";
 
 	public NewAbstractCommand() {
 
