@@ -56,9 +56,9 @@ public class Header extends HorizontalPanel {
 
 	private void createControls() {
 		companyNameLabel = new Label();
-		companyNameLabel.addStyleName("companyName");
 		String companyName = "";
 		if (company != null) {
+			companyNameLabel.addStyleName("companyName");
 			companyName = Accounter.getCompany().getDisplayName();
 		}
 		Header.companyNameLabel.setText(companyName);
@@ -80,11 +80,12 @@ public class Header extends HorizontalPanel {
 		} else {
 			userName = new HTML();
 		}
-		userName.addStyleName("userName-style");
+		
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 		if (company != null) {
 			if (!Accounter.isLoggedInFromDomain()
 					&& Accounter.getCompany().isConfigured()) {
+				userName.addStyleName("userName-style");
 				userName.getElement().getStyle().setTextDecoration(
 						TextDecoration.UNDERLINE);
 				userName.getElement().getStyle().setCursor(Cursor.POINTER);
