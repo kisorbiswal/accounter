@@ -47,7 +47,7 @@ body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainF
 #about-1,#online-accounting-1,#invoicing-layout,#privacy-layout,#bank-layout,#contact-layout,#mid-2{
 	text-align:justify;
 }
-.allviews-common-button,.signup-submit-mid{
+.allviews-common-button,.signup-submit-mid,#notifyMe{
 	cursor: pointer;
 }
 #mid-1,#mid{
@@ -662,7 +662,7 @@ form {
 	border-radius: 10px 10px 10px 10px;
 }
 #commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],
-#commanNewContainer input[type="password"],#commanNewContainer select
+#commanNewContainer input[type="password"],#commanNewContainer select,#enterEmailDiv #emailField
 	{
 	background: none repeat scroll 0 0 #FBFBFB;
 	border: 1px solid #B1B1B1;
@@ -834,7 +834,7 @@ a#fdbk_tab:hover {
 #maintananceContainer {
 	background: none repeat scroll 0 0 #EAEEF1;
 	width: 960px;
-	height: 300px;
+	height: 330px;
 }
 .maintainence_message {
 	color: #395169;
@@ -874,7 +874,7 @@ a#fdbk_tab:hover {
 	z-index: 1;
 }
 .new_logo_field{
-	margin:20px auto;
+	margin:0px auto;
 	width:300px;
 }
 .new_login_page{
@@ -916,5 +916,32 @@ a#fdbk_tab:hover {
 }
 .display-none,.hiddenDiv {
     display: none;
+}
+.maintainence_message #errorMsg{
+	color:red;
+	font-size:12px;
+	text-align:center;
+	margin-right: 95px;
+}
+.maintainence_message #successmsgDiv{
+	color:green;
+}
+.google_icon,.yahoo_icon,.facebook_icon{
+	display: inline-block;
+    height: 18px;
+    text-indent: -999em;
+    width: 21px;
+}
+.google_icon{
+	background: url("../images/googleIcon.jpg") no-repeat scroll 0 0 transparent;
+}
+.yahoo_icon{
+	background: url("../images/yahooIcon.jpg") no-repeat scroll 0 0 transparent;
+}
+.aol_icon{
+	
+}
+.facebook_icon{
+	background: url("../images/facebookIcon.jpg") no-repeat scroll 0 0 transparent;
 }
 /* End of the new Login and forgot password page*/

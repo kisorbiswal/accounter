@@ -71,7 +71,7 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 }
 .touch_submenu .menuItem,.touch_submenu .subMenu,.no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,select[multiple],
-.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,.dateBoxPopup{
+.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,.dateBoxPopup,.gwt-PopupPanel .popupContent{
 	background: none repeat scroll 0 0 #FFFFFF;
 }
 .gwt-MenuItemSeparator,#contact,.menu_arrow,.ele-disable,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,.menubar-devider,
