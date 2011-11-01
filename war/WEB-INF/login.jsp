@@ -138,10 +138,10 @@
 			   
 			   <form id="openIdForm" method="post" action="/main/openid">
 			   <span>Sign In using : </span>
-			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" id="openIdLink" tabindex="5"> Google  </a>
-			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com"  tabindex="6">  Yahoo</a>
-			   <a href ="/main/openid?openid_identifier=https://openid.aol.com"  tabindex="6">  AOL</a>
-			   <a href ="/main/fbauth"  tabindex="6"> Facebook</a>
+			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"> Google  </a>
+			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
+			   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
+			   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"> Facebook</a>
 			   </form>
 			 </div>
 			</div>
