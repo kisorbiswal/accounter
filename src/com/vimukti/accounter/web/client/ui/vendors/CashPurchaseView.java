@@ -411,12 +411,12 @@ public class CashPurchaseView extends
 
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		if (getCompany().getPreferences().isInventoryEnabled()
-				&& getCompany().getPreferences().iswareHouseEnabled())
-			// mainVLay.add(inventoryDisclosurePanel);
-			// mainVLay.add(createAddNewButton());
-			// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
-			mainVLay.add(bottompanel);
+		// if (getCompany().getPreferences().isInventoryEnabled()
+		// && getCompany().getPreferences().iswareHouseEnabled()){
+		// mainVLay.add(inventoryDisclosurePanel);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);}
+		mainVLay.add(bottompanel);
 
 		// setOverflow(Overflow.SCROLL);
 		this.add(mainVLay);

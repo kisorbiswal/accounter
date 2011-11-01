@@ -419,12 +419,12 @@ public class CashSalesView extends
 
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		if (getCompany().getPreferences().isInventoryEnabled()
-				&& getCompany().getPreferences().iswareHouseEnabled())
-			// mainVLay.add(inventoryDisclosurePanel);
-			// mainVLay.add(createAddNewButton());
-			// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
-			mainVLay.add(vPanel);
+		// if (getCompany().getPreferences().isInventoryEnabled()
+		// && getCompany().getPreferences().iswareHouseEnabled()){
+		// mainVLay.add(inventoryDisclosurePanel);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);}
+		mainVLay.add(vPanel);
 
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
