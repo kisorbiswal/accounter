@@ -2847,6 +2847,8 @@ public interface AccounterConstants extends Constants {
 	public String relatedTask();
 
 	public String remainingTotal();
+	
+	public String remainingQuantity();
 
 	public String remove();
 
@@ -3495,6 +3497,8 @@ public interface AccounterConstants extends Constants {
 	public String totalVAT();
 
 	public String totalVATDueBOX3();
+	
+	public String totalQuantity();
 
 	public String toWarehouse();
 
@@ -3581,6 +3585,8 @@ public interface AccounterConstants extends Constants {
 	public String undepositedFundsCollectedToday();
 
 	public String underline();
+	
+	public String unit();
 
 	public String unitOfMeasure();
 
