@@ -933,6 +933,7 @@ a#fdbk_tab:hover {
     width: 90px;
     margin-top: 10px;
     padding:3px;
+    border:1px solid white;
 }
 .google_icon{
 	background: url("../images/Google.jpg") no-repeat scroll 4px 5px transparent;
