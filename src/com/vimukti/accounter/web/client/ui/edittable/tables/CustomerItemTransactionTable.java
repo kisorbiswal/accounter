@@ -1,15 +1,17 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemNameColumn;
+import com.vimukti.accounter.web.client.ui.edittable.NewQuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionQuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
@@ -67,6 +69,14 @@ public abstract class CustomerItemTransactionTable extends
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
+				if (newValue != null
+						&& newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
+					ClientMeasurement measurement = Accounter.getCompany()
+							.getMeasurement(newValue.getMeasurement());
+					row.getQuantity().setUnit(
+							measurement.getDefaultUnit().getId());
+					row.setWareHouse(newValue.getWarehouse());
+				}
 				update(row);
 				// applyPriceLevel(row);
 			}
@@ -79,7 +89,7 @@ public abstract class CustomerItemTransactionTable extends
 			}
 		});
 
-		this.addColumn(new TransactionQuantityColumn());
+		this.addColumn(new NewQuantityColumn());
 
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
 
