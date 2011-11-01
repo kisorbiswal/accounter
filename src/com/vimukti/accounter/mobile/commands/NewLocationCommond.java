@@ -2,61 +2,60 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 
-public class NewLocationCommond extends AbstractCommand {
+public class NewLocationCommond extends NewAbstractCommand {
 
-	private static final String LOCATION_NAME = "location";
+	private static final String LOCATION_NAME = "location name";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(LOCATION_NAME, false, true));
-
+		list.add(new StringRequirement(LOCATION_NAME, getMessages()
+				.pleaseEnter(getConstants().location()), getConstants()
+				.location(), false, true));
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Result result = createClassNameReq(context);
-		if (result != null) {
-			return result;
-		}
-		createLocationObject(context);
-		markDone();
-		return result;
-	}
-
-	private void createLocationObject(Context context) {
-		Location location = new Location();
+	protected Result onCompleteProcess(Context context) {
+		ClientLocation location = new ClientLocation();
 		location.setLocationName((String) get(LOCATION_NAME).getValue());
 		create(location, context);
+		markDone();
+		return null;
 	}
 
-	private Result createClassNameReq(Context context) {
-
-		Requirement requirement = get(LOCATION_NAME);
-		String className = context.getSelection(TEXT);
-		if (!requirement.isDone()) {
-			if (className != null) {
-				requirement.setValue(className);
-			} else {
-				return text(context, "Please enter the  Location", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(LOCATION_NAME)) {
-			requirement.setValue(input);
-		}
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return "New Location Commond is Activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return "New Location commond is ready with the following values";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "New Location commond is created successfully";
 	}
 
 }
