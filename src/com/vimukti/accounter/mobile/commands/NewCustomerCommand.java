@@ -491,7 +491,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		String string = context.getString();
+		if (!string.isEmpty()) {
+			get(CUSTOMER_NAME).setValue(string);
+		}
 		return null;
 	}
 
