@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -379,19 +378,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
-	}
-
-	protected List<String> getPaymentMethods() {
-		List<String> listOfPaymentMethods = new ArrayList<String>();
-		listOfPaymentMethods.add(getConstants().cash());
-		listOfPaymentMethods.add(getConstants().cheque());
-		listOfPaymentMethods.add(getConstants().creditCard());
-		listOfPaymentMethods.add(getConstants().directDebit());
-		listOfPaymentMethods.add(getConstants().masterCard());
-		listOfPaymentMethods.add(getConstants().onlineBanking());
-		listOfPaymentMethods.add(getConstants().standingOrder());
-		listOfPaymentMethods.add(getConstants().switchMaestro());
-		return listOfPaymentMethods;
 	}
 
 	@Override

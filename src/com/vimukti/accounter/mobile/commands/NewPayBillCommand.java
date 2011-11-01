@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -42,8 +43,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
  */
 public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
-	private static final String FILTER_BY_DUE_ONBEFORE = "filterByDueOnBefore";
-	private static final String BILLS_DUE = "BillsDue";
 	private ArrayList<ClientTransactionPayBill> records;
 
 	@Override
@@ -59,7 +58,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		// TODO Auto-generated method stub
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_PAY_BILL, context.getCompany()));
+
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(FILTER_BY_DUE_ON_BEFORE).setDefaultValue(new ClientFinanceDate());
 
 	}
 
@@ -113,7 +117,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "";
+				return getMessages().hasSelected(getConstants().payFrom());
 			}
 
 			@Override
@@ -156,14 +160,14 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages()
+						.hasSelected(getConstants().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages().pleaseSelect(
+						getConstants().paymentMethod());
 			}
 
 			@Override
@@ -177,7 +181,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				 */
 				String payVatMethodArray[] = new String[] {
 						getConstants().cash(), getConstants().creditCard(),
-						getConstants().directDebit(),
+						getConstants().check(), getConstants().directDebit(),
 						getConstants().masterCard(),
 						getConstants().onlineBanking(),
 						getConstants().standingOrder(),
@@ -192,10 +196,9 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new DateRequirement(FILTER_BY_DUE_ONBEFORE, getMessages()
+		list.add(new DateRequirement(FILTER_BY_DUE_ON_BEFORE, getMessages()
 				.pleaseEnter(getConstants().filterByBilldueonorbefore()),
 				getConstants().filterByBilldueonorbefore(), true, true));
-
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -318,7 +321,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		ClientVendor vendor = get(VENDOR).getValue();
 		ClientAccount payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		ClientFinanceDate dueDate = get(FILTER_BY_DUE_ONBEFORE).getValue();
+		ClientFinanceDate dueDate = get(FILTER_BY_DUE_ON_BEFORE).getValue();
 		String number = get(NUMBER).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
 		paybill.setVendor(vendor);

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerGlobal;
@@ -98,5 +99,18 @@ public abstract class NewAbstractCommand extends NewCommand {
 	@SuppressWarnings("unchecked")
 	public void addFirstMessage(Context context, String string) {
 		((List<String>) context.getAttribute(FIRST_MESSAGE)).add(string);
+	}
+
+	protected List<String> getPaymentMethods() {
+		List<String> listOfPaymentMethods = new ArrayList<String>();
+		listOfPaymentMethods.add(getConstants().cash());
+		listOfPaymentMethods.add(getConstants().cheque());
+		listOfPaymentMethods.add(getConstants().creditCard());
+		listOfPaymentMethods.add(getConstants().directDebit());
+		listOfPaymentMethods.add(getConstants().masterCard());
+		listOfPaymentMethods.add(getConstants().onlineBanking());
+		listOfPaymentMethods.add(getConstants().standingOrder());
+		listOfPaymentMethods.add(getConstants().switchMaestro());
+		return listOfPaymentMethods;
 	}
 }
