@@ -17,7 +17,7 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.VATReturn;
+import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -611,78 +611,163 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			TAXAgency defaultVATAgency = new TAXAgency();
 			defaultVATAgency.setActive(Boolean.TRUE);
 			defaultVATAgency.setName(preferences.getVATtaxAgencyName());
-			defaultVATAgency.setVATReturn(VATReturn.VAT_RETURN_UK_VAT);
+			defaultVATAgency.setVATReturn(TAXReturn.VAT_RETURN_UK_VAT);
+			defaultVATAgency.setTaxType(TAXAgency.TAX_TYPE_VAT);
 
 			defaultVATAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
 					.setEntity("company", company)
 					.setString("name", "Net Monthly").list().get(0));
-			defaultVATAgency.setSalesLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account")
-					.setEntity("company", company)
-					.setString("name",
-							AccounterServerConstants.TAX_VAT_UNFILED)
-					.list().get(0));
+			defaultVATAgency
+					.setSalesLiabilityAccount((Account) session
+							.getNamedQuery("unique.name.Account")
+							.setEntity("company", company)
+							.setString("name",
+									AccounterServerConstants.TAX_VAT_UNFILED)
+							.list().get(0));
 
-			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account")
-					.setEntity("company", company)
-					.setString("name",
-							AccounterServerConstants.TAX_VAT_UNFILED)
-					.list().get(0));
+			defaultVATAgency
+					.setPurchaseLiabilityAccount((Account) session
+							.getNamedQuery("unique.name.Account")
+							.setEntity("company", company)
+							.setString("name",
+									AccounterServerConstants.TAX_VAT_UNFILED)
+							.list().get(0));
 
 			defaultVATAgency.setDefault(true);
 			defaultVATAgency.setCompany(company);
 			session.save(defaultVATAgency);
 
-			TAXItem vatItem1 = new TAXItem(company);
-			vatItem1.setName("EC Purchases Goods Standard");
-			vatItem1.setActive(true);
-			vatItem1.setDescription("EC Purchases of Goods Standard");
-			vatItem1.setTaxRate(17.5);
-			vatItem1.setSalesType(false);
-			vatItem1.setTaxAgency(defaultVATAgency);
+			TAXItem ecgPurchase17Item = new TAXItem(company);
+			ecgPurchase17Item.setName("EC Purchases Goods Standard (-17.5%)");
+			ecgPurchase17Item.setActive(true);
+			ecgPurchase17Item
+					.setDescription("EC Purchases of Goods Standard (-17.5%)");
+			ecgPurchase17Item.setTaxRate(-17.5);
+			ecgPurchase17Item.setSalesType(false);
+			ecgPurchase17Item.setTaxAgency(defaultVATAgency);
 
-			vatItem1.setVatReturnBox(vt1);
-			vatItem1.setDefault(true);
-			vatItem1.setPercentage(true);
-			session.save(vatItem1);
+			ecgPurchase17Item.setVatReturnBox(vt1);
+			ecgPurchase17Item.setDefault(true);
+			ecgPurchase17Item.setPercentage(true);
+			session.save(ecgPurchase17Item);
 
-			TAXItem vatItem2 = new TAXItem(company);
-			vatItem2.setName("EC Purchases Goods Zero-Rated");
-			vatItem2.setActive(true);
-			vatItem2.setDescription("EC Purchases of Goods Zero-Rated");
-			vatItem2.setTaxRate(0.0);
-			vatItem2.setSalesType(false);
-			vatItem2.setTaxAgency(defaultVATAgency);
-			vatItem2.setPercentage(true);
-			vatItem2.setVatReturnBox(vt1);
-			vatItem2.setDefault(true);
-			session.save(vatItem2);
+			TAXItem ecgPurchase20Item = new TAXItem(company);
+			ecgPurchase20Item.setName("EC Purchases Goods Standard (-20.0%)");
+			ecgPurchase20Item.setActive(true);
+			ecgPurchase20Item
+					.setDescription("EC Purchases of Goods Standard (-20.0%)");
+			ecgPurchase20Item.setTaxRate(-20);
+			ecgPurchase20Item.setSalesType(false);
+			ecgPurchase20Item.setTaxAgency(defaultVATAgency);
 
-			TAXItem vatItem3 = new TAXItem(company);
-			vatItem3.setName("EC Sales Goods Standard");
-			vatItem3.setActive(true);
-			vatItem3.setDescription("EC Sales of Goods Standard");
-			vatItem3.setTaxRate(0.0);
-			vatItem3.setSalesType(true);
-			vatItem3.setTaxAgency(defaultVATAgency);
-			vatItem3.setPercentage(true);
-			vatItem3.setVatReturnBox(vt3);
-			vatItem3.setDefault(true);
-			session.save(vatItem3);
+			ecgPurchase20Item.setVatReturnBox(vt1);
+			ecgPurchase20Item.setDefault(true);
+			ecgPurchase20Item.setPercentage(true);
+			session.save(ecgPurchase20Item);
 
-			TAXItem vatItem4 = new TAXItem(company);
-			vatItem4.setName("EC Sales Services Standard");
-			vatItem4.setActive(true);
-			vatItem4.setDescription("EC Sales of Services Standard");
-			vatItem4.setTaxRate(0.0);
-			vatItem4.setSalesType(true);
-			vatItem4.setTaxAgency(defaultVATAgency);
-			vatItem4.setVatReturnBox(vt4);
-			vatItem4.setDefault(true);
-			vatItem4.setPercentage(true);
-			session.save(vatItem4);
+			TAXItem ecsPurchase17Item = new TAXItem(company);
+			ecsPurchase17Item
+					.setName("EC Purchases Services Standard (-17.5%)");
+			ecsPurchase17Item.setActive(true);
+			ecsPurchase17Item
+					.setDescription("EC Purchases of Services Standard (-17.5%)");
+			ecsPurchase17Item.setTaxRate(-17.5);
+			ecsPurchase17Item.setSalesType(false);
+			ecsPurchase17Item.setTaxAgency(defaultVATAgency);
+
+			ecsPurchase17Item.setVatReturnBox(vt1);
+			ecsPurchase17Item.setDefault(true);
+			ecsPurchase17Item.setPercentage(true);
+			session.save(ecsPurchase17Item);
+
+			TAXItem ecsPurchase20Item = new TAXItem(company);
+			ecsPurchase20Item
+					.setName("EC Purchases Services Standard (-20.0%)");
+			ecsPurchase20Item.setActive(true);
+			ecsPurchase20Item
+					.setDescription("EC Purchases of Services Standard (-20.0%)");
+			ecsPurchase20Item.setTaxRate(-20);
+			ecsPurchase20Item.setSalesType(false);
+			ecsPurchase20Item.setTaxAgency(defaultVATAgency);
+
+			ecsPurchase20Item.setVatReturnBox(vt1);
+			ecsPurchase20Item.setDefault(true);
+			ecsPurchase20Item.setPercentage(true);
+			session.save(ecsPurchase20Item);
+
+			TAXItem egzPurchaseItem = new TAXItem(company);
+			egzPurchaseItem.setName("EC Purchases Goods Zero-Rated");
+			egzPurchaseItem.setActive(true);
+			egzPurchaseItem.setDescription("EC Purchases of Goods Zero-Rated");
+			egzPurchaseItem.setTaxRate(0.0);
+			egzPurchaseItem.setSalesType(false);
+			egzPurchaseItem.setTaxAgency(defaultVATAgency);
+			egzPurchaseItem.setPercentage(true);
+			egzPurchaseItem.setVatReturnBox(vt1);
+			egzPurchaseItem.setDefault(true);
+			session.save(egzPurchaseItem);
+
+			TAXItem egzSalesItem = new TAXItem(company);
+			egzSalesItem.setName("EC Sales Goods Zero-Rated");
+			egzSalesItem.setActive(true);
+			egzSalesItem.setDescription("EC Sales of Goods Zero-Rated");
+			egzSalesItem.setTaxRate(0.0);
+			egzSalesItem.setSalesType(true);
+			egzSalesItem.setTaxAgency(defaultVATAgency);
+			egzSalesItem.setPercentage(true);
+			egzSalesItem.setVatReturnBox(vt3);
+			egzSalesItem.setDefault(true);
+			session.save(egzSalesItem);
+
+			TAXItem ecszSalesItem = new TAXItem(company);
+			ecszSalesItem.setName("EC Sales Services Zero-Rated");
+			ecszSalesItem.setActive(true);
+			ecszSalesItem.setDescription("EC Sales of Services Zero-Rated");
+			ecszSalesItem.setTaxRate(0.0);
+			ecszSalesItem.setSalesType(true);
+			ecszSalesItem.setTaxAgency(defaultVATAgency);
+			ecszSalesItem.setVatReturnBox(vt4);
+			ecszSalesItem.setDefault(true);
+			ecszSalesItem.setPercentage(true);
+			session.save(ecszSalesItem);
+
+			TAXItem ecszPurchaseItem = new TAXItem(company);
+			ecszPurchaseItem.setName("EC Purchase Services Zero-Rated");
+			ecszPurchaseItem.setActive(true);
+			ecszPurchaseItem
+					.setDescription("EC Purchase of Services Zero-Rated");
+			ecszPurchaseItem.setTaxRate(0.0);
+			ecszPurchaseItem.setSalesType(false);
+			ecszPurchaseItem.setTaxAgency(defaultVATAgency);
+			ecszPurchaseItem.setVatReturnBox(vt4);
+			ecszPurchaseItem.setDefault(true);
+			ecszPurchaseItem.setPercentage(true);
+			session.save(ecszPurchaseItem);
+
+			TAXItem rczSalesitem = new TAXItem(company);
+			rczSalesitem.setName("Reverse Sales Charges");
+			rczSalesitem.setActive(true);
+			rczSalesitem.setDescription("Reverse Sales Charges");
+			rczSalesitem.setTaxRate(0.0);
+			rczSalesitem.setSalesType(true);
+			rczSalesitem.setTaxAgency(defaultVATAgency);
+			rczSalesitem.setVatReturnBox(vt4);
+			rczSalesitem.setDefault(true);
+			rczSalesitem.setPercentage(true);
+			session.save(rczSalesitem);
+
+			TAXItem rczPurchaseItem = new TAXItem(company);
+			rczPurchaseItem.setName("Reverse Purchase Charges");
+			rczPurchaseItem.setActive(true);
+			rczPurchaseItem.setDescription("Reverse Sales Charges");
+			rczPurchaseItem.setTaxRate(0.0);
+			rczPurchaseItem.setSalesType(false);
+			rczPurchaseItem.setTaxAgency(defaultVATAgency);
+			rczPurchaseItem.setVatReturnBox(vt4);
+			rczPurchaseItem.setDefault(true);
+			rczPurchaseItem.setPercentage(true);
+			session.save(rczPurchaseItem);
 
 			TAXItem vatItem5 = new TAXItem(company);
 			vatItem5.setName("Exempt Purchases");
@@ -734,77 +819,91 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem8.setDefault(true);
 			session.save(vatItem8);
 
-			TAXItem vatItem9 = new TAXItem(company);
-			vatItem9.setName("Reduced Purchases");
-			vatItem9.setActive(true);
-			vatItem9.setSalesType(false);
-			vatItem9.setDescription("Reduced Purchases");
-			vatItem9.setTaxRate(5.0);
-			vatItem9.setTaxAgency(defaultVATAgency);
-			vatItem9.setVatReturnBox(vt5);
-			vatItem9.setDefault(true);
-			vatItem9.setPercentage(true);
-			session.save(vatItem9);
+			TAXItem reducePurchaseitem = new TAXItem(company);
+			reducePurchaseitem.setName("Reduced Purchases");
+			reducePurchaseitem.setActive(true);
+			reducePurchaseitem.setSalesType(false);
+			reducePurchaseitem.setDescription("Reduced Purchases");
+			reducePurchaseitem.setTaxRate(5.0);
+			reducePurchaseitem.setTaxAgency(defaultVATAgency);
+			reducePurchaseitem.setVatReturnBox(vt5);
+			reducePurchaseitem.setDefault(true);
+			reducePurchaseitem.setPercentage(true);
+			session.save(reducePurchaseitem);
 
-			TAXItem vatItem10 = new TAXItem(company);
-			vatItem10.setName("Reduced Sales");
-			vatItem10.setActive(true);
-			vatItem10.setDescription("Reduced Sales");
-			vatItem10.setTaxRate(5.0);
-			vatItem10.setSalesType(true);
-			vatItem10.setTaxAgency(defaultVATAgency);
-			vatItem10.setVatReturnBox(vt6);
-			vatItem10.setDefault(true);
-			vatItem10.setPercentage(true);
-			session.save(vatItem10);
+			TAXItem reduceSalesItem = new TAXItem(company);
+			reduceSalesItem.setName("Reduced Sales");
+			reduceSalesItem.setActive(true);
+			reduceSalesItem.setDescription("Reduced Sales");
+			reduceSalesItem.setTaxRate(5.0);
+			reduceSalesItem.setSalesType(true);
+			reduceSalesItem.setTaxAgency(defaultVATAgency);
+			reduceSalesItem.setVatReturnBox(vt6);
+			reduceSalesItem.setDefault(true);
+			reduceSalesItem.setPercentage(true);
+			session.save(reduceSalesItem);
 
-			TAXItem vatItem11 = new TAXItem(company);
-			vatItem11.setName("Reverse Charge Purchases Standard");
-			vatItem11.setActive(true);
-			vatItem11.setDescription("Reverse Charge Purchases Standard");
-			vatItem11.setTaxRate(17.5);
-			vatItem11.setSalesType(false);
-			vatItem11.setTaxAgency(defaultVATAgency);
-			vatItem11.setVatReturnBox(vt11);
-			vatItem11.setPercentage(true);
-			vatItem11.setDefault(true);
-			session.save(vatItem11);
+			TAXItem rcPurchase17 = new TAXItem(company);
+			rcPurchase17.setName("Reverse Charge Purchases Standard (-17.5%)");
+			rcPurchase17.setActive(true);
+			rcPurchase17
+					.setDescription("Reverse Charge Purchases Standard (-17.5%)");
+			rcPurchase17.setTaxRate(-17.5);
+			rcPurchase17.setSalesType(false);
+			rcPurchase17.setTaxAgency(defaultVATAgency);
+			rcPurchase17.setVatReturnBox(vt11);
+			rcPurchase17.setPercentage(true);
+			rcPurchase17.setDefault(true);
+			session.save(rcPurchase17);
 
-			TAXItem vatItem12 = new TAXItem(company);
-			vatItem12.setName("Standard Purchases");
-			vatItem12.setActive(true);
-			vatItem12.setDescription("Standard Purchases");
-			vatItem12.setTaxRate(17.5);
-			vatItem12.setSalesType(false);
-			vatItem12.setTaxAgency(defaultVATAgency);
-			vatItem12.setVatReturnBox(vt5);
-			vatItem12.setDefault(true);
-			vatItem12.setPercentage(true);
-			session.save(vatItem12);
+			TAXItem rcPurchase20 = new TAXItem(company);
+			rcPurchase20.setName("Reverse Charge Purchases Standard (-20%)");
+			rcPurchase20.setActive(true);
+			rcPurchase20
+					.setDescription("Reverse Charge Purchases Standard (-20%)");
+			rcPurchase20.setTaxRate(-20);
+			rcPurchase20.setSalesType(false);
+			rcPurchase20.setTaxAgency(defaultVATAgency);
+			rcPurchase20.setVatReturnBox(vt11);
+			rcPurchase20.setPercentage(true);
+			rcPurchase20.setDefault(true);
+			session.save(rcPurchase20);
 
-			TAXItem vatItem13 = new TAXItem(company);
-			vatItem13.setName("Standard Sales");
-			vatItem13.setActive(true);
-			vatItem13.setDescription("Standard Sales");
-			vatItem13.setTaxRate(17.5);
-			vatItem13.setSalesType(true);
-			vatItem13.setTaxAgency(defaultVATAgency);
-			vatItem13.setVatReturnBox(vt6);
-			vatItem13.setDefault(true);
-			vatItem13.setPercentage(true);
-			session.save(vatItem13);
+			TAXItem standardPurchase17Item = new TAXItem(company);
+			standardPurchase17Item.setName("Standard Purchases");
+			standardPurchase17Item.setActive(true);
+			standardPurchase17Item.setDescription("Standard Purchases");
+			standardPurchase17Item.setTaxRate(17.5);
+			standardPurchase17Item.setSalesType(false);
+			standardPurchase17Item.setTaxAgency(defaultVATAgency);
+			standardPurchase17Item.setVatReturnBox(vt5);
+			standardPurchase17Item.setDefault(true);
+			standardPurchase17Item.setPercentage(true);
+			session.save(standardPurchase17Item);
 
-			TAXItem vatItem14 = new TAXItem(company);
-			vatItem14.setName("Zero-Rated Purchases");
-			vatItem14.setActive(true);
-			vatItem14.setSalesType(false);
-			vatItem14.setDescription("Zero-Rated Purchases");
-			vatItem14.setTaxRate(0.0);
-			vatItem14.setTaxAgency(defaultVATAgency);
-			vatItem14.setVatReturnBox(vt5);
-			vatItem14.setDefault(true);
-			vatItem14.setPercentage(true);
-			session.save(vatItem14);
+			TAXItem standardSales17Item = new TAXItem(company);
+			standardSales17Item.setName("Standard Sales");
+			standardSales17Item.setActive(true);
+			standardSales17Item.setDescription("Standard Sales");
+			standardSales17Item.setTaxRate(17.5);
+			standardSales17Item.setSalesType(true);
+			standardSales17Item.setTaxAgency(defaultVATAgency);
+			standardSales17Item.setVatReturnBox(vt6);
+			standardSales17Item.setDefault(true);
+			standardSales17Item.setPercentage(true);
+			session.save(standardSales17Item);
+
+			TAXItem zrPurchaseItem = new TAXItem(company);
+			zrPurchaseItem.setName("Zero-Rated Purchases");
+			zrPurchaseItem.setActive(true);
+			zrPurchaseItem.setSalesType(false);
+			zrPurchaseItem.setDescription("Zero-Rated Purchases");
+			zrPurchaseItem.setTaxRate(0.0);
+			zrPurchaseItem.setTaxAgency(defaultVATAgency);
+			zrPurchaseItem.setVatReturnBox(vt5);
+			zrPurchaseItem.setDefault(true);
+			zrPurchaseItem.setPercentage(true);
+			session.save(zrPurchaseItem);
 
 			TAXItem vatItem15 = new TAXItem(company);
 			vatItem15.setName("Zero-Rated Sales");
@@ -818,89 +917,181 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem15.setPercentage(true);
 			session.save(vatItem15);
 
-			TAXItem vatItem16 = new TAXItem(company);
-			vatItem16.setName("New Standard Purchases");
-			vatItem16.setActive(true);
-			vatItem16.setDescription("New Standard Purchases");
-			vatItem16.setTaxRate(20.0);
-			vatItem16.setSalesType(false);
-			vatItem16.setTaxAgency(defaultVATAgency);
-			vatItem16.setVatReturnBox(vt5);
-			vatItem16.setDefault(true);
-			vatItem16.setPercentage(true);
-			session.save(vatItem16);
+			TAXItem standardPurchase20Item = new TAXItem(company);
+			standardPurchase20Item.setName("Standard Purchases (20%)");
+			standardPurchase20Item.setActive(true);
+			standardPurchase20Item.setDescription("Standard Purchases  (20%)");
+			standardPurchase20Item.setTaxRate(20.0);
+			standardPurchase20Item.setSalesType(false);
+			standardPurchase20Item.setTaxAgency(defaultVATAgency);
+			standardPurchase20Item.setVatReturnBox(vt5);
+			standardPurchase20Item.setDefault(true);
+			standardPurchase20Item.setPercentage(true);
+			session.save(standardPurchase20Item);
 
-			TAXItem vatItem17 = new TAXItem(company);
-			vatItem17.setName("New Standard Sales");
-			vatItem17.setActive(true);
-			vatItem17.setDescription("New Standard Sales");
-			vatItem17.setTaxRate(20.0);
-			vatItem17.setSalesType(true);
-			vatItem17.setTaxAgency(defaultVATAgency);
-			vatItem17.setVatReturnBox(vt6);
-			vatItem17.setDefault(true);
-			vatItem17.setPercentage(true);
-			session.save(vatItem17);
+			TAXItem standardSales20Item = new TAXItem(company);
+			standardSales20Item.setName("Standard Sales  (20%)");
+			standardSales20Item.setActive(true);
+			standardSales20Item.setDescription("Standard Sales  (20%)");
+			standardSales20Item.setTaxRate(20.0);
+			standardSales20Item.setSalesType(true);
+			standardSales20Item.setTaxAgency(defaultVATAgency);
+			standardSales20Item.setVatReturnBox(vt6);
+			standardSales20Item.setDefault(true);
+			standardSales20Item.setPercentage(true);
+			session.save(standardSales20Item);
 
-			// VATGroup vatGroup1 = new VATGroup();
-			// =======
-			TAXGroup vatGroup1 = new TAXGroup(company);
-			// >>>>>>> .merge-right.r20318
-			vatGroup1.setName("EC Purchases Goods 0% Group");
-			vatGroup1.setDescription("EC Purchases of Goods Zero-Rated Group");
-			vatGroup1.setActive(true);
-			vatGroup1.setSalesType(false);
-			vatGroup1.setGroupRate(0.0);
-			List<TAXItem> vatItms1 = new ArrayList<TAXItem>();
-			vatItms1.add(vatItem2);
-			vatItms1.add(vatItem14);
-			vatGroup1.setTAXItems(vatItms1);
-			vatGroup1.setDefault(true);
-			session.save(vatGroup1);
+			// TAXGroup vatGroup1 = new TAXGroup(company);
+			// vatGroup1.setName("EC Purchases Goods 0% Group");
+			// vatGroup1.setDescription("EC Purchases of Goods Zero-Rated Group");
+			// vatGroup1.setActive(true);
+			// vatGroup1.setSalesType(false);
+			// vatGroup1.setGroupRate(0.0);
+			// List<TAXItem> vatItms1 = new ArrayList<TAXItem>();
+			// vatItms1.add(egzPurchaseItem);
+			// vatItms1.add(zrPurchaseItem);
+			// vatGroup1.setTAXItems(vatItms1);
+			// vatGroup1.setDefault(true);
+			// session.save(vatGroup1);
 
-			TAXGroup vatGroup2 = new TAXGroup(company);
-			vatGroup2.setName("EC Purchases Goods 17.5% Group");
-			vatGroup2.setDescription("EC Purchases of Goods Group");
-			vatGroup2.setActive(true);
-			vatGroup2.setGroupRate(17.5);
-			vatGroup2.setSalesType(false);
+			TAXGroup ecgPurchase17Group = new TAXGroup(company);
+			ecgPurchase17Group.setName("EC Purchases Goods 17.5% Group");
+			ecgPurchase17Group.setDescription("EC Purchases of Goods Group");
+			ecgPurchase17Group.setActive(true);
+			ecgPurchase17Group.setGroupRate(0);
+			ecgPurchase17Group.setSalesType(false);
 			List<TAXItem> vatItms2 = new ArrayList<TAXItem>();
-			vatItms2.add(vatItem12);
-			vatItms2.add(vatItem1);
-			vatGroup2.setTAXItems(vatItms2);
-			vatGroup2.setDefault(true);
-			session.save(vatGroup2);
+			vatItms2.add(standardPurchase17Item);
+			vatItms2.add(ecgPurchase17Item);
+			ecgPurchase17Group.setTAXItems(vatItms2);
+			ecgPurchase17Group.setDefault(true);
+			session.save(ecgPurchase17Group);
 
-			TAXGroup vatGroup3 = new TAXGroup(company);
-			vatGroup3.setName("EC Sales Goods 0% Group");
-			vatGroup3.setDescription("EC Sales of Goods Group");
-			vatGroup3.setActive(true);
-			vatGroup3.setSalesType(true);
-			vatGroup3.setGroupRate(0.0);
-			List<TAXItem> vatItms3 = new ArrayList<TAXItem>();
-			vatItms3.add(vatItem4);
-			vatItms3.add(vatItem3);
-			vatGroup3.setTAXItems(vatItms3);
-			vatGroup3.setDefault(true);
-			vatGroup3.setPercentage((vatItem3.isPercentage() && vatItem4
-					.isPercentage()) ? true : false);
-			session.save(vatGroup3);
+			TAXGroup ecgPurchase20Group = new TAXGroup(company);
+			ecgPurchase20Group.setName("EC Purchases Goods 20% Group");
+			ecgPurchase20Group.setDescription("EC Purchases of Goods Group");
+			ecgPurchase20Group.setActive(true);
+			ecgPurchase20Group.setGroupRate(0);
+			ecgPurchase20Group.setSalesType(false);
+			List<TAXItem> items = new ArrayList<TAXItem>();
+			items.add(standardPurchase20Item);
+			items.add(ecgPurchase20Item);
+			ecgPurchase20Group.setTAXItems(items);
+			ecgPurchase20Group.setDefault(true);
+			session.save(ecgPurchase20Group);
 
-			TAXGroup vatGroup4 = new TAXGroup(company);
-			vatGroup4.setName("Reverse Charge Purchases 17.5% Group");
-			vatGroup4.setDescription("Reverse Charge Purchases Group");
-			vatGroup4.setActive(true);
-			vatGroup4.setSalesType(false);
-			vatGroup4.setGroupRate(17.5);
+			TAXGroup ecsPurchase17Group = new TAXGroup(company);
+			ecsPurchase17Group.setName("EC Purchases Services 17.5% Group");
+			ecsPurchase17Group.setDescription("EC Purchases of Services Group");
+			ecsPurchase17Group.setActive(true);
+			ecsPurchase17Group.setGroupRate(0);
+			ecsPurchase17Group.setSalesType(false);
+			List<TAXItem> itemss = new ArrayList<TAXItem>();
+			itemss.add(standardPurchase17Item);
+			itemss.add(ecsPurchase17Item);
+			ecsPurchase17Group.setTAXItems(itemss);
+			ecsPurchase17Group.setDefault(true);
+			session.save(ecsPurchase17Group);
+
+			TAXGroup ecsPurchase20Group = new TAXGroup(company);
+			ecsPurchase20Group.setName("EC Purchases Services 20% Group");
+			ecsPurchase20Group.setDescription("EC Purchases of Services Group");
+			ecsPurchase20Group.setActive(true);
+			ecsPurchase20Group.setGroupRate(0);
+			ecsPurchase20Group.setSalesType(false);
+			List<TAXItem> items2 = new ArrayList<TAXItem>();
+			items2.add(standardPurchase20Item);
+			items2.add(ecsPurchase20Item);
+			ecsPurchase20Group.setTAXItems(items2);
+			ecsPurchase20Group.setDefault(true);
+			session.save(ecsPurchase20Group);
+
+			// TAXGroup vatGroup3 = new TAXGroup(company);
+			// vatGroup3.setName("EC Sales Goods 0% Group");
+			// vatGroup3.setDescription("EC Sales of Goods Group");
+			// vatGroup3.setActive(true);
+			// vatGroup3.setSalesType(true);
+			// vatGroup3.setGroupRate(0.0);
+			// List<TAXItem> vatItms3 = new ArrayList<TAXItem>();
+			// vatItms3.add(ecszSalesItem);
+			// vatItms3.add(egzSalesItem);
+			// vatGroup3.setTAXItems(vatItms3);
+			// vatGroup3.setDefault(true);
+			// vatGroup3.setPercentage((egzSalesItem.isPercentage() &&
+			// ecszSalesItem
+			// .isPercentage()) ? true : false);
+			// session.save(vatGroup3);
+
+			TAXGroup rcPurchase17Group = new TAXGroup(company);
+			rcPurchase17Group.setName("Reverse Charge Purchases 17.5% Group");
+			rcPurchase17Group.setDescription("Reverse Charge Purchases Group");
+			rcPurchase17Group.setActive(true);
+			rcPurchase17Group.setSalesType(false);
+			rcPurchase17Group.setGroupRate(0);
 			List<TAXItem> vatItms4 = new ArrayList<TAXItem>();
-			vatItms4.add(vatItem12);
-			vatItms4.add(vatItem11);
-			vatGroup4.setTAXItems(vatItms4);
-			vatGroup4.setDefault(true);
-			session.save(vatGroup4);
+			vatItms4.add(standardPurchase17Item);
+			vatItms4.add(rcPurchase17);
+			rcPurchase17Group.setTAXItems(vatItms4);
+			rcPurchase17Group.setDefault(true);
+			session.save(rcPurchase17Group);
+
+			TAXGroup rcPurchase20Group = new TAXGroup(company);
+			rcPurchase20Group.setName("Reverse Charge Purchases 20% Group");
+			rcPurchase20Group.setDescription("Reverse Charge Purchases Group");
+			rcPurchase20Group.setActive(true);
+			rcPurchase20Group.setSalesType(false);
+			rcPurchase20Group.setGroupRate(0);
+			List<TAXItem> list = new ArrayList<TAXItem>();
+			list.add(standardPurchase20Item);
+			list.add(rcPurchase20);
+			rcPurchase20Group.setTAXItems(list);
+			rcPurchase20Group.setDefault(true);
+			session.save(rcPurchase20Group);
+
+			// ---------------------TAX_CODES-----------------
+
+			TAXCode s17Code = new TAXCode(company);
+			s17Code.setName("S 17.5%");
+			s17Code.setDescription("Standard (17.5%)");
+			s17Code.setTaxable(true);
+			s17Code.setActive(true);
+			s17Code.setTAXItemGrpForPurchases(standardPurchase17Item);
+			s17Code.setTAXItemGrpForSales(standardSales17Item);
+			s17Code.setDefault(true);
+			session.save(s17Code);
+
+			TAXCode s20Code = new TAXCode(company);
+			s20Code.setName("S 20%");
+			s20Code.setDescription("Standard (20%)");
+			s20Code.setTaxable(true);
+			s20Code.setActive(true);
+			s20Code.setTAXItemGrpForPurchases(standardPurchase20Item);
+			s20Code.setTAXItemGrpForSales(standardSales20Item);
+			s20Code.setDefault(true);
+			session.save(s20Code);
+
+			TAXCode rCode = new TAXCode(company);
+			rCode.setName("R 5%");
+			rCode.setDescription("Reduced (5%)");
+			rCode.setTaxable(true);
+			rCode.setActive(true);
+			rCode.setTAXItemGrpForPurchases(reducePurchaseitem);
+			rCode.setTAXItemGrpForSales(reduceSalesItem);
+			rCode.setDefault(true);
+			session.save(rCode);
+
+			TAXCode zCode = new TAXCode(company);
+			zCode.setName("Z 0%");
+			zCode.setDescription("Zero-Rated (0%)");
+			zCode.setTaxable(true);
+			zCode.setActive(true);
+			zCode.setTAXItemGrpForPurchases(zrPurchaseItem);
+			zCode.setTAXItemGrpForSales(vatItem15);
+			zCode.setDefault(true);
+			session.save(zCode);
 
 			TAXCode vatCode1 = new TAXCode(company);
-			vatCode1.setName("E");
+			vatCode1.setName("Exempt");
 			vatCode1.setDescription("Exempt");
 			vatCode1.setTaxable(true);
 			vatCode1.setActive(true);
@@ -909,98 +1100,109 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode1.setDefault(true);
 			session.save(vatCode1);
 
-			TAXCode vatCode2 = new TAXCode(company);
-			vatCode2.setName("EGS");
-			vatCode2.setDescription("EC Goods Standard (17.5%)");
-			vatCode2.setTaxable(true);
-			vatCode2.setActive(true);
-			vatCode2.setTAXItemGrpForPurchases(vatGroup2);
-			vatCode2.setTAXItemGrpForSales(vatGroup3);
-			vatCode2.setDefault(true);
-			vatCode2.setECSalesEntry(true);
-			session.save(vatCode2);
+			TAXCode egsPurchase17Code = new TAXCode(company);
+			egsPurchase17Code.setName("EGS 17.5%");
+			egsPurchase17Code.setDescription("EC Goods Standard (17.5%)");
+			egsPurchase17Code.setTaxable(true);
+			egsPurchase17Code.setActive(true);
+			egsPurchase17Code.setTAXItemGrpForPurchases(ecgPurchase17Group);
+			egsPurchase17Code.setDefault(true);
+			session.save(egsPurchase17Code);
 
-			TAXCode vatCode3 = new TAXCode(company);
-			vatCode3.setName("EGZ");
-			vatCode3.setDescription("EC Goods Zero-Rated (0%)");
-			vatCode3.setTaxable(true);
-			vatCode3.setActive(true);
-			vatCode3.setTAXItemGrpForPurchases(vatGroup1);
-			vatCode3.setDefault(true);
-			vatCode3.setTAXItemGrpForSales(null);
+			TAXCode egsPurchase20Code = new TAXCode(company);
+			egsPurchase20Code.setName("EGS 20%");
+			egsPurchase20Code.setDescription("EC Goods Standard (20%)");
+			egsPurchase20Code.setTaxable(true);
+			egsPurchase20Code.setActive(true);
+			egsPurchase20Code.setTAXItemGrpForPurchases(ecgPurchase20Group);
+			egsPurchase20Code.setDefault(true);
+			session.save(egsPurchase20Code);
 
-			session.save(vatCode3);
+			TAXCode ecgzCode = new TAXCode(company);
+			ecgzCode.setName("EGZ 0.0%");
+			ecgzCode.setDescription("EC Goods Zero-Rated (0.0%)");
+			ecgzCode.setTaxable(true);
+			ecgzCode.setActive(true);
+			ecgzCode.setTAXItemGrpForPurchases(egzPurchaseItem);
+			ecgzCode.setTAXItemGrpForSales(egzSalesItem);
+			ecgzCode.setDefault(true);
+			session.save(ecgzCode);
 
-			TAXCode vatCode4 = new TAXCode(company);
-			vatCode4.setName("N");
-			vatCode4.setDescription("Not Registered");
-			vatCode4.setTaxable(true);
-			vatCode4.setActive(true);
-			vatCode4.setTAXItemGrpForPurchases(vatItem7);
-			vatCode4.setTAXItemGrpForSales(vatItem8);
-			vatCode4.setDefault(true);
-			session.save(vatCode4);
+			TAXCode ecsPurchase17Code = new TAXCode(company);
+			ecsPurchase17Code.setName("ESS 17.5%");
+			ecsPurchase17Code.setDescription("EC Services Standard (17.5%)");
+			ecsPurchase17Code.setTaxable(true);
+			ecsPurchase17Code.setActive(true);
+			ecsPurchase17Code.setTAXItemGrpForPurchases(ecsPurchase17Group);
+			ecsPurchase17Code.setDefault(true);
+			session.save(ecsPurchase17Code);
 
-			TAXCode vatCode5 = new TAXCode(company);
-			vatCode5.setName("R");
-			vatCode5.setDescription("Reduced (5%)");
-			vatCode5.setTaxable(true);
-			vatCode5.setActive(true);
-			vatCode5.setTAXItemGrpForPurchases(vatItem9);
-			vatCode5.setTAXItemGrpForSales(vatItem10);
-			vatCode5.setDefault(true);
-			session.save(vatCode5);
+			TAXCode ecsPurchase20Code = new TAXCode(company);
+			ecsPurchase20Code.setName("ESS 20%");
+			ecsPurchase20Code.setDescription("EC Services Standard (20%)");
+			ecsPurchase20Code.setTaxable(true);
+			ecsPurchase20Code.setActive(true);
+			ecsPurchase20Code.setTAXItemGrpForPurchases(ecsPurchase20Group);
+			ecsPurchase20Code.setDefault(true);
+			session.save(ecsPurchase20Code);
 
-			TAXCode vatCode6 = new TAXCode(company);
-			vatCode6.setName("RC");
-			vatCode6.setDescription("Reverse Charge");
-			vatCode6.setTaxable(true);
-			vatCode6.setActive(true);
-			vatCode6.setTAXItemGrpForPurchases(vatGroup4);
-			// vatCode6.setVATItemGrpForSales(vatItem4);
-			vatCode6.setDefault(true);
-			vatCode6.setECSalesEntry(true);
-			session.save(vatCode6);
+			TAXCode ecszCode = new TAXCode(company);
+			ecszCode.setName("ESZ 0.0%");
+			ecszCode.setDescription("EC Services Zero-Rated (0.0%)");
+			ecszCode.setTaxable(true);
+			ecszCode.setActive(true);
+			ecszCode.setTAXItemGrpForPurchases(ecszPurchaseItem);
+			ecszCode.setTAXItemGrpForSales(ecszSalesItem);
+			ecszCode.setDefault(true);
+			session.save(ecszCode);
 
-			TAXCode vatCode7 = new TAXCode(company);
-			vatCode7.setName("S");
-			vatCode7.setDescription("Standard (17.5%)");
-			vatCode7.setTaxable(true);
-			vatCode7.setActive(true);
-			vatCode7.setTAXItemGrpForPurchases(vatItem12);
-			vatCode7.setTAXItemGrpForSales(vatItem13);
-			vatCode7.setDefault(true);
-			session.save(vatCode7);
+			TAXCode rc17Code = new TAXCode(company);
+			rc17Code.setName("RC 17.5%");
+			rc17Code.setDescription("Reverse Charge (17.5%)");
+			rc17Code.setTaxable(true);
+			rc17Code.setActive(true);
+			rc17Code.setTAXItemGrpForPurchases(rcPurchase17Group);
+			rc17Code.setDefault(true);
+			session.save(rc17Code);
 
-			TAXCode vatCode8 = new TAXCode(company);
-			vatCode8.setName("Z");
-			vatCode8.setDescription("Zero-Rated (0%)");
-			vatCode8.setTaxable(true);
-			vatCode8.setActive(true);
-			vatCode8.setTAXItemGrpForPurchases(vatItem14);
-			vatCode8.setTAXItemGrpForSales(vatItem15);
-			vatCode8.setDefault(true);
-			session.save(vatCode8);
+			TAXCode rc20Code = new TAXCode(company);
+			rc20Code.setName("RC 20%");
+			rc20Code.setDescription("Reverse Charge  (20%)");
+			rc20Code.setTaxable(true);
+			rc20Code.setActive(true);
+			rc20Code.setTAXItemGrpForPurchases(rcPurchase20Group);
+			rc20Code.setDefault(true);
+			session.save(rc20Code);
 
-			TAXCode vatCode9 = new TAXCode(company);
-			vatCode9.setName("O");
-			vatCode9.setDescription("Outside the Scope of VAT");
-			vatCode9.setTaxable(false);
-			vatCode9.setActive(true);
-			vatCode9.setTAXItemGrpForPurchases(null);
-			vatCode9.setTAXItemGrpForSales(null);
-			vatCode9.setDefault(true);
-			session.save(vatCode9);
+			TAXCode rczCode = new TAXCode(company);
+			rczCode.setName("RC 0%");
+			rczCode.setDescription("Reverse Charge");
+			rczCode.setTaxable(true);
+			rczCode.setActive(true);
+			rczCode.setTAXItemGrpForSales(rczSalesitem);
+			rczCode.setTAXItemGrpForPurchases(rczPurchaseItem);
+			rczCode.setDefault(true);
+			session.save(rczCode);
 
-			TAXCode vatCode10 = new TAXCode(company);
-			vatCode10.setName("New S");
-			vatCode10.setDescription("Standard (20%)");
-			vatCode10.setTaxable(true);
-			vatCode10.setActive(true);
-			vatCode10.setTAXItemGrpForPurchases(vatItem16);
-			vatCode10.setTAXItemGrpForSales(vatItem17);
-			vatCode10.setDefault(true);
-			session.save(vatCode10);
+			TAXCode notRegisteredCode = new TAXCode(company);
+			notRegisteredCode.setName("N");
+			notRegisteredCode.setDescription("Not Registered");
+			notRegisteredCode.setTaxable(true);
+			notRegisteredCode.setActive(true);
+			notRegisteredCode.setTAXItemGrpForPurchases(vatItem7);
+			notRegisteredCode.setTAXItemGrpForSales(vatItem8);
+			notRegisteredCode.setDefault(true);
+			session.save(notRegisteredCode);
+
+			TAXCode oCode = new TAXCode(company);
+			oCode.setName("O");
+			oCode.setDescription("Outside the Scope of VAT");
+			oCode.setTaxable(false);
+			oCode.setActive(true);
+			oCode.setTAXItemGrpForPurchases(null);
+			oCode.setTAXItemGrpForSales(null);
+			oCode.setDefault(true);
+			session.save(oCode);
 
 		} catch (Exception e) {
 

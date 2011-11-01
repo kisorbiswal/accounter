@@ -39,7 +39,6 @@ import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
-import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public interface IAccounterReportServiceAsync {
 
@@ -256,8 +255,9 @@ public interface IAccounterReportServiceAsync {
 	public void getECSalesListReport(ClientFinanceDate fromDate,
 			ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<ECSalesList>> callback);
+
 	public void getECSalesListReport(ClientFinanceDate fromDate,
-			ClientFinanceDate toDate,long companyId,
+			ClientFinanceDate toDate, long companyId,
 			AsyncCallback<ArrayList<ECSalesList>> callback);
 
 	public void getECSalesListDetailReport(String payeeName,
@@ -323,9 +323,12 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate, int month,
 			AsyncCallback<ArrayList<ClientBudgetList>> callback);
 
-	public void getTAXItemDetailReport(long taxAgency, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
+	void getTAXItemDetailReport(long taxAgency, long startDate, long endDate,
+			AsyncCallback<ArrayList<TAXItemDetail>> callback);
 
 	public void getVATExceptionDetailReport(ClientFinanceDate start,
 			ClientFinanceDate end, AsyncCallback<ArrayList<VATDetail>> callback);
+
+	public void getTAXItemExceptionDetailReport(long taxAgency, long startDate,
+			long endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
 }

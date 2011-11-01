@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -22,14 +22,13 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author Sai Prasad N
  * 
  */
-public class TaxHistoryView extends BaseView<ClientVATReturn>
+public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
-{
 	SelectCombo optionsCombo;
 	TAXHistoryGrid grid;
-	ClientAbstractTAXReturn clientVATReturn;
+	ClientTAXReturn clientVATReturn;
 	VerticalPanel gridLayout;
-	List<ClientAbstractTAXReturn> clientAbstractTAXReturns;
+	List<ClientTAXReturn> clientAbstractTAXReturns;
 
 	@Override
 	public void init() {
@@ -83,7 +82,7 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 	public void onSave(boolean reopen) {
 		ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();
 
-		ClientAbstractTAXReturn selection = grid.getSelection();
+		ClientTAXReturn selection = grid.getSelection();
 		ClientPayTAX clientPayTAX = new ClientPayTAX();
 		clientTransactionPayTAX.setTaxAgency(selection.getTaxAgency());
 		clientTransactionPayTAX.setTaxDue(selection.getBalance());
@@ -120,28 +119,41 @@ public class TaxHistoryView extends BaseView<ClientVATReturn>
 	}
 
 	private void setData() {
+		rpcGetService
+				.getAllTAXReturns(new AccounterAsyncCallback<List<ClientTAXReturn>>() {
 
-		ArrayList<ClientAbstractTAXReturn> vatReturns = getCompany()
-				.getVatReturns();
-		clientAbstractTAXReturns = vatReturns;
-		if (!vatReturns.isEmpty()) {
-			for (ClientAbstractTAXReturn a : vatReturns)
-				this.grid.addData(a);
-		}
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onResultSuccess(List<ClientTAXReturn> result) {
+						if (result == null) {
+							return;
+						}
+						clientAbstractTAXReturns = result;
+						for (ClientTAXReturn a : result) {
+							grid.addData(a);
+						}
+					}
+				});
+
 	}
 
 	private void filterList(String selectItem) {
 		this.grid.clear();
 		if (selectItem.equals(constants.paid())) {
-			for (ClientAbstractTAXReturn a : clientAbstractTAXReturns)
+			for (ClientTAXReturn a : clientAbstractTAXReturns)
 				if (a.getBalance() == 0)
 					this.grid.addData(a);
 		} else if (selectItem.equals(constants.unPaid())) {
-			for (ClientAbstractTAXReturn a : clientAbstractTAXReturns)
+			for (ClientTAXReturn a : clientAbstractTAXReturns)
 				if (a.getBalance() > 0)
 					this.grid.addData(a);
 		} else {
-			for (ClientAbstractTAXReturn a : clientAbstractTAXReturns)
+			for (ClientTAXReturn a : clientAbstractTAXReturns)
 				this.grid.addData(a);
 		}
 

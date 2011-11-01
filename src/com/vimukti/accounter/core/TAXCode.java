@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -42,7 +41,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	@ReffereredObject
 	TAXItemGroup TAXItemGrpForSales;
 
-	boolean isECSalesEntry;
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 
@@ -64,7 +62,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		this.isActive = taxItemGroup.isActive;
 		this.TAXItemGrpForSales = taxItemGroup;
 		this.isTaxable = true;
-		this.isECSalesEntry = false;
 		this.TAXItemGrpForPurchases = taxItemGroup;
 	}
 
@@ -173,21 +170,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		TAXItemGrpForSales = itemGrpForSales;
 	}
 
-	/**
-	 * @return the isECSalesEntry
-	 */
-	public boolean isECSalesEntry() {
-		return isECSalesEntry;
-	}
-
-	/**
-	 * @param isECSalesEntry
-	 *            the isECSalesEntry to set
-	 */
-	public void setECSalesEntry(boolean isECSalesEntry) {
-		this.isECSalesEntry = isECSalesEntry;
-	}
-
 	public boolean isDefault() {
 		return isDefault;
 	}
@@ -274,11 +256,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 						.getTAXItemGrpForSales()).getTAXItems().get(1)
 						.getVatReturnBox().getName();
 
-				this.isECSalesEntry = Arrays.asList(
-						AccounterServerConstants.UK_EC_SALES_GOODS,
-						AccounterServerConstants.UK_EC_SALES_SERVICES)
-						.containsAll(
-								Arrays.asList(vatRetunrnName, vatRetunrnName1));
 			}
 		}
 	}

@@ -54,7 +54,7 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public ReceiveVATEntries(AbstractTAXReturn v) {
+	public ReceiveVATEntries(TAXReturn v) {
 
 		this.amount = v.getTotal();
 		this.balance = v.getBalance();

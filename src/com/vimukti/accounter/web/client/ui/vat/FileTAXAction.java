@@ -1,11 +1,13 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class FileTAXAction extends Action {
 
@@ -48,8 +50,11 @@ public class FileTAXAction extends Action {
 			private AbstractFileTAXView view;
 
 			public void onCreated() {
-				if (Accounter.getCompany().getCountryPreferences()
-						.isVatAvailable()) {
+				ICountryPreferences countryPreferences = Accounter.getCompany()
+						.getCountryPreferences();
+				if (countryPreferences instanceof UnitedKingdom
+						&& Accounter.getCompany().getCountryPreferences()
+								.isVatAvailable()) {
 					view = new FileVATView();
 				} else {
 					view = new FileTAXView();

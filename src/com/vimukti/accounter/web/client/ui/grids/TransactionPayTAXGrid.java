@@ -7,10 +7,12 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.vat.PayTAXView;
 
 public class TransactionPayTAXGrid extends
@@ -89,7 +91,7 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.vatAgency(),
+		return new String[] { companyConstants.taxAgency(),
 				companyConstants.taxDue(), companyConstants.amountToPay() };
 	}
 
@@ -195,5 +197,18 @@ public class TransactionPayTAXGrid extends
 	@Override
 	public void setTaxCode(long taxCode) {
 
+	}
+
+	@Override
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
+		for (ClientTransactionPayTAX tax : getSelectedRecords()) {
+			if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
+				result.addError(this, Accounter.constants()
+						.pleaseEnterAmountToPay());
+			}
+
+		}
+		return result;
 	}
 }

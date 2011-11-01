@@ -170,7 +170,7 @@ public class ClientCompany implements IAccounterCore {
 	// private ArrayList<ClientSellingOrDisposingFixedAsset>
 	// sellingDisposedItems;
 
-	private ArrayList<ClientAbstractTAXReturn> vatReturns;
+	private ArrayList<ClientTAXReturn> taxReturns;
 
 	private ArrayList<ClientTAXAgency> taxAgencies;
 
@@ -256,23 +256,23 @@ public class ClientCompany implements IAccounterCore {
 	/**
 	 * @return the vatReturns
 	 */
-	public ArrayList<ClientAbstractTAXReturn> getVatReturns() {
-		return vatReturns;
+	public ArrayList<ClientTAXReturn> getTAXReturns() {
+		return taxReturns;
 	}
 
 	/**
 	 * @param vatReturns
 	 *            the vatReturns to set
 	 */
-	public void setVatReturns(ArrayList<ClientAbstractTAXReturn> vatReturns) {
-		this.vatReturns = vatReturns;
+	public void setTAXReturns(ArrayList<ClientTAXReturn> vatReturns) {
+		this.taxReturns = vatReturns;
 	}
 
 	/**
 	 * @return the vatReturns
 	 */
-	public ClientAbstractTAXReturn getVatReturn(long vatReturnID) {
-		return Utility.getObject(this.vatReturns, vatReturnID);
+	public ClientTAXReturn getVatReturn(long vatReturnID) {
+		return Utility.getObject(this.taxReturns, vatReturnID);
 	}
 
 	/**
@@ -1524,11 +1524,10 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void deleteVAtReturn(long vatReturnId) {
-		ClientAbstractTAXReturn clientVatReturn = this
-				.getVatReturn(vatReturnId);
+		ClientTAXReturn clientVatReturn = this.getVatReturn(vatReturnId);
 		if (clientVatReturn != null) {
-			this.vatReturns.remove(clientVatReturn);
-			fireEvent(new CoreEvent<ClientAbstractTAXReturn>(ChangeType.DELETE,
+			this.taxReturns.remove(clientVatReturn);
+			fireEvent(new CoreEvent<ClientTAXReturn>(ChangeType.DELETE,
 					clientVatReturn));
 		}
 	}
@@ -1896,8 +1895,8 @@ public class ClientCompany implements IAccounterCore {
 			// Utility.updateClientList(vagy, payees);
 			// break;
 			case TAX_RETURN:
-				ClientAbstractTAXReturn vaReturn = (ClientAbstractTAXReturn) accounterCoreObject;
-				Utility.updateClientList(vaReturn, this.vatReturns);
+				ClientTAXReturn vaReturn = (ClientTAXReturn) accounterCoreObject;
+				Utility.updateClientList(vaReturn, this.taxReturns);
 				break;
 
 			// case FISCALYEAR:
@@ -2316,7 +2315,6 @@ public class ClientCompany implements IAccounterCore {
 		taxCode.setActive(taxItemGroup.isActive());
 		taxCode.setTAXItemGrpForSales(taxItemGroup.getID());
 		taxCode.setTaxable(true);
-		taxCode.setECSalesEntry(false);
 		taxCode.setTAXItemGrpForPurchases(0);
 		return taxCode;
 	}

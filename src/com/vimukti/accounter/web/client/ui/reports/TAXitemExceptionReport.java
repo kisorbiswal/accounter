@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerReportView;
+import com.vimukti.accounter.web.client.ui.serverreports.TAXItemExceptionDetailServerReport;
 
 /**
  * 
@@ -21,14 +21,13 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 
 	public TAXitemExceptionReport() {
 		super(false, Accounter.constants().noRecordsToShow());
-		this.serverReport = new TAXItemDetailServerReportView(this);
+		this.serverReport = new TAXItemExceptionDetailServerReport(this);
 
 	}
 
 	@Override
 	public void init() {
 		super.init();
-
 	}
 
 	@Override
@@ -42,8 +41,8 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 		this.row = -1;
 		this.taxAgency = vatAgency;
 
-		Accounter.createReportService().getTAXItemDetailReport(this.taxAgency,
-				startDate, endDate, this);
+		Accounter.createReportService().getTAXItemExceptionDetailReport(
+				this.taxAgency, startDate.getDate(), endDate.getDate(), this);
 	}
 
 	@Override

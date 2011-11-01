@@ -20,7 +20,9 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -754,11 +756,21 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			// Exception Report
 			// TODO need to get last vat period date
 			for (ClientTransactionItem item : transaction.getTransactionItems()) {
-				long taxAgency = getCompany().getTaxItem(
-						getCompany().getTAXCode(item.getTaxCode())
-								.getTAXItemGrpForPurchases()).getTaxAgency();
-				if (this.transactionDate
-						.before(getLastTaxReturnEndDate(taxAgency))) {
+				ClientTAXCode taxCode = getCompany().getTAXCode(
+						item.getTaxCode());
+				if (taxCode == null || !taxCode.isTaxable()) {
+					continue;
+				}
+				ClientTAXItem taxItem = getCompany().getTaxItem(
+						taxCode.getTAXItemGrpForSales());
+				if (taxItem == null) {
+					continue;
+				}
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						taxItem.getTaxAgency());
+				if (taxAgency != null
+						&& this.transactionDate.before(taxAgency
+								.getLastTAXReturnDate())) {
 					result.addWarning(this.transactionDate, Accounter
 							.constants().taxExceptionMesg());
 				}

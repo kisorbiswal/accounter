@@ -142,7 +142,7 @@ public class DemoCompany implements IAccounterCore {
 
 	private ArrayList<ClientFixedAsset> fixedAssets;
 
-	private ArrayList<ClientVATReturn> vatReturns;
+	private ArrayList<ClientTAXReturn> vatReturns;
 
 	private ArrayList<ClientTAXAgency> taxAgencies;
 
@@ -269,11 +269,11 @@ public class DemoCompany implements IAccounterCore {
 		this.fixedAssets = fixedAssets;
 	}
 
-	public ArrayList<ClientVATReturn> getVatReturns() {
+	public ArrayList<ClientTAXReturn> getVatReturns() {
 		return vatReturns;
 	}
 
-	public void setVatReturns(ArrayList<ClientVATReturn> vatReturns) {
+	public void setVatReturns(ArrayList<ClientTAXReturn> vatReturns) {
 		this.vatReturns = vatReturns;
 	}
 

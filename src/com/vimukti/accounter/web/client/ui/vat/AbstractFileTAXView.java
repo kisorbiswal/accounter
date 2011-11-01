@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtil;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public abstract class AbstractFileTAXView extends
-		BaseView<ClientAbstractTAXReturn> {
+		BaseView<ClientTAXReturn> {
 
 	private TAXAgencyCombo taxAgencyCombo;
 	protected DateItem fromDate;
@@ -253,9 +253,9 @@ public abstract class AbstractFileTAXView extends
 	}
 
 	private void getVATReturnEndDate(ClientTAXAgency selectItem) {
-		List<ClientAbstractTAXReturn> vatReturns = getCompany().getVatReturns();
-		ClientAbstractTAXReturn lastVATReturn = null;
-		for (ClientAbstractTAXReturn vatReturn : vatReturns) {
+		List<ClientTAXReturn> vatReturns = getCompany().getTAXReturns();
+		ClientTAXReturn lastVATReturn = null;
+		for (ClientTAXReturn vatReturn : vatReturns) {
 			if (selectItem.getID() == vatReturn.getTAXAgency()) {
 				lastVATReturn = vatReturn;
 			}

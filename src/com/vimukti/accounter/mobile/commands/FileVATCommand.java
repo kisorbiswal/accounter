@@ -18,7 +18,7 @@ import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class FileVATCommand extends NewAbstractTransactionCommand {
@@ -122,12 +122,12 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		try {
 			serverVatAgency = new ServerConvertUtil().toServerObject(
 					new TAXAgency(), taxAgency, context.getHibernateSession());
-			ClientVATReturn vatReturn = new ClientConvertUtil().toClientObject(
+			ClientTAXReturn vatReturn = new ClientConvertUtil().toClientObject(
 					new FinanceTool().getTaxManager().getVATReturnDetails(
 							serverVatAgency, new FinanceDate(fromDate),
 							new FinanceDate(toDate),
 							context.getClientCompany().getID()),
-					ClientVATReturn.class);
+					ClientTAXReturn.class);
 			return vatReturn.getBoxes();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -138,7 +138,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientVATReturn clientVATReturn = new ClientVATReturn();
+		ClientTAXReturn clientVATReturn = new ClientTAXReturn();
 		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
 		clientVATReturn.setPeriodStartDate(fromDate.getDate());
 
@@ -184,5 +184,4 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 	public String getSuccessMessage() {
 		return getMessages().createSuccessfully(getConstants().fileVAT());
 	}
-
 }

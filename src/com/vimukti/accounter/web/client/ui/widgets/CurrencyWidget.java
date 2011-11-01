@@ -132,6 +132,9 @@ public class CurrencyWidget extends DynamicForm {
 	}
 
 	public void setSelectedCurrency(ClientCurrency clientCurrency) {
+		if (clientCurrency == null) {
+			return;
+		}
 		currencyCombo.setSelected(clientCurrency.getFormalName());
 		setShowFactorField(baseCurrency == null ? true : clientCurrency
 				.equals(baseCurrency));

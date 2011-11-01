@@ -46,9 +46,9 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			return 15;
 		}
 		if (index == 1)
-			return 240;
+			return 270;
 		if (index == 4)
-			return 100;
+			return 80;
 		if (index == 2)
 			return 190;
 

@@ -1,7 +1,8 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -25,10 +26,12 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 		case 1:
 			return ListGrid.COLUMN_TYPE_TEXT;
 		case 2:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+			return ListGrid.COLUMN_TYPE_DATE;
 		case 3:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
 		case 4:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+		case 5:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
 		}
 		return ListGrid.COLUMN_TYPE_TEXT;
@@ -45,10 +48,12 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 		case 1:
 			return Utility.getTransactionName(obj.getTransactionType());
 		case 2:
-			return obj.getGrassAmount();
+			return new ClientFinanceDate(obj.getTransactionDate());
 		case 3:
-			return obj.getTaxAmount();
+			return obj.getGrassAmount();
 		case 4:
+			return obj.getTaxAmount();
+		case 5:
 			return obj.getNetAmount();
 		}
 		return null;
@@ -61,7 +66,8 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 	}
 
 	@Override
-	protected void onValueChange(ClientTAXReturnEntry obj, int index, Object value) {
+	protected void onValueChange(ClientTAXReturnEntry obj, int index,
+			Object value) {
 		// TODO Auto-generated method stub
 
 	}
@@ -95,15 +101,17 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:
-			return 100;
+			return 150;
 		case 1:
 			return 100;
 		case 2:
 			return 100;
 		case 3:
-			return 100;
+			return 80;
 		case 4:
-			return 100;
+			return 80;
+		case 5:
+			return 80;
 		}
 		return -1;
 	}
@@ -111,8 +119,8 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { constants.taxItem(), constants.transactionType(),
-				constants.grassAmount(), constants.taxAmount(),
-				constants.netAmount() };
+				constants.transactionDate(), constants.grassAmount(),
+				constants.taxAmount(), constants.netAmount() };
 	}
 
 }

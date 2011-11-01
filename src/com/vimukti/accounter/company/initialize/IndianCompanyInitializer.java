@@ -6,6 +6,7 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
@@ -41,42 +42,65 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 	}
 
 	private void initDefaultIndiaAccounts() {
-		initDefaultUSAccounts();
-		createDefaultTDSTaxItemAndTaxAgency();
+		createDefaults();
 	}
 
-	public void initDefaultUSAccounts() {
+	public void createDefaults() {
 
-		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
+		Account tdsPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.TDS_TAX_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
-	}
+		Account serviceTaxPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.SERVICE_TAX_PAYABLE,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
-	public void createDefaultTDSTaxItemAndTaxAgency() {
+		Account cstPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.CENTRAL_SALES_TAX_PAYABLE,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		Session session = HibernateUtil.getCurrentSession();
+		PaymentTerms paymentTerms = (PaymentTerms) session
+				.getNamedQuery("unique.name.PaymentTerms")
+				.setEntity("company", company).setString("name", "Net Monthly")
+				.uniqueResult();
 
 		TAXAgency defaultTDSAgency = new TAXAgency();
 		defaultTDSAgency.setActive(Boolean.TRUE);
-		defaultTDSAgency.setTaxType(TAXItem.TAX_TYPE_TDS);
-
-		defaultTDSAgency.setName("TDS_TaxAgency");
+		defaultTDSAgency.setTaxType(TAXAgency.TAX_TYPE_TDS);
+		defaultTDSAgency.setName("TDS Tax Agency");
 		defaultTDSAgency.setVATReturn(0);
-
-		defaultTDSAgency.setSalesLiabilityAccount((Account) session
-				.getNamedQuery("unique.name.Account")
-				.setEntity("company", company)
-				.setString("name", "TDS Tax Payable").list().get(0));
-
-		defaultTDSAgency.setPurchaseLiabilityAccount((Account) session
-				.getNamedQuery("unique.name.Account")
-				.setEntity("company", company)
-				.setString("name", "TDS Tax Payable").list().get(0));
-
+		defaultTDSAgency.setPurchaseLiabilityAccount(tdsPayable);
 		defaultTDSAgency.setDefault(true);
 		defaultTDSAgency.setCompany(company);
+		defaultTDSAgency.setPaymentTerm(paymentTerms);
 		session.save(defaultTDSAgency);
+
+		TAXAgency defaultServiceTAXAgency = new TAXAgency();
+		defaultServiceTAXAgency.setActive(Boolean.TRUE);
+		defaultServiceTAXAgency.setTaxType(TAXAgency.TAX_TYPE_SERVICETAX);
+		defaultServiceTAXAgency.setName("Service Tax Agency");
+		defaultServiceTAXAgency.setVATReturn(0);
+		defaultServiceTAXAgency.setSalesLiabilityAccount(serviceTaxPayable);
+		defaultServiceTAXAgency.setPurchaseLiabilityAccount(serviceTaxPayable);
+		defaultServiceTAXAgency.setDefault(true);
+		defaultServiceTAXAgency.setCompany(company);
+		defaultServiceTAXAgency.setPaymentTerm(paymentTerms);
+		session.save(defaultServiceTAXAgency);
+
+		TAXAgency defaultCSTAgency = new TAXAgency();
+		defaultCSTAgency.setActive(Boolean.TRUE);
+		defaultCSTAgency.setTaxType(TAXAgency.TAX_TYPE_SALESTAX);
+		defaultCSTAgency.setName("Central Sales Tax Agency");
+		defaultCSTAgency.setVATReturn(0);
+		defaultCSTAgency.setSalesLiabilityAccount(cstPayable);
+		defaultCSTAgency.setDefault(true);
+		defaultCSTAgency.setCompany(company);
+		defaultCSTAgency.setPaymentTerm(paymentTerms);
+		session.save(defaultCSTAgency);
 
 		TAXItem tdsItem1 = new TAXItem(company);
 		tdsItem1.setName("Exempt Purchases");

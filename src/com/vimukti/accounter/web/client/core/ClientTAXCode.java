@@ -15,7 +15,6 @@ public class ClientTAXCode implements IAccounterCore {
 	long TAXItemGrpForPurchases;
 	long TAXItemGrpForSales;
 
-	boolean isECSalesEntry;
 	boolean isDefault;
 	private long taxAgency;
 
@@ -70,21 +69,6 @@ public class ClientTAXCode implements IAccounterCore {
 
 	public void setTAXItemGrpForSales(long taxItemGroup) {
 		TAXItemGrpForSales = taxItemGroup;
-	}
-
-	/**
-	 * @return the isECSalesEntry
-	 */
-	public boolean isECSalesEntry() {
-		return isECSalesEntry;
-	}
-
-	/**
-	 * @param isECSalesEntry
-	 *            the isECSalesEntry to set
-	 */
-	public void setECSalesEntry(boolean isECSalesEntry) {
-		this.isECSalesEntry = isECSalesEntry;
 	}
 
 	@Override

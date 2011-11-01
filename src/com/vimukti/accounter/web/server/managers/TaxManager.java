@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -14,10 +15,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.vimukti.accounter.core.AbstractTAXReturn;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Box;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
@@ -32,13 +33,15 @@ import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.TAXRateCalculation;
+import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -448,10 +451,10 @@ public class TaxManager extends Manager {
 			FinanceDate endDate, Company company) {
 
 		Criteria criteria = HibernateUtil.getCurrentSession().createCriteria(
-				VATReturn.class);
+				TAXReturn.class);
 
 		List list = criteria.add(Restrictions.ge("periodEndDate", endDate))
-				.add(Restrictions.ge("company", company)).list();
+				.add(Restrictions.eq("company", company)).list();
 
 		if (list != null && list.size() > 0 && list.get(0) != null)
 			return true;
@@ -459,23 +462,23 @@ public class TaxManager extends Manager {
 		return false;
 	}
 
-	public VATReturn getVATReturnDetails(TAXAgency vatAgency,
+	public ClientTAXReturn getVATReturnDetails(TAXAgency taxAgency,
 			FinanceDate fromDate, FinanceDate toDate, long companyId)
 			throws DAOException, AccounterException {
 
 		Company company = getCompany(companyId);
 
-		if (hasFileVAT(vatAgency, fromDate, toDate, company)) {
+		if (hasFileVAT(taxAgency, fromDate, toDate, company)) {
 			throw new AccounterException(
 					AccounterException.ERROR_ILLEGAL_ARGUMENT);
 			// "FileVAT is already done in this period. Choose another VAT period");
 		}
-		VATReturn vatReturn = new VATReturn();
+		TAXReturn taxReturn = new TAXReturn();
 
-		List<Box> boxes = createBoxes(vatAgency);
+		// List<Box> boxes = createBoxes(vatAgency);
 
-		assignAmounts(vatAgency, boxes, fromDate, toDate, company);
-		adjustAmounts(vatAgency, boxes, fromDate, toDate, company);
+		// assignAmounts(vatAgency, boxes, fromDate, toDate, company);
+		// adjustAmounts(vatAgency, boxes, fromDate, toDate, company);
 
 		// for (Box b : boxes) {
 		// if (b.getName().equals(
@@ -483,13 +486,22 @@ public class TaxManager extends Manager {
 		// b.setName("Box 2 "
 		// + AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 		// }
+		taxReturn.setTaxAgency(taxAgency);
+		taxReturn.setPeriodStartDate(fromDate);
+		taxReturn.setPeriodEndDate(toDate);
 
-		vatReturn.setTaxAgency(vatAgency);
-		vatReturn.setBoxes(boxes);
-		vatReturn.setPeriodStartDate(fromDate);
-		vatReturn.setPeriodEndDate(toDate);
+		ClientTAXReturn clientObject = new ClientConvertUtil().toClientObject(
+				taxReturn, ClientTAXReturn.class);
 
-		return vatReturn;
+		List<ClientTAXReturnEntry> taxReturnEntries = getTAXReturnEntries(
+				companyId, taxAgency.getID(), fromDate.getDate(),
+				toDate.getDate());
+
+		List<ClientBox> boxes = toBoxes(taxReturnEntries, taxAgency);
+
+		clientObject.setTaxReturnEntries(taxReturnEntries);
+		clientObject.setBoxes(boxes);
+		return clientObject;
 
 	}
 
@@ -585,9 +597,9 @@ public class TaxManager extends Manager {
 				"getVATReturn.by.check.BalancelessThanzero").setEntity(
 				"company", company);
 
-		List<AbstractTAXReturn> vatReturns = query.list();
+		List<TAXReturn> vatReturns = query.list();
 
-		for (AbstractTAXReturn v : vatReturns) {
+		for (TAXReturn v : vatReturns) {
 
 			v.setBalance(-1 * v.getBalance());
 
@@ -669,141 +681,6 @@ public class TaxManager extends Manager {
 		}
 	}
 
-	private List<Box> createBoxes(TAXAgency vatAgency) {
-
-		List<Box> boxes = new ArrayList<Box>();
-
-		if (vatAgency.getVATReturn() == VATReturn.VAT_RETURN_UK_VAT) {
-			Box b1 = new Box();
-			b1.setName(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
-
-			Box b2 = new Box();
-			b2.setName(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
-
-			Box b3 = new Box();
-			b3.setName(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT);
-
-			Box b4 = new Box();
-			b4.setName(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
-
-			Box b5 = new Box();
-			b5.setName(AccounterServerConstants.UK_BOX5_NET_VAT);
-
-			Box b6 = new Box();
-			b6.setName(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
-
-			Box b7 = new Box();
-			b7.setName(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
-
-			Box b8 = new Box();
-			b8.setName(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
-
-			Box b9 = new Box();
-			b9.setName(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
-
-			Box b10 = new Box();
-			b10.setName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
-
-			b1.setBoxNumber(1);
-			b2.setBoxNumber(2);
-			b3.setBoxNumber(3);
-			b4.setBoxNumber(4);
-			b5.setBoxNumber(5);
-			b6.setBoxNumber(6);
-			b7.setBoxNumber(7);
-			b8.setBoxNumber(8);
-			b9.setBoxNumber(9);
-			b10.setBoxNumber(10);
-
-			b1.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b2.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b3.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b4.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b5.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b6.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b7.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b8.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b9.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b10.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-
-			boxes.add(b1);
-			boxes.add(b2);
-			boxes.add(b3);
-			boxes.add(b4);
-			boxes.add(b5);
-			boxes.add(b6);
-			boxes.add(b7);
-			boxes.add(b8);
-			boxes.add(b9);
-			boxes.add(b10);
-		} else if (vatAgency.getVATReturn() == VATReturn.VAT_RETURN_IRELAND) {
-
-			Box b1 = new Box();
-			b1.setName(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
-
-			Box b2 = new Box();
-			b2.setName(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
-
-			Box b3 = new Box();
-			b3.setName(AccounterServerConstants.IRELAND_BOX3_VAT_ON_SALES);
-
-			Box b4 = new Box();
-			b4.setName(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
-
-			Box b5 = new Box();
-			b5.setName(AccounterServerConstants.IRELAND_BOX5_T3_T4_PAYMENT_DUE);
-
-			Box b6 = new Box();
-			b6.setName(AccounterServerConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
-
-			Box b7 = new Box();
-			b7.setName(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
-
-			Box b8 = new Box();
-			b8.setName(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
-
-			Box b9 = new Box();
-			b9.setName(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
-
-			Box b10 = new Box();
-			b10.setName(AccounterServerConstants.IRELAND_BOX10_UNCATEGORISED);
-
-			b1.setBoxNumber(1);
-			b2.setBoxNumber(2);
-			b3.setBoxNumber(3);
-			b4.setBoxNumber(4);
-			b5.setBoxNumber(5);
-			b6.setBoxNumber(6);
-			b7.setBoxNumber(7);
-			b8.setBoxNumber(8);
-			b9.setBoxNumber(9);
-			b10.setBoxNumber(10);
-
-			b1.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b2.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b3.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b4.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b5.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b6.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b7.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b8.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b9.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b10.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-
-			boxes.add(b1);
-			boxes.add(b2);
-			boxes.add(b3);
-			boxes.add(b4);
-			boxes.add(b5);
-			boxes.add(b6);
-			boxes.add(b7);
-			boxes.add(b8);
-			boxes.add(b9);
-			boxes.add(b10);
-		}
-		return boxes;
-	}
-
 	public Map<String, Double> getVATReturnBoxes(FinanceDate startDate,
 			FinanceDate endDate, long companyId) throws DAOException {
 
@@ -854,7 +731,7 @@ public class TaxManager extends Manager {
 				.setParameter("taxAgency", taxAgency.getID())
 				.setParameter("endDate", endDate).setEntity("company", company);
 
-		VATReturn vatReturn = (VATReturn) query.uniqueResult();
+		TAXReturn vatReturn = (TAXReturn) query.uniqueResult();
 
 		if (vatReturn == null) {
 			throw new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -904,9 +781,9 @@ public class TaxManager extends Manager {
 				"getVATReturn.by.check.BalanceGraterThanzero").setEntity(
 				"company", company);
 
-		List<AbstractTAXReturn> vatReturns = query.list();
+		List<TAXReturn> vatReturns = query.list();
 
-		for (AbstractTAXReturn v : vatReturns) {
+		for (TAXReturn v : vatReturns) {
 
 			payVATEntries.add(new PayTAXEntries(v));
 		}
@@ -1209,60 +1086,171 @@ public class TaxManager extends Manager {
 		return 0;
 	}
 
-	public List<ClientTAXReturnEntry> getTaxItemsWithTransactions(
-			long companyId, long taxAgency, long startDate, long endDate) {
+	public List<ClientTAXReturnEntry> getTAXReturnEntries(long companyId,
+			long taxAgency, long startDate, long endDate)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session
-				.getNamedQuery(
-						"getTAXRateCalculation.between.startDate.endDate")
-				.setEntity("company", company)
-				.setParameter("startDate", new FinanceDate(startDate))
-				.setParameter("endDate", new FinanceDate(endDate))
+				.getNamedQuery("getTAXRateCalculation.for.TaxReturn")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate)
 				.setParameter("taxAgency", taxAgency);
 
-		List<TAXRateCalculation> list = query.list();
-		List<ClientTAXReturnEntry> resultPaySalesTaxEntries = new ArrayList<ClientTAXReturnEntry>();
+		List<Object[]> list = query.list();
+		List<ClientTAXReturnEntry> resultTAXReturnEntries = new ArrayList<ClientTAXReturnEntry>();
 
 		if (list != null) {
-			for (TAXRateCalculation taxRateCalculation : list) {
-				ClientTAXReturnEntry paySalesTaxList = new ClientTAXReturnEntry();
-				resultPaySalesTaxEntries.add(paySalesTaxList);
-				paySalesTaxList.setTaxAmount(taxRateCalculation.getVatAmount());
-				paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem()
-						.getID());
-				paySalesTaxList.setTaxAgency(taxRateCalculation.getTaxAgency()
-						.getID());
-				paySalesTaxList.setTaxRateCalculation(taxRateCalculation
-						.getID());
-				paySalesTaxList.setTransactionType(taxRateCalculation
-						.getTransactionItem().getTransaction().getType());
-				paySalesTaxList.setNetAmount(taxRateCalculation.getLineTotal());
-				paySalesTaxList.setGrassAmount(taxRateCalculation
-						.getLineTotal() + taxRateCalculation.getVatAmount());
+			for (Object[] objects : list) {
+				ClientTAXReturnEntry taxReturnEntry = new ClientTAXReturnEntry();
+				taxReturnEntry.setTaxAmount((Double) objects[0]);
+				taxReturnEntry.setNetAmount((Double) objects[1]);
+				taxReturnEntry.setTransaction((Long) objects[2]);
+				taxReturnEntry.setTransactionType((Integer) objects[3]);
+				taxReturnEntry.setTransactionDate((Long) objects[4]);
+				taxReturnEntry.setGrassAmount(taxReturnEntry.getNetAmount()
+						+ taxReturnEntry.getTaxAmount());
+
+				taxReturnEntry.setTaxItem((Long) objects[5]);
+				taxReturnEntry.setTaxAgency((Long) objects[6]);
+
+				taxReturnEntry.setTAXGroupEntry((Boolean) objects[7]);
+				resultTAXReturnEntries.add(taxReturnEntry);
 			}
 		}
 
 		query = session
-				.getNamedQuery(
-						"getTAXAdjustment.checkingby.salesLiabilityAccount.nameandbalanceDue")
-				.setEntity("company", company);
+				.getNamedQuery("getTAXAdjustments.by.taxAgencyIdand.Date")
+				.setParameter("fromDate", new FinanceDate(startDate))
+				.setEntity("company", company)
+				.setParameter("toDate", new FinanceDate(endDate))
+				.setParameter("vatAgency", taxAgency);
 
 		List<TAXAdjustment> taxAdjustments = query.list();
 		if (list != null) {
-
 			for (TAXAdjustment taxAdjustment : taxAdjustments) {
-				TAXReturnEntry paySalesTaxList = new TAXReturnEntry();
-				paySalesTaxList.setTaxAmount(taxAdjustment.getTotal());
-				paySalesTaxList.setTaxAgency(taxAdjustment.getTaxAgency());
-				paySalesTaxList.setTransaction(taxAdjustment);
-				paySalesTaxList.setTaxAdjustment(taxAdjustment);
-				paySalesTaxList
+				ClientTAXReturnEntry taxReturnEntry = new ClientTAXReturnEntry();
+				taxReturnEntry.setTaxAmount(taxAdjustment.getTotal());
+				taxReturnEntry.setTaxItem(taxAdjustment.getTaxItem().getID());
+				taxReturnEntry.setTaxAgency(taxAdjustment.getTaxAgency()
+						.getID());
+				taxReturnEntry.setTransaction(taxAdjustment.getID());
+				taxReturnEntry.setTransactionDate(taxAdjustment.getDate()
+						.getDate());
+				taxReturnEntry
 						.setTransactionType(Transaction.TYPE_ADJUST_SALES_TAX);
+				resultTAXReturnEntries.add(taxReturnEntry);
 			}
 		}
 
-		return resultPaySalesTaxEntries;
+		resultTAXReturnEntries.addAll(getTAXReturnExceptions(companyId,
+				taxAgency, startDate, endDate));
+
+		return resultTAXReturnEntries;
+	}
+
+	protected List<ClientTAXReturnEntry> getTAXReturnExceptions(long companyId,
+			long taxAgency, long startDate, long endDate) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session
+				.getNamedQuery("getTAXRateCalculation.for.TaxReturn.Exception")
+				.setParameter("companyId", companyId)
+				.setParameter("taxAgency", taxAgency);
+
+		List<TAXReturnEntry> taxReturnEntries = session
+				.getNamedQuery("getLastTAXReturn.Entries.by.taxAgency")
+				.setEntity("company", getCompany(companyId))
+				.setParameter("taxAgency", taxAgency).list();
+
+		List<Object[]> list = query.list();
+
+		List<ClientTAXReturnEntry> resultTAXReturnEntries = new ArrayList<ClientTAXReturnEntry>();
+
+		Iterator<Object[]> iterator = list.iterator();
+		for (TAXReturnEntry entry : taxReturnEntries) {
+			Transaction transaction = entry.getTransaction();
+			ClientTAXReturnEntry newEntry = null;
+			while (iterator.hasNext()) {
+				Object[] objects = iterator.next();
+				double taxAmount = (Double) objects[0];
+				double netAmount = (Double) objects[1];
+				long transactionID = (Long) objects[2];
+
+				if (transactionID == transaction.getID()) {
+					newEntry = new ClientTAXReturnEntry();
+					newEntry.setFiledTAXAmount(entry.getTaxAmount());
+					newEntry.setTaxAmount(taxAmount - entry.getTaxAmount());
+					newEntry.setNetAmount(netAmount - entry.getNetAmount());
+					newEntry.setGrassAmount(newEntry.getTaxAmount()
+							+ newEntry.getNetAmount());
+					newEntry.setTransaction(transactionID);
+					newEntry.setTransactionType((Integer) objects[3]);
+					newEntry.setTransactionDate((Long) objects[4]);
+					newEntry.setTaxItem((Long) objects[5]);
+					newEntry.setTaxAgency((Long) objects[6]);
+					newEntry.setTAXGroupEntry((Boolean) objects[7]);
+					resultTAXReturnEntries.add(newEntry);
+					iterator.remove();
+				}
+			}
+			if (newEntry == null) {
+				newEntry = new ClientTAXReturnEntry();
+				newEntry.setFiledTAXAmount(entry.getTaxAmount());
+				newEntry.setTaxAmount(-entry.getTaxAmount());
+				newEntry.setNetAmount(-entry.getNetAmount());
+				newEntry.setGrassAmount(newEntry.getTaxAmount()
+						+ newEntry.getNetAmount());
+				newEntry.setTransaction(entry.getTransaction().getID());
+				newEntry.setTransactionType(entry.getTransaction().getType());
+				newEntry.setTransactionDate(entry.getTransaction().getDate()
+						.getDate());
+				newEntry.setTaxItem(entry.getTaxItem().getID());
+				newEntry.setTaxAgency(entry.getTaxItem().getTaxAgency().getID());
+				newEntry.setTAXGroupEntry(entry.isTAXGroupEntry());
+				resultTAXReturnEntries.add(newEntry);
+			}
+		}
+
+		for (Object[] objects : list) {
+			ClientTAXReturnEntry newEntry = new ClientTAXReturnEntry();
+			newEntry.setFiledTAXAmount(0);
+			newEntry.setTaxAmount((Double) objects[0]);
+			newEntry.setNetAmount((Double) objects[1]);
+			newEntry.setGrassAmount(newEntry.getTaxAmount()
+					+ newEntry.getNetAmount());
+			newEntry.setTransaction((Long) objects[2]);
+			newEntry.setTransactionType((Integer) objects[3]);
+			newEntry.setTransactionDate((Long) objects[4]);
+			newEntry.setTaxItem((Long) objects[5]);
+			newEntry.setTaxAgency((Long) objects[6]);
+			newEntry.setTAXGroupEntry((Boolean) objects[7]);
+			resultTAXReturnEntries.add(newEntry);
+		}
+
+		return resultTAXReturnEntries;
+	}
+
+	public List<ClientTAXReturn> getAllTAXReturns(Long companyID)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyID);
+		List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
+				.setEntity("company", company).list();
+		List<ClientTAXReturn> taxReturns = new ArrayList<ClientTAXReturn>();
+		ClientConvertUtil convertUttils = new ClientConvertUtil();
+		for (TAXReturn taxReturn : list) {
+			ClientTAXReturn clientObject = convertUttils.toClientObject(
+					taxReturn, ClientTAXReturn.class);
+			if (company.getCountry().equals("United Kingdom")) {
+				clientObject.setBoxes(toBoxes(
+						clientObject.getTaxReturnEntries(),
+						taxReturn.getTaxAgency()));
+			}
+			taxReturns.add(clientObject);
+		}
+		return taxReturns;
 	}
 
 }

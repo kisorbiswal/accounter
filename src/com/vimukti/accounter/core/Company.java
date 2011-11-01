@@ -60,7 +60,7 @@ public class Company implements IAccounterServerCore {
 	String companyEmailForCustomers;
 
 	// don't know the purpose
-	Contact contact = new Contact();
+	// Contact contact = new Contact();
 
 	// don't know the purpose
 	String ein;
@@ -214,7 +214,7 @@ public class Company implements IAccounterServerCore {
 
 	private Set<User> usersList = new HashSet<User>();
 
-	private Set<AbstractTAXReturn> vatReturns = new HashSet<AbstractTAXReturn>();
+	private Set<TAXReturn> taxReturns = new HashSet<TAXReturn>();
 
 	private Set<Currency> currencies = new HashSet<Currency>();
 
@@ -439,13 +439,6 @@ public class Company implements IAccounterServerCore {
 	 */
 	public String getCompanyEmailForCustomers() {
 		return companyEmailForCustomers;
-	}
-
-	/**
-	 * @return the contact
-	 */
-	public Contact getContact() {
-		return contact;
 	}
 
 	/**
@@ -926,7 +919,6 @@ public class Company implements IAccounterServerCore {
 
 		cmp.companyEmail = this.getCompanyEmail();
 		cmp.companyEmailForCustomers = this.getCompanyEmailForCustomers();
-		cmp.contact = this.getContact();
 		cmp.ein = this.getEin();
 		cmp.firstMonthOfFiscalYear = this.getFirstMonthOfFiscalYear();
 		cmp.firstMonthOfIncomeTaxYear = this.getFirstMonthOfIncomeTaxYear();
@@ -1009,7 +1001,7 @@ public class Company implements IAccounterServerCore {
 
 		cmp.vatBoxes = this.getVatBoxes();
 
-		cmp.vatReturns = this.getVatReturns();
+		cmp.taxReturns = this.getTAXReturns();
 
 		cmp.registrationNumber = this.getRegistrationNumber();
 
@@ -1319,12 +1311,12 @@ public class Company implements IAccounterServerCore {
 		this.usersList = usersList;
 	}
 
-	public Set<AbstractTAXReturn> getVatReturns() {
-		return vatReturns;
+	public Set<TAXReturn> getTAXReturns() {
+		return taxReturns;
 	}
 
-	public void setVatReturns(Set<AbstractTAXReturn> vatReturns) {
-		this.vatReturns = vatReturns;
+	public void setTAXReturns(Set<TAXReturn> taxReturns) {
+		this.taxReturns = taxReturns;
 	}
 
 	public Set<Currency> getCurrencies() {
@@ -1545,7 +1537,7 @@ public class Company implements IAccounterServerCore {
 		// delete(nominalCodeRange, session);
 		delete(brandingTheme, session);
 		delete(usersList, session);
-		delete(vatReturns, session);
+		delete(taxReturns, session);
 		delete(currencies, session);
 		delete(accounterClasses, session);
 		delete(taxGroups, session);

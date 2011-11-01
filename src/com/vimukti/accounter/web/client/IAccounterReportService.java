@@ -270,9 +270,11 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int month);
 
 	ArrayList<TAXItemDetail> getTAXItemDetailReport(long taxAgency,
-			ClientFinanceDate startDate, ClientFinanceDate endDate)
-			throws AccounterException;
+			long startDate, long endDate) throws AccounterException;
 
 	ArrayList<VATDetail> getVATExceptionDetailReport(ClientFinanceDate start,
-			ClientFinanceDate end) throws AccounterException;;
+			ClientFinanceDate end) throws AccounterException;
+
+	ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(long taxAgency,
+			long startDate, long endDate) throws AccounterException;;
 }

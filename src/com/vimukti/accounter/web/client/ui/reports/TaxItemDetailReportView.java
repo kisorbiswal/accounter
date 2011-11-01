@@ -42,8 +42,11 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 		this.row = -1;
 		this.taxAgency = vatAgency;
 
-		Accounter.createReportService().getTAXItemDetailReport(this.taxAgency,
-				startDate, endDate, this);
+		Accounter.createReportService().getTAXItemDetailReport(
+				this.taxAgency,
+				startDate != null ? startDate.getDate()
+						: new ClientFinanceDate().getDate(), endDate.getDate(),
+				this);
 	}
 
 	@Override
@@ -84,7 +87,7 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 				this.endDate = td.getEndDate();
 			}
 			TaxAgencyStartDateEndDateToolbar toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
-			toolBar.taxAgencyCombo.setComboItem(taxAgency2);
+			toolBar.taxAgencyCombo.select(taxAgency2);
 			toolBar.taxAgencyCombo.setDisabled(true);
 			toolBar.fromItem.setEnteredDate(this.startDate);
 			toolBar.toItem.setEnteredDate(this.endDate);

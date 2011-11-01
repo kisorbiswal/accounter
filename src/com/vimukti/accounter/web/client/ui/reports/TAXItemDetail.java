@@ -23,17 +23,19 @@ public class TAXItemDetail extends BaseReport implements IsSerializable,
 
 	String transactionNumber;
 
-	double vatRate;
+	double TAXRate;
 
 	double netAmount;
 
 	double total;
-	
+
+	double taxAmount;
+
+	double filedTAXAmount;
 
 	long transactionId;
 
 	boolean isPercentage;
-	 double taxAmount;
 
 	/**
 	 * @return the transactionId
@@ -143,16 +145,16 @@ public class TAXItemDetail extends BaseReport implements IsSerializable,
 	/**
 	 * @return the vatRate
 	 */
-	public double getVatRate() {
-		return vatRate;
+	public double getTAXRate() {
+		return TAXRate;
 	}
 
 	/**
 	 * @param vatRate
 	 *            the vatRate to set
 	 */
-	public void setVatRate(double vatRate) {
-		this.vatRate = vatRate;
+	public void setTAXRate(double vatRate) {
+		this.TAXRate = vatRate;
 	}
 
 	/**
@@ -186,6 +188,19 @@ public class TAXItemDetail extends BaseReport implements IsSerializable,
 		this.taxAmount = taxAmount;
 	}
 
+	/**
+	 * @return the filedAmount
+	 */
+	public double getFiledTAXAmount() {
+		return filedTAXAmount;
+	}
 
+	/**
+	 * @param filedAmount
+	 *            the filedAmount to set
+	 */
+	public void setFiledTAXAmount(double filedAmount) {
+		this.filedTAXAmount = filedAmount;
+	}
 
 }

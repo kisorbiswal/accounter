@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -10,7 +11,7 @@ public class TaxHistoryAction extends Action {
 
 	public TaxHistoryAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
+		catagory = Accounter.constants().tax();
 	}
 
 	@Override

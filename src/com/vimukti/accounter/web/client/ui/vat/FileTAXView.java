@@ -19,6 +19,7 @@ public class FileTAXView extends AbstractFileTAXView {
 
 	@Override
 	protected void reloadGrid() {
+		grid.clear();
 		grid.addLoadingImagePanel();
 		rpcGetService.getTAXReturnEntries(selectedTaxAgency.getID(), fromDate
 				.getDate().getDate(), toDate.getDate().getDate(),
@@ -68,16 +69,26 @@ public class FileTAXView extends AbstractFileTAXView {
 	private void updateTransaction() {
 		ClientTAXReturn taxReturn = new ClientTAXReturn();
 		taxReturn.setTAXAgency(selectedTaxAgency.getID());
-		taxReturn.setTaxEntries(grid.getRecords());
+		taxReturn.setTaxReturnEntries(grid.getRecords());
 		taxReturn.setTransactionDate(new ClientFinanceDate().getDate());
 		taxReturn.setPeriodStartDate(fromDate.getDate().getDate());
 		taxReturn.setPeriodEndDate(toDate.getDate().getDate());
 		double salesTaxTotal = 0, purchaseTaxTotal = 0;
 		for (ClientTAXReturnEntry entry : grid.getRecords()) {
-			if (DecimalUtil.isLessThan(entry.getTaxAmount(), 0.00D)) {
-				purchaseTaxTotal += -entry.getTaxAmount();
+
+			if (new ClientFinanceDate(entry.getTransactionDate())
+					.before(fromDate.getDate())) {
+				if (DecimalUtil.isLessThan(entry.getTaxAmount(), 0.00D)) {
+					purchaseTaxTotal -= -entry.getTaxAmount();
+				} else {
+					salesTaxTotal -= entry.getTaxAmount();
+				}
 			} else {
-				salesTaxTotal += entry.getTaxAmount();
+				if (DecimalUtil.isLessThan(entry.getTaxAmount(), 0.00D)) {
+					purchaseTaxTotal += -entry.getTaxAmount();
+				} else {
+					salesTaxTotal += entry.getTaxAmount();
+				}
 			}
 		}
 		double totalTax = salesTaxTotal - purchaseTaxTotal;

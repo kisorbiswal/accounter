@@ -53,7 +53,7 @@ public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public PayTAXEntries(AbstractTAXReturn v) {
+	public PayTAXEntries(TAXReturn v) {
 
 		this.amount = v.getTotal();
 		this.balance = v.getBalance();

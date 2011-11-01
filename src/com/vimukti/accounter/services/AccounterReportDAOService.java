@@ -11,8 +11,8 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountBalance;
@@ -342,7 +342,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 
 	@Override
 	public ArrayList<VATItemDetail> getVATItemDetailReport(String fromDate,
-			String toDate,long companyId) throws DAOException {
+			String toDate, long companyId) throws DAOException {
 
 		return null;
 	}
@@ -355,7 +355,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public VATReturn getVATReturnDetails(TAXAgency vatAgency, Date fromDate,
+	public TAXReturn getVATReturnDetails(TAXAgency vatAgency, Date fromDate,
 			Date toDate) throws DAOException {
 
 		return null;

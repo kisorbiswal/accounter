@@ -9,9 +9,10 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
@@ -303,7 +304,9 @@ public interface IAccounterGETService extends RemoteService {
 
 	long getLastTAXReturnEndDate(long agencyId) throws AccounterException;
 
-	List<ClientTAXReturnEntry> getTAXReturnEntries(long agency,
-			long startDate, long endDate) throws AccounterException;
+	List<ClientTAXReturnEntry> getTAXReturnEntries(long agency, long startDate,
+			long endDate) throws AccounterException;
+
+	List<ClientTAXReturn> getAllTAXReturns() throws AccounterException;
 
 }

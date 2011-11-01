@@ -33,7 +33,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -1582,6 +1582,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		HTML addNotesLink = new HTML(messages.addNote());
 		historyLink.addStyleName("history_notes_link");
 		addNotesLink.addStyleName("history_notes_link");
+		addNotesLink.setVisible(!isInViewMode());
 
 		addNotesPanel = getNotesPanel();
 		addNotesPanel.setVisible(false);
@@ -1722,7 +1723,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected ClientFinanceDate getLastTaxReturnEndDate(long taxAgency) {
 		ClientFinanceDate lastTaxReturnDate = null;
-		for (ClientAbstractTAXReturn taxReturn : getCompany().getVatReturns()) {
+		for (ClientTAXReturn taxReturn : getCompany().getTAXReturns()) {
 			if (taxReturn.getTaxAgency() != taxAgency) {
 				continue;
 			}
@@ -1734,9 +1735,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (lastTaxReturnDate.after(clientFinanceDate)) {
 				lastTaxReturnDate = clientFinanceDate;
 			}
-		}
-		if (lastTaxReturnDate == null) {
-			lastTaxReturnDate = new ClientFinanceDate();
 		}
 		return lastTaxReturnDate;
 	}

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
-import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -171,10 +171,10 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 	}
 
 	public void fillEndingDatesCombo(ClientTAXAgency selectItem) {
-		List<ClientAbstractTAXReturn> vatReturns = getCompany().getVatReturns();
+		List<ClientTAXReturn> vatReturns = getCompany().getTAXReturns();
 		List<String> endDates = new ArrayList<String>();
 		// endDates.add("");
-		for (ClientAbstractTAXReturn vatReturn : vatReturns) {
+		for (ClientTAXReturn vatReturn : vatReturns) {
 			if (vatReturn.getTAXAgency() == selectItem.getID()) {
 
 				endDates.add(UIUtils.dateToString(new ClientFinanceDate(

@@ -5140,6 +5140,8 @@ public interface AccounterConstants extends Constants {
 
 	public String taxItemExceptionDetailReport();
 
+	public String pleaseEnterAmountToPay();
+
 	public String unitName();
 
 	public String measurementList();

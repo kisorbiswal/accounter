@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -43,7 +43,7 @@ public class FileVATView extends AbstractFileTAXView {
 			data.setTransactionDate(new ClientFinanceDate().getDate());
 		}
 
-		ClientVATReturn vatReturn = (ClientVATReturn) data;
+		ClientTAXReturn vatReturn = (ClientTAXReturn) data;
 
 		double salesTaxamount = 0, purchaseTaxAmount = 0;
 		for (ClientBox b : vatReturn.getBoxes()) {
@@ -118,9 +118,9 @@ public class FileVATView extends AbstractFileTAXView {
 		}
 		gridView.addLoadingImagePanel();
 
-		this.rpcUtilService.getTAXReturn(this.selectedTaxAgency,
+		this.rpcUtilService.getVATReturn(this.selectedTaxAgency,
 				fromDate.getDate(), toDate.getDate(),
-				new AccounterAsyncCallback<ClientVATReturn>() {
+				new AccounterAsyncCallback<ClientTAXReturn>() {
 
 					@Override
 					public void onException(AccounterException caught) {
@@ -134,7 +134,7 @@ public class FileVATView extends AbstractFileTAXView {
 					}
 
 					@Override
-					public void onResultSuccess(ClientVATReturn result) {
+					public void onResultSuccess(ClientTAXReturn result) {
 						gridView.removeLoadingImage();
 						setData(result);
 

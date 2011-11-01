@@ -1896,20 +1896,16 @@ public class UIUtils {
 	}
 
 	public static double getVATItemRate(ClientTAXCode taxCode, boolean isSales) {
-		if (!taxCode.getName().equals("EGS")
-				&& !taxCode.getName().equals("EGZ")
-				&& !taxCode.getName().equals("RC")) {
-			ClientTAXItemGroup vatItemGroup = getCompany().getTAXItemGroup(
-					isSales ? taxCode.getTAXItemGrpForSales() : taxCode
-							.getTAXItemGrpForPurchases());
-			if (vatItemGroup != null) {
-				if (vatItemGroup instanceof ClientTAXItem) {
-					return ((ClientTAXItem) vatItemGroup).getTaxRate();
-				}
-				return ((ClientTAXGroup) vatItemGroup).getGroupRate();
+		ClientTAXItemGroup vatItemGroup = getCompany().getTAXItemGroup(
+				isSales ? taxCode.getTAXItemGrpForSales() : taxCode
+						.getTAXItemGrpForPurchases());
+		if (vatItemGroup != null) {
+			if (vatItemGroup instanceof ClientTAXItem) {
+				return ((ClientTAXItem) vatItemGroup).getTaxRate();
 			}
+			return ((ClientTAXGroup) vatItemGroup).getGroupRate();
 		}
-		return 0.0;
+		return 0.00;
 	}
 
 	public static native boolean isMSIEBrowser()/*-{

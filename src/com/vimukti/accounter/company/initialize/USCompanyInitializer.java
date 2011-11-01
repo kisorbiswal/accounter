@@ -349,7 +349,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxAgency.setCompany(company);
 			defaultTaxAgency.setActive(Boolean.TRUE);
 			defaultTaxAgency.setName("Tax Agency");
-
+			defaultTaxAgency.setTaxType(TAXAgency.TAX_TYPE_SALESTAX);
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
 					.setEntity("company", company)

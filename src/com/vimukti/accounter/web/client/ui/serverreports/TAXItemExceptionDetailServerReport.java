@@ -1,27 +1,26 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
-/**
- * 
- * @author Sai Prasad N
- * 
- */
-public class TAXItemDetailServerReportView extends
+public class TAXItemExceptionDetailServerReport extends
 		AbstractFinaneReport<TAXItemDetail> {
 
 	private String sectionName;
 	private String name;
 
-	public TAXItemDetailServerReportView(long startDate, long endDate,
+	public TAXItemExceptionDetailServerReport(long startDate, long endDate,
 			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
-	public TAXItemDetailServerReportView(
+	public TAXItemExceptionDetailServerReport(
 			IFinanceReport<TAXItemDetail> reportView) {
 		this.reportView = reportView;
 	}
@@ -51,8 +50,8 @@ public class TAXItemDetailServerReportView extends
 	public String[] getDynamicHeaders() {
 		return new String[] { getConstants().type(), getConstants().date(),
 				getConstants().noDot(), getConstants().taxRate(),
-				getConstants().grossAmount(), getConstants().taxAmount(),
-				getConstants().netAmount() };
+				getConstants().filedAmount(), getConstants().currentAmount(),
+				getConstants().amountDifference() };
 	}
 
 	@Override
@@ -64,8 +63,8 @@ public class TAXItemDetailServerReportView extends
 	public String[] getColunms() {
 		return new String[] { getConstants().type(), getConstants().date(),
 				getConstants().noDot(), getConstants().taxRate(),
-				getConstants().grossAmount(), getConstants().taxAmount(),
-				getConstants().netAmount() };
+				getConstants().filedAmount(), getConstants().currentAmount(),
+				getConstants().amountDifference() };
 	}
 
 	@Override
@@ -114,11 +113,11 @@ public class TAXItemDetailServerReportView extends
 			return record.isPercentage() ? "    " + record.getTAXRate() + "%"
 					: record.getTAXRate();
 		case 4:
-			return record.getTotal();
+			return record.getFiledTAXAmount();
 		case 5:
 			return record.getTaxAmount();
 		case 6:
-			return record.getNetAmount();
+			return record.getTaxAmount() - record.getFiledTAXAmount();
 		}
 		return null;
 	}
@@ -137,6 +136,18 @@ public class TAXItemDetailServerReportView extends
 	public void makeReportRequest(long start, long end) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void initRecords(List<TAXItemDetail> records) {
+		Collections.sort(records, new Comparator<TAXItemDetail>() {
+
+			@Override
+			public int compare(TAXItemDetail o1, TAXItemDetail o2) {
+				return o1.getTaxItemName().compareTo(o2.getTaxItemName());
+			}
+		});
+		super.initRecords(records);
 	}
 
 }

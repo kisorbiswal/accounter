@@ -7,10 +7,12 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.vat.ReceiveVATView;
 
 public class TransactionReceiveVATGrid extends
@@ -204,4 +206,16 @@ public class TransactionReceiveVATGrid extends
 
 	}
 
+	@Override
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
+		for (ClientTransactionReceiveVAT tax : getSelectedRecords()) {
+			if (!DecimalUtil.isGreaterThan(tax.getAmountToReceive(), 0.00)) {
+				result.addError(this, Accounter.constants()
+						.pleaseEnterAmountToPay());
+			}
+
+		}
+		return result;
+	}
 }

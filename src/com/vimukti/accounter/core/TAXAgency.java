@@ -62,12 +62,15 @@ public class TAXAgency extends Payee {
 	public final static int TAX_TYPE_VAT = 2;
 	public final static int TAX_TYPE_SERVICETAX = 3;
 	public final static int TAX_TYPE_TDS = 4;
-	public final static int TAX_TYPE_OTHER = 5;
+	public static final int TAX_TYPE_TCS = 5;
+	public final static int TAX_TYPE_OTHER = 6;
 
 	int VATReturn;
 	int taxType;
 
-	int tAXFilingFrequency;
+	int taxFilingFrequency;
+
+	private FinanceDate lastTAXReturnDate;
 
 	public int getTaxType() {
 		return taxType;
@@ -252,7 +255,7 @@ public class TAXAgency extends Payee {
 	 * @return the tAXReturnFrequency
 	 */
 	public int getTAXFilingFrequency() {
-		return tAXFilingFrequency;
+		return taxFilingFrequency;
 	}
 
 	/**
@@ -260,7 +263,7 @@ public class TAXAgency extends Payee {
 	 *            the tAXReturnFrequency to set
 	 */
 	public void setTAXFilingFrequency(int tAXReturnFrequency) {
-		this.tAXFilingFrequency = tAXReturnFrequency;
+		this.taxFilingFrequency = tAXReturnFrequency;
 	}
 
 	@Override
@@ -282,6 +285,21 @@ public class TAXAgency extends Payee {
 	 */
 	public void setFiledLiabilityAccount(Account filedLiabilityAccount) {
 		this.filedLiabilityAccount = filedLiabilityAccount;
+	}
+
+	/**
+	 * @return the lastTAXReturnDate
+	 */
+	public FinanceDate getLastTAXReturnDate() {
+		return lastTAXReturnDate;
+	}
+
+	/**
+	 * @param lastTAXReturnDate
+	 *            the lastTAXReturnDate to set
+	 */
+	public void setLastTAXReturnDate(FinanceDate lastTAXReturnDate) {
+		this.lastTAXReturnDate = lastTAXReturnDate;
 	}
 
 }

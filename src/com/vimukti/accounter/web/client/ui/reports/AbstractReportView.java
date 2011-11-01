@@ -56,7 +56,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
-	public boolean isTAXItemDetailsReport;
 	public boolean isVATPriorReport;
 
 	protected IFinanceReport<R> serverReport = null;

@@ -13,13 +13,11 @@ public class ClientTAXReturnEntry implements IAccounterCore {
 
 	int transactionType;
 
+	long transactionDate;
+
 	long taxItem;
 
 	long taxAgency;
-
-	long taxRateCalculation;
-
-	long taxAdjustment;
 
 	int version;
 
@@ -29,12 +27,16 @@ public class ClientTAXReturnEntry implements IAccounterCore {
 
 	double taxAmount;
 
+	private double filedTAXAmount;
+
+	private boolean isTAXGroupEntry;
+
 	public long getTransaction() {
 		return transaction;
 	}
 
-	public void setTransaction(long transaction) {
-		this.transaction = transaction;
+	public void setTransaction(long transactionItem) {
+		this.transaction = transactionItem;
 	}
 
 	public int getVersion() {
@@ -91,23 +93,7 @@ public class ClientTAXReturnEntry implements IAccounterCore {
 	@Override
 	public String getClientClassSimpleName() {
 
-		return "ClientFileTAXEntry";
-	}
-
-	public void setTaxRateCalculation(long taxRateCalculation) {
-		this.taxRateCalculation = taxRateCalculation;
-	}
-
-	public long getTaxRateCalculation() {
-		return taxRateCalculation;
-	}
-
-	public void setTaxAdjustment(long taxAdjustment) {
-		this.taxAdjustment = taxAdjustment;
-	}
-
-	public long getTaxAdjustment() {
-		return taxAdjustment;
+		return "ClientTAXReturnEntry";
 	}
 
 	public ClientTAXReturnEntry clone() {
@@ -175,6 +161,47 @@ public class ClientTAXReturnEntry implements IAccounterCore {
 	 */
 	public void setTaxAmount(double taxAmount) {
 		this.taxAmount = taxAmount;
+	}
+
+	/**
+	 * @return the transactionDate
+	 */
+	public long getTransactionDate() {
+		return transactionDate;
+	}
+
+	/**
+	 * @param transactionDate
+	 *            the transactionDate to set
+	 */
+	public void setTransactionDate(long transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+
+	public void setFiledTAXAmount(double filedTAXAmount) {
+		this.filedTAXAmount = filedTAXAmount;
+	}
+
+	/**
+	 * @return the filedTAXAmount
+	 */
+	public double getFiledTAXAmount() {
+		return filedTAXAmount;
+	}
+
+	/**
+	 * @return the isTAXGroupEntry
+	 */
+	public boolean isTAXGroupEntry() {
+		return isTAXGroupEntry;
+	}
+
+	/**
+	 * @param isTAXGroupEntry
+	 *            the isTAXGroupEntry to set
+	 */
+	public void setTAXGroupEntry(boolean isTAXGroupEntry) {
+		this.isTAXGroupEntry = isTAXGroupEntry;
 	}
 
 }

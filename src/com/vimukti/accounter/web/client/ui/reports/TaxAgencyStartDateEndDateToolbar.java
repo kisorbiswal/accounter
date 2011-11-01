@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
@@ -15,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
+import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
@@ -51,11 +50,24 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 					}
 				});
-
+		taxAgencyCombo.setSelectedItem(0);
+		selectedAgency = taxAgencyCombo.getSelectedValue();
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
 		fromItem.setTitle(Accounter.constants().from());
 		fromItem.setEnteredDate(new ClientFinanceDate());
+
+		fromItem.addDateValueChangeHandler(new DateValueChangeHandler() {
+
+			@Override
+			public void onDateValueChange(ClientFinanceDate date) {
+				startDate = date;
+
+				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
+						startDate, endDate);
+
+			}
+		});
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -64,12 +76,11 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 				.getCurrentFiscalYearEndDate();
 
 		toItem.setTitle(Accounter.constants().to());
-		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
+		toItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				startDate = fromItem.getValue();
-				endDate = toItem.getValue();
+			public void onDateValueChange(ClientFinanceDate date) {
+				endDate = date;
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, endDate);
@@ -128,18 +139,22 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		toItem.setValue(endDate);
 		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
 				endDate);
+		if (selectedAgency != null && this.reportview != null) {
+			this.reportview.makeReportRequest(this.selectedAgency.getID(),
+					startDate, endDate);
+		}
 	}
 
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-
+		fromItem.setValue(startDate);
+		toItem.setValue(endDate);
 	}
 
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
-		// TODO Auto-generated method stub
-
+		dateRangeChanged(defaultDateRange);
 	}
 
 	private void reportRequest() {

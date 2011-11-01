@@ -42,7 +42,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	 */
 	double amountToPay;
 
-	AbstractTAXReturn taxReturn;
+	TAXReturn taxReturn;
 
 	@ReffereredObject
 	PayTAX payVAT;
@@ -106,7 +106,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public AbstractTAXReturn getVatReturn() {
+	public TAXReturn getVatReturn() {
 		return taxReturn;
 	}
 
@@ -114,7 +114,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	 * @param vatReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(AbstractTAXReturn vatReturn) {
+	public void setVatReturn(TAXReturn vatReturn) {
 		this.taxReturn = vatReturn;
 	}
 

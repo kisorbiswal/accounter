@@ -55,10 +55,10 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -1238,7 +1238,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	// }
 
 	@Override
-	public ClientVATReturn getTAXReturn(ClientTAXAgency taxAgency,
+	public ClientTAXReturn getVATReturn(ClientTAXAgency taxAgency,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate)
 			throws AccounterException {
 
@@ -1248,12 +1248,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			TAXAgency serverVatAgency = new ServerConvertUtil().toServerObject(
 					new TAXAgency(), taxAgency, getSession());
 
-			return new ClientConvertUtil().toClientObject(
-					tool.getTaxManager().getVATReturnDetails(serverVatAgency,
-							new FinanceDate(fromDate), new FinanceDate(toDate),
-							getCompanyId()), ClientVATReturn.class);
+			return tool.getTaxManager().getVATReturnDetails(serverVatAgency,
+					new FinanceDate(fromDate), new FinanceDate(toDate),
+					getCompanyId());
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AccounterException(e);
 		}
 	}

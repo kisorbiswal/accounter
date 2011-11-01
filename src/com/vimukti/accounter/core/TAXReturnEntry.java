@@ -29,36 +29,29 @@ public class TAXReturnEntry implements IAccounterServerCore, Lifecycle {
 
 	int transactionType;
 
+	FinanceDate transactionDate;
+
 	TAXItem taxItem;
 
 	TAXAgency taxAgency;
 
 	int version;
 
-	TAXRateCalculation taxRateCalculation;
-
-	TAXAdjustment taxAdjustment;
-
 	double netAmount;
 
 	double grassAmount;
 
-	transient private boolean isOnSaveProccessed;
-
 	private double taxAmount;
 
+	TAXReturn taxReturn;
+
+	transient private boolean isOnSaveProccessed;
+
+	private boolean isTAXGroupEntry;
+
+	private double filedTAXAmount;
+
 	public TAXReturnEntry() {
-	}
-
-	public TAXReturnEntry(Transaction transaction, double taxableAmount,
-			double rate, TAXItem taxItem) {
-
-		this.transaction = transaction;
-		this.taxItem = taxItem;
-		this.taxAgency = taxItem.getTaxAgency();
-		this.taxAmount = taxableAmount;
-		// this.status = transaction.status;
-
 	}
 
 	/**
@@ -161,29 +154,6 @@ public class TAXReturnEntry implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @return the taxRateCalculation
-	 */
-	public TAXRateCalculation getTaxRateCalculation() {
-		return taxRateCalculation;
-	}
-
-	/**
-	 * @param taxRateCalculation
-	 *            the taxRateCalculation to set
-	 */
-	public void setTaxRateCalculation(TAXRateCalculation taxRateCalculation) {
-		this.taxRateCalculation = taxRateCalculation;
-	}
-
-	public void setTaxAdjustment(TAXAdjustment taxAdjustment) {
-		this.taxAdjustment = taxAdjustment;
-	}
-
-	public TAXAdjustment getTaxAdjustment() {
-		return taxAdjustment;
-	}
-
-	/**
 	 * @return the transactionType
 	 */
 	public int getTransactionType() {
@@ -241,5 +211,62 @@ public class TAXReturnEntry implements IAccounterServerCore, Lifecycle {
 	 */
 	public void setTaxAmount(double taxAmount) {
 		this.taxAmount = taxAmount;
+	}
+
+	/**
+	 * @return the transactionDate
+	 */
+	public FinanceDate getTransactionDate() {
+		return transactionDate;
+	}
+
+	/**
+	 * @param transactionDate
+	 *            the transactionDate to set
+	 */
+	public void setTransactionDate(FinanceDate transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+
+	/**
+	 * @return the taxReturn
+	 */
+	public TAXReturn getTaxReturn() {
+		return taxReturn;
+	}
+
+	/**
+	 * @param taxReturn
+	 *            the taxReturn to set
+	 */
+	public void setTaxReturn(TAXReturn taxReturn) {
+		this.taxReturn = taxReturn;
+	}
+
+	public boolean isTAXGroupEntry() {
+		return this.isTAXGroupEntry;
+	}
+
+	/**
+	 * @param isTAXGroupEntry
+	 *            the isTAXGroupEntry to set
+	 */
+	public void setTAXGroupEntry(boolean isTAXGroupEntry) {
+		this.isTAXGroupEntry = isTAXGroupEntry;
+	}
+
+	/**
+	 * @return the filedTAXAmount
+	 */
+	public double getFiledTAXAmount() {
+		return filedTAXAmount;
+	}
+
+	/**
+	 * @param filedTAXAmount
+	 *            the filedTAXAmount to set
+	 */
+	public void setFiledTAXAmount(double filedTAXAmount) {
+		this.filedTAXAmount = filedTAXAmount;
 	}
 }

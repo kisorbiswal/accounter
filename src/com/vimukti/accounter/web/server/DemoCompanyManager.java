@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -33,7 +34,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.DemoCompany;
 
@@ -123,7 +123,7 @@ public class DemoCompanyManager {
 		xStream.alias("ClientFixedAsset", ClientFixedAsset.class);
 
 		xStream.alias("vatReturns", List.class);
-		xStream.alias("ClientVATReturn", ClientVATReturn.class);
+		xStream.alias("ClientTAXReturn", TAXReturn.class);
 
 		xStream.alias("taxAgencies", List.class);
 		xStream.alias("ClientTAXAgency", ClientTAXAgency.class);

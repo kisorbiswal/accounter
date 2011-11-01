@@ -3,14 +3,12 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
@@ -27,8 +25,7 @@ import com.vimukti.accounter.web.client.util.ICountryPreferences;
  * @author Sai Prasad N
  * 
  */
-public class TAXHistoryGrid extends
-		AbstractTransactionGrid<ClientAbstractTAXReturn> {
+public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	private int[] columns = { ListGrid.COLUMN_TYPE_DATE,
 			ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_DATE,
@@ -74,7 +71,7 @@ public class TAXHistoryGrid extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void onClick(ClientAbstractTAXReturn obj, int row, int index) {
+	protected void onClick(ClientTAXReturn obj, int row, int index) {
 		if (index == 5) {
 
 			ICountryPreferences countryPreferences = Accounter.getCompany()
@@ -82,10 +79,7 @@ public class TAXHistoryGrid extends
 			if (countryPreferences instanceof UnitedKingdom
 					&& countryPreferences.isVatAvailable()) {
 				List<VATDetail> vatDetails = new ArrayList<VATDetail>();
-				if (obj instanceof ClientVATReturn) {
-					ClientVATReturn clientVATReturn = (ClientVATReturn) obj;
-					vatDetails = getVATDetailsByBoxes(clientVATReturn);
-				}
+				vatDetails = getVATDetailsByBoxes(obj);
 				VATDetail vatDetail = new VATDetail();
 				vatDetail.setStartDate(new ClientFinanceDate(obj
 						.getPeriodStartDate()));
@@ -98,7 +92,7 @@ public class TAXHistoryGrid extends
 				List<ClientTAXReturnEntry> taxEntries = null;
 				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
-				taxEntries = clientTAXReturn.getTaxEntries();
+				taxEntries = clientTAXReturn.getTaxReturnEntries();
 				details = getData(taxEntries);
 
 				ActionFactory.getTaxItemExceptionDetailReportAction().run(
@@ -108,7 +102,7 @@ public class TAXHistoryGrid extends
 
 	}
 
-	private List<VATDetail> getVATDetailsByBoxes(ClientVATReturn clientVATReturn) {
+	private List<VATDetail> getVATDetailsByBoxes(ClientTAXReturn clientVATReturn) {
 		List<VATDetail> vatDetails = new ArrayList<VATDetail>();
 
 		List<ClientBox> boxes = clientVATReturn.getBoxes();
@@ -127,14 +121,13 @@ public class TAXHistoryGrid extends
 	}
 
 	@Override
-	public <E> CustomCombo<E> getCustomCombo(ClientAbstractTAXReturn obj,
-			int colIndex) {
+	public <E> CustomCombo<E> getCustomCombo(ClientTAXReturn obj, int colIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected Object getColumnValue(ClientAbstractTAXReturn obj, int index) {
+	protected Object getColumnValue(ClientTAXReturn obj, int index) {
 		switch (index) {
 		case 0:
 			return new ClientFinanceDate(obj.getPeriodStartDate()).toString();
@@ -157,7 +150,7 @@ public class TAXHistoryGrid extends
 	}
 
 	@Override
-	protected boolean isEditable(ClientAbstractTAXReturn obj, int row, int index) {
+	protected boolean isEditable(ClientTAXReturn obj, int row, int index) {
 
 		return false;
 	}
@@ -168,22 +161,20 @@ public class TAXHistoryGrid extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void onDoubleClick(ClientAbstractTAXReturn obj, int row, int col) {
-		if (obj instanceof ClientVATReturn) {
-			List<VATSummary> summaries = new ArrayList<VATSummary>();
-			ClientVATReturn data = (ClientVATReturn) obj;
-			summaries = getSummaires(data);
+	protected void onDoubleClick(ClientTAXReturn obj, int row, int col) {
+		ICountryPreferences countryPreferences = Accounter.getCompany()
+				.getCountryPreferences();
+		if (countryPreferences instanceof UnitedKingdom
+				&& countryPreferences.isVatAvailable()) {
+			List<VATSummary> summaries = getSummaires(obj);
 			ActionFactory.getVATSummaryReportAction().run(summaries, false);
 		} else {
 			List<ClientTAXReturnEntry> taxEntries = null;
 			List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
-			if (obj instanceof ClientTAXReturn) {
-				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
-				taxEntries = clientTAXReturn.getTaxEntries();
-				details = getData(taxEntries);
-				ActionFactory.getTaxItemDetailReportAction().run(details, true);
+			taxEntries = obj.getTaxReturnEntries();
+			details = getData(taxEntries);
+			ActionFactory.getTaxItemDetailReportAction().run(details, true);
 
-			}
 		}
 	}
 
@@ -200,7 +191,7 @@ public class TAXHistoryGrid extends
 			detail.setTransactionType(c.getTransactionType());
 			// TODO
 			detail.setNetAmount(c.getNetAmount());
-			detail.setVatRate(getCompany().getTaxItem(c.getTaxItem())
+			detail.setTAXRate(getCompany().getTaxItem(c.getTaxItem())
 					.getTaxRate());
 			detail.setTotal(c.getGrassAmount());
 			details.add(detail);
@@ -208,7 +199,7 @@ public class TAXHistoryGrid extends
 		return details;
 	}
 
-	private List<VATSummary> getSummaires(ClientVATReturn data) {
+	private List<VATSummary> getSummaires(ClientTAXReturn data) {
 
 		List<VATSummary> result = new ArrayList<VATSummary>();
 		for (ClientBox c : data.getBoxes()) {

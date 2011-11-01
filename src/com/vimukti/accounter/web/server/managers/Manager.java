@@ -11,17 +11,28 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.TAXAdjustment;
+import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TAXReturn;
+import com.vimukti.accounter.core.TAXReturnEntry;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
+import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -312,5 +323,327 @@ public class Manager {
 
 		FinanceDate endDate = new FinanceDate(calendar.getTime());
 		return endDate;
+	}
+
+	protected List<Box> toServerBoxes(List<TAXReturnEntry> taxReturnEntries,
+			TAXAgency taxAgency) {
+
+		List<Box> boxes = createBoxes(taxAgency);
+		for (TAXReturnEntry entry : taxReturnEntries) {
+			if (entry.getTransaction().isTAXAdjustment()) {
+				TAXAdjustment taxAdjustment = (TAXAdjustment) entry
+						.getTransaction();
+				VATReturnBox vb = taxAdjustment.getTaxItem().getVatReturnBox();
+				for (Box b : boxes) {
+					if (vb.getVatBox().equals(b.getName())
+							|| (b.getName()
+									.equals(AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
+									.getVatBox().equals("NONE"))) {
+
+						if (taxAdjustment.getTaxItem().isSalesType()) {
+							if ((!taxAdjustment
+									.getTaxItem()
+									.getName()
+									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
+									&& (!taxAdjustment
+											.getTaxItem()
+											.getName()
+											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
+								if (taxAdjustment.getIncreaseVATLine())
+									b.setAmount(b.getAmount()
+											+ taxAdjustment.getTotal());
+								else
+									b.setAmount(b.getAmount()
+											- taxAdjustment.getTotal());
+							} else {
+
+								if (taxAdjustment.getIncreaseVATLine())
+									b.setAmount(b.getAmount()
+											+ taxAdjustment.getTotal());
+								else
+									b.setAmount(b.getAmount()
+											- taxAdjustment.getTotal());
+							}
+						} else {
+							double amount = 0;
+							if (taxAdjustment.getIncreaseVATLine())
+								amount = taxAdjustment.getTotal();
+							else
+								amount = -1 * taxAdjustment.getTotal();
+
+							if (vb.getVatBox()
+									.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+									|| vb.getVatBox()
+											.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES))
+								amount = -1 * amount;
+
+							b.setAmount(b.getAmount() + amount);
+						}
+					}
+				}
+
+			} else if (entry.getTaxItem().getTaxAgency().getName()
+					.equals(taxAgency.getName())) {
+
+				VATReturnBox vb = entry.getTaxItem().getVatReturnBox();
+
+				for (int j = 0; j < boxes.size(); j++) {
+
+					Box box = boxes.get(j);
+
+					if ((box).getName().equals(vb.getTotalBox())) {
+						box.setAmount(box.getAmount() + entry.getNetAmount());
+
+					} else if ((box).getName().equals(vb.getVatBox())) {
+						if (vb.getVatBox()
+								.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+								|| (vb.getVatBox()
+										.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !entry
+										.isTAXGroupEntry())
+								|| (vb.getVatBox()
+										.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && vb
+										.getTotalBox()
+										.equals(AccounterServerConstants.BOX_NONE)))
+							box.setAmount(box.getAmount()
+									+ (-1 * (entry.getTaxAmount())));
+
+						else
+							box.setAmount(box.getAmount()
+									+ (entry.getTaxAmount()));
+
+					}
+					// if (box.getBoxNumber() == 4) {
+					// box.setAmount(box.getAmount() + rcAmount);
+					// rcAmount = 0;
+					// }
+					box.getTaxRateCalculations().add(null);
+				}
+			}
+		}
+		return boxes;
+	}
+
+	protected List<ClientBox> toBoxes(
+			List<ClientTAXReturnEntry> taxReturnEntries, TAXAgency taxAgency) {
+
+		List<ClientBox> boxes = createClientBoxes(taxAgency);
+		Session session = HibernateUtil.getCurrentSession();
+		for (ClientTAXReturnEntry entry : taxReturnEntries) {
+			TAXItem taxItem = (TAXItem) session.get(TAXItem.class,
+					entry.getTaxItem());
+			Transaction transaction = (Transaction) session.get(
+					Transaction.class, entry.getTransaction());
+			if (transaction.isTAXAdjustment()) {
+				TAXAdjustment taxAdjustment = (TAXAdjustment) transaction;
+				VATReturnBox vb = taxAdjustment.getTaxItem().getVatReturnBox();
+				for (ClientBox b : boxes) {
+					if (vb.getVatBox().equals(b.getName())
+							|| (b.getName()
+									.equals(AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
+									.getVatBox().equals("NONE"))) {
+
+						if (taxAdjustment.getTaxItem().isSalesType()) {
+							if ((!taxAdjustment
+									.getTaxItem()
+									.getName()
+									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
+									&& (!taxAdjustment
+											.getTaxItem()
+											.getName()
+											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
+								if (taxAdjustment.getIncreaseVATLine())
+									b.setAmount(b.getAmount()
+											+ taxAdjustment.getTotal());
+								else
+									b.setAmount(b.getAmount()
+											- taxAdjustment.getTotal());
+							} else {
+
+								if (taxAdjustment.getIncreaseVATLine())
+									b.setAmount(b.getAmount()
+											+ taxAdjustment.getTotal());
+								else
+									b.setAmount(b.getAmount()
+											- taxAdjustment.getTotal());
+							}
+						} else {
+							double amount = 0;
+							if (taxAdjustment.getIncreaseVATLine())
+								amount = taxAdjustment.getTotal();
+							else
+								amount = -1 * taxAdjustment.getTotal();
+
+							if (vb.getVatBox()
+									.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+									|| vb.getVatBox()
+											.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES))
+								amount = -1 * amount;
+
+							b.setAmount(b.getAmount() + amount);
+						}
+					}
+				}
+
+			} else if (taxItem.getTaxAgency().getName()
+					.equals(taxAgency.getName())) {
+
+				VATReturnBox vb = taxItem.getVatReturnBox();
+
+				for (int j = 0; j < boxes.size(); j++) {
+
+					ClientBox box = boxes.get(j);
+
+					if ((box).getName().equals(vb.getTotalBox())) {
+						box.setAmount(box.getAmount() + entry.getNetAmount());
+
+					} else if ((box).getName().equals(vb.getVatBox())) {
+						if (vb.getVatBox()
+								.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+								|| (vb.getVatBox()
+										.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !entry
+										.isTAXGroupEntry())
+								|| (vb.getVatBox()
+										.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && vb
+										.getTotalBox()
+										.equals(AccounterServerConstants.BOX_NONE)))
+							box.setAmount(box.getAmount()
+									+ (-1 * (entry.getTaxAmount())));
+
+						else
+							box.setAmount(box.getAmount()
+									+ (entry.getTaxAmount()));
+
+					}
+					// if (box.getBoxNumber() == 4) {
+					// box.setAmount(box.getAmount() + rcAmount);
+					// rcAmount = 0;
+					// }
+					box.getTaxRateCalculations().add(null);
+				}
+			}
+		}
+		return boxes;
+	}
+
+	protected List<Box> createBoxes(TAXAgency vatAgency) {
+
+		List<Box> boxes = new ArrayList<Box>();
+
+		Box b1 = new Box();
+		Box b2 = new Box();
+		Box b3 = new Box();
+		Box b4 = new Box();
+		Box b5 = new Box();
+		Box b6 = new Box();
+		Box b7 = new Box();
+		Box b8 = new Box();
+		Box b9 = new Box();
+		Box b10 = new Box();
+		if (vatAgency.getVATReturn() == TAXReturn.VAT_RETURN_UK_VAT) {
+			b1.setName(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
+			b2.setName(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
+			b3.setName(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT);
+			b4.setName(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
+			b5.setName(AccounterServerConstants.UK_BOX5_NET_VAT);
+			b6.setName(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
+			b7.setName(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
+			b8.setName(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
+			b9.setName(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
+			b10.setName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
+		} else if (vatAgency.getVATReturn() == TAXReturn.VAT_RETURN_IRELAND) {
+			b1.setName(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			b2.setName(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
+			b3.setName(AccounterServerConstants.IRELAND_BOX3_VAT_ON_SALES);
+			b4.setName(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
+			b5.setName(AccounterServerConstants.IRELAND_BOX5_T3_T4_PAYMENT_DUE);
+			b6.setName(AccounterServerConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
+			b7.setName(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
+			b8.setName(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
+			b9.setName(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			b10.setName(AccounterServerConstants.IRELAND_BOX10_UNCATEGORISED);
+		}
+		b1.setBoxNumber(1);
+		b2.setBoxNumber(2);
+		b3.setBoxNumber(3);
+		b4.setBoxNumber(4);
+		b5.setBoxNumber(5);
+		b6.setBoxNumber(6);
+		b7.setBoxNumber(7);
+		b8.setBoxNumber(8);
+		b9.setBoxNumber(9);
+		b10.setBoxNumber(10);
+
+		boxes.add(b1);
+		boxes.add(b2);
+		boxes.add(b3);
+		boxes.add(b4);
+		boxes.add(b5);
+		boxes.add(b6);
+		boxes.add(b7);
+		boxes.add(b8);
+		boxes.add(b9);
+		boxes.add(b10);
+		return boxes;
+	}
+
+	protected List<ClientBox> createClientBoxes(TAXAgency vatAgency) {
+
+		List<ClientBox> boxes = new ArrayList<ClientBox>();
+
+		ClientBox b1 = new ClientBox();
+		ClientBox b2 = new ClientBox();
+		ClientBox b3 = new ClientBox();
+		ClientBox b4 = new ClientBox();
+		ClientBox b5 = new ClientBox();
+		ClientBox b6 = new ClientBox();
+		ClientBox b7 = new ClientBox();
+		ClientBox b8 = new ClientBox();
+		ClientBox b9 = new ClientBox();
+		ClientBox b10 = new ClientBox();
+		if (vatAgency.getVATReturn() == TAXReturn.VAT_RETURN_UK_VAT) {
+			b1.setName(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
+			b2.setName(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
+			b3.setName(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT);
+			b4.setName(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
+			b5.setName(AccounterServerConstants.UK_BOX5_NET_VAT);
+			b6.setName(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
+			b7.setName(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
+			b8.setName(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
+			b9.setName(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
+			b10.setName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
+		} else if (vatAgency.getVATReturn() == TAXReturn.VAT_RETURN_IRELAND) {
+			b1.setName(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			b2.setName(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
+			b3.setName(AccounterServerConstants.IRELAND_BOX3_VAT_ON_SALES);
+			b4.setName(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
+			b5.setName(AccounterServerConstants.IRELAND_BOX5_T3_T4_PAYMENT_DUE);
+			b6.setName(AccounterServerConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
+			b7.setName(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
+			b8.setName(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
+			b9.setName(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			b10.setName(AccounterServerConstants.IRELAND_BOX10_UNCATEGORISED);
+		}
+		b1.setBoxNumber(1);
+		b2.setBoxNumber(2);
+		b3.setBoxNumber(3);
+		b4.setBoxNumber(4);
+		b5.setBoxNumber(5);
+		b6.setBoxNumber(6);
+		b7.setBoxNumber(7);
+		b8.setBoxNumber(8);
+		b9.setBoxNumber(9);
+		b10.setBoxNumber(10);
+
+		boxes.add(b1);
+		boxes.add(b2);
+		boxes.add(b3);
+		boxes.add(b4);
+		boxes.add(b5);
+		boxes.add(b6);
+		boxes.add(b7);
+		boxes.add(b8);
+		boxes.add(b9);
+		boxes.add(b10);
+		return boxes;
 	}
 }

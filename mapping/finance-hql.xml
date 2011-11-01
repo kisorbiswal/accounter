@@ -230,7 +230,7 @@
 	<!-- <query name="list.SellingOrDisposingFixedAsset">from com.vimukti.accounter.core.SellingOrDisposingFixedAsset</query> -->
 	<query name="list.VATReturn">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VATReturn vr where vr.company=:company
+		from com.vimukti.accounter.core.TAXReturn vr where vr.company=:company
 		order by vr.taxAgency.name, vr.periodStartDate
 	</query>
 	<query name="list.currency">
@@ -250,10 +250,10 @@
 		vig.company=:company order by vig.name
 	</query>
 
-	<query name="list.Box">
+	<!-- <query name="list.Box">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Box b where b.company=:company
-	</query>
+	</query> -->
 
 	<query name="list.VATReturnBox">
 		<query-param name="company" type="Company" />

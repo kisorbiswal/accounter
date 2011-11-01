@@ -377,6 +377,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		}
 		dataProvider.setList(newList);
 		dataProvider.refresh();
+		dropDown.setRowCount(dataProvider.getList().size());
+		dropDown.setPageSize(dropDown.getRowCount());
 	}
 
 	public List<T> getComboItems() {

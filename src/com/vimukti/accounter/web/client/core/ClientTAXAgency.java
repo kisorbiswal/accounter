@@ -58,6 +58,8 @@ public class ClientTAXAgency extends ClientPayee {
 
 	int tAXFilingFrequency;
 
+	private long lastTAXReturnDate;
+
 	public int getTaxType() {
 		return taxType;
 	}
@@ -208,5 +210,23 @@ public class ClientTAXAgency extends ClientPayee {
 	 */
 	public void setFiledLiabilityAccount(long filedLiabilityAccount) {
 		this.filedLiabilityAccount = filedLiabilityAccount;
+	}
+
+	/**
+	 * @return the lastTAXReturnDate
+	 */
+	public ClientFinanceDate getLastTAXReturnDate() {
+		if (lastTAXReturnDate == 0) {
+			return null;
+		}
+		return new ClientFinanceDate(lastTAXReturnDate);
+	}
+
+	/**
+	 * @param lastTAXReturnDate
+	 *            the lastTAXReturnDate to set
+	 */
+	public void setLastTAXReturnDate(long lastTAXReturnDate) {
+		this.lastTAXReturnDate = lastTAXReturnDate;
 	}
 }

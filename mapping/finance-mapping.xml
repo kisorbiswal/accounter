@@ -210,18 +210,7 @@
 		</set>
 
 		<property name="companyEmailForCustomers" column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
-		<component name="contact" class="Contact" lazy="false">
-			<property name="isPrimary" column="COMPANY_CONTACT__IS_PRIMARY"
-				not-null="true"></property>
-			<property name="name" column="COMPANY_CONTACT__NAME"
-				not-null="true"></property>
-			<property name="title" column="COMPANY_CONTACT__TITLE"
-				not-null="true"></property>
-			<property name="businessPhone" column="COMPANY_CONTACT__BUSINESS_PHONE"
-				not-null="true"></property>
-			<property name="email" column="COMPANY_CONTACT_EMAIL"
-				not-null="true"></property>
-		</component>
+		
 		<property name="ein" column="EIN"></property>
 		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
 		<property name="firstMonthOfIncomeTaxYear" column="FIRSTMONTH_OF_INCOMETAXYEAR"></property>
@@ -545,10 +534,10 @@
 			<one-to-many class="FixedAsset" />
 		</set>
 
-		<set name="vatReturns" inverse="true" cascade="save-update,delete">
+		<set name="taxReturns" inverse="true" cascade="save-update,delete">
 			<!-- vr.taxAgency.name, vr.VATperiodStartDate -->
 			<key column="COMPANY_ID" />
-			<one-to-many class="AbstractTAXReturn" />
+			<one-to-many class="TAXReturn" />
 		</set>
 
 		<set name="currencies" inverse="true" cascade="save-update,delete"
@@ -567,10 +556,10 @@
 			<one-to-many class="TAXAgency" />
 		</set>
 
-		<set name="vatBoxes" inverse="true" cascade="save-update,delete">
+	<!-- 	<set name="vatBoxes" inverse="true" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Box" />
-		</set>
+		</set> -->
 
 		<set name="vatReturnBoxes" inverse="true" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
@@ -1142,7 +1131,7 @@
 			</many-to-one>
 			<property name="VATReturn" column="VAT_RETURN"></property>
 			<property name="taxType" column="TAX_TYPE"></property>
-			<property name="tAXFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
+			<property name="taxFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
 
 		</joined-subclass>
 	</class>
@@ -1309,8 +1298,8 @@
 		<many-to-one name="salesLiabilityAccount" class="Account"
 			lazy="false" column="SALES_LIABILITY_ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="vatReturn" class="AbstractTAXReturn"
-			lazy="false" column="TAX_RETURN">
+		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
+			column="TAX_RETURN">
 		</many-to-one>
 	</class>
 	<class name="ItemBackUp" table="ITEM_BACK_UP">
@@ -1534,7 +1523,7 @@
 		<property name="actionDate" column="ACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="actionType" column="ACTION_TYPE"></property>
-		<property name="user" column="USER"></property>
+		<property name="user" column="USER_NAME"></property>
 		<property name="details" column="DETAILS"></property>
 		<many-to-one name="postedJournalEntry" class="JournalEntry"
 			lazy="false" column="JOURNAL_ENTRY_ID">
@@ -1568,7 +1557,7 @@
 		<property name="totalBox" column="TOTAL_BOX"></property>
 		<property name="vatReturnType" column="VAT_RETURN_TYPE"></property>
 	</class>
-	<class name="Box" table="BOX">
+	<!-- <class name="Box" table="BOX">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
@@ -1583,7 +1572,7 @@
 			<list-index column="VRC" />
 			<one-to-many class="TAXRateCalculation" />
 		</list>
-	</class>
+	</class> -->
 	<class name="TAXCode" table="TAX_CODE">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -1597,7 +1586,6 @@
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isTaxable" column="ISTAXABLE"></property>
 		<property name="isActive" column="ISACTIVE"></property>
-		<property name="isECSalesEntry" column="IS_EC_SALES_ENTRY"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<many-to-one name="TAXItemGrpForPurchases" class="TAXItemGroup"
 			lazy="false" column="TAXITEMGROUP_PURCHASES">

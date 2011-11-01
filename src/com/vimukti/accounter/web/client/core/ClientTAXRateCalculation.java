@@ -6,7 +6,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public long id;
 
 	/**
@@ -25,7 +25,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	ClientAccount purchaseLiabilityAccount;
 	ClientAccount salesLiabilityAccount;
 
-	ClientVATReturn vatReturn;
+	ClientTAXReturn vatReturn;
 
 	private int version;
 
@@ -36,7 +36,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	/**
 	 * @return the clientVATReturn
 	 */
-	public ClientVATReturn getClientVATReturn() {
+	public ClientTAXReturn getClientVATReturn() {
 		return vatReturn;
 	}
 
@@ -44,7 +44,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	 * @param clientVATReturn
 	 *            the clientVATReturn to set
 	 */
-	public void setClientVATReturn(ClientVATReturn clientVATReturn) {
+	public void setClientVATReturn(ClientTAXReturn clientVATReturn) {
 		this.vatReturn = clientVATReturn;
 	}
 
@@ -237,7 +237,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 }

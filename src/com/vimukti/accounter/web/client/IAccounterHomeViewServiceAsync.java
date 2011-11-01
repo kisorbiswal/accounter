@@ -29,10 +29,10 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -282,9 +282,9 @@ public interface IAccounterHomeViewServiceAsync {
 	public void changeDepreciationStartDateTo(long newStartDate,
 			AsyncCallback callback);
 
-	public void getTAXReturn(ClientTAXAgency taxAgency,
+	public void getVATReturn(ClientTAXAgency taxAgency,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
-			AsyncCallback<ClientVATReturn> callback);
+			AsyncCallback<ClientTAXReturn> callback);
 
 	void getReviewJournal(TempFixedAsset fixedAsset,
 			AsyncCallback<FixedAssetSellOrDisposeReviewJournal> callback);

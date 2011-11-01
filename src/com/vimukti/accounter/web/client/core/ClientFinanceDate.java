@@ -59,7 +59,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	}
 
 	public long getDate() {
-		
+
 		return (year * 10000) + (month * 100) + day;
 	}
 
@@ -139,7 +139,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	 */
 	public ClientFinanceDate(int year, int month, int date, int hrs, int min,
 			int sec) {
-		this(new Date(year-1900, month-1, date, hrs, min, sec));
+		this(new Date(year - 1900, month - 1, date, hrs, min, sec));
 	}
 
 	public ClientFinanceDate(String text) {
@@ -166,6 +166,9 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	 *                if <code>when</code> is null.
 	 */
 	public boolean before(ClientFinanceDate when) {
+		if (when == null) {
+			return false;
+		}
 		return this.getDate() < when.getDate();
 	}
 

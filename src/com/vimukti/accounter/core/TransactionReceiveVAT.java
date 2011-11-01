@@ -46,7 +46,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	double amountToReceive;
 
 	@ReffereredObject
-	AbstractTAXReturn taxReturn;
+	TAXReturn taxReturn;
 
 	@ReffereredObject
 	ReceiveVAT receiveVAT;
@@ -110,7 +110,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public AbstractTAXReturn getTAXReturn() {
+	public TAXReturn getTAXReturn() {
 		return taxReturn;
 	}
 
@@ -118,7 +118,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	 * @param taxReturn
 	 *            the vatReturn to set
 	 */
-	public void setTAXReturn(AbstractTAXReturn taxReturn) {
+	public void setTAXReturn(TAXReturn taxReturn) {
 		this.taxReturn = taxReturn;
 	}
 

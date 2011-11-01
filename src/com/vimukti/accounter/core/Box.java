@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -22,7 +23,7 @@ public class Box implements IAccounterServerCore {
 	String name;
 	double amount;
 
-	List<TAXRateCalculation> taxRateCalculations;
+	List<TAXRateCalculation> taxRateCalculations = new ArrayList<TAXRateCalculation>();
 	private int version;
 
 	/**

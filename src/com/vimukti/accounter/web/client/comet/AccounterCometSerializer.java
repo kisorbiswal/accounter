@@ -24,25 +24,20 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 
-
-
 @SerialTypes({ ClientAccount.class, ClientCustomer.class, ClientItem.class,
-	ClientTAXGroup.class, ClientCustomerGroup.class,
-	ClientVendorGroup.class, ClientPaymentTerms.class,
-	ClientShippingMethod.class, ClientShippingTerms.class,
-	ClientPriceLevel.class, ClientItemGroup.class,
-	ClientSalesPerson.class, ClientCreditRating.class,
-	ClientFiscalYear.class, ClientVendor.class, ClientBank.class,
-	AccounterCommand.class, ClientTAXAgency.class, ClientTAXCode.class,
-	ClientVATReturn.class, ClientVATReturnBox.class,
-	ClientTAXGroup.class, ClientTAXItem.class,
-	ClientTAXItemGroup.class, ClientFixedAsset.class,
-	ClientDepreciation.class })
-public abstract class AccounterCometSerializer extends
-	CometSerializer {
+		ClientTAXGroup.class, ClientCustomerGroup.class,
+		ClientVendorGroup.class, ClientPaymentTerms.class,
+		ClientShippingMethod.class, ClientShippingTerms.class,
+		ClientPriceLevel.class, ClientItemGroup.class, ClientSalesPerson.class,
+		ClientCreditRating.class, ClientFiscalYear.class, ClientVendor.class,
+		ClientBank.class, AccounterCommand.class, ClientTAXAgency.class,
+		ClientTAXCode.class, ClientTAXReturn.class, ClientVATReturnBox.class,
+		ClientTAXGroup.class, ClientTAXItem.class, ClientTAXItemGroup.class,
+		ClientFixedAsset.class, ClientDepreciation.class })
+public abstract class AccounterCometSerializer extends CometSerializer {
 }

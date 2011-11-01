@@ -936,36 +936,25 @@
 				<one-to-many class="TransactionPayBill" />
 			</set>
 		</joined-subclass>
-		<joined-subclass name="AbstractTAXReturn" table="TAX_RETURN">
+		<joined-subclass name="TAXReturn" table="TAX_RETURN">
 			<key column="ID" />
 			<property name="periodStartDate" column="START_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="periodEndDate" column="END_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-				
+
 			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 				cascade="save-update" column="TAX_AGENCY">
 			</many-to-one>
 
 			<property name="balance" column="BALANCE"></property>
 			<property name="totalTAXAmount" column="TAX_TOTAL"></property>
-			<joined-subclass name="VATReturn" table="VAT_RETURN">
-				<key column="ID" />
-				<list name="boxes" cascade="save-update" lazy="false">
-					<key column="BOX_ID" />
-					<list-index column="BX" />
-					<one-to-many class="Box" />
-				</list>
-			</joined-subclass>
 
-			<joined-subclass name="TAXReturn" table="TAX_RETURNS">
-				<key column="ID" />
-				<list name="taxEntries" cascade="save-update" lazy="false">
-					<key column="TAX_ENTRY_ID" />
-					<list-index column="TEI" />
-					<one-to-many class="TAXReturnEntry" />
-				</list>
-			</joined-subclass>
+			<list name="taxReturnEntries" cascade="save-update" lazy="false">
+				<key column="TAX_RETURN_ID" />
+				<list-index column="TEI" />
+				<one-to-many class="TAXReturnEntry" />
+			</list>
 
 		</joined-subclass>
 		<joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT">
@@ -1308,7 +1297,7 @@
 		</many-to-one>
 		<property name="amountToPay" column="AMOUNT_TO_PAY"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="taxReturn" class="AbstractTAXReturn"
+		<many-to-one name="taxReturn" class="TAXReturn"
 			lazy="false" column="VAT_RETURN_ID">
 		</many-to-one>
 		<many-to-one name="payVAT" class="PayTAX" lazy="false"
@@ -1325,8 +1314,8 @@
 		</many-to-one>
 		<property name="amountToReceive" column="AMOUNT_TO_RECEIVE"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="taxReturn" class="AbstractTAXReturn" lazy="false"
-			column="TAX_RETURN_ID">
+		<many-to-one name="taxReturn" class="TAXReturn"
+			lazy="false" column="TAX_RETURN_ID">
 		</many-to-one>
 		<many-to-one name="receiveVAT" class="ReceiveVAT" lazy="false"
 			column="RECEIVE_VAT_ID">
@@ -1346,8 +1335,14 @@
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			column="TAXAGENCY_ID">
 		</many-to-one>
-		<property name="taxAmount" column="AMOUNT"></property>
+		<many-to-one name="taxReturn" class="TAXReturn"
+			lazy="false" column="TAX_RETURN_ID">
+		</many-to-one>
+		<property name="grassAmount" column="GRASS_AMOUNT"></property>
+		<property name="netAmount" column="NET_AMOUNT"></property>
+		<property name="taxAmount" column="TAX_AMOUNT"></property>
 		<property name="version" column="VERSION"></property>
+		<property name="isTAXGroupEntry" column="IS_TAX_GROUP_ENTRY"></property>
 	</class>
 	<class name="PayTAXEntries" table="PAY_TAX_ENTRIES">
 		<id name="id" column="ID">

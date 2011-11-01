@@ -14,10 +14,10 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -291,15 +291,15 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 				paySalesTxEntry.setID(salesTaxEntry.getID());
 				paySalesTxEntry.setTaxAgency(salesTaxEntry.getTaxAgency()
 						.getID());
-				if (salesTaxEntry.getTaxRateCalculation() != null)
-					paySalesTxEntry.setTaxRateCalculation(salesTaxEntry
-							.getTaxRateCalculation().getID());
+				// if (salesTaxEntry.getTaxRateCalculation() != null)
+				// paySalesTxEntry.setTaxRateCalculation(salesTaxEntry
+				// .getTaxRateCalculation().getID());
 				if (salesTaxEntry.getTaxItem() != null)
 					paySalesTxEntry.setTaxItem(salesTaxEntry.getTaxItem()
 							.getID());
-				if (salesTaxEntry.getTaxAdjustment() != null)
-					paySalesTxEntry.setTaxAdjustment(salesTaxEntry
-							.getTaxAdjustment().getID());
+				// if (salesTaxEntry.getTaxAdjustment() != null)
+				// paySalesTxEntry.setTaxAdjustment(salesTaxEntry
+				// .getTaxAdjustment().getID());
 
 				ClientTransactionPayTAX c = new ClientTransactionPayTAX();
 				// c.setPaySalesTaxEntry(paySalesTxEntry);

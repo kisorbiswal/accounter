@@ -9,9 +9,10 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
@@ -422,5 +423,8 @@ public interface IAccounterGETServiceAsync {
 
 	void getTAXReturnEntries(long agency, long startDate, long endDate,
 			AsyncCallback<List<ClientTAXReturnEntry>> accounterAsyncCallback);
+
+	public void getAllTAXReturns(
+			AsyncCallback<List<ClientTAXReturn>> accounterAsyncCallback);
 
 }

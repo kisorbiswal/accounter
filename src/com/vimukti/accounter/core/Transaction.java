@@ -811,7 +811,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	}
 
-	private boolean isTAXAdjustment() {
+	public boolean isTAXAdjustment() {
 		return this != null && this instanceof TAXAdjustment;
 	}
 
@@ -1116,9 +1116,9 @@ public abstract class Transaction extends CreatableObject implements
 				"company", transaction.getCompany());
 		query2.setParameter("id", this.getID());
 		List list = query2.list();
-		if (list != null && list.size() > 0)
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
+		// if (list != null && list.size() > 0)
+		// throw new AccounterException(
+		// AccounterException.ERROR_NO_SUCH_OBJECT);
 		// "File VAT already done in  this transaction date duration, can't Modify");
 		checkForReconciliation(transaction);
 		return true;

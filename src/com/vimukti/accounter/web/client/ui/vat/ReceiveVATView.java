@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAbstractTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
@@ -260,7 +260,7 @@ public class ReceiveVATView extends
 
 		if (dueDateOnOrBefore != null) {
 			for (ClientReceiveVATEntries cont : filterList) {
-				ClientAbstractTAXReturn clientVATReturn = Accounter
+				ClientTAXReturn clientVATReturn = Accounter
 						.getCompany().getVatReturn(cont.getTAXReturn());
 				ClientFinanceDate date = new ClientFinanceDate(
 						clientVATReturn.getPeriodEndDate());

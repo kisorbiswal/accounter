@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -2094,8 +2095,14 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public List<ClientTAXReturnEntry> getTAXReturnEntries(long agency,
 			long startDate, long endDate) throws AccounterException {
-		return getFinanceTool().getTaxManager().getTaxItemsWithTransactions(
+		return getFinanceTool().getTaxManager().getTAXReturnEntries(
 				getCompanyId(), agency, startDate, endDate);
+	}
+
+	@Override
+	public List<ClientTAXReturn> getAllTAXReturns() throws AccounterException {
+		return getFinanceTool().getTaxManager()
+				.getAllTAXReturns(getCompanyId());
 	}
 
 }

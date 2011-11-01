@@ -46,7 +46,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 * This reference to VATReturn is used to indicate whether this entry of
 	 * VATRateCalculation is filed to any VATReturn.
 	 */
-	AbstractTAXReturn vatReturn;
+	TAXReturn taxReturn;
 	private transient double vatValue;
 
 	/**
@@ -204,16 +204,16 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public AbstractTAXReturn getVatReturn() {
-		return vatReturn;
+	public TAXReturn getTAXReturn() {
+		return taxReturn;
 	}
 
 	/**
 	 * @param vatReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(AbstractTAXReturn vatReturn) {
-		this.vatReturn = vatReturn;
+	public void setTAXReturn(TAXReturn vatReturn) {
+		this.taxReturn = vatReturn;
 	}
 
 	/**
@@ -309,7 +309,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
 		System.out.println("Hello I m going to delete");
-		if (this.vatReturn == null) {
+		if (this.taxReturn == null) {
 			this.taxAgency.updateVATAgencyAccount(
 					HibernateUtil.getCurrentSession(),
 					transactionItem.transaction,
