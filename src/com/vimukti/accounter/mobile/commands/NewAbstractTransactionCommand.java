@@ -1,15 +1,20 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String CUSTOMER = "customer";
@@ -131,4 +136,14 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		return vat.doubleValue();
 	}
 
+	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
+			ClientCompany clientCompany, long customerId, long paymentDate)
+			throws AccounterException {
+		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
+		receivePaymentTransactionList = new FinanceTool()
+				.getTransactionReceivePayments(customerId, paymentDate,
+						clientCompany.getID());
+		return new ArrayList<ReceivePaymentTransactionList>(
+				receivePaymentTransactionList);
+	}
 }
