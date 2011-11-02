@@ -6,289 +6,121 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public interface AccounterMessages extends Messages {
 
-	public String userName(String loginUserName);
-
-	public String failedTransaction(String transName);
-
-	public String pleaseEnter(String itemName);
-
-	public String pleaseEnterName(String itemName);
-
-	public String pleaseEnterHTML(String title);
-
-	public String failedTogetCreditsListAndPayments(String name);
+	public SafeHtml aboutThisFieldHelp();
 
 	public SafeHtml addComparativeButton();
 
 	public SafeHtml addNewLine();
 
-	public String contactDetailsHtml();
+	public SafeHtml addNote();
 
-	SafeHtml companyCommentHtml();
+	public SafeHtml adminInfo();
 
-	SafeHtml companySettingsTitle();
+	public SafeHtml ageingAndSellingDetails();
 
 	public SafeHtml allHTML();
 
-	public SafeHtml aboutThisFieldHelp();
+	public SafeHtml bankingAndOtherFinancialDetails();
 
-	public String actionClassNameis(String className);
-
-	public SafeHtml changePasswordHTML();
-
-	SafeHtml conversionBalanaceHeader();
-
-	SafeHtml conversionCommet();
-
-	SafeHtml conversionDateButton();
-
-	SafeHtml conversionHTML();
-
-	public SafeHtml creaditHTML();
-
-	public SafeHtml removeHTML();
-
-	public SafeHtml previousHTML();
-
-	public SafeHtml nextHTML();
-
-	public SafeHtml logoutHTML();
-
-	SafeHtml deleteHtml();
-
-	public String paypalEmailHtml();
-
-	public String startFiscalHTML();
-
-	public String endFiscalHTML();
-
-	SafeHtml footerComment();
-
-	SafeHtml generalSettingsHeading();
-
-	public String fiscalStartEndCompreHTML();
-
-	SafeHtml helpContent();
-
-	public SafeHtml helpCenter();
-
-	public SafeHtml helpHTML();
-
-	SafeHtml invoiceBrandingHTML();
-
-	SafeHtml invoiceComment();
-
-	SafeHtml logoComment();
-
-	public SafeHtml upload();
-
-	public SafeHtml undoneHtml();
-
-	SafeHtml uploadLogo();
-
-	SafeHtml userHTML();
-
-	SafeHtml usersComment();
-
-	public SafeHtml labelHTML();
-
-	public SafeHtml conversationDateSelectionHTML();
+	public SafeHtml basicInfo();
 
 	public SafeHtml bodyFooter();
 
+	public SafeHtml changeAccounts(String account);
+
+	public SafeHtml changePasswordHTML();
+
+	public SafeHtml changeVendors(String vendor);
+
+	public SafeHtml comapnyInfo();
+
+	public SafeHtml companyCommentHtml();
+
+	public SafeHtml companyOtherDetails();
+
+	public SafeHtml companySettingsTitle();
+
+	public SafeHtml conversationDateSelectionHTML();
+
+	public SafeHtml conversionBalanaceHeader();
+
+	public SafeHtml conversionCommet();
+
+	public SafeHtml conversionDateButton();
+
+	public SafeHtml conversionHTML();
+
+	public SafeHtml creaditHTML();
+
+	public SafeHtml customerAndvendorSettings();
+
+	public SafeHtml deleteHtml();
+
+	public SafeHtml doYouUseAndHowDoYouRefer();
+
+	public SafeHtml employeeSettings();
+
+	public SafeHtml footerComment();
+
+	public SafeHtml generalSettingsHeading();
+
+	public SafeHtml helpCenter();
+
+	public SafeHtml helpContent();
+
+	public SafeHtml helpHTML();
+
+	public SafeHtml hideHistory();
+
+	public SafeHtml invoiceBrandingHTML();
+
+	public SafeHtml invoiceComment();
+
+	public SafeHtml labelHTML();
+
+	public SafeHtml logoComment();
+
+	public SafeHtml logoutHTML();
+
+	public SafeHtml nextHTML();
+
+	public SafeHtml otherDetails();
+
+	public SafeHtml previousHTML();
+
+	public SafeHtml registeredDetails();
+
+	public SafeHtml removeHTML();
+
+	public SafeHtml setupComplitionDesc();
+
+	public SafeHtml showHistory();
+
 	public SafeHtml sureToDelete(String string);
 
-	public String wecantDeleteThisTheme(String themeName);
+	public SafeHtml trackBills();
 
-	public String pleaseselectvalidtransactionGrid(String string);
+	public SafeHtml tradingDetails();
 
-	public String noRecordsToShow();
+	public SafeHtml transactionLink(String transactionName);
 
-	public String selectIndustryInfoHTML();
+	public SafeHtml undoneHtml();
 
-	public String selectIndustry();
+	public SafeHtml upload();
 
-	public String userGuidelinesMessage();
+	public SafeHtml uploadLogo();
 
-	public String industrySelectNote();
+	public SafeHtml userHTML();
 
-	public String journalEntryVendor(String name);
-
-	public String invalidAccountNumber(String name);
-
-	public String startSetupInfo();
-
-	public String skipSetupInfo();
-
-	public String statementlist();
-
-	public String statementQuestion();
-
-	public String managingList();
-
-	public String recommendedAccounts();
-
-	public String whyshoudIUseRecommended();
-
-	public String recommendedNote();
-
-	public String newCustomer(String customerName[]);
-
-	public String addANewCustomer(String customerName);
-
-	public String addaNewCustomer(String customerName);
-
-	public String aNewCustomerRefund(String newCustomerRefund[]);
-
-	public String addaNewCustomerRefund(String customerString);
-
-	public String cashBasis(String cashBasis);
-
-	public String custRefund(String customerRefund);
+	public SafeHtml usersComment();
 
 	public String Customer(String customer);
 
-	public String customerAddress(String customerAddress[]);
+	public String MISC1099TransactionDetailByVendor(String vendor);
 
-	public String customerAlreadyExistsWithName(
-			String customerAlreadyExistsWithName[]);
+	public String SelectVendorsToTrack1099(String vendor);
 
-	public String customerAlreadyExistsWithNameAndNo(
-			String customerAlreadyExistsWithNameAndNo[]);
-
-	public String customerAlreadyExistsWithNumber(
-			String customerAlreadyExistsWithNumber);
-
-	public String customerBalance(String customerBalance);
-
-	public String customerBillTo(String customerBillTo);
-
-	public String customerCredit(String customerCredit);
-
-	public String customerPayment(String customer);
-
-	public String customerPrePayment(String prepayment);
-
-	public String customerRefund(String customerRefund);
-
-	public String customerRefunds(String customerRefunds);
-
-	public String customerSince(String customerSince);
-
-	public String customerStatement(String customerStatement);
-
-	public String customerTransactionHistory(String customerTransactionHistory);
-
-	public String customerUpdatedSuccessfully(String customerUpdated);
-
-	public String customerVATCode(String customerVATCode);
-
-	public String customers(String customers);
-
-	public String customersAndReceivable(String customersAndReceivable);
-
-	public String customersHome(String customersHome);
-
-	public String customersList(String customersList);
-
-	public String duplicationCustomerNameNotAllowed(String dupCustomerNotAllowed);
-
-	public String euVATExemptCustomer(String euvVATExemptCustomer);
-
-	public String failedToGetRecievePayments(String failedToGetRecievePayments);
-
-	public String failedToLoadCustomerHome(String failedToLoadCustomerHome);
-
-	public String getCustomersRefundListViewHeading(
-			String getCustomersRefundListViewHeading);
-
-	public String manageCustomerGroup(String manageCustomerGroup);
-
-	public String customerTo(String customerName);
-
-	public String customerID(String customerID);
-
-	public String customerFrom(String cuString);
-
-	public String mergeCustomers(String mergeCustomers);
-
-	public String mostProfitableCustomer(String mostProfitableCustomer);
-
-	public String mostProfitableCustomers(String mostProfitableCustomers);
-
-	public String msg(String msg);
-
-	public String nameOrNumberIsAlreadyInUse(String nameOrNumberIsAlreadyInUse);
-
-	public String newCustomer(String newCustomer);
-
-	public String newCustomerCreated(String newCustomerCreated);
-
-	public String newCustomerGroup(String newCustomerGroup);
-
-	public String newCustomerPayment(String newCustomerPayment);
-
-	public String noCreditsforthiscustomer(String noCreditsforthiscustomer);
-
-	public String noEstimatesAndSalesOrderForCustomer(
-			String noEstimatesAndSalesOrderForCustomer);
-
-	public String noEstimatesForCustomer(String noEstimatesForCustomer);
-
-	public String noQuotesAndSalesOrderForCustomer(
-			String noQuotesAndSalesOrderForCustomer);
-
-	public String noQuotesForCustomer(String noQuotesForCustomer);
-
-	public String onlineSalesByCustomerSummary(
-			String onlineSalesByCustomerSummary);
-
-	public String salesByCustomerSummary(String salesByCustomerSummary);
-
-	public String toAddCustomerGroup(String toAddCustomerGroup);
-
-	public String unableToGet(String string);
-
-	public String useCustomerId(String useCustomerId);
-
-	public String youcannotchangeaCustomertypetoVendortype(
-			String youcannotchangeaCustomertypetoVendortype, String msgString);
-
-	public String howDoYouReferYourCustoemrs();
-
-	public String journalEntryCustomer(String journalEntryCustomerString);
-
-	public String bothCustomerAndVendor(String CustomerString,
-			String vendorString);
-
-	public String addANewVendorPayment(String addANewVendorPaymentString);
-
-	public String amountDueToVendor(String amountDueToVendor);
-
-	public String amountsDueToVendor(String amountsDueToVendorsString);
-
-	public String duplicationOfVendorNameAreNotAllowed(
-			String duplicationOfVendorString);
-
-	public String euVATExemptVendor(String euVATExemptVendorString);
-
-	public String newVendorPrePayment(String newVendorPrePaymentString);
-
-	public String noPurchaseOrderForVendor(String noPurchaseOrderForVendorString);
-
-	public String vendorItemNo(String vendorItemNoString);
-
-	public String vendorPay(String vendorPayString);
-
-	public String vendorPaymentList(String vendorPaymentListString);
-
-	public String vendorsGroupList(String vendorsGroupListString);
-
-	public String todaysVendorPayments(String todaysVendorPayments);
-
-	public String useVendorId(String useVendorIdString);
-
-	public String noBillsAreAvailableFirstAddABill(String noBillsString);
+	public String aNewCustomerRefund(String newCustomerRefund[]);
 
 	public String accandaccumulatedDepreciationAccShouldnotbesame(
 			String accandaccumulatedDepreciationString);
@@ -303,366 +135,13 @@ public interface AccounterMessages extends Messages {
 
 	public String accountName(String accountName);
 
+	public String accountNo(String accountNoString);
+
 	public String accountNumber(String accountNumber);
 
-	public String accountReceivable(String accountReceivable);
-
-	public String accountType(String accounttype);
-
-	public String accountUpdationFailed(String accountUpdationFailed);
-
-	public String accounterCategoryList(String accounterCategoryList);
-
-	public String accountsPayable(String accountsPayableString);
-
-	public String addBankAccount(String addBankAccount);
-
-	public String addanewAccount(String addanewAccount);
-
-	public String adjustmentAccount(String accountAString);
-
-	public String alreadyAccountExist(String alreadyAccountExistString);
-
-	public String assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount(
-			String msgString);
-
-	public String accountRegister(String accRegisterString);
-
-	public String accumulatedDepreciationAccount(
-			String accumulatedDepreciationAccountString);
-
-	public String bankAccount(String bankString);
-
-	public String bankAccountInformation(String bankacInfoString);
-
-	public String bankAccountNo(String bankAccNoString);
-
-	public String bankAccountNumber(String bankString);
-
-	public String bankAccountNumberColon(String bankAccountNumberColonString);
-
-	public String bankAccountType(String bankAccountString);
-
-	public String bankAccounts(String bankAccountsString);
-
-	public String cashAccount(String cashACString);
-
-	public String cashBackAccount(String cashString);
-
-	public String cashBackAccountShouldBeSelected(String msgString);
-
-	public String cashFlowCategory(String cashFlowCategoryString);
-
-	public String categoryList(String categoryListString);
-
-	public String chartOfAccount(String chartOfAccountString);
-
-	public String chartOfAccounts(String chartOfAccountsString);
-
-	public String chartOfAccountsInformation(
-			String chartOfAccountsInformationString);
-
-	public String conversionAccount(String conversionAccounStringt);
-
-	public String createanyadditionalbankaccounts(String msgString);
-
-	public String creditCardAccountInformation(String msgString);
-
-	public String depreciationAccount(String depreciationAccountString);
-
-	public String discountAccount(String discountAccountString);
-
-	public String duplicationOfAccountsIsNotAllowed(String msgString);
-
-	public String expenseAccount(String expenseAccountString);
-
-	public String failedtoGetListofAccounts(String msgString, String name);
-
-	public String failedtogetAccountReceivablechartvalues(String msgString);
-
-	public String failedtogetBankaccountchartvalues(String msgString);
-
-	public String financeCategoryList(String financeCategoryListString);
-
-	public String financialAccount(String financialAccountString);
-
-	public String fromAccount(String fromAccountString);
-
-	public String goToAccountReceivable(String msgString);
-
-	public String goToAccountsPayable(String msgString);
-
-	public String incomeAccount(String incomeAccountString);
-
-	public String incomeAndExpenseAccounts(String msgString);
-
-	public String liabilityAccount(String liabilityAccountString);
-
-	public String mergeFinancialAccounts(String msgString);
-
-	public String mergeVendors(String vendorString);
-
-	public String mergeAccounts(String accountString);
-
-	public String newAccount(String msgString);
-
-	public String newBankAccount(String msgString);
-
-	public String newBankCategory(String msgString);
-
-	public String noDiscountAccountSelected(String msgString);
-
-	public String nominalCodeItem(String nominalCodeItemString);
-
-	public String otherNominalAccounts(String msgString);
-
-	public String panNumber(String panNumberString);
-
-	public String pleaseChooseAnAccount(String msgString);
-
-	public String pleaseSelectPayFromAccount(String msgString);
-
-	public String purchaseLiabilityAccount(String msgString);
-
-	public String reconcileAccount(String msgString);
-
-	public String salesLiabilityAccount(String msgString);
-
-	public String selectAccountType(String msgString);
-
-	public String selectPaymentMethod(String msgString);
-
-	public String showAllAccounts(String msgString);
-
-	public String stockAdjustmentAccount(String msgString);
-
-	public String stockItemExpenseAccount(String msgString);
-
-	public String stockItemIncomeAccont(String msgString);
-
-	public String taxAccount(String taxString);
-
-	public String theAccountNumberchosenisincorrectPleaschooseaNumberbetween(
-			String msgString);
-
-	public String theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179(
-			String msgstring);
-
-	public String thisIsConsideredACashAccount(String msgString);
-
-	public String toAccount(String toAccountString);
-
-	public String toTransferFunds(String msgString);
-
-	public String transactionDetailByAccount(String msgString);
-
-	public String transactionDetailsByAccount(String msgString);
-
-	public String unableToFetchAccountsList(String msgString);
-
-	public String useAccountNos(String msgString);
-
-	public String vatAccount(String vatAccountString);
-
-	public String writeOffAccount(String writeOffAccountString);
-
-	public String youCantDeleteThisAccount(String msgString);
-
-	public String reviewIncomeAndExpensesAccounts(String msgString);
-
-	public String howIsYourCompanyOrganizedDesc(String msgString);
-
-	public String selectRequiredAccounts(String msgString);
-
-	public String howDoYouReferYourAccounts();
-
-	public String taxAgencyFinanceAcount(String msgString);
-
-	public String cannotUsePurchaseItem(String msgString);
-
-	public String cannotUseSalesItem(String msgString);
-
-	public String journalEntryAccount(String msgString);
-
-	public String invalidNumber(String msgString);
-
-	public String expenseInformation(String msgString);
-
-	public String customerName(String customer);
+	public String accountNumberToolTipDesc(String starting, String ending);
 
 	public String accountPayable(String account);
-
-	public String customerLists(String customer);
-
-	public String customerNumber(String customer);
-
-	public String customerGroupList(String customer);
-
-	public String customerCreditNote(String customer);
-
-	public String customerGroup(String customer);
-
-	public String customerGroupAlreadyExists(String customer);
-
-	public String customerList(String customer);
-
-	public String customerRefundIssued(String customer);
-
-	public String customerAlreadyExistsWithNameAndNo(String customer);
-
-	public String customerAlreadyExistsWithName(String customer);
-
-	public String customerNumberShouldBeNumber(String customer);
-
-	public String customerNumberShouldBePos(String customer);
-
-	public String pleaseSelectCustomer(String customer);
-
-	public String customerOrderNumber(String customer);
-
-	public String customerOrderNo(String customer);
-
-	public String vendorAlreadyExistsWithTheNameAndNumber(String vendor);
-
-	public String statementDescription();
-
-	public SafeHtml setupComplitionDesc();
-
-	public String vendorAlreadyExistsWithTheName(String vendor);
-
-	public String pleaseEnterVendorNumberItShouldNotBeEmpty(String vendor);
-
-	public String vendorAlreadyExistsWithTheNumber(String vendor);
-
-	public String vendorNumberShouldBeNumber(String vendor);
-
-	public String vendorNumberShouldBePos(String vendor);
-
-	public String addANewVendor(String msgString);
-
-	public String failedToLoadVendorsHome(String msgString);
-
-	public String manageVendorGroup(String manageVendorGroupString);
-
-	public String newVendor(String newVendorString);
-
-	public String newVendorCreated(String newVendorString);
-
-	public String newVendorGroup(String newVendorGroupString);
-
-	public String noCreditsForThisVendor(String msgString);
-
-	public String noPurchaseOrderAndItemReceiptForVendor(String venString);
-
-	public String noPurchaseOrdersForVendor(String vendorString);
-
-	public String pleaseSelectTheVendor(String msgString);
-
-	public String pleaseSelectVendor(String selectVendorString);
-
-	public String preferredVendor(String msgString);
-
-	public String purchaseByVendorDetail(String purchaseByVendorString);
-
-	public String purchaseByVendorSummary(String venSummaryString);
-
-	public String toAddVendorGroup(String vendorString);
-
-	public String vendor1099(String msgString);
-
-	public String vendorAddress(String vendorAddressString);
-
-	public String vendorBalance(String balanceString);
-
-	public String vendorBendor(String bendorString);
-
-	public String vendorBill(String billString);
-
-	public String vendorBlah(String msgString);
-
-	public String vendorCredit(String vendorCreditString);
-
-	public String vendorCreditMemo(String vendorCreditString);
-
-	public String vendorGroup(String vendorGroupString);
-
-	public String vendorGroupAlreadyExists(String msgString);
-
-	public String vendorGroupList(String vendorGroupListString);
-
-	public String vendorHome(String vendorHomeString);
-
-	public String vendorItems(String vendorItemsString);
-
-	public String vendorInformation(String vendorInformationString);
-
-	public String vendorList(String vendorListString);
-
-	public String vendorLists(String vendorListsString);
-
-	public String vendorMemo(String vendorMemoString);
-
-	public String vendorName(String vendorNameString);
-
-	public String vendorNumber(String vendorNumber);
-
-	public String vendorOrderNo(String vendorString);
-
-	public String vendorPayment(String vendorPaymentString);
-
-	public String vendorPaymentIssued(String vendorString);
-
-	public String vendorPaymentMethod(String msgString);
-
-	public String vendorPayments(String vendorPaymentsString);
-
-	public String vendorPaymentsList(String msgString);
-
-	public String vendorPrePayment(String vendorPrePaymentString);
-
-	public String vendorPrePayments(String msgString);
-
-	public String vendorProductNo(String vendorProductNoString);
-
-	public String vendorServiceNo(String msgString);
-
-	public String vendorServices(String vendorServicesString);
-
-	public String vendorSince(String vendorSinceString);
-
-	public String vendorTransactionHistory(String transactionString);
-
-	public String vendorUpdatedSuccessfully(String msgString);
-
-	public String vendorVatCode(String vendorVatCodeString);
-
-	public String vendorTDSCode(String vendorTdsCodeString);
-
-	public String vendorWhendor(String vendorWhendorString);
-
-	public String vendorpay(String vendorpayString);
-
-	public String vendors(String vendorsString);
-
-	public String vendorsAndPayables(String vendorsString);
-
-	public String vendorsHome(String vendorsHomeString);
-
-	public String billstrackingmanageCashflowStep1(String cashFlowString);
-
-	public String vatIDValidationDesc();
-
-	public String salesByCustomerDetail(String custString);
-
-	public String accounterUseYourForms(String custString, String vendorString);
-
-	public String addaNewVendor(String vendorString);
-
-	public String howDoYouReferYourVendors();
-
-	public String vendorsList(String vendorString);
-
-	public String accountNo(String accountNoString);
 
 	public String accountRangeExceededPlsChoose0001and999(String accString);
 
@@ -684,273 +163,794 @@ public interface AccounterMessages extends Messages {
 
 	public String accountRangeExceededPlsChoose9501and9999(String accString);
 
-	public String accountToDebitForSale(String msgString);
+	public String accountReceivable(String accountReceivable);
 
-	public String accountsList(String string);
-
-	public String createNewAccount(String accString);
-
-	public String defaultAccounts(String defaultAccString);
-
-	public String jobresellAccount(String jobresellAccountString);
-
-	public String billstrackingdescription(String accString);
-
-	public String makeDepositCashBackAccount(String accString);
-
-	public String theFinanceCategoryNoShouldBeBetween1100And1179(
-			String accString);
-
-	public String theFinanceCategoryNoShouldBeBetween(String accountString);
-
-	public String accrualBasis(String accountString);
-
-	public String timetrackingflowStep1(String customer);
-
-	public String getindustryhead();
-
-	public String trackingtimehead();
-
-	public String shouldNotbeZero(String amountString);
-
-	public String shouldBePositive(String name);
-
-	public String noTransactionsTo(String paySalesTax);
-
-	public String vendorID(String vendor);
-
-	public String vendorTo(String vendorTo);
-
-	public String vendorFrom(String vendorFrom);
-
-	public String notMove(String customer);
-
-	public String notMoveAccount(String account, String accounts);
+	public String accountRegister(String accRegisterString);
 
 	public String accountTo(String account);
 
-	public String mergeDescription(String desc);
+	public String accountToDebitForSale(String msgString);
 
-	public String location(String location);
+	public String accountTransactionItems(String account);
 
-	public String useTerminologyFor(String location);
+	public String accountType(String accounttype);
 
-	public String locationTracking(String location);
+	public String accountUpdationFailed(String accountUpdationFailed);
 
-	public String selectWhichWeHaveInOurCompanyOrAddNew(String comboType);
+	public String accounterCategoryList(String accounterCategoryList);
 
-	public String selectWhichWeHaveInOurCompany(String comboType);
+	public String accounterUseYourForms(String custString, String vendorString);
 
-	public String selectDateWhenTransactioCreated(String transaction);
+	public String accountsList(String string);
 
-	public String giveTheNameAccordingToYourID(String transaction);
-
-	public String selectTypeOfThis(String Account);
-
-	public String writeCommentsForThis(String transaction);
-
-	public String selectDateUntilDue(String transaction);
-
-	public String customerMeaning(String customer);
-
-	public String vendorsSelected(String vendor);
-
-	public String SelectVendorsToTrack1099(String vendor);
+	public String accountsPayable(String accountsPayableString);
 
 	public String accountsSelected(String account);
+
+	public String accrualBasis(String accountString);
+
+	public String accumulatedDepreciationAccount(
+			String accumulatedDepreciationAccountString);
+
+	public String actionClassNameis(String className);
+
+	public String active(String name);
+
+	public String addANewCustomer(String customerName);
+
+	public String addANewVendor(String msgString);
+
+	public String addANewVendorPayment(String addANewVendorPaymentString);
+
+	public String addBankAccount(String addBankAccount);
+
+	public String addMore(String name);
+
+	public String addNew(String account);
+
+	public String addaNewCustomer(String customerName);
+
+	public String addaNewCustomerRefund(String customerString);
+
+	public String addaNewVendor(String vendorString);
+
+	public String addanewAccount(String addanewAccount);
+
+	public String adjustmentAccount(String accountAString);
+
+	public String allTransactionDetails(String text);
+
+	public String alreadyAccountExist(String alreadyAccountExistString);
+
+	public String amountDueToVendor(String amountDueToVendor);
+
+	public String amountsDueToVendor(String amountsDueToVendorsString);
+
+	public String assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount(
+			String msgString);
+
+	public String assignAccounts(String account);
+
+	public String bankAccount(String bankString);
+
+	public String bankAccountInformation(String bankacInfoString);
+
+	public String bankAccountNo(String bankAccNoString);
+
+	public String bankAccountNumber(String bankString);
+
+	public String bankAccountNumberColon(String bankAccountNumberColonString);
+
+	public String bankAccountType(String bankAccountString);
+
+	public String bankAccounts(String bankAccountsString);
+
+	public String billstrackingdescription(String accString);
+
+	public String billstrackingmanageCashflowStep1(String cashFlowString);
+
+	public String bothCustomerAndVendor(String CustomerString,
+			String vendorString);
+
+	public String budgetAddBy();
+
+	public String cannotUsePurchaseItem(String msgString);
+
+	public String cannotUseSalesItem(String msgString);
+
+	public String cashAccount(String cashACString);
+
+	public String cashBackAccount(String cashString);
+
+	public String cashBackAccountShouldBeSelected(String msgString);
+
+	public String cashBasis(String cashBasis);
+
+	public String cashFlowCategory(String cashFlowCategoryString);
+
+	public String categoryList(String categoryListString);
+
+	public String chartOfAccount(String chartOfAccountString);
+
+	public String chartOfAccounts(String chartOfAccountsString);
+
+	public String chartOfAccountsInformation(
+			String chartOfAccountsInformationString);
+
+	public String clickThisObjToOpen(String objType, String resultant);
+
+	public String clickThisTo(String text, String viewName);
+
+	public String clickThisToOpen(String next);
+
+	public String clickThisToOpenNew(String viewName);
+
+	public String clickToAddContact(String viewName);
+
+	public String clickToAddItem(String viewName);
 
 	public String companyCustomers(String customer);
 
 	public String companySuppliers(String vendor);
 
-	public String setupVendorsAndAccounts(String vendor, String account);
+	public String contactDetailsHtml();
 
-	public String accountNumberToolTipDesc(String starting, String ending);
+	public String conversionAccount(String conversionAccounStringt);
 
-	public String selectDateOfBirth(String viewName);
+	public String create(String name);
 
-	public String selectDateOfHire(String viewName);
+	public String createNewAccount(String accString);
 
-	public String valueCannotBe0orlessthan0(String amount);
+	public String createSuccessfully(String cashSale);
 
-	public String salesPersonExpenseAccountTooltip(String account);
+	public String createanyadditionalbankaccounts(String msgString);
 
-	public String salesPersonJobToolTip();
+	public String creating(String quote);
 
-	public String giveYourCompany(String type);
+	public String creditCardAccountInformation(String msgString);
 
-	public String salesPersonMeaning();
+	public String currencyTotal(String string);
 
-	public String giveOpeningBalanceToThis(String viewName);
+	public String custRefund(String customerRefund);
+
+	public String customerAddress(String customerAddress[]);
+
+	public String customerAlreadyExistsWithName(String customer);
+
+	public String customerAlreadyExistsWithName(
+			String customerAlreadyExistsWithName[]);
+
+	public String customerAlreadyExistsWithNameAndNo(String customer);
+
+	public String customerAlreadyExistsWithNameAndNo(
+			String customerAlreadyExistsWithNameAndNo[]);
+
+	public String customerAlreadyExistsWithNumber(
+			String customerAlreadyExistsWithNumber);
+
+	public String customerBalance(String customerBalance);
+
+	public String customerBillTo(String customerBillTo);
+
+	public String customerCredit(String customerCredit);
+
+	public String customerCreditNote(String customer);
+
+	public String customerFrom(String cuString);
+
+	public String customerGroup(String customer);
+
+	public String customerGroupAlreadyExists(String customer);
+
+	public String customerGroupList(String customer);
+
+	public String customerID(String customerID);
+
+	public String customerList(String customer);
+
+	public String customerLists(String customer);
+
+	public String customerMeaning(String customer);
+
+	public String customerName(String customer);
+
+	public String customerNumber(String customer);
+
+	public String customerNumberShouldBeNumber(String customer);
+
+	public String customerNumberShouldBePos(String customer);
+
+	public String customerOrderNo(String customer);
+
+	public String customerOrderNumber(String customer);
+
+	public String customerPayment(String customer);
+
+	public String customerPrePayment(String prepayment);
+
+	public String customerRefund(String customerRefund);
+
+	public String customerRefundIssued(String customer);
+
+	public String customerRefunds(String customerRefunds);
+
+	public String customerSince(String customerSince);
+
+	public String customerStatement(String customerStatement);
+
+	public String customerTo(String customerName);
+
+	public String customerTransactionHistory(String customerTransactionHistory);
+
+	public String customerUpdatedSuccessfully(String customerUpdated);
+
+	public String customerVATCode(String customerVATCode);
+
+	public String customers(String customers);
+
+	public String customersAndReceivable(String customersAndReceivable);
+
+	public String customersHome(String customersHome);
+
+	public String customersList(String customersList);
+
+	public String dearCustomer(String custMsg);
+
+	public String defaultAccounts(String defaultAccString);
+
+	public String depositAccount(String account);
+
+	public String depreciationAccount(String depreciationAccountString);
+
+	public String details(String name);
+
+	public String discountAccount(String discountAccountString);
+
+	public String duplicationCustomerNameNotAllowed(String dupCustomerNotAllowed);
+
+	public String duplicationOfAccountsIsNotAllowed(String msgString);
+
+	public String duplicationOfVendorNameAreNotAllowed(
+			String duplicationOfVendorString);
+
+	public String endFiscalHTML();
+
+	public String enterDate(String name);
+
+	public String errorMsg(String erroMsg);
+
+	public String euVATExemptCustomer(String euvVATExemptCustomer);
+
+	public String euVATExemptVendor(String euVATExemptVendorString);
+
+	public String expenseAccount(String expenseAccountString);
+
+	public String expenseInformation(String msgString);
+
+	public String failedToGetRecievePayments(String failedToGetRecievePayments);
+
+	public String failedToLoadCustomerHome(String failedToLoadCustomerHome);
+
+	public String failedToLoadVendorsHome(String msgString);
+
+	public String failedTogetCreditsListAndPayments(String name);
+
+	public String failedTransaction(String transName);
+
+	public String failedtoGetListofAccounts(String msgString, String name);
+
+	public String failedtogetAccountReceivablechartvalues(String msgString);
+
+	public String failedtogetBankaccountchartvalues(String msgString);
+
+	public String financeCategoryList(String financeCategoryListString);
+
+	public String financialAccount(String financialAccountString);
+
+	public String finishToCreate(String cashSale);
+
+	public String fiscalStartEndCompreHTML();
+
+	public String fiscalYearAlreadyExists();
+
+	public String fiscalYearEndDateAlreadyExists();
+
+	public String fiscalYearStartDateAlreadyExists();
+
+	public String fromAccount(String fromAccountString);
+
+	public String fullName(String firstName, String lastName);
+
+	public String getCustomersRefundListViewHeading(
+			String getCustomersRefundListViewHeading);
+
+	public String getSalesByLocationDetails(String locationString);
+
+	public String getindustryhead();
 
 	public String giveNoTo(String viewName);
 
 	public String giveOf(String fieldName, String transactionName);
 
-	public String clickThisTo(String text, String viewName);
-
-	public String clickThisObjToOpen(String objType, String resultant);
-
-	public String allTransactionDetails(String text);
-
-	public String clickThisToOpenNew(String viewName);
-
-	public String clickThisToOpen(String next);
-
-	public String clickToAddItem(String viewName);
-
-	public String clickToAddContact(String viewName);
-
 	public String giveOfYour(String lowerCase, String company);
 
-	public String setupCancelMessgae();
+	public String giveOpeningBalanceToThis(String viewName);
 
-	public SafeHtml registeredDetails();
+	public String giveTheNameAccordingToYourID(String transaction);
 
-	public SafeHtml tradingDetails();
+	public String giveYourCompany(String type);
 
-	public SafeHtml companyOtherDetails();
+	public String goToAccountReceivable(String msgString);
 
-	public SafeHtml bankingAndOtherFinancialDetails();
+	public String goToAccountsPayable(String msgString);
 
-	public SafeHtml customerAndvendorSettings();
+	public String hasSelected(String paymentMethod);
 
-	public SafeHtml doYouUseAndHowDoYouRefer();
+	public String howDoYouReferYourAccounts();
 
-	public SafeHtml ageingAndSellingDetails();
+	public String howDoYouReferYourCustoemrs();
 
-	public SafeHtml adminInfo();
+	public String howDoYouReferYourVendors();
 
-	public SafeHtml basicInfo();
+	public String howIsYourCompanyOrganizedDesc(String msgString);
 
-	public SafeHtml comapnyInfo();
+	public String inActive(String name);
 
-	public SafeHtml otherDetails();
+	public String incomeAccount(String incomeAccountString);
 
-	public String getSalesByLocationDetails(String locationString);
+	public String incomeAndExpenseAccounts(String msgString);
 
-	public SafeHtml employeeSettings();
+	public String industrySelectNote();
 
-	public String venodrsThatMeetThreshold(String vendor);
+	public String invalidAccountNumber(String name);
 
-	public String vendorsBelowThreshold(String vendor);
-
-	public String non1099Vendors(String vendor);
-
-	public SafeHtml changeVendors(String vendor);
-
-	public SafeHtml changeAccounts(String account);
-
-	public String assignAccounts(String account);
-
-	public String dearCustomer(String custMsg);
-
-	public String salesByLocationSummary(String locationString);
-
-	public SafeHtml trackBills();
+	public String invalidNumber(String msgString);
 
 	public String invoiceMailMessage(String customer, String number,
 			ClientFinanceDate date);
 
-	public String selectAccountsToAssign(String account);
+	public String jobresellAccount(String jobresellAccountString);
 
-	public String to(String string, String string2);
+	public String journalEntryAccount(String msgString);
 
-	public String MISC1099TransactionDetailByVendor(String vendor);
+	public String journalEntryCustomer(String journalEntryCustomerString);
 
-	public String phoneNumber(String catagory);
-
-	public String addNew(String account);
-
-	public String fiscalYearAlreadyExists();
-
-	public String fiscalYearStartDateAlreadyExists();
-
-	public String fiscalYearEndDateAlreadyExists();
-
-	public String errorMsg(String erroMsg);
-
-	public String budgetAddBy();
-
-	public String quarterPeriod(String quarterNo, String startMonth,
-			String endMonth);
-
-	public String wareHouseLoadingError(String exp);
-
-	public String thereisNoRecordsTosave(String transactionType);
-
-	public String readyToCreate(String cashSale);
-
-	public String createSuccessfully(String cashSale);
-
-	public String finishToCreate(String cashSale);
-
-	public String fullName(String firstName, String lastName);
-
-	public String active(String name);
-
-	public String inActive(String name);
-
-	public String pleaseSelect(String vatReturnBox);
-
-	public String youDontHaveAny(String name);
-
-	public String enterDate(String name);
-
-	public String addMore(String name);
-
-	public String details(String name);
-
-	public String create(String name);
-
-	public String accountTransactionItems(String account);
-
-	public String pleaseEnterThe(String objectName, String name);
-
-	public String printTAXReturnLabel();
-
-	public String selectedit(String vendorPayment);
-
-	public String name(String taxGroup);
-
-	public SafeHtml showHistory();
-
-	public SafeHtml addNote();
-
-	public SafeHtml hideHistory();
-
-	public String lastActivityMessages(String activityType, String userName,
-			String date);
+	public String journalEntryVendor(String name);
 
 	public String lastActivityMessageForNote(String date, String userName,
 			String notes);
 
-	public String terminology(String customer);
+	public String lastActivityMessages(String activityType, String userName,
+			String date);
+
+	public String liabilityAccount(String liabilityAccountString);
+
+	public String location(String location);
+
+	public String locationTracking(String location);
+
+	public String makeDepositCashBackAccount(String accString);
+
+	public String manageCustomerGroup(String manageCustomerGroup);
+
+	public String manageVendorGroup(String manageVendorGroupString);
+
+	public String managingList();
+
+	public String mergeAccounts(String accountString);
+
+	public String mergeCustomers(String mergeCustomers);
+
+	public String mergeDescription(String desc);
+
+	public String mergeFinancialAccounts(String msgString);
+
+	public String mergeVendors(String vendorString);
+
+	public String mostProfitableCustomer(String mostProfitableCustomer);
+
+	public String mostProfitableCustomers(String mostProfitableCustomers);
+
+	public String msg(String msg);
+
+	public String name(String taxGroup);
+
+	public String nameOrNumberIsAlreadyInUse(String nameOrNumberIsAlreadyInUse);
+
+	public String nameWithCurrency(String name, String formalName);
+
+	public String newAccount(String msgString);
+
+	public String newBankAccount(String msgString);
+
+	public String newBankCategory(String msgString);
+
+	public String newCustomer(String customerName[]);
+
+	public String newCustomer(String newCustomer);
+
+	public String newCustomerCreated(String newCustomerCreated);
+
+	public String newCustomerGroup(String newCustomerGroup);
+
+	public String newCustomerPayment(String newCustomerPayment);
+
+	public String newVendor(String newVendorString);
+
+	public String newVendorCreated(String newVendorString);
+
+	public String newVendorGroup(String newVendorGroupString);
+
+	public String newVendorPrePayment(String newVendorPrePaymentString);
+
+	public String noBillsAreAvailableFirstAddABill(String noBillsString);
+
+	public String noCreditsForThisVendor(String msgString);
+
+	public String noCreditsforthiscustomer(String noCreditsforthiscustomer);
+
+	public String noDiscountAccountSelected(String msgString);
+
+	public String noEstimatesAndSalesOrderForCustomer(
+			String noEstimatesAndSalesOrderForCustomer);
+
+	public String noEstimatesForCustomer(String noEstimatesForCustomer);
+
+	public String noPurchaseOrderAndItemReceiptForVendor(String venString);
+
+	public String noPurchaseOrderForVendor(String noPurchaseOrderForVendorString);
+
+	public String noPurchaseOrdersForVendor(String vendorString);
+
+	public String noQuotesAndSalesOrderForCustomer(
+			String noQuotesAndSalesOrderForCustomer);
+
+	public String noQuotesForCustomer(String noQuotesForCustomer);
+
+	public String noRecordsToShow();
+
+	public String noTransactionsTo(String paySalesTax);
+
+	public String nominalCodeItem(String nominalCodeItemString);
+
+	public String non1099Vendors(String vendor);
+
+	public String notMove(String customer);
+
+	public String notMoveAccount(String account, String accounts);
+
+	public String onlineSalesByCustomerSummary(
+			String onlineSalesByCustomerSummary);
+
+	public String otherNominalAccounts(String msgString);
+
+	public String panNumber(String panNumberString);
+
+	public String paypalEmailHtml();
+
+	public String phoneNumber(String catagory);
+
+	public String pleaseChooseAnAccount(String msgString);
+
+	public String pleaseEnter(String itemName);
+
+	public String pleaseEnterHTML(String title);
+
+	public String pleaseEnterName(String itemName);
+
+	public String pleaseEnterNameOrNumber(String customer);
+
+	public String pleaseEnterThe(String objectName, String name);
+
+	public String pleaseEnterVendorNumberItShouldNotBeEmpty(String vendor);
 
 	public String pleaseSaveThisTransactionToAddNote();
 
+	public String pleaseSelect(String vatReturnBox);
+
+	public String pleaseSelectCustomer(String customer);
+
+	public String pleaseSelectPayFromAccount(String msgString);
+
+	public String pleaseSelectTheVendor(String msgString);
+
+	public String pleaseSelectVendor(String selectVendorString);
+
+	public String pleaseselectvalidtransactionGrid(String string);
+
+	public String preferredVendor(String msgString);
+
+	public String printTAXReturnLabel();
+
+	public String purchaseByVendorDetail(String purchaseByVendorString);
+
+	public String purchaseByVendorSummary(String venSummaryString);
+
+	public String purchaseLiabilityAccount(String msgString);
+
+	public String quarterPeriod(String quarterNo, String startMonth,
+			String endMonth);
+
+	public String readyToCreate(String cashSale);
+
+	public String recommendedAccounts();
+
+	public String recommendedNote();
+
+	public String reconcileAccount(String msgString);
+
+	public String reviewIncomeAndExpensesAccounts(String msgString);
+
+	public String salesByCustomerDetail(String custString);
+
+	public String salesByCustomerSummary(String salesByCustomerSummary);
+
+	public String salesByLocationSummary(String locationString);
+
+	public String salesLiabilityAccount(String msgString);
+
+	public String salesPersonExpenseAccountTooltip(String account);
+
+	public String salesPersonJobToolTip();
+
+	public String salesPersonMeaning();
+
+	public String selectAccountType(String msgString);
+
+	public String selectAccountsToAssign(String account);
+
+	public String selectDateOfBirth(String viewName);
+
+	public String selectDateOfHire(String viewName);
+
+	public String selectDateUntilDue(String transaction);
+
+	public String selectDateWhenTransactioCreated(String transaction);
+
+	public String selectIndustry();
+
+	public String selectIndustryInfoHTML();
+
+	public String selectPaymentMethod(String msgString);
+
+	public String selectRequiredAccounts(String msgString);
+
+	public String selectTypeOfThis(String Account);
+
+	public String selectWhichWeHaveInOurCompany(String comboType);
+
+	public String selectWhichWeHaveInOurCompanyOrAddNew(String comboType);
+
+	public String selectedit(String vendorPayment);
+
+	public String setupCancelMessgae();
+
+	public String setupVendorsAndAccounts(String vendor, String account);
+
+	public String shouldBePositive(String name);
+
+	public String shouldNotbeZero(String amountString);
+
+	public String showAllAccounts(String msgString);
+
+	public String skipSetupInfo();
+
+	public String startFiscalHTML();
+
+	public String startSetupInfo();
+
+	public String statementDescription();
+
+	public String statementQuestion();
+
+	public String statementlist();
+
+	public String stockAdjustmentAccount(String msgString);
+
+	public String stockItemExpenseAccount(String msgString);
+
+	public String stockItemIncomeAccont(String msgString);
+
+	public String taxAccount(String taxString);
+
+	public String taxAgencyFinanceAcount(String msgString);
+
 	public String taxItemWithRate(String name, double taxRate);
+
+	public String terminology(String customer);
+
+	public String theAccountNumberchosenisincorrectPleaschooseaNumberbetween(
+			String msgString);
+
+	public String theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179(
+			String msgstring);
+
+	public String theFinanceCategoryNoShouldBeBetween(String accountString);
+
+	public String theFinanceCategoryNoShouldBeBetween1100And1179(
+			String accString);
+
+	public String thereisNoRecordsTosave(String transactionType);
+
+	public String thisIsConsideredACashAccount(String msgString);
+
+	public String timetrackingflowStep1(String customer);
+
+	public String to(String string, String string2);
+
+	public String toAccount(String toAccountString);
+
+	public String toAddCustomerGroup(String toAddCustomerGroup);
+
+	public String toAddVendorGroup(String vendorString);
+
+	public String toTransferFunds(String msgString);
+
+	public String todaysVendorPayments(String todaysVendorPayments);
+
+	public String trackingtimehead();
+
+	public String transactionDetailByAccount(String msgString);
+
+	public String transactionDetailsByAccount(String msgString);
+
+	public String unableToFetchAccountsList(String msgString);
+
+	public String unableToGet(String string);
 
 	public String unableToSaveNote(String string);
 
-	public SafeHtml transactionLink(String transactionName);
-
 	public String unitPrice(String currency);
-
-	public String currencyTotal(String string);
 
 	public String unusedCredits(String primaryCurrency);
 
 	public String unusedPayments(String primaryCurrency);
 
-	public String nameWithCurrency(String name, String formalName);
+	public String useAccountNos(String msgString);
 
-	public String pleaseEnterNameOrNumber(String customer);
+	public String useCustomerId(String useCustomerId);
 
-	public String creating(String quote);
+	public String useTerminologyFor(String location);
 
-	public String hasSelected(String paymentMethod);
+	public String useVendorId(String useVendorIdString);
 
-	public String depositAccount(String account);
+	public String userGuidelinesMessage();
+
+	public String userName(String loginUserName);
+
+	public String valueCannotBe0orlessthan0(String amount);
+
+	public String vatAccount(String vatAccountString);
+
+	public String vatIDValidationDesc();
+
+	public String vendor1099(String msgString);
+
+	public String vendorAddress(String vendorAddressString);
+
+	public String vendorAlreadyExistsWithTheName(String vendor);
+
+	public String vendorAlreadyExistsWithTheNameAndNumber(String vendor);
+
+	public String vendorAlreadyExistsWithTheNumber(String vendor);
+
+	public String vendorBalance(String balanceString);
+
+	public String vendorBendor(String bendorString);
+
+	public String vendorBill(String billString);
+
+	public String vendorBlah(String msgString);
+
+	public String vendorCredit(String vendorCreditString);
+
+	public String vendorCreditMemo(String vendorCreditString);
+
+	public String vendorFrom(String vendorFrom);
+
+	public String vendorGroup(String vendorGroupString);
+
+	public String vendorGroupAlreadyExists(String msgString);
+
+	public String vendorGroupList(String vendorGroupListString);
+
+	public String vendorHome(String vendorHomeString);
+
+	public String vendorID(String vendor);
+
+	public String vendorInformation(String vendorInformationString);
+
+	public String vendorItemNo(String vendorItemNoString);
+
+	public String vendorItems(String vendorItemsString);
+
+	public String vendorList(String vendorListString);
+
+	public String vendorLists(String vendorListsString);
+
+	public String vendorMemo(String vendorMemoString);
+
+	public String vendorName(String vendorNameString);
+
+	public String vendorNumber(String vendorNumber);
+
+	public String vendorNumberShouldBeNumber(String vendor);
+
+	public String vendorNumberShouldBePos(String vendor);
+
+	public String vendorOrderNo(String vendorString);
+
+	public String vendorPay(String vendorPayString);
+
+	public String vendorPayment(String vendorPaymentString);
+
+	public String vendorPaymentIssued(String vendorString);
+
+	public String vendorPaymentList(String vendorPaymentListString);
+
+	public String vendorPaymentMethod(String msgString);
+
+	public String vendorPayments(String vendorPaymentsString);
+
+	public String vendorPaymentsList(String msgString);
+
+	public String vendorPrePayment(String vendorPrePaymentString);
+
+	public String vendorPrePayments(String msgString);
+
+	public String vendorProductNo(String vendorProductNoString);
+
+	public String vendorServiceNo(String msgString);
+
+	public String vendorServices(String vendorServicesString);
+
+	public String vendorSince(String vendorSinceString);
+
+	public String vendorTDSCode(String vendorTdsCodeString);
+
+	public String vendorTo(String vendorTo);
+
+	public String vendorTransactionHistory(String transactionString);
+
+	public String vendorUpdatedSuccessfully(String msgString);
+
+	public String vendorVatCode(String vendorVatCodeString);
+
+	public String vendorWhendor(String vendorWhendorString);
+
+	public String vendorpay(String vendorpayString);
+
+	public String vendors(String vendorsString);
+
+	public String vendorsAndPayables(String vendorsString);
+
+	public String vendorsBelowThreshold(String vendor);
+
+	public String vendorsGroupList(String vendorsGroupListString);
+
+	public String vendorsHome(String vendorsHomeString);
+
+	public String vendorsList(String vendorString);
+
+	public String vendorsSelected(String vendor);
+
+	public String venodrsThatMeetThreshold(String vendor);
+
+	public String wareHouseLoadingError(String exp);
+
+	public String wecantDeleteThisTheme(String themeName);
+
+	public String whyshoudIUseRecommended();
+
+	public String writeCommentsForThis(String transaction);
+
+	public String writeOffAccount(String writeOffAccountString);
+
+	public String youCantDeleteThisAccount(String msgString);
+
+	public String youDontHaveAny(String name);
+
+	public String youcannotchangeaCustomertypetoVendortype(
+			String youcannotchangeaCustomertypetoVendortype, String msgString);
 
 }
