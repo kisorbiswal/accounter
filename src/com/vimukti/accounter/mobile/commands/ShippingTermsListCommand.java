@@ -1,18 +1,18 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.ShippingTerms;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class ShippingTermsListCommand extends AbstractTransactionCommand {
+public class ShippingTermsListCommand extends NewAbstractCommand {
+	private static final String SHIPPING_TERMS = "ShiipingTerms";
 
 	@Override
 	public String getId() {
@@ -20,73 +20,77 @@ public class ShippingTermsListCommand extends AbstractTransactionCommand {
 	}
 
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new ShowListRequirement<ShippingTerms>(SHIPPING_TERMS,
+				"Please Enter name or number", 10) {
+			@Override
+			protected Record createRecord(ShippingTerms value) {
+				Record record = new Record(value);
+				record.add("", value.getName());
+				record.add("", value.getDescription());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(getMessages().create(getConstants().shippingTerms()));
+			}
+
+			@Override
+			protected boolean filter(ShippingTerms e, String name) {
+				return true;
+			}
+
+			@Override
+			protected List<ShippingTerms> getLists(Context context) {
+				List<ShippingTerms> list = new ArrayList<ShippingTerms>();
+				Set<ShippingTerms> accounts = context.getCompany()
+						.getShippingTerms();
+				for (ShippingTerms a : accounts) {
+					list.add(a);
+				}
+				return list;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getConstants().shippingTermList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected String onSelection(ShippingTerms value) {
+				return getConstants().update() + " " + value.getName();
+			}
+		});
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Object selection = context.getSelection(INPUT_ATTR);
-
-		if (selection != null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		Result result = createOptionalRequirement(context);
-		return result;
+	protected String getDetailsMessage() {
+		return null;
 	}
 
-	private Result createOptionalRequirement(Context context) {
-
-		Result result = context.makeResult();
-		ResultList resultList = new ResultList("shippingTermsList");
-		ResultList actions = new ResultList("actions");
-
-		Object selection = context.getSelection("values");
-		ActionNames actionNames;
-		if (selection != null) {
-			actionNames = (ActionNames) selection;
-			switch (actionNames) {
-			case FINISH:
-				return closeCommand();
-
-			default:
-				break;
-			}
-		}
-
-		Set<ShippingTerms> list = getShippingTermsList(context);
-
-		for (ShippingTerms shipTerms : list) {
-			resultList.add(createShippingTerms(shipTerms));
-		}
-
-		result.add(resultList);
-
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().add());
-		commandList.add(getConstants().edit());
-		commandList.add(getConstants().delete());
-		result.add(commandList);
-
-		Record finishRecord = new Record(ActionNames.FINISH);
-		finishRecord.add("", getConstants().close());
-		actions.add(finishRecord);
-		result.add(actions);
-
-		return result;
+	@Override
+	public String getSuccessMessage() {
+		return null;
 	}
 
-	private Record createShippingTerms(ShippingTerms shipTerms) {
-		Record record = new Record(shipTerms);
-		record.add("", getConstants().name());
-		record.add("", shipTerms.getName());
-		record.add("", getConstants().description());
-		record.add("", shipTerms.getDescription());
-		return record;
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
-	private Set<ShippingTerms> getShippingTermsList(Context context) {
-		return context.getCompany().getShippingTerms();
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+
 	}
 
 }
