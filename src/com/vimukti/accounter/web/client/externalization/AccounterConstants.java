@@ -2479,7 +2479,7 @@ public interface AccounterConstants extends Constants {
 	public String journalEntries();
 
 	public String journalEntry();
-	
+
 	public String journalEntryDate();
 
 	public String journalEntryList();
@@ -5001,7 +5001,7 @@ public interface AccounterConstants extends Constants {
 	public String viewVATItems();
 
 	public String voucher();
-	
+
 	public String voidText();
 
 	public String voided();
@@ -5180,13 +5180,13 @@ public interface AccounterConstants extends Constants {
 
 	public String transactionItem();
 
-	public Object showAll();
+	public String showAll();
 
 	public String allRecords();
 
-	public Object nextPage();
+	public String nextPage();
 
-	public Object prevPage();
+	public String prevPage();
 
 	public String notPrimary();
 
