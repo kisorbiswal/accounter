@@ -95,10 +95,7 @@ public class UnitsTable extends EditTable<ClientUnit> {
 		}
 
 		int row = indexOf(obj);
-		if (isChecked) {
-			update(obj);
-			obj.setDefault(true);
-		}
+		obj.setDefault(isChecked);
 		super.checkColumn(row, 0, isChecked);
 	}
 
