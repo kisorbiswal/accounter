@@ -121,20 +121,18 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 		for (ClientUnit unit : this.units) {
 			if (unit.isDefault()) {
 				return unit.getFactor();
-			} else
-				return 1;
+			}
 		}
-		return 0;
+		return 1;
 	}
 
 	private String getDefaultUnitType() {
 		for (ClientUnit unit : this.units) {
 			if (unit.isDefault()) {
 				return unit.getType();
-			} else
-				return "";
+			}
 		}
-		return null;
+		return "";
 	}
 
 	@Override
