@@ -5233,5 +5233,9 @@ public interface AccounterConstants extends Constants {
 	public String partialCompanySetup();
 
 	public String nodescription();
+	
+	public String isDefault();
+	
+	public String notDefault();
 
 }
