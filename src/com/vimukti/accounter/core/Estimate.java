@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -96,7 +97,7 @@ public class Estimate extends Transaction {
 	/**
 	 * The total Sales Tax collected on the whole Transaction.
 	 */
-	double taxTotal;
+	private double taxTotal;
 
 	/**
 	 * this is to verify whether this Quote being used in any Invoice or Sales
@@ -364,5 +365,31 @@ public class Estimate extends Transaction {
 
 	public void setEnterBill(EnterBill enterBill) {
 		this.enterBill = enterBill;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		updateTotals();
+		super.onSave(session);
+		return false;
+	}
+
+	private void updateTotals() {
+		double lineTotal = 0.0;
+		double totalTax = 0.0;
+		for (TransactionItem record : this.getTransactionItems()) {
+			Double lineTotalAmt = record.getLineTotal();
+			lineTotal += lineTotalAmt;
+			if (record != null && record.isTaxable()) {
+				totalTax += record.getVATfraction();
+			}
+		}
+		setNetAmount(lineTotal);
+		setTaxTotal(totalTax);
+		setTotal(totalTax + lineTotal);
+	}
+
+	public void setTaxTotal(double taxTotal) {
+		this.taxTotal = taxTotal;
 	}
 }

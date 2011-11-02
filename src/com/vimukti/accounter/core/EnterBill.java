@@ -109,7 +109,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@ReffereredObject
 	Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
 
-	@ReffereredObject
 	private Set<Estimate> estimates = new HashSet<Estimate>();
 	/**
 	 * This will specify which purchase order has been used in this Bill.
@@ -326,18 +325,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
-		Set<Estimate> estimates = this.getEstimates();
-		for (Estimate estimate : estimates) {
-			Query query = session.getNamedQuery("getInvoiceByEstimate")
-					.setParameter("estimate", estimate)
-					.setParameter("company", getCompany());
-			Invoice invoice = (Invoice) query.uniqueResult();
-			if (invoice != null) {
-				throw new HibernateException("Invoice Linked");
-			}
-			session.delete(estimate);
-			estimates.remove(estimate);
-		}
 		createAndSaveEstimates(this.transactionItems, session);
 		// if (this.isBecameVoid()) {
 		//
@@ -589,10 +576,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public void onEdit(Transaction clonedObject) {
-
 		EnterBill enterBill = (EnterBill) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
-
 		this.balanceDue = (!DecimalUtil.isGreaterThan((this.total - payments),
 				0.0)) ? 0.0 : (this.total - payments);
 		// this.balanceDue = (this.balanceDue = this.total - payments) == 0.0 ?
@@ -942,7 +927,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 					if (referringTransactionItem != null) {
 						if (!isAddition)
-							if (transactionItem.type == transactionItem.TYPE_ITEM) {
+							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 								referringTransactionItem.usedamt -= transactionItem
 										.getQuantity()
 										.calculatePrice(
@@ -973,6 +958,18 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		for (Estimate estimate : this.getEstimates()) {
+			Query query = session.getNamedQuery("getInvoiceByEstimate")
+					.setParameter("estimate", estimate)
+					.setParameter("company", getCompany());
+			Invoice invoice = (Invoice) query.uniqueResult();
+			if (invoice != null) {
+				throw new AccounterException(AccounterException.USED_IN_INVOICE);
+			}
+			session.delete(estimate);
+			estimates.remove(estimate);
+		}
 		if (this.transactionPayBills != null) {
 			for (TransactionPayBill transactionPayBill : this.transactionPayBills) {
 				if (DecimalUtil.isGreaterThan(
@@ -1019,6 +1016,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						TransactionItem.class).clone(null, transactionItem,
 						false);
 				newTransactionItem.setId(0);
+				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
 				newTransactionItem.setOnSaveProccessed(false);
 				newTransactionItem.setTaxRateCalculationEntriesList(null);
 				Estimate estimate = getCustomerEstimate(estimates,
@@ -1030,9 +1028,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					estimate.setTransactionItems(new ArrayList<TransactionItem>());
 					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
 					estimate.setType(Transaction.TYPE_ESTIMATE);
-					estimate.setDate(transactionDate);
-					estimate.setExpirationDate(transactionDate);
-					estimate.setDeliveryDate(transactionDate);
+					estimate.setDate(new FinanceDate());
+					estimate.setExpirationDate(new FinanceDate());
+					estimate.setDeliveryDate(new FinanceDate());
 					estimate.setNumber(NumberUtils.getNextTransactionNumber(
 							Transaction.TYPE_ESTIMATE, getCompany()));
 				}
@@ -1046,6 +1044,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		for (Estimate estimate : estimates) {
 			session.save(estimate);
+			estimate.setEnterBill(this);
 		}
 		this.setEstimates(estimates);
 	}

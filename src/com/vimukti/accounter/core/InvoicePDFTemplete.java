@@ -213,6 +213,26 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// vat details
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
+
+			List<Estimate> estimates = invoice.getEstimates();
+			if (estimates != null) {
+				for (Estimate estimate : estimates) {
+					for (TransactionItem item : estimate.getTransactionItems()) {
+						transactionItems.add(item);
+					}
+				}
+			}
+
+			List<SalesOrder> salesOrders = invoice.getSalesOrders();
+			if (salesOrders != null) {
+				for (SalesOrder salesOrder : salesOrders) {
+					for (TransactionItem item : salesOrder
+							.getTransactionItems()) {
+						transactionItems.add(item);
+					}
+				}
+			}
+
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
