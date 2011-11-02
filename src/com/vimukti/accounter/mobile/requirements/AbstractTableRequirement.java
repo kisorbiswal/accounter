@@ -127,6 +127,10 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 	}
 
 	private Result edit(T obj, Context context) {
+		String process = (String) context.getAttribute(PROCESS_ATR);
+		if (process == null || !process.equals(getName())) {
+			resetRequirementsValues();
+		}
 		context.setAttribute(PROCESS_ATR, getName());
 		context.setAttribute(TABLE_ROW, obj);
 		Object selection = context.getSelection(ACTIONS);
@@ -141,7 +145,6 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 			values.remove(obj);
 			context.removeAttribute(TABLE_ROW);
 			context.removeAttribute(PROCESS_ATR);
-			resetRequirementsValues();
 			return null;
 		}
 
