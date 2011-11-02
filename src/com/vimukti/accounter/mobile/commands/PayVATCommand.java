@@ -1,7 +1,9 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -10,7 +12,6 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -18,13 +19,13 @@ import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	private static final String VAT_RETURN_END_DATE = "vatReturnEndDate";
 	private static final String BILLS_TO_PAY = "billToPay";
 	private static final String PAY_FROM = "payFrom";
-	private static final String BILLS_DUE_ON_BEFORE = "billsDueOnBefore";
 
 	@Override
 	public String getId() {
@@ -36,7 +37,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
 				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, true, null) {
+				getConstants().bankAccount(), false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -61,18 +62,20 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(
+						getConstants().bankAccounts());
 			}
 
 			@Override
 			protected boolean filter(ClientAccount e, String name) {
-				return false;
+				return e.getName().contains(name);
+
 			}
 		});
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
 				.pleaseEnterName(getConstants().paymentMethod()),
-				getConstants().paymentMethod(), true, true, null) {
+				getConstants().paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -98,9 +101,9 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new DateRequirement(BILLS_DUE_ON_BEFORE, getMessages()
-				.pleaseEnter(getConstants().billsDueOnOrBefore()),
-				getConstants().billsDueOnOrBefore(), true, true));
+		list.add(new DateRequirement(VAT_RETURN_END_DATE, getMessages()
+				.pleaseEnter(getConstants().filterBy()), getConstants()
+				.filterBy(), true, true));
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().date()), getConstants().date(), true, true));
@@ -129,6 +132,9 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate vatReturnDate = get(VAT_RETURN_END_DATE).getValue();
 		ClientFinanceDate transactionDate = get(DATE).getValue();
 		String orderNo = get(ORDER_NO).getValue();
+		for (ClientTransactionPayTAX c : billsToPay) {
+			c.setPayTAX(payVAT);
+		}
 
 		payVAT.setPayFrom(payFrom.getID());
 		payVAT.setPaymentMethod(paymentMethod);
@@ -144,8 +150,25 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	private List<ClientTransactionPayTAX> getTransactionPayVatBills(
 			ClientCompany clientCompany) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<ClientTransactionPayTAX> result = new ArrayList<ClientTransactionPayTAX>();
+		ArrayList<PayTAXEntries> payVATEntries = new FinanceTool()
+				.getTaxManager().getPayVATEntries(clientCompany.getID());
+
+		for (PayTAXEntries payTAXEntrie : payVATEntries) {
+			ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();
+			clientTransactionPayTAX.setID(payTAXEntrie.getID());
+			clientTransactionPayTAX.setTaxAgency(payTAXEntrie.getTaxAgency()
+					.getID());
+			clientTransactionPayTAX.setAmountToPay(payTAXEntrie.getAmount());
+			clientTransactionPayTAX.setTaxDue(payTAXEntrie.getAmount());
+			clientTransactionPayTAX.setVatReturn(payTAXEntrie.getTransaction()
+					.getID());
+			result.add(clientTransactionPayTAX);
+
+		}
+
+		return result;
 	}
 
 	@Override
@@ -166,7 +189,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(BILLS_DUE_ON_BEFORE).setDefaultValue(new ClientFinanceDate());
+		get(VAT_RETURN_END_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 	}
 
