@@ -24,43 +24,44 @@ public class ItemsCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<Item>("items", "Please Select Item", 5) {
 
-	@Override
-	protected String onSelection(Item value) {
-		return null;
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return getConstants().itemList();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getConstants().noRecordsToShow();
-	}
-
-	@Override
-	protected Record createRecord(Item value) {
-		Record record = new Record(value);
-		record.add("", value.getName());
-				record.add("", value.getPurchaseDescription());
-		return record;
-	}
-
-	@Override
-			protected void setCreateCommand(CommandList list) {
-				list.add("Create Item");
+			@Override
+			protected String onSelection(Item value) {
+				return null;
 			}
 
-	@Override
-	protected boolean filter(Item e, String name) {
-	
-		return e.getName().startsWith(name)
-		|| e.getPurchaseDescription().startsWith(
-				"" + getNumberFromString(name));
-	}
+			@Override
+			protected String getShowMessage() {
+				return getConstants().itemList();
+			}
 
-	@Override
+			@Override
+			protected String getEmptyString() {
+				return getConstants().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(Item value) {
+				Record record = new Record(value);
+				record.add("", value.getName());
+				record.add("", value.getPurchaseDescription());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Product Item");
+				list.add("Create Service Item");
+			}
+
+			@Override
+			protected boolean filter(Item e, String name) {
+
+				return e.getName().startsWith(name)
+						|| e.getPurchaseDescription().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
 			protected List<Item> getLists(Context context) {
 				Set<Item> items = getItems(context);
 				List<Item> result = new ArrayList<Item>();
@@ -80,13 +81,13 @@ public class ItemsCommand extends NewAbstractCommand {
 				}
 				return result;
 			}
-	
-});
+
+		});
 	}
-	
+
 	private Set<Item> getItems(Context context) {
 		return context.getCompany().getItems();
-		
+
 	}
 
 	@Override
@@ -107,7 +108,7 @@ public class ItemsCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(ITEMS_TYPE).setDefaultValue(getConstants().active());
-		
+
 	}
 
 	@Override
