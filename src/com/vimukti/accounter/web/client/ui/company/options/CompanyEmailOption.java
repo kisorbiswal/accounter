@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CompanyEmailOption extends AbstractPreferenceOption {
 
@@ -49,8 +50,13 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		getCompanyPreferences().setCompanyEmail(companyEmailTextBox.getValue());
-		// company.setCompanyEmailForCustomers(customerEmailTextBox.getValue());
+		
+		if (UIUtils.isValidEmail(companyEmailTextBox.getValue()))
+			getCompanyPreferences().setCompanyEmail(companyEmailTextBox.getValue());
+		else {
+			Accounter.showError(Accounter.constants().invalidEmail());
+		}
+		
 	}
 
 	@Override
