@@ -2,15 +2,14 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
-public class NewPaymentTermCommand extends AbstractTransactionCommand {
+public class NewPaymentTermCommand extends NewAbstractCommand {
 
 	private final static String PAYMENT_TERMS = "Payment Terms";
 	private final static String DESCRIPTION = "Description";
@@ -25,49 +24,21 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(PAYMENT_TERMS, false, true));
-		list.add(new Requirement(DESCRIPTION, true, true));
-		list.add(new Requirement(DUE_DAYS, true, true));
+		list.add(new StringRequirement(PAYMENT_TERMS, getMessages()
+				.pleaseEnter(getConstants().paymentTerm()), getConstants()
+				.paymentTerm(), false, true));
+
+		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
+				getConstants().paymentTermDescription()), getConstants()
+				.paymentTermDescription(), true, true));
+
+		list.add(new NumberRequirement(DUE_DAYS, getMessages().pleaseEnter(
+				getConstants().dueDays()), getConstants().dueDays(), true, true));
 
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		Result result = null;
-
-		// Preparing result
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages()
-				.readyToCreate(getConstants().paymentTerm()));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		result = nameRequirement(context, list, PAYMENT_TERMS, getConstants()
-				.paymentTerm(),
-				getMessages().pleaseEnter(getConstants().paymentTerm()));
-		if (result != null) {
-			return result;
-		}
-
-		setDefaultValues();
-
-		result = optionalRequirements(context, list, actions, makeResult);
-		if (result != null) {
-			return result;
-		}
-
-		return completeProcess(context);
-	}
-
-	private Result completeProcess(Context context) {
-
+	protected Result onCompleteProcess(Context context) {
 		ClientPaymentTerms paymentTerms = new ClientPaymentTerms();
 
 		String paymnetTermName = get(PAYMENT_TERMS).getValue();
@@ -82,56 +53,34 @@ public class NewPaymentTermCommand extends AbstractTransactionCommand {
 		create(paymentTerms, context);
 
 		markDone();
-		Result result = new Result();
-		result.add(getMessages().createSuccessfully(
-				getConstants().paymentTerms()));
-
-		return result;
+		return null;
 	}
 
-	private void setDefaultValues() {
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	protected String getWelcomeMessage() {
+		return "New Payment term commond is activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return "New Payment term commond is ready to create with the following values";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
 		get(DESCRIPTION).setDefaultValue("");
 		get(DUE_DAYS).setDefaultValue("0");
-
 	}
 
-	private Result optionalRequirements(Context context, ResultList list,
-			ResultList actions, Result makeResult) {
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-
-		selection = context.getSelection("values");
-
-		Result result = stringOptionalRequirement(context, list, selection,
-				DESCRIPTION, getConstants().description(), getMessages()
-						.pleaseEnter(getConstants().paymentTermDescription()));
-		if (result != null) {
-			return result;
-		}
-
-		result = numberOptionalRequirement(context, list, selection, DUE_DAYS,
-				getConstants().dueDays(),
-				getMessages().pleaseEnter(getConstants().dueDays()));
-		if (result != null) {
-			return result;
-		}
-
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("",
-				getMessages().finishToCreate(getConstants().paymentTerm()));
-		actions.add(finish);
-
-		return makeResult;
+	@Override
+	public String getSuccessMessage() {
+		return "New payment term commond is created successfully";
 	}
 
 }
