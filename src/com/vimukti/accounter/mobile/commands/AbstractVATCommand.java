@@ -77,7 +77,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			skipTaxAgency.add((ClientTAXAgency) last);
 		}
 
-		List<ClientTAXAgency> taxAgencies = getTaxAgencies();
+		List<ClientTAXAgency> taxAgencies = getTaxAgencies(context);
 
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
@@ -106,8 +106,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<ClientTAXAgency> getTaxAgencies() {
-		ArrayList<ClientTAXAgency> taxAgencies = getClientCompany()
+	protected List<ClientTAXAgency> getTaxAgencies(Context contex) {
+		ArrayList<ClientTAXAgency> taxAgencies = contex.getClientCompany()
 				.getTaxAgencies();
 		return new ArrayList<ClientTAXAgency>(taxAgencies);
 	}
