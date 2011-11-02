@@ -670,7 +670,7 @@ form {
 	margin: 2px 6px 3px 0px;
 	outline: medium none;
 	padding: 0px 0px 0px 3px;
-	width: 250px;
+	width: 97%;
 	height: 28px;
 }
 .loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton {
@@ -713,9 +713,6 @@ input [type="checkbox"] {
 	margin: 0 0 16px 8px;
 	padding: 12px;
 	font-size: 12px;
-}
-#login_error{
-	width:150px;
 }
 #login_error {
 	background-color: #FFEBE8;
@@ -877,9 +874,9 @@ a#fdbk_tab:hover {
 	margin:0px auto;
 	width:300px;
 }
-.new_login_page{
+/*.new_login_page{
 	height:380px;
-}
+}*/
 .new_login_accounterform #login_error{
 	width:335px;
 }
