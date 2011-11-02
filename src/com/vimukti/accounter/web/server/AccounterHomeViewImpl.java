@@ -54,6 +54,8 @@ import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -1706,6 +1708,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			return tool.getInventoryManager().getAllUnits(getCompanyId());
 		}
 		return null;
+	}
+
+	@Override
+	public ArrayList<ClientStockTransferItem> getStockTransferItems(
+			long wareHouse) {
+		FinanceTool tool = new FinanceTool();
+		return tool.getInventoryManager().getStockTransferItems(getCompanyId(),
+				wareHouse);
+	}
+
+	@Override
+	public ArrayList<ClientStockTransfer> getWarehouseTransfersList()
+			throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getInventoryManager().getWarehouseTransfersList(
+				getCompanyId());
 	}
 
 }
