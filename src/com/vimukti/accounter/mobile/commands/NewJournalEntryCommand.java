@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -28,6 +29,9 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 	private static final String DATE = "date";
 	private static final String NUMBER = "number";
 	private static final String MEMO = "memo";
+	protected static final String ACCOUNT = "Account";
+	protected static final String DEBITS = "Debits";
+	protected static final String CREDITS = "Credits";
 
 	@Override
 	public String getId() {
@@ -36,24 +40,28 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new DateRequirement(DATE, "Please Enter Journal Entry Date",
-				"Date", false, true));
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getConstants().journalEntryDate()), getConstants()
+				.journalEntryDate(), false, true));
 
-		list.add(new NumberRequirement(NUMBER,
-				"Please Enter Journal Entry number", "Number", false, true));
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getConstants().journalEntryNo()), getConstants()
+				.journalEntryNo(), false, true));
 
 		list.add(new AbstractTableRequirement<ClientEntry>(VOUCHER,
-				"Please Add Another Vocher", "Vocher(s)", true, false, true) {
+				getMessages().pleaseSelect(getConstants().voucherNo()),
+				getConstants().voucher(), true, false, true) {
 
 			@Override
 			protected void addRequirement(List<Requirement> list) {
-				list.add(new AccountRequirement("Account",
-						"Please Enter Account name or number", "Account",
-						false, true, null) {
+				list.add(new AccountRequirement(ACCOUNT, getMessages()
+						.pleaseEnterNameOrNumber(Global.get().Account()),
+						Global.get().Account(), false, true, null) {
 
 					@Override
 					protected String getSetMessage() {
-						return "Account has been selected for Vocher";
+						return getMessages()
+								.hasSelected(Global.get().Account());
 					}
 
 					@Override
@@ -63,43 +71,51 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 					@Override
 					protected String getEmptyString() {
-						return "There are no accounts";
+						return getMessages().youDontHaveAny(
+								Global.get().Accounts());
 					}
 				});
 
-				list.add(new StringRequirement("Memo",
-						"Please Enter Vocher Memo", "Memo", true, true));
+				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+						getConstants().memo()), getConstants().memo(), true,
+						true));
 
-				list.add(new AmountRequirement("Debits", "Please Enter Debits",
-						"Debits", true, true) {
+				list.add(new AmountRequirement(DEBITS, getMessages()
+						.pleaseEnter(getConstants().debitAmount()),
+						getConstants().debit(), true, true) {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						get("Credits").setValue(0d);
+						if(currentValue!=null){
+						currentValue.setCredit(0.0d);
+						}
 					}
 				});
 
-				list.add(new AmountRequirement("Credits",
-						"Please Enter Credits", "Credits", true, true) {
+				list.add(new AmountRequirement(CREDITS, getMessages()
+						.pleaseEnter(getConstants().creditAmount()),
+						getConstants().credit(), true, true) {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						get("Debits").setValue(0d);
+						if(currentValue!=null){
+						currentValue.setDebit(0.0d);
+						}
 					}
 				});
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return "There are no Vochers";
+				return getMessages().youDontHaveAny(getConstants().voucher());
 			}
 
 			@Override
 			protected void getRequirementsValues(ClientEntry obj) {
-				ClientAccount account = get("Account").getValue();
-				String memo = get("Memo").getValue();
-				double debits = get("Debits").getValue();
-				double credits = get("Credits").getValue();
+				ClientAccount account = get(ACCOUNT).getValue();
+				String memo = get(MEMO).getValue();
+				double debits = get(DEBITS).getValue();
+				double credits = get(CREDITS).getValue();
 
 				obj.setAccount(account.getID());
 				obj.setMemo(memo);
@@ -109,11 +125,11 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setRequirementsDefaultValues(ClientEntry obj) {
-				get("Account").setValue(
+				get(ACCOUNT).setValue(
 						getClientCompany().getAccount(obj.getAccount()));
-				get("Memo").setDefaultValue(obj.getMemo());
-				get("Debits").setDefaultValue(obj.getDebit());
-				get("Credits").setDefaultValue(obj.getCredit());
+				get(MEMO).setDefaultValue(obj.getMemo());
+				get(DEBITS).setDefaultValue(obj.getDebit());
+				get(CREDITS).setDefaultValue(obj.getCredit());
 			}
 
 			@Override
@@ -124,12 +140,11 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 			@Override
 			protected Record createFullRecord(ClientEntry t) {
 				Record record = new Record(t);
-				record.add("Account",
-						getClientCompany().getAccount(t.getAccount())
-								.getDisplayName());
-				record.add("Memo", t.getMemo());
-				record.add("Debits", t.getDebit());
-				record.add("Credits", t.getCredit());
+				record.add(Global.get().Account(), getClientCompany()
+						.getAccount(t.getAccount()).getDisplayName());
+				record.add(getConstants().memo(), t.getMemo());
+				record.add(getConstants().debit(), t.getDebit());
+				record.add(getConstants().credit(), t.getCredit());
 				return record;
 			}
 
@@ -145,12 +160,12 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getAddMoreString() {
-				return "Add";
+				return getConstants().add();
 			}
 
 		});
-		list.add(new StringRequirement(MEMO, "Please Journal Entry Memo",
-				"Memo", true, true));
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+				getConstants().memo()), getConstants().memo(), true, true));
 
 	}
 
@@ -217,12 +232,12 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating Journal Entry...";
+		return getMessages().creating(getConstants().journalEntry());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "Creating Journal Entry with following details.";
+		return getMessages().readyToCreate(getConstants().journalEntry());
 	}
 
 	@Override
@@ -231,6 +246,6 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "New Journal Entry is successfully created.";
+		return getMessages().createSuccessfully(getConstants().journalEntry());
 	}
 }
