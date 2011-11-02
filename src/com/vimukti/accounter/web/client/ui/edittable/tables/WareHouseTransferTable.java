@@ -60,6 +60,11 @@ public abstract class WareHouseTransferTable extends
 			protected String getColumnName() {
 				return Accounter.constants().itemName();
 			}
+			
+			@Override
+			public int getWidth() {
+				return 200;
+			}
 		};
 		this.addColumn(itemName);
 
@@ -102,6 +107,11 @@ public abstract class WareHouseTransferTable extends
 				protected String getColumnName() {
 					return Accounter.constants().totalQuantity();
 				}
+				
+				@Override
+				public int getWidth() {
+					return 200;
+				}
 			};
 			this.addColumn(totalQuantity);
 		}
@@ -131,7 +141,15 @@ public abstract class WareHouseTransferTable extends
 		} else if (selectedRecords == null || selectedRecords.isEmpty()) {
 			result.addError(this, Accounter.constants()
 					.pleaseSelectAtLeastOneRecord());
+		} else {
+			for (ClientStockTransferItem item : selectedRecords) {
+				if (item.getQuantity().getValue() == 0) {
+					result.addError(this, Accounter.constants()
+							.transferQuantityShouldntbeZeroForSelectedRecords());
+				}
+			}
 		}
+
 		return result;
 	}
 

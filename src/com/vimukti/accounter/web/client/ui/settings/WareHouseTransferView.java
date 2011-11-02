@@ -82,6 +82,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		};
 		table.setDisabled(isInViewMode());
 		mainPanel.add(table);
+		mainPanel.setSize("100%", "100%");
 
 		this.add(mainPanel);
 	}
