@@ -271,8 +271,8 @@
 		<alias>Non Inventory Item</alias>
 		<alias>Create Non Inventory Item</alias>
 	</command>
-	
-		<command clazz="NewInventoryItemCommand" name="New Inventory Item">
+
+	<command clazz="NewInventoryItemCommand" name="New Inventory Item">
 		<alias>Inventory Item</alias>
 		<alias>Create Inventory Item</alias>
 	</command>
@@ -425,6 +425,7 @@
 	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
 		<alias>Shipping Method</alias>
 		<alias>Create ShippingMethods</alias>
+		<alias>Create Shipping Method</alias>
 	</command>
 
 	<command clazz="NewShippingTermCommand" name="New Shipping Term">
