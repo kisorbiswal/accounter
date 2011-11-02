@@ -51,7 +51,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create New Vendor");
+				list.add("New Vendor");
 			}
 
 			@Override

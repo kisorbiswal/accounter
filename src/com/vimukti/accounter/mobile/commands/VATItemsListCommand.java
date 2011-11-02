@@ -35,7 +35,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create New Vat Item");
+				list.add("Create VAT Item");
 			}
 
 			@Override

@@ -43,7 +43,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create New Vat Code");
+				list.add("Create VAT Code");
 			}
 
 			@Override

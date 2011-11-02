@@ -1,19 +1,16 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 
-public class UsersCommand extends AbstractTransactionCommand {
-	private static final String USER_TYPE = "userType";
+public class UsersCommand extends NewAbstractCommand {
+
 	@Override
 	public String getId() {
 		return null;
@@ -21,118 +18,78 @@ public class UsersCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new ShowListRequirement<ClientUserInfo>("UsersList",
+				"Please Select User", 5) {
+
+			@Override
+			protected String onSelection(ClientUserInfo value) {
+				return null;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getConstants().users();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getConstants().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(ClientUserInfo value) {
+				Record record = new Record(value);
+				record.add("", value.getEmail());
+				record.add("", value.getUserRole());
+				record.add("", value.getFirstName());
+				record.add("", value.getLastName());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("New User");
+			}
+
+			@Override
+			protected boolean filter(ClientUserInfo e, String name) {
+				return e.getFirstName().equalsIgnoreCase(name) || e.getLastName().equalsIgnoreCase(name);
+			}
+
+			@Override
+			protected List<ClientUserInfo> getLists(Context context) {
+				return	getUsersList(context);
+			}
+		});
+	}
+
+	private List<ClientUserInfo> getUsersList(Context context) {
+		return context.getClientCompany().getUsersList();
 
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = createUsersList(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
 	}
 
-	private Result createUsersList(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		ActionNames selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			switch (selection) {
-			case FINISH:
-				markDone();
-				return new Result();
-			case ACTIVE:
-				context.setAttribute(USER_TYPE, true);
-				break;
-			case IN_ACTIVE:
-				context.setAttribute(USER_TYPE, false);
-				break;
-			case ALL:
-				context.setAttribute(USER_TYPE, null);
-				break;
-			default:
-				break;
-			}
-		}
-		Result result = usersList(context,selection);
-		return result;
+	@Override
+	protected String getWelcomeMessage() {
+		return getConstants().users();
 	}
 
-	private Result usersList(Context context, ActionNames selection) {
-		Result result = context.makeResult();
-		ResultList usersList = new ResultList("usersList");
-		result.add(getConstants().users());
-
-		Boolean userType = (Boolean) context.getAttribute(USER_TYPE);
-		List<ClientUserInfo> users = getUsers(userType); 
-
-		ResultList actions = new ResultList("actions");
-
-		List<ClientUserInfo> pagination = pagination(context, selection, actions,
-				users, new ArrayList<ClientUserInfo>(), VALUES_TO_SHOW);
-
-		for (ClientUserInfo user : pagination) {
-			usersList.add(createUserRecord(user));
-		}
-
-		StringBuilder message = new StringBuilder();
-		if (usersList.size() > 0) {
-			message.append(getMessages().pleaseSelect(getConstants().user()));
-		}
-
-		result.add(message.toString());
-		result.add(usersList);
-
-		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", getConstants().active());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", getConstants().inActive());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("",getConstants().all());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", getConstants().close());
-		actions.add(inActiveRec);
-
-		result.add(actions);
-
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().add()+" " +getConstants().user());
-		result.add(commandList);
-		return result;
-
+	@Override
+	protected String getDetailsMessage() {
+		return getConstants().users();
 	}
 
-	 
-	private Record createUserRecord(ClientUserInfo user) {
-		Record record = new Record(user);
-		// record.add("First Name", user.getFirstName());
-		// record.add("Last Name", user.getLastName());
-		record.add("User Role", user.getUserRole());
-		record.add("Email Id", user.getEmail());
-		record.add("Status", user.isActive()? getConstants().active() :getConstants().inActive());
-		return record;
+	@Override
+	protected void setDefaultValues(Context context) {
 	}
 
-	private List<ClientUserInfo> getUsers(Boolean isActive) {
-
-		ArrayList<ClientUserInfo> users = getClientCompany().getUsersList(); 
-		if (isActive == null) {
-			return users;
-		}
-		ArrayList<ClientUserInfo> result = new ArrayList<ClientUserInfo>();
-		for (ClientUserInfo user : users) {
-			if (user.isActive() == isActive) {
-				result.add(user);
-			}
-		}
-		return result;
-	
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
-
-	 
 
 }

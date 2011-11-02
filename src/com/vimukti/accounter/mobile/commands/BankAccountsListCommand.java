@@ -11,9 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class BankAccountsListCommand extends NewAbstractCommand {
 	private static final String VIEW_TYPE = "Current View";
@@ -41,7 +39,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create New Bank Account");
+				list.add("Create BankAccount");
 			}
 
 			@Override
@@ -120,12 +118,12 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return Accounter.messages().accountsList(getConstants().bankAccount());
+		return getMessages().accountsList(getConstants().bankAccount());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return Accounter.messages().accountsList(getConstants().bankAccount());
+		return getMessages().accountsList(getConstants().bankAccount());
 	}
 
 	@Override

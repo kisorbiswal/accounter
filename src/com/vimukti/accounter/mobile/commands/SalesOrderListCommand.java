@@ -26,19 +26,20 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ShowListRequirement<SalesOrdersList>("salesOrderList",
+		list.add(new ShowListRequirement<SalesOrdersList>("SalesOrderList",
 				"Please Select", 5) {
 			@Override
 			protected Record createRecord(SalesOrdersList value) {
 				Record record = new Record(value);
 				record.add("", value.getCustomerName());
+				record.add("", value.getNumber());
 				record.add("", value.getTotal());
 				return record;
 			}
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create New Sales Order");
+				list.add("New SalesOrder");
 			}
 
 			@Override
@@ -55,21 +56,21 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 
 				String type = SalesOrderListCommand.this.get(CURRENT_VIEW)
 						.getValue();
-				if (type.equals("Open")) {
-					return new ArrayList<SalesOrdersList>(completeList);
-				}
-				if (type.equals("Completed")) {
-
-					for (SalesOrdersList salesOrder : completeList) {
+				for (SalesOrdersList salesOrder : completeList) {
+					if (type.equals("Open")) {
+						if (salesOrder.getStatus() == Transaction.STATUS_OPEN)
+							list.add(salesOrder);
+					}
+					if (type.equals("Completed")) {
 						if (salesOrder.getStatus() == Transaction.STATUS_COMPLETED)
 							list.add(salesOrder);
 					}
-				} else {
-					for (SalesOrdersList order : completeList) {
-						if (order.getStatus() == Transaction.STATUS_CANCELLED)
-							list.add(order);
+					if (type.equals("Cancelled")) {
+						if (salesOrder.getStatus() == Transaction.STATUS_CANCELLED)
+							list.add(salesOrder);
 					}
 				}
+			
 				return list;
 			}
 

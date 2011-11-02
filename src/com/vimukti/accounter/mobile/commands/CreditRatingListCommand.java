@@ -37,7 +37,7 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Credit Rating");
+				list.add("Create CreditRating");
 			}
 
 			@Override
