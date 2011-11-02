@@ -253,8 +253,15 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
+		if (preferences.isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			if (currency != null) {
+				enterBill.setCurrency(currency.getID());
+				enterBill.setCurrencyFactor(1.0);
+			}
+		}
 		enterBill.setTransactionItems(items);
-		updateTotals(context, enterBill, false);
+		updateTotals(context, enterBill, true);
 
 		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
 		enterBill.setDueDate(dueDate.getDate());
