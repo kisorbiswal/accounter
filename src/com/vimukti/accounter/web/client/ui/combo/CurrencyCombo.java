@@ -16,7 +16,9 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
 				getCompany().getCurrencies());
 		initCombo(currency);
-		setSelected(currency.get(0).getFormalName());
+		setSelected(getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency())
+				.getFormalName());
 
 	}
 

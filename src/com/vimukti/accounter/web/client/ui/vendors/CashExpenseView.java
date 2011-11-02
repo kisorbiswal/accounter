@@ -689,6 +689,10 @@ public class CashExpenseView extends
 		vendorItemTransactionTable.setTaxCode(code, false);
 
 		if (isMultiCurrencyEnabled()) {
+			super.setCurrencycode(getCompany()
+					.getCurrency(vendor.getCurrency()));
+			setCurrencyFactor(1.0);
+			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
 	}

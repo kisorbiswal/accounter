@@ -533,7 +533,13 @@ public class CashSalesView extends
 		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
 		// .getFormalName());
 
-		modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrencycode(getCompany().getCurrency(
+					customer.getCurrency()));
+			setCurrencyFactor(1.0);
+			updateAmountsFromGUI();
+			modifyForeignCurrencyTotalWidget();
+		}
 
 	}
 

@@ -994,6 +994,10 @@ public class SalesOrderView extends
 		}
 
 		if (isMultiCurrencyEnabled()) {
+			super.setCurrencycode(getCompany().getCurrency(
+					customer.getCurrency()));
+			setCurrencyFactor(1.0);
+			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
 	}

@@ -186,9 +186,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 		}
 
-		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-		// .getFormalName());
 		if (isMultiCurrencyEnabled()) {
+			super.setCurrencycode(getCompany().getCurrency(
+					customer.getCurrency()));
+			setCurrencyFactor(1.0);
+			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
 	}

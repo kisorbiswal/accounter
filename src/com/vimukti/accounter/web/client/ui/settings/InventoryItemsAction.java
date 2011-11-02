@@ -43,13 +43,12 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 	@Override
 	public String getHistoryToken() {
-
-		return null;
+		return "inventoryItem";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "inventory-item";
+		return "inventoryItem";
 	}
 
 }

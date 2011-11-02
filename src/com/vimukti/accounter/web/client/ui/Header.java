@@ -85,8 +85,8 @@ public class Header extends HorizontalPanel {
 			if (!Accounter.isLoggedInFromDomain()
 					&& Accounter.getCompany().isConfigured()) {
 				userName.addStyleName("userName-style");
-				userName.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				userName.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 				userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 				userName.addClickHandler(new ClickHandler() {

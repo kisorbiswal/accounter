@@ -304,6 +304,10 @@ public class VendorBillView extends
 		}
 
 		if (isMultiCurrencyEnabled()) {
+			super.setCurrencycode(getCompany()
+					.getCurrency(vendor.getCurrency()));
+			setCurrencyFactor(1.0);
+			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
 	}
@@ -1235,9 +1239,9 @@ public class VendorBillView extends
 						.create(AccounterErrors.class);
 				if (errorCode == AccounterException.ERROR_CANT_EDIT) {
 					errorString = accounterErrors.billPaidSoYouCantEdit();
-				} else if(errorCode == AccounterException.USED_IN_INVOICE){
+				} else if (errorCode == AccounterException.USED_IN_INVOICE) {
 					errorString = accounterErrors.usedinInvoiceSoYoucantEdit();
-				}else {
+				} else {
 					errorString = AccounterExceptions.getErrorString(errorCode);
 				}
 				Accounter.showError(errorString);

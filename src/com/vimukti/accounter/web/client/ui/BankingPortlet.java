@@ -190,8 +190,9 @@ public class BankingPortlet extends DashBoardPortlet {
 								LineChart.PACKAGE);
 						if (!result.isEmpty()
 								&& result.get(result.size() - 1) != null) {
-							amountLabel
-									.setText(DataUtils.getAmountAsString(result
+							amountLabel.setText(getPrimaryCurrencySymbol()
+									+ " "
+									+ DataUtils.getAmountAsString(result
 											.get(result.size() - 1)));
 						}
 						// GraphChart chart = new GraphChart(
