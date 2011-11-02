@@ -39,7 +39,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create BankAccount");
+				list.add("Add BankAccount");
 			}
 
 			@Override
