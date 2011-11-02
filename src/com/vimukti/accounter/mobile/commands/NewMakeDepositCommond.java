@@ -451,7 +451,7 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 
 		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
 
-		String number = get("number").getValue();
+		String number = get(NUMBER).getValue();
 		makeDeposit.setNumber(number);
 
 		ClientAccount account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
@@ -460,6 +460,7 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 		List<ClientTransactionMakeDeposit> list = get(TRANSFERED_ACCOUNT)
 				.getValue();
 		makeDeposit.setTransactionMakeDeposit(list);
+
 		makeDeposit.setCashBackAccount(0);
 		makeDeposit.setCashBackMemo("");
 		makeDeposit.setCashBackAmount(0);

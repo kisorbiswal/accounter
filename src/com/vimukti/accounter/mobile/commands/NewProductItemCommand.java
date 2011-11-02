@@ -17,7 +17,6 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -28,7 +27,6 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

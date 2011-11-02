@@ -69,6 +69,7 @@ public class SignupCommand extends NewCommand {
 
 	private void sendPasswordMail(String token, String emailId) {
 		System.out.println("Password : " + token);
+		// TODO
 	}
 
 	protected String createActivation(String emailID, Context context) {
