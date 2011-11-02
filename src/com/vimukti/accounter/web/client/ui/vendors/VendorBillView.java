@@ -134,7 +134,9 @@ public class VendorBillView extends
 							getCompany().getPreferences().getPrimaryCurrency());
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
-				currencyWidget.setSelectedCurrency(this.currency);
+				if (this.currency != null) {
+					currencyWidget.setSelectedCurrency(this.currency);
+				}
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
@@ -1229,11 +1231,13 @@ public class VendorBillView extends
 			public void onException(AccounterException caught) {
 				int errorCode = caught.getErrorCode();
 				String errorString = null;
+				AccounterErrors accounterErrors = (AccounterErrors) GWT
+						.create(AccounterErrors.class);
 				if (errorCode == AccounterException.ERROR_CANT_EDIT) {
-					AccounterErrors accounterErrors = (AccounterErrors) GWT
-							.create(AccounterErrors.class);
 					errorString = accounterErrors.billPaidSoYouCantEdit();
-				} else {
+				} else if(errorCode == AccounterException.USED_IN_INVOICE){
+					errorString = accounterErrors.usedinInvoiceSoYoucantEdit();
+				}else {
 					errorString = AccounterExceptions.getErrorString(errorCode);
 				}
 				Accounter.showError(errorString);
