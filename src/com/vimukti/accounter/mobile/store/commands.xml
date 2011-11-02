@@ -342,7 +342,7 @@
 
 	<command clazz="PayVATCommand" name="Pay VAT">
 		<alias>Pay Tax</alias>
-		<alias>Pay Sales Tax</alias>
+		<alias>Pay Vat</alias>
 	</command>
 
 	<command clazz="ReceiveVATCommand" name="Receive VAT">
@@ -355,7 +355,7 @@
 	</command>
 
 	<command clazz="PaySalesTaxCommand" name="Pay VAT">
-		<alias>Pay Tax</alias>
+		<alias>Pay SalesTax</alias>
 		<alias>Pay Sales Tax</alias>
 	</command>
 
