@@ -20,7 +20,7 @@ public class Brazil extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "BRR";
+		return "BRL";
 	}
 
 	@Override
