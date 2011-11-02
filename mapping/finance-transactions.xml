@@ -60,7 +60,7 @@
 			<one-to-many class="PayTAXEntries" />
 		</set>
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
-			column="CREDITS_AND_PAYMENTS_ID" cascade="delete">
+			column="CREDITS_AND_PAYMENTS_ID" cascade="delete" lazy="false">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<many-to-one name="accounterClass" class="AccounterClass"
