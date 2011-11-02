@@ -43,9 +43,9 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<ShippingTerms> getLists(Context context) {
 				List<ShippingTerms> list = new ArrayList<ShippingTerms>();
-				Set<ShippingTerms> accounts = context.getCompany()
+				Set<ShippingTerms> terms = context.getCompany()
 						.getShippingTerms();
-				for (ShippingTerms a : accounts) {
+				for (ShippingTerms a : terms) {
 					list.add(a);
 				}
 				return list;
