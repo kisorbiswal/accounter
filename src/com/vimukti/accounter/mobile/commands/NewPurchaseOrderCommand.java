@@ -325,11 +325,10 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		newPurchaseOrder.setPurchaseOrderNumber(no);
 		ClientAddress address = get(BILL_TO).getValue();
 		newPurchaseOrder.setShippingAddress(address);
-		ClientCurrency currency = get(CURRENCY).getValue();
-
-		if (currency != null) {
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
 			newPurchaseOrder.setCurrency(currency.getID());
-
+			newPurchaseOrder.setCurrencyFactor(1.0);
 		}
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();

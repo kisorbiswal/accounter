@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.EstimateRequirement;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -193,7 +195,15 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
 				getConstants().phoneNumber()), getConstants().phoneNumber(),
 				true, true));
+		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
+				getConstants().currency()), getConstants().currency(), true,
+				true, null) {
 
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+				return context.getClientCompany().getCurrencies();
+			}
+		});
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 		list.add(new StringListRequirement(STATUS, getMessages().pleaseSelect(
@@ -310,6 +320,11 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
+		}
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			newSalesOrder.setCurrency(currency.getID());
+			newSalesOrder.setCurrencyFactor(1.0);
 		}
 		newSalesOrder.setTransactionItems(items);
 		updateTotals(context, newSalesOrder, true);

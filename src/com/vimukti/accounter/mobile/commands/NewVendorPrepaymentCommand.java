@@ -20,6 +20,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -231,6 +232,11 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
 		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
 
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			paybill.setCurrency(currency.getID());
+			paybill.setCurrencyFactor(1.0);
+		}
 		double amount = get(AMOUNT).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		Boolean toBePrinted = (Boolean) get(TO_BE_PRINTED).getValue();

@@ -340,6 +340,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		paybill.setDate(date.getDate());
 		String memo = get(MEMO).getValue();
 		paybill.setMemo(memo);
+
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			paybill.setCurrency(currency.getID());
+			paybill.setCurrencyFactor(1.0);
+		}
 		if (context.getClientCompany().getPreferences().isTDSEnabled()) {
 
 			ClientTAXItem taxItem = context.getClientCompany().getTAXItem(
