@@ -71,7 +71,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// if (!Accounter.isMacApp()) {
 		// add(hMenuBar);
 		// }
-		boolean isTouch = false;/*isTablet*/
+		boolean isTouch = false;/* isTablet */
 		IMenuFactory menuFactory = null;
 		if (isTouch) {
 			menuFactory = new TouchMenuFactory();
@@ -105,7 +105,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	private boolean isTablet() {
-		
+
 		return false;
 	}
 
@@ -390,6 +390,17 @@ public class MainFinanceWindow extends VerticalPanel {
 						Accounter.constants().newQuote()).getHistoryToken(),
 				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
 						Accounter.constants().newQuote()));
+		actions.put(
+				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
+						Accounter.constants().newCharge()).getHistoryToken(),
+				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
+						Accounter.constants().newCharge()));
+		actions.put(
+				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
+						Accounter.constants().newCredit()).getHistoryToken(),
+				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
+						Accounter.constants().newCredit()));
+
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
 		actions.put(ActionFactory.getInvoiceBrandingAction().getHistoryToken(),
@@ -414,6 +425,11 @@ public class MainFinanceWindow extends VerticalPanel {
 						ClientEstimate.QUOTES).getHistoryToken(), ActionFactory
 						.getQuotesAction(Accounter.constants().quotes(),
 								ClientEstimate.QUOTES));
+		actions.put(
+				ActionFactory.getQuotesAction(Accounter.constants().Charges(),
+						ClientEstimate.CHARGES).getHistoryToken(),
+				ActionFactory.getQuotesAction(Accounter.constants().Charges(),
+						ClientEstimate.CHARGES));
 		actions.put(ActionFactory.getInvoicesAction(null).getHistoryToken(),
 				ActionFactory.getInvoicesAction(null));
 		actions.put(
