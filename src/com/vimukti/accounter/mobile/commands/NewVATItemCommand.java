@@ -10,7 +10,6 @@ import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
-import com.vimukti.accounter.mobile.requirements.VatReturnBoxRequirement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -65,28 +64,28 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new VatReturnBoxRequirement(VAT_RETURN_BOX, null,
-				"vat return box", false, true, null) {
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected String getSetMessage() {
-				return "vat return box has been Selected.";
-			}
-
-			@Override
-			protected List<ClientVATReturnBox> getLists(Context context) {
-				return context.getClientCompany().getVatReturnBoxes();
-			}
-
-			@Override
-			protected String getSelectString() {
-				return "Slect a Vat return box";
-			}
-		});
+		// list.add(new VatReturnBoxRequirement(VAT_RETURN_BOX, null,
+		// "vat return box", false, true, null) {
+		// @Override
+		// protected String getEmptyString() {
+		// return null;
+		// }
+		//
+		// @Override
+		// protected String getSetMessage() {
+		// return "vat return box has been Selected.";
+		// }
+		//
+		// @Override
+		// protected List<ClientVATReturnBox> getLists(Context context) {
+		// return context.getClientCompany().getVatReturnBoxes();
+		// }
+		//
+		// @Override
+		// protected String getSelectString() {
+		// return "Slect a Vat return box";
+		// }
+		// });
 
 		list.add(new BooleanRequirement(IS_ACTIVE, true) {
 
@@ -137,11 +136,11 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		ClientTAXAgency taxAgency = (ClientTAXAgency) get(TAX_AGENCY)
 				.getValue();
 		taxItem.setPercentage(true);
-		if (getClientCompany().getPreferences().isTrackTax()) {
-			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
-					VAT_RETURN_BOX).getValue();
-			taxItem.setVatReturnBox(vatReturnBox.getID());
-		}
+		// if (getClientCompany().getPreferences().isTrackTax()) {
+		// ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
+		// VAT_RETURN_BOX).getValue();
+		// taxItem.setVatReturnBox(vatReturnBox.getID());
+		// }
 		taxItem.setName(name);
 		taxItem.setDescription(description);
 		taxItem.setTaxRate(taxRate);

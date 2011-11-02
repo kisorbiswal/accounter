@@ -68,8 +68,8 @@ public abstract class NewCommand extends Command {
 			actions.add(record);
 		}
 		Object selection = context.getSelection("actions");
+		beforeFinishing(context, makeResult);
 		if (selection != ActionNames.FINISH_COMMAND) {
-			beforeFinishing(context, makeResult);
 			return makeResult;
 		}
 
