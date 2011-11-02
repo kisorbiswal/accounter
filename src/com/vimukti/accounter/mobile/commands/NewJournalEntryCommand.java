@@ -97,7 +97,7 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setRequirementsDefaultValues(ClientEntry obj) {
-				get("Account").setDefaultValue(
+				get("Account").setValue(
 						getClientCompany().getAccount(obj.getAccount()));
 				get("Memo").setDefaultValue(obj.getMemo());
 				get("Debits").setDefaultValue(obj.getDebit());
