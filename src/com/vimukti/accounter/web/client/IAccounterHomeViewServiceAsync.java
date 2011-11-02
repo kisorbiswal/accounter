@@ -28,6 +28,8 @@ import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -371,5 +373,11 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getWarehouses(AsyncCallback<ArrayList<ClientWarehouse>> callBack);
 
 	public void getAllUnits(AsyncCallback<ArrayList<ClientMeasurement>> callBack);
+
+	public void getStockTransferItems(long wareHouse,
+			AsyncCallback<ArrayList<ClientStockTransferItem>> callBack);
+
+	void getWarehouseTransfersList(
+			AsyncCallback<ArrayList<ClientStockTransfer>> callback);
 
 }

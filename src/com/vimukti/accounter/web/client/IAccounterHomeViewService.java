@@ -26,6 +26,8 @@ import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -334,4 +336,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientWarehouse> getWarehouses();
 
 	public ArrayList<ClientMeasurement> getAllUnits();
+
+	public ArrayList<ClientStockTransferItem> getStockTransferItems(
+			long wareHouse);
+	
+	public ArrayList<ClientStockTransfer> getWarehouseTransfersList()
+			throws AccounterException;
 }
