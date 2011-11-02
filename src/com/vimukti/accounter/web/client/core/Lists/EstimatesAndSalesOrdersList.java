@@ -28,8 +28,6 @@ public class EstimatesAndSalesOrdersList implements IAccounterCore {
 
 	private double remainingTotal;
 
-	private List<ClientTransactionItem> transactionItems;
-
 	private int estimateType;
 
 	/**
@@ -176,14 +174,6 @@ public class EstimatesAndSalesOrdersList implements IAccounterCore {
 	public String getClientClassSimpleName() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public List<ClientTransactionItem> getTransactionItems() {
-		return transactionItems;
-	}
-
-	public void setTransactionItems(List<ClientTransactionItem> transactionItems) {
-		this.transactionItems = transactionItems;
 	}
 
 	public void setEstimateType(int estimateType) {
