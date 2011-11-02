@@ -269,7 +269,10 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
-			cashPurchase.setCurrency(currency.getID());
+			if (currency != null) {
+				cashPurchase.setCurrency(currency.getID());
+			}
+
 			cashPurchase.setCurrencyFactor(1.0);
 		}
 

@@ -227,7 +227,9 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
-			vendorCreditMemo.setCurrency(currency.getID());
+			if (currency != null) {
+				vendorCreditMemo.setCurrency(currency.getID());
+			}
 			vendorCreditMemo.setCurrencyFactor(1.0);
 		}
 

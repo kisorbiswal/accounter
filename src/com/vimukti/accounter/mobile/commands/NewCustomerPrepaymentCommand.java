@@ -233,9 +233,15 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		Boolean tobePrinted = get(TO_BE_PRINTED).getValue();
 		prePayment.setToBePrinted(tobePrinted);
 		String memo = get(MEMO).getValue();
-		ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			if (currency != null) {
+				prePayment.setCurrency(currency.getID());
+			}
 
-		prePayment.setCurrency(currency.getID());
+		}
+		prePayment.setCurrencyFactor(1.0);
+
 		prePayment.setMemo(memo);
 		prePayment.setStatus(ClientCustomerPrePayment.STATUS_OPEN);
 		prePayment.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);

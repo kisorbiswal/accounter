@@ -231,9 +231,12 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		creditMemo.setCustomer(customer.getID());
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
-			creditMemo.setCurrency(currency.getID());
-			creditMemo.setCurrencyFactor(1.0);
+			if (currency != null) {
+				creditMemo.setCurrency(currency.getID());
+			}
+
 		}
+		creditMemo.setCurrencyFactor(1.0);
 		String memo = get(MEMO).getValue();
 		creditMemo.setMemo(memo);
 		updateTotals(context, creditMemo, false);

@@ -12,7 +12,6 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -189,13 +188,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
-				true, new ChangeListner<ClientCurrency>() {
-
-					@Override
-					public void onSelection(ClientCurrency value) {
-
-					}
-				}) {
+				true, null) {
 
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {
@@ -236,6 +229,15 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			String cheqNum = get(CHEQUE_NO).getValue();
 			customerRefund.setCheckNumber(cheqNum);
 		}
+
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			if (currency != null) {
+				customerRefund.setCurrency(currency.getID());
+			}
+
+		}
+		customerRefund.setCurrencyFactor(1.0);
 		customerRefund.setMemo(get(MEMO).getValue() == null ? "" : get(MEMO)
 				.getValue().toString());
 		customerRefund.setTotal(amount);

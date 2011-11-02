@@ -343,9 +343,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
-			paybill.setCurrency(currency.getID());
-			paybill.setCurrencyFactor(1.0);
+			if (currency != null) {
+				paybill.setCurrency(currency.getID());
+			}
+
 		}
+		paybill.setCurrencyFactor(1.0);
 		if (context.getClientCompany().getPreferences().isTDSEnabled()) {
 
 			ClientTAXItem taxItem = context.getClientCompany().getTAXItem(

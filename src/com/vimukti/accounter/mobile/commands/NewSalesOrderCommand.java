@@ -323,9 +323,12 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		}
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
-			newSalesOrder.setCurrency(currency.getID());
-			newSalesOrder.setCurrencyFactor(1.0);
+			if (currency != null) {
+				newSalesOrder.setCurrency(currency.getID());
+			}
+
 		}
+		newSalesOrder.setCurrencyFactor(1.0);
 		newSalesOrder.setTransactionItems(items);
 		updateTotals(context, newSalesOrder, true);
 		String memo = get(MEMO).getValue();

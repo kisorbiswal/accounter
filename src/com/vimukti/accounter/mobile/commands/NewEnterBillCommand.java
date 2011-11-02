@@ -257,9 +257,10 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				enterBill.setCurrency(currency.getID());
-				enterBill.setCurrencyFactor(1.0);
+
 			}
 		}
+		enterBill.setCurrencyFactor(1.0);
 		enterBill.setTransactionItems(items);
 		updateTotals(context, enterBill, true);
 
