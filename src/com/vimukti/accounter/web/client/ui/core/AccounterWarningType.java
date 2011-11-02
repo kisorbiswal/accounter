@@ -40,4 +40,5 @@ public class AccounterWarningType {
 	public static final String PAYSALESTAX_EDITING = "Editing this Pay Sales Tax will void this transaction and create a new Pay Sales Tax. Do you want to continue?";
 	public static final String PAYVAT_EDITING = "Editing this Pay VAT will void this transaction and create a new Pay VAT. Do you want to continue?";
 	public static final String EMPTY_CLASS = "You did n't selected class for this transaction.Do you want to continue?";
+	public static final String WAREHOUSE_TRANSFER_EDITING = "Editing of this ware house transfer will delete this and create new one. Do you want to continue?";
 }
