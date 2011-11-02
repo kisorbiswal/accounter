@@ -512,12 +512,18 @@
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="isPaid" column="IS_PAID"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<many-to-one name="estimate" class="Estimate" lazy="false"
-				cascade="save-update" column="ESTIMATE_ID">
-			</many-to-one>
-			<many-to-one name="salesOrder" class="SalesOrder" lazy="false"
-				cascade="save-update" column="SALES_ORDER_ID">
-			</many-to-one>
+			<list name="estimates" table="INVOICE_ESTIMATES" lazy="false"
+				cascade="save-update">
+				<key column="INVOICE_ID"></key>
+				<list-index column="VTX" />
+				<many-to-many column="ESTIAMTE_ID" class="Estimate" />
+			</list>
+			<list name="salesOrders" table="INVOICE_SALES_ORDERS" lazy="false"
+				cascade="save-update">
+				<key column="INVOICE_ID"></key>
+				<list-index column="VTX" />
+				<many-to-many column="SALES_ORDER_ID" class="SalesOrder" />
+			</list>
 			<property name="discountDate" column="DISCOUNT_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<set name="transactionReceivePayments" inverse="true" lazy="false"
