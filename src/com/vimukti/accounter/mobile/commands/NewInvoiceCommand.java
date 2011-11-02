@@ -315,11 +315,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		ClientSalesOrder cSalesOrder = null;
 		if (e != null) {
 			if (e.getType() == ClientTransaction.TYPE_ESTIMATE) {
-				invoice.setEstimate(e.getTransactionId());
+				// invoice.setEstimate(e.getTransactionId());
 				cct = getEstimate(e.getTransactionId(), context);
 				addEstimate(cct, items);
 			} else {
-				invoice.setSalesOrder(e.getTransactionId());
+				// invoice.setSalesOrder(e.getTransactionId());
 				cSalesOrder = getSalesOrder(e.getTransactionId(), context);
 				addSalesOrder(cSalesOrder, items);
 			}
