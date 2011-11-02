@@ -596,7 +596,7 @@
 	</command>
 
 	<command clazz="LocationListCommand" name="Location list">
-		<alias>Location list</alias>
+		<alias>Locations</alias>
 	</command>
 
 	<command clazz="JournalEntryListCommand" name="Journal entries">
@@ -605,10 +605,9 @@
 	</command>
 
 
-	<command clazz="NewJournalEntryCommand" name="New JournalEntry Command">
-		<alias>New JournalEntry Command</alias>
-		<alias>Create JournalEntry Command</alias>
-		<alias>Add JournalEntry Command</alias>
+	<command clazz="NewJournalEntryCommand" name="New Journal Entry">
+		<alias>Create Journal Entry</alias>
+		<alias>Add Journal Entry</alias>
 	</command>
 
 
