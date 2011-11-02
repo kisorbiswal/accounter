@@ -9,12 +9,17 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
+import com.vimukti.accounter.core.StockTransfer;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -177,6 +182,43 @@ public class InventoryManager extends Manager {
 		}
 		return clientWarehouses;
 
+	}
+
+	public ArrayList<ClientStockTransferItem> getStockTransferItems(
+			Long companyId, long wareHouse) {
+		Session session = HibernateUtil.getCurrentSession();
+		List<ItemStatus> itemStatuses = session
+				.getNamedQuery("getItemStatuses")
+				.setLong("wareHouse", wareHouse)
+				.setLong("companyId", companyId).list();
+
+		ArrayList<ClientStockTransferItem> stockTransferItems = new ArrayList<ClientStockTransferItem>();
+		for (ItemStatus record : itemStatuses) {
+			ClientStockTransferItem item = new ClientStockTransferItem();
+			item.setItem(record.getItem().getID());
+			ClientQuantity quantity = new ClientQuantity();
+			quantity.setValue(record.getQuantity().getValue());
+			quantity.setUnit(record.getQuantity().getUnit().getID());
+			item.setQuantity(new ClientQuantity());
+			item.setTotalQuantity(quantity);
+			stockTransferItems.add(item);
+		}
+		return stockTransferItems;
+	}
+
+	public ArrayList<ClientStockTransfer> getWarehouseTransfersList(
+			Long companyId) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<StockTransfer> list = session
+				.getNamedQuery("getStockTransfersList")
+				.setLong("companyId", companyId).list();
+		ArrayList<ClientStockTransfer> result = new ArrayList<ClientStockTransfer>();
+		for (StockTransfer record : list) {
+			ClientStockTransfer clientRecord = new ClientConvertUtil()
+					.toClientObject(record, ClientStockTransfer.class);
+			result.add(clientRecord);
+		}
+		return result;
 	}
 
 }
