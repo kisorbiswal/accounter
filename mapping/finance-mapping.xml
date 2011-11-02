@@ -1839,15 +1839,15 @@
 		</many-to-one>
 	</class>
 
-	<class name="StockTransferItem" table="TRANSFER_ITEM">
+	<class name="StockTransferItem" table="STOCK_TRANSFER_ITEM">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<many-to-one name="item" class="Item" fetch="join">
-			<column name="ITEM" />
+		<many-to-one name="item" class="Item" lazy="false"
+			column="ITEM">
 		</many-to-one>
 
 		<component name="quantity" class="Quantity">
@@ -1856,14 +1856,12 @@
 				lazy="false" cascade="save-update" />
 		</component>
 
-		<property name="memo" type="java.lang.String">
-			<column name="MEMO" />
-		</property>
-
 	</class>
 
 	<class name="StockTransfer" table="STOCK_TRANSFER">
-		<id name="id" column="ID" />
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
@@ -1883,8 +1881,8 @@
 			class="Warehouse" lazy="false">
 		</many-to-one>
 
-		<set name="stockTransferItems" inverse="true" cascade="save-update,delete-orphan"
-			lazy="false" table="STOCK_TRANSFER_MAPPING">
+		<set name="stockTransferItems" cascade="save-update,delete-orphan"
+			lazy="false">
 			<key column="STOCK_TRANSFER"></key>
 			<one-to-many class="StockTransferItem" />
 		</set>
