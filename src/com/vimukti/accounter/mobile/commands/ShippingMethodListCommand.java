@@ -2,96 +2,95 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.ShippingMethod;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class ShippingMethodListCommand extends AbstractTransactionCommand {
+public class ShippingMethodListCommand extends NewAbstractCommand {
+	private static final String SHIPPING_METHODS = "ShiipingMethods";
 
 	@Override
 	public String getId() {
 		return null;
 	}
 
-	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new ShowListRequirement<ShippingMethod>(SHIPPING_METHODS,
+				"Please Enter name or number", 10) {
+			@Override
+			protected Record createRecord(ShippingMethod value) {
+				Record record = new Record(value);
+				record.add("", value.getName());
+				record.add("", value.getDescription());
+				return record;
+			}
 
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(getMessages().create(getConstants().shippingMethod()));
+			}
+
+			@Override
+			protected boolean filter(ShippingMethod e, String name) {
+				return true;
+			}
+
+			@Override
+			protected List<ShippingMethod> getLists(Context context) {
+				List<ShippingMethod> list = new ArrayList<ShippingMethod>();
+				Set<ShippingMethod> methods = context.getCompany()
+						.getShippingMethods();
+				for (ShippingMethod a : methods) {
+					list.add(a);
+				}
+				return list;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getConstants().shippingMethodList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected String onSelection(ShippingMethod value) {
+				return getConstants().update() + " " + value.getName();
+			}
+		});
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = createShippingMethodsListReq(context);
-		if (result != null) {
-			return result;
-		}
+	protected String getDetailsMessage() {
 		return null;
 	}
 
-	private Result createShippingMethodsListReq(Context context) {
-
-		Object selection = context.getSelection(ACTIONS);
-		ActionNames actionNames;
-		if (selection != null) {
-			actionNames = (ActionNames) selection;
-			switch (actionNames) {
-			case FINISH:
-				return closeCommand();
-			default:
-				break;
-			}
-		}
-
-		Result result = shippingMethods(context);
-		if (result != null) {
-			return result;
-		}
+	@Override
+	public String getSuccessMessage() {
 		return null;
 	}
 
-	private Result shippingMethods(Context context) {
-		ResultList shipingResultList = new ResultList("shippingmethodsList");
-		ResultList actions = new ResultList("actions");
-
-		Result result = context.makeResult();
-
-		List<ShippingMethod> shippingList = getShippingMethodList(context);
-		for (ShippingMethod shippingMethod : shippingList) {
-			shipingResultList.add(createShippingRecord(shippingMethod));
-		}
-		result.add(shipingResultList);
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().add());
-		commandList.add(getConstants().edit());
-		commandList.add(getConstants().delete());
-
-		Record finishRecord = new Record(ActionNames.FINISH);
-		finishRecord.add("", getConstants().close());
-		actions.add(finishRecord);
-
-		result.add(commandList);
-		result.add(actions);
-
-		return result;
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
-	private Record createShippingRecord(ShippingMethod shippingMethod) {
-		Record record = new Record(shippingMethod);
-		record.add("", getConstants().name());
-		record.add("", shippingMethod.getName());
-		record.add("", getConstants().description());
-		record.add("", shippingMethod.getDescription());
-		return record;
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
 	}
 
-	private List<ShippingMethod> getShippingMethodList(Context context) {
-		return new ArrayList<ShippingMethod>(context.getCompany()
-				.getShippingMethods());
+	@Override
+	protected void setDefaultValues(Context context) {
+
 	}
 
 }
