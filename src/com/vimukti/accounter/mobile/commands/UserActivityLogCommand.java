@@ -2,132 +2,148 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.server.FinanceTool;
 
+public class UserActivityLogCommand extends NewAbstractCommand {
 
-public class UserActivityLogCommand extends AbstractTransactionCommand {
-
-	private static final String FROM_DATE = "fromdate";
-	private static final String END_DATE = "enddate";
+//	private static final String FROM_DATE = "fromdate";
+//	private static final String END_DATE = "enddate";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(FROM_DATE, true, true));
-		list.add(new Requirement(END_DATE, true, true));
 
-	}
+		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
+				getConstants().fromDate()), getConstants().fromDate(), true,
+				true));
 
-	@Override
-	public Result run(Context context) {
+		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
+				getConstants().toDate()), getConstants().toDate(), true, true));
 
-		Result result = null;
+		list.add(new ShowListRequirement<ClientActivity>("activitylog", "", 5) {
 
-		setDefaultValules();
-		result = creatOptionalResult(context);
-		if (result != null)
-			return result;
-		return result;
-	}
-
-	private void setDefaultValules() {
-		get(FROM_DATE).setDefaultValue(
-				new ClientFinanceDate());
-		get(END_DATE).setDefaultValue(
-				new ClientFinanceDate());
-
-	}
-
-	private Result creatOptionalResult(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return closeCommand();
-			default:
-				break;
+			@Override
+			protected List<ClientActivity> getLists(Context context) {
+				return getActivityList(context);
 			}
-		}
-		selection = context.getSelection("values");
 
-		ResultList list = new ResultList("values");
+			@Override
+			protected String onSelection(ClientActivity value) {
+				return null;
+			}
 
-		Result result = dateOptionalRequirement(context, list, FROM_DATE,
-				getConstants().fromDate(),
-				getMessages().pleaseEnter(getConstants().fromDate()), selection);
-		if (result != null) {
-			return result;
-		}
+			protected Record createRecord(ClientActivity value) {
+				Record record = new Record(value);
+				record.add("",
+						new ClientFinanceDate(value.getTime()));
+				record.add("", value.getUserName());
+				record.add("", getActivityDataType(value));
+				return record;
+			}
 
-		result = dateOptionalRequirement(context, list, END_DATE,
-				getConstants().endDate(),
-				getMessages().pleaseEnter(getConstants().endDate()), selection);
-		if (result != null) {
-			return result;
-		}
+			@Override
+			protected boolean filter(ClientActivity e, String name) {
+				return e.getName().startsWith(name);
+			}
 
-		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
-		ClientFinanceDate endDate = get(END_DATE).getValue();
+			@Override
+			protected String getShowMessage() {
+				return getConstants().usersActivityLogTitle();
+			}
 
-		result = userActivityLogList(context, fromDate, endDate);
-		if (result != null) {
-			return result;
-		}
-		return result;
+			@Override
+			protected String getEmptyString() {
+				return getConstants().noRecordsToShow();
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+			}
+		});
 	}
 
-	private Result userActivityLogList(Context context,
-			ClientFinanceDate fromDate, ClientFinanceDate endDate) {
-		Result result = context.makeResult();
-		ResultList activitiesList = new ResultList("activitylog");
-		
-		
-		List<ClientActivity> activities = getActivityList(fromDate, endDate,
-				context);
-		for (ClientActivity activity : activities) {
-			activitiesList.add(createActivityRecord(activity));
-		}
-		result.add(fromDate.toString());
-		result.add(endDate.toString());
-		result.add(activitiesList);
-		return result;
-	}
+	private List<ClientActivity> getActivityList(Context context) {
 
-	private List<ClientActivity> getActivityList(ClientFinanceDate fromDate,
-			ClientFinanceDate endDate, Context context) {
+		ClientFinanceDate startDate = get(FROM_DATE).getValue();
+		ClientFinanceDate endDate = get(TO_DATE).getValue();
+
 		List<ClientActivity> activities = new FinanceTool().getUserManager()
-				.getUsersActivityLog(fromDate, endDate, 1, VALUES_TO_SHOW,
+				.getUsersActivityLog(startDate, endDate, 1, VALUES_TO_SHOW,
 						context.getCompany().getId());
 
 		return activities;
 	}
 
-	private Record createActivityRecord(ClientActivity activity) {
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
 
-		Record record = new Record(activity);
-		record.add("ModifiedDate", getDateAsString(activity.getDate()));
-		record.add("UserName", activity.getUserName());
-		record.add("Activity", activity.getActivityType());
-		record.add("Name", activity.getName());
-		record.add("Date", activity.getDate().toString());
-		record.add("Amount", activity.getAmount());
-		return record;
+	@Override
+	protected String getWelcomeMessage() {
+		return getConstants().usersActivityLogTitle();
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getConstants().usersActivityLogTitle();
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(FROM_DATE).setDefaultValue(new ClientFinanceDate());
+		get(TO_DATE).setDefaultValue(new ClientFinanceDate());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
+
+	protected String getActivityDataType(ClientActivity activity) {
+		String dataType = "";
+		StringBuffer buffer = new StringBuffer();
+		int type = activity.getActivityType();
+		switch (type) {
+		case 0:
+			return dataType = getConstants().loggedIn();
+		case 1:
+			return dataType = getConstants().loggedOut();
+		case 2:
+			buffer.append(getConstants().added());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
+		case 3:
+			buffer.append(getConstants().edited());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
+		case 4:
+			buffer.append(getConstants().deleted());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
+		case 5:
+			return dataType = getConstants().updatedPreferences();
+		default:
+			break;
+		}
+		return null;
 	}
 }

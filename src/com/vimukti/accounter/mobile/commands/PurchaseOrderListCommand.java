@@ -3,172 +3,144 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class PurchaseOrderListCommand extends AbstractTransactionCommand {
+public class PurchaseOrderListCommand extends NewAbstractCommand {
 
 	private static final String CURRENT_VIEW = "currentView";
-	private static String OPEN = "open";
-	private static String COMPLETED = "completed";
-	private static String CANCELLED = "cancelled";
+	private static String OPEN = "Open";
+	private static String COMPLETED = "Completed";
+	private static String CANCELLED = "Cancelled";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-	}
-
-	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		return null;
-	}
-
-	private Result createOptionalResult(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-		ActionNames selection = context.getSelection(ACTIONS);
-
-		if (selection != null) {
-			switch (selection) {
-			case FINISH:
-				return closeCommand();
-			case OPEN:
-				context.setAttribute(CURRENT_VIEW, "open");
-				break;
-			case COMPLETED:
-				context.setAttribute(CURRENT_VIEW, "completed");
-				break;
-			case CANCELLED:
-				context.setAttribute(CURRENT_VIEW, "cancelled");
-				break;
-			case ALL:
-				context.setAttribute(CURRENT_VIEW, null);
-				break;
-			default:
-				break;
+		list.add(new ShowListRequirement<PurchaseOrdersList>("purchaseOrderList",
+				getMessages().pleaseSelect(getConstants().purchaseOrder()), 5) {
+			@Override
+			protected Record createRecord(PurchaseOrdersList value) {
+				Record record = new Record(value);
+				record.add("", value.getVendorName());
+				record.add("", value.getPurchasePrice());
+				return record;
 			}
-		}
 
-		Result result = purchaseOrderList(context, selection);
-		return result;
-	}
-
-	private Result purchaseOrderList(Context context, ActionNames viewType) {
-
-		Result result = context.makeResult();
-		ResultList purchaseList = new ResultList("purchaseOrderList");
-		result.add(getConstants().purchaseOrderList());
-
-		String currentView = (String) context.getAttribute(CURRENT_VIEW);
-		List<PurchaseOrdersList> orders = getPurchaseOrder(context, currentView);
-
-		ResultList actions = new ResultList("actions");
-
-		List<PurchaseOrdersList> pagination = pagination(context, viewType,
-				actions, orders, new ArrayList<PurchaseOrdersList>(),
-				VALUES_TO_SHOW);
-
-		for (PurchaseOrdersList purchaseOrdersList : pagination) {
-			purchaseList.add(createNewPurchaseOrderRecord(purchaseOrdersList));
-		}
-
-		result.add(purchaseList);
-
-		Record inActiveRec = new Record(ActionNames.OPEN);
-		inActiveRec.add("", getConstants().open());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.COMPLETED);
-		inActiveRec.add("", getConstants().completed());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.CANCELLED);
-		inActiveRec.add("", getConstants().cancelled());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", getConstants().all());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", "Close");
-		actions.add(inActiveRec);
-
-		result.add(actions);
-
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().newPurchaseOrder());
-		result.add(commandList);
-
-		return result;
-	}
-
-	private Record createNewPurchaseOrderRecord(PurchaseOrdersList order) {
-
-		Record record = new Record(order);
-		record.add("Supplier", order.getVendorName());
-		record.add("Date", getDateAsString(order.getDate()));
-		record.add("Order No", order.getNumber());
-		record.add("Phone", order.getPhone());
-		record.add("TotalPrice", order.getPurchasePrice());
-		return record;
-	}
-
-	private List<PurchaseOrdersList> getPurchaseOrder(Context context,
-			String currentView) {
-		FinanceTool tool = new FinanceTool();
-		List<PurchaseOrdersList> purchaseOrders;
-		List<PurchaseOrdersList> result = new ArrayList<PurchaseOrdersList>();
-		try {
-			purchaseOrders = tool.getPurchageManager().getPurchaseOrdersList(
-					context.getCompany().getID());
-
-			if (currentView == null) {
-				return purchaseOrders;
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Purchase Order");
 			}
-			if (purchaseOrders != null) {
-				for (PurchaseOrdersList purchaseOrder : purchaseOrders) {
-					if (currentView.equals(OPEN)) {
-						if (purchaseOrder.getStatus() == ClientTransaction.STATUS_OPEN
-								|| purchaseOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
-							result.add(purchaseOrder);
-						continue;
+
+			@Override
+			protected boolean filter(PurchaseOrdersList e, String name) {
+				return e.getVendorName().startsWith(name)
+						|| e.getNumber().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<PurchaseOrdersList> getLists(Context context) {
+				List<PurchaseOrdersList> list = new ArrayList<PurchaseOrdersList>();
+				List<PurchaseOrdersList> completeList = getPurchaseOrder(context);
+				String type = PurchaseOrderListCommand.this.get(CURRENT_VIEW)
+						.getValue();
+				for (PurchaseOrdersList order : completeList) {
+
+					if (type.equals(OPEN)) {
+						if (order.getStatus() == ClientTransaction.STATUS_OPEN
+								|| order.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
+							list.add(order);
 					}
-					if (currentView.equals(COMPLETED)) {
-						if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
-							result.add(purchaseOrder);
-						continue;
+					if (type.equals(COMPLETED)) {
+						if (order.getStatus() == ClientTransaction.STATUS_COMPLETED)
+							list.add(order);
 					}
-					if (currentView.equals(CANCELLED)) {
-						if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
-							result.add(purchaseOrder);
-						continue;
+					if (type.equals(CANCELLED)) {
+						if (order.getStatus() == ClientTransaction.STATUS_CANCELLED)
+							list.add(order);
 					}
 				}
+				return list;
 			}
-			return result;
+
+			@Override
+			protected String getShowMessage() {
+				return getConstants().purchaseOrderList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getConstants().noRecordsToShow();
+			}
+
+			@Override
+			protected String onSelection(PurchaseOrdersList value) {
+				return null;
+			}
+		});
+
+		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add("Open");
+				list.add("Completed");
+				list.add("Cancelled");
+				return list;
+			}
+		});
+
+	}
+
+	private List<PurchaseOrdersList> getPurchaseOrder(Context context) {
+		FinanceTool tool = new FinanceTool();
+		try {
+		return  tool.getPurchageManager().getPurchaseOrdersList(
+					context.getCompany().getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 
 		return null;
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getConstants().purchaseOrderList();
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getConstants().purchaseOrderList();
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+	get(CURRENT_VIEW).setDefaultValue("Open");		
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
 
 }

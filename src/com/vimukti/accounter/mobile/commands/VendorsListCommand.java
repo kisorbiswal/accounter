@@ -3,17 +3,18 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class VendorsListCommand extends AbstractTransactionCommand {
+public class VendorsListCommand extends NewAbstractCommand {
 	private static final String VENDOR_TYPE = "vendorType";
 
 	@Override
@@ -23,90 +24,110 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		// list.add(new Requirement(ACTIVE, true, true));
+		list.add(new ShowListRequirement<PayeeList>("vendorssList",
+				"Please Select vendor", 5) {
 
+			@Override
+			protected String onSelection(PayeeList value) {
+				return null;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return "Vendor List";
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getConstants().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(PayeeList value) {
+				Record record = new Record(value);
+				record.add("", value.getPayeeName());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create New Vendor");
+			}
+
+			@Override
+			protected boolean filter(PayeeList e, String name) {
+				return e.getName().startsWith(name);
+			}
+
+			@Override
+			protected List<PayeeList> getLists(Context context) {
+				 ArrayList<PayeeList> completeList = getVendorList(context);
+				 ArrayList<PayeeList> result = new ArrayList<PayeeList>();
+				 
+				 String type = get(VENDOR_TYPE).getValue();
+				 
+					 for(PayeeList payee: completeList)
+					 {
+						 if(type.equalsIgnoreCase("Active"))
+						 {
+							 if(payee.isActive())
+								 result.add(payee);
+						 }
+						 if(type.equalsIgnoreCase("In-Active"))
+						 {
+							 if(!payee.isActive())
+								 result.add(payee);
+						 }
+					 }
+					return result;
+			}
+
+		});
+		list.add(new ActionRequirement(VENDOR_TYPE, null) {
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().active());
+				list.add(getConstants().inActive());
+				return list;
+			}
+		});
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = createVendorsList(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
 	}
 
-	private Result createVendorsList(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		ActionNames selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			switch (selection) {
-			case FINISH:
-				markDone();
-				return new Result();
-			case ACTIVE:
-				context.setAttribute(VENDOR_TYPE, true);
-				break;
-			case IN_ACTIVE:
-				context.setAttribute(VENDOR_TYPE, false);
-				break;
-			case ALL:
-				context.setAttribute(VENDOR_TYPE, null);
-				break;
-			default:
-				break;
-			}
-		}
-		Result result = vendorsList(context, selection);
-		return result;
+	@Override
+	protected String getWelcomeMessage() {
+		return "Vendor List";
 	}
 
-	private Result vendorsList(Context context, ActionNames selection) {
-		Result result = context.makeResult();
-		ResultList vendorsList = new ResultList("vendorssList");
-		result.add(getMessages().vendorList(getConstants().Vendor()));
+	@Override
+	protected String getDetailsMessage() {
+		return "Vendor List";
+	}
 
-		Boolean vendorType = (Boolean) context.getAttribute(VENDOR_TYPE);
-		List<ClientVendor> vendors = getVendors(vendorType);
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(VENDOR_TYPE).setDefaultValue("Active");
+	}
 
-		ResultList actions = new ResultList("actions");
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
 
-		List<ClientVendor> pagination = pagination(context, selection, actions,
-				vendors, new ArrayList<ClientVendor>(), VALUES_TO_SHOW);
-
-		for (ClientVendor vendor : pagination) {
-			vendorsList.add(createVendorRecord(vendor));
+	private ArrayList<PayeeList> getVendorList(Context context) {
+		FinanceTool financeTool = new FinanceTool();
+		try {
+			return financeTool.getPayeeList(ClientTransaction.CATEGORY_VENDOR,
+					context.getCompany().getID());
+		} catch (DAOException e) {
+			e.printStackTrace();
 		}
-
-		StringBuilder message = new StringBuilder();
-		if (vendorsList.size() > 0) {
-			message.append(getMessages().pleaseSelectTheVendor(
-					Global.get().Vendor()));
-		}
-
-		result.add(message.toString());
-		result.add(vendorsList);
-
-		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("",getConstants().active());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("",getConstants().inActive());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("",  getConstants().all());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", getConstants().close());
-		actions.add(inActiveRec);
-
-		result.add(actions);
-
-		CommandList commandList = new CommandList();
-		commandList.add(getMessages().addANewVendor(Global.get().Vendor()));
-		result.add(commandList);
-		return result;
+		return null;
 
 	}
 

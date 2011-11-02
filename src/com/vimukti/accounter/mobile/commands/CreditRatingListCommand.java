@@ -11,86 +11,89 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 
-public class CreditRatingListCommand extends AbstractTransactionCommand {
+public class CreditRatingListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-	}
-
-	@Override
-	public Result run(Context context) {
-
-		Result result = optionalRequirements(context);
-		return result;
-	}
-
-	private Result optionalRequirements(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-		ActionNames selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			switch (selection) {
-			case FINISH:
-				return closeCommand();
-			case ALL:
-				return null;
-			default:
-				break;
+		list.add(new ShowListRequirement<CreditRating>("creditRatingList",
+				getMessages().pleaseSelect(getConstants().creditRating()), 5) {
+			@Override
+			protected Record createRecord(CreditRating value) {
+				Record record = new Record(value);
+				record.add("", value.getName());
+				return record;
 			}
-		}
-		Result result = getCreditRatingResult(context, selection);
 
-		return result;
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Credit Rating");
+			}
+
+			@Override
+			protected boolean filter(CreditRating e, String name) {
+				return e.getName().startsWith(name);
+			}
+
+			@Override
+			protected List<CreditRating> getLists(Context context) {
+				return getCreditRatingList(context);
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getConstants().creditRatingList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getConstants().noRecordsToShow();
+			}
+
+			@Override
+			protected String onSelection(CreditRating value) {
+				return null;
+			}
+		});
 	}
-
-	private Result getCreditRatingResult(Context context, ActionNames selection) {
-
-		ResultList resultList = new ResultList("creditRatingList");
-
-		Result result = context.makeResult();
-		List<CreditRating> creditRatingList = getCreditRatingList(context);
-
-		ResultList actions = new ResultList(ACTIONS);
-		List<CreditRating> pagination = pagination(context, selection, actions,
-				creditRatingList, new ArrayList<CreditRating>(), VALUES_TO_SHOW);
-
-		for (CreditRating creditRating : pagination) {
-			resultList.add(createCreditRatingRecord(creditRating));
-		}
-
-		result.add(resultList);
-
-		Record inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", getConstants().close());
-		actions.add(inActiveRec);
-
-		result.add(actions);
-
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().creditRating());
-
-		result.add(commandList);
-
-		return result;
-	}
-
-	private Record createCreditRatingRecord(CreditRating creditRating) {
-		Record record = new Record(creditRating);
-		record.add("value", creditRating.getName());
-		return record;
-	}
-
+	
 	private List<CreditRating> getCreditRatingList(Context context) {
 		return new ArrayList<CreditRating>(context.getCompany()
 				.getCreditRatings());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getConstants().creditRatingList();
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getConstants().creditRatingList();
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
 
 }

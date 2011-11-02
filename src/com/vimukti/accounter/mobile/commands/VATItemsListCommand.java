@@ -4,131 +4,124 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class VATItemsListCommand extends AbstractCommand {
+public class VATItemsListCommand extends NewAbstractCommand {
 
 	private static final String CURRENT_VIEW = "currentView";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+
+		list.add(new ShowListRequirement<TAXItem>("taxItemsList", "Please Select Vat Item", 5) {
+			@Override
+			protected Record createRecord(TAXItem value) {
+				Record record = new Record(value);
+				record.add("", value.getName());
+				record.add("", value.getDescription());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create New Vat Item");
+			}
+
+			@Override
+			protected boolean filter(TAXItem e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getDescription().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<TAXItem> getLists(Context context) {
+				Set<TAXItem> completeList = vatItemssList(context);
+				List<TAXItem> result = new ArrayList<TAXItem>();
+
+				String type = VATItemsListCommand.this.get(CURRENT_VIEW).getValue();
+				
+			
+				for (TAXItem taxItem : completeList) {
+					
+					if (type.equals("Active")) {
+						if (taxItem.isActive())
+								
+							result.add(taxItem);
+					}
+					if (type.equals("In-Active")) {
+						if (!taxItem.isActive())
+							result.add(taxItem);
+					}
+					
+				}
+				return result;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getConstants().vatItemList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected String onSelection(TAXItem value) {
+				return null;
+			}
+		});
+		
+		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().active());
+				list.add(getConstants().inActive());
+				return list;
+			}
+		});
+	}
+
+	private Set<TAXItem> vatItemssList(Context context) {
+		return context.getCompany().getTaxItems();
+	}
+
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-		result = createVatItemsList(context);
-		return result;
+	protected String getWelcomeMessage() {
+		return getConstants().vatItemList();
 	}
 
-	private Result createVatItemsList(Context context) {
-
-		ActionNames selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			switch (selection) {
-			case FINISH:
-				return closeCommand();
-			case ACTIVE:
-				context.setAttribute(CURRENT_VIEW, true);
-				break;
-			case IN_ACTIVE:
-				context.setAttribute(CURRENT_VIEW, false);
-				break;
-			case ALL:
-				context.setAttribute(CURRENT_VIEW, false);
-				break;
-			default:
-				break;
-			}
-		}
-		Result result = vatItemssList(context, selection);
-		return result;
+	@Override
+	protected String getDetailsMessage() {
+		return getConstants().vatItemList();
 	}
 
-	private Result vatItemssList(Context context, ActionNames selection) {
-
-		Result result = context.makeResult();
-		ResultList taxItemsList = new ResultList("taxItemsList");
-		result.add(getConstants().vatItemList());
-
-		Boolean isActive = (Boolean) context.getAttribute(CURRENT_VIEW);
-		List<TAXItem> taxItems = getVatItems(context.getCompany(), isActive);
-
-		ResultList actions = new ResultList("actions");
-
-		List<TAXItem> pagination = pagination(context, selection, actions,
-				taxItems, new ArrayList<TAXItem>(), VALUES_TO_SHOW);
-
-		for (TAXItem taxItem : pagination) {
-			taxItemsList.add(createVatItemRecord(taxItem));
-		}
-
-		result.add(taxItemsList);
-
-		Record inActiveRec = new Record(ActionNames.ACTIVE);
-		inActiveRec.add("", getConstants().active());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.IN_ACTIVE);
-		inActiveRec.add("", getConstants().inActive());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.ALL);
-		inActiveRec.add("", getConstants().all());
-		actions.add(inActiveRec);
-		inActiveRec = new Record(ActionNames.FINISH);
-		inActiveRec.add("", getConstants().close());
-		actions.add(inActiveRec);
-
-		result.add(actions);
-
-		CommandList commandList = new CommandList();
-		commandList.add(getConstants().newVATItem());
-		result.add(commandList);
-		return result;
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(CURRENT_VIEW).setDefaultValue(getConstants().active());
 	}
 
-	private List<TAXItem> getVatItems(Company company, Boolean isActive) {
-		List<TAXItem> result = new ArrayList<TAXItem>();
-		Set<TAXItem> taxItems = company.getTaxItems();
-		if (isActive == null) {
-			return new ArrayList<TAXItem>(taxItems);
-		}
-		for (TAXItem taxCode : taxItems) {
-			if (isActive) {
-				if (taxCode.isActive()) {
-					result.add(taxCode);
-				}
-			} else {
-				if (!taxCode.isActive()) {
-					result.add(taxCode);
-				}
-			}
-		}
-		return result;
-	}
-
-	private Record createVatItemRecord(TAXItem last) {
-		Record record = new Record(last);
-		record.add("Product", last.getName() != null ? last.getName() : "");
-		TAXAgency agency = last.getTaxAgency();
-		record.add("Vat Agency", agency != null ? agency.getName() : "");
-		record.add("Description", last.getDescription());
-		record.add("Rate", last.getTaxRate());
-		return record;
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
 
 }
