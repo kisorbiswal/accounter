@@ -20,8 +20,8 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 	}
 
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<ShippingTerms>(SHIPPING_TERMS,
-				"Please Enter name or number", 10) {
+		list.add(new ShowListRequirement<ShippingTerms>(SHIPPING_TERMS, null,
+				10) {
 			@Override
 			protected Record createRecord(ShippingTerms value) {
 				Record record = new Record(value);
@@ -37,7 +37,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected boolean filter(ShippingTerms e, String name) {
-				return true;
+				return e.getName().toLowerCase().startsWith(name.toLowerCase());
 			}
 
 			@Override

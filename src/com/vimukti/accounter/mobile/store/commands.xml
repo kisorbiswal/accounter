@@ -43,16 +43,13 @@
 	<command clazz="NewAccountCommand" name="New Account">
 		<alias>Create Account</alias>
 		<alias>Add Account</alias>
-		<alias>New Account</alias>
 		<alias>Update Account</alias>
-		<alias>Add a New Account</alias>
 	</command>
 
 	<command clazz="AccountsListCommand" name="Account List">
 		<alias>Accounts</alias>
-		<alias>Account List</alias>
 		<alias>Accounts List</alias>
-		<alias>ListOfAccounts</alias>
+		<alias>List Of Accounts</alias>
 	</command>
 
 	<command clazz="APAgingDetailReportCommand" name="A/P Aging Detail">
@@ -447,14 +444,13 @@
 		<alias>New Shipping Term</alias>
 	</command>
 
-	<command clazz="NewSalesPersonCommand" name="New salesPerson">
-		<alias>Create SalesPerson</alias>
+	<command clazz="NewSalesPersonCommand" name="New Sales Person">
 		<alias>Create Sales Person</alias>
-		<alias>New Sales Person</alias>
+		<alias>Add Sales Person</alias>
 	</command>
 
 	<command clazz="NewCustomerCommand" name="New Customer">
-		<alias>create Customer</alias>
+		<alias>Create Customer</alias>
 		<alias>Add Customer</alias>
 		<alias>New Customer</alias>
 	</command>

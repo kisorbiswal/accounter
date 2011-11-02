@@ -21,7 +21,7 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<ShippingMethod>(SHIPPING_METHODS,
-				"Please Enter name or number", 10) {
+				null, 10) {
 			@Override
 			protected Record createRecord(ShippingMethod value) {
 				Record record = new Record(value);
@@ -37,7 +37,8 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 			@Override
 			protected boolean filter(ShippingMethod e, String name) {
-				return true;
+				return e.getName().toLowerCase().startsWith(name.toLowerCase());
+
 			}
 
 			@Override
