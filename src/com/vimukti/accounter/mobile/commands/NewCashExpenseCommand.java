@@ -267,6 +267,12 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			cashPurchase.setCurrency(currency.getID());
+			cashPurchase.setCurrencyFactor(1.0);
+		}
+
 		cashPurchase.setTransactionItems(items);
 		updateTotals(context, cashPurchase, false);
 		create(cashPurchase, context);

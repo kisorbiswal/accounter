@@ -224,9 +224,12 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-		ClientCurrency currency = get(CURRENCY).getValue();
-		if (currency != null)
+
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
 			vendorCreditMemo.setCurrency(currency.getID());
+			vendorCreditMemo.setCurrencyFactor(1.0);
+		}
 
 		ClientVendor supplier = get(VENDOR).getValue();
 		vendorCreditMemo.setVendor(supplier.getID());
