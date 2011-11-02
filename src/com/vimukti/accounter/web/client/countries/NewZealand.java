@@ -16,7 +16,7 @@ public class NewZealand extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "NewZealand";
+		return "NZD";
 	}
 
 	@Override
