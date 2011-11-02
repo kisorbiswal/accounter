@@ -33,7 +33,7 @@ public abstract class TransactionItemAccountsRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		return "Account is selected.";
+		return getMessages().hasSelected(Global.get().Account());
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public abstract class TransactionItemAccountsRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no accounts";
+		return getMessages().thereAreNo(Global.get().Account());
 	}
 
 	@Override
@@ -371,12 +371,13 @@ public abstract class TransactionItemAccountsRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("Create Acount");
+		list.add(getMessages().create(Global.get().account()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return "Select an account for Transaction Item";
+		return getMessages().selectFor(Global.get().Account(),
+				getConstants().transactionItem());
 	}
 
 }

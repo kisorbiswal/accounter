@@ -17,6 +17,11 @@ public class CustomerContactRequirement extends
 	private static final String OLD_CONTACT_ATTR = "oldContact";
 	private static final String CONTACT_LINE_ATTR = "contactLineAttr";
 	private static final String CONTACT_ACTIONS = "contactActions";
+	private static final String CONTACT_NAME = "contactName";
+	private static final String TITLE = "title";
+	private static final String BUSINESS_PHONE = "businessPhone";
+	private static final String EMAIL = "email";
+	private static final String IS_PRIMARY = "isPrimary";
 
 	public CustomerContactRequirement(String requirementName) {
 		super(requirementName, null, null, true, true);
@@ -59,8 +64,8 @@ public class CustomerContactRequirement extends
 		if (attr != getName()) {
 			if (attribute == null || !attribute.equals(getName())) {
 				Record e = new Record(getName());
-				e.add("", "Contacts");
-				e.add("", clientContacts.size() + " Contact(s)");
+				e.add("", getConstants().contacts());
+				e.add("", clientContacts.size() + getConstants().contacts());
 				list.add(e);
 				return null;
 			}
@@ -70,10 +75,11 @@ public class CustomerContactRequirement extends
 
 		ResultList contactsList = new ResultList(getName());
 		if (clientContacts.isEmpty()) {
-			addFirstMessage(context, "There are no contacts.");
+			addFirstMessage(context,
+					getMessages().thereAreNo(getConstants().contacts()));
 			// return contactProcess(context);
 		} else {
-			result.add("All Contacts");
+			result.add(getMessages().all(getConstants().contact()));
 		}
 		for (ClientContact clientContact : clientContacts) {
 			Record record = new Record(clientContact);
@@ -83,10 +89,10 @@ public class CustomerContactRequirement extends
 		result.add(contactsList);
 		ResultList actionsList = new ResultList(getName() + ACTIONS);
 		Record e = new Record(ActionNames.ADD_MORE_CONTACTS);
-		e.add("", "Add Contact");
+		e.add("", getMessages().addNew(getConstants().contact()));
 		actionsList.add(e);
 		e = new Record(ActionNames.FINISH);
-		e.add("", "Finish");
+		e.add("", getConstants().finish());
 		actionsList.add(e);
 		result.add(actionsList);
 		return result;
@@ -100,7 +106,7 @@ public class CustomerContactRequirement extends
 		if (lineAttr != null) {
 			String input = context.getString();
 			context.removeAttribute(CONTACT_LINE_ATTR);
-			if (lineAttr.equals("contactName")) {
+			if (lineAttr.equals(CONTACT_NAME)) {
 				if (oldContact == null) {
 					oldContact = new ClientContact();
 					List<ClientContact> contacts = getValue();
@@ -108,12 +114,12 @@ public class CustomerContactRequirement extends
 					context.setAttribute(OLD_CONTACT_ATTR, oldContact);
 				}
 				oldContact.setName(input);
-			} else if (lineAttr.equals("title")) {
+			} else if (lineAttr.equals(TITLE)) {
 				oldContact.setTitle(input);
-			} else if (lineAttr.equals("businessPhone")) {
+			} else if (lineAttr.equals(BUSINESS_PHONE)) {
 				input = context.getNumber();
 				oldContact.setBusinessPhone(input);
-			} else if (lineAttr.equals("email")) {
+			} else if (lineAttr.equals(EMAIL)) {
 				oldContact.setEmail(input);
 			}
 
@@ -137,63 +143,74 @@ public class CustomerContactRequirement extends
 		} else {
 			selection = context.getSelection(CONTACT_LINE_ATTR);
 			if (oldContact == null) {
-				selection = "Contact Name";
+				selection = CONTACT_NAME;
 			}
 			if (selection != null) {
-				if (selection.equals("isPrimary")) {
+				if (selection.equals(IS_PRIMARY)) {
 					List<ClientContact> clientContacts = getValue();
 					for (ClientContact cc : clientContacts) {
 						cc.setPrimary(false);
 					}
 					oldContact.setPrimary(!oldContact.isPrimary());
-				} else if (selection == "Contact Name") {
-					context.setAttribute(CONTACT_LINE_ATTR, "contactName");
+				} else if (selection == CONTACT_NAME) {
+					context.setAttribute(CONTACT_LINE_ATTR, CONTACT_NAME);
 					String contact = oldContact != null ? oldContact.getName()
 							: null;
-					return show(context, "Enter conatactName", contact, contact);
-				} else if (selection == "Title") {
-					context.setAttribute(CONTACT_LINE_ATTR, "title");
+					return show(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().contactName()), contact,
+							contact);
+				} else if (selection == TITLE) {
+					context.setAttribute(CONTACT_LINE_ATTR, TITLE);
 					String title = oldContact != null ? oldContact.getTitle()
 							: null;
-					return show(context, "Enter Title", title, title);
-				} else if (selection == "BusinessPhone") {
-					context.setAttribute(CONTACT_LINE_ATTR, "businessPhone");
+					return show(context,
+							getMessages().pleaseEnter(getConstants().title()),
+							title, title);
+				} else if (selection == BUSINESS_PHONE) {
+					context.setAttribute(CONTACT_LINE_ATTR, BUSINESS_PHONE);
 					String phone = oldContact != null ? oldContact
 							.getBusinessPhone() : null;
-					return show(context, "Enter Businessphone Number ", phone,
+					return show(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().businessPhone()), phone,
 							phone);
-				} else if (selection == "Email") {
-					context.setAttribute(CONTACT_LINE_ATTR, "email");
+				} else if (selection == EMAIL) {
+					context.setAttribute(CONTACT_LINE_ATTR, EMAIL);
 					String email = oldContact != null ? oldContact.getEmail()
 							: null;
-					return show(context, "Enter Email", email, email);
+					return show(context,
+							getMessages().pleaseEnter(getConstants().email()),
+							email, email);
 				}
 			}
 		}
 
 		ResultList list = new ResultList(CONTACT_LINE_ATTR);
-		Record record = new Record("isPrimary");
-		record.add("", oldContact.isPrimary() ? "It is primary contact."
-				: "This is not primary contact");
+		Record record = new Record(IS_PRIMARY);
+		record.add("", oldContact.isPrimary() ? getConstants().primary()
+				: getConstants().notPrimary());
 		list.add(record);
 
-		record = new Record("Contact Name");
-		record.add("", "contactName");
+		record = new Record(CONTACT_NAME);
+		record.add("", getConstants().contactName());
 		record.add("", oldContact.getName());
 		list.add(record);
 
-		record = new Record("Title");
-		record.add("", "title");
+		record = new Record(TITLE);
+		record.add("", getConstants().title());
 		record.add("", oldContact.getTitle());
 		list.add(record);
 
-		record = new Record("BusinessPhone");
-		record.add("", "businessPhone");
+		record = new Record(BUSINESS_PHONE);
+		record.add("", getConstants().businessPhone());
 		record.add("", oldContact.getBusinessPhone());
 		list.add(record);
 
-		record = new Record("Email");
-		record.add("", "email");
+		record = new Record(EMAIL);
+		record.add("", getConstants().email());
 		record.add("", oldContact.getEmail());
 		list.add(record);
 
@@ -202,11 +219,11 @@ public class CustomerContactRequirement extends
 
 		ResultList finish = new ResultList(CONTACT_ACTIONS);
 		record = new Record(ActionNames.DELETE_CONTACT);
-		record.add("", "Delete");
+		record.add("", getConstants().delete());
 		finish.add(record);
 
 		record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		finish.add(record);
 
 		result.add(finish);

@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 
 public abstract class CustomerRequirement extends
@@ -21,23 +22,24 @@ public abstract class CustomerRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("Create Customer");
+		list.add(getMessages().create(Global.get().Customer()));
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no customers";
+		return getMessages().thereAreNo(Global.get().Customer());
 	}
 
 	@Override
 	protected String getSelectString() {
-		return "Slect a Customer";
+		return getMessages().pleaseSelect(Global.get().Customer());
 	}
 
 	@Override
 	protected String getSetMessage() {
 		ClientCustomer value = getValue();
-		return value.getDisplayName() + " has been Selected.";
+		return getMessages().selectedAs(value.getDisplayName(),
+				Global.get().Customer());
 	}
 
 	@Override

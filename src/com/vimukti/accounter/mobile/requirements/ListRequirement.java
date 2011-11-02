@@ -64,8 +64,8 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				}
 				return showList(makeResult, context, oldValues);
 			} else {
-				addFirstMessage(context, "You can't edit '" + getRecordName()
-						+ "'");
+				addFirstMessage(context,
+						getMessages().youCantEdit(getRecordName()));
 			}
 		}
 
@@ -92,7 +92,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				result.add(getEnterString());
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
-				record.add("", "Show All Records");
+				record.add("", getConstants().showAll());
 				actions.add(record);
 				result.add(actions);
 				return result;
@@ -106,17 +106,16 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		if (selection == ActionNames.ALL) {
 			lists = getLists(context);
 			if (lists.size() != 0) {
-				result.add("All Records");
+				result.add(getConstants().allRecords());
 			}
 			name = null;
 		} else if (selection == null) {
 			lists = getLists(context, name);
 			context.setAttribute("oldValue", name);
 			if (!lists.isEmpty()) {
-				result.add("Found " + lists.size() + " record(s) with '" + name
-						+ "'.");
+				result.add(getMessages().foundRecords(lists.size(), name));
 			} else {
-				result.add("Did not get any records with '" + name + "'.");
+				result.add(getMessages().didNotGetRecords(name));
 				context.setAttribute("oldValue", "");
 				lists = getLists(context);
 			}

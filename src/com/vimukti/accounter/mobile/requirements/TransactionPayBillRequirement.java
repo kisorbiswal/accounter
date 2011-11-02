@@ -97,7 +97,7 @@ public abstract class TransactionPayBillRequirement extends
 		if (selection == ActionNames.ALL) {
 			lists = getLists(context);
 			if (lists.size() != 0) {
-				result.add("All Records");
+				result.add(getConstants().allRecords());
 			}
 
 			result.add(getDisplayString());
@@ -195,13 +195,13 @@ public abstract class TransactionPayBillRequirement extends
 
 		if (records.size() > index) {
 			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
-			inActiveRec.add("", "Next Page");
+			inActiveRec.add("", getConstants().nextPage());
 			actions.add(inActiveRec);
 		}
 
 		if (index > recordsToShow) {
 			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
-			inActiveRec.add("", "Prev Page");
+			inActiveRec.add("", getConstants().prevPage());
 			actions.add(inActiveRec);
 		}
 		return result;

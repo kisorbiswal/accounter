@@ -33,12 +33,12 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 
 	@Override
 	protected String getSetMessage() {
-		return "Contact is selected";
+		return getMessages().hasSelected(getConstants().contact());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no Contacts";
+		return getMessages().youDontHaveAny(getConstants().contact());
 	}
 
 	@Override
@@ -53,8 +53,8 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().contact()) + " for "
-				+ getContactHolderName();
+		return getMessages().selectFor(getConstants().contact(),
+				getContactHolderName());
 	}
 
 	protected abstract String getContactHolderName();

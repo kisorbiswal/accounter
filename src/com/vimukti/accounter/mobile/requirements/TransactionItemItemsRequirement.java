@@ -33,7 +33,7 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		return " Item is selected";
+		return getMessages().hasSelected(getConstants().item());
 	}
 
 	@Override
@@ -176,17 +176,17 @@ public abstract class TransactionItemItemsRequirement extends
 		}
 		ResultList list = new ResultList(ITEM_DETAILS);
 		Record record = new Record(QUANTITY);
-		record.add("", "Quantity");
+		record.add("", getConstants().quantity());
 		record.add("", transactionItem.getQuantity());
 		list.add(record);
 
 		record = new Record(UNIT_PRICE);
-		record.add("", "Unit Price");
+		record.add("", getConstants().unitPrice());
 		record.add("", transactionItem.getUnitPrice());
 		list.add(record);
 
 		record = new Record(DISCOUNT);
-		record.add("", "Discount");
+		record.add("", getConstants().discount());
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
@@ -215,13 +215,14 @@ public abstract class TransactionItemItemsRequirement extends
 		}
 
 		record = new Record(DESCRIPTION);
-		record.add("", "Description");
+		record.add("", getConstants().description());
 		record.add("", transactionItem.getDescription());
 		list.add(record);
 
 		Result result = context.makeResult();
-		result.add("Item Details");
-		result.add("Name : " + getItemDisplayValue(transactionItem));
+		result.add(getConstants().itemDetails());
+		result.add(getConstants().name() + " : "
+				+ getItemDisplayValue(transactionItem));
 		result.add(list);
 
 		double lt = transactionItem.getQuantity().getValue()
@@ -240,14 +241,15 @@ public abstract class TransactionItemItemsRequirement extends
 			result.add(getConstants().vat() + " "
 					+ transactionItem.getVATfraction());
 		}
-		result.add("Total: " + transactionItem.getLineTotal());
+		result.add(getConstants().total() + " : "
+				+ transactionItem.getLineTotal());
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", "Delete");
+		record.add("", getConstants().delete());
 		actions.add(record);
 		record = new Record(ActionNames.FINISH_ITEM);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		actions.add(record);
 		result.add(actions);
 		return result;
@@ -255,12 +257,12 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return "Add More Items";
+		return getMessages().addMore(getConstants().items());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no Items";
+		return getMessages().thereAreNo(getConstants().item());
 	}
 
 	@Override
@@ -306,13 +308,13 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("Create Product Item");
-		list.add("Create Service Item");
+		list.add(getMessages().create(getConstants().productItem()));
+		list.add(getMessages().create(getConstants().serviceItem()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return "Slect an Item";
+		return getMessages().pleaseSelect(getConstants().item());
 	}
 
 	@Override

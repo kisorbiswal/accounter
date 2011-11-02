@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -67,7 +68,11 @@ public abstract class TemplateAccountRequirement extends
 			} else if (actionName == ActionNames.CLOSE) {
 				context.setAttribute(INPUT_ATTR, "");
 				Record record = new Record("accountsNumber");
-				record.add("", values.size() + " accounts selected.");
+				record.add(
+						"",
+						values.size()
+								+ getMessages().hasSelected(
+										Global.get().Accounts()));
 				list.add(record);
 				return null;
 			}
@@ -99,7 +104,10 @@ public abstract class TemplateAccountRequirement extends
 		}
 
 		Record record = new Record("accountsNumber");
-		record.add("", values.size() + " accounts selected.");
+		record.add(
+				"",
+				values.size()
+						+ getMessages().hasSelected(Global.get().Accounts()));
 		list.add(record);
 
 		if (valuesSelection == "accountsNumber") {
@@ -125,13 +133,13 @@ public abstract class TemplateAccountRequirement extends
 		moreItems.add("", getMessages().addMore(getConstants().Accounts()));
 		actions.add(moreItems);
 		Record setDefault = new Record(ActionNames.SET_DEFAULT);
-		setDefault.add("", "Set default accounts");
+		setDefault.add("", getMessages().setDefault(Global.get().Accounts()));
 		actions.add(setDefault);
 		Record close = new Record(ActionNames.CLOSE);
 		close.add("", getConstants().close());
 		actions.add(close);
 		result.add(actions);
-		result.add("Select account to delete");
+		result.add(getMessages().selectToDelete(Global.get().Account()));
 		return result;
 	}
 
@@ -150,7 +158,7 @@ public abstract class TemplateAccountRequirement extends
 				result.add(getEnterString());
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
-				record.add("", "Show All Records");
+				record.add("", getConstants().showAll());
 				actions.add(record);
 				result.add(actions);
 				return result;
@@ -164,16 +172,16 @@ public abstract class TemplateAccountRequirement extends
 		if (selection == ActionNames.ALL) {
 			lists = getLists(context);
 			if (lists.size() != 0) {
-				result.add("All Records");
+				result.add(getConstants().allRecords());
 			}
 			name = null;
 		} else if (selection == null) {
 			lists = getLists(context, name);
 			context.setAttribute("oldValue", name);
 			if (lists.size() != 0) {
-				result.add("Found " + lists.size() + " record(s)");
+				result.add(getMessages().foundRecords(lists.size(), name));
 			} else {
-				result.add("Did not get any records with '" + name + "'.");
+				result.add(getMessages().didNotGetRecords(name));
 				lists = getLists(context);
 			}
 		} else {
@@ -259,13 +267,13 @@ public abstract class TemplateAccountRequirement extends
 
 		if (records.size() > index) {
 			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
-			inActiveRec.add("", "Next Page");
+			inActiveRec.add("", getConstants().nextPage());
 			actions.add(inActiveRec);
 		}
 
 		if (index > recordsToShow) {
 			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
-			inActiveRec.add("", "Prev Page");
+			inActiveRec.add("", getConstants().prevPage());
 			actions.add(inActiveRec);
 		}
 		return result;

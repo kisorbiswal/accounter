@@ -22,12 +22,12 @@ public abstract class TaxCodeRequirement extends ListRequirement<ClientTAXCode> 
 
 	@Override
 	protected String getSetMessage() {
-		return "TaxCode is selected";
+		return getMessages().hasSelected(getConstants().taxCode());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no TaxCodes";
+		return getMessages().thereAreNo(getConstants().taxCode());
 	}
 
 	@Override

@@ -31,12 +31,12 @@ public abstract class EstimatesAndSalesOrderListRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		return "Estimateres are selected";
+		return getMessages().hasSelected(getConstants().estimate());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no Estimates";
+		return getMessages().thereAreNo(getConstants().estimate());
 	}
 
 	@Override

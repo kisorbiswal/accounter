@@ -22,8 +22,8 @@ public abstract class BooleanRequirement extends AbstractRequirement<Boolean> {
 				Boolean isActive = getValue();
 				setValue(!isActive);
 			} else {
-				addFirstMessage(context, "You can't edit '" + getRecordName()
-						+ "'");
+				addFirstMessage(context,
+						getMessages().youCantEdit(getRecordName()));
 			}
 		}
 

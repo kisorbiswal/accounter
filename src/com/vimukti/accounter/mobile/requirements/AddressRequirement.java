@@ -11,6 +11,11 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 
 	private static final String ADDRESS_LINE_ATTR = "addressLine";
 	private static final String ADDRESS_ACTIONS = "addressAction";
+	private static final Object ADDRESS1 = "address1";
+	private static final Object CITY = "city";
+	private static final Object STREET = "street";
+	private static final Object STATE = "stateOrProvinence";
+	private static final Object COUNTRY = "countryOrRegion";
 
 	public AddressRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
@@ -44,8 +49,8 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 					return result;
 				}
 			} else {
-				addFirstMessage(context, "You can't edit '" + getRecordName()
-						+ "'");
+				addFirstMessage(context,
+						getMessages().youCantEdit(getRecordName()));
 			}
 		}
 		ClientAddress address = getValue();
@@ -61,41 +66,53 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 		if (lineAttr != null) {
 			String input = context.getString();
 			context.removeAttribute(ADDRESS_LINE_ATTR);
-			if (lineAttr.equals("address1")) {
+			if (lineAttr.equals(ADDRESS1)) {
 				oldAddress.setAddress1(input);
-			} else if (lineAttr.equals("city")) {
+			} else if (lineAttr.equals(CITY)) {
 				oldAddress.setCity(input);
-			} else if (lineAttr.equals("street")) {
+			} else if (lineAttr.equals(STREET)) {
 				oldAddress.setStreet(input);
-			} else if (lineAttr.equals("stateOrProvinence")) {
+			} else if (lineAttr.equals(STATE)) {
 				oldAddress.setStateOrProvinence(input);
-			} else if (lineAttr.equals("countryOrRegion")) {
+			} else if (lineAttr.equals(COUNTRY)) {
 				oldAddress.setCountryOrRegion(input);
 			}
 			setValue(oldAddress);
 		} else {
 			Object selection = context.getSelection(getName());
 			if (selection != null) {
-				if (selection == "Address1") {
-					context.setAttribute(ADDRESS_LINE_ATTR, "address1");
-					return show(context, "Enter Address1",
+				if (selection == ADDRESS1) {
+					context.setAttribute(ADDRESS_LINE_ATTR, ADDRESS1);
+					return show(context,
+							getMessages()
+									.pleaseEnter(getConstants().address1()),
 							oldAddress.getAddress1(), oldAddress.getAddress1());
-				} else if (selection == "City") {
-					context.setAttribute(ADDRESS_LINE_ATTR, "city");
-					return show(context, "Enter City", oldAddress.getCity(),
-							oldAddress.getCity());
-				} else if (selection == "Street") {
-					context.setAttribute(ADDRESS_LINE_ATTR, "street");
-					return show(context, "Enter Street",
+				} else if (selection == CITY) {
+					context.setAttribute(ADDRESS_LINE_ATTR, CITY);
+					return show(context,
+							getMessages().pleaseEnter(getConstants().city()),
+							oldAddress.getCity(), oldAddress.getCity());
+				} else if (selection == STREET) {
+					context.setAttribute(ADDRESS_LINE_ATTR, STREET);
+					return show(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().streetName()),
 							oldAddress.getStreet(), oldAddress.getStreet());
-				} else if (selection == "State/Provinence") {
-					context.setAttribute(ADDRESS_LINE_ATTR, "stateOrProvinence");
-					return show(context, "Enter State/Provinence",
+				} else if (selection == STATE) {
+					context.setAttribute(ADDRESS_LINE_ATTR, STATE);
+					return show(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().stateOrProvince()),
 							oldAddress.getStateOrProvinence(),
 							oldAddress.getStateOrProvinence());
-				} else if (selection == "Country/Region") {
-					context.setAttribute(ADDRESS_LINE_ATTR, "countryOrRegion");
-					return show(context, "Enter Country/Region",
+				} else if (selection == COUNTRY) {
+					context.setAttribute(ADDRESS_LINE_ATTR, COUNTRY);
+					return show(
+							context,
+							getMessages().pleaseEnter(
+									getConstants().countryRegion()),
 							oldAddress.getCountryOrRegion(),
 							oldAddress.getCountryOrRegion());
 				}
@@ -110,27 +127,27 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 		}
 
 		ResultList list = new ResultList(getName());
-		Record record = new Record("Address1");
+		Record record = new Record(ADDRESS1);
 		record.add("", getConstants().address1());
 		record.add("", oldAddress.getAddress1());
 		list.add(record);
 
-		record = new Record("Street");
+		record = new Record(STREET);
 		record.add("", getConstants().streetName());
 		record.add("", oldAddress.getStreet());
 		list.add(record);
 
-		record = new Record("City");
+		record = new Record(CITY);
 		record.add("", getConstants().city());
 		record.add("", oldAddress.getCity());
 		list.add(record);
 
-		record = new Record("State/Provinence");
+		record = new Record(STATE);
 		record.add("", getConstants().stateOrProvince());
 		record.add("", oldAddress.getStateOrProvinence());
 		list.add(record);
 
-		record = new Record("Country/Region");
+		record = new Record(COUNTRY);
 		record.add("", getConstants().countryRegion());
 		record.add("", oldAddress.getCountryOrRegion());
 		list.add(record);

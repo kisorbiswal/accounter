@@ -23,12 +23,12 @@ public abstract class PaymentTermRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		return "Payment Term is selected";
+		return getMessages().hasSelected(getConstants().paymentTerm());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no Payment Terms";
+		return getMessages().thereAreNo(getConstants().paymentTerm());
 	}
 
 	@Override

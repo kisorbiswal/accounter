@@ -93,9 +93,12 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 								* disc / 100))
 								: lt);
 				transactionItems.add(transactionItem);
-				addFirstMessage(context, "Selected '"
-						+ getDisplayValue(getTransactionItem(transactionItem))
-						+ "' as transaction item");
+				addFirstMessage(
+						context,
+						getMessages()
+								.selectedAs(
+										getDisplayValue(getTransactionItem(transactionItem)),
+										getConstants().transactionItem()));
 				Result transactionItemResult = checkItemToEdit(context,
 						transactionItem);
 				if (transactionItemResult != null) {
@@ -194,7 +197,7 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 				result.add(displayName);
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
-				record.add("", "Show All Records");
+				record.add("", getConstants().showAll());
 				actions.add(record);
 				result.add(actions);
 				return result;
@@ -212,17 +215,16 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		if (selection == ActionNames.ALL) {
 			lists = getTaxCodeLists(context);
 			if (lists.size() != 0) {
-				result.add("All Records");
+				result.add(getConstants().allRecords());
 			}
 			name = null;
 		} else if (selection == null) {
 			lists = getTaxCodeLists(context, name);
 			context.setAttribute("oldValue", name);
 			if (lists.size() != 0) {
-				result.add("Found " + lists.size() + " record(s) with '" + name
-						+ "'.");
+				result.add(getMessages().foundRecords(lists.size(), name));
 			} else {
-				result.add("Did not get any records with '" + name + "'.");
+				result.add(getMessages().didNotGetRecords(name));
 				context.setAttribute("oldValue", "");
 				lists = getTaxCodeLists(context);
 			}
@@ -275,16 +277,18 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		int size = customerList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select a Tax Code for " + itemName);
+			message.append(getMessages().selectFor(getConstants().taxCode(),
+					itemName));
 		} else {
-			message.append("No Tax Codes");
+			message.append(getMessages().youDontHaveAny(
+					getConstants().taxCode()));
 		}
 
 		result.add(message.toString());
 		result.add(customerList);
 		result.add(actions);
 		CommandList commandList = new CommandList();
-		commandList.add("Create Tax code");
+		commandList.add(getMessages().create(getConstants().taxCode()));
 		result.add(commandList);
 		return result;
 	}
@@ -329,13 +333,13 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 
 		if (records.size() > index) {
 			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
-			inActiveRec.add("", "Next Page");
+			inActiveRec.add("", getConstants().nextPage());
 			actions.add(inActiveRec);
 		}
 
 		if (index > recordsToShow) {
 			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
-			inActiveRec.add("", "Prev Page");
+			inActiveRec.add("", getConstants().prevPage());
 			actions.add(inActiveRec);
 		}
 		return result;

@@ -16,12 +16,12 @@ public abstract class EstimateRequirement extends ListRequirement<Estimate> {
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no Estimates";
+		return getMessages().thereAreNo(getConstants().estimate());
 	}
 
 	@Override
 	protected String getSetMessage() {
-		return "Estimate is selected";
+		return getMessages().hasSelected(getConstants().estimate());
 	}
 
 	@Override

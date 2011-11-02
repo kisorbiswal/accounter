@@ -160,11 +160,11 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		setOtherFields(list);
 
 		Record record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
+		record.add("", getConstants().finish());
 		actions.add(record);
 
 		Record record2 = new Record(ActionNames.DELETE);
-		record2.add("", "Delete");
+		record2.add("", getConstants().delete());
 		actions.add(record2);
 
 		makeResult.add(list);

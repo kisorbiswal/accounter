@@ -50,11 +50,11 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 		} else {
 			accounts = getFilterList(context, context.getString());
 			if (accounts.size() == 0) {
-				makeResult.add("Did not found any records with '"
-						+ context.getString() + "'");
+				makeResult.add(getMessages().didNotGetRecords(
+						context.getString()));
 			} else {
-				makeResult.add("Found " + accounts.size() + " record(s) with '"
-						+ context.getString() + "'");
+				makeResult.add(getMessages().foundRecords(accounts.size(),
+						context.getString()));
 			}
 		}
 		ResultList paginationList = new ResultList(ACTIONS);
