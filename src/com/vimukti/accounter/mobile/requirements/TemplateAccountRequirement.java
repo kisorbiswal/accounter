@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -72,7 +71,7 @@ public abstract class TemplateAccountRequirement extends
 						"",
 						values.size()
 								+ getMessages().hasSelected(
-										Global.get().Accounts()));
+										getConstants().Account()));
 				list.add(record);
 				return null;
 			}
@@ -107,7 +106,7 @@ public abstract class TemplateAccountRequirement extends
 		record.add(
 				"",
 				values.size()
-						+ getMessages().hasSelected(Global.get().Accounts()));
+						+ getMessages().hasSelected(getConstants().Account()));
 		list.add(record);
 
 		if (valuesSelection == "accountsNumber") {
@@ -133,13 +132,13 @@ public abstract class TemplateAccountRequirement extends
 		moreItems.add("", getMessages().addMore(getConstants().Accounts()));
 		actions.add(moreItems);
 		Record setDefault = new Record(ActionNames.SET_DEFAULT);
-		setDefault.add("", getMessages().setDefault(Global.get().Accounts()));
+		setDefault.add("", getMessages().setDefault(getConstants().Accounts()));
 		actions.add(setDefault);
 		Record close = new Record(ActionNames.CLOSE);
 		close.add("", getConstants().close());
 		actions.add(close);
 		result.add(actions);
-		result.add(getMessages().selectToDelete(Global.get().Account()));
+		result.add(getMessages().selectToDelete(getConstants().Accounts()));
 		return result;
 	}
 
