@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
@@ -66,7 +67,12 @@ public class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			protected void setValue(ClientUnit row, String value) {
-				row.setFactor(Double.parseDouble(value));
+				try {
+					row.setFactor(DataUtils.getAmountStringAsDouble(value));
+					getTable().update(row);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 			@Override
@@ -108,7 +114,28 @@ public class UnitsTable extends EditTable<ClientUnit> {
 		return false;
 	}
 
-	public void validate(ValidationResult result) {
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		ClientUnit defaultUnit = getDefaultUnit();
+		if (getRecords() == null || getRecords().isEmpty()) {
+			result.addError(this, Accounter.constants()
+					.pleaseEnterAtleastOneUnit());
+		} else if (defaultUnit == null) {
+			result.addError(this, Accounter.constants()
+					.pleaseSelectDefaultUnit());
+		} else if (defaultUnit.getFactor() == 0) {
+			result.addError(this, Accounter.constants()
+					.factorForDefaultUnitShouldNotbeZero());
+		} else {
+			for (ClientUnit unit : getRecords()) {
+				if (unit.getName() == null || unit.getName().isEmpty()) {
+					result.addError(this, Accounter.constants()
+							.pleaseEnterUnitName());
+					break;
+				}
+			}
+		}
+		return result;
 	}
 
 	public ClientUnit getDefaultUnit() {
