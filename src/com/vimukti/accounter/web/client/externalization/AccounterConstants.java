@@ -5178,4 +5178,18 @@ public interface AccounterConstants extends Constants {
 
 	public String locationsList();
 
+	public String transactionItem();
+
+	public Object showAll();
+
+	public String allRecords();
+
+	public Object nextPage();
+
+	public Object prevPage();
+
+	public String notPrimary();
+
+	public String estimate();
+
 }

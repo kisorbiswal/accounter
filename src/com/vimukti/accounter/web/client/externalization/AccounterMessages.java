@@ -953,4 +953,22 @@ public interface AccounterMessages extends Messages {
 	public String youcannotchangeaCustomertypetoVendortype(
 			String youcannotchangeaCustomertypetoVendortype, String msgString);
 
+	public String selectedAs(String displayValue, String asString);
+
+	public String foundRecords(int size, String name);
+
+	public String didNotGetRecords(String name);
+
+	public String selectFor(String taxCode, String itemName);
+
+	public String youCantEdit(String recordName);
+
+	public String thereAreNo(String contacts);
+
+	public String all(String contact);
+
+	public String selectToDelete(String account);
+
+	public String setDefault(String accounts);
+
 }
