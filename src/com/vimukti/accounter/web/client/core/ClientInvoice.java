@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,9 +46,9 @@ public class ClientInvoice extends ClientTransaction {
 
 	boolean isEdited = false;
 
-	long estimate;
+	List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
 
-	long salesOrder;
+	List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
 
 	String orderNum;
 
@@ -210,16 +211,16 @@ public class ClientInvoice extends ClientTransaction {
 	/**
 	 * @return the estimate
 	 */
-	public long getEstimate() {
-		return estimate;
+	public List<ClientEstimate> getEstimates() {
+		return estimates;
 	}
 
 	/**
 	 * @param estimate
 	 *            the estimate to set
 	 */
-	public void setEstimate(long estimate) {
-		this.estimate = estimate;
+	public void setEstimates(List<ClientEstimate> estimates) {
+		this.estimates = estimates;
 	}
 
 	/**
@@ -229,12 +230,12 @@ public class ClientInvoice extends ClientTransaction {
 		return transactionReceivePayments;
 	}
 
-	public long getSalesOrder() {
-		return salesOrder;
+	public List<ClientSalesOrder> getSalesOrders() {
+		return salesOrders;
 	}
 
-	public void setSalesOrder(long salesOrder) {
-		this.salesOrder = salesOrder;
+	public void setSalesOrders(List<ClientSalesOrder> salesOrders) {
+		this.salesOrders = salesOrders;
 	}
 
 	/**
@@ -531,10 +532,20 @@ public class ClientInvoice extends ClientTransaction {
 	}
 
 	public ClientInvoice clone() {
-		ClientInvoice clientInvoiceClone = new ClientInvoice();//(ClientInvoice) this.clone();
+		ClientInvoice clientInvoiceClone = new ClientInvoice();// (ClientInvoice)
+																// this.clone();
 		clientInvoiceClone.contact = this.contact.clone();
 		clientInvoiceClone.billingAddress = this.billingAddress.clone();
 		clientInvoiceClone.shippingAdress = this.shippingAdress.clone();
 		return clientInvoiceClone;
+	}
+
+	public List<ClientTransaction> getSalesAndEstimates() {
+		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
+		transactions.addAll(this.getEstimates());
+		for (ClientTransaction clientTransaction : this.getSalesOrders()) {
+			transactions.add(clientTransaction);
+		}
+		return transactions;
 	}
 }
