@@ -5153,6 +5153,20 @@ public interface AccounterConstants extends Constants {
 	public String youcantvoidJournalEntrycreatedbyrunningDeprecation();
 
 	public String youdnthaveBalToApplyCredits();
+	
+	public String youDontHaveAnyItemsToTransfer();
+	
+	public String pleaseEnterAtleastOneUnit();
+	
+	public String pleaseSelectDefaultUnit();
+	
+	public String pleaseEnterUnitName();
+	
+	public String pleaseSelectAtLeastOneRecord();
+	
+	public String addNewWarehouseTransfer();
+	
+	public String factorForDefaultUnitShouldNotbeZero();
 
 	public String youdonthaveanyfiledVATentriestoselect();
 
