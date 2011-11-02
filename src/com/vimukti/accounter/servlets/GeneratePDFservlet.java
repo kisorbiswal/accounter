@@ -103,15 +103,17 @@ public class GeneratePDFservlet extends BaseServlet {
 				if (multipleId != null) {
 					ids = multipleId.split(",");
 				}
-				String brandingThemeId = request.getParameter("brandingThemeId");
-				BrandingTheme brandingTheme = (BrandingTheme) financetool
-						.getManager().getServerObjectForid(
-								AccounterCoreType.BRANDINGTHEME,
-								Long.parseLong(brandingThemeId));
-				converter = new Converter(
-						getPageSizeType(brandingTheme.getPageSizeType())); 
+				
 				// this is used to print multiple pdf documents at a time
 				if (multipleId != null) {
+					String brandingThemeId = request.getParameter("brandingThemeId");
+					BrandingTheme brandingTheme = (BrandingTheme) financetool
+							.getManager().getServerObjectForid(
+									AccounterCoreType.BRANDINGTHEME,
+									Long.parseLong(brandingThemeId));
+					converter = new Converter(
+							getPageSizeType(brandingTheme.getPageSizeType())); 
+					
 					transactionType = Integer
 							.parseInt(request.getParameter("type"));
 					
@@ -155,7 +157,13 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				} else if (objectId != null) {
 					
-					
+					String brandingThemeId = request.getParameter("brandingThemeId");
+					BrandingTheme brandingTheme = (BrandingTheme) financetool
+							.getManager().getServerObjectForid(
+									AccounterCoreType.BRANDINGTHEME,
+									Long.parseLong(brandingThemeId));
+					converter = new Converter(
+							getPageSizeType(brandingTheme.getPageSizeType())); 
 				
 					transactionType = Integer
 							.parseInt(request.getParameter("type"));
