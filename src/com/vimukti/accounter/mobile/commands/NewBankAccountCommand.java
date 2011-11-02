@@ -3,18 +3,21 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 /**
@@ -22,172 +25,213 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
  * @author Sai Parasad N
  * 
  */
-public class NewBankAccountCommand extends AbstractTransactionCommand {
+public class NewBankAccountCommand extends NewAbstractCommand {
 
+	private static final String ACCOUNT_NUMBER = "Account Number";
 	private static final String ACCOUNT_NAME = "Account Name";
 	private static final String OPENINGBALANCE = "Opening Balance";
+	private static final String BANK_ACCOUNT_TYPE = "Bank Account Type";
 	private static final String ACTIVE = "Active";
-	private static final String ASOF = "AsOf";
 
+	private static final String ASOF = "AsOf";
+	private static final String COMMENTS = "Comments";
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
 	private static final String BANK_NAME = "Bank Name";
-	private static final String BANK_ACCOUNT_TYPE = "Bank Account Type";
 	private static final String BANK_ACCOUNT_NUMBER = "Bank Account Number";
-	private static final int BANK_NAME_TO_SHOW = 5;
-
-	@Override
-	public String getId() {
-		return null;
-	}
+	private static final String ACCOUNT_TYPE = "Account Type";
+	private ClientBankAccount account;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(ACCOUNT_NAME, false, true));
-		list.add(new Requirement(ACCOUNT_NUMBER, false, true));
-		list.add(new Requirement(OPENINGBALANCE, true, true));
-		list.add(new Requirement(ACTIVE, true, true));
-		list.add(new Requirement(ASOF, true, true));
-		list.add(new Requirement(MEMO, true, true));
-		list.add(new Requirement(CONSIDER_AS_CASH_ACCOUNT, true, true));
-		list.add(new Requirement(BANK_NAME, true, true));
-		list.add(new Requirement(BANK_ACCOUNT_TYPE, false, true));
-		list.add(new Requirement(BANK_ACCOUNT_NUMBER, true, true));
+		list.add(new NameRequirement(ACCOUNT_TYPE, "Please Enter Account Type",
+				"Account Type", false, true));
+
+		list.add(new NumberRequirement(ACCOUNT_NUMBER,
+				"Please Enter Account number", "Account Number", false, true));
+
+		list.add(new NameRequirement(ACCOUNT_NAME, "Please Enter Account Name",
+				"Account Name", false, true));
+
+		list.add(new BooleanRequirement(ACTIVE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "This account is Active";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "This account is InActive";
+			}
+		});
+
+		list.add(new AmountRequirement(OPENINGBALANCE,
+				"Please Enter Opening balece", "Opening balence", true, true));
+
+		list.add(new DateRequirement(ASOF, "Please Enter As Of Date",
+				"As Of Date", true, true));
+
+		list.add(new StringRequirement(COMMENTS, "Please Enter Comment",
+				"Comment", true, true));
+
+		list.add(new StringListRequirement(BANK_NAME, "Please Enter Bank Name",
+				"Bank Name", true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Bank Name has been Selected";
+			}
+
+			@Override
+			protected String getSelectString() {
+				return "Select Bank Name";
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getBankNameList(getClientCompany());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
+
+		list.add(new StringListRequirement(BANK_ACCOUNT_TYPE,
+				"Please Enter Bank Account Type", "Bank Account Type", false,
+				true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Account type has been selected";
+			}
+
+			@Override
+			protected String getSelectString() {
+				return "Select Account type";
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getAccountTypes();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
+
+		list.add(new NumberRequirement(BANK_ACCOUNT_NUMBER,
+				"Please Enter  Bank Account number", "Bank Account Number",
+				true, true));
+
+	}
+
+	protected List<String> getBankNameList(ClientCompany clientCompany) {
+		List<String> bankNameList = new ArrayList<String>();
+		List<ClientBank> banksList = clientCompany.getBanks();
+		if (!banksList.isEmpty()) {
+			for (ClientBank clientBank : banksList) {
+				bankNameList.add(clientBank.getName());
+			}
+			return bankNameList;
+		}
+		return null;
+	}
+
+	protected List<String> getAccountTypes() {
+		List<String> list = new ArrayList<String>();
+		list.add("Current Account");
+		list.add("Checking");
+		list.add("Money Market");
+		list.add("Saving");
+		return list;
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Result result = null;
-
-		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(
-				getConstants().bankAccounts()));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		result = nameRequirement(context, list, ACCOUNT_NAME, getConstants()
-				.name(), getMessages()
-				.pleaseEnter(getConstants().accountName()));
-		if (result != null) {
-			return result;
-		}
-
-		result = numberRequirement(context, list, ACCOUNT_NUMBER, getMessages()
-				.pleaseEnter(getConstants().Accounnumbers()), getConstants()
-				.number());
-		if (result != null) {
-			return result;
-		}
-		result = bankAcountTypeReq(
-				context,
-				list,
-				BANK_ACCOUNT_TYPE,
-				getMessages().pleaseEnter(
-						getConstants().bankAccounts() + getConstants().type()));
-		if (result != null) {
-			return result;
-		}
-		setDefaultValues();
-		result = createOptionalResult(context, list, actions, makeResult);
-		if (result != null) {
-			return result;
-		}
-		markDone();
-		createBankAccountObject(context);
-
-		result = new Result();
-		result.add(getMessages().createSuccessfully(
-				getConstants().bankAccounts()));
-		return result;
+	protected String initObject(Context context, boolean isUpdate) {
+		// String string = context.getString();
+		// if (string.isEmpty()) {
+		// if (!isUpdate) {
+		// account = new ClientBankAccount();
+		// return null;
+		// }
+		// }
+		//
+		// account = context.getClientCompany().getAccountByName(string);
+		// if (account == null) {
+		// account = context.getClientCompany().getAccountByNumber(
+		// getNumberFromString(string));
+		// }
+		// if (account == null) {
+		// addFirstMessage(context, "Select an account to update.");
+		// return "Accounts " + string.trim();
+		// }
+		//
+		// get(ACCOUNT_TYPE)
+		// .setValue(getAccountTypes().get(account.getType() - 1));
+		//
+		// get(ACCOUNT_NAME).setValue(account.getName());
+		// get(ACCOUNT_NAME).setEditable(false);
+		//
+		// get(ACCOUNT_NUMBER).setValue(account.getNumber());
+		// get(ACCOUNT_NUMBER).setEditable(false);
+		//
+		// get(OPENINGBALANCE).setValue(account.getOpeningBalance());
+		// get(ACTIVE).setValue(account.getIsActive());
+		// get(CONSIDER_AS_CASH_ACCOUNT).setValue(
+		// account.isConsiderAsCashAccount());
+		// get(ASOF).setValue(new ClientFinanceDate(account.getAsOf()));
+		// get(COMMENTS).setValue(account.getComment());
+		return null;
 	}
 
-	private void setDefaultValues() {
+	@Override
+	protected String getWelcomeMessage() {
+		// if (account.getID() == 0) {
+		return "Create Bank Account Command is activated.";
+		// }
+		// return "Update Bank Account(" + account.getName()
+		// + ") Command is activated.";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		// if (account.getID() == 0) {
+		return " Bank Account is ready to created with following details.";
+		// } else {
+		// return "Bank Account is ready to updated with following details.";
+		// }
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(ACCOUNT_TYPE).setDefaultValue("Bank");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
-		get(OPENINGBALANCE).setDefaultValue(0.0D);
 		get(ASOF).setDefaultValue(new ClientFinanceDate());
-		get(MEMO).setDefaultValue("");
-		get(BANK_ACCOUNT_NUMBER).setDefaultValue("");
-		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.FALSE);
 	}
 
-	private Result createOptionalResult(Context context, ResultList list,
-			ResultList actions, Result makeResult) {
-		if (context.getAttribute(INPUT_ATTR) == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				markDone();
-				return null;
-			default:
-				break;
-			}
-		}
-
-		selection = context.getSelection("values");
-
-		booleanOptionalRequirement(context, selection, list, ACTIVE,
-				"This account is" + getConstants().active(), "This account is"
-						+ getConstants().inActive());
-		Result result = amountOptionalRequirement(context, list, selection,
-				OPENINGBALANCE,
-				getMessages().pleaseEnter(getConstants().openingBalance()),
-				getConstants().openingBalance());
-		if (result != null) {
-			return result;
-		}
-
-		result = dateOptionalRequirement(context, list, ASOF, getConstants()
-				.asOf(), getMessages().pleaseEnter(getConstants().asOf()),
-				selection);
-		if (result != null) {
-			return result;
-		}
-		result = cashDiscountRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = bankNameRequriment(context, list, selection, getMessages()
-				.pleaseEnter(getConstants().bankName()));
-		if (result != null) {
-			return result;
-		}
-
-		result = numberOptionalRequirement(context, list, selection,
-				BANK_ACCOUNT_NUMBER, getConstants().number(), getMessages()
-						.pleaseEnter(getConstants().bankAccountNumber()));
-		if (result != null) {
-			return result;
-		}
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				getConstants().memo(),
-				getMessages().pleaseEnter(getConstants().comments()));
-		if (result != null) {
-			return result;
-		}
-
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("",
-				getMessages().finishToCreate(getConstants().bankAccount()));
-		actions.add(finish);
-
-		return makeResult;
+	@Override
+	public String getSuccessMessage() {
+		// if (account.getID() == 0) {
+		return "Account is created succesfully.";
+		// } else {
+		// return "Account is updated successfully.";
+		// }
 	}
 
-	private void createBankAccountObject(Context context) {
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	protected Result onCompleteProcess(Context context) {
 		ClientBankAccount bankAccount = new ClientBankAccount();
-
 		bankAccount.setType(ClientAccount.TYPE_BANK);
 		bankAccount.setName((String) get(ACCOUNT_NAME).getValue());
 		bankAccount.setNumber((String) get(ACCOUNT_NUMBER).getValue());
@@ -195,16 +239,15 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 		ClientFinanceDate d = get(ASOF).getValue();
 
 		bankAccount.setAsOf(d.getDate());
-		bankAccount.setComment((String) get(MEMO).getValue());
+		bankAccount.setComment((String) get(COMMENTS).getValue());
 		String type = get(BANK_ACCOUNT_TYPE).getValue();
 		bankAccount.setBankAccountType(getType(type));
 		String number = get(BANK_ACCOUNT_NUMBER).getValue();
 		bankAccount.setBankAccountNumber(number);
-		bankAccount.setConsiderAsCashAccount((Boolean) get(
-				CONSIDER_AS_CASH_ACCOUNT).getValue());
 		bankAccount.setIsActive((Boolean) get(ACTIVE).getValue());
 
 		create(bankAccount, context);
+		return null;
 	}
 
 	private int getType(String type) {
@@ -220,172 +263,4 @@ public class NewBankAccountCommand extends AbstractTransactionCommand {
 			return ClientAccount.BANK_ACCCOUNT_TYPE_NONE;
 
 	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @param string
-	 * @return
-	 */
-	private Result bankNameRequriment(Context context, ResultList list,
-			Object selection, String string) {
-
-		ClientBank bankobj = context.getSelection(BANK_NAME);
-		Requirement bankreq = get(BANK_NAME);
-
-		if (bankobj != null) {
-			bankreq.setValue(bankobj);
-		}
-
-		ClientBank bank = (ClientBank) bankreq.getValue();
-		if (selection == string) {
-			return banks(context, bank);
-		}
-
-		Record paymentTermRecord = new Record(string);
-		paymentTermRecord.add("Name", string);
-		paymentTermRecord.add("Value", bank == null ? "" : bank.getName());
-		list.add(paymentTermRecord);
-
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param oldBank
-	 * @return
-	 */
-	private Result banks(Context context, ClientBank oldBank) {
-
-		ArrayList<ClientBank> banks = getClientCompany().getBanks();
-		Result result = context.makeResult();
-		result.add(getMessages().pleaseSelect(getConstants().bankName()));
-
-		ResultList list = new ResultList(BANK_NAME);
-		int num = 0;
-		if (oldBank != null) {
-			list.add(createbankRecord(oldBank));
-			num++;
-		}
-		for (ClientBank bank : banks) {
-			if (bank != oldBank) {
-				list.add(createbankRecord(bank));
-				num++;
-			}
-			if (num == BANK_NAME_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create New");
-		result.add(commandList);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @param bank
-	 * @return
-	 */
-	private Record createbankRecord(ClientBank bank) {
-		Record record = new Record(bank);
-		record.add("Name", BANK_NAME);
-		record.add("Value", bank.getName());
-		return record;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param string
-	 * @param bankAccountType2
-	 * @param list
-	 * @return
-	 */
-	private Result bankAcountTypeReq(Context context, ResultList list,
-			String bankAccountType2, String string) {
-		Requirement bankAccountTypeReq = get(BANK_ACCOUNT_TYPE);
-		String bankAccountType = context.getSelection(BANK_ACCOUNT_TYPE);
-		if (bankAccountType != null) {
-			bankAccountTypeReq.setValue(bankAccountType);
-		}
-		if (!bankAccountTypeReq.isDone()) {
-			return bankAccountType(context, null);
-		}
-
-		Record nameRecord = new Record(bankAccountType);
-		nameRecord.add("", getConstants().type());
-		nameRecord.add("", bankAccountTypeReq.getValue());
-		list.add(nameRecord);
-		return null;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param oldBankaccountType
-	 * @return
-	 */
-	private Result bankAccountType(Context context, String oldBankaccountType) {
-		List<String> bankAccountTypes = new ArrayList<String>();
-		bankAccountTypes
-				.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING);
-
-		bankAccountTypes
-				.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
-		bankAccountTypes
-				.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING);
-		Result result = context.makeResult();
-		result.add("Select Bank Account type");
-
-		ResultList list = new ResultList(BANK_ACCOUNT_TYPE);
-		int num = 0;
-		if (oldBankaccountType != null) {
-			list.add(createPayMentMethodRecord(oldBankaccountType));
-			num++;
-		}
-		for (String bankAccountType : bankAccountTypes) {
-			if (bankAccountType != oldBankaccountType) {
-				list.add(createPayMentMethodRecord(bankAccountType));
-				num++;
-			}
-			if (num == BANK_ACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
-		return result;
-	}
-
-	private Result cashDiscountRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement isCashAccountReq = get(CONSIDER_AS_CASH_ACCOUNT);
-
-		Boolean isCashAccoount = (Boolean) isCashAccountReq.getValue();
-		if (selection == CONSIDER_AS_CASH_ACCOUNT) {
-			isCashAccoount = !isCashAccoount;
-			isCashAccountReq.setValue(isCashAccoount);
-		}
-		String isCashAccount = "";
-		if (isCashAccoount) {
-			isCashAccount = getMessages().thisIsConsideredACashAccount(
-					Global.get().account());
-		} else {
-			isCashAccount = "This account is not a cash account";
-		}
-		Record isCashAccountRecord = new Record(CONSIDER_AS_CASH_ACCOUNT);
-		isCashAccountRecord.add("", CONSIDER_AS_CASH_ACCOUNT);
-		isCashAccountRecord.add(":", isCashAccount);
-		list.add(isCashAccountRecord);
-		return null;
-	}
-
 }
