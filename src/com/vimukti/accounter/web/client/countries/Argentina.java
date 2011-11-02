@@ -18,7 +18,7 @@ public class Argentina extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "ARP";
+		return "ARS";
 	}
 
 	@Override
