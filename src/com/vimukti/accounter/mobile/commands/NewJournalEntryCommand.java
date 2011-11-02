@@ -71,10 +71,22 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 						"Please Enter Vocher Memo", "Memo", true, true));
 
 				list.add(new AmountRequirement("Debits", "Please Enter Debits",
-						"Debits", true, true));
+						"Debits", true, true) {
+					@Override
+					public void setValue(Object value) {
+						super.setValue(value);
+						get("Credits").setValue(0d);
+					}
+				});
 
 				list.add(new AmountRequirement("Credits",
-						"Please Enter Credits", "Credits", true, true));
+						"Please Enter Credits", "Credits", true, true) {
+					@Override
+					public void setValue(Object value) {
+						super.setValue(value);
+						get("Debits").setValue(0d);
+					}
+				});
 			}
 
 			@Override
