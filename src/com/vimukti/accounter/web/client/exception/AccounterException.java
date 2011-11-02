@@ -79,6 +79,8 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_TRANSACTION_RECONCILIED = 16;
 
+	public static final int USED_IN_INVOICE = 17;
+
 	protected int errorCode;
 
 	// private long id;

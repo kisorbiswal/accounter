@@ -53,7 +53,8 @@ public class AccounterExceptions {
 			return accounterErrors.objectModified();
 		case AccounterException.ERROR_TRANSACTION_RECONCILIED:
 			return accounterErrors.transactionReconcilied();
-
+		case AccounterException.USED_IN_INVOICE:
+			return accounterErrors.usedinInvoiceSoYoucantEdit();
 		default:
 			return null;
 		}
