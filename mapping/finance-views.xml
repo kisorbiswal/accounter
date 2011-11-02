@@ -48,7 +48,9 @@ case
 	else TI.LINE_TOTAL
 end as AMOUNT,
 case 
-	when T.T_TYPE = 8 then (select T.NUMBER from TRANSACTION T where T.ID = I.ESTIMATE_ID)
+	when T.T_TYPE = 8 then (select T.NUMBER from TRANSACTION T left outer join
+		INVOICE_ESTIMATES IE
+		on T.ID=IE.ESTIAMTE_ID)
 end as SO_OR_QUOTE_NO,
 case
 	when T.T_TYPE = 1 then CS.DELIVERY_DATE 
