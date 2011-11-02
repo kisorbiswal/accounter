@@ -21,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
@@ -92,7 +93,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Vender has been selected for Paybill";
+				return getMessages().hasSelected(Global.get().Vendor());
 			}
 
 			@Override
@@ -102,7 +103,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "There are no Vendors";
+				return getMessages().youDontHaveAny(Global.get().Vendor());
 			}
 
 			@Override
@@ -139,12 +140,14 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "No bank acounts available";
+				return getMessages().youDontHaveAny(
+						getConstants().bankAccounts());
 			}
 
 			@Override
 			protected boolean filter(ClientAccount e, String name) {
-				return false;
+				return e.getName().contains(name);
+
 			}
 		});
 
@@ -193,7 +196,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "Empty List";
+				return getMessages().youDontHaveAny(
+						getConstants().paymentMethod());
 			}
 		});
 

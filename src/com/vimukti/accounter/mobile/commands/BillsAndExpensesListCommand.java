@@ -38,8 +38,8 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return "BillsAndExpensesList";
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "No bills";
+				return getMessages().youDontHaveAny(getConstants().bills());
 			}
 
 			@Override

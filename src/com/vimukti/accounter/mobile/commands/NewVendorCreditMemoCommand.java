@@ -8,7 +8,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -18,6 +17,7 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -75,21 +75,13 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 		list.add(new VendorRequirement(VENDOR, getMessages()
 				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, new ChangeListner<ClientVendor>() {
-
-			@Override
-			public void onSelection(ClientVendor value) {
-				// TODO Auto-generated method stub
-
-			}
-		})
+				.vendor(), false, true, null)
 
 		{
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages().hasSelected(Global.get().Vendor());
 			}
 
 			@Override
@@ -99,13 +91,13 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return null;
+				return getMessages().youDontHaveAny(Global.get().Vendor());
 			}
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				// TODO Auto-generated method stub
-				return false;
+				return e.getDisplayName().toLowerCase()
+						.startsWith(name.toLowerCase());
 			}
 		});
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
@@ -193,13 +185,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 				getConstants().memo()), getConstants().memo(), true, true));
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
-				true, new ChangeListner<ClientCurrency>() {
-
-					@Override
-					public void onSelection(ClientCurrency value) {
-
-					}
-				}) {
+				true, null) {
 
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {

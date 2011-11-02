@@ -33,8 +33,8 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return getConstants().receivedPayments();
 	}
 
 	@Override

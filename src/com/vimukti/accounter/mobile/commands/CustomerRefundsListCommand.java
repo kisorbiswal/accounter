@@ -35,8 +35,8 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return getMessages().customerRefunds(Global.get().Customer());
 	}
 
 	@Override
@@ -47,8 +47,9 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return "Success";
+
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(CustomerRefundsList value) {
-				// TODO Auto-generated method stub
+
 				return null;
 			}
 

@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -104,8 +103,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+
+				return getMessages().hasSelected(Global.get().vendor());
 			}
 
 			@Override
@@ -115,13 +114,14 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return null;
+				return getMessages().youDontHaveAny(Global.get().vendor());
 			}
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				// TODO Auto-generated method stub
-				return false;
+				return e.getName().startsWith(name)
+						|| e.getVendorNumber().startsWith(
+								"" + getNumberFromString(name));
 			}
 		});
 		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
@@ -157,13 +157,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
-				true, new ChangeListner<ClientCurrency>() {
-
-					@Override
-					public void onSelection(ClientCurrency value) {
-
-					}
-				}) {
+				true, null) {
 
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {
@@ -182,14 +176,14 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+
+				return getMessages().hasSelected(getConstants().status());
 			}
 
 			@Override
 			protected String getSelectString() {
-				// TODO Auto-generated method stub
-				return null;
+
+				return getMessages().pleaseSelect(getConstants().status());
 			}
 
 			@Override
@@ -203,8 +197,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				// TODO Auto-generated method stub
-				return null;
+
+				return getMessages().youDontHaveAny(getConstants().status());
 			}
 		});
 

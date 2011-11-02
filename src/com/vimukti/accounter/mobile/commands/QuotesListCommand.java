@@ -13,6 +13,11 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
+/**
+ * 
+ * @author Sai Prasad N
+ * 
+ */
 public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
@@ -29,8 +34,8 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return getConstants().quotesList();
 	}
 
 	@Override
@@ -41,8 +46,9 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return "Success" + getConstants().quotesList();
+
 	}
 
 	@Override
@@ -79,13 +85,13 @@ public class QuotesListCommand extends NewAbstractCommand {
 			@Override
 			protected String getShowMessage() {
 
-				return "Qoutes List";
+				return getConstants().quotesList();
 			}
 
 			@Override
 			protected String getEmptyString() {
 
-				return "No Qoutes are available";
+				return getMessages().youDontHaveAny(getConstants().quotes());
 			}
 
 			@Override

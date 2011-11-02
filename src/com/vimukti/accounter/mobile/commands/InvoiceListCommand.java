@@ -128,7 +128,8 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 
-				return "No invoices are available";
+				return getMessages().youDontHaveAny(
+						getConstants().invoiceList());
 
 			}
 

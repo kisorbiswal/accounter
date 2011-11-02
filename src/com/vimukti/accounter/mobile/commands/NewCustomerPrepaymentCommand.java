@@ -12,7 +12,6 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -79,13 +78,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 		list.add(new CustomerRequirement(CUSTOMER,
 				"Please Enter Customer name or number ", "Customer", false,
-				true, new ChangeListner<ClientCustomer>() {
-
-					@Override
-					public void onSelection(ClientCustomer value) {
-
-					}
-				}) {
+				true, null) {
 
 			@Override
 			protected List<ClientCustomer> getLists(Context context) {
@@ -100,19 +93,11 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				.transactionDate(), true, true));
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
 				.pleaseSelectPayFromAccount(getConstants().transferTo()),
-				getConstants().transferTo(), false, false,
-				new ChangeListner<ClientAccount>() {
-
-					@Override
-					public void onSelection(ClientAccount value) {
-						// TODO Auto-generated method stub
-
-					}
-				}) {
+				getConstants().transferTo(), false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "";
+				return getMessages().hasSelected(getConstants().payFrom());
 			}
 
 			@Override
@@ -132,12 +117,13 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 			@Override
 			protected String getEmptyString() {
-				return "No bank acounts available";
+				return getMessages().youDontHaveAny(
+						getConstants().bankAccounts());
 			}
 
 			@Override
 			protected boolean filter(ClientAccount e, String name) {
-				return false;
+				return e.getName().contains(name);
 			}
 		});
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
@@ -149,14 +135,14 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages()
+						.hasSelected(getConstants().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages().pleaseSelect(
+						getConstants().paymentMethod());
 			}
 
 			@Override
@@ -181,7 +167,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 			@Override
 			protected String getEmptyString() {
-				return "Empty List";
+				return getMessages().youDontHaveAny(
+						getConstants().paymentMethod());
 			}
 		});
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
@@ -201,13 +188,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
-				true, new ChangeListner<ClientCurrency>() {
-
-					@Override
-					public void onSelection(ClientCurrency value) {
-
-					}
-				}) {
+				true, null) {
 
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {

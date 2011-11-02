@@ -180,7 +180,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(Estimate e, String name) {
-				return false;
+				return e.getCustomer().getName().contains(name);
 			}
 		});
 
@@ -202,14 +202,14 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+
+				return getMessages().hasSelected(getConstants().status());
 			}
 
 			@Override
 			protected String getSelectString() {
-				// TODO Auto-generated method stub
-				return null;
+
+				return getMessages().pleaseSelect(getConstants().status());
 			}
 
 			@Override
@@ -223,8 +223,8 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				// TODO Auto-generated method stub
-				return null;
+
+				return getMessages().youDontHaveAny(getConstants().status());
 			}
 		});
 

@@ -27,14 +27,14 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return getMessages().customersList(Global.get().Customer());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return getMessages().customersList(Global.get().Customer());
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return "Success";
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 
-				return "No customers are available";
+				return getMessages().youDontHaveAny(Global.get().Customer());
 
 			}
 

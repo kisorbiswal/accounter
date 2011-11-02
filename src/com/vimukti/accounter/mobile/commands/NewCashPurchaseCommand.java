@@ -11,7 +11,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -22,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -96,21 +96,13 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages()
 				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, new ChangeListner<ClientVendor>() {
-
-			@Override
-			public void onSelection(ClientVendor value) {
-				// TODO Auto-generated method stub
-
-			}
-		})
+				.vendor(), false, true, null)
 
 		{
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages().hasSelected(Global.get().Vendor());
 			}
 
 			@Override
@@ -120,24 +112,18 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return null;
+				return getMessages().youDontHaveAny(Global.get().Vendor());
 			}
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				// TODO Auto-generated method stub
-				return false;
+				return e.getDisplayName().toLowerCase()
+						.startsWith(name.toLowerCase());
 			}
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
-				true, new ChangeListner<ClientCurrency>() {
-
-					@Override
-					public void onSelection(ClientCurrency value) {
-
-					}
-				}) {
+				true, null) {
 
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {
@@ -154,25 +140,18 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				true, true));
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
 				.pleaseSelect(getConstants().paymentMethod()), getConstants()
-				.paymentMethod(), false, true, new ChangeListner<String>() {
-
-			@Override
-			public void onSelection(String value) {
-				// TODO Auto-generated method stub
-
-			}
-		}) {
+				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages()
+						.hasSelected(getConstants().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages().pleaseSelect(
+						getConstants().paymentMethod());
 			}
 
 			@Override
@@ -197,24 +176,17 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "Empty List";
+				return getMessages().youDontHaveAny(
+						getConstants().paymentMethod());
 			}
 		});
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
 				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false,
-				new ChangeListner<ClientAccount>() {
-
-					@Override
-					public void onSelection(ClientAccount value) {
-						// TODO Auto-generated method stub
-
-					}
-				}) {
+				getConstants().bankAccount(), false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "";
+				return getMessages().hasSelected(getConstants().payFrom());
 			}
 
 			@Override
@@ -235,7 +207,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "No bank acounts available";
+				return getMessages().youDontHaveAny(
+						getConstants().bankAccounts());
 			}
 
 			@Override
@@ -359,8 +332,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 		ClientContact contact = get(CONTACT).getValue();
 		cashPurchase.setContact(contact);
-
-		// TODO Payments
 
 		String phone = get(PHONE).getValue();
 		cashPurchase.setPhone(phone);
