@@ -151,4 +151,19 @@ public class ClientUnit implements IAccounterCore, Serializable,
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		
+		if (this.type != null && !type.equals("")) {
+			buffer.append(type).append(",");
+		}
+		if (this.factor != 0.0 ) {
+			buffer.append(factor);
+		}
+		
+
+		return buffer.toString();
+	}
 }
