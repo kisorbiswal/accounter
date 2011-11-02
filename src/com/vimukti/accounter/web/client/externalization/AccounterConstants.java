@@ -4709,6 +4709,10 @@ public interface AccounterConstants extends Constants {
 	public String transferFundsOnline();
 
 	public String transferTo();
+	
+	public String transferQuantity();
+	
+	public String transferQuantityShouldntbeZeroForSelectedRecords();
 
 	public String transportationTruckingordelivery();
 
