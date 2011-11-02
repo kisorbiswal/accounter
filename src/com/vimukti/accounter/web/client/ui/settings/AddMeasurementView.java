@@ -92,9 +92,10 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientUnit clientUnit = new ClientUnit();
-				unitsTable.setDisabled(false);
+				// unitsTable.setDisabled(false);
 				if (unitsTable.getRecords().isEmpty()) {
 					clientUnit.setDefault(true);
+					clientUnit.setFactor(1);
 				}
 				unitsTable.add(clientUnit);
 			}
@@ -112,7 +113,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 		ValidationResult result = new ValidationResult();
 		result.add(addMeasurmentForm.validate());
-		unitsTable.validate(result);
+		result.add(unitsTable.validate());
 		// validate measurement name?
 		// validate units grid
 		// if (nameItem.getValue().toString() == null

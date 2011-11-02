@@ -44,8 +44,7 @@ public class WareHouseTransferAction extends Action {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);
 		} catch (Exception e) {
-			System.err
-					.println(Accounter.messages().wareHouseLoadingError(e.toString()));
+			e.printStackTrace();
 		}
 	}
 

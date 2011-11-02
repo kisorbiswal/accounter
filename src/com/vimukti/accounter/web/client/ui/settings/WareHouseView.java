@@ -289,16 +289,6 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	}
 
 	@Override
-	public void saveFailed(AccounterException exception) {
-		super.saveFailed(exception);
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-		super.saveSuccess(object);
-	}
-
-	@Override
 	public void deleteFailed(AccounterException caught) {
 
 	}
