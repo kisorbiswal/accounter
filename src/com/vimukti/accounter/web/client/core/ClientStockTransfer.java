@@ -3,8 +3,10 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Prasanna Kumar G
@@ -16,20 +18,22 @@ public class ClientStockTransfer implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private ClientWarehouse fromWarehouse;
-	private ClientWarehouse toWarehouse;
+
+	private long fromWarehouse;
+	private long toWarehouse;
 
 	private long id;
 
-	private Set<ClientStockTransferItem> stockTransferItems;
+	private List<ClientStockTransferItem> stockTransferItems;
+
+	private String memo;
 
 	private int version;
 
 	/**
 	 * @return the fromWarehouse
 	 */
-	public ClientWarehouse getFromWarehouse() {
+	public long getFromWarehouse() {
 		return fromWarehouse;
 	}
 
@@ -37,14 +41,14 @@ public class ClientStockTransfer implements IAccounterCore {
 	 * @param fromWarehouse
 	 *            the fromWarehouse to set
 	 */
-	public void setFromWarehouse(ClientWarehouse fromWarehouse) {
+	public void setFromWarehouse(long fromWarehouse) {
 		this.fromWarehouse = fromWarehouse;
 	}
 
 	/**
 	 * @return the toWarehouse
 	 */
-	public ClientWarehouse getToWarehouse() {
+	public long getToWarehouse() {
 		return toWarehouse;
 	}
 
@@ -52,14 +56,14 @@ public class ClientStockTransfer implements IAccounterCore {
 	 * @param toWarehouse
 	 *            the toWarehouse to set
 	 */
-	public void setToWarehouse(ClientWarehouse toWarehouse) {
+	public void setToWarehouse(long toWarehouse) {
 		this.toWarehouse = toWarehouse;
 	}
 
 	/**
 	 * @return the stockTransferItems
 	 */
-	public Set<ClientStockTransferItem> getStockTransferItems() {
+	public List<ClientStockTransferItem> getStockTransferItems() {
 		return stockTransferItems;
 	}
 
@@ -68,13 +72,13 @@ public class ClientStockTransfer implements IAccounterCore {
 	 *            the stockTransferItems to set
 	 */
 	public void setStockTransferItems(
-			Set<ClientStockTransferItem> stockTransferItems) {
+			List<ClientStockTransferItem> stockTransferItems) {
 		this.stockTransferItems = stockTransferItems;
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return Accounter.constants().wareHouseTransfer();
 	}
 
 	@Override
@@ -104,13 +108,11 @@ public class ClientStockTransfer implements IAccounterCore {
 
 	public ClientStockTransfer clone() {
 		ClientStockTransfer stockTransfer = (ClientStockTransfer) this.clone();
-		stockTransfer.fromWarehouse = this.fromWarehouse.clone();
-		Set<ClientStockTransferItem> stockTransferItems = new HashSet<ClientStockTransferItem>();
+		List<ClientStockTransferItem> stockTransferItems = new ArrayList<ClientStockTransferItem>();
 		for (ClientStockTransferItem clientStockTransferItem : this.stockTransferItems) {
 			stockTransferItems.add(clientStockTransferItem.clone());
 		}
 		stockTransfer.stockTransferItems = stockTransferItems;
-		stockTransfer.toWarehouse = this.toWarehouse.clone();
 		return stockTransfer;
 
 	}
@@ -122,6 +124,14 @@ public class ClientStockTransfer implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 }

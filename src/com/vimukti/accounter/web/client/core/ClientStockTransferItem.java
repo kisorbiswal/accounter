@@ -3,25 +3,21 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.io.Serializable;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class ClientStockTransferItem implements Serializable, IsSerializable,
-		Cloneable {
+public class ClientStockTransferItem implements IAccounterCore {
 
-	private ClientItem item;
+	long id;
+	private long item;
 	private ClientQuantity quantity;
-	private String memo;
+	private ClientQuantity totalQuantity;
 
 	/**
 	 * @return the item
 	 */
-	public ClientItem getItem() {
+	public long getItem() {
 		return item;
 	}
 
@@ -29,7 +25,7 @@ public class ClientStockTransferItem implements Serializable, IsSerializable,
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(ClientItem item) {
+	public void setItem(long item) {
 		this.item = item;
 	}
 
@@ -48,27 +44,65 @@ public class ClientStockTransferItem implements Serializable, IsSerializable,
 		this.quantity = quantity;
 	}
 
-	/**
-	 * @return the memo
-	 */
-	public String getMemo() {
-		return memo;
-	}
-
-	/**
-	 * @param memo
-	 *            the memo to set
-	 */
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
-
 	public ClientStockTransferItem clone() {
 		ClientStockTransferItem stockTransferItem = (ClientStockTransferItem) this
 				.clone();
-		stockTransferItem.item = this.item.clone();
 		stockTransferItem.quantity = this.quantity.clone();
+		stockTransferItem.totalQuantity = this.totalQuantity.clone();
 		return stockTransferItem;
+	}
+
+	public ClientQuantity getTotalQuantity() {
+		return totalQuantity;
+	}
+
+	public void setTotalQuantity(ClientQuantity totalQuantity) {
+		this.totalQuantity = totalQuantity;
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientStockTransferItem";
 	}
 
 }
