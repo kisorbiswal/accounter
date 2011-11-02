@@ -110,7 +110,9 @@ public class MacMenuServlet extends BaseServlet {
 		if (preferences.isPurchaseOrderEnabled()) {
 			addPurchaseMenuItem();
 		}
-
+		if (preferences.isInventoryEnabled()) {
+			addInventoryMenuItems();
+		}
 		if (canViewReports()) {
 			addReportsMenuItem();
 		}
@@ -120,6 +122,46 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		addFooter();
+	}
+
+	private void addInventoryMenuItems() {
+		StringBuilder inventoryMenu = new StringBuilder();
+
+		menu(inventoryMenu, iGlobal.constants().stockSettings(),
+				"company/accounter#stockSettings");
+
+		StringBuilder newMenu = new StringBuilder();
+		if (iswareHouseEnabled()) {
+			subMenu(newMenu, iGlobal.constants().wareHouse(),
+					"company/accounter#wareHouse");
+			subMenu(newMenu, iGlobal.constants().wareHouseTransfer(),
+					"company/accounter#wareHouseTransfer");
+		}
+		subMenu(newMenu, iGlobal.constants().measurement(),
+				"company/accounter#addMeasurement");
+		menu(inventoryMenu, iGlobal.constants().new1(), newMenu);
+
+		StringBuilder inventoryListMenu = new StringBuilder();
+		subMenu(inventoryListMenu, iGlobal.constants().inventoryItems(),
+				"company/accounter#inventoryItem");
+		if (iswareHouseEnabled()) {
+			subMenu(inventoryListMenu, iGlobal.constants().warehouseList(),
+					"company/accounter#WarehouseList");
+			subMenu(inventoryListMenu, iGlobal.constants()
+					.warehouseTransferList(),
+					"company/accounter#WarehouseTransferList");
+		}
+		subMenu(inventoryListMenu, iGlobal.constants().measurementList(),
+				"company/accounter#MeasurementList");
+		menu(inventoryMenu, iGlobal.constants().InventoryLists(),
+				inventoryListMenu);
+
+		mainMenu(builder, iGlobal.constants().inventory(), inventoryMenu);
+	}
+
+	private boolean iswareHouseEnabled() {
+
+		return preferences.iswareHouseEnabled();
 	}
 
 	private boolean canManageFiscalYears() {
@@ -204,15 +246,17 @@ public class MacMenuServlet extends BaseServlet {
 		if (canDoInvoiceTransactions()) {
 			menu(mainValue, iGlobal.constants().taxAdjustment(),
 					"company/accounter#taxAdjustment");
-			menu(mainValue, iGlobal.constants().fileVAT(),
+			menu(mainValue, iGlobal.constants().fileTAX(),
 					"company/accounter#fileVAT");
 		}
 
 		if (canDoBanking()) {
 			menu(mainValue, iGlobal.constants().payTax(),
 					"company/accounter#paySalesTax");
-			menu(mainValue, iGlobal.constants().receiveVAT(),
+			menu(mainValue, iGlobal.constants().tAXRefund(),
 					"company/accounter#receiveVat");
+			menu(mainValue, iGlobal.constants().tAXRefund(),
+					"company/accounter#taxHistory");
 		}
 
 		separator(mainValue);
@@ -551,13 +595,21 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#newInvoice");
 			items += 3;
 		}
+
+		if (isDelayedchargesEnabled()) {
+			subMenu(newValue, iGlobal.constants().newCharge(),
+					"company/accounter#newQuote");
+			subMenu(newValue, iGlobal.constants().newCredit(),
+					"company/accounter#newQuote");
+		}
+
 		if (canDoBanking()) {
 			subMenu(newValue, iGlobal.constants().newCashSale(),
 					"company/accounter#newCashSale");
 			items += 1;
 		}
 		if (canDoInvoiceTransactions()) {
-			subMenu(newValue, iGlobal.constants().newCredit(),
+			subMenu(newValue, iGlobal.constants().newCreditNotes(),
 					"company/accounter#newCredit");
 			items += 1;
 		}
@@ -606,6 +658,10 @@ public class MacMenuServlet extends BaseServlet {
 				customerListValue);
 
 		mainMenu(builder, iGlobal.Customer(), mainMenuValue);
+	}
+
+	private boolean isDelayedchargesEnabled() {
+		return preferences.isDelayedchargesEnabled();
 	}
 
 	private void addCompanyMenuItem() {
@@ -710,11 +766,7 @@ public class MacMenuServlet extends BaseServlet {
 					manageSupportLists);
 		}
 
-		// if (canManageFiscalYears()) {
-		// menu(mainMenuValue, iGlobal.constants().manageFiscalYear(),
-		// "company/accounter#manageFiscalYear");
-		// separator(mainMenuValue);
-		// }
+		separator(mainMenuValue);
 
 		StringBuilder companyLists = new StringBuilder();
 		if (canSeeInvoiceTransactions()) {

@@ -1356,7 +1356,7 @@ public class ActionFactory {
 	}
 
 	public static StockSettingsAction getStockSettingsAction() {
-		return new StockSettingsAction("Stock Settings");
+		return new StockSettingsAction(actionsConstants.stockSettings());
 	}
 
 	public static BudgetReportAction getBudgetReportsAction(int i) {

@@ -464,9 +464,7 @@ public class CustomerCreditMemoView extends
 			}
 			transaction.setTaxTotal(this.salesTax);
 		}
-		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
-						.getAmount()));
+		transaction.setTotal(transactionTotalinBaseCurrency.getAmount());
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());

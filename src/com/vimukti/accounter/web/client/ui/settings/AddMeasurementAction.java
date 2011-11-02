@@ -54,12 +54,12 @@ public class AddMeasurementAction extends Action<ClientMeasurement> {
 
 	@Override
 	public String getHistoryToken() {
-		return "Add Measurement";
+		return "addMeasurement";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "add-measurement";
+		return  "add-measurement";
 	}
 
 }

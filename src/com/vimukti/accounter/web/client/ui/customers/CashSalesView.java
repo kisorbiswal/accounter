@@ -635,9 +635,7 @@ public class CashSalesView extends
 			transaction.setTaxTotal(getAmountInBaseCurrency(salesTax));
 		}
 
-		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalBaseCurrency
-						.getAmount()));
+		transaction.setTotal(transactionTotalBaseCurrency.getAmount());
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());

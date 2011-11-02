@@ -13,7 +13,7 @@ public class StockSettingsAction extends Action {
 
 	public StockSettingsAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().settings();
+		this.catagory = Accounter.constants().stockSettings();
 	}
 
 	@Override
@@ -47,12 +47,12 @@ public class StockSettingsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return null;
+		return "stockSettings";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return null;
+		return "stockSettings";
 	}
 
 }
