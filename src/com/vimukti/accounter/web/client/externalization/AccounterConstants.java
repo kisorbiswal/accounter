@@ -2479,6 +2479,8 @@ public interface AccounterConstants extends Constants {
 	public String journalEntries();
 
 	public String journalEntry();
+	
+	public String journalEntryDate();
 
 	public String journalEntryList();
 
@@ -4998,6 +5000,8 @@ public interface AccounterConstants extends Constants {
 
 	public String viewVATItems();
 
+	public String voucher();
+	
 	public String voidText();
 
 	public String voided();
