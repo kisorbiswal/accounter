@@ -16,7 +16,6 @@ public class ClientBox implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	long id;
 
@@ -26,8 +25,7 @@ public class ClientBox implements IAccounterCore {
 	int boxNumber;
 	String description;
 
-	List<ClientTAXRateCalculation> taxRateCalculations;
-
+	List<ClientTAXRateCalculation> taxRateCalculations = new ArrayList<ClientTAXRateCalculation>();
 
 	private int version;
 
@@ -173,6 +171,6 @@ public class ClientBox implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 }
