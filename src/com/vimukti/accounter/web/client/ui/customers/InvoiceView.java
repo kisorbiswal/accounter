@@ -14,8 +14,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -64,7 +62,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionsTree;
-import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerInventoryItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -96,8 +93,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			balanceDueNonEditableText, paymentsNonEditableText,
 			salesTaxTextNonEditable;
 
-	private CustomerInventoryItemTransactionTable table;
-	private DisclosurePanel inventoryDisclosurePanel;
 	// private WarehouseAllocationTable table;
 	// private DisclosurePanel inventoryDisclosurePanel;
 
@@ -684,30 +679,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		mainVLay.add(transactionsTree);
 		mainVLay.add(customerTransactionTable);
 		mainVLay.add(itemTableButton);
-		// Inventory table..
-		table = new CustomerInventoryItemTransactionTable(isTrackTax(),
-				isTaxPerDetailLine(), this) {
 
-			@Override
-			public boolean isShowPriceWithVat() {
-				return InvoiceView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			public void updateNonEditableItems() {
-				InvoiceView.this.updateNonEditableItems();
-			}
-
-		};
-		table.setDesable(isInViewMode());
-
-		FlowPanel inventoryFlowPanel = new FlowPanel();
-		inventoryDisclosurePanel = new DisclosurePanel("Warehouse Allocation");
-		inventoryFlowPanel.add(table);
-		inventoryDisclosurePanel.setContent(inventoryFlowPanel);
-		inventoryDisclosurePanel.setWidth("100%");
-
-		mainVLay.add(inventoryDisclosurePanel);
 		// table = new WarehouseAllocationTable();
 		// table.setDesable(isInViewMode());
 		//
