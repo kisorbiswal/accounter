@@ -2,13 +2,13 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 
-public class NewClassCommand extends AbstractTransactionCommand {
+public class NewClassCommand extends NewAbstractCommand {
 	private static final String CLASS_NAME = "Class";
 
 	@Override
@@ -18,48 +18,47 @@ public class NewClassCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(CLASS_NAME, false, true));
+		list.add(new StringRequirement(CLASS_NAME, getMessages().pleaseEnter(
+				getConstants().className()), "class name", false,
+				true));
+
+	}
+	
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		ClientAccounterClass accounterClass = new ClientAccounterClass();
+		accounterClass.setClassName((String)get(CLASS_NAME).getValue());
+		create(accounterClass, context);
+		markDone();
+		return null;
+	}
+
+	
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return "New Class commond is activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return "New class commond is ready with the following values";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
 
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
-		}
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().itemGroup()));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		Result result = nameRequirement(context, list, CLASS_NAME,
-				getConstants().className(),
-				getMessages().pleaseEnter(getConstants().className()));
-		if (result != null) {
-			return result;
-		}
-		markDone();
-		return createClassObject(context);
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result createClassObject(Context context) {
-		AccounterClass accounterClass = new AccounterClass();
-		accounterClass.setclassName((String) get(CLASS_NAME).getValue());
-		create(accounterClass, context);
-		markDone();
-		Result result = new Result();
-		result.add(getMessages().createSuccessfully(getConstants().className()));
-
-		return result;
+	public String getSuccessMessage() {
+		return "New class commond is created successfully";
 	}
 
 }
