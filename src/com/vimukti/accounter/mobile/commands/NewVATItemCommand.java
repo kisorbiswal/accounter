@@ -6,14 +6,17 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class NewVATItemCommand extends NewAbstractCommand {
 
@@ -32,16 +35,56 @@ public class NewVATItemCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(TAX_ITEM_NAME, "Enter Tax/Vat Item Name",
-				"Tax/Vat Item Name", false, true));
+				"Tax/Vat Item Name", false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getClientCompany().getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+		});
 
 		list.add(new NameRequirement(DESCRIPTION, "Enter Description",
-				"Description", true, true));
+				"Description", true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getClientCompany().getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+		});
 
 		list.add(new AmountRequirement(TAX_RATE, "Enter Rate", "Tax Rate",
-				false, true));
+				false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getClientCompany().getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+		});
 
 		list.add(new TaxAgencyRequirement(TAX_AGENCY, "Create New Tax Agency",
 				"Tax Agency:", false, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getClientCompany().getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
 
 			@Override
 			protected String getSetMessage() {
@@ -64,28 +107,46 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			}
 		});
 
-		// list.add(new VatReturnBoxRequirement(VAT_RETURN_BOX, null,
-		// "vat return box", false, true, null) {
-		// @Override
-		// protected String getEmptyString() {
-		// return null;
-		// }
-		//
-		// @Override
-		// protected String getSetMessage() {
-		// return "vat return box has been Selected.";
-		// }
-		//
-		// @Override
-		// protected List<ClientVATReturnBox> getLists(Context context) {
-		// return context.getClientCompany().getVatReturnBoxes();
-		// }
-		//
-		// @Override
-		// protected String getSelectString() {
-		// return "Slect a Vat return box";
-		// }
-		// });
+		list.add(new StringListRequirement(VAT_RETURN_BOX, null,
+				"vat return box", false, true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+
+				if (context.getClientCompany().getPreferences().isTrackTax()
+						&& context.getClientCompany().getCountryPreferences()
+								.isVatAvailable()
+						&& context
+								.getClientCompany()
+								.getCountry()
+								.equals(CountryPreferenceFactory.UNITED_KINGDOM)) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "vat return box has been Selected.";
+			}
+
+			@Override
+			protected String getSelectString() {
+				return "Slect a Vat return box";
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getVatReturnBoxes(context.getClientCompany());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
 
 		list.add(new BooleanRequirement(IS_ACTIVE, true) {
 
@@ -127,7 +188,8 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		return null;
 	}
 
-	private Result createVATItem(Context context) {
+	@Override
+	protected Result onCompleteProcess(Context context) {
 		ClientTAXItem taxItem = new ClientTAXItem();
 		String name = (String) get(TAX_ITEM_NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
@@ -136,11 +198,11 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		ClientTAXAgency taxAgency = (ClientTAXAgency) get(TAX_AGENCY)
 				.getValue();
 		taxItem.setPercentage(true);
-		// if (getClientCompany().getPreferences().isTrackTax()) {
-		// ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
-		// VAT_RETURN_BOX).getValue();
-		// taxItem.setVatReturnBox(vatReturnBox.getID());
-		// }
+		if (context.getClientCompany().getPreferences().isTrackTax()) {
+			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
+					VAT_RETURN_BOX).getValue();
+			taxItem.setVatReturnBox(vatReturnBox.getID());
+		}
 		taxItem.setName(name);
 		taxItem.setDescription(description);
 		taxItem.setTaxRate(taxRate);
