@@ -5744,6 +5744,22 @@
 
 	</sql-query>
 	
+	<sql-query name="canDeleteStockTransfer">
+		<query-param name="companyId" type="long" />
+		<query-param name="inputId" type="long" />
+
+		<return-scalar column="ST_ID" type="long" />
+
+		SELECT
+		ST.ID AS ST_ID
+
+		FROM STOCK_TRANSFER ST
+		
+		WHERE ST.ID IS NULL AND
+		ST.ID=:inputId AND ST.COMPANY_ID=:companyId
+
+	</sql-query>
+	
 	<sql-query name="canDeleteMeasurement">
 		<query-param name="companyId" type="long" />
 		<query-param name="inputId" type="long" />
