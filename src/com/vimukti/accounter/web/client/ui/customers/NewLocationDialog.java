@@ -99,7 +99,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		super(title, "");
 		this.clientLocation = clientLocation2;
 		this.locationGroupListDialog = locationGroupListDialog;
-		setWidth("600px");
+		//setWidth("600px");
 		initilize();
 		createControls();
 		initData();
