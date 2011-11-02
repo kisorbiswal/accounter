@@ -40,4 +40,6 @@ public interface AccounterErrors extends Constants {
 
 	String transactionReconcilied();
 
+	String usedinInvoiceSoYoucantEdit();
+
 }

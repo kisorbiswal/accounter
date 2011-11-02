@@ -5192,4 +5192,6 @@ public interface AccounterConstants extends Constants {
 
 	public String estimate();
 
+	public String nodescription();
+
 }
