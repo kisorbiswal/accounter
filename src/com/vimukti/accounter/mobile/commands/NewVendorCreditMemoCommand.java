@@ -230,8 +230,9 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			if (currency != null) {
 				vendorCreditMemo.setCurrency(currency.getID());
 			}
-			vendorCreditMemo.setCurrencyFactor(1.0);
+
 		}
+		vendorCreditMemo.setCurrencyFactor(1.0);
 
 		ClientVendor supplier = get(VENDOR).getValue();
 		vendorCreditMemo.setVendor(supplier.getID());
