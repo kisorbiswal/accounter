@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		extends AbstractRequirement<T> {
 	private static final String PROCESS_ATR = "processAttr";
-	private static final String TABLE_ROW = "tableRow";
 	private List<Requirement> requirements;
 	private boolean isCreatable;
 	protected static final String DUE_DATE = "BillDueDate";
@@ -55,8 +54,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 			ResultList actions) {
 		String process = (String) context.getAttribute(PROCESS_ATR);
 		if (process != null && process.equals(getName())) {
-			T t = (T) context.getAttribute(TABLE_ROW);
-			Result res = edit(t, context);
+			Result res = edit(currentValue, context);
 			if (res != null) {
 				return res;
 			}
@@ -126,16 +124,18 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		return result;
 	}
 
+	protected T currentValue;
+
 	private Result edit(T obj, Context context) {
+		currentValue = obj;
 		String process = (String) context.getAttribute(PROCESS_ATR);
 		if (process == null || !process.equals(getName())) {
 			resetRequirementsValues();
+			setRequirementsDefaultValues(obj);
 		}
 		context.setAttribute(PROCESS_ATR, getName());
-		context.setAttribute(TABLE_ROW, obj);
 		Object selection = context.getSelection(ACTIONS);
 		if (selection == ActionNames.FINISH) {
-			context.removeAttribute(TABLE_ROW);
 			context.removeAttribute(PROCESS_ATR);
 			getRequirementsValues(obj);
 			return null;
@@ -143,12 +143,10 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		if (selection == ActionNames.DELETE) {
 			List<T> values = getValue();
 			values.remove(obj);
-			context.removeAttribute(TABLE_ROW);
 			context.removeAttribute(PROCESS_ATR);
 			return null;
 		}
 
-		setRequirementsDefaultValues(obj);
 		Result makeResult = new Result();
 		ResultList list = new ResultList(VALUES);
 		ResultList actions = new ResultList(ACTIONS);
