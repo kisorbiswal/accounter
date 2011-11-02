@@ -70,9 +70,9 @@ public class CustomerQuoteListDialog extends
 
 		grid = new DialogGrid<EstimatesAndSalesOrdersList>(true);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(), Accounter.messages().customerName(
-						Global.get().Customer()), customerConstants.total(),
-				customerConstants.remainingTotal());
+				customerConstants.type(),
+				Accounter.messages().customerName(Global.get().Customer()),
+				customerConstants.total(), customerConstants.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);
 		grid.init();
@@ -112,14 +112,12 @@ public class CustomerQuoteListDialog extends
 
 			@Override
 			public void onResultSuccess(ClientSalesOrder result) {
-				if (invoiceView != null && result != null)
-					invoiceView.selectedSalesOrder(result);
 			}
 
 		};
 
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -134,14 +132,11 @@ public class CustomerQuoteListDialog extends
 
 			@Override
 			public void onResultSuccess(ClientEstimate result) {
-				if (invoiceView != null && result != null)
-					invoiceView.selectedQuote(result);
-
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
+				record.getTransactionId(), callback);
 
 	}
 

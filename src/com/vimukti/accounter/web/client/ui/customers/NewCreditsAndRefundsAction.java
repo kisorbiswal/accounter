@@ -73,7 +73,7 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "newCredit";
+		return "newCreditNote";
 	}
 
 	@Override

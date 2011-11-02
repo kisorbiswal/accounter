@@ -135,7 +135,10 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 					}
 				});
 
-		return viewSelect;
+		if (type == ClientEstimate.QUOTES) {
+			return viewSelect;
+		}
+		return null;
 	}
 
 	private void filterList(String text) {

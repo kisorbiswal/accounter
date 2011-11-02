@@ -25,7 +25,7 @@ public class NewQuoteAction extends Action {
 		super(text);
 		this.catagory = Global.get().Customer();
 		this.type = type;
-		this.title=text;
+		this.title = text;
 	}
 
 	public NewQuoteAction(String text, ClientEstimate quote,
@@ -47,7 +47,23 @@ public class NewQuoteAction extends Action {
 
 			@Override
 			public void onCreated() {
-				view = QuoteView.getInstance(type,title);
+				if (type == 0 && data != null) {
+					type = ((ClientEstimate) data).getEstimateType();
+					switch (type) {
+					case ClientEstimate.QUOTES:
+						title = Accounter.constants().quote();
+						break;
+					case ClientEstimate.CHARGES:
+						title = Accounter.constants().charge();
+						break;
+					case ClientEstimate.CREDITS:
+						title = Accounter.constants().credit();
+						break;
+					default:
+						break;
+					}
+				}
+				view = QuoteView.getInstance(type, title);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewQuoteAction.this);
@@ -79,7 +95,14 @@ public class NewQuoteAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "newQuote";
+		if (type == ClientEstimate.QUOTES) {
+			return "newQuote";
+		} else if (type == ClientEstimate.CHARGES) {
+			return "newCharge";
+		} else if (type == ClientEstimate.CREDITS) {
+			return "newCredit";
+		}
+		return "";
 	}
 
 	@Override
