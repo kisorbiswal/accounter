@@ -2311,6 +2311,8 @@ public interface AccounterConstants extends Constants {
 	public String invalidemail();
 
 	public String inventory();
+	
+	public String inventoryItem();
 
 	public String inventoryAssembly();
 
