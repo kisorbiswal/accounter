@@ -554,8 +554,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		Unit selectedUnit = this.quantity.getUnit();
 		Measurement defaultMeasurement = this.getItem().getMeasurement();
 		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
-		double value = this.quantity.getValue()
-				* (defaultUnit.getFactor() / selectedUnit.getFactor());
+		double value = (this.quantity.getValue() * selectedUnit.getFactor())
+				/ defaultUnit.getFactor();
 		if (transaction.isDebitTransaction()) {
 			wareHouse.updateItemStatus(item, value, isVoidOrDelete);
 		} else {
