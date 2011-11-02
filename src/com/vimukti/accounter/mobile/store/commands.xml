@@ -267,9 +267,14 @@
 		<alias>Create Service Item</alias>
 	</command>
 
-	<command clazz="NewProductItemCommand" name="New Product Item">
-		<alias>Add Product Item</alias>
-		<alias>Create Product Item</alias>
+	<command clazz="NewNonInventoryItemCommand" name="New Non Inventory Item">
+		<alias>Non Inventory Item</alias>
+		<alias>Create Non Inventory Item</alias>
+	</command>
+	
+		<command clazz="NewInventoryItemCommand" name="New Inventory Item">
+		<alias>Inventory Item</alias>
+		<alias>Create Inventory Item</alias>
 	</command>
 
 	<command clazz="ItemsCommand" name="Items List">
