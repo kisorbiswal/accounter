@@ -317,7 +317,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm.setWidth("100%");
 		currencyWidget = createCurrencyWidget();
 
-		custForm.setFields(customerCombo, contactCombo, emptylabel,
+		custForm.setFields(customerCombo,emptylabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
