@@ -3446,8 +3446,9 @@
 		when T.T_TYPE = 8
 		then
 		(select T.NUMBER
-		from TRANSACTION T where T.ID =
-		I.ESTIMATE_ID)
+		from TRANSACTION T left outer join
+		INVOICE_ESTIMATES IE
+		on T.ID=IE.ESTIAMTE_ID)
 		end
 		as
 		SO_OR_QUOTE_NO,
@@ -3995,9 +3996,9 @@
 		when T.T_TYPE = 8
 		then
 		(select T.NUMBER
-		from TRANSACTION T where T.ID =
-		I.ESTIMATE_ID)
-		end
+		from TRANSACTION T left outer join
+		INVOICE_ESTIMATES IE
+		on T.ID=IE.ESTIAMTE_ID)
 		as
 		SO_OR_QUOTE_NO,
 		case
