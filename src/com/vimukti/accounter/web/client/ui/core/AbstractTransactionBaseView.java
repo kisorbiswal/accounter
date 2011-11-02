@@ -71,6 +71,7 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
+import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerPaymentView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -987,12 +988,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
 				if (transaction instanceof ClientPayBill) {
-					result.addError(this, Accounter.messages()
-							.valueCannotBe0orlessthan0(
+					result.addError(
+							this,
+							Accounter.messages().valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
-							&& !(this instanceof WriteChequeView))
+							&& !(this instanceof WriteChequeView)
+							&& !(this instanceof InvoiceView))
 						result.addError(this, Accounter.constants()
 								.transactiontotalcannotbe0orlessthan0());
 				}
@@ -1008,11 +1011,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			for (ClientTransactionItem transactionItem : transactionItems) {
 
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError("TransactionItem"
-							+ transactionItem.getAccount()
-							+ transactionItem.getAccount(), Accounter
-							.constants()
-							.transactionitemtotalcannotbe0orlessthan0());
+					result.addError(
+							"TransactionItem" + transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants()
+									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getPreferences().isClassTrackingEnabled()
