@@ -113,7 +113,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	private CustomMenuBar getInventoryMenu() {
 
 		CustomMenuBar inventoryMenuBar = new CustomMenuBar();
-		inventoryMenuBar.addItem(ActionFactory.getStockSettingsAction());
+		// inventoryMenuBar.addItem(ActionFactory.getStockSettingsAction());
 		inventoryMenuBar.addItem(Accounter.constants().new1(),
 				getNewInventoryMenu());
 		inventoryMenuBar.addItem(Accounter.constants().InventoryLists(),
