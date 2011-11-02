@@ -1825,7 +1825,7 @@ public class CoreUtils {
 			new ClientCurrency("Moroccan Dirham", "MAD", "dirham "),
 			new ClientCurrency("Mozambican Metical", "MZN", "MTn"),
 			new ClientCurrency("Namibian Dollar", "NAD", "N$"),
-			new ClientCurrency("Nepalese Rupee", "NPR", "NRs"),
+			new ClientCurrency("Nepalese Rupee", "NPR", "Rs"),
 			new ClientCurrency("NetherlandsAntillean Guilder", "ANG", "ƒ"),
 			new ClientCurrency("NewZealand Dollar", "NZD", "NZ$"),
 			new ClientCurrency("Nicaraguan Córdoba", "NIO", "C$"),
