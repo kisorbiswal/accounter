@@ -5176,4 +5176,6 @@ public interface AccounterConstants extends Constants {
 
 	public String warehouseRegister();
 
+	public String locationsList();
+
 }

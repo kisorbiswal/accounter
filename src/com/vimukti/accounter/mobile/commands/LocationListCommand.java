@@ -12,6 +12,8 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class LocationListCommand extends NewAbstractCommand {
 
+	private static final String LOCATIONS = "Locations";
+
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
@@ -43,7 +45,7 @@ public class LocationListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<Location>("Locations", null, 10) {
+		list.add(new ShowListRequirement<Location>(LOCATIONS, null, 10) {
 
 			@Override
 			protected String onSelection(Location value) {
@@ -52,12 +54,12 @@ public class LocationListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return "Locations List";
+				return getConstants().locationsList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return "There is no Locations";
+				return getMessages().youDontHaveAny(getConstants().location());
 			}
 
 			@Override
@@ -69,7 +71,7 @@ public class LocationListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Location");
+				list.add(getMessages().create(getConstants().location()));
 			}
 
 			@Override
