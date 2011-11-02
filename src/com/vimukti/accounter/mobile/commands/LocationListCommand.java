@@ -4,212 +4,85 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Location;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class LocationListCommand extends AbstractTransactionCommand {
+public class LocationListCommand extends NewAbstractCommand {
 
-	private static final int RECORDS_TO_SHOW = 5;
-	private static final Object LOCATION_PROCESS = null;
-	private static final String OLD_LOCATION_ATTR = null;
-	private static final String LOCATION_ATTR = null;
-	private static final String LOCATION_DETAILS = null;
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return null;
+	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new ShowListRequirement<Location>("Locations", null, 10) {
 
-	}
-
-	@Override
-	public Result run(Context context) {
-
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
-		if (process.equals(LOCATION_PROCESS)) {
-			result = locationProcess(context);
-			if (result != null) {
-				return result;
-			}
-		}
-		result = optionalRequirements(context);
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-
-	private Result optionalRequirements(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionNames = (ActionNames) selection;
-			switch (actionNames) {
-			case ADD_MORE_LOCATIONS:
-				locationProcess(context);
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
+			@Override
+			protected String onSelection(Location value) {
 				return null;
-			default:
-				break;
 			}
-		}
-		selection = context.getSelection("locationList");
 
-		if (selection != null) {
-			Result result = location(context, (Location) selection);
-			if (result != null) {
-				return result;
+			@Override
+			protected String getShowMessage() {
+				return "Locations List";
 			}
-		}
 
-		Result result = getLocationResult(context);
-		if (result != null) {
-			return result;
-		}
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_LOCATIONS);
-		moreItems.add("", "Add more Locations");
-		actions.add(moreItems);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result locationProcess(Context context) {
-		Location location = (Location) context.getAttribute(LOCATION_ATTR);
-		Result result = location(context, location);
-		return result;
-	}
-
-	/**
-	 * Editing the selected location
-	 * 
-	 * @param context
-	 * @param selectionLocation
-	 * @return
-	 */
-	private Result location(Context context, Location selectionLocation) {
-		context.setAttribute(PROCESS_ATTR, LOCATION_PROCESS);
-		context.setAttribute(OLD_LOCATION_ATTR, selectionLocation);
-		String location = (String) context.getAttribute(LOCATION_ATTR);
-		if (location != null) {
-			context.removeAttribute(LOCATION_ATTR);
-			if (location.equals("location")) {
-				selectionLocation.setLocationName(context.getString());
+			@Override
+			protected String getEmptyString() {
+				return "There is no Locations";
 			}
-		} else {
-			Object selection = context.getSelection(LOCATION_DETAILS);
-			if (selection != null) {
-				if (selection == selectionLocation.getLocationName()) {
-					context.setAttribute(LOCATION_ATTR, "location");
-					return text(context, "Enter Location Name",
-							selectionLocation.getLocationName());
-				}
-			} else {
-				selection = context.getSelection(ACTIONS);
-				if (selection == ActionNames.FINISH) {
-					context.removeAttribute(PROCESS_ATTR);
-					context.removeAttribute(OLD_LOCATION_ATTR);
-					return null;
-				} else if (selection == ActionNames.DELETE_ITEM) {
-					context.removeAttribute(PROCESS_ATTR);
-					return null;
-				}
+
+			@Override
+			protected Record createRecord(Location value) {
+				Record record = new Record(value);
+				record.add("", value.getName());
+				return record;
 			}
-		}
-		ResultList list = new ResultList(LOCATION_DETAILS);
-		Record record = new Record(selectionLocation.getLocationName());
-		record.add("Name", "Location");
-		record.add("value", selectionLocation.getLocationName());
-		list.add(record);
 
-		Result result = context.makeResult();
-		ResultList actions = new ResultList(ACTIONS);
-		record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
-		actions.add(record);
-		result.add(actions);
-		return null;
-	}
-
-	/**
-	 * processing the location List
-	 * 
-	 * @param context
-	 * @return {@link Result}
-	 */
-	private Result getLocationResult(Context context) {
-		ResultList locResultList = new ResultList("locationList");
-
-		Result result = context.makeResult();
-		List<Location> locationList = getLocationList(context);
-		int record = 0;
-		for (Location location : locationList) {
-			locResultList.add(createLocationRecord(location));
-			record++;
-			if (record == RECORDS_TO_SHOW) {
-				break;
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Location");
 			}
-		}
 
-		result.add(locResultList);
+			@Override
+			protected boolean filter(Location e, String name) {
+				return e.getName().toLowerCase().startsWith(name.toLowerCase());
+			}
 
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
-		commandList.add("Remove");
+			@Override
+			protected List<Location> getLists(Context context) {
+				return new ArrayList<Location>(context.getCompany()
+						.getLocations());
+			}
+		});
 
-		result.add(commandList);
-
-		return result;
 	}
-
-	/**
-	 * create Location Record
-	 * 
-	 * @param location
-	 * @return {@link Record}
-	 */
-	private Record createLocationRecord(Location location) {
-		Record record = new Record(location);
-		record.add("Name", "Location Name");
-		record.add("value", location.getLocationName());
-		return record;
-	}
-
-	/**
-	 * getting location List
-	 * 
-	 * @param context
-	 * @return {@link LocationList}
-	 */
-	private List<Location> getLocationList(Context context) {
-		return new ArrayList<Location>(context.getCompany().getLocations());
-	}
-
 }
