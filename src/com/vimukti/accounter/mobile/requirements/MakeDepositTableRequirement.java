@@ -105,7 +105,10 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected ClientTransactionMakeDeposit getNewObject() {
-		return new ClientTransactionMakeDeposit();
+		ClientTransactionMakeDeposit clientTransactionMakeDeposit = new ClientTransactionMakeDeposit();
+		clientTransactionMakeDeposit.setIsNewEntry(true);
+		clientTransactionMakeDeposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+		return clientTransactionMakeDeposit;
 	}
 
 	@Override
