@@ -119,8 +119,7 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
 			initCallBack(new ClientEstimate(), ActionFactory.getNewQuoteAction(
-					ClientEstimate.QUOTES, Accounter.constants().newQuote()),
-					transactionId);
+					0, Accounter.constants().newQuote()), transactionId);
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
 			initCallBack(new ClientIssuePayment(),
