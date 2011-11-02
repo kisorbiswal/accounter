@@ -84,7 +84,8 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				setupWizard.initInterview(false);
+				isSkip = false;
+				setupWizard.initInterview(isSkip);
 			}
 		});
 
@@ -92,7 +93,8 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				setupWizard.initInterview(true);
+				isSkip = true;
+				setupWizard.initInterview(isSkip);
 			}
 		});
 
@@ -114,6 +116,16 @@ public class SetupStartPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		return true;
+	}
+
+	@Override
+	public boolean isShowProgressPanel() {
+		return false;
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.startSetup();
 	}
 
 }

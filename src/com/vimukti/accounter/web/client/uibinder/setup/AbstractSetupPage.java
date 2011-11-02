@@ -12,6 +12,7 @@ public abstract class AbstractSetupPage extends Composite {
 	protected AccounterConstants accounterConstants = Accounter.constants();
 	protected AccounterMessages accounterMessages = Accounter.messages();
 	private static String country;
+	protected static boolean isSkip;
 
 	public AbstractSetupPage(ClientCompanyPreferences preferences) {
 		AbstractSetupPage.preferences = preferences;
@@ -34,7 +35,9 @@ public abstract class AbstractSetupPage extends Composite {
 
 	protected abstract boolean validate();
 
-	public abstract boolean canShow();
+	public boolean canShow() {
+		return (!isSkip);
+	}
 
 	protected void setCountry(String country) {
 		AbstractSetupPage.country = country;
@@ -44,4 +47,9 @@ public abstract class AbstractSetupPage extends Composite {
 		return country;
 	}
 
+	public abstract String getViewName();
+
+	public boolean isShowProgressPanel() {
+		return true;
+	}
 }

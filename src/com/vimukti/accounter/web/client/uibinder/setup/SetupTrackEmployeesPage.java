@@ -123,11 +123,6 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	}
 
-	@Override
-	public boolean canShow() {
-		return true;
-	}
-
 	@UiHandler("trackEmployeeYes")
 	void onTrackEmployeeYesClick(ClickEvent event) {
 		if (!trackPanel.isAttached())
@@ -159,5 +154,10 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.trackEmployeeExpenses();
 	}
 }

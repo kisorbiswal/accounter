@@ -76,4 +76,14 @@ public class SetupComplitionPage extends AbstractSetupPage {
 		return true;
 	}
 
+	@Override
+	public boolean isShowProgressPanel() {
+		return false;
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.finish();
+	}
+
 }

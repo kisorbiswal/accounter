@@ -100,7 +100,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	public boolean canShow() {
-		return true;
+		return (!isSkip);
 	}
 
 	@Override
@@ -111,5 +111,10 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.selectIndustryType();
 	}
 }

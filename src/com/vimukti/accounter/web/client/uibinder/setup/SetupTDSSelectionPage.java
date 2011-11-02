@@ -62,9 +62,8 @@ public class SetupTDSSelectionPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean canShow() {
-
-		return true;
+	public String getViewName() {
+		return accounterConstants.tdsSelection();
 	}
 
 }

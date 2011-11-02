@@ -207,14 +207,13 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean canShow() {
+	protected boolean validate() {
 		return true;
 	}
 
 	@Override
-	protected boolean validate() {
-		// TODO Auto-generated method stub
-		return true;
+	public String getViewName() {
+		return accounterConstants.Accounts();
 	}
 
 }

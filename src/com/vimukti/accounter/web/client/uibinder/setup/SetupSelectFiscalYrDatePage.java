@@ -106,4 +106,9 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	}
 
+	@Override
+	public String getViewName() {
+		return accounterConstants.setFiscalYear();
+	}
+
 }

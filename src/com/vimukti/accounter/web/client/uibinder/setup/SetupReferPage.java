@@ -93,11 +93,6 @@ public class SetupReferPage extends AbstractSetupPage {
 
 	}
 
-	@Override
-	public boolean canShow() {
-		return true;
-	}
-
 	public void onLoad() {
 
 		int referCustomers = preferences.getReferCustomers();
@@ -162,6 +157,11 @@ public class SetupReferPage extends AbstractSetupPage {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.terminology();
 	}
 
 }

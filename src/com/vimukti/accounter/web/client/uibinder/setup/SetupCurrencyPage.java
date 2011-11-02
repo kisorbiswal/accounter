@@ -81,7 +81,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	public boolean canShow() {
-		return true;
+		return (!isSkip);
 	}
 
 	@Override
@@ -89,8 +89,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		String primaryCurrency = preferences.getPrimaryCurrency();
 		if (primaryCurrency != null) {
 			for (int index = 0; index < currenciesList.size(); index++) {
-				if (currenciesList.get(index).getFormalName()
-						.equals(primaryCurrency)) {
+				if (currenciesList.get(index).getFormalName().equals(
+						primaryCurrency)) {
 					primaryCurrencyListBox.setSelectedIndex(index);
 				}
 			}
@@ -117,6 +117,11 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.setCurrency();
 	}
 
 }

@@ -90,11 +90,6 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean canShow() {
-		return true;
-	}
-
-	@Override
 	public void onLoad() {
 
 		if (preferences.isKeepTrackofBills()) {
@@ -143,5 +138,10 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.setBillTracking();
 	}
 }

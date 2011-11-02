@@ -365,4 +365,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	}
 
+	@Override
+	public String getViewName() {
+		return accounterConstants.setCompanyInfo();
+	}
+
 }

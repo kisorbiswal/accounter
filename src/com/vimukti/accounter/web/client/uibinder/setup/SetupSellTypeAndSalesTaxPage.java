@@ -226,11 +226,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean canShow() {
-		return true;
-	}
-
-	@Override
 	protected boolean validate() {
 		/*
 		 * if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
@@ -243,6 +238,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.whatDoYouSell();
 	}
 
 }

@@ -231,4 +231,9 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		return true;
 	}
 
+	@Override
+	public String getViewName() {
+		return accounterConstants.companyOrganization();
+	}
+
 }

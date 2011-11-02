@@ -65,11 +65,6 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean canShow() {
-		return true;
-	}
-
-	@Override
 	public void onLoad() {
 		// estimates
 		if (preferences.isDoyouwantEstimates()) {
@@ -109,5 +104,10 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		 */else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return accounterConstants.setEstimatesAndStatements();
 	}
 }
