@@ -5208,6 +5208,26 @@ public interface AccounterConstants extends Constants {
 
 	public String estimate();
 
+	public String fullCompanySetup();
+
+	public String trackTaxEnabled();
+
+	public String trackTaxDisabled();
+
+	public String trackingTaxPaidEnabled();
+
+	public String trackingTaxPaidDisabled();
+
+	public String wanttoCreateEstimates();
+
+	public String dontWantToCreateEstimates();
+
+	public String manageBillsYouOwe();
+
+	public String dontManageBillsYouOwe();
+
+	public String partialCompanySetup();
+
 	public String nodescription();
 
 }

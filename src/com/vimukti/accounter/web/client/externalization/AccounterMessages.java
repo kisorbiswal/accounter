@@ -971,6 +971,8 @@ public interface AccounterMessages extends Messages {
 
 	public String setDefault(String accounts);
 
+	public String ProblemWhileCreating(String company);
+
 	public String total(String credit);
 
 }
