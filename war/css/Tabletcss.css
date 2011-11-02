@@ -18,7 +18,7 @@
 	border:1px solid #918C8C !important;
 }
 .MENU_BAR_BG table td .gwt-Label{
-	 padding:0 10px 4px;
+	 padding:2px 10px 4px;
 }
 .MENU_BAR_BG table td{
     border-right:1px solid 	#918C8C;
@@ -51,7 +51,7 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 .error-panel,.commentPanel,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
-.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.view_manager_body,.MENU_BAR_BG {
+.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.view_manager_body,.MENU_BAR_BG,.history_notes_view {
 	width: 100%;
 }
 .textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,.financialDataTitle:FIRST-CHILD,
@@ -83,7 +83,7 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 	cursor: default;
 }
 lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.selectedview_textarea_label,.selectedview_labelstyle,
-.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,
+.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,.notes_button_panel .cancle-Btn,
 .organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.button_bar .cancle-Btn,
 .blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.grouped-buttons td:last-child .image-button {
 	color: #000;
@@ -304,10 +304,6 @@ select[multiple] {
 .helpContent,.measurePanel,.commentPanel,.portlet-body {
 	background-color: #FFFFFF;
 }
-.editTable .gwt-TextBox{
-	width:100% !important;
-	-webkit-box-shadow: none !important;
-}
 .page-layout,.MenuBarParent table,.dropdownFlex,.td00,.td01,.td02,.biz-decor-panel{
 	border-spacing: 0;
 }
@@ -332,7 +328,7 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	overflow-y: auto;
 }
 .panel-title {
-	margin-top: 7px;
+	margin-top: 5px;
 	text-transform: uppercase;
 }
 .border,.treeGrid {
@@ -989,8 +985,8 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button{
 .email_textarea textarea{
 	height:200px;
 }
-body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label{
-	font-size:1em;
+body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label,button{
+	font-size:15px;
 	font-family: Arial Unicode MS,Arial,sans-serif;
 }
 .gwt-PasswordTextBox,.gwt-DisclosurePanel .content{
@@ -1064,9 +1060,12 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 .editTable td{
 	border-color: #CCCCCC;
 }
-.gridEvenRow,.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even),.GL0PBETBED,
+.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even),.GL0PBETBED,
 .dropdownFlex tr:nth-child(even){
 	background:none repeat scroll 0 0 #E8E8E8 !important;
+}
+.gridEvenRow{
+	background:none repeat scroll 0 0 #E8E8E8;
 }
 .user_activity_log tr:nth-child(even) td,.user_activity_log tr:nth-child(even):hover{
 	border:2px solid #E8E8E8 !important;
@@ -1101,11 +1100,8 @@ input[type="text"]{
 	  -moz-border-radius:0 5px 0 0;
 	  margin-left:-2px;
 }
-.editTable input[type="text"],.editTable .gwt-TextBox{
-	box-shadow:0px 0px 0px 0px #000 inset;
-	-webkit-box-shadow:0px 0px 0px 0px #000 inset;
-	box-shadow:none;
-	-webkit-box-shadow:none;
+.editTable .gwt-TextBox{
+	-webkit-appearance: caret;
 }
 .editTable .downarrow-button{
 	margin-left:-24px;
@@ -1162,11 +1158,16 @@ input[type="text"]{
 	background: url("../images/iconArrows.gif") no-repeat scroll -8px -3px transparent;
     border: 0 none !important;
     margin-top: 3px;
-    padding-top: 24px;
+    padding-top: 25px;
+    z-index: 1;
+    position: absolute;
 }
 .menupopup .popupContent{
 	border: 1px solid #686666;
 }
 .touch_submenu .gwt-Button{
 	margin-bottom:5px;
+}
+.gwt-PopupPanel .popupContent table td div{
+	font-size:13px;
 }

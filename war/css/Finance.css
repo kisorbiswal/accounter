@@ -128,7 +128,7 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.selectedview_textarea_label,.selectedview_labelstyle,
 .selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,
 .organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.button_bar .cancle-Btn,
-.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected {
+.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.notes_button_panel .cancle-Btn{
 	color: #000;
 }
 .grouped-buttons td:last-child .image-button{
@@ -230,7 +230,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 .Empty-text{
 	border: 1px solid #A0A0A0;
 }
-.button_bar .cancle-Btn{
+.button_bar .cancle-Btn,.notes_button_panel .cancle-Btn{
 	border: 1px solid #A0A0A0;
 	padding-left:22px;
 }
@@ -1478,7 +1478,6 @@ button.disable,button.disable:hover{
 }
 .notes_button_panel{
 	width: 100%;
-	background-color: #CCCCCC;
 }
 .history_notes_label{
 	border-bottom: 2px solid #CCCCCC;
