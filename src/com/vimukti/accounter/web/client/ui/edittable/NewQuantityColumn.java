@@ -155,6 +155,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		Widget widget = getTable().getTable().getWidget(
 				getTable().getAllRows().indexOf(row),
 				getTable().getColumns().indexOf(this));
+		popup.setAutoHideEnabled(true);
 		popup.showRelativeTo(widget);
 	}
 
