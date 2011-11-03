@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -165,7 +166,15 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new CustomerContactRequirement(CONTACTS));
+		list.add(new CustomerContactRequirement(CONTACTS, getMessages()
+				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
+
+			@Override
+			protected List<ClientContact> getList() {
+				List<ClientContact> contacts = getVendorContacts();
+				return new ArrayList<ClientContact>(contacts);
+			}
+		});
 
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
 				Global.get().Account()), Global.get().Account(), true, true,
@@ -382,6 +391,11 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
+	}
+
+	protected List<ClientContact> getVendorContacts() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

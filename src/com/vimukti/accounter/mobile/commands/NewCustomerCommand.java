@@ -25,6 +25,7 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
@@ -364,8 +365,20 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new CustomerContactRequirement(CONTACT));
+		list.add(new CustomerContactRequirement(CONTACT, getMessages()
+				.pleaseSelect(getConstants().contact()), CONTACT, true, true) {
 
+			@Override
+			protected List<ClientContact> getList() {
+				List<ClientContact> contacts = getCustomerContacts();
+				return new ArrayList<ClientContact>(contacts);
+			}
+		});
+
+	}
+
+	protected List<ClientContact> getCustomerContacts() {
+		return null;
 	}
 
 	@Override

@@ -207,24 +207,36 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		list.add(new AddressRequirement(ADREESS, getMessages().pleaseEnter(
 				getConstants().address()), getConstants().address(), true, true));
-		
+
 		list.add(new StringRequirement(PHONE, getMessages().pleaseEnter(
 				getConstants().phoneNumber()), getConstants().phoneNumber(),
 				true, true));
-		
+
 		list.add(new StringRequirement(FAX, getMessages().pleaseEnter(
 				getConstants().faxNumber()), getConstants().faxNumber(), true,
 				true));
-		
+
 		list.add(new StringRequirement(EMAIL, getMessages().pleaseEnter(
 				getConstants().email()), getConstants().email(), true, true));
-		
+
 		list.add(new StringRequirement(WEBSITE, getMessages().pleaseEnter(
 				getConstants().webSite()), getConstants().webSite(), true, true));
-		
-		
-		list.add(new CustomerContactRequirement(CONTACTS));
-		
+
+		list.add(new CustomerContactRequirement(CONTACTS, getMessages()
+				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
+
+			@Override
+			protected List<ClientContact> getList() {
+				List<ClientContact> contacts = getAgencyContacts();
+				return new ArrayList<ClientContact>(contacts);
+			}
+		});
+
+	}
+
+	protected List<ClientContact> getAgencyContacts() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	protected List<ClientContact> getContactList(Context context) {
@@ -267,71 +279,70 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	public String getId() {
 		return null;
 	}
-	
+
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		
-		 ClientTAXAgency taxAgency = new ClientTAXAgency();
-		 String name = get(TAX_AGENCY_NAME).getValue();
-		 ClientPaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
-		 ClientAccount salesAccount = get(SALES_ACCOUNT).getValue();
-		 
-//		 ClientAddress address = (ClientAddress) get(VAT_AGENCY_ADDRESS)
-//		 .getValue();
-		 
-		 String phone = (String) get(PHONE).getValue();
-		 String fax = (String) get(FAX).getValue();
-		 String email = (String) get(EMAIL).getValue();
-		 String website = (String) get(WEBSITE).getValue();
-		 
-//		 Set<ClientContact> contacts = get(VAT_AGENCY_CONTACT).getValue();
-//		
-//		 HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
-//		 if (address != null) {
-//		 addresses.add(address);
-//		 }
-		
-		 taxAgency.setName(name);
-		 taxAgency.setPaymentTerm(paymentTerm.getID());
-		 taxAgency.setSalesLiabilityAccount(salesAccount.getID());
-//		 taxAgency.setAddress(addresses);
-		 taxAgency.setPhoneNo(phone);
-		 taxAgency.setFaxNo(fax);
-		 taxAgency.setEmail(email);
-		 taxAgency.setWebPageAddress(website);
-		 ClientAddress address = get(ADREESS).getValue();
-		 Set<ClientAddress> listAddress = new HashSet<ClientAddress>();
-		 if (address != null){
-			 listAddress.add(address);
-		 }
-		 taxAgency.setAddress(listAddress);
-		 List<ClientContact> contactList = get(CONTACTS).getValue();
-		 Set<ClientContact> contactsList = new HashSet<ClientContact>();
-		 if (!contactList.isEmpty()){
-			 for (ClientContact contact:contactList){
-				 contactsList.add(contact);
-			 }
-			 taxAgency.setContacts(contactsList);
-		 }
-		 
-		 
-		 if (context.getClientCompany().getPreferences().isTrackPaidTax()) {
-		 ClientAccount purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
-		 String vatReturn = get(VAT_RETURN).getValue();
-		 taxAgency.setPurchaseLiabilityAccount(purchaseAccount.getID());
-		 if (vatReturn == "") {
-		 taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
-		 } else if (vatReturn == "UK VAT") {
-		 taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
-		 } else {
-		 taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
-		 }
-		 }
-		
-		 create(taxAgency, context);
-		
-		 markDone();
-		 return null;
+
+		ClientTAXAgency taxAgency = new ClientTAXAgency();
+		String name = get(TAX_AGENCY_NAME).getValue();
+		ClientPaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
+		ClientAccount salesAccount = get(SALES_ACCOUNT).getValue();
+
+		// ClientAddress address = (ClientAddress) get(VAT_AGENCY_ADDRESS)
+		// .getValue();
+
+		String phone = (String) get(PHONE).getValue();
+		String fax = (String) get(FAX).getValue();
+		String email = (String) get(EMAIL).getValue();
+		String website = (String) get(WEBSITE).getValue();
+
+		// Set<ClientContact> contacts = get(VAT_AGENCY_CONTACT).getValue();
+		//
+		// HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
+		// if (address != null) {
+		// addresses.add(address);
+		// }
+
+		taxAgency.setName(name);
+		taxAgency.setPaymentTerm(paymentTerm.getID());
+		taxAgency.setSalesLiabilityAccount(salesAccount.getID());
+		// taxAgency.setAddress(addresses);
+		taxAgency.setPhoneNo(phone);
+		taxAgency.setFaxNo(fax);
+		taxAgency.setEmail(email);
+		taxAgency.setWebPageAddress(website);
+		ClientAddress address = get(ADREESS).getValue();
+		Set<ClientAddress> listAddress = new HashSet<ClientAddress>();
+		if (address != null) {
+			listAddress.add(address);
+		}
+		taxAgency.setAddress(listAddress);
+		List<ClientContact> contactList = get(CONTACTS).getValue();
+		Set<ClientContact> contactsList = new HashSet<ClientContact>();
+		if (!contactList.isEmpty()) {
+			for (ClientContact contact : contactList) {
+				contactsList.add(contact);
+			}
+			taxAgency.setContacts(contactsList);
+		}
+
+		if (context.getClientCompany().getPreferences().isTrackPaidTax()) {
+			ClientAccount purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
+			String vatReturn = get(VAT_RETURN).getValue();
+			taxAgency.setPurchaseLiabilityAccount(purchaseAccount.getID());
+			if (vatReturn == "") {
+				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
+			} else if (vatReturn == "UK VAT") {
+				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
+			} else {
+				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
+			}
+		}
+
+		create(taxAgency, context);
+
+		markDone();
+		return null;
 	}
 
 	private List<String> getVatReturns() {
