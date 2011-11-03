@@ -26,15 +26,16 @@ public abstract class CustomerContactRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new StringRequirement(CONTACT_NAME, getMessages().pleaseEnter(
-				getConstants().contactName()), CONTACT_NAME, true, true));
+				getConstants().contactName()), getConstants().contactName(),
+				true, true));
 		list.add(new StringRequirement(TITLE, getMessages().pleaseEnter(
-				getConstants().title()), TITLE, true, true));
+				getConstants().title()), getConstants().title(), true, true));
 		list.add(new NumberRequirement(BUSINESS_PHONE, getMessages()
-				.pleaseEnter(getConstants().businessPhone()), BUSINESS_PHONE,
-				false, true));
+				.pleaseEnter(getConstants().businessPhone()), getConstants()
+				.businessPhone(), false, true));
 
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), EMAIL, true, true));
+				getConstants().email()), getConstants().email(), true, true));
 
 		list.add(new BooleanRequirement(IS_PRIMARY, true) {
 
@@ -57,7 +58,16 @@ public abstract class CustomerContactRequirement extends
 
 	@Override
 	protected void getRequirementsValues(ClientContact obj) {
-
+		String contactName = get(CONTACT_NAME).getValue();
+		obj.setName(contactName);
+		String email = get(EMAIL).getValue();
+		obj.setEmail(email);
+		Boolean isPrimary = get(IS_PRIMARY).getValue();
+		obj.setPrimary(isPrimary);
+		String phone = get(BUSINESS_PHONE).getValue();
+		obj.setBusinessPhone(phone);
+		String title = get(TITLE).getValue();
+		obj.setTitle(title);
 	}
 
 	@Override
@@ -77,10 +87,15 @@ public abstract class CustomerContactRequirement extends
 	@Override
 	protected Record createFullRecord(ClientContact t) {
 		Record record = new Record(t);
+		record.add("", getConstants().primary());
 		record.add("", t.isPrimary());
+		record.add("", getConstants().contactName());
 		record.add("", t.getName());
+		record.add("", getConstants().title());
 		record.add("", t.getTitle());
+		record.add("", getConstants().businessPhone());
 		record.add("", t.getBusinessPhone());
+		record.add("", getConstants().email());
 		record.add("", t.getEmail());
 		return record;
 	}
