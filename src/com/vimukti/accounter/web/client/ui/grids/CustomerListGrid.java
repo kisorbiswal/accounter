@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -234,7 +235,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
@@ -266,10 +267,12 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int getCellWidth(int index) {
 		if (index == 10) {
-			if (UIUtils.isMSIEBrowser())
+			if (UIUtils.isMSIEBrowser()){
 				return 25;
-			else
+			}
+			else{
 				return 20;
+			}
 		}
 		if (index == 0) {
 			return 40;

@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -21,14 +22,14 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	protected int[] setColTypes() {
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE };
 		} else
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE };
@@ -239,5 +240,6 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
 		}
 	}
+	 
 
 }

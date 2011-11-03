@@ -40,9 +40,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return Utility.getAccountTypeString(obj.getType());
 			case 4:
-				return amountAsString(!DecimalUtil.isEquals(
-						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
-						: 0.0, currency);
+				return amountAsString(!DecimalUtil.isEquals(obj
+						.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0,
+						currency);
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -62,9 +62,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 2:
 				return Utility.getAccountTypeString(obj.getType());
 			case 3:
-				return amountAsString(!DecimalUtil.isEquals(
-						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
-						: 0.0, currency);
+				return amountAsString(!DecimalUtil.isEquals(obj
+						.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0,
+						currency);
 			case 4:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -132,13 +132,13 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected int[] setColTypes() {
 		if (getPreferences().getUseAccountNumbers() == true) {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
 		} else {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
 		}
@@ -211,8 +211,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return obj1.getNumber().compareTo(obj2.getNumber());
 
 		case 2:
-			return obj1.getName().toLowerCase()
-					.compareTo(obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase().compareTo(
+					obj2.getName().toLowerCase());
 		case 3:
 			String type1 = Utility.getAccountTypeString(obj1.getType())
 					.toLowerCase();

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -21,7 +22,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
 	}
 
@@ -118,4 +119,5 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		}
 		return 0;
 	}
+	 
 }

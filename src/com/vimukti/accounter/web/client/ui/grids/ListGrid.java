@@ -141,7 +141,6 @@ public abstract class ListGrid<T> extends CustomTable {
 	}
 
 	private void widgetClicked(Widget widget) {
-
 		disable = true;
 		RowCell cell = getCellByWidget(widget);
 		cellClicked(cell.getRowIndex(), cell.getCellIndex());
@@ -470,6 +469,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			@Override
 			public void onClick(ClickEvent event) {
 				widgetClicked((Anchor) event.getSource());
+				onDoubleClick(obj);
 			}
 		});
 		ar.setText(value.toString());
@@ -493,6 +493,8 @@ public abstract class ListGrid<T> extends CustomTable {
 
 		setWidget(currentRow, currentCol, label);
 	}
+
+
 
 	/**
 	 * Stop editing in current Row
@@ -635,10 +637,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol,
-							values[selectbox.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox,
-							values[selectbox.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol, values[selectbox
+							.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox, values[selectbox
+							.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -672,8 +674,8 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker,
-							UIUtils.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker, UIUtils
+							.stringToDate((Date) event.getValue()));
 
 				}
 			});

@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -257,7 +258,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
@@ -430,4 +431,6 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			super.deleteFailed(caught);
 		}
 	}
+	 
+	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -33,7 +34,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_IMAGE };
 	}
@@ -218,5 +219,6 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		}
 		super.deleteFailed(caught);
 	}
+	 
 
 }
