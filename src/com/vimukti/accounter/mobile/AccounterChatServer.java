@@ -96,6 +96,7 @@ public class AccounterChatServer implements ChatManagerListener,
 		if (from.contains("/")) {
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}
+		System.out.println("Message " + message);
 		if (message != null) {
 			try {
 				String replay = messageHandler.messageReceived(from, message,
