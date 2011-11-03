@@ -1,7 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import com.vimukti.accounter.mobile.Context;
-
 public class NewServiceItemCommand extends AbstractItemCreateCommand {
 
 	@Override
@@ -13,11 +11,4 @@ public class NewServiceItemCommand extends AbstractItemCreateCommand {
 	protected String getWelcomeMessage() {
 		return "Creating Service Item";
 	}
-
-	@Override
-	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

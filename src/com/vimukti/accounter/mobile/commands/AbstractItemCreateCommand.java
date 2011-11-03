@@ -48,6 +48,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(NAME, getMessages().pleaseEnter(
 				getConstants().itemName()), getConstants().name(), false, true));
+
 		list.add(new BooleanRequirement(I_SELL_THIS, true) {
 
 			@Override
@@ -58,6 +59,19 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			@Override
 			protected String getFalseString() {
 				return getConstants().idontSellThisService();
+			}
+		});
+
+		list.add(new BooleanRequirement(I_BUY_THIS, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().iBuyThisItem();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().idontBuyThisService();
 			}
 		});
 
@@ -257,19 +271,6 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new BooleanRequirement(I_BUY_THIS, true) {
-
-			@Override
-			protected String getTrueString() {
-				return getConstants().iBuyThisItem();
-			}
-
-			@Override
-			protected String getFalseString() {
-				return getConstants().idontBuyThisService();
-			}
-		});
-
 		list.add(new NameRequirement(PURCHASE_DESCRIPTION, getMessages()
 				.pleaseEnter(getConstants().purchaseDescription()),
 				getConstants().purchaseDescription(), true, true) {
@@ -405,7 +406,6 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(I_SELL_THIS).setDefaultValue(Boolean.TRUE);
 		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(SERVICE_NO).setDefaultValue("1");
@@ -487,4 +487,20 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		return getMessages().createSuccessfully(getConstants().item());
 	}
 
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		if (!isUpdate) {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				if (string.equals("sell")) {
+					get(I_SELL_THIS).setValue(true);
+				} else {
+					get(I_BUY_THIS).setValue(true);
+				}
+			} else {
+				get(I_SELL_THIS).setValue(true);
+			}
+		}
+		return null;
+	}
 }

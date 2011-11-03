@@ -25,9 +25,4 @@ public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
 		return "Creating Non Inventory Item";
 	}
 
-	@Override
-	protected String initObject(Context context, boolean isUpdate) {
-		return null;
-	}
-
 }

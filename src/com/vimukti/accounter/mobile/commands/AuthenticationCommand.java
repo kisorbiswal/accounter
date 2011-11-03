@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
@@ -67,7 +68,9 @@ public class AuthenticationCommand extends Command {
 						makeResult.add("Enter valid Accounter Email Id");
 						CommandList commandList = new CommandList();
 						commandList.add("Signup");
-						commandList.add("Signup " + context.getNetworkId());
+						commandList.add(new UserCommand("Signup with"
+								+ context.getNetworkId(), "Signup "
+								+ context.getNetworkId()));
 						makeResult.add(commandList);
 					}
 

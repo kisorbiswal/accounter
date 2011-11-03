@@ -168,7 +168,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemItemsRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, true) {
+				false, true, false) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {

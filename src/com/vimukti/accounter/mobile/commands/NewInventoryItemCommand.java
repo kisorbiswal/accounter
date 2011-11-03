@@ -31,11 +31,6 @@ public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 	}
 
 	@Override
-	protected String initObject(Context context, boolean isUpdate) {
-		return null;
-	}
-
-	@Override
 	protected String getWelcomeMessage() {
 		return getConstants().inventoryItem();
 	}

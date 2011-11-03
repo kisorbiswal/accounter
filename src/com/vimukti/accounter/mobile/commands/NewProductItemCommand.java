@@ -25,9 +25,4 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 		return "Creating Product Item";
 	}
 
-	@Override
-	protected String initObject(Context context, boolean isUpdate) {
-		return null;
-	}
-
 }
