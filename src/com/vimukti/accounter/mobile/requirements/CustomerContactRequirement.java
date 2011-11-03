@@ -10,10 +10,10 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 public abstract class CustomerContactRequirement extends
 		AbstractTableRequirement<ClientContact> {
 	private static final String CONTACT_NAME = "contactName";
-	private static final String TITLE = "title";
-	private static final String BUSINESS_PHONE = "businessPhone";
-	private static final String EMAIL = "email";
-	private static final String IS_PRIMARY = "isPrimary";
+	private static final String TITLE = "contacttitle";
+	private static final String BUSINESS_PHONE = "conatctbusinessPhone";
+	private static final String EMAIL = "contactemail";
+	private static final String IS_PRIMARY = "conatctisPrimary";
 
 	public CustomerContactRequirement(String requirementName,
 			String enterString, String recordName, boolean isOptional,
@@ -28,11 +28,13 @@ public abstract class CustomerContactRequirement extends
 		list.add(new StringRequirement(CONTACT_NAME, getMessages().pleaseEnter(
 				getConstants().contactName()), getConstants().contactName(),
 				true, true));
+
 		list.add(new StringRequirement(TITLE, getMessages().pleaseEnter(
 				getConstants().title()), getConstants().title(), true, true));
+
 		list.add(new NumberRequirement(BUSINESS_PHONE, getMessages()
 				.pleaseEnter(getConstants().businessPhone()), getConstants()
-				.businessPhone(), false, true));
+				.businessPhone(), true, true));
 
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
 				getConstants().email()), getConstants().email(), true, true));
