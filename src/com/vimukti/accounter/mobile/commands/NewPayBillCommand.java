@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -66,6 +67,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(FILTER_BY_DUE_ON_BEFORE).setDefaultValue(new ClientFinanceDate());
+		get(CURRENCY).setDefaultValue(null);
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
 	}
 
@@ -110,6 +113,51 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			protected boolean filter(ClientVendor e, String name) {
 				return e.getDisplayName().toLowerCase()
 						.startsWith(name.toLowerCase());
+			}
+		});
+		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
+				getConstants().currency()), getConstants().currency(), true,
+				true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+				return context.getClientCompany().getCurrencies();
+			}
+		});
+
+		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseSelect(getConstants().currency()), getConstants()
+				.currency(), false, true) {
+			@Override
+			protected String getDisplayValue(Double value) {
+				String primaryCurrency = getClientCompany().getPreferences()
+						.getPrimaryCurrency();
+				ClientCurrency selc = get(CURRENCY).getValue();
+				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (get(CURRENCY).getValue() != null) {
+					if (getClientCompany().getPreferences()
+							.isEnableMultiCurrency()
+							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
+									getClientCompany().getPreferences()
+											.getPrimaryCurrency())) {
+						return super.run(context, makeResult, list, actions);
+					}
+				} 
+					return null;
 			}
 		});
 
@@ -346,9 +394,11 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			if (currency != null) {
 				paybill.setCurrency(currency.getID());
 			}
+			double factor = get(CURRENCY_FACTOR).getValue();
+			paybill.setCurrencyFactor(factor);
 
 		}
-		paybill.setCurrencyFactor(1.0);
+		
 		if (context.getClientCompany().getPreferences().isTDSEnabled()) {
 
 			ClientTAXItem taxItem = context.getClientCompany().getTAXItem(
