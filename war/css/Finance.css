@@ -1539,3 +1539,9 @@ button.disable,button.disable:hover{
 .currencyTextBox{
 	margin-left:10px;
 }
+.quantityPopup .gwt-TextBox{
+	width:85px !important;
+}
+.quantity_unit_width .custom-combo{
+	width:60px;
+}
