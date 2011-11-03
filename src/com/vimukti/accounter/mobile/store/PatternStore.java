@@ -6,6 +6,7 @@ package com.vimukti.accounter.mobile.store;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,8 +102,8 @@ public class PatternStore {
 						result.setTitle(text);
 					}
 					List<String> strings = pattern.output.commands;
-					if (strings != null && !strings.isEmpty()) {
-						commands.addAll(strings);
+					for (String s : strings) {
+						commands.add(s);
 					}
 				}
 				result.setCommands(commands);
@@ -134,7 +135,7 @@ public class PatternStore {
 
 	public static class Output {
 		String text;
-		List<String> commands;
+		List<String> commands = new ArrayList<String>();
 
 		public Output() {
 		}
