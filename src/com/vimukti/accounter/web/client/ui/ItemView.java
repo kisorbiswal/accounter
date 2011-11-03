@@ -200,6 +200,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (type == ClientItem.TYPE_SERVICE) {
 			lab1.setText(Accounter.constants().newService());
 			// if (getCompany().getAccountingType() == 1)
+			itemForm.getCellFormatter().setWidth(0, 0, "42%");
 			itemForm.setFields(nameText/* , isservice */);
 
 			// itemForm.setFields(nameText, /* isservice, */skuText);
@@ -207,6 +208,7 @@ public class ItemView extends BaseView<ClientItem> {
 			lab1.setText(Accounter.constants().newProduct());
 			// if (getCompany().getAccountingType() == 1)
 			itemForm.setFields(nameText, weightText);
+			itemForm.getCellFormatter().setWidth(0, 0, "42%");
 			// else
 			// itemForm.setFields(nameText, skuText, weightText);
 		}
@@ -435,6 +437,7 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm.getCellFormatter().setWidth(3, 0, "25%");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(Accounter.constants().itemInformation());
+		itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
 		itemInfoForm.setWidth("97%");
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
@@ -489,6 +492,7 @@ public class ItemView extends BaseView<ClientItem> {
 		topPanel1.setCellWidth(itemForm, "50%");
 		topPanel1.setCellWidth(itemInfoForm, "50%");
 		VerticalPanel topHLay = new VerticalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 
 		HorizontalPanel topPanel2 = new HorizontalPanel();

@@ -836,6 +836,7 @@ public class MakeDepositView extends
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
+		topHLay.addStyleName("fields-panel");
 		topHLay.add(depoForm);
 
 		DynamicForm dynamicForm = new DynamicForm();

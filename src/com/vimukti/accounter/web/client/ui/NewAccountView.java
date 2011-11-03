@@ -495,6 +495,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		v.setCellWidth(currency, "44%");
 
 		mainVLay = new VerticalPanel();
+		mainVLay.addStyleName("fields-panel");
 
 		mainVLay.setSize("100%", "300px");
 		mainVLay.add(lab1);
