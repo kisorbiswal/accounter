@@ -832,6 +832,7 @@ public class WriteChequeView extends
 		}
 
 		HorizontalPanel accPanel = new HorizontalPanel();
+		accPanel.addStyleName("fields-panel");
 		accPanel.setWidth("100%");
 		accPanel.add(payForm);
 		accPanel.add(currencyPanel);
