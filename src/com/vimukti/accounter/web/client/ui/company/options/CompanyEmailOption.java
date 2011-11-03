@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
@@ -50,13 +52,10 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		
 		if (UIUtils.isValidEmail(companyEmailTextBox.getValue()))
-			getCompanyPreferences().setCompanyEmail(companyEmailTextBox.getValue());
-		else {
-			Accounter.showError(Accounter.constants().invalidEmail());
-		}
-		
+			getCompanyPreferences().setCompanyEmail(
+					companyEmailTextBox.getValue());
+
 	}
 
 	@Override
@@ -70,6 +69,18 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 		emailIDDescriptionLabel.setStyleName("organisation_comment");
 
 		companyEmailHeaderLabel.setText(Accounter.constants().emailId());
+		companyEmailTextBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				String email = companyEmailTextBox.getValue();
+				if (email != null && !email.isEmpty()
+						&& !UIUtils.isValidEmail(email)) {
+					companyEmailTextBox.setText("");
+					Accounter.showError(Accounter.constants().invalidEmail());
+				}
+			}
+		});
 		// customersEmailAddressCheckBox.setText(Accounter.constants()
 		// .getCustomersEmailId());
 		// customersEmailAddressCheckBox.addClickHandler(new ClickHandler() {
