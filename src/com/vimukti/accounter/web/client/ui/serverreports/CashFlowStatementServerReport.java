@@ -16,10 +16,10 @@ public class CashFlowStatementServerReport extends
 	private List<String> sectiontypes = new ArrayList<String>();
 	private String curentParent;
 
-	private Double netIncome;
-	private Double totaloperating = 0.0D;
-	private Double totalInvesting = 0.0D;
-	private Double totalFinaning = 0.0D;
+	private double netIncome;
+	private double totaloperating = 0.0D;
+	private double totalInvesting = 0.0D;
+	private double totalFinaning = 0.0D;
 	private double cashBegigginperiod;
 
 	public CashFlowStatementServerReport(IFinanceReport<TrialBalance> reportView) {
@@ -307,6 +307,7 @@ public class CashFlowStatementServerReport extends
 		totaloperating = 0.0D;
 		totalInvesting = 0.0D;
 		totalFinaning = 0.0D;
+		cashBegigginperiod = 0.0D;
 	}
 
 	public void print() {
