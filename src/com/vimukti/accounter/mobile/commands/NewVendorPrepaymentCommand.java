@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -61,6 +62,8 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_VENDOR_PAYMENT,
 						context.getCompany()));
+get(CURRENCY_FACTOR).setDefaultValue(1.0);
+get(CURRENCY).setDefaultValue(null);
 
 	}
 
@@ -107,6 +110,55 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
+		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
+				getConstants().currency()), getConstants().currency(), true,
+				true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+				return context.getClientCompany().getCurrencies();
+			}
+		});
+
+		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseSelect(getConstants().currency()), getConstants()
+				.currency(), false, true) {
+			@Override
+			protected String getDisplayValue(Double value) {
+				String primaryCurrency = getClientCompany().getPreferences()
+						.getPrimaryCurrency();
+				ClientCurrency selc = get(CURRENCY).getValue();
+				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (get(CURRENCY).getValue() != null) {
+					if (getClientCompany().getPreferences()
+							.isEnableMultiCurrency()
+							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
+									getClientCompany().getPreferences()
+											.getPrimaryCurrency())) {
+						return super.run(context, makeResult, list, actions);
+					}
+				} 
+					return null;
+				
+				
+			}
+		});
+
+		
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().billNo()), getConstants().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -232,10 +284,15 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
 		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
 
+
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
-			paybill.setCurrency(currency.getID());
-			paybill.setCurrencyFactor(1.0);
+			if (currency != null) {
+				paybill.setCurrency(currency.getID());
+			}
+
+			double factor = get(CURRENCY_FACTOR).getValue();
+			paybill.setCurrencyFactor(factor);
 		}
 		double amount = get(AMOUNT).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
