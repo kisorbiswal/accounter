@@ -117,7 +117,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
@@ -245,5 +245,5 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
 		}
 	}
-
+	
 }
