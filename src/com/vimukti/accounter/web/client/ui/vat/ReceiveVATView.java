@@ -9,12 +9,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -219,6 +219,7 @@ public class ReceiveVATView extends
 		rightVLay.add(balForm);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);

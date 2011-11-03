@@ -211,6 +211,7 @@ public class AdjustTAXView extends
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		DynamicForm topform = new DynamicForm();
+		topform.addStyleName("fields-panel");
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 		// topform.setFields(taxAgencyCombo);
 		// } else {
@@ -221,6 +222,7 @@ public class AdjustTAXView extends
 		topform.getCellFormatter().setWidth(0, 0, "190");
 
 		DynamicForm memoForm = new DynamicForm();
+		memoForm.addStyleName("fields-panel");
 		memoForm.setWidth("50%");
 		memoForm.setFields(adjustAccountCombo, amount, typeRadio, memo);
 		memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");

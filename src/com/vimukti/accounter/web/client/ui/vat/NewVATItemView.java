@@ -130,7 +130,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		statusCheck.setDisabled(isInViewMode());
 
 		form1.setWidth("80%");
-		form1.addStyleName("new_vat_item");
+		form1.addStyleName("new_vat_item fields-panel");
 		form1.setIsGroup(true);
 
 		// isPercentatateAmtCheck = new CheckboxItem(Accounter.constants()

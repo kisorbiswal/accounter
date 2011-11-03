@@ -579,6 +579,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
