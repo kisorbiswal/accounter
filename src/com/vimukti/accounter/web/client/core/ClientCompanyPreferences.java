@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.Global;
 
 public class ClientCompanyPreferences implements IAccounterCore {
