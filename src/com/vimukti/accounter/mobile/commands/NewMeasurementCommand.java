@@ -9,21 +9,21 @@ import com.vimukti.accounter.mobile.requirements.MeasurementUnitRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientUnit;
 
 public class NewMeasurementCommand extends NewAbstractCommand {
 
 	private static final String MEASUREMENT_NAME = "Measurement Name";
 	private static final String MEASUREMENT_DESCRIPTION = "Measurement Description";
 	private static final String UNIT = "Unit";
-	
-	private ClientMeasurement measurement;
 
+	private ClientMeasurement measurement;
 
 	@Override
 	public String getId() {
 		return null;
 	}
-	
+
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
@@ -31,20 +31,20 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-	//	if (measurement.getID() == 0) {
-			return "Create Measurement command is activated.";
-//		}
-//		return "Update Measuremnt(" + measurement.getName()
-//				+ ") Command is activated.";
+		// if (measurement.getID() == 0) {
+		return "Create Measurement command is activated.";
+		// }
+		// return "Update Measuremnt(" + measurement.getName()
+		// + ") Command is activated.";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		//if (measurement.getID() == 0) {
-			return "Measurement is ready to create with following details.";
-//		} else {
-//			return "Measurement is ready to update with following details.";
-//		}
+		// if (measurement.getID() == 0) {
+		return "Measurement is ready to create with following details.";
+		// } else {
+		// return "Measurement is ready to update with following details.";
+		// }
 	}
 
 	@Override
@@ -53,11 +53,11 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-	//	if (measurement.getID() == 0) {
-			return "Measurement is created succesfully.";
-//		} else {
-//			return "Measurement is updated successfully.";
-//		}
+		// if (measurement.getID() == 0) {
+		return "Measurement is created succesfully.";
+		// } else {
+		// return "Measurement is updated successfully.";
+		// }
 	}
 
 	@Override
@@ -66,16 +66,25 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 				"Please Enter Measurement Name", "Name", false, true));
 
 		list.add(new StringRequirement(MEASUREMENT_DESCRIPTION,
-				"Please Enter Measurement Description", "Description", true, true));
-		
-		list.add(new MeasurementUnitRequirement(UNIT));
+				"Please Enter Measurement Description", "Description", true,
+				true));
+
+		list.add(new MeasurementUnitRequirement(UNIT, getMessages()
+				.pleaseSelect(getConstants().unit()), getConstants().unit(),
+				true, false, true) {
+
+			@Override
+			protected List<ClientUnit> getList() {
+				return null;
+			}
+		});
 	}
-	
+
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		
+
 		measurement = new ClientMeasurement();
-		
+
 		String name = get(MEASUREMENT_NAME).getValue();
 		String description = get(MEASUREMENT_DESCRIPTION).getValue();
 		measurement.setName(name);
