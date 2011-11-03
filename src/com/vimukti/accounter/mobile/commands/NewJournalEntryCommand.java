@@ -6,14 +6,17 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AbstractTableRequirement;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -23,7 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
  * @author Sai Prasad N
  * 
  */
-public class NewJournalEntryCommand extends NewAbstractCommand {
+public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	private static final String VOUCHER = "Voucher";
 	private static final String DATE = "date";
@@ -76,6 +79,55 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 					}
 				});
 
+				list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
+						getConstants().currency()), getConstants().currency(), true,
+						true, null) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+							return super.run(context, makeResult, list, actions);
+						} else {
+							return null;
+						}
+					}
+
+					@Override
+					protected List<ClientCurrency> getLists(Context context) {
+						return context.getClientCompany().getCurrencies();
+					}
+				});
+
+				list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+						.pleaseSelect(getConstants().currency()), getConstants()
+						.currency(), false, true) {
+					@Override
+					protected String getDisplayValue(Double value) {
+						String primaryCurrency = getClientCompany().getPreferences()
+								.getPrimaryCurrency();
+						ClientCurrency selc = get(CURRENCY).getValue();
+						return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+					}
+
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (get(CURRENCY).getValue() != null) {
+							if (getClientCompany().getPreferences()
+									.isEnableMultiCurrency()
+									&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
+											getClientCompany().getPreferences()
+													.getPrimaryCurrency())) {
+								return super.run(context, makeResult, list, actions);
+							}
+						} 
+							return null;
+						
+						
+					}
+				});
+
+				
 				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 						getConstants().memo()), getConstants().memo(), true,
 						true));
@@ -219,6 +271,19 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 		entry.setDebitTotal(totalDebits);
 		entry.setCreditTotal(totalCredits);
 
+		
+		
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			if (currency != null) {
+				entry.setCurrency(currency.getID());
+			}
+
+			double factor = get(CURRENCY_FACTOR).getValue();
+			entry.setCurrencyFactor(factor);
+		}
+		
+		
 		create(entry, context);
 
 		markDone();
@@ -242,6 +307,8 @@ public class NewJournalEntryCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(CURRENCY).setDefaultValue(null);
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	@Override

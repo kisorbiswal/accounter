@@ -8,9 +8,11 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -24,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -65,6 +68,56 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			}
 		});
 
+		
+		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
+				getConstants().currency()), getConstants().currency(), true,
+				true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+				return context.getClientCompany().getCurrencies();
+			}
+		});
+
+		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseSelect(getConstants().currency()), getConstants()
+				.currency(), false, true) {
+			@Override
+			protected String getDisplayValue(Double value) {
+				String primaryCurrency = getClientCompany().getPreferences()
+						.getPrimaryCurrency();
+				ClientCurrency selc = get(CURRENCY).getValue();
+				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (get(CURRENCY).getValue() != null) {
+					if (getClientCompany().getPreferences()
+							.isEnableMultiCurrency()
+							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
+									getClientCompany().getPreferences()
+											.getPrimaryCurrency())) {
+						return super.run(context, makeResult, list, actions);
+					}
+				} 
+					return null;
+				
+				
+			}
+		});
+
+		
 		list.add(new TransactionItemItemsRequirement(ITEMS, getMessages()
 				.pleaseEnterName(getConstants().item()), getConstants().item(),
 				true, true, true) {
@@ -297,9 +350,21 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
+		
+
+		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+			ClientCurrency currency = get(CURRENCY).getValue();
+			if (currency != null) {
+				creditCardCharge.setCurrency(currency.getID());
+			}
+
+			double factor = get(CURRENCY_FACTOR).getValue();
+			creditCardCharge.setCurrencyFactor(factor);
+		}
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
 		updateTotals(context, creditCardCharge, false);
+		
 		create(creditCardCharge, context);
 
 		return null;
@@ -344,6 +409,8 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
 		get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(CURRENCY).setDefaultValue(null);
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	@Override

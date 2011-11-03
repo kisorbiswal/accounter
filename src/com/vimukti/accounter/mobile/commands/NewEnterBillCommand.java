@@ -85,7 +85,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				}
 		}
 		get(MEMO).setDefaultValue("");
-
 		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
