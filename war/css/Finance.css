@@ -92,7 +92,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
 .portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,#overlay,.dateBoxPopup .datePickerDays,
-.dateBoxPopup .datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker{
+.dateBoxPopup .datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker,.gwt-TreeItem{
 	width: 100%;
 }
 .textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.financialDataTitle:FIRST-CHILD,
@@ -358,8 +358,8 @@ input[type="checkbox"] {
 	padding-left:4%;
 }
 .gwt-Tree .gwt-TreeItem-selected {
-	padding-right: 2px;
-	display: table !important;
+	/*padding-right: 2px;
+	display: table !important;*/
 }
 .downarrow-button,.standard_label,.custom-combo,.editTable .comboBox .gwt-TextBox,.sales_tax_buttons .image-button{
 	float:left;
@@ -1180,7 +1180,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 .industry_list_table select{
 	width:300px;
 }
-.accounts_label,.industry_list_table .select_industry,.contentSelected,.gwt-Tree .gwt-TreeItem-selected,.contentSelected_LastChild{
+.accounts_label,.industry_list_table .select_industry,.contentSelected,.contentSelected_LastChild/*,.gwt-Tree .gwt-TreeItem-selected*/{
 	background:#ccc;
 }
 .customize_Accounter_labels{
@@ -1513,4 +1513,29 @@ button.disable,button.disable:hover{
 .progress_panel_show .progress_header{
 	color: #4E9E19;
     font-size: 16px;
+}
+/*need to add these styles to tabletcss also */
+.gwt-TreeItem .transactionPanel{
+	margin-top:-23px;
+}
+.gwt-TreeItem .transactionPanel td:FIRST-CHILD{
+	padding-right:10px;
+}
+.abstract_base_view .gwt-Tree{
+	margin-bottom:25px;
+}
+.transactionitemsTable .editheader td{
+	padding:2px 2px 2px 5px;
+}
+.transactionitemsTable table td{
+	padding:0 0 0 5px;
+}
+.transactionitemsTable .gwt-TextBox{
+	height:18px;
+}
+.transactionitemsTable{
+	min-height: 40px;
+}
+.currencyTextBox{
+	margin-left:10px;
 }
