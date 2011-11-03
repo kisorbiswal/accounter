@@ -133,13 +133,10 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	protected List<String> getBankNameList(ClientCompany clientCompany) {
 		List<String> bankNameList = new ArrayList<String>();
 		List<ClientBank> banksList = clientCompany.getBanks();
-		if (!banksList.isEmpty()) {
-			for (ClientBank clientBank : banksList) {
-				bankNameList.add(clientBank.getName());
-			}
-			return bankNameList;
+		for (ClientBank clientBank : banksList) {
+			bankNameList.add(clientBank.getName());
 		}
-		return null;
+		return bankNameList;
 	}
 
 	protected List<String> getAccountTypes() {
