@@ -43,8 +43,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
  */
 public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
-	private static final String CURRENCY_FACTOR = null;
-
 	@Override
 	protected String getWelcomeMessage() {
 
@@ -89,6 +87,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 
 		get(CURRENCY).setDefaultValue(null);
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 
 	}
@@ -159,21 +158,25 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				String selc = get(CURRENCY).getValue();
-				return "1 " + selc + " = " + value + " " + primaryCurrency;
+				ClientCurrency selc = get(CURRENCY).getValue();
+				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
 			}
 
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()
-						&& !get(CURRENCY).getValue().equals(
-								getClientCompany().getPreferences()
-										.getPrimaryCurrency())) {
-					return super.run(context, makeResult, list, actions);
-				} else {
+				if (get(CURRENCY).getValue() != null) {
+					if (getClientCompany().getPreferences()
+							.isEnableMultiCurrency()
+							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
+									getClientCompany().getPreferences()
+											.getPrimaryCurrency())) {
+						return super.run(context, makeResult, list, actions);
+					}
+				} 
 					return null;
-				}
+				
+				
 			}
 		});
 
@@ -343,8 +346,10 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			if (currency != null) {
 				enterBill.setCurrency(currency.getID());
 			}
+
+			double factor = get(CURRENCY_FACTOR).getValue();
+			enterBill.setCurrencyFactor(factor);
 		}
-		enterBill.setCurrencyFactor(1.0);
 		enterBill.setTransactionItems(items);
 		updateTotals(context, enterBill, true);
 
