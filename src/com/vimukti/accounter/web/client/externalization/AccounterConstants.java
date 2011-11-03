@@ -2955,6 +2955,8 @@ public interface AccounterConstants extends Constants {
 	public String newShippingMethod();
 
 	public String newShippingTerms();
+	
+	public String newShippingTerm();
 
 	public String newStartDate();
 
