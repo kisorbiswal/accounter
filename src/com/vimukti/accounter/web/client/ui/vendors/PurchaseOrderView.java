@@ -529,6 +529,7 @@ public class PurchaseOrderView extends
 		// rightVLay.setCellHorizontalAlignment(dateform, ALIGN_RIGHT);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		// topHLay.setStyleName("toplayout");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);

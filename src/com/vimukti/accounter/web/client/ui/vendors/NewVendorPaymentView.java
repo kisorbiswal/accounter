@@ -340,6 +340,7 @@ public class NewVendorPaymentView extends
 		}
 
 		HorizontalPanel hLay = new HorizontalPanel();
+		hLay.addStyleName("fields-panel");
 		hLay.setWidth("100%");
 		hLay.setSpacing(10);
 		hLay.add(leftPanel);

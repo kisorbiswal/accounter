@@ -546,6 +546,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		// rightVLay.setCellHorizontalAlignment(accInfoForm, ALIGN_RIGHT);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
