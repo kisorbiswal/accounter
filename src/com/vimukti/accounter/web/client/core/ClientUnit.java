@@ -14,6 +14,10 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class ClientUnit implements IAccounterCore, Serializable,
 		IsSerializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private ClientMeasurement measurement;
 	private String type;
