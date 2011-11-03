@@ -50,7 +50,7 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 .helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.gridHeader,.toolbox,.companyInfoPanel,
 .error-panel,.commentPanel,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
-.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
+.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,.gwt-TreeItem,
 .portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.view_manager_body,.MENU_BAR_BG,.history_notes_view {
 	width: 100%;
 }
@@ -85,7 +85,8 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.selectedview_textarea_label,.selectedview_labelstyle,
 .selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,.notes_button_panel .cancle-Btn,
 .organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.button_bar .cancle-Btn,
-.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.grouped-buttons td:last-child .image-button {
+.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.grouped-buttons td:last-child .image-button
+ {
 	color: #000;
 }
 .gwt-MenuBar-vertical .subMenuIcon-selected,.childNode tr td,.parentNode tr td,
@@ -282,8 +283,8 @@ input[type="checkbox"] {
 	padding-left: 4px;
 }
 .gwt-Tree .gwt-TreeItem-selected {
-	padding-right: 2px;
-	display: table !important;
+	/*padding-right: 2px;
+	display: table !important;*/
 }
 .downarrow-button,.standard_label,.custom-combo,.editTable .comboBox .gwt-TextBox{
 	float:left;
@@ -577,11 +578,11 @@ tr.net-profit td {
 .memoTextArea {
     width: 359px !important;
 }
-.memoTextArea[disabled],textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],
-.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.disable-TextField{
+.disable-TextField,.input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA !important;
 	border: 1px solid #918C8C;
     border-radius: 5px 5px 5px 5px;
+    color:#000000 !important;
 }
 .downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox{
 	position: relative;
@@ -976,7 +977,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button{
 .industry_list_table select{
 	width:300px;
 }
-.accounts_label,.industry_list_table .select_industry,.contentSelected,.gwt-Tree .gwt-TreeItem-selected,.contentSelected_LastChild{
+.accounts_label,.industry_list_table .select_industry,.contentSelected,.contentSelected_LastChild/*,.gwt-Tree .gwt-TreeItem-selected*/{
 	background:#ccc;
 }
 .customize_Accounter_labels{
@@ -1170,4 +1171,27 @@ input[type="text"]{
 }
 .gwt-PopupPanel .popupContent table td div{
 	font-size:13px;
+}
+
+/*copy from the finance.css */
+.gwt-TreeItem .transactionPanel{
+	margin-top:-23px;
+}
+.gwt-TreeItem .transactionPanel td:FIRST-CHILD{
+	padding-right:10px;
+}
+.abstract_base_view .gwt-Tree{
+	margin-bottom:25px;
+}
+.transactionitemsTable .editheader td{
+	padding:2px 2px 2px 5px;
+}
+.transactionitemsTable table td{
+	padding:0 0 0 5px;
+}
+.transactionitemsTable .gwt-TextBox{
+	height:18px;
+}
+.transactionitemsTable{
+	min-height: 40px;
 }
