@@ -108,12 +108,12 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().salesOrderList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().salesOrderList();
+		return null;
 	}
 
 	@Override

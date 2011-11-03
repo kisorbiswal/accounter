@@ -28,13 +28,13 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 
-		return getConstants().receivedPayments();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 
-		return getConstants().receivedPayments();
+		return null;
 	}
 
 	@Override

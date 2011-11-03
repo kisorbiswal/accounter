@@ -26,12 +26,12 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().vendorPaymentList(Global.get().Vendor());
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().vendorPaymentList(Global.get().Vendor());
+		return null;
 	}
 
 	@Override
@@ -46,7 +46,6 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

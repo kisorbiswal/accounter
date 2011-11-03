@@ -29,13 +29,13 @@ public class QuotesListCommand extends NewAbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 
-		return getConstants().quotesList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 
-		return getConstants().quotesList();
+		return null;
 	}
 
 	@Override

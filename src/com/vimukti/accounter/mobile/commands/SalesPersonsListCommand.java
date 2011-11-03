@@ -21,12 +21,12 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().salesPersonList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().salesPersonList();
+		return null;
 	}
 
 	@Override
@@ -41,7 +41,6 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

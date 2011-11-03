@@ -4,19 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.web.client.Global;
 
 public class VATCodesListCommand extends NewAbstractCommand {
 
@@ -43,14 +37,12 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create VAT Code");
+				list.add(getMessages().create(getConstants().vatCode()));
 			}
 
 			@Override
 			protected boolean filter(TAXCode e, String name) {
-				return e.getName().startsWith(name)
-						|| e.getDescription().startsWith(
-								"" + getNumberFromString(name));
+				return e.getName().startsWith(name);
 			}
 
 			@Override
@@ -84,7 +76,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().noRecordsToShow();
+				return getConstants().noRecordsToShow();
 			}
 
 			@Override
@@ -111,12 +103,12 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().vatItemList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().vatItemList();
+		return null;
 	}
 
 	@Override

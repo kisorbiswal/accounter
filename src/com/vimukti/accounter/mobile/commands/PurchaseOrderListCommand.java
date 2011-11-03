@@ -126,12 +126,12 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().purchaseOrderList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().purchaseOrderList();
+		return null;
 	}
 
 	@Override

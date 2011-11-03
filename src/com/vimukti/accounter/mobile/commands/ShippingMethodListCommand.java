@@ -54,12 +54,12 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().shippingMethodList();
+				return null;
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().noRecordsToShow();
+				return getConstants().noRecordsToShow();
 			}
 
 			@Override

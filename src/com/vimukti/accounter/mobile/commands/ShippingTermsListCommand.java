@@ -32,7 +32,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().shippingTerms()));
+				list.add(getConstants().newShippingTerm());
 			}
 
 			@Override
@@ -58,7 +58,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().noRecordsToShow();
+				return getConstants().noRecordsToShow();
 			}
 
 			@Override
@@ -75,7 +75,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return null;
+		return "Success";
 	}
 
 	@Override

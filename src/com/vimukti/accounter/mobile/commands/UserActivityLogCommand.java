@@ -93,12 +93,12 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().usersActivityLogTitle();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().usersActivityLogTitle();
+		return null;
 	}
 
 	@Override

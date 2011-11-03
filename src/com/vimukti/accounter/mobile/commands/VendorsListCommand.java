@@ -101,12 +101,12 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Vendor List";
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "Vendor List";
+		return null;
 	}
 
 	@Override

@@ -75,12 +75,12 @@ public class UsersCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().users();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().users();
+		return null;
 	}
 
 	@Override

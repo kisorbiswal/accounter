@@ -35,14 +35,12 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create VAT Item");
+				list.add(getMessages().create(getConstants().vatItem()));
 			}
 
 			@Override
 			protected boolean filter(TAXItem e, String name) {
-				return e.getName().startsWith(name)
-						|| e.getDescription().startsWith(
-								"" + getNumberFromString(name));
+				return e.getName().startsWith(name);
 			}
 
 			@Override
@@ -76,7 +74,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().noRecordsToShow();
+				return getConstants().noRecordsToShow();
 			}
 
 			@Override
@@ -106,12 +104,12 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().vatItemList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().vatItemList();
+		return null;
 	}
 
 	@Override
