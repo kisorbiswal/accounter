@@ -62,7 +62,6 @@ public class CurrencyWidget extends DynamicForm {
 		setStyleName("currencyTextBox");
 		setWidth("100%");
 		setNumCols(4);
-		getCellFormatter().setWidth(0, 0, "200");
 		setFields(currencyCombo, new LabelItem());
 		setFields(factorField, baseCurrencyLbl);
 		factorField.hide();
