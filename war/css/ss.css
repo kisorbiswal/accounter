@@ -961,11 +961,11 @@ a#fdbk_tab:hover {
 	float:right;
 }
 .footer-options div a{
-	background: url("../images/fblike.jpg") no-repeat scroll 0 0 transparent;
+	background: url("../images/fblike.png") no-repeat scroll 0 0 transparent;
 	text-indent: -999em;
 	display: inline-block;
-	width:64px;
-	height:65px;
+	width:48px;
+	height:48px;
 }
 
 /* End of the new Login and forgot password page*/
