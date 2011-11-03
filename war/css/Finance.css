@@ -1536,12 +1536,12 @@ button.disable,button.disable:hover{
 .transactionitemsTable{
 	min-height: 40px;
 }
-.currencyTextBox{
-	margin-left:10px;
-}
 .quantityPopup .gwt-TextBox{
 	width:85px !important;
 }
 .quantity_unit_width .custom-combo{
 	width:60px;
+}
+.fields-panel .gwt-Label{
+	width:130px;
 }
