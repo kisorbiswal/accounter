@@ -6,6 +6,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -308,9 +309,18 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().serviceItem()));
-		list.add("Create Non Inventory Item");
-		list.add("Create Inventory Item");
+		String sell = "buy";
+		if (isSales) {
+			sell = "sell";
+		}
+		list.add(new UserCommand(getMessages().create(
+				getConstants().serviceItem()), getMessages().create(
+				getConstants().serviceItem())
+				+ " " + sell));
+		list.add(new UserCommand("Create Non Inventory Item",
+				"Create Non Inventory Item " + sell));
+		list.add(new UserCommand("Create Inventory Item",
+				"Create Inventory Item " + sell));
 	}
 
 	@Override
