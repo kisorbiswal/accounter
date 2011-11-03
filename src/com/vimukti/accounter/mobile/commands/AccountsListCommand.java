@@ -79,7 +79,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return "Accounts List:";
+				return getMessages().accountsList(Global.get().Accounts());
 			}
 
 			@Override
@@ -109,7 +109,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().accountsList(Global.get().Accounts());
+		return null;
 	}
 
 	@Override

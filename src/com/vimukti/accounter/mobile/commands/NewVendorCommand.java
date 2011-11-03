@@ -67,6 +67,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 	private static final String BILL_TO = "billTo";
 
 	private static final String SHIPPING_METHODS = "shippingMethod";
+	private static final String SHIP_TO = "shipTo";
 
 	@Override
 	public String getId() {
@@ -123,6 +124,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
 				getConstants().billTo()), getConstants().billTo(), true, true));
+
+		list.add(new AddressRequirement(SHIP_TO, getMessages().pleaseEnter(
+				getConstants().shipTo()), getConstants().shipTo(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
 				getConstants().phoneNumber()), getConstants().phoneNumber(),
@@ -396,9 +400,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 		List<ClientContact> contact = get(CONTACTS).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_AS_OF).getValue();
-		ClientFinanceDate vendorSince = get(VENDOR_SINCE).getValue();
 		double balance = get(BALANCE).getValue();
-		ClientAddress adress = get(BILL_TO).getValue();
+		ClientAddress billTo = get(BILL_TO).getValue();
+		ClientAddress shipTo = get(SHIP_TO).getValue();
 		ClientAccount account = get(ACCOUNT).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
@@ -421,8 +425,11 @@ public class NewVendorCommand extends NewAbstractCommand {
 		String tinNum = get(TIN_NUM).getValue();
 
 		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
-		if (adress != null) {
-			addresses.add(adress);
+		if (billTo != null) {
+			addresses.add(billTo);
+		}
+		if (shipTo != null) {
+			addresses.add(shipTo);
 		}
 		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
 		if (contact != null) {

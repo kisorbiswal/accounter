@@ -165,6 +165,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				return getClientCompany().getAccounts();
 			}
 		});
+
 		list.add(new TransactionItemItemsRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
 				false, true, true) {

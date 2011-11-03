@@ -108,6 +108,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 					@Override
 					public boolean filter(ClientAccount e) {
+						if (e.getType() == ClientAccount.TYPE_INCOME) {
+							System.out.println();
+						}
+						if (e.getType() == ClientAccount.TYPE_EXPENSE) {
+							System.out.println();
+						}
+
 						if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 								&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
 								&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET

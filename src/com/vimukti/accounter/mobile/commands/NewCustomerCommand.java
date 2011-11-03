@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -223,8 +224,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return new ArrayList<String>(getClientCompany()
-						.getPaymentMethods().values());
+				ArrayList<String> arrayList = new ArrayList<String>(
+						getClientCompany().getPaymentMethods().values());
+				Collections.sort(arrayList);
+				return arrayList;
 			}
 
 			@Override
