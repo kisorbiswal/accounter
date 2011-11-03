@@ -156,6 +156,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 				getTable().getAllRows().indexOf(row),
 				getTable().getColumns().indexOf(this));
 		popup.setAutoHideEnabled(true);
+		popup.addStyleName("quantityPopup");
 		popup.showRelativeTo(widget);
 	}
 
@@ -179,6 +180,11 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		try {
 			if (value.isEmpty()) {
 				value = "1";
+			}
+			ClientItem item = Accounter.getCompany().getItem(row.getItem());
+			if (item != null
+					&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+				return;
 			}
 			ClientQuantity quantity = row.getQuantity();
 			quantity.setValue(DataUtils.getAmountStringAsDouble(value));
