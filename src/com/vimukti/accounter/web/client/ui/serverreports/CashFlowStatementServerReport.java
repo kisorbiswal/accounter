@@ -20,7 +20,8 @@ public class CashFlowStatementServerReport extends
 	private double totaloperating = 0.0D;
 	private double totalInvesting = 0.0D;
 	private double totalFinaning = 0.0D;
-	private double cashBegigginperiod;
+
+	// private double cashBegigginperiod;
 
 	public CashFlowStatementServerReport(IFinanceReport<TrialBalance> reportView) {
 		this.reportView = reportView;
@@ -108,7 +109,7 @@ public class CashFlowStatementServerReport extends
 			this.netIncome = record.getAmount();
 			return;
 		}
-		cashBegigginperiod = record.getCashAtBeginningOfPeriod();
+		// cashBegigginperiod = record.getCashAtBeginningOfPeriod();
 		if (this.handler == null)
 			iniHandler();
 
@@ -163,16 +164,16 @@ public class CashFlowStatementServerReport extends
 													.netCashChangeForThePeriod(),
 											(totalFinaning + totaloperating + totalInvesting) },
 									true, true, true);
-					CashFlowStatementServerReport.this.grid
-							.addRow(null,
-									1,
-									new Object[] {
-											getConstants()
-													.cashAtBeginningOfThePeriod(),
-											cashBegigginperiod }, true, true,
-									true);
-					section.data[1] = (totalFinaning + totaloperating
-							+ totalInvesting + cashBegigginperiod);
+					// CashFlowStatementServerReport.this.grid
+					// .addRow(null,
+					// 1,
+					// new Object[] {
+					// getConstants()
+					// .cashAtBeginningOfThePeriod(),
+					// cashBegigginperiod }, true, true,
+					// true);
+					section.data[1] = (totalFinaning + totaloperating + totalInvesting);
+					// + cashBegigginperiod);
 
 				}
 			}
@@ -307,7 +308,7 @@ public class CashFlowStatementServerReport extends
 		totaloperating = 0.0D;
 		totalInvesting = 0.0D;
 		totalFinaning = 0.0D;
-		cashBegigginperiod = 0.0D;
+		// cashBegigginperiod = 0.0D;
 	}
 
 	public void print() {
