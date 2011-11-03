@@ -4,6 +4,15 @@ public class UserCommand {
 	private String displayName;
 	private String commandName;
 
+	public UserCommand(String displayName) {
+		this(displayName, displayName);
+	}
+
+	public UserCommand(String displayName, String commandName) {
+		this.displayName = displayName;
+		this.commandName = commandName;
+	}
+
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -18,5 +27,10 @@ public class UserCommand {
 
 	public void setCommandName(String commandName) {
 		this.commandName = commandName;
+	}
+
+	@Override
+	public String toString() {
+		return displayName;
 	}
 }

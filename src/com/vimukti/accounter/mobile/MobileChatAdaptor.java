@@ -151,7 +151,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (index < 0) {
 			return null;
 		}
-		String commandString = commands.get(index);
+		UserCommand userCommand = commands.get(index);
+		String commandString = userCommand.getCommandName();
 		if (commandString == null) {
 			return null;
 		}
@@ -170,7 +171,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (index < 0) {
 			return null;
 		}
-		String commandString = commands.get(index);
+		UserCommand userCommand = commands.get(index);
+		String commandString = userCommand.getCommandName();
 		if (commandString == null) {
 			return null;
 		}
