@@ -48,8 +48,8 @@ public class InputDialog extends BaseDialog {
 			addTextItem(item);
 		form.setItems(textItems.toArray(new TextItem[1]));
 		layout.add(form);
-		okbtn.setWidth("60px");
-		cancelBtn.setWidth("60px");
+		// okbtn.setWidth("60px");
+		// cancelBtn.setWidth("60px");
 
 		setBodyLayout(layout);
 		// setSize("300", "100");
