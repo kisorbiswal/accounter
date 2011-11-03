@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
@@ -173,6 +172,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		checkBox.setValue(isSelected);
 		transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
 		HTML transactionLabel = new HTML(transactionLink);
 		horizontalPanel.add(transactionLabel);
@@ -223,6 +223,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		transactionTree.setWidget(checkBox);
 		checkBox.setValue(isSelected);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
 		HTML transactionLabel = new HTML(transactionLink);
 		horizontalPanel.add(transactionLabel);
@@ -284,6 +285,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		checkBox.setValue(isSelected);
 		transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
 		HTML transactionLabel = new HTML(transactionLink);
 		horizontalPanel.add(transactionLabel);
@@ -339,6 +341,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		checkBox.setValue(isSelected);
 		transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
 		HTML transactionLabel = new HTML(transactionLink);
 		horizontalPanel.add(transactionLabel);
@@ -394,6 +397,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		checkBox.setValue(isSelected);
 		transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
 		HTML transactionLabel = new HTML(transactionLink);
 		horizontalPanel.add(transactionLabel);
