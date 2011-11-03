@@ -82,7 +82,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(STATUS).setDefaultValue(getConstants().open());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		
+
 		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
@@ -143,7 +143,8 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -152,19 +153,17 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
-		
 		list.add(new TransactionItemItemsRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
 				false, true, true) {
@@ -381,16 +380,17 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		newSalesOrder.setDate(date.getDate());
 
 		Estimate e = get(ESTIMATE).getValue();
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		ClientConvertUtil c = new ClientConvertUtil();
-		ClientEstimate cEstimate = null;
-		try {
-			cEstimate = c.toClientObject(e, ClientEstimate.class);
-		} catch (AccounterException e1) {
-			e1.printStackTrace();
-		}
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		if (e != null) {
+			ClientConvertUtil c = new ClientConvertUtil();
+			ClientEstimate cEstimate = null;
+			try {
+				cEstimate = c.toClientObject(e, ClientEstimate.class);
+			} catch (AccounterException e1) {
+				e1.printStackTrace();
+			}
+
 			newSalesOrder.setEstimate(cEstimate.getID());
 			addEstimate(cEstimate, items);
 		}
@@ -411,7 +411,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			newSalesOrder.setCurrencyFactor(factor);
 		}
-		
+
 		newSalesOrder.setTransactionItems(items);
 		double taxTotal = updateTotals(context, newSalesOrder, true);
 		newSalesOrder.setTaxTotal(taxTotal);
