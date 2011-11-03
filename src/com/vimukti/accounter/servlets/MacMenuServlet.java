@@ -127,8 +127,8 @@ public class MacMenuServlet extends BaseServlet {
 	private void addInventoryMenuItems() {
 		StringBuilder inventoryMenu = new StringBuilder();
 
-		menu(inventoryMenu, iGlobal.constants().stockSettings(),
-				"company/accounter#stockSettings");
+		// menu(inventoryMenu,
+		// iGlobal.constants().stockSettings(),"company/accounter#stockSettings");
 
 		StringBuilder newMenu = new StringBuilder();
 		if (iswareHouseEnabled()) {
@@ -254,8 +254,8 @@ public class MacMenuServlet extends BaseServlet {
 			menu(mainValue, iGlobal.constants().payTax(),
 					"company/accounter#paySalesTax");
 			menu(mainValue, iGlobal.constants().tAXRefund(),
-					"company/accounter#receiveVat");
-			menu(mainValue, iGlobal.constants().tAXRefund(),
+					"company/accounter#taxRefund");
+			menu(mainValue, iGlobal.constants().taxHistory(),
 					"company/accounter#taxHistory");
 		}
 

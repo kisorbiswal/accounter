@@ -815,57 +815,34 @@ public class WriteChequeView extends
 		toprintCheck = new CheckboxItem(Accounter.constants().toBePrinted());
 		toprintCheck.setDisabled(false);
 		toprintCheck.setValue(true);
-		// toprintCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
-		//
-		// @Override
-		// public void onValueChange(ValueChangeEvent<Boolean> event) {
-		// if ((Boolean) toprintCheck.getValue()) {
-		// nText.setDisabled(true);
-		// nText.setValue(bankingConstants.toBePrinted());
-		// checkNo = ClientWriteCheck.IS_TO_BE_PRINTED;
-		// } else if (selectBankAcc != null) {
-		// setCheckNumber();
-		// nText.setDisabled(false);
-		// } else {
-		// nText.setValue(transactionNumber);
-		// nText.setDisabled(false);
-		// }
-		// }
-		// });
 
 		payForm = new DynamicForm();
 		payForm.setWidth("100%");
 		payForm.setFields(paytoSelect, billToCombo, amtText);
 		payForm.getCellFormatter().setWidth(0, 0, "170px");
-		// forms.add(payForm);
 
-		// amtForm = new DynamicForm();
-		// amtForm.setWidth("50%");
-		// // amtForm.setFields(amtText, text, memoTextAreaItem, toprintCheck);
-		// amtForm.setFields(amtText);
-		// amtForm.getCellFormatter().setWidth(0, 0, "100");
-		// amtForm.getCellFormatter().setWidth(1, 0, "170px");
-
-		// HorizontalPanel amtPanel = new HorizontalPanel();
-		// amtPanel.setWidth("50%");
-		// amtPanel.add(amtForm);
 		currencyWidget = createCurrencyWidget();
+
+		VerticalPanel currencyPanel = new VerticalPanel();
+		currencyPanel.setWidth("100%");
+		currencyPanel.add(bankAccForm);
+		if (isMultiCurrencyEnabled()) {
+			currencyPanel.add(currencyWidget);
+			currencyWidget.setDisabled(isInViewMode());
+		}
+
 		HorizontalPanel accPanel = new HorizontalPanel();
 		accPanel.setWidth("100%");
 		accPanel.add(payForm);
-		accPanel.add(bankAccForm);
+		accPanel.add(currencyPanel);
 		accPanel.setCellHorizontalAlignment(bankAccForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		VerticalPanel topHLay = new VerticalPanel();
 		topHLay.setWidth("100%");
-
 		topHLay.add(labelLayout);
 		topHLay.add(accPanel);
-		if (isMultiCurrencyEnabled()) {
-			topHLay.add(currencyWidget);
-			currencyWidget.setDisabled(isInViewMode());
-		}
+
 		// topHLay.add(amtForm);
 
 		vatPanel = new VerticalPanel();

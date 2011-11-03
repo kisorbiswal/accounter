@@ -14,7 +14,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
@@ -25,7 +24,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -360,6 +358,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getSalesPersonAction().getHistoryToken(),
 				ActionFactory.getSalesPersonAction());
+
+		// tax related items menus
 		actions.put(ActionFactory.getNewVatItemAction().getHistoryToken(),
 				ActionFactory.getNewVatItemAction());
 		actions.put(ActionFactory.getNewTAXCodeAction().getHistoryToken(),
@@ -376,9 +376,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getreceiveVATAction());
 		actions.put(ActionFactory.getVatItemListAction().getHistoryToken(),
 				ActionFactory.getVatItemListAction());
-
 		actions.put(ActionFactory.getTAXCodeListAction().getHistoryToken(),
 				ActionFactory.getTAXCodeListAction());
+		actions.put(ActionFactory.getTaxHistoryAction().getHistoryToken(),
+				ActionFactory.getTaxHistoryAction());
 
 		actions.put(ActionFactory.getCustomersHomeAction().getHistoryToken(),
 				ActionFactory.getCustomersHomeAction());
@@ -674,6 +675,27 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		ItemsAction allItemAction = ActionFactory.getItemsAction(false, false);
 		actions.put(allItemAction.getHistoryToken(), allItemAction);
+
+		// adding actions for inventory
+
+		actions.put(ActionFactory.getWareHouseViewAction().getHistoryToken(),
+				ActionFactory.getWareHouseViewAction());
+		actions.put(ActionFactory.getWareHouseTransferAction()
+				.getHistoryToken(), ActionFactory.getWareHouseTransferAction());
+		actions.put(ActionFactory.getAddMeasurementAction().getHistoryToken(),
+				ActionFactory.getAddMeasurementAction());
+
+		actions.put(ActionFactory.getInventoryItemsAction().getHistoryToken(),
+				ActionFactory.getInventoryItemsAction());
+		actions.put(ActionFactory.getWarehouseListAction().getHistoryToken(),
+				ActionFactory.getWarehouseListAction());
+		actions.put(ActionFactory.getWarehouseTransferListAction()
+				.getHistoryToken(), ActionFactory
+				.getWarehouseTransferListAction());
+		actions.put(ActionFactory.getMeasurementsAction().getHistoryToken(),
+				ActionFactory.getMeasurementsAction());
+		actions.put(ActionFactory.getStockSettingsAction().getHistoryToken(),
+				ActionFactory.getStockSettingsAction());
 
 	}
 
