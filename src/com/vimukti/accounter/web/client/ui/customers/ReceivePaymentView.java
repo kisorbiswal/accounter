@@ -573,6 +573,7 @@ public class ReceivePaymentView extends
 		}
 
 		topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);

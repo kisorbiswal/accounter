@@ -318,6 +318,7 @@ public class CustomerRefundView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		HorizontalPanel hLay = new HorizontalPanel();
+		hLay.addStyleName("fields-panel");
 		hLay.setWidth("100%");
 		hLay.setSpacing(10);
 		hLay.add(leftPanel);

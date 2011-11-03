@@ -777,6 +777,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		rightVLay.add(emailForm);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setSpacing(5);
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);

@@ -494,6 +494,7 @@ public class NewCustomerPaymentView extends
 			rightPanel.add(currencyWidget);
 		}
 		HorizontalPanel hLay = new HorizontalPanel();
+		hLay.addStyleName("fields-panel");
 		hLay.setWidth("100%");
 		hLay.setSpacing(10);
 		hLay.add(leftPanel);

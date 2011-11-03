@@ -665,6 +665,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);

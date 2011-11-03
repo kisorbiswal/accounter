@@ -339,6 +339,7 @@ public class CustomerCreditMemoView extends
 		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setSize("100%", "100%");
 		topHLay.setSpacing(20);
 
