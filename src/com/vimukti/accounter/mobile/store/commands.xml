@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <commands>
 
-	<command clazz="MyCommand" name="aa">
+	<command clazz="MyCommand" name="my com">
 	</command>
 	<command clazz="AuthenticationCommand" name="authenticate">
 	</command>
