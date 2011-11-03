@@ -88,17 +88,17 @@ public abstract class TemplateAccountRequirement extends
 			}
 		}
 
-		if (valuesSelection != null && valuesSelection.equals(getName())) {
-			return showList(context, values);
-		}
-
 		selection = context.getSelection(ACCOUNTS_LIST);
 		if (selection != null) {
 			values.remove(selection);
+			addFirstMessage(context,
+					"'" + ((TemplateAccount) selection).getName()
+							+ "' has been removed from below list");
 			return showSlectedAccounts();
 		}
-
-		if (values.size() == 0) {
+		if (values.size() == 0
+				|| (valuesSelection != null && valuesSelection
+						.equals(getName()))) {
 			return showList(context, values);
 		}
 
@@ -124,7 +124,7 @@ public abstract class TemplateAccountRequirement extends
 		List<TemplateAccount> values = getValue();
 		for (TemplateAccount account : values) {
 			Record itemRec = new Record(account);
-			itemRec.add(getRecordName(), getDisplayValue(account));
+			itemRec.add("", getDisplayValue(account));
 			itemsList.add(itemRec);
 		}
 		result.add(itemsList);

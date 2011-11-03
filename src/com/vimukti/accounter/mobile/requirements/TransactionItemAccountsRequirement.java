@@ -282,11 +282,8 @@ public abstract class TransactionItemAccountsRequirement extends
 	@Override
 	protected Record createRecord(ClientAccount value) {
 		Record record = new Record(value);
-		record.add("", getMessages().accountNumber(Global.get().Account()));
 		record.add("", value.getNumber());
-		record.add("", getMessages().accountName(Global.get().Account()));
 		record.add("", value.getName());
-		record.add("", getMessages().accountType(Global.get().Account()));
 		record.add("", getAccountTypeString(value.getType()));
 		record.add("", getConstants().balance());
 		record.add("", value.getTotalBalance());

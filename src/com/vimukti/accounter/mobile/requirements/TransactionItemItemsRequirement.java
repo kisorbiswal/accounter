@@ -308,8 +308,9 @@ public abstract class TransactionItemItemsRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().productItem()));
 		list.add(getMessages().create(getConstants().serviceItem()));
+		list.add("Create Non Inventory Item");
+		list.add("Create Inventory Item");
 	}
 
 	@Override
