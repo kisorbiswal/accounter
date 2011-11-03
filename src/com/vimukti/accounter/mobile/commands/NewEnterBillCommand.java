@@ -159,7 +159,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), false,
+				"please select account Items", getConstants().Account(), true,
 				true) {
 
 			@Override
@@ -170,7 +170,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemItemsRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, false) {
+				true, true, false) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -178,7 +178,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
+		list.add(new ContactRequirement(CONTACT, "Please Enter contact name",
 				"Contact", true, true, null) {
 
 			@Override
@@ -253,7 +253,24 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 	}
 
 	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			addFirstMessage(context, "");
+		}
+	}
+
+	@Override
 	protected Result onCompleteProcess(Context context) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			return new Result();
+		}
+
 		ClientEnterBill enterBill = new ClientEnterBill();
 
 		ClientVendor vendor = (ClientVendor) get(VENDOR).getValue();
@@ -267,9 +284,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		enterBill.setType(ClientTransaction.TYPE_ENTER_BILL);
 
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
