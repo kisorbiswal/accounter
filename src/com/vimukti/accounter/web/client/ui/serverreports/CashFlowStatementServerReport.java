@@ -17,6 +17,9 @@ public class CashFlowStatementServerReport extends
 	private String curentParent;
 
 	private Double netIncome;
+	private Double totaloperating = 0.0D;
+	private Double totalInvesting = 0.0D;
+	private Double totalFinaning = 0.0D;
 	private double cashBegigginperiod;
 
 	public CashFlowStatementServerReport(IFinanceReport<TrialBalance> reportView) {
@@ -38,8 +41,7 @@ public class CashFlowStatementServerReport extends
 		switch (columnIndex) {
 		case 0:
 			return record.getAccountNumber() != null ? record
-					.getAccountNumber()
-					+ "-" + record.getAccountName() : ""
+					.getAccountNumber() + "-" + record.getAccountName() : ""
 					+ record.getAccountName();
 		case 1:
 			return record.getAmount();
@@ -131,10 +133,6 @@ public class CashFlowStatementServerReport extends
 	private void iniHandler() {
 		this.handler = new ISectionHandler<TrialBalance>() {
 
-			private Double totaloperating = 0.0D;
-			private Double totalInvesting = 0.0D;
-			private Double totalFinaning = 0.0D;
-
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
 
@@ -158,8 +156,7 @@ public class CashFlowStatementServerReport extends
 				}
 				if (section.footer == getConstants().cashAtEndOfPeriod()) {
 					CashFlowStatementServerReport.this.grid
-							.addRow(
-									null,
+							.addRow(null,
 									1,
 									new Object[] {
 											getConstants()
@@ -167,8 +164,7 @@ public class CashFlowStatementServerReport extends
 											(totalFinaning + totaloperating + totalInvesting) },
 									true, true, true);
 					CashFlowStatementServerReport.this.grid
-							.addRow(
-									null,
+							.addRow(null,
 									1,
 									new Object[] {
 											getConstants()
@@ -251,9 +247,10 @@ public class CashFlowStatementServerReport extends
 		if (isParent(record)) {
 			types.add(record.getAccountName());
 			curentParent = record.getAccountName();
-			addSection(record.getAccountNumber() + "-"
-					+ record.getAccountName(), getConstants().total()
-					+ record.getAccountName(), new int[] { 1 });
+			addSection(
+					record.getAccountNumber() + "-" + record.getAccountName(),
+					getConstants().total() + record.getAccountName(),
+					new int[] { 1 });
 			return true;
 		}
 		return false;
@@ -307,7 +304,9 @@ public class CashFlowStatementServerReport extends
 		this.types.clear();
 		this.sectiontypes.clear();
 		curentParent = "";
-		;
+		totaloperating = 0.0D;
+		totalInvesting = 0.0D;
+		totalFinaning = 0.0D;
 	}
 
 	public void print() {
