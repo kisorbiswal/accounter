@@ -89,7 +89,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				getConstants().address1()), getConstants().address1(), true,
 				true));
 
-		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
+		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
 				getConstants().address2()), getConstants().address2(), true,
 				true));
 

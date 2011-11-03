@@ -33,7 +33,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	protected static final String VALUES = "values";
 	protected static final String STATES = "statesList";
 	protected static final String ADDRESS1 = "address1";
-	protected static final String ADDRESS2 = "address1";
+	protected static final String ADDRESS2 = "address2";
 	protected static final String CITY = "city";
 	protected static final String ZIPCODE = "zipcode";
 	protected static final String TIME_ZONES = "timezoneslist";
