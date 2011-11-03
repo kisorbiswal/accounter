@@ -114,7 +114,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().accountsList(Global.get().Accounts());
+		return null;
 
 	}
 

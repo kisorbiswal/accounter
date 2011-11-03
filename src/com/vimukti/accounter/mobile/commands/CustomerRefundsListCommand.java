@@ -30,13 +30,13 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().customerRefunds(Global.get().Customer());
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 
-		return getMessages().customerRefunds(Global.get().Customer());
+		return null;
 	}
 
 	@Override

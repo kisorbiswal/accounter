@@ -79,7 +79,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().noRecordsToShow();
+				return getConstants().noRecordsToShow();
 			}
 
 			@Override
@@ -118,12 +118,12 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().accountsList(getConstants().bankAccount());
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().accountsList(getConstants().bankAccount());
+		return null;
 	}
 
 	@Override

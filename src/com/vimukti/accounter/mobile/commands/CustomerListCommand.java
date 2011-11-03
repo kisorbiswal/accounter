@@ -28,13 +28,13 @@ public class CustomerListCommand extends NewAbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 
-		return getMessages().customersList(Global.get().Customer());
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 
-		return getMessages().customersList(Global.get().Customer());
+		return null;
 	}
 
 	@Override

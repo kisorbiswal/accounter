@@ -33,13 +33,13 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 
-		return "BillsAndExpensesList";
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 
-		return "BillsAndExpensesList";
+		return null;
 	}
 
 	@Override

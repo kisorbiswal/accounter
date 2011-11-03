@@ -79,12 +79,12 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().creditRatingList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().creditRatingList();
+		return null;
 	}
 
 	@Override

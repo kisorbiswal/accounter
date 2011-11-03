@@ -40,13 +40,13 @@ public class InvoiceListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().invoices();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 
-		return "Invoices list";
+		return null;
 	}
 
 	@Override

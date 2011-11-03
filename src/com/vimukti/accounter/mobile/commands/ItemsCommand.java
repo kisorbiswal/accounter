@@ -97,12 +97,12 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().itemList();
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getConstants().itemList();
+		return null;
 	}
 
 	@Override
