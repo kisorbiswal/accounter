@@ -7,8 +7,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -158,8 +158,6 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (salesOrderTree == null) {
 			createSalesOrderTree(isSelected);
 		}
-		SafeHtml transactionLink = Accounter.messages().transactionLink(
-				(Accounter.constants().salesOrder()));
 		final TreeItem transactionTree = new TreeItem();
 		CheckBox checkBox = new CheckBox();
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -174,15 +172,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		HTML transactionLabel = new HTML(transactionLink);
+		HTML transactionLabel = new HTML(Accounter.constants().salesOrder());
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(salesOrder.getType(),
-						salesOrder.getID());
+				ReportsRPC.openTransactionView(salesOrder.getType(), salesOrder
+						.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(
@@ -214,8 +212,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (billableTree == null) {
 			createBillableTree(isSelected);
 		}
-		SafeHtml transactionLink = Accounter.messages().transactionLink(
-				(Accounter.constants().billabe()));
+		String transactionLink = Accounter.constants().billabe();
 		final TreeItem transactionTree = new TreeItem();
 		transactionTree.setUserObject(estimate);
 		billableTree.addItem(transactionTree);
@@ -225,7 +222,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		HTML transactionLabel = new HTML(transactionLink);
+		Anchor transactionLabel = new Anchor(transactionLink);
 		horizontalPanel.add(transactionLabel);
 		horizontalPanel.add(new Label(Accounter.messages().total(
 				Accounter.constants().billabe())
@@ -243,8 +240,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
 				ReportsRPC.openTransactionView(
-						ClientTransaction.TYPE_ENTER_BILL,
-						estimate.getEnterBill());
+						ClientTransaction.TYPE_ENTER_BILL, estimate
+								.getEnterBill());
 			}
 		});
 		addTransactionTree(transactionTree, estimate);
@@ -271,8 +268,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (quotesTree == null) {
 			createQuoteTree(isSelected);
 		}
-		SafeHtml transactionLink = Accounter.messages().transactionLink(
-				(Accounter.constants().quote()));
+		String transactionLink = Accounter.constants().quote();
 		final TreeItem transactionTree = new TreeItem();
 		CheckBox checkBox = new CheckBox();
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -287,15 +283,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		HTML transactionLabel = new HTML(transactionLink);
+		Anchor transactionLabel = new Anchor(transactionLink);
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(),
-						estimate.getID());
+				ReportsRPC.openTransactionView(estimate.getType(), estimate
+						.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(
@@ -327,8 +323,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (chargesTree == null) {
 			createChargesTree(isSelected);
 		}
-		SafeHtml transactionLink = Accounter.messages().transactionLink(
-				(Accounter.constants().charge()));
+		String transactionLink = Accounter.constants().charge();
 		final TreeItem transactionTree = new TreeItem();
 		CheckBox checkBox = new CheckBox();
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -343,15 +338,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		HTML transactionLabel = new HTML(transactionLink);
+		Anchor transactionLabel = new Anchor(transactionLink);
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(),
-						estimate.getID());
+				ReportsRPC.openTransactionView(estimate.getType(), estimate
+						.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(
@@ -383,8 +378,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (creditsTree == null) {
 			createCreditsTree(isSelected);
 		}
-		SafeHtml transactionLink = Accounter.messages().transactionLink(
-				(Accounter.constants().credit()));
+
 		final TreeItem transactionTree = new TreeItem();
 		CheckBox checkBox = new CheckBox();
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -399,15 +393,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		HTML transactionLabel = new HTML(transactionLink);
+		Anchor transactionLabel = new Anchor(Accounter.constants().credit());
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(),
-						estimate.getID());
+				ReportsRPC.openTransactionView(estimate.getType(), estimate
+						.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(

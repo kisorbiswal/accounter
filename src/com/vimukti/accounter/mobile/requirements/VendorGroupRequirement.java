@@ -18,7 +18,7 @@ public abstract class VendorGroupRequirement extends
 	@Override
 	protected String getEmptyString() {
 		return getMessages().youDontHaveAny(
-				getMessages().vendorGroup(Global.get().Vendor()));
+				getMessages().payeeGroup(Global.get().Vendor()));
 	}
 
 	@Override
@@ -36,12 +36,12 @@ public abstract class VendorGroupRequirement extends
 	@Override
 	protected void setCreateCommand(CommandList list) {
 		list.add(getMessages().create(
-				getMessages().vendorGroup(Global.get().Vendor())));
+				getMessages().payeeGroup(Global.get().Vendor())));
 	}
 
 	@Override
 	protected String getSelectString() {
 		return getMessages().pleaseSelect(
-				getMessages().vendorGroup(Global.get().Vendor()));
+				getMessages().payeeGroup(Global.get().Vendor()));
 	}
 }

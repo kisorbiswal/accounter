@@ -32,7 +32,7 @@ public class AmountsDueToVendorServerReport extends
 	public String[] getColunms() {
 		return new String[] {
 
-		Accounter.messages().vendorName(Global.get().Vendor()),
+		Accounter.messages().payeeName(Global.get().Vendor()),
 				getConstants().active(), getConstants().city(),
 				getConstants().state(), getConstants().zipCode(),
 				getConstants().phone(), getConstants().balance() };
@@ -108,7 +108,7 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				Accounter.messages().vendorName(Global.get().Vendor()),
+				Accounter.messages().payeeName(Global.get().Vendor()),
 				getConstants().active(), getConstants().city(),
 				getConstants().state(), getConstants().zipCode(),
 				getConstants().phone(), getConstants().balance() };

@@ -56,7 +56,7 @@ public class TransactionDetailByAccountServerReport extends
 	int getType(TransactionDetailByAccount record) {
 		if (record.getTransactionType() == 11) {
 			return (record.getMemo() != null && record.getMemo().equals(
-					getMessages().vendorPrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+					getMessages().payeePrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
 					: ClientTransaction.TYPE_PAY_BILL;
 		}
 

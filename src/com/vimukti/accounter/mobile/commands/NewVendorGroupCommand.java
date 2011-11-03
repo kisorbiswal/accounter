@@ -38,19 +38,16 @@ public class NewVendorGroupCommand extends AbstractTransactionCommand {
 		}
 		Result makeResult = context.makeResult();
 		makeResult.add(getMessages().readyToCreate(
-				getMessages().vendorGroup(Global.get().Vendor())));
+				getMessages().payeeGroup(Global.get().Vendor())));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		Result result = nameRequirement(
-				context,
-				list,
-				VENDORGROUP_NAME,
-				getMessages().customerGroup(Global.get().Vendor()),
+		Result result = nameRequirement(context, list, VENDORGROUP_NAME,
+				getMessages().payeeGroup(Global.get().Vendor()),
 				getMessages().pleaseEnter(
-						getMessages().vendorGroup(Global.get().Vendor())));
+						getMessages().payeeGroup(Global.get().Vendor())));
 		if (result != null) {
 			return result;
 		}
@@ -70,7 +67,7 @@ public class NewVendorGroupCommand extends AbstractTransactionCommand {
 		markDone();
 		Result result = new Result();
 		result.add(getMessages().createSuccessfully(
-				getMessages().vendorGroup(Global.get().Vendor())));
+				getMessages().payeeGroup(Global.get().Vendor())));
 
 		return result;
 	}

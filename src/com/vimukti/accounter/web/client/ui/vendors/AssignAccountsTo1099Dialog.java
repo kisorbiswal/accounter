@@ -79,8 +79,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 				.setWidget(rowCount, 0, new Label(Accounter.constants().use()));
 		flexTable.setWidget(rowCount, 1, new Label(Accounter.constants()
 				.get1099Information()));
-		flexTable.setWidget(rowCount, 2, new Label(Accounter.messages()
-				.account(Global.get().Account())));
+		flexTable.setWidget(rowCount, 2, new Label(Global.get().Account()));
 		rowCount++;
 		for (String string : strings) {
 			addRow(string, boxNums[rowCount - 1]);

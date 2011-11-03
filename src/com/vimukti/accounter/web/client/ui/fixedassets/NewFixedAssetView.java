@@ -219,8 +219,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// }
 		// });
 
-		accountCombo = new FixedAssetAccountCombo(Accounter.messages().account(
-				Global.get().account()));
+		accountCombo = new FixedAssetAccountCombo(Global.get().account());
 		accountCombo.setWidth("323px");
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -246,10 +245,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 							// accumltdAccVPanel.clear();
 							// }
 							NativeEvent ne = Document.get().createChangeEvent();
-							DomEvent.fireNativeEvent(ne,
-									purchaseDateTxt.getMainWidget());
-							DomEvent.fireNativeEvent(ne,
-									purchasePriceTxt.getMainWidget());
+							DomEvent.fireNativeEvent(ne, purchaseDateTxt
+									.getMainWidget());
+							DomEvent.fireNativeEvent(ne, purchasePriceTxt
+									.getMainWidget());
 
 						}
 					}
@@ -278,10 +277,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		descrptionLabel = new Label(Accounter.constants().description());
 		descriptionTxtArea = new TextAreaItem();
-		descriptionTxtArea.setToolTip(Accounter
-				.messages()
-				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(Accounter.constants().comments(),
+		descriptionTxtArea.setToolTip(Accounter.messages()
+				.writeCommentsForThis(this.getAction().getViewName()).replace(
+						Accounter.constants().comments(),
 						Accounter.constants().description()));
 		descriptionTxtArea.setWidth(98);
 
@@ -516,8 +514,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				depreciationAccount.setSelected("");
 			if (!DecimalUtil.isEquals(data.getAccumulatedDepreciationAmount(),
 					0)) {
-				showAccumultdDepAmountForm(new ClientFinanceDate(
-						data.getPurchaseDate()));
+				showAccumultdDepAmountForm(new ClientFinanceDate(data
+						.getPurchaseDate()));
 			}
 			Label bookValueLbl = new Label();
 			bookValueLbl.setText(Accounter.constants().bookValue()
@@ -533,7 +531,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			// .constants().lastDepreciation()
 			// + data.getLastDate());
 			ClientAccount assetAcc = accountCombo.getSelectedValue() != null ? accountCombo
-					.getSelectedValue() : null;
+					.getSelectedValue()
+					: null;
 			if (assetAcc != null) {
 				long strID = assetAcc.getLinkedAccumulatedDepreciationAccount();
 				if (strID != 0)
@@ -715,14 +714,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (!enteredDate.equals(getDepreciationStartDate())
 					&& enteredDate.before(getDepreciationStartDate())) {
 				isAssetAccumulated = true;
-				infoLabel1 = new Label(
-						Accounter.constants()
-								.purchaseDatePriorToFixedAssetsStartDate()
-								+ UIUtils
-										.getDateStringByDate(getDepreciationStartDate()
-												.toString())
-								+ Accounter.constants()
-										.openBraseSoPleaseSelect());
+				infoLabel1 = new Label(Accounter.constants()
+						.purchaseDatePriorToFixedAssetsStartDate()
+						+ UIUtils
+								.getDateStringByDate(getDepreciationStartDate()
+										.toString())
+						+ Accounter.constants().openBraseSoPleaseSelect());
 				infoLabel1.setStyleName("requiredField");
 				accmulatdDepreciationTxt = new AmountField(Accounter
 						.constants().accumulatedDepreciationTo()
@@ -769,7 +766,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				ClientFinanceDate purchaseDate = purchaseDateTxt
 						.getEnteredDate();
 				int depMethod = depreciationMethod.getSelectedValue() != 0 ? depreciationMethod
-						.getSelectedValue() : 0;
+						.getSelectedValue()
+						: 0;
 				double depRate = depreciationRate.getPercentage();
 				double purchasePrice = purchasePriceTxt.getAmount();
 				ClientFinanceDate depStartDate = new ClientFinanceDate(
@@ -872,22 +870,28 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				.getValue().toString() : "");
 		if (selectedAssetAccount != null) {
 			if (accumulatedDepreciationAccount != null) {
-				data.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
-						.getSelectedValue() != null ? accumulatedDepreciationAccount
-						.getSelectedValue().getID() : 0);
+				data
+						.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
+								.getSelectedValue() != null ? accumulatedDepreciationAccount
+								.getSelectedValue().getID()
+								: 0);
 			}
 			data.setAssetAccount(selectedAssetAccount.getID());
 
 		}
 		data.setPurchaseDate(purchaseDateTxt.getEnteredDate().getDate());
 		data.setPurchasePrice(purchasePriceTxt.getAmount());
-		data.setDescription(descriptionTxtArea.getValue() != null ? descriptionTxtArea
-				.getValue().toString() : "");
+		data
+				.setDescription(descriptionTxtArea.getValue() != null ? descriptionTxtArea
+						.getValue().toString()
+						: "");
 
 		data.setAssetType(assetType.getValue() != null ? assetType.getValue()
 				.toString() : "");
-		data.setDepreciationRate(depreciationRate.getPercentage() != null ? depreciationRate
-				.getPercentage() : 0.0);
+		data
+				.setDepreciationRate(depreciationRate.getPercentage() != null ? depreciationRate
+						.getPercentage()
+						: 0.0);
 		data.setDepreciationMethod(depreciationMethod.getSelectedValue());
 		data.setDepreciationExpenseAccount(depreciationAccount
 				.getSelectedValue() != null ? depreciationAccount
@@ -936,8 +940,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	};
 
 	private void adjustFormWidths(int assetNumberWidth) {
-		itmNameForm.getCellFormatter().getElement(0, 0)
-				.setAttribute("width", assetNumberWidth + "");
+		itmNameForm.getCellFormatter().getElement(0, 0).setAttribute("width",
+				assetNumberWidth + "");
 	}
 
 	/*
@@ -1015,12 +1019,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		if (accountCombo != null && accumulatedDepreciationAccount != null) {
 			if (validateAccount()) {
-				result.addError(
-						accountCombo,
-						Accounter
-								.messages()
-								.accandaccumulatedDepreciationAccShouldnotbesame(
-										Global.get().account()));
+				result.addError(accountCombo, Accounter.messages()
+						.accandaccumulatedDepreciationAccShouldnotbesame(
+								Global.get().account()));
 			}
 		}
 		// }

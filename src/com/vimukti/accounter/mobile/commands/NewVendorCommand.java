@@ -80,13 +80,12 @@ public class NewVendorCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new NameRequirement(VENDOR_NAME, getMessages().pleaseEnter(
-				getMessages().vendorName(Global.get().Vendor())), getMessages()
-				.vendorName(Global.get().Vendor()), false, true));
+				getMessages().payeeName(Global.get().Vendor())), getMessages()
+				.payeeName(Global.get().Vendor()), false, true));
 
-		list.add(new NumberRequirement(VENDOR_NUMBER,
-				getMessages().pleaseEnter(
-						getMessages().vendorNumber(Global.get().Vendor())),
-				getMessages().vendorNumber(Global.get().Vendor()), false, true) {
+		list.add(new NumberRequirement(VENDOR_NUMBER, getMessages()
+				.pleaseEnter(getMessages().payeeNumber(Global.get().Vendor())),
+				getMessages().payeeNumber(Global.get().Vendor()), false, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -112,12 +111,12 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new DateRequirement(VENDOR_SINCE, getMessages().pleaseEnter(
-				getMessages().vendorSince(Global.get().Vendor())),
-				getMessages().vendorSince(Global.get().Vendor()), true, true));
+				getMessages().payeeSince(Global.get().Vendor())), getMessages()
+				.payeeSince(Global.get().Vendor()), true, true));
 
 		list.add(new AmountRequirement(BALANCE, getMessages().pleaseEnter(
-				getMessages().vendorBalance(Global.get().Vendor())),
-				getMessages().vendorBalance(Global.get().Vendor()), true, true));
+				getMessages().payeeBalance(Global.get().Vendor())),
+				getMessages().payeeBalance(Global.get().Vendor()), true, true));
 
 		list.add(new DateRequirement(BALANCE_AS_OF, getMessages().pleaseEnter(
 				getConstants().balanceAsOfDate()), getConstants()
@@ -148,8 +147,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getCountry()
-						.equals(CountryPreferenceFactory.UNITED_STATES)) {
+				if (context.getClientCompany().getCountry().equals(
+						CountryPreferenceFactory.UNITED_STATES)) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -272,8 +271,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NumberRequirement(ACCOUNT_NO, getMessages().pleaseEnter(
-				getMessages().accountNumber(Global.get().Account())),
-				getMessages().accountNumber(Global.get().Account()), true, true));
+				getMessages().payeeNumber(Global.get().Account())),
+				getMessages().payeeNumber(Global.get().Account()), true, true));
 
 		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
 				getConstants().bankName()), getConstants().bankName(), true,
@@ -285,14 +284,14 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 		list.add(new VendorGroupRequirement(VENDOR_GROUP, getMessages()
 				.pleaseEnterName(
-						getMessages().vendorGroup(Global.get().Vendor())),
-				getMessages().vendorGroup(Global.get().Vendor()), true, true,
+						getMessages().payeeGroup(Global.get().Vendor())),
+				getMessages().payeeGroup(Global.get().Vendor()), true, true,
 				null) {
 
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().vendorGroup(Global.get().Vendor()));
+						getMessages().payeeGroup(Global.get().Vendor()));
 			}
 
 			@Override
@@ -345,21 +344,23 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-				getMessages().customerNumber(Global.get().Customer())),
-				getMessages().customerNumber(Global.get().Customer()), true,
-				true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
-								.isSalesTaxAvailable()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		list
+				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+						getMessages().payeeNumber(Global.get().Customer())),
+						getMessages().payeeNumber(Global.get().Customer()),
+						true, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getClientCompany().getPreferences().isTrackTax()
+								&& getClientCompany().getCountryPreferences()
+										.isSalesTaxAvailable()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+				});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getConstants().serviceTax()), getConstants()
@@ -468,8 +469,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
-		if (context.getClientCompany().getCountry()
-				.equals(CountryPreferenceFactory.UNITED_STATES)) {
+		if (context.getClientCompany().getCountry().equals(
+				CountryPreferenceFactory.UNITED_STATES)) {
 			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);

@@ -102,7 +102,8 @@ public class NewVendorPaymentView extends
 								.getUnusedAmount()));
 			} else {
 				amountText.setAmount(getAmountInTransactionCurrency(transaction
-						.getTotal() - transaction.getTdsTotal()));
+						.getTotal()
+						- transaction.getTdsTotal()));
 			}
 			ClientVendor vendor = comapny.getVendor(transaction.getVendor());
 			vendorCombo.select(vendor);
@@ -157,7 +158,7 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(messages.vendorPrePayment(Global.get().Vendor()));
+		Label lab1 = new Label(messages.payeePrePayment(Global.get().Vendor()));
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
 
@@ -195,7 +196,7 @@ public class NewVendorPaymentView extends
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
-		vendorBalText = new AmountField(messages.vendorBalance(Global.get()
+		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
 				.Vendor()), this);
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
@@ -235,8 +236,8 @@ public class NewVendorPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -296,13 +297,14 @@ public class NewVendorPaymentView extends
 				HasHorizontalAlignment.ALIGN_CENTER);
 		this.tdsCombo = new TaxItemCombo(constants.tds(),
 				ClientTAXItem.TAX_TYPE_TDS);
-		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+		tdsCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientTAXItem selectItem) {
-				adjustBalance();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(ClientTAXItem selectItem) {
+						adjustBalance();
+					}
+				});
 		this.amountIncludeTds = new CheckboxItem(constants.amountIncludesTDS());
 		amountIncludeTds.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -311,8 +313,8 @@ public class NewVendorPaymentView extends
 				adjustBalance();
 			}
 		});
-		this.vendorPayment = new AmountLabel(messages.vendorPayment(Global
-				.get().Vendor()));
+		this.vendorPayment = new AmountLabel(messages.payeePayment(Global.get()
+				.Vendor()));
 		this.tdsAmount = new AmountLabel(constants.tdsAmount());
 		this.totalAmount = new AmountLabel(constants.total());
 
@@ -433,8 +435,8 @@ public class NewVendorPaymentView extends
 
 			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 				String value;
-				if (checkNo.getValue().toString()
-						.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+				if (checkNo.getValue().toString().equalsIgnoreCase(
+						Accounter.constants().toBePrinted())) {
 					value = String.valueOf(Accounter.constants().toBePrinted());
 				} else {
 					value = String.valueOf(checkNo.getValue());
@@ -596,8 +598,8 @@ public class NewVendorPaymentView extends
 			vendorCombo.setValue("");
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(payForm.validate());
@@ -757,7 +759,7 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages.vendorPayments(Global.get().Vendor());
+		return messages.payeePayment(Global.get().Vendor());
 	}
 
 	@Override

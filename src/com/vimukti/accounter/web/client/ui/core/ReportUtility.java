@@ -25,16 +25,16 @@ public class ReportUtility {
 			transactionName = constants.creditCardCharge();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
-			transactionName = Global.get().messages()
-					.customerCredit(Global.get().Customer());
+			transactionName = Global.get().messages().payeeCredit(
+					Global.get().Customer());
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-			transactionName = Global.get().messages()
-					.customerRefund(Global.get().Customer());
+			transactionName = Global.get().messages().customerRefund(
+					Global.get().Customer());
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
-			transactionName = Global.get().messages()
-					.vendorBill(Global.get().Vendor());
+			transactionName = Global.get().messages().vendorBill(
+					Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
 			transactionName = constants.quote();
@@ -49,23 +49,23 @@ public class ReportUtility {
 			transactionName = constants.depositTransferFunds();
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
-			transactionName = Global.get().messages()
-					.vendorPayment(Global.get().Vendor());
+			transactionName = Global.get().messages().payeePayment(
+					Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
-			transactionName = Global.get().messages()
-					.vendorPrePayment(Global.get().Vendor());
+			transactionName = Global.get().messages().payeePrePayment(
+					Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
-			transactionName = Global.get().messages()
-					.customerPayment(Global.get().Customer());
+			transactionName = Global.get().messages().payeePayment(
+					Global.get().Customer());
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
 			transactionName = constants.transferFund();
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
-			transactionName = Global.get().messages()
-					.vendorCredit(Global.get().Vendor());
+			transactionName = Global.get().messages().payeeCredit(
+					Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
 			transactionName = constants.check();
@@ -101,8 +101,8 @@ public class ReportUtility {
 			transactionName = constants.vatReturn();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
-			transactionName = Global.get().messages()
-					.customerPrePayment(Global.get().Customer());
+			transactionName = Global.get().messages().payeePrePayment(
+					Global.get().Customer());
 			break;
 		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:

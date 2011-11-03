@@ -353,7 +353,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(Accounter.messages().customerPrePayment(
+		Label lab1 = new Label(Accounter.messages().payeePrePayment(
 				Global.get().Customer()));
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
@@ -381,7 +381,7 @@ public class NewCustomerPaymentView extends
 		labeldateNoLayout.add(datepanel);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
-		customerCombo = createCustomerComboItem(messages.customerName(Global
+		customerCombo = createCustomerComboItem(messages.payeeName(Global
 				.get().customer()));
 
 		billToCombo = createBillToComboItem(customerConstants.address());
@@ -393,7 +393,7 @@ public class NewCustomerPaymentView extends
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
-		customerBalText = new AmountField(Accounter.messages().customerBalance(
+		customerBalText = new AmountField(Accounter.messages().payeeBalance(
 				Global.get().Customer()), this);
 		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
@@ -778,7 +778,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().customerPayment(Global.get().Customer());
+		return Accounter.messages().payeePayment(Global.get().Customer());
 	}
 
 	@Override

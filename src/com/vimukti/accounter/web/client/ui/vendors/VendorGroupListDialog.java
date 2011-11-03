@@ -29,7 +29,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public VendorGroupListDialog() {
 		super(Global.get().messages().manageVendorGroup(Global.get().Vendor()),
-				Global.get().messages().toAddVendorGroup(Global.get().Vendor()));
+				Global.get().messages().toAddPayeeGroup(Global.get().Vendor()));
 		setWidth("400px");
 		initialise();
 		center();
@@ -110,8 +110,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(this, Accounter.messages().vendorGroup(
-				Global.get().Vendor()), "", Accounter.messages().vendorGroup(
+		inputDlg = new InputDialog(this, Accounter.messages().payeeGroup(
+				Global.get().Vendor()), "", Accounter.messages().payeeGroup(
 				Global.get().Vendor())) {
 		};
 
@@ -165,7 +165,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			} else {
 				if (vendorByName != null) {
 					result.addError(this, messages
-							.vendorGroupAlreadyExists(Global.get().vendor()));
+							.payeeGroupAlreadyExists(Global.get().vendor()));
 				}
 			}
 		}

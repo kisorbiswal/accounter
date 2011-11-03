@@ -362,7 +362,7 @@ public abstract class FormItem<T> {
 
 	private HTML helpContent() {
 		HTML content;
-		content = new HTML(Accounter.messages().aboutThisFieldHelp());
+		content = new HTML("");
 		return content;
 	}
 
@@ -370,8 +370,8 @@ public abstract class FormItem<T> {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
-				result.addError(item,
-						Accounter.messages().pleaseEnter(item.getTitle()));
+				result.addError(item, Accounter.messages().pleaseEnter(
+						item.getTitle()));
 			}
 		}
 		return result;

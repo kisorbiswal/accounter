@@ -849,9 +849,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(
-				Global.get().messages().vendorLists(Global.get().Vendor()),
-				getVendorListMenu());
+		vendorMenuBar.addItem(Global.get().messages().payeeLists(
+				Global.get().Vendor()), getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -903,9 +902,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			customerMenuBar.addItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparator();
 		}
-		customerMenuBar.addItem(
-				Accounter.messages().customerLists(Global.get().Customer()),
-				getCustomerListMenu());
+		customerMenuBar.addItem(Accounter.messages().payeeLists(
+				Global.get().Customer()), getCustomerListMenu());
 		return customerMenuBar;
 	}
 

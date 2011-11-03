@@ -50,8 +50,8 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		return Accounter.messages().addaNewCustomerRefund(
-				Global.get().Customer());
+		return Accounter.messages().addaNew(
+				Accounter.messages().customerRefund(Global.get().Customer()));
 	}
 
 	@Override
@@ -100,8 +100,8 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
 
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("150px");
 
 		viewSelect.setComboItem(ISSUED);
 		viewSelect

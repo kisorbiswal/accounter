@@ -225,7 +225,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		cellTable.addColumn(checkBoxColumn, Accounter.constants().select());
 		cellTable.addColumn(informationColumn, Accounter.messages()
-				.vendorInformation(Global.get().Vendor()));
+				.payeeInformation(Global.get().Vendor()));
 		addBoxColumnsToCellTable(cellTable);
 		cellTable.addColumn(total1099PaymentsColumn, Accounter.constants()
 				.total1099Payments());
@@ -261,18 +261,19 @@ public class Prepare1099MISCView extends AbstractBaseView {
 						return box != 0 ? "" + box : "";
 					}
 				};
-				boxCell.setFieldUpdater(new FieldUpdater<Client1099Form, String>() {
+				boxCell
+						.setFieldUpdater(new FieldUpdater<Client1099Form, String>() {
 
-					@Override
-					public void update(int index, Client1099Form object,
-							String value) {
-						MISC1099TransactionDetailAction action = ActionFactory
-								.getMisc1099TransactionDetailAction();
-						action.setBoxNo(boxNum);
-						action.setVendorId(object.getVendor().getID());
-						action.run();
-					}
-				});
+							@Override
+							public void update(int index,
+									Client1099Form object, String value) {
+								MISC1099TransactionDetailAction action = ActionFactory
+										.getMisc1099TransactionDetailAction();
+								action.setBoxNo(boxNum);
+								action.setVendorId(object.getVendor().getID());
+								action.run();
+							}
+						});
 				cellTable.addColumn(boxCell, boxes[i]);
 			}
 		}
@@ -294,7 +295,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		addAccount = new Label(getSelectedAccountsNum() + " "
 				+ Accounter.messages().accountsSelected(Global.get().Account()));
 
-		changeVendorHtml = new HTML(Accounter.messages().changeVendors(
+		changeVendorHtml = new HTML(Accounter.messages().changePayees(
 				Global.get().Vendor()));
 		changeVendorHtml.addClickHandler(new ClickHandler() {
 
@@ -343,7 +344,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		});
 
-		changeAccountsHtml = new HTML(Accounter.messages().changeAccounts(
+		changeAccountsHtml = new HTML(Accounter.messages().changePayees(
 				Global.get().Accounts()));
 		changeAccountsHtml.addClickHandler(new ClickHandler() {
 
@@ -448,7 +449,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		amountForm = new DynamicForm();
 		noOf1099FormsLabel = new Label(Accounter.constants()
-				.totalNoOf1099Forms() + totalNoOf1099Forms);
+				.totalNoOf1099Forms()
+				+ totalNoOf1099Forms);
 
 		total1099AmountLabel = new AmountLabel(Accounter.constants()
 				.totalAll1099Payments());

@@ -36,11 +36,8 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] {
-				Global.get().customer(),
-				getConstants().date(),
-				getConstants().type(),
-				getConstants().noDot(),
+		return new String[] { Global.get().customer(), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
 				// ".invoicedAmount(),
 				// ".paidAmount(),
 				// ".paymentTerms(),
@@ -48,14 +45,13 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				Global.get().messages().account(Global.get().account()),
-				getConstants().amount() };
+				Global.get().account(), getConstants().amount() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().customerTransactionHistory(
+		return Accounter.messages().payeeTransactionHistory(
 				Global.get().Customer());
 	}
 
@@ -118,7 +114,8 @@ public class CustomerTransactionHistoryServerReport extends
 		case 5:
 			// return record.getPaymentTerm();
 			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? record
-					.getPaidAmount() : record.getInvoicedAmount();
+					.getPaidAmount()
+					: record.getInvoicedAmount();
 			// return record.getInvoicedAmount() - record.getPaidAmount();
 			// case 6:
 			// return record.getPaymentTerm();
@@ -185,8 +182,8 @@ public class CustomerTransactionHistoryServerReport extends
 	}
 
 	public int sort(TransactionHistory obj1, TransactionHistory obj2, int col) {
-		int ret = obj1.getName().toLowerCase()
-				.compareTo(obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase().compareTo(
+				obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -201,15 +198,15 @@ public class CustomerTransactionHistoryServerReport extends
 			return UIUtils.compareInt(Integer.parseInt(obj1.getNumber()),
 					Integer.parseInt(obj2.getNumber()));
 		case 4:
-			return obj1.getAccount().toLowerCase()
-					.compareTo(obj2.getAccount().toLowerCase());
+			return obj1.getAccount().toLowerCase().compareTo(
+					obj2.getAccount().toLowerCase());
 		case 5:
 			if (DecimalUtil.isEquals(obj1.getInvoicedAmount(), 0.0))
-				return UIUtils.compareDouble(obj1.getPaidAmount(),
-						obj2.getPaidAmount());
+				return UIUtils.compareDouble(obj1.getPaidAmount(), obj2
+						.getPaidAmount());
 			else
-				return UIUtils.compareDouble(obj1.getInvoicedAmount(),
-						obj2.getInvoicedAmount());
+				return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
+						.getInvoicedAmount());
 		}
 		return 0;
 	}
@@ -225,8 +222,7 @@ public class CustomerTransactionHistoryServerReport extends
 
 		return new String[] { Global.get().customer(), getConstants().date(),
 				getConstants().type(), getConstants().noDot(),
-				Global.get().messages().account(Global.get().account()),
-				getConstants().amount() };
+				Global.get().account(), getConstants().amount() };
 
 	}
 

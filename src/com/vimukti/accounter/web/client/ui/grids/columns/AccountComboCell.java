@@ -127,7 +127,7 @@ public class AccountComboCell extends
 	}
 
 	private Anchor getAddNewLabel() {
-		Anchor addNew = new Anchor(Accounter.messages().newAccount(
+		Anchor addNew = new Anchor(Accounter.messages().newPayee(
 				Global.get().Account()));
 		addNew.addClickHandler(new ClickHandler() {
 

@@ -70,9 +70,9 @@ public class CustomerQuoteListDialog extends
 
 		grid = new DialogGrid<EstimatesAndSalesOrdersList>(true);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(),
-				Accounter.messages().customerName(Global.get().Customer()),
-				customerConstants.total(), customerConstants.remainingTotal());
+				customerConstants.type(), Accounter.messages().payeeName(
+						Global.get().Customer()), customerConstants.total(),
+				customerConstants.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);
 		grid.init();

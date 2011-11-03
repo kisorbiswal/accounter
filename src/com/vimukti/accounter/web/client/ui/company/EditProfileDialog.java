@@ -35,7 +35,7 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 		form.setNumCols(2);
 		form.setFields(firstNameTextItem, lastNameTextItem);
 		mainPanel.add(form);
-		okbtn.setText(Accounter.constants().saveButton());
+		okbtn.setText(Accounter.constants().save());
 		setBodyLayout(mainPanel);
 
 	}

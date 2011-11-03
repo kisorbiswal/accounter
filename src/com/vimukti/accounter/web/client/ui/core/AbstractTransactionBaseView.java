@@ -20,6 +20,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -33,7 +34,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
@@ -1581,8 +1582,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		VerticalPanel tablesPanel = new VerticalPanel();
 		HorizontalPanel headersPanel = new HorizontalPanel();
 
-		final HTML historyLink = new HTML(messages.showHistory());
-		HTML addNotesLink = new HTML(messages.addNote());
+		final Anchor historyLink = new Anchor(constants.showHistory());
+		Anchor addNotesLink = new Anchor(constants.addNote());
 		historyLink.addStyleName("history_notes_link");
 		addNotesLink.addStyleName("history_notes_link");
 		addNotesLink.setVisible(!isInViewMode());
@@ -1608,9 +1609,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			public void onClick(ClickEvent event) {
 				historyPanel.setVisible(!historyPanel.isVisible());
 				if (historyPanel.isVisible())
-					historyLink.setHTML(messages.hideHistory());
+					historyLink.setHTML(constants.hideHistory());
 				else
-					historyLink.setHTML(messages.showHistory());
+					historyLink.setHTML(constants.showHistory());
 			}
 		});
 

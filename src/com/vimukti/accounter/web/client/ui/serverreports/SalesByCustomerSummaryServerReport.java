@@ -40,7 +40,7 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { messages.customerName(Global.get().Customer()),
+		return new String[] { messages.payeeName(Global.get().Customer()),
 				// FinanceApplication.constants().customerGroup(),
 				constants.amount() };
 	}
@@ -128,7 +128,7 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { messages.customerName(Global.get().customer()),
+		return new String[] { messages.payeeName(Global.get().customer()),
 				// FinanceApplication.constants().customerGroup(),
 				constants.amount() };
 	}

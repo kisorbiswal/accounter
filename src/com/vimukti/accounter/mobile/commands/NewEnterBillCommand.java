@@ -58,11 +58,11 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 	protected void setDefaultValues(Context context) {
 
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER)
-				.setDefaultValue(
-						NumberUtils.getNextTransactionNumber(
-								ClientTransaction.TYPE_ENTER_BILL,
-								context.getCompany()));
+		get(NUMBER).setDefaultValue(
+				NumberUtils
+						.getNextTransactionNumber(
+								ClientTransaction.TYPE_ENTER_BILL, context
+										.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(CONTACT).setDefaultValue(null);
 		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
@@ -104,9 +104,9 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new VendorRequirement(VENDOR, getMessages()
-				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, null)
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getConstants().Vendor()), getConstants().vendor(), false, true,
+				null)
 
 		{
 
@@ -158,7 +158,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -167,15 +168,14 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
@@ -184,8 +184,10 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().transactionDate()), getConstants()
 				.transactionDate(), true, true));
-		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-				getConstants().dueDate()), getConstants().dueDate(), true, true));
+		list
+				.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
+						getConstants().dueDate()), getConstants().dueDate(),
+						true, true));
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
 				getConstants().deliveryDate()), getConstants().deliveryDate(),
 				true, true));

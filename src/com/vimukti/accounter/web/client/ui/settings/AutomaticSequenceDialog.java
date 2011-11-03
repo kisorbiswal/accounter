@@ -53,7 +53,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		optionsTable.setWidget(0, 1, creditPanel);
 		optionsTable.setWidget(0, 2, nextPanel);
 
-		okbtn.setText(messages.saveButton());
+		okbtn.setText(messages.save());
 
 		subLayoutPanel.add(paraHTML);
 		subLayoutPanel.add(optionsTable);

@@ -176,7 +176,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
+			result
+					.addError(taxAgencyText, Accounter.constants()
+							.alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -311,15 +313,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
-		accInfoForm = UIUtils.form(Accounter.messages().accountInformation(
+		accInfoForm = UIUtils.form(Accounter.messages().payeeInformation(
 				Global.get().Account()));
 
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				companyConstants.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(companyConstants
+				.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -389,8 +391,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo.setRequired(true);
 
-		tAXFilingFrequency = new TAXFilingFrequencyCombo(
-				constants.taxFilingFrequency());
+		tAXFilingFrequency = new TAXFilingFrequencyCombo(constants
+				.taxFilingFrequency());
 		tAXFilingFrequency.setDisabled(isInViewMode());
 		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
 		tAXFilingFrequency.setSelectedItem(0);

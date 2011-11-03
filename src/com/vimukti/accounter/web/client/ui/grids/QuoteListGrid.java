@@ -126,7 +126,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		if (type == ClientEstimate.QUOTES) {
 			return new String[] { customerConstants.date(),
 					customerConstants.no(),
-					Accounter.messages().customerName(Global.get().Customer()),
+					Accounter.messages().payeeName(Global.get().Customer()),
 					customerConstants.phone(), customerConstants.salesPerson(),
 					customerConstants.expirationDate(),
 					customerConstants.deliveryDate(),
@@ -136,7 +136,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		} else {
 			return new String[] { customerConstants.date(),
 					customerConstants.no(),
-					Accounter.messages().customerName(Global.get().Customer()),
+					Accounter.messages().payeeName(Global.get().Customer()),
 					customerConstants.totalPrice(), customerConstants.reject() };
 		}
 	}

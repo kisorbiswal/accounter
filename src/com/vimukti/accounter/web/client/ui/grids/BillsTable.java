@@ -82,8 +82,8 @@ public class BillsTable extends BaseTable<BillsList> {
 					return;
 				}
 				BillsList value = event.getValue();
-				ReportsRPC.openTransactionView(value.getType(),
-						value.getTransactionId());
+				ReportsRPC.openTransactionView(value.getType(), value
+						.getTransactionId());
 
 			}
 		});
@@ -204,12 +204,12 @@ public class BillsTable extends BaseTable<BillsList> {
 
 			@Override
 			public int compare(BillsList o1, BillsList o2) {
-				return o1.getVendorName().toLowerCase()
-						.compareTo(o2.getVendorName().toLowerCase());
+				return o1.getVendorName().toLowerCase().compareTo(
+						o2.getVendorName().toLowerCase());
 			}
 		};
-		this.addColumn(vendor,
-				Global.get().messages().vendorName(Global.get().Vendor()));
+		this.addColumn(vendor, Global.get().messages().payeeName(
+				Global.get().Vendor()));
 
 		DecimalTextColumn<BillsList> originalAmount = new DecimalTextColumn<BillsList>() {
 
@@ -268,9 +268,9 @@ public class BillsTable extends BaseTable<BillsList> {
 					if (object.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
 							|| (object.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && object
 									.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
-						showWarningDialog(object,
-								UIUtils.getAccounterCoreType(object.getType()),
-								object.getTransactionId());
+						showWarningDialog(object, UIUtils
+								.getAccounterCoreType(object.getType()), object
+								.getTransactionId());
 					} else {
 						Accounter.showError(Accounter.constants()
 								.expensecantbevoiditisApproved());

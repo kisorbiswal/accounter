@@ -58,7 +58,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addaNewCustomer(Global.get().Customer());
+			return Accounter.messages().addaNew(Global.get().Customer());
 		else
 			return "";
 	}
@@ -66,7 +66,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.messages().customerList(Global.get().Customer());
+		return Accounter.messages().payeeList(Global.get().Customer());
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().customers(Global.get().Customer());
+		return Accounter.messages().payees(Global.get().Customer());
 	}
 
 	@Override

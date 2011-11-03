@@ -135,7 +135,8 @@ public class VendorCreditMemoView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -161,12 +162,12 @@ public class VendorCreditMemoView extends
 					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		super.initTransactionViewData();
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 
@@ -182,16 +183,16 @@ public class VendorCreditMemoView extends
 	@Override
 	public void createControls() {
 
-		Label lab1 = new Label(messages.vendorCredit(Global.get().Vendor())
+		Label lab1 = new Label(messages.payeeCredit(Global.get().Vendor())
 				+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(messages.vendorCredit(Global.get().Vendor()));
+			lab1 = new Label(messages.payeeCredit(Global.get().Vendor()));
 
 		else
-			lab1 = new Label(messages.vendorCredit(Global.get().Vendor()) + "("
+			lab1 = new Label(messages.payeeCredit(Global.get().Vendor()) + "("
 					+ getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
@@ -218,7 +219,7 @@ public class VendorCreditMemoView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
+		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
 
 		contactCombo = createContactComboItem();
@@ -266,8 +267,8 @@ public class VendorCreditMemoView extends
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle()
-				.setMarginTop(10, Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
+				Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -332,8 +333,8 @@ public class VendorCreditMemoView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -541,13 +542,13 @@ public class VendorCreditMemoView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -695,7 +696,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages.vendorCredit(Global.get().Vendor());
+		return messages.payeeCredit(Global.get().Vendor());
 	}
 
 	@Override

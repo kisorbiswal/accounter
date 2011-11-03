@@ -217,7 +217,7 @@ public class CreditCardExpenseView extends
 	protected void createControls() {
 		String vendorString = null;
 
-		vendorString = Accounter.messages().vendorName(Global.get().Vendor());
+		vendorString = Accounter.messages().payeeName(Global.get().Vendor());
 
 		Ccard = new VendorCombo(vendorString, true) {
 			@Override
@@ -672,8 +672,8 @@ public class CreditCardExpenseView extends
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
 		if (payFrmSelect.getSelectedValue() == null)
-			result.addError(payFrmSelect, Accounter.messages()
-					.pleaseSelectVendor(Accounter.constants().payFrom()));
+			result.addError(payFrmSelect, Accounter.messages().pleaseSelect(
+					Accounter.constants().payFrom()));
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null

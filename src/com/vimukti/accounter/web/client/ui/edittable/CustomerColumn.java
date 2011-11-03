@@ -45,7 +45,7 @@ public class CustomerColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().Customer(Global.get().Customer());
+		return Global.get().Customer();
 	}
 
 }

@@ -38,9 +38,9 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				Global.get().Account()));
 		banking = getAnchor(Accounter.constants().bankingTransactions());
 		expences = getAnchor(Accounter.constants().expenseClaims());
-		customer = getAnchor(Accounter.messages().customers(
+		customer = getAnchor(Accounter.messages().payees(
 				Global.get().Customer()));
-		vendor = getAnchor(Accounter.messages().vendors(Global.get().Vendor()));
+		vendor = getAnchor(Accounter.messages().payees(Global.get().Vendor()));
 		inviteUser = getAnchor(Accounter.constants().inviteOtherUser());
 		createBankAcc = getAnchor(Accounter.messages()
 				.createanyadditionalbankaccounts(Global.get().Accounts()));
@@ -187,10 +187,10 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				else if (title.equals(Accounter.constants().expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getExpensesAction(null).run(null, true);
-				} else if (title.equals(Accounter.messages().customers(
+				} else if (title.equals(Accounter.messages().payees(
 						Global.get().Customer())))
 					ActionFactory.getNewCustomerAction().run(null, true);
-				else if (title.equals(Accounter.messages().vendors(
+				else if (title.equals(Accounter.messages().payees(
 						Global.get().Vendor())))
 					ActionFactory.getNewVendorAction().run(null, true);
 				else if (title.equals(Accounter.constants().inviteOtherUser())) {

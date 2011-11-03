@@ -45,13 +45,13 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return getMessages().create(
-				getMessages().vendorPaymentsList(Global.get().Vendor()));
+				getMessages().payeePaymentList(Global.get().Vendor()));
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return getMessages().readyToCreate(
-				getMessages().vendorPrePayment(Global.get().Vendor()));
+				getMessages().payeePrePayment(Global.get().Vendor()));
 	}
 
 	@Override
@@ -60,18 +60,17 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_VENDOR_PAYMENT,
-						context.getCompany()));
+						ClientTransaction.TYPE_VENDOR_PAYMENT, context
+								.getCompany()));
 get(CURRENCY_FACTOR).setDefaultValue(1.0);
 get(CURRENCY).setDefaultValue(null);
-
 	}
 
 	@Override
 	public String getSuccessMessage() {
 
 		return getMessages().createSuccessfully(
-				getMessages().vendorPrePayment(Global.get().Vendor()));
+				getMessages().payeePrePayment(Global.get().Vendor()));
 	}
 
 	@Override
@@ -82,9 +81,9 @@ get(CURRENCY).setDefaultValue(null);
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new VendorRequirement(VENDOR, getMessages()
-				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, null)
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getConstants().Vendor()), getConstants().vendor(), false, true,
+				null)
 
 		{
 
@@ -244,8 +243,10 @@ get(CURRENCY).setDefaultValue(null);
 						getConstants().paymentMethod());
 			}
 		});
-		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), false, true));
+		list
+				.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+						getConstants().amount()), getConstants().amount(),
+						false, true));
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
@@ -259,18 +260,21 @@ get(CURRENCY).setDefaultValue(null);
 				return "Not Printed ";
 			}
 		});
-		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().checkNo()), getConstants().checkNo(), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if ((Boolean) get(TO_BE_PRINTED).getValue()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
+		list
+				.add(new StringRequirement(CHEQUE_NO, getMessages()
+						.pleaseEnter(getConstants().checkNo()), getConstants()
+						.checkNo(), true, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if ((Boolean) get(TO_BE_PRINTED).getValue()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
 
-			}
-		});
+					}
+				});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 
@@ -307,7 +311,8 @@ get(CURRENCY).setDefaultValue(null);
 		paybill.setAddress(billTo);
 		paybill.setPayFrom(pay);
 		paybill.setTotal(amount);
-		paybill.setStatus(ClientPayBill.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+		paybill
+				.setStatus(ClientPayBill.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		paybill.setPaymentMethod(paymentMethod);
 		paybill.setMemo(memo);
 		paybill.setToBePrinted(toBePrinted);

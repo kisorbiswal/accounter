@@ -114,8 +114,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
 		lab1.addStyleName(Accounter.constants().labelTitle());
-		lab1.setText(Accounter.messages().account(
-				Global.get().constants().newBudget()));
+		lab1.setText(Accounter.constants().newBudget());
 
 		// hierarchy = new String("");
 
@@ -176,8 +175,8 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 					}
 				});
 
-		budgetNameText = new TextItem(Accounter.messages().accountName(
-				Global.get().constants().budget()));
+		budgetNameText = new TextItem(Accounter.messages().payeeName(
+				Accounter.constants().budget()));
 		budgetNameText.setToolTip(Accounter.messages()
 				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
 		budgetNameText.setHelpInformation(true);
@@ -422,7 +421,8 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		result.add(budgetInfoForm.validate());
 		if (data == null) {
 			String name = budgetNameText.getValue().toString() != null ? budgetNameText
-					.getValue().toString() : "";
+					.getValue().toString()
+					: "";
 
 			String financialYear = selectFinancialYear.getSelectedValue();
 

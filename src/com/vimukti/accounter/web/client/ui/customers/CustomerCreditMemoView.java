@@ -130,7 +130,7 @@ public class CustomerCreditMemoView extends
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(Accounter.messages()
-				.customerName(Global.get().Customer()));
+				.payeeName(Global.get().Customer()));
 
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);

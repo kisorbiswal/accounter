@@ -83,14 +83,12 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(item
 							.getPurchaseDate())) : "";
 		case 4:
-			return amountAsString(
-					item.getPurchasePrice(),
-					getCompany().getCurrency(
+			return amountAsString(item.getPurchasePrice(), getCompany()
+					.getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()));
 		case 5:
-			return amountAsString(
-					item.getBookValue(),
-					getCompany().getCurrency(
+			return amountAsString(item.getBookValue(), getCompany()
+					.getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()));
 		case 6:
 			return Accounter.constants().showHistory();
@@ -142,7 +140,8 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			@Override
 			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString() : "";
+						.getValue().toString()
+						: "";
 				// setAttribute("note", note, currentRow);
 				if (note.length() != 0)
 					executeUpdate(asset, note);
@@ -175,8 +174,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().item(),
-				Accounter.constants().assetNumber(),
-				Accounter.messages().account(Global.get().account()),
+				Accounter.constants().assetNumber(), Global.get().account(),
 				Accounter.constants().purchaseDate(),
 				Accounter.constants().purchasePrice(),
 				Accounter.constants().bookValue(),
@@ -200,10 +198,10 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(
-					obj1.getPurchaseDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(
-					obj2.getPurchaseDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(obj1
+					.getPurchaseDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(obj2
+					.getPurchaseDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;

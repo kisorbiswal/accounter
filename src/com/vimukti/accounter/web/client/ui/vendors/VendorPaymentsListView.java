@@ -50,7 +50,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages.vendorPaymentList(Global.get().Vendor());
+		return messages.payeePaymentList(Global.get().Vendor());
 	}
 
 	@Override
@@ -89,8 +89,8 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		listOfTypes.add(Accounter.constants().voided());
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
-//		if (UIUtils.isMSIEBrowser())
-//			currentView.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// currentView.setWidth("150px");
 
 		currentView.setComboItem(Accounter.constants().notIssued());
 		currentView
@@ -114,7 +114,8 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
 				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Not Issued") && !rec.isVoided()) {
+						.equalsIgnoreCase("Not Issued")
+						&& !rec.isVoided()) {
 					notIssuedRecs.add(rec);
 				}
 			}
@@ -124,7 +125,8 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
 				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Issued") && !rec.isVoided()) {
+						.equalsIgnoreCase("Issued")
+						&& !rec.isVoided()) {
 					issued.add(rec);
 				}
 			}
@@ -185,6 +187,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.vendorPayments(Global.get().Vendor());
+		return messages.payeePayments(Global.get().Vendor());
 	}
 }

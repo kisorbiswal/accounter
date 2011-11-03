@@ -42,7 +42,7 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().customerTransactionHistory(
+		return Accounter.messages().payeeTransactionHistory(
 				Global.get().Customer());
 	}
 

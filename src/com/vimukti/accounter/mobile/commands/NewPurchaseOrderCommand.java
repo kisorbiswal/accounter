@@ -66,8 +66,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_PURCHASE_ORDER,
-						context.getCompany()));
+						ClientTransaction.TYPE_PURCHASE_ORDER, context
+								.getCompany()));
 		get(CONTACT).setDefaultValue(null);
 		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
 				.getPaymentsTerms();
@@ -100,9 +100,9 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new VendorRequirement(VENDOR, getMessages()
-				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, null)
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getConstants().Vendor()), getConstants().vendor(), false, true,
+				null)
 
 		{
 
@@ -283,16 +283,20 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-				getConstants().dueDate()), getConstants().dueDate(), true, true));
+		list
+				.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
+						getConstants().dueDate()), getConstants().dueDate(),
+						true, true));
 		list.add(new DateRequirement(DISPATCH_DATE, getMessages().pleaseEnter(
 				getConstants().dispatchDate()), getConstants().dispatchDate(),
 				true, true));
 		list.add(new DateRequirement(RECIEVED_DATE, getMessages().pleaseEnter(
 				getConstants().receivedDate()), getConstants().receivedDate(),
 				true, true));
-		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
-				getConstants().orderNo()), getConstants().orderNo(), true, true));
+		list
+				.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
+						getConstants().orderNo()), getConstants().orderNo(),
+						true, true));
 
 		list.add(new NumberRequirement(VENDOR_ORDER_NO, getMessages()
 				.pleaseEnter(
@@ -444,7 +448,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(context,
+			addFirstMessage(
+					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
 	}

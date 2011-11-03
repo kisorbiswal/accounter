@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -75,7 +74,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = Accounter.constants().active();
 				break;
 			case 1:
-				colArray[index] = Accounter.messages().customerName(
+				colArray[index] = Accounter.messages().payeeName(
 						Global.get().Customer());
 				break;
 			case 2:
@@ -267,10 +266,9 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int getCellWidth(int index) {
 		if (index == 10) {
-			if (UIUtils.isMSIEBrowser()){
+			if (UIUtils.isMSIEBrowser()) {
 				return 25;
-			}
-			else{
+			} else {
 				return 20;
 			}
 		}
@@ -308,8 +306,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase()
-					.compareTo(obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase().compareTo(
+					obj2.getPayeeName().toLowerCase());
 
 			// case 3:
 			//

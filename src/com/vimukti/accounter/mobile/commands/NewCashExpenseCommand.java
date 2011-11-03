@@ -51,10 +51,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_EXPENSE,
-						context.getCompany()));
-		get(CURRENCY).setDefaultValue(null);
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+						ClientTransaction.TYPE_CASH_EXPENSE, context
+								.getCompany()));
 
 	}
 
@@ -71,9 +69,9 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new VendorRequirement(VENDOR, getMessages()
-				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, null)
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getConstants().Vendor()), getConstants().vendor(), false, true,
+				null)
 
 		{
 
@@ -94,8 +92,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase()
-						.startsWith(name.toLowerCase());
+				return e.getDisplayName().toLowerCase().startsWith(
+						name.toLowerCase());
 			}
 		});
 		
@@ -294,7 +292,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(context,
+			addFirstMessage(
+					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
 	}

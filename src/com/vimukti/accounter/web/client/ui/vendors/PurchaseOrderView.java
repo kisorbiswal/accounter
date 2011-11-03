@@ -225,14 +225,14 @@ public class PurchaseOrderView extends
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
 
-			paymentsNonEditableText = new AmountLabel(
-					accounterConstants.payments());
+			paymentsNonEditableText = new AmountLabel(accounterConstants
+					.payments());
 			paymentsNonEditableText.setDisabled(true);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountField(
-					accounterConstants.balanceDue(), this);
+			balanceDueNonEditableText = new AmountField(accounterConstants
+					.balanceDue(), this);
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -292,8 +292,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
@@ -326,7 +326,7 @@ public class PurchaseOrderView extends
 
 		// formItems.add(billToCombo);
 
-		purchaseOrderText = new TextItem(messages.vendorOrderNo(Global.get()
+		purchaseOrderText = new TextItem(messages.payeeOrderNo(Global.get()
 				.Vendor()));
 		purchaseOrderText.setWidth(50);
 		purchaseOrderText.setColSpan(1);
@@ -691,8 +691,8 @@ public class PurchaseOrderView extends
 
 	public AddressCombo createVendorAddressComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(
-				messages.vendorAddress(Global.get().Vendor()));
+		AddressCombo addressCombo = new AddressCombo(messages
+				.payeeAddress(Global.get().Vendor()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -850,12 +850,12 @@ public class PurchaseOrderView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initDeliveryDate() {
@@ -1066,9 +1066,9 @@ public class PurchaseOrderView extends
 
 		transaction.setMemo(getMemoTextAreaItem());
 		if (transaction.getNetAmount() != 0)
-			transaction
-					.setNetAmount(vendorAccountTransactionTable.getLineTotal()
-							+ vendorItemTransactionTable.getLineTotal());
+			transaction.setNetAmount(vendorAccountTransactionTable
+					.getLineTotal()
+					+ vendorItemTransactionTable.getLineTotal());
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal());
 		// transaction.setReference(getRefText());
@@ -1243,8 +1243,8 @@ public class PurchaseOrderView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		// TODO::: isvalid received date
@@ -1272,8 +1272,8 @@ public class PurchaseOrderView extends
 		result.add(vendorForm.validate());
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

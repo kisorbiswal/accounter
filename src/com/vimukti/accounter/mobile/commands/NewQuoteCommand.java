@@ -57,7 +57,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 		list.add(new CustomerRequirement(CUSTOMER, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Customer()),
-				getMessages().customerNumber(Global.get().Customer()), false,
+				getMessages().payeeNumber(Global.get().Customer()), false,
 				true, null) {
 
 			@Override
@@ -124,8 +124,10 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().date()), getConstants().date(), true, true));
 
-		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+		list
+				.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+						getConstants().number()), getConstants().number(),
+						true, false));
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
 				.pleaseEnterName(getConstants().paymentTerm()), getConstants()

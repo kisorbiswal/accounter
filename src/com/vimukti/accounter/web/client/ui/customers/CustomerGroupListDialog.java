@@ -98,9 +98,9 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
-		inputDlg = new InputDialog(this, Accounter.messages().customerGroup(
+		inputDlg = new InputDialog(this, Accounter.messages().payeeGroup(
 				Global.get().Customer()), "", Accounter.messages()
-				.customerGroup(Global.get().Customer())) {
+				.payeeGroup(Global.get().Customer())) {
 		};
 
 		if (customerGroup != null) {
@@ -154,7 +154,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					.getCustomerGroupByName(UIUtils.toStr(value));
 			if (customerGroupByName != null) {
 				result.addError(this, Accounter.messages()
-						.customerGroupAlreadyExists(Global.get().Customer()));
+						.payeeGroupAlreadyExists(Global.get().Customer()));
 			}
 			// if (customerGroup != null) {
 			// if (!(customerGroup.getName().equalsIgnoreCase(
@@ -171,7 +171,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 									.toString());
 			if (customerGroupByName2 != null) {
 				result.addError(this, Accounter.messages()
-						.customerGroupAlreadyExists(Global.get().Customer()));
+						.payeeGroupAlreadyExists(Global.get().Customer()));
 			}
 		}
 		return result;

@@ -218,7 +218,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.messages().newCustomer(Global.get().Customer()),
+				Accounter.messages().newPayee(Global.get().Customer()),
 				Accounter.constants().salesItem(),
 				Accounter.constants().paymentReceived(),
 				Accounter.constants().cashSales(),

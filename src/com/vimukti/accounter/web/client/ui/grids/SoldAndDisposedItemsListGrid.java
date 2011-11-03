@@ -88,14 +88,12 @@ public class SoldAndDisposedItemsListGrid extends
 					.getDateByCompanyType(new ClientFinanceDate(date)) : "";
 
 		case 4:
-			return amountAsString(
-					asset.getSalePrice(),
-					getCompany().getCurrency(
+			return amountAsString(asset.getSalePrice(), getCompany()
+					.getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()));
 		case 5:
-			return amountAsString(
-					asset.getLossOrGain(),
-					getCompany().getCurrency(
+			return amountAsString(asset.getLossOrGain(), getCompany()
+					.getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()));
 
 		case 6:
@@ -155,7 +153,8 @@ public class SoldAndDisposedItemsListGrid extends
 			@Override
 			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString() : "";
+						.getValue().toString()
+						: "";
 				// setAttribute("note", note, currentRow);
 				if (note.length() != 0)
 					executeUpdate(asset, note);
@@ -188,8 +187,7 @@ public class SoldAndDisposedItemsListGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().item(),
-				Accounter.constants().assetNumber(),
-				Accounter.messages().account(Global.get().account()),
+				Accounter.constants().assetNumber(), Global.get().account(),
 				Accounter.constants().disposalDate(),
 				Accounter.constants().disposalPrice(),
 				Accounter.constants().gainsOrLosses(),
@@ -213,10 +211,10 @@ public class SoldAndDisposedItemsListGrid extends
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(
-					obj1.getSoldOrDisposedDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(
-					obj2.getSoldOrDisposedDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(obj1
+					.getSoldOrDisposedDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(obj2
+					.getSoldOrDisposedDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;

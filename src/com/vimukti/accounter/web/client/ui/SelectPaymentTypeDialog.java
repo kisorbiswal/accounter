@@ -31,10 +31,10 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 		String paymentType;
-		paymentType = Accounter.messages().vendorPayment(Global.get().Vendor());
+		paymentType = Accounter.messages().payeePayment(Global.get().Vendor());
 
-		typeRadio.setValueMap(paymentType,
-				Accounter.messages().customerRefund(Global.get().Customer()));
+		typeRadio.setValueMap(paymentType, Accounter.messages().customerRefund(
+				Global.get().Customer()));
 
 		typeRadio.setDefaultValue(paymentType);
 		final DynamicForm typeForm = new DynamicForm();
@@ -62,7 +62,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 			String paymentType;
-			paymentType = Accounter.messages().vendorPayment(
+			paymentType = Accounter.messages().payeePayment(
 					Global.get().Vendor());
 			if (radio.equals(paymentType)) {
 				ActionFactory.getNewVendorPaymentAction().run(null, false);

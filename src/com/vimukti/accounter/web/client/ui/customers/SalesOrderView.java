@@ -231,7 +231,7 @@ public class SalesOrderView extends
 		custForm.getCellFormatter().setWidth(0, 1, "180px");
 		custForm.getCellFormatter().setWidth(0, 0, "225px");
 
-		customerOrderText = new TextItem(Accounter.messages().customerOrderNo(
+		customerOrderText = new TextItem(Accounter.messages().payeeOrderNo(
 				Global.get().customer()));
 		customerOrderText.setWidth(50);
 		customerOrderText.setColSpan(1);
@@ -360,8 +360,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -722,7 +722,8 @@ public class SalesOrderView extends
 
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal() - transaction.getNetAmount()));
+							.getTotal()
+							- transaction.getNetAmount()));
 			customerOrderText.setValue(transaction.getCustomerOrderNumber());
 			paymentTermsSelected(this.paymentTerm);
 			// priceLevelSelected(this.priceLevel);
@@ -749,7 +750,8 @@ public class SalesOrderView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1139,8 +1141,8 @@ public class SalesOrderView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -1152,7 +1154,7 @@ public class SalesOrderView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(Accounter.messages().pleaseSelectCustomer(
+			Accounter.showError(Accounter.messages().pleaseSelect(
 					Global.get().customer()));
 		} else {
 			this.rpcUtilService.getEstimates(getCustomer().getID(),

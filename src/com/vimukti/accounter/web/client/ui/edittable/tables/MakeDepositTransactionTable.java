@@ -112,63 +112,68 @@ public abstract class MakeDepositTransactionTable extends
 					}
 				});
 
-		this.addColumn(new ComboColumn<ClientTransactionMakeDeposit, IAccounterCore>() {
+		this
+				.addColumn(new ComboColumn<ClientTransactionMakeDeposit, IAccounterCore>() {
 
-			@Override
-			protected IAccounterCore getValue(ClientTransactionMakeDeposit obj) {
-				switch (obj.getType()) {
-				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-					return Accounter.getCompany().getAccount(obj.getAccount());
-				case ClientTransactionMakeDeposit.TYPE_VENDOR:
-					return Accounter.getCompany().getVendor(obj.getVendor());
-				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-					return Accounter.getCompany()
-							.getCustomer(obj.getCustomer());
-				}
-				return null;
-			}
+					@Override
+					protected IAccounterCore getValue(
+							ClientTransactionMakeDeposit obj) {
+						switch (obj.getType()) {
+						case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+							return Accounter.getCompany().getAccount(
+									obj.getAccount());
+						case ClientTransactionMakeDeposit.TYPE_VENDOR:
+							return Accounter.getCompany().getVendor(
+									obj.getVendor());
+						case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
+							return Accounter.getCompany().getCustomer(
+									obj.getCustomer());
+						}
+						return null;
+					}
 
-			@Override
-			protected void setValue(ClientTransactionMakeDeposit row,
-					IAccounterCore newValue) {
-				switch (row.getType()) {
-				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-					row.setAccount(newValue.getID());
-					break;
-				case ClientTransactionMakeDeposit.TYPE_VENDOR:
-					row.setVendor(newValue.getID());
-					break;
-				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-					row.setCustomer(newValue.getID());
-					break;
-				}
-			}
+					@Override
+					protected void setValue(ClientTransactionMakeDeposit row,
+							IAccounterCore newValue) {
+						switch (row.getType()) {
+						case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+							row.setAccount(newValue.getID());
+							break;
+						case ClientTransactionMakeDeposit.TYPE_VENDOR:
+							row.setVendor(newValue.getID());
+							break;
+						case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
+							row.setCustomer(newValue.getID());
+							break;
+						}
+					}
 
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			@Override
-			public AbstractDropDownTable getDisplayTable(
-					ClientTransactionMakeDeposit row) {
-				switch (row.getType()) {
-				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-					return accountDropDownTable;
-				case ClientTransactionMakeDeposit.TYPE_VENDOR:
-					return vendorDropDownTable;
-				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-					return customerDropDownTable;
-				}
-				return null;
-			}
+					@SuppressWarnings( { "rawtypes", "unchecked" })
+					@Override
+					public AbstractDropDownTable getDisplayTable(
+							ClientTransactionMakeDeposit row) {
+						switch (row.getType()) {
+						case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+							return accountDropDownTable;
+						case ClientTransactionMakeDeposit.TYPE_VENDOR:
+							return vendorDropDownTable;
+						case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
+							return customerDropDownTable;
+						}
+						return null;
+					}
 
-			@Override
-			protected String getColumnName() {
-				return Accounter.messages().accountFrom(Global.get().Account());
-			}
+					@Override
+					protected String getColumnName() {
+						return Accounter.messages().payeeFrom(
+								Global.get().Account());
+					}
 
-			@Override
-			public int getWidth() {
-				return 180;
-			}
-		});
+					@Override
+					public int getWidth() {
+						return 180;
+					}
+				});
 
 		this.addColumn(new TextEditColumn<ClientTransactionMakeDeposit>() {
 
@@ -246,9 +251,8 @@ public abstract class MakeDepositTransactionTable extends
 					|| (record.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR && record
 							.getVendor() == 0) || (record.getType() == ClientTransactionMakeDeposit.TYPE_CUSTOMER && record
 					.getCustomer() == 0))) {
-				result.addError(
-						this,
-						Accounter.messages().pleaseselectvalidtransactionGrid(
+				result.addError(this, Accounter.messages()
+						.pleaseselectvalidtransactionGrid(
 								getTypeAsString(record.getType())));
 			}
 
@@ -268,7 +272,7 @@ public abstract class MakeDepositTransactionTable extends
 	private String getTypeAsString(int type) {
 		switch (type) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return Accounter.messages().account(Global.get().account());
+			return Global.get().account();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
 			return Global.get().Vendor();
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:

@@ -42,7 +42,7 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 
 		grid = new DialogGrid<ClientEstimate>(true);
 		grid.addColumns(constants.date(), constants.no(), constants.type(),
-				messages.customerName(Global.get().Customer()), constants
+				messages.payeeName(Global.get().Customer()), constants
 						.total());
 		grid.setCellsWidth(70, 30, 60, -1, 60);
 		grid.setView(this);

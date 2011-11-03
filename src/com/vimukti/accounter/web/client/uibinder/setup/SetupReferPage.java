@@ -120,14 +120,14 @@ public class SetupReferPage extends AbstractSetupPage {
 				&& vendorListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
-					+ Accounter.messages().customers(Global.get().customer())
+					+ Accounter.messages().payees(Global.get().customer())
 					+ " " + Global.get().vendor() + " "
 					+ Global.get().Accounts() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& vendorListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
-					+ Accounter.messages().customers(Global.get().customer())
+					+ Accounter.messages().payees(Global.get().customer())
 					+ " " + Global.get().vendor() + "?");
 			return false;
 		} else if (vendorListBox.getSelectedIndex() == -1
@@ -139,7 +139,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
-					+ Accounter.messages().customers(Global.get().customer())
+					+ Accounter.messages().payees(Global.get().customer())
 					+ " " + Global.get().Accounts());
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1) {

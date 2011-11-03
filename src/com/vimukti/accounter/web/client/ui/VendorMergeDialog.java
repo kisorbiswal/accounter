@@ -59,11 +59,11 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		vendorCombo = createVendorCombo();
 		vendorCombo1 = createVendorCombo1();
 
-		vendorIDTextItem = new TextItem(Accounter.messages().vendorID(
+		vendorIDTextItem = new TextItem(Accounter.messages().payeeID(
 				Global.get().Vendor()));
 		vendorIDTextItem.setHelpInformation(true);
 
-		vendorIDTextItem1 = new TextItem(Accounter.messages().vendorID(
+		vendorIDTextItem1 = new TextItem(Accounter.messages().payeeID(
 				Global.get().Vendor()));
 		vendorIDTextItem1.setHelpInformation(true);
 		vendorIDTextItem.setDisabled(true);
@@ -99,7 +99,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo1() {
-		vendorCombo1 = new VendorCombo(Accounter.messages().vendorTo(
+		vendorCombo1 = new VendorCombo(Accounter.messages().payeeTo(
 				Global.get().Vendor()));
 		vendorCombo1.setHelpInformation(true);
 		vendorCombo1.setRequired(true);
@@ -119,7 +119,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo() {
-		vendorCombo = new VendorCombo(Accounter.messages().vendorFrom(
+		vendorCombo = new VendorCombo(Accounter.messages().payeeFrom(
 				Global.get().Vendor()), false);
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);

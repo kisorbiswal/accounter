@@ -79,7 +79,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 			@Override
 			protected String getShowMessage() {
 
-				return getMessages().customerList(Global.get().Customer());
+				return getMessages().payeeList(Global.get().Customer());
 			}
 
 			@Override

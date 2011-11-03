@@ -119,24 +119,24 @@ public class ConversionBalancesView extends BaseView {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				superHeaderHtml.getElement().getStyle()
-						.setCursor(Cursor.POINTER);
-				superHeaderHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				superHeaderHtml.getElement().getStyle().setCursor(
+						Cursor.POINTER);
+				superHeaderHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		superHeaderHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				superHeaderHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				superHeaderHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 		headerHtml = new HTML(messages.conversionBalanaceHeader());
 
-		addComparativeBalancesButton = new Button(
-				messages.addComparativeButton());
+		addComparativeBalancesButton = new Button(messages
+				.addComparativeButton());
 		conversionDateButton = new Button(messages.conversionDateButton());
 
 		headerButtonPanel.add(addComparativeBalancesButton);
@@ -150,9 +150,9 @@ public class ConversionBalancesView extends BaseView {
 		tabBodyPanel = new VerticalPanel();
 		addNewButtonPanel = new HorizontalPanel();
 		footerButtonPanel = new HorizontalPanel();
-		addNewButton = new Button(messages.addNewLine());
-		saveButton = new Button(Accounter.constants().saveButton());
-		cancelButton = new Button(Accounter.constants().cancelButton());
+		addNewButton = new Button(constants.addNew());
+		saveButton = new Button(Accounter.constants().save());
+		cancelButton = new Button(Accounter.constants().cancel());
 		footerPanel = new VerticalPanel();
 		debit_creditForm = new DynamicForm();
 		debitLabel = new AmountLabel(Accounter.constants().totalDebits());

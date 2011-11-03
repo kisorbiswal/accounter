@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -41,8 +41,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 					Accounter.constants().type(),
 					(Accounter.constants().checkNo() + "."),
 					Accounter.constants().payTo(),
-					Accounter.constants().memo(),
-					Accounter.messages().account(Global.get().account()),
+					Accounter.constants().memo(), Global.get().account(),
 					Accounter.constants().payment(),
 					Accounter.constants().deposit(),
 					Accounter.constants().currentBalance(),
@@ -52,8 +51,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 					Accounter.constants().type(),
 					Accounter.constants().docNo(),
 					Accounter.constants().payTo(),
-					Accounter.constants().memo(),
-					Accounter.messages().account(Global.get().account()),
+					Accounter.constants().memo(), Global.get().account(),
 					Accounter.constants().charge(),
 					Accounter.constants().payment(),
 					Accounter.constants().currentBalance(),
@@ -91,9 +89,8 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 			else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 				return getCreditAccValue(accRegister.getAmount(), 7);
 		case 8:
-			return amountAsString(
-					getBalanceValue(accRegister),
-					getCompany().getCurrency(
+			return amountAsString(getBalanceValue(accRegister), getCompany()
+					.getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()));
 
 		case 9:
@@ -118,24 +115,16 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		switch (col) {
 		case 6:
 			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue,
-					getCompany().getCurrency(
+					selectedvalue, getCompany().getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(
-							0.00,
-							getCompany().getCurrency(
-									getCompany().getPreferences()
-											.getPrimaryCurrency()));
+					: amountAsString(0.00, getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 7:
 			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue,
-					getCompany().getCurrency(
+					selectedvalue, getCompany().getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(
-							0.00,
-							getCompany().getCurrency(
-									getCompany().getPreferences()
-											.getPrimaryCurrency()));
+					: amountAsString(0.00, getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		}
 		return "";
 	}
@@ -151,24 +140,16 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		switch (col) {
 		case 6:
 			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue,
-					getCompany().getCurrency(
+					selectedvalue, getCompany().getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(
-							0.00,
-							getCompany().getCurrency(
-									getCompany().getPreferences()
-											.getPrimaryCurrency()));
+					: amountAsString(0.00, getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 7:
 			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue,
-					getCompany().getCurrency(
+					selectedvalue, getCompany().getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(
-							0.00,
-							getCompany().getCurrency(
-									getCompany().getPreferences()
-											.getPrimaryCurrency()));
+					: amountAsString(0.00, getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		}
 		return "";
 	}

@@ -93,7 +93,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		customerConstants = Accounter.constants();
 		return new String[] { " ", customerConstants.type(),
 				customerConstants.date(), customerConstants.no(),
-				Global.get().messages().customerName(Global.get().Customer()),
+				Global.get().messages().payeeName(Global.get().Customer()),
 				customerConstants.dueDate(), customerConstants.netPrice(),
 				customerConstants.totalPrice(), customerConstants.balance(),
 				customerConstants.voided()

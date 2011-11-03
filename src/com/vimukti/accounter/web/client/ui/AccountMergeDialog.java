@@ -55,12 +55,12 @@ public class AccountMergeDialog extends BaseDialog implements
 		accountCombo = createAccountCombo();
 		accountCombo1 = createAccountCombo1();
 
-		accountNumberTextItem = new TextItem(Accounter.messages()
-				.accountNumber(Global.get().Account()));
+		accountNumberTextItem = new TextItem(Accounter.messages().payeeNumber(
+				Global.get().Account()));
 		accountNumberTextItem.setHelpInformation(true);
 
-		accountNumberTextItem1 = new TextItem(Accounter.messages()
-				.accountNumber(Global.get().Account()));
+		accountNumberTextItem1 = new TextItem(Accounter.messages().payeeNumber(
+				Global.get().Account()));
 		accountNumberTextItem1.setHelpInformation(true);
 
 		name = new TextItem(Accounter.constants().accountName());
@@ -89,7 +89,7 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo1() {
-		accountCombo1 = new OtherAccountsCombo(Accounter.messages().accountTo(
+		accountCombo1 = new OtherAccountsCombo(Accounter.messages().payeeTo(
 				Global.get().Account()), false);
 		accountCombo1.setHelpInformation(true);
 		accountCombo1.setRequired(true);
@@ -109,7 +109,7 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo() {
-		accountCombo = new OtherAccountsCombo(Accounter.messages().accountFrom(
+		accountCombo = new OtherAccountsCombo(Accounter.messages().payeeFrom(
 				Global.get().Account()), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);

@@ -106,7 +106,7 @@ public class ItemReceiptView extends
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
+		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
@@ -434,7 +434,8 @@ public class ItemReceiptView extends
 						.getNetAmount()));
 				vatTotalNonEditableText
 						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTotal() - transaction.getNetAmount()));
+								.getTotal()
+								- transaction.getNetAmount()));
 			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
@@ -451,12 +452,12 @@ public class ItemReceiptView extends
 		initPaymentTerms();
 		initTransactionNumber();
 
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
@@ -574,8 +575,7 @@ public class ItemReceiptView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getVendor() == null) {
-			Accounter.showError(messages.pleaseSelectVendor(Global.get()
-					.vendor()));
+			Accounter.showError(messages.pleaseSelect(Global.get().vendor()));
 		} else {
 			this.rpcUtilService
 					.getNotReceivedPurchaseOrdersList(
@@ -681,14 +681,14 @@ public class ItemReceiptView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
@@ -700,8 +700,8 @@ public class ItemReceiptView extends
 
 		}
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

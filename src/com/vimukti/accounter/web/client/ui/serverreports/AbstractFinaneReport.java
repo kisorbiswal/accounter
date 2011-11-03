@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -12,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
@@ -678,18 +678,11 @@ public abstract class AbstractFinaneReport<R> extends
 	// this.preferences = preferences;
 	// }
 	public AccounterConstants getConstants() {
-		if (constants == null) {
-			constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
-		}
-		return constants;
+		return Accounter.constants();
 	}
 
 	public AccounterMessages getMessages() {
-		if (messages == null) {
-			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
-		}
-		return messages;
+		return Accounter.messages();
 	}
 
 	/**

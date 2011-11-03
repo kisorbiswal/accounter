@@ -209,7 +209,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.messages().newVendor(Global.get().Vendor()),
+				Accounter.messages().newPayee(Global.get().Vendor()),
 				Accounter.constants().itemPurchase(),
 				Accounter.constants().billPaid(),
 				Accounter.constants().cashPurchase() };
@@ -252,10 +252,10 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	@Override
 	public void fitToSize(int height, int width) {
-//		if (UIUtils.isMSIEBrowser())
-//			this.listGrid.setHeight((height - 140) + "px");
-//		else
-			this.listGrid.setHeight((height - 130) + "px");
+		// if (UIUtils.isMSIEBrowser())
+		// this.listGrid.setHeight((height - 140) + "px");
+		// else
+		this.listGrid.setHeight((height - 130) + "px");
 
 	}
 

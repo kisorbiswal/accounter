@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -36,10 +35,8 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		case 2:
 			return obj.getCustomerName();
 		case 3:
-			return amountAsString(
-					obj.getTotal(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(obj.getTotal(), getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency()));
 			// case 7:
 			// return amountAsString(obj.getBalance());
 
@@ -52,8 +49,8 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	@Override
 	public void onDoubleClick(SalesOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(),
-					obj.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 	}
 
 	@Override
@@ -81,7 +78,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().date(),
 				Accounter.constants().orderNumber(),
-				Accounter.messages().customerName(Global.get().Customer()),
+				Accounter.messages().payeeName(Global.get().Customer()),
 				Accounter.constants().totalPrice() };
 	}
 
@@ -119,5 +116,5 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		}
 		return 0;
 	}
-	 
+
 }

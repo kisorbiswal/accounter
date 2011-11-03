@@ -61,7 +61,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new CustomerRequirement(CUSTOMER, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Customer()),
-				getMessages().customerNumber(Global.get().Customer()), false,
+				getMessages().payeeNumber(Global.get().Customer()), false,
 				true, null) {
 
 			@Override
@@ -191,8 +191,10 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().date()), getConstants().date(), true, true));
 
-		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+		list
+				.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+						getConstants().number()), getConstants().number(),
+						true, false));
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
 				getConstants().contactName()), getConstants().contacts(), true,
@@ -541,7 +543,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(context,
+			addFirstMessage(
+					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
 		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();

@@ -18,7 +18,7 @@ public abstract class CustomerGroupRequirement extends
 	@Override
 	protected String getEmptyString() {
 		return getMessages().youDontHaveAny(
-				getMessages().customerGroup(Global.get().Customer()));
+				getMessages().payeeGroup(Global.get().Customer()));
 	}
 
 	@Override
@@ -36,13 +36,13 @@ public abstract class CustomerGroupRequirement extends
 	@Override
 	protected void setCreateCommand(CommandList list) {
 		list.add(getMessages().create(
-				getMessages().customerGroup(Global.get().Customer())));
+				getMessages().payeeGroup(Global.get().Customer())));
 	}
 
 	@Override
 	protected String getSelectString() {
 		return getMessages().pleaseSelect(
-				getMessages().customerGroup(Global.get().Customer()));
+				getMessages().payeeGroup(Global.get().Customer()));
 	}
 
 }

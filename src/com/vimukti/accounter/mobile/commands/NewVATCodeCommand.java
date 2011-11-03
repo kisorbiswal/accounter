@@ -13,7 +13,6 @@ import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 
 public class NewVATCodeCommand extends NewAbstractCommand {
@@ -66,7 +65,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ListRequirement<ClientTAXItemGroup>(VATITEM_FOR_SALES,
-				getMessages().pleaseSelect(getConstants().vatItemForSales()),
+				getMessages().pleaseSelect(getConstants().taxItemForSales()),
 				"Vat item or Group for Sales", true, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -111,13 +110,13 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().vatItemForSales());
+						getConstants().taxItemForSales());
 			}
 
 			@Override
 			protected boolean filter(ClientTAXItemGroup e, String name) {
-				return e.getDisplayName().toLowerCase()
-						.startsWith(name.toLowerCase());
+				return e.getDisplayName().toLowerCase().startsWith(
+						name.toLowerCase());
 			}
 
 			@Override
@@ -128,7 +127,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 		list.add(new ListRequirement<ClientTAXItemGroup>(VATITEM_FOR_PURCHASE,
 				getMessages()
-						.pleaseSelect(getConstants().vatItemForPurchases()),
+						.pleaseSelect(getConstants().taxItemForPurchases()),
 				"Vat item or Group for Purchases", true, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -175,13 +174,13 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().vatItemForPurchases());
+						getConstants().taxItemForPurchases());
 			}
 
 			@Override
 			protected boolean filter(ClientTAXItemGroup e, String name) {
-				return e.getDisplayName().toLowerCase()
-						.startsWith(name.toLowerCase());
+				return e.getDisplayName().toLowerCase().startsWith(
+						name.toLowerCase());
 			}
 
 			@Override
@@ -191,13 +190,14 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		});
 
 	}
+
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
 	private List<ClientTAXItemGroup> getVATItmes(Context contex) {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXItemGroup> taxItemGroups = contex.getClientCompany()
 				.getTaxItemGroups();
 		taxItemGroups.addAll(contex.getClientCompany().getTaxItems());
-		
+
 		for (ClientTAXItemGroup vatItem : taxItemGroups) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
@@ -205,20 +205,21 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		}
 		return vatItmsList;
 	}
-	
-//	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
-//	public List<ClientTAXItemGroup> getFilteredVATItems() {
-//		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
-//		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
-//				.getTaxItemGroups();
-//		taxItemGroups.addAll(getCompany().getTaxItems());
-//		for (ClientTAXItemGroup vatItem : getCompany().getTaxItems()) {
-//			if (vatItem.isPercentage()) {
-//				vatItmsList.add(vatItem);
-//			}
-//		}
-//		return vatItmsList;
-//	}
+
+	// /* VATItmes whose 'isPercentage' is true, only allowed into the list */
+	// public List<ClientTAXItemGroup> getFilteredVATItems() {
+	// List<ClientTAXItemGroup> vatItmsList = new
+	// ArrayList<ClientTAXItemGroup>();
+	// ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
+	// .getTaxItemGroups();
+	// taxItemGroups.addAll(getCompany().getTaxItems());
+	// for (ClientTAXItemGroup vatItem : getCompany().getTaxItems()) {
+	// if (vatItem.isPercentage()) {
+	// vatItmsList.add(vatItem);
+	// }
+	// }
+	// return vatItmsList;
+	// }
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
@@ -236,13 +237,15 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		taxCode.setActive(isActive);
 		if (isTaxable) {
 			if (context.getClientCompany().getPreferences().isTrackPaidTax()) {
-				ClientTAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
+				ClientTAXItemGroup salesVatItem = get(VATITEM_FOR_SALES)
+						.getValue();
 				ClientTAXItemGroup purchaseVatItem = get(VATITEM_FOR_PURCHASE)
 						.getValue();
 				taxCode.setTAXItemGrpForSales(salesVatItem.getID());
 				taxCode.setTAXItemGrpForPurchases(purchaseVatItem.getID());
 			} else {
-				ClientTAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
+				ClientTAXItemGroup salesVatItem = get(VATITEM_FOR_SALES)
+						.getValue();
 				taxCode.setTAXItemGrpForSales(salesVatItem.getID());
 			}
 		}

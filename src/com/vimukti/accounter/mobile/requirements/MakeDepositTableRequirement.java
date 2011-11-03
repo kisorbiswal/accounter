@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class MakeDepositTableRequirement extends
 		AbstractTableRequirement<ClientTransactionMakeDeposit> {
@@ -35,14 +34,14 @@ public class MakeDepositTableRequirement extends
 
 		AccountRequirement account = new AccountRequirement(ACCOUNT_FROM,
 				getMessages().pleaseEnter(
-						getMessages().accountFrom(Global.get().Account())),
-				getMessages().accountFrom(Global.get().Account()), false, true,
+						getMessages().payeeFrom(Global.get().Account())),
+				getMessages().payeeFrom(Global.get().Account()), false, true,
 				null) {
 
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().accountFrom(Global.get().Account()));
+						getMessages().payeeFrom(Global.get().Account()));
 			}
 
 			@Override
@@ -107,7 +106,8 @@ public class MakeDepositTableRequirement extends
 	protected ClientTransactionMakeDeposit getNewObject() {
 		ClientTransactionMakeDeposit clientTransactionMakeDeposit = new ClientTransactionMakeDeposit();
 		clientTransactionMakeDeposit.setIsNewEntry(true);
-		clientTransactionMakeDeposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+		clientTransactionMakeDeposit
+				.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 		return clientTransactionMakeDeposit;
 	}
 
@@ -117,7 +117,7 @@ public class MakeDepositTableRequirement extends
 		Record record = new Record(t);
 		record.add("", getConstants().receivedFrom());
 		record.add("", getReceivedFrom(t));
-		record.add("", getMessages().accountFrom(Global.get().Account()));
+		record.add("", getMessages().payeeFrom(Global.get().Account()));
 		record.add("", account.getName());
 		record.add("", getConstants().reference());
 		record.add("", t.getReference());

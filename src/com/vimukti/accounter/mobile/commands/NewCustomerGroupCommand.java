@@ -38,7 +38,7 @@ public class NewCustomerGroupCommand extends AbstractTransactionCommand {
 		}
 		Result makeResult = context.makeResult();
 		makeResult.add(getMessages().readyToCreate(
-				getMessages().customerGroup(Global.get().Customer())));
+				getMessages().payeeGroup(Global.get().Customer())));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
@@ -48,9 +48,9 @@ public class NewCustomerGroupCommand extends AbstractTransactionCommand {
 				context,
 				list,
 				CUSTPMERGROUP_NAME,
-				getMessages().customerGroup(Global.get().Customer()),
+				getMessages().payeeGroup(Global.get().Customer()),
 				getMessages().pleaseEnter(
-						getMessages().customerGroup(Global.get().Customer())));
+						getMessages().payeeGroup(Global.get().Customer())));
 		if (result != null) {
 			return result;
 		}
@@ -70,7 +70,7 @@ public class NewCustomerGroupCommand extends AbstractTransactionCommand {
 		markDone();
 		Result result = new Result();
 		result.add(getMessages().createSuccessfully(
-				getMessages().customerGroup(Global.get().Customer())));
+				getMessages().payeeGroup(Global.get().Customer())));
 
 		return result;
 	}

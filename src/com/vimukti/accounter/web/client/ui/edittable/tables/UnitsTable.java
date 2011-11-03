@@ -126,8 +126,8 @@ public class UnitsTable extends EditTable<ClientUnit> {
 		} else {
 			for (ClientUnit unit : getRecords()) {
 				if (unit.getName() == null || unit.getName().isEmpty()) {
-					result.addError(this, Accounter.constants()
-							.pleaseEnterUnitName());
+					result.addError(this, Accounter.messages().pleaseEnter(
+							Accounter.constants().unitName()));
 					break;
 				}
 			}

@@ -68,7 +68,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.type(),
 				customerConstants.paymentDate(), customerConstants.no(),
-				Accounter.messages().customerName(Global.get().Customer()),
+				Accounter.messages().payeeName(Global.get().Customer()),
 				customerConstants.payMethod(), customerConstants.checkNo(),
 				customerConstants.amountPaid(), customerConstants.voided()
 		// , ""

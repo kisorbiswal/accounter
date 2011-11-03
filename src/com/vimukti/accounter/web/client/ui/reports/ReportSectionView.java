@@ -275,7 +275,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
 		customerTransactionHistoryLink.setLinkTitle(Accounter.messages()
-				.customerTransactionHistory(Global.get().Customer()));
+				.payeeTransactionHistory(Global.get().Customer()));
 		customerTransactionHistoryLink.setShowTitle(false);
 		customerTransactionHistoryLink.addClickHandler(new ClickHandler() {
 
@@ -315,7 +315,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		LinkItem supplierTransactionHistoryLink = new LinkItem();
 		supplierTransactionHistoryLink.setLinkTitle(Accounter.messages()
-				.vendorTransactionHistory(Global.get().Vendor()));
+				.payeeTransactionHistory(Global.get().Vendor()));
 		supplierTransactionHistoryLink.setShowTitle(false);
 		supplierTransactionHistoryLink.addClickHandler(new ClickHandler() {
 

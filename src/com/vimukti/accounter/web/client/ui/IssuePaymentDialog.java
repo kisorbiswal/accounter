@@ -224,8 +224,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 				});
 
-		accountCombo = new PayFromAccountsCombo(Accounter.messages().account(
-				Global.get().account()), false);
+		accountCombo = new PayFromAccountsCombo(Global.get().account(), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo

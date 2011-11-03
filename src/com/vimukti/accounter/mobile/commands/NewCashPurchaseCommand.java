@@ -61,8 +61,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_PURCHASE,
-						context.getCompany()));
+						ClientTransaction.TYPE_CASH_PURCHASE, context
+								.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(CONTACT).setDefaultValue(null);
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
@@ -95,9 +95,9 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new VendorRequirement(VENDOR, getMessages()
-				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, null)
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getConstants().Vendor()), getConstants().vendor(), false, true,
+				null)
 
 		{
 
@@ -118,8 +118,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase()
-						.startsWith(name.toLowerCase());
+				return e.getDisplayName().toLowerCase().startsWith(
+						name.toLowerCase());
 			}
 		});
 
@@ -332,18 +332,21 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().checkNo()), getConstants().checkNo(), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				String paymentMethod = get(PAYMENT_METHOD).getValue();
-				if (paymentMethod.equals(getConstants().check())) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		list
+				.add(new StringRequirement(CHEQUE_NO, getMessages()
+						.pleaseEnter(getConstants().checkNo()), getConstants()
+						.checkNo(), true, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						String paymentMethod = get(PAYMENT_METHOD).getValue();
+						if (paymentMethod.equals(getConstants().check())) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+				});
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));

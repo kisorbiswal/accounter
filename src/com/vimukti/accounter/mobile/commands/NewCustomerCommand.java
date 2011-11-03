@@ -74,26 +74,29 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new NameRequirement(CUSTOMER_NAME,
-				"Please Enter Customer name", getMessages().customerName(
+				"Please Enter Customer name", getMessages().payeeName(
 						Global.get().Customer()), false, true));
 
-		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), false, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().getUseCustomerId()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		list
+				.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+						getConstants().number()), getConstants().number(),
+						false, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getClientCompany().getPreferences()
+								.getUseCustomerId()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+				});
 
-		list.add(new DateRequirement(CUSTOMER_SINCEDATE, getMessages()
-				.pleaseEnter(
-						getMessages().customerSince(Global.get().Customer())),
-				getMessages().customerSince(Global.get().Customer()), true,
-				true));
+		list.add(new DateRequirement(CUSTOMER_SINCEDATE,
+				getMessages().pleaseEnter(
+						getMessages().payeeSince(Global.get().Customer())),
+				getMessages().payeeSince(Global.get().Customer()), true, true));
 
 		list.add(new AmountRequirement(BALANCE, getMessages().pleaseEnter(
 				getConstants().openingBalance()), getConstants()
@@ -103,8 +106,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				.pleaseEnter(getConstants().balanceAsOfDate()), getConstants()
 				.balanceAsOfDate(), true, true));
 
-		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
-				getConstants().address()), getConstants().address(), true, true));
+		list
+				.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
+						getConstants().address()), getConstants().address(),
+						true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
 				getConstants().phoneNumber()), getConstants().phoneNumber(),
@@ -116,8 +121,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new NameRequirement(EMAIL, getMessages().pleaseEnter(
 				getConstants().email()), getConstants().email(), true, true));
 
-		list.add(new NameRequirement(WEBADRESS, getMessages().pleaseEnter(
-				getConstants().webSite()), getConstants().webSite(), true, true));
+		list
+				.add(new NameRequirement(WEBADRESS, getMessages().pleaseEnter(
+						getConstants().webSite()), getConstants().webSite(),
+						true, true));
 
 		list.add(new SalesPersonRequirement(SALESPERSON,
 				"please enter the sales person name", getConstants()
@@ -249,7 +256,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new CustomerGroupRequirement(CUSTOMER_GROUP,
-				"Please enter the customer group", getMessages().customerGroup(
+				"Please enter the customer group", getMessages().payeeGroup(
 						Global.get().Customer()), true, true, null) {
 
 			@Override
@@ -319,21 +326,23 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-				getMessages().customerNumber(Global.get().Customer())),
-				getMessages().customerNumber(Global.get().Customer()), true,
-				true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
-								.isSalesTaxAvailable()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		list
+				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+						getMessages().payeeNumber(Global.get().Customer())),
+						getMessages().payeeNumber(Global.get().Customer()),
+						true, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getClientCompany().getPreferences().isTrackTax()
+								&& getClientCompany().getCountryPreferences()
+										.isSalesTaxAvailable()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+				});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getConstants().serviceTax()), getConstants()

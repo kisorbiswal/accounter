@@ -32,7 +32,7 @@ public class CustomerStatementServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().customerStatement(Global.get().Customer());
+		return Accounter.messages().payeeStatement(Global.get().Customer());
 	}
 
 	@Override

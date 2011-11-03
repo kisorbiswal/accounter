@@ -143,7 +143,7 @@ public class CashSalesView extends
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(Accounter.messages()
-				.customerName(Global.get().Customer()));
+				.payeeName(Global.get().Customer()));
 		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 

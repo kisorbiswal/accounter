@@ -24,7 +24,8 @@ public class VATItemsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ShowListRequirement<TAXItem>("taxItemsList", "Please Select Vat Item", 5) {
+		list.add(new ShowListRequirement<TAXItem>("taxItemsList",
+				"Please Select Vat Item", 5) {
 			@Override
 			protected Record createRecord(TAXItem value) {
 				Record record = new Record(value);
@@ -35,7 +36,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().vatItem()));
+				list.add(getMessages().create(getConstants().taxItem()));
 			}
 
 			@Override
@@ -48,21 +49,21 @@ public class VATItemsListCommand extends NewAbstractCommand {
 				Set<TAXItem> completeList = vatItemssList(context);
 				List<TAXItem> result = new ArrayList<TAXItem>();
 
-				String type = VATItemsListCommand.this.get(CURRENT_VIEW).getValue();
-				
-			
+				String type = VATItemsListCommand.this.get(CURRENT_VIEW)
+						.getValue();
+
 				for (TAXItem taxItem : completeList) {
-					
+
 					if (type.equals("Active")) {
 						if (taxItem.isActive())
-								
+
 							result.add(taxItem);
 					}
 					if (type.equals("In-Active")) {
 						if (!taxItem.isActive())
 							result.add(taxItem);
 					}
-					
+
 				}
 				return result;
 			}
@@ -82,7 +83,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 				return null;
 			}
 		});
-		
+
 		list.add(new ActionRequirement(CURRENT_VIEW, null) {
 			@Override
 			protected List<String> getList() {

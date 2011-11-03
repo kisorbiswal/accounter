@@ -46,7 +46,7 @@ public class ChangePasswordDialog extends BaseDialog {
 				confirmNewPasswordTextItem);
 
 		mainPanel.add(textItemsForm);
-		okbtn.setText(Accounter.constants().saveButton());
+		okbtn.setText(Accounter.constants().save());
 
 		setBodyLayout(mainPanel);
 

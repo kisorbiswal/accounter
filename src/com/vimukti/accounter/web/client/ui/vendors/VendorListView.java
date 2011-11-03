@@ -56,7 +56,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addANewVendor(Global.get().vendor());
+			return messages.addaNew(Global.get().vendor());
 		else
 			return "";
 	}
@@ -64,7 +64,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages.vendorList(Global.get().Vendor());
+		return messages.payeeList(Global.get().Vendor());
 	}
 
 	// protected List<ClientPayee> getRecords() {
@@ -188,6 +188,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.vendors(Global.get().Vendor());
+		return messages.payees(Global.get().Vendor());
 	}
 }

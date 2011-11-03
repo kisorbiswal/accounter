@@ -95,66 +95,51 @@ public abstract class TransactionItemAccountsRequirement extends
 			if (selection != null) {
 				if (selection.equals(AMOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
-					return amount(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().amount()),
-							transactionItem.getUnitPrice());
+					return amount(context, getMessages().pleaseEnterThe(
+							getItemName(transactionItem),
+							getConstants().amount()), transactionItem
+							.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().discount()),
-							transactionItem.getDiscount());
+					return amount(context, getMessages().pleaseEnterThe(
+							getItemName(transactionItem),
+							getConstants().discount()), transactionItem
+							.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().taxCode()),
-							getClientCompany().getTAXCode(
-									transactionItem.getTaxCode()),
+					return taxCode(context, getMessages().pleaseEnterThe(
+							getItemName(transactionItem),
+							getConstants().taxCode()), getClientCompany()
+							.getTAXCode(transactionItem.getTaxCode()),
 							getItemDisplayValue(transactionItem));
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
-					return show(
-							context,
-							getMessages().pleaseEnterThe(
-									getItemName(transactionItem),
-									getConstants().description()),
-							transactionItem.getDescription(),
-							transactionItem.getDescription());
+					return show(context, getMessages().pleaseEnterThe(
+							getItemName(transactionItem),
+							getConstants().description()), transactionItem
+							.getDescription(), transactionItem.getDescription());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
 				if (selection == ActionNames.FINISH_ITEM) {
 					if (transactionItem.getUnitPrice() == 0) {
 						context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
-						return amount(
-								context,
-								getMessages().pleaseEnterThe(
-										getItemName(transactionItem),
-										getConstants().amount()),
-								transactionItem.getUnitPrice());
+						return amount(context, getMessages().pleaseEnterThe(
+								getItemName(transactionItem),
+								getConstants().amount()), transactionItem
+								.getUnitPrice());
 					} else if (context.getCompany().getPreferences()
 							.isTrackTax()
 							&& context.getCompany().getPreferences()
 									.isTaxPerDetailLine()
 							&& transactionItem.getTaxCode() == 0) {
 						context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-						return taxCode(
-								context,
-								getMessages().pleaseEnterThe(
-										getItemName(transactionItem),
-										getConstants().taxCode()),
-								getClientCompany().getTAXCode(
-										transactionItem.getTaxCode()),
+						return taxCode(context, getMessages().pleaseEnterThe(
+								getItemName(transactionItem),
+								getConstants().taxCode()), getClientCompany()
+								.getTAXCode(transactionItem.getTaxCode()),
 								getItemDisplayValue(transactionItem));
 					}
 					context.removeAttribute(PROCESS_ATTR);
@@ -223,7 +208,7 @@ public abstract class TransactionItemAccountsRequirement extends
 		ClientAccount account = getClientCompany().getAccount(
 				transactionItem.getAccount());
 
-		result.add(getMessages().accountName(Global.get().Account()) + ": "
+		result.add(getMessages().payeeName(Global.get().Account()) + ": "
 				+ account.getName());
 
 		double lt = transactionItem.getUnitPrice();

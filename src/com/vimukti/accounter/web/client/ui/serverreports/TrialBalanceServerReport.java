@@ -66,13 +66,11 @@ public class TrialBalanceServerReport extends
 	@Override
 	public String[] getColunms() {
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] {
-					messages.accountName(Global.get().Account()),
-					messages.accountNumber(Global.get().Account()),
+			return new String[] { messages.payeeName(Global.get().Account()),
+					messages.payeeNumber(Global.get().Account()),
 					constants.debit(), constants.credit() };
 		} else {
-			return new String[] {
-					messages.accountName(Global.get().Account()),
+			return new String[] { messages.payeeName(Global.get().Account()),
 					"", constants.debit(), constants.credit() };
 		}
 	}
@@ -150,32 +148,32 @@ public class TrialBalanceServerReport extends
 		if (getPreferences().getUseAccountNumbers() == true) {
 			switch (col) {
 			case 0:
-				return obj1.getAccountName().toLowerCase()
-						.compareTo(obj2.getAccountName().toLowerCase());
+				return obj1.getAccountName().toLowerCase().compareTo(
+						obj2.getAccountName().toLowerCase());
 			case 1:
-				return obj1.getAccountNumber().toLowerCase()
-						.compareTo(obj2.getAccountNumber().toLowerCase());
+				return obj1.getAccountNumber().toLowerCase().compareTo(
+						obj2.getAccountNumber().toLowerCase());
 			case 2:
-				return UIUtils.compareDouble(obj1.getDebitAmount(),
-						obj2.getDebitAmount());
+				return UIUtils.compareDouble(obj1.getDebitAmount(), obj2
+						.getDebitAmount());
 			case 3:
-				return UIUtils.compareDouble(obj1.getCreditAmount(),
-						obj2.getCreditAmount());
+				return UIUtils.compareDouble(obj1.getCreditAmount(), obj2
+						.getCreditAmount());
 			}
 			return 0;
 		} else {
 			switch (col) {
 			case 0:
-				return obj1.getAccountName().toLowerCase()
-						.compareTo(obj2.getAccountName().toLowerCase());
+				return obj1.getAccountName().toLowerCase().compareTo(
+						obj2.getAccountName().toLowerCase());
 			case 1:
 				return (Integer) null;
 			case 2:
-				return UIUtils.compareDouble(obj1.getDebitAmount(),
-						obj2.getDebitAmount());
+				return UIUtils.compareDouble(obj1.getDebitAmount(), obj2
+						.getDebitAmount());
 			case 3:
-				return UIUtils.compareDouble(obj1.getCreditAmount(),
-						obj2.getCreditAmount());
+				return UIUtils.compareDouble(obj1.getCreditAmount(), obj2
+						.getCreditAmount());
 			}
 			return 0;
 		}
@@ -190,13 +188,11 @@ public class TrialBalanceServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] {
-					messages.accountName(Global.get().Account()),
-					messages.accountNumber(Global.get().Account()),
+			return new String[] { messages.payeeName(Global.get().Account()),
+					messages.payeeNumber(Global.get().Account()),
 					constants.debit(), constants.credit() };
 		} else {
-			return new String[] {
-					messages.accountName(Global.get().Account()),
+			return new String[] { messages.payeeName(Global.get().Account()),
 					"", constants.debit(), constants.credit() };
 		}
 	}

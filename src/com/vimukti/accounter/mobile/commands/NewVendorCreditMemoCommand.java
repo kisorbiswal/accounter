@@ -53,8 +53,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_VENDOR_CREDIT_MEMO,
-						context.getCompany()));
+						ClientTransaction.TYPE_VENDOR_CREDIT_MEMO, context
+								.getCompany()));
 		get(CURRENCY).setDefaultValue(null);
 		get(PHONE).setDefaultValue("");
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
@@ -78,9 +78,9 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new VendorRequirement(VENDOR, getMessages()
-				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, null)
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getConstants().Vendor()), getConstants().vendor(), false, true,
+				null)
 
 		{
 
@@ -101,8 +101,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase()
-						.startsWith(name.toLowerCase());
+				return e.getDisplayName().toLowerCase().startsWith(
+						name.toLowerCase());
 			}
 		});
 		
@@ -343,7 +343,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(context,
+			addFirstMessage(
+					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
 	}

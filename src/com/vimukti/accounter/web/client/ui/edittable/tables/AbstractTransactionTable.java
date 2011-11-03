@@ -209,16 +209,14 @@ public abstract class AbstractTransactionTable extends
 				continue;
 			}
 			if (item.getAccountable() == null) {
-				result.addError(
-						"GridItem-" + item.getType(),
-						Accounter.messages().pleaseSelectCustomer(
+				result.addError("GridItem-" + item.getType(), Accounter
+						.messages().pleaseSelect(
 								Utility.getItemType(item.getType())));
 			}
 			if (enableTax && showTaxCode) {
 				if (item.getTaxCode() == 0) {
-					result.addError(
-							"GridItemUK-" + item.getAccount(),
-							Accounter.messages().pleaseSelectCustomer(
+					result.addError("GridItemUK-" + item.getAccount(),
+							Accounter.messages().pleaseSelect(
 									Accounter.constants().taxCode()));
 				}
 

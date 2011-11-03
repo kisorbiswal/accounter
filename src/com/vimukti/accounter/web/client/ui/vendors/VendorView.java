@@ -276,13 +276,13 @@ public class VendorView extends BaseView<ClientVendor> {
 						if (vendor.getVendorNumber().equals(
 								client.getVendorNumber())) {
 							error = Accounter.messages()
-									.vendorAlreadyExistsWithTheNameAndNumber(
+									.objAlreadyExistsWithNameAndNo(
 											Global.get().Vendor());
 							break;
 						}
 					}
 				}
-				error = Accounter.messages().vendorAlreadyExistsWithTheName(
+				error = Accounter.messages().objAlreadyExistsWithName(
 						Global.get().vendor());
 				break;
 			} else if (getCompany().getPreferences().getUseVendorId()) {
@@ -293,17 +293,16 @@ public class VendorView extends BaseView<ClientVendor> {
 					break;
 				} else if (vendor.getVendorNumber().equals(
 						old.getVendorNumber())) {
-					error = Accounter.messages()
-							.vendorAlreadyExistsWithTheNumber(
-									Global.get().Vendor());
+					error = Accounter.messages().objAlreadyExistsWithNumber(
+							Global.get().Vendor());
 					break;
 				} else if (checkIfNotNumber(vendor.getVendorNumber())) {
-					error = Accounter.messages().vendorNumberShouldBeNumber(
+					error = Accounter.messages().payeeNumberShouldBeNumber(
 							Global.get().Vendor());
 					break;
 				} else if (Integer
 						.parseInt(vendor.getVendorNumber().toString()) < 1) {
-					error = Accounter.messages().vendorNumberShouldBePos(
+					error = Accounter.messages().payeeNumberShouldBePos(
 							Global.get().Vendor());
 					break;
 				}
@@ -327,8 +326,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(messages
-				.vendorName(Global.get().Vendor()));
+		vendorNameText = new TextItem(messages.payeeName(Global.get().Vendor()));
 		if (quickAddText != null) {
 			vendorNameText.setValue(quickAddText);
 		}
@@ -337,8 +335,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorNameText.setWidth(100);
 		vendorNameText.setDisabled(isInViewMode());
 
-		vendorNoText = new TextItem(messages
-				.vendorNumber(Global.get().Vendor()));
+		vendorNoText = new TextItem(messages.payeeNumber(Global.get().Vendor()));
 		vendorNoText.setHelpInformation(true);
 		vendorNoText.setRequired(true);
 		vendorNoText.setWidth(100);
@@ -376,14 +373,14 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
 		accInfoForm.setWidth("100%");
-		accInfoForm.setGroupTitle(messages.accountInformation(Global.get()
+		accInfoForm.setGroupTitle(messages.payeeInformation(Global.get()
 				.Account()));
 
 		statusCheck = new CheckboxItem(constants.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		vendorSinceDate = new DateField(messages.vendorSince(Global.get()
+		vendorSinceDate = new DateField(messages.payeeSince(Global.get()
 				.Vendor()));
 		vendorSinceDate.setDisabled(isInViewMode());
 		track1099MISC = new CheckboxItem(Accounter.constants().track1099Form());
@@ -591,8 +588,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label lab = new Label(Global.get().Vendor());
 
-		expenseAccountsSelect = new OtherAccountsCombo(Accounter.messages()
-				.account(Global.get().account()));
+		expenseAccountsSelect = new OtherAccountsCombo(Global.get().account());
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -645,7 +641,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 		payTermsSelect.setDisabled(isInViewMode());
-		accountText = new TextItem(messages.accountNo(Global.get().Account()));
+		accountText = new TextItem(messages.payeeNumber(Global.get().Account()));
 		accountText.setHelpInformation(true);
 		accountText.setDisabled(isInViewMode());
 		bankNameText = new TextItem(Accounter.constants().bankName());
@@ -685,7 +681,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					bankNameText, bankBranchText);
 		}
 
-		vendorGroupSelect = new VendorGroupCombo(messages.vendorGroup(Global
+		vendorGroupSelect = new VendorGroupCombo(messages.payeeGroup(Global
 				.get().Vendor()));
 		vendorGroupSelect.setHelpInformation(true);
 		// vendorGroupSelect.setWidth(100);

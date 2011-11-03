@@ -531,9 +531,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparatorItem();
 		}
-		vendorMenuBar.addMenuItem(
-				Global.get().messages().vendorLists(Global.get().Vendor()),
-				getVendorListMenu());
+		vendorMenuBar.addMenuItem(Global.get().messages().payeeLists(
+				Global.get().Vendor()), getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -588,9 +587,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 					.addMenuItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparatorItem();
 		}
-		customerMenuBar.addMenuItem(
-				Accounter.messages().customerLists(Global.get().Customer()),
-				getCustomerListMenu());
+		customerMenuBar.addMenuItem(Accounter.messages().payeeLists(
+				Global.get().Customer()), getCustomerListMenu());
 		return customerMenuBar;
 	}
 

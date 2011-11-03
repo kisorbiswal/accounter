@@ -247,7 +247,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 				WEB_SITE,
 				getConstants().webSite(),
 				getMessages().pleaseEnter(
-						getMessages().name(getConstants().webSite())));
+						getMessages().payeeName(getConstants().webSite())));
 		if (result != null) {
 			return result;
 		}

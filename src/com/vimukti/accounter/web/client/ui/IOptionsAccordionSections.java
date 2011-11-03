@@ -18,14 +18,14 @@ class Section {
 public interface IOptionsAccordionSections {
 	AccounterConstants constants = Accounter.constants();
 	final String COMPANY = constants.company();
-	final String COMPANY_NEW_ACCOUNT = Accounter.messages().newAccount(
+	final String COMPANY_NEW_ACCOUNT = Accounter.messages().newPayee(
 			Global.get().Account());
 
-	final String CUSTOMERS = Accounter.messages().customers(
+	final String CUSTOMERS = Accounter.messages().payees(
 			Global.get().Customer());
-	final String CUSTOMERS_HOME = Accounter.messages().customersHome(
+	final String CUSTOMERS_HOME = Accounter.messages().payeesHome(
 			Global.get().Customer());
-	final String CUSTOMERS_NEW = Accounter.messages().newCustomer(
+	final String CUSTOMERS_NEW = Accounter.messages().newPayee(
 			Global.get().Customer());
 	final String CUSTOMERS_NEW_ITEM = constants.newItem();
 	final String CUSTOMERS_NEW_QUOTE = constants.newQuote();
@@ -36,7 +36,7 @@ public interface IOptionsAccordionSections {
 			.creditAndRefunds();
 	final String CUSTOMER_CREDIT_CARD_PROCESSING = constants
 			.creditCardProcessing();
-	final String CUSTOMER_FIND_CUSTOMERS = Accounter.messages().customers(
+	final String CUSTOMER_FIND_CUSTOMERS = Accounter.messages().payees(
 			Global.get().Customer());
 	final String CUSTOMER_FIND_ITEMS = constants.products();
 	final String CUSTOMER_FIND_QUOTES = constants.quotes();
@@ -45,11 +45,11 @@ public interface IOptionsAccordionSections {
 	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = Accounter.messages()
 			.customerRefunds(Global.get().customer());
 
-	final String VENDORS = Global.get().messages().vendors(
+	final String VENDORS = Global.get().messages()
+			.payees(Global.get().Vendor());
+	final String VENDORS_HOME = Global.get().messages().payeesHome(
 			Global.get().Vendor());
-	final String VENDORS_HOME = Global.get().messages().vendorHome(
-			Global.get().Vendor());
-	final String VENDORS_NEW_VENDOR = Global.get().messages().newVendor(
+	final String VENDORS_NEW_VENDOR = Global.get().messages().newPayee(
 			Global.get().Vendor());
 	final String VENDORS_NEW_ITEM = constants.newProduct();
 	final String VENDORS_ENTER_BILLS = constants.enterBills();
@@ -57,12 +57,12 @@ public interface IOptionsAccordionSections {
 	final String VENDORS_NEW_CASH_PURCHASE = constants.newCashPurchase();
 	final String VENDORS_ISSUE_PAYMENT = constants.issuePayment();
 	final String VENDORS_NEW_CREDIT_MEMO = constants.newCredit();
-	final String VENDORS_FIND_VENDORS = Global.get().messages().vendors(
+	final String VENDORS_FIND_VENDORS = Global.get().messages().payees(
 			Global.get().Vendor());
 	final String VENDORS_FIND_ITEMS = constants.products();
 	final String VENDORS_FIND_BILLS = constants.bills();
 	final String VENDORS_FIND_VENDOR_PAYMENTS = Global.get().messages()
-			.vendorPayments(Global.get().Vendor());
+			.payeePayment(Global.get().Vendor());
 
 	final String BANKING = constants.banking();
 	final String BANKING_HOME = constants.bankingHome();
@@ -139,8 +139,8 @@ public interface IOptionsAccordionSections {
 					}), };
 
 	final String[] sectionLabels = {
-			Accounter.messages().customers(Global.get().Customer()),
-			Global.get().messages().vendors(Global.get().Vendor()),
+			Accounter.messages().payees(Global.get().Customer()),
+			Global.get().messages().payees(Global.get().Vendor()),
 			constants.employees(), constants.sectionhash1(),
 			constants.sectionhash2(), constants.sectionhash3(),
 			constants.sectionhash4() };
@@ -149,14 +149,14 @@ public interface IOptionsAccordionSections {
 
 	};
 	final String[] custStartLabels = {
-			Accounter.messages().newCustomer(Global.get().Customer()),
+			Accounter.messages().newPayee(Global.get().Customer()),
 			constants.newProduct(), constants.newQuote(),
 			constants.newInvoice(), constants.receivedPayment(),
 			constants.newCashSale(), constants.newCreditsAndRefunds(),
 			constants.creditCardProcessing() };
 
 	final String[] custFindLabels = {
-			Accounter.messages().customers(Global.get().Customer()),
+			Accounter.messages().payees(Global.get().Customer()),
 			constants.products() };
 
 	// Vendors Section

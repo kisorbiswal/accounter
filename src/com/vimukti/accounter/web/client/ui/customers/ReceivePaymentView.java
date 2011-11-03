@@ -483,7 +483,7 @@ public class ReceivePaymentView extends
 		payForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		customerNonEditablebalText = new AmountField(Accounter.messages()
-				.customerBalance(Global.get().Customer()), this);
+				.payeeBalance(Global.get().Customer()), this);
 		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);

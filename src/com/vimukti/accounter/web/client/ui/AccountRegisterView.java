@@ -125,9 +125,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		DynamicForm form = new DynamicForm();
 
 		form.setIsGroup(true);
-		form
-				.setGroupTitle(Accounter.messages().account(
-						Global.get().account()));
+		form.setGroupTitle(Global.get().account());
 		form.setFields(bankAccSelect);
 		form.setWidth("100%");
 

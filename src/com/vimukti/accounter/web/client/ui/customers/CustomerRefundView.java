@@ -278,7 +278,7 @@ public class CustomerRefundView extends
 
 		setEndingBalance(null);
 
-		custBalText = new AmountField(Accounter.messages().customerBalance(
+		custBalText = new AmountField(Accounter.messages().payeeBalance(
 				Global.get().Customer()), this);
 		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);

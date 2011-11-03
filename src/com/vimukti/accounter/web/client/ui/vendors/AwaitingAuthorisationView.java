@@ -46,7 +46,7 @@ public class AwaitingAuthorisationView extends BaseView {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
-		Button approve = new Button(Accounter.constants().approveButton());
+		Button approve = new Button(Accounter.constants().approve());
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -73,7 +73,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			}
 		});
 
-		Button decline = new Button(Accounter.constants().declineButton());
+		Button decline = new Button(Accounter.constants().decline());
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override

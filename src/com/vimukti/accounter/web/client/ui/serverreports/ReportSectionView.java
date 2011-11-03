@@ -91,8 +91,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getCashFlowStatementAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getCashFlowStatementAction());
 			}
 
 		});
@@ -117,8 +117,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getTransactionDetailByAccountAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getTransactionDetailByAccountAction());
 			}
 
 		});
@@ -144,8 +144,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByCustomerSummaryAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getSalesByCustomerSummaryAction());
 			}
 
 		});
@@ -158,8 +158,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByCustomerDetailAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getSalesByCustomerDetailAction());
 			}
 
 		});
@@ -172,8 +172,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByItemSummaryAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getSalesByItemSummaryAction());
 			}
 
 		});
@@ -186,8 +186,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByItemDetailAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getSalesByItemDetailAction());
 			}
 
 		});
@@ -214,8 +214,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getPurchaseByVendorSummaryAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getPurchaseByVendorSummaryAction());
 			}
 
 		});
@@ -228,8 +228,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getPurchaseByVendorDetailAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getPurchaseByVendorDetailAction());
 			}
 
 		});
@@ -242,8 +242,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getPurchaseByItemSummaryAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getPurchaseByItemSummaryAction());
 			}
 
 		});
@@ -276,14 +276,14 @@ public class ReportSectionView extends BaseHomeView {
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
 		customerTransactionHistoryLink.setLinkTitle(Accounter.messages()
-				.customerTransactionHistory(Global.get().customer()));
+				.payeeTransactionHistory(Global.get().customer()));
 		customerTransactionHistoryLink.setShowTitle(false);
 		customerTransactionHistoryLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getCustomerTransactionHistoryAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getCustomerTransactionHistoryAction());
 			}
 
 		});
@@ -307,21 +307,23 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory.getAorpAgingDetailAction());
+				UIUtils
+						.runAction(acc, ActionFactory
+								.getAorpAgingDetailAction());
 			}
 
 		});
 
 		LinkItem supplierTransactionHistoryLink = new LinkItem();
 		supplierTransactionHistoryLink.setLinkTitle(Accounter.messages()
-				.vendorTransactionHistory(Global.get().Vendor()));
+				.payeeTransactionHistory(Global.get().Vendor()));
 		supplierTransactionHistoryLink.setShowTitle(false);
 		supplierTransactionHistoryLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getVendorTransactionHistoryAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getVendorTransactionHistoryAction());
 			}
 
 		});
@@ -334,8 +336,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getMostProfitableCustomersAction());
+				UIUtils.runAction(acc, ActionFactory
+						.getMostProfitableCustomersAction());
 			}
 
 		});

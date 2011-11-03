@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class VendorPaymentsCommand extends NewAbstractCommand {
 
-
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
@@ -66,7 +65,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<PaymentsList>(getMessages()
-				.vendorPaymentList(Global.get().Vendor()), "", 10) {
+				.payeePaymentList(Global.get().Vendor()), "", 10) {
 
 			@Override
 			protected String onSelection(PaymentsList value) {
@@ -75,7 +74,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getMessages().vendorPaymentList(Global.get().Vendor());
+				return getMessages().payeePaymentList(Global.get().Vendor());
 			}
 
 			@Override

@@ -88,7 +88,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().accountsList(Global.get().Accounts());
+		return Accounter.messages().payeesList(Global.get().Accounts());
 	}
 
 	@Override

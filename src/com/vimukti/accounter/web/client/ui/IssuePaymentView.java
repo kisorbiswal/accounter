@@ -172,8 +172,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			}
 		});
 
-		accountCombo = new PayFromAccountsCombo(Accounter.messages().account(
-				Global.get().account()));
+		accountCombo = new PayFromAccountsCombo(Global.get().account());
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {

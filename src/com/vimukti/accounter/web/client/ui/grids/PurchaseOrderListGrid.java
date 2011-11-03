@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -30,7 +29,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().date(),
 				Accounter.constants().number(),
-				Global.get().messages().vendorName(Global.get().Vendor()),
+				Global.get().messages().payeeName(Global.get().Vendor()),
 				Accounter.constants().purchasePrice() };
 	}
 
@@ -44,9 +43,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		case 2:
 			return obj.getVendorName();
 		case 3:
-			return amountAsString(
-					obj.getPurchasePrice(),
-					getCompany().getCurrency(
+			return amountAsString(obj.getPurchasePrice(), getCompany()
+					.getCurrency(
 							getCompany().getPreferences().getPrimaryCurrency()));
 
 		default:
@@ -58,8 +56,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(),
-					obj.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 
 	}
 

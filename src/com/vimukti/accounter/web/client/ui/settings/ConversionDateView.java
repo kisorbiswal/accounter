@@ -67,8 +67,8 @@ public class ConversionDateView extends AbstractBaseView {
 		bodyPanel = new VerticalPanel();
 		comboForm = new DynamicForm();
 		buttonPanel = new HorizontalPanel();
-		saveButton = new Button(messages.saveButton());
-		cancelButton = new Button(messages.cancelButton());
+		saveButton = new Button(constants.save());
+		cancelButton = new Button(constants.cancel());
 
 		monthArray = new String[] { messages.january(), messages.february(),
 				messages.march(), messages.april(), messages.may(),
@@ -94,9 +94,9 @@ public class ConversionDateView extends AbstractBaseView {
 						bodycommentHtml.setVisible(true);
 						bodyFooterHtml.setHTML(bodyFooter
 								+ "<b>"
-								+ getPreviousMonth(
-										monthCombo.getSelectedValue(),
-										yearCombo.getSelectedValue())
+								+ getPreviousMonth(monthCombo
+										.getSelectedValue(), yearCombo
+										.getSelectedValue())
 								+ getYear(monthCombo.getSelectedValue(),
 										yearCombo.getSelectedValue())
 								+ "</b> </font></p>");
@@ -119,9 +119,9 @@ public class ConversionDateView extends AbstractBaseView {
 						bodycommentHtml.setVisible(true);
 						bodyFooterHtml.setHTML(bodyFooter
 								+ "<b>"
-								+ getPreviousMonth(
-										monthCombo.getSelectedValue(),
-										yearCombo.getSelectedValue())
+								+ getPreviousMonth(monthCombo
+										.getSelectedValue(), yearCombo
+										.getSelectedValue())
 								+ getYear(monthCombo.getSelectedValue(),
 										yearCombo.getSelectedValue())
 								+ "</b>  </font></p>");
@@ -141,11 +141,10 @@ public class ConversionDateView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				String endindDate = getPreviousMonth(
-						monthCombo.getSelectedValue(),
-						yearCombo.getSelectedValue())
-						+ getYear(monthCombo.getSelectedValue(),
-								yearCombo.getSelectedValue());
+				String endindDate = getPreviousMonth(monthCombo
+						.getSelectedValue(), yearCombo.getSelectedValue())
+						+ getYear(monthCombo.getSelectedValue(), yearCombo
+								.getSelectedValue());
 				ActionFactory.getConversionBalancesAction().run(null, false
 				/*
 				 * ,endindDate, getYear(monthCombo.getSelectedValue(), yearCombo

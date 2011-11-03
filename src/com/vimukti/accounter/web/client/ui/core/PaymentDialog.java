@@ -14,7 +14,7 @@ public class PaymentDialog extends BaseDialog {
 	private AccounterConstants customerConstants = Accounter.constants();
 	private final String RECEIVE_PAYMENT = customerConstants.receivePayment();
 	private final String CUSTOMER_PREPAYMENT = Accounter.messages()
-			.customerPrePayment(Global.get().Customer());
+			.payeePrePayment(Global.get().Customer());
 
 	public PaymentDialog() {
 		super(Accounter.constants().payments(), "");

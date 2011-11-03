@@ -104,7 +104,7 @@ public class SalesDetailesView extends AbstractView {
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(Accounter.messages().customerOrderNumber(Global.get().customer()));
+		conLabel.setText(Accounter.messages().payeeOrderNumber(Global.get().customer()));
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();

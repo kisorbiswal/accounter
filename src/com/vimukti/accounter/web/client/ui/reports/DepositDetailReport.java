@@ -22,8 +22,8 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(getType(record),
-				record.getTransactionId());
+		ReportsRPC.openTransactionView(getType(record), record
+				.getTransactionId());
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	public String[] getColunms() {
 		return new String[] { "", Accounter.constants().number(),
 				Accounter.constants().date(), Accounter.constants().name(),
-				Accounter.messages().accountName(Global.get().Account()),
+				Accounter.messages().payeeName(Global.get().Account()),
 				Accounter.constants().amount() };
 	}
 
@@ -176,15 +176,15 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public int sort(DepositDetail obj1, DepositDetail obj2, int col) {
-		int ret = UIUtils.compareInt(obj1.getTransactionType(),
-				obj2.getTransactionType());
+		int ret = UIUtils.compareInt(obj1.getTransactionType(), obj2
+				.getTransactionType());
 		if (ret != 0) {
 			return ret;
 		}
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(),
-					obj2.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(), obj2
+					.getTransactionType());
 		case 1:
 			int num1 = UIUtils.isInteger(obj1.getTransactionNumber()) ? Integer
 					.parseInt(obj1.getTransactionNumber()) : 0;

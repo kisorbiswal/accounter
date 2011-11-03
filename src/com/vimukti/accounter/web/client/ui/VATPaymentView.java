@@ -26,8 +26,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class VATPaymentView extends
-		AbstractTransactionBaseView<ClientPayTAX> {
+public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private AmountField vatBalance, amount, endingBalanceText;
 	private TextItem referenceNo, checkNoText, memo, vatAgency;
 	private AddressForm addressForm;
@@ -159,7 +158,8 @@ public class VATPaymentView extends
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance() : 0D;
+								.getTotalBalance()
+								: 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -173,7 +173,7 @@ public class VATPaymentView extends
 		accountInformationForm.setWidth("100%");
 		// accountInformationForm.setAutoHeight();
 		accountInformationForm.setGroupTitle(Accounter.messages()
-				.accountInformation(Global.get().Account()));
+				.payeeInformation(Global.get().Account()));
 		accountInformationForm.setFields(payFromAccCombo, endingBalanceText);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
@@ -371,7 +371,7 @@ public class VATPaymentView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

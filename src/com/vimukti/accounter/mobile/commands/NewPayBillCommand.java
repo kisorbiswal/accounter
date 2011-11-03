@@ -84,15 +84,15 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new VendorRequirement(VENDOR, getMessages()
-				.pleaseSelectVendor(getConstants().Vendor()), getConstants()
-				.vendor(), false, true, new ChangeListner<ClientVendor>() {
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getConstants().Vendor()), getConstants().vendor(), false, true,
+				new ChangeListner<ClientVendor>() {
 
-			@Override
-			public void onSelection(ClientVendor value) {
-				records = null;
-			}
-		}) {
+					@Override
+					public void onSelection(ClientVendor value) {
+						records = null;
+					}
+				}) {
 
 			@Override
 			protected String getSetMessage() {
@@ -111,8 +111,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase()
-						.startsWith(name.toLowerCase());
+				return e.getDisplayName().toLowerCase().startsWith(
+						name.toLowerCase());
 			}
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
@@ -314,8 +314,10 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 					record.setAppliedCredits(curntRec.getCredits());
 
-					record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-							.getDiscountDate().getDate() : 0);
+					record
+							.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+									.getDiscountDate().getDate()
+									: 0);
 
 					record.setDueDate(curntRec.getDueDate() != null ? curntRec
 							.getDueDate().getDate() : 0);

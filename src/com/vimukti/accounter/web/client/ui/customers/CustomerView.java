@@ -287,30 +287,30 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				for (ClientCustomer old2 : list) {
 					if (customer.getNumber().equals(old2.getNumber())) {
 						error = Accounter.messages()
-								.customerAlreadyExistsWithNameAndNo(
+								.objAlreadyExistsWithNameAndNo(
 										Global.get().customer());
 						break;
 					}
 				}
-				return Accounter.messages().customerAlreadyExistsWithName(
+				return Accounter.messages().objAlreadyExistsWithName(
 						Global.get().customer());
 			} else if (customer.getNumber().equals(old.getNumber())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getName().equalsIgnoreCase(old2.getName())) {
 						error = Accounter.messages()
-								.customerAlreadyExistsWithNameAndNo(
+								.objAlreadyExistsWithNameAndNo(
 										Global.get().customer());
 						break;
 					}
 				}
-				return Accounter.messages().customerAlreadyExistsWithNumber(
+				return Accounter.messages().objAlreadyExistsWithNumber(
 						Global.get().customer());
 			} else if (checkIfNotNumber(customer.getNumber())) {
-				error = Accounter.messages().customerNumberShouldBeNumber(
+				error = Accounter.messages().payeeNumberShouldBeNumber(
 						Global.get().customer());
 				break;
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				error = Accounter.messages().customerNumberShouldBePos(
+				error = Accounter.messages().payeeNumberShouldBePos(
 						Global.get().customer());
 				break;
 			}
@@ -569,21 +569,21 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private VerticalPanel getGeneralTab() {
 
-		custNameText = new TextItem(Accounter.messages().customerName(
+		custNameText = new TextItem(Accounter.messages().payeeName(
 				Global.get().Customer()));
 		TextBox t = new TextBox();
 		if (quickAddText != null) {
 			custNameText.setValue(quickAddText);
 		}
 
-		custNameText.setToolTip(Accounter.messages().customerMeaning(
+		custNameText.setToolTip(Accounter.messages().payeeMeaning(
 				Global.get().customer()));
 		custNameText.setHelpInformation(true);
 		custNameText.setRequired(true);
 		// custNameText.setWidth(100);
 		custNameText.setDisabled(isInViewMode());
 
-		custNoText = new TextItem(Accounter.messages().customerNumber(
+		custNoText = new TextItem(Accounter.messages().payeeNumber(
 				Global.get().Customer()));
 		custNoText.setHelpInformation(true);
 		custNoText.setRequired(true);
@@ -620,14 +620,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
-		accInfoForm.setGroupTitle(Accounter.messages().accountInformation(
+		accInfoForm.setGroupTitle(Accounter.messages().payeeInformation(
 				Global.get().Account()));
 
 		statusCheck = new CheckboxItem(customerConstants.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		customerSinceDate = new DateField(Accounter.messages().customerSince(
+		customerSinceDate = new DateField(Accounter.messages().payeeSince(
 				Global.get().Customer()));
 		customerSinceDate.setHelpInformation(true);
 		customerSinceDate.setDisabled(isInViewMode());
@@ -818,32 +818,32 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute("width", titlewidth + "");
+		addrsForm.getCellFormatter().getElement(0, 0).setAttribute("width",
+				titlewidth + "");
 
-		addrsForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.constants().width(), "185px");
+		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
+				Accounter.constants().width(), "185px");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "240px");
+		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
-		customerForm.getCellFormatter().getElement(0, 0).getStyle()
-				.setWidth(150, Unit.PX);
-		emailForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "240px");
+		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
+				150, Unit.PX);
+		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
-		accInfoForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "150px");
+		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "150px");
 
 	}
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(
-				customerConstants.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(customerConstants
+				.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -878,8 +878,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		//
 		// });
 
-		creditRatingSelect = new CreditRatingCombo(
-				customerConstants.creditRating());
+		creditRatingSelect = new CreditRatingCombo(customerConstants
+				.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -913,8 +913,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(customerConstants.cstNumber());
 		cstNumberText.setHelpInformation(true);
-		serviceTaxRegistrationNo = new TextItem(
-				customerConstants.serviceTaxRegistrationNumber());
+		serviceTaxRegistrationNo = new TextItem(customerConstants
+				.serviceTaxRegistrationNumber());
 		serviceTaxRegistrationNo.setHelpInformation(true);
 		tinNumberText = new TextItem(customerConstants.tinNumber());
 		tinNumberText.setHelpInformation(true);
@@ -946,8 +946,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(
-				customerConstants.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(customerConstants
+				.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -987,7 +987,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				});
 
 		custGroupSelect = new CustomerGroupCombo(Accounter.messages()
-				.customerGroup(Global.get().Customer()));
+				.payeeGroup(Global.get().Customer()));
 		custGroupSelect.setHelpInformation(true);
 		custGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomerGroup>() {
