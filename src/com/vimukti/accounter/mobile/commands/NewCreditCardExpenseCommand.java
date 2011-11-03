@@ -6,7 +6,9 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -220,6 +222,30 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected boolean filter(ClientTAXCode e, String name) {
 				return e.getName().toLowerCase().startsWith(name);
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
 			}
 		});
 	}
@@ -493,11 +519,13 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 		creditCardCharge.setTransactionItems(items);
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			creditCardCharge.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : items) {
+			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
@@ -555,6 +583,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue(" ");
 		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
 		get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 	}
 
 	@Override

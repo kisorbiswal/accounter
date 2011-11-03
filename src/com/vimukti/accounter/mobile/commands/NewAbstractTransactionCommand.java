@@ -44,8 +44,9 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String TO_BE_PRINTED = "toBePrinted";
 	protected static final String FILTER_BY_DUE_ON_BEFORE = "filterByDueOnBefore";
 	protected static final String BILLS_DUE = "BillsDue";
+	protected static final String IS_VAT_INCLUSIVE = "isVatInclusive";
 
-	public void updateTotals(Context context, ClientTransaction transaction,
+	public double updateTotals(Context context, ClientTransaction transaction,
 			boolean isSales) {
 		List<ClientTransactionItem> allrecords = transaction
 				.getTransactionItems();
@@ -54,6 +55,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		double grandTotal = result[0] + result[1];
 		transaction.setTotal(grandTotal);
 		transaction.setNetAmount(result[0]);
+		return result[1];
 	}
 
 	public double[] getTransactionTotal(Context context,

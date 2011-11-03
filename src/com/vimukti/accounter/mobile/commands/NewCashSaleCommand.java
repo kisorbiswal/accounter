@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
@@ -235,6 +236,30 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
+
 		list.add(new ShippingTermRequirement(SHIPPING_TERMS, getMessages()
 				.pleaseEnterName(getConstants().shippingTerm()), getConstants()
 				.shippingTerm(), true, true, null) {
@@ -378,7 +403,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			cashSale.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -388,7 +415,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		// if (context.getCompany())
 		// ClientTAXCode taxCode = get(TAXCODE).getValue();
 		// cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
-		updateTotals(context, cashSale, true);
+		double taxTotal = updateTotals(context, cashSale, true);
+		cashSale.setTaxTotal(taxTotal);
 		create(cashSale, context);
 
 		return null;
@@ -430,6 +458,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		contact.setName(null);
 		get(CONTACT).setDefaultValue(contact);
 		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 	}
 
 	@Override

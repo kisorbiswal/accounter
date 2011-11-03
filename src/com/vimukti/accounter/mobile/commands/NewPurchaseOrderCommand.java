@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -78,6 +79,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		get(DISPATCH_DATE).setDefaultValue(new ClientFinanceDate());
 		get(RECIEVED_DATE).setDefaultValue(new ClientFinanceDate());
 		get(STATUS).setDefaultValue(getConstants().open());
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 
 	}
 
@@ -281,6 +283,30 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
+
 	}
 
 	@Override
@@ -339,18 +365,18 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		newPurchaseOrder.setTransactionItems(items);
 		updateTotals(context, newPurchaseOrder, false);
 
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			newPurchaseOrder.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : items) {
+			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-
 		String memo = get(MEMO).getValue();
 		newPurchaseOrder.setMemo(memo);
-
 		create(newPurchaseOrder, context);
 		return null;
 	}

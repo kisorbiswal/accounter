@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -85,6 +86,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 
 		get(CURRENCY).setDefaultValue(null);
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 
 	}
 
@@ -221,6 +223,31 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				return e.getName().contains(name);
 			}
 		});
+
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
+
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 	}
@@ -245,11 +272,13 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			enterBill.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : items) {
+			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
@@ -258,7 +287,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				enterBill.setCurrency(currency.getID());
-
 			}
 		}
 		enterBill.setCurrencyFactor(1.0);

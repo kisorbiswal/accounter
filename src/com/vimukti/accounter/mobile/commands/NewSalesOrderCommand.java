@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -78,7 +80,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		}
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(STATUS).setDefaultValue(getConstants().open());
-
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 	}
 
 	@Override
@@ -264,6 +266,30 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
+
 	}
 
 	@Override
@@ -315,7 +341,9 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			newSalesOrder.setEstimate(cEstimate.getID());
 			addEstimate(cEstimate, items);
 		}
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			newSalesOrder.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -330,7 +358,8 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		}
 		newSalesOrder.setCurrencyFactor(1.0);
 		newSalesOrder.setTransactionItems(items);
-		updateTotals(context, newSalesOrder, true);
+		double taxTotal = updateTotals(context, newSalesOrder, true);
+		newSalesOrder.setTaxTotal(taxTotal);
 		String memo = get(MEMO).getValue();
 		newSalesOrder.setMemo(memo);
 

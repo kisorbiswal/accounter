@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -149,6 +150,30 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				return e.getName().startsWith(name);
 			}
 		});
+
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
 	}
 
 	@Override
@@ -177,9 +202,11 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		estimate.setPhone(phone);
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			estimate.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -187,8 +214,8 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		}
 
 		estimate.setTransactionItems(items);
-		updateTotals(context, estimate, true);
-
+		double taxTotal = updateTotals(context, estimate, true);
+		estimate.setTaxTotal(taxTotal);
 		ClientPaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		estimate.setPaymentTerm(paymentTerm.getID());
 
@@ -238,6 +265,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 		get(MEMO).setDefaultValue(" ");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 
 	}
 

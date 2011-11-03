@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
@@ -61,6 +62,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 						context.getCompany()));
 		get(CURRENCY).setDefaultValue(null);
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 
 	}
 
@@ -172,6 +174,30 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
+
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
 				getConstants().billTo()), getConstants().billTo(), true, true));
 
@@ -217,10 +243,11 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		accounts.addAll(items);
 
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
-
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			creditMemo.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
@@ -239,7 +266,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		creditMemo.setCurrencyFactor(1.0);
 		String memo = get(MEMO).getValue();
 		creditMemo.setMemo(memo);
-		updateTotals(context, creditMemo, false);
+		double taxTotal = updateTotals(context, creditMemo, false);
+		creditMemo.setTaxTotal(taxTotal);
 		create(creditMemo, context);
 		return null;
 	}

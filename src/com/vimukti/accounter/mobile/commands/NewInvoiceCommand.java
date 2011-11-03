@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
@@ -187,6 +188,30 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				return e.getName().contains(name);
 			}
 		});
+
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context
+						.getClientCompany().getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
 	}
 
 	private void addSalesOrder(ClientSalesOrder cSalesOrder,
@@ -307,7 +332,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		invoice.setMemo(memo);
 		invoice.setStatus(Invoice.STATUS_OPEN);
-
 		// Adding selecting estimate or salesOrder to Invoice
 
 		EstimatesAndSalesOrdersList e = get(ESTIMATEANDSALESORDER).getValue();
@@ -327,7 +351,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			invoice.setAmountsIncludeVAT(isVatInclusive);
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -335,10 +361,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		}
 
 		invoice.setTransactionItems(items);
-		updateTotals(context, invoice, true);
-
+		double taxTotal = updateTotals(context, invoice, true);
+		invoice.setTaxTotal(taxTotal);
 		create(invoice, context);
-
 		return null;
 	}
 
@@ -362,6 +387,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 		}
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 	}
 
 	@Override
