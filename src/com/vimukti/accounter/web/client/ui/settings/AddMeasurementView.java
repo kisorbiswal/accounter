@@ -102,6 +102,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		});
 
 		addMeasurmentForm.setFields(nameItem, description);
+		addMeasurmentForm.addStyleName("fields-panel");
 		panel.add(addMeasurmentForm);
 		panel.add(unitsTable);
 		panel.add(addUnitButton);

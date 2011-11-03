@@ -111,6 +111,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private void createControls() {
 
 		HorizontalPanel mainHLay = new HorizontalPanel();
+		mainHLay.addStyleName("fields-panel");
 		mainHLay.setWidth("100%");
 
 		mainHLay.add(getLeftSideForm());

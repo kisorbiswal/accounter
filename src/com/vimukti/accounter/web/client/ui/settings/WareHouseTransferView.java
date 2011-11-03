@@ -70,6 +70,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		commentArea.setDisabled(isInViewMode());
 		form = new DynamicForm();
 		form.setNumCols(2);
+		form.addStyleName("fields-panel");
 		form.setFields(fromCombo, toCombo, commentArea);
 		listForms.add(form);
 		mainPanel.add(form);
