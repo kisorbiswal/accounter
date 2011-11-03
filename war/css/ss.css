@@ -9,7 +9,7 @@ button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="butto
 input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner{
 	border: none;
 }
-.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.footer-options,.right-middle,.remaining-header-part-login,
+.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.right-middle,.remaining-header-part-login,
 .maintainence_message,.delete_company,.createbutton,.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory{
 	float: right;
 }
@@ -954,4 +954,18 @@ a#fdbk_tab:hover {
 .new_login_accounterform #accounterForm{
 	  width: 264px;
 }
+.footer-options div{
+	float:left;
+}
+.footer-options ul{
+	float:right;
+}
+.footer-options div a{
+	background: url("../images/fblike.jpg") no-repeat scroll 0 0 transparent;
+	text-indent: -999em;
+	display: inline-block;
+	width:64px;
+	height:65px;
+}
+
 /* End of the new Login and forgot password page*/
