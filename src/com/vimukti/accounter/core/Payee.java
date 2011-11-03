@@ -486,7 +486,7 @@ public abstract class Payee extends CreatableObject implements
 		items.add(item1);
 
 		TransactionItem item2 = new TransactionItem();
-		item2.setAccount(getCompany().getAccountsReceivableAccount());
+		item2.setAccount(getAccount());
 		item2.setType(TransactionItem.TYPE_ACCOUNT);
 		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
 		if (payee instanceof Customer) {
