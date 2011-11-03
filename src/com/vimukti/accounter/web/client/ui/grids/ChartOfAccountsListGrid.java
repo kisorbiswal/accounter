@@ -157,9 +157,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			if (index == 0 || index == 1) {
 				return 50;
 			} else if (index == 4)
-				return 200;
+				return 150;
 			else if (index == 5)
-				return 55;
+				return 80;
 			if (index == 3)
 				return 200;
 			// return super.getCellWidth(index);
@@ -176,7 +176,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			} else if (index == 3)
 				return 200;
 			else if (index == 4)
-				return 55;
+				return 80;
 			else if (index == 1) {
 				if (UIUtils.isMSIEBrowser()) {
 					return 960 - 700;

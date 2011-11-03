@@ -592,7 +592,7 @@ public class MacMenuServlet extends BaseServlet {
 				items += 1;
 			}
 
-			if (preferences.isDelayedchargesEnabled()) {
+			if (isDelayedchargesEnabled()) {
 				subMenu(newValue, iGlobal.constants().newCharge(),
 						"company/accounter#newCharge");
 				items += 1;
@@ -604,13 +604,6 @@ public class MacMenuServlet extends BaseServlet {
 			subMenu(newValue, iGlobal.constants().newInvoice(),
 					"company/accounter#newInvoice");
 			items += 3;
-		}
-
-		if (isDelayedchargesEnabled()) {
-			subMenu(newValue, iGlobal.constants().newCharge(),
-					"company/accounter#newQuote");
-			subMenu(newValue, iGlobal.constants().newCredit(),
-					"company/accounter#newQuote");
 		}
 
 		if (canDoBanking()) {
