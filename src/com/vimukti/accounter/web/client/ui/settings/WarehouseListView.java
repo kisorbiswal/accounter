@@ -30,6 +30,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected void initGrid() {
+		viewSelect.setVisible(false);
 		grid = new WarehouseListGrid(false);
 		grid.init();
 		// listOfWarehouses = getCompany().getWarehouses();

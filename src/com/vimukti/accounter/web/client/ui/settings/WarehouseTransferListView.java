@@ -54,6 +54,7 @@ public class WarehouseTransferListView extends
 
 	@Override
 	protected void initGrid() {
+		viewSelect.setVisible(false);
 		grid = new WarehouseTransferListGrid(false);
 		grid.init();
 	}

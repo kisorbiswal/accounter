@@ -26,6 +26,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	protected void initGrid() {
+		viewSelect.setVisible(false);
 		grid = new MeasurementsListGrid(false);
 		grid.init();
 	}
