@@ -5,6 +5,8 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -42,36 +44,54 @@ public class TransactionItemTableRequirement extends
 				"Quantity", true, true));
 
 		list.add(new AmountRequirement(UNITPTICE, "Please Enter Unit Price",
-				"Unit Price", true, true));
+				"Unit Price", false, true));
 
 		list.add(new AmountRequirement(DISCOUNT, "Please Enter Discount",
 				"Discount", true, true));
 
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
-			list.add(new TaxCodeRequirement(TAXCODE, "Please Select TaxCode",
-					"Tax Code", false, true, null) {
-
-				@Override
-				protected List<ClientTAXCode> getLists(Context context) {
-					return getClientCompany().getActiveTaxCodes();
+		list.add(new TaxCodeRequirement(TAXCODE, "Please Select TaxCode",
+				"Tax Code", false, true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getPreferences()
+								.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
 				}
-			});
+			}
 
-		} else {
-			list.add(new BooleanRequirement(TAX, true) {
+			@Override
+			protected List<ClientTAXCode> getLists(Context context) {
+				return getClientCompany().getActiveTaxCodes();
+			}
+		});
 
-				@Override
-				protected String getTrueString() {
-					return getConstants().taxable();
+		list.add(new BooleanRequirement(TAX, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getPreferences()
+								.isTaxPerDetailLine()) {
+					return null;
+				} else {
+					return super.run(context, makeResult, list, actions);
 				}
+			}
 
-				@Override
-				protected String getFalseString() {
-					return getConstants().taxExempt();
-				}
-			});
-		}
+			@Override
+			protected String getTrueString() {
+				return getConstants().taxable();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().taxExempt();
+			}
+		});
 
 		list.add(new StringRequirement(DESCRIPTION, "Please Enter Description",
 				"Description", true, true));
@@ -100,7 +120,7 @@ public class TransactionItemTableRequirement extends
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionItem obj) {
-		get(ITEM).setDefaultValue(getClientCompany().getItem(obj.getItem()));
+		get(ITEM).setValue(getClientCompany().getItem(obj.getItem()));
 		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
 		get(UNITPTICE).setDefaultValue(obj.getUnitPrice());
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());

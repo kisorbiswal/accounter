@@ -12,6 +12,15 @@ public class AmountRequirement extends SingleRequirement<Double> {
 	}
 
 	@Override
+	public boolean isDone() {
+		Double value = getValue();
+		if (isOptional()) {
+			return true;
+		}
+		return value != 0;
+	}
+
+	@Override
 	protected String getDisplayValue(Double value) {
 		return value != null ? value.toString() : "";
 	}

@@ -39,9 +39,14 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 
 		if (attribute.equals(getName())) {
 			if (objSelection != null) {
+				if (objSelection.equals("Back")) {
+					objSelection = getValue();
+				} else {
+					addFirstMessage(context, getSetMessage());
+				}
 				setValue(objSelection);
 				T value = getValue();
-				addFirstMessage(context, getSetMessage());
+
 				if (listner != null) {
 					listner.onSelection(value);
 				}
@@ -170,7 +175,11 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		} else {
 			message.append(getEmptyString());
 		}
-
+		if (isDone()) {
+			Record back = new Record("Back");
+			back.add("", "Back");
+			customerList.add(back);
+		}
 		result.add(message.toString());
 		result.add(customerList);
 		result.add(actions);

@@ -44,4 +44,9 @@ public abstract class TaxCodeRequirement extends ListRequirement<ClientTAXCode> 
 	protected String getSelectString() {
 		return getMessages().pleaseSelect(getConstants().taxCode());
 	}
+
+	@Override
+	protected boolean filter(ClientTAXCode e, String name) {
+		return e.getName().toLowerCase().startsWith(name.toLowerCase());
+	}
 }

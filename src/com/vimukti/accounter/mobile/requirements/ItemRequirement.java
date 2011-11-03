@@ -1,13 +1,10 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import java.util.List;
-
 import com.vimukti.accounter.mobile.CommandList;
-import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientItem;
 
-public class ItemRequirement extends ListRequirement<ClientItem> {
+public abstract class ItemRequirement extends ListRequirement<ClientItem> {
 
 	public ItemRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
@@ -31,7 +28,6 @@ public class ItemRequirement extends ListRequirement<ClientItem> {
 		Record record = new Record(value);
 		record.add("", value.getName());
 		record.add("", value.getStandardCost());
-		record.add("", value.isTaxable());
 		return record;
 	}
 
@@ -47,20 +43,11 @@ public class ItemRequirement extends ListRequirement<ClientItem> {
 
 	@Override
 	protected String getSelectString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Select the Item";
 	}
 
 	@Override
 	protected boolean filter(ClientItem e, String name) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.getDisplayName().toLowerCase().startsWith(name.toLowerCase());
 	}
-
-	@Override
-	protected List<ClientItem> getLists(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

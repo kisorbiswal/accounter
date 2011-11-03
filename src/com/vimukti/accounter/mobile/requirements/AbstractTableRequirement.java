@@ -85,7 +85,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 			}
 			makeResult.add(resultList);
 		} else {
-			makeResult.add(getEmptyString() + getEnterString());
+			makeResult.add(getEmptyString());
 		}
 		if (isCreatable || values.size() < getList().size()) {
 			Record addMoreRecord = new Record(getAddMoreString());

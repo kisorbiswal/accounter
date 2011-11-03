@@ -80,8 +80,10 @@ public abstract class TemplateAccountRequirement extends
 
 		if (attribute.equals(getName())) {
 			if (objSelection != null) {
-				List<TemplateAccount> accounts = getValue();
-				accounts.add((TemplateAccount) objSelection);
+				if (!objSelection.equals("Back")) {
+					List<TemplateAccount> accounts = getValue();
+					accounts.add((TemplateAccount) objSelection);
+				}
 				return showSlectedAccounts();
 			} else {
 				valuesSelection = getName();
@@ -220,7 +222,9 @@ public abstract class TemplateAccountRequirement extends
 		} else {
 			message.append(getEmptyString());
 		}
-
+		Record back = new Record("Back");
+		back.add("", "Back");
+		customerList.add(back);
 		result.add(message.toString());
 		result.add(customerList);
 		result.add(actions);
