@@ -218,7 +218,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), false,
+				"please select accountItems", getConstants().Account(), true,
 				true) {
 
 			@Override
@@ -228,7 +228,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new TransactionItemItemsRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, true) {
+				true, true, true) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -300,8 +300,24 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 	}
 
 	@Override
-	protected Result onCompleteProcess(Context context) {
+	public void beforeFinishing(Context context, Result makeResult) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			addFirstMessage(context,
+					"Transaction total can not zero or less than zero.So you can't finish this command");
+		}
+	}
+	
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			return new Result();
+		}
 		ClientCashPurchase cashPurchase = new ClientCashPurchase();
 		ClientFinanceDate date = get(DATE).getValue();
 		cashPurchase.setDate(date.getDate());
@@ -310,10 +326,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 		String number = get(NUMBER).getValue();
 		cashPurchase.setNumber(number);
-
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 
 		accounts.addAll(items);
 		cashPurchase.setTransactionItems(accounts);

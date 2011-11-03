@@ -69,7 +69,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemItemsRequirement(ITEMS, getMessages()
 				.pleaseEnterName(getConstants().item()), getConstants().item(),
-				false, true, true) {
+				true, true, true) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -79,7 +79,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemAccountsRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), false, true) {
+				.Account(), true, true) {
 
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
@@ -349,6 +349,12 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			return new Result();
+		}
 
 		ClientCashSales cashSale = new ClientCashSales();
 		ClientFinanceDate date = get(DATE).getValue();
@@ -360,8 +366,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			cashSale.setNumber(number);
 		}
 
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		accounts.addAll(items);
 		cashSale.setTransactionItems(accounts);
 
@@ -470,6 +474,10 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 	public void beforeFinishing(Context context, Result makeResult) {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			addFirstMessage(context,
+					"Transaction total can not zero or less than zero.So you can't finish this command");
+		}
 		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
 		allrecords.addAll(items);
 		allrecords.addAll(accounts);

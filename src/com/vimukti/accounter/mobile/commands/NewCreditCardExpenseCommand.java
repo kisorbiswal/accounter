@@ -68,7 +68,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemItemsRequirement(ITEMS, getMessages()
 				.pleaseEnterName(getConstants().item()), getConstants().item(),
-				false, true, true) {
+				true, true, true) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -78,7 +78,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemAccountsRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), false, true) {
+				.Account(), true, true) {
 
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
@@ -486,7 +486,12 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			return new Result();
+		}
 		ClientCreditCardCharge creditCardCharge = new ClientCreditCardCharge();
 
 		ClientVendor supplier = get(VENDOR).getValue();
@@ -514,9 +519,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
 		creditCardCharge.setDeliveryDate(deliveryDate.getDate());
-
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 		creditCardCharge.setTransactionItems(items);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
@@ -596,6 +598,10 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	public void beforeFinishing(Context context, Result makeResult) {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			addFirstMessage(context,
+					"Transaction total can not zero or less than zero.So you can't finish this command");
+		}
 		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
 		allrecords.addAll(items);
 		allrecords.addAll(accounts);

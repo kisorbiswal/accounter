@@ -127,7 +127,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), false,
+				"please select accountItems", getConstants().Account(), true,
 				true) {
 
 			@Override
@@ -149,7 +149,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new TransactionItemItemsRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, true) {
+				true, true, true) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -311,7 +311,12 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			return new Result();
+		}
 		ClientPurchaseOrder newPurchaseOrder = new ClientPurchaseOrder();
 		newPurchaseOrder.setType(ClientTransaction.TYPE_PURCHASE_ORDER);
 
@@ -359,8 +364,6 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 		}
 		newPurchaseOrder.setCurrencyFactor(1.0);
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 		newPurchaseOrder.setTransactionItems(items);
 		updateTotals(context, newPurchaseOrder, false);
@@ -381,4 +384,14 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			addFirstMessage(context,
+					"Transaction total can not zero or less than zero.So you can't finish this command");
+		}
+	}
 }

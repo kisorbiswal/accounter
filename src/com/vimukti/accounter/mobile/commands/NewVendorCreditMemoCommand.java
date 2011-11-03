@@ -109,7 +109,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 				getConstants().transactionDate()), getConstants()
 				.transactionDate(), true, true));
 		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), false,
+				"please select accountItems", getConstants().Account(), true,
 				true) {
 
 			@Override
@@ -131,7 +131,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new TransactionItemItemsRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, true) {
+				true, true, true) {
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
@@ -224,6 +224,12 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			return new Result();
+		}
 		ClientVendorCreditMemo vendorCreditMemo = new ClientVendorCreditMemo();
 
 		ClientFinanceDate date = get(DATE).getValue();
@@ -231,8 +237,6 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		String number = get(NUMBER).getValue();
 		vendorCreditMemo.setNumber(number);
 
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		items.addAll(accounts);
 
 		vendorCreditMemo.setTransactionItems(items);
@@ -277,4 +281,16 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			addFirstMessage(context,
+					"Transaction total can not zero or less than zero.So you can't finish this command");
+		}
+	}
+
 }
