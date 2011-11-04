@@ -143,6 +143,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		if (selection == ActionNames.DELETE) {
 			List<T> values = getValue();
 			values.remove(obj);
+			context.removeSelection(ACTIONS);
 			context.removeAttribute(PROCESS_ATR);
 			return null;
 		}
