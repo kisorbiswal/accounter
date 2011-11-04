@@ -30,7 +30,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,

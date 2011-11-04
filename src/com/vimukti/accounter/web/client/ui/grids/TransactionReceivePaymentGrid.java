@@ -56,12 +56,12 @@ public class TransactionReceivePaymentGrid extends
 	private Stack<Map<Integer, Object>> revertedCreditsStack;
 
 	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
-	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
+	private int[] columns = { ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
-	private int[] columnsinEdit = { ListGrid.COLUMN_TYPE_TEXT,
+	private int[] columnsinEdit = { ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };

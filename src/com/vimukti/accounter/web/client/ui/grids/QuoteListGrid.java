@@ -31,7 +31,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	protected int[] setColTypes() {
 		if (type == ClientEstimate.QUOTES) {
 			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
@@ -40,7 +40,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			};
 		} else {
 			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE };
 		}
