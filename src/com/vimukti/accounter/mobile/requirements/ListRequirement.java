@@ -41,12 +41,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			if (objSelection != null) {
 				if (objSelection.equals("Back")) {
 					objSelection = getValue();
-				} else {
-					addFirstMessage(context, getSetMessage());
 				}
 				setValue(objSelection);
 				T value = getValue();
-
+				addFirstMessage(context, getSetMessage());
 				if (listner != null) {
 					listner.onSelection(value);
 				}
