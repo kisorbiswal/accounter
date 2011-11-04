@@ -31,9 +31,10 @@
 			}
 		});
 	});
+	if(news.list.length>1){
 		$('#unChangedNewsDiv>h4>a').attr("href" ,news.list[0].url);
 		$('#unChangedNewsDiv>h4>a').text(news.list[0].title);
-		$('#unChangedNewsDiv>h3').text(news.list[0].body);
+		$('#unChangedNewsDiv>h3').text(news.list[0].body);}
 		var changingindex =1;
 		var setTimeIntervel;
 		timerStarted();
@@ -63,9 +64,10 @@
 			  setTimeIntervel =	setInterval ( function (){
 				  if(changingindex <news.list.length)
 					changingindex = changingindex+1;	
+				  if(news.list.length>1){
 				  $('#unChangedNewsDiv>h4>a').attr("href" ,news.list[changingindex-1].url);
 					$('#unChangedNewsDiv>h4>a').text(news.list[changingindex-1].title);
-					$('#unChangedNewsDiv>h3').text(news.list[changingindex-1].body);
+					$('#unChangedNewsDiv>h3').text(news.list[changingindex-1].body);}
 					if(changingindex ==news.list.length){
 						changingindex=0;
 					}
@@ -74,9 +76,9 @@
 				
 			}
 			function cahngeContent(){
-				 $('#unChangedNewsDiv>h4>a').attr("href" ,news.list[changingindex-1].url);
-					$('#unChangedNewsDiv>h4>a').text(news.list[changingindex-1].title);
-					$('#unChangedNewsDiv>h3').text(news.list[changingindex-1].body);			}
+				 $('#unChangedNewsDiv>h4>a').attr("href" ,news.list[changingindex].url);
+					$('#unChangedNewsDiv>h4>a').text(news.list[changingindex].title);
+					$('#unChangedNewsDiv>h3').text(news.list[changingindex].body);			}
 		 
 	 
 	});	
