@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -18,6 +19,8 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	private int accountType;
 	public double balance = 0.0, payment = 0.0, deposit = 0.0;
 	public double totalBalance = 0.0;
+	ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
 
 	public AccountRegisterListGrid(boolean isMultiSelectionEnable, int type) {
 		super(isMultiSelectionEnable, true);
@@ -89,9 +92,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 			else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 				return getCreditAccValue(accRegister.getAmount(), 7);
 		case 8:
-			return amountAsString(getBalanceValue(accRegister), getCompany()
-					.getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(getBalanceValue(accRegister), currency);
 
 		case 9:
 			if (!accRegister.isVoided())
@@ -115,16 +116,10 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		switch (col) {
 		case 6:
 			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(0.00, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					selectedvalue, currency) : amountAsString(0.00, currency);
 		case 7:
 			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(0.00, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					selectedvalue, currency) : amountAsString(0.00, currency);
 		}
 		return "";
 	}
@@ -140,16 +135,10 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		switch (col) {
 		case 6:
 			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(0.00, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					selectedvalue, currency) : amountAsString(0.00, currency);
 		case 7:
 			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()))
-					: amountAsString(0.00, getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					selectedvalue, currency) : amountAsString(0.00, currency);
 		}
 		return "";
 	}

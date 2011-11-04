@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
-	ClientCurrency currency;
+	private ClientCurrency currency;
 
 	public CustomerWidgetGrid() {
 		super(Accounter.constants().noDebitorstoShow());

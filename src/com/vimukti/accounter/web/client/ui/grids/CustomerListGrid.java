@@ -21,14 +21,16 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 
+	ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
+
 	public CustomerListGrid() {
 		super(false, true);
 	}
 
 	@Override
 	protected Object getColumnValue(PayeeList payee, int col) {
-		ClientCurrency currency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
+
 		switch (col) {
 		case 0:
 			return payee.isActive();
@@ -306,8 +308,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase().compareTo(
-					obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase()
+					.compareTo(obj2.getPayeeName().toLowerCase());
 
 			// case 3:
 			//

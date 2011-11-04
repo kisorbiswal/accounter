@@ -82,6 +82,9 @@ public abstract class ListGrid<T> extends CustomTable {
 
 	private boolean isEditEnable;
 
+	ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
+
 	private int editEventType = 1;
 	protected RecordClickHandler<T> recordClickHandler;
 
@@ -379,9 +382,6 @@ public abstract class ListGrid<T> extends CustomTable {
 		currentCol = col;
 		type = getColumnType(col);
 
-		ClientCurrency currency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
-
 		if (col == getColumnsCount() - 1) {
 			addCellStyles("removeRightBorder");
 		}
@@ -493,8 +493,6 @@ public abstract class ListGrid<T> extends CustomTable {
 
 		setWidget(currentRow, currentCol, label);
 	}
-
-
 
 	/**
 	 * Stop editing in current Row
@@ -637,10 +635,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol, values[selectbox
-							.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox, values[selectbox
-							.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol,
+							values[selectbox.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox,
+							values[selectbox.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -674,8 +672,8 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker, UIUtils
-							.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker,
+							UIUtils.stringToDate((Date) event.getValue()));
 
 				}
 			});

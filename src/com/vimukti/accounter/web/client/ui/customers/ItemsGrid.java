@@ -43,13 +43,15 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		case 1:
 			return obj.getQuantity();
 		case 2:
-			return amountAsString(obj.getUnitPrice(),
-					getCompany()
-							.getCurrency(obj.getTransaction().getCurrency()));
+			return amountAsString(
+					obj.getUnitPrice(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		case 3:
-			return amountAsString(obj.getLineTotal(),
-					getCompany()
-							.getCurrency(obj.getTransaction().getCurrency()));
+			return amountAsString(
+					obj.getLineTotal(),
+					getCompany().getCurrency(
+							getCompany().getPreferences().getPrimaryCurrency()));
 		default:
 			return null;
 		}

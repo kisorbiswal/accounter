@@ -65,7 +65,8 @@ public class TransactionReceivePaymentGrid extends
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
-	private ClientCurrency currency;
+	private ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
 
 	@Override
 	public void init() {
@@ -126,8 +127,7 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	protected Object getColumnValue(
 			ClientTransactionReceivePayment receivePayment, int col) {
-		currency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
+
 		if (canEdit) {
 			switch (col) {
 			case 0:

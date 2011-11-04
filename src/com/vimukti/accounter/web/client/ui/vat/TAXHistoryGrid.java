@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
@@ -32,6 +33,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_LINK };
 	private TaxHistoryView taxHistoryView;
+	private ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
 
 	public TAXHistoryGrid(boolean isMultiselectionEnable) {
 		super(isMultiselectionEnable);
@@ -129,6 +132,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	@Override
 	protected Object getColumnValue(ClientTAXReturn obj, int index) {
 		switch (index) {
+
 		case 0:
 			return new ClientFinanceDate(obj.getPeriodStartDate()).toString();
 		case 1:
@@ -136,11 +140,9 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		case 2:
 			return new ClientFinanceDate(obj.getTransactionDate());
 		case 3:
-			return amountAsString((obj.getBalance()),
-					getCompany().getCurrency(obj.getCurrency()));
+			return amountAsString((obj.getBalance()), currency);
 		case 4:
-			return amountAsString((obj.getTotal() - obj.getBalance()),
-					getCompany().getCurrency(obj.getCurrency()));
+			return amountAsString((obj.getTotal() - obj.getBalance()), currency);
 		case 5:
 			return companyConstants.exceptionDetails();
 		default:

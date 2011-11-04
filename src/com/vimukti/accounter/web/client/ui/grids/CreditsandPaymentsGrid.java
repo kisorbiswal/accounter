@@ -33,6 +33,9 @@ public class CreditsandPaymentsGrid extends
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
 
+	ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
+
 	private ClientTransactionReceivePayment traReceivePayment;
 	public LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> creditsMap = new LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>>();
 	private NewApplyCreditsDialog newdialog;
@@ -206,14 +209,8 @@ public class CreditsandPaymentsGrid extends
 					// : false) {
 					Accounter.showError(Accounter.constants()
 							.receivedPaymentAppliedCreditsAmount());
-					setText(indexOf(item),
-							4,
-							amountAsString(
-									item.getAmtTouse(),
-									getCompany()
-											.getCurrency(
-													item.getTransaction()
-															.getCurrency())));
+					setText(indexOf(item), 4,
+							amountAsString(item.getAmtTouse(), currency));
 				} else {
 					if (DecimalUtil.isLessThan(amtTouse,
 							item.getRemaoningBalance())
@@ -222,13 +219,8 @@ public class CreditsandPaymentsGrid extends
 							&& DecimalUtil.isGreaterThan(amtTouse, balance)) {
 						Accounter.showError(Accounter.constants()
 								.receivedPaymentAppliedCreditsAmount());
-						setText(indexOf(item),
-								4,
-								amountAsString(
-										item.getAmtTouse(),
-										getCompany().getCurrency(
-												item.getTransaction()
-														.getCurrency())));
+						setText(indexOf(item), 4,
+								amountAsString(item.getAmtTouse(), currency));
 					} else {
 						double newValue = getAmountInBaseCurrency((Double) amtTouse);
 						editingRecord.setAmtTouse(newValue);

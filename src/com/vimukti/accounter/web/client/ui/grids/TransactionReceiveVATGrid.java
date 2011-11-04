@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -21,6 +22,8 @@ public class TransactionReceiveVATGrid extends
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
 	private ReceiveVATView receiveVATView;
+	private ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
 
 	public TransactionReceiveVATGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -102,15 +105,12 @@ public class TransactionReceiveVATGrid extends
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:
 			return amountAsString(
-					getAmountInForeignCurrency(payVAT.getTaxDue()),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					getAmountInForeignCurrency(payVAT.getTaxDue()), currency);
 
 		case 2:
 			return amountAsString(
 					getAmountInForeignCurrency(payVAT.getAmountToReceive()),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					currency);
 		default:
 			break;
 		}

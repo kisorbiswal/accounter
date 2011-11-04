@@ -13,6 +13,9 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
+	private ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
+
 	public ItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 	}
@@ -68,8 +71,6 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	protected Object getColumnValue(ClientItem obj, int col) {
-		ClientCurrency currency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
 
 		if ((ItemListView.isPurchaseType && ItemListView.isSalesType)
 				&& (col == 6)) {
@@ -239,6 +240,5 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
 		}
 	}
-	 
 
 }

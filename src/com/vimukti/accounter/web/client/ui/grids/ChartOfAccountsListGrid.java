@@ -13,6 +13,9 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
+	ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
+
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 
@@ -26,9 +29,6 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	protected Object getColumnValue(ClientAccount obj, int col) {
 
-		ClientCurrency currency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
-
 		if (getPreferences().getUseAccountNumbers() == true) {
 			switch (col) {
 			case 0:
@@ -40,9 +40,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return Utility.getAccountTypeString(obj.getType());
 			case 4:
-				return amountAsString(!DecimalUtil.isEquals(obj
-						.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0,
-						currency);
+				return amountAsString(!DecimalUtil.isEquals(
+						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
+						: 0.0, currency);
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -62,9 +62,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 2:
 				return Utility.getAccountTypeString(obj.getType());
 			case 3:
-				return amountAsString(!DecimalUtil.isEquals(obj
-						.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0,
-						currency);
+				return amountAsString(!DecimalUtil.isEquals(
+						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
+						: 0.0, currency);
 			case 4:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -211,8 +211,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return obj1.getNumber().compareTo(obj2.getNumber());
 
 		case 2:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 3:
 			String type1 = Utility.getAccountTypeString(obj1.getType())
 					.toLowerCase();

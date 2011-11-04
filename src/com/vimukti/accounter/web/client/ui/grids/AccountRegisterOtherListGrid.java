@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -23,6 +24,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	public double balance = 0.0;
 	public double totalBalance = 0.0;
 	private AccountRegisterOthersView view;
+	ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
 
 	public AccountRegisterOtherListGrid(boolean isMultiSelectionEnable) {
 		super(false, true);
@@ -39,30 +42,20 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			return accRegister.getNumber();
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
-				return amountAsString(accRegister.getAmount(), getCompany()
-						.getCurrency(
-								getCompany().getPreferences()
-										.getPrimaryCurrency()));
+				return amountAsString(accRegister.getAmount(), currency);
 			else
-				return amountAsString(0.00, getCompany().getCurrency(
-						getCompany().getPreferences().getPrimaryCurrency()));
+				return amountAsString(0.00, currency);
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
-				return amountAsString(-1 * accRegister.getAmount(),
-						getCompany().getCurrency(
-								getCompany().getPreferences()
-										.getPrimaryCurrency()));
+				return amountAsString(-1 * accRegister.getAmount(), currency);
 			else
-				return amountAsString(0.00, getCompany().getCurrency(
-						getCompany().getPreferences().getPrimaryCurrency()));
+				return amountAsString(0.00, currency);
 		case 5:
 			return accRegister.getAccount();
 		case 6:
 			return accRegister.getMemo();
 		case 7:
-			return amountAsString(getBalanceValue(accRegister), getCompany()
-					.getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(getBalanceValue(accRegister), currency);
 
 		case 8:
 			if (!accRegister.isVoided())
@@ -192,8 +185,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 			case 6:
 				if (obj1.getMemo() != null && obj2.getMemo() != null)
-					return obj1.getMemo().toLowerCase().compareTo(
-							obj2.getMemo().toLowerCase());
+					return obj1.getMemo().toLowerCase()
+							.compareTo(obj2.getMemo().toLowerCase());
 				break;
 			case 7:
 				Double bal1 = getBalanceValue(obj1);
@@ -233,8 +226,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	protected void voidTransaction(final AccountRegister obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
-				.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	public AccounterCoreType getType() {

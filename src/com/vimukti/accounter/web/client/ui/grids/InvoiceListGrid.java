@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -16,6 +17,9 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
+
+	private ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
 
 	public InvoiceListGrid() {
 		super(false);
@@ -57,15 +61,9 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 6:
 			return invoicesList.getNetAmount();
 		case 7:
-			return amountAsString(
-					invoicesList.getTotalPrice(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(invoicesList.getTotalPrice(), currency);
 		case 8:
-			return amountAsString(
-					invoicesList.getBalance(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(invoicesList.getBalance(), currency);
 		case 9:
 
 			if (!invoicesList.isVoided())

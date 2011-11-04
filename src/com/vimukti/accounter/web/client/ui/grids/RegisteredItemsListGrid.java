@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
@@ -24,6 +25,8 @@ import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private NoteDialog noteDialog;
+	private ClientCurrency currency = getCompany().getCurrency(
+			getCompany().getPreferences().getPrimaryCurrency());
 
 	/**
 	 * @param isMultiSelectionEnable
@@ -83,13 +86,9 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(item
 							.getPurchaseDate())) : "";
 		case 4:
-			return amountAsString(item.getPurchasePrice(), getCompany()
-					.getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(item.getPurchasePrice(), currency);
 		case 5:
-			return amountAsString(item.getBookValue(), getCompany()
-					.getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(item.getBookValue(), currency);
 		case 6:
 			return Accounter.constants().showHistory();
 		case 7:
@@ -140,8 +139,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			@Override
 			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString()
-						: "";
+						.getValue().toString() : "";
 				// setAttribute("note", note, currentRow);
 				if (note.length() != 0)
 					executeUpdate(asset, note);
@@ -198,10 +196,10 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(obj1
-					.getPurchaseDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(obj2
-					.getPurchaseDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(
+					obj1.getPurchaseDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(
+					obj2.getPurchaseDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;
