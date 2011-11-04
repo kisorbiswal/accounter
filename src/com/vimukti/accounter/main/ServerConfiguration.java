@@ -24,6 +24,7 @@ public class ServerConfiguration {
 	private static String chatpassword;
 	private static int mainServerPort;
 	public static boolean isDebugMode;
+	private static boolean enableChatServer;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -102,6 +103,8 @@ public class ServerConfiguration {
 			sessionDbUrl = prop.getProperty("sessionDbUrl", null);
 			chatUsername = prop.getProperty("chatUsername", null);
 			chatpassword = prop.getProperty("chatPassword", null);
+			enableChatServer = prop.getProperty("enableChatServer", null)
+					.equalsIgnoreCase("true");
 
 		} catch (NumberFormatException ne) {
 			System.err
@@ -196,5 +199,9 @@ public class ServerConfiguration {
 
 	public static String getMobileStore() {
 		return "config/MobileStore";
+	}
+
+	public static boolean isEnableChatServer() {
+		return enableChatServer;
 	}
 }

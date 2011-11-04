@@ -51,11 +51,13 @@ public class ServerMain extends Main {
 		// AccounterChatServer chatServer = new AccounterChatServer();
 		// chatServer.start();
 
-		ConsoleChatServer consoleChat = new ConsoleChatServer();
-		consoleChat.start();
+		if (ServerConfiguration.isEnableChatServer()) {
+			ConsoleChatServer consoleChat = new ConsoleChatServer();
+			consoleChat.start();
 
-		AccounterChatServer accounterChatServer = new AccounterChatServer();
-		accounterChatServer.start();
+			AccounterChatServer accounterChatServer = new AccounterChatServer();
+			accounterChatServer.start();
+		}
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
