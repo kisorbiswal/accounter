@@ -29,6 +29,9 @@ public class CustomerColumn extends
 
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientCustomer newValue) {
+		if (newValue == null) {
+			return;
+		}
 		row.setCustomer(newValue.getID());
 	}
 

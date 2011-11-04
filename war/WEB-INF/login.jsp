@@ -96,7 +96,7 @@
 			  
 			  <div class="new_login_page">
 			  <div id ="feedDiv">
-			  <h2>Keep in the Know.</h2>
+			  <h2>What's New</h2>
 			  <div id="unChangedNewsDiv" class = "news"><h4>
 			  <a target="_blank"></a><br/><h3></h3>
 			  </h4></div>

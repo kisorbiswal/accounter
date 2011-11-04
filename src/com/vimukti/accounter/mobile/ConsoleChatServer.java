@@ -30,7 +30,7 @@ public class ConsoleChatServer extends Thread {
 
 	public void startChat() {
 		try {
-			ServerSocket server = new ServerSocket(8890);
+			ServerSocket server = new ServerSocket(8080);
 			loadCommandsAndPatterns();
 			Socket socket = null;
 			while ((socket = server.accept()) != null) {
