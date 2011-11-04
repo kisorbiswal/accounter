@@ -24,6 +24,18 @@ public class VATItemsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
+		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().active());
+				list.add(getConstants().inActive());
+				return list;
+			}
+		});
+		
+		
 		list.add(new ShowListRequirement<TAXItem>("taxItemsList",
 				"Please Select Vat Item", 5) {
 			@Override
