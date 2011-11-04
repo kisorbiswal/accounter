@@ -29,6 +29,19 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
+		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().open());
+				list.add(getConstants().completed());
+				list.add(getConstants().cancelled());
+				return list;
+			}
+		});
+		
+		
 		list.add(new ShowListRequirement<PurchaseOrdersList>("purchaseOrderList",
 				getMessages().pleaseSelect(getConstants().purchaseOrder()), 5) {
 			@Override
