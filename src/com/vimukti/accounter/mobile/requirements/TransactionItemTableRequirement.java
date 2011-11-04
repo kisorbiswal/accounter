@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class TransactionItemTableRequirement extends
+public abstract class TransactionItemTableRequirement extends
 		AbstractTableRequirement<ClientTransactionItem> {
 	private static final String QUANITY = "Quantity";
 	private static final String ITEM = "Item";
@@ -39,7 +39,7 @@ public class TransactionItemTableRequirement extends
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getServiceItems();
+				return getItems(context);
 			}
 		});
 
@@ -105,6 +105,8 @@ public class TransactionItemTableRequirement extends
 		list.add(new StringRequirement(DESCRIPTION, "Please Enter Description",
 				"Description", true, true));
 	}
+
+	public abstract List<ClientItem> getItems(Context context);
 
 	@Override
 	protected String getEmptyString() {

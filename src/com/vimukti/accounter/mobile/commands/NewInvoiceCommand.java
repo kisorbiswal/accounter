@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -133,7 +134,13 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, true));
+				false, true, true) {
+
+			@Override
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getServiceItems();
+			}
+		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().transactionDate()), getConstants()
