@@ -512,10 +512,10 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 
 	// Vat Item Constants
 
-	public static final String VAT_ITEM_EC_SALES_SERVICES_STANDARD = "EC Sales Services Standard";
+	public static final String VAT_ITEM_EC_SALES_SERVICES_ZERO_RATED = "EC Sales Services Zero-Rated";
 	public static final String VAT_ITEM_STANDARD_PURCHASES = "Standard Purchases";
 	public static final String VAT_ITEM_ZERO_RATED_PURCHASES = "Zero-Rated Purchases";
-	public static final String VAT_ITEM_EC_SALES_GOODS_STANDARD = "EC Sales Goods Standard";
+	public static final String VAT_ITEM_EC_SALES_GOODS_ZERO_RATED = "EC Sales Goods Zero-Rated";
 
 	/**
 	 * Expenses default accounts names constants

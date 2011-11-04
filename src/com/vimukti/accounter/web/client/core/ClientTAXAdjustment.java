@@ -36,6 +36,8 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	long taxAgency;
 
+	boolean isSales;
+
 	/**
 	 * @return the journalEntry
 	 */
@@ -265,6 +267,21 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 		taxAdjustment.transactionReceivePayment = transactionReceivePayments;
 
 		return taxAdjustment;
+	}
+
+	/**
+	 * @return the isSales
+	 */
+	public boolean isSales() {
+		return isSales;
+	}
+
+	/**
+	 * @param isSales
+	 *            the isSales to set
+	 */
+	public void setSales(boolean isSales) {
+		this.isSales = isSales;
 	}
 
 }

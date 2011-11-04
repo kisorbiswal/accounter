@@ -81,13 +81,14 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItemGroup> getSalesWithPrcntVATItems() {
-		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
-		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
-			if (vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItemGroup> vatItmsList = new
+		// ArrayList<ClientTAXItemGroup>();
+		// for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
+		// if (vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems();
 	}
 
 	/*
@@ -95,13 +96,14 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItemGroup> getPurchaseWithPrcntVATItems() {
-		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
-		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
-			if (!vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItemGroup> vatItmsList = new
+		// ArrayList<ClientTAXItemGroup>();
+		// for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
+		// if (!vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems();
 	}
 
 	/*

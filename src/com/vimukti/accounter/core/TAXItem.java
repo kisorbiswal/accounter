@@ -175,29 +175,27 @@ public class TAXItem extends TAXItemGroup {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
-		if (this.vatReturnBox != null
-				&& (this.vatReturnBox.name
-						.equals(AccounterServerConstants.UK_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_GOODS)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_SERVICES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_EXEMPT_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-							.equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
-			this.isSalesType = true;
-
-		} else {
-			this.isSalesType = false;
-		}
-
+		/*
+		 * if (this.vatReturnBox != null && (this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_GOODS) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_SERVICES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EXEMPT_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
+		 * this.isSalesType = true;
+		 * 
+		 * } else { this.isSalesType = false; }
+		 */
 		// if (Company.getCompany() != null
 		// && Company.getCompany().getAccountingType() ==
 		// Company.ACCOUNTING_TYPE_US) {
@@ -212,27 +210,27 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		if (this.vatReturnBox != null
-				&& (this.vatReturnBox.name
-						.equals(AccounterServerConstants.UK_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_GOODS)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_SERVICES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_EXEMPT_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-							.equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
-			this.isSalesType = true;
-
-		} else {
-			this.isSalesType = false;
-		}
+		/*
+		 * if (this.vatReturnBox != null && (this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_GOODS) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_SERVICES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EXEMPT_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
+		 * this.isSalesType = true;
+		 * 
+		 * } else { this.isSalesType = false; }
+		 */
 
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
 				.setParameter("id", this.id)

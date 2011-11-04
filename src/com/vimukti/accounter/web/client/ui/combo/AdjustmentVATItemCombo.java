@@ -60,13 +60,13 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
 	public List<ClientTAXItem> getFilteredVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
-			if (vatItem.isPercentage()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
+		// for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+		// if (vatItem.isPercentage()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getCompany().getTaxItems();
 	}
 
 	/*
@@ -74,13 +74,13 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItem> getSalesWithPrcntVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getFilteredVATItems()) {
-			if (vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
+		// for (ClientTAXItem vatItem : getFilteredVATItems()) {
+		// if (vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems();
 	}
 
 	/*
@@ -88,13 +88,13 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItem> getPurchaseWithPrcntVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getFilteredVATItems()) {
-			if (!vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
+		// for (ClientTAXItem vatItem : getFilteredVATItems()) {
+		// if (!vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems();
 	}
 
 	/*

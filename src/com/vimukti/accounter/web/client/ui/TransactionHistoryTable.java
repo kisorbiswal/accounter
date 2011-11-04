@@ -54,6 +54,9 @@ public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 							@Override
 							public void onSuccess(
 									List<ClientTransactionLog> result) {
+								if (result == null || result.isEmpty()) {
+									return;
+								}
 								baseView.updateLastActivityPanel(result
 										.get(result.size() - 1));
 								updateRowData(start, result);

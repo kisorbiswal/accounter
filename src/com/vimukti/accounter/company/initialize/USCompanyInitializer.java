@@ -378,7 +378,6 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxItem.setTaxAgency(defaultTaxAgency);
 			defaultTaxItem.setVatReturnBox(null);
 			defaultTaxItem.setTaxRate(0);
-			defaultTaxItem.setSalesType(Boolean.TRUE);
 			defaultTaxItem.setDefault(true);
 			session.save(defaultTaxItem);
 

@@ -644,7 +644,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecgPurchase17Item
 					.setDescription("EC Purchases of Goods Standard (-17.5%)");
 			ecgPurchase17Item.setTaxRate(-17.5);
-			ecgPurchase17Item.setSalesType(false);
 			ecgPurchase17Item.setTaxAgency(defaultVATAgency);
 
 			ecgPurchase17Item.setVatReturnBox(vt1);
@@ -658,7 +657,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecgPurchase20Item
 					.setDescription("EC Purchases of Goods Standard (-20.0%)");
 			ecgPurchase20Item.setTaxRate(-20);
-			ecgPurchase20Item.setSalesType(false);
 			ecgPurchase20Item.setTaxAgency(defaultVATAgency);
 
 			ecgPurchase20Item.setVatReturnBox(vt1);
@@ -673,7 +671,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecsPurchase17Item
 					.setDescription("EC Purchases of Services Standard (-17.5%)");
 			ecsPurchase17Item.setTaxRate(-17.5);
-			ecsPurchase17Item.setSalesType(false);
 			ecsPurchase17Item.setTaxAgency(defaultVATAgency);
 
 			ecsPurchase17Item.setVatReturnBox(vt1);
@@ -688,7 +685,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecsPurchase20Item
 					.setDescription("EC Purchases of Services Standard (-20.0%)");
 			ecsPurchase20Item.setTaxRate(-20);
-			ecsPurchase20Item.setSalesType(false);
 			ecsPurchase20Item.setTaxAgency(defaultVATAgency);
 
 			ecsPurchase20Item.setVatReturnBox(vt1);
@@ -701,7 +697,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			egzPurchaseItem.setActive(true);
 			egzPurchaseItem.setDescription("EC Purchases of Goods Zero-Rated");
 			egzPurchaseItem.setTaxRate(0.0);
-			egzPurchaseItem.setSalesType(false);
 			egzPurchaseItem.setTaxAgency(defaultVATAgency);
 			egzPurchaseItem.setPercentage(true);
 			egzPurchaseItem.setVatReturnBox(vt1);
@@ -713,7 +708,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			egzSalesItem.setActive(true);
 			egzSalesItem.setDescription("EC Sales of Goods Zero-Rated");
 			egzSalesItem.setTaxRate(0.0);
-			egzSalesItem.setSalesType(true);
 			egzSalesItem.setTaxAgency(defaultVATAgency);
 			egzSalesItem.setPercentage(true);
 			egzSalesItem.setVatReturnBox(vt3);
@@ -725,7 +719,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecszSalesItem.setActive(true);
 			ecszSalesItem.setDescription("EC Sales of Services Zero-Rated");
 			ecszSalesItem.setTaxRate(0.0);
-			ecszSalesItem.setSalesType(true);
 			ecszSalesItem.setTaxAgency(defaultVATAgency);
 			ecszSalesItem.setVatReturnBox(vt4);
 			ecszSalesItem.setDefault(true);
@@ -738,7 +731,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecszPurchaseItem
 					.setDescription("EC Purchase of Services Zero-Rated");
 			ecszPurchaseItem.setTaxRate(0.0);
-			ecszPurchaseItem.setSalesType(false);
 			ecszPurchaseItem.setTaxAgency(defaultVATAgency);
 			ecszPurchaseItem.setVatReturnBox(vt4);
 			ecszPurchaseItem.setDefault(true);
@@ -750,7 +742,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			rczSalesitem.setActive(true);
 			rczSalesitem.setDescription("Reverse Sales Charges");
 			rczSalesitem.setTaxRate(0.0);
-			rczSalesitem.setSalesType(true);
 			rczSalesitem.setTaxAgency(defaultVATAgency);
 			rczSalesitem.setVatReturnBox(vt4);
 			rczSalesitem.setDefault(true);
@@ -762,7 +753,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			rczPurchaseItem.setActive(true);
 			rczPurchaseItem.setDescription("Reverse Sales Charges");
 			rczPurchaseItem.setTaxRate(0.0);
-			rczPurchaseItem.setSalesType(false);
 			rczPurchaseItem.setTaxAgency(defaultVATAgency);
 			rczPurchaseItem.setVatReturnBox(vt4);
 			rczPurchaseItem.setDefault(true);
@@ -774,7 +764,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem5.setActive(true);
 			vatItem5.setDescription("Exempt Purchases");
 			vatItem5.setTaxRate(0.0);
-			vatItem5.setSalesType(false);
 			vatItem5.setTaxAgency(defaultVATAgency);
 			vatItem5.setVatReturnBox(vt5);
 			vatItem5.setDefault(true);
@@ -786,7 +775,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem6.setActive(true);
 			vatItem6.setDescription("Exempt Sales");
 			vatItem6.setTaxRate(0.0);
-			vatItem6.setSalesType(true);
 			vatItem6.setTaxAgency(defaultVATAgency);
 			vatItem6.setVatReturnBox(vt6);
 			vatItem6.setDefault(true);
@@ -796,7 +784,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			TAXItem vatItem7 = new TAXItem(company);
 			vatItem7.setName("Not Registered Purchases");
 			vatItem7.setActive(true);
-			vatItem7.setSalesType(false);
 			vatItem7.setDescription("Not Registered Purchases");
 			vatItem7.setTaxRate(0.0);
 			vatItem7.setTaxAgency(defaultVATAgency);
@@ -811,7 +798,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem8.setActive(true);
 			vatItem8.setDescription("Not Registered Sales");
 			vatItem8.setTaxRate(0.0);
-			vatItem8.setSalesType(true);
 			vatItem8.setTaxAgency(defaultVATAgency);
 			vatItem8.setPercentage(true);
 			// session.save(vt8);
@@ -822,7 +808,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			TAXItem reducePurchaseitem = new TAXItem(company);
 			reducePurchaseitem.setName("Reduced Purchases");
 			reducePurchaseitem.setActive(true);
-			reducePurchaseitem.setSalesType(false);
 			reducePurchaseitem.setDescription("Reduced Purchases");
 			reducePurchaseitem.setTaxRate(5.0);
 			reducePurchaseitem.setTaxAgency(defaultVATAgency);
@@ -836,7 +821,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			reduceSalesItem.setActive(true);
 			reduceSalesItem.setDescription("Reduced Sales");
 			reduceSalesItem.setTaxRate(5.0);
-			reduceSalesItem.setSalesType(true);
 			reduceSalesItem.setTaxAgency(defaultVATAgency);
 			reduceSalesItem.setVatReturnBox(vt6);
 			reduceSalesItem.setDefault(true);
@@ -849,7 +833,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			rcPurchase17
 					.setDescription("Reverse Charge Purchases Standard (-17.5%)");
 			rcPurchase17.setTaxRate(-17.5);
-			rcPurchase17.setSalesType(false);
 			rcPurchase17.setTaxAgency(defaultVATAgency);
 			rcPurchase17.setVatReturnBox(vt11);
 			rcPurchase17.setPercentage(true);
@@ -862,7 +845,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			rcPurchase20
 					.setDescription("Reverse Charge Purchases Standard (-20%)");
 			rcPurchase20.setTaxRate(-20);
-			rcPurchase20.setSalesType(false);
 			rcPurchase20.setTaxAgency(defaultVATAgency);
 			rcPurchase20.setVatReturnBox(vt11);
 			rcPurchase20.setPercentage(true);
@@ -874,7 +856,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			standardPurchase17Item.setActive(true);
 			standardPurchase17Item.setDescription("Standard Purchases");
 			standardPurchase17Item.setTaxRate(17.5);
-			standardPurchase17Item.setSalesType(false);
 			standardPurchase17Item.setTaxAgency(defaultVATAgency);
 			standardPurchase17Item.setVatReturnBox(vt5);
 			standardPurchase17Item.setDefault(true);
@@ -886,7 +867,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			standardSales17Item.setActive(true);
 			standardSales17Item.setDescription("Standard Sales");
 			standardSales17Item.setTaxRate(17.5);
-			standardSales17Item.setSalesType(true);
 			standardSales17Item.setTaxAgency(defaultVATAgency);
 			standardSales17Item.setVatReturnBox(vt6);
 			standardSales17Item.setDefault(true);
@@ -896,7 +876,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			TAXItem zrPurchaseItem = new TAXItem(company);
 			zrPurchaseItem.setName("Zero-Rated Purchases");
 			zrPurchaseItem.setActive(true);
-			zrPurchaseItem.setSalesType(false);
 			zrPurchaseItem.setDescription("Zero-Rated Purchases");
 			zrPurchaseItem.setTaxRate(0.0);
 			zrPurchaseItem.setTaxAgency(defaultVATAgency);
@@ -910,7 +889,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem15.setActive(true);
 			vatItem15.setDescription("Zero-Rated Sales");
 			vatItem15.setTaxRate(0.0);
-			vatItem15.setSalesType(true);
 			vatItem15.setTaxAgency(defaultVATAgency);
 			vatItem15.setVatReturnBox(vt6);
 			vatItem15.setDefault(true);
@@ -922,7 +900,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			standardPurchase20Item.setActive(true);
 			standardPurchase20Item.setDescription("Standard Purchases  (20%)");
 			standardPurchase20Item.setTaxRate(20.0);
-			standardPurchase20Item.setSalesType(false);
 			standardPurchase20Item.setTaxAgency(defaultVATAgency);
 			standardPurchase20Item.setVatReturnBox(vt5);
 			standardPurchase20Item.setDefault(true);
@@ -934,7 +911,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			standardSales20Item.setActive(true);
 			standardSales20Item.setDescription("Standard Sales  (20%)");
 			standardSales20Item.setTaxRate(20.0);
-			standardSales20Item.setSalesType(true);
 			standardSales20Item.setTaxAgency(defaultVATAgency);
 			standardSales20Item.setVatReturnBox(vt6);
 			standardSales20Item.setDefault(true);
@@ -959,7 +935,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecgPurchase17Group.setDescription("EC Purchases of Goods Group");
 			ecgPurchase17Group.setActive(true);
 			ecgPurchase17Group.setGroupRate(0);
-			ecgPurchase17Group.setSalesType(false);
 			List<TAXItem> vatItms2 = new ArrayList<TAXItem>();
 			vatItms2.add(standardPurchase17Item);
 			vatItms2.add(ecgPurchase17Item);
@@ -972,7 +947,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecgPurchase20Group.setDescription("EC Purchases of Goods Group");
 			ecgPurchase20Group.setActive(true);
 			ecgPurchase20Group.setGroupRate(0);
-			ecgPurchase20Group.setSalesType(false);
 			List<TAXItem> items = new ArrayList<TAXItem>();
 			items.add(standardPurchase20Item);
 			items.add(ecgPurchase20Item);
@@ -985,7 +959,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecsPurchase17Group.setDescription("EC Purchases of Services Group");
 			ecsPurchase17Group.setActive(true);
 			ecsPurchase17Group.setGroupRate(0);
-			ecsPurchase17Group.setSalesType(false);
 			List<TAXItem> itemss = new ArrayList<TAXItem>();
 			itemss.add(standardPurchase17Item);
 			itemss.add(ecsPurchase17Item);
@@ -998,7 +971,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			ecsPurchase20Group.setDescription("EC Purchases of Services Group");
 			ecsPurchase20Group.setActive(true);
 			ecsPurchase20Group.setGroupRate(0);
-			ecsPurchase20Group.setSalesType(false);
 			List<TAXItem> items2 = new ArrayList<TAXItem>();
 			items2.add(standardPurchase20Item);
 			items2.add(ecsPurchase20Item);
@@ -1026,7 +998,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			rcPurchase17Group.setName("Reverse Charge Purchases 17.5% Group");
 			rcPurchase17Group.setDescription("Reverse Charge Purchases Group");
 			rcPurchase17Group.setActive(true);
-			rcPurchase17Group.setSalesType(false);
 			rcPurchase17Group.setGroupRate(0);
 			List<TAXItem> vatItms4 = new ArrayList<TAXItem>();
 			vatItms4.add(standardPurchase17Item);
@@ -1039,7 +1010,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			rcPurchase20Group.setName("Reverse Charge Purchases 20% Group");
 			rcPurchase20Group.setDescription("Reverse Charge Purchases Group");
 			rcPurchase20Group.setActive(true);
-			rcPurchase20Group.setSalesType(false);
 			rcPurchase20Group.setGroupRate(0);
 			List<TAXItem> list = new ArrayList<TAXItem>();
 			list.add(standardPurchase20Item);

@@ -340,7 +340,6 @@ public class TaxManager extends Manager {
 		vi.setDescription(description);
 		vi.setName(name);
 		vi.setPercentage(isPercentage);
-		vi.setSalesType(isSalesType);
 		vi.setTaxAgency(vatAgency);
 		vi.setTaxRate(rate);
 		vi.setVatReturnBox(vatReturnBox);
@@ -378,7 +377,6 @@ public class TaxManager extends Manager {
 		vg.setDescription(description);
 		vg.setName(groupName);
 		vg.setPercentage(true);
-		vg.setSalesType(isSalesType);
 		List<TAXItem> vats = new ArrayList<TAXItem>();
 		double groupRate = 0;
 		for (String s : vatItems) {
@@ -537,13 +535,13 @@ public class TaxManager extends Manager {
 						// (b.getName().equals(AccounterConstants.UK_BOX10_UNCATEGORISED))
 						// {
 
-						if (v.getTaxItem().isSalesType()) {
+						if (v.isSales()) {
 							if ((!v.getTaxItem()
 									.getName()
-									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
+									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_ZERO_RATED))
 									&& (!v.getTaxItem()
 											.getName()
-											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
+											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_ZERO_RATED))) {
 								if (v.getIncreaseVATLine())
 									b.setAmount(b.getAmount() + v.getTotal());
 								else
@@ -556,9 +554,7 @@ public class TaxManager extends Manager {
 								else
 									b.setAmount(b.getAmount() - v.getTotal());
 							}
-						}
-
-						else {
+						} else {
 							double amount = 0;
 							if (v.getIncreaseVATLine())
 								amount = v.getTotal();

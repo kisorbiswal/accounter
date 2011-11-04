@@ -790,7 +790,6 @@
 		<property name="version" column="VERSION"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
-		<property name="isSalesType" column="IS_SALES_TYPE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
@@ -1132,6 +1131,8 @@
 			<property name="VATReturn" column="VAT_RETURN"></property>
 			<property name="taxType" column="TAX_TYPE"></property>
 			<property name="taxFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
+			<property name="lastTAXReturnDate" column="LAST_TAX_RETURN_DATE"
+					type="com.vimukti.accounter.core.LongUseType"></property>
 
 		</joined-subclass>
 	</class>
@@ -2025,7 +2026,7 @@
 		column="GROUP_RATE"></property> </joined-subclass> </class>
 	-->
 
-	<class name="MaintananceInfoUser" table="Maintanance_Users">
+	<class name="MaintananceInfoUser" table="MAINTANANCE_USER">
 		<id name="userEmail" column="USER_EMAIL"></id>
 	</class>
 </hibernate-mapping>

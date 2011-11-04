@@ -3720,4 +3720,8 @@ public interface AccounterConstants extends Constants {
 
 	public String locationsList();
 
+	public String salesType();
+
+	public String purchaseType();
+
 }

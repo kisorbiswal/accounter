@@ -47,6 +47,7 @@ public class AdjustTAXView extends
 	private AdjustmentVATItemCombo vatItemCombo;
 	private OtherAccountsCombo adjustAccountCombo;
 	private RadioGroupItem typeRadio;
+	private RadioGroupItem salesTypeRadio;
 	private AmountField amount;
 	private TextAreaItem memo;
 	private DynamicForm vatform;
@@ -167,8 +168,8 @@ public class AdjustTAXView extends
 						} else {
 							clientTAXAgency = selectItem;
 							vatItemCombo.setDisabled(false);
-							vatItemCombo.initCombo(Accounter.getCompany()
-									.getTaxItems(selectItem));
+							vatItemCombo.initCombo(getCompany().getTaxItems(
+									selectItem));
 							vatItemCombo.setValue("");
 						}
 
@@ -179,23 +180,29 @@ public class AdjustTAXView extends
 		taxAgencyCombo.setRequired(true);
 		vatItemCombo.setRequired(true);
 
-		adjustAccountCombo = new OtherAccountsCombo(Accounter.messages()
-				.adjustmentAccount(Global.get().Account()));
+		adjustAccountCombo = new OtherAccountsCombo(
+				messages.adjustmentAccount(Global.get().Account()));
 		adjustAccountCombo.setHelpInformation(true);
 		// adjustAccountCombo.setWidth(100);
 		adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
-		amount = new AmountField(Accounter.constants().amount(), this);
+		amount = new AmountField(constants.amount(), this);
 		amount.setHelpInformation(true);
 		amount.setRequired(true);
 		amount.setWidth(100);
 		typeRadio = new RadioGroupItem("");
 		// typeRadio.setRequired(true);
-		typeRadio.setValueMap(Accounter.constants().increaseTAXLine(),
-				Accounter.constants().decreaseTAXLine());
-		typeRadio.setDefaultValue(Accounter.constants().increaseTAXLine());
+		typeRadio.setValueMap(constants.increaseTAXLine(),
+				constants.decreaseTAXLine());
+		typeRadio.setDefaultValue(constants.increaseTAXLine());
 
-		memo = new TextAreaItem(Accounter.constants().memo());
+		salesTypeRadio = new RadioGroupItem();
+		salesTypeRadio.setGroupName(constants.type());
+		salesTypeRadio
+				.setValue(constants.salesType(), constants.purchaseType());
+		salesTypeRadio.setDefaultValue(constants.salesType());
+
+		memo = new TextAreaItem(constants.memo());
 		memo.setMemo(false, this);
 		memo.setHelpInformation(true);
 		memo.setWidth(100);
@@ -215,7 +222,7 @@ public class AdjustTAXView extends
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 		// topform.setFields(taxAgencyCombo);
 		// } else {
-		topform.setFields(taxAgencyCombo, vatItemCombo);
+		topform.setFields(taxAgencyCombo, vatItemCombo, salesTypeRadio);
 		// }
 
 		topform.setWidth("50%");
@@ -404,6 +411,7 @@ public class AdjustTAXView extends
 		else
 			data.setIncreaseVATLine(false);
 		data.setMemo(String.valueOf(memo.getValue()));
+		data.setSales(salesTypeRadio.getValue().equals(constants.salesType()));
 
 	}
 

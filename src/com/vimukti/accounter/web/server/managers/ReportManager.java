@@ -1136,24 +1136,23 @@ public class ReportManager extends Manager {
 						AccounterServerConstants.UK_BOX10_UNCATEGORISED)) {
 
 					if (v.getIncreaseVATLine()) {
-						if (!v.getTaxItem().isSalesType()) {
+						if (!v.isSales()) {
 							vd.setTotal(v.getTotal());
 						} else {
 							vd.setTotal(-1 * v.getTotal());
 						}
 					} else {
-						if (v.getTaxItem().isSalesType()) {
+						if (v.isSales()) {
 							vd.setTotal(v.getTotal());
 						} else {
 							vd.setTotal(-1 * v.getTotal());
 						}
 					}
 
-					Account liabilityAccount = v.getTaxItem().isSalesType() == true ? v
+					Account liabilityAccount = v.isSales() == true ? v
 							.getTaxItem().getTaxAgency()
-							.getSalesLiabilityAccount()
-							: v.getTaxItem().getTaxAgency()
-									.getPurchaseLiabilityAccount();
+							.getSalesLiabilityAccount() : v.getTaxItem()
+							.getTaxAgency().getPurchaseLiabilityAccount();
 
 					if (vd.getBoxName().equals("VAT Due on sales (Box 1)"))
 						vd.setTotal(-1 * vd.getTotal());
@@ -1195,13 +1194,13 @@ public class ReportManager extends Manager {
 				vd1.setBoxName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
 
 				if (v.getIncreaseVATLine()) {
-					if (!v.getTaxItem().isSalesType()) {
+					if (!v.isSales()) {
 						vd.setTotal(v.getTotal());
 					} else {
 						vd.setTotal(-1 * v.getTotal());
 					}
 				} else {
-					if (v.getTaxItem().isSalesType()) {
+					if (v.isSales()) {
 						vd.setTotal(v.getTotal());
 					} else {
 						vd.setTotal(-1 * v.getTotal());
@@ -1213,10 +1212,10 @@ public class ReportManager extends Manager {
 								.equals("EC Sales Services Standard"))
 					vd1.setTotal(-1 * vd1.getTotal());
 
-				Account liabilityAccount = v.getTaxItem().isSalesType() == true ? v
-						.getTaxItem().getTaxAgency().getSalesLiabilityAccount()
-						: v.getTaxItem().getTaxAgency()
-								.getPurchaseLiabilityAccount();
+				Account liabilityAccount = v.isSales() == true ? v.getTaxItem()
+						.getTaxAgency().getSalesLiabilityAccount() : v
+						.getTaxItem().getTaxAgency()
+						.getPurchaseLiabilityAccount();
 
 				vd1.setPayeeName(liabilityAccount.getName());
 
@@ -1896,7 +1895,7 @@ public class ReportManager extends Manager {
 					else if (vs.getVatReturnEntryName().equals(
 							"Uncategorised Tax Amounts")) {
 
-						if (v.getTaxItem().isSalesType()) {
+						if (v.isSales()) {
 							if ((v.getTaxItem().getID() != 3)
 									&& (v.getTaxItem().getID() != 4)) {
 								if (v.getIncreaseVATLine())
@@ -2058,7 +2057,7 @@ public class ReportManager extends Manager {
 				u.setSourceName(v.getAdjustmentAccount().getName());
 				u.setMemo("VAT Adjustment");
 				u.setDate(new ClientFinanceDate(v.getDate().getDate()));
-				if (v.getTaxItem().isSalesType()) {
+				if (v.isSales()) {
 					if (v.getIncreaseVATLine()) {
 
 						u.setAmount(-1 * (v.getTotal()));

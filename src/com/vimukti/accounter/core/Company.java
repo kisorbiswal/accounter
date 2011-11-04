@@ -838,7 +838,7 @@ public class Company implements IAccounterServerCore {
 		 * Here updating vatAmount value for vat group entries
 		 */
 		if (vatItem.getName().equals(
-				AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD)
+				AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_ZERO_RATED)
 				|| vatItem.getName().equals(
 						AccounterServerConstants.VAT_ITEM_STANDARD_PURCHASES)
 				|| vatItem.getName().equals(

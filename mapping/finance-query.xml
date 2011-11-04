@@ -6181,6 +6181,24 @@
 		
 		ORDER BY TAXI.ID
 	</sql-query>
+	
+	<sql-query name="get.CompanyId.Tradingname.and.Country.of.user">
+		<query-param name="userid" type="long" />
+		
+		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="TRADING_NAME" type="string" />
+		<return-scalar column="REGISTRED_COUNTRY" type="string" />
+		
+		SELECT 
+		C.ID AS COMPANY_ID,
+		C.TRADING_NAME TRADING_NAME,
+		C.REGISTRED_COUNTRY REGISTRED_COUNTRY
+		
+		FROM USERS U 
+		LEFT JOIN COMPANY C ON U.COMPANY_ID=C.ID 
+		WHERE U.ID=:userId;
+	</sql-query>
+	
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

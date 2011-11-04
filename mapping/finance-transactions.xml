@@ -967,6 +967,7 @@
 			<key column="ID" />
 			<property name="increaseVATLine" column="INCREASE_VAT_LINE"></property>
 			<property name="isFiled" column="IS_FILED"></property>
+			<property name="isSales" column="IS_SALES"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<many-to-one name="adjustmentAccount" class="Account"
 				lazy="false" cascade="save-update" column="ADJUSTMENT_ACCOUNT">

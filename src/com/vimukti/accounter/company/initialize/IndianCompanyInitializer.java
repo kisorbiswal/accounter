@@ -107,7 +107,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem1.setActive(true);
 		tdsItem1.setDescription("Exempt Purchases");
 		tdsItem1.setTaxRate(0.0);
-		tdsItem1.setSalesType(false);
 		tdsItem1.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem1.setDefault(true);
@@ -118,7 +117,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem2.setActive(true);
 		tdsItem2.setDescription("Professional");
 		tdsItem2.setTaxRate(10);
-		tdsItem2.setSalesType(false);
 		tdsItem2.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem2.setDefault(true);
@@ -130,7 +128,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem3.setActive(true);
 		tdsItem3.setDescription("Contractors");
 		tdsItem3.setTaxRate(2);
-		tdsItem3.setSalesType(false);
 		tdsItem3.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem3.setDefault(true);
@@ -142,7 +139,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem4.setActive(true);
 		tdsItem4.setDescription("Sub Contractors");
 		tdsItem4.setTaxRate(1);
-		tdsItem4.setSalesType(false);
 		tdsItem4.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem4.setDefault(true);

@@ -41,6 +41,8 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	double balanceDue;
 
+	boolean isSales;
+
 	/**
 	 * @return the increaseVATLine
 	 */
@@ -140,14 +142,14 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	}
 
 	private void doCreateEffect(Session session, TAXAdjustment taxAdjustment) {
-		Account liabilityAccount = taxAdjustment.taxItem.isSalesType == true ? taxAdjustment.taxItem.taxAgency
+		Account liabilityAccount = taxAdjustment.isSales == true ? taxAdjustment.taxItem.taxAgency
 				.getSalesLiabilityAccount() : taxAdjustment.taxItem.taxAgency
 				.getPurchaseLiabilityAccount();
 
 		double amount1 = 0;
 		double amount2 = 0;
 		if (taxAdjustment.increaseVATLine) {
-			if (taxAdjustment.taxItem.isSalesType) {
+			if (taxAdjustment.isSales) {
 				amount1 = taxAdjustment.total;
 				amount2 = -1 * taxAdjustment.total;
 			} else {
@@ -155,7 +157,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 				amount2 = taxAdjustment.total;
 			}
 		} else {
-			if (this.taxItem.isSalesType) {
+			if (this.isSales) {
 				amount1 = -1 * taxAdjustment.total;
 				amount2 = taxAdjustment.total;
 			} else {
@@ -228,14 +230,14 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	}
 
 	private void doVoidEffect(Session session, TAXAdjustment taxAdjustment) {
-		Account liabilityAccount = taxAdjustment.taxItem.isSalesType == true ? taxAdjustment.taxItem.taxAgency
+		Account liabilityAccount = taxAdjustment.isSales == true ? taxAdjustment.taxItem.taxAgency
 				.getSalesLiabilityAccount() : taxAdjustment.taxItem.taxAgency
 				.getPurchaseLiabilityAccount();
 
 		double amount1 = 0;
 		double amount2 = 0;
 		if (taxAdjustment.increaseVATLine) {
-			if (taxAdjustment.taxItem.isSalesType) {
+			if (taxAdjustment.isSales) {
 				amount1 = -1 * taxAdjustment.total;
 				amount2 = taxAdjustment.total;
 			} else {
@@ -243,7 +245,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 				amount2 = -1 * taxAdjustment.total;
 			}
 		} else {
-			if (taxAdjustment.taxItem.isSalesType) {
+			if (taxAdjustment.isSales) {
 				amount1 = taxAdjustment.total;
 				amount2 = -1 * taxAdjustment.total;
 			} else {
@@ -282,6 +284,21 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	public void setBalanceDue(double balanceDue) {
 		this.balanceDue = balanceDue;
+	}
+
+	/**
+	 * @return the isSales
+	 */
+	public boolean isSales() {
+		return isSales;
+	}
+
+	/**
+	 * @param isSales
+	 *            the isSales to set
+	 */
+	public void setSales(boolean isSales) {
+		this.isSales = isSales;
 	}
 
 }

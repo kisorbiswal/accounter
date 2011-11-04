@@ -74,9 +74,24 @@ public class CompaniesServlet extends BaseServlet {
 				}
 			} else {
 				List<Company> list = new ArrayList<Company>();
+				Company com = null;
 				for (User user : users) {
 					if (!user.isDeleted()) {
-						list.add(user.getCompany());
+						List<Object[]> objects = session
+								.getNamedQuery(
+										"get.CompanyId.Tradingname.and.Country.of.user")
+								.setParameter("userId;", user.getID()).list();
+						for (Object[] obj : objects) {
+							com = new Company();
+							com.setId((Long) obj[0]);
+							com.getPreferences()
+									.setTradingName((String) obj[1]);
+							com.getRegisteredAddress().setCountryOrRegion(
+									(String) obj[2]);
+
+							list.add(com);
+						}
+
 					}
 				}
 				Collections.sort(list, new Comparator<Company>() {

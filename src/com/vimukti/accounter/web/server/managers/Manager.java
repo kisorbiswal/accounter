@@ -340,15 +340,15 @@ public class Manager {
 									.equals(AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
 									.getVatBox().equals("NONE"))) {
 
-						if (taxAdjustment.getTaxItem().isSalesType()) {
+						if (taxAdjustment.isSales()) {
 							if ((!taxAdjustment
 									.getTaxItem()
 									.getName()
-									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
+									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_ZERO_RATED))
 									&& (!taxAdjustment
 											.getTaxItem()
 											.getName()
-											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
+											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_ZERO_RATED))) {
 								if (taxAdjustment.getIncreaseVATLine())
 									b.setAmount(b.getAmount()
 											+ taxAdjustment.getTotal());
@@ -442,15 +442,15 @@ public class Manager {
 									.equals(AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
 									.getVatBox().equals("NONE"))) {
 
-						if (taxAdjustment.getTaxItem().isSalesType()) {
+						if (taxAdjustment.isSales()) {
 							if ((!taxAdjustment
 									.getTaxItem()
 									.getName()
-									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
+									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_ZERO_RATED))
 									&& (!taxAdjustment
 											.getTaxItem()
 											.getName()
-											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
+											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_ZERO_RATED))) {
 								if (taxAdjustment.getIncreaseVATLine())
 									b.setAmount(b.getAmount()
 											+ taxAdjustment.getTotal());

@@ -16,10 +16,11 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
 				getCompany().getCurrencies());
 		initCombo(currency);
-		setSelected(getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency())
-				.getFormalName());
-
+		if (!currency.isEmpty()) {
+			setSelected(getCompany().getCurrency(
+					getCompany().getPreferences().getPrimaryCurrency())
+					.getFormalName());
+		}
 	}
 
 	public CurrencyCombo(String title, boolean isAddNewRequired) {

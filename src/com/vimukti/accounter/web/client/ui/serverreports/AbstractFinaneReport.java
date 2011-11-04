@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
@@ -678,11 +677,11 @@ public abstract class AbstractFinaneReport<R> extends
 	// this.preferences = preferences;
 	// }
 	public AccounterConstants getConstants() {
-		return Accounter.constants();
+		return Global.get().constants();
 	}
 
 	public AccounterMessages getMessages() {
-		return Accounter.messages();
+		return Global.get().messages();
 	}
 
 	/**

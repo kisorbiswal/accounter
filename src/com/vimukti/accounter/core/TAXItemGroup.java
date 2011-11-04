@@ -42,7 +42,6 @@ public class TAXItemGroup extends CreatableObject implements
 	String description;
 
 	boolean isActive;
-	boolean isSalesType;
 	boolean isPercentage;
 
 	boolean isDefault;
@@ -55,21 +54,6 @@ public class TAXItemGroup extends CreatableObject implements
 
 	public TAXItemGroup(Company company) {
 		setCompany(company);
-	}
-
-	/**
-	 * @return the isSalesType
-	 */
-	public boolean isSalesType() {
-		return isSalesType;
-	}
-
-	/**
-	 * @param isSalesType
-	 *            the isSalesType to set
-	 */
-	public void setSalesType(boolean isSalesType) {
-		this.isSalesType = isSalesType;
 	}
 
 	/**
