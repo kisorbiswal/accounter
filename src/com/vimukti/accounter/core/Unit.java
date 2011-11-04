@@ -6,6 +6,10 @@ import org.hibernate.Session;
 public class Unit extends CreatableObject implements IAccounterServerCore,
 		Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Measurement measurement;
 	private String type;
 	private double factor;

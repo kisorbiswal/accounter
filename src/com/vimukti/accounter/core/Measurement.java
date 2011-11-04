@@ -179,6 +179,14 @@ public class Measurement extends CreatableObject implements
 		return super.onSave(session);
 	}
 
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+		for (Unit unit : this.units) {
+			unit.setMeasurement(this);
+		}
+		return super.onUpdate(session);
+	}
+
 	public Unit getDefaultUnit() {
 		for (Unit unit : units) {
 			if (unit.isDefault()) {

@@ -27,6 +27,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	private TextItem nameItem;
 	private TextAreaItem description;
 	private UnitsTable unitsTable;
+	private Button addUnitButton;
 	private DynamicForm addMeasurmentForm;
 	private AccounterConstants settingsMessages = Accounter.constants();
 
@@ -79,14 +80,13 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		nameItem.setRequired(true);
 		nameItem.setDisabled(isInViewMode());
 
-		description = new TextAreaItem(
-				settingsMessages.measurementDescription());
+		description = new TextAreaItem(settingsMessages.description());
 		description.setDisabled(isInViewMode());
 
 		unitsTable = new UnitsTable();
 		unitsTable.setDisabled(isInViewMode());
 
-		Button addUnitButton = new Button();
+		addUnitButton = new Button();
 		addUnitButton.setText(settingsMessages.addUnitButton());
 		addUnitButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -100,6 +100,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 				unitsTable.add(clientUnit);
 			}
 		});
+		addUnitButton.setEnabled(!isInViewMode());
 
 		addMeasurmentForm.setFields(nameItem, description);
 		addMeasurmentForm.addStyleName("fields-panel");
@@ -189,6 +190,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		nameItem.setDisabled(isInViewMode());
 		description.setDisabled(isInViewMode());
 		unitsTable.setDisabled(isInViewMode());
+		addUnitButton.setEnabled(!isInViewMode());
 	}
 
 	@Override
