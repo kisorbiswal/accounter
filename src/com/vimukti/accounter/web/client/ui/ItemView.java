@@ -470,11 +470,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 		VerticalPanel purchzVPanel = new VerticalPanel();
 
-		purchzVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		purchzVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		purchzVPanel.setWidth("100%");
 		HorizontalPanel itemInfoPanel = new HorizontalPanel();
 
-		itemInfoPanel.setCellHorizontalAlignment(itemInfoForm, ALIGN_RIGHT);
+		itemInfoPanel.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
 		// itemInfoPanel.add(itemInfoForm);
 
 		purchzVPanel.add(purchaseInfoForm);
@@ -503,7 +503,7 @@ public class ItemView extends BaseView<ClientItem> {
 		topPanel2.setWidth("100%");
 		topPanel2.add(salesVPanel);
 		// topPanel2.add(emptyPanel);
-		topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_RIGHT);
+		topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
 		topPanel2.add(purchzVPanel);
 		topPanel2.setCellWidth(salesVPanel, "50%");
 		topPanel2.setCellWidth(purchzVPanel, "50%");
@@ -521,6 +521,8 @@ public class ItemView extends BaseView<ClientItem> {
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
 			salesVPanel.add(getStockPanel_1());
 			purchzVPanel.add(getStockPanel_2());
+			purchzVPanel.setCellHorizontalAlignment(getStockPanel_1(), ALIGN_LEFT);
+			purchzVPanel.setCellHorizontalAlignment(getStockPanel_2(), ALIGN_LEFT);
 
 		}
 		this.add(mainVLay);
