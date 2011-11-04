@@ -128,7 +128,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		list.add(new ListRequirement<ClientTAXItemGroup>(VATITEM_FOR_PURCHASE,
 				getMessages()
 						.pleaseSelect(getConstants().taxItemForPurchases()),
-				"Vat item or Group for Purchases", true, true, null) {
+				"Vat item or Group for Purchases", false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {

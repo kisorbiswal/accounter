@@ -214,7 +214,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		// if (account.getID() == 0) {
-		return "Account is created succesfully.";
+		return "Bank Account is created succesfully.";
 		// } else {
 		// return "Account is updated successfully.";
 		// }
