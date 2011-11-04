@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class ItemsCommand extends NewAbstractCommand {
@@ -22,6 +23,18 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+
+		list.add(new ActionRequirement(ITEMS_TYPE, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().active());
+				list.add(getConstants().inActive());
+				return list;
+			}
+		});
+
 		list.add(new ShowListRequirement<Item>("items", "Please Select Item", 5) {
 
 			@Override
@@ -83,6 +96,7 @@ public class ItemsCommand extends NewAbstractCommand {
 			}
 
 		});
+
 	}
 
 	private Set<Item> getItems(Context context) {
