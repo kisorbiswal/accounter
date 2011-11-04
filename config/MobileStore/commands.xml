@@ -265,6 +265,7 @@
 	<command clazz="NewServiceItemCommand" name="New Service Item">
 		<alias>Add Service Item</alias>
 		<alias>Create Service Item</alias>
+		<alias>Create New Service Item</alias>
 	</command>
 
 	<command clazz="NewNonInventoryItemCommand" name="New Non Inventory Item">
@@ -282,6 +283,7 @@
 		<alias>Items</alias>
 		<alias>List Of Items</alias>
 		<alias>Product and Service Items</alias>
+		<alias>List of All Items</alias>
 	</command>
 
 	<command clazz="NewFiscalYearCommand" name="New Fiscal Year">
@@ -667,5 +669,8 @@
 
 	<command clazz="ReconcillationHistoryCommand" name="History">
 		<alias>Reconcillation History</alias>
+	</command>
+	<command clazz="NewProductItemCommand" name="Product Item">
+		<alias>Create New Product Item</alias>
 	</command>
 </commands>
