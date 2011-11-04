@@ -115,16 +115,16 @@ public class GeneralSettingsView extends AbstractBaseView {
 			public void onMouseOver(MouseOverEvent event) {
 				conversionHTML.getElement().getStyle()
 						.setCursor(Cursor.POINTER);
-				conversionHTML.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				conversionHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		conversionHTML.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				conversionHTML.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				conversionHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 
 			}
 		});
@@ -145,8 +145,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				ActionFactory.getInvoiceBrandingAction().run(null, false);
-				invoiceBrandingHTML.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				invoiceBrandingHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 
 			}
 		});
@@ -155,18 +155,18 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				invoiceBrandingHTML.getElement().getStyle()
-						.setCursor(Cursor.POINTER);
-				invoiceBrandingHTML.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				invoiceBrandingHTML.getElement().getStyle().setCursor(
+						Cursor.POINTER);
+				invoiceBrandingHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		invoiceBrandingHTML.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				invoiceBrandingHTML.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				invoiceBrandingHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 
 			}
 		});
@@ -187,8 +187,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				ActionFactory.getUsersAction().run(null, false);
-				userHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				userHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 		userHtml.addMouseOverHandler(new MouseOverHandler() {
@@ -196,16 +196,16 @@ public class GeneralSettingsView extends AbstractBaseView {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				userHtml.getElement().getStyle().setCursor(Cursor.POINTER);
-				userHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				userHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		userHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				userHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				userHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 
 			}
 		});
@@ -228,8 +228,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 			public void onClick(ClickEvent event) {
 				PreferencesAction.CATEGORY = PreferencesAction.SETTINGS;
 				ActionFactory.getPreferencesAction().run(null, false);
-				companySettingsHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				companySettingsHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 
 			}
 		});
@@ -237,18 +237,18 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				companySettingsHtml.getElement().getStyle()
-						.setCursor(Cursor.POINTER);
-				companySettingsHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				companySettingsHtml.getElement().getStyle().setCursor(
+						Cursor.POINTER);
+				companySettingsHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		companySettingsHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				companySettingsHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				companySettingsHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 
 			}
 		});

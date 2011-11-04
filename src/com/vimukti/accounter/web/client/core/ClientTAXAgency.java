@@ -86,6 +86,10 @@ public class ClientTAXAgency extends ClientPayee {
 		return null;
 	}
 
+	public String getDisplayName() {
+		return this.getName();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

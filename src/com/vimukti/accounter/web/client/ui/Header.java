@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -30,7 +31,8 @@ public class Header extends HorizontalPanel {
 
 	private SimplePanel headerLinks;
 
-	private HTML logout, help, logo;
+	private Anchor logout, help;
+	private HTML logo;
 
 	private VerticalPanel panel1, panel2;
 	private VerticalPanel panel3;
@@ -85,8 +87,8 @@ public class Header extends HorizontalPanel {
 			if (!Accounter.isLoggedInFromDomain()
 					&& Accounter.getCompany().isConfigured()) {
 				userName.addStyleName("userName-style");
-				userName.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				userName.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 				userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 				userName.addClickHandler(new ClickHandler() {
@@ -98,14 +100,14 @@ public class Header extends HorizontalPanel {
 				});
 			}
 		}
-		logout = new HTML(Accounter.messages().logoutHTML());
+		logout = new Anchor(Accounter.messages().logoutHTML());
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
 		// "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new HTML(Accounter.messages().helpHTML());
+		help = new Anchor(Accounter.messages().helpHTML());
 		// help.setWidth(((Accounter.constants().help().length() * 2) + 19) +
 		// "px");
 		help.addStyleName("help-style");

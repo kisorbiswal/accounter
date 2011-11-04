@@ -98,8 +98,8 @@ public class ConversionDateView extends AbstractBaseView {
 										.getSelectedValue(), yearCombo
 										.getSelectedValue())
 								+ getYear(monthCombo.getSelectedValue(),
-										yearCombo.getSelectedValue())
-								+ "</b> </font></p>");
+										yearCombo.getSelectedValue()) + "</b>");
+						bodyFooterHtml.addStyleName("conversion_date_footer");
 					}
 				});
 

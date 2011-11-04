@@ -222,12 +222,6 @@ public abstract class ClientPayee implements IAccounterCore {
 	// return this != null && this instanceof ClientTaxAgency;
 	// }
 
-	@Override
-	public String getDisplayName() {
-		// its not using any where
-		return null;
-	}
-
 	public Set<ClientAddress> getAddress() {
 		return address;
 	}

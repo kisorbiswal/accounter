@@ -545,4 +545,9 @@ public class ClientVendor extends ClientPayee {
 	public void setTdsApplicable(boolean tdsApplicable) {
 		this.tdsApplicable = tdsApplicable;
 	}
+
+	@Override
+	public String getDisplayName() {
+		return this.getName();
+	}
 }
