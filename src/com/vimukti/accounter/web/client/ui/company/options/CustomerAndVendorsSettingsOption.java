@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti2
@@ -125,6 +124,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		});
 		enableTaxTdsCheckbox.setText(constants.enableTDS());
 		enableTDSdecs.setText(messages.enbleTDSdescription());
+		enableTDSdecs.setStyleName("organisation_comment");
 		enableTaxTdsCheckbox.setVisible(getCompany().getCountryPreferences()
 				.isTDSAvailable());
 		enableTDSdecs.setVisible(getCompany().getCountryPreferences()
