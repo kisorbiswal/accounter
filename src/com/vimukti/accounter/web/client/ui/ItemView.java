@@ -219,10 +219,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().comments(),
-				Accounter.constants().salesDescription()));
+		salesDescArea.setToolTip(Accounter
+				.messages()
+				.writeCommentsForThis(this.getAction().getViewName())
+				.replace(Accounter.constants().comments(),
+						Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);
@@ -305,12 +306,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-						selectTaxCode = selectItem;
-					}
-				});
+		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+			public void selectedComboBoxItem(ClientTAXCode selectItem) {
+				selectTaxCode = selectItem;
+			}
+		});
 		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
@@ -602,14 +602,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 		openingBalTxt = new AmountField(Accounter.constants().openingBalance(),
 				this);
+		openingBalTxt.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
+		// if (getPreferences().iswareHouseEnabled()) {
+		stockForm.setFields(wareHouse);
+		// } else {
+		// stockForm.setFields(openingBalTxt);
+		// }
 		if (getPreferences().iswareHouseEnabled()) {
-			stockForm.setFields(openingBalTxt, wareHouse);
-		} else {
-			stockForm.setFields(openingBalTxt);
+			stockPanel.add(stockForm);
 		}
-
-		stockPanel.add(stockForm);
 		listforms.add(stockForm);
 
 		stockForm.setWidth("100%");
@@ -621,9 +623,6 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	public void saveAndUpdateView() {
 		updateItem();
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			getStockPanelData();
-		}
 		saveOrUpdate(data);
 
 	}
@@ -686,6 +685,15 @@ public class ItemView extends BaseView<ClientItem> {
 		if (type == ClientItem.TYPE_NON_INVENTORY_PART
 				|| type == ClientItem.TYPE_SERVICE)
 			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			if (measurement.getSelectedValue() != null)
+				data.setMeasurement(measurement.getSelectedValue().getId());
+			if (wareHouse.getSelectedValue() != null)
+				data.setWarehouse(wareHouse.getSelectedValue().getID());
+			data.setMinStockAlertLevel(null);
+			data.setMaxStockAlertLevel(null);
+			data.setOpeningBalance(openingBalTxt.getAmount());
+		}
 	}
 
 	@Override
@@ -799,16 +807,8 @@ public class ItemView extends BaseView<ClientItem> {
 					getCompany().getDefaultWarehouse());
 		}
 		this.wareHouse.setComboItem(wareHouse);
+		this.openingBalTxt.setAmount(data.getOpeningBalance());
 
-	}
-
-	private void getStockPanelData() {
-		if (measurement.getSelectedValue() != null)
-			data.setMeasurement(measurement.getSelectedValue().getId());
-		if (wareHouse.getSelectedValue() != null)
-			data.setWarehouse(wareHouse.getSelectedValue().getID());
-		data.setMinStockAlertLevel(null);
-		data.setMaxStockAlertLevel(null);
 	}
 
 	private void initItemGroups() {
@@ -963,16 +963,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText, accounterConstants
-						.enterValidAmount());
+				result.addError(salesPriceText,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
-				result.addError(purchasePriceTxt, accounterConstants
-						.enterValidAmount());
+				result.addError(purchasePriceTxt,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
@@ -1065,6 +1065,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
 			measurement.setDisabled(isInViewMode());
 			wareHouse.setDisabled(isInViewMode());
+			openingBalTxt.setDisabled(isInViewMode());
 		}
 		activeCheck.setDisabled(isInViewMode());
 
