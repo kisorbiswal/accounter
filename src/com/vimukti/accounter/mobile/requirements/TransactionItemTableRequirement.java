@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class TransactionItemTableRequirement extends
 		AbstractTableRequirement<ClientTransactionItem> {
@@ -20,12 +21,14 @@ public class TransactionItemTableRequirement extends
 	private static final String TAXCODE = "TaxCode";
 	private static final String TAX = "Tax";
 	private static final String DESCRIPTION = "Description";
+	private boolean isSales;
 
 	public TransactionItemTableRequirement(String requirementName,
 			String enterString, String recordName, boolean isOptional,
-			boolean isAllowFromContext) {
+			boolean isAllowFromContext, boolean isSales) {
 		super(requirementName, enterString, recordName, true, isOptional,
 				isAllowFromContext);
+		this.isSales = isSales;
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class TransactionItemTableRequirement extends
 
 			@Override
 			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+				return getClientCompany().getServiceItems();
 			}
 		});
 
@@ -66,6 +69,12 @@ public class TransactionItemTableRequirement extends
 			@Override
 			protected List<ClientTAXCode> getLists(Context context) {
 				return getClientCompany().getActiveTaxCodes();
+			}
+
+			@Override
+			protected boolean filter(ClientTAXCode e, String name) {
+				// TODO Auto-generated method stub
+				return false;
 			}
 		});
 
@@ -111,18 +120,35 @@ public class TransactionItemTableRequirement extends
 		obj.setDiscount((Double) get(DISCOUNT).getValue());
 		if (getClientCompany().getPreferences().isTrackTax()
 				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
-			obj.setTaxCode(((ClientTAXCode) get(TAXCODE).getValue()).getID());
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			if (taxCode != null) {
+				obj.setTaxCode(taxCode.getID());
+			}
 		} else {
 			obj.setTaxable((Boolean) get(TAX).getValue());
 		}
 		obj.setDescription((String) get(DESCRIPTION).getValue());
+		double lt = obj.getQuantity().getValue() * obj.getUnitPrice();
+		double disc = obj.getDiscount();
+		obj.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
+				: lt);
 	}
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionItem obj) {
-		get(ITEM).setValue(getClientCompany().getItem(obj.getItem()));
+		ClientItem item = getClientCompany().getItem(obj.getItem());
+		get(ITEM).setValue(item);
 		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
-		get(UNITPTICE).setDefaultValue(obj.getUnitPrice());
+		if (item != null) {
+			if (isSales) {
+				get(UNITPTICE).setValue(item.getSalesPrice());
+			} else {
+				get(UNITPTICE).setValue(item.getPurchasePrice());
+			}
+		} else {
+			get(UNITPTICE).setValue(obj.getUnitPrice());
+		}
+
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
 		if (getClientCompany().getPreferences().isTrackTax()
 				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
@@ -136,7 +162,9 @@ public class TransactionItemTableRequirement extends
 
 	@Override
 	protected ClientTransactionItem getNewObject() {
-		return new ClientTransactionItem();
+		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
+		clientTransactionItem.setType(ClientTransactionItem.TYPE_ITEM);
+		return clientTransactionItem;
 	}
 
 	@Override
@@ -172,7 +200,7 @@ public class TransactionItemTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return "Add More Items";
+		return getMessages().addMore(getConstants().items());
 	}
 
 }

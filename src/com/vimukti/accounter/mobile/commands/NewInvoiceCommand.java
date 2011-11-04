@@ -23,7 +23,7 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -112,7 +111,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -121,26 +121,19 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
+				}
+				return null;
 			}
 		});
 
-		
-		list.add(new TransactionItemItemsRequirement(ITEMS,
+		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, true) {
-
-			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
-			}
-		});
+				false, true, true));
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().transactionDate()), getConstants()
@@ -395,7 +388,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			invoice.setCurrencyFactor(factor);
 		}
-		
+
 		EstimatesAndSalesOrdersList e = get(ESTIMATEANDSALESORDER).getValue();
 		ClientEstimate cct = null;
 		ClientSalesOrder cSalesOrder = null;
@@ -461,7 +454,20 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO
 		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
-		double[] result = getTransactionTotal(context, false, allrecords, true);
+		ClientCompanyPreferences preferences = context.getClientCompany()
+				.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : allrecords) {
+				if (taxCode != null) {
+					item.setTaxCode(taxCode.getID());
+				}
+			}
+		}
+
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		double[] result = getTransactionTotal(context, isVatInclusive,
+				allrecords, true);
 		makeResult.add("Net Amount: " + result[0]);
 		if (context.getClientCompany().getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
