@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti2
@@ -47,6 +48,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	VerticalPanel hidePanel;
 	@UiField
 	VerticalPanel radioButtonPanel;
+	@UiField
+	CheckBox enableTaxTdsCheckbox;
+	@UiField
+	Label enableTDSdecs;
 
 	interface CustomerAndVendorsSettingsOptionUiBinder extends
 			UiBinder<Widget, CustomerAndVendorsSettingsOption> {
@@ -80,6 +85,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 			oneperdetaillineRadioButton.setValue(true);
 		else
 			onepeTransactionRadioButton.setValue(true);
+		if (getCompany().getCountryPreferences().isTDSAvailable()) {
+			enableTaxTdsCheckbox.setValue(getCompanyPreferences()
+					.isTDSEnabled());
+		}
 	}
 
 	public void createControls() {
@@ -114,6 +123,12 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 			}
 		});
+		enableTaxTdsCheckbox.setText(constants.enableTDS());
+		enableTDSdecs.setText(messages.enbleTDSdescription());
+		enableTaxTdsCheckbox.setVisible(getCompany().getCountryPreferences()
+				.isTDSAvailable());
+		enableTDSdecs.setVisible(getCompany().getCountryPreferences()
+				.isTDSAvailable());
 
 	}
 
@@ -129,6 +144,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		getCompanyPreferences().setTaxPerDetailLine(
 				oneperdetaillineRadioButton.getValue());
 		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
+		if (getCompany().getCountryPreferences().isTDSAvailable()) {
+			getCompanyPreferences().setTDSEnabled(
+					enableTaxTdsCheckbox.getValue());
+		}
 	}
 
 	@Override

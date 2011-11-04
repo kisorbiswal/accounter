@@ -25,6 +25,8 @@
 					</g:VerticalPanel>
 					<g:CheckBox ui:field="enableTaxCheckbox" />
 					<g:Label ui:field="enableTaxLabel" styleName="header" />
+					<g:CheckBox ui:field="enableTaxTdsCheckbox" />
+					<g:Label ui:field="enableTDSdecs"  />
 				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>

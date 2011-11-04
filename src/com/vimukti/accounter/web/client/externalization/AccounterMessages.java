@@ -597,4 +597,6 @@ public interface AccounterMessages extends Messages {
 	
 	public String companyDefaultTaxCode(String tax);
 
+	public String enbleTDSdescription();
+
 }
