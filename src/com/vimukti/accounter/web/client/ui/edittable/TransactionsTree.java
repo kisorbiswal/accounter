@@ -664,9 +664,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 					Anchor childAnchor = (Anchor) widget2;
 					childAnchor.setEnabled(isEnabled);
 					if (isEnabled) {
-						childAnchor.addStyleName("charges-enabled");
+						childAnchor.removeStyleName("editTable_disable_anchor");
+						childAnchor.addStyleName("editTable_enable_anchor");
 					} else {
-						childAnchor.addStyleName("charges-disabled");
+						childAnchor.removeStyleName("editTable_enable_anchor");
+						childAnchor.addStyleName("editTable_disable_anchor");
 					}
 				}
 			}
