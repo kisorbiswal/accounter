@@ -1792,7 +1792,7 @@ public class CoreUtils {
 			new ClientCurrency("HongKong Dollar", "HKD", "HK$"),
 			new ClientCurrency("Hungarian Forint", "HUF", "Ft"),
 			new ClientCurrency("Icelandic Króna", "ISK", "kr"),
-			new ClientCurrency("Indian Rupee", "INR", "₹"),
+			new ClientCurrency("Indian Rupee", "INR", "Rs"),
 			new ClientCurrency("Indonesian Rupiah", "IDR", "Rp"),
 			new ClientCurrency("Iranian Rial", "IRR", "U+FDFC"),
 			new ClientCurrency("Iraqi Dinar", "IQD", "dinar"),
@@ -1879,7 +1879,18 @@ public class CoreUtils {
 			new ClientCurrency("Yemeni Rial", "YER", ""),
 			new ClientCurrency("Zambian Kwacha", "ZMK", "ZK"),
 			new ClientCurrency("Zimbabwean Dollar", "ZWD", "Z$"),
-			new ClientCurrency("DanishKrone", "DKK", "Kr") };
+			new ClientCurrency("DanishKrone", "DKK", "Kr"),
+			new ClientCurrency("Portuguese escudo", "EUR", "$"),
+			new ClientCurrency("Luxembourgish franc", "EUR", "fr"),
+			new ClientCurrency("Italian lira", "EUR", "₤"),
+			new ClientCurrency("French franc", "EUR", "FF"),
+			new ClientCurrency("German Mark", "EUR", "€"),
+			new ClientCurrency("Puerto Rico", "USD", "$"),
+			new ClientCurrency("Maltese lira", "MTL", "₤ "),
+			new ClientCurrency("Cyprus Pound", "CYP", "£"),
+			new ClientCurrency("Ecuadorian sucre", "ECS", "S/."),
+			new ClientCurrency("French Polynesia", "XPF", "FF")
+	};
 
 	/*
 	 * private static String[] currencyNames = new String[] {
