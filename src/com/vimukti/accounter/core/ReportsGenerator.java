@@ -1498,7 +1498,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_SALESBYLOCATIONDETAIL:
 			return "Sales By Location Details Report";
 		case REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION:
-			return "Sales By Location Detail For Location";
+			return "Sales By Location Summary Report";
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
 			return "Profit and Loss by Location";
 		case REPORT_TYPE_BUDGET:
@@ -1508,7 +1508,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_SALESBYCLASSDETAIL:
 			return "Sales By Class Details Report";
 		case REPORT_TYPE_SALESBYCLASSDETAILFORCLASS:
-			return "Sales By Class Detail For Class";
+			return "Sales By Class Summary Report";
 		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
 			return "Profit and Loss by Class";
 		case REPORT_TYPE_GENERAL_LEDGER_REPORT:
