@@ -337,4 +337,8 @@ public class Context {
 	public void setCommandString(String commandString) {
 		this.commandString = commandString;
 	}
+
+	public void removeSelection(Object selection) {
+		selectedRecords.remove(selection);
+	}
 }
