@@ -450,6 +450,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			public void setTransactionDate(ClientFinanceDate transactionDate) {
 				InvoiceView.this.setTransactionDate(transactionDate);
 			}
+
+			@Override
+			public boolean isinViewMode() {
+				return InvoiceView.this.isInViewMode();
+			}
 		};
 
 		customerTransactionTable = new CustomerItemTransactionTable(
