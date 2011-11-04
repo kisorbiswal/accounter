@@ -95,8 +95,10 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		if (warehouse.getDDINumber() != null) {
 			DDINumberItem.setValue(warehouse.getDDINumber());
 		}
-
-		defaultWareHouse.setValue(warehouse.isDefaultWarehouse());
+		if (warehouse.isDefaultWarehouse()) {
+			defaultWareHouse.setValue(true);
+		}
+		// defaultWareHouse.setValue(warehouse.isDefaultWarehouse());
 
 	}
 
@@ -242,6 +244,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		contactNumberItem.setDisabled(isInViewMode());
 		mobileNumberItem.setDisabled(isInViewMode());
 		DDINumberItem.setDisabled(isInViewMode());
+		defaultWareHouse.setDisabled(isInViewMode());
 
 	}
 
@@ -251,7 +254,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		data.setName(wareHouseNameItem.getValue().toString());
 		data.setMobileNumber(mobileNumberItem.getValue().toString());
 		data.setDDINumber(DDINumberItem.getValue().toString());
-		data.setDefaultWarehouse(getBooleanValue());
+		data.setDefaultWarehouse((Boolean) defaultWareHouse.getValue());
 
 		ClientAddress address = new ClientAddress();
 		address.setType(ClientAddress.TYPE_WAREHOUSE);
@@ -270,14 +273,6 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		data.setContact(contact);
 
 		return data;
-	}
-
-	private boolean getBooleanValue() {
-		if (defaultWareHouse.isHighLighted()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	@Override

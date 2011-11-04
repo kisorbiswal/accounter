@@ -91,8 +91,7 @@ public class CashExpenseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID()
-						: 0);
+						.getSelectedValue().getID() : 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -134,8 +133,8 @@ public class CashExpenseView extends
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -146,8 +145,8 @@ public class CashExpenseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, constants
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					constants.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -184,6 +183,12 @@ public class CashExpenseView extends
 		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
 				.productOrServiceItem());
 	}
+
+	// @Override
+	// protected void refreshTransactionGrid() {
+	// customerTransactionTable.updateTotals();
+	// transactionsTree.updateTransactionTreeItemTotals();
+	// }
 
 	@Override
 	protected String getViewTitle() {
@@ -466,7 +471,7 @@ public class CashExpenseView extends
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
 				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				bottomLayout.add(form);
 			}
 			bottomLayout.add(totalForm);
@@ -608,8 +613,7 @@ public class CashExpenseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -638,12 +642,12 @@ public class CashExpenseView extends
 		initTransactionNumber();
 		initPayFromAccounts();
 
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 
@@ -713,9 +717,9 @@ public class CashExpenseView extends
 		if (getPreferences().isTrackPaidTax()) {
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
 					.getAmount()));
-			// if (vatinclusiveCheck != null)
-			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-			// .getValue());
+			if (vatinclusiveCheck != null)
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
 		}
 		super.saveAndUpdateView();
 
@@ -887,7 +891,8 @@ public class CashExpenseView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-		// vendorTransactionTable.refreshAllRecords();
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	@Override

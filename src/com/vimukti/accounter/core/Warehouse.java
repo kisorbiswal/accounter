@@ -39,8 +39,11 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private String name;
 	private String warehouseCode;
 	private Contact contact;
+	
 	private boolean isDefaultWarehouse;
-
+	private String DDINumber;
+	private String mobileNumber;
+	
 	private transient boolean isOnSaveProccessed;
 
 	public Warehouse(String warehouseCode, String name, Address address,
@@ -205,5 +208,21 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			}
 		}
 		return null;
+	}
+
+	public String getDDINumber() {
+		return DDINumber;
+	}
+
+	public void setDDINumber(String dDINumber) {
+		DDINumber = dDINumber;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 }

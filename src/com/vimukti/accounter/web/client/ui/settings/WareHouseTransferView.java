@@ -67,6 +67,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		toCombo.setDisabled(isInViewMode());
 		toCombo.setRequired(true);
 		commentArea = new TextAreaItem();
+		commentArea.setTitle(Accounter.constants().comment());
 		commentArea.setDisabled(isInViewMode());
 		form = new DynamicForm();
 		form.setNumCols(2);
