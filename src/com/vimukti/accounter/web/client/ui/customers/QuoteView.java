@@ -350,8 +350,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.messages()
-				.payeeName(Global.get().customer()));
+		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
+				Global.get().customer()));
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
@@ -1053,7 +1053,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null
 				&& !transaction.getTransactionItems().isEmpty())
-			customerTransactionTable.setAllRows(transaction
+			customerTransactionTable.setRecords(transaction
 					.getTransactionItems());
 	}
 
