@@ -31,3 +31,9 @@ form#contactForm input, textarea,.main-finance-window,.gwt-MenuBar-vertical .gwt
 .editheader td div,.gridHeader td{
 	font-size:13px !important;
 }
+.general-setting-invoice{
+	padding:0px !important;
+}
+.contact-deatails-panel{
+	width:100px !important;
+}
