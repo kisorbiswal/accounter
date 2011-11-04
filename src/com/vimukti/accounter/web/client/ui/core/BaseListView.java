@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
+import com.vimukti.accounter.web.client.ui.customers.QuoteListView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -148,7 +149,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							}
 						});
 			}
-		} else {
+		} else if (!(this instanceof QuoteListView)) {
 			if (viewSelect == null) {
 				viewSelect = new SelectCombo(Accounter.constants()
 						.currentView());
@@ -291,7 +292,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		} else {
 
 			if (!(this instanceof JournalEntryListView))
-				form.setFields(viewSelect);
+				if (viewSelect != null) {
+					form.setFields(viewSelect);
+				}
 			hlay.add(form);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		}
@@ -558,7 +561,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	 */
 	@Override
 	public void setFocus() {
-		this.viewSelect.setFocus();
+		if (this.viewSelect != null) {
+			this.viewSelect.setFocus();
+		}
 	}
 
 	@Override
@@ -585,7 +590,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	public void disableFilter() {
-		this.viewSelect.setDisabled(true);
+		if (this.viewSelect != null) {
+			this.viewSelect.setDisabled(true);
+		}
 	}
 
 }
