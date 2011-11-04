@@ -27,6 +27,20 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
+		
+		list.add(new ActionRequirement(VIEW_TYPE, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().active());
+				list.add(getConstants().inActive());
+				return list;
+			}
+		});
+		
+		
+		
 		list.add(new ShowListRequirement<Account>("AccountsList",
 				"Please Select ", 5) {
 			@Override
