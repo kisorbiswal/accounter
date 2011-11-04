@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.PatternResult;
@@ -86,9 +87,8 @@ public class PatternStore {
 		for (Object obj : objects) {
 			if (obj instanceof String) {
 				XStream xStream = getPatternXStream();
-				File include = new File(
-						"./src/com/vimukti/accounter/mobile/store/"
-								+ (String) obj);
+				File include = new File(ServerConfiguration.getMobileStore()
+						+ File.separator + (String) obj);
 				List<Object> fromXML = (List<Object>) xStream
 						.fromXML(new FileInputStream(include));
 				updateMap(fromXML);
@@ -121,7 +121,8 @@ public class PatternStore {
 	 * @return
 	 */
 	private File getFile(String language) {
-		return new File("./src/com/vimukti/accounter/mobile/store/patterns.xml");
+		return new File(ServerConfiguration.getMobileStore() + File.separator
+				+ "patterns.xml");
 	}
 
 	public static class Pattern {

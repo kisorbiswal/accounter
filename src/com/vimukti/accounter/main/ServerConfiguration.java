@@ -193,4 +193,8 @@ public class ServerConfiguration {
 	public static int getMainServerPort() {
 		return mainServerPort;
 	}
+
+	public static String getMobileStore() {
+		return "config/MobileStore";
+	}
 }
