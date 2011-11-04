@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 
 /**
@@ -48,10 +49,10 @@ public class ShipToForm extends DynamicForm {
 		businessSelect.initCombo(addressTypes);
 		businessSelect.setDefaultToFirstOption(true);
 
-		addrArea = new TextAreaItem();
+		addrArea = new TextAreaItem("");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
-		addrArea.setShowTitle(false);
+		addrArea.setShowTitle(true);
 		// addrArea.setDisabled(true);
 		addrArea.addClickHandler(new ClickHandler() {
 
@@ -102,7 +103,8 @@ public class ShipToForm extends DynamicForm {
 		} else
 			businessSelect.setDefaultToFirstOption(Boolean.TRUE);
 		setGroupTitle(Accounter.constants().addresses());
-		setNumCols(3);
+		setNumCols(2);
+		// setFields(businessSelect, addrArea);
 		setFields(businessSelect, addrArea);
 	}
 
@@ -235,11 +237,12 @@ public class ShipToForm extends DynamicForm {
 		}
 		return toToSet;
 	}
-	
-	public void setTabIndex(int index){
+
+	public void setTabIndex(int index) {
 		addrArea.setTabIndex(index);
 	}
-	public void setTabIndexforShiptocombo(int index){
+
+	public void setTabIndexforShiptocombo(int index) {
 		businessSelect.setTabIndex(index);
 	}
 }
