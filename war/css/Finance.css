@@ -887,8 +887,10 @@ iframe,.address div {
 	font-size: 1.6em;
 }
 .invoice-branding-html{
-	font-size: 4px;
-	color: #3d3d3d;
+	font-size: 20px;
+    color: #3d3d3d;
+    margin-bottom:5px;
+
 }
 
 .MENU_BAR_BG,.button-expense {
