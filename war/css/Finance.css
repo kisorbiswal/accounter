@@ -667,10 +667,10 @@ input.dropdown-button {
 .portletLabel {
 	margin-top: -2px;
 }
-.boldtext tr:nth-child(3){
+/*.boldtext tr:nth-child(3){
     border-bottom:1px solid #aaa;
     border-top:1px solid #aaa;
-}
+}*/
 .custom-combo .dropdown-button {
 	width: 50px !important;
 }
