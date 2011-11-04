@@ -27,7 +27,7 @@ public class Turkey extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "TRL";
+		return "TRY";
 	}
 
 	@Override

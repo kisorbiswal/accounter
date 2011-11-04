@@ -31,7 +31,7 @@ public class Russia extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "RUR";
+		return "RUB";
 	}
 
 	@Override

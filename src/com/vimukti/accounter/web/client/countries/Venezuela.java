@@ -18,7 +18,7 @@ public class Venezuela extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "VEB";
+		return "VEF";
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class Romania extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "ROL";
+		return "RON";
 	}
 
 	@Override
