@@ -594,5 +594,7 @@ public interface AccounterMessages extends Messages {
 	public String selectedAs(String displayName, String customer);
 
 	public String foundRecords(int size, String name);
+	
+	public String companyDefaultTaxCode(String tax);
 
 }
