@@ -26,6 +26,20 @@ public class VATCodesListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
+		
+		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getConstants().active());
+				list.add(getConstants().inActive());
+				return list;
+			}
+		});
+		
+		
+		
 		list.add(new ShowListRequirement<TAXCode>("vatCodesList", "Please Select Vat Code", 5) {
 			@Override
 			protected Record createRecord(TAXCode value) {
