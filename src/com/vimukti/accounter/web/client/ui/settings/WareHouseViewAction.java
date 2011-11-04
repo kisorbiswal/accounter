@@ -21,7 +21,7 @@ public class WareHouseViewAction extends Action<ClientWarehouse> {
 	private void runAsync(Object data, Boolean isDependent) {
 		view = new WareHouseView();
 		try {
-			MainFinanceWindow.getViewManager().showView(view, data, false,
+			MainFinanceWindow.getViewManager().showView(view, data, isDependent,
 					WareHouseViewAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
