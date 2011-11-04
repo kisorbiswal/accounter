@@ -7,10 +7,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -47,7 +47,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 	public TransactionsTree(ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
-		tree = new Tree();
+		tree = new Tree() {
+		};
 		this.add(tree);
 	}
 
@@ -131,6 +132,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
 			addCreditsTransactionTreeItem(result, isSelected);
 		}
+		setEnabled(isinViewMode());
 	}
 
 	private void addSalesOrderTree(
@@ -172,15 +174,29 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		HTML transactionLabel = new HTML(Accounter.constants().salesOrder());
+		Anchor transactionLabel = new Anchor(Accounter.constants().salesOrder()) {
+			@Override
+			public void setEnabled(boolean enabled) {
+				super.setEnabled(enabled);
+				if (isAttached()) {
+					onDetach();
+					if (enabled) {
+						sinkEvents(Event.ONCLICK);
+					} else {
+						unsinkEvents(Event.ONCLICK);
+					}
+					onAttach();
+				}
+			}
+		};
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(salesOrder.getType(), salesOrder
-						.getID());
+				ReportsRPC.openTransactionView(salesOrder.getType(),
+						salesOrder.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(
@@ -189,11 +205,13 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		transactionTree.setUserObject(salesOrder);
 		salesOrderTree.addItem(transactionTree);
 		addTransactionTree(transactionTree, salesOrder);
+		setEnabled(isinViewMode());
 	}
 
 	private void createSalesOrderTree(boolean isSelected) {
 		CheckBox salesOrderSelection = new CheckBox(Accounter.constants()
 				.salesOrderList());
+		salesOrderSelection.setEnabled(isinViewMode());
 		salesOrderSelection.setValue(isSelected);
 		salesOrderTree = new TreeItem(salesOrderSelection);
 		salesOrderSelection
@@ -222,7 +240,21 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		Anchor transactionLabel = new Anchor(transactionLink);
+		Anchor transactionLabel = new Anchor(transactionLink) {
+			@Override
+			public void setEnabled(boolean enabled) {
+				super.setEnabled(enabled);
+				if (isAttached()) {
+					onDetach();
+					if (enabled) {
+						sinkEvents(Event.ONCLICK);
+					} else {
+						unsinkEvents(Event.ONCLICK);
+					}
+					onAttach();
+				}
+			}
+		};
 		horizontalPanel.add(transactionLabel);
 		horizontalPanel.add(new Label(Accounter.messages().total(
 				Accounter.constants().billabe())
@@ -240,8 +272,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
 				ReportsRPC.openTransactionView(
-						ClientTransaction.TYPE_ENTER_BILL, estimate
-								.getEnterBill());
+						ClientTransaction.TYPE_ENTER_BILL,
+						estimate.getEnterBill());
 			}
 		});
 		addTransactionTree(transactionTree, estimate);
@@ -250,6 +282,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void createBillableTree(boolean isSelected) {
 		CheckBox billableSelection = new CheckBox(Accounter.constants()
 				.billabelList());
+		billableSelection.setEnabled(isinViewMode());
 		billableSelection.setValue(isSelected);
 		billableTree = new TreeItem(billableSelection);
 		billableSelection
@@ -271,6 +304,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		String transactionLink = Accounter.constants().quote();
 		final TreeItem transactionTree = new TreeItem();
 		CheckBox checkBox = new CheckBox();
+		checkBox.setEnabled(isinViewMode());
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -283,15 +317,29 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		Anchor transactionLabel = new Anchor(transactionLink);
+		Anchor transactionLabel = new Anchor(transactionLink) {
+			@Override
+			public void setEnabled(boolean enabled) {
+				super.setEnabled(enabled);
+				if (isAttached()) {
+					onDetach();
+					if (enabled) {
+						sinkEvents(Event.ONCLICK);
+					} else {
+						unsinkEvents(Event.ONCLICK);
+					}
+					onAttach();
+				}
+			}
+		};
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(), estimate
-						.getID());
+				ReportsRPC.openTransactionView(estimate.getType(),
+						estimate.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(
@@ -302,9 +350,12 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		addTransactionTree(transactionTree, estimate);
 	}
 
+	public abstract boolean isinViewMode();
+
 	private void createQuoteTree(boolean isSelected) {
 		CheckBox quotesSelection = new CheckBox(Accounter.constants()
 				.quotesList());
+		quotesSelection.setEnabled(isinViewMode());
 		quotesSelection.setValue(isSelected);
 		quotesTree = new TreeItem(quotesSelection);
 		quotesSelection
@@ -338,15 +389,29 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		Anchor transactionLabel = new Anchor(transactionLink);
+		Anchor transactionLabel = new Anchor(transactionLink) {
+			@Override
+			public void setEnabled(boolean enabled) {
+				super.setEnabled(enabled);
+				if (isAttached()) {
+					onDetach();
+					if (enabled) {
+						sinkEvents(Event.ONCLICK);
+					} else {
+						unsinkEvents(Event.ONCLICK);
+					}
+					onAttach();
+				}
+			}
+		};
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(), estimate
-						.getID());
+				ReportsRPC.openTransactionView(estimate.getType(),
+						estimate.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(
@@ -360,6 +425,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void createChargesTree(boolean isSelected) {
 		CheckBox chargesSelection = new CheckBox(Accounter.constants()
 				.chargesList());
+		chargesSelection.setEnabled(isinViewMode());
 		chargesSelection.setValue(isSelected);
 		chargesTree = new TreeItem(chargesSelection);
 		chargesSelection
@@ -393,15 +459,29 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.addItem(horizontalPanel);
-		Anchor transactionLabel = new Anchor(Accounter.constants().credit());
+		Anchor transactionLabel = new Anchor(Accounter.constants().credit()) {
+			@Override
+			public void setEnabled(boolean enabled) {
+				super.setEnabled(enabled);
+				if (isAttached()) {
+					onDetach();
+					if (enabled) {
+						sinkEvents(Event.ONCLICK);
+					} else {
+						unsinkEvents(Event.ONCLICK);
+					}
+					onAttach();
+				}
+			}
+		};
 		horizontalPanel.add(transactionLabel);
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(), estimate
-						.getID());
+				ReportsRPC.openTransactionView(estimate.getType(),
+						estimate.getID());
 			}
 		});
 		horizontalPanel.add(new Label(Accounter.messages().total(
@@ -415,6 +495,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void createCreditsTree(boolean isSelected) {
 		CheckBox creditsSelection = new CheckBox(Accounter.constants()
 				.creditsList());
+		creditsSelection.setEnabled(isinViewMode());
 		creditsSelection.setValue(isSelected);
 		creditsSelection
 				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -547,6 +628,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	}
 
 	public void setEnabled(boolean isEnabled) {
+		tree.setAnimationEnabled(isEnabled);
 		if (tree.getItem(0) == null) {
 			return;
 		}
@@ -557,21 +639,38 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (widget instanceof CheckBox) {
 			((CheckBox) widget).setEnabled(isEnabled);
 		}
-		for (int i = 1; i < tree.getItemCount(); i++) {
+		for (int i = 0; i < tree.getItemCount(); i++) {
 			TreeItem item = tree.getItem(i);
-			item.setState(true, isEnabled);
-			widget = item.getWidget();
-			if (widget instanceof CheckBox) {
-				((CheckBox) widget).setEnabled(isEnabled);
+			enableTreeItem(item, isEnabled);
+		}
+	}
+
+	private void enableTreeItem(TreeItem item, boolean isEnabled) {
+		Widget widget = item.getWidget();
+		if (widget != null && widget instanceof CheckBox) {
+			((CheckBox) widget).setEnabled(isEnabled);
+		}
+		for (int j = 0; j < item.getChildCount(); j++) {
+			TreeItem child = item.getChild(j);
+			Widget childWidget = child.getWidget();
+			if (childWidget != null && childWidget instanceof CheckBox) {
+				CheckBox childBox = (CheckBox) childWidget;
+				childBox.setEnabled(isEnabled);
 			}
-			for (int j = 0; j < item.getChildCount(); j++) {
-				TreeItem child = item.getChild(j);
-				Widget childWidget = child.getWidget();
-				if (childWidget instanceof CheckBox) {
-					CheckBox childBox = (CheckBox) childWidget;
-					childBox.setEnabled(isEnabled);
+			if (childWidget != null && childWidget instanceof HorizontalPanel) {
+				HorizontalPanel anchor = (HorizontalPanel) childWidget;
+				Widget widget2 = anchor.getWidget(0);
+				if (widget2 != null && widget2 instanceof Anchor) {
+					Anchor childAnchor = (Anchor) widget2;
+					childAnchor.setEnabled(isEnabled);
+					if (isEnabled) {
+						childAnchor.addStyleName("charges-enabled");
+					} else {
+						childAnchor.addStyleName("charges-disabled");
+					}
 				}
 			}
+			enableTreeItem(child, isEnabled);
 		}
 	}
 
