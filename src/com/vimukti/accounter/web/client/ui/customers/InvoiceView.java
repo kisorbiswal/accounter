@@ -1390,7 +1390,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						accounterConstants.enterTaxCode());
 			}
 		} else if (isSelected && isTrackTax() && !isTaxPerDetailLine()
-				&& !getAllTransactionItems().isEmpty()) {
+				&& !transaction.getTransactionItems().isEmpty()) {
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
 				result.addError(taxCodeSelect,
