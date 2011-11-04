@@ -56,10 +56,9 @@ public class AddressForm extends DynamicForm {
 					}
 				});
 
-		addrArea = new TextAreaItem();
+		addrArea = new TextAreaItem("");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
-		addrArea.setShowTitle(false);
 		addrArea.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -116,7 +115,7 @@ public class AddressForm extends DynamicForm {
 		} else
 			// businessSelect.setDefaultToFirstOption(Boolean.TRUE);
 			setGroupTitle(Accounter.constants().addresses());
-		setNumCols(3);
+		setNumCols(2);
 		setFields(businessSelect, addrArea);
 	}
 
