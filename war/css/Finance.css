@@ -74,6 +74,9 @@ noindex:-o-prefocus,.ibutton {
 	    padding:0px !important;
 	}
 }/*chrome and safari end */
+.editTable .gwt-TextBox{
+	-webkit-appearance: caret;
+}
 /*IE8 styles*/
 @media \0screen {
   input[type="text"]{
