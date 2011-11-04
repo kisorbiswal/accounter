@@ -14,7 +14,6 @@ import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;

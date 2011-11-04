@@ -2,21 +2,14 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.openid4java.OpenIDException;
 import org.openid4java.association.AssociationSessionType;
 import org.openid4java.consumer.ConsumerManager;
@@ -38,9 +31,6 @@ import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
 import org.openid4java.util.HttpClientFactory;
 import org.openid4java.util.ProxyProperties;
-
-import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 public class OpenIdServlet extends ThirdPartySignupServlet {
 

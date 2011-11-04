@@ -1,10 +1,7 @@
 package com.vimukti.accounter.web.client.core.Lists;
 
-import java.util.List;
-
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class EstimatesAndSalesOrdersList implements IAccounterCore {

@@ -7,8 +7,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
-import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
-import com.vimukti.accounter.web.client.ui.customers.NewCurrencyListDialog;
 
 public class NewCurrencyAction extends Action<ClientCurrency> {
 	private AccounterConstants constants = Global.get().constants();

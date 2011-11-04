@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;

@@ -1,7 +1,5 @@
 package com.vimukti.accounter.servlets;
 
-import java.util.Collection;
-
 import com.vimukti.accounter.utils.StringUtils;
 
 public class Facebook {

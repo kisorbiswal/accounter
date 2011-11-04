@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-
-
 import com.vimukti.accounter.utils.StringUtils;
 
 public class FacebookLoginServlet extends ThirdPartySignupServlet {

@@ -12,7 +12,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class BankAccountsListCommand extends NewAbstractCommand {
 	private static final String VIEW_TYPE = "Current View";

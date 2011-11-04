@@ -2,9 +2,9 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class BillableExpenseTrackingByCustomer extends AbstractPreferenceOption {
 
