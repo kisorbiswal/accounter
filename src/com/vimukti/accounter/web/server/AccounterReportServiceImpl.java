@@ -1311,20 +1311,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		return trialbalanceList;
 	}
-
-	@Override
 	public ArrayList<TrialBalance> getCashFlowReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate,long companyId) {
+
 		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			trialbalanceList = getFinanceTool().getReportManager()
 					.getCashFlowReport(financeDates[0], financeDates[1],
-							getCompanyId());
+							companyId);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
@@ -1336,6 +1335,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return trialbalanceList;
+	
+	}
+	
+	@Override
+	public ArrayList<TrialBalance> getCashFlowReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	return	getCashFlowReport(startDate, endDate, getCompanyId());
 	}
 
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
