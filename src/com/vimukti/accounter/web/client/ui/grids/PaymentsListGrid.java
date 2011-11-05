@@ -193,7 +193,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void onDoubleClick(PaymentsList obj) {
-		// NOTHING TO DO.
+		ReportsRPC.openTransactionView(getType(obj),
+				obj.getTransactionId());
 	}
 
 	@Override
