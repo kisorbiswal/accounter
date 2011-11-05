@@ -1792,7 +1792,7 @@ public class CoreUtils {
 			new ClientCurrency("HongKong Dollar", "HKD", "HK$"),
 			new ClientCurrency("Hungarian Forint", "HUF", "Ft"),
 			new ClientCurrency("Icelandic Króna", "ISK", "kr"),
-			new ClientCurrency("Indian Rupee", "INR", "Rs"),
+			new ClientCurrency("Indian Rupee", "INR", "₹"),
 			new ClientCurrency("Indonesian Rupiah", "IDR", "Rp"),
 			new ClientCurrency("Iranian Rial", "IRR", "U+FDFC"),
 			new ClientCurrency("Iraqi Dinar", "IQD", "dinar"),
