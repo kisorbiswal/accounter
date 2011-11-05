@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -57,6 +58,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
  * 
@@ -339,7 +341,13 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientStockTransferItem> getStockTransferItems(
 			long wareHouse);
-	
+
 	public ArrayList<ClientStockTransfer> getWarehouseTransfersList()
+			throws AccounterException;
+
+	public ArrayList<StockAdjustmentList> getStockAdjustments()
+			throws AccounterException;
+
+	ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
 			throws AccounterException;
 }

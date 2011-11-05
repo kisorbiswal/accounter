@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -58,6 +59,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
  * @author Fernandez
@@ -379,5 +381,11 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getWarehouseTransfersList(
 			AsyncCallback<ArrayList<ClientStockTransfer>> callback);
+
+	void getStockAdjustments(
+			AsyncCallback<ArrayList<StockAdjustmentList>> callback);
+
+	void getItemStatuses(long wareHouse,
+			AsyncCallback<ArrayList<ClientItemStatus>> callback);
 
 }
