@@ -879,18 +879,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextCheckNumber;
 	}
 
-	public String getNextIssuepaymentCheckNumber(long accountId) {
-		String nextCheckNumber = "l";
-		try {
-
-			nextCheckNumber = getFinanceTool().getNextIssuePaymentCheckNumber(
-					accountId, getCompanyId());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return nextCheckNumber;
+	public String getNextIssuepaymentCheckNumber(long accountId)
+			throws AccounterException {
+		return getFinanceTool().getNextIssuePaymentCheckNumber(accountId,
+				getCompanyId());
 	}
 
 	public ArrayList<ClientItem> getPurchaseItems() {

@@ -18,9 +18,13 @@ public class SaveAndCloseButton extends ImageButton {
 	private AbstractBaseView<?> view;
 
 	public SaveAndCloseButton(String save) {
-		super(Accounter.constants().save(), Accounter.getFinanceImages()
-				.saveAndClose());
+		super(save, Accounter.getFinanceImages().saveAndClose());
 		this.addStyleName("saveAndClose-Btn");
+	}
+
+	public void setView(AbstractBaseView<?> view) {
+		this.view = view;
+		addHandler();
 	}
 
 	/**
@@ -34,6 +38,10 @@ public class SaveAndCloseButton extends ImageButton {
 		this.addStyleName("saveAndClose-Btn");
 		this.setTitle(Accounter.messages().clickThisTo(this.getText(),
 				view.getAction().getViewName()));
+		addHandler();
+	}
+
+	private void addHandler() {
 		this.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -43,5 +51,4 @@ public class SaveAndCloseButton extends ImageButton {
 			}
 		});
 	}
-
 }

@@ -3,8 +3,11 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.IssuePaymentDialog;
+import com.vimukti.accounter.web.client.ui.IssuePaymentView;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -13,9 +16,11 @@ import com.vimukti.accounter.web.client.ui.core.Action;
  */
 
 public class IssuePaymentsAction extends Action {
+	private IssuePaymentView view;
 
 	public IssuePaymentsAction(String text) {
 		super(text);
+		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -26,11 +31,21 @@ public class IssuePaymentsAction extends Action {
 
 	@Override
 	public void run() {
-		new IssuePaymentDialog(Accounter.constants().selectPaymentsToIssue(),
-				Accounter.messages()
-						.selectPaymentMethod(Global.get().Account())).show();
-		// MainFinanceWindow.getViewManager().showView(view, data, isDependent,
-		// IssuePaymentsAction.this);
+		runAsync(data, isDependent);
+	}
+
+	private void runAsync(final Object data, final boolean isDependent) {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+
+			@Override
+			public void onCreated() {
+				view = new IssuePaymentView(Accounter.constants()
+						.selectPaymentsToIssue(), Accounter.messages()
+						.selectPaymentMethod(Global.get().Account()));
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, IssuePaymentsAction.this);
+			}
+		});
 	}
 
 	public ImageResource getBigImage() {
