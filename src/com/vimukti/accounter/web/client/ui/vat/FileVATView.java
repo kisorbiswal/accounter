@@ -92,8 +92,8 @@ public class FileVATView extends AbstractFileTAXView {
 	public void printVATReturn() {
 		VAT100Report report = new VAT100Report();
 		report.setAction(ActionFactory.getVAT100ReportAction());
-		report.setStartAndEndDates(fromDate.getEnteredDate(),
-				toDate.getEnteredDate());
+		report.setStartAndEndDates(fromDate.getEnteredDate(), toDate
+				.getEnteredDate());
 		report.setVatAgency(selectedTaxAgency.getID());
 		report.print();
 
@@ -106,6 +106,7 @@ public class FileVATView extends AbstractFileTAXView {
 
 	@Override
 	protected void reloadGrid() {
+		canSaveFileVat = true;
 		gridView.removeAllRecords();
 		ClientFinanceDate startDate = fromDate.getDate();
 		ClientFinanceDate endDate = toDate.getDate();
@@ -118,8 +119,8 @@ public class FileVATView extends AbstractFileTAXView {
 		}
 		gridView.addLoadingImagePanel();
 
-		this.rpcUtilService.getVATReturn(this.selectedTaxAgency,
-				fromDate.getDate(), toDate.getDate(),
+		this.rpcUtilService.getVATReturn(this.selectedTaxAgency, fromDate
+				.getDate(), toDate.getDate(),
 				new AccounterAsyncCallback<ClientTAXReturn>() {
 
 					@Override

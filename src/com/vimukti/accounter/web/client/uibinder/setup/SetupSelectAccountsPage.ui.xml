@@ -18,7 +18,7 @@
 				<g:Button enabled="true" ui:field="restoreButton" />
 				<g:Button ui:field="selectAllButton"/>
 			</g:HorizontalPanel>
-			<g:HTML wordWrap="true" ui:field="expensesLink" styleName="expense_question_link" />
+			<g:Anchor wordWrap="true" ui:field="expensesLink" styleName="expense_question_link" />
 			<g:HTML wordWrap="true" ui:field="expensesNote" />
 		</g:VerticalPanel>
 	</g:VerticalPanel>

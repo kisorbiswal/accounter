@@ -75,7 +75,7 @@ public class ConversionDateView extends AbstractBaseView {
 				messages.june(), messages.july(), messages.august(),
 				messages.september(), messages.october(), messages.november(),
 				messages.december() };
-		yearArray = new String[] { messages.year2011(), messages.year2012() };
+		yearArray = new String[] { 2011 + "", 2012 + "" };
 		monthCombo = new SelectCombo(messages.month());
 		monthCombo.setHelpInformation(true);
 		monthList = new ArrayList<String>();

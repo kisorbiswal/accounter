@@ -50,7 +50,8 @@ public class FileUploadDilaog extends CustomDialog {
 	private static ClientBrandingTheme brandingTheme;
 
 	private String title;
-	private HTML detailsHtml, helpHtml, chooseHtml;
+	private HTML detailsHtml1, helpHtml, chooseHtml, detailsHtml2,
+			detailsHtml3, detailsHtml4, detailsHtml5;
 
 	public FileUploadDilaog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
@@ -84,8 +85,14 @@ public class FileUploadDilaog extends CustomDialog {
 		panel.setSpacing(2);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
-		detailsHtml = new HTML(Accounter.messages().logoComment());
+		detailsHtml1 = new HTML(Accounter.messages().logoComment1());
+		detailsHtml2 = new HTML(Accounter.messages().logoComment2());
+		detailsHtml3 = new HTML(Accounter.messages().logoComment3());
+		detailsHtml4 = new HTML(Accounter.messages().logoComment4());
+		detailsHtml5 = new HTML(Accounter.messages().logoComment5());
+		detailsHtml5.addStyleName("bold_HTML");
 		helpHtml = new HTML(Accounter.messages().helpContent());
+		helpHtml.addStyleName("help_content");
 		helpHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -110,7 +117,11 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.getElement().setAttribute("size", "33");
 		upload.setName(fileID);
 		uploadItems.add(upload);
-		panel.add(detailsHtml);
+		panel.add(detailsHtml1);
+		panel.add(detailsHtml2);
+		panel.add(detailsHtml3);
+		panel.add(detailsHtml4);
+		panel.add(detailsHtml5);
 		panel.add(helpHtml);
 		panel.add(chooseHtml);
 		panel.add(upload);
@@ -216,6 +227,7 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.getElement().setAttribute("size", "50");
 
 		HTML label = new HTML(Accounter.messages().removeHTML());
+		label.addStyleName("remove_html");
 		label.setWidth("60px");
 		label.setHeight("25px");
 		label.addClickHandler(new ClickHandler() {

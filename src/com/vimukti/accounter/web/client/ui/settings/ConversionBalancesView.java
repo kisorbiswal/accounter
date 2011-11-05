@@ -138,7 +138,7 @@ public class ConversionBalancesView extends BaseView {
 		addComparativeBalancesButton = new Button(messages
 				.addComparativeButton());
 		conversionDateButton = new Button(messages.conversionDateButton());
-
+		conversionDateButton.addStyleName("company-settings-html");
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
 		headerPanel.add(superHeaderHtml);
@@ -182,6 +182,7 @@ public class ConversionBalancesView extends BaseView {
 		showAllAccounts.setShowTitle(false);
 		showAllAccounts.setDisabled(isInViewMode());
 		footerCommentHtml = new HTML(messages.footerComment());
+		footerCommentHtml.addStyleName("footer_comment");
 
 		labelsForm = new DynamicForm();
 		labelsForm.setNumCols(4);

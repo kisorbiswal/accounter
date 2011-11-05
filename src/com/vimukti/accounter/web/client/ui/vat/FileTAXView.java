@@ -19,6 +19,7 @@ public class FileTAXView extends AbstractFileTAXView {
 
 	@Override
 	protected void reloadGrid() {
+		canSaveFileVat = true;
 		grid.clear();
 		grid.addLoadingImagePanel();
 		rpcGetService.getTAXReturnEntries(selectedTaxAgency.getID(), fromDate

@@ -550,7 +550,7 @@ public class CreditCardChargeView extends
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
-		netAmount.setDefaultValue(Accounter.constants().atozero());
+		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();

@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.IssuePaymentDialog;
+import com.vimukti.accounter.web.client.ui.IssuePaymentView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 
@@ -18,7 +18,7 @@ public class TransactionIssuePaymentGrid extends
 		AbstractTransactionGrid<ClientTransactionIssuePayment> {
 
 	private double total = 0.0;
-	private IssuePaymentDialog issuePaymentView;
+	private IssuePaymentView issuePaymentView;
 	AccounterConstants accounterConstants = Accounter.constants();
 
 	public TransactionIssuePaymentGrid() {
@@ -83,7 +83,7 @@ public class TransactionIssuePaymentGrid extends
 		}
 	}
 
-	public void setIssuePaymentView(IssuePaymentDialog issuePaymentView) {
+	public void setIssuePaymentView(IssuePaymentView issuePaymentView) {
 		this.issuePaymentView = issuePaymentView;
 	}
 

@@ -101,7 +101,12 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		selectIndustryhead.setText(accounterMessages.getindustryhead());
 		headerLabel.setText(accounterConstants.selectYourIndustry());
 
-		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML());
+		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML1()
+				+ "<br/>" + accounterMessages.selectIndustryInfoHTML2() + "<a>"
+				+ accounterMessages.selectIndustryInfoAchor1() + "</a>"
+				+ accounterMessages.selectIndustryInfoHTML3() + "<br/><a>"
+				+ accounterMessages.selectIndustryInfoAchor2() + "</a>"
+				+ accounterMessages.selectIndustryInfoHTML4());
 		industryList.setName(accounterConstants.industry());
 
 		industryList.addChangeHandler(new ChangeHandler() {

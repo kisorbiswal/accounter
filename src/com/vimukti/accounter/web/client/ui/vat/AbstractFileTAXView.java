@@ -31,8 +31,7 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtil;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
-public abstract class AbstractFileTAXView extends
-		BaseView<ClientTAXReturn> {
+public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 	private TAXAgencyCombo taxAgencyCombo;
 	protected DateItem fromDate;
@@ -125,7 +124,6 @@ public abstract class AbstractFileTAXView extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				canSaveFileVat = true;
 				reloadGrid();
 			}
 		});
@@ -172,7 +170,10 @@ public abstract class AbstractFileTAXView extends
 		// .getThemeImages().button_right_blue_image(),
 		// "ibutton-right-image");
 		// }
-		HTML printLabel = new HTML(messages.printTAXReturnLabel());
+		HTML printLabel1 = new HTML(messages.printTAXReturnLabel1());
+		HTML printLabel2 = new HTML(messages.printTAXReturnLabel2());
+
+		printLabel1.addStyleName("bold_HTML");
 
 		printButton = new Button(Accounter.constants().printTAXReturn());
 		printButton.addClickHandler(new ClickHandler() {
@@ -194,7 +195,8 @@ public abstract class AbstractFileTAXView extends
 
 		VerticalPanel printForm = new VerticalPanel();
 		printForm.setSpacing(3);
-		printForm.add(printLabel);
+		printForm.add(printLabel1);
+		printForm.add(printLabel2);
 		printForm.add(printButton);
 		// if (printButton.isEnabled()) {
 		// printButton.getElement().getParentElement().setClassName("ibutton");
@@ -262,8 +264,8 @@ public abstract class AbstractFileTAXView extends
 		}
 		if (lastVATReturn != null) {
 			if (lastVATReturn.getPeriodEndDate() != 0) {
-				ClientFinanceDate date = new ClientFinanceDate(
-						lastVATReturn.getPeriodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(lastVATReturn
+						.getPeriodEndDate());
 				int day = date.getDay();
 				date.setDay(day + 1);
 				fromDate.setDatethanFireEvent(date);
@@ -324,12 +326,14 @@ public abstract class AbstractFileTAXView extends
 									.getDateAsObject();
 							date.setDate(date.getDate() + 1);
 
-							fromDate.setDatethanFireEvent(new ClientFinanceDate(
-									date));
+							fromDate
+									.setDatethanFireEvent(new ClientFinanceDate(
+											date));
 							fromDate.setDisabled(true);
 						} else {
-							fromDate.setDatethanFireEvent(new ClientFinanceDate(
-									DateUtil.getCurrentMonthFirstDate()));
+							fromDate
+									.setDatethanFireEvent(new ClientFinanceDate(
+											DateUtil.getCurrentMonthFirstDate()));
 						}
 						reloadGrid();
 					}

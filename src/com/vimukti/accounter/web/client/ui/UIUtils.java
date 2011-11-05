@@ -321,8 +321,8 @@ public class UIUtils {
 		try {
 			if (date == null)
 				return "";
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dateFormat());
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("yyyy-MM-dd");
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} catch (Exception e) {
@@ -335,8 +335,8 @@ public class UIUtils {
 		try {
 			if (date == null)
 				return "";
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dateFormatWithSlash());
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("dd/MM/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 
@@ -353,8 +353,8 @@ public class UIUtils {
 	public static ClientFinanceDate stringToDate(String strdate) {
 		try {
 			strdate = strdate.replace("/", "-");
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dateFormatWithDash());
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("yyyy-MM-dd");
 			if (strdate != null) {
 				Date format = (Date) dateFormatter.parse(strdate);
 				return new ClientFinanceDate(format);
@@ -368,8 +368,8 @@ public class UIUtils {
 
 	public static String stringToDate(Date strdate) {
 		try {
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dateFormatWithDash());
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("yyyy-MM-dd");
 			String format = dateFormatter.format(strdate);
 			return format;
 		} catch (Exception e) {

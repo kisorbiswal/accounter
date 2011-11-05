@@ -14,6 +14,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -50,7 +51,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@UiField
 	Button restoreButton;
 	@UiField
-	HTML expensesLink;
+	Anchor expensesLink;
 	@UiField
 	HTML expensesNote;
 	@UiField
@@ -75,7 +76,9 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 						accounterConstants.Accounts()));
 
 		expensesInfo.setText(accounterConstants.doyouWantToUseStatements());
-		recommendedInfo.setHTML(accounterMessages.recommendedAccounts());
+		recommendedInfo.setHTML("<b>" + accounterMessages.noteColon() + "</b>"
+				+ accounterMessages.recommendedAccounts() + "<br>"
+				+ accounterMessages.recommendedAccountsComment());
 		restoreButton.setText(accounterConstants.restoreRecommendations());
 		expensesLink.setHTML(accounterMessages.whyshoudIUseRecommended());
 		expensesNote.setHTML(accounterMessages.recommendedNote());

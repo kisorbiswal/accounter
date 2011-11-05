@@ -61,8 +61,13 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.selectYourIndustry());
 
-		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML());
-		settingsLater.setHTML(accounterMessages.industrySelectNote());
+		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML1()
+				+ "<br/>" + accounterMessages.selectIndustryInfoHTML2() + "<a>"
+				+ accounterMessages.selectIndustryInfoAchor1() + "</a>"
+				+ accounterMessages.selectIndustryInfoHTML3() + "<br/><a>"
+				+ accounterMessages.selectIndustryInfoAchor2() + "</a>"
+				+ accounterMessages.selectIndustryInfoHTML4());
+		industryList.setName(accounterConstants.industry());
 		selectIndustry.setText(accounterMessages.selectIndustry());
 		industryList.setName(accounterConstants.industry());
 

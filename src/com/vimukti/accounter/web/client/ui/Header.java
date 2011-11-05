@@ -100,7 +100,7 @@ public class Header extends HorizontalPanel {
 				});
 			}
 		}
-		logout = new Anchor(Accounter.messages().logoutHTML());
+		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
 		// "px");
@@ -186,8 +186,9 @@ public class Header extends HorizontalPanel {
 	}
 
 	private CustomMenuBar getHelpMenuBar() {
+
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem(Accounter.messages().helpCenter().asString(), true,
+		helpMenu.addItem(Accounter.messages().helpCenter(), true,
 				new Command() {
 
 					@Override

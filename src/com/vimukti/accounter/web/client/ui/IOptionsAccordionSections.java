@@ -179,7 +179,4 @@ public interface IOptionsAccordionSections {
 	final String[] startLabels = { constants.emptyexlematorymark1(),
 			constants.emptyexlematorymark2(), constants.enuffexlematorymark() };
 
-	final String[] findLabels = { constants.wat(), constants.u(),
-			constants.want() };
-
 }

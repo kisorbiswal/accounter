@@ -280,7 +280,7 @@ fieldset,img {
 .gridSelectBoxCell .downarrow-button,.page-layout,.gwt-DecoratedPopupPanel,.gwt-MenuBarPopup,.accounter-button-seperater,#overlay{
 	position: absolute;
 }
-a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports a,.handCursor{
+.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports a,.handCursor{
     text-decoration: underline;
 }
 body/*,.highlightedFormItem */{
@@ -732,16 +732,16 @@ input.dropdown-button {
 .contact-deatils-area,.report-toolbar input[type="text"] {
 	width: 200px;
 }
-.terms-payment-area,.contact-deatils-area,.gwt-TextArea,.memoTextArea{
+/*.terms-payment-area,.contact-deatils-area,.gwt-TextArea,.memoTextArea{
 	 resize: none;
-}
-.gwt-TextArea,.memoTextArea{
+}*/
+.fields-panel .gwt-TextArea,.memoTextArea{
 	height: 65px;
 }
 .selectedview_textarea_label,.gwt-TextArea {
     padding:5px 0 0;
 }
-.gwt-TextArea {
+.fields-panel .gwt-TextArea {
     width: 190px !important;
 }
 .memoTextArea {
@@ -757,7 +757,7 @@ input.dropdown-button {
 .gwt-TabPanelBottom,.gwt-StackPanel .gwt-StackPanelItem{
 	padding:6px;
 }
-.logout-html a,.help-style span,.userName-style,.helpBar {
+.logout-html,.help-style span,.userName-style,.helpBar {
 	color: #3299A4;
 }
 .gwt-MenuBar-vertical .gwt-MenuItem {
@@ -883,14 +883,22 @@ iframe,.address div {
 .add-new-expense {
 	margin-bottom: 20px;
 }
-.invoice-branding-html p font,.user-html p font,.company-settings-html p font,.page_header .companyName,.progress_header,.label-title{
+.user-html,.company-settings-html{
 	font-size: 1.6em;
+	color: #3d3d3d;
 }
 .invoice-branding-html{
 	font-size: 20px;
     color: #3d3d3d;
     margin-bottom:5px;
 
+}
+
+.help_content{
+	color: #4C787E;	
+}
+.page_header .companyName,.progress_header,.label-title{
+	font-size: 1.6em;
 }
 
 .MENU_BAR_BG,.button-expense {
@@ -1500,6 +1508,9 @@ button.disable,button.disable:hover{
     border-radius: 5px 5px 5px 5px;
     padding: 5px;
 }
+.bold_HTML{
+	font-weight: bold;	
+}
 .tabletmenu{
 	z-index: 1;
 	position: absolute;
@@ -1557,4 +1568,19 @@ button.disable,button.disable:hover{
 }
 .conversion_date_footer{
 	color: #993300;
+}
+.conversion_commet{
+	font-size: 2px;
+}
+.footer_comment{
+	font-size: 2px;
+	color: gray;
+}
+.remove_html{
+	color: blue;
+	cursor: pointer;
+	text-decoration: underline;
+}
+.gwt-Hyperlink a{
+	text-decoration: underline;
 }
