@@ -10,11 +10,8 @@ package com.vimukti.accounter.mobile;
 public interface MobileAdaptor {
 
 	enum AdaptorType {
-		CHAT, APPLICATION
+		CHAT, APPLICATION, MOBILE
 	};
 
-	public UserMessage preProcess(MobileSession session, String userMessage,
-			String networkId, int networkType) throws AccounterMobileException;
-
-	public String postProcess(Result userMessage);
+	public String postProcess(Result result, String oldReplay);
 }

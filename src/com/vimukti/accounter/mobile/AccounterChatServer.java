@@ -30,6 +30,7 @@ public class AccounterChatServer implements ChatManagerListener,
 
 	Logger log = Logger.getLogger(AccounterChatServer.class);
 	public static final int NETWORK_TYPE_GTALK = 1;
+	public static final int NETWORK_TYPE_MOBILE = 2;
 	public static final int NETWORK_TYPE_CONSOLE = 100;
 	private MobileMessageHandler messageHandler;
 

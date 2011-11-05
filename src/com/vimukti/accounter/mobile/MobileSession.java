@@ -97,13 +97,15 @@ public class MobileSession {
 		this.isExpired = value;
 	}
 
-	public void await() {
+	public void await(final MobileMessageHandler mobileMessageHandler,
+			final String networkId) {
 		refresh();
 		this.task = new TimerTask() {
 
 			@Override
 			public void run() {
 				setExpired(true);
+				mobileMessageHandler.logout(networkId);
 			}
 		};
 		AccounterTimer.INSTANCE.schedule(task, SESSION_TIME_OUT_PERIOD);
