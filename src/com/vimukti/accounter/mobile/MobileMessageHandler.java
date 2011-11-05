@@ -287,8 +287,10 @@ public class MobileMessageHandler {
 	private MobileAdaptor getAdaptor(AdaptorType type) {
 		if (type.equals(AdaptorType.CHAT)) {
 			return MobileChatAdaptor.INSTANCE;
-		} else {
+		} else if (type.equals(AdaptorType.MOBILE)) {
 			return MobileApplicationAdaptor.INSTANCE;
+		} else {
+			return null;
 		}
 	}
 

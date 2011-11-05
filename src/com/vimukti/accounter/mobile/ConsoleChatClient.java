@@ -9,8 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import com.vimukti.accounter.main.ServerConfiguration;
-
 /**
  * @author Prasanna Kumar G
  * 
@@ -25,14 +23,13 @@ public class ConsoleChatClient {
 			System.out.print("Enter user Email:");
 			String email = "***REMOVED***";
 
-			Socket client = new Socket("localhost",
-					ServerConfiguration.getConsoleChatServerPort());
+			Socket client = new Socket("localhost", 9084);
 			ObjectOutputStream out = new ObjectOutputStream(
 					client.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(
 					client.getInputStream());
 			out.writeObject(email);
-			out.writeObject("Hi");
+			out.writeObject("login");
 			String str = (String) in.readObject();
 			System.out.println("Server:" + str);
 			System.out.print('>');

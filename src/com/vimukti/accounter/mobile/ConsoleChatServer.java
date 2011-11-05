@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 import com.vimukti.accounter.mobile.store.CommandsFactory;
 import com.vimukti.accounter.mobile.store.PatternStore;
@@ -30,7 +31,8 @@ public class ConsoleChatServer extends Thread {
 
 	public void startChat() {
 		try {
-			ServerSocket server = new ServerSocket(8891);
+			ServerSocket server = new ServerSocket(
+					ServerConfiguration.getConsoleChatServerPort());
 			loadCommandsAndPatterns();
 			Socket socket = null;
 			while ((socket = server.accept()) != null) {
@@ -81,8 +83,8 @@ public class ConsoleChatServer extends Thread {
 					System.out.println(msg);
 					try {
 						String messageReceived = handler.messageReceived(user,
-								msg, AdaptorType.CHAT,
-								AccounterChatServer.NETWORK_TYPE_CONSOLE);
+								msg, AdaptorType.MOBILE,
+								AccounterChatServer.NETWORK_TYPE_MOBILE);
 						out.writeObject(messageReceived);
 					} catch (AccounterMobileException e) {
 						e.printStackTrace();

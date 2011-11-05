@@ -54,6 +54,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (oldReplay != null && !oldReplay.isEmpty()) {
 			newReplay = oldReplay + "\n" + newReplay;
 		}
-		return newReplay;
+		return newReplay;// .replaceAll("\n", "<>");
 	}
 }

@@ -3,6 +3,9 @@
  */
 package com.vimukti.accounter.mobile;
 
+import com.google.gson.Gson;
+import com.vimukti.accounter.mobile.xtream.JResult;
+
 /**
  * @author Prasanna Kumar G
  * 
@@ -12,9 +15,10 @@ public class MobileApplicationAdaptor implements MobileAdaptor {
 	public static MobileAdaptor INSTANCE = new MobileApplicationAdaptor();
 
 	@Override
-	public String postProcess(Result userMessage, String oldReplay) {
-		// TODO Auto-generated method stub
-		return null;
+	public String postProcess(Result result, String oldReplay) {
+		JResult jResult = new JResult();
+		jResult.addAll(result.resultParts);
+		String json = new Gson().toJson(jResult);
+		return json + "\n";
 	}
-
 }
