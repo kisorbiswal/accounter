@@ -1054,7 +1054,7 @@
 		</many-to-one>
 		<!-- <many-to-one name="vatItem" class="VATItem" lazy="false" column="VAT_ITEM"> 
 			</many-to-one> -->
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<!--<property name="quantity" column="QUANTITY"></property> -->
 		<many-to-one name="wareHouse" class="Warehouse" lazy="false"
 			column="WARE_HOUSE">
@@ -1392,7 +1392,7 @@
 		<many-to-one name="account" class="Account" lazy="false"
 			column="ACCOUNT_ID">
 		</many-to-one>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="quantity" column="QUANTITY"></property>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="amount" column="AMOUNT"></property>
@@ -1469,7 +1469,7 @@
 		<property name="type" column="TYPE"></property>
 		<property name="userName" column="USER_NAME"></property>
 		<property name="time" column="TIME"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>

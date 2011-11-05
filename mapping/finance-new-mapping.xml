@@ -48,7 +48,7 @@
 		<property name="apiKey" column="API_KEY"></property>
 		<property name="secretKey" column="SECRET_KEY"></property>
 		<property name="applicationName" column="APPLICATION_NAME"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="integrationUrl" column="INTEGRATIONURL"></property>
 		<property name="applicationType" column="APPLICATIONTYPE"></property>
 		<property name="applicationUse" column="APPLICATIONUSE"></property>

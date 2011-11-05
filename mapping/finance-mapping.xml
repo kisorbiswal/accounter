@@ -26,7 +26,7 @@
 		<property name="asOf" column="AS_OF"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="isConsiderAsCashAccount" column="IS_CASH_ACCOUNT"></property>
-		<property name="comment" column="COMMENT"></property>
+		<property name="comment" type="text" column="COMMENT"></property>
 		<property name="creditLimit" column="CREDIT_LIMIT"></property>
 		<property name="cardOrLoanNumber" column="CARD_NUMBER"></property>
 		<property name="isIncrease" column="IS_INCREASE"></property>
@@ -732,7 +732,7 @@
 		</many-to-one>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isISellThisItem" column="IS_SELL_ITEM"></property>
-		<property name="salesDescription" column="SALES_DESCRIPTION"></property>
+		<property name="salesDescription" type="text" column="SALES_DESCRIPTION"></property>
 		<property name="salesPrice" column="SALES_PRICE"></property>
 		<many-to-one name="incomeAccount" class="Account"
 			column="INCOME_ACCOUNT_ID" lazy="false">
@@ -756,7 +756,7 @@
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
 		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>
-		<property name="purchaseDescription" column="PURCHASE_DESCRIPTION"></property>
+		<property name="purchaseDescription" type="text" column="PURCHASE_DESCRIPTION"></property>
 		<property name="purchasePrice" column="PURCHASE_PRISE"></property>
 		<many-to-one name="expenseAccount" class="Account"
 			column="EXPENSE_ACCOUNT_ID" lazy="false">
@@ -788,7 +788,7 @@
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -1144,7 +1144,7 @@
 			not-null="true" lazy="false">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="due" column="DUE"></property>
 		<property name="dueDays" column="DUE_DAYS"></property>
 		<property name="discountPercent" column="DISCOUNT_PERCENT"></property>
@@ -1195,7 +1195,7 @@
 			not-null="true" lazy="false">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -1214,7 +1214,7 @@
 			not-null="true" lazy="false">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -1408,7 +1408,7 @@
 		<property name="purchaseDate" column="PURCHASE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="purchasePrice" column="PURCHASE_PRICE"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="assetType" column="ASSET_TYPE"></property>
 		<property name="depreciationRate" column="DEPRECIATION_RATE"></property>
 		<property name="depreciationMethod" column="DEPRECIATION_METHOD"></property>
@@ -1584,7 +1584,7 @@
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="salesTaxRate" column="SALES_TAX_RATE"></property>
 		<property name="purchaseTaxRate" column="PURCHASE_TAX_RATE"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="isTaxable" column="ISTAXABLE"></property>
 		<property name="isActive" column="ISACTIVE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
@@ -1950,7 +1950,7 @@
 			column="TRANSACTION_DATE"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" column="DATA_TYPE"></property>
-		<property name="description" column="DESCRIPTION"></property>
+		<property name="description" type="text" column="DESCRIPTION"></property>
 
 	</class>
 

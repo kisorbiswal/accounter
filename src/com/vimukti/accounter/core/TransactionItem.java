@@ -802,7 +802,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				: true && (account != null && obj.account != null) ? (account
 						.equals(obj.account))
 						: true && (transaction != null && obj.transaction != null) ? (transaction
-								.equals(obj.transaction)) : true) {
+								.equals(obj.transaction))
+								: true) {
 
 			return true;
 		}
