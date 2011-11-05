@@ -3706,4 +3706,14 @@ public interface AccounterConstants extends Constants {
 
 	public String estimate();
 
+	public String pleaseSelectAnotherSalesTAXItem();
+
+	public String pleaseSelectAnotherSalesTAXItemOfGroup();
+
+	public String pleaseSelectAnotherPurchaseTAXItem();
+
+	public String pleaseSelectAnotherPurchaseTAXItemOfGroup();
+
+	public String updateGridBeforeSaving();
+
 }

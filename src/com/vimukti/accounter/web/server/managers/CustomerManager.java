@@ -541,11 +541,11 @@ public class CustomerManager extends Manager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.Entry.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID())
-					.setLong("toID", toClientCustomer.getID())
-					.setString("memo", toClientCustomer.getName())
-					.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("update.merge.Entry.old.tonew")
+			// .setLong("fromID", fromClientCustomer.getID())
+			// .setLong("toID", toClientCustomer.getID())
+			// .setString("memo", toClientCustomer.getName())
+			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerPrePayment.old.tonew")
 					.setLong("fromID", fromClientCustomer.getID())
@@ -578,9 +578,9 @@ public class CustomerManager extends Manager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("delete.entry.old")
-					.setLong("from", fromClientCustomer.getID())
-					.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("delete.entry.old")
+			// .setLong("from", fromClientCustomer.getID())
+			// .setEntity("company", company).executeUpdate();
 
 			ServerConvertUtil convertUtil = new ServerConvertUtil();
 			Customer customer = new Customer();

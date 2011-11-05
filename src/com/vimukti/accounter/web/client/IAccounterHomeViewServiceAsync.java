@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
-import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -198,10 +197,6 @@ public interface IAccounterHomeViewServiceAsync {
 	// To get all the Journal Entries in a company
 	public void getJournalEntries(
 			AsyncCallback<ArrayList<ClientJournalEntry>> callback);
-
-	// To get all the Entries of a particular journal entry
-	public void getEntries(long journalEntryId,
-			AsyncCallback<ArrayList<ClientEntry>> callback);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)

@@ -16,7 +16,6 @@ import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
@@ -43,7 +42,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
-import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -706,26 +704,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return new ArrayList<CustomerRefundsList>(customerRefundsList);
-	}
-
-	public ArrayList<ClientEntry> getEntries(long journalEntryId) {
-		List<ClientEntry> clientEntries = new ArrayList<ClientEntry>();
-		List<Entry> serverEntries = null;
-		try {
-
-			serverEntries = getFinanceTool().getEntries(journalEntryId,
-					getCompanyId());
-			for (Entry entry : serverEntries) {
-				clientEntries.add(new ClientConvertUtil().toClientObject(entry,
-						ClientEntry.class));
-			}
-			// entry = (List<ClientEntry>) manager.merge(entry);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return new ArrayList<ClientEntry>(clientEntries);
 	}
 
 	public ArrayList<ClientEstimate> getEstimates(int type) {

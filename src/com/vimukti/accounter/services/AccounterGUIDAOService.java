@@ -14,7 +14,6 @@ import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
@@ -180,13 +179,6 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 
 	@Override
 	public Date getDepreciationLastDate() throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public ArrayList<Entry> getEntries(String journalEntryId)
-			throws DAOException {
 
 		return null;
 	}

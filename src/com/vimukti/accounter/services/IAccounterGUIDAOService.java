@@ -11,7 +11,6 @@ import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
@@ -193,10 +192,6 @@ public interface IAccounterGUIDAOService {
 
 	// To get all the Journal Entries in a company
 	public ArrayList<JournalEntry> getJournalEntries() throws DAOException;
-
-	// To get all the Entries of a particular journal entry
-	public ArrayList<Entry> getEntries(String journalEntryId)
-			throws DAOException;
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)

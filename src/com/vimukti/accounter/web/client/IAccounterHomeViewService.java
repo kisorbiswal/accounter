@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
-import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -172,9 +171,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	// To get all the Journal Entries in a company
 	public ArrayList<ClientJournalEntry> getJournalEntries();
-
-	// To get all the Entries of a particular journal entry
-	public ArrayList<ClientEntry> getEntries(long journalEntryId);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)

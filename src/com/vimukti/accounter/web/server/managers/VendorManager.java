@@ -1384,19 +1384,19 @@ public class VendorManager extends Manager {
 				.setLong("toID", toClientVendor.getID())
 				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.Entry.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+		// session.getNamedQuery("update.mergeVendor.Entry.old.tonew")
+		// .setLong("fromID", fromClientVendor.getID())
+		// .setLong("toID", toClientVendor.getID())
+		// .setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.Item.old.tonew")
 				.setLong("fromID", fromClientVendor.getID())
 				.setLong("toID", toClientVendor.getID())
 				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("delete.vendorentry.old")
-				.setLong("from", fromClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+		// session.getNamedQuery("delete.vendorentry.old")
+		// .setLong("from", fromClientVendor.getID())
+		// .setEntity("company", company).executeUpdate();
 
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Vendor vendor = new Vendor();

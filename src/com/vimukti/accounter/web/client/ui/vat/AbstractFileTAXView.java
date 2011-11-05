@@ -25,6 +25,8 @@ import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.CancelButton;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -85,10 +87,19 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		toDate.setHelpInformation(true);
 		toDate.setWidth(100);
 
+		toDate.addDateValueChangeHandler(new DateValueChangeHandler() {
+
+			@Override
+			public void onDateValueChange(ClientFinanceDate date) {
+				canSaveFileVat = false;
+			}
+		});
+
 		fromDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate financeDate) {
+				canSaveFileVat = false;
 				Date date = financeDate.getDateAsObject();
 				int frequency = ClientTAXAgency.TAX_RETURN_FREQUENCY_MONTHLY;
 				if (selectedTaxAgency != null) {
@@ -239,6 +250,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	protected void taxAgencySelected(final ClientTAXAgency selectItem) {
 
 		this.selectedTaxAgency = selectItem;
+		canSaveFileVat = true;
 
 		if (selectItem == null) {
 			disableButtons();
@@ -342,9 +354,14 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
+		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		this.cancelButton = new CancelButton(this);
+		if (!isInViewMode()) {
+			buttonBar.add(saveAndCloseButton);
+		}
+		buttonBar.add(cancelButton);
+
 		this.saveAndCloseButton.setText(Accounter.constants().fileVATReturn());
-		buttonBar.remove(this.saveAndNewButton);
 	}
 
 	@Override
@@ -364,11 +381,11 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 			// AccounterValidator.validate_FileVat(this);
 		}
 		if (!canSaveFileVat) {
-			taxAgencyCombo.addStyleName("highlightedFormItem");
-			fromDate.addStyleName("highlightedFormItem");
-			toDate.addStyleName("highlightedFormItem");
+			// taxAgencyCombo.addStyleName("highlightedFormItem");
+			// fromDate.addStyleName("highlightedFormItem");
+			// toDate.addStyleName("highlightedFormItem");
 			result.addError(this, Accounter.constants()
-					.fileVATcantsavewithemptyvalues());
+					.updateGridBeforeSaving());
 		}
 		if (getGrid().getRecords().isEmpty()) {
 			result.addError(this, Accounter.constants()

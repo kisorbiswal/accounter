@@ -9,7 +9,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -208,10 +211,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		mainVPanel.add(infoLabel);
 		mainVPanel.add(vatNameForm);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			vatNameForm.getCellFormatter().setWidth(0, 1, "270px");
-//			vatNameForm.setWidth("50%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// vatNameForm.getCellFormatter().setWidth(0, 1, "270px");
+		// vatNameForm.setWidth("50%");
+		// }
 		this.add(mainVPanel);
 
 		/* Adding dynamic forms in list */
@@ -343,7 +346,62 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		// .getID() ? false : true)) : true)) {
 		// result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
 		// }
+
+		ClientTAXItemGroup selectedValue = vatItemComboForSales
+				.getSelectedValue();
+		String validationResult = validateTAXItem(selectedValue, true);
+		if (validationResult != null) {
+			result.addError(vatItemComboForSales, validationResult);
+		}
+
+		selectedValue = vatItemComboForPurchases.getSelectedValue();
+		validationResult = validateTAXItem(selectedValue, false);
+		if (validationResult != null) {
+			result.addError(vatItemComboForPurchases, validationResult);
+		}
+
 		return result;
+	}
+
+	private String validateTAXItem(ClientTAXItemGroup selectedValue,
+			boolean isSales) {
+		if (selectedValue != null) {
+			if (selectedValue instanceof ClientTAXItem) {
+				long taxAgencyId = ((ClientTAXItem) selectedValue)
+						.getTaxAgency();
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						taxAgencyId);
+
+				if (taxAgency != null) {
+					if (isSales) {
+						if (taxAgency.getSalesLiabilityAccount() == 0) {
+							return constants.pleaseSelectAnotherSalesTAXItem();
+						}
+					} else if (taxAgency.getPurchaseLiabilityAccount() == 0) {
+						return constants.pleaseSelectAnotherPurchaseTAXItem();
+					}
+				}
+			} else {
+				List<ClientTAXItem> taxItems = ((ClientTAXGroup) selectedValue)
+						.getTaxItems();
+				for (ClientTAXItem item : taxItems) {
+					ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+							item.getTaxAgency());
+					if (taxAgency != null) {
+						if (isSales) {
+							if (taxAgency.getSalesLiabilityAccount() == 0) {
+								return constants
+										.pleaseSelectAnotherSalesTAXItem();
+							}
+						} else if (taxAgency.getPurchaseLiabilityAccount() == 0) {
+							return constants
+									.pleaseSelectAnotherPurchaseTAXItem();
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	public List<DynamicForm> getForms() {

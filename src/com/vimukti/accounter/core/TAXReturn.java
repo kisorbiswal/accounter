@@ -173,15 +173,21 @@ public class TAXReturn extends Transaction {
 	protected void updateTaxLiabilityAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
 		Account salesLiabilityAccount = taxAgency.getSalesLiabilityAccount();
-		salesLiabilityAccount.updateCurrentBalance(this, -1 * salesTaxTotal);
-		session.update(salesLiabilityAccount);
-		salesLiabilityAccount.onUpdate(session);
+		if (salesLiabilityAccount != null) {
+			salesLiabilityAccount
+					.updateCurrentBalance(this, -1 * salesTaxTotal);
+			salesLiabilityAccount.onUpdate(session);
+			session.update(salesLiabilityAccount);
+		}
 
 		Account purchaseLiabilityAccount = taxAgency
 				.getPurchaseLiabilityAccount();
-		purchaseLiabilityAccount.updateCurrentBalance(this, purchaseTaxTotal);
-		session.update(purchaseLiabilityAccount);
-		purchaseLiabilityAccount.onUpdate(session);
+		if (purchaseLiabilityAccount != null) {
+			purchaseLiabilityAccount.updateCurrentBalance(this,
+					purchaseTaxTotal);
+			purchaseLiabilityAccount.onUpdate(session);
+			session.update(purchaseLiabilityAccount);
+		}
 
 		// double amount = vatReturn.getBoxes().get(4).getAmount()
 		// + vatReturn.getBoxes().get(vatReturn.getBoxes().size() - 1)

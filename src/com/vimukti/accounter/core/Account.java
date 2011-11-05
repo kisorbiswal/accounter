@@ -43,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  * 
  */
-@SuppressWarnings( { "serial", "unchecked" })
+@SuppressWarnings({ "serial", "unchecked" })
 public class Account extends CreatableObject implements IAccounterServerCore,
 		INamedObject {
 
@@ -908,10 +908,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 						this.flow = "1";
 					}
 				} else {
-					List l = session.getNamedQuery(
-							"getCount.from.Account.and.parent").setLong(
-							"parentId", this.parent.getID()).setEntity(
-							"company", getCompany()).list();
+					List l = session
+							.getNamedQuery("getCount.from.Account.and.parent")
+							.setLong("parentId", this.parent.getID())
+							.setEntity("company", getCompany()).list();
 					if (l != null) {
 						long count = (Long) l.get(0);
 						count++;
@@ -1047,17 +1047,18 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				this.oldParent.updateTotalBalance(-1 * this.totalBalance);
 				session.update(this.oldParent);
 
-				int i = Integer.parseInt(oldFlow
-						.substring(oldFlow.length() - 1));
+				int i = Integer
+						.parseInt(oldFlow.substring(oldFlow.length() - 1));
 
 				// Query query1 =
 				// session.getNamedQuery("getAccountDetails").setParameter("parentId",
 				// this.oldParent.getID()).setParameter("flow", oldFlow);
 
-				Query query1 = session.getNamedQuery(
-						"getFlowList.form.Account.byId").setParameter(
-						"parentId", this.oldParent.getID()).setParameter(
-						"flow", oldFlow).setEntity("company", getCompany());
+				Query query1 = session
+						.getNamedQuery("getFlowList.form.Account.byId")
+						.setParameter("parentId", this.oldParent.getID())
+						.setParameter("flow", oldFlow)
+						.setEntity("company", getCompany());
 				List<Account> l2 = query1.list();
 
 				// List<Account> l2 = session
@@ -1265,9 +1266,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// throw new InvalidOperationException(
 		// "Account Name already existed Enter Unique name for Account");
 
-		Query query = session.getNamedQuery("getAccounts").setString("name",
-				this.name).setString("number", this.number).setLong("id",
-				this.id)
+		Query query = session.getNamedQuery("getAccounts")
+				.setString("name", this.name).setString("number", this.number)
+				.setLong("id", this.id)
 				.setParameter("companyId", account.getCompany().getID());
 
 		List list = query.list();
@@ -1306,20 +1307,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		}
 		return true;
 
-	}
-
-	/*
-	 * Is to update Memo in Entry if and only if account Name was altered
-	 */
-	protected void updateEntryMemo(Session session) {
-
-		Query query = session.getNamedQuery("get.name.fromAccount.byId")
-				.setLong("id", this.getID()).setEntity("company", getCompany());
-		String accountName = (String) query.uniqueResult();
-
-		if (accountName != null && !this.getName().equals(accountName))
-			Entry.updateEntryMemo(getCompany(), session, accountName, this
-					.getName());
 	}
 
 }

@@ -561,6 +561,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		} else {
 			wareHouse.updateItemStatus(item, value, !isVoidOrDelete);
 		}
+		wareHouse.onUpdate(session);
 		session.saveOrUpdate(wareHouse);
 	}
 
