@@ -11,9 +11,11 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -30,6 +32,7 @@ public class SignupCommand extends NewCommand {
 	private static final String EMAIL = "email";
 	private static final String PHONE = "phone";
 	private static final String COUNTRY = "country";
+	private static final String PASSOWRD = "password";
 
 	@Override
 	public String getId() {
@@ -45,6 +48,20 @@ public class SignupCommand extends NewCommand {
 				false, true));
 
 		list.add(new NameRequirement(EMAIL, "Enter Email", "Emial", false, true));
+
+		list.add(new NameRequirement(PASSOWRD,
+				"Enter password. This is used to login in accounter", "Emial",
+				false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_MOBILE) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+		});
 
 		list.add(new NumberRequirement(PHONE, "Eneter Phone number",
 				"Phone No", false, true));
@@ -122,8 +139,13 @@ public class SignupCommand extends NewCommand {
 		client.setFullName(Global.get().messages()
 				.fullName(firstName, lastName));
 
-		String password = "***REMOVED***";// SecureUtils.createID(16);
-		sendPasswordMail(password, emailId);
+		String password = "***REMOVED***";
+		if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_MOBILE) {
+			password = get(PASSOWRD).getValue();
+		} else {
+			// password= SecureUtils.createID(16);
+			sendPasswordMail(password, emailId);
+		}
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password));
 		client.setPassword(passwordWithHash);

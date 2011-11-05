@@ -14,14 +14,17 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.utils.Security;
 
 /**
  * @author Prasanna Kumar G
@@ -40,6 +43,83 @@ public class AuthenticationCommand extends Command {
 
 	@Override
 	public Result run(Context context) {
+		int networkType = context.getNetworkType();
+		// MOBILE
+		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
+			Result makeResult = context.makeResult();
+			String string = context.getString();
+			Object attribute = context.getAttribute("input");
+			if (attribute == null) {
+				context.setAttribute("input", "userName");
+				makeResult
+						.add("Please Enter Username. Or press 'a' to Sighn up");
+				CommandList commandList = new CommandList();
+				commandList.add("Signup");
+				makeResult.add(commandList);
+				return makeResult;
+			}
+
+			Client client = null;
+
+			if (attribute.equals("activation")) {
+				String userName = (String) context.getAttribute("userName");
+				Session currentSession = HibernateUtil.getCurrentSession();
+				Transaction beginTransaction = currentSession
+						.beginTransaction();
+
+				client = getClient(userName);
+				client.setActive(true);
+				beginTransaction.commit();
+				markDone();
+			}
+
+			if (attribute.equals("userName")) {
+				context.setAttribute("userName", string);
+				client = getClient(string);
+				if (client != null && !client.isActive()) {
+					context.setAttribute("input", "activation");
+					makeResult.add("Please Enter Activation Code");
+					return makeResult;
+				}
+				context.setAttribute("input", "password");
+				makeResult.add("Please Enter password");
+				return makeResult;
+			}
+
+			if (attribute.equals("password")) {
+				String userName = (String) context.getAttribute("userName");
+				String password = HexUtil.bytesToHex(Security.makeHash(userName
+						+ string));
+				client = getClient(userName);
+				if (client == null) {
+					makeResult
+							.add("There is no account found with given Email Id");
+					makeResult
+							.add("Enter valid Accounter Email Id. Or press 'a' to Sighn up");
+					CommandList commandList = new CommandList();
+					commandList.add("Signup");
+					makeResult.add(commandList);
+					return makeResult;
+				}
+
+				if (!client.getPassword().equals(password)) {
+					makeResult
+							.add("Wrong Username or Passwor. Please Enter Valid details.");
+					return makeResult;
+				}
+				markDone();
+			}
+
+			if (isDone()) {
+				makeResult.add("Your Successfully Logged.");
+				makeResult.setNextCommand("Select Company");
+				context.getIOSession().setClient(client);
+				context.getIOSession().setAuthentication(true);
+				return makeResult;
+			}
+		}
+
+		// CHATTING AND CONSOLE
 		IMUser imUser = getIMUser(context.getNetworkId(),
 				context.getNetworkType());
 		Result makeResult = context.makeResult();
@@ -63,9 +143,10 @@ public class AuthenticationCommand extends Command {
 					} else {
 						if (!context.getString().isEmpty()) {
 							makeResult
-									.add("There is no account found with given Email Id. Or press 'a' to Sighn up");
+									.add("There is no account found with given Email Id");
 						}
-						makeResult.add("Enter valid Accounter Email Id");
+						makeResult
+								.add("Enter valid Accounter Email Id. Or press 'a' to Sighn up");
 						CommandList commandList = new CommandList();
 						commandList.add("Signup");
 						commandList.add(new UserCommand("Signup with"
@@ -116,9 +197,7 @@ public class AuthenticationCommand extends Command {
 			}
 		}
 		if (isDone()) {
-			CommandList commandList = new CommandList();
 			makeResult.setNextCommand("Select Company");
-			makeResult.add(commandList);
 			context.getIOSession().setClient(imUser.getClient());
 			context.getIOSession().setAuthentication(true);
 		}
