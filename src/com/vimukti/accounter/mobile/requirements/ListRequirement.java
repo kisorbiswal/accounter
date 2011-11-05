@@ -98,6 +98,13 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				record.add("", getConstants().showAll());
 				actions.add(record);
 				result.add(actions);
+				if (isDone()) {
+					ResultList customerList = new ResultList(getName());
+					Record back = new Record("Back");
+					back.add("", "Back");
+					customerList.add(back);
+					result.add(customerList);
+				}
 				return result;
 			}
 			return displayRecords(context, lists, result, RECORDS_TO_SHOW,
