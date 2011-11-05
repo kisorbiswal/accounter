@@ -153,13 +153,15 @@ public enum AccounterCoreType implements IsSerializable {
 
 	FIXEDASSETHISTORY("ClientFixedAssetHistory", "FixedAssetHistory"),
 
-	CUSTOMERREFUND("ClientCustomerRefund", "CustomerRefund"), FIXEDASSET(
-			"ClientFixedAsset", "FixedAsset"),
+	CUSTOMERREFUND("ClientCustomerRefund", "CustomerRefund"),
+
+	FIXEDASSET("ClientFixedAsset", "FixedAsset"),
 
 	VATBOX("ClientBox", "Box"),
 
-	PAYVAT("ClientPayVAT", "PayVAT"), ITEMBACKUP("ClientItemBackUp",
-			"ItemBackUp"),
+	PAYVAT("ClientPayVAT", "PayVAT"),
+
+	ITEMBACKUP("ClientItemBackUp", "ItemBackUp"),
 
 	TRANSACTION_CREDITS_AND_PAYMENTS("ClientTransactionCreditsAndPayments",
 			"TransactionCreditsAndPayments"),
@@ -191,9 +193,13 @@ public enum AccounterCoreType implements IsSerializable {
 
 	MEASUREMENT("ClientMeasurement", "Measurement"),
 
-	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer"), RECURRING_TRANSACTION(
-			"ClientRecurringTransaction", "RecurringTransaction"), LOCATION(
-			"ClientLocation", "Location"),
+	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer"),
+
+	RECURRING_TRANSACTION("ClientRecurringTransaction", "RecurringTransaction"),
+
+	LOCATION("ClientLocation", "Location"),
+
+	STOCK_ADJUSTMENT("ClientStockAdjustment", "StockAdjustment"),
 
 	ACTIVITY("ClientActivity", "Activity"),
 
@@ -203,7 +209,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	UNIT("ClientUnit", "Unit"),
 
-	RECONCILIATION("ClientReconciliation", "Reconciliation"), 
+	RECONCILIATION("ClientReconciliation", "Reconciliation"),
 
 	TRANSACTION_LOG("ClientTransactionLog", "TransactionLog"),
 

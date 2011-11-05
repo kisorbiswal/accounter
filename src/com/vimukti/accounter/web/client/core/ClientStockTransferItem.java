@@ -9,6 +9,10 @@ package com.vimukti.accounter.web.client.core;
  */
 public class ClientStockTransferItem implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	long id;
 	private long item;
 	private ClientQuantity quantity;

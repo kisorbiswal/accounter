@@ -16,11 +16,11 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 
 	private long id;
 
-	private ClientItem item;
+	private long item;
 
 	private ClientQuantity quantity;
 
-	public ClientWarehouse warehouse;
+	public long warehouse;
 
 	/**
 	 * @return the id
@@ -40,7 +40,7 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 	/**
 	 * @return the item
 	 */
-	public ClientItem getItem() {
+	public long getItem() {
 		return item;
 	}
 
@@ -48,7 +48,7 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(ClientItem item) {
+	public void setItem(long item) {
 		this.item = item;
 	}
 
@@ -70,7 +70,7 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 	/**
 	 * @return the warehouse
 	 */
-	public ClientWarehouse getWarehouse() {
+	public long getWarehouse() {
 		return warehouse;
 	}
 
@@ -78,7 +78,7 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 	 * @param warehouse
 	 *            the warehouse to set
 	 */
-	public void setWarehouse(ClientWarehouse warehouse) {
+	public void setWarehouse(long warehouse) {
 		this.warehouse = warehouse;
 	}
 
