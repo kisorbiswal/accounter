@@ -65,7 +65,7 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseSelect(getConstants().currency()), getConstants()
-				.currency(), false, true) {
+				.currency(), true, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
