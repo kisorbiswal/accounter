@@ -82,5 +82,6 @@
 	<classpathentry kind="lib" path="libs/xercesImpl-2.9.1.jar"/>
 	<classpathentry kind="lib" path="libs/xml-apis-1.3.04.jar"/>
 	<classpathentry kind="lib" path="libs/netty-3.2.5.Final.jar" sourcepath="C:/Users/vimukti04/Desktop/netty-3.2.5.Final/jar/netty-3.2.5.Final-sources.jar"/>
+	<classpathentry kind="lib" path="libs/gson-1.3.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
