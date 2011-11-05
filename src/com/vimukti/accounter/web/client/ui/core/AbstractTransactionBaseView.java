@@ -377,10 +377,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		dateItem.setToolTip(Accounter
+				.messages()
+				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -695,8 +694,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -1139,9 +1137,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected CurrencyWidget createCurrencyWidget() {
-		// FIXME test only.
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
-
 		ClientCurrency baseCurrency = getCompany().getCurrency(
 				getCompany().getPreferences().getPrimaryCurrency());
 
@@ -1155,7 +1151,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				setCurrencyFactor(factor);
 				updateAmountsFromGUI();
 			}
-
 		});
 		return widget;
 	}
@@ -1658,8 +1653,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// buttons...
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 
-		final SaveAndCloseButton saveButton = new SaveAndCloseButton(constants
-				.save());
+		final SaveAndCloseButton saveButton = new SaveAndCloseButton(
+				constants.save());
 		CancelButton cancelButton = new CancelButton();
 
 		saveButton.addClickHandler(new ClickHandler() {
@@ -1713,16 +1708,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public void updateLastActivityPanel(ClientTransactionLog transactionLog) {
 		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE)
-			lastActivityHTML.setHTML(messages.lastActivityMessages(historyTable
-					.getActivityType(transactionLog.getType()), transactionLog
-					.getUserName(), new Date(transactionLog.getTime())
-					.toString()));
+			lastActivityHTML.setHTML(messages.lastActivityMessages(
+					historyTable.getActivityType(transactionLog.getType()),
+					transactionLog.getUserName(),
+					new Date(transactionLog.getTime()).toString()));
 		else
 
 			lastActivityHTML.setHTML(messages.lastActivityMessageForNote(
 					new Date(transactionLog.getTime()).toString(),
-					transactionLog.getUserName(), transactionLog
-							.getDescription()));
+					transactionLog.getUserName(),
+					transactionLog.getDescription()));
 	}
 
 	protected ClientFinanceDate getLastTaxReturnEndDate(long taxAgency) {

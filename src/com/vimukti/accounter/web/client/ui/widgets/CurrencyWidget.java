@@ -12,26 +12,18 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class CurrencyWidget extends DynamicForm {
 
-	// private VerticalPanel widgetPanel;
-
 	private CurrencyChangeListener listener;
-
-	// private TextItem factorField;
 	private CurrencyCombo currencyCombo;
-	// private LabelItem baseCurrencyLbl;
-
 	private ClientCurrency baseCurrency, selectedCurrencyItem;
 	private List<ClientCurrency> currencies;
-
 	private boolean showFactorField;
-
 	private CurrencyFormItem currencyForm;
 
 	public CurrencyWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
 		this.currencies = currencies;
 		this.baseCurrency = baseCurrency;
-		// setNumCols(3);
+
 		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
 		currencyCombo.initCombo(currencies);
 		if (baseCurrency != null) {
@@ -47,21 +39,8 @@ public class CurrencyWidget extends DynamicForm {
 					}
 				});
 
-		// factorField = new TextItem("Factor :");
-		// factorField.addChangeHandler(new ChangeHandler() {
-		// @Override
-		// public void onChange(ChangeEvent event) {
-		// String factorStr = factorField.getValue().toString();
-		// factorFieldChagned(Double.parseDouble(factorStr));
-		// }
-		// });
-		// baseCurrencyLbl = new LabelItem();
-		// if (baseCurrency != null) {
-		// baseCurrencyLbl.setTitle(baseCurrency.getFormalName());
-		// }
 		setStyleName("currencyTextBox");
 		setWidth("100%");
-		// setNumCols(4);
 
 		currencyForm = new CurrencyFormItem("Factor :",
 				baseCurrency.getFormalName());
