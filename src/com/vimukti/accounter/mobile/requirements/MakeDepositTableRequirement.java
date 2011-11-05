@@ -100,6 +100,8 @@ public class MakeDepositTableRequirement extends
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionMakeDeposit obj) {
 		get(RECEIVED_FROM).setDefaultValue(getConstants().transfer());
+		get(AMOUNT).setDefaultValue(obj.getAmount());
+		get(REFERENCE).setDefaultValue(obj.getReference());
 	}
 
 	@Override
