@@ -328,6 +328,8 @@ public interface AccounterMessages extends Messages {
 
 	public String invoiceMailMessage(String payee, String number,
 			ClientFinanceDate date);
+	
+	public String items(String name);
 
 	public String lastActivityMessageForNote(String date, String userName);
 
