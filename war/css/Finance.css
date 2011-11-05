@@ -1587,4 +1587,7 @@ button.disable,button.disable:hover{
 .editTable TEXTAREA {
 	height:22px;
 	width:100%;
+	border:none;
+	padding:0px;
+	margin:0px;
 }
