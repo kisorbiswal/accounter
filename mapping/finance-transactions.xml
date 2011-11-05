@@ -979,14 +979,6 @@
 				cascade="save-update" column="TAX_AGENCY_ID">
 			</many-to-one>
 		</joined-subclass>
-		<joined-subclass name="StockAdjustment" table="STOCK_ADJUSTMENT">
-			<key column="ID" />
-			<property name="completed" column="COMPLETED" />
-			<set name="adjustmentItems" table="STOCK_ADJUSTMENT_MAPPING">
-				<key column="STOCK_ADJUSTMENT" />
-				<one-to-many class="StockAdjustmentItem" />
-			</set>
-		</joined-subclass>
 
 		<!-- <joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT"> <key 
 			column="id" /> <property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property> 
