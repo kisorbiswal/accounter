@@ -237,7 +237,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
 
-				String description = forNullValue(item.getDescription());
+				String description = forNullValue(item.getDescription()); 
+				description = description.replaceAll("\n", "<br/>");
 				String qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
 						.getQuantity().getValue(), null, maxDecimalPoints));
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
