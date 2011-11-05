@@ -25,7 +25,7 @@ public class MobileServer {
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			public ChannelPipeline getPipeline() {
 				return Channels.pipeline(new MobileDecoder(),
-						new MobileChannelHandler(null));
+						new MobileChannelHandler(new MobileMessageHandler()));
 			}
 		});
 
