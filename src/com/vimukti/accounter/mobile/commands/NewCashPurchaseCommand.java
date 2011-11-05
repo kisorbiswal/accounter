@@ -19,8 +19,8 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -61,8 +61,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_PURCHASE, context
-								.getCompany()));
+						ClientTransaction.TYPE_CASH_PURCHASE,
+						context.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(CONTACT).setDefaultValue(null);
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
@@ -118,8 +118,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase().startsWith(
-						name.toLowerCase());
+				return e.getDisplayName().toLowerCase()
+						.startsWith(name.toLowerCase());
 			}
 		});
 
@@ -267,22 +267,22 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getConstants().Account(), true,
-				true) {
-
+				true, true) {
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return getClientCompany().getAccounts();
+			public List<ClientAccount> getAccounts(Context context) {
+				return context.getClientCompany().getAccounts();
 			}
 		});
-		list.add(new TransactionItemItemsRequirement(ITEMS,
+
+		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				true, true, true) {
+				true, true, false) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getProductItems();
 			}
 		});
 
@@ -332,21 +332,18 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list
-				.add(new StringRequirement(CHEQUE_NO, getMessages()
-						.pleaseEnter(getConstants().checkNo()), getConstants()
-						.checkNo(), true, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						String paymentMethod = get(PAYMENT_METHOD).getValue();
-						if (paymentMethod.equals(getConstants().check())) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-				});
+		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
+				getConstants().checkNo()), getConstants().checkNo(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				String paymentMethod = get(PAYMENT_METHOD).getValue();
+				if (paymentMethod.equals(getConstants().check())) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));

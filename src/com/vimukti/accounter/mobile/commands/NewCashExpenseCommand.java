@@ -16,8 +16,8 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -51,8 +51,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_EXPENSE, context
-								.getCompany()));
+						ClientTransaction.TYPE_CASH_EXPENSE,
+						context.getCompany()));
 
 	}
 
@@ -92,11 +92,11 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase().startsWith(
-						name.toLowerCase());
+				return e.getDisplayName().toLowerCase()
+						.startsWith(name.toLowerCase());
 			}
 		});
-		
+
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -124,7 +124,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -133,15 +134,14 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
@@ -238,23 +238,25 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				return context.getClientCompany().getCurrencies();
 			}
 		});
-		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getConstants().Account(), true,
-				true) {
+				true, true) {
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return getClientCompany().getAccounts();
+			protected List<ClientAccount> getAccounts(Context context) {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		});
-		list.add(new TransactionItemItemsRequirement(ITEMS,
+		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				true, true, true) {
+				true, true, false) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getProductItems();
 			}
+
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
 				getConstants().taxCode()), getConstants().taxCode(), false,
@@ -331,7 +333,6 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();

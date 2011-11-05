@@ -18,8 +18,8 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -68,7 +68,6 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			}
 		});
 
-		
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -96,7 +95,8 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -105,35 +105,34 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
-		
-		list.add(new TransactionItemItemsRequirement(ITEMS, getMessages()
-				.pleaseEnterName(getConstants().item()), getConstants().item(),
+		list.add(new TransactionItemTableRequirement(ITEMS,
+				"Please Enter Item Name or number", getConstants().items(),
 				true, true, true) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getServiceItems();
 			}
+
 		});
 
-		list.add(new TransactionItemAccountsRequirement(ACCOUNTS, getMessages()
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.Account(), true, true, true) {
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<ClientAccount> getAccounts(Context context) {
 				return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 					@Override
@@ -162,10 +161,8 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().date()), getConstants().date(), true, true));
 
-		list
-				.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-						getConstants().number()), getConstants().number(),
-						true, false));
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getConstants().number()), getConstants().number(), true, false));
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
 				getConstants().contactName()), getConstants().contacts(), true,
@@ -352,7 +349,6 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-		
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
@@ -366,7 +362,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
 		updateTotals(context, creditCardCharge, false);
-		
+
 		create(creditCardCharge, context);
 
 		return null;

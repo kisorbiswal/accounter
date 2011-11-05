@@ -18,8 +18,8 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -58,11 +58,11 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 	protected void setDefaultValues(Context context) {
 
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue(
-				NumberUtils
-						.getNextTransactionNumber(
-								ClientTransaction.TYPE_ENTER_BILL, context
-										.getCompany()));
+		get(NUMBER)
+				.setDefaultValue(
+						NumberUtils.getNextTransactionNumber(
+								ClientTransaction.TYPE_ENTER_BILL,
+								context.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(CONTACT).setDefaultValue(null);
 		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
@@ -184,10 +184,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().transactionDate()), getConstants()
 				.transactionDate(), true, true));
-		list
-				.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-						getConstants().dueDate()), getConstants().dueDate(),
-						true, true));
+		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
+				getConstants().dueDate()), getConstants().dueDate(), true, true));
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
 				getConstants().deliveryDate()), getConstants().deliveryDate(),
 				true, true));
@@ -201,24 +199,25 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select account Items", getConstants().Account(), true,
-				true) {
+				true, true) {
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<ClientAccount> getAccounts(Context context) {
 				return getClientCompany().getAccounts();
 			}
 		});
 
-		list.add(new TransactionItemItemsRequirement(ITEMS,
+		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
 				true, true, false) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getProductItems();
 			}
+
 		});
 
 		list.add(new ContactRequirement(CONTACT, "Please Enter contact name",
@@ -352,7 +351,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			enterBill.setCurrencyFactor(factor);
 		}
 		enterBill.setTransactionItems(items);
-		updateTotals(context, enterBill, true);
+		updateTotals(context, enterBill, false);
 
 		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
 		enterBill.setDueDate(dueDate.getDate());

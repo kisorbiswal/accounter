@@ -20,8 +20,8 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -64,7 +64,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 						context.getCompany()));
 		get(CURRENCY).setDefaultValue(null);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		
+
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
 	}
@@ -100,7 +100,6 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 
-		
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -128,7 +127,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -137,31 +137,29 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
-		
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().creditNoteNo()), getConstants().creditNoteNo(),
 				true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().transactionDate()), getConstants()
 				.transactionDate(), true, true));
-		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getConstants().Account(), true,
-				true) {
+				true, true) {
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<ClientAccount> getAccounts(Context context) {
 				return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 					@Override
@@ -175,14 +173,15 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				}, getClientCompany().getAccounts());
 			}
 		});
-		list.add(new TransactionItemItemsRequirement(ITEMS,
+		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
 				true, true, true) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getServiceItems();
 			}
+
 		});
 
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
@@ -324,10 +323,10 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			double factor = get(CURRENCY_FACTOR).getValue();
 			creditMemo.setCurrencyFactor(factor);
 		}
-		
+
 		String memo = get(MEMO).getValue();
 		creditMemo.setMemo(memo);
-		double taxTotal = updateTotals(context, creditMemo, false);
+		double taxTotal = updateTotals(context, creditMemo, true);
 		creditMemo.setTaxTotal(taxTotal);
 		create(creditMemo, context);
 		return null;
@@ -345,7 +344,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(context,
+			addFirstMessage(
+					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
 	}

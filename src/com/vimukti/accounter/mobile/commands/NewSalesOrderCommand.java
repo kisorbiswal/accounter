@@ -25,7 +25,7 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -89,12 +89,11 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().quote());
+		return getMessages().createSuccessfully(getConstants().salesOrder());
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -164,14 +163,15 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionItemItemsRequirement(ITEMS,
+		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
 				false, true, true) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getServiceItems();
 			}
+
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -344,9 +344,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 	}
 
-	@Override
-	protected Result onCompleteProcess(Context context) {
-
+	private ClientSalesOrder createSalesOrderObjetc(Context context) {
 		ClientSalesOrder newSalesOrder = new ClientSalesOrder();
 
 		ClientCustomer customer = get(CUSTOMER).getValue();
@@ -417,8 +415,12 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		newSalesOrder.setTaxTotal(taxTotal);
 		String memo = get(MEMO).getValue();
 		newSalesOrder.setMemo(memo);
+		return newSalesOrder;
+	}
 
-		create(newSalesOrder, context);
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		create(createSalesOrderObjetc(context), context);
 		return null;
 	}
 
@@ -444,5 +446,11 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				items.add(clientItem);
 			}
 		}
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		updateTotals(context, createSalesOrderObjetc(context), true);
+		super.beforeFinishing(context, makeResult);
 	}
 }

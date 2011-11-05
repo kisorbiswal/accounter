@@ -64,6 +64,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	private static final String SHIPPING_METHODS = "shippingMethod";
 	private static final String PAYMENT_TERMS = "paymentTerms";
 	private static final String CONTACT = "contact";
+	private boolean isUpdate;
 
 	@Override
 	public String getId() {
@@ -77,21 +78,17 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				"Please Enter Customer name", getMessages().payeeName(
 						Global.get().Customer()), false, true));
 
-		list
-				.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-						getConstants().number()), getConstants().number(),
-						false, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if (getClientCompany().getPreferences()
-								.getUseCustomerId()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-				});
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getConstants().number()), getConstants().number(), false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().getUseCustomerId()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new DateRequirement(CUSTOMER_SINCEDATE,
 				getMessages().pleaseEnter(
@@ -106,10 +103,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				.pleaseEnter(getConstants().balanceAsOfDate()), getConstants()
 				.balanceAsOfDate(), true, true));
 
-		list
-				.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
-						getConstants().address()), getConstants().address(),
-						true, true));
+		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
+				getConstants().address()), getConstants().address(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
 				getConstants().phoneNumber()), getConstants().phoneNumber(),
@@ -121,10 +116,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new NameRequirement(EMAIL, getMessages().pleaseEnter(
 				getConstants().email()), getConstants().email(), true, true));
 
-		list
-				.add(new NameRequirement(WEBADRESS, getMessages().pleaseEnter(
-						getConstants().webSite()), getConstants().webSite(),
-						true, true));
+		list.add(new NameRequirement(WEBADRESS, getMessages().pleaseEnter(
+				getConstants().webSite()), getConstants().webSite(), true, true));
 
 		list.add(new SalesPersonRequirement(SALESPERSON,
 				"please enter the sales person name", getConstants()
@@ -326,23 +319,20 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list
-				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-						getMessages().payeeNumber(Global.get().Customer())),
-						getMessages().payeeNumber(Global.get().Customer()),
-						true, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if (getClientCompany().getPreferences().isTrackTax()
-								&& getClientCompany().getCountryPreferences()
-										.isSalesTaxAvailable()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-				});
+		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+				getMessages().payeeNumber(Global.get().Customer())),
+				getMessages().payeeNumber(Global.get().Customer()), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getCountryPreferences()
+								.isSalesTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getConstants().serviceTax()), getConstants()
@@ -381,6 +371,12 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			protected List<ClientContact> getList() {
 				List<ClientContact> contacts = getCustomerContacts();
 				return new ArrayList<ClientContact>(contacts);
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return isUpdate ? getMessages().youDontHaveAny(
+						getConstants().contacts()) : "";
 			}
 		});
 
@@ -516,6 +512,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		this.isUpdate = isUpdate;
 		String string = context.getString();
 		if (!string.isEmpty()) {
 			get(CUSTOMER_NAME).setValue(string);

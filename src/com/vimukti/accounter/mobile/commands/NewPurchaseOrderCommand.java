@@ -19,8 +19,8 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -66,8 +66,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_PURCHASE_ORDER, context
-								.getCompany()));
+						ClientTransaction.TYPE_PURCHASE_ORDER,
+						context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
 		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
 				.getPaymentsTerms();
@@ -129,7 +129,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 								"" + getNumberFromString(name));
 			}
 		});
-		
+
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -157,7 +157,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -166,24 +167,23 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
-		
-		list.add(new TransactionItemAccountsRequirement(ACCOUNTS,
+
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getConstants().Account(), true,
-				true) {
+				true, true) {
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<ClientAccount> getAccounts(Context context) {
 				return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 					@Override
@@ -199,14 +199,15 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				}, getClientCompany().getAccounts());
 			}
 		});
-		list.add(new TransactionItemItemsRequirement(ITEMS,
+		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				true, true, true) {
+				true, true, false) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getProductItems();
 			}
+
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
@@ -283,20 +284,16 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list
-				.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-						getConstants().dueDate()), getConstants().dueDate(),
-						true, true));
+		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
+				getConstants().dueDate()), getConstants().dueDate(), true, true));
 		list.add(new DateRequirement(DISPATCH_DATE, getMessages().pleaseEnter(
 				getConstants().dispatchDate()), getConstants().dispatchDate(),
 				true, true));
 		list.add(new DateRequirement(RECIEVED_DATE, getMessages().pleaseEnter(
 				getConstants().receivedDate()), getConstants().receivedDate(),
 				true, true));
-		list
-				.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
-						getConstants().orderNo()), getConstants().orderNo(),
-						true, true));
+		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
+				getConstants().orderNo()), getConstants().orderNo(), true, true));
 
 		list.add(new NumberRequirement(VENDOR_ORDER_NO, getMessages()
 				.pleaseEnter(
@@ -417,11 +414,11 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			if (currency != null) {
 				newPurchaseOrder.setCurrency(currency.getID());
 			}
-			
+
 			double factor = get(CURRENCY_FACTOR).getValue();
 			newPurchaseOrder.setCurrencyFactor(factor);
 		}
-		
+
 		items.addAll(accounts);
 		newPurchaseOrder.setTransactionItems(items);
 		updateTotals(context, newPurchaseOrder, false);

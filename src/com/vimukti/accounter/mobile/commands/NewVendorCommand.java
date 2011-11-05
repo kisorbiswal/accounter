@@ -69,6 +69,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	private static final String SHIPPING_METHODS = "shippingMethod";
 	private static final String SHIP_TO = "shipTo";
+	private boolean isUpdate;
 
 	@Override
 	public String getId() {
@@ -147,8 +148,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getCountry().equals(
-						CountryPreferenceFactory.UNITED_STATES)) {
+				if (context.getClientCompany().getCountry()
+						.equals(CountryPreferenceFactory.UNITED_STATES)) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -172,6 +173,12 @@ public class NewVendorCommand extends NewAbstractCommand {
 			protected List<ClientContact> getList() {
 				List<ClientContact> contacts = getVendorContacts();
 				return new ArrayList<ClientContact>(contacts);
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return isUpdate ? getMessages().youDontHaveAny(
+						getConstants().contacts()) : "";
 			}
 		});
 
@@ -344,23 +351,20 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
-		list
-				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-						getMessages().payeeNumber(Global.get().Customer())),
-						getMessages().payeeNumber(Global.get().Customer()),
-						true, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if (getClientCompany().getPreferences().isTrackTax()
-								&& getClientCompany().getCountryPreferences()
-										.isSalesTaxAvailable()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-				});
+		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+				getMessages().payeeNumber(Global.get().Customer())),
+				getMessages().payeeNumber(Global.get().Customer()), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getClientCompany().getPreferences().isTrackTax()
+						&& getClientCompany().getCountryPreferences()
+								.isSalesTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getConstants().serviceTax()), getConstants()
@@ -469,8 +473,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
-		if (context.getClientCompany().getCountry().equals(
-				CountryPreferenceFactory.UNITED_STATES)) {
+		if (context.getClientCompany().getCountry()
+				.equals(CountryPreferenceFactory.UNITED_STATES)) {
 			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
@@ -517,6 +521,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
+		this.isUpdate = isUpdate;
 		return null;
 	}
 

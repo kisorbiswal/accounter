@@ -46,6 +46,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	private static final String VAT_RETURN = "Vat Return";
 	private static final String ADREESS = "address";
 	private static final String CONTACTS = "contact";
+	protected boolean isUpdate;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -230,6 +231,12 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				List<ClientContact> contacts = getAgencyContacts();
 				return new ArrayList<ClientContact>(contacts);
 			}
+
+			@Override
+			protected String getEmptyString() {
+				return isUpdate ? getMessages().youDontHaveAny(
+						getConstants().contacts()) : "";
+			}
 		});
 
 	}
@@ -252,6 +259,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
+		this.isUpdate = isUpdate;
 		return null;
 	}
 

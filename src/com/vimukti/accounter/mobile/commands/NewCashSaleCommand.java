@@ -23,8 +23,8 @@ import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
 import com.vimukti.accounter.mobile.requirements.ShippingTermRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemAccountsRequirement;
-import com.vimukti.accounter.mobile.requirements.TransactionItemItemsRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -97,7 +97,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -106,35 +107,34 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
-		
-		list.add(new TransactionItemItemsRequirement(ITEMS, getMessages()
-				.pleaseEnterName(getConstants().item()), getConstants().item(),
+		list.add(new TransactionItemTableRequirement(ITEMS,
+				"Please Enter Item Name or number", getConstants().items(),
 				true, true, true) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
-				return getClientCompany().getItems();
+			public List<ClientItem> getItems(Context context) {
+				return context.getClientCompany().getServiceItems();
 			}
+
 		});
 
-		list.add(new TransactionItemAccountsRequirement(ACCOUNTS, getMessages()
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.Account(), true, true, true) {
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<ClientAccount> getAccounts(Context context) {
 				return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 					@Override
@@ -191,10 +191,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().date()), getConstants().date(), true, true));
 
-		list
-				.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-						getConstants().number()), getConstants().number(),
-						true, false));
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getConstants().number()), getConstants().number(), true, false));
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
 				getConstants().contactName()), getConstants().contacts(), true,
@@ -470,8 +468,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		
-
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -481,7 +477,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			cashSale.setCurrencyFactor(factor);
 		}
-		
+
 		// if (context.getCompany())
 		// ClientTAXCode taxCode = get(TAXCODE).getValue();
 		// cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
