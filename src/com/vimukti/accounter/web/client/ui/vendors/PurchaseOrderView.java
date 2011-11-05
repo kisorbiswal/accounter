@@ -724,7 +724,7 @@ public class PurchaseOrderView extends
 			initShippingMethod();
 		} else {
 			if (currencyWidget != null) {
-				if (transaction.getCurrency() > 1) {
+				if (transaction.getCurrency() > 0) {
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {

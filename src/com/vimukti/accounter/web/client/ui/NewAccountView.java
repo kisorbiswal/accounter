@@ -1350,9 +1350,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
-				currencyCombo.setValue(getCompany().getCurrency(
-						((ClientBankAccount) data).getCurrency())
-						.getFormalName());
+				ClientCurrency currency = getCompany().getCurrency(
+						((ClientBankAccount) data).getCurrency());
+				if (currency != null) {
+					currencyCombo.setValue(currency.getFormalName());
+				}
 				bankAccNumText.setDisabled(true);
 			}
 
