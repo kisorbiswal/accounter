@@ -27,7 +27,6 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		
 		list.add(new ActionRequirement(VIEW_TYPE, null) {
 
 			@Override
@@ -38,9 +37,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 				return list;
 			}
 		});
-		
-		
-		
+
 		list.add(new ShowListRequirement<Account>("AccountsList",
 				"Please Select ", 5) {
 			@Override
@@ -93,7 +90,9 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().noRecordsToShow();
+				return new String("<html><body><center><p>"
+						+ getMessages().noRecordsToShow()
+						+ "</p></center></body></html>");
 			}
 
 			@Override
