@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -85,6 +86,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
  * @author Fernandez
@@ -1695,19 +1697,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<ClientWarehouse> getWarehouses() {
 		FinanceTool tool = new FinanceTool();
-		if (tool != null) {
-			return tool.getInventoryManager().getWarehouses(getCompanyId());
-		}
-		return null;
+		return tool.getInventoryManager().getWarehouses(getCompanyId());
 	}
 
 	@Override
 	public ArrayList<ClientMeasurement> getAllUnits() {
 		FinanceTool tool = new FinanceTool();
-		if (tool != null) {
-			return tool.getInventoryManager().getAllUnits(getCompanyId());
-		}
-		return null;
+		return tool.getInventoryManager().getAllUnits(getCompanyId());
 	}
 
 	@Override
@@ -1723,6 +1719,21 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		return tool.getInventoryManager().getWarehouseTransfersList(
+				getCompanyId());
+	}
+
+	@Override
+	public ArrayList<StockAdjustmentList> getStockAdjustments()
+			throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getInventoryManager().getStockAdjustments(getCompanyId());
+	}
+
+	@Override
+	public ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
+			throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getInventoryManager().getItemStatuses(wareHouse,
 				getCompanyId());
 	}
 
