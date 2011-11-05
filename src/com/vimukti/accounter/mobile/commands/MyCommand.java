@@ -5,7 +5,6 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 
 public class MyCommand extends NewAbstractCommand {
 
@@ -16,9 +15,9 @@ public class MyCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new TransactionItemTableRequirement("Items",
-				"Please Enter Item Name or number", getConstants().items(),
-				false, true));
+		// list.add(new TransactionItemTableRequirement("Items",
+		// "Please Enter Item Name or number", getConstants().items(),
+		// false, true));
 
 	}
 
