@@ -1680,4 +1680,9 @@
 		<query-param name="companyId" type="long"/>
 		from com.vimukti.accounter.core.StockTransfer st where st.company.id=:companyId
 	</query>
+	
+	<query name="getStockAdjustmentsList">
+		<query-param name="companyId" type="long"/>
+		from com.vimukti.accounter.core.StockAdjustment st where st.company.id=:companyId
+	</query>
 </hibernate-mapping>
