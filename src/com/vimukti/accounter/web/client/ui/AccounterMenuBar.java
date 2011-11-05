@@ -87,6 +87,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 	private IMenu getInventoryMenu() {
 		IMenu inventoryMenuBar = factory.createMenu();
 		// inventoryMenuBar.addMenuItem(ActionFactory.getStockSettingsAction());
+		inventoryMenuBar.addMenuItem(ActionFactory.getStockAdjustmentAction());
 		inventoryMenuBar.addMenuItem(Accounter.constants().new1(),
 				getNewInventoryMenu());
 		inventoryMenuBar.addMenuItem(Accounter.constants().InventoryLists(),
@@ -105,6 +106,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 					.warehouseTransferList(), ActionFactory
 					.getWarehouseTransferListAction());
 		}
+		inventoryMenu.addMenuItem(Accounter.constants().stockAdjustments(),
+				ActionFactory.getStockAdjustmentsListAction());
 		inventoryMenu.addMenuItem(Accounter.constants().measurementList(),
 				ActionFactory.getMeasurementsAction());
 		return inventoryMenu;
@@ -531,8 +534,9 @@ public class AccounterMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparatorItem();
 		}
-		vendorMenuBar.addMenuItem(Global.get().messages().payeeLists(
-				Global.get().Vendor()), getVendorListMenu());
+		vendorMenuBar.addMenuItem(
+				Global.get().messages().payeeLists(Global.get().Vendor()),
+				getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -587,8 +591,9 @@ public class AccounterMenuBar extends HorizontalPanel {
 					.addMenuItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparatorItem();
 		}
-		customerMenuBar.addMenuItem(Accounter.messages().payeeLists(
-				Global.get().Customer()), getCustomerListMenu());
+		customerMenuBar.addMenuItem(
+				Accounter.messages().payeeLists(Global.get().Customer()),
+				getCustomerListMenu());
 		return customerMenuBar;
 	}
 
