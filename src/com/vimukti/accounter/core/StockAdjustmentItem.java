@@ -1,7 +1,21 @@
 package com.vimukti.accounter.core;
 
-public class StockAdjustmentItem {
+import java.io.Serializable;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.hibernate.classic.Lifecycle;
+
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
+public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Company company;
 	private long id;
 	// Price value at the time of transaction
 	private double adjustmentPriceValue;
@@ -11,8 +25,11 @@ public class StockAdjustmentItem {
 	private Item item;
 	// qtyBeforeTransaction is for further information, like report generation.
 	private Quantity qtyBeforeTransaction;
-	private AdjustmentReason reason;
-	private Warehouse warehouse;
+
+	private StockAdjustment adjustment;
+
+	// private AdjustmentReason reason;
+	// private Warehouse warehouse;
 
 	public StockAdjustmentItem() {
 
@@ -43,13 +60,13 @@ public class StockAdjustmentItem {
 		return qtyBeforeTransaction;
 	}
 
-	public AdjustmentReason getReason() {
-		return reason;
-	}
-
-	public Warehouse getWarehouse() {
-		return warehouse;
-	}
+	// public AdjustmentReason getReason() {
+	// return reason;
+	// }
+	//
+	// public Warehouse getWarehouse() {
+	// return warehouse;
+	// }
 
 	/**
 	 * Value at the time of adjustment
@@ -76,15 +93,90 @@ public class StockAdjustmentItem {
 		this.qtyBeforeTransaction = qtyBeforeTransaction;
 	}
 
-	public void setReason(AdjustmentReason reason) {
-		this.reason = reason;
-	}
-
-	public void setWarehouse(Warehouse warehouse) {
-		this.warehouse = warehouse;
-	}
+	// public void setReason(AdjustmentReason reason) {
+	// this.reason = reason;
+	// }
+	//
+	// public void setWarehouse(Warehouse warehouse) {
+	// this.warehouse = warehouse;
+	// }
 
 	public long getId() {
 		return id;
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	@Override
+	public boolean onSave(Session s) throws CallbackException {
+		double value = (getAdjustmentQty().getValue() * getAdjustmentQty()
+				.getUnit().getFactor())
+				/ getItem().getMeasurement().getDefaultUnit().getFactor();
+		adjustment.getWareHouse().updateItemStatus(getItem(), value, false);
+		s.saveOrUpdate(adjustment.getWareHouse());
+		ChangeTracker.put(adjustment.getWareHouse());
+		return false;
+	}
+
+	@Override
+	public boolean onUpdate(Session s) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onDelete(Session s) throws CallbackException {
+		double value = (getAdjustmentQty().getValue() * getAdjustmentQty()
+				.getUnit().getFactor())
+				/ getItem().getMeasurement().getDefaultUnit().getFactor();
+		adjustment.getWareHouse().updateItemStatus(getItem(), value, true);
+		s.saveOrUpdate(adjustment.getWareHouse());
+		ChangeTracker.put(adjustment.getWareHouse());
+		return false;
+	}
+
+	@Override
+	public void onLoad(Session s, Serializable id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public StockAdjustment getAdjustment() {
+		return adjustment;
+	}
+
+	public void setAdjustment(StockAdjustment adjustment) {
+		this.adjustment = adjustment;
 	}
 }

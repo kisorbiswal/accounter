@@ -5,6 +5,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -84,11 +85,13 @@ public class StockTransfer extends CreatableObject implements
 		}
 		session.saveOrUpdate(fromWarehouse);
 		session.saveOrUpdate(toWarehouse);
+		ChangeTracker.put(fromWarehouse);
+		ChangeTracker.put(toWarehouse);
 		return super.onSave(session);
 	}
 
 	@Override
-	public boolean onDelete(Session arg0) throws CallbackException {
+	public boolean onDelete(Session session) throws CallbackException {
 		for (StockTransferItem item : stockTransferItems) {
 			ItemStatus fromitemStatus = fromWarehouse.getItemStatus(item
 					.getItem());
@@ -99,7 +102,11 @@ public class StockTransfer extends CreatableObject implements
 
 			toWarehouse.updateItemStatus(item.getItem(), value, true);
 		}
-		return super.onDelete(arg0);
+		session.saveOrUpdate(fromWarehouse);
+		session.saveOrUpdate(toWarehouse);
+		ChangeTracker.put(fromWarehouse);
+		ChangeTracker.put(toWarehouse);
+		return super.onDelete(session);
 	}
 
 	@Override
