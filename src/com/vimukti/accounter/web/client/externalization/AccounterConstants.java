@@ -4,105 +4,23 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface AccounterConstants extends Constants {
 
-	public String Accounnumbers();
-
-	public String Account();
-
-	public String Accounts();
-
-	public String CannotDeletePrimaryCurrency();
-
-	public String Categories();
-
-	public String Category();
-
-	public String Charges();
-
-	public String ClearedAmount();
-
-	public String Client();
-
-	public String ClosingBalance();
-
-	public String CurrencyAlreadyExists();
-
-	public String Customer();
-
-	public String CustomerCreditNote();
-
-	public String Difference();
-
-	public String Donar();
-
-	public String EINDescription();
-
-	public String FiscalYearDescription();
-
-	public String For();
-
-	public String Guest();
-
-	public String InventoryLists();
-
-	public String LLC();
-
-	public String LLCDesc();
-
-	public String Ledger();
-
-	public String Ledgers();
-
-	public String Member();
-
-	public String Patient();
-
-	public String PrintIsNotProvidedForCashSale();
-
-	public String Reconcile();
-
-	public String Reconciliation();
-
-	public String ReconciliationDate();
-
-	public String ReconciliationPeriod();
-
-	public String ReconciliationsList();
-
-	public String Supplier();
-
-	public String Tenant();
-
-	public String This();
-
-	public String Vendor();
-
-	public String Voided();
-
 	public String a2Code();
 
 	public String a3Code();
 
 	public String a4();
 
-	public String aLocationAlreadyExistswiththisname();
-
 	public String accept();
 
 	public String accepted();
 
+	public String Accounnumbers();
+
+	public String Account();
+
 	public String account();
 
 	public String accountDescription();
-
-	public String accountName();
-
-	public String accountVScustom();
-
-	public String accountVSmonths();
-
-	public String accountVSquaters();
-
-	public String accountVSyears();
 
 	public String accounter();
 
@@ -113,6 +31,18 @@ public interface AccounterConstants extends Constants {
 	public String accounterTerminologies();
 
 	public String accountervalidatorError();
+
+	public String accountName();
+
+	public String Accounts();
+
+	public String accountVScustom();
+
+	public String accountVSmonths();
+
+	public String accountVSquaters();
+
+	public String accountVSyears();
 
 	public String accrual();
 
@@ -130,6 +60,24 @@ public interface AccounterConstants extends Constants {
 
 	public String add3dots();
 
+	public String addaNewBill();
+
+	public String addaNewInventoryItem();
+
+	public String addaNewInvoice();
+
+	public String addaNewPayment();
+
+	public String addNewMeasurement();
+
+	public String addaNewQuote();
+
+	public String addaNewsalesPerson();
+
+	public String addaNewTaxCode();
+
+	public String addaNewTaxItem();
+
 	public String addBank();
 
 	public String addBill();
@@ -140,6 +88,8 @@ public interface AccounterConstants extends Constants {
 
 	public String addCurrency();
 
+	public String added();
+
 	public String addExpenses();
 
 	public String addLinks();
@@ -147,6 +97,8 @@ public interface AccounterConstants extends Constants {
 	public String addLogo();
 
 	public String addMeasurementName();
+
+	public String addnew();
 
 	public String addNew();
 
@@ -166,19 +118,17 @@ public interface AccounterConstants extends Constants {
 
 	public String addNewJournalEntry();
 
-	public String addNewMeasurement();
-
 	public String addNewPayment();
 
 	public String addNewPurchaseOrder();
 
 	public String addNewSalesOrder();
 
-	public String addNewTrackClass();
+	public String addNewWarehouse();
 
 	public String addNewWareHouse();
 
-	public String addNewWarehouse();
+	public String addNewWarehouseTransfer();
 
 	public String addNote();
 
@@ -190,43 +140,27 @@ public interface AccounterConstants extends Constants {
 
 	public String addReceivableInvoice();
 
-	public String addUnitButton();
-
-	public String addWidget();
-
-	public String addaNewBill();
-
-	public String addaNewInventoryItem();
-
-	public String addaNewInvoice();
-
-	public String addaNewPayment();
-
-	public String addaNewQuote();
-
-	public String addaNewTaxCode();
-
-	public String addaNewTaxItem();
-
-	public String addaNewsalesPerson();
-
-	public String added();
-
-	public String addnew();
-
 	public String address();
 
 	public String address1();
 
 	public String address2();
 
-	public String addressPadding();
-
-	public String addressPaddingValue();
-
 	public String addresses();
 
+	public String addressPadding();
+
+	public String addUnitButton();
+
+	public String addWidget();
+
 	public String adjust();
+
+	public String adjustedPayment();
+
+	public String adjustments();
+
+	public String adjustmentsToReconcileNetIncomeToNetCash();
 
 	public String adjustPayment();
 
@@ -235,12 +169,6 @@ public interface AccounterConstants extends Constants {
 	public String adjustTAXReturn();
 
 	public String adjustVATDue();
-
-	public String adjustedPayment();
-
-	public String adjustments();
-
-	public String adjustmentsToReconcileNetIncomeToNetCash();
 
 	public String aftersaving();
 
@@ -264,6 +192,10 @@ public interface AccounterConstants extends Constants {
 
 	public String allowThisUsertoAddorRemoveusers();
 
+	public String allRecords();
+
+	public String aLocationAlreadyExistswiththisname();
+
 	public String alreadyExist();
 
 	public String amount();
@@ -286,6 +218,8 @@ public interface AccounterConstants extends Constants {
 
 	public String amountShouldNotBeNegative();
 
+	public String amounttobeDepreciated();
+
 	public String amountToPay();
 
 	public String amountToReceive();
@@ -294,13 +228,11 @@ public interface AccounterConstants extends Constants {
 
 	public String amountToUseMustLessthanTotal();
 
-	public String amounttobeDepreciated();
+	public String and();
 
 	public String anItemAlreadyExistswiththisname();
 
 	public String anItemGroupAlreadyExistswiththisname();
-
-	public String and();
 
 	public String apAgeingDetail();
 
@@ -312,9 +244,9 @@ public interface AccounterConstants extends Constants {
 
 	public String appliedCredits();
 
-	public String applyCreditsAndPaymentsFor();
-
 	public String applyCreditsandPayments();
+
+	public String applyCreditsAndPaymentsFor();
 
 	public String approve();
 
@@ -340,21 +272,19 @@ public interface AccounterConstants extends Constants {
 
 	public String assetOptions();
 
-	public String assetSold();
-
-	public String assetType();
-
 	public String assets();
 
+	public String assetSold();
+
 	public String assetsTotal();
+
+	public String assetType();
 
 	public String assignVatCodesToItems();
 
 	public String assistant();
 
 	public String athreeCode();
-
-	public String atozero();
 
 	public String attachments();
 
@@ -384,9 +314,9 @@ public interface AccounterConstants extends Constants {
 
 	public String balanceDue();
 
-	public String balanceSheet();
-
 	public String balances();
+
+	public String balanceSheet();
 
 	public String bankAccount();
 
@@ -395,8 +325,6 @@ public interface AccounterConstants extends Constants {
 	public String bankAccounts();
 
 	public String bankBranch();
-
-	public String bankName();
 
 	public String banking();
 
@@ -408,29 +336,29 @@ public interface AccounterConstants extends Constants {
 
 	public String bankingTransactions();
 
-	public String beforeYouFile();
+	public String bankName();
 
 	public String beforesaving();
+
+	public String beforeYouFile();
 
 	public String beginingBalance();
 
 	public String belgium();
 
-	public String billAmount();
-
-	public String billDate();
-
-	public String billNo();
-
-	public String billPaid();
-
-	public String billTo();
-
 	public String billabe();
 
 	public String billabelList();
 
+	public String billAmount();
+
+	public String billDate();
+
 	public String billingAddress();
+
+	public String billNo();
+
+	public String billPaid();
 
 	public String bills();
 
@@ -446,23 +374,23 @@ public interface AccounterConstants extends Constants {
 
 	public String billsToReceive();
 
+	public String billTo();
+
 	public String blankTransaction();
 
 	public String boldCell();
 
 	public String bookValue();
 
-	public String bothServicesandProducts();
-
 	public String bothnamessameasprevious();
+
+	public String bothServicesandProducts();
 
 	public String bothservicesandProduct_labelonly();
 
 	public String bottom();
 
 	public String bottomMargin();
-
-	public String bottomMarginValue();
 
 	public String box();
 
@@ -548,8 +476,6 @@ public interface AccounterConstants extends Constants {
 
 	public String cambria();
 
-	public String canVoidOrEdit();
-
 	public String canada();
 
 	public String cancel();
@@ -557,6 +483,8 @@ public interface AccounterConstants extends Constants {
 	public String cancelled();
 
 	public String cannotbeearlierthantransactiondate();
+
+	public String CannotDeletePrimaryCurrency();
 
 	public String cantbeAfterEnd();
 
@@ -566,13 +494,13 @@ public interface AccounterConstants extends Constants {
 
 	public String cantenternegnumber();
 
+	public String canVoidOrEdit();
+
 	public String capitalAndReserves();
 
 	public String cardOrLoadNumber();
 
 	public String cash();
-
-	public String cashAtBeginningOfThePeriod();
 
 	public String cashAtEndOfPeriod();
 
@@ -610,7 +538,11 @@ public interface AccounterConstants extends Constants {
 
 	public String cashSales();
 
+	public String Categories();
+
 	public String category();
+
+	public String Category();
 
 	public String category1099();
 
@@ -624,13 +556,17 @@ public interface AccounterConstants extends Constants {
 
 	public String changePassword();
 
-	public String changeStartDate();
+	public String changeProfile();
 
 	public String changes();
+
+	public String changeStartDate();
 
 	public String charge();
 
 	public String chargeOrTrackTax();
+
+	public String Charges();
 
 	public String chargesList();
 
@@ -650,13 +586,15 @@ public interface AccounterConstants extends Constants {
 
 	public String chooseEndingDate();
 
+	public String chooselevelaccessyouwantthisusertohave();
+
 	public String chooseLogo();
 
 	public String chooseVATAgency();
 
-	public String chooselevelaccessyouwantthisusertohave();
-
 	public String city();
+
+	public String classicTemplate();
 
 	public String className();
 
@@ -668,11 +606,13 @@ public interface AccounterConstants extends Constants {
 
 	public String classWarning();
 
-	public String classicTemplate();
-
 	public String clear();
 
+	public String ClearedAmount();
+
 	public String client();
+
+	public String Client();
 
 	public String close();
 
@@ -680,7 +620,7 @@ public interface AccounterConstants extends Constants {
 
 	public String closeOfFiscalYear();
 
-	public String closed();
+	public String ClosingBalance();
 
 	public String closingthebooks();
 
@@ -786,11 +726,11 @@ public interface AccounterConstants extends Constants {
 
 	public String createClass();
 
+	public String created();
+
 	public String createFascalYear();
 
 	public String createStatement();
-
-	public String created();
 
 	public String credit();
 
@@ -832,6 +772,8 @@ public interface AccounterConstants extends Constants {
 
 	public String creditNoteValue();
 
+	public String creditor();
+
 	public String creditOverview();
 
 	public String creditRating();
@@ -842,17 +784,17 @@ public interface AccounterConstants extends Constants {
 
 	public String creditRatingName();
 
-	public String creditTotalColon();
-
-	public String creditor();
-
 	public String credits();
 
 	public String creditsList();
 
+	public String creditTotalColon();
+
 	public String cstNumber();
 
 	public String currency();
+
+	public String CurrencyAlreadyExists();
 
 	public String currencyCode();
 
@@ -884,9 +826,13 @@ public interface AccounterConstants extends Constants {
 
 	public String custom();
 
+	public String Customer();
+
 	public String customer();
 
 	public String customerAndvendorSettings();
+
+	public String CustomerCreditNote();
 
 	public String customerDescription();
 
@@ -914,14 +860,6 @@ public interface AccounterConstants extends Constants {
 
 	public String dateEntered();
 
-	public String dateFormat();
-
-	public String dateFormatWithDash();
-
-	public String dateFormatWithSlash();
-
-	public String dateRange();
-
 	public String dateofBirth();
 
 	public String dateofBirthshouldshowmorethan18years();
@@ -931,6 +869,8 @@ public interface AccounterConstants extends Constants {
 	public String dateofLastReview();
 
 	public String dateofRelease();
+
+	public String dateRange();
 
 	public String datesold();
 
@@ -960,9 +900,9 @@ public interface AccounterConstants extends Constants {
 
 	public String dayszeroto30();
 
-	public String ddMMyyyy();
-
 	public String ddiNumber();
+
+	public String ddMMyyyy();
 
 	public String debit();
 
@@ -998,11 +938,11 @@ public interface AccounterConstants extends Constants {
 
 	public String delete();
 
+	public String deleted();
+
 	public String deleteFiscalYear();
 
 	public String deleteThemeLabel();
-
-	public String deleted();
 
 	public String deliveryDate();
 
@@ -1018,17 +958,17 @@ public interface AccounterConstants extends Constants {
 
 	public String depositTransferFunds();
 
-	public String depreciateTo();
-
 	public String depreciatefrom();
 
+	public String depreciateTo();
+
 	public String depreciation();
+
+	public String depreciationfailed();
 
 	public String depreciationMethod();
 
 	public String depreciationRate();
-
-	public String depreciationfailed();
 
 	public String depricatiedFrom();
 
@@ -1046,6 +986,8 @@ public interface AccounterConstants extends Constants {
 
 	public String dialog();
 
+	public String Difference();
+
 	public String differenceValidate();
 
 	public String directDebit();
@@ -1054,13 +996,13 @@ public interface AccounterConstants extends Constants {
 
 	public String directProductsMaterialCosts();
 
-	public String discPerc();
-
 	public String discount();
 
 	public String discountAmount();
 
 	public String discountDate();
+
+	public String discPerc();
 
 	public String dispatchDate();
 
@@ -1080,13 +1022,11 @@ public interface AccounterConstants extends Constants {
 
 	public String division();
 
-	public String doYouNeedToMakeAnAdjustment();
-
-	public String doYouWantTDS();
-
 	public String docNo();
 
 	public String dollarMargin();
+
+	public String Donar();
 
 	public String donar();
 
@@ -1096,15 +1036,19 @@ public interface AccounterConstants extends Constants {
 
 	public String doyouHaveEmployees();
 
-	public String doyouWantToUseStatements();
+	public String doYouNeedToMakeAnAdjustment();
+
+	public String doYouWantTDS();
 
 	public String doyouwanttoDelete();
 
 	public String doyouwanttoDeletetheTransaction();
 
-	public String doyouwanttoVoidtheTransaction();
-
 	public String doyouwanttorejecttheEstimate();
+
+	public String doyouWantToUseStatements();
+
+	public String doyouwanttoVoidtheTransaction();
 
 	public String draft();
 
@@ -1134,13 +1078,15 @@ public interface AccounterConstants extends Constants {
 
 	public String editCountry();
 
+	public String edited();
+
 	public String editFiscalYear();
 
 	public String editProfile();
 
-	public String edited();
-
 	public String ein();
+
+	public String EINDescription();
 
 	public String email();
 
@@ -1170,21 +1116,23 @@ public interface AccounterConstants extends Constants {
 
 	public String employeeExpenses();
 
+	public String employees();
+
 	public String employeeTemployee();
 
 	public String employeeType();
-
-	public String employees();
-
-	public String emptyValue();
 
 	public String emptyexlematorymark1();
 
 	public String emptyexlematorymark2();
 
+	public String emptyValue();
+
 	public String enableAutoRecall();
 
 	public String enableInventoryTracking();
+
+	public String enableTDS();
 
 	public String enableTracking();
 
@@ -1199,6 +1147,8 @@ public interface AccounterConstants extends Constants {
 	public String endDateAfter();
 
 	public String endDateType();
+
+	public String endingBalance();
 
 	public String endLastCalendarQuarter();
 
@@ -1234,8 +1184,6 @@ public interface AccounterConstants extends Constants {
 
 	public String endYesterday();
 
-	public String endingBalance();
-
 	public String enterAddress();
 
 	public String enterAppropriateFiscalYear();
@@ -1258,11 +1206,11 @@ public interface AccounterConstants extends Constants {
 
 	public String equity();
 
-	public String errorForTopMarginField();
-
 	public String errorForaddresspadField();
 
 	public String errorForbottomMarginField();
+
+	public String errorForTopMarginField();
 
 	public String errorLoadingItemReceipt();
 
@@ -1278,21 +1226,21 @@ public interface AccounterConstants extends Constants {
 
 	public String expense();
 
+	public String expensecantbevoiditisApproved();
+
 	public String expenseClaims();
+
+	public String expenseisApproved();
 
 	public String expenseRealtedTo();
 
 	public String expenseReport();
 
-	public String expenseTotals();
-
-	public String expensecantbevoiditisApproved();
-
-	public String expenseisApproved();
-
 	public String expenses();
 
 	public String expensesList();
+
+	public String expenseTotals();
 
 	public String expirationDate();
 
@@ -1302,27 +1250,27 @@ public interface AccounterConstants extends Constants {
 
 	public String factor();
 
+	public String factorForDefaultUnitShouldNotbeZero();
+
 	public String failed();
 
 	public String failedGetJournalEntries();
 
 	public String failedRequest();
 
+	public String failedtogetExpensetotals();
+
+	public String failedtogetmoneygoingportletvalues();
+
 	public String failedToGetPurchaseOrder();
+
+	public String failedtogettheTransactionPayVATList();
 
 	public String failedToGetTransactionNumber();
 
 	public String failedToLoadCashBasisJournalEntry();
 
 	public String failedToLoadCompanyPreferences();
-
-	public String failedtToLoadReportsHome();
-
-	public String failedtogetExpensetotals();
-
-	public String failedtogetmoneygoingportletvalues();
-
-	public String failedtogettheTransactionPayVATList();
 
 	public String failedtoloadEmployeeslist();
 
@@ -1338,6 +1286,8 @@ public interface AccounterConstants extends Constants {
 
 	public String failedtovoidTransaction();
 
+	public String failedtToLoadReportsHome();
+
 	public String fax();
 
 	public String faxNumber();
@@ -1352,23 +1302,25 @@ public interface AccounterConstants extends Constants {
 
 	public String fileAs();
 
+	public String filedAmount();
+
 	public String fileTAX();
+
+	public String filetaxHelp();
 
 	public String fileTaxHistoryToken();
 
 	public String fileVAT();
 
+	public String fileVATcantsavewithemptyvalues();
+
 	public String fileVATReturn();
 
 	public String fileVATReturnNow();
 
-	public String fileVATcantsavewithemptyvalues();
-
-	public String filedAmount();
-
-	public String filetaxHelp();
-
 	public String filter();
+
+	public String filterBy();
 
 	public String filterByBilldueonorbefore();
 
@@ -1400,6 +1352,8 @@ public interface AccounterConstants extends Constants {
 
 	public String fiscalYearButtons();
 
+	public String FiscalYearDescription();
+
 	public String fiscalYearsaemasTaxyear();
 
 	public String fiscalyearsCreationFailed();
@@ -1416,6 +1370,8 @@ public interface AccounterConstants extends Constants {
 
 	public String fontSize();
 
+	public String For();
+
 	public String formLayoutsList();
 
 	public String fourth();
@@ -1431,6 +1387,8 @@ public interface AccounterConstants extends Constants {
 	public String fromDate();
 
 	public String fromWarehouse();
+
+	public String fullCompanySetup();
 
 	public String fullyApplied();
 
@@ -1482,6 +1440,8 @@ public interface AccounterConstants extends Constants {
 
 	public String getStarted();
 
+	public String gettingStartedusingAccounter();
+
 	public String getTurnOnTextWrappinginReportColumns();
 
 	public String getUnitName();
@@ -1492,13 +1452,11 @@ public interface AccounterConstants extends Constants {
 
 	public String getUserFailed();
 
-	public String gettingStartedusingAccounter();
-
-	public String goToExpenseCliams();
-
 	public String gotoAccounter();
 
 	public String gotoBanking();
+
+	public String goToExpenseCliams();
 
 	public String grassAmount();
 
@@ -1511,6 +1469,8 @@ public interface AccounterConstants extends Constants {
 	public String group();
 
 	public String guest();
+
+	public String Guest();
 
 	public String gwtListBox();
 
@@ -1525,6 +1485,8 @@ public interface AccounterConstants extends Constants {
 	public String helpLinks();
 
 	public String hideGettingStarted();
+
+	public String hideHistory();
 
 	public String hierarchy();
 
@@ -1544,13 +1506,13 @@ public interface AccounterConstants extends Constants {
 
 	public String howIsYourCompanyOrganized();
 
-	public String howMuchDepriciationShouldBeIcludedInThisFinancialYear();
-
 	public String howisYourCompanyOrganized();
 
-	public String iBuyThisItem();
+	public String howMuchDepriciationShouldBeIcludedInThisFinancialYear();
 
 	public String iamHere();
+
+	public String iBuyThisItem();
 
 	public String ibuythisproduct();
 
@@ -1576,9 +1538,9 @@ public interface AccounterConstants extends Constants {
 
 	public String income();
 
-	public String incomeTotals();
-
 	public String incomeandDistribution();
+
+	public String incomeTotals();
 
 	public String incorrectInformation();
 
@@ -1602,9 +1564,11 @@ public interface AccounterConstants extends Constants {
 
 	public String intervalType();
 
-	public String invNo();
-
 	public String invalidAmount();
+
+	public String invalidateDate();
+
+	public String invalidateEntry();
 
 	public String invalidBusinessPhoneVal();
 
@@ -1630,13 +1594,13 @@ public interface AccounterConstants extends Constants {
 
 	public String invalidTransactionDate();
 
-	public String invalidateDate();
-
-	public String invalidateEntry();
-
 	public String inventory();
 
+	public String inventoryItem();
+
 	public String inventoryItems();
+
+	public String InventoryLists();
 
 	public String inventoryTrackingComment();
 
@@ -1646,6 +1610,8 @@ public interface AccounterConstants extends Constants {
 
 	public String inviteUser();
 
+	public String invNo();
+
 	public String invoice();
 
 	public String invoiceAmount();
@@ -1653,6 +1619,10 @@ public interface AccounterConstants extends Constants {
 	public String invoiceBranding();
 
 	public String invoiceBrandingLabel();
+
+	public String invoiced();
+
+	public String invoicedAmount();
 
 	public String invoiceList();
 
@@ -1662,15 +1632,11 @@ public interface AccounterConstants extends Constants {
 
 	public String invoicePrefixValue();
 
-	public String invoiceTemplete();
-
-	public String invoiced();
-
-	public String invoicedAmount();
-
 	public String invoices();
 
 	public String invoicesDue();
+
+	public String invoiceTemplete();
 
 	public String ireland();
 
@@ -1678,23 +1644,21 @@ public interface AccounterConstants extends Constants {
 
 	public String isBillable();
 
+	public String isDefault();
+
+	public String isellthisproduct();
+
+	public String isellthisservice();
+
 	public String isItemPurchaseTrue();
 
 	public String isItemSoldTrue();
 
 	public String isMultiCurrencyEnable();
 
-	public String isTaxable();
-
-	public String isVoid();
-
-	public String isVoided();
-
-	public String isellthisproduct();
-
-	public String isellthisservice();
-
 	public String isoCode();
+
+	public String issued();
 
 	public String issueDate();
 
@@ -1702,7 +1666,11 @@ public interface AccounterConstants extends Constants {
 
 	public String issuePayments();
 
-	public String issued();
+	public String isTaxable();
+
+	public String isVoid();
+
+	public String isVoided();
 
 	public String italy();
 
@@ -1711,6 +1679,8 @@ public interface AccounterConstants extends Constants {
 	public String itemBuyOrSell();
 
 	public String itemDescription();
+
+	public String itemDetails();
 
 	public String itemFrom();
 
@@ -1734,6 +1704,10 @@ public interface AccounterConstants extends Constants {
 
 	public String itemReciepts();
 
+	public String items();
+
+	public String itemsAndExpenses();
+
 	public String itemStatus();
 
 	public String itemTax();
@@ -1743,10 +1717,6 @@ public interface AccounterConstants extends Constants {
 	public String itemTo();
 
 	public String itemType();
-
-	public String items();
-
-	public String itemsAndExpenses();
 
 	public String jan();
 
@@ -1816,7 +1786,11 @@ public interface AccounterConstants extends Constants {
 
 	public String latestQuote();
 
+	public String Ledger();
+
 	public String ledger();
+
+	public String Ledgers();
 
 	public String left();
 
@@ -1832,11 +1806,17 @@ public interface AccounterConstants extends Constants {
 
 	public String liability();
 
+	public String lineTotal();
+
 	public String lineTotalAmount();
 
 	public String link();
 
 	public String listOfPeriods();
+
+	public String LLC();
+
+	public String LLCDesc();
 
 	public String llcMultiMemberForm();
 
@@ -1850,13 +1830,15 @@ public interface AccounterConstants extends Constants {
 
 	public String locationName();
 
-	public String locationTrackingDescription();
+	public String locationsList();
 
-	public String logIn();
+	public String locationTrackingDescription();
 
 	public String loggedIn();
 
 	public String loggedOut();
+
+	public String logIn();
 
 	public String loginDate();
 
@@ -1891,6 +1873,8 @@ public interface AccounterConstants extends Constants {
 	public String manage();
 
 	public String manageAccounterClass();
+
+	public String manageBillsYouOwe();
 
 	public String manageCurrency();
 
@@ -1942,13 +1926,9 @@ public interface AccounterConstants extends Constants {
 
 	public String mauritius();
 
-	public String maxStockAlertLevel();
-
 	public String may();
 
 	public String measure();
-
-	public String measureType();
 
 	public String measurement();
 
@@ -1958,7 +1938,11 @@ public interface AccounterConstants extends Constants {
 
 	public String measurementName();
 
+	public String measureType();
+
 	public String member();
+
+	public String Member();
 
 	public String memo();
 
@@ -1971,8 +1955,6 @@ public interface AccounterConstants extends Constants {
 	public String merge();
 
 	public String mergeItems();
-
-	public String minStockAlertLevel();
 
 	public String mobile();
 
@@ -2012,11 +1994,13 @@ public interface AccounterConstants extends Constants {
 
 	public String netCashChangeForThePeriod();
 
-	public String netCashProvidedByOperatingActivities();
-
 	public String netCashProvidedByfinancingActivities();
 
 	public String netCashProvidedByinvestingActivities();
+
+	public String netCashProvidedByOperatingActivities();
+
+	public String netherlands();
 
 	public String netIncome();
 
@@ -2028,17 +2012,15 @@ public interface AccounterConstants extends Constants {
 
 	public String netVATToPayOrReclaimIfNegativeBOX5();
 
-	public String netherlands();
-
 	public String new1();
 
 	public String newAsset();
 
 	public String newBank();
 
-	public String newBrandThemeLabel();
-
 	public String newBrandTheme();
+
+	public String newBrandThemeLabel();
 
 	public String newBudget();
 
@@ -2066,6 +2048,8 @@ public interface AccounterConstants extends Constants {
 
 	public String newFiscalYear();
 
+	public String newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent();
+
 	public String newFixedAsset();
 
 	public String newInvoice();
@@ -2090,6 +2074,8 @@ public interface AccounterConstants extends Constants {
 
 	public String newService();
 
+	public String newShippingTerm();
+
 	public String newStartDate();
 
 	public String newTAXAgency();
@@ -2100,13 +2086,13 @@ public interface AccounterConstants extends Constants {
 
 	public String newZeland();
 
-	public String newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent();
-
 	public String next();
 
 	public String nextNumber();
 
 	public String nextNumberValue();
+
+	public String nextPage();
 
 	public String nextScheduleOn();
 
@@ -2115,6 +2101,8 @@ public interface AccounterConstants extends Constants {
 	public String nigeria();
 
 	public String no();
+
+	public String nocompany();
 
 	public String noCreditsToApply();
 
@@ -2125,6 +2113,8 @@ public interface AccounterConstants extends Constants {
 	public String noDepreciableFixedAssetstoshow();
 
 	public String noDepreciationThisFinancialYear();
+
+	public String nodescription();
 
 	public String noDot();
 
@@ -2138,19 +2128,13 @@ public interface AccounterConstants extends Constants {
 
 	public String noLogoIsAdded();
 
+	public String none();
+
 	public String noNegativeAmounts();
 
 	public String noNegativeAmountsReceived();
 
-	public String noProductstoshow();
-
-	public String noRecordsSelected();
-
-	public String noRecordsToShow();
-
-	public String noTransactionIsAvailableToIssuePayments();
-
-	public String nocompany();
+	public String noneJustTemplate();
 
 	public String nonInventory();
 
@@ -2164,13 +2148,21 @@ public interface AccounterConstants extends Constants {
 
 	public String nonVoided();
 
-	public String none();
+	public String noProductstoshow();
 
-	public String noneJustTemplate();
+	public String noRecordsSelected();
+
+	public String noRecordsToShow();
 
 	public String norecordstoshowinbetweentheselecteddates();
 
 	public String notAdded();
+
+	public String notDefault();
+
+	public String note();
+
+	public String notes();
 
 	public String notIssued();
 
@@ -2178,11 +2170,11 @@ public interface AccounterConstants extends Constants {
 
 	public String notMove();
 
+	public String notPrimary();
+
+	public String noTransactionIsAvailableToIssuePayments();
+
 	public String notSpecified();
-
-	public String note();
-
-	public String notes();
 
 	public String notyetimplemented();
 
@@ -2206,13 +2198,9 @@ public interface AccounterConstants extends Constants {
 
 	public String ok();
 
-	public String oldPassword();
-
 	public String older();
 
-	public String onSpecificDay();
-
-	public String onSpecificWeek();
+	public String oldPassword();
 
 	public String oneperDescription();
 
@@ -2224,6 +2212,10 @@ public interface AccounterConstants extends Constants {
 
 	public String onlineBanking();
 
+	public String onSpecificDay();
+
+	public String onSpecificWeek();
+
 	public String open();
 
 	public String openBalance();
@@ -2232,11 +2224,11 @@ public interface AccounterConstants extends Constants {
 
 	public String openFiscalYear();
 
-	public String openVATCodeList();
-
 	public String openingBalance();
 
 	public String openingBalances();
+
+	public String openVATCodeList();
 
 	public String operating();
 
@@ -2298,15 +2290,19 @@ public interface AccounterConstants extends Constants {
 
 	public String pakistan();
 
+	public String partialCompanySetup();
+
 	public String partnershipOrLLP();
 
 	public String partnershipOrLLPDesc();
 
-	public String passwordSuccessfullyChanged();
-
 	public String passwordshouldcontainminimum6characters();
 
 	public String passwordsnotmatched();
+
+	public String passwordSuccessfullyChanged();
+
+	public String Patient();
 
 	public String patient();
 
@@ -2316,27 +2312,9 @@ public interface AccounterConstants extends Constants {
 
 	public String payDate();
 
-	public String payFrom();
-
-	public String payMethod();
-
-	public String payNo();
-
-	public String payTDS();
-
-	public String payTax();
-
-	public String payTo();
-
-	public String payType();
-
-	public String payTypeList();
-
-	public String payVAT();
-
-	public String payVATOwing();
-
 	public String payee();
+
+	public String payFrom();
 
 	public String payment();
 
@@ -2354,14 +2332,6 @@ public interface AccounterConstants extends Constants {
 
 	public String paymentReceived();
 
-	public String paymentTerm();
-
-	public String paymentTermDescription();
-
-	public String paymentTermList();
-
-	public String paymentTerms();
-
 	public String payments();
 
 	public String paymentsList();
@@ -2370,17 +2340,43 @@ public interface AccounterConstants extends Constants {
 
 	public String paymentsToIssue();
 
+	public String paymentTerm();
+
+	public String paymentTermDescription();
+
+	public String paymentTermList();
+
+	public String paymentTerms();
+
+	public String payMethod();
+
+	public String payNo();
+
 	public String paypalEmail();
 
+	public String payTax();
+
+	public String payTDS();
+
 	public String paytermsAlreadyExists();
+
+	public String payTo();
+
+	public String payType();
+
+	public String payTypeList();
+
+	public String payVAT();
+
+	public String payVATOwing();
 
 	public String pendingAsset();
 
 	public String pendingItemsList();
 
-	public String percMargin();
-
 	public String percentage();
+
+	public String percMargin();
 
 	public String periodEndDate();
 
@@ -2396,17 +2392,27 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseEnterAmountToPay();
 
+	public String pleaseEnterAtleastOneUnit();
+
 	public String pleaseEnterNewStartDate();
 
 	public String pleaseEnterPayTerm();
+
+	public String pleaseenterThemename();
+
+	public String pleaseenterthenote();
 
 	public String pleaseImplementMe();
 
 	public String pleaseSelecPaymentType();
 
+	public String pleaseselectaFixedAsset();
+
 	public String pleaseSelectAnyCustomer();
 
 	public String pleaseSelectAnyOneOfTheTransactions();
+
+	public String pleaseSelectAtLeastOneRecord();
 
 	public String pleaseSelectAtLeastOneReport();
 
@@ -2414,27 +2420,23 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseSelectDateAfterCompanyStartDate();
 
+	public String pleaseSelectDefaultUnit();
+
 	public String pleaseSelectExpenseType();
 
 	public String pleaseSelectReportsOfSameType();
 
-	public String pleaseSelectTDS();
-
 	public String pleaseSelectTaxType();
 
-	public String pleaseSelectVATAgencyAndEndingDateToViewReport();
+	public String pleaseSelectTDS();
+
+	public String pleaseselectvaliddateranges();
 
 	public String pleaseSelectValidVATAgency();
 
+	public String pleaseSelectVATAgencyAndEndingDateToViewReport();
+
 	public String pleaseWaitDataIsLoading();
-
-	public String pleaseenterThemename();
-
-	public String pleaseenterthenote();
-
-	public String pleaseselectaFixedAsset();
-
-	public String pleaseselectvaliddateranges();
 
 	public String point10();
 
@@ -2458,8 +2460,6 @@ public interface AccounterConstants extends Constants {
 
 	public String presentClaims();
 
-	public String prevScheduleOn();
-
 	public String preventPostBefore();
 
 	public String preview1099Informaion();
@@ -2471,6 +2471,10 @@ public interface AccounterConstants extends Constants {
 	public String previousClaims();
 
 	public String previousFiscalYearSameDates();
+
+	public String prevPage();
+
+	public String prevScheduleOn();
 
 	public String price();
 
@@ -2490,15 +2494,17 @@ public interface AccounterConstants extends Constants {
 
 	public String printChecks();
 
+	public String PrintIsNotProvidedForCashSale();
+
 	public String printOn1099Form();
 
 	public String printOnInformationSheet();
 
 	public String printTAXReturn();
 
-	public String priorVATReturns();
-
 	public String priorasOfDate();
+
+	public String priorVATReturns();
 
 	public String product();
 
@@ -2564,9 +2570,11 @@ public interface AccounterConstants extends Constants {
 
 	public String purchasePrice();
 
+	public String purchases();
+
 	public String purchaseTaxItem();
 
-	public String purchases();
+	public String purchaseType();
 
 	public String qty();
 
@@ -2582,9 +2590,9 @@ public interface AccounterConstants extends Constants {
 
 	public String quotes();
 
-	public String quotesList();
-
 	public String quotesandsalesOrder();
+
+	public String quotesList();
 
 	public String radioButtonGroup();
 
@@ -2602,14 +2610,6 @@ public interface AccounterConstants extends Constants {
 
 	public String receiveAmountPayDue();
 
-	public String receiveJournalisFailed();
-
-	public String receivePayment();
-
-	public String receivePaymentExcessDue();
-
-	public String receiveVAT();
-
 	public String receivedDate();
 
 	public String receivedDateShouldNotBeAfterTransactionDate();
@@ -2622,13 +2622,31 @@ public interface AccounterConstants extends Constants {
 
 	public String receivedPayments();
 
-	public String recentActivity();
+	public String receiveJournalisFailed();
 
-	public String recievePaymentTotalAmount();
+	public String receivePayment();
+
+	public String receivePaymentExcessDue();
+
+	public String receiveVAT();
+
+	public String recentActivity();
 
 	public String recievePayments();
 
+	public String recievePaymentTotalAmount();
+
+	public String Reconcile();
+
+	public String Reconciliation();
+
+	public String ReconciliationDate();
+
+	public String ReconciliationPeriod();
+
 	public String reconciliationsEmpty();
+
+	public String ReconciliationsList();
 
 	public String recordExpenses();
 
@@ -2680,13 +2698,13 @@ public interface AccounterConstants extends Constants {
 
 	public String reportGrid();
 
-	public String reportGridHeader();
-
-	public String reportGridRow();
-
 	public String reportGridcustomFont();
 
+	public String reportGridHeader();
+
 	public String reportGridheaderStyle();
+
+	public String reportGridRow();
 
 	public String reports();
 
@@ -2720,10 +2738,6 @@ public interface AccounterConstants extends Constants {
 
 	public String rollbackDepreciationTo();
 
-	public String sCorporation();
-
-	public String sCorporationDesc();
-
 	public String salepriceExcludingTax();
 
 	public String sales();
@@ -2749,6 +2763,8 @@ public interface AccounterConstants extends Constants {
 	public String salesOrderDetails();
 
 	public String salesOrderList();
+
+	public String salesorderno();
 
 	public String salesOrderReport();
 
@@ -2776,7 +2792,7 @@ public interface AccounterConstants extends Constants {
 
 	public String salesTaxLiability();
 
-	public String salesorderno();
+	public String salesType();
 
 	public String saturday();
 
@@ -2787,6 +2803,10 @@ public interface AccounterConstants extends Constants {
 	public String saveAndNew();
 
 	public String schedule();
+
+	public String sCorporation();
+
+	public String sCorporationDesc();
 
 	public String second();
 
@@ -2800,21 +2820,27 @@ public interface AccounterConstants extends Constants {
 
 	public String select();
 
-	public String selectATaskNotetoSeeTheDetails();
-
-	public String selectATaxGroup();
-
 	public String selectAll();
 
 	public String selectAnyOfTheFiscalYearFromList();
+
+	public String selectATaskNotetoSeeTheDetails();
+
+	public String selectATaxGroup();
 
 	public String selectBankAccount();
 
 	public String selectCurrency();
 
+	public String selectcurrency();
+
 	public String selectDate();
 
 	public String selectDocument();
+
+	public String selected();
+
+	public String selectedTaxGroupItem();
 
 	public String selectFirstMonthOfFiscalYear();
 
@@ -2836,9 +2862,9 @@ public interface AccounterConstants extends Constants {
 
 	public String selectPayeeType();
 
-	public String selectPaymentType();
-
 	public String selectPaymentsToIssue();
+
+	public String selectPaymentType();
 
 	public String selectPurchaseOrder();
 
@@ -2850,9 +2876,9 @@ public interface AccounterConstants extends Constants {
 
 	public String selectSalesOrder();
 
-	public String selectTAXAgency();
-
 	public String selectTaxAgency();
+
+	public String selectTAXAgency();
 
 	public String selectTaxGroup();
 
@@ -2870,12 +2896,6 @@ public interface AccounterConstants extends Constants {
 
 	public String selectYourIndustry();
 
-	public String selectcurrency();
-
-	public String selected();
-
-	public String selectedTaxGroupItem();
-
 	public String sell();
 
 	public String sellingRegisteredItem();
@@ -2888,17 +2908,19 @@ public interface AccounterConstants extends Constants {
 
 	public String service();
 
+	public String serviceItem();
+
 	public String serviceName();
-
-	public String serviceTax();
-
-	public String serviceTaxRegistrationNumber();
 
 	public String servicesOnly();
 
 	public String servicesOverview();
 
 	public String services_labelonly();
+
+	public String serviceTax();
+
+	public String serviceTaxRegistrationNumber();
 
 	public String sessionExpired();
 
@@ -2914,13 +2936,11 @@ public interface AccounterConstants extends Constants {
 
 	public String setPaymentType();
 
-	public String setUserpermissions();
-
 	public String settings();
 
 	public String setupProgress();
 
-	public String shipTo();
+	public String setUserpermissions();
 
 	public String shippingAddress();
 
@@ -2940,15 +2960,19 @@ public interface AccounterConstants extends Constants {
 
 	public String shippingTerms();
 
+	public String shipTo();
+
 	public String shouldNotEmpty();
 
-	public String shouldSelectRadio();
-
 	public String shouldntSelectSameAccountInMultipleEntries();
+
+	public String shouldSelectRadio();
 
 	public String show();
 
 	public String showAccounterNumbers();
+
+	public String showAll();
 
 	public String showColumnHeadings();
 
@@ -3002,9 +3026,13 @@ public interface AccounterConstants extends Constants {
 
 	public String standingOrder();
 
+	public String startanewTask();
+
 	public String startDate();
 
 	public String startDateForManagingFixedAsset();
+
+	public String startingChequeNo();
 
 	public String startOfFiscalYear();
 
@@ -3012,17 +3040,13 @@ public interface AccounterConstants extends Constants {
 
 	public String startSetup();
 
-	public String startanewTask();
-
-	public String startingChequeNo();
-
 	public String state();
-
-	public String stateOrProvince();
 
 	public String statement();
 
 	public String statementTitle();
+
+	public String stateOrProvince();
 
 	public String status();
 
@@ -3064,6 +3088,8 @@ public interface AccounterConstants extends Constants {
 
 	public String sunday();
 
+	public String Supplier();
+
 	public String supplier();
 
 	public String sureToSaveFileVAT();
@@ -3074,11 +3100,13 @@ public interface AccounterConstants extends Constants {
 
 	public String syncOnlinePayees();
 
-	public String tAXRefund();
-
 	public String tahoma();
 
 	public String tax();
+
+	public String taxable();
+
+	public String taxableAmount();
 
 	public String taxAdjustment();
 
@@ -3099,6 +3127,8 @@ public interface AccounterConstants extends Constants {
 	public String taxColumn();
 
 	public String taxDue();
+
+	public String taxes();
 
 	public String taxExceptionMesg();
 
@@ -3140,17 +3170,13 @@ public interface AccounterConstants extends Constants {
 
 	public String taxRates();
 
+	public String tAXRefund();
+
 	public String taxRegNo();
 
-	public String taxType();
-
-	public String taxable();
-
-	public String taxableAmount();
-
-	public String taxes();
-
 	public String taxtItemTransaction();
+
+	public String taxType();
 
 	public String tds();
 
@@ -3165,6 +3191,8 @@ public interface AccounterConstants extends Constants {
 	public String templates();
 
 	public String tenant();
+
+	public String Tenant();
 
 	public String terminology();
 
@@ -3182,13 +3210,15 @@ public interface AccounterConstants extends Constants {
 
 	public String themenamealreadyexist();
 
+	public String therearenocreditstoshow();
+
 	public String thereIsNoTransactionsToReconcile();
 
 	public String thereIsNoTrasationsToFile();
 
-	public String therearenocreditstoshow();
-
 	public String third();
+
+	public String This();
 
 	public String thisFinancialQuarter();
 
@@ -3252,15 +3282,11 @@ public interface AccounterConstants extends Constants {
 
 	public String toDate();
 
-	public String toWarehouse();
-
 	public String today();
 
 	public String top();
 
 	public String topMargin();
-
-	public String topMarginValue();
 
 	public String total();
 
@@ -3304,19 +3330,31 @@ public interface AccounterConstants extends Constants {
 
 	public String totalPrice();
 
+	public String totalQuantity();
+
 	public String totalSales();
 
 	public String totalSalesPrice();
 
 	public String totalVATDueBOX3();
 
+	public String toWarehouse();
+
 	public String track1099Form();
 
 	public String trackEmployeeExpenses();
 
+	public String trackingEstimates();
+
+	public String trackingTaxPaidDisabled();
+
+	public String trackingTaxPaidEnabled();
+
 	public String trackPaymentsFor1099();
 
-	public String trackingEstimates();
+	public String trackTaxDisabled();
+
+	public String trackTaxEnabled();
 
 	public String tradingAddress();
 
@@ -3332,11 +3370,13 @@ public interface AccounterConstants extends Constants {
 
 	public String transactionDetailByTaxItem();
 
-	public String transactionType();
+	public String transactionItem();
 
 	public String transactionitemtotalcannotbe0orlessthan0();
 
 	public String transactiontotalcannotbe0orlessthan0();
+
+	public String transactionType();
 
 	public String transfer();
 
@@ -3345,6 +3385,10 @@ public interface AccounterConstants extends Constants {
 	public String transferFund();
 
 	public String transferFunds();
+
+	public String transferQuantity();
+
+	public String transferQuantityShouldntbeZeroForSelectedRecords();
 
 	public String transferTo();
 
@@ -3362,27 +3406,25 @@ public interface AccounterConstants extends Constants {
 
 	public String ukVAT();
 
-	public String unCategorisedTaxAmountsDetail();
-
-	public String unCategorisedVATAmountsDetail();
-
-	public String unKnownExceptionGotNull();
-
-	public String unPaid();
-
 	public String unableToLoadCompany();
+
+	public String unableToLoadRequiredQuote();
+
+	public String unabletoLoadTheRequiredDeposit();
 
 	public String unableToPerformTryAfterSomeTime();
 
 	public String unableToshowtheview();
 
-	public String unabletoLoadTheRequiredDeposit();
-
 	public String unassignedAmount();
 
 	public String unavailabel();
 
+	public String unCategorisedTaxAmountsDetail();
+
 	public String uncategorisedVATAmounts();
+
+	public String unCategorisedVATAmountsDetail();
 
 	public String underline();
 
@@ -3395,6 +3437,10 @@ public interface AccounterConstants extends Constants {
 	public String unitPriceAndQuantity();
 
 	public String units();
+
+	public String unKnownExceptionGotNull();
+
+	public String unPaid();
 
 	public String unspecified();
 
@@ -3411,8 +3457,6 @@ public interface AccounterConstants extends Constants {
 	public String updatedSuccessfully();
 
 	public String us();
-
-	public String usLetter();
 
 	public String usa();
 
@@ -3446,9 +3490,11 @@ public interface AccounterConstants extends Constants {
 
 	public String usersTitle();
 
-	public String validNumber();
+	public String usLetter();
 
 	public String validateEndAndStartDate();
+
+	public String validNumber();
 
 	public String value();
 
@@ -3486,9 +3532,9 @@ public interface AccounterConstants extends Constants {
 
 	public String vatItemList();
 
-	public String vatItemSummary();
-
 	public String vatItemsList();
+
+	public String vatItemSummary();
 
 	public String vatLine();
 
@@ -3508,6 +3554,8 @@ public interface AccounterConstants extends Constants {
 
 	public String vendor();
 
+	public String Vendor();
+
 	public String vendorAndPurchases();
 
 	public String vendorCreditMemo();
@@ -3520,23 +3568,23 @@ public interface AccounterConstants extends Constants {
 
 	public String viewVATItems();
 
-	public String voucher();
+	public String Voided();
 
 	public String voided();
 
 	public String voidedPayments();
 
+	public String voucher();
+
 	public String voucherNo();
 
 	public String want();
 
+	public String wanttoCreateEstimates();
+
 	public String wanttoCreateEstimatesInAccounter();
 
 	public String wareHouse();
-
-	public String wareHouseTransfer();
-
-	public String wareName();
 
 	public String warehouseCode();
 
@@ -3544,7 +3592,11 @@ public interface AccounterConstants extends Constants {
 
 	public String warehouseName();
 
+	public String wareHouseTransfer();
+
 	public String warehouseTransferList();
+
+	public String wareName();
 
 	public String warnOfFascalYear();
 
@@ -3558,9 +3610,9 @@ public interface AccounterConstants extends Constants {
 
 	public String wednesday();
 
-	public String weekOfMonth();
-
 	public String weekly();
+
+	public String weekOfMonth();
 
 	public String weeks();
 
@@ -3586,9 +3638,9 @@ public interface AccounterConstants extends Constants {
 
 	public String writeCheck();
 
-	public String writeCheckTotalAmount();
-
 	public String writeChecks();
+
+	public String writeCheckTotalAmount();
 
 	public String writeOff();
 
@@ -3598,25 +3650,17 @@ public interface AccounterConstants extends Constants {
 
 	public String year();
 
-	public String year2011();
-
-	public String year2012();
-
-	public String yearToDate();
-
 	public String yearly();
 
 	public String years();
+
+	public String yearToDate();
 
 	public String yes();
 
 	public String youCannotEdiClosedFiscalYear();
 
 	public String youCantDeleteYourSelf();
-
-	public String youHaveEnteredWrongPassword();
-
-	public String youHaveEnteredduplicateContacts();
 
 	public String youcanteditreceivePaymentitisvoidedordeleted();
 
@@ -3628,7 +3672,13 @@ public interface AccounterConstants extends Constants {
 
 	public String youdonthaveanyfiledVATentriestoselect();
 
+	public String youDontHaveAnyItemsToTransfer();
+
 	public String youdonthavepermissionstodeleteuser();
+
+	public String youHaveEnteredduplicateContacts();
+
+	public String youHaveEnteredWrongPassword();
 
 	public String yourPresentPasswordisWrong();
 
@@ -3640,92 +3690,10 @@ public interface AccounterConstants extends Constants {
 
 	public String ztozeroperc();
 
-	public String changeProfile();
-
-	public String hideHistory();
-
-	public String unableToLoadRequiredQuote();
-
-	public String transactionItem();
-
-	public String totalQuantity();
-
-	public String youDontHaveAnyItemsToTransfer();
-
-	public String pleaseSelectAtLeastOneRecord();
-
-	public String transferQuantityShouldntbeZeroForSelectedRecords();
-
-	public String serviceItem();
-
-	public String itemDetails();
-
-	public String lineTotal();
-
-	public String newShippingTerm();
-
-	public String pleaseEnterAtleastOneUnit();
-
-	public String allRecords();
-
-	public String nextPage();
-
-	public String prevPage();
-
-	public String showAll();
-
-	public String addNewWarehouseTransfer();
+	public String dontManageBillsYouOwe();
 
 	public String dontWantToCreateEstimates();
 
-	public String wanttoCreateEstimates();
-
-	public String trackingTaxPaidDisabled();
-
-	public String dontManageBillsYouOwe();
-
-	public String manageBillsYouOwe();
-
-	public String trackTaxEnabled();
-
-	public String trackTaxDisabled();
-
-	public String fullCompanySetup();
-
-	public String trackingTaxPaidEnabled();
-
-	public String transferQuantity();
-
-	public String pleaseSelectDefaultUnit();
-
-	public String pleaseEnterUnitName();
-
-	public String partialCompanySetup();
-
-	public String notPrimary();
-
-	public String filterBy();
-
-	public String factorForDefaultUnitShouldNotbeZero();
-
 	public String estimate();
-
-	public String inventoryItem();
-
-	public String isDefault();
-
-	public String notDefault();
-
-	public String nodescription();
-
-	public String locationsList();
-
-
-	public String enableTDS();
-
-
-	public String salesType();
-
-	public String purchaseType();
 
 }

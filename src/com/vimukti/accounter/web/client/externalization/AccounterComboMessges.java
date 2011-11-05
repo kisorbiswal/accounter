@@ -93,4 +93,8 @@ public interface AccounterComboMessges extends Messages {
 	public String newCustomerGroup(String customer);
 
 	public String newVATItemOrGroup();
+
+	public String addNewMeasurement();
+
+	public String addNewTrackClass();
 }

@@ -32,7 +32,7 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml generalSettingsHeading();
 
-	public SafeHtml helpCenter();
+	public String helpCenter();
 
 	public SafeHtml helpContent();
 
@@ -42,7 +42,15 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml invoiceComment();
 
-	public SafeHtml logoComment();
+	public SafeHtml logoComment1();
+
+	public SafeHtml logoComment2();
+
+	public SafeHtml logoComment3();
+
+	public SafeHtml logoComment4();
+
+	public SafeHtml logoComment5();
 
 	public SafeHtml logoutHTML();
 
@@ -321,8 +329,7 @@ public interface AccounterMessages extends Messages {
 	public String invoiceMailMessage(String payee, String number,
 			ClientFinanceDate date);
 
-	public String lastActivityMessageForNote(String date, String userName,
-			String notes);
+	public String lastActivityMessageForNote(String date, String userName);
 
 	public String lastActivityMessages(String activityType, String userName,
 			String date);
@@ -337,7 +344,11 @@ public interface AccounterMessages extends Messages {
 
 	public String manageVendorGroup(String manageVendorGroupString);
 
-	public String managingList();
+	public String managingList1();
+
+	public String managingList2();
+
+	public String managingList3();
 
 	public String mergeAccounts(String accountString);
 
@@ -403,7 +414,9 @@ public interface AccounterMessages extends Messages {
 
 	public String preferredVendor(String msgString);
 
-	public String printTAXReturnLabel();
+	public String printTAXReturnLabel1();
+
+	public String printTAXReturnLabel2();
 
 	public String purchaseByVendorDetail(String purchaseByVendorString);
 
@@ -417,6 +430,8 @@ public interface AccounterMessages extends Messages {
 	public String readyToCreate(String cashSale);
 
 	public String recommendedAccounts();
+
+	public String recommendedAccountsComment();
 
 	public String recommendedNote();
 
@@ -444,9 +459,21 @@ public interface AccounterMessages extends Messages {
 
 	public String selectIndustry();
 
-	public String selectIndustryInfoHTML();
+	public String selectIndustryInfoHTML1();
+
+	public String selectIndustryInfoHTML2();
+
+	public String selectIndustryInfoHTML3();
+
+	public String selectIndustryInfoAchor1();
+
+	public String selectIndustryInfoHTML4();
+
+	public String selectIndustryInfoAchor2();
 
 	public String selectPaymentMethod(String msgString);
+
+	public String noteColon();
 
 	public String selectTypeOfThis(String Account);
 
@@ -594,7 +621,7 @@ public interface AccounterMessages extends Messages {
 	public String selectedAs(String displayName, String customer);
 
 	public String foundRecords(int size, String name);
-	
+
 	public String companyDefaultTaxCode(String tax);
 
 	public String enbleTDSdescription();
