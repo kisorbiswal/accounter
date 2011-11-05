@@ -170,6 +170,8 @@ public interface AccounterConstants extends Constants {
 
 	public String adjustVATDue();
 
+	public String adjustmentQty();
+
 	public String aftersaving();
 
 	public String ageing();
@@ -301,6 +303,8 @@ public interface AccounterConstants extends Constants {
 	public String automaticSequencingData();
 
 	public String available();
+
+	public String availableQty();
 
 	public String awaitingAuthorisation();
 
@@ -3050,6 +3054,10 @@ public interface AccounterConstants extends Constants {
 
 	public String status();
 
+	public String stockAdjustment();
+	
+	public String stockAdjustments();
+
 	public String stockAdjustmentQuantity();
 
 	public String stockItemAmount();
@@ -3585,6 +3593,8 @@ public interface AccounterConstants extends Constants {
 	public String wanttoCreateEstimatesInAccounter();
 
 	public String wareHouse();
+	
+	public String wareHouseItems();
 
 	public String warehouseCode();
 
