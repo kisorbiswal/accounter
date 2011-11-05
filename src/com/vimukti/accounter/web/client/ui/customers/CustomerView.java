@@ -305,6 +305,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				}
 				return Accounter.messages().objAlreadyExistsWithNumber(
 						Global.get().customer());
+			} else if (customer.getNumber() == null
+					|| customer.getNumber().trim().length() == 0) {
+				error = Accounter.messages()
+						.pleaseEnterVendorNumberItShouldNotBeEmpty(
+								Global.get().Customer());
+				break;
 			} else if (checkIfNotNumber(customer.getNumber())) {
 				error = Accounter.messages().payeeNumberShouldBeNumber(
 						Global.get().customer());
@@ -314,7 +320,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 						Global.get().customer());
 				break;
 			}
-
 		}
 		return error;
 	}

@@ -37,12 +37,13 @@ public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.constants().addNewTrackClass();
+		return comboMessages.addNewTrackClass();
 	}
 
 	@Override
 	public void onAddNew() {
-		CreateClassDialog classDialog = new CreateClassDialog(null,Accounter.constants().createClass(), "");
+		CreateClassDialog classDialog = new CreateClassDialog(null, Accounter
+				.constants().createClass(), "");
 		classDialog.addSuccessCallback(newClassHandler);
 	}
 

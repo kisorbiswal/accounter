@@ -23,9 +23,17 @@ public class NewQuoteAction extends Action {
 
 	public NewQuoteAction(String text, int type) {
 		super(text);
-		this.catagory = Global.get().Customer();
 		this.type = type;
 		this.title = text;
+
+		if (type == ClientEstimate.QUOTES) {
+			title = Accounter.constants().quote();
+		} else if (type == ClientEstimate.CHARGES) {
+			title = Accounter.constants().charge();
+		} else if (type == ClientEstimate.CREDITS) {
+			title = Accounter.constants().credit();
+		}
+
 	}
 
 	public NewQuoteAction(String text, ClientEstimate quote,

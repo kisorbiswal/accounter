@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
@@ -28,7 +27,7 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.constants().addNewMeasurement();
+		return comboMessages.addNewMeasurement();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
@@ -39,7 +39,7 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	protected abstract void setAmount(T row, double value);
 
 	@Override
-	protected void configure(TextBox textBox) {
+	protected void configure(TextBoxBase textBox) {
 		super.configure(textBox);
 		textBox.addStyleName("amount");
 	}

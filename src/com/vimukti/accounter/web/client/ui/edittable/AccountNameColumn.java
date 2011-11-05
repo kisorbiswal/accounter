@@ -23,7 +23,7 @@ public abstract class AccountNameColumn extends
 	public abstract List<Integer> getCanAddedAccountTypes();
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked", "rawtypes" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		return accountsList;
 	}
@@ -37,6 +37,7 @@ public abstract class AccountNameColumn extends
 	protected void setValue(ClientTransactionItem row, ClientAccount newValue) {
 		row.setAccountable(newValue);
 		if (newValue != null) {
+			row.setDescription(newValue.getComment());
 			row.setTaxable(true);
 		}
 	}

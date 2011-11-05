@@ -48,6 +48,11 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 				};
 			}
 
+			@Override
+			protected String getDiscription(ClientItem item) {
+				return item.getSalesDescription();
+			}
+
 		});
 
 		this.addColumn(new DescriptionEditColumn());
@@ -86,33 +91,36 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			this.addColumn(new TransactionVatColumn(currencyProvider));
 		}
 
-		this.addColumn(new AmountColumn<ClientTransactionItem>(currencyProvider) {
+		this
+				.addColumn(new AmountColumn<ClientTransactionItem>(
+						currencyProvider) {
 
-			@Override
-			protected double getAmount(ClientTransactionItem row) {
-				return row.getInvoiced();
-			}
+					@Override
+					protected double getAmount(ClientTransactionItem row) {
+						return row.getInvoiced();
+					}
 
-			@Override
-			protected void setAmount(ClientTransactionItem row, double value) {
-				row.setInvoiced(value);
-			}
+					@Override
+					protected void setAmount(ClientTransactionItem row,
+							double value) {
+						row.setInvoiced(value);
+					}
 
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
+					@Override
+					protected boolean isEnable() {
+						return false;
+					}
 
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().invoiced();
-			}
+					@Override
+					protected String getColumnName() {
+						return Accounter.constants().invoiced();
+					}
 
-			@Override
-			public int getWidth() {
-				return 190;
-			}
-		});
+					@Override
+					public int getWidth() {
+						return 190;
+					}
+				});
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}

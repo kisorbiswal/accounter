@@ -71,9 +71,10 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 					double lt = row.getQuantity().getValue()
 							* row.getUnitPrice();
 					double disc = row.getDiscount();
-					row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-							* disc / 100))
-							: lt);
+					row
+							.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+									* disc / 100))
+									: lt);
 					if (newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
 						ClientMeasurement measurement = Accounter.getCompany()
 								.getMeasurement(newValue.getMeasurement());
@@ -94,6 +95,11 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						return e.isIBuyThisItem();
 					}
 				};
+			}
+
+			@Override
+			protected String getDiscription(ClientItem item) {
+				return item.getPurchaseDescription();
 			}
 		};
 		transactionItemNameColumn.setItemForCustomer(false);

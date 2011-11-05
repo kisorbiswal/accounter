@@ -377,9 +377,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem.setToolTip(Accounter
-				.messages()
-				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
+		dateItem
+				.setToolTip(Accounter.messages()
+						.selectDateWhenTransactioCreated(
+								this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -694,7 +695,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString() : "";
+				.getValue().toString()
+				: "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -987,9 +989,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
 				if (transaction instanceof ClientPayBill) {
-					result.addError(
-							this,
-							Accounter.messages().valueCannotBe0orlessthan0(
+					result.addError(this, Accounter.messages()
+							.valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
@@ -1010,11 +1011,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			for (ClientTransactionItem transactionItem : transactionItems) {
 
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError(
-							"TransactionItem" + transactionItem.getAccount()
-									+ transactionItem.getAccount(), Accounter
-									.constants()
-									.transactionitemtotalcannotbe0orlessthan0());
+					result.addError("TransactionItem"
+							+ transactionItem.getAccount()
+							+ transactionItem.getAccount(), Accounter
+							.constants()
+							.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getPreferences().isClassTrackingEnabled()
@@ -1566,9 +1567,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		VerticalPanel lastActivityPanel = new VerticalPanel();
 		lastActivityHTML = new HTML();
-		lastActivityHTML.addStyleName("last_activity");
+		lastActivityHTML.addStyleName("bold_HTML");
 
 		lastActivityPanel.add(lastActivityHTML);
+		lastActivityPanel.addStyleName("last_activity");
 
 		historyNotesPanel.setSpacing(9);
 		historyNotesPanel.add(headerLabel);
@@ -1653,8 +1655,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// buttons...
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 
-		final SaveAndCloseButton saveButton = new SaveAndCloseButton(
-				constants.save());
+		final SaveAndCloseButton saveButton = new SaveAndCloseButton(constants
+				.save());
 		CancelButton cancelButton = new CancelButton();
 
 		saveButton.addClickHandler(new ClickHandler() {
@@ -1707,17 +1709,22 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public void updateLastActivityPanel(ClientTransactionLog transactionLog) {
-		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE)
-			lastActivityHTML.setHTML(messages.lastActivityMessages(
-					historyTable.getActivityType(transactionLog.getType()),
-					transactionLog.getUserName(),
-					new Date(transactionLog.getTime()).toString()));
-		else
+		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE) {
+			lastActivityHTML.setHTML(messages.lastActivityMessages(historyTable
+					.getActivityType(transactionLog.getType()), transactionLog
+					.getUserName(), new Date(transactionLog.getTime())
+					.toString()));
+		} else {
 
 			lastActivityHTML.setHTML(messages.lastActivityMessageForNote(
 					new Date(transactionLog.getTime()).toString(),
-					transactionLog.getUserName(),
-					transactionLog.getDescription()));
+					transactionLog.getUserName()));
+			HTML noteHtml = new HTML(transactionLog.getDescription());
+			VerticalPanel lastActivityPanel = (VerticalPanel) lastActivityHTML
+					.getParent();
+			lastActivityPanel.add(noteHtml);
+			noteHtml.addStyleName("bold_HTML");
+		}
 	}
 
 	protected ClientFinanceDate getLastTaxReturnEndDate(long taxAgency) {

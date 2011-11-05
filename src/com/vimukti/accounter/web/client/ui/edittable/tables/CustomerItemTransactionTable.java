@@ -80,6 +80,11 @@ public abstract class CustomerItemTransactionTable extends
 				update(row);
 				// applyPriceLevel(row);
 			}
+
+			@Override
+			protected String getDiscription(ClientItem item) {
+				return item.getSalesDescription();
+			}
 		});
 
 		this.addColumn(new DescriptionEditColumn() {

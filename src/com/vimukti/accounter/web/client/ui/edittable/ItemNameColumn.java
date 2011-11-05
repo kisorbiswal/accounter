@@ -19,7 +19,7 @@ public abstract class ItemNameColumn extends
 	public abstract ListFilter<ClientItem> getItemsFilter();
 
 	@Override
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings( { "unchecked" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		return itemsList;
 	}
@@ -31,9 +31,10 @@ public abstract class ItemNameColumn extends
 
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientItem newValue) {
-		
+
 		if (newValue != null) {
 			row.setAccountable(newValue);
+			row.setDescription(getDiscription(newValue));
 			row.setUnitPrice(newValue.getSalesPrice());
 			row.setTaxable(newValue.isTaxable());
 			double lt = row.getQuantity().getValue() * row.getUnitPrice();
@@ -48,6 +49,8 @@ public abstract class ItemNameColumn extends
 			}
 		}
 	}
+
+	protected abstract String getDiscription(ClientItem item);
 
 	@Override
 	protected String getColumnName() {
