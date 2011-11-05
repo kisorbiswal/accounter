@@ -57,7 +57,7 @@ public class ServerMain extends Main {
 				consoleChat.start();
 			}
 			AccounterChatServer accounterChatServer = new AccounterChatServer();
-			// accounterChatServer.start();
+			accounterChatServer.start();
 		} catch (Exception e) {
 		}
 		new MobileServer().strat();
