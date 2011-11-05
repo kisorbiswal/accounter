@@ -990,43 +990,6 @@
 	</class>
 
 
-	<class name="Entry" table="ENTRY">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<property name="version" column="VERSION"></property>
-		<property name="type" column="TYPE"></property>
-		<property name="journalEntryType" column="JOURNAL_ENTRY_TYPE"></property>
-		<many-to-one name="account" class="Account" column="ACCOUNT_ID"
-			lazy="false">
-		</many-to-one>
-		<many-to-one name="vendor" class="Vendor" column="VENDOR_ID"
-			lazy="false">
-		</many-to-one>
-		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID"
-			lazy="false">
-		</many-to-one>
-		<many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID"
-			lazy="false">
-		</many-to-one>
-		<many-to-one name="taxCode" class="TAXCode" column="TAXCODE_ID"
-			lazy="false">
-		</many-to-one>
-		<!-- <many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID" lazy="false"> 
-			</many-to-one> -->
-		<property name="memo" column="MEMO"></property>
-		<property name="debit" column="DEBIT"></property>
-		<property name="credit" column="CREDIT"></property>
-		<property name="total" column="TOTAL"></property>
-		<many-to-one name="journalEntry" class="JournalEntry"
-			lazy="false" column="TRANSACTION_ID">
-		</many-to-one>
-		<!-- <many-to-one name="VATAgency" class="TaxAgency" column="VAT_AGENCY_ID" -->
-		<!-- lazy="false"> -->
-		<!-- </many-to-one> -->
-		<property name="entryDate" column="ENTRY_DATE"
-			type="com.vimukti.accounter.core.LongUseType"></property>
-	</class>
 	<class name="TransactionItem" table="TRANSACTION_ITEM">
 		<id name="id" column="ID">
 			<generator class="identity" />

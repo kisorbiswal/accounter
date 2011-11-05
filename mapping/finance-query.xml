@@ -2616,7 +2616,6 @@
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="TRANSFER_FUND_ID" type="long" />
 		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
-		<return-scalar column="ENTRY_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
 			type="long" />
@@ -2664,7 +2663,6 @@
 		TRANSFER_FUND_ID,
 		IP.ID
 		AS ISSUE_PAYMENT_ID,
-		E.ID AS ENTRY_ID,
 		TI.ID AS
 		TRANSACTION_ITEM_ID,
 		TMD.ID AS TRANSACTION_MAKE_DEPOSIT_ID,
@@ -2793,9 +2791,6 @@
 		ISSUEPAYMENT IP
 		ON A.ID =
 		IP.ACCOUNT_ID
-		LEFT OUTER JOIN
-		ENTRY E
-		ON A.ID = E.ACCOUNT_ID
 		LEFT OUTER
 		JOIN
 		TRANSACTION_ITEM TI
@@ -3265,14 +3260,12 @@
 		<query-param name="companyId" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="PAYEE_ID" type="long" />
-		<return-scalar column="ENTRY_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="PAY_VAT_ENTRIES_ID" type="long" />
 
 		SELECT
 		I.ID AS ITEM_ID,
 		P.ID AS PAYEE_ID,
-		E.ID AS ENTRY_ID,
 		TI.ID AS
 		TRANSACTION_ITEM_ID,
 		PV.ID AS PAY_VAT_ENTRIES_ID
@@ -3287,9 +3280,6 @@
 		PAYEE P
 		ON
 		P.TAX_CODE_ID = T.ID
-		LEFT OUTER JOIN
-		ENTRY E
-		ON E.TAXCODE_ID = T.ID
 		LEFT
 		OUTER JOIN
 		TRANSACTION_ITEM TI
@@ -3566,7 +3556,7 @@
 		WC.CUSTOMER_ID IS
 		NOT NULL) or
 		(T.T_TYPE = 16 AND
-		E.TYPE = 3) or
+		P.TYPE = 1) or
 		T.T_TYPE
 		= 29
 		then
@@ -3583,7 +3573,7 @@
 		NULL) or
 		(T.T_TYPE = 16
 		AND
-		E.TYPE = 2) OR T.T_TYPE = 26 OR
+		P.TYPE = 2) OR T.T_TYPE = 26 OR
 		T.T_TYPE = 27
 		then
 		P.NAME
@@ -3644,11 +3634,11 @@
 		then
 		case
 		when
-		E.TYPE = 2
+		P.TYPE = 2
 		then
-		E.CREDIT
+		 -1* TI.LINE_TOTAL
 		else
-		E.DEBIT
+		 TI.LINE_TOTAL
 		end
 		else 0.0
 		end as
@@ -3722,10 +3712,10 @@
 		T.T_TYPE = 16
 		then
 		case
-		when E.TYPE
-		= 3
+		when P.TYPE
+		= 1
 		then
-		E.DEBIT
+		TI.LINE_TOTAL
 		else
 		0.0
 		end
@@ -3752,9 +3742,9 @@
 		16
 		then
 		case
-		when E.TYPE = 2
+		when P.TYPE = 2
 		then
-		E.CREDIT
+		-1*TI.LINE_TOTAL
 		else
 		0.0
 		end
@@ -3866,13 +3856,15 @@
 		WRITE_CHECKS WC
 		on
 		T.ID=WC.ID
-		left outer join
-		ENTRY E
-		on E.TRANSACTION_ID=T.ID AND ((E.TYPE
-		= 2 AND E.VENDOR_ID IS NOT NULL)
-		OR
-		(E.TYPE = 3 AND E.CUSTOMER_ID IS NOT
-		NULL))
+		left outer join 
+		JOURNAL_ENTRY JE
+		ON JE.ID=T.ID  AND 
+		(SELECT PY.TYPE FROM PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT NULL) 
+		IN (2,1)
+		
+		left join 
+		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID=T.ID
+		
 		left outer join
 		CUSTOMER_PREPAYMENT CPP
 		on CPP.ID = T.ID
@@ -3887,8 +3879,7 @@
 		or
 		C.ID
 		= TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID
-		or C.ID =
-		E.CUSTOMER_ID
+		or C.ID = JE.PAYEE_ID
 		or C.ID = CPP.CUSTOMER_ID
 		left outer join
 		PAYMENTTERMS PT
@@ -3905,13 +3896,13 @@
 		V.ID = PB.VENDOR_ID or V.ID = TMD.VENDOR_ID or V.ID =
 		CCC.VENDOR_ID
 		or
-		V.ID = WC.VENDOR_ID or V.ID = E.VENDOR_ID
+		V.ID = WC.VENDOR_ID or V.ID = JE.PAYEE_ID
 
 		left outer
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID order by T.ID
+		P.ID = C.ID OR P.ID = V.ID OR P.ID=JE.PAYEE_ID order by T.ID
 
 	</sql-query>
 
@@ -4118,7 +4109,7 @@
 		WC.CUSTOMER_ID IS
 		NOT NULL) or
 		(T.T_TYPE =
-		16 AND E.TYPE = 3) or
+		16 AND P.TYPE = 1) or
 		T.T_TYPE
 		= 29
 		then
@@ -4135,7 +4126,7 @@
 		WC.VENDOR_ID IS NOT NULL) or
 		(T.T_TYPE = 16
 		AND
-		E.TYPE = 2) OR
+		P.TYPE = 2) OR
 		T.T_TYPE =
 		27
 		then
@@ -4192,11 +4183,11 @@
 		then
 		case
 		when
-		E.TYPE = 2
+		P.TYPE = 2
 		then
-		E.CREDIT
+		-1* TI.LINE_TOTAL
 		else
-		E.DEBIT
+		 TI.LINE_TOTAL
 		end
 		else 0.0
 		end as
@@ -4269,10 +4260,10 @@
 		T.T_TYPE = 16
 		then
 		case
-		when E.TYPE
-		= 3
+		when P.TYPE
+		= 1
 		then
-		E.DEBIT
+		TI.LINE_TOTAL
 		else
 		0.0
 		end
@@ -4299,9 +4290,9 @@
 		16
 		then
 		case
-		when E.TYPE = 2
+		when P.TYPE = 2
 		then
-		E.CREDIT
+	 	-1*TI.LINE_TOTAL
 		else
 		0.0
 		end
@@ -4408,13 +4399,15 @@
 		WRITE_CHECKS WC
 		on
 		T.ID=WC.ID
-		left outer join
-		ENTRY E
-		on E.TRANSACTION_ID=T.ID AND ((E.TYPE
-		= 2 AND E.VENDOR_ID IS NOT NULL)
-		OR
-		(E.TYPE = 3 AND E.CUSTOMER_ID IS NOT
-		NULL))
+		left outer join 
+		JOURNAL_ENTRY JE
+		ON JE.ID=T.ID  AND 
+		(SELECT PY.TYPE FROM PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT NULL) 
+		IN (2,1)
+		
+		LEFT JOIN 
+		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID=T.ID
+		
 		left outer join
 		CUSTOMER_PREPAYMENT CPP
 		on CPP.ID = T.ID
@@ -4429,8 +4422,7 @@
 		or
 		C.ID
 		= TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID
-		or C.ID =
-		E.CUSTOMER_ID
+		or C.ID = JE.PAYEE_ID
 		or C.ID = CPP.CUSTOMER_ID
 		left outer join
 		PAYMENTTERMS PT
@@ -4447,13 +4439,13 @@
 		V.ID = PB.VENDOR_ID or V.ID = TMD.VENDOR_ID or V.ID =
 		CCC.VENDOR_ID
 		or
-		V.ID = WC.VENDOR_ID or V.ID = E.VENDOR_ID
+		V.ID = WC.VENDOR_ID or V.ID = JE_PAYEE_ID
 
 		left outer
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID order by T.ID
+		P.ID = C.ID OR P.ID = V.ID OR P.ID=JE.PAYEE_ID order by T.ID
 
 	</sql-query>
 
@@ -5326,7 +5318,7 @@
 		-1*T.TOTAL
 		WHEN T.T_TYPE = 16
 		THEN
-		E.TOTAL
+		TI.LINE_TOTAL
 		WHEN T.T_TYPE = 29 THEN
 		-1*CPP.BALANCE_DUE
 		END AS BALANCE,
@@ -5357,7 +5349,7 @@
 		OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
 
 		LEFT OUTER JOIN
-		ENTRY E ON E.TRANSACTION_ID = T.ID
+		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
 
 		LEFT OUTER JOIN PAYEE P ON P.ID =
 		I.CUSTOMER_ID
@@ -5365,7 +5357,7 @@
 		OR P.ID = CR.CUSTOMER_ID
 		OR P.ID
 		= RP.CUSTOMER_ID
-		OR P.ID = E.CUSTOMER_ID
+		OR P.ID = JE.PAYEE_ID
 		OR P.ID = CPP.CUSTOMER_ID
 
 		LEFT
@@ -5865,9 +5857,9 @@
 		OR C.ID = CS.CUSTOMER_ID
 		OR C.ID = CR.CUSTOMER_ID
 		OR C.ID =
-		(SELECT CUSTOMER_ID FROM ENTRY E WHERE E.TRANSACTION_ID = T.ID
+		(SELECT JEE.PAYEE_ID FROM JOURNAL_ENTRY JEE WHERE JEE.ID = T.ID
 		AND
-		E.CUSTOMER_ID IS NOT NULL)
+		E.PAYEE_ID IS NOT NULL)
 
 		WHERE T.COMPANY_ID=:companyId AND C.ID
 		=:customerId AND CASE WHEN
@@ -5894,10 +5886,10 @@
 		OR C.ID
 		= CR.CUSTOMER_ID
 		OR C.ID =
-		(SELECT CUSTOMER_ID FROM ENTRY E WHERE
-		E.TRANSACTION_ID = T.ID
+		(SELECT JEE.PAYEE_ID FROM JOUNRLE_ENTRY JEE WHERE
+		JEE.ID = T.ID
 		AND
-		E.CUSTOMER_ID IS NOT NULL)
+		E.PAYEE_ID IS NOT NULL)
 		WHERE
 		T.COMPANY_ID=:companyId AND C.ID =:customerId AND CASE WHEN
 		T.T_TYPE !=

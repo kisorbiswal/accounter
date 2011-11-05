@@ -40,11 +40,9 @@
 
 	<query name="getEntry.from.journalEntryType">
 		<query-param name="company" type="Company" />
-		select je from
-		com.vimukti.accounter.core.Entry e
-		inner join
-		e.journalEntry je where je.company=:company and
-		e.journalEntryType=3
+		from
+		com.vimukti.accounter.core.JournalEntry je where je.company=:company and
+		je.journalEntryType=3
 		order by je.id
 	</query>
 
@@ -58,26 +56,17 @@
 
 	<query name="getEntry.by.debitand.balanceDue.orderbyid">
 		<query-param name="company" type="Company" />
-		select je from
-		com.vimukti.accounter.core.Entry e
-		inner join
-		e.journalEntry je where je.company=:company and
-		e.debit!=0.0 and
+		from
+		com.vimukti.accounter.core.JournalEntry je where je.company=:company and
 		je.balanceDue>0.0
-		order
-		by
-		je.id
+		order by je.id
 	</query>
 
 	<query name="getEntry.by.vendorId.creditand.balanceDue.orderbyid">
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
-		select je from
-		com.vimukti.accounter.core.Entry e
-		inner join
-		e.journalEntry je where je.company=:company and
-		e.vendor.id=:id and
-		e.credit!=0.0 and
+		from com.vimukti.accounter.core.JournalEntry je where je.company=:company and
+		je.involvedPayee.id=:id and
 		je.balanceDue>0.0 order by
 		je.id
 	</query>
@@ -85,12 +74,9 @@
 	<query name="getEntry.by.customerId.debitand.balanceDue.orderbyid">
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
-		select je from
-		com.vimukti.accounter.core.Entry e
-		inner join
-		e.journalEntry je where je.company=:company and
-		e.customer.id=:id and
-		e.debit !=0.0 and
+		from
+		com.vimukti.accounter.core.JournalEntry je where je.company=:company and
+		je.involvedPayee.id=:id and
 		je.balanceDue>0.0
 		order
 		by je.id
@@ -168,16 +154,6 @@
 		customer.id=:toID where customer.id=:fromID and company=:company
 	</query>
 
-	<query name="update.merge.Entry.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		<query-param name="memo" type="String" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.Entry set memo=:memo,
-		customer.id=:toID where customer.company=:company and
-		customer.id=:fromID
-	</query>
-
 	<query name="update.merge.CustomerPrePayment.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -225,14 +201,6 @@
 		customer.id=:toID
 		where customer.id=:fromID and company=:company
 	</query>
-
-	<query name="delete.entry.old">
-		<query-param name="from" type="long" />
-		<query-param name="company" type="Company" />
-		delete from com.vimukti.accounter.core.Entry where customer.id=:from
-		and customer.company=:company
-	</query>
-
 
 	<query name="update.mergeVendor.Payee.mergeoldbalance.tonewbalance">
 		<query-param name="id" type="long" />
@@ -322,14 +290,6 @@
 		vendor.id=:toID where
 		vendor.id=:fromID and company=:company
 	</query>
-	<query name="update.mergeVendor.Entry.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.Entry set
-		vendor.id=:toID where
-		vendor.id=:fromID and company=:company
-	</query>
 	<query name="update.mergeVendor.Item.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -338,13 +298,6 @@
 		preferredVendor.id=:toID
 		where
 		preferredVendor.id=:fromID and company=:company
-	</query>
-
-	<query name="delete.vendorentry.old">
-		<query-param name="from" type="long" />
-		<query-param name="company" type="Company" />
-		delete from com.vimukti.accounter.core.Entry where vendor.id=:from and
-		vendor.company=:company
 	</query>
 
 	<query name="update.mergeItem.oldcost.tonewcost">
@@ -373,20 +326,6 @@
 		<query-param name="company" type="Company" />
 		delete from com.vimukti.accounter.core.AccountTransaction where
 		account.id=:from and company=:company
-	</query>
-
-	<query name="delete.account.entry.old">
-		<query-param name="from" type="long" />
-		<query-param name="company" type="Company" />
-		delete from com.vimukti.accounter.core.Entry where account.id=:from
-		and account.company=:comany
-	</query>
-	<query name="update.Entry.oldNameTo.newName">
-		<query-param name="newName" type="string" />
-		<query-param name="oldName" type="string" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.Entry e set e.memo=:newName where
-		e.memo=:oldName and e.account.company=:company
 	</query>
 
 	<query name="get.TransactionDate.from.TransactionbyDate">
@@ -633,12 +572,6 @@
 		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.Account a where a.company=:company and
 		a.name =:name
-	</query>
-
-	<query name="get.Entry">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Entry e where
-		e.journalEntry.company=:company
 	</query>
 
 	<query name="getPaymentTerms.by.Name">
@@ -1079,15 +1012,6 @@
 		cp.type=:type and cp.isVoid=false
 	</query>
 
-
-	<query name="getEntry.by.id">
-		<query-param name="company" type="Company" />
-		<query-param name="id" type="long" />
-		from com.vimukti.accounter.core.Entry e inner join
-		e.journalEntry je
-		where je.company=:company and
-		je.id =:id
-	</query>
 
 	<query name="getEstimate">
 		<query-param name="company" type="Company" />
