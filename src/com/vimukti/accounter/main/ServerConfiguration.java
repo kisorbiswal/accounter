@@ -23,6 +23,8 @@ public class ServerConfiguration {
 	private static String chatUsername;
 	private static String chatpassword;
 	private static int mainServerPort;
+	private static int consoleChatServerPort;
+	private static int mobileChatServerPort;
 	public static boolean isDebugMode;
 	private static boolean enableChatServer;
 
@@ -62,6 +64,13 @@ public class ServerConfiguration {
 
 			mainServerPort = Integer.parseInt(prop.getProperty(
 					"mainServerPort", null));
+
+			consoleChatServerPort = Integer.parseInt(prop.getProperty(
+					"consoleChatServer", null));
+
+			mobileChatServerPort = Integer.parseInt(prop.getProperty(
+					"mobileChatServer", null));
+
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
 			 * "7990"));
@@ -204,4 +213,13 @@ public class ServerConfiguration {
 	public static boolean isEnableChatServer() {
 		return enableChatServer;
 	}
+
+	public static int getConsoleChatServerPort() {
+		return consoleChatServerPort;
+	}
+
+	public static int getMobileChatServerPort() {
+		return mobileChatServerPort;
+	}
+
 }

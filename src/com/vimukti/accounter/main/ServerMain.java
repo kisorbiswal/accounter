@@ -16,6 +16,7 @@ import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
+import com.vimukti.accounter.mobile.MobileServer;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -50,17 +51,20 @@ public class ServerMain extends Main {
 		// session.close();
 		// AccounterChatServer chatServer = new AccounterChatServer();
 		// chatServer.start();
-
-		if (ServerConfiguration.isEnableChatServer()) {
-			ConsoleChatServer consoleChat = new ConsoleChatServer();
-			consoleChat.start();
-
+		try {
+			if (ServerConfiguration.isEnableChatServer()) {
+				ConsoleChatServer consoleChat = new ConsoleChatServer();
+				consoleChat.start();
+			}
 			AccounterChatServer accounterChatServer = new AccounterChatServer();
-			accounterChatServer.start();
+			// accounterChatServer.start();
+		} catch (Exception e) {
 		}
+		new MobileServer().strat();
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
+
 	}
 
 	private static void initLogger() {
