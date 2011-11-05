@@ -166,30 +166,31 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 10) {
-			if (UIUtils.isMSIEBrowser())
-				return 25;
-			else
-				return 25;
-		} else if (index == 0) {
+		switch (index) {
+		case 0:
 			return 40;
-		} else if (index == 2) {
+		case 1:
+			return 155;
+		case 2:
 			return 100;
-		} else if (index == 3) {
+		case 3:
 			return 70;
-		} else if (index == 4) {
+		case 4:
 			return 70;
-		} else if (index == 5) {
+		case 5:
 			return 70;
-		} else if (index == 6) {
+		case 6:
 			return 70;
-		} else if (index == 7) {
+		case 7:
 			return 70;
-		} else if (index == 8) {
+		case 8:
 			return 75;
-		} else if (index == 9) {
+		case 9:
 			return 70;
+		case 10:
+			return 25;
 		}
+
 		return -1;
 	}
 
@@ -257,7 +258,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
