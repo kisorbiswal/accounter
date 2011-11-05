@@ -9,8 +9,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
-import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CurrencyWidget extends DynamicForm {
 
@@ -18,14 +16,16 @@ public class CurrencyWidget extends DynamicForm {
 
 	private CurrencyChangeListener listener;
 
-	private TextItem factorField;
+	// private TextItem factorField;
 	private CurrencyCombo currencyCombo;
-	private LabelItem baseCurrencyLbl;
+	// private LabelItem baseCurrencyLbl;
 
 	private ClientCurrency baseCurrency, selectedCurrencyItem;
 	private List<ClientCurrency> currencies;
 
 	private boolean showFactorField;
+
+	private CurrencyFormItem currencyForm;
 
 	public CurrencyWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
@@ -47,25 +47,37 @@ public class CurrencyWidget extends DynamicForm {
 					}
 				});
 
-		factorField = new TextItem("Factor :");
-		factorField.addChangeHandler(new ChangeHandler() {
+		// factorField = new TextItem("Factor :");
+		// factorField.addChangeHandler(new ChangeHandler() {
+		// @Override
+		// public void onChange(ChangeEvent event) {
+		// String factorStr = factorField.getValue().toString();
+		// factorFieldChagned(Double.parseDouble(factorStr));
+		// }
+		// });
+		// baseCurrencyLbl = new LabelItem();
+		// if (baseCurrency != null) {
+		// baseCurrencyLbl.setTitle(baseCurrency.getFormalName());
+		// }
+		setStyleName("currencyTextBox");
+		setWidth("100%");
+		// setNumCols(4);
+
+		currencyForm = new CurrencyFormItem("Factor :",
+				baseCurrency.getFormalName());
+		currencyForm.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				String factorStr = factorField.getValue().toString();
+				String factorStr = currencyForm.getValue().toString();
 				factorFieldChagned(Double.parseDouble(factorStr));
 			}
 		});
-		baseCurrencyLbl = new LabelItem();
-		if (baseCurrency != null) {
-			baseCurrencyLbl.setTitle(baseCurrency.getFormalName());
-		}
-		setStyleName("currencyTextBox");
-		setWidth("100%");
-		setNumCols(4);
-		setFields(currencyCombo, new LabelItem());
-		setFields(factorField, baseCurrencyLbl);
-		factorField.hide();
-		baseCurrencyLbl.hide();
+
+		setFields(currencyCombo);
+		setFields(currencyForm);
+
+		currencyForm.hide();
+
 	}
 
 	private void factorFieldChagned(double factor) {
@@ -88,22 +100,19 @@ public class CurrencyWidget extends DynamicForm {
 	}
 
 	private void showFactorField(boolean showFactorField) {
-		factorField.setDisabled(showFactorField);
+		currencyForm.setDisabled(showFactorField);
 		updateFactorFieldTitle(); // 1<SELCTED currency>=
 		double factor = 1;/*
 						 * factorFieldDisableStatus ? 1 : getFactorByRPC(
 						 * selectItem, baseCurrency);
 						 */
-		factorField.setValue(String.valueOf(factor));
+		currencyForm.setValue(String.valueOf(factor));
 
 		// hide or show factor fields
 		if (showFactorField) {
-			factorField.hide();
-			baseCurrencyLbl.hide();
+			currencyForm.hide();
 		} else {
-			factorField.show();
-			baseCurrencyLbl.show();
-
+			currencyForm.show();
 		}
 
 	}
@@ -127,7 +136,7 @@ public class CurrencyWidget extends DynamicForm {
 		ClientCurrency currency = currencyCombo.getSelectedValue();
 		StringBuffer sb = new StringBuffer();
 		sb.append(1).append(" ").append(currency.getFormalName()).append(" =");
-		factorField.setTitle(sb.toString());
+		currencyForm.setTitle(sb.toString());
 	}
 
 	public void setSelectedCurrency(ClientCurrency clientCurrency) {
@@ -146,12 +155,12 @@ public class CurrencyWidget extends DynamicForm {
 	}
 
 	public void setCurrencyFactor(double factor) {
-		factorField.setValue(String.valueOf(factor));
+		currencyForm.setValue(String.valueOf(factor));
 	}
 
 	public double getCurrencyFactor() {
-		if (factorField.getValue().length() > 0)
-			return Double.parseDouble(factorField.getValue().toString());
+		if (currencyForm.getValue().length() > 0)
+			return Double.parseDouble(currencyForm.getValue().toString());
 		else
 			return 1;
 	}
