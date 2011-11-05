@@ -76,7 +76,17 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
 			Alignment headerAlign = reportView.getHeaderHAlign(i);
 			if (headerAlign == null) {
-				headerAlign = Alignment.H_ALIGN_LEFT;
+				if (columnTypes[i] == COLUMN_TYPE_NUMBER
+						|| columnTypes[i] == COLUMN_TYPE_AMOUNT) {
+
+					headerAlign = Alignment.H_ALIGN_RIGHT;
+				} else if (columnTypes[i] == COLUMN_TYPE_DATE) {
+
+					headerAlign = Alignment.H_ALIGN_CENTER;
+				} else if (columnTypes[i] == COLUMN_TYPE_TEXT) {
+
+					headerAlign = Alignment.H_ALIGN_CENTER;
+				}
 			}
 			switch (headerAlign) {
 			case H_ALIGN_CENTER:
@@ -96,7 +106,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 			body.append(" width=\"" + reportView.getColumnWidth(i) + "\">"
 					+ headerTites[i] + "</th>");
 		}
-		body.append("<th class=\"gridHeaderLastTd\" width=\"17px\"><div class=\"gwt-Label\"></div></th></tr>");
+		body.append("<tr><td><br/><br/></td><tr><th class=\"gridHeaderLastTd\" width=\"17px\"><div class=\"gwt-Label\"></div></th></tr>");
 	}
 
 	@Override
@@ -154,7 +164,11 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		body.append(cellValue);
 		if (columnType == COLUMN_TYPE_AMOUNT) {
 			body.append("\" align=\"right\" ");
-		} else {
+		} 
+		else if (columnType == COLUMN_TYPE_TEXT) {
+			body.append("\" align=\"centre\" ");
+		} 
+		else {
 			body.append("\" align=\"left\" ");
 		}
 
