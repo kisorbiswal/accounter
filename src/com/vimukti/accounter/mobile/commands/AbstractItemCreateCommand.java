@@ -43,6 +43,11 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	private static final String SERVICE_NO = "supplierServiceNo";
 	protected static final String WEIGHT = "weight";
 	private static final String TAXCODE = "taxCode";
+	private int itemType;
+
+	public AbstractItemCreateCommand(int itemType) {
+		this.itemType = itemType;
+	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -472,6 +477,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				item.setPreferredVendor(preferedSupplier.getID());
 			item.setVendorItemNumber(supplierServiceNo);
 		}
+		item.setType(itemType);
 		create(item, context);
 
 		return null;

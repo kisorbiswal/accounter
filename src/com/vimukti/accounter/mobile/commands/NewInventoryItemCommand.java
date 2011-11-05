@@ -8,22 +8,28 @@ import com.vimukti.accounter.mobile.requirements.MeasurementRequirement;
 
 public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 
+	public NewInventoryItemCommand(int itemType) {
+		super(0);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
 
-		list.add(new MeasurementRequirement(getConstants().measurement(), getMessages()
-				.pleaseSelect(getConstants().measurement()), getConstants()
-				.measurementName(), true, true, null) {
+		list.add(new MeasurementRequirement(getConstants().measurement(),
+				getMessages().pleaseSelect(getConstants().measurement()),
+				getConstants().measurementName(), true, true, null) {
 
 			@Override
-					protected void setCreateCommand(CommandList list) {
-						list.add(getMessages().create(getConstants().inventoryItem()));
-					}
-			
+			protected void setCreateCommand(CommandList list) {
+				list.add(getMessages().create(getConstants().inventoryItem()));
+			}
+
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().inventoryItem());
+				return getMessages()
+						.hasSelected(getConstants().inventoryItem());
 			}
 
 		});

@@ -7,6 +7,11 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 
 public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
 
+	public NewNonInventoryItemCommand(int itemType) {
+		super(0);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);

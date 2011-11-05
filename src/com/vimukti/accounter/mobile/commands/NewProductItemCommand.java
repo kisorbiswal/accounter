@@ -7,6 +7,10 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 
 public class NewProductItemCommand extends AbstractItemCreateCommand {
 
+	public NewProductItemCommand() {
+		super(0);
+	}
+
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
