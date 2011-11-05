@@ -11,11 +11,14 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
+import com.vimukti.accounter.core.StockAdjustment;
+import com.vimukti.accounter.core.StockAdjustmentItem;
 import com.vimukti.accounter.core.StockTransfer;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
@@ -23,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 public class InventoryManager extends Manager {
 	public ArrayList<InvoicesList> getInvoiceList(long companyId)
@@ -216,6 +220,44 @@ public class InventoryManager extends Manager {
 		for (StockTransfer record : list) {
 			ClientStockTransfer clientRecord = new ClientConvertUtil()
 					.toClientObject(record, ClientStockTransfer.class);
+			result.add(clientRecord);
+		}
+		return result;
+	}
+
+	public ArrayList<StockAdjustmentList> getStockAdjustments(Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<StockAdjustment> list = session
+				.getNamedQuery("getStockAdjustmentsList")
+				.setLong("companyId", companyId).list();
+		ArrayList<StockAdjustmentList> result = new ArrayList<StockAdjustmentList>();
+		for (StockAdjustment record : list) {
+			for (StockAdjustmentItem item : record.getStockAdjustmentItems()) {
+				StockAdjustmentList s = new StockAdjustmentList();
+				s.setWareHouse(record.getWareHouse().getName());
+				s.setItem(item.getItem().getName());
+				s.setQuantity(new ClientConvertUtil().toClientObject(
+						item.getAdjustmentQty(), ClientQuantity.class));
+				s.setStockAdjustment(record.getID());
+				result.add(s);
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<ClientItemStatus> getItemStatuses(long wareHouse,
+			Long companyId) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<ItemStatus> itemStatuses = session
+				.getNamedQuery("getItemStatuses")
+				.setLong("wareHouse", wareHouse)
+				.setLong("companyId", companyId).list();
+
+		ArrayList<ClientItemStatus> result = new ArrayList<ClientItemStatus>();
+		for (ItemStatus record : itemStatuses) {
+			ClientItemStatus clientRecord = new ClientConvertUtil()
+					.toClientObject(record, ClientItemStatus.class);
 			result.add(clientRecord);
 		}
 		return result;
