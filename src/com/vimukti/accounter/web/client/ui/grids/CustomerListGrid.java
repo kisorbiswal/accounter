@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class CustomerListGrid extends BaseListGrid<PayeeList> {
@@ -267,40 +266,32 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 10) {
-			if (UIUtils.isMSIEBrowser()) {
-				return 25;
-			} else {
-				return 20;
-			}
-		}
-		if (index == 0) {
+
+		switch (index) {
+		case 0:
 			return 40;
-		}
-		if (index == 2) {
+		case 1:
+			return 155;
+		case 2:
 			return 100;
-		}
-		if (index == 3) {
+		case 3:
 			return 70;
-		}
-		if (index == 4) {
+		case 4:
 			return 70;
-		}
-		if (index == 5) {
+		case 5:
 			return 70;
-		}
-		if (index == 6) {
+		case 6:
 			return 70;
-		}
-		if (index == 7) {
+		case 7:
 			return 70;
-		}
-		if (index == 8) {
+		case 8:
 			return 75;
-		}
-		if (index == 9) {
+		case 9:
 			return 70;
+		case 10:
+			return 25;
 		}
+
 		return -1;
 	}
 
