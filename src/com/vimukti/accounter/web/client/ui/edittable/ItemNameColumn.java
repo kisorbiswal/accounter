@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public abstract class ItemNameColumn extends
 		ComboColumn<ClientTransactionItem, ClientItem> {
 
-	ItensDropDownTable itemsList = new ItensDropDownTable(getItemsFilter());
+	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
 
 	@Override
 	protected ClientItem getValue(ClientTransactionItem row) {

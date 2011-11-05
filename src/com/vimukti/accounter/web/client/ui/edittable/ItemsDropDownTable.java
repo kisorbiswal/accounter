@@ -13,13 +13,13 @@ import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
+public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 	private ListFilter<ClientItem> filter;
 	private int type;
 	private boolean isForCustomer = true;
 
-	public ItensDropDownTable(ListFilter<ClientItem> filter) {
+	public ItemsDropDownTable(ListFilter<ClientItem> filter) {
 		super(getItems(filter));
 		this.filter = filter;
 	}
