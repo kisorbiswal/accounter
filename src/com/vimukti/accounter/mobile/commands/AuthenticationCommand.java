@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.utils.HexUtil;
@@ -48,6 +49,9 @@ public class AuthenticationCommand extends Command {
 		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
 			Result makeResult = context.makeResult();
 			String string = context.getString();
+			if (string.isEmpty()) {
+				string = (String) context.getLast(RequirementType.STRING);
+			}
 			Object attribute = context.getAttribute("input");
 			if (attribute == null) {
 				context.setAttribute("input", "userName");
@@ -91,20 +95,15 @@ public class AuthenticationCommand extends Command {
 				String password = HexUtil.bytesToHex(Security.makeHash(userName
 						+ string));
 				client = getClient(userName);
-				if (client == null) {
+				if (client == null || !client.getPassword().equals(password)) {
+					context.setAttribute("input", "userName");
 					makeResult
-							.add("There is no account found with given Email Id");
+							.add("There is no account found with given Email Id and Password");
 					makeResult
-							.add("Enter valid Accounter Email Id. Or press 'a' to Sighn up");
+							.add("Please Enter valid Accounter Email Id. Or press 'a' to Sighn up");
 					CommandList commandList = new CommandList();
 					commandList.add("Signup");
 					makeResult.add(commandList);
-					return makeResult;
-				}
-
-				if (!client.getPassword().equals(password)) {
-					makeResult
-							.add("Wrong Username or Passwor. Please Enter Valid details.");
 					return makeResult;
 				}
 				markDone();
