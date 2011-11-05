@@ -138,6 +138,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				for (TransactionItem item : memo.getTransactionItems()) {
 
 					String description = forNullValue(item.getDescription());
+					description = description.replace("\n", "<br/>");
 					String qty = forZeroAmounts(getDecimalsUsingMaxDecimals(
 							item.getQuantity().getValue(), null,
 							maxDecimalPoints));
