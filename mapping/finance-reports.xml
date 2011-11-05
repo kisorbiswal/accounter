@@ -2491,9 +2491,6 @@
 		JOURNAL_ENTRY je
 		on t.id
 		= je.id
-		left join
-		ENTRY e
-		on e.transaction_id = je.id and e.type in (2,3)
 		left outer join
 		PAYEE p
 		on p.id = cp.vendor_id or p.id = ccc.vendor_id
@@ -2610,9 +2607,6 @@
 		JOURNAL_ENTRY je
 		on t.id
 		= je.id
-		left join
-		ENTRY e
-		on e.transaction_id = je.id and e.type in (2,3)
 		left outer join
 		PAYEE p
 		on p.id = cp.vendor_id or p.id = ccc.vendor_id
@@ -3351,13 +3345,6 @@
 		AND (CASE WHEN T.T_TYPE=16 THEN ABS(TI.LINE_TOTAL)=ABS(AMOUNT) ELSE TI.LINE_TOTAL =
 		AT.AMOUNT END)
 
-
-		LEFT JOIN
-		ENTRY E ON E.TRANSACTION_ID = AT.TRANSACTION_ID
-		AND
-		E.ACCOUNT_ID = AT.ACCOUNT_ID
-		AND E.TOTAL = ABS(AT.AMOUNT)
-
 		LEFT JOIN
 		ACCOUNT A ON A.ID = AT.ACCOUNT_ID
 		LEFT JOIN
@@ -3435,8 +3422,7 @@
 		END
 
 		GROUP BY T.ID,
-		TI.ID,
-		E.ID, A.ID
+		TI.ID, A.ID
 
 
 		ORDER BY AT.ID
