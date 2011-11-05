@@ -91,7 +91,9 @@ public abstract class MeasurementUnitRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().units());
+		List<ClientUnit> values = getValue();
+		return values.isEmpty() ? "Add Units" : getMessages().addMore(
+				getConstants().units());
 	}
 
 }

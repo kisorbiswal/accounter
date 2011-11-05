@@ -200,7 +200,9 @@ public class TransactionAccountTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().Accounts());
+		List<ClientTransactionItem> items = getValue();
+		return items.isEmpty() ? "Add Account Items" : getMessages().addMore(
+				getConstants().Accounts());
 	}
 
 }

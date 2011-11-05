@@ -200,9 +200,9 @@ public abstract class TransactionItemTableRequirement extends
 		return createFullRecord(t);
 	}
 
-	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().items());
+		List<ClientTransactionItem> items = getValue();
+		return items.isEmpty() ? "Add Items" : getMessages().addMore(
+				getConstants().items());
 	}
-
 }
