@@ -399,7 +399,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (preferences.getUseCustomerId()) {
 			number = get(NUMBER).getValue().toString();
 		}
-		// ClientContact contact = (get(CUSTOMER_CONTACT).getValue());
+		List<ClientContact> contact = get(CONTACT).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
 		double balance = get(BALANCE).getValue();
 		ClientAddress adress = get(ADDRESS).getValue();
@@ -431,10 +431,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (preferences.getUseCustomerId())
 			customer.setNumber(number);
 
-		// HashSet<ClientContact> contacts = new HashSet<ClientContact>();
-		// if (contact != null)
-		// contacts.add(contact);
-		// customer.setContacts(contacts);
+		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
+		if (contact != null)
+			for (ClientContact clientContact : contact) {
+				contacts.add(clientContact);
+			}
+
+		customer.setContacts(contacts);
 
 		customer.setBalance(balance);
 		if (balancedate != null) {
