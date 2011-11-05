@@ -76,6 +76,13 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void onSelection(ClientCustomer value) {
 						NewInvoiceCommand.this.get(CONTACT).setValue(null);
+						for (ClientContact clientContact : value.getContacts()) {
+							if (clientContact.isPrimary()) {
+								NewInvoiceCommand.this.get(CONTACT).setValue(
+										clientContact);
+								break;
+							}
+						}
 					}
 				}) {
 

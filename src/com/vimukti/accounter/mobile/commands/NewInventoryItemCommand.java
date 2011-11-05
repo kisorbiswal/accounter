@@ -5,12 +5,12 @@ import java.util.List;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.MeasurementRequirement;
+import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 
 	public NewInventoryItemCommand(int itemType) {
-		super(0);
-		// TODO Auto-generated constructor stub
+		super(ClientItem.TYPE_INVENTORY_PART);
 	}
 
 	@Override

@@ -26,19 +26,6 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		
-		list.add(new ActionRequirement(CURRENT_VIEW, null) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getConstants().open());
-				list.add(getConstants().completed());
-				list.add(getConstants().cancelled());
-				return list;
-			}
-		});
-		
 		list.add(new ShowListRequirement<SalesOrdersList>("SalesOrderList",
 				"Please Select", 5) {
 			@Override
@@ -83,7 +70,7 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 							list.add(salesOrder);
 					}
 				}
-			
+
 				return list;
 			}
 
@@ -114,6 +101,7 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 			}
 		});
 	}
+
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;

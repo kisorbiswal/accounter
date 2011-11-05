@@ -29,21 +29,9 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ActionRequirement(CURRENT_VIEW, null) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getConstants().open());
-				list.add(getConstants().completed());
-				list.add(getConstants().cancelled());
-				return list;
-			}
-		});
-		
-		
-		list.add(new ShowListRequirement<PurchaseOrdersList>("purchaseOrderList",
-				getMessages().pleaseSelect(getConstants().purchaseOrder()), 5) {
+		list.add(new ShowListRequirement<PurchaseOrdersList>(
+				"purchaseOrderList", getMessages().pleaseSelect(
+						getConstants().purchaseOrder()), 5) {
 			@Override
 			protected Record createRecord(PurchaseOrdersList value) {
 				Record record = new Record(value);
@@ -123,7 +111,7 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 	private List<PurchaseOrdersList> getPurchaseOrder(Context context) {
 		FinanceTool tool = new FinanceTool();
 		try {
-		return  tool.getPurchageManager().getPurchaseOrdersList(
+			return tool.getPurchageManager().getPurchaseOrdersList(
 					context.getCompany().getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -149,7 +137,7 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-	get(CURRENT_VIEW).setDefaultValue("Open");		
+		get(CURRENT_VIEW).setDefaultValue("Open");
 	}
 
 	@Override

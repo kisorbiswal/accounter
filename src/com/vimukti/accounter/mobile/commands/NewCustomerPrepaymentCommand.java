@@ -56,9 +56,9 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CUSTOMER_PREPAYMENT, context
-								.getCompany()));
-	get(CURRENCY).setDefaultValue(null);
+						ClientTransaction.TYPE_CUSTOMER_PREPAYMENT,
+						context.getCompany()));
+		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
 	}
@@ -115,7 +115,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -124,19 +125,17 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
-		
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().billNo()), getConstants().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -222,10 +221,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 						getConstants().paymentMethod());
 			}
 		});
-		list
-				.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-						getConstants().amount()), getConstants().amount(),
-						false, true));
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getConstants().amount()), getConstants().amount(), false, true));
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
@@ -248,21 +245,18 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				return context.getClientCompany().getCurrencies();
 			}
 		});
-		list
-				.add(new StringRequirement(CHEQUE_NO, getMessages()
-						.pleaseEnter(getConstants().checkNo()), getConstants()
-						.checkNo(), true, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if ((Boolean) get(TO_BE_PRINTED).getValue()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
+		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
+				getConstants().checkNo()), getConstants().checkNo(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if ((Boolean) get(TO_BE_PRINTED).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 
-					}
-				});
+			}
+		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 

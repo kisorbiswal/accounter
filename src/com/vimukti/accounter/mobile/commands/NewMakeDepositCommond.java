@@ -43,7 +43,6 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().number()), getConstants().number(), true, false));
 
-		
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -71,7 +70,8 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -80,19 +80,17 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
-		
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
 				.pleaseEnterName(
 						getMessages().depositAccount(Global.get().Account())),
@@ -134,8 +132,6 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 	}
-
-
 
 	private void caluclateTotals(ClientMakeDeposit makeDeposit) {
 		List<ClientTransactionMakeDeposit> allrecords = makeDeposit
@@ -193,7 +189,6 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 			clientTransactionMakeDeposit.setID(0);
 			clientTransactionMakeDeposit.setMakeDeposit(makeDeposit);
 		}
-
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();

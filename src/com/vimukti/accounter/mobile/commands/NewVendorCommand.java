@@ -444,10 +444,10 @@ public class NewVendorCommand extends NewAbstractCommand {
 		String tinNum = get(TIN_NUM).getValue();
 
 		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
-		if (billTo != null) {
+		if (billTo != null && billTo.getName() != "") {
 			addresses.add(billTo);
 		}
-		if (shipTo != null) {
+		if (shipTo != null && shipTo.getName() != "") {
 			addresses.add(shipTo);
 		}
 		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
@@ -464,7 +464,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		// vendor.set
 		vendor.setContacts(contacts);
 		vendor.setBalance(balance);
-		vendor.setAddress(addresses);
+		if (addresses.isEmpty())
+			vendor.setAddress(addresses);
 		vendor.setPhoneNo(phoneNum);
 		vendor.setFaxNo(faxNum);
 		vendor.setWebPageAddress(webaddress);
