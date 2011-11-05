@@ -475,7 +475,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		double[] result = getTransactionTotal(context, isVatInclusive,
 				allrecords, true);
-		makeResult.add("Net Amount: " + result[0]);
 		if (context.getClientCompany().getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
 		}
