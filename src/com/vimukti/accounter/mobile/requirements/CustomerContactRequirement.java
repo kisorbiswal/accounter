@@ -54,11 +54,6 @@ public abstract class CustomerContactRequirement extends
 	}
 
 	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().contacts());
-	}
-
-	@Override
 	protected void getRequirementsValues(ClientContact obj) {
 		String contactName = get(CONTACT_NAME).getValue();
 		obj.setName(contactName);
@@ -111,6 +106,8 @@ public abstract class CustomerContactRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().contacts());
+		List<ClientContact> contacts = getValue();
+		return contacts.isEmpty() ? "Add Contact" : getMessages().addMore(
+				getConstants().contacts());
 	}
 }

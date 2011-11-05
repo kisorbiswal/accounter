@@ -42,7 +42,7 @@ public class TransactionAccountTableRequirement extends
 
 			@Override
 			protected List<ClientAccount> getLists(Context context) {
-				return getAccounts();
+				return getAccounts(context);
 			}
 
 			@Override
@@ -113,8 +113,8 @@ public class TransactionAccountTableRequirement extends
 				true, true));
 	}
 
-	protected List<ClientAccount> getAccounts() {
-		return getClientCompany().getAccounts();
+	protected List<ClientAccount> getAccounts(Context context) {
+		return context.getClientCompany().getAccounts();
 	}
 
 	@Override
