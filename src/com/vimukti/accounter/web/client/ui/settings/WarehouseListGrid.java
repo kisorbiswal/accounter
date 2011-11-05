@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -25,6 +26,8 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 			return ListGrid.COLUMN_TYPE_TEXT;
 		case 3:
 			return ListGrid.COLUMN_TYPE_IMAGE;
+		case 4:
+			return ListGrid.COLUMN_TYPE_IMAGE;
 		default:
 			return 0;
 		}
@@ -34,6 +37,8 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 3:
+			return 40;
+		case 4:
 			return 40;
 		default:
 			break;
@@ -45,7 +50,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
@@ -53,7 +58,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 		return new String[] { Accounter.constants().warehouseCode(),
 				Accounter.constants().warehouseName(),
 				Accounter.constants().ddiNumber(),
-				Accounter.constants().delete() };
+				Accounter.constants().items(), Accounter.constants().delete() };
 	}
 
 	@Override
@@ -85,6 +90,8 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 		case 2:
 			return obj.getDDINumber();
 		case 3:
+			return Accounter.getFinanceMenuImages().accounterRegisterIcon();
+		case 4:
 			return Accounter.getFinanceMenuImages().delete();
 		default:
 			break;
@@ -96,6 +103,9 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	protected void onClick(ClientWarehouse obj, int row, int col) {
 		switch (col) {
 		case 3:
+			ActionFactory.getWareHouseItemsListAction(obj.getID()).run(null, false);
+			break;
+		case 4:
 			showWarnDialog(obj);
 			break;
 

@@ -12,7 +12,7 @@ public class WarehouseListAction extends Action<ClientWarehouse> {
 
 	public WarehouseListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().wareHouse();
+		this.catagory = Accounter.constants().inventory();
 	}
 
 	@Override
@@ -24,8 +24,8 @@ public class WarehouseListAction extends Action<ClientWarehouse> {
 	private void runAsync(Object data, Boolean isDependent) {
 		try {
 			view = new WarehouseListView();
-			MainFinanceWindow.getViewManager().showView(view, data, false,
-					WarehouseListAction.this);
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, WarehouseListAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,57 +1,51 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class WarehouseTransferListAction extends Action<ClientStockTransfer> {
+public class StockAdjustmentsListAction extends Action<ClientStockAdjustment> {
 
-	private WarehouseTransferListView view;
+	private StockAdjustmentsListView view;
 
-	public WarehouseTransferListAction(String text) {
+	public StockAdjustmentsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().settings();
+		this.catagory = Accounter.constants().inventory();
 	}
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
-
-	}
-
-	private void runAsync(Object data, Boolean isDependent) {
 		try {
-			view = new WarehouseTransferListView();
-			MainFinanceWindow.getViewManager().showView(view, data, false,
-					WarehouseTransferListAction.this);
+			view = new StockAdjustmentsListView();
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, StockAdjustmentsListAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// NOTHING TO DO
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// NOTHING To Do
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getHistoryToken() {
-		return "WarehouseTransferList";
+		return "stockAdjustments";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "warehouse";
+		return "stockAdjustments";
 	}
 
 }
