@@ -375,7 +375,7 @@
 		<alias>Create Cash Sale</alias>
 	</command>
 
-	<command clazz="NewCreditCardChargeCommond" name="New Credit Card Charge">
+	<command clazz="NewCreditCardChargeCommond" name="New CreditcardCharge">
 		<alias>Credit Card Charge</alias>
 		<alias>Create Credit Card Charge</alias>
 		<alias>Add Credit Card Charge</alias>
@@ -398,11 +398,13 @@
 		<alias>Create Cash Expense</alias>
 	</command>
 
-	<command clazz="NewMakeDepositCommond" name="New Make Deposit">
+	<command clazz="NewMakeDepositCommond" name="New MakeDeposit">
 		<alias>Make Deposit</alias>
 		<alias>Add Make Deposit</alias>
 		<alias>New Transfer Funds</alias>
 		<alias>Add Transfer Funds</alias>
+		<alias>Deposits And TransferFunds</alias>
+		<alias>New Deposits And TransferFunds</alias>
 	</command>
 
 	<command clazz="NewLocationCommond" name="New Location">
@@ -450,7 +452,7 @@
 		<alias>Credit Rating</alias>
 	</command>
 
-	<command clazz="NewCustomerPrepaymentCommand" name="New Customer Prepayment">
+	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
 		<alias>Create Customer Prepayment</alias>
 		<alias>Create Customer Payment</alias>
 		<alias>Add Customer Prepayment</alias>
@@ -473,7 +475,7 @@
 		<alias>New Estimate</alias>
 	</command>
 
-	<command clazz="NewCustomerRefundCommand" name="New Customer Refund">
+	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
 		<alias>Create Customer Refund</alias>
 		<alias>Add Customer Refund</alias>
 	</command>
@@ -503,8 +505,9 @@
 	<command clazz="NewVendorPrepaymentCommand" name="Vendor Prepayment">
 		<alias>Prepayment</alias>
 		<alias>Vendor Prepayment</alias>
-		<alias>Add Vendor payment</alias>
-		<alias>Create Vendor payment</alias>
+		<alias>Add Vendor Prepayment</alias>
+		<alias>Create Vendor Prepayment</alias>
+		<alias>New Vendor Prepayment</alias>
 	</command>
 
 	<command clazz="VendorsListCommand" name="Vendors List">
@@ -610,6 +613,7 @@
 	<command clazz="NewItemGroupCommand" name="ItemGroup">
 		<alias>New ItemGroup</alias>
 		<alias>Add ItemGroup</alias>
+		<alias>Create Item Group</alias>
 		<alias>Create ItemGroup</alias>
 	</command>
 
@@ -672,5 +676,15 @@
 	</command>
 	<command clazz="NewProductItemCommand" name="Product Item">
 		<alias>Create New Product Item</alias>
+	</command>
+	<command clazz="NewCustomerGroupCommand" name="CustomerGroup">
+		<alias>Create CustomerGroup</alias>
+	</command>
+	<command clazz="NewCreditNoteCommand" name="New CreditNote">
+		<alias>create creditNote</alias>
+		<alias>New CreditMemo</alias>
+		<alias>New CustomerCreditNote</alias>
+		<alias>New CustomerCreditMemo</alias>
+		<alias>Create CreditMemo</alias>
 	</command>
 </commands>
