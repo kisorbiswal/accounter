@@ -1138,9 +1138,8 @@ public class ReportsGenerator {
 			updateReport(cashFlowStatementServerReport, finaTool);
 			cashFlowStatementServerReport.resetVariables();
 			try {
-				cashFlowStatementServerReport.onResultSuccess(finaTool
-						.getReportManager().getCashFlowReport(startDate,
-								endDate, getCompany().getID()));
+				cashFlowStatementServerReport.onResultSuccess(reportsSerivce.getCashFlowReport(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate(), getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
