@@ -12,33 +12,32 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
-import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientStockAdjustmentItem;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.edittable.QuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
-import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 import com.vimukti.accounter.web.client.ui.settings.UnitCombo;
 
-public class StockTransferQuantityColumn extends
-		QuantityColumn<ClientStockTransferItem> {
+public class StockAdjustmentQuantityColumn extends
+		QuantityColumn<ClientStockAdjustmentItem> {
 
 	PopupPanel popup = new PopupPanel(true);
 
-	protected ClientQuantity getQuantity(ClientStockTransferItem row) {
-		return row.getQuantity();
+	protected ClientQuantity getQuantity(ClientStockAdjustmentItem row) {
+		return row.getAdjustmentQty();
 	}
 
-	protected void setQuantity(ClientStockTransferItem row, ClientQuantity d) {
-		row.setQuantity(d);
+	protected void setQuantity(ClientStockAdjustmentItem row, ClientQuantity d) {
+		row.setAdjustmentQty(d);
 		getTable().update(row);
 	}
 
 	@Override
-	public IsWidget getWidget(RenderContext<ClientStockTransferItem> context) {
+	public IsWidget getWidget(RenderContext<ClientStockAdjustmentItem> context) {
 		final IsWidget widget = super.getWidget(context);
-		final ClientStockTransferItem row = context.getRow();
+		final ClientStockAdjustmentItem row = context.getRow();
 		if (widget instanceof TextBox) {
 			((TextBox) widget).addFocusListener(new FocusListener() {
 
@@ -58,7 +57,7 @@ public class StockTransferQuantityColumn extends
 		return widget;
 	}
 
-	private void showPopUp(final ClientStockTransferItem row) {
+	private void showPopUp(final ClientStockAdjustmentItem row) {
 		if (popup.isShowing()) {
 			return;
 		}
@@ -68,18 +67,24 @@ public class StockTransferQuantityColumn extends
 		Label unitLabel = new Label(Accounter.constants().unit());
 
 		ClientUnit unit = Accounter.getCompany().getUnitById(
-				row.getQuantity().getUnit());
+				row.getAdjustmentQty().getUnit());
 		ClientItem item = Accounter.getCompany().getItem(row.getItem());
 		final TextBox valueBox = new TextBox();
 		valueBox.setFocus(true);
-		valueBox.setText(String.valueOf(row.getQuantity().getValue()));
+		valueBox.setText(String.valueOf(row.getAdjustmentQty().getValue()));
 		final UnitCombo unitBox = new UnitCombo("");
+		ClientUnit itemUnit = null;
 		if (item != null) {
 			ClientMeasurement measurement = Accounter.getCompany()
 					.getMeasurement(item.getMeasurement());
 			unitBox.initCombo(measurement.getUnits());
+			itemUnit = measurement.getDefaultUnit();
 		}
-		unitBox.setComboItem(unit);
+		if (unit != null) {
+			unitBox.setComboItem(unit);
+		} else {
+			unitBox.setComboItem(itemUnit);
+		}
 		unitBox.setShowTitle(false);
 
 		table.setWidget(0, 0, valueLabel);
@@ -97,7 +102,7 @@ public class StockTransferQuantityColumn extends
 				if (value.isEmpty()) {
 					value = "1";
 				}
-				ClientQuantity quantity = row.getQuantity();
+				ClientQuantity quantity = row.getAdjustmentQty();
 				try {
 					quantity.setValue(DataUtils.getAmountStringAsDouble(value));
 				} catch (Exception e) {
@@ -116,15 +121,14 @@ public class StockTransferQuantityColumn extends
 		popup.showRelativeTo(widget);
 	}
 
-	protected String getValue(ClientStockTransferItem row) {
-		ClientItem item = Accounter.getCompany().getItem(row.getItem());
-		if (item == null || row.getQuantity() == null) {
+	protected String getValue(ClientStockAdjustmentItem row) {
+		if (row.getAdjustmentQty() == null) {
 			return "";
 		} else {
 			ClientUnit unit = Accounter.getCompany().getUnitById(
-					row.getQuantity().getUnit());
+					row.getAdjustmentQty().getUnit());
 			StringBuffer data = new StringBuffer();
-			data.append(String.valueOf(row.getQuantity().getValue()));
+			data.append(String.valueOf(row.getAdjustmentQty().getValue()));
 			data.append(" ");
 			if (unit != null) {
 				data.append(unit.getType());
@@ -134,12 +138,12 @@ public class StockTransferQuantityColumn extends
 	}
 
 	@Override
-	protected void setValue(ClientStockTransferItem row, String value) {
+	protected void setValue(ClientStockAdjustmentItem row, String value) {
 		try {
 			if (value.isEmpty()) {
 				value = "1";
 			}
-			ClientQuantity quantity = row.getQuantity();
+			ClientQuantity quantity = row.getAdjustmentQty();
 			quantity.setValue(DataUtils.getAmountStringAsDouble(value));
 			setQuantity(row, quantity);
 		} catch (Exception e) {
@@ -149,7 +153,12 @@ public class StockTransferQuantityColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().transferQuantity();
+		return Accounter.constants().adjustmentQty();
+	}
+
+	@Override
+	public int getWidth() {
+		return 200;
 	}
 
 }
