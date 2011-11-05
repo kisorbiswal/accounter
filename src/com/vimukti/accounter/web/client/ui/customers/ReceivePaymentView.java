@@ -29,9 +29,9 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -157,12 +157,20 @@ public class ReceivePaymentView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+
 		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 		if (clientCurrency != null) {
 			unUsedCreditsTextForeignCurrency.setTitle(Accounter.messages()
 					.unusedCredits(clientCurrency.getFormalName()));
 			unUsedPaymentsTextForeignCurrency.setTitle(Accounter.messages()
 					.unusedPayments(clientCurrency.getFormalName()));
+		}
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrencycode(getCompany().getCurrency(
+					customer.getCurrency()));
+			setCurrencyFactor(1.0);
+			updateAmountsFromGUI();
+			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
@@ -193,8 +201,7 @@ public class ReceivePaymentView extends
 
 								if (result.size() > 0) {
 									gridView.removeAllRecords();
-									gridView
-											.initCreditsAndPayments(selectedCustomer);
+									gridView.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.addEmptyMessage(Accounter
@@ -251,10 +258,8 @@ public class ReceivePaymentView extends
 
 			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
 
-			record
-					.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-							.getDueDate().getDate()
-							: 0);
+			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+					.getDueDate().getDate() : 0);
 			record.setNumber(receivePaymentTransaction.getNumber());
 
 			record.setInvoiceAmount(receivePaymentTransaction
@@ -263,11 +268,8 @@ public class ReceivePaymentView extends
 			record.setInvoice(receivePaymentTransaction.getTransactionId());
 			record.setAmountDue(receivePaymentTransaction.getAmountDue());
 			record.setDummyDue(receivePaymentTransaction.getAmountDue());
-			record
-					.setDiscountDate(receivePaymentTransaction
-							.getDiscountDate() != null ? receivePaymentTransaction
-							.getDiscountDate().getDate()
-							: 0);
+			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+					.getDiscountDate().getDate() : 0);
 
 			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
@@ -394,8 +396,7 @@ public class ReceivePaymentView extends
 								.setTransactionReceivePayment(payment);
 					}
 
-				payment
-						.setTransactionCreditsAndPayments(tranCreditsandPayments);
+				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
 			}
 			paymentsList.add(payment);
 			payment.getTempCredits().clear();
@@ -453,12 +454,9 @@ public class ReceivePaymentView extends
 					return;
 				Double amount = 0.00D;
 				try {
-					amount = DataUtils
-							.getAmountStringAsDouble(value.toString());
-					amtText
-							.setAmount(DataUtils
-									.isValidAmount(value.toString()) ? amount
-									: 0.00D);
+					amount = DataUtils.getAmountStringAsDouble(value.toString());
+					amtText.setAmount(DataUtils.isValidAmount(value.toString()) ? amount
+							: 0.00D);
 					paymentAmountChanged(amount);
 
 					if (DecimalUtil.isLessThan(amount, 0)) {
@@ -621,6 +619,11 @@ public class ReceivePaymentView extends
 
 		settabIndexes();
 
+		if (isMultiCurrencyEnabled()) {
+			unUsedCreditsTextForeignCurrency.hide();
+			unUsedPaymentsTextForeignCurrency.hide();
+		}
+
 	}
 
 	private void settabIndexes() {
@@ -744,8 +747,8 @@ public class ReceivePaymentView extends
 			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
-			customerSelected(getCompany()
-					.getCustomer(transaction.getCustomer()));
+			// customerSelected(getCompany()
+			// .getCustomer(transaction.getCustomer()));
 
 			depositInAccountSelected(getCompany().getAccount(
 					transaction.getDepositIn()));
@@ -849,8 +852,8 @@ public class ReceivePaymentView extends
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
@@ -861,9 +864,7 @@ public class ReceivePaymentView extends
 			result.addError(gridView, Accounter.constants()
 					.pleaseSelectAnyOneOfTheTransactions());
 		} else if (gridView.getAllRows().isEmpty()) {
-			result
-					.addError(gridView, Accounter.constants()
-							.selectTransaction());
+			result.addError(gridView, Accounter.constants().selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
 
@@ -881,8 +882,8 @@ public class ReceivePaymentView extends
 			}
 		}
 		if (!isInViewMode()
-				&& DecimalUtil.isGreaterThan(unUsedPaymentsTextBaseCurrency
-						.getAmount(), 0))
+				&& DecimalUtil.isGreaterThan(
+						unUsedPaymentsTextBaseCurrency.getAmount(), 0))
 			result.addWarning(unUsedPaymentsTextBaseCurrency,
 					AccounterWarningType.recievePayment);
 
@@ -1116,6 +1117,26 @@ public class ReceivePaymentView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		paymentAmountChanged(amtText.getAmount());
+		modifyForeignCurrencyTotalWidget();
 		gridView.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			unUsedCreditsTextForeignCurrency.hide();
+			unUsedPaymentsTextForeignCurrency.hide();
+		} else {
+			unUsedCreditsTextForeignCurrency.show();
+			unUsedPaymentsTextForeignCurrency.show();
+
+			unUsedCreditsTextForeignCurrency.setTitle(Accounter.messages()
+					.unusedCredits(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+			unUsedPaymentsTextForeignCurrency.setTitle(Accounter.messages()
+					.unusedPayments(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 }
