@@ -16,6 +16,5 @@
         </c:forEach>
         <input type="hidden">Loading...</input>
     </form>
-    <%@ include file="./scripts.jsp" %>
 </body>
 </html>
