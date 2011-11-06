@@ -46,7 +46,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 				}
 			};
 			this.addColumn(numberColumn);
-			this.setColumnWidth(numberColumn, "40px");
+//			this.setColumnWidth(numberColumn, "40px");
 		}
 
 		TextColumn<ClientAccount> nameColumn = new TextColumn<ClientAccount>() {
@@ -57,7 +57,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 			}
 		};
 		this.addColumn(nameColumn);
-		this.setColumnWidth(nameColumn, "100px");
+//		this.setColumnWidth(nameColumn, "100px");
 
 		TextColumn<ClientAccount> typeColumn = new TextColumn<ClientAccount>() {
 
@@ -67,7 +67,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 			}
 		};
 		this.addColumn(typeColumn);
-		this.setColumnWidth(typeColumn, "80px");
+//		this.setColumnWidth(typeColumn, "80px");
 	}
 
 	@Override
