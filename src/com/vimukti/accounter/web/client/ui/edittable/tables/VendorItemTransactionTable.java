@@ -66,7 +66,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				super.setValue(row, newValue);
 				// Unit Price is different. So that overriden the code here
 				if (newValue != null) {
-					row.setUnitPrice(newValue.getPurchasePrice());
+				//	row.setUnitPrice(newValue.getPurchasePrice());
 					row.setTaxable(newValue.isTaxable());
 					double lt = row.getQuantity().getValue()
 							* row.getUnitPrice();
