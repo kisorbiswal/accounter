@@ -1597,7 +1597,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
-		tablesPanel.setSpacing(10);
 
 		final VerticalPanel historyPanel = getHistoryPanel(data.getID());
 		historyPanel.setVisible(false);
