@@ -338,8 +338,8 @@ public class ReportGrid<R> extends CustomTable {
 			// }
 
 			if (isMultiSelectionEnable) {
-				table.getCellFormatter().getElement(row, 0)
-						.setAttribute(Accounter.constants().width(), "" + 15);
+//				table.getCellFormatter().getElement(row, 0)
+//						.setAttribute(Accounter.constants().width(), "" + 15);
 			}
 
 		} catch (Exception e) {

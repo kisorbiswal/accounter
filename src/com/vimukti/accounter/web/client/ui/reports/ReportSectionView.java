@@ -26,7 +26,7 @@ public class ReportSectionView extends BaseHomeView {
 	private VerticalPanel createControl() {
 		VerticalPanel mainLayout = new VerticalPanel();
 		BalanceSheetReport report = new BalanceSheetReport();
-		report.setSize("80%", "80%");
+//		report.setSize("80%", "80%");
 		// report.setParentLayout(mainLayout);
 		// report.initReportType();
 		// report.generateReport(FinanceApplication.getStartDate(), new Date());
