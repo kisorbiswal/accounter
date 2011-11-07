@@ -27,7 +27,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 	@Override
 	public int getWidth() {
-		return 150;
+		return 80;
 	}
 
 	protected String getValue(ClientTransactionItem row) {

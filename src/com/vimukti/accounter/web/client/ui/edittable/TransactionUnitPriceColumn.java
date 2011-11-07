@@ -23,15 +23,14 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 		// TODO doubt, currencyConversion.
 		double lt = row.getQuantity().getValue() * row.getUnitPrice();
 		double disc = row.getDiscount();
-		row
-				.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-						* disc / 100)) : lt);
+		row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
+				: lt);
 		getTable().update(row);
 	}
 
 	@Override
 	public int getWidth() {
-		return 120;
+		return 80;
 	}
 
 	@Override
