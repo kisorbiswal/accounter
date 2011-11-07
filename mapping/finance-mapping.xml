@@ -1618,7 +1618,7 @@
 			<property name="email" column="CONTACT_EMAIL"></property>
 		</component>
 
-		<set name="itemStatuses" inverse="true" cascade="save-update,delete"
+		<set name="itemStatuses" inverse="true" cascade="save-update,delete-orphan"
 			lazy="false">
 			<key column="WARE_HOUSE" />
 			<one-to-many class="ItemStatus" />
