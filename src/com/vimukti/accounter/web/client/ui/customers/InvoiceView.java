@@ -489,8 +489,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
-		final TextItem disabletextbox = new TextItem();
-		disabletextbox.setVisible(false);
+		// final TextItem disabletextbox = new TextItem();
+		// disabletextbox.setVisible(false);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -511,103 +511,30 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 
+		priceLevelForm.setWidth("100%");
+		amountsForm.setStyleName("boldtext");
+
 		if (isTrackTax()) {
-			if (isTaxPerDetailLine()) {
-				priceLevelForm.setWidth("100%");
-				if (isMultiCurrencyEnabled()) {
-					if (isInViewMode()) {
-						amountsForm.setFields(netAmountLabel,
-								vatTotalNonEditableText,
-								transactionTotalinBaseCurrency,
-								transactionTotalinForeignCurrency,
-								paymentsNonEditableText,
-								balanceDueNonEditableText);
-					} else {
-						amountsForm.setFields(netAmountLabel,
-								vatTotalNonEditableText,
-								transactionTotalinBaseCurrency,
-								transactionTotalinForeignCurrency);
-					}
-				} else {
-					if (isInViewMode()) {
-						amountsForm.setFields(netAmountLabel,
-								vatTotalNonEditableText,
-								transactionTotalinBaseCurrency,
-								paymentsNonEditableText,
-								balanceDueNonEditableText);
-					} else {
-						amountsForm.setFields(netAmountLabel,
-								vatTotalNonEditableText,
-								transactionTotalinBaseCurrency);
-					}
-				}
-				amountsForm.setStyleName("boldtext");
-				prodAndServiceHLay.add(amountsForm);
-				prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
-						ALIGN_RIGHT);
-
-			} else {
-
-				amountsForm.setNumCols(4);
-				amountsForm.addStyleName("boldtext");
-
+			amountsForm.setFields(netAmountLabel);
+			if (!isTaxPerDetailLine()) {
 				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
-				if (isMultiCurrencyEnabled()) {
-					if (isInViewMode()) {
-						amountsForm.setFields(salesTaxTextNonEditable,
-								disabletextbox, transactionTotalinBaseCurrency,
-								disabletextbox,
-								transactionTotalinForeignCurrency,
-								disabletextbox, paymentsNonEditableText,
-								disabletextbox, balanceDueNonEditableText);
-					} else {
-						amountsForm.setFields(salesTaxTextNonEditable,
-								disabletextbox, transactionTotalinBaseCurrency,
-								disabletextbox,
-								transactionTotalinForeignCurrency);
-					}
-
-				} else {
-					if (isInViewMode()) {
-						amountsForm.setFields(salesTaxTextNonEditable,
-								disabletextbox, transactionTotalinBaseCurrency,
-								disabletextbox, paymentsNonEditableText,
-								disabletextbox, balanceDueNonEditableText);
-					} else {
-						amountsForm.setFields(salesTaxTextNonEditable,
-								disabletextbox, transactionTotalinBaseCurrency);
-					}
-				}
-
+				amountsForm.setFields(salesTaxTextNonEditable);
 				prodAndServiceHLay.add(vatForm);
-				prodAndServiceHLay.add(amountsForm);
-				prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
-						ALIGN_RIGHT);
-			}
-		} else {
-			if (isMultiCurrencyEnabled()) {
-				if (isInViewMode()) {
-					amountsForm.setFields(transactionTotalinBaseCurrency,
-							disabletextbox, transactionTotalinForeignCurrency,
-							disabletextbox, paymentsNonEditableText,
-							disabletextbox, balanceDueNonEditableText);
-				} else {
-					amountsForm.setFields(transactionTotalinBaseCurrency,
-							disabletextbox, transactionTotalinForeignCurrency);
-				}
 			} else {
-				if (isInViewMode()) {
-					amountsForm.setFields(transactionTotalinBaseCurrency,
-							disabletextbox, paymentsNonEditableText,
-							disabletextbox, balanceDueNonEditableText);
-				} else {
-					amountsForm.setFields(transactionTotalinBaseCurrency);
-				}
+				amountsForm.setFields(vatTotalNonEditableText);
 			}
-			prodAndServiceHLay.add(amountsForm);
-			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
-					ALIGN_RIGHT);
 		}
+		amountsForm.setFields(transactionTotalinBaseCurrency);
+		if (isMultiCurrencyEnabled()) {
+			amountsForm.setFields(transactionTotalinForeignCurrency);
+		}
+		if (isInViewMode()) {
+			amountsForm.setFields(paymentsNonEditableText,
+					balanceDueNonEditableText);
+		}
+
+		prodAndServiceHLay.add(amountsForm);
+		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
 
 		/*
 		 * if (getCompany().getPreferences().isRegisteredForVAT()) {
@@ -644,6 +571,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		 * prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 		 * ALIGN_RIGHT); }
 		 */
+
 		VerticalPanel panel = new VerticalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.setWidth("100%");
