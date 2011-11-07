@@ -1477,9 +1477,9 @@ public class ReportsGenerator {
 		case REPORT_TYPE_VATITEMSUMMARY:
 			return "VAT Item Summary Report";
 		case REPORT_TYPE_ECSCALESLIST:
-			return "EC Scales List Report";
+			return "EC Sales List Report";
 		case REPORT_TYPE_ECSCALESLISTDETAIL:
-			return "EC Scales List Detail Report";
+			return "EC Sales List Detail Report";
 		case REPORT_TYPE_SALESTAXLIABILITY:
 			return "Sales Tax Liability Report";
 		case REPORT_TYPE_REVERSECHARGELIST:
