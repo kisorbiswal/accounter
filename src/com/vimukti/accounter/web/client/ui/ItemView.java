@@ -219,11 +219,10 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter
-				.messages()
-				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(Accounter.constants().comments(),
-						Accounter.constants().salesDescription()));
+		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()).replace(
+				Accounter.constants().comments(),
+				Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);
@@ -306,11 +305,12 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-			public void selectedComboBoxItem(ClientTAXCode selectItem) {
-				selectTaxCode = selectItem;
-			}
-		});
+		taxCode
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+					public void selectedComboBoxItem(ClientTAXCode selectItem) {
+						selectTaxCode = selectItem;
+					}
+				});
 		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
@@ -409,16 +409,14 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 
 		});
-
-		if (isGeneratedFromCustomer) {
-			isellCheck.setValue(isGeneratedFromCustomer);
-			// isellCheck.setDisabled(!isGeneratedFromCustomer);
-
-			disablePurchaseFormItems(isGeneratedFromCustomer);
-		} else {
-			isellCheck.setDisabled(isGeneratedFromCustomer);
-			ibuyCheck.setValue(!isGeneratedFromCustomer);
-			disableSalesFormItems(isGeneratedFromCustomer);
+		if (!isInViewMode()) {
+			if (isGeneratedFromCustomer) {
+				isellCheck.setValue(isGeneratedFromCustomer);
+				disablePurchaseFormItems(isGeneratedFromCustomer);
+			} else {
+				ibuyCheck.setValue(isGeneratedFromCustomer);
+				disableSalesFormItems(isGeneratedFromCustomer);
+			}
 		}
 
 		if (getPreferences().isTrackTax()
@@ -846,7 +844,7 @@ public class ItemView extends BaseView<ClientItem> {
 		List<ClientVendor> clientVendor = getCompany().getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
-			if (isInViewMode()) {
+			if (!isInViewMode()) {
 				prefVendorCombo.setComboItem(getCompany().getVendor(
 						data.getPreferredVendor()));
 				if (data.isIBuyThisItem() == false)
@@ -902,7 +900,7 @@ public class ItemView extends BaseView<ClientItem> {
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
 		}
-		if (isInViewMode()) {
+		if (!isInViewMode()) {
 
 			accountCombo.setComboItem(getCompany().getAccount(
 					data.getIncomeAccount()));
@@ -918,14 +916,6 @@ public class ItemView extends BaseView<ClientItem> {
 
 		} else
 			expAccCombo.setDisabled(true);
-
-	}
-
-	public void onDraw() {
-
-		this.purchaseDescArea.setDisabled(true);
-		this.purchasePriceTxt.setDisabled(true);
-		this.vendItemNumText.setDisabled(true);
 
 	}
 
@@ -967,16 +957,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText,
-						accounterConstants.enterValidAmount());
+				result.addError(salesPriceText, accounterConstants
+						.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
-				result.addError(purchasePriceTxt,
-						accounterConstants.enterValidAmount());
+				result.addError(purchasePriceTxt, accounterConstants
+						.enterValidAmount());
 			}
 		}
 
@@ -1058,12 +1048,29 @@ public class ItemView extends BaseView<ClientItem> {
 		stdCostText.setDisabled(isInViewMode());
 		itemGroupCombo.setDisabled(isInViewMode());
 		taxCode.setDisabled(isInViewMode());
+		isellCheck.setDisabled(isInViewMode());
+		ibuyCheck.setDisabled(isInViewMode());
 		if (ibuyCheck.getValue()) {
 			purchaseDescArea.setDisabled(isInViewMode());
 			expAccCombo.setDisabled(isInViewMode());
 			prefVendorCombo.setDisabled(isInViewMode());
 			purchasePriceTxt.setDisabled(isInViewMode());
 			vendItemNumText.setDisabled(isInViewMode());
+		} else {
+			purchaseDescArea.setDisabled(true);
+			expAccCombo.setDisabled(true);
+			prefVendorCombo.setDisabled(true);
+			purchasePriceTxt.setDisabled(true);
+			vendItemNumText.setDisabled(true);
+		}
+		if (isellCheck.getValue()) {
+			salesDescArea.setDisabled(isInViewMode());
+			accountCombo.setDisabled(isInViewMode());
+			salesPriceText.setDisabled(isInViewMode());
+		} else {
+			salesDescArea.setDisabled(true);
+			accountCombo.setDisabled(true);
+			salesPriceText.setDisabled(true);
 		}
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
@@ -1072,9 +1079,6 @@ public class ItemView extends BaseView<ClientItem> {
 			openingBalTxt.setDisabled(isInViewMode());
 		}
 		activeCheck.setDisabled(isInViewMode());
-
-		isellCheck.setDisabled(isInViewMode());
-		ibuyCheck.setDisabled(isInViewMode());
 
 	}
 

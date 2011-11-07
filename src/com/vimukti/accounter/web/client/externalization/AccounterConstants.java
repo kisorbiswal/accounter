@@ -3055,7 +3055,7 @@ public interface AccounterConstants extends Constants {
 	public String status();
 
 	public String stockAdjustment();
-	
+
 	public String stockAdjustments();
 
 	public String stockAdjustmentQuantity();
@@ -3593,7 +3593,7 @@ public interface AccounterConstants extends Constants {
 	public String wanttoCreateEstimatesInAccounter();
 
 	public String wareHouse();
-	
+
 	public String wareHouseItems();
 
 	public String warehouseCode();
@@ -3715,5 +3715,7 @@ public interface AccounterConstants extends Constants {
 	public String pleaseSelectAnotherPurchaseTAXItemOfGroup();
 
 	public String updateGridBeforeSaving();
+
+	public String nonInventoryItem();
 
 }

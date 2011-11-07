@@ -22,6 +22,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -105,7 +106,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	private TransactionHistoryTable historyTable;
 
-	private HTML lastActivityHTML;
+	private HTML lastActivityHTML, noteHTML;
 
 	// public static final int CUSTOMER_TRANSACTION_GRID = 1;
 	// public static final int VENDOR_TRANSACTION_GRID = 2;
@@ -1153,6 +1154,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				updateAmountsFromGUI();
 			}
 		});
+		widget.setDisabled(isInViewMode());
 		return widget;
 	}
 
@@ -1567,9 +1569,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		VerticalPanel lastActivityPanel = new VerticalPanel();
 		lastActivityHTML = new HTML();
+		noteHTML = new HTML();
 		lastActivityHTML.addStyleName("bold_HTML");
-
+		noteHTML.addStyleName("bold_HTML");
 		lastActivityPanel.add(lastActivityHTML);
+		lastActivityPanel.add(noteHTML);
 		lastActivityPanel.addStyleName("last_activity");
 
 		historyNotesPanel.setSpacing(9);
@@ -1577,7 +1581,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		historyNotesPanel.add(lastActivityPanel);
 
 		VerticalPanel tablesPanel = new VerticalPanel();
-		HorizontalPanel headersPanel = new HorizontalPanel();
+		FlowPanel headersPanel = new FlowPanel();
 
 		final Anchor historyLink = new Anchor(constants.showHistory());
 		Anchor addNotesLink = new Anchor(constants.addNote());
@@ -1589,8 +1593,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		headersPanel.add(historyLink);
 		headersPanel.add(addNotesLink);
-
-		headersPanel.setSpacing(10);
+		headersPanel.addStyleName("history_links");
 
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
@@ -1708,21 +1711,20 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public void updateLastActivityPanel(ClientTransactionLog transactionLog) {
+
 		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE) {
 			lastActivityHTML.setHTML(messages.lastActivityMessages(historyTable
 					.getActivityType(transactionLog.getType()), transactionLog
 					.getUserName(), new Date(transactionLog.getTime())
 					.toString()));
+			noteHTML.setVisible(false);
 		} else {
 
 			lastActivityHTML.setHTML(messages.lastActivityMessageForNote(
 					new Date(transactionLog.getTime()).toString(),
 					transactionLog.getUserName()));
-			HTML noteHtml = new HTML(transactionLog.getDescription());
-			VerticalPanel lastActivityPanel = (VerticalPanel) lastActivityHTML
-					.getParent();
-			lastActivityPanel.add(noteHtml);
-			noteHtml.addStyleName("bold_HTML");
+			noteHTML.setVisible(true);
+			noteHTML.setHTML(transactionLog.getDescription());
 		}
 	}
 

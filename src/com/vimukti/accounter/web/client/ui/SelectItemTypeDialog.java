@@ -44,14 +44,14 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		// typeMap.put("non-inventory", "Non-Inventory&nbsp;Item");
 
 		if (getPreferences().isInventoryEnabled()) {
-			typeRadio.setValueMap(Accounter.constants().service(), Accounter
-					.constants().inventory(), Accounter.constants()
-					.nonInventory());
-			typeRadio.setDefaultValue(Accounter.constants().service());
+			typeRadio.setValueMap(Accounter.constants().serviceItem(),
+					Accounter.constants().inventoryItem(), Accounter
+							.constants().nonInventoryItem());
+			typeRadio.setDefaultValue(Accounter.constants().serviceItem());
 		} else {
-			typeRadio.setValueMap(Accounter.constants().service(), Accounter
-					.constants().product());
-			typeRadio.setDefaultValue(Accounter.constants().service());
+			typeRadio.setValueMap(Accounter.constants().serviceItem(),
+					Accounter.constants().productItem());
+			typeRadio.setDefaultValue(Accounter.constants().serviceItem());
 		}
 
 		typeForm = new DynamicForm();
@@ -77,7 +77,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 
-			if (radio.equals(Accounter.constants().service())) {
+			if (radio.equals(Accounter.constants().serviceItem())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
 				action.setDependent(isDependent);
@@ -85,7 +85,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
-			} else if (radio.equals(Accounter.constants().inventory())) {
+			} else if (radio.equals(Accounter.constants().inventoryItem())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
 				action.setDependent(isDependent);
@@ -93,7 +93,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
-			} else if (radio.equals(Accounter.constants().nonInventory())) {
+			} else if (radio.equals(Accounter.constants().nonInventoryItem())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
 				action.setDependent(isDependent);
