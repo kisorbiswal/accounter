@@ -558,8 +558,8 @@ public abstract class AdminCustomTable extends VerticalPanel {
 //					table.getCellFormatter().getElement(row, 0)
 //							.setAttribute("width", "" + 25);
 //				else
-					table.getCellFormatter().getElement(row, 0)
-						.setAttribute("width", "" + 15);
+//					table.getCellFormatter().getElement(row, 0)
+//						.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
