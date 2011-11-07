@@ -331,6 +331,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		customerCombo.setRequired(true);
 		customerCombo.setDisabled(isInViewMode());
 		// formItems.add(customerCombo);
+		setCustomer(customerCombo.getSelectedValue());
 		return customerCombo;
 
 	}
