@@ -553,9 +553,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		if (this.vendor.id == obj.vendor.id
 
 				&& ((this.purchaseOrder != null && obj.purchaseOrder != null) ? (this.purchaseOrder
-						.equals(obj.purchaseOrder)) : true)
+						.equals(obj.purchaseOrder))
+						: true)
 				&& ((this.itemReceipt != null && obj.itemReceipt != null) ? (this.itemReceipt
-						.equals(obj.itemReceipt)) : true)
+						.equals(obj.itemReceipt))
+						: true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
 						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)
@@ -959,11 +961,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		for (Estimate estimate : this.getEstimates()) {
-			Query query = session.getNamedQuery("getInvoiceByEstimate")
-					.setParameter("estimate", estimate)
-					.setParameter("company", getCompany());
-			Invoice invoice = (Invoice) query.uniqueResult();
-			if (invoice != null) {
+			if (estimate.getStatus() == Estimate.STATUS_ACCECPTED) {
 				throw new AccounterException(AccounterException.USED_IN_INVOICE);
 			}
 			session.delete(estimate);
@@ -1024,7 +1022,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					estimate = new Estimate();
 					estimate.setCompany(getCompany());
 					estimate.setCustomer(newTransactionItem.getCustomer());
-					estimate.setTransactionItems(new ArrayList<TransactionItem>());
+					estimate
+							.setTransactionItems(new ArrayList<TransactionItem>());
 					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
 					estimate.setType(Transaction.TYPE_ESTIMATE);
 					estimate.setDate(new FinanceDate());
