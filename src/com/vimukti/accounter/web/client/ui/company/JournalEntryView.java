@@ -151,6 +151,11 @@ public class JournalEntryView extends
 			public void updateNonEditableItems() {
 				JournalEntryView.this.updateNonEditableItems();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return JournalEntryView.this.isInViewMode();
+			}
 		};
 		grid.setDisabled(isInViewMode());
 		grid.getElement().getStyle().setMarginTop(10, Unit.PX);
