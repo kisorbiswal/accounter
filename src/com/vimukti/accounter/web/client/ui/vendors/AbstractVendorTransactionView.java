@@ -346,6 +346,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				});
 
 		// vendorCombo.setShowDisabled(false);
+		setVendor(vendorCombo.getSelectedValue());
 		return vendorCombo;
 
 	}
