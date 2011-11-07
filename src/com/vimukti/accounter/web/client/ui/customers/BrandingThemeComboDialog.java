@@ -53,6 +53,8 @@ public class BrandingThemeComboDialog extends BaseDialog {
 					}
 				});
 		brandingThemeTypeCombo.setThemeDialog(this);
+		brandingTheme = Accounter.getCompany().getBrandingTheme().get(1);
+		brandingThemeTypeCombo.setComboItem(brandingTheme);
 
 		DynamicForm dynamicForm = new DynamicForm();
 		VerticalPanel comboPanel = new VerticalPanel();
