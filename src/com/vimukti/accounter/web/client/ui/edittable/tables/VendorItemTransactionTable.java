@@ -81,6 +81,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						row.getQuantity().setUnit(
 								measurement.getDefaultUnit().getId());
 						row.setWareHouse(newValue.getWarehouse());
+						row.setDescription(newValue.getPurchaseDescription());
 					}
 				}
 				update(row);

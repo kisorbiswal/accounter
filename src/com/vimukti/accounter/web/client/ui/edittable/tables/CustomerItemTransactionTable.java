@@ -76,6 +76,7 @@ public abstract class CustomerItemTransactionTable extends
 					row.getQuantity().setUnit(
 							measurement.getDefaultUnit().getId());
 					row.setWareHouse(newValue.getWarehouse());
+					row.setDescription(newValue.getSalesDescription());
 				}
 				update(row);
 				// applyPriceLevel(row);
