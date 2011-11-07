@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
-import javax.net.ssl.TrustManagerFactory;
 
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.ChannelFactory;
@@ -33,9 +32,9 @@ public class MobileServer {
 
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			public ChannelPipeline getPipeline() {
-				return Channels.pipeline(new SslHandler(getSSLEngine()),
-						new MobileDecoder(), new MobileChannelHandler(
-								new MobileMessageHandler()));
+				// new SslHandler(getSSLEngine()),
+				return Channels.pipeline(new MobileDecoder(),
+						new MobileChannelHandler(new MobileMessageHandler()));
 			}
 		});
 
@@ -47,8 +46,6 @@ public class MobileServer {
 	protected SSLEngine getSSLEngine() {
 		try {
 			KeyStore ks = KeyStore.getInstance("JKS");
-
-			KeyStore ts = KeyStore.getInstance("JKS");
 
 			char[] passphrase = "importkey".toCharArray();
 
