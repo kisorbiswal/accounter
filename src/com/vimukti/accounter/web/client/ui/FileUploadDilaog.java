@@ -254,7 +254,6 @@ public class FileUploadDilaog extends CustomDialog {
 		String type = name.substring(name.lastIndexOf('.') + 1);
 		for (String fileType : types) {
 			if (type.equalsIgnoreCase(fileType))
-
 				return true;
 
 		}

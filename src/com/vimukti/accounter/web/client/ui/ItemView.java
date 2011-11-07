@@ -656,7 +656,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		data.setUPCorSKU((String) skuText.getValue());
 
-		if (type == ClientItem.TYPE_NON_INVENTORY_PART
+		if ((type == ClientItem.TYPE_NON_INVENTORY_PART || type == ClientItem.TYPE_INVENTORY_PART)
 				&& weightText.getNumber() != null)
 			data.setWeight(UIUtils.toInt(weightText.getNumber()));
 
@@ -787,6 +787,10 @@ public class ItemView extends BaseView<ClientItem> {
 				if (getPreferences().isTaxPerDetailLine())
 					initTaxCodes();
 			}
+		}
+		if (type == ClientItem.TYPE_INVENTORY_PART
+				|| type == ClientItem.TYPE_NON_INVENTORY_PART) {
+			weightText.setValue(String.valueOf(data.getWeight()));
 		}
 		super.initData();
 

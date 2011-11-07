@@ -610,7 +610,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 						logoNameBox.setValue(value.getFileName());
 					}
 				};
-				String[] filetypes = { "png", "jpg", "gif" };
+				String[] filetypes = { "png", "jpg", "jpeg", "gif" };
 
 				FileUploadDilaog dilaog = new FileUploadDilaog("Upload Logo",
 						"parent", callback, filetypes, getData());
@@ -701,7 +701,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// // TODO Do this checking in validation method
 		// }
 		saveOrUpdate(brandingTheme);
-		
+
 	}
 
 	@Override
