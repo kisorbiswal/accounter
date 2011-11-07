@@ -1583,7 +1583,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		Anchor addNotesLink = new Anchor(constants.addNote());
 		historyLink.addStyleName("history_notes_link");
 		addNotesLink.addStyleName("history_notes_link");
-		addNotesLink.setVisible(!isInViewMode());
 
 		addNotesPanel = getNotesPanel();
 		addNotesPanel.setVisible(false);
