@@ -1599,5 +1599,6 @@ input.date-field-textbox{
 .popupContent div:FIRST-CHILD {
    overflow-x:hidden !important; 
 }
-.history_links{
+.history_links a{
+   margin-right: 20px;
 }
