@@ -181,7 +181,7 @@ public class ReceiveVATView extends
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
 		mainform.setFields(depositInAccCombo, paymentMethodCombo, billsDue);
-		mainform.setWidth("80%");
+//		mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
@@ -208,7 +208,7 @@ public class ReceiveVATView extends
 			balForm.setFields(classListCombo);
 		}
 
-		balForm.getCellFormatter().setWidth(0, 0, "197px");
+//		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -225,7 +225,8 @@ public class ReceiveVATView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "36%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + companyConstants.billsToReceive() + "");
 

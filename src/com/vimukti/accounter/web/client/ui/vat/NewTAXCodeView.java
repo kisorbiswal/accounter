@@ -172,8 +172,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				});
 		vatNameForm = new DynamicForm();
 		vatNameForm.addStyleName("fields-panel");
-		vatNameForm.setWidth("80%");
-		vatNameForm.getCellFormatter().setWidth(0, 0, "225px");
+//		vatNameForm.setWidth("80%");
+//		vatNameForm.getCellFormatter().setWidth(0, 0, "225px");
 		vatNameForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		vatNameForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		if (getPreferences().isTrackPaidTax()) {

@@ -169,7 +169,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
 		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue);
-		mainform.setWidth("80%");
+//		mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
@@ -189,7 +189,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
-		balForm.getCellFormatter().setWidth(0, 0, "197px");
+//		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -212,7 +212,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		topHLay.add(leftVLay);
 		topHLay.add(rightVlay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVlay, "36%");
+		topHLay.setCellWidth(rightVlay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
 

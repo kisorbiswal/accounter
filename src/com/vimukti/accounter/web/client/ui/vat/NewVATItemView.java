@@ -68,25 +68,25 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		vatItemNameText = new TextItem(Accounter.constants().taxItemName());
 		vatItemNameText.setHelpInformation(true);
-		vatItemNameText.setWidth(80);
+//		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
 		vatItemNameText.setDisabled(isInViewMode());
 
 		descriptionText = new TextAreaItem(Accounter.constants().description());
 		descriptionText.setHelpInformation(true);
-		descriptionText.setWidth(80);
+//		descriptionText.setWidth(80);
 		descriptionText.setDisabled(isInViewMode());
 
 		vatRateText = new AmountField(Accounter.constants().taxAmount(), this);
 		vatRateText.setHelpInformation(true);
-		vatRateText.setWidth(80);
+//		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
 		vatRateText.setDisabled(isInViewMode());
 
 		vatRateTextPerT = new PercentageField(this, Accounter.constants()
 				.taxRateP());
 		vatRateTextPerT.setHelpInformation(true);
-		vatRateTextPerT.setWidth(80);
+//		vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
 		vatRateTextPerT.setDisabled(isInViewMode());
 
@@ -129,7 +129,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		form1.setWidth("80%");
+		//form1.setWidth("80%");
 		form1.addStyleName("new_vat_item fields-panel");
 		form1.setIsGroup(true);
 
@@ -175,7 +175,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// }
 		// });
 
-		form1.getCellFormatter().setWidth(0, 0, "250px");
+//		form1.getCellFormatter().setWidth(0, 0, "250px");
 		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
 		if (getPreferences().isTrackTax()) {

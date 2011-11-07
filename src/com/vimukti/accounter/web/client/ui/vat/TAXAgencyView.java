@@ -308,8 +308,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		});
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
-		taxAgencyForm.setWidth("100%");
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
+//		taxAgencyForm.setWidth("100%");
+//		taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
@@ -408,18 +408,18 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 					vatReturnCombo, liabilitySalesAccountCombo);
 		}
 
-		accInfoForm.setWidth("94%");
+//		accInfoForm.setWidth("94%");
 		accInfoForm.setStyleName("align-form");
 
 		memoForm = new DynamicForm();
-		memoForm.setWidth("50%");
+//		memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setDisabled(isInViewMode());
 		memoArea.setTitle(Accounter.constants().memo());
-		memoArea.setWidth("400px");
+//		memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
@@ -450,12 +450,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 			// Setting AddressForm
 			addrsForm = new AddressForm(data.getAddress());
-			addrsForm.setWidth("100%");
+//			addrsForm.setWidth("100%");
 			addrsForm.setDisabled(isInViewMode());
 			// Setting Phone Fax Form
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			phoneFaxForm.setWidth("100%");
+//			phoneFaxForm.setWidth("100%");
 			phoneFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			phoneFaxForm.businessFaxText.setValue(data.getFaxNo());
 			phoneFaxForm.setDisabled(isInViewMode());
@@ -464,7 +464,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
 					this.getAction().getViewName());
 			emailForm.businesEmailText.setValue(data.getEmail());
-			emailForm.setWidth("100%");
+//			emailForm.setWidth("100%");
 			emailForm.setDisabled(isInViewMode());
 
 			// Setting Status Check
@@ -547,24 +547,24 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// For Creating TaxAgency
 			setData(new ClientTAXAgency());
 			addrsForm = new AddressForm(null);
-			addrsForm.setWidth("100%");
+//			addrsForm.setWidth("100%");
 			addrsForm.setDisabled(isInViewMode());
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			phoneFaxForm.setWidth("100%");
+//			phoneFaxForm.setWidth("100%");
 			emailForm = new EmailForm(null, null, this, this.getAction()
 					.getViewName());
-			emailForm.setWidth("100%");
+//			emailForm.setWidth("100%");
 		}
 
-		phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
-		phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
-
-		addrsForm.getCellFormatter().setWidth(0, 0, "50");
-		addrsForm.getCellFormatter().setWidth(0, 1, "125");
-
-		emailForm.getCellFormatter().setWidth(0, 0, "235");
-		emailForm.getCellFormatter().setWidth(0, 1, "");
+//		phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
+//		phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
+//
+//		addrsForm.getCellFormatter().setWidth(0, 0, "50");
+//		addrsForm.getCellFormatter().setWidth(0, 1, "125");
+//
+//		emailForm.getCellFormatter().setWidth(0, 0, "235");
+//		emailForm.getCellFormatter().setWidth(0, 1, "");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -572,7 +572,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		leftVLay.add(accInfoForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setWidth("100%");
+//		rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay.add(addrsForm);
 		rightVLay.add(phoneFaxForm);
@@ -586,7 +586,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel contHLay = new HorizontalPanel();
 		contHLay.setSpacing(5);

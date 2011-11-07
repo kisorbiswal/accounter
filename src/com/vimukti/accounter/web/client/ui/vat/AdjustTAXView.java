@@ -175,7 +175,7 @@ public class AdjustTAXView extends
 
 					}
 				});
-		vatform.getCellFormatter().setWidth(0, 1, "182");
+//		vatform.getCellFormatter().setWidth(0, 1, "182");
 
 		taxAgencyCombo.setRequired(true);
 		vatItemCombo.setRequired(true);
@@ -225,15 +225,15 @@ public class AdjustTAXView extends
 		topform.setFields(taxAgencyCombo, vatItemCombo, salesTypeRadio);
 		// }
 
-		topform.setWidth("50%");
-		topform.getCellFormatter().setWidth(0, 0, "190");
+//		topform.setWidth("50%");
+//		topform.getCellFormatter().setWidth(0, 0, "190");
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.addStyleName("fields-panel");
-		memoForm.setWidth("50%");
+//		memoForm.setWidth("50%");
 		memoForm.setFields(adjustAccountCombo, amount, typeRadio, memo);
 		memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		memoForm.getCellFormatter().setWidth(0, 0, "190");
+//		memoForm.getCellFormatter().setWidth(0, 0, "190");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
