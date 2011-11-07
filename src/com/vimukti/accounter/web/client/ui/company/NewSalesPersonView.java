@@ -92,12 +92,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		listforms = new ArrayList<DynamicForm>();
 
 		employeeNameText = new TextItem(Accounter.constants().salesPersonName());
-		employeeNameText.setWidth("200px");
+//		employeeNameText.setWidth("200px");
 		employeeNameText.setRequired(true);
 		employeeNameText.setDisabled(isInViewMode());
 
 		fileAsText = new TextItem(Accounter.constants().fileAs());
-		fileAsText.setWidth("200px");
+//		fileAsText.setWidth("200px");
 		fileAsText.setDisabled(isInViewMode());
 		employeeNameText.addChangeHandler(new ChangeHandler() {
 
@@ -111,13 +111,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		});
 
 		jobTitleText = new TextItem(Accounter.constants().jobTitle());
-		jobTitleText.setWidth("200px");
+//		jobTitleText.setWidth("200px");
 		jobTitleText.setDisabled(isInViewMode());
 
 		salesPersonForm = UIUtils.form(Accounter.constants().salesPerson());
 		//salesPersonForm.setWidth("80%");
 		salesPersonForm.setFields(employeeNameText, fileAsText, jobTitleText);
-		salesPersonForm.getCellFormatter().setWidth(0, 0, "200px");
+//		salesPersonForm.getCellFormatter().setWidth(0, 0, "200px");
 
 		expenseAccountForm = UIUtils.form(Accounter.messages().expenseAccount(
 				Global.get().Account()));
@@ -135,7 +135,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 				});
 
-		expenseAccountForm.getCellFormatter().setWidth(0, 0, "200px");
+//		expenseAccountForm.getCellFormatter().setWidth(0, 0, "200px");
 		expenseAccountForm.setFields(expenseSelect);
 
 		memoForm = new DynamicForm();
@@ -151,11 +151,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				.setVerticalAlign(VerticalAlign.TOP);
 		// memoForm.getCellFormatter().getElement(0, 1).getStyle().setWidth(239,
 		// Unit.PX);
-		memoForm.getCellFormatter().setWidth(0, 0, "200");
+//		memoForm.getCellFormatter().setWidth(0, 0, "200");
 		salesPersonInfoForm = UIUtils.form(Accounter.constants()
 				.salesPersonInformation());
 		salesPersonInfoForm.setStyleName("align-form");
-		salesPersonInfoForm.setWidth("100%");
+//		salesPersonInfoForm.setWidth("100%");
 		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
@@ -224,7 +224,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// XXX
 		addrsForm = new DynamicForm();
 		addrArea = new TextAreaItem(Accounter.constants().address());
-		addrArea.setWidth("200px");
+//		addrArea.setWidth("200px");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
 		addrArea.setDisabled(isInViewMode());
@@ -295,16 +295,16 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					.getViewName());
 			//fonFaxForm.setWidth("80%");
 			fonFaxForm.setHeight("60px");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
-			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
+//			fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
+//			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			fonFaxForm.setDisabled(isInViewMode());
 			fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			fonFaxForm.businessFaxText.setValue(data.getFaxNo());
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
 					this.getAction().getViewName());
 			emailForm.setWidth("100%");
-			emailForm.getCellFormatter().setWidth(0, 0, "159");
-			emailForm.getCellFormatter().setWidth(0, 1, "125");
+//			emailForm.getCellFormatter().setWidth(0, 0, "159");
+//			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm.businesEmailText.setValue(data.getEmail());
 			emailForm.webText.setValue(data.getWebPageAddress());
 			emailForm.setDisabled(isInViewMode());
@@ -329,19 +329,19 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
 			//fonFaxForm.setWidth("80%");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
-			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
+//			fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
+//			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm = new EmailForm(null, null, this, this.getAction()
 					.getViewName());
 			emailForm.setWidth("100%");
-			emailForm.getCellFormatter().setWidth(0, 0, "200");
-			emailForm.getCellFormatter().setWidth(0, 1, "125");
+//			emailForm.getCellFormatter().setWidth(0, 0, "200");
+//			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
 		}
 		addrsForm.setWidth("100%");
-		addrsForm.getCellFormatter().setWidth(0, 0, "200");
-		addrsForm.getCellFormatter().setWidth(0, 1, "125");
+//		addrsForm.getCellFormatter().setWidth(0, 0, "200");
+//		addrsForm.getCellFormatter().setWidth(0, 1, "125");
 		addrsForm.setFields(addrArea);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.add(salesPersonForm);
@@ -356,11 +356,15 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		rightVLay.getElement().getStyle().setMarginLeft(35, Unit.PX);
 		rightVLay.add(emailForm);
 		rightVLay.add(salesPersonInfoForm);
-		salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "200");
+//		salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		HorizontalPanel topHLay = new HorizontalPanel();
 		// topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		
 
 		VerticalPanel mainVlay = new VerticalPanel();
 		mainVlay.setWidth("100%");
@@ -522,26 +526,26 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + "");
-		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), listBoxWidth + "");
-
-		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), listBoxWidth + "");
-
-		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
-				.setWidth(titlewidth + listBoxWidth, Unit.PX);
-		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
-				"width", titlewidth + listBoxWidth + "");
-		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + listBoxWidth + "");
-		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "");
-		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), "");
+//		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), titlewidth + "");
+//		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
+//				Accounter.constants().width(), listBoxWidth + "");
+//
+//		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), titlewidth + "");
+//		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
+//				Accounter.constants().width(), listBoxWidth + "");
+//
+//		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
+//				.setWidth(titlewidth + listBoxWidth, Unit.PX);
+//		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				"width", titlewidth + listBoxWidth + "");
+//		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), titlewidth + listBoxWidth + "");
+//		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "");
+//		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
+//				Accounter.constants().width(), "");
 
 	}
 

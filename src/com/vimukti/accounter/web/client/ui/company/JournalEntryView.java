@@ -347,7 +347,7 @@ public class JournalEntryView extends
 		creditTotalText.setDisabled(true);
 
 		totalForm = new DynamicForm();
-		totalForm.setWidth("78%");
+//		totalForm.setWidth("78%");
 		totalForm.addStyleName("textbold");
 		totalForm.setFields(deditTotalText, creditTotalText);
 

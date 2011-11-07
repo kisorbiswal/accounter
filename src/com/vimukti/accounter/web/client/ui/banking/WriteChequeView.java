@@ -727,7 +727,7 @@ public class WriteChequeView extends
 			classListCombo = createAccounterClassListCombo();
 			bankAccForm.setFields(classListCombo);
 		}
-		bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
+//		bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		// forms.add(bankAccForm);
 
 		paytoSelect = new PayeeCombo(Accounter.constants().payTo());
@@ -817,18 +817,21 @@ public class WriteChequeView extends
 		toprintCheck.setValue(true);
 
 		payForm = new DynamicForm();
-		payForm.setWidth("100%");
+//		payForm.setWidth("100%");
 		payForm.setFields(paytoSelect, billToCombo, amtText);
-		payForm.getCellFormatter().setWidth(0, 0, "170px");
+//		payForm.getCellFormatter().setWidth(0, 0, "170px");
 
 		currencyWidget = createCurrencyWidget();
 
 		VerticalPanel currencyPanel = new VerticalPanel();
-		currencyPanel.setWidth("100%");
+//		currencyPanel.setWidth("100%");
 		currencyPanel.add(bankAccForm);
+		currencyPanel.setCellHorizontalAlignment(bankAccForm, HasHorizontalAlignment.ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			currencyPanel.add(currencyWidget);
 			currencyWidget.setDisabled(isInViewMode());
+			currencyPanel.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 		}
 
 		HorizontalPanel accPanel = new HorizontalPanel();
@@ -836,7 +839,7 @@ public class WriteChequeView extends
 		accPanel.setWidth("100%");
 		accPanel.add(payForm);
 		accPanel.add(currencyPanel);
-		accPanel.setCellHorizontalAlignment(bankAccForm,
+		accPanel.setCellHorizontalAlignment(currencyPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		VerticalPanel topHLay = new VerticalPanel();

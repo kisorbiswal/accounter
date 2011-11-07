@@ -209,7 +209,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		topHLay = new HorizontalPanel();
 		topHLay.setWidth("50%");
 		leftLayout = new HorizontalPanel();
-		leftLayout.setWidth("90%");
+		leftLayout.setWidth("100%");
 
 		// budgetInfoForm.setFields(budgetStartWithSelect, budgetSubdevideBy,
 		// selectFinancialYear, budgetNameText);
@@ -220,7 +220,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		leftLayout.add(budgetInfoForm);
 		topHLay.add(leftLayout);
 
-		budgetInfoForm.getCellFormatter().setWidth(0, 0, "200");
+//		budgetInfoForm.getCellFormatter().setWidth(0, 0, "200");
 
 		gridView = new BudgetAccountGrid();
 		gridView.setCanEdit(true);
@@ -393,7 +393,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		String exceptionMessage = exception.getMessage();
+//		String exceptionMessage = exception.getMessage();
 		// addError(this, exceptionMessage);
 		AccounterException accounterException = (AccounterException) exception;
 		int errorCode = accounterException.getErrorCode();
