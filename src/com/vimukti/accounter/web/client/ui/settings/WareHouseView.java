@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -118,6 +119,10 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 		mainHLay.add(getLeftSideForm());
 		mainHLay.add(getRightSideForm());
+		mainHLay.setCellWidth(getLeftSideForm(), "50%");
+		mainHLay.setCellWidth(getRightSideForm(), "50%");
+		
+		mainHLay.setCellHorizontalAlignment(getRightSideForm(), ALIGN_RIGHT);
 
 		titleItem = new Label(settingsConstants.wareHouse());
 		titleItem.setStyleName(Accounter.constants().labelTitle());
@@ -135,7 +140,8 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private DynamicForm getRightSideForm() {
 
 		rightSideForm = new DynamicForm();
-		rightSideForm.setWidth("100%");
+//		rightSideForm.setWidth("100%");
+		rightSideForm.getElement().getStyle().setFloat(Float.RIGHT);
 
 		addressItem = new TextItem();
 		addressItem.setTitle(settingsConstants.address());
@@ -169,7 +175,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private DynamicForm getLeftSideForm() {
 
 		leftSideForm = new DynamicForm();
-		leftSideForm.setWidth("100%");
+//		leftSideForm.setWidth("100%");
 
 		warehouseCodeItem = new TextItem();
 		warehouseCodeItem.setTitle(settingsConstants.warehouseCode());

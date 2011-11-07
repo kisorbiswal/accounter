@@ -126,7 +126,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
 		Element element2 = custForm.getCellFormatter().getElement(0, 0);
-		element2.setAttribute("width", "150px");
+	//	element2.setAttribute("width", "150px");
 		initGrid();
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
