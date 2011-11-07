@@ -3072,6 +3072,20 @@
 		WHERE L.ID = :inputId AND L.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
+	<sql-query name="canDeleteCurrency">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="TRANS_ID" type="long" />
+		SELECT
+		T.ID AS TRANS_ID
+		FROM CURRENCY C
+		LEFT OUTER JOIN
+		TRANSACTION T
+		ON
+		C.ID = T.CURRENCY
+		WHERE C.ID = :inputId AND C.COMPANY_ID=:companyId
+		LIMIT 1
+	</sql-query>
 	<sql-query name="canDeleteAccounterClass">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
