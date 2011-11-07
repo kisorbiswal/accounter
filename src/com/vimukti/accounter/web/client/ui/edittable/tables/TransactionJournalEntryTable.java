@@ -248,7 +248,7 @@ public abstract class TransactionJournalEntryTable extends
 	}
 
 	public boolean isValidTotal() {
-		if (getTotalCredittotal() == getTotalDebittotal())
+		if (DecimalUtil.isEquals(getTotalCredittotal(), getTotalDebittotal()))
 			return true;
 		else {
 			return false;
