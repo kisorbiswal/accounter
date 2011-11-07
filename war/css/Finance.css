@@ -1591,3 +1591,9 @@ button.disable,button.disable:hover{
 	padding:0px;
 	margin:0px;
 }
+.popupContent table td{
+   white-space: pre;
+}
+.popupContent div:FIRST-CHILD {
+   overflow-x:hidden !important; 
+}
