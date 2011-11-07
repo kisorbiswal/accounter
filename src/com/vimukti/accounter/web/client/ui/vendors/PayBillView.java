@@ -541,7 +541,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		payForm = new DynamicForm();
-		payForm.setWidth("80%");
+//		payForm.setWidth("80%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
@@ -565,7 +565,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		});
 
 		DynamicForm balForm = new DynamicForm();
-		balForm.setWidth("100%");
+//		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
@@ -630,9 +630,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		leftVLay.setWidth("100%");
 		leftVLay.add(payForm);
 		VerticalPanel vpPanel = new VerticalPanel();
+		vpPanel.setCellHorizontalAlignment(balForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 		vpPanel.add(balForm);
 		if (isMultiCurrencyEnabled()) {
 			vpPanel.add(currencyWidget);
+			vpPanel.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -642,6 +646,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(vpPanel);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(vpPanel, "50%");
+		topHLay.setCellHorizontalAlignment(vpPanel, ALIGN_RIGHT);
+		
 		// topHLay.add(vpPanel);
 		// HorizontalPanel hLay2 = new HorizontalPanel();
 		// hLay2.setWidth("100%");

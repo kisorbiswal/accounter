@@ -152,7 +152,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
 		mainform.setFields(payFromAccCombo, paymentMethodCombo);
-		mainform.setWidth("80%");
+//		mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
@@ -172,7 +172,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
-		balForm.getCellFormatter().setWidth(0, 0, "197px");
+//		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -195,7 +195,8 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		topHLay.add(leftVLay);
 		topHLay.add(rightVlay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVlay, "36%");
+		topHLay.setCellWidth(rightVlay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
 

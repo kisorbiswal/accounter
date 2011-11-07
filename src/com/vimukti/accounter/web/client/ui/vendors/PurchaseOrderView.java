@@ -292,8 +292,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+//		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
@@ -318,10 +318,10 @@ public class PurchaseOrderView extends
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
-		vendorForm.setWidth("100%");
+//		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
 				billtoAreaItem);
-		vendorForm.getCellFormatter().setWidth(0, 0, "226px");
+//		vendorForm.getCellFormatter().setWidth(0, 0, "226px");
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 
 		// formItems.add(billToCombo);
@@ -409,8 +409,8 @@ public class PurchaseOrderView extends
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
-		termsForm.getCellFormatter().setWidth(0, 0, "208px");
-		dateform.getCellFormatter().setWidth(0, 0, "230px");
+//		termsForm.getCellFormatter().setWidth(0, 0, "208px");
+//		dateform.getCellFormatter().setWidth(0, 0, "230px");
 
 		// formItems.add(checkNo);
 		// formItems.add(dueDateItem);
@@ -523,6 +523,8 @@ public class PurchaseOrderView extends
 		rightVLay.add(dateform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		// rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
@@ -535,8 +537,9 @@ public class PurchaseOrderView extends
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "52%");
-		topHLay.setCellWidth(rightVLay, "47%");
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel panel = new HorizontalPanel();

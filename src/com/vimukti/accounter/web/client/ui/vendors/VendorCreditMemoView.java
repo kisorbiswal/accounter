@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -324,7 +325,7 @@ public class VendorCreditMemoView extends
 		leftVLay.setWidth("100%");
 
 		vendorForm = UIUtils.form(Global.get().vendor());
-		vendorForm.setWidth("50%");
+		//vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -333,19 +334,22 @@ public class VendorCreditMemoView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+//		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		DynamicForm locationForm = new DynamicForm();
-		if (locationTrackingEnabled)
+		if (locationTrackingEnabled){
 			locationForm.setFields(locationCombo);
-		rightVLay.add(locationForm);
-		rightVLay.setWidth("100%");
+			locationForm.getElement().getStyle().setFloat(Float.RIGHT);
+			rightVLay.add(locationForm);
+			rightVLay.setWidth("100%");
+		}
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -360,7 +364,7 @@ public class VendorCreditMemoView extends
 		// refText.setWidth(100);
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		DynamicForm memoForm = new DynamicForm();
-		memoForm.setWidth("100%");
+//		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm vatCheckform = new DynamicForm();
@@ -381,9 +385,11 @@ public class VendorCreditMemoView extends
 		rightVLay1.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay1.setWidth("100%");
 		HorizontalPanel topHLay1 = new HorizontalPanel();
+		topHLay1.addStyleName("fields-panel");
 		topHLay1.setWidth("100%");
 		topHLay1.add(leftVLay);
 		topHLay1.add(rightVLay);
+		topHLay1.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel bottomLayout1 = new HorizontalPanel();
 		bottomLayout1.setWidth("100%");
@@ -690,8 +696,8 @@ public class VendorCreditMemoView extends
 	}
 
 	private void resetFormView() {
-		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-		vendorForm.setWidth("40%");
+//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+//		vendorForm.setWidth("40%");
 	}
 
 	@Override

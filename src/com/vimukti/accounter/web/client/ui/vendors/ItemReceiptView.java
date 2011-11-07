@@ -249,7 +249,7 @@ public class ItemReceiptView extends
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 		DynamicForm memoForm = new DynamicForm();
-		memoForm.setWidth("100%");
+//		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 
 		transactionTotalItem = new AmountField(Accounter.constants().total(),
@@ -274,6 +274,8 @@ public class ItemReceiptView extends
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();

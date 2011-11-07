@@ -446,7 +446,7 @@ public class VendorBillView extends
 			billToCombo.setDisabled(true);
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
-		vendorForm.setWidth("100%");
+//		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
 		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel);
 
@@ -464,7 +464,7 @@ public class VendorBillView extends
 		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
-		phoneSelect.setWidth(80);
+//		phoneSelect.setWidth(80);
 		phoneSelect.setDisabled(false);
 		// formItems.add(phoneSelect);
 
@@ -500,17 +500,17 @@ public class VendorBillView extends
 
 		DynamicForm termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setStyleName(Accounter.constants().venderForm());
-		termsForm.setWidth("75%");
+//		termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
 
 		DynamicForm dateform = new DynamicForm();
-		dateform.setWidth("100%");
+//		dateform.setWidth("100%");
 		dateform.setNumCols(2);
 		if (locationTrackingEnabled)
 			dateform.setFields(locationCombo);
 		dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
 				deliveryDateItem);
-		dateform.getCellFormatter().setWidth(0, 0, "200px");
+//		dateform.getCellFormatter().setWidth(0, 0, "200px");
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -681,16 +681,20 @@ public class VendorBillView extends
 		if (this.isInViewMode())
 			totalForm.setFields(balanceDueNonEditableText);
 		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+//		leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
-		rightVLay.setWidth("100%");
+//		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
+		rightVLay.setCellHorizontalAlignment(dateform,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -700,7 +704,9 @@ public class VendorBillView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "45%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		
 		topHLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
 		topHLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
 
@@ -1305,10 +1311,10 @@ public class VendorBillView extends
 	}
 
 	private void resetFormView() {
-		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		// refText.setWidth("200px");
-		phoneSelect.setWidth("210px");
-		paymentTermsCombo.setWidth("210px");
+//		phoneSelect.setWidth("210px");
+//		paymentTermsCombo.setWidth("210px");
 	}
 
 	@Override

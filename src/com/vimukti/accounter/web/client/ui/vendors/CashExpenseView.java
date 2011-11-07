@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -263,7 +264,7 @@ public class CashExpenseView extends
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 
-		vendorForm.setWidth("100%");
+//		vendorForm.setWidth("100%");
 
 		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
@@ -423,7 +424,7 @@ public class CashExpenseView extends
 		totalForm.setStyleName("boldtext");
 
 		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+//		leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
@@ -431,9 +432,11 @@ public class CashExpenseView extends
 		DynamicForm locationform = new DynamicForm();
 		if (locationTrackingEnabled)
 			locationform.setFields(locationCombo);
-		rightVLay.add(locationform);
+		    locationform.getElement().getStyle().setFloat(Float.RIGHT);
+		    rightVLay.add(locationform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -442,6 +445,9 @@ public class CashExpenseView extends
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
@@ -843,8 +849,8 @@ public class CashExpenseView extends
 	}
 
 	private void resetFormView() {
-		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-		vendorForm.setWidth("75%");
+//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+//		vendorForm.setWidth("75%");
 		// refText.setWidth("200px");
 
 	}

@@ -156,7 +156,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		vendorForm.setFields(employee);
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);
-		termsForm.getCellFormatter().setWidth(0, 0, "203px");
+//		termsForm.getCellFormatter().setWidth(0, 0, "203px");
 
 		VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
 		vendorForm.removeFromParent();
