@@ -142,8 +142,8 @@ public class CashSalesView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.messages()
-				.payeeName(Global.get().Customer()));
+		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
+				Global.get().Customer()));
 		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 
@@ -334,18 +334,7 @@ public class CashSalesView extends
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		if (isTrackTax()) {
-			if (isMultiCurrencyEnabled()) {
-				prodAndServiceForm2.setFields(disabletextbox,
-						taxTotalNonEditableText, disabletextbox,
-						netAmountLabel, disabletextbox,
-						transactionTotalBaseCurrency, disabletextbox,
-						transactionTotalForeignCurrency);
-			} else {
-				prodAndServiceForm2.setFields(disabletextbox,
-						taxTotalNonEditableText, disabletextbox,
-						netAmountLabel, disabletextbox,
-						transactionTotalBaseCurrency);
-			}
+
 			if (isTaxPerDetailLine()) {
 				if (isMultiCurrencyEnabled()) {
 					prodAndServiceForm2.setFields(disabletextbox,
@@ -361,6 +350,20 @@ public class CashSalesView extends
 				}
 				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
+
+				if (isMultiCurrencyEnabled()) {
+					prodAndServiceForm2.setFields(disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							netAmountLabel, disabletextbox,
+							transactionTotalBaseCurrency, disabletextbox,
+							transactionTotalForeignCurrency);
+				} else {
+					prodAndServiceForm2.setFields(disabletextbox,
+							taxTotalNonEditableText, disabletextbox,
+							netAmountLabel, disabletextbox,
+							transactionTotalBaseCurrency);
+				}
+
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		} else {
