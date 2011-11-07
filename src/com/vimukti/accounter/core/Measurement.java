@@ -149,11 +149,6 @@ public class Measurement extends CreatableObject implements
 		this.name = name;
 	}
 
-	@Override
-	public long getID() {
-		return 0;
-	}
-
 	public Measurement clone() {
 		Measurement measurementClone = (Measurement) this.clone();
 		Set<Unit> units = new HashSet<Unit>();

@@ -119,8 +119,7 @@ public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	@Override
