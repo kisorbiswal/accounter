@@ -464,6 +464,11 @@ public class CreditCardExpenseView extends
 			public boolean isShowPriceWithVat() {
 				return CreditCardExpenseView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CreditCardExpenseView.this.isInViewMode();
+			}
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -495,6 +500,11 @@ public class CreditCardExpenseView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CreditCardExpenseView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CreditCardExpenseView.this.isInViewMode();
 			}
 		};
 

@@ -548,6 +548,11 @@ public class VendorBillView extends
 			public boolean isShowPriceWithVat() {
 				return VendorBillView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return VendorBillView.this.isInViewMode();
+			}
 		};
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.getElement().getStyle()
@@ -582,6 +587,11 @@ public class VendorBillView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorBillView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return VendorBillView.this.isInViewMode();
 			}
 		};
 

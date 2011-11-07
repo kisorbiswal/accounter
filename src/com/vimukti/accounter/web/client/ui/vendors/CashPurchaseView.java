@@ -239,6 +239,11 @@ public class CashPurchaseView extends
 			public boolean isShowPriceWithVat() {
 				return CashPurchaseView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CashPurchaseView.this.isInViewMode();
+			}
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -272,6 +277,11 @@ public class CashPurchaseView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CashPurchaseView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CashPurchaseView.this.isInViewMode();
 			}
 		};
 

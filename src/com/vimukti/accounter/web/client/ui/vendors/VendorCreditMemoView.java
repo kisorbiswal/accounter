@@ -265,6 +265,11 @@ public class VendorCreditMemoView extends
 			public boolean isShowPriceWithVat() {
 				return VendorCreditMemoView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return VendorCreditMemoView.this.isInViewMode();
+			}
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -299,6 +304,11 @@ public class VendorCreditMemoView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorCreditMemoView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return VendorCreditMemoView.this.isInViewMode();
 			}
 		};
 

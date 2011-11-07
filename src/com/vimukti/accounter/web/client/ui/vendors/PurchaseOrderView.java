@@ -430,6 +430,11 @@ public class PurchaseOrderView extends
 			public boolean isShowPriceWithVat() {
 				return PurchaseOrderView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return PurchaseOrderView.this.isInViewMode();
+			}
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -461,6 +466,11 @@ public class PurchaseOrderView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return PurchaseOrderView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return PurchaseOrderView.this.isInViewMode();
 			}
 
 		};
