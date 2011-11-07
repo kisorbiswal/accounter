@@ -343,7 +343,7 @@ public class CashSalesView extends
 		DynamicForm taxForm = new DynamicForm();
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.setNumCols(2);
 		prodAndServiceForm2.addStyleName("boldtext");
 
 		if (isTrackTax()) {

@@ -507,7 +507,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.setNumCols(2);
 		prodAndServiceForm2.setCellSpacing(5);
 
 		DynamicForm vatForm = new DynamicForm();

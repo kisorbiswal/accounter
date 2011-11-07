@@ -405,7 +405,7 @@ public class SalesOrderView extends
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.setNumCols(2);
 
 		// TextItem = new TextItem("");
 		// .setVisible(false);
