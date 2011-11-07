@@ -380,8 +380,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		dropDown.setRowCount(dataProvider.getList().size());
 		dropDown.setPageSize(dropDown.getRowCount());
 		if (!comboItems.isEmpty()) {
-			this.selectedObject = comboItems.get(0);
-			setSelectedItem(this.selectedObject, 0);
+			setComboItem(comboItems.get(0));
 		}
 	}
 
