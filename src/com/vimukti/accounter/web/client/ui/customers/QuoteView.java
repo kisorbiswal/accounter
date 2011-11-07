@@ -478,6 +478,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			public boolean isShowPriceWithVat() {
 				return QuoteView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return QuoteView.this.isInViewMode();
+			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
 

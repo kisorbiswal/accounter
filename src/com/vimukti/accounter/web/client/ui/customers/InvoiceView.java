@@ -470,6 +470,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				InvoiceView.this.updateNonEditableItems();
 			}
 
+			@Override
+			protected boolean isInViewMode() {
+				return InvoiceView.this.isInViewMode();
+			}
+
 		};
 
 		customerTransactionTable.setDisabled(isInViewMode());

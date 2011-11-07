@@ -201,6 +201,11 @@ public class CustomerCreditMemoView extends
 			public boolean isShowPriceWithVat() {
 				return CustomerCreditMemoView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CustomerCreditMemoView.this.isInViewMode();
+			}
 		};
 		customerAccountTransactionTable.setDisabled(isInViewMode());
 
@@ -233,6 +238,11 @@ public class CustomerCreditMemoView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CustomerCreditMemoView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CustomerCreditMemoView.this.isInViewMode();
 			}
 		};
 		customerItemTransactionTable.setDisabled(isInViewMode());

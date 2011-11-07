@@ -384,6 +384,11 @@ public class SalesOrderView extends
 			public boolean isShowPriceWithVat() {
 				return SalesOrderView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return SalesOrderView.this.isInViewMode();
+			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
 		customerTransactionTable.setWidth("99.5%");

@@ -616,8 +616,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		} else {
 			customerForm.setFields(custNameText);
 		}
-//		customerForm.setWidth("100%");
-//		customerForm.getCellFormatter().setWidth(0, 0, "205");
+		// customerForm.setWidth("100%");
+		// customerForm.getCellFormatter().setWidth(0, 0, "205");
 
 		// Element ele = DOM.createSpan();
 		// ele.addClassName("star");
@@ -684,7 +684,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// balanceDate.setEnteredDate(fiscalYear.getStartDate());
 		// }
 
-//		accInfoForm.setWidth("100%");
+		// accInfoForm.setWidth("100%");
 		accInfoForm.setFields(statusCheck, customerSinceDate, openingBalText,
 				balanceDate, balanceText);
 
@@ -705,7 +705,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		});
 		addButton.setEnabled(!isInViewMode());
 
-		gridView = new ContactsTable();
+		gridView = new ContactsTable() {
+
+			@Override
+			protected boolean isInViewMode() {
+				return CustomerView.this.isInViewMode();
+			}
+		};
 		gridView.setDisabled(isInViewMode());
 
 		// gridView.setCanEdit(!isInViewMode());
@@ -731,7 +737,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 		panel.add(hPanel);
 		memoArea = new TextAreaItem();
-//		memoArea.setWidth("400px");
+		// memoArea.setWidth("400px");
 		memoArea.setTitle(customerConstants.memo());
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
@@ -751,15 +757,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// For Editing customer
 
 		addrsForm = new AddressForm(null);
-//		addrsForm.setWidth("100%");
+		// addrsForm.setWidth("100%");
 		addrsForm.setDisabled(isInViewMode());
 		fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 				.getViewName());
-//		fonFaxForm.setWidth("100%");
+		// fonFaxForm.setWidth("100%");
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm = new EmailForm(null, null, this, this.getAction()
 				.getViewName());
-//		emailForm.setWidth("100%");
+		// emailForm.setWidth("100%");
 		emailForm.setDisabled(isInViewMode());
 
 		/* Adding Dynamic Forms in List */
@@ -776,7 +782,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// leftVLay.add(emailForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-//		rightVLay.setWidth("100%");
+		// rightVLay.setWidth("100%");
 		rightVLay.add(addrsForm);
 		rightVLay.add(fonFaxForm);
 		rightVLay.add(emailForm);
@@ -810,47 +816,47 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	private void resetFromView() {
-//		addrsForm.getCellFormatter().setWidth(0, 0, "75");
-//		addrsForm.getCellFormatter().setWidth(0, 1, "125");
-//
-//		fonFaxForm.getCellFormatter().setWidth(0, 0, "75");
-//		fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
-//
-//		emailForm.getCellFormatter().setWidth(0, 0, "190");
-//		emailForm.getCellFormatter().setWidth(0, 1, "150");
-//
-//		memoArea.getMainWidget().setWidth("250px");
+		// addrsForm.getCellFormatter().setWidth(0, 0, "75");
+		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
+		//
+		// fonFaxForm.getCellFormatter().setWidth(0, 0, "75");
+		// fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
+		//
+		// emailForm.getCellFormatter().setWidth(0, 0, "190");
+		// emailForm.getCellFormatter().setWidth(0, 1, "150");
+		//
+		// memoArea.getMainWidget().setWidth("250px");
 
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-//		addrsForm.getCellFormatter().getElement(0, 0).setAttribute("width",
-//				titlewidth + "");
-//
-//		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-//				Accounter.constants().width(), "185px");
-//
-//		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "240px");
+		// addrsForm.getCellFormatter().getElement(0, 0).setAttribute("width",
+		// titlewidth + "");
+		//
+		// addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// Accounter.constants().width(), "185px");
+		//
+		// fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
-//		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-//				150, Unit.PX);
-//		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "240px");
+		// customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
+		// 150, Unit.PX);
+		// emailForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
-//		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "150px");
+		// accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "150px");
 
 	}
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(customerConstants
-				.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(
+				customerConstants.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -885,8 +891,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		//
 		// });
 
-		creditRatingSelect = new CreditRatingCombo(customerConstants
-				.creditRating());
+		creditRatingSelect = new CreditRatingCombo(
+				customerConstants.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -920,8 +926,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(customerConstants.cstNumber());
 		cstNumberText.setHelpInformation(true);
-		serviceTaxRegistrationNo = new TextItem(customerConstants
-				.serviceTaxRegistrationNumber());
+		serviceTaxRegistrationNo = new TextItem(
+				customerConstants.serviceTaxRegistrationNumber());
 		serviceTaxRegistrationNo.setHelpInformation(true);
 		tinNumberText = new TextItem(customerConstants.tinNumber());
 		tinNumberText.setHelpInformation(true);
@@ -953,8 +959,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(customerConstants
-				.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(
+				customerConstants.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
