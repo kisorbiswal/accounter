@@ -89,42 +89,40 @@ public class ActivationServlet extends BaseServlet {
 						.getAttribute(ACTIVATION_TYPE);
 				if (activationType != null
 						&& activationType.equals("resetpassword")) {
-					// session.removeAttribute(ACTIVATION_TYPE);
+					Session hbSession = HibernateUtil.openSession();
+					Transaction transaction = null;
+					try {
+						transaction = hbSession.beginTransaction();
+						Client client = (Client) hbSession
+								.getNamedQuery("getClient.by.mailId")
+								.setParameter(EMAIL_ID, activation.getEmailId())
+								.uniqueResult();
+						client.setActive(true);
+						saveEntry(client);
+
+						// delete activation object
+
+						Query query = hbSession
+								.getNamedQuery("delete.activation.by.emailId");
+						query.setParameter("emailId", activation.getEmailId()
+								.trim());
+						int updatedRows = query.executeUpdate();
+						LOG.debug("No of updated rows = " + updatedRows);
+						transaction.commit();
+					} catch (Exception e) {
+						e.printStackTrace();
+						if (transaction != null) {
+							transaction.rollback();
+						}
+					} finally {
+						if (hbSession != null)
+							hbSession.close();
+
+					}
+					session.removeAttribute(ACTIVATION_TYPE);
 					redirectExternal(req, resp, RESET_PASSWORD_URL);
 					return;
 				}
-
-				Session hbSession = HibernateUtil.openSession();
-				Transaction transaction = null;
-				try {
-					transaction = hbSession.beginTransaction();
-					Client client = (Client) hbSession
-							.getNamedQuery("getClient.by.mailId")
-							.setParameter(EMAIL_ID, activation.getEmailId())
-							.uniqueResult();
-					client.setActive(true);
-					saveEntry(client);
-
-					// delete activation object
-
-					Query query = hbSession
-							.getNamedQuery("delete.activation.by.emailId");
-					query.setParameter("emailId", activation.getEmailId()
-							.trim());
-					int updatedRows = query.executeUpdate();
-					LOG.debug("No of updated rows = " + updatedRows);
-					transaction.commit();
-				} catch (Exception e) {
-					e.printStackTrace();
-					if (transaction != null) {
-						transaction.rollback();
-					}
-				} finally {
-					if (hbSession != null)
-						hbSession.close();
-
-				}
-
 				// redirect To ActivationPage.
 				// dispatch(req, resp, VIEW);
 				String destUrl = req.getParameter(PARAM_DESTINATION);
