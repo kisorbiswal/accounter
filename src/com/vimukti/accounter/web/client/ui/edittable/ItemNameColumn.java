@@ -35,7 +35,7 @@ public abstract class ItemNameColumn extends
 		if (newValue != null) {
 			row.setAccountable(newValue);
 			row.setDescription(getDiscription(newValue));
-			row.setUnitPrice(newValue.getSalesPrice());
+		//	row.setUnitPrice(newValue.getSalesPrice());
 			row.setTaxable(newValue.isTaxable());
 			double lt = row.getQuantity().getValue() * row.getUnitPrice();
 			double disc = row.getDiscount();
