@@ -982,6 +982,11 @@ public class WriteChequeView extends
 			public boolean isShowPriceWithVat() {
 				return WriteChequeView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return WriteChequeView.this.isInViewMode();
+			}
 		};
 		transactionVendorAccountTable.setDisabled(isInViewMode());
 

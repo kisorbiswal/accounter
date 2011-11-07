@@ -573,6 +573,11 @@ public class CreditCardChargeView extends
 			public boolean isShowPriceWithVat() {
 				return CreditCardChargeView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CreditCardChargeView.this.isInViewMode();
+			}
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -606,6 +611,11 @@ public class CreditCardChargeView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CreditCardChargeView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CreditCardChargeView.this.isInViewMode();
 			}
 		};
 

@@ -375,6 +375,11 @@ public class MakeDepositView extends
 			protected void updateNonEditableItems() {
 				MakeDepositView.this.updateNonEditableItems();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return MakeDepositView.this.isInViewMode();
+			}
 		};
 		// gridView.setHeight("250px");
 		gridView.setDisabled(isInViewMode());
