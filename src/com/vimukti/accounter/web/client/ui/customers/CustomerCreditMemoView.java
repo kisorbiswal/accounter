@@ -558,7 +558,9 @@ public class CustomerCreditMemoView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initCustomers() {

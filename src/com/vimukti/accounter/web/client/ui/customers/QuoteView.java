@@ -809,7 +809,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		superinitTransactionViewData();
 		initAllItems();
 		initAccounterClass();
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initCustomers() {

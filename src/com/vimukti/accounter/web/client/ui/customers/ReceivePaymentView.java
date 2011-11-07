@@ -791,7 +791,9 @@ public class ReceivePaymentView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		initCustomers();
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initListGridData(List<ClientTransactionReceivePayment> list) {

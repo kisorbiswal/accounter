@@ -867,7 +867,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		initPayFromAccounts();
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initListGridData(List<ClientTransactionPayBill> list) {

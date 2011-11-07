@@ -253,7 +253,9 @@ public class NewCustomerPaymentView extends
 		initTransactionNumber();
 		initCustomers();
 		initAccounterClass();
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initCustomers() {

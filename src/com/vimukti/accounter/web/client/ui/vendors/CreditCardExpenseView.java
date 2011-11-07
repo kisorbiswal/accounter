@@ -781,7 +781,9 @@ public class CreditCardExpenseView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initpayFromAccountCombo() {

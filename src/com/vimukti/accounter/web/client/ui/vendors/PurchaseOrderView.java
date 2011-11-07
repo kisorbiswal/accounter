@@ -861,7 +861,9 @@ public class PurchaseOrderView extends
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
 
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initDeliveryDate() {

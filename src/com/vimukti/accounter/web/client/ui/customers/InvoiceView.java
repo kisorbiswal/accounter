@@ -832,7 +832,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					customer.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
+			//modifyForeignCurrencyTotalWidget();
 		}
 
 		if (getPreferences().isDelayedchargesEnabled()) {
@@ -1017,7 +1017,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		initDueDate();
 		initPayments();
 		initBalanceDue();
-		updateAmountsFromGUI();
+	
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initCustomers() {

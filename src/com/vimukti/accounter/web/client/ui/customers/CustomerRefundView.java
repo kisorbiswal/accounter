@@ -569,7 +569,9 @@ public class CustomerRefundView extends
 		initCustomers();
 
 		initPayFromAccounts();
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initCustomers() {

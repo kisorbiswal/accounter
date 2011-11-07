@@ -844,7 +844,9 @@ public class CashSalesView extends
 		superinitTransactionViewData();
 		initCashSalesView();
 		initAccounterClass();
-		updateAmountsFromGUI();
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void superinitTransactionViewData() {

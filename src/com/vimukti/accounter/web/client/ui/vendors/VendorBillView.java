@@ -212,6 +212,10 @@ public class VendorBillView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
+		
+		if(isMultiCurrencyEnabled()){
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initBalanceDue() {
