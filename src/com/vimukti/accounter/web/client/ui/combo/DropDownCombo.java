@@ -509,13 +509,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		case -1:
 			if (popup.isShowing())
 				popup.hide();
-			// setSelectedItem(selectedObject, rowIndex);
+			setSelectedItem(selectedObject, rowIndex);
 			break;
 		case 0:
 			if (isAddNewRequire) {
 				if (popup.isShowing())
 					popup.hide();
-				setValue(getDefaultAddNewCaption());
+				//setValue(getDefaultAddNewCaption());
 				onAddNew();
 			} else {
 				selectedObject = comboItems.get(rowIndex
