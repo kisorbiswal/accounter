@@ -50,7 +50,7 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 			}
 		});
 
-		datePicker.setWidth("160px");
+		//datePicker.setWidth("160px");
 		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
 		datePanel.add(dateImg);
@@ -77,7 +77,7 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 			}
 		});
 
-		datePicker.setWidth("160px");
+		//datePicker.setWidth("160px");
 		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
 		datePanel.add(dateImg);
@@ -193,7 +193,7 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 		if (b) {
 			this.datePicker.addStyleName("disable-TextField");
 		} else {
-			this.datePicker.setStyleName("gwt-TextBox");
+			this.datePicker.addStyleName("gwt-TextBox");
 		}
 
 	}
