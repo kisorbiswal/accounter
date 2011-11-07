@@ -422,13 +422,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
 				.getPreferences().getPrimaryCurrency());
 
-		if (isInViewMode()) {
-			transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-					.getCurrency(transaction.getCurrency()).getFormalName());
-		} else {
-			transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-					.getPreferences().getPrimaryCurrency());
-		}
+		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
@@ -1089,6 +1084,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		initDueDate();
 		initPayments();
 		initBalanceDue();
+		updateAmountsFromGUI();
 	}
 
 	private void initCustomers() {

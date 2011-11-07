@@ -253,6 +253,7 @@ public class NewCustomerPaymentView extends
 		initTransactionNumber();
 		initCustomers();
 		initAccounterClass();
+		updateAmountsFromGUI();
 	}
 
 	private void initCustomers() {

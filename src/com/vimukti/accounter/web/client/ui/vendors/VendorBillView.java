@@ -212,6 +212,8 @@ public class VendorBillView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
+
+		updateAmountsFromGUI();
 	}
 
 	private void initBalanceDue() {

@@ -859,6 +859,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		initPayFromAccounts();
+		updateAmountsFromGUI();
 	}
 
 	private void initListGridData(List<ClientTransactionPayBill> list) {

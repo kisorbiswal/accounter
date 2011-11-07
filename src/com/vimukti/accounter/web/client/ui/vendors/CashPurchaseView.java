@@ -583,6 +583,7 @@ public class CashPurchaseView extends
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
 
+		updateAmountsFromGUI();
 	}
 
 	@Override

@@ -839,6 +839,7 @@ public class CashSalesView extends
 		superinitTransactionViewData();
 		initCashSalesView();
 		initAccounterClass();
+		updateAmountsFromGUI();
 	}
 
 	private void superinitTransactionViewData() {

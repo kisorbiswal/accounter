@@ -552,6 +552,8 @@ public class CustomerCreditMemoView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+
+		updateAmountsFromGUI();
 	}
 
 	private void initCustomers() {

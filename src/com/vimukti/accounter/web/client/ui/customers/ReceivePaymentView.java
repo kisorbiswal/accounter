@@ -786,6 +786,7 @@ public class ReceivePaymentView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		initCustomers();
+		updateAmountsFromGUI();
 	}
 
 	private void initListGridData(List<ClientTransactionReceivePayment> list) {

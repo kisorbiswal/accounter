@@ -568,6 +568,7 @@ public class CustomerRefundView extends
 		initCustomers();
 
 		initPayFromAccounts();
+		updateAmountsFromGUI();
 	}
 
 	private void initCustomers() {

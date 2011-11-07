@@ -168,7 +168,7 @@ public class VendorCreditMemoView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
-
+		updateAmountsFromGUI();
 	}
 
 	public void resetElements() {

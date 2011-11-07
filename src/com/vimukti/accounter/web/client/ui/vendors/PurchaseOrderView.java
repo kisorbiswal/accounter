@@ -857,6 +857,8 @@ public class PurchaseOrderView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
+
+		updateAmountsFromGUI();
 	}
 
 	private void initDeliveryDate() {
