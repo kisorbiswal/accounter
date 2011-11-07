@@ -1443,10 +1443,20 @@ public class ClientCompany implements IAccounterCore {
 			fireEvent(new CoreEvent<ClientLocation>(ChangeType.DELETE, location));
 		}
 	}
+	
+	private void deleteCurrency(long currencyId){
+		ClientCurrency currency = this.getCurrency(currencyId);
+		if (currency != null) {
+			this.currencies.remove(currency);
+			fireEvent(new CoreEvent<ClientCurrency>(ChangeType.DELETE, currency));
+		}
+	}
 
 	public ClientLocation getLocation(long locationId) {
 		return Utility.getObject(this.locations, locationId);
 	}
+	
+	
 
 	public void deleteTaxGroup(long taxGroup) {
 		ClientTAXGroup clientTaxGroup = this.getTaxGroup(taxGroup);
@@ -2063,6 +2073,8 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case LOCATION:
 			deleteLocation(id);
+		case CURRENCY:
+			deleteCurrency(id);
 		case TAXITEM:
 			deleteTaxItem(id);
 			// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
