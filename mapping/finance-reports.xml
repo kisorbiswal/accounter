@@ -1376,7 +1376,7 @@
 
 		WHERE
 		T.T_DATE BETWEEN :startDate AND :endDate AND T.T_TYPE IN (6, 14, 11)
-		AND T.COMPANY_ID=:companyId T.STATUS != 3
+		AND T.COMPANY_ID=:companyId AND T.STATUS != 3
 
 		ORDER BY P.NAME,T.T_TYPE,
 		T_DATE
