@@ -194,26 +194,35 @@ public class Converter {
 
 	}
 
-	public File getPdfFile(String fileName, InputStreamReader reader)
+	public File getPdfFile(PrintTemplete printTemplete, InputStreamReader reader)
 			throws Exception {
-		File pdfTempFile = File.createTempFile(fileName.replace(" ", ""),
+		File pdfTempFile = File.createTempFile(printTemplete.getFileName().replace(" ", ""),
 				".pdf");
 		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
 		try {
 
 			PD4ML pd4ml = new PD4ML();
-			System.err.println("PD4ML Obj created");
-			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
+			pd4ml.setPageInsets(new Insets(1, 10, 10, 10));
 			pd4ml.setHtmlWidth(950);
 			pd4ml.setPageSize(dimension);
 
 			pd4ml.enableTableBreaks(true);
 			pd4ml.enableDebugInfo();
 
+			
+			PD4PageMark footer = new PD4PageMark();
+			footer.setHtmlTemplate("<html><p align ='center'>"
+					+ printTemplete.getFooter() + "</p></html>");
+			footer.setAreaHeight(70);
+			footer.setFontSize(10);
+			footer.setColor(Color.BLACK);
+
+			pd4ml.setPageFooter(footer);
+
 			pd4ml.render(reader, fos);
 			return pdfTempFile;
 		} catch (Exception e) {
-			System.err.println("error occured");
+			System.err.println("error occured in generating pdf malling");
 			e.printStackTrace();
 		} finally {
 			if (fos != null) {
