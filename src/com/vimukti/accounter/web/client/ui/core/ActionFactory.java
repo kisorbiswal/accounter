@@ -501,7 +501,7 @@ public class ActionFactory {
 	}
 
 	public static CurrencyGroupListAction getCurrencyGroupListAction() {
-		return new CurrencyGroupListAction(actionsConstants.currencyGroupList());
+		return new CurrencyGroupListAction(actionsConstants.currencyList());
 	}
 
 	public static FormLayoutsListAction getFormLayoutsListAction() {
