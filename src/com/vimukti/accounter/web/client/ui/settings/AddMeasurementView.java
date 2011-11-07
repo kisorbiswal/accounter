@@ -83,7 +83,13 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		description = new TextAreaItem(settingsMessages.description());
 		description.setDisabled(isInViewMode());
 
-		unitsTable = new UnitsTable();
+		unitsTable = new UnitsTable() {
+
+			@Override
+			protected boolean isInViewMode() {
+				return AddMeasurementView.this.isInViewMode();
+			}
+		};
 		unitsTable.setDisabled(isInViewMode());
 
 		addUnitButton = new Button();

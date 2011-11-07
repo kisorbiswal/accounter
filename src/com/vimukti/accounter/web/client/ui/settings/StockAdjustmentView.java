@@ -67,6 +67,11 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 			protected String getAvailableQuantity(long item) {
 				return StockAdjustmentView.this.getAvailableQuantity(item);
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return StockAdjustmentView.this.isInViewMode();
+			}
 		};
 		table.setDisabled(isInViewMode());
 
