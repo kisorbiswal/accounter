@@ -203,6 +203,7 @@ public class NewCustomerPaymentView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			ClientCompany comapny = getCompany();
 
@@ -381,8 +382,8 @@ public class NewCustomerPaymentView extends
 		labeldateNoLayout.add(datepanel);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
-		customerCombo = createCustomerComboItem(messages.payeeName(Global
-				.get().customer()));
+		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
+				.customer()));
 
 		billToCombo = createBillToComboItem(customerConstants.address());
 		billToCombo.setDisabled(true);
@@ -707,7 +708,7 @@ public class NewCustomerPaymentView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		if(currencyWidget !=null){
+		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();

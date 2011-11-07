@@ -744,6 +744,7 @@ public class ReceivePaymentView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));

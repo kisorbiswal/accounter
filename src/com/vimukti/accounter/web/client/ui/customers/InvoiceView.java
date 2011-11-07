@@ -954,6 +954,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+
 			}
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			this.contact = transaction.getContact();

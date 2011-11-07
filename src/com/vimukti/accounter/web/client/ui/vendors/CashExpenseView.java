@@ -598,6 +598,7 @@ public class CashExpenseView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			setVendor(getCompany().getVendor(transaction.getVendor()));
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());

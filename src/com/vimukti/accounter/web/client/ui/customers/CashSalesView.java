@@ -725,6 +725,7 @@ public class CashSalesView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			ClientCompany company = getCompany();
 

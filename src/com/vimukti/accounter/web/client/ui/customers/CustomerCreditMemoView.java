@@ -129,8 +129,8 @@ public class CustomerCreditMemoView extends
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.messages()
-				.payeeName(Global.get().Customer()));
+		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
+				Global.get().Customer()));
 
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
@@ -489,6 +489,7 @@ public class CustomerCreditMemoView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));

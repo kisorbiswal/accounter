@@ -710,6 +710,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			ClientCompany company = getCompany();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));

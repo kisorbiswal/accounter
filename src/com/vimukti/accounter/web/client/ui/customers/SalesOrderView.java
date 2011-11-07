@@ -360,8 +360,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -644,6 +644,7 @@ public class SalesOrderView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			ClientCompany company = getCompany();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
@@ -722,8 +723,7 @@ public class SalesOrderView extends
 
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()
-							- transaction.getNetAmount()));
+							.getTotal() - transaction.getNetAmount()));
 			customerOrderText.setValue(transaction.getCustomerOrderNumber());
 			paymentTermsSelected(this.paymentTerm);
 			// priceLevelSelected(this.priceLevel);
@@ -750,8 +750,7 @@ public class SalesOrderView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1141,8 +1140,8 @@ public class SalesOrderView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}

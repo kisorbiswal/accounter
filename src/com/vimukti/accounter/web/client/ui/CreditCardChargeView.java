@@ -260,8 +260,7 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber()
-								: "");
+								.getCheckNumber() : "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -298,6 +297,7 @@ public class CreditCardChargeView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
 			}
 			transactionDateItem.setValue(transaction.getDate());
 			contact = transaction.getContact();
@@ -312,8 +312,7 @@ public class CreditCardChargeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -352,12 +351,12 @@ public class CreditCardChargeView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initpayFromAccountCombo() {
@@ -426,8 +425,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 		if (!isTaxPerDetailLine())
 			taxCodeSelect = createTaxCodeSelectItem();
-		vendorNameSelect = new VendorCombo(Global.get().messages().payeeName(
-				Global.get().Vendor()));
+		vendorNameSelect = new VendorCombo(Global.get().messages()
+				.payeeName(Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		// vendorNameSelect.setRequired(true);
@@ -544,8 +543,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -906,8 +905,8 @@ public class CreditCardChargeView extends
 			ValidationResult result = super.validate();
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate, accounterConstants
-						.invalidateDate());
+				result.addError(transactionDate,
+						accounterConstants.invalidateDate());
 			}
 
 			result.add(vendorForm.validate());
