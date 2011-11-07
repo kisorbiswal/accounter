@@ -117,7 +117,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.listgrid,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,.editTable,.gwt-PopupPanel,.ReportGrid,
 select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,
-.editTable table,.editTable input[disabled],.editTable_disable_anchor,.dateBoxPopup,.fullSizePanel,.selectedview,.GALD-WOCD{
+.editTable table,.editTable input[disabled],.editTable_disable_anchor,.dateBoxPopup,.fullSizePanel,.selectedview,.GALD-WOCD,.editTable textarea[disabled]{
 	background: none repeat scroll 0 0 #FFFFFF;
 }
 .ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,#overlay,
@@ -131,7 +131,9 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.selectedview_textarea_label,.selectedview_labelstyle,
 .selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,
 .organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.button_bar .cancle-Btn,
-.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.notes_button_panel .cancle-Btn{
+.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.notes_button_panel .cancle-Btn,
+.fields-panel textarea.disable-TextField,textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],
+.gwt-TextBox input[disabled='disabled']{
 	color: #000;
 }
 .grouped-buttons td:last-child .image-button{
@@ -1217,14 +1219,8 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 .setupstartpagepanel button{
 	margin:15px;
 }
-.gwt-StackPanel .gwt-StackPanelItem {
-    border-radius: 8px 8px 0 0;
-}
 .gwt-StackPanelContent TABLE TBODY TR TD{
 	padding:10px;
-}
-.gwt-StackPanelContent{
-	border-radius:0 0 8px 8px;
 }
 .companyInfoPanel{
 	border-bottom: 1px solid #2D8B93;
@@ -1236,7 +1232,7 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 .stackPanelLink{
 	color: #2D8B93;
 }	
-.company_stackpanel_view,.viewholder{
+.viewholder{
    padding:15px;
 }
 .editTable input[type="text"]:FOCUS{
@@ -1536,7 +1532,7 @@ button.disable,button.disable:hover{
 	padding-right:10px;
 }
 .abstract_base_view .gwt-Tree{
-	margin-bottom:25px;
+	margin-bottom:10px;
 }
 .transactionitemsTable .editheader td{
 	padding:2px 2px 2px 5px;
