@@ -11,13 +11,15 @@ public class JResultList {
 	boolean isMultiSelection;
 	String name;
 
-	public void addAll(ResultList object) {
+	public int addAll(ResultList object, int code) {
 		name = object.getName();
 		isMultiSelection = object.isMultiSelection();
 		for (Record record : object) {
+			record.setCode(code++);
 			JRecord jRecord = new JRecord();
 			jRecord.addAll(record);
 			records.add(jRecord);
 		}
+		return code;
 	}
 }

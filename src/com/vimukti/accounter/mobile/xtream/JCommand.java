@@ -2,11 +2,11 @@ package com.vimukti.accounter.mobile.xtream;
 
 public class JCommand {
 	String name;
-	char code;
+	String code;
 
-	public void set(String displayName, int i) {
+	public void set(String displayName, String code) {
 		name = displayName;
-		code = (char) i;
+		this.code = code;
 	}
 
 }

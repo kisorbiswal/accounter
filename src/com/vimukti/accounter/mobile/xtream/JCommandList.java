@@ -9,12 +9,12 @@ import com.vimukti.accounter.mobile.UserCommand;
 public class JCommandList {
 	List<JCommand> commandNames = new ArrayList<JCommand>();
 
-	public void addAll(CommandList object) {
-		int code = 97;
+	public int addAll(CommandList object, int code) {
 		for (UserCommand command : object) {
 			JCommand jCommand = new JCommand();
-			jCommand.set(command.getDisplayName(), code++);
+			jCommand.set(command.getDisplayName(), String.valueOf((char) code));
 			commandNames.add(jCommand);
 		}
+		return code;
 	}
 }
