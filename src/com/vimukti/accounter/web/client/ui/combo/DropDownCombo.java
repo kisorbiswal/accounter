@@ -379,9 +379,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		dataProvider.refresh();
 		dropDown.setRowCount(dataProvider.getList().size());
 		dropDown.setPageSize(dropDown.getRowCount());
-		if (!comboItems.isEmpty()) {
-			setComboItem(comboItems.get(0));
-		}
 	}
 
 	public List<T> getComboItems() {
@@ -512,7 +509,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		case -1:
 			if (popup.isShowing())
 				popup.hide();
-			setSelectedItem(selectedObject, rowIndex);
+			// setSelectedItem(selectedObject, rowIndex);
 			break;
 		case 0:
 			if (isAddNewRequire) {
@@ -700,6 +697,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			List<T> combos = getComboitemsByName(value);
 			if (!combos.isEmpty()) {
 				int index = comboItems.indexOf(combos.get(0));
+				if (isAddNewRequire) {
+					index++;
+				}
 				changeValue(index);
 			} else {
 				selectionFaildOnClose();
