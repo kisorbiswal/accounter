@@ -293,8 +293,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+//		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -314,15 +314,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setNumCols(3);
-		custForm.setWidth("100%");
+//		custForm.setWidth("100%");
 		currencyWidget = createCurrencyWidget();
 
 		custForm.setFields(customerCombo, emptylabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "226px");
+//		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "226px");
 		custForm.setStyleName("align-form");
 
 		salesPersonCombo = createSalesPersonComboItem();
@@ -352,7 +352,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
-		termsForm.setWidth("100%");
+//		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
@@ -379,8 +379,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		termsForm.setStyleName("align-form");
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200px");
+//		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "200px");
 		// multi
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
@@ -592,8 +592,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
+		rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -603,7 +606,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		topHLay.add(rightVLay);
 		topHLay.setSpacing(10);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "44%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);

@@ -289,13 +289,13 @@ public class CustomerRefundView extends
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
 		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
-		custForm.getCellFormatter().setWidth(0, 0, "160px");
+//		custForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
 		balForm.setFields(endBalText, custBalText);
-		balForm.getCellFormatter().setWidth(0, 0, "205px");
+//		balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -311,10 +311,11 @@ public class CustomerRefundView extends
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.setWidth("100%");
 		rightPanel.add(balForm);
-		rightPanel.setCellHorizontalAlignment(balForm,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		rightPanel.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
+			rightPanel.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		HorizontalPanel hLay = new HorizontalPanel();
@@ -325,7 +326,7 @@ public class CustomerRefundView extends
 		hLay.setCellHorizontalAlignment(totalLabel, ALIGN_CENTER);
 		hLay.add(rightPanel);
 		hLay.setCellWidth(leftPanel, "50%");
-		hLay.setCellWidth(rightPanel, "44%");
+		hLay.setCellWidth(rightPanel, "50%");
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setWidth("100%");

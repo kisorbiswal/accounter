@@ -143,9 +143,9 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Global.get().constants().width(), "190px");
-		custForm.setWidth("100%");
+//		custForm.getCellFormatter().getElement(0, 0)
+//				.setAttribute(Global.get().constants().width(), "190px");
+//		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
 		phoneSelect = new TextItem(customerConstants.phone());
@@ -157,7 +157,7 @@ public class CustomerCreditMemoView extends
 		salesPersonCombo = createSalesPersonComboItem();
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
-		phoneForm.setWidth("100%");
+//		phoneForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			phoneForm.setFields(locationCombo);
 		phoneForm.setStyleName("align-form");
@@ -331,10 +331,13 @@ public class CustomerCreditMemoView extends
 		leftVLay.add(custForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setWidth("100%");
+//		rightVLay.setWidth("100%");
+		rightVLay.setCellHorizontalAlignment(phoneForm, ALIGN_RIGHT);
 		rightVLay.add(phoneForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -347,6 +350,8 @@ public class CustomerCreditMemoView extends
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);

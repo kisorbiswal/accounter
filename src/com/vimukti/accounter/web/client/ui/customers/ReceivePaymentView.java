@@ -482,13 +482,13 @@ public class ReceivePaymentView extends
 		checkNo.setDisabled(true);
 
 		payForm = new DynamicForm();
-		payForm.setWidth("90%");
+//		payForm.setWidth("90%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(Accounter.constants().payment());
 
 		payForm.setFields(customerCombo, amtText, paymentMethodCombo, checkNo);
 		payForm.setStyleName("align-form");
-		payForm.getCellFormatter().setWidth(0, 0, "180px");
+//		payForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		customerNonEditablebalText = new AmountField(Accounter.messages()
 				.payeeBalance(Global.get().Customer()), this);
@@ -505,7 +505,7 @@ public class ReceivePaymentView extends
 		depoForm.setIsGroup(true);
 		depoForm.setGroupTitle(Accounter.constants().deposit());
 		depoForm.setFields(customerNonEditablebalText, depositInCombo);
-		depoForm.getCellFormatter().setWidth(0, 0, "203px");
+//		depoForm.getCellFormatter().setWidth(0, 0, "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -575,8 +575,12 @@ public class ReceivePaymentView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(depoForm);
+		rightVLay.setCellHorizontalAlignment(depoForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -587,7 +591,8 @@ public class ReceivePaymentView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "39%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 

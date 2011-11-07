@@ -405,7 +405,7 @@ public class NewCustomerPaymentView extends
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
 		balForm.setFields(endBalText, customerBalText);
-		balForm.getCellFormatter().setWidth(0, 0, "205px");
+		//balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// payment
 		depositInCombo = createDepositInComboItem();
@@ -490,10 +490,10 @@ public class NewCustomerPaymentView extends
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.setWidth("100%");
 		rightPanel.add(balForm);
-		rightPanel.setCellHorizontalAlignment(balForm,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		rightPanel.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
+			rightPanel.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
 		}
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.addStyleName("fields-panel");
@@ -502,7 +502,8 @@ public class NewCustomerPaymentView extends
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
 		hLay.setCellWidth(leftPanel, "50%");
-		hLay.setCellWidth(rightPanel, "44%");
+		hLay.setCellWidth(rightPanel, "50%");
+		hLay.setCellHorizontalAlignment(rightPanel, ALIGN_RIGHT);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");

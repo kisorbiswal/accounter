@@ -200,7 +200,7 @@ public class SalesOrderView extends
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().setWidth(0, 0, "40px");
+//		shipToAddress.getCellFormatter().setWidth(0, 0, "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
@@ -228,8 +228,8 @@ public class SalesOrderView extends
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				phoneSelect, emptylabel, billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		custForm.getCellFormatter().setWidth(0, 1, "180px");
-		custForm.getCellFormatter().setWidth(0, 0, "225px");
+//		custForm.getCellFormatter().setWidth(0, 1, "180px");
+//		custForm.getCellFormatter().setWidth(0, 0, "225px");
 
 		customerOrderText = new TextItem(Accounter.messages().payeeOrderNo(
 				Global.get().customer()));
@@ -331,7 +331,7 @@ public class SalesOrderView extends
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
-		termsForm.getCellFormatter().setWidth(0, 0, "230px");
+//		termsForm.getCellFormatter().setWidth(0, 0, "230px");
 
 		Label lab2 = new Label(customerConstants.productAndService());
 
@@ -482,6 +482,8 @@ public class SalesOrderView extends
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -492,7 +494,8 @@ public class SalesOrderView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "42%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -569,10 +572,10 @@ public class SalesOrderView extends
 	}
 
 	public void resetFormView() {
-		custForm.getCellFormatter().setWidth(0, 1, "200px");
-		custForm.setWidth("94%");
-		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
-		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
+//		custForm.getCellFormatter().setWidth(0, 1, "200px");
+//		custForm.setWidth("94%");
+//		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
+//		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 		// statusSelect.setWidth("150px");
 		// refText.setWidth("200px");
 	}

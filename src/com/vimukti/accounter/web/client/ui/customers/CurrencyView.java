@@ -117,7 +117,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 		currencyForm = UIUtils.form(currencyConstants.currency());
 		currencyForm.setFields(currencyNameText, formalNameText);
 		currencyForm.setWidth("100%");
-		currencyForm.getCellFormatter().setWidth(0, 0, "205");
+//		currencyForm.getCellFormatter().setWidth(0, 0, "205");
 
 		if (getData() != null) {
 			currencyNameText.setValue(data.getName());
