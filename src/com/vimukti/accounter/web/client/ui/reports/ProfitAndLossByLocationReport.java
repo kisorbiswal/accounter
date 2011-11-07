@@ -2,8 +2,10 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossByLocationServerReport;
 
 public class ProfitAndLossByLocationReport extends
@@ -40,13 +42,23 @@ public class ProfitAndLossByLocationReport extends
 	}
 
 	@Override
-	public void OnRecordClick(ProfitAndLossByLocation record) {
-		// record.setStartDate(toolbar.getStartDate());
-		// record.setEndDate(toolbar.getEndDate());
-		// record.setDateRange(toolbar.getSelectedDateRange());
-		// UIUtils.runAction(record,
-		// ActionFactory.getTransactionDetailByAccountAction());
+	public void OnRecordClick(ProfitAndLossByLocation p) {
+		TrialBalance record = getTrailBalance(p);
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
+		UIUtils.runAction(record,
+				ActionFactory.getTransactionDetailByAccountAction());
 
+	}
+
+	private TrialBalance getTrailBalance(ProfitAndLossByLocation p) {
+		TrialBalance record = new TrialBalance();
+		record.setAccountId(p.getAccountId());
+		record.setAccountType(p.getAccountType());
+		record.setAccountName(p.getAccountName());
+		record.setAccountNumber(p.getAccountNumber());
+		return record;
 	}
 
 	@Override
