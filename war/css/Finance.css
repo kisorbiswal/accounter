@@ -203,7 +203,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 .gwt-MenuBarPopup .gwt-MenuBar-vertical table,.gwt-DecoratedTabBar .gwt-TabBarItem,.td00,.td01,.td02,.gwt-DatePicker .datePickerDays{
 	border-collapse: collapse;
 }
-.disable-TextField,textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],
+.fields-panel textarea.disable-TextField,textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],
 .gwt-TextBox input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA;
 }
@@ -277,7 +277,7 @@ fieldset,img {
 .gridSelectBoxCell .downarrow-button,.page-layout,.gwt-DecoratedPopupPanel,.gwt-MenuBarPopup,.accounter-button-seperater,#overlay{
 	position: absolute;
 }
-.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports a,.handCursor{
+.gwt-Anchor,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports a,.handCursor{
     text-decoration: underline;
 }
 body/*,.highlightedFormItem */{
@@ -1404,7 +1404,7 @@ input[type="text"]{
 	*width:394px;
 	z-index:99;
 }
-form#contactForm input,.memoTextArea textarea,form#contactForm .submit,form#contactForm p{
+form#contactForm input,.memoTextArea textarea,form#contactForm .submit,form#contactForm p,.yourfeedback textarea{
 	width:325px;
 }
 form#contactForm input, textarea,form#contactForm .submit{
