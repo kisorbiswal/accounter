@@ -68,6 +68,12 @@ public class BaseServlet extends HttpServlet {
 	protected static final String CREATE_COMPANY_URL = "/main/createcompany";
 	protected static final String DELETE_COMPANY_URL = "/main/deletecompany";
 	protected String COMPANY_STATUS_URL = "/main/companystatus";
+	
+	
+	public static final String ACT_FROM_SIGNUP="108";
+	public static final String ACT_FROM_RESET="109";
+	public static final String ACT_FROM_RESEND="110";
+	public static final String ACT_FROM_LOGIN="111";
 
 	/**
 	 * 

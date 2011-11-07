@@ -16,7 +16,7 @@ public class CurrencyWidget extends DynamicForm {
 	private CurrencyCombo currencyCombo;
 	private ClientCurrency baseCurrency, selectedCurrencyItem;
 	private List<ClientCurrency> currencies;
-	private boolean showFactorField;
+	private boolean showFactorField = true;
 	private CurrencyFormItem currencyForm;
 
 	public CurrencyWidget(List<ClientCurrency> currencies,

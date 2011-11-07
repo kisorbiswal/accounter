@@ -105,7 +105,8 @@ public class SignupServlet extends BaseServlet {
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View
-				redirectExternal(req, resp, ACTIVATION_URL + "?message=108");
+				String message = "?message="+ACT_FROM_SIGNUP;
+				redirectExternal(req, resp, ACTIVATION_URL + message);
 				transaction.commit();
 			}
 		} catch (Exception e) {

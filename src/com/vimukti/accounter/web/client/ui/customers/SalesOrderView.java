@@ -200,7 +200,7 @@ public class SalesOrderView extends
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-//		shipToAddress.getCellFormatter().setWidth(0, 0, "40px");
+		// shipToAddress.getCellFormatter().setWidth(0, 0, "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
@@ -228,8 +228,8 @@ public class SalesOrderView extends
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				phoneSelect, emptylabel, billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-//		custForm.getCellFormatter().setWidth(0, 1, "180px");
-//		custForm.getCellFormatter().setWidth(0, 0, "225px");
+		// custForm.getCellFormatter().setWidth(0, 1, "180px");
+		// custForm.getCellFormatter().setWidth(0, 0, "225px");
 
 		customerOrderText = new TextItem(Accounter.messages().payeeOrderNo(
 				Global.get().customer()));
@@ -331,7 +331,7 @@ public class SalesOrderView extends
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
-//		termsForm.getCellFormatter().setWidth(0, 0, "230px");
+		// termsForm.getCellFormatter().setWidth(0, 0, "230px");
 
 		Label lab2 = new Label(customerConstants.productAndService());
 
@@ -407,54 +407,26 @@ public class SalesOrderView extends
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 
-		TextItem dummyItem = new TextItem("");
-		dummyItem.setVisible(false);
+		// TextItem = new TextItem("");
+		// .setVisible(false);
 
 		DynamicForm taxForm = new DynamicForm();
+		prodAndServiceForm2.setStyleName("boldtext");
 
 		if (isTrackTax()) {
+			prodAndServiceForm2.setFields(netAmountLabel);
 			if (isTaxPerDetailLine()) {
-				if (isMultiCurrencyEnabled()) {
-					prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
-							dummyItem, vatTotalNonEditableText, dummyItem,
-							transactionTotalinBaseCurrency, dummyItem,
-							transactionTotalinForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
-							dummyItem, vatTotalNonEditableText, dummyItem,
-							transactionTotalinBaseCurrency);
-				}
-
-				prodAndServiceForm2.setStyleName("boldtext");
+				prodAndServiceForm2.setFields(vatTotalNonEditableText);
 			} else {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
-				if (isMultiCurrencyEnabled()) {
-					prodAndServiceForm2.setFields(netAmountLabel, dummyItem,
-							salesTaxTextNonEditable, dummyItem,
-							transactionTotalinBaseCurrency, dummyItem,
-							transactionTotalinForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(netAmountLabel, dummyItem,
-							salesTaxTextNonEditable, dummyItem,
-							transactionTotalinBaseCurrency);
-				}
-
-				prodAndServiceForm2.setStyleName("boldtext");
+				prodAndServiceForm2.setFields(salesTaxTextNonEditable);
 			}
-		} else {
-			if (isMultiCurrencyEnabled()) {
-
-				prodAndServiceForm2.setFields(dummyItem,
-						transactionTotalinBaseCurrency, dummyItem,
-						transactionTotalinForeignCurrency);
-			} else {
-
-				prodAndServiceForm2.setFields(dummyItem,
-						transactionTotalinBaseCurrency);
-			}
-
-			prodAndServiceForm2.setStyleName("boldtext");
 		}
+		prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+		if (isMultiCurrencyEnabled()) {
+			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
+		}
+
 		currencyWidget = createCurrencyWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -577,10 +549,10 @@ public class SalesOrderView extends
 	}
 
 	public void resetFormView() {
-//		custForm.getCellFormatter().setWidth(0, 1, "200px");
-//		custForm.setWidth("94%");
-//		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
-//		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
+		// custForm.getCellFormatter().setWidth(0, 1, "200px");
+		// custForm.setWidth("94%");
+		// shipToAddress.getCellFormatter().setWidth(0, 1, "100");
+		// shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 		// statusSelect.setWidth("150px");
 		// refText.setWidth("200px");
 	}
@@ -789,7 +761,7 @@ public class SalesOrderView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}

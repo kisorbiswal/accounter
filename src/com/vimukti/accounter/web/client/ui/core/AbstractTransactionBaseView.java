@@ -1144,7 +1144,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				getCompany().getPreferences().getPrimaryCurrency());
 
 		CurrencyWidget widget = new CurrencyWidget(currenciesList, baseCurrency);
-
 		widget.setListener(new CurrencyChangeListener() {
 
 			@Override

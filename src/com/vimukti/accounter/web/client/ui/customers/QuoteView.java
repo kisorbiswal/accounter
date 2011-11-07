@@ -366,8 +366,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 
-//		shipToAddress.getCellFormatter().getElement(0, 0)
-//				.setAttribute(Accounter.constants().width(), "40px");
+		// shipToAddress.getCellFormatter().getElement(0, 0)
+		// .setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -394,19 +394,19 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setCellSpacing(5);
-//		custForm.setWidth("100%");
+		// custForm.setWidth("100%");
 		if (type == ClientEstimate.QUOTES) {
 			custForm.setFields(customerCombo, contactCombo, phoneSelect,
 					billToTextArea);
 		} else {
 			custForm.setFields(customerCombo);
 		}
-//		custForm.getCellFormatter().setWidth(0, 0, "150");
+		// custForm.getCellFormatter().setWidth(0, 0, "150");
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
-//		phoneForm.setWidth("100%");
+		// phoneForm.setWidth("100%");
 		phoneForm.setNumCols(2);
 		phoneForm.setCellSpacing(3);
 		salesPersonCombo = createSalesPersonComboItem();
@@ -433,8 +433,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-//		phoneForm.getCellFormatter().getElement(0, 0)
-//				.setAttribute(Accounter.constants().width(), "203px");
+		// phoneForm.getCellFormatter().getElement(0, 0)
+		// .setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -496,8 +496,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 		});
 
-		final TextItem disabletextbox = new TextItem();
-		disabletextbox.setVisible(false);
+		// final TextItem disabletextbox = new TextItem();
+		// disabletextbox.setVisible(false);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
@@ -511,44 +511,23 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setCellSpacing(5);
 
 		DynamicForm vatForm = new DynamicForm();
+		prodAndServiceForm2.addStyleName("boldtext");
+		
 		if (isTrackTax()) {
+			prodAndServiceForm2.setFields(netAmountLabel);
 			if (isTaxPerDetailLine()) {
-				if (isMultiCurrencyEnabled()) {
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							vatTotalNonEditableText, disabletextbox,
-							transactionTotalinBaseCurrency, disabletextbox,
-							transactionTotalinForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							vatTotalNonEditableText, disabletextbox,
-							transactionTotalinBaseCurrency);
-
-				}
-				prodAndServiceForm2.addStyleName("boldtext");
+				prodAndServiceForm2.setFields(vatTotalNonEditableText);
 			} else {
 				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
-				if (isMultiCurrencyEnabled()) {
-					prodAndServiceForm2.setFields(netAmountLabel,
-							disabletextbox, salesTaxTextNonEditable,
-							disabletextbox, transactionTotalinBaseCurrency,
-							disabletextbox, transactionTotalinForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(netAmountLabel,
-							disabletextbox, salesTaxTextNonEditable,
-							disabletextbox, transactionTotalinBaseCurrency);
-				}
-				prodAndServiceForm2.addStyleName("boldtext");
-			}
-		} else {
-			if (isMultiCurrencyEnabled()) {
-				prodAndServiceForm2.setFields(transactionTotalinBaseCurrency,
-						disabletextbox, transactionTotalinForeignCurrency);
-			} else {
-				prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+				prodAndServiceForm2.setFields(salesTaxTextNonEditable);
 			}
 		}
+
+		prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+		if (isMultiCurrencyEnabled()) {
+			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
+		}
+
 		currencyWidget = createCurrencyWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -600,7 +579,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-		
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
@@ -814,7 +793,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		superinitTransactionViewData();
 		initAllItems();
 		initAccounterClass();
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -1029,9 +1008,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	private void resetFormView() {
 
-//		custForm.getCellFormatter().setWidth(0, 1, "200px");
-//		custForm.setWidth("75%");
-//		 priceLevelSelect.setWidth("150px");
+		// custForm.getCellFormatter().setWidth(0, 1, "200px");
+		// custForm.setWidth("75%");
+		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");
 
 	}

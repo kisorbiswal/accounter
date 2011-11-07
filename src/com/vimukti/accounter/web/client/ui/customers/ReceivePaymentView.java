@@ -625,6 +625,7 @@ public class ReceivePaymentView extends
 		settabIndexes();
 
 		if (isMultiCurrencyEnabled()) {
+			
 			unUsedCreditsTextForeignCurrency.hide();
 			unUsedPaymentsTextForeignCurrency.hide();
 		}
@@ -792,6 +793,7 @@ public class ReceivePaymentView extends
 					.getLocation(transaction.getLocation()));
 		initCustomers();
 		if(isMultiCurrencyEnabled()){
+			currencyWidget.setShowFactorField(true);
 			updateAmountsFromGUI();
 		}
 	}

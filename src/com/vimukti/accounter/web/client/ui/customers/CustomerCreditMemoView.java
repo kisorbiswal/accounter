@@ -143,9 +143,9 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-//		custForm.getCellFormatter().getElement(0, 0)
-//				.setAttribute(Global.get().constants().width(), "190px");
-//		custForm.setWidth("100%");
+		// custForm.getCellFormatter().getElement(0, 0)
+		// .setAttribute(Global.get().constants().width(), "190px");
+		// custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
 		phoneSelect = new TextItem(customerConstants.phone());
@@ -157,7 +157,7 @@ public class CustomerCreditMemoView extends
 		salesPersonCombo = createSalesPersonComboItem();
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
-//		phoneForm.setWidth("100%");
+		// phoneForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			phoneForm.setFields(locationCombo);
 		phoneForm.setStyleName("align-form");
@@ -264,57 +264,26 @@ public class CustomerCreditMemoView extends
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		itemsDisclosurePanel.setWidth("100%");
 
-		final TextItem disabletextbox = new TextItem();
-		disabletextbox.setVisible(false);
-
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 
 		DynamicForm form = new DynamicForm();
 		form.setWidth("100%");
+		prodAndServiceForm2.addStyleName("boldtext");
+
 		if (isTrackTax()) {
+			prodAndServiceForm2.setFields(netAmountLabel,
+					taxTotalNonEditableText);
 			if (isTaxPerDetailLine()) {
-				if (isMultiCurrencyEnabled()) {
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							transactionTotalinBaseCurrency, disabletextbox,
-							transactionTotalinForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							transactionTotalinBaseCurrency);
-				}
-				prodAndServiceForm2.addStyleName("boldtext");
-			} else {
-				if (isMultiCurrencyEnabled()) {
-					form.setFields(taxCodeSelect, vatinclusiveCheck);
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							transactionTotalinBaseCurrency, disabletextbox,
-							transactionTotalinForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							transactionTotalinBaseCurrency);
-				}
-
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
-		} else {
-			if (isMultiCurrencyEnabled()) {
-				prodAndServiceForm2.setFields(disabletextbox,
-						transactionTotalinBaseCurrency, disabletextbox,
-						transactionTotalinForeignCurrency);
-			} else {
-				prodAndServiceForm2.setFields(disabletextbox,
-						transactionTotalinBaseCurrency);
-			}
-
 		}
+		prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+		if (isMultiCurrencyEnabled()) {
+			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
+		}
+
 		prodAndServiceForm2.addStyleName("boldtext");
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -341,7 +310,7 @@ public class CustomerCreditMemoView extends
 		leftVLay.add(custForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-//		rightVLay.setWidth("100%");
+		// rightVLay.setWidth("100%");
 		rightVLay.setCellHorizontalAlignment(phoneForm, ALIGN_RIGHT);
 		rightVLay.add(phoneForm);
 		if (isMultiCurrencyEnabled()) {
@@ -361,7 +330,7 @@ public class CustomerCreditMemoView extends
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-		
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
@@ -568,7 +537,7 @@ public class CustomerCreditMemoView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}

@@ -159,8 +159,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-//		shipToAddress.getCellFormatter().getElement(0, 0)
-//				.setAttribute(Accounter.constants().width(), "40px");
+		// shipToAddress.getCellFormatter().getElement(0, 0)
+		// .setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect
@@ -180,10 +180,10 @@ public class CashSalesView extends
 		custForm.setFields(customerCombo, contactCombo, phoneSelect,
 				billToTextArea);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-//		custForm.getCellFormatter().setWidth(0, 0, "226px");
+		// custForm.getCellFormatter().setWidth(0, 0, "226px");
 		custForm.setNumCols(2);
 		custForm.setStyleName("align-form");
-//		custForm.setWidth("100%");
+		// custForm.setWidth("100%");
 		salesPersonCombo = createSalesPersonComboItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		depositInCombo = createDepositInComboItem();
@@ -194,7 +194,7 @@ public class CashSalesView extends
 		deliveryDate.setEnteredDate(getTransactionDate());
 
 		DynamicForm termsForm = new DynamicForm();
-//		termsForm.setWidth("100%");
+		// termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setNumCols(2);
 		if (locationTrackingEnabled)
@@ -215,8 +215,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-//		termsForm.getCellFormatter().getElement(0, 0)
-//				.setAttribute(Accounter.constants().width(), "203px");
+		// termsForm.getCellFormatter().getElement(0, 0)
+		// .setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -337,55 +337,27 @@ public class CashSalesView extends
 		// inventoryDisclosurePanel.setWidth("100%");
 		// ---Inverntory table-----
 
-		final TextItem disabletextbox = new TextItem();
-		disabletextbox.setVisible(false);
+		// final TextItem disabletextbox = new TextItem();
+		// disabletextbox.setVisible(false);
+
 		DynamicForm taxForm = new DynamicForm();
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.addStyleName("boldtext");
+
 		if (isTrackTax()) {
-
-			if (isTaxPerDetailLine()) {
-				if (isMultiCurrencyEnabled()) {
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							transactionTotalBaseCurrency, disabletextbox,
-							transactionTotalForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(disabletextbox,
-							netAmountLabel, disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							transactionTotalBaseCurrency);
-				}
-				prodAndServiceForm2.addStyleName("boldtext");
-			} else {
-
-				if (isMultiCurrencyEnabled()) {
-					prodAndServiceForm2.setFields(disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							netAmountLabel, disabletextbox,
-							transactionTotalBaseCurrency, disabletextbox,
-							transactionTotalForeignCurrency);
-				} else {
-					prodAndServiceForm2.setFields(disabletextbox,
-							taxTotalNonEditableText, disabletextbox,
-							netAmountLabel, disabletextbox,
-							transactionTotalBaseCurrency);
-				}
-
+			prodAndServiceForm2.setFields(netAmountLabel,
+					taxTotalNonEditableText);
+			if (!isTaxPerDetailLine()) {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
-		} else {
-			if (isMultiCurrencyEnabled()) {
-				prodAndServiceForm2.setFields(disabletextbox,
-						transactionTotalBaseCurrency, disabletextbox,
-						transactionTotalForeignCurrency);
-			} else {
-				prodAndServiceForm2.setFields(disabletextbox,
-						transactionTotalBaseCurrency);
-			}
 		}
+		prodAndServiceForm2.setFields(transactionTotalBaseCurrency);
+		if (isMultiCurrencyEnabled()) {
+			prodAndServiceForm2.setFields(transactionTotalForeignCurrency);
+		}
+
 		prodAndServiceForm2.addStyleName("boldtext");
 		currencyWidget = createCurrencyWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -429,7 +401,7 @@ public class CashSalesView extends
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-		
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
@@ -854,7 +826,7 @@ public class CashSalesView extends
 		superinitTransactionViewData();
 		initCashSalesView();
 		initAccounterClass();
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -1187,7 +1159,7 @@ public class CashSalesView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
-		if (currencyWidget.isShowFactorField()) {
+		if (!currencyWidget.isShowFactorField()) {
 			transactionTotalForeignCurrency.hide();
 		} else {
 			transactionTotalForeignCurrency.show();

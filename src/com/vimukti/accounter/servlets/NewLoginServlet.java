@@ -252,29 +252,32 @@ public class NewLoginServlet extends BaseServlet {
 						// not activated so resend the activation mail
 						// Generate Token and create Activation and save. then
 						// send
-						String token = SecureUtils.createID();
-
-						// get activation object by email id
-
-						query = session
-								.getNamedQuery("get.activation.by.emailid");
-						query.setParameter(EMAIL_ID, emailID);
-						Activation activation = (Activation) query
-								.uniqueResult();
-						Transaction transaction = session.beginTransaction();
-						// reset the activation code and save it
-						activation.setToken(token);
-						try {
-							saveEntry(activation);
-
-							// resend activation mail
-							sendActivationEmail(token, client);
-							transaction.commit();
-						} catch (Exception e) {
-							e.printStackTrace();
-							transaction.rollback();
-						}
-
+//						String token = SecureUtils.createID();
+//
+//						// get activation object by email id
+//
+//						query = session
+//								.getNamedQuery("get.activation.by.emailid");
+//						query.setParameter(EMAIL_ID, emailID);
+//						Activation activation = (Activation) query
+//								.uniqueResult();
+//						Transaction transaction = session.beginTransaction();
+//						// reset the activation code and save it
+//						activation.setToken(token);
+//						try {
+//							saveEntry(activation);
+//
+//							// resend activation mail
+//							sendActivationEmail(token, client);
+//							transaction.commit();
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//							transaction.rollback();
+//						}
+						String message = "?message="+ACT_FROM_RESET;
+						redirectExternal(request, response,
+								ACTIVATION_URL+ message);
+						return;
 					}
 				}
 			} catch (Exception e) {
