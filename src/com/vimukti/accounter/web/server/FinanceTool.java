@@ -51,6 +51,7 @@ import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
@@ -1873,7 +1874,7 @@ public class FinanceTool {
 		String output = "";
 		Company company = getCompany(companyId);
 		String companyName = company.getTradingName();
-
+		PrintTemplete printTemplete = null; 
 		// for printing individual pdf documents
 		if (type == Transaction.TYPE_INVOICE) {
 			Invoice invoice = (Invoice) manager.getServerObjectForid(
@@ -1882,12 +1883,12 @@ public class FinanceTool {
 			// template = new InvoiceTemplete(invoice,
 			// brandingTheme, footerImg, style);
 
-			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
+			printTemplete = new InvoicePDFTemplete(
 					invoice, brandingTheme, company, "ClassicInvoice");
 
-			fileName = invoiceHtmlTemplete.getFileName();
+			fileName = printTemplete.getFileName();
 
-			output = invoiceHtmlTemplete.getPdfData();
+			output = printTemplete.getPdfData();
 
 		} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			// for Credit Note
@@ -1895,12 +1896,12 @@ public class FinanceTool {
 					.getServerObjectForid(AccounterCoreType.CUSTOMERCREDITMEMO,
 							objectID);
 
-			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
+			printTemplete = new CreditNotePDFTemplete(
 					memo, brandingTheme, company, "ClassicCredit");
 
-			fileName = creditNotePDFTemplete.getFileName();
+			fileName = printTemplete.getFileName();
 
-			output = creditNotePDFTemplete.getPdfData();
+			output = printTemplete.getPdfData();
 
 		}
 
@@ -1908,7 +1909,7 @@ public class FinanceTool {
 		InputStreamReader reader = new InputStreamReader(inputStream);
 
 		Converter converter = new Converter();
-		File file = converter.getPdfFile(fileName, reader);
+		File file = converter.getPdfFile(printTemplete, reader);
 		// converter.getPdfFile(fileName, reader);
 		// InputStream inputStream = new
 		// ByteArrayInputStream(output.getBytes());
