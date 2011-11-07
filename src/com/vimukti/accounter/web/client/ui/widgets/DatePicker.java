@@ -74,7 +74,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		super();
 
 		setText(DateUtills.getDateAsString(System.currentTimeMillis()));
-		this.addStyleName("empty_date_field");
+		this.addStyleName("date-field-textbox");
 
 		// sinkEvents(Event.ONCLICK);
 		sinkEvents(Event.ONBLUR);
@@ -419,7 +419,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 * Display the date in the DatePicker.
 	 */
 	public void synchronizeFromDate() {
-		this.removeStyleName("empty_date_field");
 		if (this.selectedDate != null) {
 
 			this.setText(dateFormatter.format(this.selectedDate));

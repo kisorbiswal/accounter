@@ -40,10 +40,15 @@ public class CurrencyWidget extends DynamicForm {
 				});
 
 		setStyleName("currencyTextBox");
-		setWidth("100%");
+		
 
-		currencyForm = new CurrencyFormItem("Factor :",
-				baseCurrency.getFormalName());
+		if (baseCurrency != null) {
+			currencyForm = new CurrencyFormItem("Factor :",
+			baseCurrency.getFormalName());
+			} else {
+			currencyForm = new CurrencyFormItem();
+			}
+
 		currencyForm.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {

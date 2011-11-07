@@ -50,6 +50,8 @@ public class CurrencyFormItem extends FormItem<String> {
 	public CurrencyFormItem(String header, String footerText) {
 		textBox = new TextBoxItem();
 		lable1 = new com.google.gwt.user.client.ui.Label(footerText);
+		datePanel.setStyleName("company_currency_name");
+		lable1.setStyleName("");
 		datePanel.add(textBox);
 		datePanel.add(lable1);
 		setTitle(header);
