@@ -72,21 +72,11 @@ public class AccounterChatServer implements ChatManagerListener,
 					}
 				}
 			}, 500);
-			loadCommandsAndPatterns();
 		} catch (Exception e) {
 			log.error("Unable to Strart Chat Server.");
 			e.printStackTrace();
 		}
 		log.info("Chat Server Started....");
-	}
-
-	/**
-	 * @throws AccounterMobileException
-	 * 
-	 */
-	private void loadCommandsAndPatterns() throws AccounterMobileException {
-		CommandsFactory.INSTANCE.reload();
-		PatternStore.INSTANCE.reload();
 	}
 
 	@Override
