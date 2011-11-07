@@ -804,7 +804,7 @@ public interface AccounterConstants extends Constants {
 
 	public String currencyFormalName();
 
-	public String currencyGroupList();
+	public String currencyList();
 
 	public String currencyName();
 
