@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
@@ -43,6 +44,9 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 			@Override
 			public void onThirdButtonClick() {
+				if (getDeleteObject() == null){
+					return;
+				}
 				deleteObject(getDeleteObject());
 			}
 
@@ -66,8 +70,15 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 	}
 
 	private ClientCurrency getDeleteObject() {
+		ClientCurrency currency =(ClientCurrency) listGridView.getSelection();
+		String primaryCurrencyString = getCompany().getPreferences().getPrimaryCurrency();
+		
+		if (currency.getFormalName().toLowerCase().contains(primaryCurrencyString.toLowerCase())){
+			Accounter.showError("You should not delete primary currency");
+		}else{
 		return (ClientCurrency) listGridView.getSelection();
-
+		}
+		return null;
 	}
 
 	public void ShowAddEditDialog(ClientCurrency currency) {
