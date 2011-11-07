@@ -578,7 +578,7 @@ tr.net-profit td {
 .memoTextArea {
     width: 359px !important;
 }
-.disable-TextField,.input[disabled='disabled']{
+.fields-panel textarea.disable-TextField,.disable-TextField,.input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA !important;
 	border: 1px solid #918C8C;
     border-radius: 5px 5px 5px 5px;
