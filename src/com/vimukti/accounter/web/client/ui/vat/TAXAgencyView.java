@@ -176,9 +176,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result
-					.addError(taxAgencyText, Accounter.constants()
-							.alreadyExist());
+			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -320,8 +318,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(companyConstants
-				.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(
+				companyConstants.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -391,8 +389,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo.setRequired(true);
 
-		tAXFilingFrequency = new TAXFilingFrequencyCombo(constants
-				.taxFilingFrequency());
+		tAXFilingFrequency = new TAXFilingFrequencyCombo(
+				constants.taxFilingFrequency());
 		tAXFilingFrequency.setDisabled(isInViewMode());
 		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
 		tAXFilingFrequency.setSelectedItem(0);
@@ -633,7 +631,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	}
 
 	private void initListGrid() {
-		gridView = new ContactsTable();
+		gridView = new ContactsTable() {
+
+			@Override
+			protected boolean isInViewMode() {
+				return TAXAgencyView.this.isInViewMode();
+			}
+		};
 		gridView.setDisabled(true);
 		// gridView.setCanEdit(true);
 		// gridView.isEnable = false;
