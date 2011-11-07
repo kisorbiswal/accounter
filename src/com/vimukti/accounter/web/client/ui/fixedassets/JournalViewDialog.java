@@ -165,8 +165,8 @@ public class JournalViewDialog extends BaseDialog {
 							getComboForm(keyValue));
 				}
 
-				disposalJournalForm.getCellFormatter().setWidth(row, col - 1,
-						"100%");
+//				disposalJournalForm.getCellFormatter().setWidth(row, col - 1,
+//						"100%");
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
@@ -341,7 +341,7 @@ public class JournalViewDialog extends BaseDialog {
 	private DynamicForm getComboForm(String keyvalue) {
 		DynamicForm form = new DynamicForm();
 		form.setFields(getCombo(keyvalue));
-		form.getCellFormatter().setWidth(0, 0, "136");
+//		form.getCellFormatter().setWidth(0, 0, "136");
 		return form;
 
 	}

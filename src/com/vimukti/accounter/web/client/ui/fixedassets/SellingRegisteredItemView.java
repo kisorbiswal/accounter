@@ -139,7 +139,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		notesArea.setTitle(Accounter.constants().notes());
 
 		textAreaForm = new DynamicForm();
-		textAreaForm.setWidth("100%");
+//		textAreaForm.setWidth("100%");
 		textAreaForm.setFields(notesArea);
 		textAreaForm.setStyleName("align-form");
 

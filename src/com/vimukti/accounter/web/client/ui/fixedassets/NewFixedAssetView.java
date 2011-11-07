@@ -287,7 +287,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		itmNameForm.setStyleName("margin-b");
 		itmNameForm.setWidth("45%");
 		itmNameForm.setFields(itemTxt);
-		itmNameForm.getCellFormatter().setWidth(0, 0, "185");
+//		itmNameForm.getCellFormatter().setWidth(0, 0, "185");
 
 		itemInfoForm = new DynamicForm();
 		itemInfoForm.setWidth("100%");
@@ -940,8 +940,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	};
 
 	private void adjustFormWidths(int assetNumberWidth) {
-		itmNameForm.getCellFormatter().getElement(0, 0).setAttribute("width",
-				assetNumberWidth + "");
+//		itmNameForm.getCellFormatter().getElement(0, 0).setAttribute("width",
+//				assetNumberWidth + "");
 	}
 
 	/*
