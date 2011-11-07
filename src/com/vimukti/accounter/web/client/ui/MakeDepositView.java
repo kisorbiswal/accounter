@@ -803,7 +803,7 @@ public class MakeDepositView extends
 
 		form1 = new DynamicForm();
 		form1.setFields(cashBackMemoText, cashBackAccountSelect);
-		form1.getCellFormatter().setWidth(0, 0, "180px");
+//		form1.getCellFormatter().setWidth(0, 0, "180px");
 		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(Accounter.constants()
@@ -842,7 +842,8 @@ public class MakeDepositView extends
 		DynamicForm dynamicForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			dynamicForm.setFields(locationCombo);
-		topHLay.add(dynamicForm);
+		    topHLay.add(dynamicForm);
+		    topHLay.setCellHorizontalAlignment(dynamicForm, ALIGN_RIGHT);
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_LEFT);
@@ -1170,10 +1171,10 @@ public class MakeDepositView extends
 
 	public void resetFormView() {
 
-		form1.getCellFormatter().setWidth(0, 1, "200px");
-		form1.getCellFormatter().setWidth(0, 1, "200px");
-		form2.getCellFormatter().setWidth(0, 1, "200px");
-		form2.getCellFormatter().setWidth(0, 1, "200px");
+//		form1.getCellFormatter().setWidth(0, 1, "200px");
+//		form1.getCellFormatter().setWidth(0, 1, "200px");
+//		form2.getCellFormatter().setWidth(0, 1, "200px");
+//		form2.getCellFormatter().setWidth(0, 1, "200px");
 	}
 
 	@Override

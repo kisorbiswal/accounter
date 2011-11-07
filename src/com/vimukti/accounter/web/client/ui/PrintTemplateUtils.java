@@ -64,7 +64,7 @@ public class PrintTemplateUtils {
 			tb.getCellFormatter().setStyleName(0, c, "gridHeaderBackGround");
 
 			c++;
-			tb.getCellFormatter().setWidth(0, 0, "33%");
+//			tb.getCellFormatter().setWidth(0, 0, "33%");
 		}
 		Map<Integer, List<String>> rowData = new LinkedHashMap<Integer, List<String>>();
 		for (List<String> key : headers) {
@@ -82,7 +82,7 @@ public class PrintTemplateUtils {
 				tb.getCellFormatter().setHorizontalAlignment(
 						rowNum.intValue() + 1, col, VerticalPanel.ALIGN_CENTER);
 				col++;
-				tb.getCellFormatter().setWidth(rowNum.intValue() + 1, 0, "33%");
+//				tb.getCellFormatter().setWidth(rowNum.intValue() + 1, 0, "33%");
 			}
 		}
 		return tb;

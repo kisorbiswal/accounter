@@ -116,7 +116,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private DynamicForm bankForm;
 	private DynamicForm creditCardForm;
 	private DynamicForm paypalForm;
-	private CurrencyWidget currency;
+	//private CurrencyWidget currency;
 
 	CurrencyCombo currencyCombo;
 	protected ClientCurrency selectCurrency;
@@ -373,12 +373,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accInfoForm = UIUtils.form(Accounter.messages()
 				.chartOfAccountsInformation(Global.get().Account()));
-		accInfoForm.setWidth("100%");
+//		accInfoForm.setWidth("100%");
 
 		topHLay = new HorizontalPanel();
-		topHLay.setWidth("50%");
+//		topHLay.setWidth("50%");
 		leftLayout = new HorizontalPanel();
-		leftLayout.setWidth("90%");
+//		leftLayout.setWidth("90%");
 
 		if (accountType == 0
 				|| (accountType != ClientAccount.TYPE_BANK && accountType != ClientAccount.TYPE_CREDIT_CARD)) {
@@ -450,7 +450,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 
 		}
-		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
+//		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		cashAccountCheck = new CheckboxItem(Accounter.messages()
 				.thisIsConsideredACashAccount(Global.get().Account()));
 		cashAccountCheck.setWidth(100);
@@ -462,8 +462,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.setGroupTitle(Accounter.constants().cashBasisAccounting());
 		cashBasisForm.setFields(cashAccountCheck);
 		cashBasisForm.setWidth("100%");
-		cashBasisForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200");
+//		cashBasisForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "200");
 
 		commentsArea = new TextAreaItem();
 		commentsArea.setToolTip(Accounter.messages().writeCommentsForThis(
@@ -475,20 +475,19 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// commentsArea.setShowTitle(false);
 
 		commentsForm = UIUtils.form(Accounter.constants().comments());
-		commentsForm.setWidth("50%");
+//		commentsForm.setWidth("50%");
 		commentsForm.setFields(commentsArea);
 		commentsForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		commentsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200");
-		currency = createCurrencyWidget();
+//		commentsForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "200");
+//		currency = createCurrencyWidget();
 
 		if (getData() == null) {
 			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
 					: new ClientBankAccount();
 			setData(account);
 		}
-
 		mainVLay = new VerticalPanel();
 		mainVLay.addStyleName("fields-panel");
 
@@ -605,7 +604,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// }
 		accInfoForm.setWidth("100%");
 		topHLay.setWidth("100%");
-		leftLayout.setWidth("90%");
+//		leftLayout.setWidth("90%");
 		topHLay.add(leftLayout);
 		topHLay.add(paypalForm);
 
@@ -709,7 +708,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					"4000", "4999"));
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
-			topHLay.setWidth("50%");
+//			topHLay.setWidth("50%");
 
 		}
 
@@ -751,7 +750,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// mainVLay.reflowNow();
 
 		}
-		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
+//		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		if (isNewBankAccount())
 			lab1.setText(" "
 					+ Accounter.messages().bankAccount(Global.get().Account()));
@@ -938,7 +937,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			bankForm = UIUtils.form(Accounter.messages()
 					.bankAccountInformation(Global.get().Account()));
-			bankForm.setWidth("100%");
+//			bankForm.setWidth("100%");
 			if (isMultiCurrencyEnabled()) {
 				bankForm.setFields(getBankNameSelectItem(), typeSelect,
 						bankAccNumText, currencyCombo);
@@ -957,9 +956,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		accInfoForm.setWidth("100%");
 		topHLay.setWidth("100%");
-		leftLayout.setWidth("90%");
+//		leftLayout.setWidth("90%");
 		topHLay.add(leftLayout);
 		topHLay.add(bankForm);
+		topHLay.setCellHorizontalAlignment(bankForm, ALIGN_RIGHT);
 
 	}
 
@@ -1729,7 +1729,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		asofDate.setTabIndex(6);
 		cashAccountCheck.setTabIndex(7);
 		commentsArea.setTabIndex(8);
-		currency.setTabIndex(9);
+//		currency.setTabIndex(9);
 		if (bankNameSelect != null) {
 			bankNameSelect.setTabIndex(10);
 		}

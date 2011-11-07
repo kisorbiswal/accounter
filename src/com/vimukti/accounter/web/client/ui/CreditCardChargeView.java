@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -494,11 +495,11 @@ public class CreditCardChargeView extends
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
-		vendorForm.setWidth("100%");
+//		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactCombo, phoneSelect,
 				billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
+//		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		payMethSelect = new SelectCombo(Accounter.constants().paymentMethod());
 		payMethSelect.setRequired(true);
@@ -531,7 +532,7 @@ public class CreditCardChargeView extends
 		// formItems.add(delivDate);
 
 		termsForm = UIUtils.form(Accounter.constants().terms());
-		termsForm.setWidth("100%");
+//		termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 
@@ -543,8 +544,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+//		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+//				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -719,6 +720,8 @@ public class CreditCardChargeView extends
 		rightHLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightHLay.add(currencyWidget);
+			rightHLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -727,11 +730,11 @@ public class CreditCardChargeView extends
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.setSpacing(20);
-		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
 		topHLay.add(rightHLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightHLay, "42%");
-
+		topHLay.setCellWidth(rightHLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
+		
 		VerticalPanel vLay1 = new VerticalPanel();
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
@@ -1036,7 +1039,7 @@ public class CreditCardChargeView extends
 	}
 
 	private void resetFormView() {
-		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		// refText.setWidth("200px");
 	}
 
