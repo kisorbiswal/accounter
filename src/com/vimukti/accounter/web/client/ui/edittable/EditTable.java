@@ -244,4 +244,6 @@ public abstract class EditTable<R> extends SimplePanel {
 			column.updateHeader();
 		}
 	}
+	
+	protected abstract boolean isInViewMode();
 }

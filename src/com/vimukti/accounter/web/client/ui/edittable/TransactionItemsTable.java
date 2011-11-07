@@ -116,4 +116,10 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 		};
 		this.addColumn(textEditColumn3);
 	}
+
+	@Override
+	protected boolean isInViewMode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
