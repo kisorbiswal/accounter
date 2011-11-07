@@ -519,10 +519,12 @@ public class ItemView extends BaseView<ClientItem> {
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			salesVPanel.add(getStockPanel_1());
-			purchzVPanel.add(getStockPanel_2());
-			purchzVPanel.setCellHorizontalAlignment(getStockPanel_1(), ALIGN_LEFT);
-			purchzVPanel.setCellHorizontalAlignment(getStockPanel_2(), ALIGN_LEFT);
+			VerticalPanel stockPanel_1 = getStockPanel_1();
+			VerticalPanel stockPanel_2 = getStockPanel_2();
+			salesVPanel.add(stockPanel_1);
+			purchzVPanel.add(stockPanel_2);
+			purchzVPanel.setCellHorizontalAlignment(stockPanel_1, ALIGN_LEFT);
+			purchzVPanel.setCellHorizontalAlignment(stockPanel_2, ALIGN_LEFT);
 
 		}
 		this.add(mainVLay);
