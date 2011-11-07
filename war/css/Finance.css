@@ -196,17 +196,14 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 ,.bills_panel td:FIRST-CHILD,.track_time_panel td:FIRST-CHILD {
 	padding:10px 0 0 0;
 }
-.selected{
-	background: none repeat scroll 0 0 #CCCCCC;
-}
- table tr.ReportGridRow:HOVER,table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER,.report-toolbar,.datePickerDayIsValue /*,.gridAscend,.gridDecend*/{
+ table tr.ReportGridRow:HOVER,table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER,.report-toolbar,.datePickerDayIsValue,.selected /*,.gridAscend,.gridDecend*/{
 	background: none repeat scroll 0 0 #CCCCCC !important;
 }
 .gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.boldtext,.borders,.biz-decor-panel,
 .gwt-MenuBarPopup .gwt-MenuBar-vertical table,.gwt-DecoratedTabBar .gwt-TabBarItem,.td00,.td01,.td02,.gwt-DatePicker .datePickerDays{
 	border-collapse: collapse;
 }
-textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],
+.disable-TextField,textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],
 .gwt-TextBox input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA;
 }
@@ -742,7 +739,7 @@ input.dropdown-button {
     padding:5px 0 0;
 }
 .fields-panel .gwt-TextArea {
-    width: 190px !important;
+    width: 172px !important;
 }
 .memoTextArea {
     width: 359px !important;
@@ -780,7 +777,7 @@ input.dropdown-button {
 	padding-top: 3px;
 }
 .memoFormAlign {
-	width: 55px;
+	/*width: 55px;*/
 }
 .gwt-DialogBox .dialogTopLeft {
 	 height: 16px;
@@ -891,7 +888,6 @@ iframe,.address div {
 	font-size: 20px;
     color: #3d3d3d;
     margin-bottom:5px;
-
 }
 
 .help_content{
@@ -910,18 +906,18 @@ iframe,.address div {
 .due_form_table td:FIRST-CHILD {
 	width: 10.5%;
 }
-.service-item-group .item-form-view td:FIRST-CHILD{
+/*.service-item-group .item-form-view td:FIRST-CHILD{
 	width:195px;
-}
+}*/
 .datenumber-panel { 
 	margin-right: 29px;
 }
 .portlet-body .ibutton {
 	margin-left: 10px;
 }
-.service-item-group td:last-child table td:FIRST-CHILD{
+/*.service-item-group td:last-child table td:FIRST-CHILD{
 	width: 50%;
-}
+}*/
 .banking-portlet,.expense_claim_portlet {
 	width: 50%;
 	padding-right:11px;
@@ -1070,7 +1066,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 	color: #1A5158;
     margin-right:8px;
 }
-.companyName,#mainFooter,#mainFooter a,#mainFooter span,.empty_date_field{
+.companyName,#mainFooter,#mainFooter a,#mainFooter span{
 	color: #666666;
 }
 #mainFooter{
@@ -1080,9 +1076,6 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 }
 #mainFooter a,#mainFooter span,.gwt-DisclosurePanel .header{
 	 text-decoration: none;
-}
-.empty_date_field{
-	text-transform: lowercase;
 }
 .skip_setup,.start_setup{
     margin: 50px 15px 10px;
@@ -1323,9 +1316,9 @@ input.gwt-TextBox,input.gwt-DateBox{
 input[type="text"]{
 	line-height /*\**/: 1.8\9
 }
-.new_vat_item tr td:FIRST-CHILD {
+/*.new_vat_item tr td:FIRST-CHILD {
 	width:250px;
-}
+}*/
 .gwt-DialogBox,.gwt-Button,.image-button {
 	border-radius: 5px 5px 5px 5px;
 	-webkit-border-radius:5px 5px 5px 5px;
@@ -1369,9 +1362,9 @@ input[type="text"]{
 .gwt-PopupPanel table tr{
 	white-space: nowrap;
 }*/
-.new_vat_item tr td:FIRST-CHILD {
+/*.new_vat_item tr td:FIRST-CHILD {
 	width:250px;
-}
+}*/
 /*.gwt-PopupPanel .popupContent div{
 	overflow-x:hidden !important;
 }*/
@@ -1420,7 +1413,7 @@ form#contactForm input, textarea,form#contactForm .submit{
 }
 form#contactForm input,.fields-panel textarea{
 	background:#FFFFFF none repeat scroll 0 0;
-	border:1px solid #dfdfdf;
+	border:1px solid #AAAAAA;
 	margin-bottom:10px;
 }
 form#contactForm .submit {
@@ -1564,10 +1557,19 @@ button.disable,button.disable:hover{
 	width:60px;
 }
 .fields-panel .gwt-Label{
-	width:130px;
+	width:200px;
 }
 .conversion_date_footer{
 	color: #993300;
+}
+.memoFormAlign div,.addrsFormCellAlign div{
+	padding-top:10px;
+}
+.company_currency_name .gwt-TextBox{
+	width:142px !important;
+}
+input.date-field-textbox{
+	width:150px !important;
 }
 .conversion_commet{
 	font-size: 2px;
