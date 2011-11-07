@@ -83,7 +83,7 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 				switch (event.getNativeKeyCode()) {
 				case KeyCodes.KEY_ENTER:
 					if (value == null) {
-						textBox.setText("");
+						// textBox.setText("");
 						dropDown.addNewItem();
 					}
 					popupPanel.hide();
@@ -238,7 +238,7 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 		} else {
 			if (isClicked) {
 				popupPanel.hide();
-				textBox.setText("");
+				// textBox.setText("");
 				dropDown.addNewItem();
 			}
 		}
