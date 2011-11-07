@@ -293,4 +293,5 @@ public abstract class AbstractTransactionTable extends
 		}
 	}
 
+	protected abstract boolean isInViewMode();
 }

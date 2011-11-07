@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
-public class UnitsTable extends EditTable<ClientUnit> {
+public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 	@Override
 	protected void initColumns() {

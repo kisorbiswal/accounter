@@ -117,4 +117,10 @@ public class WarehouseAllocationTable extends
 		}
 		return result;
 	}
+
+	@Override
+	protected boolean isInViewMode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

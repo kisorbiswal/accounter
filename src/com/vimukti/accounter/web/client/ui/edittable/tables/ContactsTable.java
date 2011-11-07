@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
  * @author Prasanna Kumar G
  * 
  */
-public class ContactsTable extends EditTable<ClientContact> {
+public abstract class ContactsTable extends EditTable<ClientContact> {
 
 	public ContactsTable() {
 
