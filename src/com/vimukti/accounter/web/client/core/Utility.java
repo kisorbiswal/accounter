@@ -122,6 +122,7 @@ public class Utility implements IsSerializable, Serializable {
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			transactionName = AccounterClientConstants.TYPE_CUSTOMER_PREPAYMENT;
+			break;
 		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
 			transactionName = Accounter.constants().taxAdjustment();
