@@ -39,7 +39,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		case 2:
 			return bills.getNumber();
 		case 3:
-			return bills.getVendorName();
+			return bills.getVendorName() != null ? bills.getVendorName() : "";
 		case 4:
 			return amountAsString(bills.getOriginalAmount(), currency);
 		case 5:
