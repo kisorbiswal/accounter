@@ -3718,4 +3718,6 @@ public interface AccounterConstants extends Constants {
 
 	public String nonInventoryItem();
 
+	public String amountAndTotalShouldEqual();
+
 }

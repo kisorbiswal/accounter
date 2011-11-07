@@ -489,8 +489,9 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null && !isAmountChange) {
-				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
-						.doubleValue()));
+				amtText
+						.setAmount(getAmountInTransactionCurrency(transactionTotal
+								.doubleValue()));
 			}
 
 		}
@@ -516,26 +517,30 @@ public class WriteChequeView extends
 
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable,
-					accounterConstants.blankTransaction());
+			result.addError(transactionVendorAccountTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem,
-					accounterConstants.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem, accounterConstants
+					.transactiontotalcannotbe0orlessthan0());
 		}
 
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
+		}
+		if (unassignedAmountPanel.isVisible()) {
+			result.addError(unassignedAmountPanel, constants
+					.amountAndTotalShouldEqual());
 		}
 
 		return result;
@@ -727,7 +732,7 @@ public class WriteChequeView extends
 			classListCombo = createAccounterClassListCombo();
 			bankAccForm.setFields(classListCombo);
 		}
-//		bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
+		// bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		// forms.add(bankAccForm);
 
 		paytoSelect = new PayeeCombo(Accounter.constants().payTo());
@@ -794,8 +799,8 @@ public class WriteChequeView extends
 			@Override
 			public void onBlur(BlurEvent event) {
 				if ((amtText.getAmount() != 0)
-						&& !(DecimalUtil.isEquals(previousValue,
-								amtText.getAmount()))) {
+						&& !(DecimalUtil.isEquals(previousValue, amtText
+								.getAmount()))) {
 					previousValue = amtText.getAmount();
 					isAmountChange = true;
 					validateAmountAndTotal();
@@ -817,16 +822,17 @@ public class WriteChequeView extends
 		toprintCheck.setValue(true);
 
 		payForm = new DynamicForm();
-//		payForm.setWidth("100%");
+		// payForm.setWidth("100%");
 		payForm.setFields(paytoSelect, billToCombo, amtText);
-//		payForm.getCellFormatter().setWidth(0, 0, "170px");
+		// payForm.getCellFormatter().setWidth(0, 0, "170px");
 
 		currencyWidget = createCurrencyWidget();
 
 		VerticalPanel currencyPanel = new VerticalPanel();
-//		currencyPanel.setWidth("100%");
+		// currencyPanel.setWidth("100%");
 		currencyPanel.add(bankAccForm);
-		currencyPanel.setCellHorizontalAlignment(bankAccForm, HasHorizontalAlignment.ALIGN_RIGHT);
+		currencyPanel.setCellHorizontalAlignment(bankAccForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			currencyPanel.add(currencyWidget);
 			currencyWidget.setDisabled(isInViewMode());
@@ -1425,7 +1431,8 @@ public class WriteChequeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1450,9 +1457,9 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		vendorAccountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
 	}
 
 	@Override
