@@ -111,4 +111,9 @@
 		SELECT COUNT(*) FROM MESSAGE;
 	</sql-query>
 
+	<query name="getMessages">
+		from
+		com.vimukti.accounter.web.server.translate.Message m where m.id != 0
+	</query>
+
 </hibernate-mapping>
