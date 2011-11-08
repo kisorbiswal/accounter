@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -64,7 +65,10 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		T selected = context.getSelection(getName() + "items");
 		if (selected != null) {
 			values.add(selected);
-			return edit(selected, context);
+			Result edit = edit(selected, context);
+			if (edit != null) {
+				return edit;
+			}
 		}
 
 		T selectedValue = context.getSelection(getName());
@@ -87,12 +91,17 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		} else {
 			makeResult.add(getEmptyString());
 		}
-		if (isCreatable || values.size() < getList().size()) {
+		if (getIsCreatableObject() || isCreatable
+				|| values.size() < getList().size()) {
 			Record addMoreRecord = new Record(getAddMoreString());
 			addMoreRecord.add("", getAddMoreString());
 			actions.add(addMoreRecord);
 		}
 		return null;
+	}
+
+	protected boolean getIsCreatableObject() {
+		return false;
 	}
 
 	protected abstract String getEmptyString();
@@ -102,7 +111,10 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		if (isCreatable) {
 			T newObj = getNewObject();
 			oldValues.add(newObj);
-			return edit(newObj, context);
+			Result edit = edit(newObj, context);
+			if (edit != null) {
+				return edit;
+			}
 		}
 
 		ResultList list = new ResultList(getName() + "items");
@@ -120,13 +132,22 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		} else {
 			result.add(getEmptyString());
 		}
-
+		CommandList commandList = new CommandList();
+		addCreateCommands(commandList);
+		if (!commandList.isEmpty()) {
+			result.add(commandList);
+		}
 		return result;
+	}
+
+	protected void addCreateCommands(CommandList commandList) {
+
 	}
 
 	protected T currentValue;
 
 	private Result edit(T obj, Context context) {
+
 		currentValue = obj;
 		String process = (String) context.getAttribute(PROCESS_ATR);
 		if (process == null || !process.equals(getName())) {
@@ -135,7 +156,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		}
 		context.setAttribute(PROCESS_ATR, getName());
 		Object selection = context.getSelection(ACTIONS);
-		if (selection == ActionNames.FINISH) {
+		if (selection == ActionNames.FINISH || requirements.size() == 0) {
 			context.removeAttribute(PROCESS_ATR);
 			getRequirementsValues(obj);
 			return null;

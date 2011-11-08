@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.services.DAOException;
@@ -32,19 +33,27 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 
 	@Override
 	protected void getRequirementsValues(EstimatesAndSalesOrdersList obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void setRequirementsDefaultValues(EstimatesAndSalesOrdersList obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
+	protected boolean getIsCreatableObject() {
+		return true;
+	}
+
+	@Override
+	protected void addCreateCommands(CommandList commandList) {
+		commandList.add("create new quote");
+	}
+
+	@Override
 	protected EstimatesAndSalesOrdersList getNewObject() {
-		return null;
+		return new EstimatesAndSalesOrdersList();
 	}
 
 	@Override
