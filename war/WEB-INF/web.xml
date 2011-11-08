@@ -594,18 +594,6 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>TranslateHomeServlet
-		</servlet-name>
-		<servlet-class>
-			com.vimukti.accounter.servlets.TranslateHomeServlet
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>TranslateHomeServlet </servlet-name>
-		<url-pattern>/translate/home</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
 		<servlet-name>iTranslateImpl</servlet-name>
 		<servlet-class>
 			com.vimukti.accounter.translate.server.TranslateServiceImpl
