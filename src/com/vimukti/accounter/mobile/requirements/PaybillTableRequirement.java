@@ -68,10 +68,10 @@ public abstract class PaybillTableRequirement extends
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionPayBill obj) {
-		get(DUE_DATE).setDefaultValue(new ClientFinanceDate(obj.getDueDate()));
-		get(BILL_NO).setDefaultValue(obj.getBillNumber());
-		get(ORIGINAL_AMOUNT).setDefaultValue(obj.getOriginalAmount());
-		get(AMOUNT).setDefaultValue(obj.getOriginalAmount());
+		get(DUE_DATE).setValue(new ClientFinanceDate(obj.getDueDate()));
+		get(BILL_NO).setValue(obj.getBillNumber());
+		get(ORIGINAL_AMOUNT).setValue(obj.getOriginalAmount());
+		get(AMOUNT).setValue(obj.getOriginalAmount());
 	}
 
 	@Override
