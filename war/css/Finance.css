@@ -1366,6 +1366,7 @@ input[type="text"]{
 }*/
 .gwt-DisclosurePanel-closed{
 	border-bottom:3px solid #3299a4;
+	margin-bottom: 10px;
 }
 .gwt-DisclosurePanel-closed table td:last-child{
 	color:#3299a4;
