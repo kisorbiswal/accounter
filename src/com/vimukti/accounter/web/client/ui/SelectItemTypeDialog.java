@@ -101,7 +101,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
-			} else if (radio.equals(Accounter.constants().product())) {
+			} else if (radio.equals(Accounter.constants().productItem())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
 				action.setDependent(isDependent);
