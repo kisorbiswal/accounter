@@ -235,7 +235,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getLists(Context context) {
 				ArrayList<String> arrayList = new ArrayList<String>(
-						getClientCompany().getPaymentMethods().values());
+						getPaymentMethods());
 				Collections.sort(arrayList);
 				return arrayList;
 			}
