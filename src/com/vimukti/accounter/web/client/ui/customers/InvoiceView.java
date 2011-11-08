@@ -746,8 +746,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					+ transactionsTree.getTotalTax());
 			vatTotalNonEditableText.setAmount(customerTransactionTable
 					.getTotalTax() + transactionsTree.getTotalTax());
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal()
-					+ transactionsTree.getLineTotal());
+			netAmountLabel.setAmount(getAmountInTransactionCurrency(customerTransactionTable.getLineTotal()
+					+ transactionsTree.getLineTotal()));
 		}
 
 		setTransactionTotal(customerTransactionTable.getGrandTotal()
