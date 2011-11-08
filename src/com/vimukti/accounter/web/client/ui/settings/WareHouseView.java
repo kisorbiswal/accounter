@@ -117,11 +117,13 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		mainHLay.addStyleName("fields-panel");
 		mainHLay.setWidth("100%");
 
-		mainHLay.add(getLeftSideForm());
-		mainHLay.add(getRightSideForm());
-		mainHLay.setCellWidth(getLeftSideForm(), "50%");
-		mainHLay.setCellWidth(getRightSideForm(), "50%");
-		
+		DynamicForm leftSideForm = getLeftSideForm();
+		DynamicForm rightSideForm = getRightSideForm();
+		mainHLay.add(leftSideForm);
+		mainHLay.add(rightSideForm);
+		mainHLay.setCellWidth(leftSideForm, "50%");
+		mainHLay.setCellWidth(rightSideForm, "50%");
+
 		mainHLay.setCellHorizontalAlignment(getRightSideForm(), ALIGN_RIGHT);
 
 		titleItem = new Label(settingsConstants.wareHouse());
@@ -140,7 +142,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private DynamicForm getRightSideForm() {
 
 		rightSideForm = new DynamicForm();
-//		rightSideForm.setWidth("100%");
+		// rightSideForm.setWidth("100%");
 		rightSideForm.getElement().getStyle().setFloat(Float.RIGHT);
 
 		addressItem = new TextItem();
@@ -175,7 +177,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private DynamicForm getLeftSideForm() {
 
 		leftSideForm = new DynamicForm();
-//		leftSideForm.setWidth("100%");
+		// leftSideForm.setWidth("100%");
 
 		warehouseCodeItem = new TextItem();
 		warehouseCodeItem.setTitle(settingsConstants.warehouseCode());
