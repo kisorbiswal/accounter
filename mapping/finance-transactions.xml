@@ -451,6 +451,9 @@
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
+			<many-to-one name="usedInvoice" class="Invoice"
+				lazy="false" column="USED_INVOICE">
+			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
 			<key column="ID" />
@@ -516,7 +519,7 @@
 				cascade="save-update">
 				<key column="INVOICE_ID"></key>
 				<list-index column="VTX" />
-				<many-to-many column="ESTIAMTE_ID" class="Estimate" />
+				<many-to-many column="ESTIMATE_ID" class="Estimate" />
 			</list>
 			<list name="salesOrders" table="INVOICE_SALES_ORDERS" lazy="false"
 				cascade="save-update">

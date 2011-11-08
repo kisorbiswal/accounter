@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,7 +27,6 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturn;
-import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -2953,7 +2953,7 @@ public class ReportManager extends Manager {
 				.setParameter("taxAgency", taxAgency)
 				.setParameter("companyId", companyId);
 
-		List<TAXReturnEntry> taxReturnEntries = session
+		List<Object[]> taxReturnEntries = session
 				.getNamedQuery("getLastTAXReturn.Entries.by.taxAgency")
 				.setEntity("company", getCompany(companyId))
 				.setParameter("taxAgency", taxAgency).list();
@@ -2963,8 +2963,8 @@ public class ReportManager extends Manager {
 		ArrayList<TAXItemDetail> resultTAXReturnEntries = new ArrayList<TAXItemDetail>();
 
 		Iterator<Object[]> iterator = list.iterator();
-		for (TAXReturnEntry entry : taxReturnEntries) {
-			Transaction transaction = entry.getTransaction();
+		for (Object[] entry : taxReturnEntries) {
+			Long transaction = (Long) entry[0];
 			TAXItemDetail newEntry = null;
 			while (iterator.hasNext()) {
 				Object[] objects = iterator.next();
@@ -2972,11 +2972,11 @@ public class ReportManager extends Manager {
 				double netAmount = (Double) objects[1];
 				long transactionID = (Long) objects[2];
 
-				if (transactionID == transaction.getID()) {
+				if (transactionID == transaction) {
 					newEntry = new TAXItemDetail();
-					newEntry.setFiledTAXAmount(entry.getTaxAmount());
-					newEntry.setTaxAmount(taxAmount - entry.getTaxAmount());
-					newEntry.setNetAmount(netAmount - entry.getNetAmount());
+					newEntry.setFiledTAXAmount((Double) entry[5]);
+					newEntry.setTaxAmount(taxAmount - (Double) entry[5]);
+					newEntry.setNetAmount(netAmount - (Double) entry[6]);
 					newEntry.setTotal(newEntry.getTaxAmount()
 							+ newEntry.getNetAmount());
 					newEntry.setTransactionId((Long) objects[2]);
@@ -2995,19 +2995,18 @@ public class ReportManager extends Manager {
 			}
 			if (newEntry == null) {
 				newEntry = new TAXItemDetail();
-				newEntry.setFiledTAXAmount(entry.getTaxAmount());
+				newEntry.setFiledTAXAmount((Double) entry[5]);
 				newEntry.setTaxAmount(0);
-				newEntry.setNetAmount(entry.getNetAmount());
+				newEntry.setNetAmount((Double) entry[6]);
 				newEntry.setTotal(newEntry.getNetAmount()
 						+ newEntry.getTaxAmount());
-				newEntry.setTransactionId(entry.getTransaction().getID());
-				newEntry.setTransactionNumber(entry.getTransaction()
-						.getNumber());
-				newEntry.setTransactionType(entry.getTransaction().getType());
-				newEntry.setTransactionDate(entry.getTransaction().getDate()
-						.toClientFinanceDate());
-				newEntry.setTaxItemName(entry.getTaxItem().getName());
-				newEntry.setTAXRate(entry.getTaxItem().getTaxRate());
+				newEntry.setTransactionId((Long) entry[0]);
+				newEntry.setTransactionNumber((String) entry[1]);
+				newEntry.setTransactionType((Integer) entry[2]);
+				newEntry.setTransactionDate(new ClientFinanceDate(
+						(Date) entry[3]));
+				newEntry.setTaxItemName((String) entry[8]);
+				newEntry.setTAXRate((Double) entry[9]);
 				newEntry.setPercentage(true);
 				resultTAXReturnEntries.add(newEntry);
 			}

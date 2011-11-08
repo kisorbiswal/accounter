@@ -135,6 +135,8 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 	@Override
 	public void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
 		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,

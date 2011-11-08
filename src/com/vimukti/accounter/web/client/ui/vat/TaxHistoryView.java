@@ -119,6 +119,8 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	}
 
 	private void setData() {
+		grid.clear();
+		grid.addLoadingImagePanel();
 		rpcGetService
 				.getAllTAXReturns(new AccounterAsyncCallback<List<ClientTAXReturn>>() {
 
@@ -130,6 +132,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 					@Override
 					public void onResultSuccess(List<ClientTAXReturn> result) {
+						grid.removeLoadingImage();
 						if (result == null) {
 							return;
 						}

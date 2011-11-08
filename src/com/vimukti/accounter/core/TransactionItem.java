@@ -493,7 +493,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	private void doCreateEffect(Session session) {
+	public void doCreateEffect(Session session) {
 
 		/**
 		 * First take the Back up of the TransactionItem information
@@ -503,47 +503,50 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			this.itemBackUp = new ItemBackUp(this);
 			// this.itemBackUpList.add(itemBackUp);
 		}
-
-		if (!Arrays.asList(Transaction.TYPE_ESTIMATE,
-				Transaction.TYPE_SALES_ORDER, Transaction.TYPE_PURCHASE_ORDER)
-				.contains(this.transaction.getType())) {
-
-			if (this.id == 0l) {
-				double amount = (isPositiveTransaction() ? 1d : -1d)
-						* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
-								- this.VATfraction
-								: this.lineTotal);
-				this.setUpdateAmount(amount);
-				if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-					Account effectingAccount = getEffectingAccount();
-					if (effectingAccount != null) {
-						effectingAccount.updateCurrentBalance(this.transaction,
-								amount);
-						session.saveOrUpdate(effectingAccount);
-						effectingAccount.onUpdate(session);
-					}
-
-					if ((getCompany().getPreferences().isTrackTax())
-							&& this.isTaxable)
-						Company.setTAXRateCalculation(this, session);
-
-					if (this.type == TYPE_ITEM
-							&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
-						this.updateWareHouse(false);
-					}
+		if (shouldUpdateAccounts()) {
+			double amount = (isPositiveTransaction() ? 1d : -1d)
+					* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
+							- this.VATfraction : this.lineTotal);
+			this.setUpdateAmount(amount);
+			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
+				Account effectingAccount = getEffectingAccount();
+				if (effectingAccount != null) {
+					effectingAccount.updateCurrentBalance(this.transaction,
+							amount);
+					session.saveOrUpdate(effectingAccount);
+					effectingAccount.onUpdate(session);
 				}
-				// else if (this.type == TYPE_SALESTAX) {
-				// if (Company.getCompany().getAccountingType() ==
-				// Company.ACCOUNTING_TYPE_US) {
-				// // Company.setTaxRateCalculation(this, session, amount);
-				// } else if (Company.getCompany().getAccountingType() ==
-				// Company.ACCOUNTING_TYPE_UK) {
-				// Company.setTAXRateCalculation(this, session);
-				// }
-				// }
+
+				if ((getCompany().getPreferences().isTrackTax())
+						&& this.isTaxable)
+					Company.setTAXRateCalculation(this, session);
+
+				if (this.type == TYPE_ITEM
+						&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
+					this.updateWareHouse(false);
+				}
 			}
 		}
+		// else if (this.type == TYPE_SALESTAX) {
+		// if (Company.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_US) {
+		// // Company.setTaxRateCalculation(this, session, amount);
+		// } else if (Company.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_UK) {
+		// Company.setTAXRateCalculation(this, session);
+		// }
+		// }
 		// ChangeTracker.put(this);
+	}
+
+	private boolean shouldUpdateAccounts() {
+		if (transaction.getType() == Transaction.TYPE_ESTIMATE) {
+			return ((Estimate) transaction).getUsedInvoice() != null;
+		} else if (transaction.getType() == Transaction.TYPE_SALES_ORDER) {
+			return ((SalesOrder) transaction).getUsedInvoice() != null;
+		} else {
+			return true;
+		}
 	}
 
 	public void updateWareHouse(boolean isVoidOrDelete) {
@@ -803,8 +806,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				: true && (account != null && obj.account != null) ? (account
 						.equals(obj.account))
 						: true && (transaction != null && obj.transaction != null) ? (transaction
-								.equals(obj.transaction))
-								: true) {
+								.equals(obj.transaction)) : true) {
 
 			return true;
 		}

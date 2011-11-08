@@ -1155,9 +1155,9 @@ public class TaxManager extends Manager {
 				.setParameter("companyId", companyId)
 				.setParameter("taxAgency", taxAgency);
 
-		List<TAXReturnEntry> taxReturnEntries = session
-				.getNamedQuery("getLastTAXReturn.Entries.by.taxAgency")
-				.setEntity("company", getCompany(companyId))
+		List<Object[]> taxReturnEntries = session
+				.getNamedQuery("getAllTAXReturnEntries.groupby.transaction.id")
+				.setParameter("companyId", companyId)
 				.setParameter("taxAgency", taxAgency).list();
 
 		List<Object[]> list = query.list();
@@ -1165,8 +1165,8 @@ public class TaxManager extends Manager {
 		List<ClientTAXReturnEntry> resultTAXReturnEntries = new ArrayList<ClientTAXReturnEntry>();
 
 		Iterator<Object[]> iterator = list.iterator();
-		for (TAXReturnEntry entry : taxReturnEntries) {
-			Transaction transaction = entry.getTransaction();
+		for (Object[] entry : taxReturnEntries) {
+			Long transaction = (Long) entry[0];
 			ClientTAXReturnEntry newEntry = null;
 			while (iterator.hasNext()) {
 				Object[] objects = iterator.next();
@@ -1174,37 +1174,37 @@ public class TaxManager extends Manager {
 				double netAmount = (Double) objects[1];
 				long transactionID = (Long) objects[2];
 
-				if (transactionID == transaction.getID()) {
+				if (transactionID == transaction) {
 					newEntry = new ClientTAXReturnEntry();
-					newEntry.setFiledTAXAmount(entry.getTaxAmount());
-					newEntry.setTaxAmount(taxAmount - entry.getTaxAmount());
-					newEntry.setNetAmount(netAmount - entry.getNetAmount());
+					newEntry.setFiledTAXAmount((Double) entry[4]);
+					newEntry.setTaxAmount(taxAmount - (Double) entry[4]);
+					newEntry.setNetAmount(netAmount - (Double) entry[5]);
 					newEntry.setGrassAmount(newEntry.getTaxAmount()
 							+ newEntry.getNetAmount());
 					newEntry.setTransaction(transactionID);
-					newEntry.setTransactionType((Integer) objects[3]);
-					newEntry.setTransactionDate((Long) objects[4]);
-					newEntry.setTaxItem((Long) objects[5]);
-					newEntry.setTaxAgency((Long) objects[6]);
-					newEntry.setTAXGroupEntry((Boolean) objects[7]);
+					newEntry.setTransactionType((Integer) objects[1]);
+					newEntry.setTransactionDate((Long) objects[2]);
+					newEntry.setTaxItem((Long) objects[6]);
+					newEntry.setTaxAgency(taxAgency);
+					newEntry.setTAXGroupEntry(false);
 					resultTAXReturnEntries.add(newEntry);
 					iterator.remove();
 				}
 			}
-			if (newEntry == null) {
+			if (newEntry == null && (Boolean) entry[3]
+					&& (Double) entry[4] != 0) {
 				newEntry = new ClientTAXReturnEntry();
-				newEntry.setFiledTAXAmount(entry.getTaxAmount());
-				newEntry.setTaxAmount(-entry.getTaxAmount());
-				newEntry.setNetAmount(-entry.getNetAmount());
+				newEntry.setFiledTAXAmount((Double) entry[4]);
+				newEntry.setTaxAmount(-(Double) entry[4]);
+				newEntry.setNetAmount(-(Double) entry[5]);
 				newEntry.setGrassAmount(newEntry.getTaxAmount()
 						+ newEntry.getNetAmount());
-				newEntry.setTransaction(entry.getTransaction().getID());
-				newEntry.setTransactionType(entry.getTransaction().getType());
-				newEntry.setTransactionDate(entry.getTransaction().getDate()
-						.getDate());
-				newEntry.setTaxItem(entry.getTaxItem().getID());
-				newEntry.setTaxAgency(entry.getTaxItem().getTaxAgency().getID());
-				newEntry.setTAXGroupEntry(entry.isTAXGroupEntry());
+				newEntry.setTransaction((Long) entry[0]);
+				newEntry.setTransactionType((Integer) entry[1]);
+				newEntry.setTransactionDate((Long) entry[2]);
+				newEntry.setTaxItem((Long) entry[6]);
+				newEntry.setTaxAgency(taxAgency);
+				newEntry.setTAXGroupEntry(false);
 				resultTAXReturnEntries.add(newEntry);
 			}
 		}
@@ -1220,8 +1220,8 @@ public class TaxManager extends Manager {
 			newEntry.setTransactionType((Integer) objects[3]);
 			newEntry.setTransactionDate((Long) objects[4]);
 			newEntry.setTaxItem((Long) objects[5]);
-			newEntry.setTaxAgency((Long) objects[6]);
-			newEntry.setTAXGroupEntry((Boolean) objects[7]);
+			newEntry.setTaxAgency(taxAgency);
+			newEntry.setTAXGroupEntry(false);
 			resultTAXReturnEntries.add(newEntry);
 		}
 
@@ -1234,6 +1234,13 @@ public class TaxManager extends Manager {
 		Company company = getCompany(companyID);
 		List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
 				.setEntity("company", company).list();
+		for (TAXReturn taxReturn : list) {
+			for (TAXReturnEntry entry : taxReturn.getTaxReturnEntries()) {
+				Transaction transaction = entry.getTransaction();
+				entry.setTransactionDate(transaction.getDate());
+				entry.setTransactionType(transaction.getType());
+			}
+		}
 		List<ClientTAXReturn> taxReturns = new ArrayList<ClientTAXReturn>();
 		ClientConvertUtil convertUttils = new ClientConvertUtil();
 		for (TAXReturn taxReturn : list) {

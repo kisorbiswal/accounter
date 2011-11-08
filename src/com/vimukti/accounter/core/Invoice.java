@@ -562,6 +562,7 @@ public class Invoice extends Transaction implements Lifecycle {
 						: Estimate.STATUS_OPEN;
 
 				// }
+				estimate.setUsedInvoice(this, session);
 				estimate.onUpdate(session);
 				session.saveOrUpdate(estimate);
 			}

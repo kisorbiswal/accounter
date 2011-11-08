@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientEstimate extends ClientTransaction {
 
 	/**
@@ -23,9 +22,9 @@ public class ClientEstimate extends ClientTransaction {
 	public static final int BILLABLEEXAPENSES = 4;
 
 	long customer;
-	
+
 	private int estimateType;
-	
+
 	ClientContact contact;
 
 	ClientAddress address;
@@ -50,6 +49,9 @@ public class ClientEstimate extends ClientTransaction {
 	private int transactionType;
 
 	private long enterBill;
+
+	private long usedInvoice;
+
 	/**
 	 * @return the version
 	 */
@@ -324,6 +326,21 @@ public class ClientEstimate extends ClientTransaction {
 
 	public void setEnterBill(long enterBill) {
 		this.enterBill = enterBill;
+	}
+
+	/**
+	 * @return the usedInvoice
+	 */
+	public long getUsedInvoice() {
+		return usedInvoice;
+	}
+
+	/**
+	 * @param usedInvoice
+	 *            the usedInvoice to set
+	 */
+	public void setUsedInvoice(long usedInvoice) {
+		this.usedInvoice = usedInvoice;
 	}
 
 }

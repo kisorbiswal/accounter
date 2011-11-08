@@ -108,6 +108,8 @@ public class Estimate extends Transaction {
 	 */
 	boolean isTurnedToInvoiceOrSalesOrder = false;
 
+	private Invoice usedInvoice;
+
 	@ReffereredObject
 	private EnterBill enterBill;
 
@@ -260,8 +262,10 @@ public class Estimate extends Transaction {
 
 	@Override
 	public boolean isPositiveTransaction() {
-
-		return false;
+		if (this.estimateType == CREDITS) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -391,5 +395,26 @@ public class Estimate extends Transaction {
 
 	public void setTaxTotal(double taxTotal) {
 		this.taxTotal = taxTotal;
+	}
+
+	/**
+	 * @return the usedTransaction
+	 */
+	public Invoice getUsedInvoice() {
+		return usedInvoice;
+	}
+
+	/**
+	 * @param usedTransaction
+	 *            the usedTransaction to set
+	 */
+	public void setUsedInvoice(Invoice usedTransaction, Session session) {
+		this.usedInvoice = usedTransaction;
+		if (transactionItems == null) {
+			return;
+		}
+		for (TransactionItem item : transactionItems) {
+			item.doCreateEffect(session);
+		}
 	}
 }

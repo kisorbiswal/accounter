@@ -1,16 +1,20 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import java.util.ArrayList;
+
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VATBoxGrid;
+import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.reports.VAT100Report;
 
 public class FileVATView extends AbstractFileTAXView {
@@ -92,8 +96,8 @@ public class FileVATView extends AbstractFileTAXView {
 	public void printVATReturn() {
 		VAT100Report report = new VAT100Report();
 		report.setAction(ActionFactory.getVAT100ReportAction());
-		report.setStartAndEndDates(fromDate.getEnteredDate(), toDate
-				.getEnteredDate());
+		report.setStartAndEndDates(fromDate.getEnteredDate(),
+				toDate.getEnteredDate());
 		report.setVatAgency(selectedTaxAgency.getID());
 		report.print();
 
@@ -119,8 +123,8 @@ public class FileVATView extends AbstractFileTAXView {
 		}
 		gridView.addLoadingImagePanel();
 
-		this.rpcUtilService.getVATReturn(this.selectedTaxAgency, fromDate
-				.getDate(), toDate.getDate(),
+		this.rpcUtilService.getVATReturn(this.selectedTaxAgency,
+				fromDate.getDate(), toDate.getDate(),
 				new AccounterAsyncCallback<ClientTAXReturn>() {
 
 					@Override
@@ -183,7 +187,32 @@ public class FileVATView extends AbstractFileTAXView {
 
 	@Override
 	protected void printTaxReturn() {
-		// TODO Auto-generated method stub
+		AbstractReportView<VATSummary> report = new VAT100Report() {
+			private boolean isSecondReuqest = false;
+
+			@Override
+			public void onSuccess(ArrayList<VATSummary> result) {
+				super.onSuccess(result);
+				print();
+			}
+
+			@Override
+			public void makeReportRequest(long vatAgency,
+					ClientFinanceDate startDate, ClientFinanceDate endDate) {
+				if (isSecondReuqest) {
+					this.startDate = startDate;
+					this.endDate = endDate;
+					super.makeReportRequest(vatAgency, startDate, endDate);
+				} else {
+					isSecondReuqest = true;
+				}
+			}
+		};
+		report.setAction(ActionFactory.getVAT100ReportAction());
+		report.init();
+		report.initData();
+		report.makeReportRequest(selectedTaxAgency.getID(),
+				fromDate.getEnteredDate(), toDate.getEnteredDate());
 
 	}
 

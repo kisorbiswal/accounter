@@ -589,6 +589,11 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="Reconciliation" />
 		</set>
+		
+		<set name="accounterClasses" inverse="true" cascade="delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="AccounterClass" />
+		</set>
 	</class>
 	<!-- <class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id name="id" 
 		column="ID"> <generator class="identity" /> </id> Company Preferences <property 

@@ -258,6 +258,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		} else {
 
 			enableButtons();
+			fromDate.setDisabled(false);
 			getLastTaxReturnEndDate(selectItem);
 			// getVATReturnEndDate(selectItem);
 
@@ -276,8 +277,8 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		}
 		if (lastVATReturn != null) {
 			if (lastVATReturn.getPeriodEndDate() != 0) {
-				ClientFinanceDate date = new ClientFinanceDate(lastVATReturn
-						.getPeriodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(
+						lastVATReturn.getPeriodEndDate());
 				int day = date.getDay();
 				date.setDay(day + 1);
 				fromDate.setDatethanFireEvent(date);
@@ -306,7 +307,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 	public void enableButtons() {
 		this.adjustButton.setEnabled(true);
-
+		this.printButton.setEnabled(true);
 	}
 
 	public void enableprintButton() {
@@ -338,14 +339,12 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 									.getDateAsObject();
 							date.setDate(date.getDate() + 1);
 
-							fromDate
-									.setDatethanFireEvent(new ClientFinanceDate(
-											date));
+							fromDate.setDatethanFireEvent(new ClientFinanceDate(
+									date));
 							fromDate.setDisabled(true);
 						} else {
-							fromDate
-									.setDatethanFireEvent(new ClientFinanceDate(
-											DateUtil.getCurrentMonthFirstDate()));
+							fromDate.setDatethanFireEvent(new ClientFinanceDate(
+									DateUtil.getCurrentMonthFirstDate()));
 						}
 						reloadGrid();
 					}

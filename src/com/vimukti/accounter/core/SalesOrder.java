@@ -103,6 +103,8 @@ public class SalesOrder extends Transaction {
 	 */
 	String customerOrderNumber;
 
+	private Invoice usedInvoice;
+
 	//
 
 	// List<Invoice> invoices;
@@ -688,6 +690,24 @@ public class SalesOrder extends Transaction {
 		// + this.getNumber());
 		// }
 		return true;
+	}
+
+	public Invoice getUsedInvoice() {
+		return this.usedInvoice;
+	}
+
+	/**
+	 * @param usedTransaction
+	 *            the usedTransaction to set
+	 */
+	public void setUsedInvoice(Invoice usedTransaction, Session session) {
+		this.usedInvoice = usedTransaction;
+		if (transactionItems == null) {
+			return;
+		}
+		for (TransactionItem item : transactionItems) {
+			item.doCreateEffect(session);
+		}
 	}
 
 }

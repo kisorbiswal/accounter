@@ -195,8 +195,9 @@ public class TAXReturn extends Transaction {
 		Account vatFiledLiabilityAccount = taxAgency.getFiledLiabilityAccount();
 		vatFiledLiabilityAccount
 				.updateCurrentBalance(this, this.totalTAXAmount);
-		session.update(vatFiledLiabilityAccount);
 		vatFiledLiabilityAccount.onUpdate(session);
+		session.update(vatFiledLiabilityAccount);
+
 	}
 
 	@Override

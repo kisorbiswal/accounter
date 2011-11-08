@@ -258,8 +258,6 @@ public class Company implements IAccounterServerCore {
 
 	private Set<TAXItemGroup> taxItemGroups = new HashSet<TAXItemGroup>();
 
-	private Set<Box> vatBoxes = new HashSet<Box>();
-
 	private Set<Transaction> transactions = new HashSet<Transaction>();
 
 	private Set<Activity> activities = new HashSet<Activity>();
@@ -999,8 +997,6 @@ public class Company implements IAccounterServerCore {
 
 		cmp.taxAdjustments = this.getTaxAdjustments();
 
-		cmp.vatBoxes = this.getVatBoxes();
-
 		cmp.taxReturns = this.getTAXReturns();
 
 		cmp.registrationNumber = this.getRegistrationNumber();
@@ -1491,14 +1487,6 @@ public class Company implements IAccounterServerCore {
 		}
 	}
 
-	public Set<Box> getVatBoxes() {
-		return vatBoxes;
-	}
-
-	public void setVatBoxes(Set<Box> vatBoxes) {
-		this.vatBoxes = vatBoxes;
-	}
-
 	public void setRestartSetupInterviews(boolean restartSetupInterviews) {
 		this.restartSetupInterviews = restartSetupInterviews;
 	}
@@ -1536,7 +1524,6 @@ public class Company implements IAccounterServerCore {
 		delete(payees, session);
 		// delete(nominalCodeRange, session);
 		delete(brandingTheme, session);
-		delete(usersList, session);
 		delete(taxReturns, session);
 		delete(currencies, session);
 		delete(accounterClasses, session);
@@ -1557,12 +1544,11 @@ public class Company implements IAccounterServerCore {
 		delete(taxAdjustments, session);
 		delete(taxCodes, session);
 		delete(taxItemGroups, session);
-		delete(vatBoxes, session);
 		delete(activities, session);
 		delete(reconciliations, session);
 		delete(warehouses, session);
 		delete(measurements, session);
-
+		delete(usersList, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {

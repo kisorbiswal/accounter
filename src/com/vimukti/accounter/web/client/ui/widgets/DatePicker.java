@@ -591,4 +591,9 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		super.setTabIndex(index);
 	}
 
+	public void setDate(Date dateAsObject) {
+		selectedDate = dateAsObject;
+		this.setText(dateFormatter.format(this.selectedDate));
+	}
+
 }

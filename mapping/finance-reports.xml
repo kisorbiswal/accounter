@@ -2447,8 +2447,8 @@
 		on a.id =
 		at.account_id
 		LEFT OUTER JOIN
-		CASH_PURCHASE cp
-		ON t.id = cp.id
+		CASH_PURCHASE CP
+		ON t.id = CP.ID
 		LEFT OUTER
 		JOIN
 		CASH_SALES cs
@@ -2493,7 +2493,7 @@
 		= je.id
 		left outer join
 		PAYEE p
-		on p.id = cp.vendor_id or p.id = ccc.vendor_id
+		on p.id = CP.VENDOR_ID or p.id = ccc.vendor_id
 		or p.id = eb.vendor_id or
 		p.id = vcm.vendor_id or p.id = wc.vendor_id
 		or p.id = cs.customer_id or p.id = ccm.customer_id or p.id =
@@ -2503,7 +2503,7 @@
 		cpp.customer_id
 		or p.id = cr.customer_id
 		left outer join
-		USERS u on u.id = cp.employee
+		USERS U on U.ID = CP.employee
 		LEFT OUTER JOIN
 		CLIENT C ON C.ID = U.CLIENT_ID
 		where
@@ -2563,8 +2563,8 @@
 		on a.id =
 		at.account_id
 		left outer join
-		CASH_PURCHASE cp
-		on t.id = cp.id
+		CASH_PURCHASE CP
+		on t.id = CP.ID
 		left outer
 		join
 		CASH_SALES cs
@@ -2609,7 +2609,7 @@
 		= je.id
 		left outer join
 		PAYEE p
-		on p.id = cp.vendor_id or p.id = ccc.vendor_id
+		on p.id = CP.VENDOR_ID or p.id = ccc.vendor_id
 		or p.id = eb.vendor_id or
 		p.id = vcm.vendor_id or p.id = wc.vendor_id
 		or p.id = cs.customer_id or p.id = ccm.customer_id or p.id =
@@ -2619,7 +2619,7 @@
 		cpp.customer_id
 		or p.id = cr.customer_id
 		left outer join
-		USERS u on u.id = cp.employee
+		USERS U on U.id = CP.EMPLOYEE
 		LEFT OUTER JOIN
 		CLIENT C ON C.ID = U.CLIENT_ID
 		where

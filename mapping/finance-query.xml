@@ -6203,6 +6203,82 @@
 	</sql-query>
 
 
+	<sql-query name="getAllTAXReturnEntries.groupby.transaction.id">
+		<query-param name="companyId" type="long" />
+		<query-param name="taxAgency" type="long" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="IS_VOID" type="boolean" />
+		<return-scalar column="TAX_AMOUNT" type="double" />
+		<return-scalar column="NET_AMOUNT" type="double" />
+		<return-scalar column="TAX_ITEM" type="long" />
+		
+		SELECT 
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.IS_VOID AS IS_VOID,
+		SUM(TRE.TAX_AMOUNT) TAX_AMOUNT,
+		SUM(TRE.NET_AMOUNT) AS NET_AMOUNT,
+		TI.ID AS TAX_ITEM
+		
+		FROM TAX_RETURN_ENTRY TRE
+		
+  		LEFT JOIN TRANSACTION T 
+  			ON T.ID=TRE.TRANSACTION_ID 
+  		LEFT JOIN TAX_ITEM TI 
+  			ON TI.ID=TRE.TAXITEM_ID
+  		
+  		WHERE T.COMPANY_ID=:companyId AND
+  			  TI.TAX_AGENCY=:taxAgency
+		 GROUP BY T.ID,TI.ID;
+	
+	</sql-query>
+	
+	<sql-query name="getAllTAXReturnEntries.groupby.transaction.id.for.reports">
+		<query-param name="companyId" type="long" />
+		<query-param name="taxAgency" type="long" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="IS_VOID" type="boolean" />
+		<return-scalar column="TAX_AMOUNT" type="double" />
+		<return-scalar column="NET_AMOUNT" type="double" />
+		<return-scalar column="TAX_ITEM" type="long" />
+		<return-scalar column="TAX_ITEM_NAME" type="string" />
+		<return-scalar column="TAX_RATE" type="double" />
+		
+		SELECT 
+		T.ID AS TRANSACTION_ID,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.IS_VOID AS IS_VOID,
+		SUM(TRE.TAX_AMOUNT) TAX_AMOUNT,
+		SUM(TRE.NET_AMOUNT) AS NET_AMOUNT,
+		TI.ID AS TAX_ITEM,
+		TIG.NAME AS TAX_ITEM_NAME,
+		TI.TAX_RATE AS TAX_RATE
+		
+		FROM TAX_RETURN_ENTRY TRE
+		
+  		LEFT JOIN TRANSACTION T 
+  			ON T.ID=TRE.TRANSACTION_ID 
+  		LEFT JOIN TAX_ITEM TI 
+  			ON TI.ID=TRE.TAXITEM_ID
+  		LEFT JOIN TAX_ITEM_GROUPS TIG
+        	ON TIG.ID=TI.ID
+  		
+  		WHERE T.COMPANY_ID=:companyId AND
+  			  TI.TAX_AGENCY=:taxAgency
+		 GROUP BY T.ID,TI.ID;
+	
+	</sql-query>
+	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

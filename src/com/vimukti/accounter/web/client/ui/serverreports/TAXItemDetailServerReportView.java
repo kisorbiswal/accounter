@@ -125,12 +125,12 @@ public class TAXItemDetailServerReportView extends
 
 	@Override
 	public ClientFinanceDate getStartDate(TAXItemDetail obj) {
-		return new ClientFinanceDate();
+		return obj.getStartDate();
 	}
 
 	@Override
 	public ClientFinanceDate getEndDate(TAXItemDetail obj) {
-		return new ClientFinanceDate();
+		return obj.getEndDate();
 	}
 
 	@Override

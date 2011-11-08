@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemExceptionDetailReport;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 /**
@@ -96,10 +97,14 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
 				taxEntries = clientTAXReturn.getTaxReturnEntries();
-				details = getData(taxEntries);
+				details = getExceptionDetailData(taxEntries,
+						clientTAXReturn.getPeriodStartDate());
 
-				ActionFactory.getTaxItemExceptionDetailReportAction().run(
-						details, true);
+				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = ActionFactory
+						.getTaxItemExceptionDetailReportAction();
+				taxItemExceptionDetailReportAction
+						.setTaxReturn(clientTAXReturn);
+				taxItemExceptionDetailReportAction.run(details, true);
 			}
 		}
 
@@ -180,6 +185,33 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		}
 	}
 
+	private List<TAXItemDetail> getExceptionDetailData(
+			List<ClientTAXReturnEntry> taxEntries, long taxReturnStartDate) {
+
+		List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+
+		for (ClientTAXReturnEntry c : taxEntries) {
+			if (c.getTransactionDate() >= taxReturnStartDate) {
+				continue;
+			}
+			TAXItemDetail detail = new TAXItemDetail();
+			detail.setTaxAmount(c.getTaxAmount());
+			detail.setTransactionId(c.getTransaction());
+			detail.setTaxItemName(getCompany().getTAXItem(c.getTaxItem())
+					.getName());
+			detail.setTransactionType(c.getTransactionType());
+			detail.setTransactionDate(new ClientFinanceDate(c
+					.getTransactionDate()));
+			detail.setNetAmount(c.getNetAmount());
+			detail.setTAXRate(getCompany().getTaxItem(c.getTaxItem())
+					.getTaxRate());
+			detail.setTotal(c.getGrassAmount());
+			detail.setFiledTAXAmount(c.getFiledTAXAmount());
+			details.add(detail);
+		}
+		return details;
+	}
+
 	private List<TAXItemDetail> getData(List<ClientTAXReturnEntry> taxEntries) {
 
 		List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
@@ -191,7 +223,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 			detail.setTaxItemName(getCompany().getTAXItem(c.getTaxItem())
 					.getName());
 			detail.setTransactionType(c.getTransactionType());
-			// TODO
+			detail.setTransactionDate(new ClientFinanceDate(c
+					.getTransactionDate()));
 			detail.setNetAmount(c.getNetAmount());
 			detail.setTAXRate(getCompany().getTaxItem(c.getTaxItem())
 					.getTaxRate());
