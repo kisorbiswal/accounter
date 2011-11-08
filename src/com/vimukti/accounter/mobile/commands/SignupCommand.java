@@ -122,7 +122,7 @@ public class SignupCommand extends NewCommand {
 		Result result = new Result();
 		Boolean boolean1 = get("TermsAndConditions").getValue();
 		if (!boolean1) {
-			result.add("Please 'Accept' the terms and conditions (Press '7' to accept)");
+			result.add("Please 'Accept' the terms and conditions.");
 			return result;
 		}
 		Client client = new Client();
