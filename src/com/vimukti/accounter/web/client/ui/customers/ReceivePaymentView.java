@@ -438,7 +438,7 @@ public class ReceivePaymentView extends
 		customerCombo = createCustomerComboItem(Accounter.constants()
 				.receivedFrom());
 
-		amtText = new AmountField(Accounter.constants().amountReceived(), this);
+		amtText = new AmountField(Accounter.messages().amountReceived(getCompany().getPreferences().getPrimaryCurrency()), this);
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isInViewMode());
@@ -695,7 +695,7 @@ public class ReceivePaymentView extends
 
 		transaction.setCustomerBalance(getCustomerBalance());
 
-		transaction.setAmount(this.amountRecieved);
+		transaction.setAmount(getAmountInBaseCurrency(this.amountRecieved));
 
 		transaction
 				.setTransactionReceivePayment(getTransactionRecievePayments(transaction));
@@ -786,7 +786,7 @@ public class ReceivePaymentView extends
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
 			paymentMethod = transaction.getPaymentMethod();
-			setAmountRecieved(transaction.getAmount());
+			setAmountRecieved(getAmountInTransactionCurrency(transaction.getAmount()));
 
 			initTransactionTotalNonEditableItem();
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
@@ -1167,6 +1167,8 @@ public class ReceivePaymentView extends
 					.unusedPayments(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
+			amtText.setTitle(Accounter.messages().amountReceived(currencyWidget.getSelectedCurrency()
+					.getFormalName()));
 		}
 	}
 }
