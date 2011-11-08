@@ -593,4 +593,27 @@
 		<url-pattern>/site/maintanaceinform</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>iTranslateImpl</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.web.server.translate.TranslateServiceImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>iTranslateImpl</servlet-name>
+		<url-pattern>/do/translate/rpc/service</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TranslationUploadServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.TranslationUploadServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TranslationUploadServlet </servlet-name>
+		<url-pattern>/translate/upload</url-pattern>
+	</servlet-mapping>
+
 </web-app>
