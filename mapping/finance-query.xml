@@ -6201,8 +6201,48 @@
 		LEFT JOIN COMPANY C ON U.COMPANY_ID=C.ID 
 		WHERE U.ID=:userId;
 	</sql-query>
-	
 
+
+	<sql-query name="getNextMessageId">
+		<query-param name="lastMessageId" type="int" />
+		<return-scalar column="ID" type="int" />
+		<return-scalar column="TOT" type="int" />
+		SELECT
+		M.ID,
+		COUNT(LM.ID) AS TOT
+		FROM MESSAGE M
+		LEFT JOIN LOCAL_MESSAGE
+		LM
+		ON M.ID=LM.MESSAGE_ID
+		WHERE M.ID!=:lastMessageId
+		GROUP BY M.ID ORDER BY
+		TOT LIMIT 1;
+	</sql-query>
+
+	<sql-query name="getNoOfMessagesTranslatedByLang">
+		<query-param name="lang" type="string" />
+		SELECT COUNT(*) AS ROWCOUNT
+		FROM
+		(SELECT LM.MESSAGE_ID FROM
+		LOCAL_MESSAGE LM
+		WHERE LM.LANGUAGE=:lang GROUP BY
+		LM.MESSAGE_ID ) AS T ;
+	</sql-query>
+
+	<sql-query name="getNoOfMessagesApprovedByLang">
+		<query-param name="lang" type="string" />
+		SELECT COUNT(*) AS ROWCOUNT
+		FROM
+		(SELECT LM.MESSAGE_ID FROM
+		LOCAL_MESSAGE LM
+		WHERE LM.LANGUAGE=:lang AND LM.IS_APPROVED = TRUE
+		GROUP BY LM.MESSAGE_ID ) AS T ;
+	</sql-query>
+
+	<sql-query name="getNoOfMessages">
+		SELECT COUNT(*) FROM MESSAGE;
+	</sql-query>
+	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

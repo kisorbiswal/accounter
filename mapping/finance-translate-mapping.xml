@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.translate.server"
+	default-access="field" auto-import="false">
+	<class name="LocalMessage" table="LOCAL_MESSAGE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="message" column="MESSAGE_ID" class="Message"></many-to-one>
+		<property name="lang" column="LANGUAGE"></property>
+		<property name="value" unique="true" column="VALUE"></property>
+		<property name="ups" column="UPS" type="int"></property>
+		<property name="downs" column="DOWNS" type="int"></property>
+		<property name="isApproved" column="IS_APPROVED"></property>
+		<many-to-one name="createdBy" class="com.vimukti.accounter.core.Client"
+			lazy="false" column="CLIENT">
+		</many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+	</class>
+
+	<class name="Message" table="MESSAGE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<property name="value" column="VALUE"></property>
+		<property name="version" column="VERSION" type="int"></property>
+		<property name="isNotUsed" column="IS_NOT_USED"></property>
+		<set name="localMessages" lazy="false" inverse="true">
+			<key column="ID" />
+			<one-to-many class="LocalMessage" />
+		</set>
+	</class>
+
+	<class name="Vote" table="VOTE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="localMessage" column="LOCAL_MESSAGE_ID"
+			class="LocalMessage"></many-to-one>
+		<property name="isUp" column="IS_UP"></property>
+		<many-to-one name="client" column="CLIENT_ID"
+			class="com.vimukti.accounter.core.Client"></many-to-one>
+	</class>
+</hibernate-mapping>

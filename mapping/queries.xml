@@ -1601,12 +1601,43 @@
 	</query>
 
 	<query name="getStockTransfersList">
-		<query-param name="companyId" type="long"/>
-		from com.vimukti.accounter.core.StockTransfer st where st.company.id=:companyId
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.StockTransfer st where
+		st.company.id=:companyId
+	</query>
+
+	<query name="getMessageById">
+		<query-param name="id" type="int" />
+		from com.vimukti.accounter.translate.server.Message m where m.id=:id
+	</query>
+
+	<query name="getLocalMessageById">
+		<query-param name="id" type="int" />
+		from com.vimukti.accounter.translate.server.LocalMessage lm where
+		lm.id=:id
+	</query>
+
+	<query name="getVoteByClientId">
+		<query-param name="clientId" type="long" />
+		<query-param name="localMessageId" type="long" />
+		from com.vimukti.accounter.translate.server.Vote v where
+		v.client.id=:clientId and v.localMessage.id=:localMessageId
+	</query>
+
+	<query name="getLocalMessages">
+		<query-param name="messageId" type="int" />
+		<query-param name="lang" type="string" />
+		from com.vimukti.accounter.translate.server.LocalMessage lm where
+		lm.message.id=:messageId and lm.lang=:lang
 	</query>
 	
 	<query name="getStockAdjustmentsList">
 		<query-param name="companyId" type="long"/>
 		from com.vimukti.accounter.core.StockAdjustment st where st.company.id=:companyId
 	</query>
+	
+	<query name="getMessages">
+		from com.vimukti.accounter.translate.server.Message m where m.id != 0
+	</query>
+	
 </hibernate-mapping>
