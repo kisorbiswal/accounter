@@ -458,7 +458,7 @@
 		<alias>Add Customer Prepayment</alias>
 	</command>
 
-	<command clazz="NewReceivePaymentCommand" name="New Receive Payment">
+	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
 		<alias>Receive Payment</alias>
 		<alias>Create ReceivePayment</alias>
 		<alias>Add ReceivePayment</alias>
