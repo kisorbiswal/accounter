@@ -53,7 +53,7 @@ public class AuthenticationCommand extends Command {
 				string = (String) context.getLast(RequirementType.STRING);
 			}
 			Object attribute = context.getAttribute("input");
-			if (attribute == null) {
+			if (attribute == null || string == null) {
 				context.setAttribute("input", "userName");
 				makeResult
 						.add("Please Enter Username. Or press 'a' to Sighn up");
@@ -96,7 +96,7 @@ public class AuthenticationCommand extends Command {
 						+ string));
 				client = getClient(userName);
 				if (client == null || !client.getPassword().equals(password)) {
-					context.setAttribute("input", "userName");
+					context.setAttribute("userName", null);
 					makeResult
 							.add("There is no account found with given Email Id and Password");
 					makeResult
