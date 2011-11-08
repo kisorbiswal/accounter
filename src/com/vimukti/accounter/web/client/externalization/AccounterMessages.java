@@ -630,6 +630,7 @@ public interface AccounterMessages extends Messages {
 
 	public String enbleTDSdescription();
 
-	public String selectedTranslated(String selectedValue);
+	public String amountReceived(String primaryCurrency);
 
+	public String selectedTranslated(String selectedValue);
 }

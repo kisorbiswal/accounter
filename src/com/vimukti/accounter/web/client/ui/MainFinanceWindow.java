@@ -696,6 +696,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getMeasurementsAction());
 		actions.put(ActionFactory.getStockSettingsAction().getHistoryToken(),
 				ActionFactory.getStockSettingsAction());
+		actions.put(ActionFactory.getStockAdjustmentsListAction().getHistoryToken(),
+				ActionFactory.getStockAdjustmentsListAction());
 
 	}
 

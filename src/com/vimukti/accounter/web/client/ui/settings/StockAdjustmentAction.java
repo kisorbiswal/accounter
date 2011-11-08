@@ -44,7 +44,7 @@ public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 
 	@Override
 	public String getHelpToken() {
-		return Accounter.constants().stockAdjustment();
+		return "stockAdjustment";
 	}
 
 }
