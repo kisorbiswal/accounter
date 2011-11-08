@@ -714,7 +714,7 @@ public class ReceivePaymentView extends
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsTextBaseCurrency.setAmount(unusedAmounts);
+		this.unUsedPaymentsTextBaseCurrency.setAmount(getAmountInBaseCurrency(unusedAmounts));
 		this.unUsedPaymentsTextForeignCurrency.setAmount(unusedAmounts);
 
 	}
@@ -722,7 +722,7 @@ public class ReceivePaymentView extends
 	private void setUnUsedCredits(Double unusedCredits) {
 
 		unUsedCreditsTextBaseCurrency
-				.setAmount(getAmountInBaseCurrency(unusedCredits));
+				.setAmount(getAmountInBaseCurrency(getAmountInBaseCurrency(unusedCredits)));
 		unUsedCreditsTextForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(unusedCredits));
 
