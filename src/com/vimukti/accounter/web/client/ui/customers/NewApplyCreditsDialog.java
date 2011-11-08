@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -17,16 +16,16 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CreditsandPaymentsGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
 
 public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 
@@ -432,22 +431,14 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	 * This method invoked when "ok" button clicked.It'll set all the applied
 	 * credits to the record using setAttribute() in PayBill/RecievPayment Grid
 	 */
-	public List<ClientTransactionCreditsAndPayments> getAppliedCredits() {
-		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
-		for (IsSerializable obj : grid.getSelectedRecords()) {
-			ClientCreditsAndPayments crdPayment = (ClientCreditsAndPayments) obj;
-			crdPayment.setBalance(crdPayment.getBalance());
-			ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
-			try {
-				creditsAndPayments.setAmountToUse(DataUtils
-						.getAmountStringAsDouble(totAmtUseText.getValue()
-								.toString()));
-			} catch (Exception e) {
+	public List<ClientCreditsAndPayments> getAppliedCredits() {
+		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		for (ClientCreditsAndPayments crdPayment : grid.getRecords()) {
+			if (!DecimalUtil.isEquals(crdPayment.getAmtTouse(), 0)) {
+				clientCreditsAndPayments.add(crdPayment);
 			}
-			creditsAndPayments.setCreditsAndPayments(crdPayment);
-			clientTransactionCreditsAndPayments.add(creditsAndPayments);
 		}
-		return clientTransactionCreditsAndPayments;
+		return clientCreditsAndPayments;
 	}
 
 	/*
@@ -501,7 +492,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 						indx);
 				crdPayment.setBalance(crdPayment.getActualAmt());
 				crdPayment
-						.setAmtTouse(((TransactionReceivePaymentGrid.TempCredit) (rcvPaymnt
+						.setAmtTouse(((TransactionReceivePaymentTable.TempCredit) (rcvPaymnt
 								.getTempCredits().get(indx))).getAmountToUse());
 				// }
 				// for (IsSerializable obj : grid.getSelectedRecords()) {

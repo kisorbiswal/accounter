@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -334,6 +335,9 @@ public abstract class TransactionReceivePaymentTable extends
 			@Override
 			protected void setAmount(ClientTransactionReceivePayment item,
 					double value) {
+				if(isInViewMode()) {
+					return;
+				}
 				double amt, originalPayment;
 				try {
 					originalPayment = item.getPayment();
@@ -585,9 +589,7 @@ public abstract class TransactionReceivePaymentTable extends
 					selectedObject, currencyProvider);
 		}
 
-		if (/*
-			 * creditsAndPaymentsDialiog == null &&
-			 */newAppliedCreditsDialiog == null)
+		if (newAppliedCreditsDialiog == null)
 			return;
 
 		newAppliedCreditsDialiog
@@ -596,56 +598,53 @@ public abstract class TransactionReceivePaymentTable extends
 					@Override
 					public boolean onOK() {
 
-						// List<ClientCreditsAndPayments>
-						// appliedCreditsForThisRec =
-						// newAppliedCreditsDialiog.getAppliedCredits()
-						// Map<Integer, Object> appliedCredits = new
-						// HashMap<Integer, Object>();
-						// TempCredit creditRec = null;
-						//
-						// for (ClientCreditsAndPayments rec :
-						// appliedCreditsForThisRec) {
-						// try {
-						// checkBalance(rec.getAmtTouse());
-						// } catch (Exception e) {
-						// Accounter.showError(e.getMessage());
-						// return false;
-						// }
-						// Integer recordIndx = newAppliedCreditsDialiog.grid
-						// .indexOf(rec);
-						// creditRec = new TempCredit();
-						// for (ClientTransactionReceivePayment rcvp :
-						// getSelectedRecords()) {
-						// if (rcvp.isCreditsApplied()) {
-						// for (Integer idx : rcvp.getTempCredits()
-						// .keySet()) {
-						// if (recordIndx == idx)
-						// ((TempCredit) rcvp.getTempCredits()
-						// .get(idx))
-						// .setRemainingBalance(rec
-						// .getBalance());
-						// }
-						// }
-						// }
-						// creditRec.setRemainingBalance(rec.getBalance());
-						// creditRec.setAmountToUse(rec.getAmtTouse());
-						// appliedCredits.put(recordIndx, creditRec);
-						// }
-						// selectedObject.setTempCredits(appliedCredits);
-						// selectedObject.setCreditsApplied(true);
-						//
-						// creditsStack.push(appliedCredits);
+						List<ClientCreditsAndPayments> appliedCreditsForThisRec = newAppliedCreditsDialiog
+								.getAppliedCredits();
+						Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
+						TempCredit creditRec = null;
 
-						// try {
-						//
-						// newAppliedCreditsDialiog.okClicked = true;
-						//
-						// // creditsAndPaymentsDialiog.validateTransaction();
-						//
-						// } catch (Exception e) {
-						// Accounter.showError(e.getMessage());
-						// return false;
-						// }
+						for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
+							try {
+								checkBalance(rec.getAmtTouse());
+							} catch (Exception e) {
+								Accounter.showError(e.getMessage());
+								return false;
+							}
+							Integer recordIndx = newAppliedCreditsDialiog.grid
+									.indexOf(rec);
+							creditRec = new TempCredit();
+							for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
+								if (rcvp.isCreditsApplied()) {
+									for (Integer idx : rcvp.getTempCredits()
+											.keySet()) {
+										if (recordIndx == idx)
+											((TempCredit) rcvp.getTempCredits()
+													.get(idx))
+													.setRemainingBalance(rec
+															.getBalance());
+									}
+								}
+							}
+							creditRec.setRemainingBalance(rec.getBalance());
+							creditRec.setAmountToUse(rec.getAmtTouse());
+							appliedCredits.put(recordIndx, creditRec);
+						}
+						selectedObject.setTempCredits(appliedCredits);
+						selectedObject.setCreditsApplied(true);
+
+						creditsStack.push(appliedCredits);
+
+						try {
+
+							newAppliedCreditsDialiog.okClicked = true;
+
+							// creditsAndPaymentsDialiog.validateTransaction();
+
+						} catch (Exception e) {
+							Accounter.showError(e.getMessage());
+							return false;
+						}
+
 						selectedObject
 								.setAppliedCredits(newAppliedCreditsDialiog
 										.getTotalCreditAmount());
@@ -662,76 +661,6 @@ public abstract class TransactionReceivePaymentTable extends
 					}
 				});
 
-		// creditsAndPaymentsDialiog
-		// .addInputDialogHandler(new InputDialogHandler() {
-		//
-		// @Override
-		// public void onCancel() {
-		// creditsAndPaymentsDialiog.cancelClicked = true;
-		// // selectedObject
-		// // .setAppliedCredits(creditsAndPaymentsDialiog
-		// // .getTotalCreditAmount());
-		// // updateData(selectedObject);
-		// }
-		//
-		// @Override
-		// public boolean onOK() {
-		//
-		// List<ClientCreditsAndPayments> appliedCreditsForThisRec =
-		// creditsAndPaymentsDialiog.grid
-		// .getSelectedRecords();
-		// Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
-		// TempCredit creditRec = null;
-		//
-		// for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
-		// try {
-		// checkBalance(rec.getAmtTouse());
-		// } catch (Exception e) {
-		// Accounter.showError(e.getMessage());
-		// return false;
-		// }
-		// Integer recordIndx = creditsAndPaymentsDialiog.grid
-		// .indexOf(rec);
-		// creditRec = new TempCredit();
-		// for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
-		// if (rcvp.isCreditsApplied()) {
-		// for (Integer idx : rcvp.getTempCredits()
-		// .keySet()) {
-		// if (recordIndx == idx)
-		// ((TempCredit) rcvp.getTempCredits()
-		// .get(idx))
-		// .setRemainingBalance(rec
-		// .getBalance());
-		// }
-		// }
-		// }
-		// creditRec.setRemainingBalance(rec.getBalance());
-		// creditRec.setAmountToUse(rec.getAmtTouse());
-		// appliedCredits.put(recordIndx, creditRec);
-		// }
-		// selectedObject.setTempCredits(appliedCredits);
-		// selectedObject.setCreditsApplied(true);
-		//
-		// creditsStack.push(appliedCredits);
-		//
-		// try {
-		//
-		// creditsAndPaymentsDialiog.okClicked = true;
-		//
-		// // creditsAndPaymentsDialiog.validateTransaction();
-		//
-		// } catch (Exception e) {
-		// Accounter.showError(e.getMessage());
-		// return false;
-		// }
-		// selectedObject
-		// .setAppliedCredits(creditsAndPaymentsDialiog
-		// .getTotalCreditAmount());
-		// updatePayment(selectedObject);
-		// update(selectedObject);
-		// return true;
-		// }
-		// });
 		newAppliedCreditsDialiog.show();
 
 	}
@@ -973,7 +902,9 @@ public abstract class TransactionReceivePaymentTable extends
 		int row = indexOf(obj);
 		if (isChecked) {
 			selectedValues.add(row);
-			updatePayment(obj);
+			if (!isInViewMode()) {
+				updatePayment(obj);
+			}
 		} else {
 			selectedValues.remove((Integer) row);
 			resetValue(obj);
