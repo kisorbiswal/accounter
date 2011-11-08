@@ -411,7 +411,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		}
 		List<ClientTransactionPayBill> paybills = get(BILLS_DUE).getValue();
 		for (ClientTransactionPayBill p : paybills) {
-			p.setAmountDue(p.getPayment());
+			p.setAmountDue(p.getAmountDue());
 			p.setPayBill(paybill);
 		}
 
@@ -436,11 +436,10 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		double toBeSetAmount = 0.0;
 		for (ClientTransactionPayBill rec : selectedRecords) {
 			toBeSetAmount += rec.getPayment();
-			
+
 		}
 		if (transaction != null) {
 			transaction.setTotal(toBeSetAmount);
-		
 
 			if (get(VENDOR).getValue() != null) {
 				double toBeSetEndingBalance = 0.0;
