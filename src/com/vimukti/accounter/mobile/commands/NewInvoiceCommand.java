@@ -18,7 +18,7 @@ import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.EstimatesAndSalesOrderListRequirement;
+import com.vimukti.accounter.mobile.requirements.EstimatesAndSalesOrderTableRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
@@ -195,30 +195,44 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 
-		list.add(new EstimatesAndSalesOrderListRequirement(
+		list.add(new EstimatesAndSalesOrderTableRequirement(
 				ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
 						getConstants().quote()), getConstants()
-						.quoteAndSalesOrderList(), true, true, null) {
+						.quoteAndSalesOrderList(), true, true) {
 
 			@Override
-			protected List<EstimatesAndSalesOrdersList> getLists(Context context) {
-				try {
-					return new FinanceTool().getCustomerManager()
-							.getEstimatesAndSalesOrdersList(
-									((ClientCustomer) get(CUSTOMER).getValue())
-											.getID(),
-									context.getCompany().getID());
-				} catch (DAOException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-
-			@Override
-			protected boolean filter(EstimatesAndSalesOrdersList e, String name) {
-				return e.getName().contains(name);
+			protected ClientCustomer getCustomer() {
+				return (ClientCustomer) NewInvoiceCommand.this.get(CUSTOMER)
+						.getValue();
 			}
 		});
+
+		// list.add(new EstimatesAndSalesOrderListRequirement(
+		// ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
+		// getConstants().quote()), getConstants()
+		// .quoteAndSalesOrderList(), true, true, null) {
+		//
+		// @Override
+		// protected List<EstimatesAndSalesOrdersList> getLists(Context context)
+		// {
+		// try {
+		// return new FinanceTool().getCustomerManager()
+		// .getEstimatesAndSalesOrdersList(
+		// ((ClientCustomer) get(CUSTOMER).getValue())
+		// .getID(),
+		// context.getCompany().getID());
+		// } catch (DAOException e) {
+		// e.printStackTrace();
+		// }
+		// return null;
+		// }
+		//
+		// @Override
+		// protected boolean filter(EstimatesAndSalesOrdersList e, String name)
+		// {
+		// return e.getName().contains(name);
+		// }
+		// });
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
 				getConstants().taxCode()), getConstants().taxCode(), false,
