@@ -16,12 +16,15 @@ import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PurchaseOrderListRequirements;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -31,10 +34,14 @@ import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -42,6 +49,8 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
  * 
  */
 public class NewEnterBillCommand extends NewAbstractTransactionCommand {
+
+	private static String PURCHASE_ORDER = "purchaseOrder";
 
 	@Override
 	protected String getWelcomeMessage() {
@@ -106,9 +115,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
 				getConstants().Vendor()), getConstants().vendor(), false, true,
-				null)
-
-		{
+				null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -130,7 +137,27 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				return e.getName().startsWith(name);
 			}
 		});
+		list.add(new PurchaseOrderListRequirements(PURCHASE_ORDER,
+				getMessages().selectTypeOfThis(getConstants().purchaseOrder()),
+				getConstants().purchaseOrderList(), true, true, null) {
 
+			@Override
+			protected List<PurchaseOrdersList> getLists(Context context) {
+				try {
+					return new FinanceTool()
+							.getPurchageManager()
+							.getPurchaseOrdersList(context.getCompany().getID());
+				} catch (DAOException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected boolean filter(PurchaseOrdersList e, String name) {
+				return e.getVendorName().contains(name);
+			}
+		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -340,7 +367,14 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-
+		PurchaseOrdersList e = get(PURCHASE_ORDER).getValue();
+		ClientPurchaseOrder cct = null;
+		if (e != null) {
+			if (e.getType() == ClientTransaction.TYPE_PURCHASE_ORDER) {
+				cct = getpurchaseOrders(e.getTransactionId(), context);
+				addpurchaseOrders(cct, items);
+			}
+		}
 		if (preferences.isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -370,6 +404,46 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		create(enterBill, context);
 		return null;
+	}
+
+	private void addpurchaseOrders(ClientPurchaseOrder cct,
+			List<ClientTransactionItem> items) {
+		for (ClientTransactionItem cst : cct.getTransactionItems()) {
+			ClientTransactionItem clientItem = new ClientTransactionItem();
+			if (cst.getLineTotal() != 0.0) {
+				clientItem.setDescription(cst.getDescription());
+				clientItem.setType(cst.getType());
+				clientItem.setAccount(cst.getAccount());
+				clientItem.setItem(cst.getItem());
+				clientItem.setVATfraction(cst.getVATfraction());
+				clientItem.setTaxCode(cst.getTaxCode());
+				clientItem.setDescription(cst.getDescription());
+				clientItem.setQuantity(cst.getQuantity());
+				clientItem.setUnitPrice(cst.getUnitPrice());
+				clientItem.setDiscount(cst.getDiscount());
+				clientItem.setLineTotal(cst.getLineTotal() - cst.getInvoiced());
+				clientItem.setTaxable(cst.isTaxable());
+				clientItem.setReferringTransactionItem(cst.getID());
+
+				items.add(clientItem);
+			}
+		}
+
+	}
+
+	private ClientPurchaseOrder getpurchaseOrders(long transactionId,
+			Context context) {
+		ClientPurchaseOrder cPurchaseOrder = null;
+		try {
+			cPurchaseOrder = new FinanceTool().getManager().getObjectById(
+					AccounterCoreType.PURCHASEORDER, transactionId,
+					context.getCompany().getID());
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return cPurchaseOrder;
 	}
 
 	@Override

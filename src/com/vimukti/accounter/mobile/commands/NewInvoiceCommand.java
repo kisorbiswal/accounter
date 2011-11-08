@@ -75,6 +75,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(ClientCustomer value) {
+
 						NewInvoiceCommand.this.get(CONTACT).setValue(null);
 						for (ClientContact clientContact : value.getContacts()) {
 							if (clientContact.isPrimary()) {
@@ -141,7 +142,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				false, true, true) {
+				true, true, true) {
 
 			@Override
 			public List<ClientItem> getItems(Context context) {

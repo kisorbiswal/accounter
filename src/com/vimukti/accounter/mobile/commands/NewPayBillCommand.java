@@ -111,8 +111,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase().startsWith(
-						name.toLowerCase());
+				return e.getDisplayName().toLowerCase()
+						.startsWith(name.toLowerCase());
 			}
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
@@ -142,7 +142,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -151,13 +152,13 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
+				}
+				return null;
 			}
 		});
 
@@ -306,6 +307,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 						record.setEnterBill(curntRec.getTransactionId());
 					}
 					record.setAmountDue(curntRec.getAmountDue());
+
 					record.setDummyDue(curntRec.getAmountDue());
 
 					record.setBillNumber(curntRec.getBillNumber());
@@ -314,10 +316,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 					record.setAppliedCredits(curntRec.getCredits());
 
-					record
-							.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-									.getDiscountDate().getDate()
-									: 0);
+					record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+							.getDiscountDate().getDate() : 0);
 
 					record.setDueDate(curntRec.getDueDate() != null ? curntRec
 							.getDueDate().getDate() : 0);
@@ -400,7 +400,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			paybill.setCurrencyFactor(factor);
 
 		}
-		
+
 		if (context.getClientCompany().getPreferences().isTDSEnabled()) {
 
 			ClientTAXItem taxItem = context.getClientCompany().getTAXItem(
@@ -436,9 +436,11 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		double toBeSetAmount = 0.0;
 		for (ClientTransactionPayBill rec : selectedRecords) {
 			toBeSetAmount += rec.getPayment();
+			
 		}
 		if (transaction != null) {
 			transaction.setTotal(toBeSetAmount);
+		
 
 			if (get(VENDOR).getValue() != null) {
 				double toBeSetEndingBalance = 0.0;
@@ -450,6 +452,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 					toBeSetEndingBalance = payFromAccount.getTotalBalance()
 							- transaction.getTotal();
 				transaction.setEndingBalance(toBeSetEndingBalance);
+
 			}
 		}
 

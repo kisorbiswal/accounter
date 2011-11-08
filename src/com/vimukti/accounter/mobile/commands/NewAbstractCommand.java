@@ -7,10 +7,12 @@ import java.util.List;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
@@ -112,5 +114,35 @@ public abstract class NewAbstractCommand extends NewCommand {
 		listOfPaymentMethods.add(getConstants().standingOrder());
 		listOfPaymentMethods.add(getConstants().switchMaestro());
 		return listOfPaymentMethods;
+	}
+
+	/**
+	 * set address Type
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public int getAddressType(String type) {
+		if (type.equalsIgnoreCase("1"))
+			return ClientAddress.TYPE_BUSINESS;
+		else if (type.equalsIgnoreCase(getConstants().billTo()))
+			return ClientAddress.TYPE_BILL_TO;
+		else if (type.equalsIgnoreCase(getConstants().shipTo()))
+			return ClientAddress.TYPE_SHIP_TO;
+		else if (type.equalsIgnoreCase("2"))
+			return ClientAddress.TYPE_WAREHOUSE;
+		else if (type.equalsIgnoreCase("3"))
+			return ClientAddress.TYPE_LEGAL;
+		else if (type.equalsIgnoreCase("4"))
+			return ClientAddress.TYPE_POSTAL;
+		else if (type.equalsIgnoreCase("5"))
+			return ClientAddress.TYPE_HOME;
+		else if (type.equalsIgnoreCase(Accounter.constants().company()))
+			return ClientAddress.TYPE_COMPANY;
+		else if (type.equalsIgnoreCase(Accounter.constants()
+				.companyregistration()))
+			return ClientAddress.TYPE_COMPANY_REGISTRATION;
+
+		return ClientAddress.TYPE_OTHER;
 	}
 }
