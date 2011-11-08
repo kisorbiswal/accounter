@@ -35,7 +35,7 @@ public class TranslationUploadServlet extends BaseServlet {
 			throws ServletException, IOException {
 		String fileName = "C:\\Users\\vimukti22\\Desktop\\test.properties";// req.getParameter("datafile");
 
-		oldMessages = new FinanceTool().getMessages();
+		oldMessages = new FinanceTool().getAllMessages();
 		List<Message> newMessages = new ArrayList<Message>();
 
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
