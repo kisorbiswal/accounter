@@ -3723,5 +3723,17 @@ public interface AccounterConstants extends Constants {
 	public String changingCurrencyComment();
 
 	public String searchTheAccount();
+	
+	public String untranslated();
+	
+	public String myTranslations();
+	
+	public String unConfirmed();
+
+	public String userLocal();
+
+	public String languages();
+
+	public String translation();
 
 }
