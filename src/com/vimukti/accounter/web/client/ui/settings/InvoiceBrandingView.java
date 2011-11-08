@@ -450,6 +450,9 @@ public class InvoiceBrandingView<T> extends
 		allPanel.add(subLayPanel);
 		allPanel.add(contactDetailsPanel);
 		allPanel.add(verticalPanel);
+		allPanel.setCellWidth(subLayPanel, "60%");
+		allPanel.setCellWidth(contactDetailsPanel, "20%");
+		allPanel.setCellWidth(verticalPanel, "20%");
 		// allPanel.setWidth("100%");
 
 		nameAndMenuPanel = new HorizontalPanel();
@@ -482,6 +485,7 @@ public class InvoiceBrandingView<T> extends
 		}
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
+		allPanel.setWidth("100%");
 		vPanel.setWidth("100%");
 		SimplePanel simplePanel = new SimplePanel();
 		simplePanel.setStyleName("setting-class-panel");
