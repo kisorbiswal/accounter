@@ -696,6 +696,13 @@ public class PayBill extends Transaction {
 				lifeCycle.onUpdate(session);
 			}
 		}
+
+		double amountEffectedToAccount = total - tdsTotal;
+		if (DecimalUtil.isGreaterThan(amountEffectedToAccount, 0.00D)) {
+			payFrom.updateCurrentBalance(this, -1 * amountEffectedToAccount);
+			session.update(payFrom);
+			payFrom.onUpdate(HibernateUtil.getCurrentSession());
+		}
 	}
 
 	@Override
