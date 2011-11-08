@@ -14,6 +14,11 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
+/**
+ * 
+ * @author Lingarao.R
+ * 
+ */
 public class ExpensesListCommand extends NewAbstractCommand {
 
 	protected static final String ALL = "all";
