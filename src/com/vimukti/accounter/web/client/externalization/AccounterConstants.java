@@ -3720,4 +3720,8 @@ public interface AccounterConstants extends Constants {
 
 	public String amountAndTotalShouldEqual();
 
+	public String changingCurrencyComment();
+
+	public String searchTheAccount();
+
 }

@@ -52,7 +52,7 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml logoComment5();
 
-	public SafeHtml logoutHTML();
+	public String logoutHTML();
 
 	public SafeHtml removeHTML();
 
@@ -330,7 +330,7 @@ public interface AccounterMessages extends Messages {
 
 	public String invoiceMailMessage(String payee, String number,
 			ClientFinanceDate date);
-	
+
 	public String items(String name);
 
 	public String lastActivityMessageForNote(String date, String userName);
