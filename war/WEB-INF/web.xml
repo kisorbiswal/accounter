@@ -555,7 +555,7 @@
 		<servlet-name>OpenIdServlet </servlet-name>
 		<url-pattern>/main/openid</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>openIdSignupServlet
 		</servlet-name>
@@ -567,8 +567,8 @@
 		<servlet-name>openIdSignupServlet </servlet-name>
 		<url-pattern>/main/openidsignup</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 	<servlet>
 		<servlet-name>FacebookLoginServlet
 		</servlet-name>
@@ -580,7 +580,7 @@
 		<servlet-name>FacebookLoginServlet </servlet-name>
 		<url-pattern>/main/fbauth</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>MaintanaceInfoMailServelet
 		</servlet-name>
@@ -591,6 +591,41 @@
 	<servlet-mapping>
 		<servlet-name>MaintanaceInfoMailServelet </servlet-name>
 		<url-pattern>/site/maintanaceinform</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TranslateHomeServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.TranslateHomeServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TranslateHomeServlet </servlet-name>
+		<url-pattern>/translate/home</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>iTranslateImpl</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.translate.server.TranslateServiceImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>iTranslateImpl</servlet-name>
+		<url-pattern>/do/translate/rpc/service</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TranslationUploadServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.TranslationUploadServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TranslationUploadServlet </servlet-name>
+		<url-pattern>/translate/upload</url-pattern>
 	</servlet-mapping>
 
 </web-app>
