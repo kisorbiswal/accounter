@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -219,7 +220,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	}
 
 	private void createControls() {
-		setWidth("80px");
+		setWidth("100%");
 
 		payMethodSelect = new SelectCombo(Accounter.constants().paymentMethod());
 		payMethodSelect.setHelpInformation(true);
@@ -269,13 +270,14 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		initListGrid();
 
 		mainVLay = new VerticalPanel();
-		mainVLay.setWidth("800px");
+		mainVLay.setWidth("100%");
 
 		mainVLay.add(payForm);
 		mainVLay.add(label);
 		mainVLay.add(gridLayout);
 
 		this.add(mainVLay);
+		this.setCellHorizontalAlignment(mainVLay, ALIGN_LEFT);
 
 	}
 

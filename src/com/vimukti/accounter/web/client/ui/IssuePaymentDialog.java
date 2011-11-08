@@ -199,7 +199,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	}
 
 	private void createControls() {
-		setWidth("80px");
+//		setWidth("80px");
 		mainPanel.setSpacing(3);
 
 		payMethodSelect = new SelectCombo(Accounter.constants().paymentMethod());

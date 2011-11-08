@@ -265,7 +265,7 @@ public class CustomerCreditMemoView extends
 		itemsDisclosurePanel.setWidth("100%");
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		prodAndServiceForm2.setWidth("100%");
+//		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(2);
 
 		DynamicForm form = new DynamicForm();
@@ -298,7 +298,7 @@ public class CustomerCreditMemoView extends
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(form);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+//		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");

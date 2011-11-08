@@ -514,13 +514,17 @@ public abstract class CustomTable extends VerticalPanel {
 			int cellWidth = -1;
 			int colCounts = 0;
 
+
 			for (int i = isMultiSelectionEnable ? 1 : 0; i < nofCols; i++) {
+				Element cell = table.getCellFormatter().getElement(row,
+						i);
 				cellWidth = getCellWidth(isMultiSelectionEnable ? i - 1 : i);
 				// if (i == nofCols - 2)
 				// continue;
 				if (cellWidth == -2)
 					continue;
 				if (cellWidth == -1) {
+					cell.setAttribute("width", "100%");
 					colsUpdate[colCounts++] = i;
 				} else {
 					try {
@@ -528,8 +532,7 @@ public abstract class CustomTable extends VerticalPanel {
 						if (cellSize <= i) {
 							continue;
 						}
-						Element cell = table.getCellFormatter().getElement(row,
-								i);
+						
 						parentWidth = parentWidth - cellWidth;
 						if (table.equals(body) && BODY_WIDTH == 1)
 							cell.setAttribute("width", ""

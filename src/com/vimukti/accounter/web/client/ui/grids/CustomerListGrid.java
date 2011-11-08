@@ -271,7 +271,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		case 0:
 			return 40;
 		case 1:
-			return 155;
+			return -1;
 		case 2:
 			return 100;
 		case 3:
