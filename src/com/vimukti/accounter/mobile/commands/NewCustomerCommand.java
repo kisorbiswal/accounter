@@ -1,9 +1,13 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -34,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends NewAbstractCommand {
@@ -64,6 +69,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	private static final String SHIPPING_METHODS = "shippingMethod";
 	private static final String PAYMENT_TERMS = "paymentTerms";
 	private static final String CONTACT = "contact";
+	private static final String SHIPTO = "shipTo";
+	private static final String BILLTO = "billTo";
 	private boolean isUpdate;
 
 	@Override
@@ -103,8 +110,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				.pleaseEnter(getConstants().balanceAsOfDate()), getConstants()
 				.balanceAsOfDate(), true, true));
 
-		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
-				getConstants().address()), getConstants().address(), true, true));
+		list.add(new AddressRequirement(BILLTO, getMessages().pleaseEnter(
+				getConstants().billTo()), getConstants().billTo(), true, true));
+		list.add(new AddressRequirement(SHIPTO, getMessages().pleaseEnter(
+				getConstants().shipTo()), getConstants().shipTo(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
 				getConstants().phoneNumber()), getConstants().phoneNumber(),
@@ -388,6 +397,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		LinkedHashMap<Integer, ClientAddress> allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		ICountryPreferences countryPreferences = context.getClientCompany()
 				.getCountryPreferences();
 		ClientCompanyPreferences preferences = context.getClientCompany()
@@ -402,7 +412,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		List<ClientContact> contact = get(CONTACT).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
 		double balance = get(BALANCE).getValue();
-		ClientAddress adress = get(ADDRESS).getValue();
+		ClientAddress shipptoAddress = get(SHIPTO).getValue();
+		ClientAddress billToAdress = get(BILLTO).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
@@ -424,8 +435,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
 		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
-		if (adress != null) {
-			addresses.add(adress);
+		if (shipptoAddress != null && shipptoAddress.getAddress1() != "") {
+			shipptoAddress.setType(ClientAddress.TYPE_SHIP_TO);
+			addresses.add(shipptoAddress);
+		}
+		if (billToAdress != null && billToAdress.getAddress1() != "") {
+			billToAdress.setType(ClientAddress.TYPE_BILL_TO);
+			addresses.add(billToAdress);
 		}
 		customer.setName(name);
 		if (preferences.getUseCustomerId())
@@ -443,7 +459,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (balancedate != null) {
 			customer.setBalanceAsOf(balancedate.getDate());
 		}
-		customer.setAddress(addresses);
+		if (!addresses.isEmpty())
+			customer.setAddress(addresses);
 		customer.setPhoneNo(phoneNum);
 		customer.setFaxNo(faxNum);
 		customer.setWebPageAddress(webaddress);
@@ -491,6 +508,23 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param allAddresses
+	 * @return
+	 */
+	private Set<ClientAddress> getAdress(
+			LinkedHashMap<Integer, ClientAddress> allAddresses) {
+		Collection add = allAddresses.values();
+		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
+		Iterator it = add.iterator();
+		while (it.hasNext()) {
+			ClientAddress a = (ClientAddress) it.next();
+			toBeSet.add(a);
+		}
+		return toBeSet;
+	}
+
 	@Override
 	protected String getWelcomeMessage() {
 		return "Creating New Customer..";
@@ -505,7 +539,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	protected void setDefaultValues(Context context) {
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new ClientFinanceDate());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
-		get(ADDRESS).setDefaultValue(new ClientAddress());
+		get(BILLTO).setDefaultValue(new ClientAddress());
+		get(SHIPTO).setDefaultValue(new ClientAddress());
 	}
 
 	@Override
