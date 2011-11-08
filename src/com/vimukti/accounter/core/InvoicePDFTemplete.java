@@ -239,16 +239,20 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 				String description = forNullValue(item.getDescription()); 
 				description = description.replaceAll("\n", "<br/>");
-				String qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
+				String qty = "";
+				if(item.getQuantity() != null){
+				 qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
 						.getQuantity().getValue(), null, maxDecimalPoints));
+				}
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
 						.getUnitPrice()));
 				String totalPrice = largeAmountConversation(item.getLineTotal());
-
+ 
 				String vatAmount = getDecimalsUsingMaxDecimals(
 						item.getVATfraction(), null, 2);
-
-				t.setVariable("name", item.getItem().getName());
+  
+				String name = item.getItem()!= null ?item.getItem().getName() : item.getAccount().getName();
+				t.setVariable("name", name);
 				t.setVariable("discount",
 						largeAmountConversation(item.getDiscount()));
 				t.setVariable("description", description);
