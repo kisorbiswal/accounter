@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class ClientMessage implements Serializable {
 
-	public static int UNTRANSLATED = 1;
-	public static int ALL = 2;
-	public static int MYTRANSLATIONS = 3;
-	public static int UNCONFIRMED = 4;
+	public static final int UNTRANSLATED = 1;
+	public static final int ALL = 2;
+	public static final int MYTRANSLATIONS = 3;
+	public static final int UNCONFIRMED = 4;
 	/**
 	 * 
 	 */

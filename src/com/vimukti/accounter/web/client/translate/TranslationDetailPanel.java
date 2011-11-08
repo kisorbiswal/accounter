@@ -29,39 +29,39 @@ public class TranslationDetailPanel extends VerticalPanel {
 	}
 
 	private void initView(int lastMessageId) {
-		if (lastMessageId < 0) {
-			TranslationEntryPoint.translateService.getMessage(language,
-					clientMessage.getId(), new AsyncCallback<ClientMessage>() {
-
-						@Override
-						public void onSuccess(ClientMessage result) {
-							clientMessage = result;
-							createControls();
-						}
-
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
-						}
-					});
-		} else {
-			TranslationEntryPoint.translateService.getNext(language,
-					lastMessageId, new AsyncCallback<ClientMessage>() {
-
-						@Override
-						public void onSuccess(ClientMessage result) {
-							clientMessage = result;
-							createControls();
-						}
-
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
-						}
-					});
-		}
+		// if (lastMessageId < 0) {
+		// TranslationEntryPoint.translateService.getMessage(language,
+		// clientMessage.getId(), new AsyncCallback<ClientMessage>() {
+		//
+		// @Override
+		// public void onSuccess(ClientMessage result) {
+		// clientMessage = result;
+		// createControls();
+		// }
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// });
+		// } else {
+		// TranslationEntryPoint.translateService.getNext(language,
+		// lastMessageId, new AsyncCallback<ClientMessage>() {
+		//
+		// @Override
+		// public void onSuccess(ClientMessage result) {
+		// clientMessage = result;
+		// createControls();
+		// }
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// });
+		// }
 	}
 
 	private void createControls() {
@@ -156,10 +156,10 @@ public class TranslationDetailPanel extends VerticalPanel {
 
 			Label approveButton = new Label();
 			approveButton.addStyleName("approve-button");
-			
+
 			Label notApproveButton = new Label();
 			notApproveButton.addStyleName("not-approve-button");
-			
+
 			flowPanel.add(approveButton);
 			flowPanel.add(upbuttonPanel);
 			flowPanel.add(value);
