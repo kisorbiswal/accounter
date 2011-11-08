@@ -266,7 +266,7 @@ public class CustomerCreditMemoView extends
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.setNumCols(2);
 
 		DynamicForm form = new DynamicForm();
 		form.setWidth("100%");
