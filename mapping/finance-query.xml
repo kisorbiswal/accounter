@@ -3448,7 +3448,7 @@
 		end as AMOUNT,
 		case
 		when T.T_TYPE = 8
-		then t.number
+		then T.NUMBER
 		<!-- (select T.NUMBER
 		from TRANSACTION T left outer join
 		INVOICE_ESTIMATES IE

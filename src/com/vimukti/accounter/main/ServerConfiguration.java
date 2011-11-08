@@ -96,6 +96,7 @@ public class ServerConfiguration {
 			String username = prop.getProperty("username", null);
 			String password = prop.getProperty("password", null);
 			String dialect = prop.getProperty("dialect", null);
+			String showSql = prop.getProperty("showsql", null);;
 			if (databaseUrl == null || username == null || password == null
 					|| dialect == null) {
 				System.err.println("Invalid configuration for database");
@@ -105,6 +106,7 @@ public class ServerConfiguration {
 			System.setProperty("db.user", username);
 			System.setProperty("db.pass", password);
 			System.setProperty("dialect", dialect);
+			System.setProperty("db.showsql", showSql);
 			adminpassword = prop.getProperty("adminpassword", "");
 			tmpDir = prop.getProperty("tmpDir",
 					System.getProperty("java.io.tmpdir", ""));
