@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
@@ -2199,6 +2200,7 @@ public class FinanceTool {
 		try {
 			session = HibernateUtil.openSession();
 			org.hibernate.Transaction transaction = session.beginTransaction();
+			Set<LocalMessage> localMessages = message.getLocalMessages();
 			session.saveOrUpdate(message);
 			transaction.commit();
 			return true;
@@ -2211,69 +2213,141 @@ public class FinanceTool {
 		}
 	}
 
-	public ClientMessage getNextMessage(String lang, int lastMessageId)
-			throws AccounterException {
+	// public ClientMessage getNextMessage(String lang, int lastMessageId)
+	// throws AccounterException {
+	// Session session = null;
+	// try {
+	// session = HibernateUtil.openSession();
+	// Query query = session.getNamedQuery("getNextMessageId")
+	// .setParameter("lastMessageId", lastMessageId);
+	// int messageId = 0;
+	// Object[] object = (Object[]) query.uniqueResult();
+	// if (object != null) {
+	// messageId = (Integer) object[0];
+	// Integer tot = (Integer) object[1];
+	// }
+	//
+	// if (messageId == 0) {
+	// return null;
+	// }
+	// ClientMessage clientMessage = getMessage(messageId, lang);
+	// int i = 0;
+	// return clientMessage;
+	// } catch (Exception e) {
+	// return null;
+	// } finally {
+	// if (session != null) {
+	// session.close();
+	// }
+	// }
+	// }
+
+	public ArrayList<ClientMessage> getMessages(int status, String lang,
+			String email) {
 		Session session = null;
+		Client client = getUserManager().getClient(email);
 		try {
 			session = HibernateUtil.openSession();
-			Query query = session.getNamedQuery("getNextMessageId")
-					.setParameter("lastMessageId", lastMessageId);
-			int messageId = 0;
-			Object[] object = (Object[]) query.uniqueResult();
-			if (object != null) {
-				messageId = (Integer) object[0];
-				Integer tot = (Integer) object[1];
+			List<Message> messages = new ArrayList<Message>();
+			switch (status) {
+			case ClientMessage.ALL:
+				messages = getAllMessages();
+				break;
+
+			case ClientMessage.UNTRANSLATED:
+				Query messageIdsQuery = session.getNamedQuery(
+						"getUntranslatedMessages").setParameter("lang", lang);
+				List list = messageIdsQuery.list();
+				Iterator iterator = list.iterator();
+				while (iterator.hasNext()) {
+					int messageId = (Integer) iterator.next();
+					Query messageQuery = session
+							.getNamedQuery("getMessageById").setParameter("id",
+									messageId);
+					Message message = (Message) messageQuery.uniqueResult();
+					messages.add(message);
+				}
+				break;
+
+			case ClientMessage.MYTRANSLATIONS:
+				Query myTranslationsQuery = session
+						.getNamedQuery("getMyTranslations")
+						.setParameter("lang", lang)
+						.setParameter("clientId", client.getID());
+				List queryList = myTranslationsQuery.list();
+				Iterator i = queryList.iterator();
+				while (i.hasNext()) {
+					int messageId = (Integer) i.next();
+					Query messageQuery = session
+							.getNamedQuery("getMessageById").setParameter("id",
+									messageId);
+					Message message = (Message) messageQuery.uniqueResult();
+					Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
+					for (LocalMessage localMessage : message.getLocalMessages()) {
+						if (localMessage.getCreatedBy().getID() == client
+								.getID()) {
+							localMessages.add(localMessage);
+						}
+					}
+					message.setLocalMessages(localMessages);
+					messages.add(message);
+				}
+				break;
+
+			case ClientMessage.UNCONFIRMED:
+				Query approvedMessagesQuery = session
+						.getNamedQuery("getMyTranslations")
+						.setParameter("lang", lang)
+						.setParameter("clientId", client.getID());
+
+				Iterator iter = approvedMessagesQuery.list().iterator();
+				while (iter.hasNext()) {
+					int messageId = (Integer) iter.next();
+					Query messageQuery = session
+							.getNamedQuery("getMessageById").setParameter("id",
+									messageId);
+					Message message = (Message) messageQuery.uniqueResult();
+					Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
+					for (LocalMessage localMessage : message.getLocalMessages()) {
+						if (localMessage.isApproved()) {
+							localMessages.add(localMessage);
+						}
+					}
+					message.setLocalMessages(localMessages);
+					messages.add(message);
+				}
+				break;
+
+			default:
+				break;
 			}
 
-			if (messageId == 0) {
-				return null;
+			ArrayList<ClientMessage> clientMessages = new ArrayList<ClientMessage>();
+
+			for (Message message : messages) {
+
+				Set<LocalMessage> localMessages = message.getLocalMessages();
+
+				ClientMessage clientMessage = new ClientMessage();
+				clientMessage.setId(message.getId());
+				clientMessage.setKey(message.getKey());
+				clientMessage.setValue(message.getValue());
+				ArrayList<ClientLocalMessage> clientLocalMessages = new ArrayList<ClientLocalMessage>();
+				for (LocalMessage localMessage : localMessages) {
+					ClientLocalMessage clientLocalMessage = new ClientLocalMessage();
+					clientLocalMessage.setId(localMessage.getId());
+					clientLocalMessage.setValue(localMessage.getValue());
+					clientLocalMessage.setApproved(localMessage.isApproved());
+					clientLocalMessage.setCreateBy(localMessage.getCreatedBy()
+							.getFirstName());
+					clientLocalMessage.setUps(localMessage.getUps());
+					clientLocalMessage.setDowns(localMessage.getDowns());
+					clientLocalMessages.add(clientLocalMessage);
+				}
+				clientMessage.setLocalMessages(clientLocalMessages);
+				clientMessages.add(clientMessage);
 			}
-			ClientMessage clientMessage = getMessage(messageId, lang);
-			int i = 0;
-			return clientMessage;
-		} catch (Exception e) {
-			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-	}
-
-	public ClientMessage getMessage(int messageId, String lang) {
-		Session session = null;
-		try {
-			session = HibernateUtil.openSession();
-			Query messageQuery = session.getNamedQuery("getMessageById")
-					.setParameter("id", messageId);
-			Message message = (Message) messageQuery.uniqueResult();
-
-			Query clientMessgesQuery = session
-					.getNamedQuery("getLocalMessages")
-					.setParameter("messageId", messageId)
-					.setParameter("lang", lang);
-			List<LocalMessage> localMessages = clientMessgesQuery.list();
-			message.setLocalMessages(new HashSet<LocalMessage>(localMessages));
-
-			ClientMessage clientMessage = new ClientMessage();
-			clientMessage.setId(message.getId());
-			clientMessage.setKey(message.getKey());
-			clientMessage.setValue(message.getValue());
-			ArrayList<ClientLocalMessage> clientLocalMessages = new ArrayList<ClientLocalMessage>();
-			for (LocalMessage localMessage : localMessages) {
-				ClientLocalMessage clientLocalMessage = new ClientLocalMessage();
-				clientLocalMessage.setId(localMessage.getId());
-				clientLocalMessage.setValue(localMessage.getValue());
-				clientLocalMessage.setApproved(localMessage.isApproved());
-				clientLocalMessage.setCreateBy(localMessage.getCreatedBy()
-						.getFirstName());
-				clientLocalMessage.setUps(localMessage.getUps());
-				clientLocalMessage.setDowns(localMessage.getDowns());
-				clientLocalMessages.add(clientLocalMessage);
-			}
-			clientMessage.setLocalMessages(clientLocalMessages);
-
-			return clientMessage;
+			return clientMessages;
 		} catch (Exception e) {
 			return null;
 		} finally {
@@ -2436,7 +2510,7 @@ public class FinanceTool {
 		return languages;
 	}
 
-	public List<Message> getMessages() {
+	public List<Message> getAllMessages() {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
@@ -2446,6 +2520,7 @@ public class FinanceTool {
 
 			return list;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		} finally {
 			if (session != null) {

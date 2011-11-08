@@ -27,20 +27,20 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 		return new FinanceTool().getTranslationStatus();
 	}
 
-	@Override
-	public ClientMessage getNext(String lang, int lastMessageId) {
-		String userEmail = getUserEmail();
-		if (userEmail == null) {
-			return null;
-		}
-
-		try {
-			return new FinanceTool().getNextMessage(lang, lastMessageId);
-		} catch (AccounterException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	// @Override
+	// public ClientMessage getNext(String lang, int lastMessageId) {
+	// String userEmail = getUserEmail();
+	// if (userEmail == null) {
+	// return null;
+	// }
+	//
+	// try {
+	// return new FinanceTool().getNextMessage(lang, lastMessageId);
+	// } catch (AccounterException e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// }
 
 	@Override
 	public boolean addTranslation(int id, String lang, String value) {
@@ -66,11 +66,11 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public ClientMessage getMessage(String lang, int messageId) {
+	public ArrayList<ClientMessage> getMessages(String lang, int status) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
 			return null;
 		}
-		return new FinanceTool().getMessage(messageId, lang);
+		return new FinanceTool().getMessages(status, lang, userEmail);
 	}
 }
