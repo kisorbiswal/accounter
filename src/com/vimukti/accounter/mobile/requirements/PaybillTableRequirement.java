@@ -47,10 +47,9 @@ public abstract class PaybillTableRequirement extends
 	}
 
 	@Override
-	public void setOtherFields(ResultList list) {
+	public void setOtherFields(ResultList list, ClientTransactionPayBill obj) {
 		double amount = get(AMOUNT).getValue();
-		double originalAmt = get(ORIGINAL_AMOUNT).getValue();
-		Double due = originalAmt - amount;
+		Double due = obj.getAmountDue() - amount;
 		Record record = new Record(due);
 		record.add("", getConstants().amountDue());
 		record.add("", due);
@@ -60,8 +59,7 @@ public abstract class PaybillTableRequirement extends
 	@Override
 	protected void getRequirementsValues(ClientTransactionPayBill obj) {
 		Double amount = get(AMOUNT).getValue();
-		Double originalAmt = get(ORIGINAL_AMOUNT).getValue();
-		Double due = originalAmt - amount;
+		Double due = obj.getAmountDue() - amount;
 		obj.setPayment(amount);
 		obj.setAmountDue(due);
 	}
@@ -71,7 +69,7 @@ public abstract class PaybillTableRequirement extends
 		get(DUE_DATE).setValue(new ClientFinanceDate(obj.getDueDate()));
 		get(BILL_NO).setValue(obj.getBillNumber());
 		get(ORIGINAL_AMOUNT).setValue(obj.getOriginalAmount());
-		get(AMOUNT).setValue(obj.getOriginalAmount());
+		get(AMOUNT).setValue(obj.getAmountDue());
 	}
 
 	@Override

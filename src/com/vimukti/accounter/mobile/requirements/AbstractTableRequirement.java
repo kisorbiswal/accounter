@@ -179,7 +179,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 			}
 		}
 
-		setOtherFields(list);
+		setOtherFields(list, obj);
 
 		Record record = new Record(ActionNames.FINISH);
 		record.add("", getConstants().finish());
@@ -202,7 +202,7 @@ public abstract class AbstractTableRequirement<T extends IAccounterCore>
 		}
 	}
 
-	public void setOtherFields(ResultList list) {
+	public void setOtherFields(ResultList list, T obj) {
 
 	}
 
