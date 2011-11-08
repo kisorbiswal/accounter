@@ -19,7 +19,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 	 * @param result
 	 * @return
 	 */
-	public String postProcess(Result result, String oldReplay) {
+	public String postProcess(Result result) {
 		if (result == null) {
 			return null;
 		}
@@ -50,10 +50,6 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			reply.append('\n');
 		}
 
-		String newReplay = reply.toString();
-		if (oldReplay != null && !oldReplay.isEmpty()) {
-			newReplay = oldReplay + "\n" + newReplay;
-		}
-		return newReplay;// .replaceAll("\n", "<>");
+		return reply.toString();
 	}
 }

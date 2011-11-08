@@ -13,5 +13,5 @@ public interface MobileAdaptor {
 		CHAT, APPLICATION, MOBILE
 	};
 
-	public String postProcess(Result result, String oldReplay);
+	public String postProcess(Result result);
 }

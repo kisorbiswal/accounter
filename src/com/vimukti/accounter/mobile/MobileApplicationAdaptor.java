@@ -15,7 +15,7 @@ public class MobileApplicationAdaptor implements MobileAdaptor {
 	public static MobileAdaptor INSTANCE = new MobileApplicationAdaptor();
 
 	@Override
-	public String postProcess(Result result, String oldReplay) {
+	public String postProcess(Result result) {
 		JResult jResult = new JResult();
 		jResult.addAll(result.resultParts);
 		String json = new Gson().toJson(jResult);

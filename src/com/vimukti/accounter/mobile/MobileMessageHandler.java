@@ -4,6 +4,7 @@
 package com.vimukti.accounter.mobile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -36,6 +37,9 @@ public class MobileMessageHandler {
 	public String messageReceived(String networkId, String message,
 			AdaptorType adaptorType, int networkType)
 			throws AccounterMobileException {
+		if (message.isEmpty()) {
+			return message;
+		}
 		String processMessage = processMessage(networkId, message, adaptorType,
 				networkType, null);
 		if (networkType == AccounterChatServer.NETWORK_TYPE_GTALK) {
@@ -45,7 +49,7 @@ public class MobileMessageHandler {
 	}
 
 	private String processMessage(String networkId, String message,
-			AdaptorType adaptorType, int networkType, String oldReplay)
+			AdaptorType adaptorType, int networkType, Result oldResult)
 			throws AccounterMobileException {
 		Session openSession = HibernateUtil.openSession();
 		try {
@@ -64,7 +68,13 @@ public class MobileMessageHandler {
 					networkType);
 			Result result = getCommandProcessor().handleMessage(session,
 					userMessage);
-			String reply = adoptor.postProcess(result, oldReplay);
+			if (oldResult != null) {
+				List<Object> resultParts = oldResult.getResultParts();
+				for (int i = resultParts.size(); i > 0; i--) {
+					result.resultParts.add(0, resultParts.get(i - 1));
+				}
+			}
+			String reply = adoptor.postProcess(result);
 			boolean hasNextCommand = true;
 			if (userMessage.getCommand() != null
 					&& userMessage.getCommand().isDone()) {
@@ -77,7 +87,7 @@ public class MobileMessageHandler {
 						lastMessage.setResult(lastMessage.getLastResult());
 
 						return processMessage(networkId, null, adaptorType,
-								networkType, reply);
+								networkType, result);
 					} else {
 						hasNextCommand = false;
 					}
@@ -88,11 +98,15 @@ public class MobileMessageHandler {
 			if (nextCommand != null) {
 				result.setNextCommand(null);
 				return processMessage(networkId, nextCommand, adaptorType,
-						networkType, reply);
+						networkType, result);
 			}
 
 			if (!hasNextCommand) {
 				reply += "\nEnter Command";
+			}
+
+			if (reply.isEmpty()) {
+				System.out.println();
 			}
 			return reply;
 		} catch (Exception e) {
@@ -141,7 +155,7 @@ public class MobileMessageHandler {
 			}
 		}
 
-		if (session.isAuthenticated()) {
+		if (session.isAuthenticated() || message.equalsIgnoreCase("cancel")) {
 			String commandString = "";
 			Command matchedCommand = null;
 			for (String str : message.split(" ")) {
