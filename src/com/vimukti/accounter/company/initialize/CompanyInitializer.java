@@ -205,7 +205,6 @@ public abstract class CompanyInitializer {
 		this.preferences.setCheckForItemQuantityOnHand(true);
 		this.preferences.setUpdateCostAutomatically(false);
 		this.preferences.setStartDate(fiscalYearStartDate);
-		this.preferences.setShowLegalName(false);
 		this.preferences.setShowRegisteredAddress(false);
 		// this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 		this.preferences.setDateFormat(getDateFormat());
