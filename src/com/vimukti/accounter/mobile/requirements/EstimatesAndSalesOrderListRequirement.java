@@ -23,7 +23,6 @@ public abstract class EstimatesAndSalesOrderListRequirement extends
 			rec.add("", getConstants().quote());
 		else
 			rec.add("", getConstants().salesOrder());
-
 		rec.add("", value.getTotal());
 
 		return rec;
@@ -41,7 +40,7 @@ public abstract class EstimatesAndSalesOrderListRequirement extends
 
 	@Override
 	protected String getDisplayValue(EstimatesAndSalesOrdersList value) {
-		return value != null ? value.getName() : "";
+		return value != null ? value.getCustomerName() : "";
 	}
 
 	@Override
