@@ -281,12 +281,14 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		address = new ClientAddress();
 		preferences.setTradingName(companyName.getValue().toString());
-		preferences.setLegalName(legalName.getValue().toString());
+		
 		if (legalName.getValue().toString().trim() != null) {
 			preferences.setShowLegalName(true);
 		} else {
 			preferences.setShowLegalName(false);
 		}
+		preferences.setLegalName(legalName.getValue().toString());
+	
 		preferences.setPhone(phone.getValue().toString());
 		preferences.setCompanyEmail(emailAddress.getValue().toString());
 		preferences.setTaxId(taxId.getValue().toString());
