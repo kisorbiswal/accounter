@@ -310,7 +310,7 @@ public class UserManager extends Manager {
 		}
 	}
 
-	private Client getClient(String emailId) {
+	public Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
 		namedQuery.setParameter(BaseServlet.EMAIL_ID, emailId);
