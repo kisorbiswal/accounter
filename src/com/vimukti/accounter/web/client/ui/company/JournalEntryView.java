@@ -34,8 +34,8 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -103,9 +103,8 @@ public class JournalEntryView extends
 		for (ClientTransactionItem entry : allEntries) {
 			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
 				if (entry.getLineTotal() == 0) {
-					result.addError(
-							this,
-							Accounter.messages().valueCannotBe0orlessthan0(
+					result.addError(this, Accounter.messages()
+							.valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				}
 			}
@@ -124,8 +123,8 @@ public class JournalEntryView extends
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
@@ -224,8 +223,8 @@ public class JournalEntryView extends
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(transaction);
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
-				grid.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
+				.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -352,7 +351,7 @@ public class JournalEntryView extends
 		creditTotalText.setDisabled(true);
 
 		totalForm = new DynamicForm();
-//		totalForm.setWidth("78%");
+		// totalForm.setWidth("78%");
 		totalForm.addStyleName("textbold");
 		totalForm.setFields(deditTotalText, creditTotalText);
 
@@ -523,6 +522,7 @@ public class JournalEntryView extends
 		jourNoText.setDisabled(isInViewMode());
 		transactionDateItem.setDisabled(isInViewMode());
 		grid.setDisabled(isInViewMode());
+		memoText.setDisabled(isInViewMode());
 		// grid.setCanEdit(true);
 		addButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
