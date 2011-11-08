@@ -1,26 +1,33 @@
-package com.vimukti.accounter.translate.server;
+package com.vimukti.accounter.web.server.translate;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import com.vimukti.accounter.core.Client;
 
-public class LocalMessage {
+public class LocalMessage implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	int id;
-	
+
 	Message message;
-	
+
 	String lang;
-	
+
 	String value;
-	
+
 	int ups;
-	
+
 	int downs;
-	
+
 	boolean isApproved;
-	
+
 	Client createdBy;
-	
+
 	Date createdDate;
 
 	public int getId() {
@@ -77,5 +84,21 @@ public class LocalMessage {
 
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
+	}
+
+	public Client getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Client createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 }

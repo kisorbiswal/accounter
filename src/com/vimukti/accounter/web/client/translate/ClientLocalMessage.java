@@ -1,16 +1,23 @@
-package com.vimukti.accounter.translate.client;
+package com.vimukti.accounter.web.client.translate;
 
-public class ClientLocalMessage {
+import java.io.Serializable;
+
+public class ClientLocalMessage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	int id;
-	
+
 	String value;
-	
+
 	String createBy;
-	
+
 	int ups;
-	
+
 	int downs;
-	
+
 	boolean isApproved;
 
 	public int getId() {
