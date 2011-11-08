@@ -28,6 +28,8 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	ListBox primaryCurrencyListBox;
 	@UiField
 	CheckBox isEnableMultiCurrencyCheckBox;
+	@UiField
+	Label currencyCommentLabel;
 
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 
@@ -66,6 +68,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
+		currencyCommentLabel.setText(constants.changingCurrencyComment());
 		isEnableMultiCurrencyCheckBox
 				.setText(constants.isMultiCurrencyEnable());
 	}
