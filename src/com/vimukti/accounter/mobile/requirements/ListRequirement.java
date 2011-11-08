@@ -110,10 +110,12 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			return displayRecords(context, lists, result, RECORDS_TO_SHOW,
 					oldRecords);
 		}
-
+		if (name.isEmpty()) {
+			name = null;
+		}
 		Object selection = context.getSelection(ACTIONS);
 		List<T> lists = new ArrayList<T>();
-		if (selection == ActionNames.ALL) {
+		if (selection == ActionNames.ALL || name == null) {
 			lists = getLists(context);
 			if (lists.size() != 0) {
 				result.add(getConstants().allRecords());
