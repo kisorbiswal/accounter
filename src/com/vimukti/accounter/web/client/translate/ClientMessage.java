@@ -3,8 +3,12 @@ package com.vimukti.accounter.web.client.translate;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ClientMessage implements Serializable{
+public class ClientMessage implements Serializable {
 
+	public static int UNTRANSLATED = 1;
+	public static int ALL = 2;
+	public static int MYTRANSLATIONS = 3;
+	public static int UNCONFIRMED = 4;
 	/**
 	 * 
 	 */
