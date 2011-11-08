@@ -1689,75 +1689,75 @@
 		<return-scalar column="sales_tax" type="double" />
 		<return-scalar column="void" type="boolean" />
 
-		select
-		t.ID as transaction_id,
-		p.name as payee_name,
-		p1.name as
-		taxagency_name,
-		tig.name as taxItem_name,
-		vrc.rate as rate,
-		t.t_type as
-		transaction_type,
-		t.t_date as transaction_date,
-		t.number as
-		transaction_number,
-		t.memo as memo,
-		vrc.line_total as taxable_amount,
-		vrc.vat_amount as sales_tax,
-		t.is_void as void
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		P.NAME AS PAYEE_NAME,
+		P1.NAME AS
+		TAXAGENCY_NAME,
+		TIG.NAME AS TAXITEM_NAME,
+		VRC.RATE AS RATE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.MEMO AS MEMO,
+		VRC.LINE_TOTAL AS TAXABLE_AMOUNT,
+		VRC.VAT_AMOUNT AS SALES_TAX,
+		T.IS_VOID AS VOID
 
-		from TAX_RATE_CALCULATION
-		vrc
-		left outer join
-		TRANSACTION_ITEM ti
-		on vrc.transaction_item_id =
-		ti.id
-		left outer join
-		TRANSACTION t
-		on ti.transaction_id = t.id
-		left outer
-		join
-		INVOICE i
-		on i.id = t.id
-		left outer join
-		CASH_SALES cs
-		on cs.id = t.id
-		left outer join
-		CUSTOMER_CREDIT_MEMO ccm
-		on ccm.id = t.id
-		left outer join
-		WRITE_CHECKS wc
-		on wc.id = t.id and wc.pay_to_type in (1,3)
-		left outer
-		join
-		PAYEE p
-		on p.id = i.customer_id or
-		p.id = cs.customer_id or
-		p.id =
-		ccm.customer_id or
-		p.id = wc.customer_id or
-		p.id = wc.tax_agency_id
-		left
-		outer join
-		TAX_ITEM titem
-		on vrc.tax_Item_id = titem.id
-		left outer join
-		TAX_ITEM_GROUPS tig
-		on tig.id = titem.id
-		left outer join
-		TAXAGENCY ta
-		on
-		ta.id = titem.tax_agency
-		left outer join
-		PAYEE p1
-		on p1.id = ta.id
+		FROM TAX_RATE_CALCULATION
+		VRC
+		LEFT OUTER JOIN
+		TRANSACTION_ITEM TI
+		ON VRC.TRANSACTION_ITEM_ID =
+		TI.ID
+		LEFT OUTER JOIN
+		TRANSACTION T
+		ON TI.TRANSACTION_ID = T.ID
+		LEFT OUTER
+		JOIN
+		INVOICE I
+		ON I.ID = T.ID
+		LEFT OUTER JOIN
+		CASH_SALES CS
+		ON CS.ID = T.ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM
+		ON CCM.ID = T.ID
+		LEFT OUTER JOIN
+		WRITE_CHECKS WC
+		ON WC.ID = T.ID AND WC.PAY_TO_TYPE IN (1,3)
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = I.CUSTOMER_ID OR
+		P.ID = CS.CUSTOMER_ID OR
+		P.ID =
+		CCM.CUSTOMER_ID OR
+		P.ID = WC.CUSTOMER_ID OR
+		P.ID = WC.TAX_AGENCY_ID
+		LEFT
+		OUTER JOIN
+		TAX_ITEM TITEM
+		ON VRC.TAX_ITEM_ID = TITEM.ID
+		LEFT OUTER JOIN
+		TAX_ITEM_GROUPS TIG
+		ON TIG.ID = TITEM.ID
+		LEFT OUTER JOIN
+		TAXAGENCY TA
+		ON
+		TA.ID = TITEM.TAX_AGENCY
+		LEFT OUTER JOIN
+		PAYEE P1
+		ON P1.ID = TA.ID
 
-		where
-		t.t_date BETWEEN :startDate AND :endDate
-		AND t.STATUS != 3 AND
-		t.COMPANY_ID=:companyId
-		order by
-		tig.name,p1.name
+		WHERE
+		T.T_DATE BETWEEN :startDate AND :endDate
+		AND T.STATUS != 3 AND
+		T.COMPANY_ID=:companyId
+		ORDER BY
+		TIG.NAME,P1.NAME
 
 
 		<!-- SELECT DISTINCT T.ID AS TRANSACTION_ID, (CASE WHEN T.T_TYPE=15 AND 
@@ -2414,104 +2414,98 @@
 		<return-scalar column="amount" type="double" />
 		<return-scalar column="memo" type="string" />
 
-		SELECT a.name AS account_name,
-		case
-		when t.t_type = 28
-		then
-		C.full_name
-		else
-		p.name
-		end AS payee_name,
-		t.ID AS transaction_id,
-		t.t_type AS
-		transaction_type,
-		t.t_date AS transaction_date,t.number AS
-		transaction_number,at.amount AS
-		amount,
+		SELECT A.NAME AS ACCOUNT_NAME,
+		P.NAME AS PAYEE_NAME,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS TRANSACTION_DATE,T.NUMBER AS
+		TRANSACTION_NUMBER,AT.AMOUNT AS
+		AMOUNT,
 		CASE
-		WHEN t.T_TYPE = 11 AND
-		pb.PAYBILL_TYPE = 2 THEN
-		'Supplier PrePayment'
+		WHEN T.T_TYPE = 11 AND
+		PB.PAYBILL_TYPE = 2 THEN
+		'SUPPLIER PREPAYMENT'
 		ELSE
-		t.MEMO
-		END as MEMO
+		T.MEMO
+		END AS MEMO
 
 		FROM
-		ACCOUNT_TRANSACTION at
+		ACCOUNT_TRANSACTION AT
 		LEFT OUTER JOIN
-		TRANSACTION t
+		TRANSACTION T
 		ON
-		at.transaction_id = t.id
+		AT.TRANSACTION_ID = T.ID
 		LEFT OUTER JOIN
-		ACCOUNT a
-		on a.id =
-		at.account_id
+		ACCOUNT A
+		ON A.ID =
+		AT.ACCOUNT_ID
 		LEFT OUTER JOIN
 		CASH_PURCHASE CP
-		ON t.id = CP.ID
+		ON T.ID = CP.ID
 		LEFT OUTER
 		JOIN
-		CASH_SALES cs
-		on t.id = cs.id
+		CASH_SALES CS
+		ON T.ID = CS.ID
 		LEFT OUTER JOIN
-		CREDIT_CARD_CHARGES ccc
-		on t.id = ccc.id
-		left outer join
-		CUSTOMER_CREDIT_MEMO ccm
-		on t.id =
-		ccm.id
-		left outer join
-		ENTER_BILL eb
-		on t.id = eb.id
-		left outer join
-		INVOICE i
-		on t.id = i.id
-		left outer join
-		VENDOR_CREDIT_MEMO vcm
-		on t.id =
-		vcm.id
-		left outer join
-		WRITE_CHECKS wc
-		on t.id = wc.id
-		left outer join
-		RECEIVE_PAYMENT rp
-		on t.id = rp.id
-		left outer join
-		PAY_BILL pb
-		on t.id =
-		pb.id
-		left outer join
-		CUSTOMER_PREPAYMENT cpp
-		on t.id = cpp.id
-		left outer
-		join
-		CUSTOMER_REFUND cr
-		on t.id = cr.id
-		left join
-		JOURNAL_ENTRY je
-		on t.id
-		= je.id
-		left outer join
-		PAYEE p
-		on p.id = CP.VENDOR_ID or p.id = ccc.vendor_id
-		or p.id = eb.vendor_id or
-		p.id = vcm.vendor_id or p.id = wc.vendor_id
-		or p.id = cs.customer_id or p.id = ccm.customer_id or p.id =
-		wc.customer_id or p.id = wc.tax_agency_id or p.id = i.customer_id
-		or
-		p.id = rp.customer_id or p.id = pb.vendor_id or p.id =
-		cpp.customer_id
-		or p.id = cr.customer_id
-		left outer join
-		USERS U on U.ID = CP.employee
+		CREDIT_CARD_CHARGES CCC
+		ON T.ID = CCC.ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM
+		ON T.ID =
+		CCM.ID
+		LEFT OUTER JOIN
+		ENTER_BILL EB
+		ON T.ID = EB.ID
+		LEFT OUTER JOIN
+		INVOICE I
+		ON T.ID = I.ID
+		LEFT OUTER JOIN
+		VENDOR_CREDIT_MEMO VCM
+		ON T.ID =
+		VCM.ID
+		LEFT OUTER JOIN
+		WRITE_CHECKS WC
+		ON T.ID = WC.ID
+		LEFT OUTER JOIN
+		RECEIVE_PAYMENT RP
+		ON T.ID = RP.ID
+		LEFT OUTER JOIN 
+		PAY_BILL PB
+		ON T.ID =
+		PB.ID
+		LEFT OUTER JOIN
+		CUSTOMER_PREPAYMENT CPP
+		ON T.ID = CPP.ID
+		LEFT OUTER
+		JOIN
+		CUSTOMER_REFUND CR
+		ON T.ID = CR.ID
+		LEFT JOIN
+		JOURNAL_ENTRY JE
+		ON T.ID
+		= JE.ID
+		LEFT OUTER JOIN
+		PAYEE P
+		ON P.ID = CP.VENDOR_ID OR P.ID = CCC.VENDOR_ID
+		OR P.ID = EB.VENDOR_ID OR
+		P.ID = VCM.VENDOR_ID OR P.ID = WC.VENDOR_ID
+		OR P.ID = CS.CUSTOMER_ID OR P.ID = CCM.CUSTOMER_ID OR P.ID =
+		WC.CUSTOMER_ID OR P.ID = WC.TAX_AGENCY_ID OR P.ID = I.CUSTOMER_ID
+		OR
+		P.ID = RP.CUSTOMER_ID OR P.ID = PB.VENDOR_ID OR P.ID =
+		CPP.CUSTOMER_ID
+		OR P.ID = CR.CUSTOMER_ID
+		LEFT OUTER JOIN
+		USERS U ON U.ID = CP.EMPLOYEE
 		LEFT OUTER JOIN
 		CLIENT C ON C.ID = U.CLIENT_ID
-		where
-		t.COMPANY_ID=:companyId AND t.t_type not in (9) AND t.t_date BETWEEN
+		WHERE
+		T.COMPANY_ID=:companyId AND T.T_TYPE NOT IN (9) AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND at.amount != 0 AND t.STATUS != 3
-		order by
-		a.name,t.t_date
+		AND AT.AMOUNT != 0 AND T.STATUS != 3
+		ORDER BY
+		A.NAME,T.T_DATE
 
 	</sql-query>
 
@@ -2530,106 +2524,106 @@
 		<return-scalar column="transaction_number" type="string" />
 		<return-scalar column="amount" type="double" />
 		<return-scalar column="memo" type="string" />
-		select a.name as account_name,
-		case
-		when t.t_type = 28
-		then
-		C.full_name
-		else
-		p.name
-		end as payee_name,
-		t.ID as transaction_id,
-		t.t_type as
-		transaction_type,
-		t.t_date as transaction_date,t.number as
-		transaction_number,at.amount as
-		amount,
+		SELECT A.NAME AS ACCOUNT_NAME,
 		CASE
-		WHEN t.T_TYPE = 11 AND
-		pb.PAYBILL_TYPE = 2 THEN
-		'Supplier PrePayment'
+		WHEN T.T_TYPE = 28
+		THEN
+		C.FULL_NAME
 		ELSE
-		t.MEMO
-		END as MEMO
+		P.NAME
+		END AS PAYEE_NAME,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS TRANSACTION_DATE,T.NUMBER AS
+		TRANSACTION_NUMBER,AT.AMOUNT AS
+		AMOUNT,
+		CASE
+		WHEN T.T_TYPE = 11 AND
+		PB.PAYBILL_TYPE = 2 THEN
+		'SUPPLIER PREPAYMENT'
+		ELSE
+		T.MEMO
+		END AS MEMO
 
-		from
-		ACCOUNT_TRANSACTION at
-		left outer join
-		TRANSACTION t
-		on
-		at.transaction_id = t.id
-		left outer join
-		ACCOUNT a
-		on a.id =
-		at.account_id
-		left outer join
+		FROM
+		ACCOUNT_TRANSACTION AT
+		LEFT OUTER JOIN
+		TRANSACTION T
+		ON
+		AT.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN
+		ACCOUNT A
+		ON A.ID =
+		AT.ACCOUNT_ID
+		LEFT OUTER JOIN
 		CASH_PURCHASE CP
-		on t.id = CP.ID
-		left outer
-		join
-		CASH_SALES cs
-		on t.id = cs.id
-		left outer join
-		CREDIT_CARD_CHARGES ccc
-		on t.id = ccc.id
-		left outer join
-		CUSTOMER_CREDIT_MEMO ccm
-		on t.id =
-		ccm.id
-		left outer join
-		ENTER_BILL eb
-		on t.id = eb.id
-		left outer join
-		INVOICE i
-		on t.id = i.id
-		left outer join
-		VENDOR_CREDIT_MEMO vcm
-		on t.id =
-		vcm.id
-		left outer join
-		WRITE_CHECKS wc
-		on t.id = wc.id
-		left outer join
-		RECEIVE_PAYMENT rp
-		on t.id = rp.id
-		left outer join
-		PAY_BILL pb
-		on t.id =
-		pb.id
-		left outer join
-		CUSTOMER_PREPAYMENT cpp
-		on t.id = cpp.id
-		left outer
-		join
-		CUSTOMER_REFUND cr
-		on t.id = cr.id
-		left join
-		JOURNAL_ENTRY je
-		on t.id
-		= je.id
-		left outer join
-		PAYEE p
-		on p.id = CP.VENDOR_ID or p.id = ccc.vendor_id
-		or p.id = eb.vendor_id or
-		p.id = vcm.vendor_id or p.id = wc.vendor_id
-		or p.id = cs.customer_id or p.id = ccm.customer_id or p.id =
-		wc.customer_id or p.id = wc.tax_agency_id or p.id = i.customer_id
-		or
-		p.id = rp.customer_id or p.id = pb.vendor_id or p.id =
-		cpp.customer_id
-		or p.id = cr.customer_id
-		left outer join
-		USERS U on U.id = CP.EMPLOYEE
+		ON T.ID = CP.ID
+		LEFT OUTER
+		JOIN
+		CASH_SALES CS
+		ON T.ID = CS.ID
+		LEFT OUTER JOIN
+		CREDIT_CARD_CHARGES CCC
+		ON T.ID = CCC.ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM
+		ON T.ID =
+		CCM.ID
+		LEFT OUTER JOIN
+		ENTER_BILL EB
+		ON T.ID = EB.ID
+		LEFT OUTER JOIN
+		INVOICE I
+		ON T.ID = I.ID
+		LEFT OUTER JOIN
+		VENDOR_CREDIT_MEMO VCM
+		ON T.ID =
+		VCM.ID
+		LEFT OUTER JOIN
+		WRITE_CHECKS WC
+		ON T.ID = WC.ID
+		LEFT OUTER JOIN
+		RECEIVE_PAYMENT RP
+		ON T.ID = RP.ID
+		LEFT OUTER JOIN
+		PAY_BILL PB
+		ON T.ID =
+		PB.ID
+		LEFT OUTER JOIN
+		CUSTOMER_PREPAYMENT CPP
+		ON T.ID = CPP.ID
+		LEFT OUTER
+		JOIN
+		CUSTOMER_REFUND CR
+		ON T.ID = CR.ID
+		LEFT JOIN
+		JOURNAL_ENTRY JE
+		ON T.ID
+		= JE.ID
+		LEFT OUTER JOIN
+		PAYEE P
+		ON P.ID = CP.VENDOR_ID OR P.ID = CCC.VENDOR_ID
+		OR P.ID = EB.VENDOR_ID OR
+		P.ID = VCM.VENDOR_ID OR P.ID = WC.VENDOR_ID
+		OR P.ID = CS.CUSTOMER_ID OR P.ID = CCM.CUSTOMER_ID OR P.ID =
+		WC.CUSTOMER_ID OR P.ID = WC.TAX_AGENCY_ID OR P.ID = I.CUSTOMER_ID
+		OR
+		P.ID = RP.CUSTOMER_ID OR P.ID = PB.VENDOR_ID OR P.ID =
+		CPP.CUSTOMER_ID
+		OR P.ID = CR.CUSTOMER_ID
+		LEFT OUTER JOIN
+		USERS U ON U.ID = CP.EMPLOYEE
 		LEFT OUTER JOIN
 		CLIENT C ON C.ID = U.CLIENT_ID
-		where
-		t.COMPANY_ID=:companyId AND a.name=:accountName and t.t_type not in
-		(9) AND t.t_date BETWEEN
+		WHERE
+		T.COMPANY_ID=:companyId AND A.NAME=:accountName AND T.T_TYPE NOT IN
+		(9) AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND at.amount != 0 AND
-		t.STATUS != 3
-		order by
-		a.name
+		AND AT.AMOUNT != 0 AND
+		T.STATUS != 3
+		ORDER BY
+		A.NAME
 
 	</sql-query>
 
