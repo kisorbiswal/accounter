@@ -27,8 +27,8 @@ import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -84,7 +84,7 @@ public class SetupWizard extends VerticalPanel {
 		allViewsList.add(new SetupStartPage(this));
 		allViewsList.add(new SetupCompanyInfoPage());
 		allViewsList.add(new SetupIndustrySelectionPage(this));
-		allViewsList.add(new SetupOrganisationSelectionPage());
+		// allViewsList.add(new SetupOrganisationSelectionPage());
 		allViewsList.add(new SetupReferPage());
 		allViewsList.add(new SetupSellTypeAndSalesTaxPage());
 		allViewsList.add(new SetupUsingEstimatesAndStatementsPage());
