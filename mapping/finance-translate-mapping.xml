@@ -47,26 +47,27 @@
 
 	<query name="getMessageById">
 		<query-param name="id" type="int" />
-		from com.vimukti.accounter.translate.server.Message m where m.id=:id
+		from com.vimukti.accounter.web.server.translate.Message m where
+		m.id=:id
 	</query>
 
 	<query name="getLocalMessageById">
 		<query-param name="id" type="int" />
-		from com.vimukti.accounter.translate.server.LocalMessage lm where
+		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
 		lm.id=:id
 	</query>
 
 	<query name="getVoteByClientId">
 		<query-param name="clientId" type="long" />
 		<query-param name="localMessageId" type="long" />
-		from com.vimukti.accounter.translate.server.Vote v where
+		from com.vimukti.accounter.web.server.translate.Vote v where
 		v.client.id=:clientId and v.localMessage.id=:localMessageId
 	</query>
 
 	<query name="getLocalMessages">
 		<query-param name="messageId" type="int" />
 		<query-param name="lang" type="string" />
-		from com.vimukti.accounter.translate.server.LocalMessage lm where
+		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
 		lm.message.id=:messageId and lm.lang=:lang
 	</query>
 
