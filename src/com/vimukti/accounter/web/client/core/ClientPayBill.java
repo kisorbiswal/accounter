@@ -130,6 +130,10 @@ public class ClientPayBill extends ClientTransaction {
 		this.payFrom = payFromAccount.getID();
 	}
 
+	public void setPayFrom(long payFromAccount) {
+		this.payFrom = payFromAccount;
+	}
+
 	public void setBillDueOnOrBefore(ClientFinanceDate enteredDate) {
 		this.billDueOnOrBefore = enteredDate.getDate();
 
@@ -137,6 +141,11 @@ public class ClientPayBill extends ClientTransaction {
 
 	public void setVendor(ClientVendor vendor2) {
 		this.vendor = vendor2.getID();
+
+	}
+
+	public void setVendor(long vendor2) {
+		this.vendor = vendor2;
 
 	}
 
