@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
@@ -328,8 +329,9 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 					@Override
 					public void onException(AccounterException exception) {
-						// TODO Auto-generated method stub
-
+						String errorString = AccounterExceptions
+								.getErrorString(exception.getErrorCode());
+						Accounter.showError(errorString);
 					}
 
 					@Override

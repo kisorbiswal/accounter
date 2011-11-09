@@ -540,11 +540,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	private boolean shouldUpdateAccounts() {
-		if (transaction.getType() == Transaction.TYPE_ESTIMATE) {
+		switch (transaction.getType()) {
+		case Transaction.TYPE_ESTIMATE:
 			return ((Estimate) transaction).getUsedInvoice() != null;
-		} else if (transaction.getType() == Transaction.TYPE_SALES_ORDER) {
+		case Transaction.TYPE_SALES_ORDER:
 			return ((SalesOrder) transaction).getUsedInvoice() != null;
-		} else {
+		case Transaction.TYPE_PURCHASE_ORDER:
+			return ((PurchaseOrder) transaction).getUsedBill() != null;
+		default:
 			return true;
 		}
 	}

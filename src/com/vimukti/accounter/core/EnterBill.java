@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -553,11 +552,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		if (this.vendor.id == obj.vendor.id
 
 				&& ((this.purchaseOrder != null && obj.purchaseOrder != null) ? (this.purchaseOrder
-						.equals(obj.purchaseOrder))
-						: true)
+						.equals(obj.purchaseOrder)) : true)
 				&& ((this.itemReceipt != null && obj.itemReceipt != null) ? (this.itemReceipt
-						.equals(obj.itemReceipt))
-						: true)
+						.equals(obj.itemReceipt)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
 						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)
@@ -909,7 +906,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				purchaseOrder.status = isAddition ? Transaction.STATUS_COMPLETED
 						: Transaction.STATUS_OPEN;
 			}
-
+			purchaseOrder.setUsedBill(this, session);
 			purchaseOrder.onUpdate(session);
 			session.saveOrUpdate(purchaseOrder);
 		}
@@ -1022,8 +1019,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					estimate = new Estimate();
 					estimate.setCompany(getCompany());
 					estimate.setCustomer(newTransactionItem.getCustomer());
-					estimate
-							.setTransactionItems(new ArrayList<TransactionItem>());
+					estimate.setTransactionItems(new ArrayList<TransactionItem>());
 					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
 					estimate.setType(Transaction.TYPE_ESTIMATE);
 					estimate.setDate(new FinanceDate());

@@ -101,6 +101,8 @@ public class PurchaseOrder extends Transaction {
 	 */
 	String purchaseOrderNumber;
 
+	EnterBill usedBill;
+
 	//
 
 	// List<ItemReceipt> itemReceipts;
@@ -108,7 +110,7 @@ public class PurchaseOrder extends Transaction {
 	// List<EnterBill> enterBills;
 
 	public PurchaseOrder() {
-
+		setType(TYPE_PURCHASE_ORDER);
 	}
 
 	/**
@@ -459,6 +461,24 @@ public class PurchaseOrder extends Transaction {
 		// + this.number);
 		// }
 		return true;
+	}
+
+	/**
+	 * @return the usedBill
+	 */
+	public EnterBill getUsedBill() {
+		return usedBill;
+	}
+
+	/**
+	 * @param usedBill
+	 *            the usedBill to set
+	 */
+	public void setUsedBill(EnterBill usedBill, Session session) {
+		this.usedBill = usedBill;
+		// for (TransactionItem item : transactionItems) {
+		// item.doCreateEffect(session);
+		// }
 	}
 
 }

@@ -146,20 +146,29 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	}
 
 	private void filterList(String selectItem) {
-		this.grid.clear();
+		grid.showLoadingImage();
+		grid.removeAllRecords();
 		if (selectItem.equals(constants.paid())) {
-			for (ClientTAXReturn a : clientAbstractTAXReturns)
-				if (a.getBalance() == 0)
+			for (ClientTAXReturn a : clientAbstractTAXReturns) {
+				if (a.getBalance() == 0) {
 					this.grid.addData(a);
+				}
+			}
 		} else if (selectItem.equals(constants.unPaid())) {
-			for (ClientTAXReturn a : clientAbstractTAXReturns)
-				if (a.getBalance() > 0)
+			for (ClientTAXReturn a : clientAbstractTAXReturns) {
+				if (a.getBalance() > 0) {
 					this.grid.addData(a);
+				}
+			}
 		} else {
-			for (ClientTAXReturn a : clientAbstractTAXReturns)
+			for (ClientTAXReturn a : clientAbstractTAXReturns) {
 				this.grid.addData(a);
+			}
 		}
-
+		grid.removeLoadingImage();
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(constants.noRecordsToShow());
+		}
 	}
 
 	@Override
