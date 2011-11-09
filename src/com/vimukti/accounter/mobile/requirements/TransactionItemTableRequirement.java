@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class TransactionItemTableRequirement extends
@@ -125,14 +126,14 @@ public abstract class TransactionItemTableRequirement extends
 
 	@Override
 	protected void getRequirementsValues(ClientTransactionItem obj) {
-		ClientItem clientItem = get(ITEM).getValue();
+		Item clientItem = get(ITEM).getValue();
 		obj.setItem(clientItem.getID());
 		obj.getQuantity().setValue((Double) get(QUANITY).getValue());
 		obj.setUnitPrice((Double) get(UNITPTICE).getValue());
 		obj.setDiscount((Double) get(DISCOUNT).getValue());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			if (taxCode != null) {
 				obj.setTaxCode(taxCode.getID());
 			}
@@ -184,9 +185,12 @@ public abstract class TransactionItemTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTransactionItem t) {
 		Record record = new Record(t);
-		record.add("", ((ClientItem) (CommandUtils.getClientObjectById(
-				t.getItem(), AccounterCoreType.ITEM, getCompanyId())))
-				.getDisplayName());
+		ClientItem iAccounterCore = (ClientItem) CommandUtils
+				.getClientObjectById(t.getItem(), AccounterCoreType.ITEM,
+						getCompanyId());
+		if (iAccounterCore != null) {
+			record.add("", iAccounterCore.getDisplayName());
+		}
 		record.add("", t.getQuantity());
 		record.add("", t.getUnitPrice());
 		if (getPreferences().isTrackTax()

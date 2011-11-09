@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Customer;
@@ -19,6 +20,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 			boolean isAllowFromContext) {
 		super(requirementName, enterString, recordName, false, isOptional,
 				isAllowFromContext);
+		setDefaultValue(new ArrayList<EstimatesAndSalesOrdersList>());
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<EstimatesAndSalesOrdersList>();
 	}
 
 	protected abstract Customer getCustomer();
