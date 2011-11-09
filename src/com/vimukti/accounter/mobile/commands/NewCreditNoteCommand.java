@@ -29,14 +29,10 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -94,7 +90,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -105,7 +101,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -132,8 +128,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientCustomer) get(CUSTOMER).getValue())
-						.getDisplayName();
+				return ((Customer) get(CUSTOMER).getValue()).getName();
 			}
 		});
 
@@ -152,7 +147,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == ClientAccount.TYPE_INCOME) {
+							if (e.getType() == Account.TYPE_INCOME) {
 								return true;
 							} else {
 								return false;
@@ -294,7 +289,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : allrecords) {
 				if (taxCode != null) {
 					item.setTaxCode(taxCode.getID());
@@ -317,7 +312,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				.getPreferences();
 		ClientCustomerCreditMemo creditMemo = new ClientCustomerCreditMemo();
 		creditMemo.setType(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
-		ClientCustomer customer = get(CUSTOMER).getValue();
+		Customer customer = get(CUSTOMER).getValue();
 		creditMemo.setCustomer(customer.getID());
 
 		ClientFinanceDate date = get(DATE).getValue();
@@ -333,7 +328,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		creditMemo.setBillingAddress(billTo);
 
 		if (preferences.isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				creditMemo.setCurrency(currency.getID());
 			}
@@ -351,7 +346,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			creditMemo.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}

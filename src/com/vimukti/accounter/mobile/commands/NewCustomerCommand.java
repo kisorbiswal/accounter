@@ -37,12 +37,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends NewAbstractCommand {
@@ -428,18 +423,18 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
 		String webaddress = get(WEBADRESS).getValue();
-		ClientSalesPerson salesPerson = get(SALESPERSON).getValue();
+		SalesPerson salesPerson = get(SALESPERSON).getValue();
 		CreditRating creditRating = get(CREDIT_RATING).getValue();
 		// ClientPriceLevel priceLevel = get(PRICE_LEVEL).getValue();
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(BANK_ACCOUNT_NUM).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		ClientPaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
-		ClientCustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
+		PaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
+		CustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
 		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
-		ClientTAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
-		ClientShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
+		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
+		ShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
 		// String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
@@ -459,12 +454,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
 		if (contact != null)
-			for (ClientContact clientContact : contact) {
-				contacts.add(clientContact);
+			for (ClientContact Contact : contact) {
+				contacts.add(Contact);
 			}
-
 		customer.setContacts(contacts);
-
 		customer.setBalance(balance);
 		if (balancedate != null) {
 			customer.setBalanceAsOf(balancedate.getDate());

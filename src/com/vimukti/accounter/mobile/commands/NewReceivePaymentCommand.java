@@ -21,7 +21,6 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.ReceivePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -186,7 +185,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientTransactionReceivePayment> getList() {
-				return getTransactionRecievePayments(getClientCompany());
+				return getTransactionRecievePayments();
 			}
 		});
 
@@ -587,14 +586,13 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 	// payment.setUnUsedCredits(totalCredits);
 	// }
 
-	private ArrayList<ClientTransactionReceivePayment> getTransactionRecievePayments(
-			ClientCompany clientCompany) {
-		ClientCustomer customer = get(CUSTOMER).getValue();
+	private ArrayList<ClientTransactionReceivePayment> getTransactionRecievePayments() {
+		Customer customer = get(CUSTOMER).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
 		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments;
 		try {
 			transactionReceivePayments = getTransactionReceivePayments(
-					clientCompany, customer.getID(), date.getDate());
+					customer.getCompany(), customer.getID(), date.getDate());
 			ArrayList<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
 			for (ReceivePaymentTransactionList receivePaymentTransaction : transactionReceivePayments) {
 				ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();

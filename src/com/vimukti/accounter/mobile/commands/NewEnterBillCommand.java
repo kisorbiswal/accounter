@@ -34,15 +34,11 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -78,9 +74,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 								context.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(CONTACT).setDefaultValue(null);
-		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
-				.getPaymentsTerms();
-		for (ClientPaymentTerms p : paymentTerms) {
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
+		for (PaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
@@ -189,7 +184,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -200,7 +195,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -273,7 +268,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientVendor) get(VENDOR).getValue()).getDisplayName();
+				return ((Vendor) get(VENDOR).getValue()).getName();
 			}
 		});
 
@@ -359,8 +354,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		ClientEnterBill enterBill = new ClientEnterBill();
 
-		ClientVendor vendor = (ClientVendor) get(VENDOR).getValue();
-		enterBill.setVendor(vendor);
+		Vendor vendor = (Vendor) get(VENDOR).getValue();
+		enterBill.setVendor(vendor.getID());
 		ClientFinanceDate date = get(DATE).getValue();
 		if (date != null) {
 			enterBill.setDate(date.getDate());
@@ -377,7 +372,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			enterBill.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
@@ -391,7 +386,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		}
 		if (preferences.isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				enterBill.setCurrency(currency.getID());
 			}
@@ -411,7 +406,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		Contact contact = get(CONTACT).getValue();
 		enterBill.setContact(toClientContact(contact));
 
-		ClientPaymentTerms paymentTerm = get("paymentTerms").getValue();
+		PaymentTerms paymentTerm = get("paymentTerms").getValue();
 		enterBill.setPaymentTerm(paymentTerm.getID());
 
 		String phone = get(PHONE).getValue();

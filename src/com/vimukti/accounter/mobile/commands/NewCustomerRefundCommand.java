@@ -26,8 +26,6 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -121,7 +119,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -132,7 +130,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -279,7 +277,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 		ClientCustomerRefund customerRefund = new ClientCustomerRefund();
 		ClientFinanceDate date = get(DATE).getValue();
-		ClientCustomer clientcustomer = get(CUSTOMER).getValue();
+		Customer clientcustomer = get(CUSTOMER).getValue();
 		Account account = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		double amount = get(AMOUNT).getValue();
@@ -294,7 +292,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		}
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				customerRefund.setCurrency(currency.getID());
 			}
@@ -314,7 +312,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 	}
 
-	private void adjustBalance(double amount, ClientCustomer customer,
+	private void adjustBalance(double amount, Customer customer,
 			ClientCustomerRefund refund, Context context) {
 		double enteredBalance = amount;
 

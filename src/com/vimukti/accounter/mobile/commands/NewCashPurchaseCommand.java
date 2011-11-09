@@ -31,12 +31,9 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
@@ -151,7 +148,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -162,7 +159,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -315,7 +312,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientVendor) get(VENDOR).getValue()).getDisplayName();
+				return ((Vendor) get(VENDOR).getValue()).getName();
 			}
 		});
 
@@ -402,14 +399,14 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				cashPurchase.setCurrency(currency.getID());
 			}
@@ -418,7 +415,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			cashPurchase.setCurrencyFactor(factor);
 		}
 
-		ClientVendor vendor = get(VENDOR).getValue();
+		Vendor vendor = get(VENDOR).getValue();
 		cashPurchase.setVendor(vendor.getID());
 
 		Contact contact = get(CONTACT).getValue();

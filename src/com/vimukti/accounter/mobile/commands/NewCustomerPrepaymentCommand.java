@@ -26,8 +26,6 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -121,7 +119,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -132,7 +130,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -284,7 +282,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		prePayment.setDate(date.getDate());
 		String number = get(NUMBER).getValue();
 		prePayment.setNumber(number);
-		ClientCustomer customer = get(CUSTOMER).getValue();
+		Customer customer = get(CUSTOMER).getValue();
 		prePayment.setCustomer(customer.getID());
 		Account depositIn = get(PAY_FROM).getValue();
 		prePayment.setDepositIn(depositIn.getID());
@@ -299,7 +297,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		String memo = get(MEMO).getValue();
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				prePayment.setCurrency(currency.getID());
 			}
@@ -315,7 +313,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		return null;
 	}
 
-	private void adjustBalance(double amount, ClientCustomer customer,
+	private void adjustBalance(double amount, Customer customer,
 			ClientCustomerPrePayment customerPrePayment, Context context) {
 		double enteredBalance = amount;
 

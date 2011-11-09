@@ -2,7 +2,10 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -14,10 +17,7 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
-import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 /**
@@ -90,7 +90,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getBankNameList(getClientCompany());
+				return getBankNameList(context);
 			}
 
 			@Override
@@ -130,10 +130,10 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<String> getBankNameList(ClientCompany clientCompany) {
+	protected List<String> getBankNameList(Context context) {
 		List<String> bankNameList = new ArrayList<String>();
-		List<ClientBank> banksList = clientCompany.getBanks();
-		for (ClientBank clientBank : banksList) {
+		Set<Bank> banksList = context.getCompany().getBanks();
+		for (Bank clientBank : banksList) {
 			bankNameList.add(clientBank.getName());
 		}
 		return bankNameList;
@@ -229,7 +229,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientBankAccount bankAccount = new ClientBankAccount();
-		bankAccount.setType(ClientAccount.TYPE_BANK);
+		bankAccount.setType(Account.TYPE_BANK);
 		bankAccount.setName((String) get(ACCOUNT_NAME).getValue());
 		bankAccount.setNumber((String) get(ACCOUNT_NUMBER).getValue());
 		bankAccount.setOpeningBalance((Double) get(OPENINGBALANCE).getValue());
@@ -249,15 +249,15 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 	private int getType(String type) {
 		if (type.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
-			return ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
+			return Account.BANK_ACCCOUNT_TYPE_SAVING;
 		else if (type
 				.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
-			return ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
+			return Account.BANK_ACCCOUNT_TYPE_CHECKING;
 		else if (type
 				.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
-			return ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+			return Account.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 		else
-			return ClientAccount.BANK_ACCCOUNT_TYPE_NONE;
+			return Account.BANK_ACCCOUNT_TYPE_NONE;
 
 	}
 }

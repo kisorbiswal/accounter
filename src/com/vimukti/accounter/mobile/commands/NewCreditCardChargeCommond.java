@@ -31,12 +31,9 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
@@ -98,7 +95,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -109,7 +106,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -194,8 +191,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientVendor) get(CUSTOMER).getValue())
-						.getDisplayName();
+				return ((Vendor) get(CUSTOMER).getValue()).getName();
 			}
 		});
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
@@ -335,7 +331,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		}
 		ClientCreditCardCharge creditCardCharge = new ClientCreditCardCharge();
 
-		ClientVendor supplier = get(VENDOR).getValue();
+		Vendor supplier = get(VENDOR).getValue();
 		creditCardCharge.setVendor(supplier.getID());
 
 		Contact contact = get(CONTACT).getValue();
@@ -367,14 +363,14 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			creditCardCharge.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				creditCardCharge.setCurrency(currency.getID());
 			}

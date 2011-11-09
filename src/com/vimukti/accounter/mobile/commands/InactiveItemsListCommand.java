@@ -3,7 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.core.Item;
 
 public class InactiveItemsListCommand extends ItemsCommand {
 
@@ -13,7 +13,7 @@ public class InactiveItemsListCommand extends ItemsCommand {
 		return null;
 	}
 
-	protected List<ClientItem> getItems(Company company, Boolean isActive) {
+	protected List<Item> getItems(Company company, Boolean isActive) {
 		return null;
 		// return super.getItems(false);
 	}

@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -20,9 +19,7 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.web.client.core.ClientBox;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -94,7 +91,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -105,7 +102,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -170,16 +167,13 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 	}
 
 	private List<ClientBox> getBoxes(Context context) {
-		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
 		ClientFinanceDate toDate = get(TO_DATE).getValue();
-		TAXAgency serverVatAgency;
 		try {
-			serverVatAgency = new ServerConvertUtil().toServerObject(
-					new TAXAgency(), taxAgency, context.getHibernateSession());
 			ClientTAXReturn vatReturn = new ClientConvertUtil().toClientObject(
 					new FinanceTool().getTaxManager().getVATReturnDetails(
-							serverVatAgency, new FinanceDate(fromDate),
+							taxAgency, new FinanceDate(fromDate),
 							new FinanceDate(toDate),
 							context.getCompany().getID()),
 					ClientTAXReturn.class);
@@ -200,14 +194,14 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate toDate = get(TO_DATE).getValue();
 		clientVATReturn.setPeriodStartDate(toDate.getDate());
 
-		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		clientVATReturn.setTAXAgency(taxAgency.getID());
 
 		List<ClientBox> boxes = get(BOXES).getValue();
 		clientVATReturn.setBoxes(boxes);
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				clientVATReturn.setCurrency(currency.getID());
 			}

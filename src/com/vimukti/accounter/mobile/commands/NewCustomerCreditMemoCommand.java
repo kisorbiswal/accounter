@@ -29,14 +29,10 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -132,7 +128,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -143,7 +139,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -172,8 +168,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == ClientAccount.TYPE_INCOME
-									|| e.getType() == ClientAccount.TYPE_FIXED_ASSET) {
+							if (e.getType() == Account.TYPE_INCOME
+									|| e.getType() == Account.TYPE_FIXED_ASSET) {
 								return true;
 							}
 							return false;
@@ -215,8 +211,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientCustomer) get(CUSTOMER).getValue())
-						.getDisplayName();
+				return ((Customer) get(CUSTOMER).getValue()).getName();
 			}
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
@@ -325,17 +320,17 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			creditMemo.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
 		creditMemo.setTransactionItems(accounts);
-		ClientCustomer customer = get(CUSTOMER).getValue();
+		Customer customer = get(CUSTOMER).getValue();
 		creditMemo.setCustomer(customer.getID());
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				creditMemo.setCurrency(currency.getID());
 			}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
@@ -149,6 +150,29 @@ public abstract class NewAbstractCommand extends NewCommand {
 	}
 
 	protected ClientContact toClientContact(Contact contact) {
-		return null;
+		ClientContact clientContact = new ClientContact();
+		clientContact.setBusinessPhone(contact.getBusinessPhone());
+		clientContact.setEmail(contact.getEmail());
+		clientContact.setID(contact.getID());
+		clientContact.setName(contact.getName());
+		clientContact.setPrimary(contact.isPrimary());
+		clientContact.setTitle(contact.getTitle());
+		clientContact.setVersion(contact.getVersion());
+		return clientContact;
+	}
+
+	protected ClientAddress toClientAddress(Address address) {
+		ClientAddress clientAddress = new ClientAddress();
+		clientAddress.setAddress1(address.getAddress1());
+		clientAddress.setCity(address.getCity());
+		clientAddress.setCountryOrRegion(address.getCountryOrRegion());
+		clientAddress.setID(address.getID());
+		clientAddress.setIsSelected(address.getIsSelected());
+		clientAddress.setStateOrProvinence(address.getStateOrProvinence());
+		clientAddress.setStreet(address.getStreet());
+		clientAddress.setType(address.getType());
+		clientAddress.setVersion(address.getVersion());
+		clientAddress.setZipOrPostalCode(address.getZipOrPostalCode());
+		return clientAddress;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
@@ -38,12 +39,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.core.ClientShippingTerms;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -103,7 +99,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -114,7 +110,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -227,8 +223,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientCustomer) get(CUSTOMER).getValue())
-						.getDisplayName();
+				return ((Customer) get(CUSTOMER).getValue()).getName();
 			}
 		});
 
@@ -452,15 +447,15 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 		// TODO Location
 		// TODO Class
-		ClientShippingTerms shippingTerms = get(SHIPPING_TERMS).getValue();
+		ShippingTerms shippingTerms = get(SHIPPING_TERMS).getValue();
 		cashSale.setShippingTerm(shippingTerms != null ? shippingTerms.getID()
 				: 0);
 
-		ClientShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
+		ShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
 		cashSale.setShippingMethod(shippingMethod != null ? shippingMethod
 				.getID() : 0);
 
-		ClientCustomer customer = get(CUSTOMER).getValue();
+		Customer customer = get(CUSTOMER).getValue();
 		cashSale.setCustomer(customer.getID());
 
 		Contact contact = get(CONTACT).getValue();
@@ -491,14 +486,14 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			cashSale.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				cashSale.setCurrency(currency.getID());
 			}
@@ -517,11 +512,11 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	public ClientAddress getAddress(int type, ClientCustomer customer) {
-		for (ClientAddress address : customer.getAddress()) {
+	public ClientAddress getAddress(int type, Customer customer) {
+		for (Address address : customer.getAddress()) {
 
 			if (address.getType() == type) {
-				return address;
+				return toClientAddress(address);
 			}
 
 		}
