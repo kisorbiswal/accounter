@@ -2245,9 +2245,9 @@ public class FinanceTool {
 	public ArrayList<ClientMessage> getMessages(int status, String lang,
 			String email) {
 		Session session = null;
-		Client client = getUserManager().getClient(email);
 		try {
 			session = HibernateUtil.openSession();
+			Client client = getUserManager().getClient(email);
 			List<Message> messages = new ArrayList<Message>();
 			switch (status) {
 			case ClientMessage.ALL:

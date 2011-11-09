@@ -601,7 +601,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>iTranslateImpl</servlet-name>
-		<url-pattern>/do/translate/rpc/service</url-pattern>
+		<url-pattern>/do/accounter/translate/rpc/service</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
