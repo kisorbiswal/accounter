@@ -113,7 +113,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 					.getMeasurement(item.getMeasurement());
 			unitBox.initCombo(measurement.getUnits());
 		}
-		unitBox.setComboItem(unit);
+		unitBox.setSelected(unit.getName());
 		unitBox.setShowTitle(false);
 		final WarehouseCombo whCombo = new WarehouseCombo("");
 		whCombo.setComboItem(wareHouse);
