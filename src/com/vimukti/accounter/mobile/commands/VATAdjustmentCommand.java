@@ -22,12 +22,8 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxItemRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
@@ -77,7 +73,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (context.getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -98,7 +94,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -107,10 +103,9 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+					if (context.getPreferences().isEnableMultiCurrency()
+							&& !((Currency) get(CURRENCY).getValue())
+									.equals(context.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -171,9 +166,9 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 						@Override
 						public boolean filter(Account e) {
 							return e.getIsActive()
-									&& e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-									&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-									&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET;
+									&& e.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+									&& e.getType() != Account.TYPE_ACCOUNT_PAYABLE
+									&& e.getType() != Account.TYPE_INVENTORY_ASSET;
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -225,8 +220,8 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientTAXAdjustment taxAdjustment = new ClientTAXAdjustment();
-		ClientTAXAgency taxAgency = get(TAX_AGENCY).getValue();
-		ClientAccount account = get(ADJUSTMENT_ACCOUNT).getValue();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		Account account = get(ADJUSTMENT_ACCOUNT).getValue();
 		Double amount = get(AMOUNT).getValue();
 		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
@@ -241,8 +236,8 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		taxAdjustment.setNumber(number);
 		taxAdjustment.setMemo(memo);
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				taxAdjustment.setCurrency(currency.getID());
 			}
@@ -251,7 +246,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			taxAdjustment.setCurrencyFactor(factor);
 		}
 
-		ClientTAXItem taxItem = get(TAX_ITEM).getValue();
+		TAXItem taxItem = get(TAX_ITEM).getValue();
 		taxAdjustment.setTaxItem(taxItem.getID());
 
 		create(taxAdjustment, context);

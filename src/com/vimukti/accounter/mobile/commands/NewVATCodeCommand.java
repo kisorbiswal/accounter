@@ -134,8 +134,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 					ResultList list, ResultList actions) {
 				Boolean value = get(IS_TAXABLE).getValue();
 				if (value.booleanValue()
-						&& context.getClientCompany().getPreferences()
-								.isTrackPaidTax()) {
+						&& context.getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -235,7 +234,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		taxCode.setTaxable(isTaxable);
 		taxCode.setActive(isActive);
 		if (isTaxable) {
-			if (context.getClientCompany().getPreferences().isTrackPaidTax()) {
+			if (context.getPreferences().isTrackPaidTax()) {
 				TAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
 				TAXItemGroup purchaseVatItem = get(VATITEM_FOR_PURCHASE)
 						.getValue();

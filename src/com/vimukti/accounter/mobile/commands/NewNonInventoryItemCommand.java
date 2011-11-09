@@ -2,14 +2,14 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
-import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
 
 	public NewNonInventoryItemCommand(int itemType) {
-		super(ClientItem.TYPE_NON_INVENTORY_PART);
+		super(Item.TYPE_NON_INVENTORY_PART);
 	}
 
 	@Override

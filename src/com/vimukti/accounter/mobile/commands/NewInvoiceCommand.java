@@ -35,7 +35,6 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
@@ -101,7 +100,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (context.getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -122,7 +121,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -131,8 +130,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
+					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
 									.equals(context.getCompany()
 											.getPreferences()
@@ -253,9 +251,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& !getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				if (context.getPreferences().isTrackTax()
+						&& !context.getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -277,8 +274,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				ClientCompanyPreferences preferences = context
-						.getClientCompany().getPreferences();
+				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
@@ -418,8 +414,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		invoice.setStatus(Invoice.STATUS_OPEN);
 		// Adding selecting estimate or salesOrder to Invoice
 
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -494,8 +489,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO
 		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : allrecords) {
@@ -508,7 +502,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		double[] result = getTransactionTotal(context, isVatInclusive,
 				allrecords, true);
-		if (context.getClientCompany().getPreferences().isTrackTax()) {
+		if (context.getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
 		}
 		makeResult.add("Total: " + (result[0] + result[1]));

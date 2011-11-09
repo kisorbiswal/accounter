@@ -2,7 +2,9 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -14,7 +16,6 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -40,7 +41,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getPreferences().isTrackTax()) {
+				if (context.getPreferences().isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -53,7 +54,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getPreferences().isTrackTax()) {
+				if (context.getPreferences().isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -66,7 +67,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getPreferences().isTrackTax()) {
+				if (context.getPreferences().isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -80,7 +81,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getPreferences().isTrackTax()) {
+				if (context.getPreferences().isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -115,11 +116,11 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 
-				if (context.getClientCompany().getPreferences().isTrackTax()
-						&& context.getClientCompany().getCountryPreferences()
+				if (context.getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isVatAvailable()
 						&& context
-								.getClientCompany()
+								.getCompany()
 								.getCountry()
 								.equals(CountryPreferenceFactory.UNITED_KINGDOM)) {
 					return super.run(context, makeResult, list, actions);
@@ -177,13 +178,13 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		return null;
 	}
 
-	protected List<String> getTaxagencyList(ClientCompany clientCompany) {
-		List<ClientTAXAgency> taxAgencyList = clientCompany
-				.getActiveTaxAgencies();
+	protected List<String> getTaxagencyList(Company company) {
+		Set<TAXAgency> taxAgencyList = company.getTaxAgencies();
 		List<String> taxAgencyListNames = new ArrayList<String>();
 		if (!taxAgencyListNames.isEmpty()) {
-			for (ClientTAXAgency taxAgency : taxAgencyList) {
-				taxAgencyListNames.add(taxAgency.getName());
+			for (TAXAgency taxAgency : taxAgencyList) {
+				if (taxAgency.isActive())
+					taxAgencyListNames.add(taxAgency.getName());
 			}
 			return taxAgencyListNames;
 		}
@@ -197,10 +198,9 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		String description = (String) get(DESCRIPTION).getValue();
 		double taxRate = Double.parseDouble((String) get(TAX_RATE).getValue());
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
-		ClientTAXAgency taxAgency = (ClientTAXAgency) get(TAX_AGENCY)
-				.getValue();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		taxItem.setPercentage(true);
-		if (context.getClientCompany().getPreferences().isTrackTax()) {
+		if (context.getPreferences().isTrackTax()) {
 			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
 					VAT_RETURN_BOX).getValue();
 			taxItem.setVatReturnBox(vatReturnBox.getID());

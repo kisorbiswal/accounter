@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -144,7 +143,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -155,7 +154,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -399,8 +398,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		paybill.setMemo(memo);
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				paybill.setCurrency(currency.getID());
 			}
@@ -409,7 +408,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 		}
 
-		if (context.getClientCompany().getPreferences().isTDSEnabled()) {
+		if (context.getPreferences().isTDSEnabled()) {
 
 			TAXItem taxItem = vendor.getTAXItem();
 			if (taxItem != null) {

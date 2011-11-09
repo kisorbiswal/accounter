@@ -19,7 +19,6 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -76,7 +75,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (context.getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -97,7 +96,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -106,10 +105,9 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+					if (context.getPreferences().isEnableMultiCurrency()
+							&& !((Currency) get(CURRENCY).getValue())
+									.equals(context.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -260,8 +258,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		Account account = get(ACCOUNT).getValue();
 		issuePayment.setAccount(account.getID());
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				issuePayment.setCurrency(currency.getID());
 			}

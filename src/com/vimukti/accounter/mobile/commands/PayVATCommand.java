@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.mobile.Context;
@@ -17,9 +18,7 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
@@ -57,8 +56,8 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == ClientAccount.TYPE_BANK
-									|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
+							if (e.getType() == Account.TYPE_BANK
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
 								return true;
 							}
 							return false;
@@ -110,7 +109,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -121,7 +120,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -185,7 +184,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		ClientPayTAX payVAT = new ClientPayTAX();
 
-		ClientAccount payFrom = get(PAY_FROM).getValue();
+		Account payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		List<ClientTransactionPayTAX> billsToPay = get(BILLS_TO_PAY).getValue();
 		ClientFinanceDate vatReturnDate = get(VAT_RETURN_END_DATE).getValue();
@@ -203,7 +202,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		payVAT.setNumber(orderNo);
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				payVAT.setCurrency(currency.getID());
 			}

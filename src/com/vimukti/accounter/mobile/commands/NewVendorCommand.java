@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
@@ -28,13 +29,9 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorGroupRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -95,8 +92,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getPreferences()
-						.getUseCustomerId()) {
+				if (context.getPreferences().getUseCustomerId()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -175,9 +171,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
 
 			@Override
-			protected List<ClientContact> getList() {
-				List<ClientContact> contacts = getVendorContacts();
-				return new ArrayList<ClientContact>(contacts);
+			protected List<Contact> getList() {
+				List<Contact> contacts = getVendorContacts();
+				return new ArrayList<Contact>(contacts);
 			}
 
 			@Override
@@ -327,7 +323,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
+				if (context.getPreferences().isTrackTax()
 						&& getClientCompany().getCountryPreferences()
 								.isVatAvailable()) {
 					return super.run(context, makeResult, list, actions);
@@ -343,7 +339,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()) {
+				if (context.getPreferences().isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -367,8 +363,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (context.getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isSalesTaxAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -382,8 +378,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (context.getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isServiceTaxAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -397,8 +393,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (context.getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isTDSAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -408,7 +404,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<ClientContact> getVendorContacts() {
+	protected List<Contact> getVendorContacts() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -426,13 +422,13 @@ public class NewVendorCommand extends NewAbstractCommand {
 		if (preferences.getUseVendorId()) {
 			number = get(VENDOR_NUMBER).getValue().toString();
 		}
-		List<ClientContact> contact = get(CONTACTS).getValue();
+		List<Contact> contact = get(CONTACTS).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_AS_OF).getValue();
 		double balance = get(BALANCE).getValue();
 		ClientAddress billTo = get(BILL_TO).getValue();
 		ClientAddress shipTo = get(SHIP_TO).getValue();
-		ClientAccount account = get(ACCOUNT).getValue();
+		Account account = get(ACCOUNT).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
@@ -443,9 +439,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(ACCOUNT_NO).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
-		ClientShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
+		ShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		ClientPaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
+		PaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
 
 		String vatRegistredNum = get(VAT_REGISTRATION_NUMBER).getValue();
 
@@ -465,7 +461,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 		}
 		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
 		if (contact != null) {
-			contacts.addAll(contact);
+			for (Contact clientContact : contact) {
+				contacts.add(toClientContact(clientContact));
+			}
 		}
 		vendor.setName(name);
 		if (preferences.getUseVendorId())
@@ -487,14 +485,14 @@ public class NewVendorCommand extends NewAbstractCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
-		if (context.getClientCompany().getCountry()
+		if (context.getCompany().getCountry()
 				.equals(CountryPreferenceFactory.UNITED_STATES)) {
 			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
 		}
 		if (account != null)
-			vendor.setExpenseAccount(account);
+			vendor.setExpenseAccount(account.getID());
 		vendor.setCreditLimit(creditLimit);
 		if (preferences.isDoProductShipMents() && shippingMethod != null)
 			vendor.setShippingMethod(shippingMethod.getID());
@@ -506,7 +504,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 		if (value != null)
 			vendor.setVendorGroup(value.getID());
 		vendor.setActive(isActive);
-		ClientTAXCode code = get(VENDOR_VAT_CODE).getValue();
+		TAXCode code = get(VENDOR_VAT_CODE).getValue();
 		if (code != null)
 			vendor.setTAXCode(code.getID());
 		vendor.setVATRegistrationNumber(vatRegistredNum);

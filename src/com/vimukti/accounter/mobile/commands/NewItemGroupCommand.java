@@ -6,6 +6,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 
 public class NewItemGroupCommand extends NewAbstractCommand {
@@ -34,7 +35,7 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 			}
 		}
 
-		itemGroup = context.getClientCompany().getItemGroupByName(string);
+		itemGroup = CommandUtils.getItemGroupByName(string);
 		if (itemGroup == null) {
 			addFirstMessage(context, "Select an item group to update.");
 			return "Item Groups " + string.trim();

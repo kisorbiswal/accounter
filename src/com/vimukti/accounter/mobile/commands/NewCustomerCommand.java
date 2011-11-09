@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -382,9 +383,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				.pleaseSelect(getConstants().contact()), CONTACT, true, true) {
 
 			@Override
-			protected List<ClientContact> getList() {
-				List<ClientContact> contacts = getCustomerContacts();
-				return new ArrayList<ClientContact>(contacts);
+			protected List<Contact> getList() {
+				List<Contact> contacts = getCustomerContacts();
+				return new ArrayList<Contact>(contacts);
 			}
 
 			@Override
@@ -396,7 +397,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<ClientContact> getCustomerContacts() {
+	protected List<Contact> getCustomerContacts() {
 		return null;
 	}
 

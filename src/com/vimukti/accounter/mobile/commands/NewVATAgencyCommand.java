@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -19,10 +20,8 @@ import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
@@ -147,11 +146,11 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 							public boolean filter(Account account) {
 								return account.getIsActive()
 										&& Arrays
-												.asList(ClientAccount.TYPE_INCOME,
-														ClientAccount.TYPE_EXPENSE,
-														ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-														ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-														ClientAccount.TYPE_FIXED_ASSET)
+												.asList(Account.TYPE_INCOME,
+														Account.TYPE_EXPENSE,
+														Account.TYPE_OTHER_CURRENT_LIABILITY,
+														Account.TYPE_OTHER_CURRENT_ASSET,
+														Account.TYPE_FIXED_ASSET)
 												.contains(account.getType());
 							}
 						});
@@ -228,9 +227,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
 
 			@Override
-			protected List<ClientContact> getList() {
-				List<ClientContact> contacts = getAgencyContacts();
-				return new ArrayList<ClientContact>(contacts);
+			protected List<Contact> getList() {
+				List<Contact> contacts = getAgencyContacts();
+				return new ArrayList<Contact>(contacts);
 			}
 
 			@Override
@@ -242,12 +241,12 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<ClientContact> getAgencyContacts() {
+	protected List<Contact> getAgencyContacts() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	protected List<ClientContact> getContactList(Context context) {
+	protected List<Contact> getContactList(Context context) {
 		return null;
 	}
 
@@ -299,8 +298,8 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		ClientTAXAgency taxAgency = new ClientTAXAgency();
 		String name = get(TAX_AGENCY_NAME).getValue();
-		ClientPaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
-		ClientAccount salesAccount = get(SALES_ACCOUNT).getValue();
+		PaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
+		Account salesAccount = get(SALES_ACCOUNT).getValue();
 
 		// ClientAddress address = (ClientAddress) get(VAT_AGENCY_ADDRESS)
 		// .getValue();
@@ -331,17 +330,17 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			listAddress.add(address);
 		}
 		taxAgency.setAddress(listAddress);
-		List<ClientContact> contactList = get(CONTACTS).getValue();
+		List<Contact> contactList = get(CONTACTS).getValue();
 		Set<ClientContact> contactsList = new HashSet<ClientContact>();
 		if (!contactList.isEmpty()) {
-			for (ClientContact contact : contactList) {
-				contactsList.add(contact);
+			for (Contact contact : contactList) {
+				contactsList.add(toClientContact(contact));
 			}
 			taxAgency.setContacts(contactsList);
 		}
 
-		if (context.getClientCompany().getPreferences().isTrackPaidTax()) {
-			ClientAccount purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
+		if (context.getPreferences().isTrackPaidTax()) {
+			Account purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
 			String vatReturn = get(VAT_RETURN).getValue();
 			taxAgency.setPurchaseLiabilityAccount(purchaseAccount.getID());
 			if (vatReturn == "") {

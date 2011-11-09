@@ -24,13 +24,9 @@ import com.vimukti.accounter.mobile.requirements.PayeeRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPayee;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -101,7 +97,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -112,7 +108,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
+							&& !((Currency) get(CURRENCY).getValue())
 									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
@@ -141,7 +137,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 						public boolean filter(Account e) {
 							return Arrays.asList(Account.TYPE_BANK,
 									Account.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_PAYPAL,
 									Account.TYPE_OTHER_CURRENT_ASSET).contains(
 									e.getType());
 						}
@@ -177,18 +172,18 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account account) {
-							if (account.getType() != ClientAccount.TYPE_CASH
-									&& account.getType() != ClientAccount.TYPE_BANK
-									&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-									&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-									&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-									&& account.getType() != ClientAccount.TYPE_INCOME
-									&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
-									&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-									&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-									&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-									&& account.getType() != ClientAccount.TYPE_EQUITY
-									&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
+							if (account.getType() != Account.TYPE_CASH
+									&& account.getType() != Account.TYPE_BANK
+									&& account.getType() != Account.TYPE_INVENTORY_ASSET
+									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+									&& account.getType() != Account.TYPE_INCOME
+									&& account.getType() != Account.TYPE_OTHER_INCOME
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+									&& account.getType() != Account.TYPE_OTHER_ASSET
+									&& account.getType() != Account.TYPE_EQUITY
+									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
 								return true;
 							} else {
 								return false;
@@ -234,8 +229,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				ClientCompanyPreferences preferences = context
-						.getClientCompany().getPreferences();
+				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
@@ -261,16 +255,16 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientWriteCheck writeCheck = new ClientWriteCheck();
-		ClientPayee payee = (ClientPayee) get(PAYEE).getValue();
-		if (payee.getType() == ClientPayee.TYPE_CUSTOMER) {
+		Payee payee = (Payee) get(PAYEE).getValue();
+		if (payee.getType() == Payee.TYPE_CUSTOMER) {
 			writeCheck.setCustomer(payee.getID());
-		} else if (payee.getType() == ClientPayee.TYPE_VENDOR) {
+		} else if (payee.getType() == Payee.TYPE_VENDOR) {
 			writeCheck.setVendor(payee.getID());
 		} else {
 			writeCheck.setTaxAgency(payee.getID());
 		}
 
-		ClientAccount bankAccount = get(BANK_ACCOUNT).getValue();
+		Account bankAccount = get(BANK_ACCOUNT).getValue();
 		writeCheck.setBankAccount(bankAccount.getID());
 
 		ClientFinanceDate date = get(DATE).getValue();
@@ -285,19 +279,18 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		writeCheck.setType(ClientTransaction.TYPE_WRITE_CHECK);
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			writeCheck.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
 
 		if (preferences.isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				writeCheck.setCurrency(currency.getID());
 			}

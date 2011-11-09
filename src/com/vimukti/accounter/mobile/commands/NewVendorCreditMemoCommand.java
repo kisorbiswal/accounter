@@ -27,12 +27,8 @@ import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirem
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
@@ -114,7 +110,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (context.getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -135,7 +131,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -144,10 +140,9 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+					if (context.getPreferences().isEnableMultiCurrency()
+							&& !((Currency) get(CURRENCY).getValue())
+									.equals(context.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -175,10 +170,10 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD
-									|| e.getType() == ClientAccount.TYPE_FIXED_ASSET
-									|| e.getType() == ClientAccount.TYPE_EXPENSE
-									|| e.getType() == ClientAccount.TYPE_OTHER_EXPENSE) {
+							if (e.getType() == Account.TYPE_COST_OF_GOODS_SOLD
+									|| e.getType() == Account.TYPE_FIXED_ASSET
+									|| e.getType() == Account.TYPE_EXPENSE
+									|| e.getType() == Account.TYPE_OTHER_EXPENSE) {
 								return true;
 							}
 							return false;
@@ -220,8 +215,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientCustomer) get(VENDOR).getValue())
-						.getDisplayName();
+				return ((Vendor) get(VENDOR).getValue()).getName();
 			}
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
@@ -231,9 +225,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& !getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				if (context.getPreferences().isTrackTax()
+						&& !context.getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -255,8 +248,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				ClientCompanyPreferences preferences = context
-						.getClientCompany().getPreferences();
+				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
@@ -319,18 +311,17 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		String phone = get(PHONE).getValue();
 		vendorCreditMemo.setPhone(phone);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			vendorCreditMemo.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				vendorCreditMemo.setCurrency(currency.getID());
 			}

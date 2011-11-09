@@ -591,8 +591,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate date = get(DATE).getValue();
 		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments;
 		try {
-			transactionReceivePayments = getTransactionReceivePayments(
-					customer.getCompany(), customer.getID(), date.getDate());
+			transactionReceivePayments = getTransactionReceivePayments(customer
+					.getCompany().getID(), customer.getID(), date.getDate());
 			ArrayList<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
 			for (ReceivePaymentTransactionList receivePaymentTransaction : transactionReceivePayments) {
 				ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();

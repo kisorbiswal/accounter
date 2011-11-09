@@ -23,9 +23,7 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -138,7 +136,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -147,10 +145,9 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+					if (context.getPreferences().isEnableMultiCurrency()
+							&& !((Currency) get(CURRENCY).getValue())
+									.equals(context.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -182,8 +179,8 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == ClientAccount.TYPE_BANK
-									|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
+							if (e.getType() == Account.TYPE_BANK
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
 								return true;
 							}
 							return false;
@@ -288,10 +285,10 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		ClientPayBill paybill = new ClientPayBill();
 		Vendor vendor = (Vendor) get(VENDOR).getValue();
 		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
-		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
+		Account pay = (Account) get(PAY_FROM).getValue();
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				paybill.setCurrency(currency.getID());
 			}
@@ -310,7 +307,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
 		paybill.setVendor(vendor.getID());
 		paybill.setAddress(billTo);
-		paybill.setPayFrom(pay);
+		paybill.setPayFrom(pay.getID());
 		paybill.setTotal(amount);
 		paybill.setStatus(ClientPayBill.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		paybill.setPaymentMethod(paymentMethod);

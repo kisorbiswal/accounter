@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -9,7 +10,6 @@ import com.vimukti.accounter.mobile.requirements.MeasurementUnitRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
-import com.vimukti.accounter.web.client.core.ClientUnit;
 
 public class NewMeasurementCommand extends NewAbstractCommand {
 
@@ -74,7 +74,7 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 				true, false, true) {
 
 			@Override
-			protected List<ClientUnit> getList() {
+			protected List<Unit> getList() {
 				return null;
 			}
 		});

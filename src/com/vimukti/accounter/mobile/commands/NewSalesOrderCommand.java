@@ -37,13 +37,9 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -77,9 +73,8 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 						ClientTransaction.TYPE_SALES_ORDER,
 						context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
-		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
-				.getPaymentsTerms();
-		for (ClientPaymentTerms p : paymentTerms) {
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
+		for (PaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
@@ -127,7 +122,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (context.getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -148,7 +143,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -157,10 +152,9 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+					if (context.getPreferences().isEnableMultiCurrency()
+							&& !((Currency) get(CURRENCY).getValue())
+									.equals(context.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -218,8 +212,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientCustomer) get(CUSTOMER).getValue())
-						.getDisplayName();
+				return ((Customer) get(CUSTOMER).getValue()).getName();
 			}
 		});
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
@@ -238,11 +231,9 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected List<Estimate> getLists(Context context) {
 				try {
-					return new FinanceTool().getCustomerManager()
-							.getEstimates(
-									((ClientCustomer) get(CUSTOMER).getValue())
-											.getID(),
-									context.getCompany().getID());
+					return new FinanceTool().getCustomerManager().getEstimates(
+							((Customer) get(CUSTOMER).getValue()).getID(),
+							context.getCompany().getID());
 				} catch (DAOException e) {
 					e.printStackTrace();
 				}
@@ -315,9 +306,8 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& !getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				if (context.getPreferences().isTrackTax()
+						&& !context.getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -339,8 +329,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				ClientCompanyPreferences preferences = context
-						.getClientCompany().getPreferences();
+				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
@@ -385,11 +374,11 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 		newSalesOrder.setCustomerOrderNumber((String) get(ORDER_NO).getValue());
 
-		ClientPaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
+		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		if (newPaymentTerms != null)
 			newSalesOrder.setPaymentTerm(newPaymentTerms.getID());
 
-		CompanyPreferences preferences = context.getCompany().getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 
 		ClientFinanceDate date = get(DUE_DATE).getValue();
 		newSalesOrder.setDate(date.getDate());
@@ -412,13 +401,13 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			newSalesOrder.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				newSalesOrder.setCurrency(currency.getID());
 			}

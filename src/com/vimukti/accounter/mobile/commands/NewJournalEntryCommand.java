@@ -18,7 +18,6 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -100,8 +99,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					public Result run(Context context, Result makeResult,
 							ResultList list, ResultList actions) {
-						if (getClientCompany().getPreferences()
-								.isEnableMultiCurrency()) {
+						if (context.getPreferences().isEnableMultiCurrency()) {
 							return super
 									.run(context, makeResult, list, actions);
 						} else {
@@ -123,7 +121,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					protected String getDisplayValue(Double value) {
 						String primaryCurrency = getClientCompany()
 								.getPreferences().getPrimaryCurrency();
-						ClientCurrency selc = get(CURRENCY).getValue();
+						Currency selc = get(CURRENCY).getValue();
 						return "1 " + selc.getFormalName() + " = " + value
 								+ " " + primaryCurrency;
 					}
@@ -132,12 +130,10 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					public Result run(Context context, Result makeResult,
 							ResultList list, ResultList actions) {
 						if (get(CURRENCY).getValue() != null) {
-							if (getClientCompany().getPreferences()
+							if (context.getPreferences()
 									.isEnableMultiCurrency()
-									&& !((ClientCurrency) get(CURRENCY)
-											.getValue())
-											.equals(getClientCompany()
-													.getPreferences()
+									&& !((Currency) get(CURRENCY).getValue())
+											.equals(context.getPreferences()
 													.getPrimaryCurrency())) {
 								return super.run(context, makeResult, list,
 										actions);
@@ -291,8 +287,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 		entry.setDebitTotal(totalDebits);
 		entry.setCreditTotal(totalCredits);
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				entry.setCurrency(currency.getID());
 			}

@@ -32,15 +32,12 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -74,9 +71,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 						ClientTransaction.TYPE_PURCHASE_ORDER,
 						context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
-		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
-				.getPaymentsTerms();
-		for (ClientPaymentTerms p : paymentTerms) {
+		ArrayList<PaymentTerms> paymentTerms = CommandUtils.getPaymentsTerms();
+		for (PaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
@@ -141,7 +137,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (context.getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -162,7 +158,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			protected String getDisplayValue(Double value) {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
+				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
 			}
@@ -171,10 +167,9 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+					if (context.getPreferences().isEnableMultiCurrency()
+							&& !((Currency) get(CURRENCY).getValue())
+									.equals(context.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -198,7 +193,6 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 						public boolean filter(Account e) {
 							return Arrays.asList(Account.TYPE_BANK,
 									Account.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_PAYPAL,
 									Account.TYPE_OTHER_CURRENT_ASSET).contains(
 									e.getType());
 						}
@@ -335,9 +329,9 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& !getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				ClientCompanyPreferences preferences = context.getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -359,8 +353,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				ClientCompanyPreferences preferences = context
-						.getClientCompany().getPreferences();
+				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
@@ -412,7 +405,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 		newPurchaseOrder.setNumber((String) get(NUMBER).getValue());
 
-		ClientPaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
+		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		if (newPaymentTerms != null)
 			newPurchaseOrder.setPaymentTerm(newPaymentTerms.getID());
 
@@ -428,8 +421,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		newPurchaseOrder.setPurchaseOrderNumber(no);
 		ClientAddress address = get(BILL_TO).getValue();
 		newPurchaseOrder.setShippingAddress(address);
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+		if (context.getPreferences().isEnableMultiCurrency()) {
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				newPurchaseOrder.setCurrency(currency.getID());
 			}
@@ -443,11 +436,10 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		updateTotals(context, newPurchaseOrder, false);
 
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			newPurchaseOrder.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
