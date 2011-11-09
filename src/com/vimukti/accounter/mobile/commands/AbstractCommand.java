@@ -10,7 +10,10 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
@@ -22,19 +25,15 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -472,14 +471,15 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	private Record createTaxCodeRecord(ClientTAXCode taxCode) {
+	private Record createTaxCodeRecord(TAXCode taxCode) {
 		Record record = new Record(taxCode);
 		record.add("", taxCode.getName() + "-" + taxCode.getSalesTaxRate());
 		return record;
 	}
 
-	protected Result taxCode(Context context, ClientTAXCode oldTaxCode) {
-		List<ClientTAXCode> codes = getClientCompany().getTaxCodes();
+	protected Result taxCode(Context context, TAXCode oldTaxCode) {
+		ArrayList<TAXCode> codes = new ArrayList<TAXCode>(context.getCompany()
+				.getTaxCodes());
 
 		Result result = context.makeResult();
 		result.add(getMessages().pleaseSelect(getConstants().taxCode()));
@@ -493,10 +493,10 @@ public abstract class AbstractCommand extends Command {
 
 		List<Record> actions = new ArrayList<Record>();
 
-		List<ClientTAXCode> pagination = pagination(context, selection,
-				actions, codes, new ArrayList<ClientTAXCode>(), TAXCODE_TO_SHOW);
+		List<TAXCode> pagination = pagination(context, selection, actions,
+				codes, new ArrayList<TAXCode>(), TAXCODE_TO_SHOW);
 
-		for (ClientTAXCode term : pagination) {
+		for (TAXCode term : pagination) {
 			list.add(createTaxCodeRecord(term));
 		}
 
@@ -517,8 +517,7 @@ public abstract class AbstractCommand extends Command {
 	 */
 	protected Result contactProcess(Context context) {
 		String message = (String) context.getAttribute(CONTACT_ATTR);
-		ClientContact contact = (ClientContact) context
-				.getAttribute(OLD_CONTACT_ATTR);
+		Contact contact = (Contact) context.getAttribute(OLD_CONTACT_ATTR);
 		String requirementName = (String) context
 				.getAttribute(REQUIREMENT_NAME);
 		return contact(context, message, requirementName, contact);
@@ -533,7 +532,7 @@ public abstract class AbstractCommand extends Command {
 	 * @return {@link Result}
 	 */
 	protected Result contact(Context context, String message,
-			String requirementName, ClientContact oldContact) {
+			String requirementName, Contact oldContact) {
 		context.setAttribute(PROCESS_ATTR, CONTACT_PROCESS);
 		context.setAttribute(CONTACT_ATTR, message);
 		context.setAttribute(OLD_CONTACT_ATTR, oldContact);
@@ -545,11 +544,11 @@ public abstract class AbstractCommand extends Command {
 			context.removeAttribute(CONTACT_LINE_ATTR);
 			if (lineAttr.equals("contactName")) {
 				if (oldContact == null) {
-					oldContact = new ClientContact();
+					oldContact = new Contact();
 					Requirement requirement = get(requirementName);
-					Set<ClientContact> contacts = requirement.getValue();
+					Set<Contact> contacts = requirement.getValue();
 					if (contacts == null) {
-						contacts = new HashSet<ClientContact>();
+						contacts = new HashSet<Contact>();
 						requirement.setValue(contacts);
 					}
 					contacts.add(oldContact);
@@ -1286,16 +1285,15 @@ public abstract class AbstractCommand extends Command {
 	 * @return {@link Result}
 	 */
 	protected Result accountRequirement(Context context, ResultList list,
-			String requirementName, String name,
-			ListFilter<ClientAccount> filter) {
+			String requirementName, String name, ListFilter<Account> filter) {
 		Requirement accountReq = get(requirementName);
-		ClientAccount clientAccount = context.getSelection(requirementName);
+		Account Account = context.getSelection(requirementName);
 
-		if (clientAccount != null) {
-			accountReq.setValue(clientAccount);
+		if (Account != null) {
+			accountReq.setValue(Account);
 		}
 
-		ClientAccount account = accountReq.getValue();
+		Account account = accountReq.getValue();
 		Object selection = context.getSelection("values");
 		if (!accountReq.isDone() || (account == selection)) {
 			return accounts(context, requirementName, filter);
@@ -1407,26 +1405,32 @@ public abstract class AbstractCommand extends Command {
 	 * @return {@link Result}
 	 */
 	protected Result accounts(Context context, String requirementName,
-			ListFilter<ClientAccount> filter) {
+			ListFilter<Account> filter) {
 		Result result = context.makeResult();
 
 		ResultList supplierList = new ResultList(requirementName);
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
-		List<ClientAccount> skipAccounts = new ArrayList<ClientAccount>();
+		List<Account> skipAccounts = new ArrayList<Account>();
 		if (last != null) {
-			supplierList.add(createAccountRecord((ClientAccount) last));
-			skipAccounts.add((ClientAccount) last);
+			supplierList.add(createAccountRecord((Account) last));
+			skipAccounts.add((Account) last);
 		}
-		List<ClientAccount> accounts = Utility.filteredList(filter,
-				getClientCompany().getAccounts());
+		Set<Account> accounts = context.getCompany().getAccounts();
+		ArrayList<Account> accs = new ArrayList<Account>();
+		for (Account account : accounts) {
+			boolean filter2 = filter.filter(account);
+			if (filter2) {
+				accs.add(account);
+			}
+		}
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
 
-		List<ClientAccount> pagination = pagination(context, selection,
-				actions, accounts, skipAccounts, VALUES_TO_SHOW);
+		List<Account> pagination = pagination(context, selection, actions,
+				accs, skipAccounts, VALUES_TO_SHOW);
 
-		for (ClientAccount account : pagination) {
+		for (Account account : pagination) {
 			supplierList.add(createAccountRecord(account));
 		}
 
@@ -1445,7 +1449,7 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Record createAccountRecord(ClientAccount last) {
+	protected Record createAccountRecord(Account last) {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
 		record.add("Number", last.getNumber());
@@ -1510,7 +1514,7 @@ public abstract class AbstractCommand extends Command {
 		if (accountObj != null) {
 			accountReq.setValue(accountObj);
 		}
-		ClientAccount account = (ClientAccount) accountReq.getValue();
+		Account account = (Account) accountReq.getValue();
 		if (selection != null)
 			if (selection == reqName) {
 				context.setAttribute(INPUT_ATTR, reqName);
@@ -1535,26 +1539,26 @@ public abstract class AbstractCommand extends Command {
 	 * @param oldAccount
 	 * @return
 	 */
-	private Result account(Context context, ClientAccount oldAccount) {
+	private Result account(Context context, Account oldAccount) {
 		Result result = context.makeResult();
 		result.add("Select Account");
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		ResultList list = new ResultList(ACCOUNT);
-		List<ClientAccount> skipAccounts = new ArrayList<ClientAccount>();
+		List<Account> skipAccounts = new ArrayList<Account>();
 		if (oldAccount != null) {
 			list.add(createAccountRecord(oldAccount));
-			skipAccounts.add((ClientAccount) last);
+			skipAccounts.add((Account) last);
 
 		}
-		List<ClientAccount> accountsList = getAccountsList(context);
+		List<Account> accountsList = getAccountsList(context);
 
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
 
-		List<ClientAccount> pagination = pagination(context, selection,
-				actions, accountsList, skipAccounts, VALUES_TO_SHOW);
+		List<Account> pagination = pagination(context, selection, actions,
+				accountsList, skipAccounts, VALUES_TO_SHOW);
 
-		for (ClientAccount account : pagination) {
+		for (Account account : pagination) {
 			list.add(createAccountRecord(account));
 		}
 
@@ -1572,10 +1576,10 @@ public abstract class AbstractCommand extends Command {
 	 * @param context
 	 * @return
 	 */
-	private List<ClientAccount> getAccountsList(Context context) {
-		List<ClientAccount> accounts = getClientCompany().getAccounts();
-		List<ClientAccount> list = new ArrayList<ClientAccount>(accounts.size());
-		for (ClientAccount acc : accounts) {
+	private List<Account> getAccountsList(Context context) {
+		Set<Account> accounts = context.getCompany().getAccounts();
+		List<Account> list = new ArrayList<Account>(accounts.size());
+		for (Account acc : accounts) {
 			if (acc.getIsActive())
 				list.add(acc);
 		}

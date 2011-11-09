@@ -7,7 +7,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 
 /**
  * 
@@ -71,7 +70,7 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 			Object selection) {
 		Object accountObj = context.getSelection(ACCOUNT_TO);
 		Requirement accToRequirement = get(ACCOUNT_TO);
-		ClientAccount account = (ClientAccount) accToRequirement.getValue();
+		Account account = accToRequirement.getValue();
 		if (selection == account) {
 			return accounts(context, account);
 		}
@@ -82,7 +81,7 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 			Object selection) {
 		Object accountObj = context.getSelection(ACCOUNT_FROM);
 		Requirement accFromRequirement = get(ACCOUNT_FROM);
-		ClientAccount account = (ClientAccount) accFromRequirement.getValue();
+		Account account = accFromRequirement.getValue();
 
 		if (selection == account) {
 			return accounts(context, account);
@@ -91,8 +90,8 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result accounts(Context context, ClientAccount account) {
-		List<ClientAccount> accounts = getAccounts();
+	private Result accounts(Context context, Account account) {
+		List<Account> accounts = getAccounts(context);
 		Result result = context.makeResult();
 		result.add("Select account");
 
@@ -102,7 +101,7 @@ public class MergeAccountCommand extends AbstractTransactionCommand {
 			list.add(createAccountRecord(account));
 			num++;
 		}
-		for (ClientAccount acc : accounts) {
+		for (Account acc : accounts) {
 			if (acc != account) {
 				list.add(createAccountRecord(acc));
 				num++;

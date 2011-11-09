@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -51,10 +52,10 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 		makeResult.add(actions);
 
 		result = accountRequirement(context, list, BANKACCOUNT, getConstants()
-				.bankAccount(), new ListFilter<ClientAccount>() {
+				.bankAccount(), new ListFilter<Account>() {
 
 			@Override
-			public boolean filter(ClientAccount e) {
+			public boolean filter(Account e) {
 				if (e.getType() == ClientAccount.TYPE_BANK) {
 					return true;
 				} else {

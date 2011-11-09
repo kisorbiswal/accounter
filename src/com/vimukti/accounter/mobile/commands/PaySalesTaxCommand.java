@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -68,10 +69,10 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		ResultList actions = new ResultList(ACTIONS);
 
 		result = accountRequirement(context, list, PAY_FROM, getConstants()
-				.payFrom(), new ListFilter<ClientAccount>() {
+				.payFrom(), new ListFilter<Account>() {
 
 			@Override
-			public boolean filter(ClientAccount e) {
+			public boolean filter(Account e) {
 				if (e.getType() == ClientAccount.TYPE_BANK)
 					return true;
 				else
