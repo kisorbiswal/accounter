@@ -60,7 +60,7 @@ public abstract class PayVatTableRequirement extends
 	protected void setRequirementsDefaultValues(ClientTransactionPayTAX obj) {
 		ClientTAXAgency taxAgency = (ClientTAXAgency) CommandUtils
 				.getClientObjectById(obj.getTaxAgency(),
-						AccounterCoreType.TAXAGENCY);
+						AccounterCoreType.TAXAGENCY, getCompanyId());
 		get(TAX_AGENCY).setDefaultValue(taxAgency.getName());
 		get(TAX_DUE).setDefaultValue(obj.getTaxDue());
 	}
@@ -75,7 +75,7 @@ public abstract class PayVatTableRequirement extends
 	protected Record createFullRecord(ClientTransactionPayTAX t) {
 		ClientTAXAgency taxAgency = (ClientTAXAgency) CommandUtils
 				.getClientObjectById(t.getTaxAgency(),
-						AccounterCoreType.TAXAGENCY);
+						AccounterCoreType.TAXAGENCY, getCompanyId());
 
 		Record record = new Record(t);
 		record.add("", getConstants().vatAgency());

@@ -29,7 +29,6 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -329,8 +328,9 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 					record.setOriginalAmount(curntRec.getOriginalAmount());
 
 					// record.setPayment(curntRec.getPayment());
-					Vendor vendor = CommandUtils.getVendorByName(curntRec
-							.getVendorName());
+					Vendor vendor = CommandUtils
+							.getVendorByName(clinetVendor.getCompany(),
+									curntRec.getVendorName());
 					if (vendor != null)
 						record.setVendor(vendor.getID());
 					records.add(record);
@@ -411,7 +411,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			if (taxItem != null) {
 				paybill.setTdsTaxItem((ClientTAXItem) CommandUtils
 						.getClientObjectById(taxItem.getID(),
-								AccounterCoreType.TAXITEM));
+								AccounterCoreType.TAXITEM, getCompanyId()));
 			}
 		}
 		List<ClientTransactionPayBill> paybills = get(BILLS_DUE).getValue();

@@ -33,9 +33,9 @@ public class NewTaxGroupCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<ClientTAXItem> getList() {
-				ArrayList<ClientTAXItem> taxItems = getClientCompany()
-						.getTaxItems();
-				return taxItems;
+				// ArrayList<ClientTAXItem> taxItems = getClientCompany()
+				// .getTaxItems();
+				return null;// taxItems;
 			}
 
 		});

@@ -7,21 +7,21 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 
-public abstract class MeasurementRequirement extends ListRequirement<ClientMeasurement>{
+public abstract class MeasurementRequirement extends
+		ListRequirement<ClientMeasurement> {
 
-	
 	public MeasurementRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
 			ChangeListner<ClientMeasurement> listner) {
-		super(requirementName, enterString, recordName, isOptional, isAllowFromContext,
-				listner);
+		super(requirementName, enterString, recordName, isOptional,
+				isAllowFromContext, listner);
 	}
 
 	@Override
 	protected String getEmptyString() {
 		return getConstants().noRecordsToShow();
 	}
-	
+
 	@Override
 	protected Record createRecord(ClientMeasurement value) {
 		Record record = new Record(value);
@@ -38,7 +38,7 @@ public abstract class MeasurementRequirement extends ListRequirement<ClientMeasu
 	@Override
 	protected void setCreateCommand(CommandList list) {
 		list.add(getMessages().create(getConstants().measurement()));
-		
+
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public abstract class MeasurementRequirement extends ListRequirement<ClientMeasu
 
 	@Override
 	protected List<ClientMeasurement> getLists(Context context) {
-		return context.getClientCompany().getMeasurements();
+		return null;// context.getCompany().getMeasurements();
 	}
 
 }

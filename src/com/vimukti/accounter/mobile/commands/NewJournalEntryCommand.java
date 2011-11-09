@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.ui.company.options.ComapnyWebsiteOption;
 
 /**
  * 
@@ -215,7 +214,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				Record record = new Record(t);
 				record.add(Global.get().Account(),
 						((ClientAccount) CommandUtils.getClientObjectById(
-								t.getAccount(), AccounterCoreType.ACCOUNT))
+								t.getAccount(), AccounterCoreType.ACCOUNT,
+								getCompanyId()))
 								.getDisplayName());
 
 				record.add(getConstants().memo(), t.getMemo());

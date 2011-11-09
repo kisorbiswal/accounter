@@ -326,7 +326,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		}
 		ClientAccount depositIn = (ClientAccount) CommandUtils
 				.getClientObjectById(customerPrePayment.getDepositIn(),
-						AccounterCoreType.ACCOUNT);
+						AccounterCoreType.ACCOUNT, getCompanyId());
 		if (depositIn.isIncrease()) {
 			customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
 					- enteredBalance);

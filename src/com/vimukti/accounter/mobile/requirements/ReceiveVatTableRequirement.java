@@ -54,7 +54,7 @@ public abstract class ReceiveVatTableRequirement extends
 	protected void setRequirementsDefaultValues(ClientTransactionReceiveVAT obj) {
 		ClientTAXAgency taxAgency = (ClientTAXAgency) CommandUtils
 				.getClientObjectById(obj.getTaxAgency(),
-						AccounterCoreType.TAXAGENCY);
+						AccounterCoreType.TAXAGENCY, getCompanyId());
 		if (taxAgency != null) {
 			get(VAT_AGENCY).setDefaultValue(taxAgency.getName());
 		}
@@ -71,7 +71,7 @@ public abstract class ReceiveVatTableRequirement extends
 	protected Record createFullRecord(ClientTransactionReceiveVAT t) {
 		ClientTAXAgency taxAgency = (ClientTAXAgency) CommandUtils
 				.getClientObjectById(t.getTaxAgency(),
-						AccounterCoreType.TAXAGENCY);
+						AccounterCoreType.TAXAGENCY, getCompanyId());
 
 		Record record = new Record(t);
 		record.add("", getConstants().vatAgency());

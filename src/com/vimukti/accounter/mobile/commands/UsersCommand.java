@@ -65,7 +65,7 @@ public class UsersCommand extends NewAbstractCommand {
 	}
 
 	private List<ClientUserInfo> getUsersList(Context context) {
-		return context.getClientCompany().getUsersList();
+		return null;// context.getClientCompany().getUsersList();
 
 	}
 

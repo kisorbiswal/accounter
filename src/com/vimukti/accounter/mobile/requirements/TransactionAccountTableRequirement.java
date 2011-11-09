@@ -183,13 +183,15 @@ public class TransactionAccountTableRequirement extends
 	protected Record createFullRecord(ClientTransactionItem t) {
 		Record record = new Record(t);
 		record.add("", ((ClientAccount) (CommandUtils.getClientObjectById(
-				t.getAccount(), AccounterCoreType.ACCOUNT))).getDisplayName());
+				t.getAccount(), AccounterCoreType.ACCOUNT, getCompanyId())))
+				.getDisplayName());
 		record.add("", t.getUnitPrice());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
-			record.add("", ((ClientTAXCode) (CommandUtils.getClientObjectById(
-					t.getTaxCode(), AccounterCoreType.TAX_CODE)))
-					.getDisplayName());
+			record.add("",
+					((ClientTAXCode) (CommandUtils.getClientObjectById(
+							t.getTaxCode(), AccounterCoreType.TAX_CODE,
+							getCompanyId()))).getDisplayName());
 		} else {
 			if (t.isTaxable()) {
 				record.add("", getConstants().taxable());

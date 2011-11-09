@@ -125,7 +125,8 @@ public class MakeDepositTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTransactionMakeDeposit t) {
 		ClientAccount account = (ClientAccount) CommandUtils
-				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT);
+				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT,
+						getCompanyId());
 		Record record = new Record(t);
 		record.add("", getConstants().receivedFrom());
 		record.add("", getReceivedFrom(t));

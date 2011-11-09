@@ -517,7 +517,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			if (transactionItem.getTaxCode() != 0) {
 				ClientTAXCode code = (ClientTAXCode) CommandUtils
 						.getClientObjectById(transactionItem.getTaxCode(),
-								AccounterCoreType.TAX_CODE);
+								AccounterCoreType.TAX_CODE, context
+										.getCompany().getId());
 				if (code != null) {
 					record.add("", code.getName());
 				}
@@ -550,7 +551,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(getMessages().details(Global.get().Account()));
 		ClientAccount account = (ClientAccount) CommandUtils
 				.getClientObjectById(transactionItem.getAccount(),
-						AccounterCoreType.ACCOUNT);
+						AccounterCoreType.ACCOUNT, context.getCompany().getId());
 		if (account != null) {
 			result.add(getMessages().payeeName(Global.get().Account())
 					+ account.getName());

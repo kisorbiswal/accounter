@@ -105,7 +105,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 				// 'GroupRate
 				ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
 						.getClientObjectById(TAXCodeID,
-								AccounterCoreType.TAX_CODE);
+								AccounterCoreType.TAX_CODE, getCompanyId());
 
 				if (!taxCode.getName().equals("EGS")
 						&& !taxCode.getName().equals("EGZ")
@@ -115,7 +115,8 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 									isSales ? taxCode.getTAXItemGrpForSales()
 											: taxCode
 													.getTAXItemGrpForPurchases(),
-									AccounterCoreType.TAX_ITEM_GROUP);
+									AccounterCoreType.TAX_ITEM_GROUP,
+									getCompanyId());
 					if (vatItemGroup != null) {
 						if (vatItemGroup instanceof ClientTAXItem) {
 							vatRate = ((ClientTAXItem) vatItemGroup)

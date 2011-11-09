@@ -35,7 +35,8 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 			}
 		}
 
-		itemGroup = CommandUtils.getItemGroupByName(string);
+		itemGroup = CommandUtils.getItemGroupByName(context.getCompany(),
+				string);
 		if (itemGroup == null) {
 			addFirstMessage(context, "Select an item group to update.");
 			return "Item Groups " + string.trim();
