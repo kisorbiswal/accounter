@@ -119,8 +119,9 @@ public abstract class TransactionItemAccountsRequirement extends
 							getMessages().pleaseEnterThe(
 									getItemName(transactionItem),
 									getConstants().taxCode()),
-							getClientCompany().getTAXCode(
-									transactionItem.getTaxCode()),
+							(ClientTAXCode) CommandUtils.getClientObjectById(
+									transactionItem.getTaxCode(),
+									AccounterCoreType.TAX_CODE),
 							getItemDisplayValue(transactionItem));
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
@@ -156,8 +157,10 @@ public abstract class TransactionItemAccountsRequirement extends
 								getMessages().pleaseEnterThe(
 										getItemName(transactionItem),
 										getConstants().taxCode()),
-								getClientCompany().getTAXCode(
-										transactionItem.getTaxCode()),
+								(ClientTAXCode) CommandUtils
+										.getClientObjectById(
+												transactionItem.getTaxCode(),
+												AccounterCoreType.TAX_CODE),
 								getItemDisplayValue(transactionItem));
 					}
 					context.removeAttribute(PROCESS_ATTR);
@@ -190,7 +193,9 @@ public abstract class TransactionItemAccountsRequirement extends
 			record = new Record(TAXCODE);
 			record.add("", getConstants().taxCode());
 			if (transactionItem.getTaxCode() != 0) {
-				ClientTAXCode code = getTAXCode(transactionItem.getTaxCode());
+				ClientTAXCode code = (ClientTAXCode) CommandUtils
+						.getClientObjectById(transactionItem.getTaxCode(),
+								AccounterCoreType.TAX_CODE);
 				if (code != null) {
 					record.add("", code.getName());
 				}
@@ -222,8 +227,9 @@ public abstract class TransactionItemAccountsRequirement extends
 		Result result = context.makeResult();
 		result.add(getMessages().details(Global.get().Account()));
 
-		ClientAccount account = CommandUtils.getClientCompany().getAccount(
-				transactionItem.getAccount());
+		ClientAccount account = (ClientAccount) CommandUtils
+				.getClientObjectById(transactionItem.getAccount(),
+						AccounterCoreType.ACCOUNT);
 
 		result.add(getMessages().payeeName(Global.get().Account()) + ": "
 				+ account.getName());

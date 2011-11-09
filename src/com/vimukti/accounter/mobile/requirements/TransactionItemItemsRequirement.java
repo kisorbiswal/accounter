@@ -198,8 +198,11 @@ public abstract class TransactionItemItemsRequirement extends
 			record = new Record(TAXCODE);
 			record.add("", getConstants().taxCode());
 			if (transactionItem.getTaxCode() != 0) {
-				record.add("", get().getTAXCode(transactionItem.getTaxCode())
-						.getName());
+				record.add(
+						"",
+						CommandUtils.getClientObjectById(
+								transactionItem.getAccount(),
+								AccounterCoreType.ACCOUNT).getName());
 			} else {
 				record.add("", "");
 			}
@@ -234,8 +237,9 @@ public abstract class TransactionItemItemsRequirement extends
 						* disc / 100)) : lt);
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
-			double salesTaxRate = getClientCompany().getTAXCode(
-					transactionItem.getTaxCode()).getSalesTaxRate();
+			double salesTaxRate = ((ClientTAXCode) CommandUtils
+					.getClientObjectById(transactionItem.getTaxCode(),
+							AccounterCoreType.TAX_CODE)).getSalesTaxRate();
 			transactionItem
 					.setVATfraction((transactionItem.getLineTotal() / 100)
 							* salesTaxRate);

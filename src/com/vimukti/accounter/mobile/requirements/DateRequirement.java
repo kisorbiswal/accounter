@@ -16,8 +16,8 @@ public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
 
 	@Override
 	protected String getDisplayValue(ClientFinanceDate value) {
-		SimpleDateFormat format = new SimpleDateFormat(getClientCompany()
-				.getPreferences().getDateFormat());
+		SimpleDateFormat format = new SimpleDateFormat(getPreferences()
+				.getDateFormat());
 		return format.format(value.getDateAsObject());
 	}
 

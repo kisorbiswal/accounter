@@ -362,8 +362,9 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		List<ClientTAXCode> clientTAXCodes = new ArrayList<ClientTAXCode>();
 		Set<TAXCode> taxCodes = context.getCompany().getTaxCodes();
 		for (TAXCode taxCode : taxCodes) {
-			if (taxCode.isActive())
-				clientTAXCodes.add(taxCode);
+			if (taxCode.isActive()) {
+				// clientTAXCodes.add(taxCode)
+			}
 		}
 		return clientTAXCodes;
 	}
