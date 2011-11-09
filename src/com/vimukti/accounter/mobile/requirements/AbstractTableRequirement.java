@@ -12,8 +12,8 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public abstract class AbstractTableRequirement<T extends IAccounterCore>
-		extends AbstractRequirement<T> {
+public abstract class AbstractTableRequirement<T> extends
+		AbstractRequirement<T> {
 	private static final String PROCESS_ATR = "processAttr";
 	private List<Requirement> requirements;
 	private boolean isCreatable;
