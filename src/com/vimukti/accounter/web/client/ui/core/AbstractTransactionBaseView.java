@@ -1762,5 +1762,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return lastTaxReturnDate;
 	}
+	
+
+	protected ClientCurrency getBaseCurrency() {
+		return getCompany().getCurrency(getCompany().getPreferences().getPrimaryCurrency());
+	}
+
+	protected ClientCurrency getCurrency(long currency) {
+		return getCompany().getCurrency(currency);
+	}
 
 }
