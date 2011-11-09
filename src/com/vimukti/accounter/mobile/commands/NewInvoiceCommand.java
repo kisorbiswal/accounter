@@ -295,60 +295,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		});
 	}
 
-	private void addSalesOrder(ClientSalesOrder cSalesOrder,
-			List<ClientTransactionItem> items) {
-		for (ClientTransactionItem item : cSalesOrder.getTransactionItems()) {
-			if (item.getLineTotal() - item.getInvoiced() <= 0) {
-				continue;
-			}
-			ClientTransactionItem clientItem = new ClientTransactionItem();
-			if (item.getLineTotal() != 0.0) {
-				clientItem.setDescription(item.getDescription());
-				clientItem.setType(item.getType());
-				clientItem.setAccount(item.getAccount());
-				clientItem.setItem(item.getItem());
-				clientItem.setVatItem(item.getVatItem());
-				clientItem.setVATfraction(item.getVATfraction());
-				clientItem.setTaxCode(item.getTaxCode());
-				clientItem.setDescription(item.getDescription());
-				clientItem.setQuantity(item.getQuantity());
-				clientItem.setUnitPrice(item.getUnitPrice());
-				clientItem.setDiscount(item.getDiscount());
-				clientItem.setLineTotal(item.getLineTotal()
-						- item.getInvoiced());
-				clientItem.setTaxable(item.isTaxable());
-				clientItem.setReferringTransactionItem(item.getID());
-				items.add(clientItem);
-			}
-		}
-
-	}
-
-	private void addEstimate(ClientEstimate cct,
-			List<ClientTransactionItem> items) {
-		for (ClientTransactionItem cst : cct.getTransactionItems()) {
-			ClientTransactionItem clientItem = new ClientTransactionItem();
-			if (cst.getLineTotal() != 0.0) {
-				clientItem.setDescription(cst.getDescription());
-				clientItem.setType(cst.getType());
-				clientItem.setAccount(cst.getAccount());
-				clientItem.setItem(cst.getItem());
-				clientItem.setVATfraction(cst.getVATfraction());
-				clientItem.setTaxCode(cst.getTaxCode());
-				clientItem.setDescription(cst.getDescription());
-				clientItem.setQuantity(cst.getQuantity());
-				clientItem.setUnitPrice(cst.getUnitPrice());
-				clientItem.setDiscount(cst.getDiscount());
-				clientItem.setLineTotal(cst.getLineTotal() - cst.getInvoiced());
-				clientItem.setTaxable(cst.isTaxable());
-				clientItem.setReferringTransactionItem(cst.getID());
-
-				items.add(clientItem);
-			}
-		}
-
-	}
-
 	private ClientEstimate getEstimate(long transactionId, Context context) {
 		ClientEstimate cEstimate = null;
 		try {
@@ -428,20 +374,27 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
 				.getValue();
-		ClientEstimate cct = null;
-		ClientSalesOrder cSalesOrder = null;
-		// if (e != null) {
-		// if (e.getType() == ClientTransaction.TYPE_ESTIMATE) {
-		// // invoice.setEstimate(e.getTransactionId());
-		// cct = getEstimate(e.getTransactionId(), context);
-		// addEstimate(cct, items);
-		// } else {
-		// // invoice.setSalesOrder(e.getTransactionId());
-		// cSalesOrder = getSalesOrder(e.getTransactionId(), context);
-		// addSalesOrder(cSalesOrder, items);
-		// }
-		// }
-
+		List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
+		List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
+		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
+			if (e != null) {
+				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
+					// invoice.setEstimate(e.getTransactionId());
+					ClientEstimate cct = getEstimate(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					estimates.add(cct);
+				} else {
+					// invoice.setSalesOrder(e.getTransactionId());
+					ClientSalesOrder cSalesOrder = getSalesOrder(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					salesOrders.add(cSalesOrder);
+				}
+			}
+		}
+		invoice.setEstimates(estimates);
+		invoice.setSalesOrders(salesOrders);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			invoice.setAmountsIncludeVAT(isVatInclusive);
