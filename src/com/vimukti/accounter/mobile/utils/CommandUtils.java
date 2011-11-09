@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -118,5 +119,17 @@ public class CommandUtils {
 			AccounterCoreType account) {
 		return (IAccounterServerCore) new FinanceTool().getManager()
 				.getServerObjectForid(account, id);
+	}
+
+	public static List<ClientTAXItem> getClientTaxItems(long companyId) {
+		try {
+			return new FinanceTool().getManager().getObjects(
+					AccounterCoreType.TAXITEM, companyId);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
