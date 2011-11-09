@@ -542,7 +542,9 @@ public class ClientInvoice extends ClientTransaction {
 
 	public List<ClientTransaction> getSalesAndEstimates() {
 		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
-		transactions.addAll(this.getEstimates());
+		if (getEstimates() != null) {
+			transactions.addAll(getEstimates());
+		}
 		for (ClientTransaction clientTransaction : this.getSalesOrders()) {
 			transactions.add(clientTransaction);
 		}
