@@ -68,8 +68,7 @@ public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
 				.currency(), true, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;

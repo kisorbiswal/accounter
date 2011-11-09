@@ -136,7 +136,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 		List<Estimate> data = null;
 		try {
 			data = new FinanceTool().getCustomerManager().getEstimates(
-					context.getClientCompany().getID(), 1);
+					context.getCompany().getID(), 1);
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

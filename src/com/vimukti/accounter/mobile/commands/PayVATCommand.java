@@ -88,7 +88,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -107,8 +107,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
@@ -118,10 +117,9 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
+					if (getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+									.equals(getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -175,7 +173,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientTransactionPayTAX> getList() {
-				return getTransactionPayVatBills(getClientCompany());
+				return getTransactionPayVatBills();
 			}
 		});
 	}
@@ -201,7 +199,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		payVAT.setDate(transactionDate.getDate());
 		payVAT.setNumber(orderNo);
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+		if (context.getPreferences().isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				payVAT.setCurrency(currency.getID());
@@ -216,12 +214,11 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	private List<ClientTransactionPayTAX> getTransactionPayVatBills(
-			ClientCompany clientCompany) {
+	private List<ClientTransactionPayTAX> getTransactionPayVatBills() {
 
 		List<ClientTransactionPayTAX> result = new ArrayList<ClientTransactionPayTAX>();
 		ArrayList<PayTAXEntries> payVATEntries = new FinanceTool()
-				.getTaxManager().getPayVATEntries(clientCompany.getID());
+				.getTaxManager().getPayVATEntries(getCompanyId());
 
 		for (PayTAXEntries payTAXEntrie : payVATEntries) {
 			ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();

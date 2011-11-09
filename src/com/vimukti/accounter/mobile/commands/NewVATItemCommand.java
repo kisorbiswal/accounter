@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -141,7 +142,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getVatReturnBoxes(context.getClientCompany());
+				return getVatReturnBoxes(context.getCompany());
 			}
 
 			@Override
@@ -165,12 +166,11 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		});
 	}
 
-	protected List<String> getVatReturnBoxes(ClientCompany clientCompany) {
-		List<ClientVATReturnBox> vatReturnBoxList = clientCompany
-				.getVatReturnBoxes();
+	protected List<String> getVatReturnBoxes(Company clientCompany) {
+		Set<VATReturnBox> vatReturnBoxList = clientCompany.getVatReturnBoxes();
 		List<String> vatReturnBoxListNames = new ArrayList<String>();
 		if (!vatReturnBoxListNames.isEmpty()) {
-			for (ClientVATReturnBox vatReturnBox : vatReturnBoxList) {
+			for (VATReturnBox vatReturnBox : vatReturnBoxList) {
 				vatReturnBoxListNames.add(vatReturnBox.getName());
 			}
 			return vatReturnBoxListNames;

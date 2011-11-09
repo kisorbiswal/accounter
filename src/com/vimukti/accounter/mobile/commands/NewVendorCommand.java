@@ -149,7 +149,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getCountry()
+				if (context.getCompany().getCountry()
 						.equals(CountryPreferenceFactory.UNITED_STATES)) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -323,8 +323,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isVatAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -413,7 +413,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 	protected Result onCompleteProcess(Context context) {
 
 		CompanyPreferences preferences = context.getCompany().getPreferences();
-		ICountryPreferences countryPreferences = context.getClientCompany()
+		ICountryPreferences countryPreferences = context.getCompany()
 				.getCountryPreferences();
 
 		ClientVendor vendor = new ClientVendor();

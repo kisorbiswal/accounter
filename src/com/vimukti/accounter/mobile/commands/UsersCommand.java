@@ -53,12 +53,13 @@ public class UsersCommand extends NewAbstractCommand {
 
 			@Override
 			protected boolean filter(ClientUserInfo e, String name) {
-				return e.getFirstName().equalsIgnoreCase(name) || e.getLastName().equalsIgnoreCase(name);
+				return e.getFirstName().equalsIgnoreCase(name)
+						|| e.getLastName().equalsIgnoreCase(name);
 			}
 
 			@Override
 			protected List<ClientUserInfo> getLists(Context context) {
-				return	getUsersList(context);
+				return getUsersList(context);
 			}
 		});
 	}

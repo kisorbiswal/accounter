@@ -63,7 +63,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -82,8 +82,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
@@ -93,10 +92,9 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
+					if (getPreferences().isEnableMultiCurrency()
 							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+									.equals(getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -780,7 +778,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				.getValue();
 		payment.setTransactionReceivePayment(list);
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+		if (context.getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				payment.setCurrency(currency.getID());

@@ -17,11 +17,15 @@ import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.company.options.ComapnyWebsiteOption;
 
 /**
  * 
@@ -119,8 +123,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						getConstants().currency(), false, true) {
 					@Override
 					protected String getDisplayValue(Double value) {
-						String primaryCurrency = getClientCompany()
-								.getPreferences().getPrimaryCurrency();
+						String primaryCurrency = getPreferences()
+								.getPrimaryCurrency();
 						Currency selc = get(CURRENCY).getValue();
 						return "1 " + selc.getFormalName() + " = " + value
 								+ " " + primaryCurrency;
@@ -194,7 +198,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected void setRequirementsDefaultValues(ClientEntry obj) {
 				get(ACCOUNT).setValue(
-						getClientCompany().getAccount(obj.getAccount()));
+						CommandUtils.getServerObjectById(obj.getAccount(),
+								AccounterCoreType.ACCOUNT));
 				get(MEMO).setDefaultValue(obj.getMemo());
 				get(DEBITS).setDefaultValue(obj.getDebit());
 				get(CREDITS).setDefaultValue(obj.getCredit());
@@ -208,8 +213,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected Record createFullRecord(ClientEntry t) {
 				Record record = new Record(t);
-				record.add(Global.get().Account(), getClientCompany()
-						.getAccount(t.getAccount()).getDisplayName());
+				record.add(Global.get().Account(),
+						((ClientAccount) CommandUtils.getClientObjectById(
+								t.getAccount(), AccounterCoreType.ACCOUNT))
+								.getDisplayName());
+
 				record.add(getConstants().memo(), t.getMemo());
 				record.add(getConstants().debit(), t.getDebit());
 				record.add(getConstants().credit(), t.getCredit());

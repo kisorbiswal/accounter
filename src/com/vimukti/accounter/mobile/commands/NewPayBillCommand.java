@@ -122,7 +122,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -141,8 +141,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
@@ -152,10 +151,9 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
+					if (getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+									.equals(getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -267,8 +265,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getClientCompany().getPreferences()
-						.isEnableMultiCurrency()) {
+				if (getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -291,20 +288,20 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected List<ClientTransactionPayBill> getList() {
 				return getTransactionPayBills((Vendor) NewPayBillCommand.this
-						.get(VENDOR).getValue(), getClientCompany());
+						.get(VENDOR).getValue());
 			}
 		});
 	}
 
 	private List<ClientTransactionPayBill> getTransactionPayBills(
-			Vendor clinetVendor, ClientCompany clientCompany) {
+			Vendor clinetVendor) {
 		if (records != null) {
 			return records;
 		}
 		try {
 			billsList = new FinanceTool().getVendorManager()
 					.getTransactionPayBills(clinetVendor.getID(),
-							clientCompany.getID());
+							clinetVendor.getCompany().getID());
 
 			if (billsList != null) {
 				records = new ArrayList<ClientTransactionPayBill>();
@@ -380,8 +377,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		ClientPayBill paybill = new ClientPayBill();
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
 		paybill.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
-		paybill.setAccountsPayable(context.getClientCompany()
-				.getAccountsPayableAccount());
+		paybill.setAccountsPayable(context.getCompany()
+				.getAccountsPayableAccount().getID());
 		Vendor vendor = get(VENDOR).getValue();
 		Account payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();

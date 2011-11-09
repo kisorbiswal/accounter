@@ -122,7 +122,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -141,8 +141,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
@@ -152,10 +151,9 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
+					if (getPreferences().isEnableMultiCurrency()
 							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+									.equals(getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -182,19 +180,18 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientTransactionReceiveVAT> getList() {
-				return getTransactionReceiveVatBills(getClientCompany());
+				return getTransactionReceiveVatBills();
 			}
 		});
 	}
 
-	private List<ClientTransactionReceiveVAT> getTransactionReceiveVatBills(
-			ClientCompany clientCompany) {
+	private List<ClientTransactionReceiveVAT> getTransactionReceiveVatBills() {
 
 		ArrayList<ClientReceiveVATEntries> clientEntries = new ArrayList<ClientReceiveVATEntries>();
 
 		FinanceTool tool = new FinanceTool();
 		List<ReceiveVATEntries> entries = tool.getTaxManager()
-				.getReceiveVATEntries(clientCompany.getID());
+				.getReceiveVATEntries(getCompanyId());
 		for (ReceiveVATEntries entry : entries) {
 			ClientReceiveVATEntries clientEntry = new ClientReceiveVATEntries();
 			// VATReturn vatReturn =(VATReturn) entry.getTransaction();
@@ -245,7 +242,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate transactionDate = get(DATE).getValue();
 		String orderNo = get(ORDER_NO).getValue();
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+		if (context.getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				receiveVAT.setCurrency(currency.getID());

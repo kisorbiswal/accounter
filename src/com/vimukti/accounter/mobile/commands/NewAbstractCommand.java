@@ -175,4 +175,8 @@ public abstract class NewAbstractCommand extends NewCommand {
 		clientAddress.setZipOrPostalCode(address.getZipOrPostalCode());
 		return clientAddress;
 	}
+
+	public long getCompanyId() {
+		return 0;
+	}
 }
