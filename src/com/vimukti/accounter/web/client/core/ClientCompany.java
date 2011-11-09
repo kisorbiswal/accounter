@@ -381,13 +381,6 @@ public class ClientCompany implements IAccounterCore {
 				return e.isActive();
 			}
 		}, this.taxItems);
-
-		// List<ClientTAXItem> activeTaxItems = new ArrayList<ClientTAXItem>();
-		// for (ClientTAXItem taxItem : taxItems) {
-		// if (taxItem.isActive())
-		// activeTaxItems.add(taxItem);
-		// }
-		// return activeTaxItems);
 	}
 
 	public ArrayList<ClientTAXItem> getTaxItems() {
