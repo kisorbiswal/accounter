@@ -958,7 +958,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		for (Estimate estimate : this.getEstimates()) {
-			if (estimate.getStatus() == Estimate.STATUS_ACCECPTED) {
+			if (estimate.getUsedInvoice() != null) {
 				throw new AccounterException(AccounterException.USED_IN_INVOICE);
 			}
 			session.delete(estimate);
