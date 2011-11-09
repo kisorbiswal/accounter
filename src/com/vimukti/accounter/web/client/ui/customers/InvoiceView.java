@@ -840,9 +840,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			//modifyForeignCurrencyTotalWidget();
 		}
 
-		if (getPreferences().isDelayedchargesEnabled()) {
-			getEstimatesAndSalesOrder();
-		}
+		getEstimatesAndSalesOrder();
+		
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
