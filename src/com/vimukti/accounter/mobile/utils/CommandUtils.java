@@ -2,33 +2,59 @@ package com.vimukti.accounter.mobile.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CommandUtils {
 
-	public static Vendor getVendorByName(String vendorName) {
-		// TODO Auto-generated method stub
+	public static Vendor getVendorByName(Company company, String vendorName) {
+		Set<Vendor> vendors = company.getVendors();
+		for (Vendor vendor : vendors) {
+			if (vendor.getName().equals(vendorName)) {
+				return vendor;
+			}
+		}
 		return null;
 	}
 
 	public static IAccounterCore getClientObjectById(long id,
-			AccounterCoreType taxitem) {
-		// TODO Auto-generated method stub
+			AccounterCoreType type, long companyId) {
+		try {
+			return new FinanceTool().getManager().getObjectById(type, id,
+					companyId);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
-	public static ClientItemGroup getItemGroupByName(String string) {
-		// TODO Auto-generated method stub
+	public static ClientItemGroup getItemGroupByName(Company company,
+			String string) {
+		Set<ItemGroup> itemGroups = company.getItemGroups();
+		for (ItemGroup itemGroup : itemGroups) {
+			if (itemGroup.getName().equals(string)) {
+				return (ClientItemGroup) getClientObjectById(itemGroup.getID(),
+						AccounterCoreType.ITEM_GROUP, company.getId());
+			}
+		}
 		return null;
 	}
 
@@ -58,13 +84,25 @@ public class CommandUtils {
 	}
 
 	public static ClientAccount getAccountByName(Company company, String string) {
-		// TODO Auto-generated method stub
+		Set<Account> accounts = company.getAccounts();
+		for (Account account : accounts) {
+			if (account.getName().equals(string)) {
+				return (ClientAccount) getClientObjectById(account.getID(),
+						AccounterCoreType.ACCOUNT, company.getId());
+			}
+		}
 		return null;
 	}
 
 	public static ClientAccount getAccountByNumber(Company company,
 			long numberFromString) {
-		// TODO Auto-generated method stub
+		Set<Account> accounts = company.getAccounts();
+		for (Account account : accounts) {
+			if (account.getNumber().equals(numberFromString)) {
+				return (ClientAccount) getClientObjectById(account.getID(),
+						AccounterCoreType.ACCOUNT, company.getId());
+			}
+		}
 		return null;
 	}
 
@@ -76,9 +114,9 @@ public class CommandUtils {
 		return paymentMethods;
 	}
 
-	public static Object getServerObjectById(long account,
-			AccounterCoreType account2) {
-		// TODO Auto-generated method stub
-		return null;
+	public static IAccounterServerCore getServerObjectById(long id,
+			AccounterCoreType account) {
+		return (IAccounterServerCore) new FinanceTool().getManager()
+				.getServerObjectForid(account, id);
 	}
 }
