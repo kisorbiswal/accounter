@@ -189,7 +189,7 @@ public class ItemView extends BaseView<ClientItem> {
 				.commodityCode());
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
-//		itemForm.setWidth("98%");
+		// itemForm.setWidth("98%");
 		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
 		itemForm.setGroupTitle(Accounter.constants().item());
@@ -199,7 +199,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (type == ClientItem.TYPE_SERVICE) {
 			lab1.setText(Accounter.constants().newService());
 			// if (getCompany().getAccountingType() == 1)
-//			itemForm.getCellFormatter().setWidth(0, 0, "42%");
+			// itemForm.getCellFormatter().setWidth(0, 0, "42%");
 			itemForm.setFields(nameText/* , isservice */);
 
 			// itemForm.setFields(nameText, /* isservice, */skuText);
@@ -207,7 +207,7 @@ public class ItemView extends BaseView<ClientItem> {
 			lab1.setText(Accounter.constants().newProduct());
 			// if (getCompany().getAccountingType() == 1)
 			itemForm.setFields(nameText, weightText);
-//			itemForm.getCellFormatter().setWidth(0, 0, "42%");
+			// itemForm.getCellFormatter().setWidth(0, 0, "42%");
 			// else
 			// itemForm.setFields(nameText, skuText, weightText);
 		}
@@ -219,10 +219,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().comments(),
-				Accounter.constants().salesDescription()));
+		salesDescArea.setToolTip(Accounter
+				.messages()
+				.writeCommentsForThis(this.getAction().getViewName())
+				.replace(Accounter.constants().comments(),
+						Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);
@@ -266,7 +267,7 @@ public class ItemView extends BaseView<ClientItem> {
 		comCheck = new CheckboxItem(Accounter.constants().commissionItem());
 
 		salesInfoForm = UIUtils.form(Accounter.constants().salesInformation());
-//		salesInfoForm.setWidth("98%");
+		// salesInfoForm.setWidth("98%");
 
 		stdCostText = new AmountField(Accounter.constants().standardCost(),
 				this);
@@ -305,12 +306,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-						selectTaxCode = selectItem;
-					}
-				});
+		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+			public void selectedComboBoxItem(ClientTAXCode selectItem) {
+				selectTaxCode = selectItem;
+			}
+		});
 		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
@@ -430,12 +430,12 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesInfoForm.setStyleName("align-form");
 		salesInfoForm.setStyleName("new_service_table");
-//		salesInfoForm.getCellFormatter().setWidth(0, 0, "42%");
-//		salesInfoForm.getCellFormatter().setWidth(3, 0, "25%");
+		// salesInfoForm.getCellFormatter().setWidth(0, 0, "42%");
+		// salesInfoForm.getCellFormatter().setWidth(3, 0, "25%");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(Accounter.constants().itemInformation());
-//		itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
-//		itemInfoForm.setWidth("97%");
+		// itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
+		// itemInfoForm.setWidth("97%");
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
@@ -446,17 +446,17 @@ public class ItemView extends BaseView<ClientItem> {
 				.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
-//		purchaseInfoForm.setWidth("97%");
+		// purchaseInfoForm.setWidth("97%");
 		purchaseInfoForm
 				.setFields(ibuyCheck, purchaseDescArea, purchasePriceTxt,
 						expAccCombo, prefVendorCombo, vendItemNumText);
-//		purchaseInfoForm.getCellFormatter().setWidth(0, 0, "47%");
+		// purchaseInfoForm.getCellFormatter().setWidth(0, 0, "47%");
 		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		VerticalPanel salesVPanel = new VerticalPanel();
 		salesVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		salesVPanel.setWidth("100%");
 		HorizontalPanel itemHPanel = new HorizontalPanel();
-//		itemHPanel.setWidth("90%");
+		// itemHPanel.setWidth("90%");
 
 		itemHPanel.setCellHorizontalAlignment(itemForm, ALIGN_RIGHT);
 		salesVPanel.setCellHorizontalAlignment(itemHPanel, ALIGN_RIGHT);
@@ -537,6 +537,18 @@ public class ItemView extends BaseView<ClientItem> {
 			// skuText.setValue(data.getUPCorSKU() != null ? data
 			// .getUPCorSKU() : "");
 
+			ClientAccount incomeAccount = getCompany().getAccount(
+					data.getIncomeAccount());
+			if (incomeAccount != null) {
+				accountCombo.setValue(incomeAccount);
+			}
+
+			ClientAccount expenseAccount = getCompany().getAccount(
+					data.getExpenseAccount());
+			if (expenseAccount != null) {
+				expAccCombo.setValue(expenseAccount);
+			}
+
 			weightText.setValue(String.valueOf(data.getWeight()));
 
 			isellCheck.setValue(data.isISellThisItem());
@@ -616,7 +628,7 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		listforms.add(stockForm);
 
-//		stockForm.setWidth("100%");
+		// stockForm.setWidth("100%");
 		stockPanel.setWidth("100%");
 		return stockPanel;
 
@@ -961,16 +973,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText, accounterConstants
-						.enterValidAmount());
+				result.addError(salesPriceText,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
-				result.addError(purchasePriceTxt, accounterConstants
-						.enterValidAmount());
+				result.addError(purchasePriceTxt,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
