@@ -53,7 +53,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	CREDIT_RATING("ClientCreditRating", "CreditRating"),
 
-	PAY_TAX("ClientPaySalesTax", "PaySalesTax"),
+	PAY_TAX("ClientPayTAX", "PayTAX"),
 
 	PAYMENT_METHOD, COMPANY("ClientCompany", "Company"),
 
