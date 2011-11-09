@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
@@ -70,6 +71,7 @@ import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.LocationCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
@@ -157,6 +159,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected String phoneNo;
 
 	protected SelectCombo paymentMethodCombo;
+
+	protected PaymentTermsCombo payTermsSelect;
+
+	protected ClientPaymentTerms paymentTerm;
 
 	// /**
 	// * // * The Transaction Grid meant to Serve in all Transactions //

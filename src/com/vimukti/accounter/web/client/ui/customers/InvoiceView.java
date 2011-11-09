@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -82,13 +81,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private ShippingTermsCombo shippingTermsCombo;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
-	private PaymentTermsCombo payTermsSelect;
 	private Double salesTax = 0.0D;
 	private CurrencyFactorWidget currencyWidget;
 	private boolean locationTrackingEnabled;
 	private DateField deliveryDate;
 	protected ClientSalesPerson salesPerson;
-	protected ClientPaymentTerms paymentTerm;
 	private AmountLabel netAmountLabel, vatTotalNonEditableText,
 			balanceDueNonEditableText, paymentsNonEditableText,
 			salesTaxTextNonEditable;
@@ -293,8 +290,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 
-//		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "40px");
+		// shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -314,7 +311,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setNumCols(3);
-//		custForm.setWidth("100%");
+		// custForm.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
 		
 
@@ -322,8 +319,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
-//		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "226px");
+		// custForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "226px");
 		custForm.setStyleName("align-form");
 
 		salesPersonCombo = createSalesPersonComboItem();
@@ -353,7 +350,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
-//		termsForm.setWidth("100%");
+		// termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
@@ -380,8 +377,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		termsForm.setStyleName("align-form");
 
-//		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "200px");
+		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "200px");
 		// multi
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
@@ -614,7 +611,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-		
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
@@ -747,8 +744,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					+ transactionsTree.getTotalTax());
 			vatTotalNonEditableText.setAmount(customerTransactionTable
 					.getTotalTax() + transactionsTree.getTotalTax());
-			netAmountLabel.setAmount(getAmountInTransactionCurrency(customerTransactionTable.getLineTotal()
-					+ transactionsTree.getLineTotal()));
+			netAmountLabel
+					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+							.getLineTotal() + transactionsTree.getLineTotal()));
 		}
 
 		setTransactionTotal(customerTransactionTable.getGrandTotal()
@@ -776,21 +774,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
 
-		if (this.paymentTerm != null && payTermsSelect != null)
-			payTermsSelect.setComboItem(this.paymentTerm);
-
 		if (this.salesPerson != null && salesPersonCombo != null)
 			salesPersonCombo.setComboItem(this.salesPerson);
 
-		for (ClientPaymentTerms paymentTerm : paymentTermsList) {
-			if (paymentTerm.getName().equals(
-					Accounter.constants().dueOnReceipt())) {
-				payTermsSelect.addItemThenfireEvent(paymentTerm);
-				break;
-			}
-		}
-		this.paymentTerm = payTermsSelect.getSelectedValue();
-		paymentTermsSelected(this.paymentTerm);
+		// for (ClientPaymentTerms paymentTerm : paymentTermsList) {
+		// if (paymentTerm.getName().equals(
+		// Accounter.constants().dueOnReceipt())) {
+		// payTermsSelect.addItemThenfireEvent(paymentTerm);
+		// break;
+		// }
+		// }
 
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(customer);
@@ -838,11 +831,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					customer.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
-			//modifyForeignCurrencyTotalWidget();
+			// modifyForeignCurrencyTotalWidget();
 		}
 
 		getEstimatesAndSalesOrder();
-		
+
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -1022,8 +1015,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		initDueDate();
 		initPayments();
 		initBalanceDue();
-	
-		if(isMultiCurrencyEnabled()){
+
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}

@@ -271,11 +271,17 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		paymentMethodSelected(customer.getPaymentMethod());
 
+		paymentTermsSelected(getCompany().getPaymentTerms(
+				customer.getPaymentTerm()));
+
 		if (this.shippingMethod != null && shippingMethodsCombo != null)
 			shippingMethodsCombo.setComboItem(this.shippingMethod);
 
 		if (this.paymentMethod != null && paymentMethodCombo != null)
 			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
+
+		if (this.paymentTerm != null && payTermsSelect != null)
+			payTermsSelect.setComboItem(this.paymentTerm);
 		// if (transactionObject == null)
 		initAddressAndContacts();
 		if (isTrackTax()) {
