@@ -26,4 +26,10 @@ public class CommandUtils {
 		return null;
 	}
 
+	public static Object getServerObjectById(long account,
+			AccounterCoreType account2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
