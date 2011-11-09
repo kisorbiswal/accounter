@@ -324,8 +324,6 @@ public class CreditsandPaymentsGrid extends
 	protected Object getColumnValue(
 			ClientCreditsAndPayments creditsAndPayments, int index) {
 
-		ClientCurrency currency = getCompany().getCurrency(
-				creditsAndPayments.getTransaction().getCurrency());
 		switch (index) {
 		case 0:
 			return UIUtils.dateFormat(creditsAndPayments.getTransaction()
