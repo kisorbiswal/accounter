@@ -23,6 +23,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	private AccounterConstants constants;
 	private AccounterMessages messages;
 	private ClientCompanyPreferences preferences;
+	private long companyId;
 
 	public AbstractRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
@@ -50,6 +51,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public Result process(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
 		preferences = context.getPreferences();
+		companyId = context.getCompany().getId();
 		return run(context, makeResult, list, actions);
 	}
 
@@ -76,5 +78,9 @@ public abstract class AbstractRequirement<T> extends Requirement {
 
 	protected AccounterMessages getMessages() {
 		return messages;
+	}
+
+	protected long companyId() {
+		return companyId;
 	}
 }
