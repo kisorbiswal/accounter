@@ -82,10 +82,11 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getPreferences().getPrimaryCurrency();
+				ClientCurrency primaryCurrency = getPreferences()
+						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency;
+						+ primaryCurrency.getFormalName();
 			}
 
 			@Override

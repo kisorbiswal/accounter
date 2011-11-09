@@ -31,6 +31,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -88,10 +89,11 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getPreferences().getPrimaryCurrency();
+				ClientCurrency primaryCurrency = getPreferences()
+						.getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency;
+						+ primaryCurrency.getFormalName();
 			}
 
 			@Override

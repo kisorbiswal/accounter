@@ -36,6 +36,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -156,10 +157,11 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getPreferences().getPrimaryCurrency();
+				ClientCurrency primaryCurrency = getPreferences()
+						.getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency;
+						+ primaryCurrency.getFormalName();
 			}
 
 			@Override

@@ -35,6 +35,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
@@ -119,10 +120,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getPreferences().getPrimaryCurrency();
+				ClientCurrency primaryCurrency = getPreferences()
+						.getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency;
+						+ primaryCurrency.getFormalName();
 			}
 
 			@Override

@@ -21,6 +21,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -122,11 +123,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						getConstants().currency(), false, true) {
 					@Override
 					protected String getDisplayValue(Double value) {
-						String primaryCurrency = getPreferences()
+						ClientCurrency primaryCurrency = getPreferences()
 								.getPrimaryCurrency();
 						Currency selc = get(CURRENCY).getValue();
 						return "1 " + selc.getFormalName() + " = " + value
-								+ " " + primaryCurrency;
+								+ " " + primaryCurrency.getFormalName();
 					}
 
 					@Override
@@ -215,8 +216,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				record.add(Global.get().Account(),
 						((ClientAccount) CommandUtils.getClientObjectById(
 								t.getAccount(), AccounterCoreType.ACCOUNT,
-								getCompanyId()))
-								.getDisplayName());
+								getCompanyId())).getDisplayName());
 
 				record.add(getConstants().memo(), t.getMemo());
 				record.add(getConstants().debit(), t.getDebit());
