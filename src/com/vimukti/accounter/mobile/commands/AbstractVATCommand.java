@@ -2,7 +2,10 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -11,10 +14,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public abstract class AbstractVATCommand extends AbstractCommand {
 
@@ -42,13 +42,13 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			String requirementName) {
 
 		Requirement taxAgencyReq = get(requirementName);
-		ClientTAXAgency taxAgency = context.getSelection(TAX_AGENCIES);
+		TAXAgency taxAgency = context.getSelection(TAX_AGENCIES);
 
 		if (taxAgency != null) {
 			taxAgencyReq.setValue(taxAgency);
 			context.setAttribute(INPUT_ATTR, "default");
 		}
-		ClientTAXAgency value = taxAgencyReq.getValue();
+		TAXAgency value = taxAgencyReq.getValue();
 		Object selection = context.getSelection("values");
 		if (!taxAgencyReq.isDone() || (value == selection)) {
 			return getTaxAgencyResult(context);
@@ -71,21 +71,21 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		ResultList taxAgenciesList = new ResultList(TAX_AGENCIES);
 
 		Object last = context.getLast(RequirementType.TAXAGENCY);
-		List<ClientTAXAgency> skipTaxAgency = new ArrayList<ClientTAXAgency>();
+		List<TAXAgency> skipTaxAgency = new ArrayList<TAXAgency>();
 		if (last != null) {
-			taxAgenciesList.add(createTaxAgencyRecord((ClientTAXAgency) last));
-			skipTaxAgency.add((ClientTAXAgency) last);
+			taxAgenciesList.add(createTaxAgencyRecord((TAXAgency) last));
+			skipTaxAgency.add((TAXAgency) last);
 		}
 
-		List<ClientTAXAgency> taxAgencies = getTaxAgencies(context);
+		List<TAXAgency> taxAgencies = getTaxAgencies(context);
 
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
 
-		List<ClientTAXAgency> pagination = pagination(context, selection,
-				actions, taxAgencies, skipTaxAgency, VALUES_TO_SHOW);
+		List<TAXAgency> pagination = pagination(context, selection, actions,
+				taxAgencies, skipTaxAgency, VALUES_TO_SHOW);
 
-		for (ClientTAXAgency taxagencies : pagination) {
+		for (TAXAgency taxagencies : pagination) {
 			taxAgenciesList.add(createTaxAgencyRecord(taxagencies));
 		}
 
@@ -106,13 +106,12 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<ClientTAXAgency> getTaxAgencies(Context contex) {
-		ArrayList<ClientTAXAgency> taxAgencies = contex.getClientCompany()
-				.getTaxAgencies();
-		return new ArrayList<ClientTAXAgency>(taxAgencies);
+	protected List<TAXAgency> getTaxAgencies(Context contex) {
+		Set<TAXAgency> taxAgencies = contex.getCompany().getTaxAgencies();
+		return new ArrayList<TAXAgency>(taxAgencies);
 	}
 
-	protected Record createTaxAgencyRecord(ClientTAXAgency taxAgency) {
+	protected Record createTaxAgencyRecord(TAXAgency taxAgency) {
 		Record record = new Record(taxAgency);
 		record.add("Name", taxAgency.getName());
 		return record;
@@ -120,16 +119,16 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 
 	protected Result taxItemRequirement(Context context, ResultList list,
 			String requirementName, String displayString, String name,
-			ListFilter<ClientTAXItem> filter) {
+			ListFilter<TAXItem> filter) {
 		Requirement taxItemReq = get(requirementName);
-		ClientTAXItem taxItem = context.getSelection(requirementName);
+		TAXItem taxItem = context.getSelection(requirementName);
 
 		if (taxItem != null) {
 			taxItemReq.setValue(taxItem);
 			context.setAttribute(INPUT_ATTR, "default");
 		}
 
-		ClientTAXItem value = taxItemReq.getValue();
+		TAXItem value = taxItemReq.getValue();
 		Object selection = context.getSelection("values");
 
 		if (!taxItemReq.isDone() || (requirementName == selection)) {
@@ -146,29 +145,33 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	}
 
 	protected Result getTaxItemResult(Context context, String displayString,
-			ListFilter<ClientTAXItem> filter, String requirementName) {
+			ListFilter<TAXItem> filter, String requirementName) {
 
 		Result result = context.makeResult();
 		ResultList taxItemsList = new ResultList(requirementName);
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 
-		List<ClientTAXItem> skipTAXItem = new ArrayList<ClientTAXItem>();
+		List<TAXItem> skipTAXItem = new ArrayList<TAXItem>();
 		if (last != null) {
-			taxItemsList.add(createTaxItemRecord((ClientTAXItem) last));
-			skipTAXItem.add((ClientTAXItem) last);
+			taxItemsList.add(createTaxItemRecord((TAXItem) last));
+			skipTAXItem.add((TAXItem) last);
 
 		}
-		List<ClientTAXItem> taxAgencies = Utility.filteredList(filter,
-				getClientCompany().getTaxItems());
+		List<TAXItem> taxAgencies = new ArrayList<TAXItem>();
+		for (TAXItem obj : context.getCompany().getTaxItems()) {
+			if (filter.filter(obj)) {
+				taxAgencies.add(obj);
+			}
+		}
 
 		ResultList actions = new ResultList("actions");
 		ActionNames selection = context.getSelection("actions");
 
-		List<ClientTAXItem> pagination = pagination(context, selection,
-				actions, taxAgencies, skipTAXItem, VALUES_TO_SHOW);
+		List<TAXItem> pagination = pagination(context, selection, actions,
+				taxAgencies, skipTAXItem, VALUES_TO_SHOW);
 
-		for (ClientTAXItem taxagencies : pagination) {
+		for (TAXItem taxagencies : pagination) {
 			taxItemsList.add(createTaxItemRecord(taxagencies));
 		}
 
@@ -188,12 +191,12 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<ClientTAXItem> getTaxItems() {
-		ArrayList<ClientTAXItem> taxItems = getClientCompany().getTaxItems();
-		return new ArrayList<ClientTAXItem>(taxItems);
+	protected List<TAXItem> getTaxItems(Context context) {
+		Set<TAXItem> taxItems = context.getCompany().getTaxItems();
+		return new ArrayList<TAXItem>(taxItems);
 	}
 
-	protected Record createTaxItemRecord(ClientTAXItem taxItem) {
+	protected Record createTaxItemRecord(TAXItem taxItem) {
 		Record record = new Record(taxItem);
 		record.add("Name", taxItem.getName());
 		return record;
