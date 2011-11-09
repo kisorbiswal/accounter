@@ -57,8 +57,8 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	public TAXCode(TAXItemGroup taxItemGroup) {
 		this(taxItemGroup.getCompany());
-		this.name = taxItemGroup.name;
-		this.description = taxItemGroup.description;
+		this.name = taxItemGroup.getName();
+		this.description = taxItemGroup.getDescription();
 		this.isActive = taxItemGroup.isActive;
 		this.TAXItemGrpForSales = taxItemGroup;
 		this.isTaxable = true;

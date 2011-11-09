@@ -82,36 +82,6 @@ public class TAXItem extends TAXItemGroup {
 	}
 
 	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
 	 * @return the vatAgency
 	 */
 	public TAXAgency getTaxAgency() {
@@ -248,7 +218,7 @@ public class TAXItem extends TAXItemGroup {
 
 	@Override
 	public String toString() {
-		return this.name;
+		return this.getName();
 	}
 
 }
