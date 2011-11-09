@@ -517,8 +517,8 @@ public abstract class TransactionPayBillTable extends
 										.get(i);
 								selectdCredit.setAmtTouse(tmpCr
 										.getAmountToUse());
-								selectdCredit.setBalance(tmpCr
-										.getRemainingBalance());
+								selectdCredit.setBalance(selectdCredit
+										.getRemaoningBalance());
 							}
 						} else {// END of appliedCredits.containsKey(i)
 
@@ -583,8 +583,6 @@ public abstract class TransactionPayBillTable extends
 						}
 					}
 				}
-				initCreditsAndPayments(vendor);
-				initCreditsDialogInstance(selectedObject);
 				getCreditsAndPaymentsDialiog().setUpdatedCreditsAndPayments(
 						updatedCustomerCreditsAndPayments);
 				getCreditsAndPaymentsDialiog().setCanEdit(canEdit);
@@ -608,8 +606,8 @@ public abstract class TransactionPayBillTable extends
 
 						@Override
 						public boolean onOK() {
-							List<ClientCreditsAndPayments> appliedCreditsForThisRec = getCreditsAndPaymentsDialiog().grid
-									.getSelectedRecords();
+							List<ClientCreditsAndPayments> appliedCreditsForThisRec = getCreditsAndPaymentsDialiog()
+									.getAppliedCredits();
 							Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
 							TempCredit creditRec = null;
 
@@ -921,7 +919,7 @@ public abstract class TransactionPayBillTable extends
 		}
 		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
 			crdt.setBalance(crdt.getActualAmt());
-			crdt.setRemaoningBalance(0);
+			crdt.setRemaoningBalance(crdt.getBalance());
 			crdt.setAmtTouse(0);
 		}
 		for (ClientTransactionPayBill obj : this.getAllRows()) {

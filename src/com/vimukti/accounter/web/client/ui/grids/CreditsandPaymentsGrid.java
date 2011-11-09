@@ -106,6 +106,7 @@ public class CreditsandPaymentsGrid extends
 		// : creditPayments.getAmtTouse());
 		creditPayments.setBalance(creditPayments.getBalance()
 				+ creditPayments.getAmtTouse());
+		creditPayments.setRemaoningBalance(creditPayments.getBalance());
 		creditPayments.setAmtTouse(0.0D);
 		updateData(creditPayments);
 		updateAmountValues();
@@ -134,8 +135,8 @@ public class CreditsandPaymentsGrid extends
 
 	@Override
 	protected void onClick(ClientCreditsAndPayments obj, int row, int index) {
-		if (index != 4)
-			selectRow(row);
+		// if (index != 4)
+		// selectRow(row);
 		super.onClick(obj, row, index);
 	}
 
@@ -147,31 +148,18 @@ public class CreditsandPaymentsGrid extends
 	@Override
 	public void selectRow(int row) {
 		if (isCanEdit) {
-			/*
-			 * CheckBox box = (CheckBox) this.getWidget(row, 0); if
-			 * (box.getValue()) { return; } else {
-			 */
-			if (currentCol == 4 /* && box.getValue() */)
+			if (currentCol == 4) {
 				startEditing(row);
+			}
 		}
-		// }
-		// super.selectRow(row);
 	}
 
 	@Override
 	protected boolean isEditable(ClientCreditsAndPayments obj, int row,
 			int index) {
-		// if (isCanEdit) {
-		// // CheckBox box = (CheckBox) this.getWidget(row, 0);
-		// // if (box.getValue()) {
-		// if (Arrays.asList(0, 1, 2, 3).contains(index))
-		// return false;
-		// return true;
-		// // }
-		// // return false;
-		// } else {
-		// return false;
-		// }
+		if (index == 4) {
+			return true;
+		}
 		return false;
 	}
 
@@ -192,7 +180,8 @@ public class CreditsandPaymentsGrid extends
 			ClientCreditsAndPayments editingRecord = item;
 
 			try {
-
+				double prevAmtToUse = item.getAmtTouse();
+				double prevBalance = item.getBalance();
 				Double amtTouse = Double.parseDouble(DataUtils
 						.getReformatedAmount(value.toString()) + "");
 				// ClientCreditsAndPayments actualRecord = actualRecords
@@ -212,11 +201,7 @@ public class CreditsandPaymentsGrid extends
 					setText(indexOf(item), 4,
 							amountAsString(item.getAmtTouse(), currency));
 				} else {
-					if (DecimalUtil.isLessThan(amtTouse,
-							item.getRemaoningBalance())
-							&& !DecimalUtil.isGreaterThan(amtTouse,
-									item.getActualAmt())
-							&& DecimalUtil.isGreaterThan(amtTouse, balance)) {
+					if (DecimalUtil.isLessThan(balance, 0)) {
 						Accounter.showError(Accounter.constants()
 								.receivedPaymentAppliedCreditsAmount());
 						setText(indexOf(item), 4,
@@ -228,8 +213,15 @@ public class CreditsandPaymentsGrid extends
 						editingRecord.setRemaoningBalance(balance);
 						editingRecord.setRecordChanged(true);
 
-						updateData(editingRecord);
 						updateAmountValues();
+						if (!newdialog.validTotalAmountUse()) {
+							Accounter.showError(Accounter.constants()
+									.amountToUseMustLessthanTotal());
+							editingRecord.setAmtTouse(prevAmtToUse);
+							editingRecord.setBalance(prevBalance);
+							editingRecord.setRemaoningBalance(prevBalance);
+						}
+						updateData(editingRecord);
 					}
 
 				}
@@ -256,6 +248,7 @@ public class CreditsandPaymentsGrid extends
 			ClientCreditsAndPayments r = new ClientCreditsAndPayments();
 			r.setAmtTouse(rec.getAmtTouse());
 			r.setBalance(rec.getBalance());
+			r.setRemaoningBalance(rec.getBalance());
 			r.setCreditAmount(rec.getCreditAmount());
 			r.setMemo(rec.getMemo() != null ? rec.getMemo() : "");
 			r.setPayee(rec.getPayee());

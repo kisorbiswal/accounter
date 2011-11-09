@@ -335,7 +335,7 @@ public abstract class TransactionReceivePaymentTable extends
 			@Override
 			protected void setAmount(ClientTransactionReceivePayment item,
 					double value) {
-				if(isInViewMode()) {
+				if (isInViewMode()) {
 					return;
 				}
 				double amt, originalPayment;
@@ -519,8 +519,8 @@ public abstract class TransactionReceivePaymentTable extends
 							TempCredit tmpCr = (TempCredit) appliedCredits
 									.get(i);
 							selectdCredit.setAmtTouse(tmpCr.getAmountToUse());
-							selectdCredit.setBalance(tmpCr
-									.getRemainingBalance());
+							selectdCredit.setBalance(selectdCredit
+									.getRemaoningBalance());
 						} else {
 							ClientCreditsAndPayments unSelectdCredit = updatedCustomerCreditsAndPayments
 									.get(i);
@@ -555,6 +555,7 @@ public abstract class TransactionReceivePaymentTable extends
 							ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
 									.get(indx.intValue());
 							rec.setBalance(tempCrt.getRemainingBalance());
+							rec.setRemaoningBalance(rec.getBalance());
 							rec.setAmtTouse(0);
 						}
 					}
@@ -794,7 +795,7 @@ public abstract class TransactionReceivePaymentTable extends
 	private void resetValues() {
 		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
 			crdt.setBalance(crdt.getActualAmt());
-			crdt.setRemaoningBalance(0);
+			crdt.setRemaoningBalance(crdt.getBalance());
 			crdt.setAmtTouse(0);
 		}
 		for (ClientTransactionReceivePayment obj : this.getRecords()) {

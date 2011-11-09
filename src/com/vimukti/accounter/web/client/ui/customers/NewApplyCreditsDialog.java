@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -23,6 +24,7 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CreditsandPaymentsGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -159,6 +161,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 
 	public void setRecord(ClientTransactionPayBill record) {
 		this.transactionPaybill = record;
+		getInitialAmountUse();
 	}
 
 	public void setVendor(ClientVendor vendor) {
@@ -329,9 +332,12 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			totAmtUseText.setAmount(currencyProvider
 					.getAmountInTransactionCurrency(appliedCredits));
 		}
+		totalAmountToUse = currencyProvider
+				.getAmountInBaseCurrency(totAmtUseText.getAmount());
 		amtDueText.setAmount(currencyProvider
 				.getAmountInTransactionCurrency(amountDue));
-		if (!updatedCreditsAndPayments.isEmpty()) {
+		if (!updatedCreditsAndPayments.isEmpty()
+				&& DecimalUtil.isEquals(appliedCredits, 0)) {
 			checkTotalAmount(false);
 		}
 	}
@@ -359,6 +365,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 					}
 					credit.setBalance(credit.getBalance()
 							- credit.getAmtTouse());
+					credit.setRemaoningBalance(credit.getBalance());
 					grid.updateData(credit);
 					grid.updateAmountValues();
 				}
@@ -408,6 +415,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 					totalAmount = 0;
 				}
 				credit.setBalance(credit.getBalance() - credit.getAmtTouse());
+				credit.setRemaoningBalance(credit.getBalance());
 				grid.updateData(credit);
 				grid.updateAmountValues();
 			}
@@ -457,6 +465,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 					ClientCreditsAndPayments crdPayment = grid
 							.getRecordByIndex(indx);
 					crdPayment.setBalance(crdPayment.getActualAmt());
+					crdPayment.setRemaoningBalance(crdPayment.getBalance());
 					crdPayment
 							.setAmtTouse(((TransactionPayBillTable.TempCredit) trPayBill
 									.getTempCredits().get(indx))
@@ -491,6 +500,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 				ClientCreditsAndPayments crdPayment = grid.getRecords().get(
 						indx);
 				crdPayment.setBalance(crdPayment.getActualAmt());
+				crdPayment.setRemaoningBalance(crdPayment.getBalance());
 				crdPayment
 						.setAmtTouse(((TransactionReceivePaymentTable.TempCredit) (rcvPaymnt
 								.getTempCredits().get(indx))).getAmountToUse());
@@ -541,7 +551,46 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 
 	@Override
 	protected boolean onCancel() {
-		resetRecords();
+		if (record != null && record.isCreditsApplied()) {
+			Map<Integer, Object> appliedCredits = record.getTempCredits();
+			int size = updatedCreditsAndPayments.size();
+			for (int i = 0; i < size; i++) {
+				if (appliedCredits.containsKey(i)) {
+					ClientCreditsAndPayments selectdCredit = updatedCreditsAndPayments
+							.get(i);
+					TempCredit tmpCr = (TempCredit) appliedCredits.get(i);
+					selectdCredit.setBalance(selectdCredit.getBalance()
+							+ (selectdCredit.getAmtTouse() - tmpCr
+									.getAmountToUse()));
+				} else {
+					ClientCreditsAndPayments unSelectdCredit = updatedCreditsAndPayments
+							.get(i);
+					unSelectdCredit.setAmtTouse(0);
+				}
+			}
+		} else if (transactionPaybill != null
+				&& transactionPaybill.isCreditsApplied()) {
+			Map<Integer, Object> appliedCredits = transactionPaybill
+					.getTempCredits();
+			int size = updatedCreditsAndPayments.size();
+			for (int i = 0; i < size; i++) {
+				if (appliedCredits.containsKey(i)) {
+					ClientCreditsAndPayments selectdCredit = updatedCreditsAndPayments
+							.get(i);
+					com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable.TempCredit tmpCr = (com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable.TempCredit) appliedCredits
+							.get(i);
+					selectdCredit.setBalance(selectdCredit.getBalance()
+							+ (selectdCredit.getAmtTouse() - tmpCr
+									.getAmountToUse()));
+				} else {
+					ClientCreditsAndPayments unSelectdCredit = updatedCreditsAndPayments
+							.get(i);
+					unSelectdCredit.setAmtTouse(0);
+				}
+			}
+		} else {
+			resetRecords();
+		}
 		return super.onCancel();
 	}
 
@@ -549,5 +598,15 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean validTotalAmountUse() {
+		if (DecimalUtil.isGreaterThan(totalAmountToUse, amountDue)) {
+			return false;
+		} else {
+			totAmtUseText.setAmount(currencyProvider
+					.getAmountInTransactionCurrency(totalAmountToUse));
+		}
+		return true;
 	}
 }
