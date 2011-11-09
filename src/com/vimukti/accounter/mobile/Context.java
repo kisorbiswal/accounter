@@ -16,6 +16,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class Context {
@@ -340,5 +341,9 @@ public class Context {
 
 	public void removeSelection(Object selection) {
 		selectedRecords.remove(selection);
+	}
+
+	public ClientCompanyPreferences getPreferences() {
+		return null;
 	}
 }
