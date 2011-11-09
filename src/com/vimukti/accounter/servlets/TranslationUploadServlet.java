@@ -5,12 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.translate.LocalMessage;
 import com.vimukti.accounter.web.server.translate.Message;
 
 public class TranslationUploadServlet extends BaseServlet {
@@ -72,7 +74,12 @@ public class TranslationUploadServlet extends BaseServlet {
 				} else {// NO
 					// Copy All Local Messages from old message to this message
 					// and save
-					message.setLocalMessages(oldMessage.getLocalMessages());
+					Set<LocalMessage> localMessages = oldMessage
+							.getLocalMessages();
+					for (LocalMessage localMessage : localMessages) {
+						localMessage.setMessage(message);
+					}
+					message.setLocalMessages(localMessages);
 				}
 			} else {// NO
 				oldMessage = getMessageByKey(key);
@@ -83,7 +90,7 @@ public class TranslationUploadServlet extends BaseServlet {
 						// Rename old key to a random key
 						// and mark in use =false
 						// insert new message
-						oldMessage.setKey(key);
+						oldMessage.setKey(key + value);
 						oldMessage.setNotUsed(true);
 
 					} else {// NO
