@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
@@ -50,8 +51,9 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXAgency> getLists(Context context) {
-				return context.getClientCompany().gettaxAgencies();
+			protected List<TAXAgency> getLists(Context context) {
+				return new ArrayList<TAXAgency>(context.getCompany()
+						.getTaxAgencies());
 			}
 
 			@Override
@@ -60,7 +62,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientTAXAgency e, String name) {
+			protected boolean filter(TAXAgency e, String name) {
 				return e.getName().toLowerCase().startsWith(name);
 			}
 		});
@@ -79,8 +81,9 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -92,7 +95,8 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -101,15 +105,14 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
@@ -178,7 +181,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 					new FinanceTool().getTaxManager().getVATReturnDetails(
 							serverVatAgency, new FinanceDate(fromDate),
 							new FinanceDate(toDate),
-							context.getClientCompany().getID()),
+							context.getCompany().getID()),
 					ClientTAXReturn.class);
 			return vatReturn.getBoxes();
 		} catch (Exception e) {
@@ -203,8 +206,6 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		List<ClientBox> boxes = get(BOXES).getValue();
 		clientVATReturn.setBoxes(boxes);
 
-		
-		
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -214,9 +215,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			clientVATReturn.setCurrencyFactor(factor);
 		}
-		
-		
-		
+
 		create(clientVATReturn, context);
 
 		return null;

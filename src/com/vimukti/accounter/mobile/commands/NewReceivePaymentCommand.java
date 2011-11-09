@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -18,7 +21,6 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.ReceivePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -27,7 +29,6 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -51,8 +52,9 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				.Customer(), false, true, null) {
 
 			@Override
-			protected List<ClientCustomer> getLists(Context context) {
-				return context.getClientCompany().getCustomers();
+			protected List<Customer> getLists(Context context) {
+				return new ArrayList<Customer>(context.getCompany()
+						.getCustomers());
 			}
 		});
 
@@ -70,8 +72,9 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -83,7 +86,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -92,17 +96,16 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
+				}
+				return null;
 			}
 		});
 
-		
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), getMessages()
 				.depositAccount(Global.get().Account()), false, true, null) {
@@ -114,20 +117,27 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getLists(final Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount acc) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_CREDIT_CARD,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-								ClientAccount.TYPE_FIXED_ASSET).contains(
-								acc.getType())
-								&& acc.getID() != getClientCompany()
-										.getAccountsReceivableAccountId();
+						@Override
+						public boolean filter(Account e) {
+							return Arrays.asList(Account.TYPE_BANK,
+									Account.TYPE_CREDIT_CARD,
+									Account.TYPE_OTHER_CURRENT_ASSET,
+									Account.TYPE_FIXED_ASSET).contains(
+									e.getType())
+									&& e.getID() != context.getCompany()
+											.getAccountsReceivableAccount()
+											.getID();
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, context.getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -241,14 +251,14 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 	// }
 	// result = accountRequirement(context, list, DEPOSITSANDTRANSFERS,
 	// getConstants().depositTransferFunds(),
-	// new ListFilter<ClientAccount>() {
+	// new ListFilter<Account>() {
 	//
 	// @Override
-	// public boolean filter(ClientAccount acc) {
-	// return Arrays.asList(ClientAccount.TYPE_BANK,
-	// ClientAccount.TYPE_CREDIT_CARD,
-	// ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-	// ClientAccount.TYPE_FIXED_ASSET).contains(
+	// public boolean filter(Account acc) {
+	// return Arrays.asList(Account.TYPE_BANK,
+	// Account.TYPE_CREDIT_CARD,
+	// Account.TYPE_OTHER_CURRENT_ASSET,
+	// Account.TYPE_FIXED_ASSET).contains(
 	// acc.getType())
 	// && acc.getID() != getClientCompany()
 	// .getAccountsReceivableAccountId();
@@ -322,8 +332,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		String receivePaymentNum = get(NUMBER).getValue();
 		payment.setNumber(receivePaymentNum);
 
-		ClientAccount account = get(DEPOSITSANDTRANSFERS).getValue();
-		payment.setDepositIn(account);
+		Account account = get(DEPOSITSANDTRANSFERS).getValue();
+		payment.setDepositIn(account.getID());
 		List<ClientTransactionReceivePayment> list = get(TRANSACTIONS)
 				.getValue();
 		payment.setTransactionReceivePayment(list);
@@ -766,8 +776,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		String receivePaymentNum = get(NUMBER).getValue();
 		payment.setNumber(receivePaymentNum);
 
-		ClientAccount account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
-		payment.setDepositIn(account);
+		Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
+		payment.setDepositIn(account.getID());
 		List<ClientTransactionReceivePayment> list = get(TRANSACTIONS)
 				.getValue();
 		payment.setTransactionReceivePayment(list);

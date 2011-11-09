@@ -3,6 +3,8 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -22,7 +24,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PayVATCommand extends NewAbstractTransactionCommand {
@@ -49,19 +50,24 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_BANK
-								|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == ClientAccount.TYPE_BANK
+									|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -71,7 +77,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().contains(name);
 
 			}
@@ -91,8 +97,9 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -104,7 +111,8 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -113,15 +121,14 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
@@ -195,7 +202,6 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		payVAT.setDate(transactionDate.getDate());
 		payVAT.setNumber(orderNo);
 
-		
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -205,8 +211,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			payVAT.setCurrencyFactor(factor);
 		}
-		
-		
+
 		create(payVAT, context);
 
 		return null;

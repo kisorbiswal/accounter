@@ -1,9 +1,13 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -25,9 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 /**
  * 
@@ -60,10 +62,10 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_VENDOR_PAYMENT, context
-								.getCompany()));
-get(CURRENCY_FACTOR).setDefaultValue(1.0);
-get(CURRENCY).setDefaultValue(null);
+						ClientTransaction.TYPE_VENDOR_PAYMENT,
+						context.getCompany()));
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		get(CURRENCY).setDefaultValue(null);
 	}
 
 	@Override
@@ -93,8 +95,8 @@ get(CURRENCY).setDefaultValue(null);
 			}
 
 			@Override
-			protected List<ClientVendor> getLists(Context context) {
-				return context.getClientCompany().getVendors();
+			protected List<Vendor> getLists(Context context) {
+				return new ArrayList<Vendor>(context.getCompany().getVendors());
 			}
 
 			@Override
@@ -104,7 +106,7 @@ get(CURRENCY).setDefaultValue(null);
 			}
 
 			@Override
-			protected boolean filter(ClientVendor e, String name) {
+			protected boolean filter(Vendor e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -123,8 +125,9 @@ get(CURRENCY).setDefaultValue(null);
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -136,7 +139,8 @@ get(CURRENCY).setDefaultValue(null);
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -145,19 +149,17 @@ get(CURRENCY).setDefaultValue(null);
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
-		
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().billNo()), getConstants().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -173,19 +175,24 @@ get(CURRENCY).setDefaultValue(null);
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_BANK
-								|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == ClientAccount.TYPE_BANK
+									|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -194,7 +201,7 @@ get(CURRENCY).setDefaultValue(null);
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().contains(name);
 			}
 		});
@@ -243,10 +250,8 @@ get(CURRENCY).setDefaultValue(null);
 						getConstants().paymentMethod());
 			}
 		});
-		list
-				.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-						getConstants().amount()), getConstants().amount(),
-						false, true));
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getConstants().amount()), getConstants().amount(), false, true));
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
@@ -260,21 +265,18 @@ get(CURRENCY).setDefaultValue(null);
 				return "Not Printed ";
 			}
 		});
-		list
-				.add(new StringRequirement(CHEQUE_NO, getMessages()
-						.pleaseEnter(getConstants().checkNo()), getConstants()
-						.checkNo(), true, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if ((Boolean) get(TO_BE_PRINTED).getValue()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
+		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
+				getConstants().checkNo()), getConstants().checkNo(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if ((Boolean) get(TO_BE_PRINTED).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 
-					}
-				});
+			}
+		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
 
@@ -284,10 +286,9 @@ get(CURRENCY).setDefaultValue(null);
 	protected Result onCompleteProcess(Context context) {
 
 		ClientPayBill paybill = new ClientPayBill();
-		ClientVendor vendor = (ClientVendor) get(VENDOR).getValue();
+		Vendor vendor = (Vendor) get(VENDOR).getValue();
 		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
 		ClientAccount pay = (ClientAccount) get(PAY_FROM).getValue();
-
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
@@ -307,12 +308,11 @@ get(CURRENCY).setDefaultValue(null);
 		ClientFinanceDate transactionDate = get(DATE).getValue();
 		paybill.setDate(transactionDate.getDate());
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
-		paybill.setVendor(vendor);
+		paybill.setVendor(vendor.getID());
 		paybill.setAddress(billTo);
 		paybill.setPayFrom(pay);
 		paybill.setTotal(amount);
-		paybill
-				.setStatus(ClientPayBill.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+		paybill.setStatus(ClientPayBill.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		paybill.setPaymentMethod(paymentMethod);
 		paybill.setMemo(memo);
 		paybill.setToBePrinted(toBePrinted);

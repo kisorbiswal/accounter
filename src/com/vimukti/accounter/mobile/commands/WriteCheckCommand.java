@@ -1,8 +1,13 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -30,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
@@ -55,8 +59,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientPayee> getLists(Context context) {
-				return context.getClientCompany().getPayees();
+			protected List<Payee> getLists(Context context) {
+				return new ArrayList<Payee>(context.getCompany().getPayees());
 			}
 
 			@Override
@@ -65,7 +69,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientPayee e, String name) {
+			protected boolean filter(Payee e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -84,8 +88,9 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -127,18 +132,24 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_CREDIT_CARD,
-								ClientAccount.TYPE_PAYPAL,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(e.getType());
+						@Override
+						public boolean filter(Account e) {
+							return Arrays.asList(Account.TYPE_BANK,
+									Account.TYPE_CREDIT_CARD,
+									ClientAccount.TYPE_PAYPAL,
+									Account.TYPE_OTHER_CURRENT_ASSET).contains(
+									e.getType());
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, context.getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -148,7 +159,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().startsWith(name)
 						|| e.getNumber().equals(name);
 			}
@@ -159,29 +170,35 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				.Account(), false, true, true) {
 
 			@Override
-			protected List<ClientAccount> getAccounts(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getAccounts(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						if (account.getType() != ClientAccount.TYPE_CASH
-								&& account.getType() != ClientAccount.TYPE_BANK
-								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != ClientAccount.TYPE_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-								&& account.getType() != ClientAccount.TYPE_EQUITY
-								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
+						@Override
+						public boolean filter(Account account) {
+							if (account.getType() != ClientAccount.TYPE_CASH
+									&& account.getType() != ClientAccount.TYPE_BANK
+									&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+									&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+									&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+									&& account.getType() != ClientAccount.TYPE_INCOME
+									&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
+									&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+									&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+									&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+									&& account.getType() != ClientAccount.TYPE_EQUITY
+									&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
+								return true;
+							} else {
+								return false;
+							}
 						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 		});
 
@@ -202,12 +219,13 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				true, null) {
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return context.getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});

@@ -2,8 +2,15 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -30,12 +37,10 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 /**
  * 
@@ -85,18 +90,19 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new CustomerRequirement(CUSTOMER,
 				"Please Enter Customer name or number ", "Customer", false,
-				true, new ChangeListner<ClientCustomer>() {
+				true, new ChangeListner<Customer>() {
 
 					@Override
-					public void onSelection(ClientCustomer value) {
+					public void onSelection(Customer value) {
 						NewCustomerCreditMemoCommand.this.get(CONTACT)
 								.setValue(null);
 					}
 				}) {
 
 			@Override
-			protected List<ClientCustomer> getLists(Context context) {
-				return getClientCompany().getCustomers();
+			protected List<Customer> getLists(Context context) {
+				return new ArrayList<Customer>(context.getCompany()
+						.getCustomers());
 			}
 		});
 
@@ -114,8 +120,9 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -159,18 +166,24 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				true, true) {
 
 			@Override
-			protected List<ClientAccount> getAccounts(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getAccounts(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_INCOME
-								|| e.getType() == ClientAccount.TYPE_FIXED_ASSET) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == ClientAccount.TYPE_INCOME
+									|| e.getType() == ClientAccount.TYPE_FIXED_ASSET) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
@@ -178,8 +191,15 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				true, true, true) {
 
 			@Override
-			public List<ClientItem> getItems(Context context) {
-				return context.getClientCompany().getServiceItems();
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				List<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.getType() == Item.TYPE_SERVICE) {
+						items.add(item);
+					}
+				}
+				return items;
 			}
 
 		});
@@ -188,10 +208,10 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				"Contact", true, true, null) {
 
 			@Override
-			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(
-						((ClientCustomer) NewCustomerCreditMemoCommand.this
-								.get(CUSTOMER).getValue()).getContacts());
+			protected List<Contact> getLists(Context context) {
+				return new ArrayList<Contact>(
+						((Customer) NewCustomerCreditMemoCommand.this.get(
+								CUSTOMER).getValue()).getContacts());
 			}
 
 			@Override
@@ -215,13 +235,13 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				return null;
 			}
 
-			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().contains(name);
 			}
 		});
@@ -258,17 +278,18 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				.reasonForIssue(), true, true));
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
-				true, new ChangeListner<ClientCurrency>() {
+				true, new ChangeListner<Currency>() {
 
 					@Override
-					public void onSelection(ClientCurrency value) {
+					public void onSelection(Currency value) {
 
 					}
 				}) {
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 	}

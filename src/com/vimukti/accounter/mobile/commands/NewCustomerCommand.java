@@ -9,6 +9,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.CreditRating;
+import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -30,7 +36,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -38,7 +43,6 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends NewAbstractCommand {
@@ -138,12 +142,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientSalesPerson> getLists(Context context) {
-				return getClientCompany().getSalesPersons();
+			protected List<SalesPerson> getLists(Context context) {
+				return new ArrayList<SalesPerson>(context.getCompany()
+						.getSalesPersons());
 			}
 
 			@Override
-			protected boolean filter(ClientSalesPerson e, String name) {
+			protected boolean filter(SalesPerson e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -167,8 +172,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientShippingMethod> getLists(Context context) {
-				return getClientCompany().getShippingMethods();
+			protected List<ShippingMethod> getLists(Context context) {
+				return new ArrayList<ShippingMethod>(context.getCompany()
+						.getShippingMethods());
 			}
 
 			@Override
@@ -178,7 +184,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientShippingMethod e, String name) {
+			protected boolean filter(ShippingMethod e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -195,12 +201,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientCreditRating> getLists(Context context) {
-				return getClientCompany().getCreditRatings();
+			protected List<CreditRating> getLists(Context context) {
+				return new ArrayList<CreditRating>(context.getCompany()
+						.getCreditRatings());
 			}
 
 			@Override
-			protected boolean filter(ClientCreditRating e, String name) {
+			protected boolean filter(CreditRating e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -252,8 +259,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 						.paymentTerm(), true, true, null) {
 
 			@Override
-			protected List<ClientPaymentTerms> getLists(Context context) {
-				return getClientCompany().getPaymentsTerms();
+			protected List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
 			}
 		});
 
@@ -267,12 +275,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientCustomerGroup> getLists(Context context) {
-				return getClientCompany().getCustomerGroups();
+			protected List<CustomerGroup> getLists(Context context) {
+				return new ArrayList<CustomerGroup>(context.getCompany()
+						.getCustomerGroups());
 			}
 
 			@Override
-			protected boolean filter(ClientCustomerGroup e, String name) {
+			protected boolean filter(CustomerGroup e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -306,12 +315,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -419,7 +429,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		String emailId = get(EMAIL).getValue();
 		String webaddress = get(WEBADRESS).getValue();
 		ClientSalesPerson salesPerson = get(SALESPERSON).getValue();
-		ClientCreditRating creditRating = get(CREDIT_RATING).getValue();
+		CreditRating creditRating = get(CREDIT_RATING).getValue();
 		// ClientPriceLevel priceLevel = get(PRICE_LEVEL).getValue();
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(BANK_ACCOUNT_NUM).getValue();

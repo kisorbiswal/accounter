@@ -1,8 +1,13 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -24,7 +29,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
@@ -51,8 +55,9 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXAgency> getLists(Context context) {
-				return context.getClientCompany().gettaxAgencies();
+			protected List<TAXAgency> getLists(Context context) {
+				return new ArrayList<TAXAgency>(context.getCompany()
+						.getTaxAgencies());
 			}
 
 			@Override
@@ -61,7 +66,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientTAXAgency e, String name) {
+			protected boolean filter(TAXAgency e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -80,8 +85,9 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -93,7 +99,8 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -102,18 +109,17 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
-		
+
 		list.add(new TaxItemRequirement(TAX_ITEM, getMessages()
 				.pleaseEnterName(getConstants().taxItem()), getConstants()
 				.taxItem(), false, true, null) {
@@ -124,8 +130,9 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXItem> getLists(Context context) {
-				return context.getClientCompany().getTaxItems();
+			protected List<TAXItem> getLists(Context context) {
+				return new ArrayList<TAXItem>(context.getCompany()
+						.getTaxItems());
 			}
 
 			@Override
@@ -134,7 +141,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientTAXItem e, String name) {
+			protected boolean filter(TAXItem e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -156,17 +163,23 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						return e.getIsActive()
-								&& e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET;
+						@Override
+						public boolean filter(Account e) {
+							return e.getIsActive()
+									&& e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+									&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+									&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET;
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, context.getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -178,7 +191,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -228,7 +241,6 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		taxAdjustment.setNumber(number);
 		taxAdjustment.setMemo(memo);
 
-		
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -238,9 +250,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			taxAdjustment.setCurrencyFactor(factor);
 		}
-		
-		
-		
+
 		ClientTAXItem taxItem = get(TAX_ITEM).getValue();
 		taxAdjustment.setTaxItem(taxItem.getID());
 
@@ -271,7 +281,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(ORDER_NO).setDefaultValue("1");
 		get(MEMO).setDefaultValue(new String());
-		get(CURRENCY).setDefaultValue(null);	
+		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 

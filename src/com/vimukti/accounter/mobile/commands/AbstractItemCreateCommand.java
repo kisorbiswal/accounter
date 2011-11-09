@@ -1,7 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.ItemGroup;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -122,36 +127,36 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<Account>() {
 
 					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_INCOME) {
+					public boolean filter(Account e) {
+						if (e.getType() == Account.TYPE_INCOME) {
 							System.out.println();
 						}
-						if (e.getType() == ClientAccount.TYPE_EXPENSE) {
+						if (e.getType() == Account.TYPE_EXPENSE) {
 							System.out.println();
 						}
 
-						if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-								&& e.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
-								&& e.getType() != ClientAccount.TYPE_OTHER_EXPENSE
-								&& e.getType() != ClientAccount.TYPE_EXPENSE
-								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-								&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
-								&& e.getType() != ClientAccount.TYPE_CASH
-								&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
-								&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
-								&& e.getType() != ClientAccount.TYPE_EQUITY) {
+						if (e.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& e.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& e.getType() != Account.TYPE_INVENTORY_ASSET
+								&& e.getType() != Account.TYPE_COST_OF_GOODS_SOLD
+								&& e.getType() != Account.TYPE_OTHER_EXPENSE
+								&& e.getType() != Account.TYPE_EXPENSE
+								&& e.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& e.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& e.getType() != Account.TYPE_FIXED_ASSET
+								&& e.getType() != Account.TYPE_CASH
+								&& e.getType() != Account.TYPE_LONG_TERM_LIABILITY
+								&& e.getType() != Account.TYPE_OTHER_ASSET
+								&& e.getType() != Account.TYPE_EQUITY) {
 							return true;
 						}
 						return false;
 					}
-				}, getClientCompany().getAccounts());
+				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}
 
 			@Override
@@ -160,7 +165,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().startsWith(name)
 						|| e.getNumber().equals(name);
 			}
@@ -229,12 +234,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientItemGroup> getLists(Context context) {
-				return getClientCompany().getItemGroups();
+			protected List<ItemGroup> getLists(Context context) {
+				return new ArrayList<ItemGroup>(context.getCompany()
+						.getItemGroups());
 			}
 
 			@Override
-			protected boolean filter(ClientItemGroup e, String name) {
+			protected boolean filter(ItemGroup e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -253,12 +259,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -318,27 +325,27 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<Account>() {
 
 					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& e.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& e.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-								&& e.getType() != ClientAccount.TYPE_INCOME
-								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-								&& e.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-								&& e.getType() != ClientAccount.TYPE_FIXED_ASSET
-								&& e.getType() != ClientAccount.TYPE_CASH
-								&& e.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
-								&& e.getType() != ClientAccount.TYPE_OTHER_ASSET
-								&& e.getType() != ClientAccount.TYPE_EQUITY) {
+					public boolean filter(Account e) {
+						if (e.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& e.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& e.getType() != Account.TYPE_INVENTORY_ASSET
+								&& e.getType() != Account.TYPE_INCOME
+								&& e.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& e.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& e.getType() != Account.TYPE_FIXED_ASSET
+								&& e.getType() != Account.TYPE_CASH
+								&& e.getType() != Account.TYPE_LONG_TERM_LIABILITY
+								&& e.getType() != Account.TYPE_OTHER_ASSET
+								&& e.getType() != Account.TYPE_EQUITY) {
 							return true;
 						}
 						return false;
 					}
-				}, getClientCompany().getAccounts());
+				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}
 
 			@Override
@@ -347,7 +354,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().startsWith(name)
 						|| e.getNumber().equals(name);
 			}
@@ -378,8 +385,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientVendor> getLists(Context context) {
-				return getClientCompany().getVendors();
+			protected List<Vendor> getLists(Context context) {
+				return new ArrayList<Vendor>(context.getCompany().getVendors());
 			}
 
 			@Override
@@ -388,7 +395,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientVendor e, String name) {
+			protected boolean filter(Vendor e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -432,8 +439,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		Boolean iSellthis = (Boolean) get(I_SELL_THIS).getValue();
 		String description = (String) get(SALES_DESCRIPTION).getValue();
 		double price = (Double) get(SALES_PRICE).getValue();
-		ClientAccount incomeAccount = (ClientAccount) get(INCOME_ACCOUNT)
-				.getValue();
+		Account incomeAccount = get(INCOME_ACCOUNT).getValue();
 		Boolean isTaxable = (Boolean) get(IS_TAXABLE).getValue();
 		Boolean isCommisionItem = (Boolean) get(IS_COMMISION_ITEM).getValue();
 		double cost = (Double) get(STANDARD_COST).getValue();

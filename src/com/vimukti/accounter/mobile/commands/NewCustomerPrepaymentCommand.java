@@ -1,8 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -18,7 +22,9 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -26,7 +32,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand {
@@ -83,8 +88,9 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				true, null) {
 
 			@Override
-			protected List<ClientCustomer> getLists(Context context) {
-				return getClientCompany().getCustomers();
+			protected List<Customer> getLists(Context context) {
+				return new ArrayList<Customer>(context.getCompany()
+						.getCustomers());
 			}
 		});
 
@@ -102,8 +108,9 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -151,18 +158,24 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_BANK) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_BANK) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -172,7 +185,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().contains(name);
 			}
 		});
@@ -241,8 +254,9 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				true, null) {
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
@@ -272,7 +286,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		prePayment.setNumber(number);
 		ClientCustomer customer = get(CUSTOMER).getValue();
 		prePayment.setCustomer(customer.getID());
-		ClientAccount depositIn = get(PAY_FROM).getValue();
+		Account depositIn = get(PAY_FROM).getValue();
 		prePayment.setDepositIn(depositIn.getID());
 		double amount = get(AMOUNT).getValue();
 		prePayment.setTotal(amount);
@@ -314,8 +328,9 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 					- enteredBalance);
 
 		}
-		ClientAccount depositIn = context.getClientCompany().getAccount(
-				customerPrePayment.getDepositIn());
+		ClientAccount depositIn = (ClientAccount) CommandUtils
+				.getClientObjectById(customerPrePayment.getDepositIn(),
+						AccounterCoreType.ACCOUNT);
 		if (depositIn.isIncrease()) {
 			customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
 					- enteredBalance);

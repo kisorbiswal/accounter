@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -21,9 +25,10 @@ import com.vimukti.accounter.mobile.requirements.PaybillTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -32,9 +37,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -86,10 +89,10 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
 				getConstants().Vendor()), getConstants().vendor(), false, true,
-				new ChangeListner<ClientVendor>() {
+				new ChangeListner<Vendor>() {
 
 					@Override
-					public void onSelection(ClientVendor value) {
+					public void onSelection(Vendor value) {
 						records = null;
 					}
 				}) {
@@ -100,8 +103,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientVendor> getLists(Context context) {
-				return context.getClientCompany().getVendors();
+			protected List<Vendor> getLists(Context context) {
+				return new ArrayList<Vendor>(context.getCompany().getVendors());
 			}
 
 			@Override
@@ -110,9 +113,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientVendor e, String name) {
-				return e.getDisplayName().toLowerCase()
-						.startsWith(name.toLowerCase());
+			protected boolean filter(Vendor e, String name) {
+				return e.getName().toLowerCase().startsWith(name.toLowerCase());
 			}
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
@@ -129,8 +131,9 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -172,19 +175,24 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_BANK
-								|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_BANK
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -194,7 +202,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().contains(name);
 
 			}
@@ -268,8 +276,9 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -282,15 +291,14 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientTransactionPayBill> getList() {
-				return getTransactionPayBills(
-						(ClientVendor) NewPayBillCommand.this.get(VENDOR)
-								.getValue(), getClientCompany());
+				return getTransactionPayBills((Vendor) NewPayBillCommand.this
+						.get(VENDOR).getValue(), getClientCompany());
 			}
 		});
 	}
 
 	private List<ClientTransactionPayBill> getTransactionPayBills(
-			ClientVendor clinetVendor, ClientCompany clientCompany) {
+			Vendor clinetVendor, ClientCompany clientCompany) {
 		if (records != null) {
 			return records;
 		}
@@ -325,8 +333,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 					record.setOriginalAmount(curntRec.getOriginalAmount());
 
 					// record.setPayment(curntRec.getPayment());
-					ClientVendor vendor = clientCompany
-							.getVendorByName(curntRec.getVendorName());
+					Vendor vendor = CommandUtils.getVendorByName(curntRec
+							.getVendorName());
 					if (vendor != null)
 						record.setVendor(vendor.getID());
 					records.add(record);
@@ -375,14 +383,14 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		paybill.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 		paybill.setAccountsPayable(context.getClientCompany()
 				.getAccountsPayableAccount());
-		ClientVendor vendor = get(VENDOR).getValue();
-		ClientAccount payFrom = get(PAY_FROM).getValue();
+		Vendor vendor = get(VENDOR).getValue();
+		Account payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		ClientFinanceDate dueDate = get(FILTER_BY_DUE_ON_BEFORE).getValue();
 		String number = get(NUMBER).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
-		paybill.setVendor(vendor);
-		paybill.setPayFrom(payFrom);
+		paybill.setVendor(vendor.getID());
+		paybill.setPayFrom(payFrom.getID());
 		paybill.setPaymentMethod(paymentMethod);
 
 		paybill.setBillDueOnOrBefore(dueDate);
@@ -403,10 +411,11 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 		if (context.getClientCompany().getPreferences().isTDSEnabled()) {
 
-			ClientTAXItem taxItem = context.getClientCompany().getTAXItem(
-					vendor.getTaxItemCode());
+			TAXItem taxItem = vendor.getTAXItem();
 			if (taxItem != null) {
-				paybill.setTdsTaxItem(taxItem);
+				paybill.setTdsTaxItem((ClientTAXItem) CommandUtils
+						.getClientObjectById(taxItem.getID(),
+								AccounterCoreType.TAXITEM));
 			}
 		}
 		List<ClientTransactionPayBill> paybills = get(BILLS_DUE).getValue();
@@ -443,7 +452,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			if (get(VENDOR).getValue() != null) {
 				double toBeSetEndingBalance = 0.0;
-				ClientAccount payFromAccount = get(PAY_FROM).getValue();
+				Account payFromAccount = get(PAY_FROM).getValue();
 				if (payFromAccount.isIncrease())
 					toBeSetEndingBalance = payFromAccount.getTotalBalance()
 							+ transaction.getTotal();

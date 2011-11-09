@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -14,12 +15,10 @@ import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class NewSalesPersonCommand extends NewAbstractCommand {
 
@@ -59,26 +58,22 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 				true));
 
 		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
-				getConstants().address()), getConstants().address(), true,
-				true));
+				getConstants().address()), getConstants().address(), true, true));
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
 				getConstants().phoneNumber()), getConstants().phoneNumber(),
 				true, true));
-		list
-				.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
-						getConstants().fax()), getConstants().fax(),
-						true, true));
+		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
+				getConstants().fax()), getConstants().fax(), true, true));
 
 		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
 				.pleaseSelect(
 						getConstants().expense() + " "
 								+ getConstants().account()), getConstants()
-				.expense()
-				+ " " + getConstants().account(), true, false,
-				new ChangeListner<ClientAccount>() {
+				.expense() + " " + getConstants().account(), true, false,
+				new ChangeListner<Account>() {
 
 					@Override
-					public void onSelection(ClientAccount value) {
+					public void onSelection(Account value) {
 						// TODO Auto-generated method stub
 
 					}
@@ -90,19 +85,24 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_EXPENSE
-								|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_EXPENSE
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -111,13 +111,12 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return false;
 			}
 		});
 		list.add(new EmailRequirement(E_MAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true,
-				true));
+				getConstants().email()), getConstants().email(), true, true));
 		list.add(new NameRequirement(WEB_PAGE_ADDRESS, getMessages()
 				.pleaseEnter(getConstants().webPageAddress()), getConstants()
 				.webPageAddress(), true, true));
@@ -157,11 +156,10 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 				getConstants().dateofLastReview()), getConstants()
 				.dateofLastReview(), true, true));
 		list.add(new DateRequirement(DO_RELEASE, getMessages().pleaseEnter(
-				getConstants().dateofRelease()), getConstants().dateofRelease(),
-				true, true));
+				getConstants().dateofRelease()),
+				getConstants().dateofRelease(), true, true));
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true,
-				true));
+				getConstants().memo()), getConstants().memo(), true, true));
 
 	}
 
@@ -187,7 +185,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		String fax = get(FAX).getValue();
 		salesPerson.setFaxNo(fax);
 
-		ClientAccount value = get(EXPENSE_ACCOUNT).getValue();
+		Account value = get(EXPENSE_ACCOUNT).getValue();
 		salesPerson.setExpenseAccount(value != null ? value.getID() : 0);
 
 		String email = get(E_MAIL).getValue();

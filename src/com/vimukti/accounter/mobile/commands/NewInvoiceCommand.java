@@ -2,9 +2,16 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -30,14 +37,10 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
@@ -71,15 +74,15 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new CustomerRequirement(CUSTOMER,
 				"Please Enter Customer name or number to set InvoiceCustomer",
-				"Customer", false, true, new ChangeListner<ClientCustomer>() {
+				"Customer", false, true, new ChangeListner<Customer>() {
 
 					@Override
-					public void onSelection(ClientCustomer value) {
+					public void onSelection(Customer value) {
 						NewInvoiceCommand.this.get(CONTACT).setValue(null);
-						for (ClientContact clientContact : value.getContacts()) {
-							if (clientContact.isPrimary()) {
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
 								NewInvoiceCommand.this.get(CONTACT).setValue(
-										clientContact);
+										contact);
 								break;
 							}
 						}
@@ -87,8 +90,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				}) {
 
 			@Override
-			protected List<ClientCustomer> getLists(Context context) {
-				return getClientCompany().getCustomers();
+			protected List<Customer> getLists(Context context) {
+				return new ArrayList<Customer>(context.getCompany()
+						.getCustomers());
 			}
 		});
 
@@ -106,8 +110,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -129,8 +134,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+							&& !((Currency) get(CURRENCY).getValue())
+									.equals(context.getCompany()
+											.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -144,8 +150,15 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				false, true, true) {
 
 			@Override
-			public List<ClientItem> getItems(Context context) {
-				return context.getClientCompany().getAllItems();
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				ArrayList<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.getType() == Item.TYPE_SERVICE) {
+						items.add(item);
+					}
+				}
+				return items;
 			}
 		});
 
@@ -161,8 +174,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				.paymentTerm(), true, true, null) {
 
 			@Override
-			protected List<ClientPaymentTerms> getLists(Context context) {
-				return getClientCompany().getPaymentsTerms();
+			public List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
 			}
 		});
 
@@ -170,16 +184,15 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				"Contact", true, true, null) {
 
 			@Override
-			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(
-						((ClientCustomer) NewInvoiceCommand.this.get(CUSTOMER)
+			protected List<Contact> getLists(Context context) {
+				return new ArrayList<Contact>(
+						((Customer) NewInvoiceCommand.this.get(CUSTOMER)
 								.getValue()).getContacts());
 			}
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientCustomer) get(CUSTOMER).getValue())
-						.getDisplayName();
+				return ((Customer) get(CUSTOMER).getValue()).getName();
 			}
 		});
 
@@ -201,8 +214,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 						.quoteAndSalesOrderList(), true, true) {
 
 			@Override
-			protected ClientCustomer getCustomer() {
-				return (ClientCustomer) NewInvoiceCommand.this.get(CUSTOMER)
+			protected Customer getCustomer() {
+				return (Customer) NewInvoiceCommand.this.get(CUSTOMER)
 						.getValue();
 			}
 		});
@@ -250,12 +263,13 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().contains(name);
 			}
 		});
@@ -382,19 +396,19 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		ClientCustomer customer = get(CUSTOMER).getValue();
+		Customer customer = get(CUSTOMER).getValue();
 		invoice.setCustomer(customer.getID());
 
 		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
 		invoice.setDueDate(dueDate.getDate());
 
-		ClientContact contact = get(CONTACT).getValue();
-		invoice.setContact(contact);
+		Contact contact = get(CONTACT).getValue();
+		invoice.setContact(convertToClientContact(contact));
 
 		ClientAddress billTo = get(BILL_TO).getValue();
 		invoice.setBillingAddress(billTo);
 
-		ClientPaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
+		PaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		invoice.setPaymentTerm(paymentTerm.getID());
 
 		String orderNo = get(ORDER_NO).getValue();
@@ -408,7 +422,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
+			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				invoice.setCurrency(currency.getID());
 			}
@@ -435,7 +449,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			invoice.setAmountsIncludeVAT(isVatInclusive);
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
@@ -446,6 +460,21 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		invoice.setTaxTotal(taxTotal);
 		create(invoice, context);
 		return null;
+	}
+
+	private ClientContact convertToClientContact(Contact contact) {
+		if (contact == null) {
+			return null;
+		}
+		ClientContact clientContact = new ClientContact();
+		clientContact.setID(contact.getID());
+		clientContact.setBusinessPhone(contact.getBusinessPhone());
+		clientContact.setEmail(contact.getEmail());
+		clientContact.setName(contact.getName());
+		clientContact.setPrimary(contact.isPrimary());
+		clientContact.setTitle(contact.getTitle());
+		clientContact.setVersion(contact.getVersion());
+		return clientContact;
 	}
 
 	@Override
@@ -460,9 +489,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_INVOICE, context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
-		ArrayList<ClientPaymentTerms> paymentTerms = context.getClientCompany()
-				.getPaymentsTerms();
-		for (ClientPaymentTerms p : paymentTerms) {
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
+		for (PaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
@@ -485,7 +513,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getClientCompany()
 				.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			ClientTAXCode taxCode = get(TAXCODE).getValue();
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : allrecords) {
 				if (taxCode != null) {
 					item.setTaxCode(taxCode.getID());

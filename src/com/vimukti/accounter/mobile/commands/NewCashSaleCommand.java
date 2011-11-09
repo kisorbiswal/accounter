@@ -3,7 +3,16 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -26,7 +35,6 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -34,14 +42,12 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewCashSaleCommand extends NewAbstractTransactionCommand {
@@ -65,8 +71,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				true, null) {
 
 			@Override
-			protected List<ClientCustomer> getLists(Context context) {
-				return getClientCompany().getCustomers();
+			protected List<Customer> getLists(Context context) {
+				return new ArrayList<Customer>(context.getCompany()
+						.getCustomers());
 			}
 		});
 
@@ -84,8 +91,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -123,8 +131,15 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				true, true, true) {
 
 			@Override
-			public List<ClientItem> getItems(Context context) {
-				return context.getClientCompany().getServiceItems();
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				List<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.getType() == Item.TYPE_SERVICE) {
+						items.add(item);
+					}
+				}
+				return items;
 			}
 
 		});
@@ -134,29 +149,35 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				.Account(), true, true, true) {
 
 			@Override
-			protected List<ClientAccount> getAccounts(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getAccounts(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						if (account.getType() != ClientAccount.TYPE_CASH
-								&& account.getType() != ClientAccount.TYPE_BANK
-								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != ClientAccount.TYPE_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-								&& account.getType() != ClientAccount.TYPE_EQUITY
-								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
+						@Override
+						public boolean filter(Account account) {
+							if (account.getType() != Account.TYPE_CASH
+									&& account.getType() != Account.TYPE_BANK
+									&& account.getType() != Account.TYPE_INVENTORY_ASSET
+									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+									&& account.getType() != Account.TYPE_INCOME
+									&& account.getType() != Account.TYPE_OTHER_INCOME
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+									&& account.getType() != Account.TYPE_OTHER_ASSET
+									&& account.getType() != Account.TYPE_EQUITY
+									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+								return true;
+							} else {
+								return false;
+							}
 						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 		});
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
@@ -199,9 +220,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				true, null) {
 
 			@Override
-			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(
-						((ClientCustomer) NewCashSaleCommand.this.get(CUSTOMER)
+			protected List<Contact> getLists(Context context) {
+				return new ArrayList<Contact>(
+						((Customer) NewCashSaleCommand.this.get(CUSTOMER)
 								.getValue()).getContacts());
 			}
 
@@ -232,16 +253,22 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-								.contains(account.getType());
+						@Override
+						public boolean filter(Account e) {
+							return Arrays.asList(Account.TYPE_BANK,
+									Account.TYPE_OTHER_CURRENT_ASSET).contains(
+									e.getType());
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -250,7 +277,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().startsWith(name)
 						|| e.getNumber().equals(name);
 			}
@@ -258,10 +285,10 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
 				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, new ChangeListner<ClientTAXCode>() {
+				true, new ChangeListner<TAXCode>() {
 
 					@Override
-					public void onSelection(ClientTAXCode value) {
+					public void onSelection(TAXCode value) {
 						setTaxCodeToItems(value);
 					}
 				}) {
@@ -278,12 +305,13 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -331,8 +359,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientShippingTerms> getLists(Context context) {
-				return getClientCompany().getShippingTerms();
+			protected List<ShippingTerms> getLists(Context context) {
+				return new ArrayList<ShippingTerms>(context.getCompany()
+						.getShippingTerms());
 			}
 
 			@Override
@@ -342,7 +371,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientShippingTerms e, String name) {
+			protected boolean filter(ShippingTerms e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -367,8 +396,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientShippingMethod> getLists(Context context) {
-				return getClientCompany().getShippingMethods();
+			protected List<ShippingMethod> getLists(Context context) {
+				return new ArrayList<ShippingMethod>(context.getCompany()
+						.getShippingMethods());
 			}
 
 			@Override
@@ -378,7 +408,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientShippingMethod e, String name) {
+			protected boolean filter(ShippingMethod e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -388,7 +418,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				true, true));
 	}
 
-	protected void setTaxCodeToItems(ClientTAXCode value) {
+	protected void setTaxCodeToItems(TAXCode value) {
 		List<ClientTransactionItem> items = this.get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
@@ -451,7 +481,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		cashSale.setPaymentMethod(paymentMethod);
 
-		ClientAccount account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
+		Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
 		cashSale.setDepositIn(account.getID());
 
 		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();

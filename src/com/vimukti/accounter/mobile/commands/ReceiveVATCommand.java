@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -25,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ReceiveVATCommand extends NewAbstractTransactionCommand {
@@ -53,21 +54,27 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(final Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_CREDIT_CARD,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-								ClientAccount.TYPE_FIXED_ASSET).contains(
-								e.getType())
-								&& e.getID() != getClientCompany()
-										.getAccountsReceivableAccountId();
+						@Override
+						public boolean filter(Account e) {
+							return Arrays.asList(ClientAccount.TYPE_BANK,
+									ClientAccount.TYPE_CREDIT_CARD,
+									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+									ClientAccount.TYPE_FIXED_ASSET).contains(
+									e.getType())
+									&& e.getID() != context.getCompany()
+											.getAccountsReceivableAccount()
+											.getID();
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -76,7 +83,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return false;
 			}
 		});
@@ -123,8 +130,9 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -136,7 +144,8 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 				String primaryCurrency = getClientCompany().getPreferences()
 						.getPrimaryCurrency();
 				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+				return "1 " + selc.getFormalName() + " = " + value + " "
+						+ primaryCurrency;
 			}
 
 			@Override
@@ -145,15 +154,14 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (getClientCompany().getPreferences()
 							.isEnableMultiCurrency()
-							&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-									getClientCompany().getPreferences()
+							&& !((ClientCurrency) get(CURRENCY).getValue())
+									.equals(getClientCompany().getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
-				} 
-					return null;
-				
-				
+				}
+				return null;
+
 			}
 		});
 
@@ -237,7 +245,6 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate transactionDate = get(DATE).getValue();
 		String orderNo = get(ORDER_NO).getValue();
 
-		
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -247,7 +254,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			receiveVAT.setCurrencyFactor(factor);
 		}
-		
+
 		receiveVAT.setDepositIn(depositTo.getID());
 		receiveVAT.setPaymentMethod(paymentMethod);
 		receiveVAT.setClientTransactionReceiveVAT(billsToReceive);

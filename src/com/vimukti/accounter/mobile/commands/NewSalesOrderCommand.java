@@ -2,11 +2,18 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -30,12 +37,10 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -101,17 +106,18 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
 				Global.get().Customer()), Global.get().Customer(), false, true,
-				new ChangeListner<ClientCustomer>() {
+				new ChangeListner<Customer>() {
 
 					@Override
-					public void onSelection(ClientCustomer value) {
+					public void onSelection(Customer value) {
 						NewSalesOrderCommand.this.get(CONTACT).setValue(null);
 					}
 				}) {
 
 			@Override
-			protected List<ClientCustomer> getLists(Context context) {
-				return getClientCompany().getCustomers();
+			protected List<Customer> getLists(Context context) {
+				return new ArrayList<Customer>(context.getCompany()
+						.getCustomers());
 			}
 		});
 
@@ -129,8 +135,9 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -168,8 +175,15 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				false, true, true) {
 
 			@Override
-			public List<ClientItem> getItems(Context context) {
-				return context.getClientCompany().getServiceItems();
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				List<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.getType() == Item.TYPE_SERVICE) {
+						items.add(item);
+					}
+				}
+				return items;
 			}
 
 		});
@@ -186,8 +200,9 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				.paymentTerm(), true, true, null) {
 
 			@Override
-			protected List<ClientPaymentTerms> getLists(Context context) {
-				return getClientCompany().getPaymentsTerms();
+			protected List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
 			}
 		});
 
@@ -195,10 +210,10 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				"Contact", true, true, null) {
 
 			@Override
-			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(
-						((ClientCustomer) NewSalesOrderCommand.this.get(
-								CUSTOMER).getValue()).getContacts());
+			protected List<Contact> getLists(Context context) {
+				return new ArrayList<Contact>(
+						((Customer) NewSalesOrderCommand.this.get(CUSTOMER)
+								.getValue()).getContacts());
 			}
 
 			@Override
@@ -254,8 +269,9 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				true, null) {
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
@@ -308,13 +324,14 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
-				return e.getName().contains(name);
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().startsWith(name);
 			}
 		});
 

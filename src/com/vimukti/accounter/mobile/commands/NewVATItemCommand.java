@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -92,8 +93,9 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientTAXAgency> getLists(Context context) {
-				return context.getClientCompany().gettaxAgencies();
+			protected List<TAXAgency> getLists(Context context) {
+				return new ArrayList<TAXAgency>(context.getCompany()
+						.getTaxAgencies());
 			}
 
 			@Override
@@ -102,7 +104,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientTAXAgency e, String name) {
+			protected boolean filter(TAXAgency e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});

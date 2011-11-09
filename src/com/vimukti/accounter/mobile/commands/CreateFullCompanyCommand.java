@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -382,8 +383,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				.currency(), true, true, null) {
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return getCurrenciesList();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 
 		});

@@ -1,7 +1,10 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -15,11 +18,11 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
  * 
@@ -68,8 +71,20 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					}
 
 					@Override
-					protected List<ClientAccount> getLists(Context context) {
-						return getClientCompany().getActiveAccounts();
+					protected List<Account> getLists(Context context) {
+						List<Account> filteredList = new ArrayList<Account>();
+						for (Account obj : context.getCompany().getAccounts()) {
+							if (new ListFilter<Account>() {
+
+								@Override
+								public boolean filter(Account e) {
+									return e.getIsActive();
+								}
+							}.filter(obj)) {
+								filteredList.add(obj);
+							}
+						}
+						return filteredList;
 					}
 
 					@Override
@@ -79,34 +94,38 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					}
 				});
 
-				list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-						getConstants().currency()), getConstants().currency(), true,
-						true, null) {
+				list.add(new CurrencyRequirement(CURRENCY, getMessages()
+						.pleaseSelect(getConstants().currency()),
+						getConstants().currency(), true, true, null) {
 					@Override
 					public Result run(Context context, Result makeResult,
 							ResultList list, ResultList actions) {
-						if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
-							return super.run(context, makeResult, list, actions);
+						if (getClientCompany().getPreferences()
+								.isEnableMultiCurrency()) {
+							return super
+									.run(context, makeResult, list, actions);
 						} else {
 							return null;
 						}
 					}
 
 					@Override
-					protected List<ClientCurrency> getLists(Context context) {
-						return context.getClientCompany().getCurrencies();
+					protected List<Currency> getLists(Context context) {
+						return new ArrayList<Currency>(context.getCompany()
+								.getCurrencies());
 					}
 				});
 
 				list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-						.pleaseSelect(getConstants().currency()), getConstants()
-						.currency(), false, true) {
+						.pleaseSelect(getConstants().currency()),
+						getConstants().currency(), false, true) {
 					@Override
 					protected String getDisplayValue(Double value) {
-						String primaryCurrency = getClientCompany().getPreferences()
-								.getPrimaryCurrency();
+						String primaryCurrency = getClientCompany()
+								.getPreferences().getPrimaryCurrency();
 						ClientCurrency selc = get(CURRENCY).getValue();
-						return "1 " + selc.getFormalName() + " = " + value + " " + primaryCurrency;
+						return "1 " + selc.getFormalName() + " = " + value
+								+ " " + primaryCurrency;
 					}
 
 					@Override
@@ -115,19 +134,20 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						if (get(CURRENCY).getValue() != null) {
 							if (getClientCompany().getPreferences()
 									.isEnableMultiCurrency()
-									&& !((ClientCurrency)get(CURRENCY).getValue()).equals(
-											getClientCompany().getPreferences()
+									&& !((ClientCurrency) get(CURRENCY)
+											.getValue())
+											.equals(getClientCompany()
+													.getPreferences()
 													.getPrimaryCurrency())) {
-								return super.run(context, makeResult, list, actions);
+								return super.run(context, makeResult, list,
+										actions);
 							}
-						} 
-							return null;
-						
-						
+						}
+						return null;
+
 					}
 				});
 
-				
 				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 						getConstants().memo()), getConstants().memo(), true,
 						true));
@@ -138,8 +158,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						if(currentValue!=null){
-						currentValue.setCredit(0.0d);
+						if (currentValue != null) {
+							currentValue.setCredit(0.0d);
 						}
 					}
 				});
@@ -150,8 +170,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						if(currentValue!=null){
-						currentValue.setDebit(0.0d);
+						if (currentValue != null) {
+							currentValue.setDebit(0.0d);
 						}
 					}
 				});
@@ -164,7 +184,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void getRequirementsValues(ClientEntry obj) {
-				ClientAccount account = get(ACCOUNT).getValue();
+				Account account = get(ACCOUNT).getValue();
 				String memo = get(MEMO).getValue();
 				double debits = get(DEBITS).getValue();
 				double credits = get(CREDITS).getValue();
@@ -271,8 +291,6 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 		entry.setDebitTotal(totalDebits);
 		entry.setCreditTotal(totalCredits);
 
-		
-		
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
 			ClientCurrency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -282,8 +300,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			double factor = get(CURRENCY_FACTOR).getValue();
 			entry.setCurrencyFactor(factor);
 		}
-		
-		
+
 		create(entry, context);
 
 		markDone();

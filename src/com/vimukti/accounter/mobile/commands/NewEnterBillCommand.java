@@ -4,7 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -25,14 +33,11 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -123,8 +128,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientVendor> getLists(Context context) {
-				return context.getClientCompany().getVendors();
+			protected List<Vendor> getLists(Context context) {
+				return new ArrayList<Vendor>(context.getCompany().getVendors());
 			}
 
 			@Override
@@ -133,7 +138,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientVendor e, String name) {
+			protected boolean filter(Vendor e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -172,8 +177,9 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -221,8 +227,9 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				.paymentTerms(), true, true, null) {
 
 			@Override
-			protected List<ClientPaymentTerms> getLists(Context context) {
-				return context.getClientCompany().getPaymentsTerms();
+			protected List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
 			}
 		});
 
@@ -231,8 +238,9 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				true, true) {
 
 			@Override
-			protected List<ClientAccount> getAccounts(Context context) {
-				return getClientCompany().getAccounts();
+			protected List<Account> getAccounts(Context context) {
+				return new ArrayList<Account>(context.getCompany()
+						.getAccounts());
 			}
 		});
 
@@ -241,8 +249,15 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				true, true, false) {
 
 			@Override
-			public List<ClientItem> getItems(Context context) {
-				return context.getClientCompany().getProductItems();
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				List<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.getType() != Item.TYPE_SERVICE) {
+						items.add(item);
+					}
+				}
+				return items;
 			}
 
 		});
@@ -251,9 +266,9 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				"Contact", true, true, null) {
 
 			@Override
-			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(
-						((ClientCustomer) NewEnterBillCommand.this.get(VENDOR)
+			protected List<Contact> getLists(Context context) {
+				return new ArrayList<Contact>(
+						((Customer) NewEnterBillCommand.this.get(VENDOR)
 								.getValue()).getContacts());
 			}
 
@@ -283,12 +298,13 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().contains(name);
 			}
 		});
@@ -397,7 +413,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		enterBill.setContact(contact);
 
 		ClientPaymentTerms paymentTerm = get("paymentTerms").getValue();
-		enterBill.setPaymentTerm(paymentTerm);
+		enterBill.setPaymentTerm(paymentTerm.getID());
 
 		String phone = get(PHONE).getValue();
 		enterBill.setPhone(phone);

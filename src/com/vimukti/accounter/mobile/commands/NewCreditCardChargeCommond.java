@@ -2,7 +2,14 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -22,19 +29,16 @@ import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirem
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 
@@ -58,12 +62,12 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientVendor> getLists(Context context) {
-				return context.getClientCompany().getVendors();
+			protected List<Vendor> getLists(Context context) {
+				return new ArrayList<Vendor>(context.getCompany().getVendors());
 			}
 
 			@Override
-			protected boolean filter(ClientVendor e, String name) {
+			protected boolean filter(Vendor e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -82,8 +86,9 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -121,8 +126,15 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				true, true, true) {
 
 			@Override
-			public List<ClientItem> getItems(Context context) {
-				return context.getClientCompany().getServiceItems();
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				List<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.getType() == Item.TYPE_SERVICE) {
+						items.add(item);
+					}
+				}
+				return items;
 			}
 
 		});
@@ -132,29 +144,35 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				.Account(), true, true, true) {
 
 			@Override
-			protected List<ClientAccount> getAccounts(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getAccounts(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						if (account.getType() != ClientAccount.TYPE_CASH
-								&& account.getType() != ClientAccount.TYPE_BANK
-								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != ClientAccount.TYPE_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-								&& account.getType() != ClientAccount.TYPE_EQUITY
-								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
+						@Override
+						public boolean filter(Account account) {
+							if (account.getType() != Account.TYPE_CASH
+									&& account.getType() != Account.TYPE_BANK
+									&& account.getType() != Account.TYPE_INVENTORY_ASSET
+									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+									&& account.getType() != Account.TYPE_INCOME
+									&& account.getType() != Account.TYPE_OTHER_INCOME
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+									&& account.getType() != Account.TYPE_OTHER_ASSET
+									&& account.getType() != Account.TYPE_EQUITY
+									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+								return true;
+							} else {
+								return false;
+							}
 						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 		});
 
@@ -169,10 +187,10 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 				true, null) {
 
 			@Override
-			protected List<ClientContact> getLists(Context context) {
-				return new ArrayList<ClientContact>(
-						((ClientVendor) NewCreditCardChargeCommond.this.get(
-								VENDOR).getValue()).getContacts());
+			protected List<Contact> getLists(Context context) {
+				return new ArrayList<Contact>(
+						((Vendor) NewCreditCardChargeCommond.this.get(VENDOR)
+								.getValue()).getContacts());
 			}
 
 			@Override
@@ -226,19 +244,24 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_BANK
-								|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_BANK
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -247,7 +270,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return false;
 			}
 		});
@@ -258,21 +281,22 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
 				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, new ChangeListner<ClientTAXCode>() {
+				true, new ChangeListner<TAXCode>() {
 
 					@Override
-					public void onSelection(ClientTAXCode value) {
+					public void onSelection(TAXCode value) {
 						setTaxCodeToItems(value);
 					}
 				}) {
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return context.getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().toLowerCase().startsWith(name);
 			}
 		});
@@ -332,7 +356,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		String phone = get(PHONE).getValue();
 		creditCardCharge.setPhone(phone);
 
-		ClientAccount account = get(PAY_FROM).getValue();
+		Account account = get(PAY_FROM).getValue();
 		creditCardCharge.setPayFrom(account.getID());
 
 		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
@@ -368,7 +392,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	protected void setTaxCodeToItems(ClientTAXCode value) {
+	protected void setTaxCodeToItems(TAXCode value) {
 		List<ClientTransactionItem> items = this.get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();

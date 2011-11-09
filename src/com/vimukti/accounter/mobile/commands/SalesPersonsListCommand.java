@@ -2,14 +2,15 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 
 public class SalesPersonsListCommand extends NewAbstractCommand {
 
@@ -58,11 +59,11 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<ClientSalesPerson>(getConstants()
+		list.add(new ShowListRequirement<SalesPerson>(getConstants()
 				.salesPersonList(), "", 10) {
 
 			@Override
-			protected String onSelection(ClientSalesPerson value) {
+			protected String onSelection(SalesPerson value) {
 				return null;
 			}
 
@@ -77,7 +78,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected Record createRecord(ClientSalesPerson salesPrson) {
+			protected Record createRecord(SalesPerson salesPrson) {
 				Record record = new Record(salesPrson);
 				record.add("", salesPrson.getName());
 				record.add("", salesPrson.getJobTitle());
@@ -95,12 +96,12 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientSalesPerson e, String name) {
+			protected boolean filter(SalesPerson e, String name) {
 				return e.getName().startsWith(name);
 			}
 
 			@Override
-			protected List<ClientSalesPerson> getLists(Context context) {
+			protected List<SalesPerson> getLists(Context context) {
 
 				return getSalesPersons(context);
 			}
@@ -108,13 +109,12 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<ClientSalesPerson> getSalesPersons(Context context) {
+	protected List<SalesPerson> getSalesPersons(Context context) {
 		String isActive = get(VIEW_BY).getValue();
-		List<ClientSalesPerson> list = new ArrayList<ClientSalesPerson>();
-		List<ClientSalesPerson> salesPersons = context.getClientCompany()
-				.getSalesPersons();
+		List<SalesPerson> list = new ArrayList<SalesPerson>();
+		Set<SalesPerson> salesPersons = context.getCompany().getSalesPersons();
 		if (salesPersons != null) {
-			for (ClientSalesPerson person : salesPersons) {
+			for (SalesPerson person : salesPersons) {
 				if (isActive.equals(getConstants().active())) {
 					if (person.isActive()) {
 						list.add(person);

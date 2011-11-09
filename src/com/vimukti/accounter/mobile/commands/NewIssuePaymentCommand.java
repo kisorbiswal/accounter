@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -16,7 +18,6 @@ import com.vimukti.accounter.mobile.requirements.IssuePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -24,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -84,8 +84,9 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return context.getClientCompany().getCurrencies();
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(context.getCompany()
+						.getCurrencies());
 			}
 		});
 
@@ -120,10 +121,10 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		list.add(new AccountRequirement(ACCOUNT, getMessages()
 				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
 				getConstants().bankAccount(), false, false,
-				new ChangeListner<ClientAccount>() {
+				new ChangeListner<Account>() {
 
 					@Override
-					public void onSelection(ClientAccount value) {
+					public void onSelection(Account value) {
 						resetIssuedPayments(value);
 					}
 				}) {
@@ -134,19 +135,24 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount e) {
-						if (e.getType() == ClientAccount.TYPE_BANK
-								|| e.getType() == ClientAccount.TYPE_OTHER_ASSET) {
-							return true;
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_BANK
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
 						}
-						return false;
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override
@@ -155,7 +161,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return false;
 			}
 		});
@@ -171,13 +177,13 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		});
 	}
 
-	protected void resetIssuedPayments(ClientAccount value) {
+	protected void resetIssuedPayments(Account value) {
 		get(PAYMENTS_TO_ISSUED).setValue(
 				new ArrayList<ClientTransactionIssuePayment>());
 	}
 
 	private String getNextCheckNumber(Context context) {
-		ClientAccount account = get(ACCOUNT).getValue();
+		Account account = get(ACCOUNT).getValue();
 		if (account == null) {
 			return "";
 		}
@@ -204,7 +210,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 	private List<ClientTransactionIssuePayment> getclientTransactionIssuePayments(
 			ClientCompany clientCompany) {
-		ClientAccount account = get(ACCOUNT).getValue();
+		Account account = get(ACCOUNT).getValue();
 		return getchecks(clientCompany, account.getID());
 	}
 
@@ -251,7 +257,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		issuePayment.setDate(new ClientFinanceDate().getDate());
 		String paymentmethod = get(PAYMENT_METHOD).getValue();
 		issuePayment.setPaymentMethod(paymentmethod);
-		ClientAccount account = get(ACCOUNT).getValue();
+		Account account = get(ACCOUNT).getValue();
 		issuePayment.setAccount(account.getID());
 
 		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -23,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class NewVATAgencyCommand extends NewAbstractCommand {
 
@@ -70,19 +71,19 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERM, getMessages()
 				.pleaseSelect(getConstants().paymentTerm()), getConstants()
-				.paymentTerm(), false, true,
-				new ChangeListner<ClientPaymentTerms>() {
-
-					@Override
-					public void onSelection(ClientPaymentTerms value) {
-						// TODO Auto-generated method stub
-
-					}
-				}) {
+				.paymentTerm(), false, true, new ChangeListner<PaymentTerms>() {
 
 			@Override
-			protected List<ClientPaymentTerms> getLists(Context context) {
-				return context.getClientCompany().getPaymentsTerms();
+			public void onSelection(PaymentTerms value) {
+				// TODO Auto-generated method stub
+
+			}
+		}) {
+
+			@Override
+			protected List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
 			}
 		});
 
@@ -123,10 +124,10 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 						getConstants().sales() + getConstants().liability()
 								+ getConstants().account()), getConstants()
 				.sales() + getConstants().account(), false, true,
-				new ChangeListner<ClientAccount>() {
+				new ChangeListner<Account>() {
 
 					@Override
-					public void onSelection(ClientAccount value) {
+					public void onSelection(Account value) {
 						// TODO Auto-generated method stub
 
 					}
@@ -138,12 +139,12 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
 				return getSalesLiabilityAccounts(context,
-						new ListFilter<ClientAccount>() {
+						new ListFilter<Account>() {
 
 							@Override
-							public boolean filter(ClientAccount account) {
+							public boolean filter(Account account) {
 								return account.getIsActive()
 										&& Arrays
 												.asList(ClientAccount.TYPE_INCOME,
@@ -167,10 +168,10 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 						getConstants().purchase() + getConstants().liability()
 								+ getConstants().account()), getConstants()
 				.purchase() + getConstants().account(), false, true,
-				new ChangeListner<ClientAccount>() {
+				new ChangeListner<Account>() {
 
 					@Override
-					public void onSelection(ClientAccount value) {
+					public void onSelection(Account value) {
 						// TODO Auto-generated method stub
 
 					}
@@ -182,19 +183,19 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
 				return getSalesLiabilityAccounts(context,
-						new ListFilter<ClientAccount>() {
+						new ListFilter<Account>() {
 
 							@Override
-							public boolean filter(ClientAccount account) {
+							public boolean filter(Account account) {
 								return account.getIsActive()
 										&& Arrays
-												.asList(ClientAccount.TYPE_INCOME,
-														ClientAccount.TYPE_EXPENSE,
-														ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-														ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-														ClientAccount.TYPE_FIXED_ASSET)
+												.asList(Account.TYPE_INCOME,
+														Account.TYPE_EXPENSE,
+														Account.TYPE_OTHER_CURRENT_LIABILITY,
+														Account.TYPE_OTHER_CURRENT_ASSET,
+														Account.TYPE_FIXED_ASSET)
 												.contains(account.getType());
 							}
 						});
@@ -250,10 +251,15 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		return null;
 	}
 
-	protected List<ClientAccount> getSalesLiabilityAccounts(Context context,
-			ListFilter<ClientAccount> filter) {
-		return Utility.filteredList(filter, context.getClientCompany()
-				.getAccounts());
+	protected List<Account> getSalesLiabilityAccounts(Context context,
+			ListFilter<Account> filter) {
+		List<Account> filteredList = new ArrayList<Account>();
+		for (Account obj : context.getCompany().getAccounts()) {
+			if (filter.filter(obj)) {
+				filteredList.add(obj);
+			}
+		}
+		return filteredList;
 	}
 
 	@Override

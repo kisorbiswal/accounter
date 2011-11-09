@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -192,8 +197,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return context.getClientCompany().getAccounts();
+			protected List<Account> getLists(Context context) {
+				return new ArrayList<Account>(context.getCompany()
+						.getAccounts());
 			}
 
 			@Override
@@ -202,7 +208,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientAccount e, String name) {
+			protected boolean filter(Account e, String name) {
 				return e.getName().startsWith(name)
 						|| e.getNumber().equals(name);
 			}
@@ -223,8 +229,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientShippingMethod> getLists(Context context) {
-				return context.getClientCompany().getShippingMethods();
+			protected List<ShippingMethod> getLists(Context context) {
+				return new ArrayList<ShippingMethod>(context.getCompany()
+						.getShippingMethods());
 			}
 
 			@Override
@@ -234,7 +241,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientShippingMethod e, String name) {
+			protected boolean filter(ShippingMethod e, String name) {
 				return e.getName().equals(name);
 			}
 		});
@@ -272,8 +279,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 				.paymentTerm(), true, true, null) {
 
 			@Override
-			protected List<ClientPaymentTerms> getLists(Context context) {
-				return context.getClientCompany().getPaymentsTerms();
+			protected List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
 			}
 		});
 
@@ -302,12 +310,13 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientVendorGroup> getLists(Context context) {
-				return context.getClientCompany().getVendorGroups();
+			protected List<VendorGroup> getLists(Context context) {
+				return new ArrayList<VendorGroup>(context.getCompany()
+						.getVendorGroups());
 			}
 
 			@Override
-			protected boolean filter(ClientVendorGroup e, String name) {
+			protected boolean filter(VendorGroup e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -341,12 +350,13 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
+			protected boolean filter(TAXCode e, String name) {
 				return e.getName().startsWith(name);
 			}
 		});
@@ -487,10 +497,10 @@ public class NewVendorCommand extends NewAbstractCommand {
 			vendor.setExpenseAccount(account);
 		vendor.setCreditLimit(creditLimit);
 		if (preferences.isDoProductShipMents() && shippingMethod != null)
-			vendor.setShippingMethod(shippingMethod);
+			vendor.setShippingMethod(shippingMethod.getID());
 		vendor.setPaymentMethod(paymentMethod);
 		if (paymentTerms != null)
-			vendor.setPaymentTerms(paymentTerms);
+			vendor.setPaymentTerms(paymentTerms.getID());
 
 		ClientVendorGroup value = get(VENDOR_GROUP).getValue();
 		if (value != null)
