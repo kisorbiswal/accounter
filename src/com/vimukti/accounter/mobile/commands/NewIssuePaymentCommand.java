@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -19,7 +18,6 @@ import com.vimukti.accounter.mobile.requirements.IssuePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -206,19 +204,18 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		return nextTransactionNumber;
 	}
 
-	private List<ClientTransactionIssuePayment> getclientTransactionIssuePayments(
-			ClientCompany clientCompany) {
+	private List<ClientTransactionIssuePayment> getclientTransactionIssuePayments() {
 		Account account = get(ACCOUNT).getValue();
-		return getchecks(clientCompany, account.getID());
+		return getchecks(account.getCompany().getId(), account.getID());
 	}
 
 	protected ArrayList<ClientTransactionIssuePayment> getchecks(
-			ClientCompany clientCompany, long accountId) {
+			long companyId, long accountId) {
 		ArrayList<IssuePaymentTransactionsList> checks;
 		ArrayList<ClientTransactionIssuePayment> issuepayments = new ArrayList<ClientTransactionIssuePayment>();
 		try {
 			checks = new FinanceTool().getVendorManager().getChecks(accountId,
-					clientCompany.getID());
+					companyId);
 
 			for (IssuePaymentTransactionsList entry : checks) {
 				ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
