@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 
@@ -50,8 +52,9 @@ public abstract class ReceiveVatTableRequirement extends
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionReceiveVAT obj) {
-		ClientTAXAgency taxAgency = getClientCompany().getTaxAgency(
-				obj.getTaxAgency());
+		ClientTAXAgency taxAgency = (ClientTAXAgency) CommandUtils
+				.getClientObjectById(obj.getTaxAgency(),
+						AccounterCoreType.TAXAGENCY);
 		if (taxAgency != null) {
 			get(VAT_AGENCY).setDefaultValue(taxAgency.getName());
 		}
@@ -66,8 +69,9 @@ public abstract class ReceiveVatTableRequirement extends
 
 	@Override
 	protected Record createFullRecord(ClientTransactionReceiveVAT t) {
-		ClientTAXAgency taxAgency = getClientCompany().getTaxAgency(
-				t.getTaxAgency());
+		ClientTAXAgency taxAgency = (ClientTAXAgency) CommandUtils
+				.getClientObjectById(t.getTaxAgency(),
+						AccounterCoreType.TAXAGENCY);
 
 		Record record = new Record(t);
 		record.add("", getConstants().vatAgency());

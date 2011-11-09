@@ -68,9 +68,8 @@ public class TransactionAccountTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax()
+						&& getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -109,9 +108,8 @@ public class TransactionAccountTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (!(context.getClientCompany().getPreferences().isTrackTax() && context
-						.getClientCompany().getPreferences()
-						.isTaxPerDetailLine())) {
+				if (!(context.getPreferences().isTrackTax() && context
+						.getPreferences().isTaxPerDetailLine())) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -159,8 +157,8 @@ public class TransactionAccountTableRequirement extends
 		get(ACCOUNT).setValue(getClientCompany().getAccount(obj.getAccount()));
 		get(DESCRIPTION).setDefaultValue(obj.getDescription());
 		get(AMOUNT).setValue(obj.getUnitPrice());
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			get(TAXCODE).setDefaultValue(
 					getClientCompany().getTAXCode(obj.getTaxCode()));
 		} else {
@@ -182,8 +180,8 @@ public class TransactionAccountTableRequirement extends
 		record.add("", getClientCompany().getAccount(t.getAccount())
 				.getDisplayName());
 		record.add("", t.getUnitPrice());
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			record.add("", getClientCompany().getTAXCode(t.getTaxCode())
 					.getDisplayName());
 		} else {

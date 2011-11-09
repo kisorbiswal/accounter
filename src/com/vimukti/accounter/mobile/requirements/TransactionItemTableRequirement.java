@@ -11,6 +11,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -61,9 +63,8 @@ public abstract class TransactionItemTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax()
+						&& getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -92,9 +93,8 @@ public abstract class TransactionItemTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax()
+						&& getPreferences().isTaxPerDetailLine()) {
 					return null;
 				} else {
 					return super.run(context, makeResult, list, actions);
@@ -130,8 +130,8 @@ public abstract class TransactionItemTableRequirement extends
 		obj.getQuantity().setValue((Double) get(QUANITY).getValue());
 		obj.setUnitPrice((Double) get(UNITPTICE).getValue());
 		obj.setDiscount((Double) get(DISCOUNT).getValue());
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = get(TAXCODE).getValue();
 			if (taxCode != null) {
 				obj.setTaxCode(taxCode.getID());
@@ -148,7 +148,8 @@ public abstract class TransactionItemTableRequirement extends
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionItem obj) {
-		ClientItem item = getClientCompany().getItem(obj.getItem());
+		Item item = (Item) CommandUtils.getServerObjectById(obj.getItem(),
+				AccounterCoreType.ITEM);
 		get(ITEM).setValue(item);
 		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
 		if (item != null) {
@@ -162,10 +163,11 @@ public abstract class TransactionItemTableRequirement extends
 		}
 
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			get(TAXCODE).setDefaultValue(
-					getClientCompany().getTAXCode(obj.getTaxCode()));
+					CommandUtils.getServerObjectById(obj.getTaxCode(),
+							AccounterCoreType.TAX_CODE));
 		} else {
 			get(TAX).setDefaultValue(obj.isTaxable());
 		}
@@ -182,12 +184,14 @@ public abstract class TransactionItemTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTransactionItem t) {
 		Record record = new Record(t);
-		record.add("", getClientCompany().getItem(t.getItem()).getDisplayName());
+		record.add("", ((ClientItem) (CommandUtils.getClientObjectById(
+				t.getItem(), AccounterCoreType.ITEM))).getDisplayName());
 		record.add("", t.getQuantity());
 		record.add("", t.getUnitPrice());
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
-			record.add("", getClientCompany().getTAXCode(t.getTaxCode())
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
+			record.add("", ((ClientTAXCode) (CommandUtils.getClientObjectById(
+					t.getTaxCode(), AccounterCoreType.TAX_CODE)))
 					.getDisplayName());
 		} else {
 			if (t.isTaxable()) {
