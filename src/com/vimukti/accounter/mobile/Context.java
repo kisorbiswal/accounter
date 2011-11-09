@@ -45,6 +45,7 @@ public class Context {
 	}
 
 	private int networkType;
+	private ClientCompanyPreferences preferences;
 
 	/**
 	 * Creates new Instance
@@ -334,6 +335,10 @@ public class Context {
 	}
 
 	public ClientCompanyPreferences getPreferences() {
-		return null;
+		return preferences;
+	}
+
+	public void setPreferences(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
 	}
 }
