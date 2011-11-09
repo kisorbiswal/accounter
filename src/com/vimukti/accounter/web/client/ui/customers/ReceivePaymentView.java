@@ -60,11 +60,10 @@ public class ReceivePaymentView extends
 
 	public AmountField customerNonEditablebalText;
 
-	public AmountLabel unUsedCreditsTextBaseCurrency,
-			unUsedPaymentsTextBaseCurrency;
+	public AmountLabel unUsedCreditsText, unUsedPaymentsText;
 
-	public AmountLabel unUsedCreditsTextForeignCurrency,
-			unUsedPaymentsTextForeignCurrency;
+	// public AmountLabel unUsedCreditsTextForeignCurrency,
+	// unUsedPaymentsTextForeignCurrency;
 
 	public AmountField amtText;
 	private DynamicForm payForm;
@@ -158,13 +157,13 @@ public class ReceivePaymentView extends
 			}
 		}
 
-		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-		if (clientCurrency != null) {
-			unUsedCreditsTextForeignCurrency.setTitle(Accounter.messages()
-					.unusedCredits(clientCurrency.getFormalName()));
-			unUsedPaymentsTextForeignCurrency.setTitle(Accounter.messages()
-					.unusedPayments(clientCurrency.getFormalName()));
-		}
+		// ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+		// if (clientCurrency != null) {
+		// unUsedCreditsTextForeignCurrency.setTitle(Accounter.messages()
+		// .unusedCredits(clientCurrency.getFormalName()));
+		// unUsedPaymentsTextForeignCurrency.setTitle(Accounter.messages()
+		// .unusedPayments(clientCurrency.getFormalName()));
+		// }
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrencycode(getCompany().getCurrency(
 					customer.getCurrency()));
@@ -224,18 +223,18 @@ public class ReceivePaymentView extends
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsTextBaseCurrency
-				.setAmount(getAmountInBaseCurrency(totalCredits));
-
-		this.unUsedCreditsTextForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(totalCredits));
+		this.unUsedCreditsText
+				.setAmount(totalCredits);
+		//
+		// this.unUsedCreditsTextForeignCurrency
+		// .setAmount(getAmountInTransactionCurrency(totalCredits));
 
 	}
 
 	private void setCustomerBalance(Double balance) {
 
 		customerNonEditablebalText
-				.setAmount(getAmountInTransactionCurrency(balance));
+				.setAmount(balance);
 
 	}
 
@@ -266,12 +265,15 @@ public class ReceivePaymentView extends
 					.getInvoiceAmount());
 
 			record.setInvoice(receivePaymentTransaction.getTransactionId());
-			record.setAmountDue(receivePaymentTransaction.getAmountDue());
-			record.setDummyDue(receivePaymentTransaction.getAmountDue());
+			record.setAmountDue(receivePaymentTransaction
+					.getAmountDue());
+			record.setDummyDue(receivePaymentTransaction
+					.getAmountDue());
 			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
 					.getDiscountDate().getDate() : 0);
 
-			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
+			record.setCashDiscount(receivePaymentTransaction
+					.getCashDiscount());
 
 			record.setWriteOff(receivePaymentTransaction.getWriteOff());
 
@@ -305,7 +307,6 @@ public class ReceivePaymentView extends
 			ClientTransactionReceivePayment record) {
 
 		ClientTransactionReceivePayment trpRecord = (ClientTransactionReceivePayment) record;
-		// FIXME :: required no changes but it has fix me so confirm it
 		Double amountDue = trpRecord.getAmountDue();
 
 		Double cashDiscount = trpRecord.getCashDiscount();
@@ -441,6 +442,7 @@ public class ReceivePaymentView extends
 		amtText = new AmountField(Accounter.messages().amountReceived(
 				getCompany().getPreferences().getPrimaryCurrency()
 						.getFormalName()), this);
+
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isInViewMode());
@@ -519,52 +521,33 @@ public class ReceivePaymentView extends
 
 		initListGrid();
 
-		unUsedCreditsTextBaseCurrency = new AmountLabel(Accounter.messages()
-				.unusedCredits(
-						getCompany().getPreferences().getPrimaryCurrency()
-								.getFormalName()));
-		unUsedCreditsTextBaseCurrency.setHelpInformation(true);
-		unUsedCreditsTextBaseCurrency.setDisabled(true);
 
-		unUsedPaymentsTextBaseCurrency = new AmountLabel(Accounter.messages()
-				.unusedPayments(
-						getCompany().getPreferences().getPrimaryCurrency()
-								.getFormalName()));
-		unUsedPaymentsTextBaseCurrency.setHelpInformation(true);
-		unUsedPaymentsTextBaseCurrency.setDisabled(true);
-
-		unUsedCreditsTextForeignCurrency = new AmountLabel(Accounter.messages()
-				.unusedCredits(
-						getCompany().getPreferences().getPrimaryCurrency()
-								.getFormalName()));
-		unUsedCreditsTextForeignCurrency.setHelpInformation(true);
-		unUsedCreditsTextForeignCurrency.setDisabled(true);
-
-		unUsedPaymentsTextForeignCurrency = new AmountLabel(Accounter
-				.messages().unusedPayments(
-						getCompany().getPreferences().getPrimaryCurrency()
-								.getFormalName()));
-		unUsedPaymentsTextForeignCurrency.setHelpInformation(true);
-		unUsedPaymentsTextForeignCurrency.setDisabled(true);
+		// unUsedCreditsTextForeignCurrency = new
+		// AmountLabel(Accounter.messages()
+		// .unusedCredits(
+		// getCompany().getPreferences().getPrimaryCurrency()));
+		// unUsedCreditsTextForeignCurrency.setHelpInformation(true);
+		// unUsedCreditsTextForeignCurrency.setDisabled(true);
+		//
+		// unUsedPaymentsTextForeignCurrency = new AmountLabel(Accounter
+		// .messages().unusedPayments(
+		// getCompany().getPreferences().getPrimaryCurrency()));
+		// unUsedPaymentsTextForeignCurrency.setHelpInformation(true);
+		// unUsedPaymentsTextForeignCurrency.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
 		if (isMultiCurrencyEnabled()) {
 			if (!isInViewMode()) {
-				textForm.setFields(unUsedCreditsTextBaseCurrency,
-						unUsedPaymentsTextBaseCurrency,
-						unUsedCreditsTextForeignCurrency,
-						unUsedPaymentsTextForeignCurrency);
+				textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
 			} else {
-				textForm.setFields(unUsedPaymentsTextBaseCurrency,
-						unUsedPaymentsTextForeignCurrency);
+				textForm.setFields(unUsedPaymentsText);
 			}
 		} else {
 			if (!isInViewMode()) {
-				textForm.setFields(unUsedCreditsTextBaseCurrency,
-						unUsedPaymentsTextBaseCurrency);
+				textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
 			} else {
-				textForm.setFields(unUsedPaymentsTextBaseCurrency);
+				textForm.setFields(unUsedPaymentsText);
 			}
 		}
 		// textForm.addStyleName("textbold");
@@ -639,12 +622,12 @@ public class ReceivePaymentView extends
 
 		settabIndexes();
 
-		if (isMultiCurrencyEnabled()) {
-			if (!isInViewMode()) {
-				unUsedCreditsTextForeignCurrency.hide();
-			}
-			unUsedPaymentsTextForeignCurrency.hide();
-		}
+		// if (isMultiCurrencyEnabled()) {
+		// if (!isInViewMode()) {
+		// unUsedCreditsTextForeignCurrency.hide();
+		// }
+		// unUsedPaymentsTextForeignCurrency.hide();
+		// }
 
 	}
 
@@ -666,9 +649,7 @@ public class ReceivePaymentView extends
 
 		if (amount == null)
 			amount = 0.00D;
-
 		setAmountRecieved(amount);
-
 		recalculateGridAmounts();
 
 	}
@@ -708,8 +689,7 @@ public class ReceivePaymentView extends
 
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(this.transactionTotal);
-		transaction.setUnUsedCredits(this.unUsedCreditsTextBaseCurrency
-				.getAmount());
+		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -720,18 +700,17 @@ public class ReceivePaymentView extends
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsTextBaseCurrency
-				.setAmount(getAmountInBaseCurrency(unusedAmounts));
-		this.unUsedPaymentsTextForeignCurrency.setAmount(unusedAmounts);
 
+		this.unUsedPaymentsText
+				.setAmount(unusedAmounts);
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
 
-		unUsedCreditsTextBaseCurrency
-				.setAmount(getAmountInBaseCurrency(getAmountInBaseCurrency(unusedCredits)));
-		unUsedCreditsTextForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(unusedCredits));
+		unUsedCreditsText
+				.setAmount(getAmountInBaseCurrency(unusedCredits));
+		// unUsedCreditsTextForeignCurrency
+		// .setAmount(getAmountInTransactionCurrency(unusedCredits));
 
 	}
 
@@ -815,8 +794,9 @@ public class ReceivePaymentView extends
 					.getLocation(transaction.getLocation()));
 		initCustomers();
 		if (isMultiCurrencyEnabled()) {
-			currencyWidget.setShowFactorField(true);
-			updateAmountsFromGUI();
+			// currencyWidget.setShowFactorField(true);
+			if (isInViewMode())
+				updateAmountsFromGUI();
 		}
 	}
 
@@ -845,7 +825,6 @@ public class ReceivePaymentView extends
 		this.transactionTotal = getGridTotal();
 		this.unUsedPayments = (amountRecieved - getAmountInTransactionCurrency(transactionTotal));
 		setUnusedPayments(unUsedPayments);
-
 		calculateUnusedCredits();
 	}
 
@@ -915,9 +894,8 @@ public class ReceivePaymentView extends
 			}
 		}
 		if (!isInViewMode()
-				&& DecimalUtil.isGreaterThan(
-						unUsedPaymentsTextBaseCurrency.getAmount(), 0))
-			result.addWarning(unUsedPaymentsTextBaseCurrency,
+				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
+			result.addWarning(unUsedPaymentsText,
 					AccounterWarningType.recievePayment);
 
 		return result;
@@ -1155,28 +1133,14 @@ public class ReceivePaymentView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
-		if (currencyWidget.isShowFactorField()) {
-			if (!isInViewMode()) {
-				unUsedCreditsTextForeignCurrency.hide();
-			}
-			unUsedPaymentsTextForeignCurrency.hide();
-		} else {
-			if (!isInViewMode()) {
-				unUsedCreditsTextForeignCurrency.show();
-			}
-			unUsedPaymentsTextForeignCurrency.show();
-			if (!isInViewMode()) {
-				unUsedCreditsTextForeignCurrency.setTitle(Accounter.messages()
-						.unusedCredits(
-								currencyWidget.getSelectedCurrency()
-										.getFormalName()));
-			}
-			unUsedPaymentsTextForeignCurrency.setTitle(Accounter.messages()
-					.unusedPayments(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
-			amtText.setTitle(Accounter.messages().amountReceived(
-					currencyWidget.getSelectedCurrency().getFormalName()));
-		}
+
+		unUsedCreditsText.setTitle(Accounter.messages().unusedCredits(
+				currencyWidget.getSelectedCurrency().getFormalName()));
+		unUsedPaymentsText.setTitle(Accounter.messages().unusedPayments(
+				currencyWidget.getSelectedCurrency().getFormalName()));
+		amtText.setTitle(Accounter.messages().amountReceived(
+				currencyWidget.getSelectedCurrency().getFormalName()));
 	}
+
+
 }

@@ -43,13 +43,12 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		if (cashDiscountValue == null)
 			cashDiscountValue = 0.0D;
 		this.writeOffAmount = cashDiscountValue;
-		discAmtText.setAmount(currencyProvider
-				.getAmountInTransactionCurrency(cashDiscountValue));
+		discAmtText.setAmount(cashDiscountValue);
 	}
 
 	public Double getCashDiscountValue() {
-		writeOffAmount = currencyProvider.getAmountInBaseCurrency(discAmtText
-				.getAmount());
+		writeOffAmount = discAmtText
+				.getAmount();
 		return writeOffAmount;
 	}
 
@@ -105,8 +104,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 			public void onFocus(FocusEvent event) {
 				double amount = writeOffAmount != null ? writeOffAmount
 						.doubleValue() : 0.0D;
-				discAmtText.setAmount(currencyProvider
-						.getAmountInTransactionCurrency(amount));
+				discAmtText.setAmount(amount);
 				discAmtText.focusInItem();
 
 			}

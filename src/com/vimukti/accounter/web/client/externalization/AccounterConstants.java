@@ -3739,4 +3739,6 @@ public interface AccounterConstants extends Constants {
 	public String translation();
 
 	public String oneUserCanEnterOneValueOnlyForEachMessage();
+
+	public String selectProperBankAccount();
 }

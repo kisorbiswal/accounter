@@ -324,7 +324,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().payment();
+				return getColumnNameWithCurrency(Accounter.constants().payment());
 			}
 
 			@Override

@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -502,16 +503,6 @@ public class WriteChequeView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
-		// Validations
-		// 1. payForm validation
-		// 2. bankAccForm validation
-		// 3. if(isBlankTransaction(transactionVendorGrid or
-		// transactionCustomerGrid)) ERROR
-		// else transactionVendorGrid or transactionCustomerGrid validation
-		// 4. if(!validPositiveAmount(gridTotalAmount)) ERROR
-		// if (result.getErrors().size() > 0)
-		// return result;
-
 		result.add(DynamicForm.validate(payForm));
 		result.add(DynamicForm.validate(bankAccForm));
 
@@ -542,9 +533,20 @@ public class WriteChequeView extends
 			result.addError(unassignedAmountPanel, constants
 					.amountAndTotalShouldEqual());
 		}
-
+		
+		ClientAccount bankAccount = bankAccSelect.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(bankAccSelect,accounterConstants.selectProperBankAccount());
+			}
+		}
+			
+		
 		return result;
 	}
+
 
 	private boolean validateAmount() {
 		double total = 0.0;

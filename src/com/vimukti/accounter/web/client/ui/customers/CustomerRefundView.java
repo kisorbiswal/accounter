@@ -617,6 +617,14 @@ public class CustomerRefundView extends
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
+		ClientAccount bankAccount = payFromCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
+			}
+		}
 		return result;
 	}
 

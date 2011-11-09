@@ -114,6 +114,14 @@ public class NewCustomerPaymentView extends
 			result.addError(amountText, accounterMessages
 					.valueCannotBe0orlessthan0(accounterConstants.amount()));
 		}
+		ClientAccount bankAccount = depositInCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(depositInCombo,accounterConstants.selectProperBankAccount());
+			}
+		}
 		return result;
 	}
 

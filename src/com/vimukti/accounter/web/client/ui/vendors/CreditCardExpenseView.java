@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -694,6 +695,14 @@ public class CreditCardExpenseView extends
 					result.addError(taxCodeSelect,
 							accounterConstants.enterTaxCode());
 				}
+			}
+		}
+		ClientAccount bankAccount = payFromCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;

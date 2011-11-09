@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -946,6 +947,14 @@ public class CashSalesView extends
 							accounterConstants.enterTaxCode());
 				}
 
+			}
+		}
+		ClientAccount bankAccount = depositInCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(depositInCombo,accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;

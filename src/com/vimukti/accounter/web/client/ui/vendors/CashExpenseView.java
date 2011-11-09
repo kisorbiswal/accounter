@@ -152,6 +152,14 @@ public class CashExpenseView extends
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
 		}
+		ClientAccount bankAccount = payFromCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(payFromCombo,Accounter.constants().selectProperBankAccount());
+			}
+		}
 		return result;
 	}
 

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
@@ -507,6 +508,14 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 			// FIXME Confirm Object
 			result.addError("TotalAmount", accounterConstants.amount());
+		}
+		ClientAccount bankAccount = payFromAccCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(payFromAccCombo,accounterConstants.selectProperBankAccount());
+			}
 		}
 		return result;
 	}

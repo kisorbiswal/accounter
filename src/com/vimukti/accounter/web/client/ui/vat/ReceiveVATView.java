@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
@@ -475,18 +476,7 @@ public class ReceiveVATView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		// Validations
-		// 1. is valid transaction?
-		// 2. is in prevent posting before date?
-		// 3. main form valid?
-		// 4. is blank transaction?
-		// 5. grid valid?
-		// 6. is positive amount?
-		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
-		// {
-		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
-		// }
+
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -510,6 +500,14 @@ public class ReceiveVATView extends
 			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 				// FIXME Need to Configm Object
 				result.addError("TotalAmount", accounterConstants.amount());
+			}
+		}
+		ClientAccount bankAccount = depositInAccCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(depositInAccCombo,accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;

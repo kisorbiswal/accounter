@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -910,20 +911,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			vendorCombo.setValue("");
 		}
 
-		// Validations
-		// 1. is valid transaction date?
-		// 2. is in prevent posting before date?
-		// 3. is pay form valid?
-		// 4. filterForm valid?
-		// 5. do select transaction?
-		// 6. grid valid?
-
-		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
-		// {
-		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
-		// }
-
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
@@ -959,7 +946,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				result.addError(tdsCombo, constants.pleaseSelectTDS());
 			}
 		}
-
+		ClientAccount bankAccount = payFromCombo.getSelectedValue();
+		//check if the currency of accounts is valid or not
+		if(bankAccount!=null){
+			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
+			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
+			}
+		}
 		return result;
 	}
 
