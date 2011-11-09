@@ -29,7 +29,6 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -313,9 +312,9 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 		vendorCreditMemo.setTransactionItems(items);
 
-		ClientContact contact = get(CONTACT).getValue();
+		Contact contact = get(CONTACT).getValue();
 		if (contact != null && contact.getName() != null) {
-			vendorCreditMemo.setContact(contact);
+			vendorCreditMemo.setContact(toClientContact(contact));
 		}
 		String phone = get(PHONE).getValue();
 		vendorCreditMemo.setPhone(phone);

@@ -364,7 +364,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 	private ClientSalesOrder createSalesOrderObjetc(Context context) {
 		ClientSalesOrder newSalesOrder = new ClientSalesOrder();
 
-		ClientCustomer customer = get(CUSTOMER).getValue();
+		Customer customer = get(CUSTOMER).getValue();
 		newSalesOrder.setCustomer(customer.getID());
 		newSalesOrder.setType(ClientTransaction.TYPE_SALES_ORDER);
 		newSalesOrder.setPhone((String) get(PHONE).getValue());

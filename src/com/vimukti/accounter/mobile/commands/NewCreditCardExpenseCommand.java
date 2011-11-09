@@ -30,7 +30,6 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -426,7 +425,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	// get(DATE).setDefaultValue(new ClientFinanceDate());
 	// get(NUMBER).setDefaultValue(getNextTransactionNumber());
 	// get(PHONE).setDefaultValue(" ");
-	// ClientContact contact = new ClientContact();
+	// Contact contact = new Contact();
 	// contact.setName(null);
 	// get(CONTACT).setDefaultValue(contact);
 	// get(MEMO).setDefaultValue(" ");
@@ -441,7 +440,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	// ClientVendor supplier = get(SUPPLIER).getValue();
 	// creditCardCharge.setVendor(supplier.getID());
 	//
-	// ClientContact contact = get(CONTACT).getValue();
+	// Contact contact = get(CONTACT).getValue();
 	// creditCardCharge.setContact(contact);
 	//
 	// ClientFinanceDate date = get(DATE).getValue();
@@ -573,8 +572,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		ClientVendor supplier = get(VENDOR).getValue();
 		creditCardCharge.setVendor(supplier.getID());
 
-		ClientContact contact = get(CONTACT).getValue();
-		creditCardCharge.setContact(contact);
+		Contact contact = get(CONTACT).getValue();
+		creditCardCharge.setContact(toClientContact(contact));
 
 		ClientFinanceDate date = get(DATE).getValue();
 		creditCardCharge.setDate(date.getDate());
@@ -666,7 +665,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(getNextTransactionNumber(context));
 		get(PHONE).setDefaultValue(" ");
-		ClientContact contact = new ClientContact();
+		Contact contact = new Contact();
 		contact.setName(null);
 		get(CONTACT).setDefaultValue(contact);
 		get(MEMO).setDefaultValue(" ");

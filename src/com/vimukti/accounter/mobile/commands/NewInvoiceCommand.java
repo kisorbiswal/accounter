@@ -35,7 +35,6 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -403,7 +402,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		invoice.setDueDate(dueDate.getDate());
 
 		Contact contact = get(CONTACT).getValue();
-		invoice.setContact(convertToClientContact(contact));
+		invoice.setContact(toClientContact(contact));
 
 		ClientAddress billTo = get(BILL_TO).getValue();
 		invoice.setBillingAddress(billTo);
@@ -460,21 +459,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		invoice.setTaxTotal(taxTotal);
 		create(invoice, context);
 		return null;
-	}
-
-	private ClientContact convertToClientContact(Contact contact) {
-		if (contact == null) {
-			return null;
-		}
-		ClientContact clientContact = new ClientContact();
-		clientContact.setID(contact.getID());
-		clientContact.setBusinessPhone(contact.getBusinessPhone());
-		clientContact.setEmail(contact.getEmail());
-		clientContact.setName(contact.getName());
-		clientContact.setPrimary(contact.isPrimary());
-		clientContact.setTitle(contact.getTitle());
-		clientContact.setVersion(contact.getVersion());
-		return clientContact;
 	}
 
 	@Override

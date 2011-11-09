@@ -8,6 +8,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -36,7 +37,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -298,8 +298,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getContactHolderName() {
-				return ((ClientCustomer) get(CUSTOMER).getValue())
-						.getDisplayName();
+				return ((Customer) get(CUSTOMER).getValue()).getName();
 			}
 		});
 

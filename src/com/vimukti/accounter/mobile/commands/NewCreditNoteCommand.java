@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -327,8 +326,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		String number = get("CreditNumber").getValue();
 		creditMemo.setNumber(number);
 
-		ClientContact contact = get(CONTACT).getValue();
-		creditMemo.setContact(contact);
+		Contact contact = get(CONTACT).getValue();
+		creditMemo.setContact(toClientContact(contact));
 
 		ClientAddress billTo = get(BILL_TO).getValue();
 		creditMemo.setBillingAddress(billTo);

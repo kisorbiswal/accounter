@@ -34,7 +34,6 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -90,11 +89,11 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
 
-		ClientVendor v = (ClientVendor) get(VENDOR).getValue();
+		Vendor v = (Vendor) get(VENDOR).getValue();
 		if (v != null) {
-			Set<ClientContact> contacts2 = v.getContacts();
+			Set<Contact> contacts2 = v.getContacts();
 			if (contacts2 != null)
-				for (ClientContact c : contacts2) {
+				for (Contact c : contacts2) {
 					get(CONTACT).setDefaultValue(c);
 				}
 		}
@@ -409,8 +408,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
 		enterBill.setDeliveryDate(deliveryDate);
 
-		ClientContact contact = get(CONTACT).getValue();
-		enterBill.setContact(contact);
+		Contact contact = get(CONTACT).getValue();
+		enterBill.setContact(toClientContact(contact));
 
 		ClientPaymentTerms paymentTerm = get("paymentTerms").getValue();
 		enterBill.setPaymentTerm(paymentTerm.getID());

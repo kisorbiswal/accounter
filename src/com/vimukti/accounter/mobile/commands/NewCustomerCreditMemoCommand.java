@@ -32,7 +32,6 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -313,9 +312,9 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		String number = get(NUMBER).getValue();
 		creditMemo.setNumber(number);
 
-		ClientContact contact = (ClientContact) get(CONTACT).getValue();
+		Contact contact = (Contact) get(CONTACT).getValue();
 
-		creditMemo.setContact(contact);
+		creditMemo.setContact(toClientContact(contact));
 		ClientAddress billingAddress = get(BILL_TO).getValue();
 		creditMemo.setBillingAddress(billingAddress);
 

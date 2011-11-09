@@ -30,7 +30,6 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -257,9 +256,9 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		String number = get(NUMBER).getValue();
 		estimate.setNumber(number);
 
-		ClientContact contact = get(CONTACT).getValue();
+		Contact contact = get(CONTACT).getValue();
 		if (contact != null)
-			estimate.setContact(contact);
+			estimate.setContact(toClientContact(contact));
 
 		ClientAddress billTo = get(BILL_TO).getValue();
 		estimate.setAddress(billTo);

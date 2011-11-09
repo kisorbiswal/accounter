@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -464,8 +463,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		ClientCustomer customer = get(CUSTOMER).getValue();
 		cashSale.setCustomer(customer.getID());
 
-		ClientContact contact = get(CONTACT).getValue();
-		cashSale.setContact(contact);
+		Contact contact = get(CONTACT).getValue();
+		cashSale.setContact(toClientContact(contact));
 
 		cashSale.setShippingAdress(getAddress(ClientAddress.TYPE_SHIP_TO,
 				customer));
@@ -550,7 +549,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 	protected void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(getNextTransactionNumber(context));
-		ClientContact contact = new ClientContact();
+		Contact contact = new Contact();
 		contact.setName(null);
 		get(CONTACT).setDefaultValue(contact);
 		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
