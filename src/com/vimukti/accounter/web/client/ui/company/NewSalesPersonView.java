@@ -358,6 +358,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		rightVLay.add(salesPersonInfoForm);
 //		salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		// topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
