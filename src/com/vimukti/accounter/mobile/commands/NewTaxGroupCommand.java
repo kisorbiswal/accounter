@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.Context;
@@ -8,6 +7,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxItemsTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 
@@ -33,9 +33,7 @@ public class NewTaxGroupCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<ClientTAXItem> getList() {
-				// ArrayList<ClientTAXItem> taxItems = getClientCompany()
-				// .getTaxItems();
-				return null;// taxItems;
+				return CommandUtils.getClientTaxItems(getCompanyId());
 			}
 
 		});

@@ -24,6 +24,7 @@ public abstract class NewAbstractCommand extends NewCommand {
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
+	private long companyId;
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
 	protected static final String COUNTRY = "country";
 	protected static final String PHONE = "phone";
@@ -65,7 +66,7 @@ public abstract class NewAbstractCommand extends NewCommand {
 			if (coreObject.getID() == 0) {
 				String clientClassSimpleName = coreObject.getObjectType()
 						.getClientClassSimpleName();
-
+				companyId = context.getCompany().getID();
 				OperationContext opContext = new OperationContext(context
 						.getCompany().getID(), coreObject, context
 						.getIOSession().getUserEmail());
@@ -150,6 +151,9 @@ public abstract class NewAbstractCommand extends NewCommand {
 	}
 
 	protected ClientContact toClientContact(Contact contact) {
+		if (contact == null) {
+			return null;
+		}
 		ClientContact clientContact = new ClientContact();
 		clientContact.setBusinessPhone(contact.getBusinessPhone());
 		clientContact.setEmail(contact.getEmail());
@@ -162,6 +166,9 @@ public abstract class NewAbstractCommand extends NewCommand {
 	}
 
 	protected ClientAddress toClientAddress(Address address) {
+		if (address == null) {
+			return null;
+		}
 		ClientAddress clientAddress = new ClientAddress();
 		clientAddress.setAddress1(address.getAddress1());
 		clientAddress.setCity(address.getCity());
@@ -177,6 +184,6 @@ public abstract class NewAbstractCommand extends NewCommand {
 	}
 
 	public long getCompanyId() {
-		return 0;
+		return companyId;
 	}
 }

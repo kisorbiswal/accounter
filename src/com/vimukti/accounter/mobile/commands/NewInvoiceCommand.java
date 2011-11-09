@@ -426,20 +426,21 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			invoice.setCurrencyFactor(factor);
 		}
 
-		EstimatesAndSalesOrdersList e = get(ESTIMATEANDSALESORDER).getValue();
+		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
+				.getValue();
 		ClientEstimate cct = null;
 		ClientSalesOrder cSalesOrder = null;
-		if (e != null) {
-			if (e.getType() == ClientTransaction.TYPE_ESTIMATE) {
-				// invoice.setEstimate(e.getTransactionId());
-				cct = getEstimate(e.getTransactionId(), context);
-				addEstimate(cct, items);
-			} else {
-				// invoice.setSalesOrder(e.getTransactionId());
-				cSalesOrder = getSalesOrder(e.getTransactionId(), context);
-				addSalesOrder(cSalesOrder, items);
-			}
-		}
+		// if (e != null) {
+		// if (e.getType() == ClientTransaction.TYPE_ESTIMATE) {
+		// // invoice.setEstimate(e.getTransactionId());
+		// cct = getEstimate(e.getTransactionId(), context);
+		// addEstimate(cct, items);
+		// } else {
+		// // invoice.setSalesOrder(e.getTransactionId());
+		// cSalesOrder = getSalesOrder(e.getTransactionId(), context);
+		// addSalesOrder(cSalesOrder, items);
+		// }
+		// }
 
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
