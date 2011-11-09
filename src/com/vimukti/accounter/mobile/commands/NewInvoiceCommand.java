@@ -360,7 +360,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		invoice.setMemo(memo);
 		invoice.setStatus(Invoice.STATUS_OPEN);
 		// Adding selecting estimate or salesOrder to Invoice
-
+		invoice.setCurrencyFactor(1);
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();
