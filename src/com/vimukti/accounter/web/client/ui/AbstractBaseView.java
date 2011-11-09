@@ -483,8 +483,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	}
 
 	public boolean isMultiCurrencyEnabled() {
-		//return getCompany().getPreferences().isEnableMultiCurrency();
-		return false;
+		return getCompany().getPreferences().isEnableMultiCurrency();
 	}
 
 }
