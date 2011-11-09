@@ -53,7 +53,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -180,8 +179,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		} else {
-			ClientCurrency clientCurrency = getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency());
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
@@ -513,7 +512,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		DynamicForm vatForm = new DynamicForm();
 		prodAndServiceForm2.addStyleName("boldtext");
-		
+
 		if (isTrackTax()) {
 			prodAndServiceForm2.setFields(netAmountLabel);
 			if (isTaxPerDetailLine()) {
@@ -691,8 +690,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency());
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);

@@ -1059,6 +1059,7 @@
 		<property name="memo" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
+		<property name="balanceInPayeeCurrency" column="BALANCE_IN_PAYYE_CURRENCY"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>

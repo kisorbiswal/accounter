@@ -42,10 +42,9 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 7:
 			return list.getCheckNumber();
 		case 8:
-			return amountAsString(
-					list.getAmountPaid(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(list.getAmountPaid(),
+
+			getCompany().getPreferences().getPrimaryCurrency());
 		case 9:
 			if (!list.isVoided())
 				return Accounter.getFinanceImages().notvoid();

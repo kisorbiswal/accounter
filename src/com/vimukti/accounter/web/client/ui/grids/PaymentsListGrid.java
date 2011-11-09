@@ -55,10 +55,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 7:
 			return obj.getCheckNumber();
 		case 8:
-			return amountAsString(
-					obj.getAmountPaid(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(obj.getAmountPaid(), getCompany()
+					.getPreferences().getPrimaryCurrency());
 		case 9:
 			if (!obj.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -193,8 +191,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void onDoubleClick(PaymentsList obj) {
-		ReportsRPC.openTransactionView(getType(obj),
-				obj.getTransactionId());
+		ReportsRPC.openTransactionView(getType(obj), obj.getTransactionId());
 	}
 
 	@Override

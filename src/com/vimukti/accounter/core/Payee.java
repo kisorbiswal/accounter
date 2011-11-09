@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -42,6 +43,10 @@ public abstract class Payee extends CreatableObject implements
 	FinanceDate date;
 
 	double balance;
+
+	double balanceInPayeeCurrency;
+
+	double currencyFactor = 1;
 
 	String name;
 	String fileAs;
@@ -83,7 +88,7 @@ public abstract class Payee extends CreatableObject implements
 	String cstNumber;
 	String serviceTaxRegistrationNumber;
 	String tinNumber;
-	private Currency currency;
+	protected Currency currency;
 
 	public transient boolean isOnSaveProccessed;
 
@@ -327,8 +332,12 @@ public abstract class Payee extends CreatableObject implements
 
 		if (this.type == TYPE_CUSTOMER) {
 			this.balance -= amount;
+			this.balanceInPayeeCurrency -= amount
+					/ transaction.getCurrencyFactor();
 		} else if (this.type == TYPE_VENDOR || this.type == TYPE_TAX_AGENCY) {
 			this.balance += amount;
+			this.balanceInPayeeCurrency += amount
+					/ transaction.getCurrencyFactor();
 		}
 
 		/**
@@ -505,5 +514,55 @@ public abstract class Payee extends CreatableObject implements
 
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+	}
+
+	/**
+	 * @return the balanceInPayeeCurrency
+	 */
+	public double getBalanceInPayeeCurrency() {
+		return balanceInPayeeCurrency;
+	}
+
+	/**
+	 * @param balanceInPayeeCurrency
+	 *            the balanceInPayeeCurrency to set
+	 */
+	public void setBalanceInPayeeCurrency(double balanceInPayeeCurrency) {
+		this.balanceInPayeeCurrency = balanceInPayeeCurrency;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		if (currency == null) {
+			this.currency = getCompany().getPrimaryCurrency();
+		}
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+
+		super.onUpdate(session);
+		if (!DecimalUtil.isEquals(this.openingBalance, this.previousOpeningBal)) {
+
+			this.balance -= previousOpeningBal;
+			this.balance += openingBalance;
+			this.balanceInPayeeCurrency -= previousOpeningBal / currencyFactor;
+			this.balanceInPayeeCurrency += openingBalance / currencyFactor;
+
+			JournalEntry existEntry = (JournalEntry) session
+					.getNamedQuery("getJournalEntryForCustomer")
+					.setLong("id", this.id).uniqueResult();
+			if (existEntry == null) {
+				JournalEntry journalEntry = createJournalEntry(this);
+				session.save(journalEntry);
+			} else {
+				modifyJournalEntry(existEntry);
+			}
+		}
+
+		ChangeTracker.put(this);
+		return false;
+
 	}
 }

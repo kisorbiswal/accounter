@@ -24,8 +24,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	public double balance = 0.0;
 	public double totalBalance = 0.0;
 	private AccountRegisterOthersView view;
-	ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 
 	public AccountRegisterOtherListGrid(boolean isMultiSelectionEnable) {
 		super(false, true);

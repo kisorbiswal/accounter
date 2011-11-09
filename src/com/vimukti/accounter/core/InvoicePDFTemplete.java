@@ -103,8 +103,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// for primary curreny
-			Currency primaryCurrency = company.getCurrency(company
-					.getPreferences().getPrimaryCurrency());
+			Currency primaryCurrency = company.getPreferences()
+					.getPrimaryCurrency();
 			if (primaryCurrency != null)
 				if (primaryCurrency.getFormalName().trim().length() > 0) {
 					t.setVariable("currency", primaryCurrency.getFormalName()
@@ -237,21 +237,22 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
 
-				String description = forNullValue(item.getDescription()); 
+				String description = forNullValue(item.getDescription());
 				description = description.replaceAll("\n", "<br/>");
 				String qty = "";
-				if(item.getQuantity() != null){
-				 qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
-						.getQuantity().getValue(), null, maxDecimalPoints));
+				if (item.getQuantity() != null) {
+					qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
+							.getQuantity().getValue(), null, maxDecimalPoints));
 				}
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
 						.getUnitPrice()));
 				String totalPrice = largeAmountConversation(item.getLineTotal());
- 
+
 				String vatAmount = getDecimalsUsingMaxDecimals(
 						item.getVATfraction(), null, 2);
-  
-				String name = item.getItem()!= null ?item.getItem().getName() : item.getAccount().getName();
+
+				String name = item.getItem() != null ? item.getItem().getName()
+						: item.getAccount().getName();
 				t.setVariable("name", name);
 				t.setVariable("discount",
 						largeAmountConversation(item.getDiscount()));

@@ -126,11 +126,9 @@ public class ReportGrid<R> extends CustomTable {
 	}
 
 	private String getValue(Object object) {
-		return (object instanceof Double ? amountAsString(
-				(Double) object,
-				Accounter.getCompany().getCurrency(
-						Accounter.getCompany().getPreferences()
-								.getPrimaryCurrency())) : object.toString());
+		return (object instanceof Double ? amountAsString((Double) object,
+				Accounter.getCompany().getPreferences().getPrimaryCurrency())
+				: object.toString());
 	}
 
 	private void addDefaultStyleNames(int rowCount, boolean bold,
@@ -338,8 +336,8 @@ public class ReportGrid<R> extends CustomTable {
 			// }
 
 			if (isMultiSelectionEnable) {
-//				table.getCellFormatter().getElement(row, 0)
-//						.setAttribute(Accounter.constants().width(), "" + 15);
+				// table.getCellFormatter().getElement(row, 0)
+				// .setAttribute(Accounter.constants().width(), "" + 15);
 			}
 
 		} catch (Exception e) {

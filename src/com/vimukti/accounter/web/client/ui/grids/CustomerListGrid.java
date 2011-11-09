@@ -20,8 +20,8 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 
-	ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 
 	public CustomerListGrid() {
 		super(false, true);

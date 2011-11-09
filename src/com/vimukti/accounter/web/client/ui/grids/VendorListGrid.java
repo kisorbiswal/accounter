@@ -17,13 +17,12 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class VendorListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
-	private ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	private ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 
 	public VendorListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable, true);

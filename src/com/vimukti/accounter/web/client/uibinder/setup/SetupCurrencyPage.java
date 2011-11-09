@@ -86,11 +86,11 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void onLoad() {
-		String primaryCurrency = preferences.getPrimaryCurrency();
+		ClientCurrency primaryCurrency = preferences.getPrimaryCurrency();
 		if (primaryCurrency != null) {
 			for (int index = 0; index < currenciesList.size(); index++) {
-				if (currenciesList.get(index).getFormalName().equals(
-						primaryCurrency)) {
+				if (currenciesList.get(index).getFormalName()
+						.equals(primaryCurrency.getFormalName())) {
 					primaryCurrencyListBox.setSelectedIndex(index);
 				}
 			}
@@ -101,8 +101,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	protected void onSave() {
 		if (primaryCurrencyListBox.getSelectedIndex() != -1) {
-			preferences.setPrimaryCurrency(currenciesList.get(
-					primaryCurrencyListBox.getSelectedIndex()).getFormalName());
+			preferences.setPrimaryCurrency(currenciesList
+					.get(primaryCurrencyListBox.getSelectedIndex()));
 		}
 		preferences.setEnableMultiCurrency(isMultiCurrencyAllowed.getValue());
 	}

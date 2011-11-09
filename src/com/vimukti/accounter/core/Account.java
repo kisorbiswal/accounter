@@ -252,6 +252,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	int boxNumber;
 
+	private Currency currency;
+
+	private double currenctBalanceInAccountCurrency;
+
 	/**
 	 * Constructor of Account class
 	 */
@@ -920,6 +924,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				}
 			}
 
+			if (currency == null) {
+				currency = getCompany().getPrimaryCurrency();
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -950,10 +958,13 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		}
 		amount = (isIncrease ? 1 : -1) * amount;
 
-		String tempStr = "Current Balance of  " + this.getName()
-				+ " has been updated from " + this.currentBalance;
+		log.info("Current Balance of  " + this.getName()
+				+ " has been updated from " + this.currentBalance);
 
 		this.currentBalance += amount;
+
+		this.currenctBalanceInAccountCurrency += amount
+				/ transaction.getCurrencyFactor();
 
 		if (!DecimalUtil.isEquals(this.currentBalance, 0.0)
 				&& isOpeningBalanceEditable) {
@@ -1307,6 +1318,30 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		}
 		return true;
 
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+	/**
+	 * @return the currenctBalanceInAccountCurrency
+	 */
+	public double getCurrenctBalanceInAccountCurrency() {
+		return currenctBalanceInAccountCurrency;
+	}
+
+	/**
+	 * @param currenctBalanceInAccountCurrency
+	 *            the currenctBalanceInAccountCurrency to set
+	 */
+	public void setCurrenctBalanceInAccountCurrency(
+			double currenctBalanceInAccountCurrency) {
+		this.currenctBalanceInAccountCurrency = currenctBalanceInAccountCurrency;
 	}
 
 }

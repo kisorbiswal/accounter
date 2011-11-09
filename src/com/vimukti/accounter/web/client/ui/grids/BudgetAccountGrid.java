@@ -16,8 +16,8 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 	AccounterConstants companyConstants;
-	ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 	List<ClientBudgetItem> budgetItem = new ArrayList<ClientBudgetItem>();
 
 	public BudgetAccountGrid() {

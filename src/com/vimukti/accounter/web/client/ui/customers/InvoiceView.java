@@ -313,7 +313,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm.setNumCols(3);
 		// custForm.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
-		
 
 		custForm.setFields(customerCombo, emptylabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
@@ -820,8 +819,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		} else {
-			ClientCurrency clientCurrency = getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency());
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
@@ -871,8 +870,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency());
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				if (this.currency != null) {

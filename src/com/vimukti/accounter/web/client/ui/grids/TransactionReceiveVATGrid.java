@@ -22,8 +22,8 @@ public class TransactionReceiveVATGrid extends
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
 	private ReceiveVATView receiveVATView;
-	private ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	private ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 
 	public TransactionReceiveVATGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);

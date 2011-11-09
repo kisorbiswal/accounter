@@ -60,7 +60,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class PurchaseOrderView extends
@@ -740,8 +739,8 @@ public class PurchaseOrderView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency());
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
@@ -1144,8 +1143,8 @@ public class PurchaseOrderView extends
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
 		} else {
-			ClientCurrency clientCurrency = getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency());
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}

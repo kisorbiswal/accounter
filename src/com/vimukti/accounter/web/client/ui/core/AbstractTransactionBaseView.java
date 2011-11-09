@@ -485,10 +485,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return netAmountLabel;
 	}
 
-	protected AmountLabel createForeignCurrencyAmountLable(String string) {
+	protected AmountLabel createForeignCurrencyAmountLable(
+			ClientCurrency currency) {
 
 		foreignCurrencyamountLabel = new AmountLabel(Accounter.messages()
-				.currencyTotal(string));
+				.currencyTotal(currency.getFormalName()));
 
 		return foreignCurrencyamountLabel;
 	}
@@ -1134,8 +1135,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				transaction.setAccounterClass(clientAccounterClass);
 			}
 			if (currency == null) {
-				currency = getCompany().getCurrency(
-						getCompany().getPreferences().getPrimaryCurrency());
+				currency = getCompany().getPreferences().getPrimaryCurrency();
 			}
 		}
 	}
@@ -1146,8 +1146,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
-		ClientCurrency baseCurrency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
+		ClientCurrency baseCurrency = getCompany().getPreferences()
+				.getPrimaryCurrency();
 
 		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
 				baseCurrency);
@@ -1165,8 +1165,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected CurrencyFactorWidget createCurrencyFactorWidget() {
-		ClientCurrency baseCurrency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
+		ClientCurrency baseCurrency = getCompany().getPreferences()
+				.getPrimaryCurrency();
 
 		CurrencyFactorWidget widget = new CurrencyFactorWidget(baseCurrency);
 		widget.setListener(new CurrencyChangeListener() {
@@ -1768,10 +1768,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return lastTaxReturnDate;
 	}
-	
 
 	protected ClientCurrency getBaseCurrency() {
-		return getCompany().getCurrency(getCompany().getPreferences().getPrimaryCurrency());
+		return getCompany().getPreferences().getPrimaryCurrency();
 	}
 
 	protected ClientCurrency getCurrency(long currency) {

@@ -41,10 +41,9 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 6:
 			return customerRefund.getPaymentMethod();
 		case 7:
-			return amountAsString(
-					customerRefund.getAmountPaid(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(customerRefund.getAmountPaid(),
+
+			getCompany().getPreferences().getPrimaryCurrency());
 		case 8:
 			if (!customerRefund.isVoided())
 				return Accounter.getFinanceImages().notvoid();

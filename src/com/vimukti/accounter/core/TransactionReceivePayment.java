@@ -377,8 +377,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.invoice != null) {
 			// Update the Payments and the balance due of the corresponding
 			// Invoice
-			this.invoice.setPayments(this.invoice.getPayments() + amount);
-			this.invoice.setBalanceDue(this.invoice.getBalanceDue() - amount);
+			this.invoice.updateAmounts(amount, this);
 
 			// To Decide whether this Invoice is Not paid, Partially paid or
 			// Paid

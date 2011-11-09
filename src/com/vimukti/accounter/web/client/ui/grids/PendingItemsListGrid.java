@@ -81,8 +81,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 							.getPurchaseDate())) : "";
 		case 4:
 			return amountAsString(asset.getPurchasePrice(), getCompany()
-					.getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					.getPreferences().getPrimaryCurrency());
 		case 5:
 			return Accounter.constants().showHistory();
 		case 6:
@@ -144,8 +143,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			@Override
 			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString()
-						: "";
+						.getValue().toString() : "";
 				// setAttribute("note", note, currentRow);
 
 				if (note.length() != 0) {
@@ -196,10 +194,10 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(obj1
-					.getPurchaseDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(obj2
-					.getPurchaseDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(
+					obj1.getPurchaseDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(
+					obj2.getPurchaseDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;

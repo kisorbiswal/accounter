@@ -25,8 +25,8 @@ import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private NoteDialog noteDialog;
-	private ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	private ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 
 	/**
 	 * @param isMultiSelectionEnable

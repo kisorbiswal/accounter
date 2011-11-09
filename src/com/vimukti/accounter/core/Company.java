@@ -165,6 +165,8 @@ public class Company implements IAccounterServerCore {
 
 	Account pendingItemReceiptsAccount;
 
+	private Account exchangeLossOrGainAccount;
+
 	/**
 	 * Each company have a set of {@link Account} This will hold all the
 	 * Accounts created in this company.
@@ -1596,6 +1598,10 @@ public class Company implements IAccounterServerCore {
 		return null;
 	}
 
+	public Currency getPrimaryCurrency() {
+		return preferences.getPrimaryCurrency();
+	}
+
 	public Measurement getDefaultMeasurement() {
 		return defaultMeasurement;
 	}
@@ -1611,4 +1617,20 @@ public class Company implements IAccounterServerCore {
 	public void setDefaultWarehouse(Warehouse defaultWarehouse) {
 		this.defaultWarehouse = defaultWarehouse;
 	}
+
+	/**
+	 * @return the exchangeLossOrGainAccount
+	 */
+	public Account getExchangeLossOrGainAccount() {
+		return exchangeLossOrGainAccount;
+	}
+
+	/**
+	 * @param exchangeLossOrGainAccount
+	 *            the exchangeLossOrGainAccount to set
+	 */
+	public void setExchangeLossOrGainAccount(Account exchangeLossOrGainAccount) {
+		this.exchangeLossOrGainAccount = exchangeLossOrGainAccount;
+	}
+
 }

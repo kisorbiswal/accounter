@@ -48,7 +48,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 /**
@@ -439,7 +438,9 @@ public class ReceivePaymentView extends
 		customerCombo = createCustomerComboItem(Accounter.constants()
 				.receivedFrom());
 
-		amtText = new AmountField(Accounter.messages().amountReceived(getCompany().getPreferences().getPrimaryCurrency()), this);
+		amtText = new AmountField(Accounter.messages().amountReceived(
+				getCompany().getPreferences().getPrimaryCurrency()
+						.getFormalName()), this);
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isInViewMode());
@@ -520,25 +521,29 @@ public class ReceivePaymentView extends
 
 		unUsedCreditsTextBaseCurrency = new AmountLabel(Accounter.messages()
 				.unusedCredits(
-						getCompany().getPreferences().getPrimaryCurrency()));
+						getCompany().getPreferences().getPrimaryCurrency()
+								.getFormalName()));
 		unUsedCreditsTextBaseCurrency.setHelpInformation(true);
 		unUsedCreditsTextBaseCurrency.setDisabled(true);
 
 		unUsedPaymentsTextBaseCurrency = new AmountLabel(Accounter.messages()
 				.unusedPayments(
-						getCompany().getPreferences().getPrimaryCurrency()));
+						getCompany().getPreferences().getPrimaryCurrency()
+								.getFormalName()));
 		unUsedPaymentsTextBaseCurrency.setHelpInformation(true);
 		unUsedPaymentsTextBaseCurrency.setDisabled(true);
 
 		unUsedCreditsTextForeignCurrency = new AmountLabel(Accounter.messages()
 				.unusedCredits(
-						getCompany().getPreferences().getPrimaryCurrency()));
+						getCompany().getPreferences().getPrimaryCurrency()
+								.getFormalName()));
 		unUsedCreditsTextForeignCurrency.setHelpInformation(true);
 		unUsedCreditsTextForeignCurrency.setDisabled(true);
 
 		unUsedPaymentsTextForeignCurrency = new AmountLabel(Accounter
 				.messages().unusedPayments(
-						getCompany().getPreferences().getPrimaryCurrency()));
+						getCompany().getPreferences().getPrimaryCurrency()
+								.getFormalName()));
 		unUsedPaymentsTextForeignCurrency.setHelpInformation(true);
 		unUsedPaymentsTextForeignCurrency.setDisabled(true);
 
@@ -715,7 +720,8 @@ public class ReceivePaymentView extends
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsTextBaseCurrency.setAmount(getAmountInBaseCurrency(unusedAmounts));
+		this.unUsedPaymentsTextBaseCurrency
+				.setAmount(getAmountInBaseCurrency(unusedAmounts));
 		this.unUsedPaymentsTextForeignCurrency.setAmount(unusedAmounts);
 
 	}
@@ -787,7 +793,8 @@ public class ReceivePaymentView extends
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
 			paymentMethod = transaction.getPaymentMethod();
-			setAmountRecieved(getAmountInTransactionCurrency(transaction.getAmount()));
+			setAmountRecieved(getAmountInTransactionCurrency(transaction
+					.getAmount()));
 
 			initTransactionTotalNonEditableItem();
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
@@ -1168,8 +1175,8 @@ public class ReceivePaymentView extends
 					.unusedPayments(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
-			amtText.setTitle(Accounter.messages().amountReceived(currencyWidget.getSelectedCurrency()
-					.getFormalName()));
+			amtText.setTitle(Accounter.messages().amountReceived(
+					currencyWidget.getSelectedCurrency().getFormalName()));
 		}
 	}
 }

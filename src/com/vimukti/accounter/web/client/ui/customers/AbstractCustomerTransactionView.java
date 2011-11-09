@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -726,9 +727,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableLabel(String string) {
+	protected AmountLabel createTransactionTotalNonEditableLabel(
+			ClientCurrency currecny) {
 		AmountLabel amountLabel = new AmountLabel(Accounter.messages()
-				.currencyTotal(string));
+				.currencyTotal(currecny.getFormalName()));
 		return amountLabel;
 
 	}

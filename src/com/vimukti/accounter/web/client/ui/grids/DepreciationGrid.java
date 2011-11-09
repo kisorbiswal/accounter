@@ -109,8 +109,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 			return item.getFixedAssetName();
 		case 1:
 			return amountAsString(item.getAmountToBeDepreciated(), getCompany()
-					.getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+					.getPreferences().getPrimaryCurrency());
 		case 2:
 			return item.getAssetAccount() != 0 ? Accounter.getCompany()
 					.getAccount(item.getAssetAccount()).getName() : "";

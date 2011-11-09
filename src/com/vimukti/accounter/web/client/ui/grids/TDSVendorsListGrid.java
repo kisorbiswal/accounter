@@ -55,14 +55,15 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 		case 4:
 			return obj.getPayment();
 		case 5:
-			return amountAsString(getCompany().getTAXItem(
-					obj.getVendor().getTaxItemCode()).getTaxRate(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()))
+			return amountAsString(
+					getCompany().getTAXItem(obj.getVendor().getTaxItemCode())
+							.getTaxRate(),
+
+					getCompany().getPreferences().getPrimaryCurrency())
 					+ "%";
 		case 6:
-			return amountAsString(obj.getTdsAmount(), getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(obj.getTdsAmount(), getCompany()
+					.getPreferences().getPrimaryCurrency());
 		default:
 			break;
 		}

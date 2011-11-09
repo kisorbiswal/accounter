@@ -388,39 +388,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		return onUpdate(session);
 	}
 
-	@Override
-	public boolean onUpdate(Session session) throws CallbackException {
-		// if (previousCustomer != null) {
-		// SessionUtils.updateReferenceCount(previousCustomer, this, session,
-		// true);
-		// }
-		super.onUpdate(session);
-		if (!DecimalUtil.isEquals(this.openingBalance, this.previousOpeningBal)) {
-
-			// this.isOpeningBalanceEditable = Boolean.FALSE;
-
-			this.balance -= previousOpeningBal;
-			this.balance += openingBalance;
-			JournalEntry existEntry = (JournalEntry) session
-					.getNamedQuery("getJournalEntryForCustomer")
-					.setLong("id", this.id).uniqueResult();
-			if (existEntry == null) {
-				JournalEntry journalEntry = createJournalEntry(this);
-				session.save(journalEntry);
-			} else {
-				modifyJournalEntry(existEntry);
-			}
-		}
-
-		// /*
-		// * Is to update Memo in Entry if and only if customer Name was altered
-		// */
-		// this.updateEntryMemo(session);
-
-		ChangeTracker.put(this);
-		return false;
-	}
-
 	protected JournalEntry createJournalEntry(Payee customer) {
 		String number = NumberUtils.getNextTransactionNumber(
 				Transaction.TYPE_JOURNAL_ENTRY, getCompany());

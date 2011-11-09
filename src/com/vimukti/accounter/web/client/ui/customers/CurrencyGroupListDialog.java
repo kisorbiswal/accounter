@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
@@ -44,7 +43,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 			@Override
 			public void onThirdButtonClick() {
-				if (getDeleteObject() == null){
+				if (getDeleteObject() == null) {
 					return;
 				}
 				deleteObject(getDeleteObject());
@@ -70,13 +69,15 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 	}
 
 	private ClientCurrency getDeleteObject() {
-		ClientCurrency currency =(ClientCurrency) listGridView.getSelection();
-		String primaryCurrencyString = getCompany().getPreferences().getPrimaryCurrency();
-		
-		if (currency.getFormalName().toLowerCase().contains(primaryCurrencyString.toLowerCase())){
+		ClientCurrency currency = (ClientCurrency) listGridView.getSelection();
+		String primaryCurrencyString = getCompany().getPreferences()
+				.getPrimaryCurrency().getFormalName();
+
+		if (currency.getFormalName().toLowerCase()
+				.contains(primaryCurrencyString.toLowerCase())) {
 			Accounter.showError("You should not delete primary currency");
-		}else{
-		return (ClientCurrency) listGridView.getSelection();
+		} else {
+			return (ClientCurrency) listGridView.getSelection();
 		}
 		return null;
 	}
@@ -116,8 +117,8 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		clientCurrency = (ClientCurrency) listGridView.getSelection();
-		ClientCurrency currency = getCompany().getCurrency(
-				getCompany().getPreferences().getPrimaryCurrency());
+		ClientCurrency currency = getCompany().getPreferences()
+				.getPrimaryCurrency();
 		if (currency != null && clientCurrency.getID() == currency.getID()) {
 			result.addError(this, Accounter.constants()
 					.CannotDeletePrimaryCurrency());

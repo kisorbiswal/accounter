@@ -35,8 +35,8 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		case 2:
 			return obj.getCustomerName();
 		case 3:
-			return amountAsString(obj.getTotal(), getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(obj.getTotal(), getCompany().getPreferences()
+					.getPrimaryCurrency());
 			// case 7:
 			// return amountAsString(obj.getBalance());
 
@@ -49,8 +49,8 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	@Override
 	public void onDoubleClick(SalesOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(), obj
-					.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
 	}
 
 	@Override

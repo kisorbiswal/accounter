@@ -13,8 +13,7 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	public CustomerWidgetGrid() {
 		super(Accounter.constants().noDebitorstoShow());
-		currency = Accounter.getCompany().getCurrency(
-				Accounter.getCompany().getPreferences().getPrimaryCurrency());
+		currency = Accounter.getCompany().getPreferences().getPrimaryCurrency();
 	}
 
 	@Override

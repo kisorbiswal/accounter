@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -150,10 +149,10 @@ public class CashPurchaseView extends
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 
-//		vendorForm.setWidth("100%");
+		// vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
 				billToAreaItem);
-//		vendorForm.getCellFormatter().setWidth(0, 0, "160px");
+		// vendorForm.getCellFormatter().setWidth(0, 0, "160px");
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -196,7 +195,7 @@ public class CashPurchaseView extends
 		termsForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
-//		termsForm.setWidth("100%");
+		// termsForm.setWidth("100%");
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo,
 				deliveryDateItem);
 
@@ -206,8 +205,8 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-//		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "203px");
+		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -323,7 +322,7 @@ public class CashPurchaseView extends
 		// refText.setWidth(100);
 
 		DynamicForm memoForm = new DynamicForm();
-//		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm vatCheckform = new DynamicForm();
@@ -338,7 +337,7 @@ public class CashPurchaseView extends
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-//		rightVLay.setWidth("100%");
+		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
@@ -357,7 +356,7 @@ public class CashPurchaseView extends
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-		
+
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 
@@ -509,8 +508,8 @@ public class CashPurchaseView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency());
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
@@ -598,7 +597,7 @@ public class CashPurchaseView extends
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
 
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -645,8 +644,8 @@ public class CashPurchaseView extends
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
 		} else {
-			ClientCurrency clientCurrency = getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency());
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
@@ -954,8 +953,8 @@ public class CashPurchaseView extends
 	}
 
 	private void resetFormView() {
-//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-//		vendorForm.setWidth("75%");
+		// vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+		// vendorForm.setWidth("75%");
 		// refText.setWidth("200px");
 
 	}

@@ -27,6 +27,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -35,7 +36,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -82,8 +82,8 @@ public abstract class ListGrid<T> extends CustomTable {
 
 	private boolean isEditEnable;
 
-	ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 
 	private int editEventType = 1;
 	protected RecordClickHandler<T> recordClickHandler;
@@ -635,10 +635,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol, values[selectbox
-							.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox, values[selectbox
-							.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol,
+							values[selectbox.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox,
+							values[selectbox.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -672,8 +672,8 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker, UIUtils
-							.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker,
+							UIUtils.stringToDate((Date) event.getValue()));
 
 				}
 			});

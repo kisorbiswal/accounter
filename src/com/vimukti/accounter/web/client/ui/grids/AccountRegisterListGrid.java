@@ -19,8 +19,8 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	private int accountType;
 	public double balance = 0.0, payment = 0.0, deposit = 0.0;
 	public double totalBalance = 0.0;
-	ClientCurrency currency = getCompany().getCurrency(
-			getCompany().getPreferences().getPrimaryCurrency());
+	ClientCurrency currency = getCompany().getPreferences()
+			.getPrimaryCurrency();
 
 	public AccountRegisterListGrid(boolean isMultiSelectionEnable, int type) {
 		super(isMultiSelectionEnable, true);

@@ -32,11 +32,9 @@ import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -132,14 +130,21 @@ public class AccounterCompanyInitializationServiceImpl extends
 			company.setCompanyEmail(user.getClient().getEmailId());
 
 			company.setConfigured(true);
-			session.saveOrUpdate(company);
 
-			// Updating CompanyPreferences
 			CompanyPreferences serverCompanyPreferences = company
 					.getPreferences();
 
 			serverCompanyPreferences = new ServerConvertUtil().toServerObject(
 					serverCompanyPreferences, preferences, session);
+
+			Currency primaryCurrency = serverCompanyPreferences
+					.getPrimaryCurrency();
+			primaryCurrency.setCompany(company);
+			session.save(primaryCurrency);
+
+			session.saveOrUpdate(company);
+
+			// Updating CompanyPreferences
 
 			company.getRegisteredAddress().setCountryOrRegion(
 					client.getCountry());
@@ -148,24 +153,12 @@ public class AccounterCompanyInitializationServiceImpl extends
 			// Initializing Accounts
 			company.setPreferences(serverCompanyPreferences);
 			company.initialize(accounts);
-			if (serverCompanyPreferences.getPrimaryCurrency() == null) {
-				serverCompanyPreferences.setPrimaryCurrency(company
-						.getCountryPreferences().getPreferredCurrency());
-			}
-
-			ClientCurrency clientCurrency = CoreUtils
-					.getCurrency(serverCompanyPreferences.getPrimaryCurrency());
-			Currency currency = new Currency();
-			currency = new ServerConvertUtil().toServerObject(currency,
-					clientCurrency, session);
-			currency.setCompany(company);
-			session.save(currency);
 
 			session.saveOrUpdate(company);
 			transaction.commit();
 
-			UsersMailSendar.sendMailToDefaultUser(user, company
-					.getTradingName());
+			UsersMailSendar.sendMailToDefaultUser(user,
+					company.getTradingName());
 			return company;
 		} catch (AccounterException e) {
 			e.printStackTrace();

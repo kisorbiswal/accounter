@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.List;
-
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CompanyPreferences implements IAccounterServerCore {
@@ -159,8 +157,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public long id;
 
 	// currency related properties
-	private String primaryCurrency;
-	private List<Currency> supportingCurrenciesList;
+	private Currency primaryCurrency;
 
 	// Organization type
 	private int organizationType;
@@ -318,21 +315,12 @@ public class CompanyPreferences implements IAccounterServerCore {
 		set(TRACK_EMPLOYEE_EXPENSES, value);
 	}
 
-	public String getPrimaryCurrency() {
+	public Currency getPrimaryCurrency() {
 		return primaryCurrency;
 	}
 
-	public void setPrimaryCurrency(String primaryCurrency) {
+	public void setPrimaryCurrency(Currency primaryCurrency) {
 		this.primaryCurrency = primaryCurrency;
-	}
-
-	public List<Currency> getSupportingCurrenciesList() {
-		return supportingCurrenciesList;
-	}
-
-	public void setSupportingCurrenciesList(
-			List<Currency> supportingCurrenciesList) {
-		this.supportingCurrenciesList = supportingCurrenciesList;
 	}
 
 	public boolean isSellServices() {

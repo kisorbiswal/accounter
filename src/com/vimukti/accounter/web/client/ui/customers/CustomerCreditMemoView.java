@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -266,7 +265,7 @@ public class CustomerCreditMemoView extends
 		itemsDisclosurePanel.setWidth("100%");
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
-//		prodAndServiceForm2.setWidth("100%");
+		// prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(2);
 
 		DynamicForm form = new DynamicForm();
@@ -299,7 +298,7 @@ public class CustomerCreditMemoView extends
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(form);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-//		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+		// prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
@@ -466,8 +465,8 @@ public class CustomerCreditMemoView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency());
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
@@ -752,8 +751,8 @@ public class CustomerCreditMemoView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		} else {
-			ClientCurrency clientCurrency = getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency());
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}

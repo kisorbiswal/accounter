@@ -44,7 +44,6 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
@@ -290,9 +289,11 @@ public class CompanyManager extends Manager {
 						AccounterException.ERROR_PERMISSION_DENIED,
 						"Update Company , as the Source Object could not be Found....");
 			}
-
+			ClientCompany clientCompany = (ClientCompany) data;
 			Company cmp = getCompany(context.getCompanyId());
-			cmp.updatePreferences((ClientCompany) data);
+			createOrUpdatePrimaryCurrency(clientCompany, cmp);
+
+			cmp.updatePreferences(clientCompany);
 
 			String userID = context.getUserEmail();
 			User user1 = cmp.getUserByUserEmail(userID);
@@ -301,8 +302,6 @@ public class CompanyManager extends Manager {
 					ActivityType.UPDATE_PREFERENCE, cmp);
 			session.save(activity);
 			session.update(cmp);
-
-			createOrUpdatePrimaryCurrency(cmp);
 
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
@@ -315,21 +314,31 @@ public class CompanyManager extends Manager {
 
 	}
 
-	private void createOrUpdatePrimaryCurrency(Company company)
-			throws AccounterException {
+	private void createOrUpdatePrimaryCurrency(ClientCompany company,
+			Company serverCompany) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		String primaryCurrency = company.getPreferences().getPrimaryCurrency();
-		Currency existcurrency = company.getCurrency(primaryCurrency);
+		ClientCurrency primaryCurrency = company.getPreferences()
+				.getPrimaryCurrency();
+		Currency existcurrency = serverCompany.getCurrency(primaryCurrency
+				.getFormalName());
+		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		if (existcurrency == null) {
-			ClientCurrency clientCurrency = CoreUtils
-					.getCurrency(primaryCurrency);
-			Currency currency = new Currency();
-			currency = new ServerConvertUtil().toServerObject(currency,
-					clientCurrency, session);
-			currency.setCompany(company);
-			session.saveOrUpdate(currency);
-			ChangeTracker.put(currency);
+			existcurrency = new Currency();
+			existcurrency = new ServerConvertUtil().toServerObject(
+					existcurrency, primaryCurrency, session);
+			existcurrency.setCompany(getCompany(company.getID()));
+			session.saveOrUpdate(existcurrency);
+			ClientCurrency clientObject = clientConvertUtil.toClientObject(
+					existcurrency, ClientCurrency.class);
+			company.getPreferences().setPrimaryCurrency(clientObject);
+			company.getCurrencies().add(clientObject);
+			ChangeTracker.put(existcurrency);
+		} else {
+			ClientCurrency clientObject = clientConvertUtil.toClientObject(
+					existcurrency, ClientCurrency.class);
+			company.getPreferences().setPrimaryCurrency(clientObject);
 		}
+		serverCompany.getPreferences().setPrimaryCurrency(existcurrency);
 	}
 
 	private IS2SService getS2sSyncProxy(String domainName) {

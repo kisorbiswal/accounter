@@ -89,11 +89,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getDeliveryDate()));
 			case 7:
-				return amountAsString(
-						estimate.getTotal(),
-						getCompany().getCurrency(
-								getCompany().getPreferences()
-										.getPrimaryCurrency()));
+				return amountAsString(estimate.getTotal(), getCompany()
+						.getPreferences().getPrimaryCurrency());
 			case 8:
 
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
@@ -398,11 +395,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				break;
 
 			case 3:
-				return amountAsString(
-						estimate.getTotal(),
-						getCompany().getCurrency(
-								getCompany().getPreferences()
-										.getPrimaryCurrency()));
+				return amountAsString(estimate.getTotal(), getCompany()
+						.getPreferences().getPrimaryCurrency());
 			case 4:
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					return Accounter.getFinanceImages().beforereject();

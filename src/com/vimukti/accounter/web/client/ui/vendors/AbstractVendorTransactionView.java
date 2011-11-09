@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -188,9 +189,11 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		}
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableItem(String string) {
+	protected AmountLabel createTransactionTotalNonEditableItem(
+			ClientCurrency currency) {
 
-		amountItem = new AmountLabel(Accounter.messages().currencyTotal(string));
+		amountItem = new AmountLabel(Accounter.messages().currencyTotal(
+				currency.getFormalName()));
 		amountItem.setDisabled(true);
 
 		return amountItem;

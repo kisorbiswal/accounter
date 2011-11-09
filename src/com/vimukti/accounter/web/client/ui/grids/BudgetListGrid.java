@@ -59,10 +59,9 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 			// case 12:
 			// return amountAsString(budget.getDecemberAmount());
 		case 1:
-			return amountAsString(
-					budget.getTotalAmount(),
-					getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency()));
+			return amountAsString(budget.getTotalAmount(),
+
+			getCompany().getPreferences().getPrimaryCurrency());
 		default:
 			break;
 		}

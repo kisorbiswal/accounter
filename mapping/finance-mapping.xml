@@ -31,12 +31,15 @@
 		<property name="cardOrLoanNumber" column="CARD_NUMBER"></property>
 		<property name="isIncrease" column="IS_INCREASE"></property>
 		<property name="currentBalance" column="CURRENT_BALANCE"></property>
+		<property name="currenctBalanceInAccountCurrency" column="CURRENT_BALANCE_IN_ACCOUNT_CURRENCY"></property>
 		<property name="totalBalance" column="TOTAL_BALANCE"></property>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW"></property>
-
+		<many-to-one name="currency" column="ACCOUNT_CURRENCY"
+				class="Currency" not-null="true" lazy="false">
+		</many-to-one>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
@@ -65,9 +68,6 @@
 			</many-to-one>
 			<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
 			<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
-			<many-to-one name="currency" column="BANK_ACCOUNT_CURRENCY"
-				class="Currency" lazy="false">
-			</many-to-one>
 			<property name="lastReconcilationDate" column="LAST_RECONCILATION_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
@@ -271,8 +271,6 @@
 			<!-- <property name="legalName" column="CP_LEGAL_NAME" not-null="true"></property> -->
 
 			<!-- Customer Preferences -->
-			<!-- <many-to-one name="primaryCurrency" class="Currency" lazy="false" 
-				column="CP_PRIMARY_CURRENCY" cascade="save-update,delete"> </many-to-one> -->
 			<many-to-one name="defaultShippingTerm" class="ShippingTerms"
 				lazy="false" column="CP_DEFAULT_SHIPPING_TERM">
 			</many-to-one>
@@ -307,7 +305,8 @@
 				lazy="false" cascade="save-update" column="DEFAULT_TAX_CODE">
 			</many-to-one>
 
-			<property name="primaryCurrency" column="PRIMARY_CURRENCY"></property>
+			<many-to-one name="primaryCurrency" class="Currency" lazy="false" 
+				column="PRIMARY_CURRENCY_ID" cascade="save-update,delete"> </many-to-one> 
 		</component>
 
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
@@ -344,6 +343,9 @@
 		</many-to-one>
 		<many-to-one name="pendingItemReceiptsAccount" class="Account"
 			lazy="false" column="PENDING_ITEM_RECEIPTS_ACCOUNT_ID" cascade="delete">
+		</many-to-one>
+		<many-to-one name="exchangeLossOrGainAccount" class="Account"
+			lazy="false" column="EXCHANGE_LOSS_OR_GAIN_ACCOUNT" cascade="delete">
 		</many-to-one>
 		<!-- <many-to-one name="prepaidVATaccount" class="Account" -->
 		<!-- lazy="false" column="PREPAID_VAT_ACCOUNT_ID"> -->
@@ -883,12 +885,13 @@
 		<property name="fileAs" column="FILE_AS"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="currency" column="CURRENCY" class="Currency"
-			lazy="false">
+			lazy="false" not-null="true">
 		</many-to-one>
 		<property name="type" column="TYPE"></property>
 		<property name="date" column="P_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="balance" column="BALANCE"></property>
+		<property name="balanceInPayeeCurrency" column="BALANCE_IN_PAYEE_CURRENCY"></property>
 		<property name="openingBalance" column="OPENING_BALANCE"></property>
 		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>

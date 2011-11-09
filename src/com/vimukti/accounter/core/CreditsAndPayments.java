@@ -56,6 +56,12 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	double balance = 0D;
 
 	/**
+	 * This will hold how much balance of this CreditsAndPayments is still
+	 * remain in PayeeCurrency.
+	 */
+	double balanceInPayeeCurrency;
+
+	/**
 	 * This is the {@link Transaction} object through which this
 	 * CreditsAndPayments object is got created.
 	 */
@@ -137,6 +143,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			this.payee = ((CustomerPrePayment) transaction).getCustomer();
 			break;
 		}
+
+		this.balanceInPayeeCurrency = balance / transaction.getCurrencyFactor();
 	}
 
 	public CreditsAndPayments(TransactionMakeDeposit transactionMakeDeposit) {
@@ -446,5 +454,20 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		}
 		return amount;
 
+	}
+
+	/**
+	 * @return the balanceInPayeeCurrency
+	 */
+	public double getBalanceInPayeeCurrency() {
+		return balanceInPayeeCurrency;
+	}
+
+	/**
+	 * @param balanceInPayeeCurrency
+	 *            the balanceInPayeeCurrency to set
+	 */
+	public void setBalanceInPayeeCurrency(double balanceInPayeeCurrency) {
+		this.balanceInPayeeCurrency = balanceInPayeeCurrency;
 	}
 }

@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
@@ -46,8 +47,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		for (PreferencePage page : preferencePages) {
 			VerticalPanel pageView = createPageView(page);
 			stackPanel.add(pageView, page.getTitle());
-			pageView.getElement().getParentElement().setAttribute("height",
-					"230px");
+			pageView.getElement().getParentElement()
+					.setAttribute("height", "230px");
 		}
 		stackPanel.addHandler(new ClickHandler() {
 			@Override
@@ -92,8 +93,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private PreferencePage getAgningDetailsPage() {
-		PreferencePage agningDetailsPage = new PreferencePage(constants
-				.productAndServices());
+		PreferencePage agningDetailsPage = new PreferencePage(
+				constants.productAndServices());
 		AgeingAndSellingDetailsOption ageingAndSellingDetailsOption = new AgeingAndSellingDetailsOption();
 		ProductAndServicesOption productAndServicesOption = new ProductAndServicesOption();
 		BillableExpenseTrackingByCustomer billableExpenseTrackingByCustomer = new BillableExpenseTrackingByCustomer();
@@ -106,8 +107,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private PreferencePage getCustomerAndVendorPage() {
-		PreferencePage customerAndVendorPage = new PreferencePage(constants
-				.vendorAndPurchases());
+		PreferencePage customerAndVendorPage = new PreferencePage(
+				constants.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
 		TrackEstimatesOption estimatesOption = new TrackEstimatesOption();
@@ -123,8 +124,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private PreferencePage getProductAndServicePage() {
-		PreferencePage productAndServicePage = new PreferencePage(constants
-				.productAndServices());
+		PreferencePage productAndServicePage = new PreferencePage(
+				constants.productAndServices());
 
 		return productAndServicePage;
 	}
@@ -208,8 +209,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 			pageView.add(optionLink);
 			// PreferenceOptionLinks.addLink(optionLink);
 			if (index == 0) {
-				optionLink.getElement().getParentElement().addClassName(
-						"contentSelected");
+				optionLink.getElement().getParentElement()
+						.addClassName("contentSelected");
 			}
 			optionLink.addClickHandler(new ClickHandler() {
 
@@ -217,11 +218,11 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				public void onClick(ClickEvent event) {
 					for (int index = 0; index < pageView.getWidgetCount(); index++) {
 						Widget widget = pageView.getWidget(index);
-						widget.getElement().getParentElement().removeClassName(
-								"contentSelected");
+						widget.getElement().getParentElement()
+								.removeClassName("contentSelected");
 					}
-					optionLink.getElement().getParentElement().addClassName(
-							"contentSelected");
+					optionLink.getElement().getParentElement()
+							.addClassName("contentSelected");
 					pageDetailsPane.ensureVisible(option);
 
 				}
@@ -254,8 +255,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 					page.onSave();
 
 				}
-				Accounter.updateCompany(PreferenceSettingsView.this, Accounter
-						.getCompany());
+				Accounter.updateCompany(PreferenceSettingsView.this,
+						Accounter.getCompany());
 				Accounter.reset();
 			}
 		});
@@ -289,6 +290,19 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		super.saveSuccess(object);
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+		String errorString = AccounterExceptions.getErrorString(exception
+				.getErrorCode());
+		Accounter.showError(errorString);
 	}
 
 }

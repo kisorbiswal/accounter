@@ -1,8 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vimukti.accounter.web.client.Global;
 
 public class ClientCompanyPreferences implements IAccounterCore {
@@ -168,8 +165,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private String decimalCharacte = ".";
 
 	// currency related properties
-	private String primaryCurrency;
-	private List<ClientCurrency> supportingCurrenciesList;
+	private ClientCurrency primaryCurrency;
 
 	// Organization type
 	private int organizationType;
@@ -788,29 +784,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		ClientCompanyPreferences preferences = (ClientCompanyPreferences) this
 				.clone();
 		// preferences.primaryCurrency = this.primaryCurrency.clone();
-		List<ClientCurrency> supportingCurrenciesList = new ArrayList<ClientCurrency>();
-		for (ClientCurrency currency : this.supportingCurrenciesList) {
-			supportingCurrenciesList.add(currency.clone());
-		}
-		preferences.supportingCurrenciesList = supportingCurrenciesList;
 		return preferences;
 	}
 
-	public String getPrimaryCurrency() {
+	public ClientCurrency getPrimaryCurrency() {
 		return primaryCurrency;
 	}
 
-	public void setPrimaryCurrency(String primaryCurrency) {
+	public void setPrimaryCurrency(ClientCurrency primaryCurrency) {
 		this.primaryCurrency = primaryCurrency;
-	}
-
-	public List<ClientCurrency> getSupportingCurrenciesList() {
-		return supportingCurrenciesList;
-	}
-
-	public void setSupportingCurrenciesList(
-			List<ClientCurrency> supportingCurrenciesList) {
-		this.supportingCurrenciesList = supportingCurrenciesList;
 	}
 
 	public int getOrganizationType() {

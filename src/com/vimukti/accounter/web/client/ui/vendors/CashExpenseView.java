@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactio
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -265,7 +264,7 @@ public class CashExpenseView extends
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 
-//		vendorForm.setWidth("100%");
+		// vendorForm.setWidth("100%");
 
 		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
@@ -435,7 +434,7 @@ public class CashExpenseView extends
 		totalForm.setStyleName("boldtext");
 
 		VerticalPanel leftVLay = new VerticalPanel();
-//		leftVLay.setWidth("100%");
+		// leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
@@ -443,8 +442,8 @@ public class CashExpenseView extends
 		DynamicForm locationform = new DynamicForm();
 		if (locationTrackingEnabled)
 			locationform.setFields(locationCombo);
-		    locationform.getElement().getStyle().setFloat(Float.RIGHT);
-		    rightVLay.add(locationform);
+		locationform.getElement().getStyle().setFloat(Float.RIGHT);
+		rightVLay.add(locationform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
 			rightVLay.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
@@ -607,8 +606,8 @@ public class CashExpenseView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getCurrency(
-							getCompany().getPreferences().getPrimaryCurrency());
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
@@ -666,7 +665,7 @@ public class CashExpenseView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -706,8 +705,8 @@ public class CashExpenseView extends
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
 		} else {
-			ClientCurrency clientCurrency = getCompany().getCurrency(
-					getCompany().getPreferences().getPrimaryCurrency());
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
@@ -862,8 +861,8 @@ public class CashExpenseView extends
 	}
 
 	private void resetFormView() {
-//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-//		vendorForm.setWidth("75%");
+		// vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+		// vendorForm.setWidth("75%");
 		// refText.setWidth("200px");
 
 	}

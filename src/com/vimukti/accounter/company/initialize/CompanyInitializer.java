@@ -366,6 +366,12 @@ public abstract class CompanyInitializer {
 				AccounterServerConstants.OTHER_CASH_EXPENSE,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
+		Account exchangeLossOrGainAccount = createAccount(
+				Account.TYPE_OTHER_EXPENSE,
+				AccounterServerConstants.EXCHANGE_LOSS_OR_GAIN,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
+
+		company.setExchangeLossOrGainAccount(exchangeLossOrGainAccount);
 		//
 		// createAccount(Account.TYPE_COST_OF_GOODS_SOLD,
 		// AccounterServerConstants.IMPORT_DUTY,

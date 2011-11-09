@@ -502,7 +502,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
 
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
-		preferences.setPrimaryCurrency(currency.getFormalName());
+		preferences.setPrimaryCurrency(currency);
 
 		String fiscalYear = get(FISCAL_YEAR).getValue();
 		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
