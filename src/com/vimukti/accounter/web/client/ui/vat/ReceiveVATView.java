@@ -182,7 +182,7 @@ public class ReceiveVATView extends
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
 		mainform.setFields(depositInAccCombo, paymentMethodCombo, billsDue);
-//		mainform.setWidth("80%");
+		// mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
@@ -209,7 +209,7 @@ public class ReceiveVATView extends
 			balForm.setFields(classListCombo);
 		}
 
-//		balForm.getCellFormatter().setWidth(0, 0, "197px");
+		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -263,8 +263,8 @@ public class ReceiveVATView extends
 
 		if (dueDateOnOrBefore != null) {
 			for (ClientReceiveVATEntries cont : filterList) {
-				ClientTAXReturn clientVATReturn = Accounter
-						.getCompany().getVatReturn(cont.getTAXReturn());
+				ClientTAXReturn clientVATReturn = Accounter.getCompany()
+						.getVatReturn(cont.getTAXReturn());
 				ClientFinanceDate date = new ClientFinanceDate(
 						clientVATReturn.getPeriodEndDate());
 				if (date.equals(dueDateOnOrBefore)
@@ -577,21 +577,20 @@ public class ReceiveVATView extends
 		totalAmount = toBeSetAmount;
 		if (selectedDepositInAccount != null) {
 			double toBeSetEndingBalance = 0.0;
-			if (selectedDepositInAccount.isIncrease())
-				toBeSetEndingBalance = selectedDepositInAccount
-						.getTotalBalance()
+			// if (selectedDepositInAccount.isIncrease())
+			toBeSetEndingBalance = selectedDepositInAccount.getTotalBalance()
 
-						+ DataUtils.getBalance(
-								getAmountInBaseCurrency(amountText.getAmount())
-										.toString()).doubleValue();
+					+ DataUtils.getBalance(
+							getAmountInBaseCurrency(amountText.getAmount())
+									.toString()).doubleValue();
 
-			else
-				toBeSetEndingBalance = selectedDepositInAccount
-						.getTotalBalance()
-
-						- DataUtils.getBalance(
-								getAmountInBaseCurrency(amountText.getAmount())
-										.toString()).doubleValue();
+			// else
+			// toBeSetEndingBalance = selectedDepositInAccount
+			// .getTotalBalance()
+			//
+			// - DataUtils.getBalance(
+			// getAmountInBaseCurrency(amountText.getAmount())
+			// .toString()).doubleValue();
 			endingBalanceText
 					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 		}
