@@ -291,10 +291,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		createAccount(Account.TYPE_EQUITY,
-				AccounterServerConstants.EQUITY_GAIN_LOSS_EXCHANGE,
-				Account.CASH_FLOW_CATEGORY_FINANCING);
-
-		createAccount(Account.TYPE_EQUITY,
 				AccounterServerConstants.ORDINARY_SHARES,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
@@ -369,7 +365,7 @@ public abstract class CompanyInitializer {
 		Account exchangeLossOrGainAccount = createAccount(
 				Account.TYPE_OTHER_EXPENSE,
 				AccounterServerConstants.EXCHANGE_LOSS_OR_GAIN,
-				Account.CASH_FLOW_CATEGORY_FINANCING);
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		company.setExchangeLossOrGainAccount(exchangeLossOrGainAccount);
 		//

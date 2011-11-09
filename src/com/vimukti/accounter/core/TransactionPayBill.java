@@ -337,12 +337,7 @@ public class TransactionPayBill extends CreatableObject implements
 				setCompany(enterBill.getCompany());
 				// Update the Payments and the balance due of the corresponding
 				// enterBill
-				this.enterBill.setPayments(this.enterBill.getPayments()
-						+ amount);
-				// TODO
-
-				this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
-						- amount);
+				this.enterBill.updateBalance(amount, this);
 
 				if (DecimalUtil.isGreaterThan(this.enterBill.getBalanceDue(),
 						0D)

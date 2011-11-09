@@ -1024,18 +1024,19 @@ public class Invoice extends Transaction implements Lifecycle {
 		this.estimates = estimates;
 	}
 
-	public void updateAmounts(double amount, TransactionReceivePayment trp) {
+	public void updateBalance(double amount, TransactionReceivePayment trp) {
 		double currencyFactor = trp.receivePayment.getCurrencyFactor();
 		double amountInPaymentCurrency = amount / currencyFactor;
-		double amountInInvoiceCurrecny = amount / this.currencyFactor;
 
-		this.payments += amountInInvoiceCurrecny;
-		this.balanceDue -= amountInInvoiceCurrecny;
+		double amountToUpdate = amountInPaymentCurrency * this.currencyFactor;
+
+		this.payments += amountToUpdate;
+		this.balanceDue -= amountToUpdate;
 
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();
 		exchangeLossOrGainAccount.updateCurrentBalance(trp.receivePayment,
-				amountInInvoiceCurrecny - amountInPaymentCurrency);
+				amountToUpdate - amount);
 
 	}
 

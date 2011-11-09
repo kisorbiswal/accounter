@@ -1059,4 +1059,20 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public void setEstimates(Set<Estimate> estimates) {
 		this.estimates = estimates;
 	}
+
+	public void updateBalance(double amount, TransactionPayBill tpb) {
+		double currencyFactor = tpb.payBill.getCurrencyFactor();
+		double amountInPaymentCurrency = amount / currencyFactor;
+
+		double amountToUpdate = amountInPaymentCurrency * this.currencyFactor;
+
+		this.payments += amountToUpdate;
+		this.balanceDue -= amountToUpdate;
+
+		Account exchangeLossOrGainAccount = getCompany()
+				.getExchangeLossOrGainAccount();
+		exchangeLossOrGainAccount.updateCurrentBalance(tpb.payBill, amount
+				- amountToUpdate);
+
+	}
 }
