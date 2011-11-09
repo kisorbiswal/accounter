@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -101,17 +103,19 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 				// Checking the selected object is VATItem or VATGroup.
 				// If it is VATItem,the we should get 'VATRate',otherwise
 				// 'GroupRate
-				ClientTAXCode taxCode = context.getClientCompany().getTAXCode(
-						TAXCodeID);
+				ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
+						.getClientObjectById(TAXCodeID,
+								AccounterCoreType.TAX_CODE);
+
 				if (!taxCode.getName().equals("EGS")
 						&& !taxCode.getName().equals("EGZ")
 						&& !taxCode.getName().equals("RC")) {
-					ClientTAXItemGroup vatItemGroup = context
-							.getClientCompany()
-							.getTAXItemGroup(
+					ClientTAXItemGroup vatItemGroup = (ClientTAXItemGroup) CommandUtils
+							.getClientObjectById(
 									isSales ? taxCode.getTAXItemGrpForSales()
 											: taxCode
-													.getTAXItemGrpForPurchases());
+													.getTAXItemGrpForPurchases(),
+									AccounterCoreType.TAX_ITEM_GROUP);
 					if (vatItemGroup != null) {
 						if (vatItemGroup instanceof ClientTAXItem) {
 							vatRate = ((ClientTAXItem) vatItemGroup)

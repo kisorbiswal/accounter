@@ -75,7 +75,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -94,8 +94,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
@@ -105,10 +104,9 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
+					if (getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+									.equals(getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -300,8 +298,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				ClientCompanyPreferences preferences = context
-						.getClientCompany().getPreferences();
+				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
@@ -593,8 +590,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		items.addAll(accounts);
 		creditCardCharge.setTransactionItems(items);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			creditCardCharge.setAmountsIncludeVAT(isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
@@ -603,7 +599,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+		if (preferences.isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				creditCardCharge.setCurrency(currency.getID());
@@ -636,7 +632,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		String nextTransactionNumber = new FinanceTool()
 				.getNextTransactionNumber(
 						ClientTransaction.TYPE_CREDIT_CARD_EXPENSE, context
-								.getClientCompany().getID());
+								.getCompany().getID());
 		return nextTransactionNumber;
 	}
 
@@ -692,7 +688,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		allrecords.addAll(accounts);
 		double[] result = getTransactionTotal(context, false, allrecords, true);
 		makeResult.add("Net Amount: " + result[0]);
-		if (context.getClientCompany().getPreferences().isTrackTax()) {
+		if (context.getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
 		}
 		makeResult.add("Total: " + (result[0] + result[1]));

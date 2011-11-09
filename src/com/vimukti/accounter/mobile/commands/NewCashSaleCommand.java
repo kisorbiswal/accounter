@@ -35,6 +35,7 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -78,7 +79,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isEnableMultiCurrency()) {
+				if (getPreferences().isEnableMultiCurrency()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -97,8 +98,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
@@ -108,10 +108,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (get(CURRENCY).getValue() != null) {
-					if (getClientCompany().getPreferences()
-							.isEnableMultiCurrency()
+					if (getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getClientCompany().getPreferences()
+									.equals(getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
@@ -193,8 +192,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return new ArrayList<String>(getClientCompany()
-						.getPaymentMethods().values());
+				return new ArrayList<String>(CommandUtils.getPaymentMethods());
 			}
 
 			@Override
@@ -290,9 +288,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& !getClientCompany().getPreferences()
-								.isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax()
+						&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -314,8 +311,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				ClientCompanyPreferences preferences = context
-						.getClientCompany().getPreferences();
+				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
@@ -341,7 +337,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isDoProductShipMents()) {
+				if (getPreferences().isDoProductShipMents()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -377,7 +373,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isDoProductShipMents()) {
+				if (getPreferences().isDoProductShipMents()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -481,8 +477,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
 		cashSale.setDeliverydate(deliveryDate.getDate());
 
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			cashSale.setAmountsIncludeVAT(isVatInclusive);
@@ -492,7 +487,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		if (context.getClientCompany().getPreferences().isEnableMultiCurrency()) {
+		if (preferences.isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
 				cashSale.setCurrency(currency.getID());
@@ -526,7 +521,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 	private String getNextTransactionNumber(Context context) {
 		String nextTransactionNumber = new FinanceTool()
 				.getNextTransactionNumber(ClientTransaction.TYPE_CASH_SALES,
-						context.getClientCompany().getID());
+						context.getCompany().getID());
 		return nextTransactionNumber;
 	}
 
@@ -572,7 +567,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		allrecords.addAll(accounts);
 		double[] result = getTransactionTotal(context, false, allrecords, true);
 		makeResult.add("Net Amount: " + result[0]);
-		if (context.getClientCompany().getPreferences().isTrackTax()) {
+		if (context.getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
 		}
 		makeResult.add("Total: " + (result[0] + result[1]));

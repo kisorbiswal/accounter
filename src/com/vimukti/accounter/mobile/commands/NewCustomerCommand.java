@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -90,7 +89,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().getUseCustomerId()) {
+				if (getPreferences().getUseCustomerId()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -156,7 +155,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isDoProductShipMents()) {
+				if (getPreferences().isDoProductShipMents()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -288,8 +287,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isVatAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -304,7 +303,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()) {
+				if (getPreferences().isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -327,7 +326,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()) {
+				if (getPreferences().isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -340,8 +339,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isSalesTaxAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -355,8 +354,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isServiceTaxAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -370,8 +369,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getClientCompany().getPreferences().isTrackTax()
-						&& getClientCompany().getCountryPreferences()
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
 								.isTDSAvailable()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -404,10 +403,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		LinkedHashMap<Integer, ClientAddress> allAddresses = new LinkedHashMap<Integer, ClientAddress>();
-		ICountryPreferences countryPreferences = context.getClientCompany()
+		ICountryPreferences countryPreferences = context.getCompany()
 				.getCountryPreferences();
-		ClientCompanyPreferences preferences = context.getClientCompany()
-				.getPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 
 		ClientCustomer customer = new ClientCustomer();
 		String name = get(CUSTOMER_NAME).getValue();

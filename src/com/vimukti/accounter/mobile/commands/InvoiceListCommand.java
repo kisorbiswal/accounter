@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -262,18 +263,19 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			}
 		}
 		if (dateRange.equals(THIS_FINANCIAL_YEAR)) {
-			startDate = context.getClientCompany()
-					.getCurrentFiscalYearStartDate();
-			endDate = context.getClientCompany().getCurrentFiscalYearEndDate();
+			startDate = CommandUtils.getCurrentFiscalYearStartDate(context
+					.getPreferences());
+			endDate = CommandUtils.getCurrentFiscalYearEndDate(context
+					.getPreferences());
 		}
 		if (dateRange.equals(LAST_FINANCIAL_YEAR)) {
 
-			startDate = context.getClientCompany()
-					.getCurrentFiscalYearStartDate();
+			startDate = CommandUtils.getCurrentFiscalYearStartDate(context
+					.getPreferences());
 			startDate.setYear(startDate.getYear() - 1);
 			Calendar endCal = Calendar.getInstance();
-			endCal.setTime(context.getClientCompany()
-					.getCurrentFiscalYearEndDate().getDateAsObject());
+			endCal.setTime(CommandUtils.getCurrentFiscalYearEndDate(
+					context.getPreferences()).getDateAsObject());
 			endCal.set(Calendar.DAY_OF_MONTH,
 					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			endDate = new ClientFinanceDate(endCal.getTime());
@@ -282,21 +284,23 @@ public class InvoiceListCommand extends NewAbstractCommand {
 		}
 		if (dateRange.equals(THIS_FINANCIAL_QUARTER)) {
 			startDate = new ClientFinanceDate();
-			endDate = context.getClientCompany().getCurrentFiscalYearEndDate();
+			endDate = CommandUtils.getCurrentFiscalYearEndDate((context
+					.getPreferences()));
 			// getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 		}
 		if (dateRange.equals(lAST_FINANCIAL_QUARTER)) {
 			startDate = new ClientFinanceDate();
-			endDate = context.getClientCompany().getCurrentFiscalYearEndDate();
+			endDate = CommandUtils.getCurrentFiscalYearEndDate(context
+					.getPreferences());
 			// getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 			startDate.setYear(startDate.getYear() - 1);
 			endDate.setYear(endDate.getYear() - 1);
 		}
 		if (dateRange.equals(FINANCIAL_YEAR_TO_DATE)) {
-			startDate = context.getClientCompany()
-					.getCurrentFiscalYearStartDate();
+			startDate = CommandUtils.getCurrentFiscalYearStartDate(context
+					.getPreferences());
 			endDate = new ClientFinanceDate();
 		}
 		try {

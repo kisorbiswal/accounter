@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
@@ -204,9 +205,9 @@ public class NewAccountCommand extends NewAbstractCommand {
 			}
 		}
 
-		account = context.getClientCompany().getAccountByName(string);
+		account = CommandUtils.getAccountByName(context.getCompany(), string);
 		if (account == null) {
-			account = context.getClientCompany().getAccountByNumber(
+			account = CommandUtils.getAccountByNumber(context.getCompany(),
 					getNumberFromString(string));
 		}
 		if (account == null) {
