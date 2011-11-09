@@ -2243,7 +2243,7 @@ public class FinanceTool {
 	// }
 
 	public ArrayList<ClientMessage> getMessages(int status, String lang,
-			String email) {
+			String email, int from, int to) {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
@@ -2251,12 +2251,16 @@ public class FinanceTool {
 			List<Message> messages = new ArrayList<Message>();
 			switch (status) {
 			case ClientMessage.ALL:
-				messages = getAllMessages();
+				Query query = session.getNamedQuery("getMessagesByLimit")
+						.setParameter("from", from).setParameter("to", to);
+				messages = query.list();
 				break;
 
 			case ClientMessage.UNTRANSLATED:
-				Query messageIdsQuery = session.getNamedQuery(
-						"getUntranslatedMessages").setParameter("lang", lang);
+				Query messageIdsQuery = session
+						.getNamedQuery("getUntranslatedMessages")
+						.setParameter("lang", lang).setParameter("from", from)
+						.setParameter("to", to);
 				List list = messageIdsQuery.list();
 				Iterator iterator = list.iterator();
 				while (iterator.hasNext()) {
@@ -2273,7 +2277,8 @@ public class FinanceTool {
 				Query myTranslationsQuery = session
 						.getNamedQuery("getMyTranslations")
 						.setParameter("lang", lang)
-						.setParameter("clientId", client.getID());
+						.setParameter("clientId", client.getID())
+						.setParameter("from", from).setParameter("to", to);
 				List queryList = myTranslationsQuery.list();
 				Iterator i = queryList.iterator();
 				while (i.hasNext()) {
@@ -2298,7 +2303,8 @@ public class FinanceTool {
 				Query approvedMessagesQuery = session
 						.getNamedQuery("getMyTranslations")
 						.setParameter("lang", lang)
-						.setParameter("clientId", client.getID());
+						.setParameter("clientId", client.getID())
+						.setParameter("from", from).setParameter("to", to);
 
 				Iterator iter = approvedMessagesQuery.list().iterator();
 				while (iter.hasNext()) {

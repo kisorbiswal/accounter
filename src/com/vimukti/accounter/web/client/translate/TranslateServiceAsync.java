@@ -16,7 +16,7 @@ public interface TranslateServiceAsync {
 
 	void vote(int localMessageId, boolean up, AsyncCallback<Boolean> callback);
 
-	void getMessages(String lang, int status,
+	void getMessages(String lang, int status, int from, int to,
 			AsyncCallback<ArrayList<ClientMessage>> callback);
 
 }

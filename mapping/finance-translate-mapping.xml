@@ -122,29 +122,43 @@
 		com.vimukti.accounter.web.server.translate.Message m where m.id != 0
 	</query>
 
+	<query name="getMessagesByLimit">
+		<query-param name="from" type="int" />
+		<query-param name="to" type="int" />
+		from
+		com.vimukti.accounter.web.server.translate.Message m where m.id !=
+		0 limit :from ,:to
+	</query>
+
 	<sql-query name="getUntranslatedMessages">
 		<query-param name="lang" type="string" />
+		<query-param name="from" type="int" />
+		<query-param name="to" type="int" />
 		<return-scalar column="ID" type="int" />
 		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE
 		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0;
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 LIMIT :from,:to;
 	</sql-query>
 
 	<sql-query name="getMyTranslations">
 		<query-param name="lang" type="string" />
+		<query-param name="from" type="int" />
+		<query-param name="to" type="int" />
 		<query-param name="clientId" type="long" />
 		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE
 		LM
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.CLIENT=:clientId)=1;
+		LM.CLIENT=:clientId)=1 LIMIT :from,:to;
 	</sql-query>
 
 	<sql-query name="getApprovedMessages">
+		<query-param name="from" type="int" />
+		<query-param name="to" type="int" />
 		<query-param name="lang" type="string" />
 		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE
 		LM
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE)>0;
+		LM.IS_APPROVED=TRUE)>0 LIMIT :from,:to;
 	</sql-query>
 
 </hibernate-mapping>

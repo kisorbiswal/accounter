@@ -66,11 +66,12 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public ArrayList<ClientMessage> getMessages(String lang, int status) {
+	public ArrayList<ClientMessage> getMessages(String lang, int status,
+			int from, int to) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
 			return null;
 		}
-		return new FinanceTool().getMessages(status, lang, userEmail);
+		return new FinanceTool().getMessages(status, lang, userEmail, from, to);
 	}
 }
