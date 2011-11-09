@@ -2243,7 +2243,7 @@ public class FinanceTool {
 	// }
 
 	public ArrayList<ClientMessage> getMessages(int status, String lang,
-			String email, int from, int to) {
+			String email, int frm, int limit) {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
@@ -2251,13 +2251,25 @@ public class FinanceTool {
 			List<Message> messages = new ArrayList<Message>();
 			switch (status) {
 			case ClientMessage.ALL:
-				Query query = session.getNamedQuery("getMessagesByLimit");
-				messages = query.list();
+				Query query = session.getNamedQuery("getMessagesByLimit")
+						.setInteger("fm", frm).setInteger("limt", limit);
+				List list2 = query.list();
+				Iterator iterator1 = list2.iterator();
+				while (iterator1.hasNext()) {
+					int messageId = (Integer) iterator1.next();
+					Query messageQuery = session
+							.getNamedQuery("getMessageById").setParameter("id",
+									messageId);
+					Message message = (Message) messageQuery.uniqueResult();
+					messages.add(message);
+				}
 				break;
 
 			case ClientMessage.UNTRANSLATED:
-				Query messageIdsQuery = session.getNamedQuery(
-						"getUntranslatedMessages").setParameter("lang", lang);
+				Query messageIdsQuery = session
+						.getNamedQuery("getUntranslatedMessages")
+						.setParameter("lang", lang).setInteger("limt", limit)
+						.setInteger("fm", frm);
 				List list = messageIdsQuery.list();
 				Iterator iterator = list.iterator();
 				while (iterator.hasNext()) {
@@ -2273,7 +2285,8 @@ public class FinanceTool {
 			case ClientMessage.MYTRANSLATIONS:
 				Query myTranslationsQuery = session
 						.getNamedQuery("getMyTranslations")
-						.setParameter("lang", lang)
+						.setParameter("lang", lang).setInteger("fm", frm)
+						.setInteger("limt", limit)
 						.setParameter("clientId", client.getID());
 				List queryList = myTranslationsQuery.list();
 				Iterator i = queryList.iterator();
@@ -2297,9 +2310,9 @@ public class FinanceTool {
 
 			case ClientMessage.UNCONFIRMED:
 				Query approvedMessagesQuery = session
-						.getNamedQuery("getMyTranslations")
-						.setParameter("lang", lang)
-						.setParameter("clientId", client.getID());
+						.getNamedQuery("getApprovedMessages")
+						.setParameter("lang", lang).setInteger("limt", limit)
+						.setInteger("fm", frm);
 
 				Iterator iter = approvedMessagesQuery.list().iterator();
 				while (iter.hasNext()) {
@@ -2350,6 +2363,7 @@ public class FinanceTool {
 			}
 			return clientMessages;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		} finally {
 			if (session != null) {
