@@ -306,7 +306,7 @@
 			</many-to-one>
 
 			<many-to-one name="primaryCurrency" class="Currency" lazy="false" 
-				column="PRIMARY_CURRENCY_ID" cascade="save-update,delete"> </many-to-one> 
+				column="PRIMARY_CURRENCY" cascade="save-update,delete"> </many-to-one> 
 		</component>
 
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
