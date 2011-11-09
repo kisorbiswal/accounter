@@ -1,6 +1,9 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,12 +38,48 @@ public class TranslationUploadServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String fileName = "C:\\Users\\vimukti22\\Desktop\\test.properties";// req.getParameter("datafile");
+
+		String contentType = req.getContentType();
+		byte dataBytes[] = null;
+		if ((contentType != null)
+				&& (contentType.indexOf("multipart/form-data") >= 0)) {
+			DataInputStream in = new DataInputStream(req.getInputStream());
+			int formDataLength = req.getContentLength();
+			dataBytes = new byte[formDataLength];
+			int byteRead = 0;
+			int totalBytesRead = 0;
+			while (totalBytesRead < formDataLength) {
+				byteRead = in.read(dataBytes, totalBytesRead, formDataLength);
+				totalBytesRead += byteRead;
+			}
+		}
+		String file = new String(dataBytes);
+		String saveFile = file.substring(file.indexOf("filename=\"") + 10);
+		saveFile = saveFile.substring(0, saveFile.indexOf("\n"));
+		saveFile = saveFile.substring(saveFile.lastIndexOf("\\") + 1,
+				saveFile.indexOf("\""));
+		int lastIndex = contentType.lastIndexOf("=");
+		String boundary = contentType.substring(lastIndex + 1,
+				contentType.length());
+		int pos;
+		pos = file.indexOf("filename=\"");
+		pos = file.indexOf("\n", pos) + 1;
+		pos = file.indexOf("\n", pos) + 1;
+		pos = file.indexOf("\n", pos) + 1;
+		int boundaryLocation = file.indexOf(boundary, pos) - 4;
+		int startPos = ((file.substring(0, pos)).getBytes()).length;
+		int endPos = ((file.substring(0, boundaryLocation)).getBytes()).length;
+		saveFile = "C:/translation/" + saveFile;
+		File ff = new File(saveFile);
+		FileOutputStream fileOut = new FileOutputStream(ff);
+		fileOut.write(dataBytes, startPos, (endPos - startPos));
+		fileOut.flush();
+		fileOut.close();
 
 		oldMessages = new FinanceTool().getAllMessages();
 		List<Message> newMessages = new ArrayList<Message>();
 
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		BufferedReader br = new BufferedReader(new FileReader(ff));
 		String line = null;
 		while ((line = br.readLine()) != null) {
 			Message message = new Message();
@@ -53,6 +92,8 @@ public class TranslationUploadServlet extends BaseServlet {
 		}
 
 		checkMessages(newMessages);
+
+		System.out.println("Completed the Inseting of messages..");
 
 	}
 
