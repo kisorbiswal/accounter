@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
@@ -42,14 +43,13 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		((List<String>) context.getAttribute(FIRST_MESSAGE)).add(string);
 	}
 
-	public ClientCompany getClientCompany() {
-		return clientCompany;
+	public ClientCompanyPreferences getPreferences() {
+		return null;
 	}
 
 	@Override
 	public Result process(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		clientCompany = context.getClientCompany();
 		return run(context, makeResult, list, actions);
 	}
 

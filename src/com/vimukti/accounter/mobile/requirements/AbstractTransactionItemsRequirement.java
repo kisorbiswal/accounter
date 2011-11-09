@@ -2,7 +2,9 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -352,7 +354,13 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 	}
 
 	private List<ClientTAXCode> getTaxCodeLists(Context context) {
-		return getClientCompany().getActiveTaxCodes();
+		List<ClientTAXCode> clientTAXCodes = new ArrayList<ClientTAXCode>();
+		Set<TAXCode> taxCodes = context.getCompany().getTaxCodes();
+		for (TAXCode taxCode : taxCodes) {
+			if (taxCode.isActive())
+				clientTAXCodes.add(taxCode);
+		}
+		return clientTAXCodes;
 	}
 
 	private List<ClientTAXCode> getTaxCodeLists(Context context,
