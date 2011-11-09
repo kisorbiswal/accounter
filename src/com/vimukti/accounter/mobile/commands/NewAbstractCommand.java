@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -144,5 +146,9 @@ public abstract class NewAbstractCommand extends NewCommand {
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 
 		return ClientAddress.TYPE_OTHER;
+	}
+
+	protected ClientContact toClientContact(Contact contact) {
+		return null;
 	}
 }

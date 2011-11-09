@@ -31,7 +31,6 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -70,11 +69,11 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		get(CONTACT).setDefaultValue(null);
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
 
-		ClientVendor v = (ClientVendor) get(VENDOR).getValue();
+		Vendor v = (Vendor) get(VENDOR).getValue();
 		if (v != null) {
-			Set<ClientContact> contacts2 = v.getContacts();
+			Set<Contact> contacts2 = v.getContacts();
 			if (contacts2 != null)
-				for (ClientContact c : contacts2) {
+				for (Contact c : contacts2) {
 					get(CONTACT).setDefaultValue(c);
 				}
 		}
@@ -422,8 +421,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		ClientVendor vendor = get(VENDOR).getValue();
 		cashPurchase.setVendor(vendor.getID());
 
-		ClientContact contact = get(CONTACT).getValue();
-		cashPurchase.setContact(contact);
+		Contact contact = get(CONTACT).getValue();
+		cashPurchase.setContact(toClientContact(contact));
 
 		String phone = get(PHONE).getValue();
 		cashPurchase.setPhone(phone);
