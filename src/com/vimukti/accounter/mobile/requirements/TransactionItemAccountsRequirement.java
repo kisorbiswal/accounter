@@ -6,8 +6,10 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -38,7 +40,8 @@ public abstract class TransactionItemAccountsRequirement extends
 
 	@Override
 	protected ClientAccount getTransactionItem(ClientTransactionItem item) {
-		return getClientCompany().getAccount(item.getAccount());
+		return (ClientAccount) CommandUtils.getClientObjectById(
+				item.getAccount(), AccounterCoreType.ACCOUNT);
 	}
 
 	@Override
@@ -95,51 +98,66 @@ public abstract class TransactionItemAccountsRequirement extends
 			if (selection != null) {
 				if (selection.equals(AMOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
-					return amount(context, getMessages().pleaseEnterThe(
-							getItemName(transactionItem),
-							getConstants().amount()), transactionItem
-							.getUnitPrice());
+					return amount(
+							context,
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
+									getConstants().amount()),
+							transactionItem.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(context, getMessages().pleaseEnterThe(
-							getItemName(transactionItem),
-							getConstants().discount()), transactionItem
-							.getDiscount());
+					return amount(
+							context,
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
+									getConstants().discount()),
+							transactionItem.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-					return taxCode(context, getMessages().pleaseEnterThe(
-							getItemName(transactionItem),
-							getConstants().taxCode()), getClientCompany()
-							.getTAXCode(transactionItem.getTaxCode()),
+					return taxCode(
+							context,
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
+									getConstants().taxCode()),
+							getClientCompany().getTAXCode(
+									transactionItem.getTaxCode()),
 							getItemDisplayValue(transactionItem));
 				} else if (selection.equals(TAX)) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
-					return show(context, getMessages().pleaseEnterThe(
-							getItemName(transactionItem),
-							getConstants().description()), transactionItem
-							.getDescription(), transactionItem.getDescription());
+					return show(
+							context,
+							getMessages().pleaseEnterThe(
+									getItemName(transactionItem),
+									getConstants().description()),
+							transactionItem.getDescription(),
+							transactionItem.getDescription());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
 				if (selection == ActionNames.FINISH_ITEM) {
 					if (transactionItem.getUnitPrice() == 0) {
 						context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT);
-						return amount(context, getMessages().pleaseEnterThe(
-								getItemName(transactionItem),
-								getConstants().amount()), transactionItem
-								.getUnitPrice());
+						return amount(
+								context,
+								getMessages().pleaseEnterThe(
+										getItemName(transactionItem),
+										getConstants().amount()),
+								transactionItem.getUnitPrice());
 					} else if (context.getCompany().getPreferences()
 							.isTrackTax()
 							&& context.getCompany().getPreferences()
 									.isTaxPerDetailLine()
 							&& transactionItem.getTaxCode() == 0) {
 						context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
-						return taxCode(context, getMessages().pleaseEnterThe(
-								getItemName(transactionItem),
-								getConstants().taxCode()), getClientCompany()
-								.getTAXCode(transactionItem.getTaxCode()),
+						return taxCode(
+								context,
+								getMessages().pleaseEnterThe(
+										getItemName(transactionItem),
+										getConstants().taxCode()),
+								getClientCompany().getTAXCode(
+										transactionItem.getTaxCode()),
 								getItemDisplayValue(transactionItem));
 					}
 					context.removeAttribute(PROCESS_ATTR);
@@ -167,13 +185,12 @@ public abstract class TransactionItemAccountsRequirement extends
 		record.add("", getConstants().discount());
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			record = new Record(TAXCODE);
 			record.add("", getConstants().taxCode());
 			if (transactionItem.getTaxCode() != 0) {
-				ClientTAXCode code = getClientCompany().getTAXCode(
-						transactionItem.getTaxCode());
+				ClientTAXCode code = getTAXCode(transactionItem.getTaxCode());
 				if (code != null) {
 					record.add("", code.getName());
 				}
@@ -205,7 +222,7 @@ public abstract class TransactionItemAccountsRequirement extends
 		Result result = context.makeResult();
 		result.add(getMessages().details(Global.get().Account()));
 
-		ClientAccount account = getClientCompany().getAccount(
+		ClientAccount account = CommandUtils.getClientCompany().getAccount(
 				transactionItem.getAccount());
 
 		result.add(getMessages().payeeName(Global.get().Account()) + ": "

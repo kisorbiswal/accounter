@@ -74,7 +74,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 		try {
 			return new FinanceTool().getCustomerManager()
 					.getEstimatesAndSalesOrdersList(getCustomer().getID(),
-							getClientCompany().getID());
+							getCustomer().getCompany().getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

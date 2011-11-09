@@ -7,6 +7,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -191,15 +193,13 @@ public abstract class TransactionItemItemsRequirement extends
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
-		if (getClientCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			record = new Record(TAXCODE);
 			record.add("", getConstants().taxCode());
 			if (transactionItem.getTaxCode() != 0) {
-				record.add(
-						"",
-						getClientCompany().getTAXCode(
-								transactionItem.getTaxCode()).getName());
+				record.add("", get().getTAXCode(transactionItem.getTaxCode())
+						.getName());
 			} else {
 				record.add("", "");
 			}
@@ -232,8 +232,8 @@ public abstract class TransactionItemItemsRequirement extends
 		transactionItem
 				.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 						* disc / 100)) : lt);
-		if (context.getCompany().getPreferences().isTrackTax()
-				&& getClientCompany().getPreferences().isTaxPerDetailLine()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			double salesTaxRate = getClientCompany().getTAXCode(
 					transactionItem.getTaxCode()).getSalesTaxRate();
 			transactionItem
@@ -294,8 +294,10 @@ public abstract class TransactionItemItemsRequirement extends
 	protected Record createRecord(ClientItem value) {
 		Record record = new Record(value);
 		record.add("", value.getName());
-		ClientTAXCode taxCode = getClientCompany().getTAXCode(
-				value.getTaxCode());
+		ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
+				.getClientObjectById(value.getTaxCode(),
+						AccounterCoreType.TAX_CODE);
+
 		if (taxCode != null) {
 			record.add("", taxCode.getName());
 		}

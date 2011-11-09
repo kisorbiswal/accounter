@@ -8,7 +8,9 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -122,7 +124,8 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected Record createFullRecord(ClientTransactionMakeDeposit t) {
-		ClientAccount account = getClientCompany().getAccount(t.getAccount());
+		ClientAccount account = (ClientAccount) CommandUtils
+				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT);
 		Record record = new Record(t);
 		record.add("", getConstants().receivedFrom());
 		record.add("", getReceivedFrom(t));

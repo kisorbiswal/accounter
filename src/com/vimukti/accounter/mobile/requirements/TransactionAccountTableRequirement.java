@@ -11,6 +11,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -108,8 +110,8 @@ public class TransactionAccountTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (!(context.getPreferences().isTrackTax() && context
-						.getPreferences().isTaxPerDetailLine())) {
+				if (!(getPreferences().isTrackTax() && getPreferences()
+						.isTaxPerDetailLine())) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -154,13 +156,16 @@ public class TransactionAccountTableRequirement extends
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionItem obj) {
-		get(ACCOUNT).setValue(getClientCompany().getAccount(obj.getAccount()));
+		get(ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(obj.getAccount(),
+						AccounterCoreType.ACCOUNT));
 		get(DESCRIPTION).setDefaultValue(obj.getDescription());
 		get(AMOUNT).setValue(obj.getUnitPrice());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
 			get(TAXCODE).setDefaultValue(
-					getClientCompany().getTAXCode(obj.getTaxCode()));
+					CommandUtils.getServerObjectById(obj.getTaxCode(),
+							AccounterCoreType.TAX_CODE));
 		} else {
 			get(TAX).setDefaultValue(obj.isTaxable());
 		}
@@ -177,12 +182,13 @@ public class TransactionAccountTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTransactionItem t) {
 		Record record = new Record(t);
-		record.add("", getClientCompany().getAccount(t.getAccount())
-				.getDisplayName());
+		record.add("", ((ClientAccount) (CommandUtils.getClientObjectById(
+				t.getAccount(), AccounterCoreType.ACCOUNT))).getDisplayName());
 		record.add("", t.getUnitPrice());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
-			record.add("", getClientCompany().getTAXCode(t.getTaxCode())
+			record.add("", ((ClientTAXCode) (CommandUtils.getClientObjectById(
+					t.getTaxCode(), AccounterCoreType.TAX_CODE)))
 					.getDisplayName());
 		} else {
 			if (t.isTaxable()) {

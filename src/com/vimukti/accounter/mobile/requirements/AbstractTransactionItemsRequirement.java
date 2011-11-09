@@ -353,6 +353,11 @@ public abstract class AbstractTransactionItemsRequirement<T> extends
 		return record;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
 	private List<ClientTAXCode> getTaxCodeLists(Context context) {
 		List<ClientTAXCode> clientTAXCodes = new ArrayList<ClientTAXCode>();
 		Set<TAXCode> taxCodes = context.getCompany().getTaxCodes();

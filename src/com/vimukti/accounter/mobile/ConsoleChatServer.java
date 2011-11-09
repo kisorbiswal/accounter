@@ -84,7 +84,7 @@ public class ConsoleChatServer extends Thread {
 					try {
 						String messageReceived = handler.messageReceived(user,
 								msg, AdaptorType.CHAT,
-								AccounterChatServer.NETWORK_TYPE_CONSOLE);
+								AccounterChatServer.NETWORK_TYPE_GTALK);
 						out.writeObject(messageReceived);
 					} catch (AccounterMobileException e) {
 						e.printStackTrace();
