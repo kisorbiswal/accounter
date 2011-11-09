@@ -386,7 +386,7 @@ public class NewCustomerPaymentView extends
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
-				.customer()));
+				.Customer()));
 
 		billToCombo = createBillToComboItem(customerConstants.address());
 		billToCombo.setDisabled(true);
