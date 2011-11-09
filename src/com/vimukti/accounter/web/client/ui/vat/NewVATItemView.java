@@ -77,7 +77,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 //		descriptionText.setWidth(80);
 		descriptionText.setDisabled(isInViewMode());
 
-		vatRateText = new AmountField(Accounter.constants().taxAmount(), this);
+		vatRateText = new AmountField(Accounter.constants().taxAmount(), this,getBaseCurrency());
 		vatRateText.setHelpInformation(true);
 //		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);

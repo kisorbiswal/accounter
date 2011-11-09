@@ -496,11 +496,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		nameItem = new TextItem("Name");
 		nameItem.addStyleName("name-item");
 		pageSizeLabel = new Label(messages.pageSize());
-		topMarginBox = new AmountField(messages.topMargin(), this);
+		topMarginBox = new AmountField(messages.topMargin(), this,getBaseCurrency());
 		topMarginBox.setAmount(1.35);
-		bottomMarginBox = new AmountField(messages.bottomMargin(), this);
+		bottomMarginBox = new AmountField(messages.bottomMargin(), this,getBaseCurrency());
 		bottomMarginBox.setAmount(1.00);
-		addressPadBox = new AmountField(messages.addressPadding(), this);
+		addressPadBox = new AmountField(messages.addressPadding(), this,getBaseCurrency());
 		addressPadBox.setAmount(1.00);
 		// draftBox = new TextBox();
 		// draftBox.setText(messages

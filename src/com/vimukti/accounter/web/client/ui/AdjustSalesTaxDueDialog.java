@@ -59,7 +59,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog<ClientAccount> {
 				.constants().decrease());
 
 		AmountField amtText = new AmountField(Accounter.constants().amount(),
-				this);
+				this,getBaseCurrency());
 		TextItem memoText = new TextItem();
 		memoText.setTitle(Accounter.constants().memo());
 

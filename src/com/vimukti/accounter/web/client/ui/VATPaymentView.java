@@ -109,13 +109,13 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.setFields(vatAgency);
 
-		amount = new AmountField(Accounter.constants().amount(), this);
+		amount = new AmountField(Accounter.constants().amount(), this,getBaseCurrency());
 		// amount.setWidth("*");
 		amount.setRequired(true);
 		amount.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// amount.setTextAlign(Alignment.RIGHT);
 
-		vatBalance = new AmountField(Accounter.constants().vatBalance(), this);
+		vatBalance = new AmountField(Accounter.constants().vatBalance(), this,getBaseCurrency());
 		// vatBalance.setWidth("*");
 		// vatBalance.setTextAlign(Alignment.RIGHT);
 		vatBalance.setDisabled(true);
@@ -137,7 +137,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentInformationForm.setFields(vatBalance, amount, memo, referenceNo);
 
 		endingBalanceText = new AmountField(Accounter.constants()
-				.endingBalance(), this);
+				.endingBalance(), this,getBaseCurrency());
 		// endingBalanceText.setWidth("*");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// endingBalanceText.setAlign(Alignment.RIGHT);

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -110,10 +111,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	//
 	// }
 
-	public AmountField createBalanceText() {
+	public AmountField createBalanceText(ClientCurrency currency) {
 
 		AmountField balText = new AmountField(Accounter.constants().balance(),
-				this);
+				this, currency);
 		// balText.setWidth("*");
 
 		balText.setDisabled(isInViewMode());
@@ -130,10 +131,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	}
 
-	public AmountField createAmountText() {
+	public AmountField createAmountText(ClientCurrency currency) {
 
 		AmountField amtText = new AmountField(Accounter.constants().amount(),
-				this);
+				this,currency);
 		// amtText.setWidth("*");
 
 		amtText.setColSpan(1);
@@ -146,10 +147,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	}
 
-	protected AmountField createVATTotalNonEditableItem() {
+	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants().tax(),
-				this);
+				this,currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -302,10 +303,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	}
 
-	protected AmountField createTransactionTotalNonEditableItem() {
+	protected AmountField createTransactionTotalNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants().total(),
-				this);
+				this,currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;

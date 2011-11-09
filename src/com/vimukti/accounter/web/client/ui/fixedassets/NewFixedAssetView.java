@@ -264,7 +264,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		});
 
 		purchasePriceTxt = new AmountField(Accounter.constants()
-				.purchasePrice(), this);
+				.purchasePrice(), this,getBaseCurrency());
 		purchasePriceTxt.setWidth(90);
 		purchasePriceTxt.addBlurHandler(new BlurHandler() {
 
@@ -725,7 +725,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						.constants().accumulatedDepreciationTo()
 						+ " "
 						+ UIUtils.getDateStringByDate(enteredDate.toString()),
-						this);
+						this,getBaseCurrency());
 				accmulatdDepreciationTxt.setValue(DataUtils
 						.getAmountAsString(getDepreciationAmount()));
 

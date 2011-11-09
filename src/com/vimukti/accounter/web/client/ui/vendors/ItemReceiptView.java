@@ -263,7 +263,7 @@ public class ItemReceiptView extends
 		memoForm.setFields(memoTextAreaItem);
 
 		transactionTotalItem = new AmountField(Accounter.constants().total(),
-				this);
+				this,getBaseCurrency());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
 		amountForm.setFields(transactionTotalItem);

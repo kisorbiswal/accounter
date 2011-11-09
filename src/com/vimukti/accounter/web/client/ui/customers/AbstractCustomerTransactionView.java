@@ -701,10 +701,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		return comboItem;
 	}
 
-	protected AmountField createSalesTaxNonEditableItem() {
+	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants()
-				.salesTax(), this);
+				.salesTax(), this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -719,10 +719,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	protected AmountField createTransactionTotalNonEditableItem() {
+	protected AmountField createTransactionTotalNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants().total(),
-				this);
+				this,currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -737,10 +737,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	protected AmountField createVATTotalNonEditableItem() {
+	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants().tax(),
-				this);
+				this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;

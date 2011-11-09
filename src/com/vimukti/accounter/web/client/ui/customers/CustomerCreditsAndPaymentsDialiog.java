@@ -233,7 +233,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		mainPanel.setSpacing(5);
 
 		if (canEdit) {
-			amtDueText = new AmountField(customerConstants.amountDue(), this);
+			amtDueText = new AmountField(customerConstants.amountDue(), this,getBaseCurrency());
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
 				amtDueText.setValue(amountAsString(transactionPaybill
@@ -244,11 +244,11 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		}
 
 		totCredAmtText = new AmountField(customerConstants.totalCreditMemo(),
-				this);
+				this,getBaseCurrency());
 		totCredAmtText.setColSpan(1);
 		totCredAmtText.setDisabled(true);
 
-		cashDiscText = new AmountField(customerConstants.cashDiscount(), this);
+		cashDiscText = new AmountField(customerConstants.cashDiscount(), this,getBaseCurrency());
 		cashDiscText.setColSpan(1);
 		if (transactionPaybill != null)
 			cashDiscText.setValue(amountAsString(transactionPaybill
@@ -257,11 +257,11 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			cashDiscText.setValue(amountAsString(record.getCashDiscount()));
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(customerConstants.totalBalance(), this);
+		totBalText = new AmountField(customerConstants.totalBalance(), this,getBaseCurrency());
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 
-		adjPayText = new AmountField(customerConstants.adjustPayment(), this);
+		adjPayText = new AmountField(customerConstants.adjustPayment(), this,getBaseCurrency());
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
 
@@ -284,7 +284,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 				adjPayText.setValue(amountAsString(record.getPayment()));
 		}
 		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),
-				this);
+				this,getBaseCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setDisabled(true);
 		totAmtUseText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");

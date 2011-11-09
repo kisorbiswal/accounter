@@ -200,10 +200,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	}
 
-	protected AmountField createSalesTaxNonEditableItem() {
+	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants()
-				.salesTax(), this);
+				.salesTax(), this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;

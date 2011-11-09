@@ -401,13 +401,13 @@ public class NewCustomerPaymentView extends
 		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(customerConstants.endingBalance(), this);
+		endBalText = new AmountField(customerConstants.endingBalance(), this,getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		customerBalText = new AmountField(Accounter.messages().payeeBalance(
-				Global.get().Customer()), this);
+				Global.get().Customer()), this,getBaseCurrency());
 		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
 		customerBalText.setWidth(100);
@@ -422,7 +422,7 @@ public class NewCustomerPaymentView extends
 		depositInCombo = createDepositInComboItem(endBalText);
 		depositInCombo.setPopupWidth("500px");
 
-		amountText = new AmountField(customerConstants.amount(), this);
+		amountText = new AmountField(customerConstants.amount(), this,getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -638,7 +638,12 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-
+		amountText.setCurrency(getCompany().getCurrency(
+				customer.getCurrency()));
+		endBalText.setCurrency(getCompany().getCurrency(
+				customer.getCurrency()));
+	customerBalText.setCurrency(getCompany().getCurrency(
+				customer.getCurrency()));
 		if (customer == null)
 			return;
 		this.setCustomer(customer);

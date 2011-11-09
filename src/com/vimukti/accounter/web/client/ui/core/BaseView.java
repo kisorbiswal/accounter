@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -172,6 +173,14 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		if (buttonBar != null) {
 			buttonBar.setDisabled(disable);
 		}
+	}
+	
+	protected ClientCurrency getBaseCurrency() {
+		return getCompany().getPreferences().getPrimaryCurrency();
+	}
+
+	protected ClientCurrency getCurrency(long currency) {
+		return getCompany().getCurrency(currency);
 	}
 
 	/**

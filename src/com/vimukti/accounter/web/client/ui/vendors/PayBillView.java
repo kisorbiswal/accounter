@@ -550,7 +550,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				dueDate);
 
 		endBalText = new AmountField(Accounter.constants().endingBalance(),
-				this);
+				this,getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -714,7 +714,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected void vendorSelected(final ClientVendor vendor) {
-
+		endBalText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
 		if (vendor == null) {
 			paybillTransactionList = null;
 			return;

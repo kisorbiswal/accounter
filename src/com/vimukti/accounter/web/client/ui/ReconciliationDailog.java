@@ -89,7 +89,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		// .getActualMaximum(Calendar.DAY_OF_MONTH));
 		endDate.setValue(new ClientFinanceDate());
 
-		closingBalance = new AmountField(constants.ClosingBalance(), this) {
+		closingBalance = new AmountField(constants.ClosingBalance(), this,getBaseCurrency()) {
 			@Override
 			protected BlurHandler getBlurHandler() {
 				return new BlurHandler() {

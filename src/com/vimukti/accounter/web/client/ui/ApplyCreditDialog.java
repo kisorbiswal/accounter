@@ -85,35 +85,35 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 		lab1.setWidth("100%");
 		// lab1.setAutoHeight();
 
-		amtDueText = new AmountField(Accounter.constants().amountDue(), this);
+		amtDueText = new AmountField(Accounter.constants().amountDue(), this,getBaseCurrency());
 		amtDueText.setColSpan(1);
 		amtDueText.setValue(amountDue);
 		amtDueText.setDisabled(true);
 
 		totCredAmtText = new AmountField(Accounter.constants()
-				.totalCreditAmount(), this);
+				.totalCreditAmount(), this,getBaseCurrency());
 		totCredAmtText.setColSpan(1);
 		totCredAmtText.setDisabled(true);
 
 		cashDiscText = new AmountField(Accounter.constants().cashDiscount(),
-				this);
+				this,getBaseCurrency());
 		cashDiscText.setColSpan(1);
 		cashDiscText.setValue(cashDiscount);
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(Accounter.constants().totalBalance(), this);
+		totBalText = new AmountField(Accounter.constants().totalBalance(), this,getBaseCurrency());
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 
 		adjPayText = new AmountField(Accounter.constants().adjustedPayment(),
-				this);
+				this,getBaseCurrency());
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
 		adjPayText.setValue(amountAsString(DataUtils.getBalance(amountDue)
 				- DataUtils.getBalance(cashDiscount)));
 
 		totAmtUseText = new AmountField(Accounter.constants()
-				.totalAmountToUse(), this);
+				.totalAmountToUse(), this,getBaseCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setDisabled(true);
 		totAmtUseText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");

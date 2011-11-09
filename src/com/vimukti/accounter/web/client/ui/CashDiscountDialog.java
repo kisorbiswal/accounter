@@ -106,8 +106,11 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		discAccSelect.setRequired(true);
 
 		discAmtText = new AmountField(Accounter.constants().discountAmount(),
-				this);
+				this,getBaseCurrency());
+		discAmtText.setAmount(currencyProvider
+				.getAmountInTransactionCurrency(cashDiscountValue));
 		discAmtText.setAmount(cashDiscountValue);
+		
 
 		form = new DynamicForm();
 		form.setFields(discAccSelect, discAmtText);

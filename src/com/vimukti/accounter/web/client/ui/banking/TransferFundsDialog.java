@@ -141,7 +141,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 
 				});
 
-		balanceFromText = new AmountField(bankingConstants.balance(), this);
+		balanceFromText = new AmountField(bankingConstants.balance(), this,getBaseCurrency());
 		balanceFromText.setDisabled(Boolean.TRUE);
 		memoText = new TextItem(bankingConstants.memo());
 
@@ -183,10 +183,10 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 					}
 
 				});
-		balanceToText = new AmountField(bankingConstants.balance(), this);
+		balanceToText = new AmountField(bankingConstants.balance(), this,getBaseCurrency());
 		balanceToText.setDisabled(Boolean.TRUE);
 
-		amountText = new AmountField(bankingConstants.amount(), this);
+		amountText = new AmountField(bankingConstants.amount(), this,getBaseCurrency());
 		amountText.setRequired(true);
 		amountText.setAmount(0.00);
 		amountText.addBlurHandler(new BlurHandler() {

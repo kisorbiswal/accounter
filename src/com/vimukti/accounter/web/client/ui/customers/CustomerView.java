@@ -639,11 +639,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(customerConstants.openingBalance(),
-				this);
+				this,getBaseCurrency());
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
-		balanceText = new AmountField(customerConstants.balance(), this);
+		balanceText = new AmountField(customerConstants.balance(), this,getBaseCurrency());
 		balanceText.setHelpInformation(true);
 		balanceText.setDisabled(true);
 		balanceDate = new DateField(customerConstants.balanceAsOf());
@@ -685,9 +685,26 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// }
 
 		// accInfoForm.setWidth("100%");
-		accInfoForm.setFields(statusCheck, customerSinceDate, openingBalText,
-				balanceDate, balanceText);
 
+		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
+		currencyCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientCurrency selectItem) {
+						selectCurrency = selectItem;
+						openingBalText.setCurrency(selectCurrency);
+						balanceText.setCurrency(selectCurrency);
+					}
+				});
+		currencyCombo.setDisabled(isInViewMode());
+		if (isMultiCurrencyEnabled()) {
+			accInfoForm.setFields(statusCheck, customerSinceDate,
+					currencyCombo, openingBalText, balanceDate, balanceText);
+		} else {
+			accInfoForm.setFields(statusCheck, customerSinceDate,
+					openingBalText, balanceDate, balanceText);
+		}
 		Label l1 = new Label(Accounter.constants().contacts());
 		addButton = new AddButton(this);
 
@@ -855,8 +872,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(
-				customerConstants.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(customerConstants
+				.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -873,7 +890,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// salesForm.setFields(salesPersonSelect);
 		// salesForm.setWidth("100%");
 
-		creditLimitText = new AmountField(customerConstants.creditLimit(), this);
+		creditLimitText = new AmountField(customerConstants.creditLimit(), this,getBaseCurrency());
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
@@ -891,8 +908,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		//
 		// });
 
-		creditRatingSelect = new CreditRatingCombo(
-				customerConstants.creditRating());
+		creditRatingSelect = new CreditRatingCombo(customerConstants
+				.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -902,16 +919,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 						selectCreditRatingFromDetailsTab = selectItem;
 					}
 
-				});
-
-		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
-		currencyCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
-
-					@Override
-					public void selectedComboBoxItem(ClientCurrency selectItem) {
-						selectCurrency = selectItem;
-					}
 				});
 
 		bankAccountSelect = new TextItem(Accounter.messages().bankAccountNo(
@@ -926,8 +933,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(customerConstants.cstNumber());
 		cstNumberText.setHelpInformation(true);
-		serviceTaxRegistrationNo = new TextItem(
-				customerConstants.serviceTaxRegistrationNumber());
+		serviceTaxRegistrationNo = new TextItem(customerConstants
+				.serviceTaxRegistrationNumber());
 		serviceTaxRegistrationNo.setHelpInformation(true);
 		tinNumberText = new TextItem(customerConstants.tinNumber());
 		tinNumberText.setHelpInformation(true);
@@ -935,14 +942,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		DynamicForm financeDitailsForm = UIUtils.form(customerConstants
 				.financialDetails());
 
-		if (isMultiCurrencyEnabled()) {
-			financeDitailsForm.setFields(salesPersonSelect, currencyCombo,
-					creditRatingSelect, bankNameSelect, bankAccountSelect,
-					bankBranchSelect);
-		} else {
-			financeDitailsForm.setFields(salesPersonSelect, creditRatingSelect,
-					bankNameSelect, bankAccountSelect, bankBranchSelect);
-		}
+		financeDitailsForm.setFields(salesPersonSelect, creditRatingSelect,
+				bankNameSelect, bankAccountSelect, bankBranchSelect);
 
 		if (getPreferences().isTrackTax()) {
 
@@ -959,8 +960,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(
-				customerConstants.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(customerConstants
+				.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -1045,7 +1046,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setDisabled(isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
-		currencyCombo.setDisabled(isInViewMode());
 		bankAccountSelect.setDisabled(isInViewMode());
 		bankNameSelect.setDisabled(isInViewMode());
 		bankBranchSelect.setDisabled(isInViewMode());

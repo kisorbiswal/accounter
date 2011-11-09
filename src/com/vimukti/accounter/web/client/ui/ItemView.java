@@ -225,7 +225,7 @@ public class ItemView extends BaseView<ClientItem> {
 				.replace(Accounter.constants().comments(),
 						Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
-				this);
+				this,getBaseCurrency());
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
 		salesPriceText.setDisabled(isInViewMode());
@@ -270,7 +270,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesInfoForm.setWidth("98%");
 
 		stdCostText = new AmountField(Accounter.constants().standardCost(),
-				this);
+				this,getBaseCurrency());
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
 		stdCostText.setDisabled(isInViewMode());
@@ -322,7 +322,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseDescArea.setDisabled(isInViewMode());
 
 		purchasePriceTxt = new AmountField(Accounter.constants()
-				.purchasePrice(), this);
+				.purchasePrice(), this,getBaseCurrency());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setDisabled(isInViewMode());
@@ -615,7 +615,7 @@ public class ItemView extends BaseView<ClientItem> {
 		wareHouse = new WarehouseCombo(Accounter.constants().wareHouse());
 
 		openingBalTxt = new AmountField(Accounter.constants().openingBalance(),
-				this);
+				this,getBaseCurrency());
 		openingBalTxt.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
 		// if (getPreferences().iswareHouseEnabled()) {

@@ -235,7 +235,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		mainPanel.setSpacing(5);
 
 		if (canEdit) {
-			amtDueText = new AmountField(customerConstants.amountDue(), this);
+			amtDueText = new AmountField(customerConstants.amountDue(), this,getBaseCurrency());
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
 				amtDueText
@@ -274,7 +274,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),
-				this);
+				this,getBaseCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setValue("");
 		totAmtUseText.setBlurHandler(new BlurHandler() {

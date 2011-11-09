@@ -198,13 +198,13 @@ public class NewVendorPaymentView extends
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(Accounter.constants().endingBalance(),
-				this);
+				this,getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this);
+				.Vendor()), this,getBaseCurrency());
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
@@ -237,7 +237,7 @@ public class NewVendorPaymentView extends
 		// Payment
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(Accounter.constants().amount(), this);
+		amountText = new AmountField(Accounter.constants().amount(), this,getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -506,7 +506,9 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
-
+		amountText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
+		vendorBalText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
+		endBalText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
 		if (vendor == null)
 			return;
 		this.setVendor(vendor);

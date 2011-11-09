@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
@@ -426,6 +427,13 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 			}
 		});
 
+	}
+	protected ClientCurrency getBaseCurrency() {
+		return getCompany().getPreferences().getPrimaryCurrency();
+	}
+
+	protected ClientCurrency getCurrency(long currency) {
+		return getCompany().getCurrency(currency);
 	}
 
 }

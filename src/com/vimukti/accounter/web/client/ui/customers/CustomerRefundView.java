@@ -98,6 +98,9 @@ public class CustomerRefundView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
+		amtText.setCurrency(getCompany().getCurrency(customer.getCurrency()));
+		endBalText.setCurrency(getCompany().getCurrency(customer.getCurrency()));
+		custBalText.setCurrency(getCompany().getCurrency(customer.getCurrency()));
 		if (customer == null)
 			return;
 		this.setCustomer(customer);
@@ -194,7 +197,7 @@ public class CustomerRefundView extends
 
 				});
 
-		amtText = new AmountField(customerConstants.amount(), this);
+		amtText = new AmountField(customerConstants.amount(), this,getBaseCurrency());
 		amtText.setHelpInformation(true);
 		amtText.setRequired(true);
 		amtText.setWidth(100);
@@ -273,14 +276,14 @@ public class CustomerRefundView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 
-		endBalText = new AmountField(customerConstants.endingBalance(), this);
+		endBalText = new AmountField(customerConstants.endingBalance(), this,getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setDisabled(true);
 
 		setEndingBalance(null);
 
 		custBalText = new AmountField(Accounter.messages().payeeBalance(
-				Global.get().Customer()), this);
+				Global.get().Customer()), this,getBaseCurrency());
 		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);
 		setCustomerBalance(null);

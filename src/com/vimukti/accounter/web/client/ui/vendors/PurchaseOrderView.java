@@ -232,7 +232,7 @@ public class PurchaseOrderView extends
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
 			balanceDueNonEditableText = new AmountField(
-					accounterConstants.balanceDue(), this);
+					accounterConstants.balanceDue(), this,getBaseCurrency());
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");

@@ -529,7 +529,7 @@ public class VendorBillView extends
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		balanceDueNonEditableText = new AmountField(Accounter.constants()
-				.balanceDue(), this);
+				.balanceDue(), this,getBaseCurrency());
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""

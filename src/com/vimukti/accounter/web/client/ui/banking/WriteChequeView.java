@@ -694,7 +694,7 @@ public class WriteChequeView extends
 
 		vendorTDSTaxCode.setDisabled(true);
 
-		balText = new AmountField(Accounter.constants().balance(), this);
+		balText = new AmountField(Accounter.constants().balance(), this,getBaseCurrency());
 		balText.setWidth(100);
 		balText.setDisabled(true);
 
@@ -792,7 +792,7 @@ public class WriteChequeView extends
 
 		// billToCombo.setWidth(100);
 
-		amtText = new AmountField(Accounter.constants().amount(), this);
+		amtText = new AmountField(Accounter.constants().amount(), this,getBaseCurrency());
 		amtText.setWidth(100);
 		amtText.setAmount(getAmountInTransactionCurrency(0.00));
 		amtText.setDisabled(isInViewMode());
@@ -1381,6 +1381,8 @@ public class WriteChequeView extends
 	}
 
 	public void PayToSelected(ClientPayee selectItem) {
+		balText.setCurrency(getCompany().getCurrency(selectItem.getCurrency()));
+		amtText.setCurrency(getCompany().getCurrency(selectItem.getCurrency()));
 		ClientWriteCheck check = (ClientWriteCheck) this.transaction;
 
 		// FIXME Need to set transaction items.

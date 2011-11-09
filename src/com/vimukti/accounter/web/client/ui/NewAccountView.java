@@ -310,14 +310,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
 		opBalText = new AmountField(Accounter.constants().openingBalance(),
-				this);
+				this,getBaseCurrency());
 		opBalText.setToolTip(Accounter.messages().giveOpeningBalanceToThis(
 				this.getAction().getViewName()));
 		opBalText.setHelpInformation(true);
 		opBalText.setDisabled(isInViewMode());
 		opBalText.setWidth(100);
 		opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
-		currentBalanceText = new AmountField(constants.currentBalance(), this);
+		currentBalanceText = new AmountField(constants.currentBalance(), this,getBaseCurrency());
 		currentBalanceText.setToolTip(constants.currentBalance());
 		currentBalanceText.setHelpInformation(true);
 		currentBalanceText.setDisabled(true);
@@ -827,7 +827,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeSelect.setRequired(true);
 
 			limitText = new AmountField(Accounter.constants().creditLimit(),
-					this);
+					this,getBaseCurrency());
 			limitText.setHelpInformation(true);
 			limitText.setWidth(100);
 			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
@@ -928,12 +928,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			currencyCombo.setDisabled(isInViewMode());
 			currencyCombo
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
-
 						@Override
 						public void selectedComboBoxItem(
 								ClientCurrency selectItem) {
 							selectCurrency = selectItem;
+							currentBalanceText.setCurrency(selectItem);
+							opBalText.setCurrency(selectItem);
+							limitText.setCurrency(selectItem);
 						}
+						
 					});
 
 			bankForm = UIUtils.form(Accounter.messages()

@@ -158,13 +158,13 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(companyConstants.amount(), this);
+		amountText = new AmountField(companyConstants.amount(), this,getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
 		endingBalanceText = new AmountField(companyConstants.endingBalance(),
-				this);
+				this,getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);

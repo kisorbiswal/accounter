@@ -105,7 +105,7 @@ public class StockSettingsView extends BaseView {
 		itemExpenseAmountTextlabel = new LabelItem();
 		itemIncomeAmoutTextlabel.setValue(Accounter.constants().stockItemIncomeAccount());
 		itemExpenseAmountTextlabel.setValue(Accounter.constants().stockItemExpenseAccount());
-		amountText = new AmountField(Accounter.constants().stockItemAmount(),this);
+		amountText = new AmountField(Accounter.constants().stockItemAmount(),this,getBaseCurrency());
 		memo = new TextAreaItem(Accounter.constants().stockMemo());
 		memo.setMemo(false,this);
 		memo.setWidth(100);

@@ -127,4 +127,5 @@ public abstract class AbstractView<T> extends VerticalPanel {
 		super.onAttach();
 		setFocus();
 	}
+	
 }

@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
@@ -309,6 +310,14 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		return Accounter.getCompany();
 
 	}
+	public String getBaseCurrencyAsString() {
+		return "";
+		
+	}
+	public String getCurrencyAsString(long id) {
+		return "";
+		
+	}
 
 	/**
 	 * Adds Error
@@ -485,5 +494,11 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	public boolean isMultiCurrencyEnabled() {
 		return getCompany().getPreferences().isEnableMultiCurrency();
 	}
+	protected ClientCurrency getBaseCurrency() {
+		return getCompany().getPreferences().getPrimaryCurrency();
+	}
 
+	protected ClientCurrency getCurrency(long currency) {
+		return getCompany().getCurrency(currency);
+	}
 }

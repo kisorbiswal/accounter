@@ -111,6 +111,8 @@ public class ReceivePaymentView extends
 	}
 
 	protected void customerSelected(final ClientCustomer selectedCustomer) {
+		amtText.setCurrency(getCompany().getCurrency(selectedCustomer.getCurrency()));
+		customerNonEditablebalText.setCurrency(getCompany().getCurrency(selectedCustomer.getCurrency()));
 		if (selectedCustomer == null) {
 			receivePaymentTransactionList = null;
 			return;
@@ -200,7 +202,8 @@ public class ReceivePaymentView extends
 
 								if (result.size() > 0) {
 									gridView.removeAllRecords();
-									gridView.initCreditsAndPayments(selectedCustomer);
+									gridView
+											.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.addEmptyMessage(Accounter
@@ -257,8 +260,10 @@ public class ReceivePaymentView extends
 
 			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
 
-			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-					.getDueDate().getDate() : 0);
+			record
+					.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+							.getDueDate().getDate()
+							: 0);
 			record.setNumber(receivePaymentTransaction.getNumber());
 
 			record.setInvoiceAmount(receivePaymentTransaction
@@ -397,7 +402,8 @@ public class ReceivePaymentView extends
 								.setTransactionReceivePayment(payment);
 					}
 
-				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
+				payment
+						.setTransactionCreditsAndPayments(tranCreditsandPayments);
 			}
 			paymentsList.add(payment);
 			payment.getTempCredits().clear();
@@ -441,8 +447,9 @@ public class ReceivePaymentView extends
 
 		amtText = new AmountField(Accounter.messages().amountReceived(
 				getCompany().getPreferences().getPrimaryCurrency()
-						.getFormalName()), this);
-
+				.getFormalName()), this,
+				getBaseCurrency());
+				 
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isInViewMode());
@@ -458,9 +465,12 @@ public class ReceivePaymentView extends
 					return;
 				Double amount = 0.00D;
 				try {
-					amount = DataUtils.getAmountStringAsDouble(value.toString());
-					amtText.setAmount(DataUtils.isValidAmount(value.toString()) ? amount
-							: 0.00D);
+					amount = DataUtils
+							.getAmountStringAsDouble(value.toString());
+					amtText
+							.setAmount(DataUtils
+									.isValidAmount(value.toString()) ? amount
+									: 0.00D);
 					paymentAmountChanged(amount);
 
 					if (DecimalUtil.isLessThan(amount, 0)) {
@@ -495,7 +505,7 @@ public class ReceivePaymentView extends
 		// payForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		customerNonEditablebalText = new AmountField(Accounter.messages()
-				.payeeBalance(Global.get().Customer()), this);
+				.payeeBalance(Global.get().Customer()), this, getBaseCurrency());
 		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);
@@ -866,8 +876,8 @@ public class ReceivePaymentView extends
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
@@ -878,7 +888,9 @@ public class ReceivePaymentView extends
 			result.addError(gridView, Accounter.constants()
 					.pleaseSelectAnyOneOfTheTransactions());
 		} else if (gridView.getAllRows().isEmpty()) {
-			result.addError(gridView, Accounter.constants().selectTransaction());
+			result
+					.addError(gridView, Accounter.constants()
+							.selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
 
@@ -895,6 +907,7 @@ public class ReceivePaymentView extends
 				result.addError(amtText, accounterConstants.invalidAmount());
 			}
 		}
+	 
 		if (!isInViewMode()
 				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
 			result.addWarning(unUsedPaymentsText,

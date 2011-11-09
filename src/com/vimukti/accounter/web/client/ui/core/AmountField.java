@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -12,14 +13,23 @@ public class AmountField extends TextItem {
 
 	private Double doubleAmount;
 
+	private ClientCurrency currency;
+
 	private BlurHandler blurHandler;
 
 	private WidgetWithErrors errorsWidget;
 
-	public AmountField(final String name, WidgetWithErrors errorsViewGrid) {
+	private boolean showCurrency =true;
+
+	public AmountField(final String name,
+			WidgetWithErrors errorsViewGrid,ClientCurrency currency) {
 		this.errorsWidget = errorsViewGrid;
 		setName(name);
-		setTitle(name);
+		if (showCurrency) {
+			setTitle(name + "(" + currency.getFormalName() + ")");
+		}else {
+			setTitle(name);
+		}
 		// addFocusHandler(getFocusHandler());
 		addBlurHandler(getBlurHandler());
 
@@ -36,6 +46,7 @@ public class AmountField extends TextItem {
 		// }
 		// }
 		// });
+		this.currency = currency;
 	}
 
 	private void setKeyPressFilter(String string) {
@@ -95,6 +106,27 @@ public class AmountField extends TextItem {
 
 	public void setBlurHandler(BlurHandler blurHandler) {
 		this.blurHandler = blurHandler;
+	}
+
+	public void setCurrency(ClientCurrency currency) {
+		this.currency = currency;
+		if (showCurrency) {
+			setTitle(getName() + "(" + currency.getFormalName() + ")");
+		}else {
+			setTitle(getName());
+		}
+	}
+
+	public ClientCurrency getCurrency() {
+		return currency;
+	}
+
+	public void setShowCurrency(boolean showCurrency) {
+		this.showCurrency = showCurrency;
+	}
+
+	public boolean isShowCurrency() {
+		return showCurrency;
 	}
 
 	// private FocusHandler getFocusHandler() {
