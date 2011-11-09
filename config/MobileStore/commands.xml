@@ -676,6 +676,7 @@
 	</command>
 	<command clazz="NewProductItemCommand" name="Product Item">
 		<alias>Create New Product Item</alias>
+		<alias>Create Product Item</alias>
 	</command>
 	<command clazz="NewCustomerGroupCommand" name="CustomerGroup">
 		<alias>Create CustomerGroup</alias>
