@@ -80,7 +80,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		return messages;
 	}
 
-	protected long companyId() {
+	protected long getCompanyId() {
 		return companyId;
 	}
 }
