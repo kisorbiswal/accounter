@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -94,8 +95,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
-				String primaryCurrency = getClientCompany().getPreferences()
-						.getPrimaryCurrency();
+				String primaryCurrency = getPreferences().getPrimaryCurrency();
 				Currency selc = get(CURRENCY).getValue();
 				return "1 " + selc.getFormalName() + " = " + value + " "
 						+ primaryCurrency;
@@ -170,7 +170,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<ClientTransactionIssuePayment> getList() {
-				return getclientTransactionIssuePayments(getClientCompany());
+				return getclientTransactionIssuePayments();
 			}
 		});
 	}
@@ -189,7 +189,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		try {
 			String nextIssuePaymentCheckNumber = new FinanceTool()
 					.getNextIssuePaymentCheckNumber(account.getID(), context
-							.getClientCompany().getID());
+							.getCompany().getID());
 			if (nextIssuePaymentCheckNumber != null) {
 				checknumber = nextIssuePaymentCheckNumber;
 			}
@@ -202,7 +202,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 	private String getNextTransactionNumber(Context context) {
 		String nextTransactionNumber = new FinanceTool()
 				.getNextTransactionNumber(ClientTransaction.TYPE_ISSUE_PAYMENT,
-						context.getClientCompany().getID());
+						context.getCompany().getID());
 		return nextTransactionNumber;
 	}
 
