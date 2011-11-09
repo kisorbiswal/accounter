@@ -358,9 +358,10 @@ public class CashSalesView extends
 		if (isMultiCurrencyEnabled()) {
 			prodAndServiceForm2.setFields(transactionTotalForeignCurrency);
 		}
-
 		prodAndServiceForm2.addStyleName("boldtext");
+		
 		currencyWidget = createCurrencyFactorWidget();
+		
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
@@ -454,9 +455,6 @@ public class CashSalesView extends
 				});
 
 		shippingTermsCombo.setDisabled(isInViewMode());
-
-		// formItems.add(shippingTermsCombo);
-
 		return shippingTermsCombo;
 	}
 
@@ -700,8 +698,8 @@ public class CashSalesView extends
 		if (transaction == null) {
 			setData(new ClientCashSales());
 		} else {
-			if (currencyWidget != null) {
-				if (transaction.getCurrency() > 1) {
+			if (isMultiCurrencyEnabled()) {
+				if (transaction.getCurrency() > 0) {
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
@@ -827,6 +825,7 @@ public class CashSalesView extends
 		superinitTransactionViewData();
 		initCashSalesView();
 		initAccounterClass();
+		
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
@@ -1160,7 +1159,7 @@ public class CashSalesView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
-		if (!currencyWidget.isShowFactorField()) {
+		if (currencyWidget.isShowFactorField()) {
 			transactionTotalForeignCurrency.hide();
 		} else {
 			transactionTotalForeignCurrency.show();
