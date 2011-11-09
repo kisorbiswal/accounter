@@ -71,7 +71,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 						ClientTransaction.TYPE_PURCHASE_ORDER,
 						context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
-		ArrayList<PaymentTerms> paymentTerms = CommandUtils.getPaymentsTerms();
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
 		for (PaymentTerms p : paymentTerms) {
 			if (p.getName().equals("Due on Receipt")) {
 				get(PAYMENT_TERMS).setDefaultValue(p);

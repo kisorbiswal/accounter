@@ -227,9 +227,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
 
 			@Override
-			protected List<Contact> getList() {
-				List<Contact> contacts = getAgencyContacts();
-				return new ArrayList<Contact>(contacts);
+			protected List<ClientContact> getList() {
+				List<ClientContact> contacts = getAgencyContacts();
+				return new ArrayList<ClientContact>(contacts);
 			}
 
 			@Override
@@ -241,7 +241,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<Contact> getAgencyContacts() {
+	protected List<ClientContact> getAgencyContacts() {
 		// TODO Auto-generated method stub
 		return null;
 	}

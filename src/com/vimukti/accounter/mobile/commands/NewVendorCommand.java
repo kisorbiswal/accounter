@@ -171,9 +171,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
 
 			@Override
-			protected List<Contact> getList() {
-				List<Contact> contacts = getVendorContacts();
-				return new ArrayList<Contact>(contacts);
+			protected List<ClientContact> getList() {
+				List<ClientContact> contacts = getVendorContacts();
+				return new ArrayList<ClientContact>(contacts);
 			}
 
 			@Override
@@ -404,7 +404,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<Contact> getVendorContacts() {
+	protected List<ClientContact> getVendorContacts() {
 		// TODO Auto-generated method stub
 		return null;
 	}

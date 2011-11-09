@@ -383,9 +383,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				.pleaseSelect(getConstants().contact()), CONTACT, true, true) {
 
 			@Override
-			protected List<Contact> getList() {
-				List<Contact> contacts = getCustomerContacts();
-				return new ArrayList<Contact>(contacts);
+			protected List<ClientContact> getList() {
+				List<ClientContact> contacts = getCustomerContacts();
+				return new ArrayList<ClientContact>(contacts);
 			}
 
 			@Override
@@ -397,7 +397,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	}
 
-	protected List<Contact> getCustomerContacts() {
+	protected List<ClientContact> getCustomerContacts() {
 		return null;
 	}
 
