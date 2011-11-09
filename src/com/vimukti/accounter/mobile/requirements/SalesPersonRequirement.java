@@ -22,7 +22,7 @@ public abstract class SalesPersonRequirement extends
 	@Override
 	protected Record createRecord(SalesPerson value) {
 		Record record = new Record(value);
-		record.add("", value.getName());
+		record.add("", value.getFirstName());
 		return record;
 	}
 
