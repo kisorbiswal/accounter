@@ -52,7 +52,8 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -89,7 +90,7 @@ public class VendorBillView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DynamicForm totalForm = new DynamicForm();
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;
@@ -639,7 +640,7 @@ public class VendorBillView extends
 		// linksText.setShowTitle(false);
 		// linksText.setDisabled(isEdit);
 		// formItems.add(linksText);
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 		DynamicForm tdsForm = new DynamicForm();
 		tdsForm.setWidth("100%");
 		tdsForm.setFields();

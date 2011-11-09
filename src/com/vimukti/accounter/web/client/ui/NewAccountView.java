@@ -58,7 +58,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 
 /**
  * @modified by Ravi Kiran.G
@@ -513,13 +513,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	}
 
-	private CurrencyWidget createCurrencyWidget() {
+	private CurrencyComboWidget createCurrencyWidget() {
 
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
 		ClientCurrency baseCurrency = getCompany().getCurrency(
 				getCompany().getPreferences().getPrimaryCurrency());
 
-		CurrencyWidget widget = new CurrencyWidget(currenciesList, baseCurrency);
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList, baseCurrency);
 		return widget;
 	}
 

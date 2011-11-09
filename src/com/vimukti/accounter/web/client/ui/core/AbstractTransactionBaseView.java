@@ -82,7 +82,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -378,10 +379,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		dateItem.setToolTip(Accounter
+				.messages()
+				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -696,8 +696,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -990,8 +989,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
 				if (transaction instanceof ClientPayBill) {
-					result.addError(this, Accounter.messages()
-							.valueCannotBe0orlessthan0(
+					result.addError(
+							this,
+							Accounter.messages().valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
@@ -1012,11 +1012,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			for (ClientTransactionItem transactionItem : transactionItems) {
 
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError("TransactionItem"
-							+ transactionItem.getAccount()
-							+ transactionItem.getAccount(), Accounter
-							.constants()
-							.transactionitemtotalcannotbe0orlessthan0());
+					result.addError(
+							"TransactionItem" + transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants()
+									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getPreferences().isClassTrackingEnabled()
@@ -1138,12 +1138,31 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return null;
 	}
 
-	protected CurrencyWidget createCurrencyWidget() {
+	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
 		ClientCurrency baseCurrency = getCompany().getCurrency(
 				getCompany().getPreferences().getPrimaryCurrency());
 
-		CurrencyWidget widget = new CurrencyWidget(currenciesList, baseCurrency);
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
+				baseCurrency);
+		widget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(ClientCurrency currency, double factor) {
+				setCurrencycode(currency);
+				setCurrencyFactor(factor);
+				updateAmountsFromGUI();
+			}
+		});
+		widget.setDisabled(isInViewMode());
+		return widget;
+	}
+
+	protected CurrencyFactorWidget createCurrencyFactorWidget() {
+		ClientCurrency baseCurrency = getCompany().getCurrency(
+				getCompany().getPreferences().getPrimaryCurrency());
+
+		CurrencyFactorWidget widget = new CurrencyFactorWidget(baseCurrency);
 		widget.setListener(new CurrencyChangeListener() {
 
 			@Override
@@ -1655,8 +1674,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// buttons...
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 
-		final SaveAndCloseButton saveButton = new SaveAndCloseButton(constants
-				.save());
+		final SaveAndCloseButton saveButton = new SaveAndCloseButton(
+				constants.save());
 		CancelButton cancelButton = new CancelButton();
 
 		saveButton.addClickHandler(new ClickHandler() {
@@ -1711,10 +1730,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void updateLastActivityPanel(ClientTransactionLog transactionLog) {
 
 		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE) {
-			lastActivityHTML.setHTML(messages.lastActivityMessages(historyTable
-					.getActivityType(transactionLog.getType()), transactionLog
-					.getUserName(), new Date(transactionLog.getTime())
-					.toString()));
+			lastActivityHTML.setHTML(messages.lastActivityMessages(
+					historyTable.getActivityType(transactionLog.getType()),
+					transactionLog.getUserName(),
+					new Date(transactionLog.getTime()).toString()));
 			noteHTML.setVisible(false);
 		} else {
 

@@ -57,7 +57,8 @@ import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
@@ -99,7 +100,7 @@ public class SalesOrderView extends
 			transactionTotalinForeignCurrency;
 
 	private Double salesTax;
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	public SalesOrderView() {
 		super(ClientTransaction.TYPE_SALES_ORDER);
@@ -427,7 +428,7 @@ public class SalesOrderView extends
 			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
 		}
 
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);

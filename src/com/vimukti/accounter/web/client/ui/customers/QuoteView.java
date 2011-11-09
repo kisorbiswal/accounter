@@ -53,7 +53,8 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
@@ -84,7 +85,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private ShipToForm shipToAddress;
 	private int type;
 	private String title;
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
@@ -528,7 +529,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
 		}
 
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 

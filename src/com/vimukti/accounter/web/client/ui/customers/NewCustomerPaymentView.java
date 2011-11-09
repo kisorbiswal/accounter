@@ -49,7 +49,8 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class NewCustomerPaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
@@ -72,7 +73,7 @@ public class NewCustomerPaymentView extends
 	protected TextItem checkNo;
 	boolean isChecked = false;
 	private boolean locationTrackingEnabled;
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	public NewCustomerPaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
@@ -463,7 +464,7 @@ public class NewCustomerPaymentView extends
 				checkNumber = checkNo.getValue().toString();
 			}
 		});
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 		payForm = UIUtils.form(customerConstants.payment());
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		memoTextAreaItem = createMemoTextAreaItem();

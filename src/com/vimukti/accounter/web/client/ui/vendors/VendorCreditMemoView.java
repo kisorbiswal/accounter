@@ -36,7 +36,8 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactio
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class VendorCreditMemoView extends
 		AbstractVendorTransactionView<ClientVendorCreditMemo> {
@@ -49,7 +50,7 @@ public class VendorCreditMemoView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private boolean locationTrackingEnabled;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
@@ -323,7 +324,7 @@ public class VendorCreditMemoView extends
 				addItem();
 			}
 		});
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
@@ -335,7 +336,7 @@ public class VendorCreditMemoView extends
 		leftVLay.setWidth("100%");
 
 		vendorForm = UIUtils.form(Global.get().vendor());
-		//vendorForm.setWidth("50%");
+		// vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -344,14 +345,14 @@ public class VendorCreditMemoView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-//		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "190px");
+		// vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		DynamicForm locationForm = new DynamicForm();
-		if (locationTrackingEnabled){
+		if (locationTrackingEnabled) {
 			locationForm.setFields(locationCombo);
 			locationForm.getElement().getStyle().setFloat(Float.RIGHT);
 			rightVLay.add(locationForm);
@@ -359,7 +360,7 @@ public class VendorCreditMemoView extends
 		}
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,ALIGN_RIGHT);
+			rightVLay.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
 
@@ -374,7 +375,7 @@ public class VendorCreditMemoView extends
 		// refText.setWidth(100);
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		DynamicForm memoForm = new DynamicForm();
-//		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm vatCheckform = new DynamicForm();
@@ -706,8 +707,8 @@ public class VendorCreditMemoView extends
 	}
 
 	private void resetFormView() {
-//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-//		vendorForm.setWidth("40%");
+		// vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+		// vendorForm.setWidth("40%");
 	}
 
 	@Override

@@ -68,7 +68,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -84,7 +85,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private SalesPersonCombo salesPersonCombo;
 	private PaymentTermsCombo payTermsSelect;
 	private Double salesTax = 0.0D;
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 	private boolean locationTrackingEnabled;
 	private DateField deliveryDate;
 	protected ClientSalesPerson salesPerson;
@@ -315,7 +316,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setNumCols(3);
 //		custForm.setWidth("100%");
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 
 		custForm.setFields(customerCombo, emptylabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);

@@ -48,7 +48,8 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class CustomerRefundView extends
 		AbstractCustomerTransactionView<ClientCustomerRefund> {
@@ -70,7 +71,7 @@ public class CustomerRefundView extends
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
 	private boolean locationTrackingEnabled;
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
@@ -307,7 +308,7 @@ public class CustomerRefundView extends
 		leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
 		leftPanel.add(custForm);
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.setWidth("100%");
 		rightPanel.add(balForm);

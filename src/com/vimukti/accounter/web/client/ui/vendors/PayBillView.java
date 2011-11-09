@@ -45,7 +45,8 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTa
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
@@ -88,7 +89,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private AmountLabel amountToVendor;
 	private double toBeSetEndingBalance;
 
-	private CurrencyWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
@@ -599,7 +600,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		unUsedCreditsText.setDisabled(true);
 		amountLabel = new AmountLabel(Accounter.constants().totalAmount());
 		amountLabel.setDisabled(true);
-		currencyWidget = createCurrencyWidget();
+		currencyWidget = createCurrencyFactorWidget();
 		this.tdsPayableAmount = new AmountLabel(constants.tdsAmount());
 		tdsPayableAmount.setDisabled(true);
 
