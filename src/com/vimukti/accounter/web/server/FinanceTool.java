@@ -2200,9 +2200,18 @@ public class FinanceTool {
 		try {
 			session = HibernateUtil.openSession();
 			org.hibernate.Transaction transaction = session.beginTransaction();
-			Set<LocalMessage> localMessages = message.getLocalMessages();
 			session.saveOrUpdate(message);
 			transaction.commit();
+
+			Set<LocalMessage> localMessages = message.getLocalMessages();
+			for (LocalMessage localMessage : localMessages) {
+				localMessage.setMessage(message);
+				org.hibernate.Transaction localMessageTransaction = session
+						.beginTransaction();
+				session.saveOrUpdate(localMessage);
+				localMessageTransaction.commit();
+			}
+
 			return true;
 		} catch (Exception e) {
 			return false;
