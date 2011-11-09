@@ -553,7 +553,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	public DepositInAccountCombo createDepositInComboItem() {
+	public DepositInAccountCombo createDepositInComboItem(final AmountField endBalText) {
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
 				Accounter.constants().depositIn());
@@ -566,7 +566,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 
 						depositInAccountSelected(selectItem);
-
+						if (endBalText != null){
+						endBalText.setAmount(selectItem.getOpeningBalance());
+						}
 					}
 
 				});
