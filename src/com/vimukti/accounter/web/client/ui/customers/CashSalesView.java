@@ -187,7 +187,7 @@ public class CashSalesView extends
 		// custForm.setWidth("100%");
 		salesPersonCombo = createSalesPersonComboItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		depositInCombo = createDepositInComboItem();
+		depositInCombo = createDepositInComboItem(null);
 		depositInCombo.setPopupWidth("500px");
 		shippingTermsCombo = createShippingTermsCombo();
 		shippingMethodsCombo = createShippingMethodCombo();
