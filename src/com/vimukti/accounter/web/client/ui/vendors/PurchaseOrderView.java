@@ -158,8 +158,8 @@ public class PurchaseOrderView extends
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
-		final TextItem disabletextbox = new TextItem();
-		disabletextbox.setVisible(false);
+		// final TextItem disabletextbox = new TextItem();
+		// disabletextbox.setVisible(false);
 		amountsForm = new DynamicForm();
 		amountsForm.setWidth("100%");
 
@@ -240,15 +240,13 @@ public class PurchaseOrderView extends
 			// transactionTotalNonEditableText, ,
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 
-			amountsForm.setNumCols(4);
+			amountsForm.setNumCols(2);
 			amountsForm.addStyleName("boldtext");
 			if (isMultiCurrencyEnabled()) {
-				amountsForm.setFields(disabletextbox,
-						transactionTotalNonEditableText, disabletextbox,
-						transactionTotalinForeignCurrency, disabletextbox);
+				amountsForm.setFields(transactionTotalNonEditableText,
+						transactionTotalinForeignCurrency);
 			} else {
-				amountsForm.setFields(disabletextbox,
-						transactionTotalNonEditableText, disabletextbox);
+				amountsForm.setFields(transactionTotalNonEditableText);
 			}
 
 			// prodAndServiceHLay.add(amountsForm);
@@ -292,8 +290,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-//		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "40px");
+		// shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+		// Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
@@ -318,10 +316,10 @@ public class PurchaseOrderView extends
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
-//		vendorForm.setWidth("100%");
+		// vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
 				billtoAreaItem);
-//		vendorForm.getCellFormatter().setWidth(0, 0, "226px");
+		// vendorForm.getCellFormatter().setWidth(0, 0, "226px");
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 
 		// formItems.add(billToCombo);
@@ -409,8 +407,8 @@ public class PurchaseOrderView extends
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
-//		termsForm.getCellFormatter().setWidth(0, 0, "208px");
-//		dateform.getCellFormatter().setWidth(0, 0, "230px");
+		// termsForm.getCellFormatter().setWidth(0, 0, "208px");
+		// dateform.getCellFormatter().setWidth(0, 0, "230px");
 
 		// formItems.add(checkNo);
 		// formItems.add(dueDateItem);
@@ -871,7 +869,7 @@ public class PurchaseOrderView extends
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
 
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -1009,8 +1007,7 @@ public class PurchaseOrderView extends
 				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
-		transactionTotalNonEditableText
-				.setAmount(getAmountInBaseCurrency(grandTotal));
+		transactionTotalNonEditableText.setAmount(grandTotal);
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 
