@@ -419,7 +419,7 @@ public class NewCustomerPaymentView extends
 		//balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// payment
-		depositInCombo = createDepositInComboItem();
+		depositInCombo = createDepositInComboItem(endBalText);
 		depositInCombo.setPopupWidth("500px");
 
 		amountText = new AmountField(customerConstants.amount(), this);
