@@ -522,18 +522,20 @@ public class ReceivePaymentView extends
 		initListGrid();
 
 
-		// unUsedCreditsTextForeignCurrency = new
-		// AmountLabel(Accounter.messages()
-		// .unusedCredits(
-		// getCompany().getPreferences().getPrimaryCurrency()));
-		// unUsedCreditsTextForeignCurrency.setHelpInformation(true);
-		// unUsedCreditsTextForeignCurrency.setDisabled(true);
-		//
-		// unUsedPaymentsTextForeignCurrency = new AmountLabel(Accounter
-		// .messages().unusedPayments(
-		// getCompany().getPreferences().getPrimaryCurrency()));
-		// unUsedPaymentsTextForeignCurrency.setHelpInformation(true);
-		// unUsedPaymentsTextForeignCurrency.setDisabled(true);
+		unUsedCreditsText = new AmountLabel(Accounter.messages()
+				.unusedCredits(
+						getCompany().getPreferences().getPrimaryCurrency()
+								.getFormalName()));
+		unUsedCreditsText.setHelpInformation(true);
+		unUsedCreditsText.setDisabled(true);
+
+		unUsedPaymentsText = new AmountLabel(Accounter.messages()
+				.unusedPayments(
+						getCompany().getPreferences().getPrimaryCurrency()
+								.getFormalName()));
+		unUsedPaymentsText.setHelpInformation(true);
+		unUsedPaymentsText.setDisabled(true);
+
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
