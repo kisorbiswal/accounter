@@ -10,6 +10,11 @@ public abstract class ItemNameColumn extends
 		ComboColumn<ClientTransactionItem, ClientItem> {
 
 	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
+	private boolean isSales;
+
+	public ItemNameColumn(boolean isSales) {
+		this.isSales = isSales;
+	}
 
 	@Override
 	protected ClientItem getValue(ClientTransactionItem row) {
@@ -19,7 +24,7 @@ public abstract class ItemNameColumn extends
 	public abstract ListFilter<ClientItem> getItemsFilter();
 
 	@Override
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		return itemsList;
 	}
@@ -33,9 +38,14 @@ public abstract class ItemNameColumn extends
 	protected void setValue(ClientTransactionItem row, ClientItem newValue) {
 
 		if (newValue != null) {
+			if (isSales()) {
+				row.setUnitPrice(newValue.getSalesPrice());
+			} else {
+				row.setUnitPrice(newValue.getPurchasePrice());
+			}
 			row.setAccountable(newValue);
 			row.setDescription(getDiscription(newValue));
-		//	row.setUnitPrice(newValue.getSalesPrice());
+			// row.setUnitPrice(newValue.getSalesPrice());
 			row.setTaxable(newValue.isTaxable());
 			double lt = row.getQuantity().getValue() * row.getUnitPrice();
 			double disc = row.getDiscount();
@@ -50,6 +60,10 @@ public abstract class ItemNameColumn extends
 		}
 	}
 
+	private boolean isSales() {
+		return isSales;
+	}
+
 	protected abstract String getDiscription(ClientItem item);
 
 	@Override
@@ -59,5 +73,9 @@ public abstract class ItemNameColumn extends
 
 	public void setItemForCustomer(boolean isForCustomer) {
 		itemsList.setForCustomer(isForCustomer);
+	}
+
+	public void setSales(boolean isSales) {
+		this.isSales = isSales;
 	}
 }
