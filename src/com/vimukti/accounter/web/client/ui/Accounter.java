@@ -47,6 +47,8 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
+import com.vimukti.accounter.web.client.translate.TranslateService;
+import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
@@ -75,6 +77,7 @@ public class Accounter implements EntryPoint {
 	public final static String HOME_SERVICE_ENTRY_POINT = "/do/accounter/home/rpc/service";
 	public final static String REPORT_SERVICE_ENTRY_POINT = "/do/accounter/report/rpc/service";
 	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
+	private static final String TRANSLATE_SERVICE_ENTRY_POINT = "/do/accounter/translate/rpc/service";
 
 	private static IAccounterCRUDServiceAsync crudService;
 	private static IAccounterCompanyInitializationServiceAsync cIService;
@@ -91,6 +94,7 @@ public class Accounter implements EntryPoint {
 	private static ThemeImages themeImages;
 	private static ClientFinanceDate startDate;
 	private static boolean isMacApp;
+	private static TranslateServiceAsync translateService;
 
 	public void loadCompany() {
 
@@ -171,7 +175,7 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static void reset() {
-		boolean isTouch = false;/*isTablet*/
+		boolean isTouch = false;/* isTablet */
 		IMenuFactory menuFactory = null;
 		if (isTouch) {
 			menuFactory = new TouchMenuFactory();
@@ -244,6 +248,16 @@ public class Accounter implements EntryPoint {
 					.setServiceEntryPoint(Accounter.REPORT_SERVICE_ENTRY_POINT);
 		}
 		return reportService;
+	}
+
+	public static TranslateServiceAsync createTranslateService() {
+		if (translateService == null) {
+			translateService = (TranslateServiceAsync) GWT
+					.create(TranslateService.class);
+			((ServiceDefTarget) translateService)
+					.setServiceEntryPoint(TRANSLATE_SERVICE_ENTRY_POINT);
+		}
+		return translateService;
 	}
 
 	public static ClientFinanceDate getStartDate() {

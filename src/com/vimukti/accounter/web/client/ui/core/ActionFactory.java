@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -179,6 +180,7 @@ import com.vimukti.accounter.web.client.ui.settings.WareHouseTransferAction;
 import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 import com.vimukti.accounter.web.client.ui.settings.WarehouseListAction;
 import com.vimukti.accounter.web.client.ui.settings.WarehouseTransferListAction;
+import com.vimukti.accounter.web.client.ui.translation.TranslationAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.FileTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.ManageTAXCodesListAction;
@@ -1411,5 +1413,9 @@ public class ActionFactory {
 	public static TAXItemExceptionDetailReport getTaxItemExceptionDetailReportAction() {
 		return new TAXItemExceptionDetailReport(
 				actionsConstants.taxItemExceptionDetailReport());
+	}
+
+	public static TranslationAction getTranslationAction() {
+		return new TranslationAction(actionsConstants.translation());
 	}
 }
