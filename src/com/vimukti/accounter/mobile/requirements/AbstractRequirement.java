@@ -10,7 +10,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -23,7 +22,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
-	private ClientCompany clientCompany;
+	private ClientCompanyPreferences preferences;
 
 	public AbstractRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
@@ -44,12 +43,13 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	}
 
 	public ClientCompanyPreferences getPreferences() {
-		return null;
+		return preferences;
 	}
 
 	@Override
 	public Result process(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
+		preferences = context.getPreferences();
 		return run(context, makeResult, list, actions);
 	}
 
