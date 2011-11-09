@@ -3,12 +3,12 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.ClientUnit;
 
 public abstract class MeasurementUnitRequirement extends
-		AbstractTableRequirement<ClientUnit> {
+		AbstractTableRequirement<Unit> {
 
 	private static final String UNIT_TYPE = "unitType";
 	private static final String UNIT_FACTOR = "unitFactor";
@@ -19,7 +19,7 @@ public abstract class MeasurementUnitRequirement extends
 			boolean isOptional, boolean isAllowFromContext) {
 		super(requirementName, enterString, recordName, isCreatable,
 				isOptional, isAllowFromContext);
-		setDefaultValue(new ArrayList<ClientUnit>());
+		setDefaultValue(new ArrayList<Unit>());
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public abstract class MeasurementUnitRequirement extends
 	}
 
 	@Override
-	protected void getRequirementsValues(ClientUnit obj) {
+	protected void getRequirementsValues(Unit obj) {
 		String unitName = get(UNIT_TYPE).getValue();
 		obj.setType(unitName);
 		double factor = get(UNIT_FACTOR).getValue();
@@ -61,22 +61,22 @@ public abstract class MeasurementUnitRequirement extends
 	}
 
 	@Override
-	protected void setRequirementsDefaultValues(ClientUnit obj) {
-		get(UNIT_TYPE).setDefaultValue(obj.getName());
+	protected void setRequirementsDefaultValues(Unit obj) {
+		get(UNIT_TYPE).setDefaultValue(obj.getType());
 		get(UNIT_FACTOR).setDefaultValue(obj.getFactor());
 		get(IS_DEFAULT).setDefaultValue(obj.isDefault());
 	}
 
 	@Override
-	protected ClientUnit getNewObject() {
-		return new ClientUnit();
+	protected Unit getNewObject() {
+		return new Unit();
 	}
 
 	@Override
-	protected Record createFullRecord(ClientUnit t) {
+	protected Record createFullRecord(Unit t) {
 		Record record = new Record(t);
 		record.add("", getConstants().unitName());
-		record.add("", t.getName());
+		record.add("", t.getType());
 		record.add("", getConstants().factor());
 		record.add("", t.getFactor());
 		record.add("", getConstants().isDefault());
@@ -85,13 +85,13 @@ public abstract class MeasurementUnitRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientUnit t) {
+	protected Record createRecord(Unit t) {
 		return createFullRecord(t);
 	}
 
 	@Override
 	protected String getAddMoreString() {
-		List<ClientUnit> values = getValue();
+		List<Unit> values = getValue();
 		return values.isEmpty() ? "Add Units" : getMessages().addMore(
 				getConstants().units());
 	}
