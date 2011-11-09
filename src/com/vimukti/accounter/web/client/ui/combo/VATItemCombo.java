@@ -39,7 +39,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 			ClientTAXAgency taxAgency) {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		if (taxAgency != null) {
-			for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+			for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 				if (vatItem.getTaxAgency() == (taxAgency.getID())) {
 					vatItmsList.add(vatItem);
 				}
@@ -53,7 +53,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
 				.getTaxItemGroups();
-		taxItemGroups.addAll(getCompany().getTaxItems());
+		taxItemGroups.addAll(getCompany().getActiveTaxItems());
 		for (ClientTAXItemGroup vatItem : taxItemGroups) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
@@ -67,8 +67,8 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
 				.getTaxItemGroups();
-		taxItemGroups.addAll(getCompany().getTaxItems());
-		for (ClientTAXItemGroup vatItem : getCompany().getTaxItems()) {
+		taxItemGroups.addAll(getCompany().getActiveTaxItems());
+		for (ClientTAXItemGroup vatItem : getCompany().getActiveTaxItems()) {
 			if (vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
