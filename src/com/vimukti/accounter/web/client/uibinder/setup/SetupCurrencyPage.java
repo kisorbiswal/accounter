@@ -73,6 +73,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		}
 		isMultiCurrencyAllowed.setText(accounterConstants
 				.isMultiCurrencyEnable());
+		isMultiCurrencyAllowed.setVisible(false);
 		// currenciesGrid = new CurrenciesGrid();
 		// currenciesGrid.init();
 		// currenciesGrid.setRecords(currenciesList);

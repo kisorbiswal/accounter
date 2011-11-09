@@ -71,6 +71,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 		currencyCommentLabel.setText(constants.changingCurrencyComment());
 		isEnableMultiCurrencyCheckBox
 				.setText(constants.isMultiCurrencyEnable());
+		isEnableMultiCurrencyCheckBox.setVisible(false);
 	}
 
 	@Override
