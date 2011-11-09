@@ -2431,6 +2431,13 @@ public class FinanceTool {
 				return false;
 			}
 
+			Query namedQuery = session.getNamedQuery("getLocalMessageByClient")
+					.setParameter("clientId", client.getID());
+			Object uniqueResult = namedQuery.uniqueResult();
+			if (uniqueResult != null) {
+				return false;
+			}
+
 			Query messageQuery = session.getNamedQuery("getMessageById")
 					.setParameter("id", id);
 			Message message = (Message) messageQuery.uniqueResult();

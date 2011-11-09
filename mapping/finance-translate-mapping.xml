@@ -57,6 +57,12 @@
 		lm.id=:id
 	</query>
 
+	<query name="getLocalMessageByClient">
+		<query-param name="clientId" type="int" />
+		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
+		lm.createdBy.id=:clientId
+	</query>
+
 	<query name="getVoteByClientId">
 		<query-param name="clientId" type="long" />
 		<query-param name="localMessageId" type="long" />
