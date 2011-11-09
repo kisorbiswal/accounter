@@ -136,6 +136,10 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	int boxNumber;
 
+	private long currency;
+
+	private double currenctBalanceInAccountCurrency;
+
 	private int version;
 
 	// ClientTaxCode VATcode;
@@ -645,5 +649,36 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	public void setGroupType(int groupType) {
 		this.groupType = groupType;
+	}
+
+	/**
+	 * @return the currenctBalanceInAccountCurrency
+	 */
+	public double getCurrenctBalanceInAccountCurrency() {
+		return currenctBalanceInAccountCurrency;
+	}
+
+	/**
+	 * @param currenctBalanceInAccountCurrency
+	 *            the currenctBalanceInAccountCurrency to set
+	 */
+	public void setCurrenctBalanceInAccountCurrency(
+			double currenctBalanceInAccountCurrency) {
+		this.currenctBalanceInAccountCurrency = currenctBalanceInAccountCurrency;
+	}
+
+	/**
+	 * @return the currency
+	 */
+	public long getCurrency() {
+		return currency;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 }

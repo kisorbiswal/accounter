@@ -38,6 +38,10 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	double balance;
 
+	double balanceInPayeeCurrency;
+
+	double currencyFactor = 1;
+
 	String bankAccountNo;
 	String bankName;
 	String bankBranch;
@@ -453,6 +457,36 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	/**
+	 * @return the balanceInPayeeCurrency
+	 */
+	public double getBalanceInPayeeCurrency() {
+		return balanceInPayeeCurrency;
+	}
+
+	/**
+	 * @param balanceInPayeeCurrency
+	 *            the balanceInPayeeCurrency to set
+	 */
+	public void setBalanceInPayeeCurrency(double balanceInPayeeCurrency) {
+		this.balanceInPayeeCurrency = balanceInPayeeCurrency;
+	}
+
+	/**
+	 * @return the currencyFactor
+	 */
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	/**
+	 * @param currencyFactor
+	 *            the currencyFactor to set
+	 */
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
 	}
 
 }

@@ -11,8 +11,6 @@ public class ClientBankAccount extends ClientAccount {
 
 	private int bankAccountType;
 
-	private long currency;
-
 	private String bankAccountNumber;
 
 	private long lastReconcilationDate;
@@ -60,14 +58,6 @@ public class ClientBankAccount extends ClientAccount {
 		ClientBankAccount clientBankAccount = (ClientBankAccount) this.clone();
 		return clientBankAccount;
 
-	}
-
-	public long getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(long currency) {
-		this.currency = currency;
 	}
 
 }
