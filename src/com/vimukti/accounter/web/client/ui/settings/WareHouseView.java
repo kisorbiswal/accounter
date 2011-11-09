@@ -124,7 +124,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		mainHLay.setCellWidth(leftSideForm, "50%");
 		mainHLay.setCellWidth(rightSideForm, "50%");
 
-		mainHLay.setCellHorizontalAlignment(getRightSideForm(), ALIGN_RIGHT);
+		mainHLay.setCellHorizontalAlignment(rightSideForm, ALIGN_RIGHT);
 
 		titleItem = new Label(settingsConstants.wareHouse());
 		titleItem.setStyleName(Accounter.constants().labelTitle());
@@ -256,7 +256,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	}
 
-	private ClientWarehouse getWarehouseObject() {
+	private void updateData() {
 
 		data.setWarehouseCode(warehouseCodeItem.getValue());
 		data.setName(wareHouseNameItem.getValue().toString());
@@ -279,17 +279,14 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		contact.setBusinessPhone(contactNumberItem.getValue());
 
 		data.setContact(contact);
-
-		return data;
 	}
 
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientWarehouse warehouse = getWarehouseObject();
-		saveOrUpdate(warehouse);
+		updateData();
+		saveOrUpdate(getData());
 
-		super.saveAndUpdateView();
 	}
 
 	@Override
