@@ -68,7 +68,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -317,6 +316,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm.setNumCols(3);
 //		custForm.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
+		
 
 		custForm.setFields(customerCombo, emptylabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
