@@ -1599,3 +1599,30 @@ input.date-field-textbox{
 .history_links a{
    margin-right: 20px;
 }
+.value_lable{
+	font-size: 15px;
+    font-weight: bold;
+}
+.local_message_panel{
+}
+.add_new_message_box{
+}
+.up_image_panel, .down_image_panel{
+}
+.message_label{
+	font-weight: bold;
+}
+.votes_panel{
+}
+.message_panel{
+	border: 1px none;
+    padding: 10px 0;
+}
+.up_label, .down_label{
+	font-size: 17px;
+    font-weight: bold;
+}
+.image_button{
+ padding: 7px 8px !important;
+ border-radius: 4px 4px 4px 4px;
+}

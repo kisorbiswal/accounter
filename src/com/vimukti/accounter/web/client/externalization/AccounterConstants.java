@@ -3737,4 +3737,6 @@ public interface AccounterConstants extends Constants {
 	public String languages();
 
 	public String translation();
+
+	public String oneUserCanEnterOneValueOnlyForEachMessage();
 }

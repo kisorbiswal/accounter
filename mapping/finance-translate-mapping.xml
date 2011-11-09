@@ -58,9 +58,10 @@
 	</query>
 
 	<query name="getLocalMessageByClient">
-		<query-param name="clientId" type="int" />
+		<query-param name="clientId" type="long" />
+		<query-param name="messageId" type="int" />
 		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
-		lm.createdBy.id=:clientId
+		lm.createdBy.id=:clientId and lm.message.id=:messageId
 	</query>
 
 	<query name="getVoteByClientId">
@@ -127,7 +128,7 @@
 		<query-param name="to" type="int" />
 		from
 		com.vimukti.accounter.web.server.translate.Message m where m.id !=
-		0 limit :from ,:to
+		0 
 	</query>
 
 	<sql-query name="getUntranslatedMessages">

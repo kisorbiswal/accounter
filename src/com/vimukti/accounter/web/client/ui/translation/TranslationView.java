@@ -19,7 +19,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private SelectCombo languageCombo, optionsCombo;
 	private List<String> optionsList, languagesList;
 	private Label selectedLanguageLabel;
-	private VerticalPanel dataPanel;
+	private VerticalPanel dataPanel, mainPanel;
 
 	public TranslationView() {
 		super();
@@ -72,39 +72,44 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 					.selectedTranslated(languageCombo.getSelectedValue()));
 		}
 		updateData();
+
 		DynamicForm combosForm = new DynamicForm();
 		combosForm.setNumCols(4);
 		combosForm.setFields(languageCombo, optionsCombo);
 
-		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel = new VerticalPanel();
 		mainPanel.add(combosForm);
 		mainPanel.add(selectedLanguageLabel);
-		if (dataPanel != null) {
-			mainPanel.add(dataPanel);
-		}
+		mainPanel.add(dataPanel);
 		this.add(mainPanel);
 
 	}
 
 	protected void updateData() {
+		if (dataPanel != null)
+			mainPanel.remove(dataPanel);
+
+		dataPanel = new VerticalPanel();
 		if ((languageCombo.getSelectedValue() != null)
 				&& (optionsCombo.getSelectedValue() != null)) {
-			dataPanel = new VerticalPanel();
 			selectedLanguageLabel.setText(messages
 					.selectedTranslated(languageCombo.getSelectedValue()));
 
 			Accounter.createTranslateService().getMessages(
 					languageCombo.getSelectedValue(),
-					getStatus(optionsCombo.getSelectedValue()), 0, 0,
+					getStatus(optionsCombo.getSelectedValue()), 0, 10,
 					new AsyncCallback<ArrayList<ClientMessage>>() {
 
 						@Override
 						public void onSuccess(ArrayList<ClientMessage> result) {
 							for (int i = 0; i < result.size(); i++) {
 								MessagePanel messagePanel = new MessagePanel(
-										result.get(i));
+										TranslationView.this, languageCombo
+												.getSelectedValue(), result
+												.get(i));
 								dataPanel.add(messagePanel);
 							}
+							mainPanel.add(dataPanel);
 						}
 
 						@Override

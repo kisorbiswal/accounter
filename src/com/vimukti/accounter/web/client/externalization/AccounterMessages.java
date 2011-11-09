@@ -633,4 +633,8 @@ public interface AccounterMessages extends Messages {
 	public String amountReceived(String primaryCurrency);
 
 	public String selectedTranslated(String selectedValue);
+
+	public String unableToVoteThisTranslation(String string);
+	
+	public String unableToSaveThisTranslation(String string);
 }

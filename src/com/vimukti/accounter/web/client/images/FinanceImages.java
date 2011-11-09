@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.images;
 
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ClientBundle.Source;
 
 public interface FinanceImages extends ClientBundle {
 	ImageResource Accounts();
@@ -222,4 +223,9 @@ public interface FinanceImages extends ClientBundle {
 	@Source("companySettings.png")
 	ImageResource companySettings();
 
+	@Source("arrow_up.gif")
+	ImageResource upArrow();
+	
+	@Source("arrow_down.gif")
+	ImageResource downArrow();
 }

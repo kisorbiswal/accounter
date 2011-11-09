@@ -1,18 +1,31 @@
 package com.vimukti.accounter.web.client.ui.translation;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 
 public class MessagePanel extends VerticalPanel {
 	private ClientMessage clientMessage;
+	private String language;
+	private TranslationView view;
 
-	public MessagePanel(ClientMessage clientMessage) {
+	public MessagePanel(TranslationView view, String language,
+			ClientMessage clientMessage) {
+		this.view = view;
 		this.clientMessage = clientMessage;
+		this.language = language;
 		createControls();
 	}
 
@@ -27,26 +40,113 @@ public class MessagePanel extends VerticalPanel {
 					.getLocalMessages().get(i)));
 		}
 
-		TextBox addNewMessageBox = new TextBox();
+		final TextBox addNewMessageBox = new TextBox();
+		addNewMessageBox.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER
+						&& addNewMessageBox.getText().trim().length() != 0) {
+					Accounter.createTranslateService().addTranslation(
+							clientMessage.getId(), language,
+							addNewMessageBox.getText(),
+							new AsyncCallback<Boolean>() {
+
+								@Override
+								public void onSuccess(Boolean result) {
+									if (result) {
+										view.updateData();
+									} else {
+										Accounter
+												.showError(Accounter
+														.constants()
+														.oneUserCanEnterOneValueOnlyForEachMessage());
+									}
+								}
+
+								@Override
+								public void onFailure(Throwable caught) {
+
+								}
+							});
+				}
+			}
+		});
 
 		mainPanel.add(valueLabel);
 		mainPanel.add(localMessagesPanel);
 		mainPanel.add(addNewMessageBox);
 
+		valueLabel.addStyleName("value_lable");
+		localMessagesPanel.addStyleName("local_message_panel");
+		addNewMessageBox.addStyleName("add_new_message_box");
+
+		mainPanel.addStyleName("message_panel");
+
 		this.add(mainPanel);
 	}
 
 	private HorizontalPanel getLocalMessgePanel(
-			ClientLocalMessage clientLocalMessage) {
+			final ClientLocalMessage clientLocalMessage) {
 
 		HorizontalPanel votesPanel = new HorizontalPanel();
 
 		VerticalPanel upVotesPanel = new VerticalPanel();
 		VerticalPanel downVotesPanel = new VerticalPanel();
 
-		Image upImage = new Image("/images/arrow_up.gif");
-		Image downImage = new Image("/images/arrow_down.gif");
+		ImageButton upImage = new ImageButton(Accounter.getFinanceImages()
+				.upArrow());
+		ImageButton downImage = new ImageButton(Accounter.getFinanceImages()
+				.downArrow());
 		Label messageLabel = new Label(clientLocalMessage.getValue());
+
+		upImage.addStyleName("image_button");
+		downImage.addStyleName("image_button");
+
+		upImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Accounter.createTranslateService().vote(
+						clientLocalMessage.getId(), true,
+						new AsyncCallback<Boolean>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Accounter.showError(Accounter.messages()
+										.unableToVoteThisTranslation(
+												caught.toString()));
+							}
+
+							@Override
+							public void onSuccess(Boolean result) {
+								view.updateData();
+							}
+						});
+			}
+		});
+
+		downImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Accounter.createTranslateService().vote(
+						clientLocalMessage.getId(), false,
+						new AsyncCallback<Boolean>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Accounter.showError(Accounter.messages()
+										.unableToVoteThisTranslation(
+												caught.toString()));
+							}
+
+							@Override
+							public void onSuccess(Boolean result) {
+								view.updateData();
+							}
+						});
+
+			}
+		});
 
 		Label upVotesLengthLabel = new Label(String.valueOf(clientLocalMessage
 				.getUps()));
@@ -55,13 +155,28 @@ public class MessagePanel extends VerticalPanel {
 
 		upVotesPanel.add(upImage);
 		upVotesPanel.add(upVotesLengthLabel);
+		upVotesPanel.setCellHorizontalAlignment(upVotesLengthLabel,
+				HasAlignment.ALIGN_CENTER);
 
 		downVotesPanel.add(downImage);
 		downVotesPanel.add(downVotesLenghtLabel);
+		upVotesPanel.setCellHorizontalAlignment(downVotesLenghtLabel,
+				HasAlignment.ALIGN_CENTER);
 
 		votesPanel.add(upVotesPanel);
 		votesPanel.add(downVotesPanel);
 		votesPanel.add(messageLabel);
+		votesPanel.setSpacing(4);
+		votesPanel.setCellVerticalAlignment(messageLabel,
+				HasAlignment.ALIGN_MIDDLE);
+
+		upVotesPanel.addStyleName("up_image_panel");
+		downVotesPanel.addStyleName("down_image_panel");
+		messageLabel.addStyleName("message_label");
+		upVotesLengthLabel.addStyleName("up_label");
+		downVotesLenghtLabel.addStyleName("down_label");
+
+		votesPanel.addStyleName("votes_panel");
 
 		return votesPanel;
 	}
