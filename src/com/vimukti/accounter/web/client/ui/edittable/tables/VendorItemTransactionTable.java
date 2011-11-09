@@ -58,7 +58,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 	@Override
 	protected void initColumns() {
 
-		ItemNameColumn transactionItemNameColumn = new ItemNameColumn() {
+		ItemNameColumn transactionItemNameColumn = new ItemNameColumn(isSales()) {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,
@@ -66,15 +66,14 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				super.setValue(row, newValue);
 				// Unit Price is different. So that overriden the code here
 				if (newValue != null) {
-				//	row.setUnitPrice(newValue.getPurchasePrice());
+					// row.setUnitPrice(newValue.getPurchasePrice());
 					row.setTaxable(newValue.isTaxable());
 					double lt = row.getQuantity().getValue()
 							* row.getUnitPrice();
 					double disc = row.getDiscount();
-					row
-							.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-									* disc / 100))
-									: lt);
+					row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+							* disc / 100))
+							: lt);
 					if (newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
 						ClientMeasurement measurement = Accounter.getCompany()
 								.getMeasurement(newValue.getMeasurement());

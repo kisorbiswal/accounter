@@ -238,7 +238,7 @@ public abstract class AbstractTransactionTable extends
 				// If it is VATItem,the we should get 'VATRate',otherwise
 				// 'GroupRate
 				vatRate = UIUtils.getVATItemRate(Accounter.getCompany()
-						.getTAXCode(TAXCodeID), isSales);
+						.getTAXCode(TAXCodeID), isSales());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -294,4 +294,8 @@ public abstract class AbstractTransactionTable extends
 	}
 
 	protected abstract boolean isInViewMode();
+
+	public boolean isSales() {
+		return isSales;
+	}
 }
