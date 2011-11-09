@@ -1,16 +1,16 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 
 public abstract class CustomerGroupRequirement extends
-		ListRequirement<ClientCustomerGroup> {
+		ListRequirement<CustomerGroup> {
 
 	public CustomerGroupRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientCustomerGroup> listner) {
+			ChangeListner<CustomerGroup> listner) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
@@ -22,14 +22,14 @@ public abstract class CustomerGroupRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientCustomerGroup value) {
+	protected Record createRecord(CustomerGroup value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
 		return record;
 	}
 
 	@Override
-	protected String getDisplayValue(ClientCustomerGroup value) {
+	protected String getDisplayValue(CustomerGroup value) {
 		return value != null ? value.getName() : "";
 	}
 

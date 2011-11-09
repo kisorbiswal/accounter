@@ -1,21 +1,21 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
 public abstract class PaymentTermRequirement extends
-		ListRequirement<ClientPaymentTerms> {
+		ListRequirement<PaymentTerms> {
 
 	public PaymentTermRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientPaymentTerms> listner) {
+			ChangeListner<PaymentTerms> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientPaymentTerms value) {
+	protected Record createRecord(PaymentTerms value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
 		return record;
@@ -32,7 +32,7 @@ public abstract class PaymentTermRequirement extends
 	}
 
 	@Override
-	protected String getDisplayValue(ClientPaymentTerms value) {
+	protected String getDisplayValue(PaymentTerms value) {
 		return value != null ? value.getName() : "";
 	}
 
@@ -47,7 +47,7 @@ public abstract class PaymentTermRequirement extends
 	}
 
 	@Override
-	protected boolean filter(ClientPaymentTerms e, String name) {
+	protected boolean filter(PaymentTerms e, String name) {
 		return e.getName().contains(name);
 	}
 }

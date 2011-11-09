@@ -1,22 +1,21 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 
 public abstract class ShippingMethodRequirement extends
-		ListRequirement<ClientShippingMethod> {
+		ListRequirement<ShippingMethod> {
 
 	public ShippingMethodRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
-			boolean isAllowFromContext,
-			ChangeListner<ClientShippingMethod> listner) {
+			boolean isAllowFromContext, ChangeListner<ShippingMethod> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientShippingMethod value) {
+	protected Record createRecord(ShippingMethod value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
 		record.add("Desc", value.getDescription());
@@ -24,7 +23,7 @@ public abstract class ShippingMethodRequirement extends
 	}
 
 	@Override
-	protected String getDisplayValue(ClientShippingMethod value) {
+	protected String getDisplayValue(ShippingMethod value) {
 		return value != null ? value.getName() : "";
 	}
 

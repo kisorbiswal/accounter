@@ -2,15 +2,15 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientContact;
 
-public abstract class ContactRequirement extends ListRequirement<ClientContact> {
+public abstract class ContactRequirement extends ListRequirement<Contact> {
 
 	public ContactRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientContact> listner) {
+			ChangeListner<Contact> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
@@ -18,14 +18,14 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 	@Override
 	public boolean isDone() {
 		if (!super.isDone()) {
-			List<ClientContact> lists = getLists(null);
+			List<Contact> lists = getLists(null);
 			return lists.size() == 0;
 		}
 		return true;
 	}
 
 	@Override
-	protected Record createRecord(ClientContact value) {
+	protected Record createRecord(Contact value) {
 		Record record = new Record(value);
 		record.add("", value.getName());
 		return record;
@@ -42,7 +42,7 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 	}
 
 	@Override
-	protected String getDisplayValue(ClientContact value) {
+	protected String getDisplayValue(Contact value) {
 		return value != null ? value.getName() : "";
 	}
 
@@ -60,7 +60,7 @@ public abstract class ContactRequirement extends ListRequirement<ClientContact> 
 	protected abstract String getContactHolderName();
 
 	@Override
-	protected boolean filter(ClientContact e, String name) {
+	protected boolean filter(Contact e, String name) {
 		return e.getName().contains(name);
 	}
 }

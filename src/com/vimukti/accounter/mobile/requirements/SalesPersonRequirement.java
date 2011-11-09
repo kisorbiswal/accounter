@@ -1,15 +1,15 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 
 public abstract class SalesPersonRequirement extends
-		ListRequirement<ClientSalesPerson> {
+		ListRequirement<SalesPerson> {
 
 	public SalesPersonRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientSalesPerson> listner) {
+			ChangeListner<SalesPerson> listner) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
@@ -20,14 +20,14 @@ public abstract class SalesPersonRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientSalesPerson value) {
+	protected Record createRecord(SalesPerson value) {
 		Record record = new Record(value);
 		record.add("", value.getName());
 		return record;
 	}
 
 	@Override
-	protected String getDisplayValue(ClientSalesPerson value) {
+	protected String getDisplayValue(SalesPerson value) {
 		return value != null ? value.getName() : "";
 	}
 

@@ -1,7 +1,11 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -41,7 +45,7 @@ public class TransactionAccountTableRequirement extends
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
+			protected List<Account> getLists(Context context) {
 				return getAccounts(context);
 			}
 
@@ -74,14 +78,20 @@ public class TransactionAccountTableRequirement extends
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getActiveTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				Set<TAXCode> taxCodes = context.getCompany().getTaxCodes();
+				List<TAXCode> clientcodes = new ArrayList<TAXCode>();
+				for (TAXCode taxCode : taxCodes) {
+					if (taxCode.isActive()) {
+						clientcodes.add(taxCode);
+					}
+				}
+				return clientcodes;
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
-				// TODO Auto-generated method stub
-				return false;
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().startsWith(name);
 			}
 		});
 		list.add(new BooleanRequirement(TAX, true) {
@@ -113,8 +123,8 @@ public class TransactionAccountTableRequirement extends
 				true, true));
 	}
 
-	protected List<ClientAccount> getAccounts(Context context) {
-		return context.getClientCompany().getAccounts();
+	protected List<Account> getAccounts(Context context) {
+		return new ArrayList<Account>(context.getCompany().getAccounts());
 	}
 
 	@Override

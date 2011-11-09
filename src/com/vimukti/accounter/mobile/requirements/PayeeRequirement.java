@@ -1,20 +1,20 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientPayee;
 
-public abstract class PayeeRequirement extends ListRequirement<ClientPayee> {
+public abstract class PayeeRequirement extends ListRequirement<Payee> {
 
 	public PayeeRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientPayee> listner) {
+			ChangeListner<Payee> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientPayee value) {
+	protected Record createRecord(Payee value) {
 		Record record = new Record(value);
 		record.add("", value.getName());
 		record.add("", value.getBalance());
@@ -22,7 +22,7 @@ public abstract class PayeeRequirement extends ListRequirement<ClientPayee> {
 	}
 
 	@Override
-	protected String getDisplayValue(ClientPayee value) {
+	protected String getDisplayValue(Payee value) {
 		return value != null ? value.getName() : "";
 	}
 

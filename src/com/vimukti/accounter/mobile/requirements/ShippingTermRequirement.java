@@ -1,22 +1,21 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 
 public abstract class ShippingTermRequirement extends
-		ListRequirement<ClientShippingTerms> {
+		ListRequirement<ShippingTerms> {
 
 	public ShippingTermRequirement(String requirementName,
 			String displayString, String recordName, boolean isOptional,
-			boolean isAllowFromContext,
-			ChangeListner<ClientShippingTerms> listner) {
+			boolean isAllowFromContext, ChangeListner<ShippingTerms> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientShippingTerms value) {
+	protected Record createRecord(ShippingTerms value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
 		record.add("Desc", value.getDescription());
@@ -24,7 +23,7 @@ public abstract class ShippingTermRequirement extends
 	}
 
 	@Override
-	protected String getDisplayValue(ClientShippingTerms value) {
+	protected String getDisplayValue(ShippingTerms value) {
 		return value != null ? value.getName() : "";
 	}
 

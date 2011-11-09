@@ -1,7 +1,11 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -38,7 +42,7 @@ public abstract class TransactionItemTableRequirement extends
 				null) {
 
 			@Override
-			protected List<ClientItem> getLists(Context context) {
+			protected List<Item> getLists(Context context) {
 				return getItems(context);
 			}
 		});
@@ -67,14 +71,20 @@ public abstract class TransactionItemTableRequirement extends
 			}
 
 			@Override
-			protected List<ClientTAXCode> getLists(Context context) {
-				return getClientCompany().getActiveTaxCodes();
+			protected List<TAXCode> getLists(Context context) {
+				Set<TAXCode> taxCodes = context.getCompany().getTaxCodes();
+				List<TAXCode> clientcodes = new ArrayList<TAXCode>();
+				for (TAXCode taxCode : taxCodes) {
+					if (taxCode.isActive()) {
+						clientcodes.add(taxCode);
+					}
+				}
+				return clientcodes;
 			}
 
 			@Override
-			protected boolean filter(ClientTAXCode e, String name) {
-				// TODO Auto-generated method stub
-				return false;
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().startsWith(name);
 			}
 		});
 
@@ -106,7 +116,7 @@ public abstract class TransactionItemTableRequirement extends
 				"Description", true, true));
 	}
 
-	public abstract List<ClientItem> getItems(Context context);
+	public abstract List<Item> getItems(Context context);
 
 	@Override
 	protected String getEmptyString() {

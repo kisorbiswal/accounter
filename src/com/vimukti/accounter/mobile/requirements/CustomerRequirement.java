@@ -1,23 +1,22 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 
-public abstract class CustomerRequirement extends
-		ListRequirement<ClientCustomer> {
+public abstract class CustomerRequirement extends ListRequirement<Customer> {
 
 	public CustomerRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientCustomer> listner) {
+			ChangeListner<Customer> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected String getDisplayValue(ClientCustomer value) {
-		return value != null ? value.getDisplayName() : "";
+	protected String getDisplayValue(Customer value) {
+		return value != null ? value.getName() : "";
 	}
 
 	@Override
@@ -37,19 +36,19 @@ public abstract class CustomerRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		ClientCustomer value = getValue();
-		return getMessages().selectedAs(value.getDisplayName(),
+		Customer value = getValue();
+		return getMessages().selectedAs(value.getName(),
 				Global.get().Customer());
 	}
 
 	@Override
-	protected boolean filter(ClientCustomer e, String name) {
+	protected boolean filter(Customer e, String name) {
 		return e.getName().toLowerCase().startsWith(name)
 				|| e.getNumber().equals(name);
 	}
 
 	@Override
-	protected Record createRecord(ClientCustomer value) {
+	protected Record createRecord(Customer value) {
 		Record record = new Record(value);
 		record.add("", value.getName());
 		record.add("", value.getBalance());

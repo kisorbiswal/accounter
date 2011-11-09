@@ -1,20 +1,20 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 
-public abstract class TaxCodeRequirement extends ListRequirement<ClientTAXCode> {
+public abstract class TaxCodeRequirement extends ListRequirement<TAXCode> {
 
 	public TaxCodeRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientTAXCode> listner) {
+			ChangeListner<TAXCode> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientTAXCode value) {
+	protected Record createRecord(TAXCode value) {
 		Record record = new Record(value);
 		record.add("", value.getName() + "-" + value.getSalesTaxRate());
 		return record;
@@ -31,7 +31,7 @@ public abstract class TaxCodeRequirement extends ListRequirement<ClientTAXCode> 
 	}
 
 	@Override
-	protected String getDisplayValue(ClientTAXCode value) {
+	protected String getDisplayValue(TAXCode value) {
 		return value != null ? value.getName() : "";
 	}
 
@@ -46,7 +46,7 @@ public abstract class TaxCodeRequirement extends ListRequirement<ClientTAXCode> 
 	}
 
 	@Override
-	protected boolean filter(ClientTAXCode e, String name) {
+	protected boolean filter(TAXCode e, String name) {
 		return e.getName().toLowerCase().startsWith(name.toLowerCase());
 	}
 }

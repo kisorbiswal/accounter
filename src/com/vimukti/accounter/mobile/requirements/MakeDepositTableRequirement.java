@@ -1,8 +1,10 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -10,7 +12,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class MakeDepositTableRequirement extends
 		AbstractTableRequirement<ClientTransactionMakeDeposit> {
@@ -45,18 +46,24 @@ public class MakeDepositTableRequirement extends
 			}
 
 			@Override
-			protected List<ClientAccount> getLists(Context context) {
-				return Utility.filteredList(new ListFilter<ClientAccount>() {
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(ClientAccount account) {
-						return Arrays.asList(ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-								ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-								ClientAccount.TYPE_EQUITY).contains(
-								account.getType());
+						@Override
+						public boolean filter(Account e) {
+							return Arrays.asList(ClientAccount.TYPE_BANK,
+									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+									ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+									ClientAccount.TYPE_EQUITY).contains(
+									e.getType());
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
-				}, context.getClientCompany().getAccounts());
+				}
+				return filteredList;
 			}
 
 			@Override

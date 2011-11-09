@@ -1,14 +1,14 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientItem;
 
-public abstract class ItemRequirement extends ListRequirement<ClientItem> {
+public abstract class ItemRequirement extends ListRequirement<Item> {
 
 	public ItemRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientItem> listner) {
+			ChangeListner<Item> listner) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
@@ -24,7 +24,7 @@ public abstract class ItemRequirement extends ListRequirement<ClientItem> {
 	}
 
 	@Override
-	protected Record createRecord(ClientItem value) {
+	protected Record createRecord(Item value) {
 		Record record = new Record(value);
 		record.add("", value.getName());
 		record.add("", value.getStandardCost());
@@ -32,7 +32,7 @@ public abstract class ItemRequirement extends ListRequirement<ClientItem> {
 	}
 
 	@Override
-	protected String getDisplayValue(ClientItem value) {
+	protected String getDisplayValue(Item value) {
 		return value != null ? value.getName() : "";
 	}
 
@@ -47,7 +47,7 @@ public abstract class ItemRequirement extends ListRequirement<ClientItem> {
 	}
 
 	@Override
-	protected boolean filter(ClientItem e, String name) {
-		return e.getDisplayName().toLowerCase().startsWith(name.toLowerCase());
+	protected boolean filter(Item e, String name) {
+		return e.getName().toLowerCase().startsWith(name.toLowerCase());
 	}
 }

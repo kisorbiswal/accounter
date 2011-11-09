@@ -2,11 +2,11 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -81,7 +81,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 		return null;
 	}
 
-	protected abstract ClientCustomer getCustomer();
+	protected abstract Customer getCustomer();
 
 	@Override
 	protected Record createRecord(EstimatesAndSalesOrdersList t) {

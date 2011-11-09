@@ -1,21 +1,21 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 
-public abstract class VendorRequirement extends ListRequirement<ClientVendor> {
+public abstract class VendorRequirement extends ListRequirement<Vendor> {
 
 	public VendorRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientVendor> listner) {
+			ChangeListner<Vendor> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientVendor value) {
+	protected Record createRecord(Vendor value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
 		record.add(" ,Balance", value.getBalance());
@@ -23,7 +23,7 @@ public abstract class VendorRequirement extends ListRequirement<ClientVendor> {
 	}
 
 	@Override
-	protected String getDisplayValue(ClientVendor value) {
+	protected String getDisplayValue(Vendor value) {
 		return value != null ? value.getName() : "";
 	}
 

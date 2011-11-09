@@ -1,21 +1,21 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 
-public abstract class AccountRequirement extends ListRequirement<ClientAccount> {
+public abstract class AccountRequirement extends ListRequirement<Account> {
 
 	public AccountRequirement(String requirementName, String displayString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientAccount> listner) {
+			ChangeListner<Account> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
 
 	@Override
-	protected Record createRecord(ClientAccount value) {
+	protected Record createRecord(Account value) {
 		Record record = new Record(value);
 		record.add("", value.getName());
 		record.add("", value.getNumber());
@@ -24,7 +24,7 @@ public abstract class AccountRequirement extends ListRequirement<ClientAccount> 
 	}
 
 	@Override
-	protected String getDisplayValue(ClientAccount value) {
+	protected String getDisplayValue(Account value) {
 		return value != null ? value.getName() : "";
 	}
 
@@ -39,7 +39,7 @@ public abstract class AccountRequirement extends ListRequirement<ClientAccount> 
 	}
 
 	@Override
-	protected boolean filter(ClientAccount e, String name) {
-		return e.getDisplayName().toLowerCase().startsWith(name.toLowerCase());
+	protected boolean filter(Account e, String name) {
+		return e.getName().toLowerCase().startsWith(name.toLowerCase());
 	}
 }
