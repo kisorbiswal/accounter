@@ -407,8 +407,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
 
-		System.out.println("On Load Called....");
-
 	}
 
 	@Override
