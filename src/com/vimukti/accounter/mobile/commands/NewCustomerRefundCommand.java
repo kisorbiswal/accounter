@@ -320,10 +320,6 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
 			enteredBalance = 0D;
 		}
-		if (customer != null) {
-			refund.setCustomerBalance(customer.getBalance() - enteredBalance);
-
-		}
 		ClientAccount depositIn = (ClientAccount) CommandUtils
 				.getClientObjectById(refund.getPayFrom(),
 						AccounterCoreType.ACCOUNT, getCompanyId());

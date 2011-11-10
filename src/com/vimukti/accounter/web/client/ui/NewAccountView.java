@@ -1332,7 +1332,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 
 		opBalText.setAmount(data.getOpeningBalance());
-		currentBalanceText.setAmount(data.getTotalBalance());
+		currentBalanceText.setAmount(data.getTotalBalanceInAccountCurrency());
 		// if (!data.isOpeningBalanceEditable()) {
 		// opBalText.setDisabled(true);
 		// }

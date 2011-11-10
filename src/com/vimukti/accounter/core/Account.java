@@ -259,7 +259,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 */
 	private double currencyFactor;
 
-	private double currenctBalanceInAccountCurrency;
+	private double totalBalanceInAccountCurrency;
 
 	/**
 	 * Constructor of Account class
@@ -955,6 +955,22 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		ChangeTracker.put(this);
 	}
 
+	private void updateTotalBalance(Transaction transaction, double amount) {
+		System.out.println(this.getName());
+
+		this.totalBalance += amount;
+
+		double amountInAccountCurrency = amount
+				/ transaction.getCurrencyFactor();
+
+		this.totalBalanceInAccountCurrency += amountInAccountCurrency;
+
+		if (this.parent != null) {
+			this.parent.updateTotalBalance(amountInAccountCurrency);
+		}
+		ChangeTracker.put(this);
+	}
+
 	public void updateCurrentBalance(Transaction transaction, double amount) {
 
 		// if (!this.getName().equals(AccounterConstants.SALES_TAX_VAT_UNFILED))
@@ -968,14 +984,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		this.currentBalance += amount;
 
-		this.currenctBalanceInAccountCurrency += amount
-				/ transaction.getCurrencyFactor();
-
 		if (!DecimalUtil.isEquals(this.currentBalance, 0.0)
 				&& isOpeningBalanceEditable) {
 			isOpeningBalanceEditable = Boolean.FALSE;
 		}
-		this.updateTotalBalance(amount);
+		this.updateTotalBalance(transaction, amount);
 		// log.info(accountTransaction);
 
 		// if (!transaction.isBecameVoid()) {
@@ -1336,17 +1349,17 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	/**
 	 * @return the currenctBalanceInAccountCurrency
 	 */
-	public double getCurrenctBalanceInAccountCurrency() {
-		return currenctBalanceInAccountCurrency;
+	public double getTotalBalanceInAccountCurrency() {
+		return totalBalanceInAccountCurrency;
 	}
 
 	/**
-	 * @param currenctBalanceInAccountCurrency
+	 * @param amount
 	 *            the currenctBalanceInAccountCurrency to set
 	 */
-	public void setCurrenctBalanceInAccountCurrency(
-			double currenctBalanceInAccountCurrency) {
-		this.currenctBalanceInAccountCurrency = currenctBalanceInAccountCurrency;
+	public void setTotalBalanceInAccountCurrency(
+			double amount) {
+		this.totalBalanceInAccountCurrency = amount;
 	}
 
 	/**

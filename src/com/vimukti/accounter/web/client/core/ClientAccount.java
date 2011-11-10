@@ -143,7 +143,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	 */
 	private double currencyFactor;
 
-	private double currenctBalanceInAccountCurrency;
+	private double totalBalanceInAccountCurrency;
 
 	private int version;
 
@@ -659,17 +659,16 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	/**
 	 * @return the currenctBalanceInAccountCurrency
 	 */
-	public double getCurrenctBalanceInAccountCurrency() {
-		return currenctBalanceInAccountCurrency;
+	public double getTotalBalanceInAccountCurrency() {
+		return totalBalanceInAccountCurrency;
 	}
 
 	/**
 	 * @param currenctBalanceInAccountCurrency
 	 *            the currenctBalanceInAccountCurrency to set
 	 */
-	public void setCurrenctBalanceInAccountCurrency(
-			double currenctBalanceInAccountCurrency) {
-		this.currenctBalanceInAccountCurrency = currenctBalanceInAccountCurrency;
+	public void setTotalBalanceInAccountCurrency(double amount) {
+		this.totalBalanceInAccountCurrency = amount;
 	}
 
 	/**

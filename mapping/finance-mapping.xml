@@ -31,7 +31,7 @@
 		<property name="cardOrLoanNumber" column="CARD_NUMBER"></property>
 		<property name="isIncrease" column="IS_INCREASE"></property>
 		<property name="currentBalance" column="CURRENT_BALANCE"></property>
-		<property name="currenctBalanceInAccountCurrency" column="CURRENT_BALANCE_IN_ACCOUNT_CURRENCY"></property>
+		<property name="totalBalanceInAccountCurrency" column="TOTAL_BALANCE_IN_ACCOUNT_CURRENCY"></property>
 		<property name="totalBalance" column="TOTAL_BALANCE"></property>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="hierarchy" column="HIERARCHY"></property>

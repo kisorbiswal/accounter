@@ -81,12 +81,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	 */
 	double endingBalance = 0D;
 
-	/**
-	 * This is an un editable field, which is used to save the customer balance
-	 * of the selected {@link Customer} in this Customer Refund.
-	 */
-	double customerBalance = 0D;
-
 	// we have used this at the Time we have used the Triggers.
 	boolean isPaid = false;
 
@@ -152,10 +146,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	public double getEndingBalance() {
 		return endingBalance;
-	}
-
-	public double getCustomerBalance() {
-		return customerBalance;
 	}
 
 	public boolean getIsVoid() {
@@ -284,10 +274,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	public void setNumber(String number) {
 		this.number = number;
 
-	}
-
-	public void setCustomerBalance(double customerBalance) {
-		this.customerBalance = customerBalance;
 	}
 
 	public void setVoid(boolean isVoid) {

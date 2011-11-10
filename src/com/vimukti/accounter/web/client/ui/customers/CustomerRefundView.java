@@ -389,7 +389,6 @@ public class CustomerRefundView extends
 
 		transaction.setEndingBalance(endingBalance);
 
-		transaction.setCustomerBalance(customerBalanceAmount);
 		if (selectedAccount != null)
 			transaction.setPayFrom(selectedAccount.getID());
 
@@ -442,11 +441,6 @@ public class CustomerRefundView extends
 			endingBalance -= givenAmount;
 			setEndingBalance(endingBalance);
 		}
-		if (getCustomer() != null) {
-			customerBalanceAmount = getCustomer().getBalance();
-			customerBalanceAmount += givenAmount;
-			setCustomerBalance(customerBalanceAmount);
-		}
 
 	}
 
@@ -494,7 +488,6 @@ public class CustomerRefundView extends
 
 		ClientCustomerRefund customerRefund = ((ClientCustomerRefund) transaction);
 
-		setCustomerBalance(customerRefund.getCustomerBalance());
 		setEndingBalance(customerRefund.getEndingBalance());
 
 	}
@@ -549,8 +542,6 @@ public class CustomerRefundView extends
 
 			endBalText.setValue(DataUtils.getAmountAsString(transaction
 					.getEndingBalance()));
-			custBalText.setValue(DataUtils.getAmountAsString(transaction
-					.getCustomerBalance()));
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 
@@ -588,7 +579,6 @@ public class CustomerRefundView extends
 
 		custBalText.setAmount(amount);
 
-		this.customerBalanceAmount = amount;
 	}
 
 	@Override

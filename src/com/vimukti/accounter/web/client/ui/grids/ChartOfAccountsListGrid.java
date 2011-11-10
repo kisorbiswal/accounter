@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
@@ -41,14 +40,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return Utility.getAccountTypeString(obj.getType());
 			case 4:
-				return DataUtils
-						.getAmountAsString(
-								!DecimalUtil.isEquals(obj.getTotalBalance(),
-										0.0) ? obj.getTotalBalance() : 0.0,
-								getCompany().getCurrency(obj.getCurrency()) == null ? currency
-										.getSymbol() : getCompany()
-										.getCurrency(obj.getCurrency())
-										.getSymbol());
+				return DataUtils.getAmountAsString(obj
+						.getTotalBalanceInAccountCurrency(), getCompany()
+						.getCurrency(obj.getCurrency()).getSymbol());
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -68,14 +62,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 2:
 				return Utility.getAccountTypeString(obj.getType());
 			case 3:
-				return DataUtils
-						.getAmountAsString(
-								!DecimalUtil.isEquals(obj.getTotalBalance(),
-										0.0) ? obj.getTotalBalance() : 0.0,
-								getCompany().getCurrency(obj.getCurrency()) == null ? currency
-										.getSymbol() : getCompany()
-										.getCurrency(obj.getCurrency())
-										.getSymbol());
+				return DataUtils.getAmountAsString(obj
+						.getTotalBalanceInAccountCurrency(), getCompany()
+						.getCurrency(obj.getCurrency()).getSymbol());
 			case 4:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
