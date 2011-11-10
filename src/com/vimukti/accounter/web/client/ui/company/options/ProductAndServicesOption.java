@@ -85,8 +85,8 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		both.setText(constants.bothservicesandProduct_labelonly());
 		bothText.setText(constants.bothServicesandProducts());
 
-		inventoryCheckBox.setText("Inventory tracking");
-		warehousesCheckBox.setText("Is enble Multiple ware houses ? ");
+		inventoryCheckBox.setText(constants.inventoryTracking());
+		warehousesCheckBox.setText(constants.haveMultipleWarehouses());
 
 		servicesOnly.addClickHandler(new ClickHandler() {
 

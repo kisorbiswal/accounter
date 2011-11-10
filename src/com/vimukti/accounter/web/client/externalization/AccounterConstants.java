@@ -3743,4 +3743,6 @@ public interface AccounterConstants extends Constants {
 	public String selectProperBankAccount();
 	
 	public String pleaseEntervalidCurrencyFactor();
+
+	public String inventoryTracking();
 }
