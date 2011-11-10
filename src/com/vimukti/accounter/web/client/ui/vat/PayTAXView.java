@@ -114,7 +114,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance() : 0D;
+								.getTotalBalance()
+								: 0D;
 
 						calculateEndingBalance();
 					}
@@ -240,8 +241,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		selectedPayFromAccount = payFromAccCombo.getSelectedValue();
 		initialEndingBalance = selectedPayFromAccount == null ? 0D
-				: !DecimalUtil.isEquals(
-						selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
+				: !DecimalUtil.isEquals(selectedPayFromAccount
+						.getTotalBalance(), 0) ? selectedPayFromAccount
 						.getTotalBalance() : 0D;
 
 		calculateEndingBalance();
@@ -273,8 +274,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			for (ClientPayTAXEntries cont : filterList) {
 				ClientTAXReturn clientVATReturn = Accounter.getCompany()
 						.getVatReturn(cont.getVatReturn());
-				ClientFinanceDate date = new ClientFinanceDate(
-						clientVATReturn.getPeriodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(clientVATReturn
+						.getPeriodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
 					tempList.add(cont);
@@ -483,7 +484,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	@Override
 	public ValidationResult validate() {
 
-		ValidationResult result = super.validate();
+		ValidationResult result = new ValidationResult();
 
 		// Validations
 		// 1. is valid transaction?
@@ -499,8 +500,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(mainform.validate());
 
@@ -512,7 +513,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 			// FIXME Confirm Object
-			result.addError("TotalAmount", accounterConstants.amount());
+			result.addError("TotalAmount", messages
+					.shouldNotbeZero(accounterConstants.amount()));
 		}
 		ClientAccount bankAccount = payFromAccCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
@@ -520,8 +522,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (!bankCurrency.equals(getBaseCurrency())
 					&& bankCurrency.equals(currency)) {
-				result.addError(payFromAccCombo,
-						accounterConstants.selectProperBankAccount());
+				result.addError(payFromAccCombo, accounterConstants
+						.selectProperBankAccount());
 			}
 		}
 		return result;
