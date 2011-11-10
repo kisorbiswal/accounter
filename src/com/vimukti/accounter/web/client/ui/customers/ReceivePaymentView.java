@@ -111,8 +111,10 @@ public class ReceivePaymentView extends
 	}
 
 	protected void customerSelected(final ClientCustomer selectedCustomer) {
-		amtText.setCurrency(getCompany().getCurrency(selectedCustomer.getCurrency()));
-		customerNonEditablebalText.setCurrency(getCompany().getCurrency(selectedCustomer.getCurrency()));
+		amtText.setCurrency(getCompany().getCurrency(
+				selectedCustomer.getCurrency()));
+		customerNonEditablebalText.setCurrency(getCompany().getCurrency(
+				selectedCustomer.getCurrency()));
 		if (selectedCustomer == null) {
 			receivePaymentTransactionList = null;
 			return;
@@ -226,8 +228,7 @@ public class ReceivePaymentView extends
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsText
-				.setAmount(totalCredits);
+		this.unUsedCreditsText.setAmount(totalCredits);
 		//
 		// this.unUsedCreditsTextForeignCurrency
 		// .setAmount(getAmountInTransactionCurrency(totalCredits));
@@ -236,8 +237,7 @@ public class ReceivePaymentView extends
 
 	private void setCustomerBalance(Double balance) {
 
-		customerNonEditablebalText
-				.setAmount(balance);
+		customerNonEditablebalText.setAmount(balance);
 
 	}
 
@@ -270,15 +270,15 @@ public class ReceivePaymentView extends
 					.getInvoiceAmount());
 
 			record.setInvoice(receivePaymentTransaction.getTransactionId());
-			record.setAmountDue(receivePaymentTransaction
-					.getAmountDue());
-			record.setDummyDue(receivePaymentTransaction
-					.getAmountDue());
-			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
-					.getDiscountDate().getDate() : 0);
+			record.setAmountDue(receivePaymentTransaction.getAmountDue());
+			record.setDummyDue(receivePaymentTransaction.getAmountDue());
+			record
+					.setDiscountDate(receivePaymentTransaction
+							.getDiscountDate() != null ? receivePaymentTransaction
+							.getDiscountDate().getDate()
+							: 0);
 
-			record.setCashDiscount(receivePaymentTransaction
-					.getCashDiscount());
+			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
 			record.setWriteOff(receivePaymentTransaction.getWriteOff());
 
@@ -445,11 +445,9 @@ public class ReceivePaymentView extends
 		customerCombo = createCustomerComboItem(Accounter.constants()
 				.receivedFrom());
 
-		amtText = new AmountField(Accounter.messages().amountReceived(
-				getCompany().getPreferences().getPrimaryCurrency()
-				.getFormalName()), this,
+		amtText = new AmountField(Accounter.constants().amountReceived(), this,
 				getBaseCurrency());
-				 
+
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isInViewMode());
@@ -531,11 +529,9 @@ public class ReceivePaymentView extends
 
 		initListGrid();
 
-
-		unUsedCreditsText = new AmountLabel(Accounter.messages()
-				.unusedCredits(
-						getCompany().getPreferences().getPrimaryCurrency()
-								.getFormalName()));
+		unUsedCreditsText = new AmountLabel(Accounter.messages().unusedCredits(
+				getCompany().getPreferences().getPrimaryCurrency()
+						.getFormalName()));
 		unUsedCreditsText.setHelpInformation(true);
 		unUsedCreditsText.setDisabled(true);
 
@@ -545,7 +541,6 @@ public class ReceivePaymentView extends
 								.getFormalName()));
 		unUsedPaymentsText.setHelpInformation(true);
 		unUsedPaymentsText.setDisabled(true);
-
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
@@ -713,14 +708,12 @@ public class ReceivePaymentView extends
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
 
-		this.unUsedPaymentsText
-				.setAmount(unusedAmounts);
+		this.unUsedPaymentsText.setAmount(unusedAmounts);
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
 
-		unUsedCreditsText
-				.setAmount(getAmountInBaseCurrency(unusedCredits));
+		unUsedCreditsText.setAmount(getAmountInBaseCurrency(unusedCredits));
 		// unUsedCreditsTextForeignCurrency
 		// .setAmount(getAmountInTransactionCurrency(unusedCredits));
 
@@ -907,7 +900,7 @@ public class ReceivePaymentView extends
 				result.addError(amtText, accounterConstants.invalidAmount());
 			}
 		}
-	 
+
 		if (!isInViewMode()
 				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
 			result.addWarning(unUsedPaymentsText,
@@ -1156,6 +1149,5 @@ public class ReceivePaymentView extends
 		amtText.setTitle(Accounter.messages().amountReceived(
 				currencyWidget.getSelectedCurrency().getFormalName()));
 	}
-
 
 }
