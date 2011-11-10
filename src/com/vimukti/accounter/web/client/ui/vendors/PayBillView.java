@@ -691,6 +691,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		listforms.add(textForm);
 		setTabindexes();
 
+		if (isMultiCurrencyEnabled()) {
+			if (!isInViewMode()) {
+				amountLabelForeign.hide();
+			}
+		}
+
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
@@ -1337,8 +1343,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		this.grid.updateAmountsFromGUI();
 
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			amountLabelForeign.hide();
+		} else {
+			amountLabelForeign.show();
+		}
 	}
 
 	private boolean isTDSEnable() {
