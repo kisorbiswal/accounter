@@ -286,7 +286,7 @@
 		<alias>List of All Items</alias>
 	</command>
 
-	<command clazz="NewFiscalYearCommand" name="New Fiscal Year">
+	<command clazz="NewFiscalYearCommand" name="New FiscalYear">
 		<alias>Create Fiscal Year</alias>
 		<alias>Add Fiscal Year</alias>
 	</command>
@@ -365,12 +365,12 @@
 		<alias>File Tax</alias>
 	</command>
 
-	<command clazz="NewCashPurchaseCommand" name="New Cash Purchase">
+	<command clazz="NewCashPurchaseCommand" name="New CashPurchase">
 		<alias>Vendor Cash Purchase</alias>
 		<alias>Cash Purchase</alias>
 	</command>
 
-	<command clazz="NewCashSaleCommand" name="New Cash Sale">
+	<command clazz="NewCashSaleCommand" name="New CashSale">
 		<alias>Add Cash Sale</alias>
 		<alias>Create Cash Sale</alias>
 	</command>
@@ -381,13 +381,13 @@
 		<alias>Add Credit Card Charge</alias>
 	</command>
 
-	<command clazz="NewCreditCardExpenseCommand" name="New Credit Card Expense">
+	<command clazz="NewCreditCardExpenseCommand" name="New CreditCardExpense">
 		<alias>Credit Card Expense</alias>
 		<alias>Add Credit Card Expense</alias>
 		<alias>Create Credit Card Expense</alias>
 	</command>
 
-	<command clazz="NewCustomerCreditMemoCommand" name="New Customer Credit Memo">
+	<command clazz="NewCustomerCreditMemoCommand" name="New CustomerCreditMemo">
 		<alias>Create Customer Credit Memo</alias>
 		<alias>Add Customer Credit Memo</alias>
 		<alias>CustomerCredit</alias>
@@ -411,7 +411,7 @@
 		<alias>Location</alias>
 	</command>
 
-	<command clazz="NewIssuePaymentCommand" name="New Issue Payment">
+	<command clazz="NewIssuePaymentCommand" name="New IssuePayment">
 		<alias>Issue Payment</alias>
 		<alias>Create Issue Payment</alias>
 	</command>
@@ -494,7 +494,7 @@
 		<alias>Customers List</alias>
 	</command>
 
-	<command clazz="NewClassCommand" name="Class">
+	<command clazz="NewClassCommand" name="New Class">
 		<alias>Class</alias>
 	</command>
 
