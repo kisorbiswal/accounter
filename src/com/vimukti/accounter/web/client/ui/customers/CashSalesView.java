@@ -953,19 +953,12 @@ public class CashSalesView extends
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (!(bankCurrency.getFormalName().toLowerCase()
-					.equals(getBaseCurrency().getFormalName().toLowerCase()))
-					&& !(bankCurrency.getFormalName().toLowerCase()
-							.equals(currency.getFormalName().toLowerCase()))){
+
+			if (!(bankCurrency.equals(getBaseCurrency()))
+					&& !(bankCurrency.equals(currency))) {
 				result.addError(depositInCombo,
 						accounterConstants.selectProperBankAccount());
 			}
-
-			// if (bankCurrency.getFormalName() != getBaseCurrency()
-			// .getFormalName()
-			// || bankCurrency.getFormalName() != currency.getFormalName()) {
-			//
-			// }
 		}
 		return result;
 
