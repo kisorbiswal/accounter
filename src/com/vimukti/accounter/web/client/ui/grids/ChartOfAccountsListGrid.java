@@ -41,9 +41,14 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return Utility.getAccountTypeString(obj.getType());
 			case 4:
-				return DataUtils.amountAsStringWithCurrency(!DecimalUtil.isEquals(
-						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
-						: 0.0, currency);
+				return DataUtils
+						.getAmountAsString(
+								!DecimalUtil.isEquals(obj.getTotalBalance(),
+										0.0) ? obj.getTotalBalance() : 0.0,
+								getCompany().getCurrency(obj.getCurrency()) == null ? currency
+										.getSymbol() : getCompany()
+										.getCurrency(obj.getCurrency())
+										.getSymbol());
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -63,9 +68,14 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 2:
 				return Utility.getAccountTypeString(obj.getType());
 			case 3:
-				return DataUtils.amountAsStringWithCurrency(!DecimalUtil.isEquals(
-						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
-						: 0.0, currency);
+				return DataUtils
+						.getAmountAsString(
+								!DecimalUtil.isEquals(obj.getTotalBalance(),
+										0.0) ? obj.getTotalBalance() : 0.0,
+								getCompany().getCurrency(obj.getCurrency()) == null ? currency
+										.getSymbol() : getCompany()
+										.getCurrency(obj.getCurrency())
+										.getSymbol());
 			case 4:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
