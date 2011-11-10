@@ -26,7 +26,7 @@
 		<alias>Select Company</alias>
 	</command>
 
-	<command clazz="NewCustomerGroupCommand" name="New Customer Group">
+	<command clazz="NewCustomerGroupCommand" name="New CustomerGroup">
 		<alias>Create CustomerGroup</alias>
 	</command>
 
@@ -393,7 +393,7 @@
 		<alias>CustomerCredit</alias>
 		<alias>Create Customer Credit</alias>
 	</command>
-	<command clazz="NewCashExpenseCommand" name="New Cash Expense">
+	<command clazz="NewCashExpenseCommand" name="New CashExpense">
 		<alias>Cash Expense</alias>
 		<alias>Create Cash Expense</alias>
 	</command>
@@ -480,7 +480,7 @@
 		<alias>Add Customer Refund</alias>
 	</command>
 
-	<command clazz="NewBankAccountCommand" name="New Bank Account">
+	<command clazz="NewBankAccountCommand" name="New BankAccount">
 		<alias>Add BankAccount</alias>
 		<alias>Create Bank Account</alias>
 		<alias>Bank Account</alias>
@@ -657,7 +657,7 @@
 		<alias>Shipping Methods</alias>
 	</command>
 
-	<command clazz="BankAccountsListCommand" name="Bank Accounts List">
+	<command clazz="BankAccountsListCommand" name="BankAccounts">
 		<alias>Bank Accounts List</alias>
 	</command>
 
