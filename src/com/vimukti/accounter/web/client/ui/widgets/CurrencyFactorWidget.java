@@ -30,7 +30,6 @@ public class CurrencyFactorWidget extends DynamicForm {
 		});
 
 		setFields(currencyForm);
-
 		currencyForm.hide();
 
 	}

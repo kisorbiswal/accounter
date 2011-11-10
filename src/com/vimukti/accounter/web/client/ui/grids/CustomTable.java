@@ -756,7 +756,5 @@ public abstract class CustomTable extends VerticalPanel {
 		return getPreferences().getDecimalCharacter();
 	}
 
-	public String amountAsString(Double amount, ClientCurrency currency) {
-		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
-	}
+
 }

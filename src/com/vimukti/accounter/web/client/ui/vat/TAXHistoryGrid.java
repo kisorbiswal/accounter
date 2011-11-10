@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
@@ -145,9 +146,9 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		case 2:
 			return new ClientFinanceDate(obj.getTransactionDate());
 		case 3:
-			return amountAsString((obj.getBalance()), currency);
+			return DataUtils.amountAsStringWithCurrency((obj.getBalance()), currency);
 		case 4:
-			return amountAsString((obj.getTotal() - obj.getBalance()), currency);
+			return DataUtils.amountAsStringWithCurrency((obj.getTotal() - obj.getBalance()), currency);
 		case 5:
 			return companyConstants.exceptionDetails();
 		default:

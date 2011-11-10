@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.Sorting;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.grids.CustomTable;
 
 /**
@@ -126,7 +127,7 @@ public class ReportGrid<R> extends CustomTable {
 	}
 
 	private String getValue(Object object) {
-		return (object instanceof Double ? amountAsString((Double) object,
+		return (object instanceof Double ? DataUtils.amountAsStringWithCurrency((Double) object,
 				Accounter.getCompany().getPreferences().getPrimaryCurrency())
 				: object.toString());
 	}

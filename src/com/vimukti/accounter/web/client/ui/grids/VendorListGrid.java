@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class VendorListGrid extends BaseListGrid<PayeeList> {
@@ -133,25 +134,25 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		case 1:
 			return payee.getPayeeName();
 		case 2:
-			return amountAsString(payee.getCurrentMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getCurrentMonth(), currency);
 		case 3:
-			return amountAsString(payee.getPreviousMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getPreviousMonth(), currency);
 		case 4:
-			return amountAsString(payee.getPreviousSecondMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getPreviousSecondMonth(), currency);
 
 		case 5:
-			return amountAsString(payee.getPreviousThirdMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getPreviousThirdMonth(), currency);
 
 		case 6:
-			return amountAsString(payee.getPreviousFourthMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getPreviousFourthMonth(), currency);
 
 		case 7:
-			return amountAsString(payee.getPreviousFifthMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getPreviousFifthMonth(), currency);
 
 		case 8:
-			return amountAsString(payee.getYearToDate(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getYearToDate(), currency);
 		case 9:
-			return amountAsString(payee.getBalance(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getBalance(), currency);
 		case 10:
 			updateTotal(payee, true);
 			return Accounter.getFinanceMenuImages().delete();

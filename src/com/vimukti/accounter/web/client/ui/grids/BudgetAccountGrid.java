@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 
@@ -42,31 +43,31 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 		case 0:
 			return budget.getAccountsName();
 		case 1:
-			return amountAsString(budget.getJanuaryAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getJanuaryAmount(), currency);
 		case 2:
-			return amountAsString(budget.getFebruaryAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getFebruaryAmount(), currency);
 		case 3:
-			return amountAsString(budget.getMarchAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getMarchAmount(), currency);
 		case 4:
-			return amountAsString(budget.getAprilAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getAprilAmount(), currency);
 		case 5:
-			return amountAsString(budget.getMayAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getMayAmount(), currency);
 		case 6:
-			return amountAsString(budget.getJuneAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getJuneAmount(), currency);
 		case 7:
-			return amountAsString(budget.getJulyAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getJulyAmount(), currency);
 		case 8:
-			return amountAsString(budget.getAugustAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getAugustAmount(), currency);
 		case 9:
-			return amountAsString(budget.getSpetemberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getSpetemberAmount(), currency);
 		case 10:
-			return amountAsString(budget.getOctoberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getOctoberAmount(), currency);
 		case 11:
-			return amountAsString(budget.getNovemberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getNovemberAmount(), currency);
 		case 12:
-			return amountAsString(budget.getDecemberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getDecemberAmount(), currency);
 		case 13:
-			return amountAsString(budget.getTotalAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(budget.getTotalAmount(), currency);
 		case 14:
 			return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 		default:

@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 
@@ -59,7 +60,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 			// case 12:
 			// return amountAsString(budget.getDecemberAmount());
 		case 1:
-			return amountAsString(budget.getTotalAmount(),
+			return DataUtils.amountAsStringWithCurrency(budget.getTotalAmount(),
 
 			getCompany().getPreferences().getPrimaryCurrency());
 		default:

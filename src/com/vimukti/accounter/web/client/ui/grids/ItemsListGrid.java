@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -94,15 +95,15 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 						.getItemTypeText(obj) : "";
 			case 4:
 				if (ItemListView.isSalesType) {
-					return amountAsString(obj.getSalesPrice(), currency) != null ? amountAsString(
+					return DataUtils.amountAsStringWithCurrency(obj.getSalesPrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
 							obj.getSalesPrice(), currency) : "";
 				} else
-					return amountAsString(obj.getPurchasePrice(), currency) != null ? amountAsString(
+					return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
 							obj.getPurchasePrice(), currency) : "";
 
 			case 5:
 				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-					return amountAsString(obj.getPurchasePrice(), currency) != null ? amountAsString(
+					return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
 							obj.getPurchasePrice(), currency) : "";
 				} else
 					return Accounter.getFinanceMenuImages().delete();

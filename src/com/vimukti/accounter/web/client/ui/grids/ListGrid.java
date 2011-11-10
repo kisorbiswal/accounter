@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -411,7 +412,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_TEXT:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data, currency);
+				data = DataUtils.amountAsStringWithCurrency((Double) data, currency);
 			}
 			if (data != null) {
 				setText(currentRow, currentCol, data.toString());
@@ -420,14 +421,14 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_TEXTBOX:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data, currency);
+				data = DataUtils.amountAsStringWithCurrency((Double) data, currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridTextBoxCell");
 			break;
 		case COLUMN_TYPE_LABEL:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data, currency);
+				data = DataUtils.amountAsStringWithCurrency((Double) data, currency);
 			}
 			addLabel(obj, data);
 			addCellStyles("gridLabelCell");
@@ -442,7 +443,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXTBOX:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data, currency);
+				data = DataUtils.amountAsStringWithCurrency((Double) data, currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridTextBoxCell");
@@ -450,7 +451,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXT:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data, currency);
+				data = DataUtils.amountAsStringWithCurrency((Double) data, currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridDecimalCell");

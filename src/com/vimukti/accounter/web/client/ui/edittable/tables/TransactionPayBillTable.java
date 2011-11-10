@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -736,8 +737,8 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			public boolean onOK() {
 				try {
-					selectedObject.setCashDiscount(cashDiscountDialog
-							.getCashDiscount());
+					selectedObject.setCashDiscount(currencyProvider.getAmountInTransactionCurrency(cashDiscountDialog
+							.getCashDiscount()));
 
 					selectedObject.setDiscountAccount(cashDiscountDialog
 							.getSelectedDiscountAccount().getID());
@@ -1132,6 +1133,13 @@ public abstract class TransactionPayBillTable extends
 
 	public void showTDS(boolean value) {
 		this.isForceShowTDS = value;
+	}
+
+	public void updateAmountsFromGUI() {
+			for (ClientTransactionPayBill item : this.getAllRows()) {
+				updateFromGUI(item);
+			}
+			updateColumnHeaders();
 	}
 
 }

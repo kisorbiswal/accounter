@@ -199,13 +199,13 @@ public class CreditsandPaymentsGrid extends
 					Accounter.showError(Accounter.constants()
 							.receivedPaymentAppliedCreditsAmount());
 					setText(indexOf(item), 4,
-							amountAsString(item.getAmtTouse(), currency));
+							DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
 				} else {
 					if (DecimalUtil.isLessThan(balance, 0)) {
 						Accounter.showError(Accounter.constants()
 								.receivedPaymentAppliedCreditsAmount());
 						setText(indexOf(item), 4,
-								amountAsString(item.getAmtTouse(), currency));
+								DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
 					} else {
 						double newValue = getAmountInBaseCurrency((Double) amtTouse);
 						editingRecord.setAmtTouse(newValue);
@@ -324,16 +324,16 @@ public class CreditsandPaymentsGrid extends
 		case 1:
 			return creditsAndPayments.getMemo();
 		case 2:
-			return amountAsString(
+			return DataUtils.amountAsStringWithCurrency(
 					getAmountInForeignCurrency(creditsAndPayments
 							.getCreditAmount()),
 					currency);
 		case 3:
-			return amountAsString(
+			return DataUtils.amountAsStringWithCurrency(
 					getAmountInForeignCurrency(creditsAndPayments.getBalance()),
 					currency);
 		case 4:
-			return amountAsString(
+			return DataUtils.amountAsStringWithCurrency(
 					getAmountInForeignCurrency(creditsAndPayments.getAmtTouse()),
 					currency);
 		default:

@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IssuePaymentView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -71,7 +72,7 @@ public class TransactionIssuePaymentGrid extends
 		case 3:
 			return issuepayment.getMemo();
 		case 4:
-			return amountAsString(issuepayment.getAmount(), getCompany()
+			return DataUtils.amountAsStringWithCurrency(issuepayment.getAmount(), getCompany()
 					.getPreferences().getPrimaryCurrency());
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment

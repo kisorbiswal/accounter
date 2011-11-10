@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RegExpValidator;
@@ -325,6 +326,10 @@ public class DataUtils {
 		buffer.append(" %");
 
 		return buffer.toString();
+	}
+
+	public static String amountAsStringWithCurrency(double amount, ClientCurrency currency) {
+		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
 	}
 
 	public static String getAmountAsString(double amount, String currencySymbol) {
@@ -733,4 +738,5 @@ class NumberFormat2 {
 
 		return isPercentage ? parsed.doubleValue() / 100 : parsed.doubleValue();
 	}
+
 }

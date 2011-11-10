@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -39,7 +40,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		case 5:
 			return receivePayment.getCheckNumber();
 		case 6:
-			return amountAsString(receivePayment.getAmountPaid(), getCompany()
+			return DataUtils.amountAsStringWithCurrency(receivePayment.getAmountPaid(), getCompany()
 					.getPreferences().getPrimaryCurrency());
 		case 7:
 			if (!receivePayment.isVoided())

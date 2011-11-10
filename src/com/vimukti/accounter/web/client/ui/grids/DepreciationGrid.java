@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.FixedAssetAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -108,7 +109,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		case 0:
 			return item.getFixedAssetName();
 		case 1:
-			return amountAsString(item.getAmountToBeDepreciated(), getCompany()
+			return DataUtils.amountAsStringWithCurrency(item.getAmountToBeDepreciated(), getCompany()
 					.getPreferences().getPrimaryCurrency());
 		case 2:
 			return item.getAssetAccount() != 0 ? Accounter.getCompany()

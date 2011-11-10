@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -42,7 +43,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		case 2:
 			return obj.getMemo() != null ? obj.getMemo() : "";
 		case 3:
-			return amountAsString(obj.getTotal(), getCompany().getPreferences()
+			return DataUtils.amountAsStringWithCurrency(obj.getTotal(), getCompany().getPreferences()
 					.getPrimaryCurrency());
 		case 4:
 			if (!obj.isVoid())

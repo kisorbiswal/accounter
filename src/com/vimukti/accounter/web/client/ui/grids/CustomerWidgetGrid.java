@@ -5,6 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
@@ -23,18 +24,18 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 		case 0:
 			return customer.getDebitorName();
 		case 1:
-			return amountAsString(
+			return DataUtils.amountAsStringWithCurrency(
 					customer.getDebitdays_in30()
 							+ customer.getDebitdays_incurrent(), currency);
 		case 2:
 
-			return amountAsString(customer.getDebitdays_in60(), currency);
+			return DataUtils.amountAsStringWithCurrency(customer.getDebitdays_in60(), currency);
 		case 3:
-			return amountAsString(customer.getDebitdays_in90(), currency);
+			return DataUtils.amountAsStringWithCurrency(customer.getDebitdays_in90(), currency);
 		case 4:
-			return amountAsString(customer.getDebitdays_inolder(), currency);
+			return DataUtils.amountAsStringWithCurrency(customer.getDebitdays_inolder(), currency);
 		case 5:
-			return amountAsString(
+			return DataUtils.amountAsStringWithCurrency(
 					customer.getDebitdays_in30() + customer.getDebitdays_in60()
 							+ customer.getDebitdays_in90()
 							+ customer.getDebitdays_inolder()
@@ -142,19 +143,19 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 			addParentOrEdit(
 					1,
 					0,
-					amountAsString(
+					DataUtils.amountAsStringWithCurrency(
 							parent.getDebitdays_in30()
 									+ parent.getDebitdays_incurrent(), currency));
 			addParentOrEdit(2, 0,
-					amountAsString(parent.getDebitdays_in60(), currency));
+					DataUtils.amountAsStringWithCurrency(parent.getDebitdays_in60(), currency));
 			addParentOrEdit(3, 0,
-					amountAsString(parent.getDebitdays_in90(), currency));
+					DataUtils.amountAsStringWithCurrency(parent.getDebitdays_in90(), currency));
 			addParentOrEdit(4, 0,
-					amountAsString(parent.getDebitdays_inolder(), currency));
+					DataUtils.amountAsStringWithCurrency(parent.getDebitdays_inolder(), currency));
 			addParentOrEdit(
 					5,
 					0,
-					amountAsString(
+					DataUtils.amountAsStringWithCurrency(
 							parent.getDebitdays_in30()
 									+ parent.getDebitdays_in60()
 									+ parent.getDebitdays_in90()

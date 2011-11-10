@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.customers.SalesOrderListView;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -35,7 +36,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		case 2:
 			return obj.getCustomerName();
 		case 3:
-			return amountAsString(obj.getTotal(), getCompany().getPreferences()
+			return DataUtils.amountAsStringWithCurrency(obj.getTotal(), getCompany().getPreferences()
 					.getPrimaryCurrency());
 			// case 7:
 			// return amountAsString(obj.getBalance());

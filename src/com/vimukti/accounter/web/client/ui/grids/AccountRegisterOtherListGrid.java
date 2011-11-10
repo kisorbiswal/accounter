@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterOthersView;
@@ -42,28 +43,29 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			return accRegister.getNumber();
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
-				return amountAsString(accRegister.getAmount(), currency);
+				return DataUtils.amountAsStringWithCurrency(accRegister.getAmount(),
+						currency);
 			else
-				return amountAsString(0.00, currency);
+				return DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
-				return amountAsString(-1 * accRegister.getAmount(), currency);
+				return DataUtils.amountAsStringWithCurrency(-1 * accRegister.getAmount(),
+						currency);
 			else
-				return amountAsString(0.00, currency);
+				return DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 5:
 			return accRegister.getAccount();
 		case 6:
 			return accRegister.getMemo();
 		case 7:
-			return amountAsString(getBalanceValue(accRegister), currency);
+			return DataUtils.amountAsStringWithCurrency(getBalanceValue(accRegister),
+					currency);
 
 		case 8:
 			if (!accRegister.isVoided())
 				return Accounter.getFinanceImages().notvoid();
-			// return "/images/not-void.png";
 			else
 				return Accounter.getFinanceImages().voided();
-			// return "/images/voided.png";
 
 		}
 		return null;

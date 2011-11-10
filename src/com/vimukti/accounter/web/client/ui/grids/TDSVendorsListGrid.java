@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 
@@ -55,14 +56,14 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 		case 4:
 			return obj.getPayment();
 		case 5:
-			return amountAsString(
+			return DataUtils.amountAsStringWithCurrency(
 					getCompany().getTAXItem(obj.getVendor().getTaxItemCode())
 							.getTaxRate(),
 
 					getCompany().getPreferences().getPrimaryCurrency())
 					+ "%";
 		case 6:
-			return amountAsString(obj.getTdsAmount(), getCompany()
+			return DataUtils.amountAsStringWithCurrency(obj.getTdsAmount(), getCompany()
 					.getPreferences().getPrimaryCurrency());
 		default:
 			break;

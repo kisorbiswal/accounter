@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
@@ -30,7 +31,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			if (obj.isPercentage())
 				return obj.getTaxRate() + "%";
 			else
-				return amountAsString(obj.getTaxRate(), getCompany()
+				return DataUtils.amountAsStringWithCurrency(obj.getTaxRate(), getCompany()
 						.getPreferences().getPrimaryCurrency());
 		case 3:
 			ClientTAXAgency agency = null;

@@ -8,6 +8,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 /**
  * @author Murali.A
@@ -31,7 +32,7 @@ public class DepreciationTreeGrid extends
 		case 0:
 			return obj.getFixedAssetName();
 		case 1:
-			return amountAsString(obj.getAmountToBeDepreciated(), Accounter
+			return DataUtils.amountAsStringWithCurrency(obj.getAmountToBeDepreciated(), Accounter
 					.getCompany().getPreferences().getPrimaryCurrency());
 		case 2:
 			return obj.getAssetAccount() != 0 ? Accounter.getCompany()
@@ -78,7 +79,7 @@ public class DepreciationTreeGrid extends
 			addParentOrEdit(
 					1,
 					currentRow,
-					amountAsString(parent.getAmountToBeDepreciated(), Accounter
+					DataUtils.amountAsStringWithCurrency(parent.getAmountToBeDepreciated(), Accounter
 							.getCompany().getPreferences().getPrimaryCurrency()));
 			addParentOrEdit(2, currentRow, "");
 			super.addNodes(childNodes);

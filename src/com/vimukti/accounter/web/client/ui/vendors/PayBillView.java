@@ -91,6 +91,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private double toBeSetEndingBalance;
 
 	private CurrencyFactorWidget currencyWidget;
+	private ClientCurrency vendorCurrency;
 
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
@@ -543,14 +544,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		payForm = new DynamicForm();
-//		payForm.setWidth("80%");
+		// payForm.setWidth("80%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 
 		endBalText = new AmountField(Accounter.constants().endingBalance(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -567,7 +568,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		});
 
 		DynamicForm balForm = new DynamicForm();
-//		balForm.setWidth("100%");
+		// balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
@@ -599,7 +600,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
-		amountLabel = new AmountLabel(Accounter.constants().totalAmount());
+		amountLabel = new AmountLabel(Accounter.messages().currencyTotal(
+				getBaseCurrency().getFormalName()));
 		amountLabel.setDisabled(true);
 		currencyWidget = createCurrencyFactorWidget();
 		this.tdsPayableAmount = new AmountLabel(constants.tdsAmount());
@@ -651,13 +653,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(vpPanel, "50%");
 		topHLay.setCellHorizontalAlignment(vpPanel, ALIGN_RIGHT);
-		
-		// topHLay.add(vpPanel);
-		// HorizontalPanel hLay2 = new HorizontalPanel();
-		// hLay2.setWidth("100%");
-		// hLay2.setHorizontalAlignment(ALIGN_RIGHT);
-		//
-		// hLay2.add(textForm);
+
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 
 		bottomAmtsLayout.setWidth("100%");
@@ -674,12 +670,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
-
-		// if (UIUtils.isMSIEBrowser()) {
-		// payForm.getCellFormatter().setWidth(0, 0, "50%");
-		// payForm.setWidth("65%");
-		// balForm.getCellFormatter().setWidth(0, 1, "150px");
-		// }
 
 		this.add(mainVLay);
 		setSize("100%", "100%");
@@ -714,7 +704,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected void vendorSelected(final ClientVendor vendor) {
-		endBalText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
+		
+		 vendorCurrency = getCompany().getCurrency(vendor.getCurrency());
+		
+		endBalText.setCurrency(vendorCurrency);
+		amountLabel
+				.setTitle(Accounter.messages().currencyTotal(vendorCurrency
+								.getFormalName()));
+
 		if (vendor == null) {
 			paybillTransactionList = null;
 			return;
@@ -753,6 +750,25 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			getTransactionPayBills(vendor);
 		}
 		initTransactionTotalNonEditableItem();
+		long currency = vendor.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		} else {
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		}
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrencycode(getCompany()
+					.getCurrency(vendor.getCurrency()));
+			setCurrencyFactor(1.0);
+			updateAmountsFromGUI();
+		}
 
 	}
 
@@ -795,11 +811,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		endBalText.setAmount(payFromAccount.getCurrentBalance());
 		adjustAmountAndEndingBalance();
 	}
-
-	// @Override
-	// protected void initMemoAndReference() {
-	// // NOTHING TO DO.
-	// }
 
 	@Override
 	protected void initTransactionViewData() {
@@ -869,7 +880,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		initPayFromAccounts();
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -947,11 +958,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			}
 		}
 		ClientAccount bankAccount = payFromCombo.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
-				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+				result.addError(payFromCombo,
+						accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -1013,11 +1025,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			record.setAmountDue(cont.getAmountDue());
 			record.setDummyDue(cont.getAmountDue());
-
 			record.setBillNumber(cont.getBillNumber());
-
 			record.setCashDiscount(cont.getCashDiscount());
-
 			record.setAppliedCredits(cont.getCredits());
 			if (cont.getDiscountDate() != null)
 				record.setDiscountDate(cont.getDiscountDate().getDate());
@@ -1025,12 +1034,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				record.setDueDate(cont.getDueDate().getDate());
 
 			record.setOriginalAmount(cont.getOriginalAmount());
-
 			record.setPayment(cont.getPayment());
-
-			// record.setVendor(FinanceApplication.getCompany().getVendor(
-			// cont.getVendorName()).getID());
-
 			records.add(record);
 		}
 
@@ -1133,41 +1137,23 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	public void updateFootervalues(ClientTransactionPayBill obj, boolean canEdit) {
 		ClientTransaction transactionObject = this.getTransactionObject();
 		if (canEdit) {
-			// paybillView.transactionTotal = 0.0;
 			transactionObject.setTotal(0.0);
 			this.totalCashDiscount = 0.0;
 			for (ClientTransactionPayBill rec : grid.getSelectedRecords()) {
-				// paybillView.transactionTotal += rec.getPayment();
 				transactionObject.setTotal(transactionObject.getTotal()
 						+ rec.getPayment());
 				this.totalCashDiscount += rec.getCashDiscount();
 			}
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.transactionTotal), 7);
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.totalCashDiscount), 5);
 		} else {
-			// paybillView.transactionTotal = 0.0;
 			transactionObject.setTotal(0.0);
 			this.totalCashDiscount = 0.0;
 			this.totalOriginalAmount = 0.0;
 			for (ClientTransactionPayBill rec : grid.getRecords()) {
 				this.totalOriginalAmount += rec.getOriginalAmount();
-				// paybillView.transactionTotal += rec.getPayment();
 				transactionObject.setTotal(transactionObject.getTotal()
 						+ rec.getPayment());
 				this.totalCashDiscount += rec.getCashDiscount();
 			}
-			/* */
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.totalOriginalAmount),
-			// canEdit ? 2 : 1);
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.transactionTotal),
-			// canEdit ? 7 : 6);
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.totalCashDiscount),
-			// canEdit ? 5 : 3);
 		}
 	}
 
@@ -1337,6 +1323,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	public void updateAmountsFromGUI() {
+		this.grid.updateAmountsFromGUI();
+
 	}
 
 	private boolean isTDSEnable() {

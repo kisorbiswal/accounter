@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -138,35 +139,35 @@ public class TransactionReceivePaymentGrid extends
 			case 1:
 				return receivePayment.getNumber();
 			case 2:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment
 								.getInvoiceAmount()),
 						currency);
 			case 3:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment.getDummyDue()),
 						currency);
 			case 4:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 5:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment
 								.getCashDiscount()),
 						currency);
 			case 6:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment.getWriteOff()),
 						currency);
 			case 7:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment
 								.getAppliedCredits()),
 						currency);
 
 			case 8:
 
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment.getPayment()),
 						currency);
 
@@ -178,7 +179,7 @@ public class TransactionReceivePaymentGrid extends
 			case 0:
 				return receivePayment.getNumber();
 			case 1:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment
 								.getInvoiceAmount()),
 						currency);
@@ -186,21 +187,21 @@ public class TransactionReceivePaymentGrid extends
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 3:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment
 								.getCashDiscount()),
 						currency);
 			case 4:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment.getWriteOff()),
 						currency);
 			case 5:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment
 								.getAppliedCredits()),
 						currency);
 			case 6:
-				return amountAsString(
+				return DataUtils.amountAsStringWithCurrency(
 						getAmountInForeignCurrency(receivePayment.getPayment()),
 						currency);
 			default:

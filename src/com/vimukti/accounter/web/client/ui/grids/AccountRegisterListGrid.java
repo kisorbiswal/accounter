@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -92,7 +93,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 			else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 				return getCreditAccValue(accRegister.getAmount(), 7);
 		case 8:
-			return amountAsString(getBalanceValue(accRegister), currency);
+			return DataUtils.amountAsStringWithCurrency(getBalanceValue(accRegister), currency);
 
 		case 9:
 			if (!accRegister.isVoided())
@@ -115,11 +116,11 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		double selectedvalue = value;
 		switch (col) {
 		case 6:
-			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, currency) : amountAsString(0.00, currency);
+			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
+					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 7:
-			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, currency) : amountAsString(0.00, currency);
+			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
+					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
 		}
 		return "";
 	}
@@ -134,11 +135,11 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		double selectedvalue = value;
 		switch (col) {
 		case 6:
-			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, currency) : amountAsString(0.00, currency);
+			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
+					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 7:
-			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(
-					selectedvalue, currency) : amountAsString(0.00, currency);
+			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
+					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
 		}
 		return "";
 	}
