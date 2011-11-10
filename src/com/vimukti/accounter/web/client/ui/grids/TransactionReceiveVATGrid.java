@@ -91,7 +91,7 @@ public class TransactionReceiveVATGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.vatAgency(),
+		return new String[] { companyConstants.taxAgency(),
 				companyConstants.taxDue(), companyConstants.amountToReceive() };
 	}
 
