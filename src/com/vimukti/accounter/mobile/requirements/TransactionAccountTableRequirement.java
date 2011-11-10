@@ -134,7 +134,7 @@ public class TransactionAccountTableRequirement extends
 
 	@Override
 	protected void getRequirementsValues(ClientTransactionItem obj) {
-		ClientAccount account = get(ACCOUNT).getValue();
+		Account account = get(ACCOUNT).getValue();
 		obj.setAccount(account.getID());
 		String description = get(DESCRIPTION).getValue();
 		obj.setDescription(description);
@@ -142,7 +142,7 @@ public class TransactionAccountTableRequirement extends
 		obj.setUnitPrice(amount);
 		Boolean isTaxable = get(TAX).getValue();
 		obj.setTaxable(isTaxable);
-		ClientTAXCode taxCode = get(TAXCODE).getValue();
+		TAXCode taxCode = get(TAXCODE).getValue();
 		if (taxCode != null) {
 			obj.setTaxCode(taxCode.getID());
 		}
@@ -182,16 +182,20 @@ public class TransactionAccountTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTransactionItem t) {
 		Record record = new Record(t);
-		record.add("", ((ClientAccount) (CommandUtils.getClientObjectById(
-				t.getAccount(), AccounterCoreType.ACCOUNT, getCompanyId())))
-				.getDisplayName());
+		ClientAccount clientObjectById = (ClientAccount) CommandUtils
+				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT,
+						getCompanyId());
+		record.add(
+				"",
+				clientObjectById == null ? "" : clientObjectById
+						.getDisplayName());
 		record.add("", t.getUnitPrice());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
-			record.add("",
-					((ClientTAXCode) (CommandUtils.getClientObjectById(
-							t.getTaxCode(), AccounterCoreType.TAX_CODE,
-							getCompanyId()))).getDisplayName());
+			ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
+					.getClientObjectById(t.getTaxCode(),
+							AccounterCoreType.TAX_CODE, getCompanyId());
+			record.add("", taxCode == null ? "" : taxCode.getDisplayName());
 		} else {
 			if (t.isTaxable()) {
 				record.add("", getConstants().taxable());

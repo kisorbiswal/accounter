@@ -7,9 +7,12 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 
 public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
+	public NewNonInventoryItemCommand() {
+		super(Item.TYPE_INVENTORY_PART);
+	}
 
-	public NewNonInventoryItemCommand(int itemType) {
-		super(Item.TYPE_NON_INVENTORY_PART);
+	public NewNonInventoryItemCommand(int type) {
+		super(type);
 	}
 
 	@Override

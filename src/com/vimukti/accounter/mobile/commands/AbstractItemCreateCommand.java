@@ -20,11 +20,7 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.ClientItemGroup;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 
@@ -443,18 +439,15 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		Boolean isTaxable = (Boolean) get(IS_TAXABLE).getValue();
 		Boolean isCommisionItem = (Boolean) get(IS_COMMISION_ITEM).getValue();
 		double cost = (Double) get(STANDARD_COST).getValue();
-		ClientItemGroup itemGroup = (ClientItemGroup) get(ITEM_GROUP)
-				.getValue();
-		ClientTAXCode vatcode = (ClientTAXCode) get(TAXCODE).getValue();
+		ItemGroup itemGroup = (ItemGroup) get(ITEM_GROUP).getValue();
+		TAXCode vatcode = (TAXCode) get(TAXCODE).getValue();
 		Boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		Boolean isBuyservice = (Boolean) get(I_BUY_THIS).getValue();
 		String purchaseDescription = (String) get(PURCHASE_DESCRIPTION)
 				.getValue();
 		double purchasePrice = (Double) get(PURCHASE_PRICE).getValue();
-		ClientAccount expenseAccount = (ClientAccount) get(EXPENSE_ACCOUNT)
-				.getValue();
-		ClientVendor preferedSupplier = (ClientVendor) get(PREFERRED_SUPPLIER)
-				.getValue();
+		Account expenseAccount = (Account) get(EXPENSE_ACCOUNT).getValue();
+		Vendor preferedSupplier = (Vendor) get(PREFERRED_SUPPLIER).getValue();
 		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
 
 		item.setName(name);
