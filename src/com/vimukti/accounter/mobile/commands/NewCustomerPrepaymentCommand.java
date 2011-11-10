@@ -337,5 +337,4 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 					+ enteredBalance);
 		}
 	}
-
 }

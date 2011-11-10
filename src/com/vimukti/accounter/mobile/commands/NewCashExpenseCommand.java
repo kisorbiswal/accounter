@@ -232,7 +232,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected boolean filter(Account e, String name) {
-				return false;
+				return e.getName().contains(name);
 			}
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
