@@ -16,7 +16,6 @@ import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;

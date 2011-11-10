@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;

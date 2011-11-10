@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.mobile.Context;
@@ -18,7 +17,6 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
