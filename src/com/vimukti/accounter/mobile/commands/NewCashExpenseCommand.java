@@ -251,8 +251,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
-				// TODO Auto-generated method stub
-				return null;
+				return new ArrayList<Account>(context.getCompany()
+						.getAccounts());
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
