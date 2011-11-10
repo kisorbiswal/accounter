@@ -48,6 +48,12 @@ public abstract class Payee extends CreatableObject implements
 
 	double currencyFactor = 1;
 
+	/**
+	 * The till date up to which the Specified Opening balance of the Customer
+	 * is for.
+	 */
+	FinanceDate balanceAsOf;
+
 	String name;
 	String fileAs;
 
@@ -487,23 +493,34 @@ public abstract class Payee extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		session.delete(existEntry);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
-			JournalEntry journalEntry = createJournalEntry(this);
+			JournalEntry journalEntry = createJournalEntry();
 			session.save(journalEntry);
 		}
 	}
 
-	protected abstract JournalEntry createJournalEntry(Payee payee);
+	protected JournalEntry createJournalEntry() {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 
-	protected List<TransactionItem> getEntryItems(Payee payee) {
+		JournalEntry journalEntry = new JournalEntry();
+		journalEntry.setInvolvedPayee(this);
+		journalEntry.setCompany(getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate =balanceAsOf;
+		journalEntry.memo = "Opening Balance";
+		journalEntry.balanceDue = getOpeningBalance();
+
+		
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		// Line 1
 		TransactionItem item1 = new TransactionItem();
 		item1.setAccount(getCompany().getOpeningBalancesAccount());
 		item1.setType(TransactionItem.TYPE_ACCOUNT);
-		item1.setDescription(payee.getName());
-		if (payee instanceof Customer) {
-			item1.setLineTotal(-1 * payee.getOpeningBalance());
+		item1.setDescription(getName());
+		if (this instanceof Customer) {
+			item1.setLineTotal(-1 * getOpeningBalance());
 		} else {
-			item1.setLineTotal(payee.getOpeningBalance());
+			item1.setLineTotal(getOpeningBalance());
 		}
 		items.add(item1);
 
@@ -511,15 +528,23 @@ public abstract class Payee extends CreatableObject implements
 		item2.setAccount(getAccount());
 		item2.setType(TransactionItem.TYPE_ACCOUNT);
 		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
-		if (payee instanceof Customer) {
-			item2.setLineTotal(payee.getOpeningBalance());
+		if (this instanceof Customer) {
+			item2.setLineTotal(getOpeningBalance());
 		} else {
-			item2.setLineTotal(-1 * payee.getOpeningBalance());
+			item2.setLineTotal(-1 * getOpeningBalance());
 		}
 		items.add(item2);
 
-		return items;
+		
+		journalEntry.setDebitTotal(items.get(1).getLineTotal());
+		journalEntry.setCreditTotal(items.get(0).getLineTotal());
+
+		journalEntry.setTransactionItems(items);
+
+		return journalEntry;
 	}
+
+	
 
 	public Currency getCurrency() {
 		return currency;
@@ -534,6 +559,17 @@ public abstract class Payee extends CreatableObject implements
 	 */
 	public double getBalanceInPayeeCurrency() {
 		return balanceInPayeeCurrency;
+	}
+
+	/**
+	 * @return the balanceAsOf
+	 */
+	public FinanceDate getBalanceAsOf() {
+		return balanceAsOf;
+	}
+
+	public void setBalanceAsOf(FinanceDate balanceAsOf) {
+		this.balanceAsOf = balanceAsOf;
 	}
 
 	/**
@@ -560,6 +596,7 @@ public abstract class Payee extends CreatableObject implements
 
 			this.balance -= previousOpeningBal;
 			this.balance += openingBalance;
+
 			this.balanceInPayeeCurrency -= previousOpeningBal / currencyFactor;
 			this.balanceInPayeeCurrency += openingBalance / currencyFactor;
 
@@ -567,7 +604,7 @@ public abstract class Payee extends CreatableObject implements
 					.getNamedQuery("getJournalEntryForCustomer")
 					.setLong("id", this.id).uniqueResult();
 			if (existEntry == null) {
-				JournalEntry journalEntry = createJournalEntry(this);
+				JournalEntry journalEntry = createJournalEntry();
 				session.save(journalEntry);
 			} else {
 				modifyJournalEntry(existEntry);

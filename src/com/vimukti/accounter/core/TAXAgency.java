@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -129,21 +128,7 @@ public class TAXAgency extends Payee {
 		VATReturn = return1;
 	}
 
-	/**
-	 * @return the address
-	 */
-	@Override
-	public Set<Address> getAddress() {
-		return address;
-	}
 
-	/**
-	 * @return the webPageAddress
-	 */
-	@Override
-	public String getWebPageAddress() {
-		return webPageAddress;
-	}
 
 	/**
 	 * @param paymentTerm
@@ -214,11 +199,6 @@ public class TAXAgency extends Payee {
 		return false;
 	}
 
-	@Override
-	public long getID() {
-
-		return this.id;
-	}
 
 	@Override
 	public Account getAccount() {
@@ -246,11 +226,6 @@ public class TAXAgency extends Payee {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return this.name;
-	}
-
 	/**
 	 * @return the tAXReturnFrequency
 	 */
@@ -266,11 +241,6 @@ public class TAXAgency extends Payee {
 		this.taxFilingFrequency = tAXReturnFrequency;
 	}
 
-	@Override
-	protected JournalEntry createJournalEntry(Payee payee) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	 * @return the filedLiabilityAccount

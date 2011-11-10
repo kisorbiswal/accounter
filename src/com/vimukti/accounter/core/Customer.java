@@ -15,7 +15,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class Customer extends Payee implements IAccounterServerCore,
 		INamedObject {
@@ -24,11 +23,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * The till date up to which the Specified Opening balance of the Customer
-	 * is for.
-	 */
-	FinanceDate balanceAsOf;
+
 
 	String number;
 
@@ -125,28 +120,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		this.number = number;
 	}
 
-	/**
-	 * @return the balance
-	 */
-	@Override
-	public double getBalance() {
-		return balance;
-	}
-
-	/**
-	 * @return the balanceAsOf
-	 */
-	public FinanceDate getBalanceAsOf() {
-		return balanceAsOf;
-	}
-
-	/**
-	 * @return the memo
-	 */
-	@Override
-	public String getMemo() {
-		return memo;
-	}
 
 	/**
 	 * @return the salesPerson
@@ -388,28 +361,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 		return onUpdate(session);
 	}
 
-	protected JournalEntry createJournalEntry(Payee customer) {
-		String number = NumberUtils.getNextTransactionNumber(
-				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-
-		JournalEntry journalEntry = new JournalEntry();
-		journalEntry.setInvolvedPayee(customer);
-		journalEntry.setCompany(customer.getCompany());
-		journalEntry.number = number;
-		journalEntry.transactionDate = ((Customer) customer).balanceAsOf;
-		journalEntry.memo = "Opening Balance";
-		journalEntry.balanceDue = customer.getOpeningBalance();
-
-		List<TransactionItem> items = getEntryItems(customer);
-
-		journalEntry.setDebitTotal(items.get(1).getLineTotal());
-		journalEntry.setCreditTotal(items.get(0).getLineTotal());
-
-		journalEntry.setTransactionItems(items);
-
-		return journalEntry;
-	}
-
+	
 	@Override
 	public Account getAccount() {
 		return getCompany().getAccountsReceivableAccount();
@@ -498,66 +450,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 		this.customerGroup = customerGroup;
 	}
 
-	public void setBalanceAsOf(FinanceDate balanceAsOf) {
-		this.balanceAsOf = balanceAsOf;
-	}
 
-	// @Override
-	public boolean equals(Customer cust) {
-
-		if (this.id == cust.id
-				&& this.address.size() == cust.address.size()
-				&& this.address.equals(cust.address)
-				&& this.phoneNumbers.size() == cust.phoneNumbers.size()
-				&& this.phoneNumbers.equals(cust.phoneNumbers)
-				&& this.faxNumbers.size() == cust.faxNumbers.size()
-				&& this.faxNumbers.equals(cust.faxNumbers)
-				&& this.contacts.size() == cust.contacts.size()
-				&& this.contacts.equals(cust.contacts)
-				&& this.isActive == cust.isActive
-				&& DecimalUtil.isEquals(this.balance, cust.balance)
-				&& DecimalUtil.isEquals(this.openingBalance,
-						cust.openingBalance)
-				&& this.VATRegistrationNumber == cust.VATRegistrationNumber
-				&& DecimalUtil.isEquals(this.openingBalance,
-						cust.openingBalance)
-				&& DecimalUtil.isEquals(this.creditLimit, cust.creditLimit)
-				&& (this.name != null && cust.name != null) ? (this.name
-				.equals(cust.name))
-				: true && (this.fileAs != null && cust.fileAs != null) ? (this.fileAs
-						.equals(cust.fileAs))
-						: true && (this.TAXCode != null && cust.TAXCode != null) ? (this.TAXCode == cust.TAXCode)
-								: true && (this.webPageAddress != null && cust.webPageAddress != null) ? (this.webPageAddress
-										.equals(cust.webPageAddress))
-										: true && (this.balanceAsOf != null && cust.balanceAsOf != null) ? (this.balanceAsOf
-												.equals(cust.balanceAsOf))
-												: true && (this.shippingMethod != null && cust.shippingMethod != null) ? (this.shippingMethod
-														.equals(cust.shippingMethod))
-														: true && (this.priceLevel != null && cust.priceLevel != null) ? (this.priceLevel
-																.equals(cust.priceLevel))
-																: true && (this.creditRating != null && cust.creditRating != null) ? (this.creditRating
-																		.equals(cust.creditRating))
-																		: true && (this
-																				.getPaymentMethod() != null && cust
-																				.getPaymentMethod() != null) ? (this
-																				.getPaymentMethod()
-																				.equals(cust
-																						.getPaymentMethod()))
-																				: true && (this.paymentTerm != null && cust.paymentTerm != null) ? (this.paymentTerm
-																						.equals(cust
-																								.getPaymentMethod()))
-																						: true && (this.customerGroup != null && cust.customerGroup != null) ? (this.customerGroup
-																								.equals(cust.customerGroup))
-																								: true && (this.taxGroup != null && cust.taxGroup != null) ? (this.taxGroup
-																										.equals(cust.taxGroup))
-																										: true && (this.salesPerson != null && cust.salesPerson != null) ? (this.salesPerson
-																												.equals(cust.salesPerson))
-																												: true) {
-			return true;
-		}
-		return false;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

@@ -872,30 +872,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		return this.customer;
 	}
 
-	public boolean equals(Invoice in) {
-		if (this.getTotal() == in.getTotal()
-				&& this.transactionItems.size() == in.transactionItems.size()
 
-				&& ((this.transactionDate != null && in.transactionDate != null) ? (this.transactionDate
-						.equals(in.transactionDate)) : true)
-				&& ((this.customer != null && in.customer != null) ? (this.customer
-						.equals(in.customer)) : true)
-				&& ((this.getEstimates() != null && in.getEstimates() != null) ? (this
-						.getEstimates().equals(getEstimates())) : true)
-				&& ((this.salesOrders != null && in.salesOrders != null) ? (this.salesOrders
-						.equals(in.salesOrders)) : true)) {
-
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						in.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		return false;
-	}
 
 	@Override
 	public void onEdit(Transaction clonedObject) {
