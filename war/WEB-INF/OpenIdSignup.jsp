@@ -436,5 +436,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
  
 
 <%@ include file="./scripts.jsp" %>
+<script  type="text/javascript" >
+	olark('api.visitor.getDetails', function(details){
+		document.forms.accounterForm.country.value=details.country;
+	});
+</script>
 </body>
 </html>
