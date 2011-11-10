@@ -367,7 +367,7 @@ public class CashSalesView extends
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2, ALIGN_RIGHT);
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
