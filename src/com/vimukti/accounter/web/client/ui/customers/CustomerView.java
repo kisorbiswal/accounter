@@ -46,7 +46,6 @@ import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CreditRatingCombo;
-import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -66,6 +65,8 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 
 /*
  * @modified by Rajesh.A,Ravi Kiran.G, Murali Annamneni,B.srinivasa rao
@@ -109,13 +110,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	ContactsTable gridView;
 	SelectCombo payMethSelect;
 
-	CurrencyCombo currencyCombo;
+	CurrencyComboWidget currencyCombo;
 	protected ClientCurrency selectCurrency;
 
 	// private ClientCustomer takenCustomer;
 
 	private DynamicForm customerForm;
 	private DynamicForm accInfoForm;
+	private DynamicForm balanceForm;
 	private AddressForm addrsForm;
 	private PhoneFaxForm fonFaxForm;
 	private EmailForm emailForm;
@@ -425,8 +427,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Addresses
 		data.setAddress(addrsForm.getAddresss());
 
-		if (currencyCombo.getSelectedValue() != null)
-			data.setCurrency(currencyCombo.getSelectedValue().getID());
+		if (isMultiCurrencyEnabled()) {
+			data.setCurrency(currencyCombo.getSelectedCurrency().getID());
+		}
+		data.setCurrencyFactor(currencyCombo.getCurrencyFactor());
 
 		// Setting Phone
 		// customer.setPhoneNumbers(fonFaxForm.getAllPhones());
@@ -479,7 +483,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// Setting Balance
 		// Setting Balance
-		data.setOpeningBalance(openingBalText.getAmount());
+		data.setOpeningBalance(openingBalText.getAmount()
+				* data.getCurrencyFactor());
 
 		data.setBalance(balanceText.getAmount());
 		// Setting Balance As of
@@ -628,6 +633,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		accInfoForm.setGroupTitle(Accounter.messages().payeeInformation(
 				Global.get().Account()));
 
+		balanceForm = new DynamicForm();
+
 		statusCheck = new CheckboxItem(customerConstants.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
@@ -687,25 +694,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// accInfoForm.setWidth("100%");
 
-		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
-		currencyCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
-
-					@Override
-					public void selectedComboBoxItem(ClientCurrency selectItem) {
-						selectCurrency = selectItem;
-						openingBalText.setCurrency(selectCurrency);
-						balanceText.setCurrency(selectCurrency);
-					}
-				});
+		currencyCombo = createCurrencyComboWidget();
 		currencyCombo.setDisabled(isInViewMode());
-		if (isMultiCurrencyEnabled()) {
-			accInfoForm.setFields(statusCheck, customerSinceDate,
-					currencyCombo, openingBalText, balanceDate, balanceText);
-		} else {
-			accInfoForm.setFields(statusCheck, customerSinceDate,
-					openingBalText, balanceDate, balanceText);
-		}
+		accInfoForm.setFields(statusCheck, customerSinceDate);
+		balanceForm.setFields(openingBalText, balanceDate, balanceText);
 		Label l1 = new Label(Accounter.constants().contacts());
 		addButton = new AddButton(this);
 
@@ -789,6 +781,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		/* Adding Dynamic Forms in List */
 		listforms.add(customerForm);
 		listforms.add(accInfoForm);
+		listforms.add(balanceForm);
 		listforms.add(memoForm);
 		addrsForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		addrsForm.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
@@ -796,6 +789,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		leftVLay.setWidth("100%");
 		leftVLay.add(customerForm);
 		leftVLay.add(accInfoForm);
+		if (isMultiCurrencyEnabled()) {
+			leftVLay.add(currencyCombo);
+		}
+		leftVLay.add(balanceForm);
 		// leftVLay.add(fonFaxForm);
 		// leftVLay.add(emailForm);
 
@@ -1171,8 +1168,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Customer Since
 		customerSinceDate.setEnteredDate(new ClientFinanceDate(data
 				.getPayeeSince()));
-		openingBalText.setAmount(data.getOpeningBalance());
-		balanceText.setAmount(data.getBalance());
+		openingBalText.setAmount(getAmountInPayeeCurrency(
+				data.getOpeningBalance(), data.getCurrencyFactor()));
+		balanceText.setAmount(data.getBalanceInPayeeCurrency());
 
 		// Setting Balance as of
 		balanceDate
@@ -1235,8 +1233,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// .getPaymentMethod();
 		payMethSelect.setComboItem(data.getPaymentMethod());
 
-		if (data.getCurrency() != 0)
-			currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
+		if (data.getCurrency() != 0) {
+			selectCurrency = company.getCurrency(data.getCurrency());
+			currencyCombo.setSelectedCurrency(selectCurrency);
+			openingBalText.setCurrency(selectCurrency);
+			balanceText.setCurrency(selectCurrency);
+		}
+		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
 
 		// Setting payemnt term
 		selectPayTermFromDetailsTab = getCompany().getPaymentTerms(
@@ -1376,5 +1379,29 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().customer();
+	}
+
+	protected CurrencyComboWidget createCurrencyComboWidget() {
+		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
+		ClientCurrency baseCurrency = getCompany().getPreferences()
+				.getPrimaryCurrency();
+
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
+				baseCurrency);
+		widget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(ClientCurrency currency, double factor) {
+				selectCurrency = currency;
+				openingBalText.setCurrency(selectCurrency);
+				balanceText.setCurrency(selectCurrency);
+			}
+		});
+		widget.setDisabled(isInViewMode());
+		return widget;
+	}
+
+	public double getAmountInPayeeCurrency(double amount, double factor) {
+		return amount / factor;
 	}
 }
