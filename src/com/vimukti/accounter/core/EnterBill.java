@@ -300,7 +300,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			Account pendingItemReceipt = getCompany()
 					.getPendingItemReceiptsAccount();
 			pendingItemReceipt.updateCurrentBalance(this.itemReceipt,
-					-this.itemReceipt.total);
+					-this.itemReceipt.total, itemReceipt.currencyFactor);
 			session.update(pendingItemReceipt);
 			pendingItemReceipt.onUpdate(session);
 
@@ -1074,7 +1074,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();
-		exchangeLossOrGainAccount.updateCurrentBalance(tpb.payBill, -diff);
+		exchangeLossOrGainAccount.updateCurrentBalance(tpb.payBill, -diff, 1);
 
 		Vendor vendor = tpb.payBill.getVendor();
 		vendor.updateBalance(session, tpb.payBill, diff, false);

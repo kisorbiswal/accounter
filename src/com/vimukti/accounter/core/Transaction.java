@@ -1085,7 +1085,7 @@ public abstract class Transaction extends CreatableObject implements
 	private void updateEffectedAccount(double amount) {
 		Account effectingAccount = getEffectingAccount();
 		if (effectingAccount != null) {
-			effectingAccount.updateCurrentBalance(this, amount);
+			effectingAccount.updateCurrentBalance(this, amount, currencyFactor);
 			HibernateUtil.getCurrentSession().update(effectingAccount);
 			effectingAccount.onUpdate(HibernateUtil.getCurrentSession());
 		}

@@ -872,8 +872,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		return this.customer;
 	}
 
-
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
@@ -1016,7 +1014,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();
 		exchangeLossOrGainAccount.updateCurrentBalance(trp.receivePayment,
-				-diff);
+				-diff, 1);
 
 		Customer customer = trp.getReceivePayment().getCustomer();
 		customer.updateBalance(session, trp.receivePayment, diff, false);

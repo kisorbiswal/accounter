@@ -941,7 +941,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	}
 
-	private void updateTotalBalance(double amount) {
+	private void updateTotalBalance(double amount, double currencyFactor) {
 		System.out.println(this.getName());
 
 		String tempStr = " Total Balance of " + this.getName()
@@ -949,29 +949,18 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		this.totalBalance += amount;
 
-		if (this.parent != null) {
-			this.parent.updateTotalBalance(amount);
-		}
-		ChangeTracker.put(this);
-	}
-
-	private void updateTotalBalance(Transaction transaction, double amount) {
-		System.out.println(this.getName());
-
-		this.totalBalance += amount;
-
-		double amountInAccountCurrency = amount
-				/ transaction.getCurrencyFactor();
+		double amountInAccountCurrency = amount / currencyFactor;
 
 		this.totalBalanceInAccountCurrency += amountInAccountCurrency;
 
 		if (this.parent != null) {
-			this.parent.updateTotalBalance(amountInAccountCurrency);
+			this.parent.updateTotalBalance(amount, currencyFactor);
 		}
 		ChangeTracker.put(this);
 	}
 
-	public void updateCurrentBalance(Transaction transaction, double amount) {
+	public void updateCurrentBalance(Transaction transaction, double amount,
+			double currencyFactor) {
 
 		// if (!this.getName().equals(AccounterConstants.SALES_TAX_VAT_UNFILED))
 		if (amount == 0) {
@@ -988,7 +977,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				&& isOpeningBalanceEditable) {
 			isOpeningBalanceEditable = Boolean.FALSE;
 		}
-		this.updateTotalBalance(transaction, amount);
+
+		this.updateTotalBalance(amount, currencyFactor);
 		// log.info(accountTransaction);
 
 		// if (!transaction.isBecameVoid()) {
@@ -1053,7 +1043,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				&& this.parent != null
 				&& ((this.oldParent != null && this.oldParent != this.parent) || this.oldParent == null)) {
 
-			parent.updateTotalBalance(this.totalBalance);
+			// While changing parents we give factor 1.0 as we will not allow to
+			// change parents for other currency accounts
+			parent.updateTotalBalance(this.totalBalance, 1);
 			// updating the flow
 
 			String oldFlow = this.flow;
@@ -1073,7 +1065,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 			if (this.oldParent != null && this.oldParent != this.parent) {
 
-				this.oldParent.updateTotalBalance(-1 * this.totalBalance);
+				// While changing parents we give factor 1.0 as we will not
+				// allow to
+				// change parents for other currency accounts
+				this.oldParent.updateTotalBalance(-1 * this.totalBalance, 1);
 				session.update(this.oldParent);
 
 				int i = Integer
@@ -1357,8 +1352,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * @param amount
 	 *            the currenctBalanceInAccountCurrency to set
 	 */
-	public void setTotalBalanceInAccountCurrency(
-			double amount) {
+	public void setTotalBalanceInAccountCurrency(double amount) {
 		this.totalBalanceInAccountCurrency = amount;
 	}
 

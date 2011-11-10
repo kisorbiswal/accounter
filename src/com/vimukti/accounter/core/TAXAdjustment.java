@@ -166,11 +166,11 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			}
 		}
 
-		liabilityAccount.updateCurrentBalance(this, amount1);
+		liabilityAccount.updateCurrentBalance(this, amount1, currencyFactor);
 		session.saveOrUpdate(liabilityAccount);
 		liabilityAccount.onUpdate(session);
 
-		adjustmentAccount.updateCurrentBalance(this, amount2);
+		adjustmentAccount.updateCurrentBalance(this, amount2, currencyFactor);
 		session.saveOrUpdate(adjustmentAccount);
 		adjustmentAccount.onUpdate(session);
 	}
@@ -254,11 +254,11 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			}
 		}
 
-		liabilityAccount.updateCurrentBalance(this, amount1);
+		liabilityAccount.updateCurrentBalance(this, amount1, currencyFactor);
 		session.saveOrUpdate(liabilityAccount);
 		liabilityAccount.onUpdate(session);
 
-		adjustmentAccount.updateCurrentBalance(this, amount2);
+		adjustmentAccount.updateCurrentBalance(this, amount2, currencyFactor);
 		session.saveOrUpdate(adjustmentAccount);
 		adjustmentAccount.onUpdate(session);
 	}

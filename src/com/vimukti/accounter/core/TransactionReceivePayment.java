@@ -340,7 +340,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			// updating the corresponding discount account current balance with
 			// discount amount
 			this.discountAccount.updateCurrentBalance(this.receivePayment, -1
-					* this.cashDiscount);
+					* this.cashDiscount, receivePayment.currencyFactor);
 			this.discountAccount.onUpdate(session);
 		}
 
@@ -354,7 +354,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			// updating the corresponding write off account current balance with
 			// write off amount
 			this.writeOffAccount.updateCurrentBalance(this.receivePayment, -1
-					* this.writeOff);
+					* this.writeOff, receivePayment.currencyFactor);
 			this.writeOffAccount.onUpdate(session);
 		}
 
@@ -425,10 +425,11 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 				Account account = getDiscountAccount().getCompany()
 						.getAccountsReceivableAccount();
 				account.updateCurrentBalance(this.getReceivePayment(),
-						-this.getCashDiscount());
+						-this.getCashDiscount(), receivePayment.currencyFactor);
 				session.saveOrUpdate(account);
 				this.getDiscountAccount().updateCurrentBalance(
-						this.getReceivePayment(), -this.getCashDiscount());
+						this.getReceivePayment(), -this.getCashDiscount(),
+						receivePayment.currencyFactor);
 
 				session.saveOrUpdate(this.getDiscountAccount());
 
@@ -444,10 +445,11 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 				Account account = getWriteOffAccount().getCompany()
 						.getAccountsReceivableAccount();
 				account.updateCurrentBalance(this.getReceivePayment(),
-						-this.getWriteOff());
+						-this.getWriteOff(), receivePayment.currencyFactor);
 				session.saveOrUpdate(account);
 				this.getWriteOffAccount().updateCurrentBalance(
-						this.getReceivePayment(), -this.getWriteOff());
+						this.getReceivePayment(), -this.getWriteOff(),
+						receivePayment.currencyFactor);
 
 				session.saveOrUpdate(getWriteOffAccount());
 				this.getReceivePayment()

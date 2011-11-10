@@ -177,7 +177,7 @@ public abstract class Payee extends CreatableObject implements
 
 	protected double openingBalance = 0D;
 
-	private transient double previousCurrencyFactor=1;
+	private transient double previousCurrencyFactor = 1;
 
 	/**
 	 * @return the openingBalance
@@ -389,7 +389,8 @@ public abstract class Payee extends CreatableObject implements
 		 * null
 		 */
 		if (account != null) {
-			account.updateCurrentBalance(transaction, amount);
+			account.updateCurrentBalance(transaction, amount,
+					transaction.getCurrencyFactor());
 			session.update(account);
 			account.onUpdate(session);
 		}

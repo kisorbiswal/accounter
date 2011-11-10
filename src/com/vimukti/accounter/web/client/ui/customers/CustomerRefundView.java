@@ -68,7 +68,6 @@ public class CustomerRefundView extends
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
 	private boolean locationTrackingEnabled;
-	private Double customerBalanceAmount;
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
@@ -97,9 +96,7 @@ public class CustomerRefundView extends
 	protected void customerSelected(ClientCustomer customer) {
 		if (customer == null)
 			return;
-
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
-		
 		amtText.setCurrency(clientCurrency);
 		endBalText.setCurrency(clientCurrency);
 		custBalText.setCurrency(clientCurrency);
@@ -111,7 +108,7 @@ public class CustomerRefundView extends
 		}
 		addressListOfCustomer = customer.getAddress();
 		super.initBillToCombo();
-		setCustomerBalance(customer.getBalance());
+		custBalText.setAmount(customer.getBalanceInPayeeCurrency());
 		refundAmountChanged(amtText.getAmount());
 		currencyWidget.setSelectedCurrency(clientCurrency);
 	}
@@ -283,7 +280,6 @@ public class CustomerRefundView extends
 				Global.get().Customer()), this, getBaseCurrency());
 		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);
-		setCustomerBalance(null);
 
 		custForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		custForm.setFields(customerCombo, billToCombo, payFromSelect, amtText,
@@ -387,8 +383,6 @@ public class CustomerRefundView extends
 		if (billingAddress != null)
 			transaction.setAddress(billingAddress);
 
-		transaction.setEndingBalance(endingBalance);
-
 		if (selectedAccount != null)
 			transaction.setPayFrom(selectedAccount.getID());
 
@@ -404,7 +398,7 @@ public class CustomerRefundView extends
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 
-		transaction.setTotal(amtText.getAmount());
+		transaction.setTotal(amtText.getAmount() * currencyFactor);
 
 		transaction.setBalanceDue(getAmountInBaseCurrency(amtText.getAmount()));
 		if (currency != null)
@@ -441,7 +435,6 @@ public class CustomerRefundView extends
 			endingBalance -= givenAmount;
 			setEndingBalance(endingBalance);
 		}
-
 	}
 
 	protected void setRefundAmount(Double amountValue) {
@@ -485,10 +478,6 @@ public class CustomerRefundView extends
 
 		if (transaction == null)
 			return;
-
-		ClientCustomerRefund customerRefund = ((ClientCustomerRefund) transaction);
-
-		setEndingBalance(customerRefund.getEndingBalance());
 
 	}
 
@@ -540,8 +529,8 @@ public class CustomerRefundView extends
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
 
-			endBalText.setValue(DataUtils.getAmountAsString(transaction
-					.getEndingBalance()));
+			endBalText.setAmount(customer.getBalanceInPayeeCurrency());
+			custBalText.setAmount(customer.getBalanceInPayeeCurrency());
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 
@@ -570,14 +559,6 @@ public class CustomerRefundView extends
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 		customerCombo.initCombo(result);
 		customerCombo.setDisabled(isInViewMode());
-
-	}
-
-	public void setCustomerBalance(Double amount) {
-		if (amount == null)
-			amount = 0.0D;
-
-		custBalText.setAmount(amount);
 
 	}
 

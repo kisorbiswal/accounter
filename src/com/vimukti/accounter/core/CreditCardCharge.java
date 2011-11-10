@@ -281,14 +281,17 @@ public class CreditCardCharge extends Transaction {
 			if (!this.payFrom.equals(creditCardCharge.payFrom)) {
 				Account prePayFrom = (Account) session.get(Account.class,
 						creditCardCharge.payFrom.id);
-				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total);
+				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total,
+						creditCardCharge.currencyFactor);
 				prePayFrom.onUpdate(session);
-				this.payFrom.updateCurrentBalance(this, this.total);
+				this.payFrom.updateCurrentBalance(this, this.total,
+						this.currencyFactor);
 				payFrom.onUpdate(session);
 
 			} else if (this.payFrom.equals(creditCardCharge.payFrom)) {
 				this.payFrom.updateCurrentBalance(this, this.total
-						- creditCardCharge.total);
+						- creditCardCharge.total,
+						creditCardCharge.currencyFactor);
 				// session.update(this.payFrom);
 				this.payFrom.onUpdate(session);
 

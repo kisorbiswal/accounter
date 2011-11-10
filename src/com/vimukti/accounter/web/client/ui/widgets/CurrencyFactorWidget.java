@@ -12,6 +12,7 @@ public class CurrencyFactorWidget extends DynamicForm {
 	private ClientCurrency baseCurrency, selectedCurrencyItem;
 	private boolean showFactorField = true;
 	private CurrencyFormItem currencyForm;
+	double factor = 1;
 
 	public CurrencyFactorWidget(ClientCurrency baseCurrency) {
 		this.baseCurrency = baseCurrency;
@@ -35,6 +36,7 @@ public class CurrencyFactorWidget extends DynamicForm {
 	}
 
 	private void factorFieldChagned(double factor) {
+		this.factor=factor;
 		if(factor == 0.0){
 			factor = 1.0;
 			currencyForm.changeTextField(factor);	
@@ -63,10 +65,6 @@ public class CurrencyFactorWidget extends DynamicForm {
 					.getPrimaryCurrency();
 		}
 		updateFactorFieldTitle(); // 1<SELCTED currency>=
-		double factor = 1;/*
-						 * factorFieldDisableStatus ? 1 : getFactorByRPC(
-						 * selectItem, baseCurrency);
-						 */
 		currencyForm.setValue(String.valueOf(factor));
 
 		// hide or show factor fields
@@ -107,14 +105,12 @@ public class CurrencyFactorWidget extends DynamicForm {
 	}
 
 	public void setCurrencyFactor(double factor) {
+		this.factor=factor;
 		currencyForm.setValue(String.valueOf(factor));
 	}
 
 	public double getCurrencyFactor() {
-		if (currencyForm.getValue().length() > 0)
-			return Double.parseDouble(currencyForm.getValue().toString());
-		else
-			return 1;
+		return factor;
 	}
 
 	public void setTabIndex(int index) {

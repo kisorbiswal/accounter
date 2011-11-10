@@ -335,7 +335,8 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 						AccounterServerConstants.PENDING_ITEM_RECEIPTS)
 				.setEntity("company", getCompany()).uniqueResult();
 		if (pendingItemReceipt != null) {
-			pendingItemReceipt.updateCurrentBalance(this, this.total);
+			pendingItemReceipt.updateCurrentBalance(this, this.total,
+					currencyFactor);
 			session.update(pendingItemReceipt);
 			pendingItemReceipt.onUpdate(session);
 		}

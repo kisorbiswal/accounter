@@ -315,7 +315,7 @@ public class TransactionPayBill extends CreatableObject implements
 						-this.cashDiscount);
 
 				this.discountAccount.updateCurrentBalance(this.payBill,
-						this.cashDiscount);
+						this.cashDiscount, payBill.currencyFactor);
 				this.discountAccount.onUpdate(session);
 
 			}
@@ -384,7 +384,7 @@ public class TransactionPayBill extends CreatableObject implements
 				this.payBill.getVendor().updateBalance(session, this.payBill,
 						this.cashDiscount);
 				this.discountAccount.updateCurrentBalance(this.payBill,
-						-this.cashDiscount);
+						-this.cashDiscount, payBill.currencyFactor);
 				this.discountAccount.onUpdate(session);
 				session.saveOrUpdate(this.discountAccount);
 			}

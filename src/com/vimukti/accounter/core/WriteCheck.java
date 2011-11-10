@@ -360,13 +360,15 @@ public class WriteCheck extends Transaction {
 
 				Account account = (Account) session.get(Account.class,
 						writeCheck.bankAccount.id);
-				account.updateCurrentBalance(this, -writeCheck.total);
+				account.updateCurrentBalance(this, -writeCheck.total,
+						currencyFactor);
 				session.update(account);
 				account.onUpdate(session);
 
 				writeCheck.total = 0.0;
 
-				this.bankAccount.updateCurrentBalance(this, this.total);
+				this.bankAccount.updateCurrentBalance(this, this.total,
+						currencyFactor);
 				this.bankAccount.onUpdate(session);
 			}
 

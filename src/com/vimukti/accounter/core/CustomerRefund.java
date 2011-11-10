@@ -75,12 +75,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	 */
 	boolean isToBePrinted;
 
-	/**
-	 * This is an un editable field, which is used to save the balance of the
-	 * selected Pay From {@link Account} in this Customer Refund.
-	 */
-	double endingBalance = 0D;
-
 	// we have used this at the Time we have used the Triggers.
 	boolean isPaid = false;
 
@@ -144,10 +138,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		return isToBePrinted;
 	}
 
-	public double getEndingBalance() {
-		return endingBalance;
-	}
-
 	public boolean getIsVoid() {
 		return isVoid;
 	}
@@ -184,7 +174,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		super.onSave(session);
-		this.payFrom.updateCurrentBalance(this, this.total);
+		this.payFrom.updateCurrentBalance(this, this.total, currencyFactor);
 		this.payFrom.onUpdate(session);
 
 		if (this.paymentMethod != null) {
@@ -216,7 +206,8 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	private void doVoidEffect(Session session) {
 
-		this.payFrom.updateCurrentBalance(this, -1 * this.total);
+		this.payFrom
+				.updateCurrentBalance(this, -1 * this.total, currencyFactor);
 		this.payFrom.onUpdate(session);
 
 		if (this.transactionReceivePayments != null) {
@@ -260,10 +251,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	public void setPayFrom(Account account) {
 		this.payFrom = account;
-	}
-
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
 	}
 
 	@Override
@@ -356,10 +343,12 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			// if (!this.payFrom.equals(customerRefund.payFrom)) {
 			Account oldAccount = (Account) session.get(Account.class,
 					customerRefund.payFrom.id);
-			oldAccount.updateCurrentBalance(this, -clonedObject.total);
+			oldAccount.updateCurrentBalance(this, -clonedObject.total,
+					clonedObject.currencyFactor);
 			oldAccount.onUpdate(session);
 			// }
-			this.payFrom.updateCurrentBalance(this, this.total);
+			this.payFrom.updateCurrentBalance(this, this.total,
+					this.currencyFactor);
 			this.payFrom.onUpdate(session);
 
 			// }

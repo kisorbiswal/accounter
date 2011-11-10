@@ -204,7 +204,8 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 
 			Account effectingAccount = this.getEffectingAccount();
 			if (effectingAccount != null) {
-				effectingAccount.updateCurrentBalance(this.expense, amount);
+				effectingAccount.updateCurrentBalance(this.expense, amount,
+						expense.currencyFactor);
 
 				session.update(effectingAccount);
 

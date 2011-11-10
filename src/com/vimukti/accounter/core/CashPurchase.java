@@ -430,12 +430,14 @@ public class CashPurchase extends Transaction {
 				 */
 				payFromAccount.updateCurrentBalance(this,
 						isDebitTransaction() ? -cashPurchase.total
-								: cashPurchase.total);
+								: cashPurchase.total, cashPurchase
+								.getCurrencyFactor());
 				payFromAccount.onUpdate(session);
 			}
 
 			this.payFrom.updateCurrentBalance(this,
-					isDebitTransaction() ? this.total : -this.total);
+					isDebitTransaction() ? this.total : -this.total,
+					this.currencyFactor);
 			this.payFrom.onUpdate(session);
 
 		}

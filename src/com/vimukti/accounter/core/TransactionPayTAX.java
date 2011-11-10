@@ -182,7 +182,8 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 			Account account = taxReturn.getTaxAgency()
 					.getFiledLiabilityAccount();
 			if (account != null) {
-				account.updateCurrentBalance(this.payVAT, -(this.amountToPay));
+				account.updateCurrentBalance(this.payVAT, -(this.amountToPay),
+						payVAT.currencyFactor);
 				session.update(account);
 				account.onUpdate(session);
 			}
@@ -206,8 +207,11 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			taxReturn.getTaxAgency().getFiledLiabilityAccount()
-					.updateCurrentBalance(this.payVAT, this.amountToPay);
+			taxReturn
+					.getTaxAgency()
+					.getFiledLiabilityAccount()
+					.updateCurrentBalance(this.payVAT, this.amountToPay,
+							payVAT.currencyFactor);
 		}
 		return false;
 	}

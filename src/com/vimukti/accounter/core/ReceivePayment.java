@@ -307,7 +307,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		if (this.depositIn != null) {
 			// Deposit in account should be updated by the amount received, not
 			// by transaction total.
-			this.depositIn.updateCurrentBalance(this, -this.amount);
+			this.depositIn.updateCurrentBalance(this, -this.amount,
+					currencyFactor);
 			// -(this.amount != 0 ? this.amount : this.total));
 			this.depositIn.onUpdate(session);
 		}
@@ -518,7 +519,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			super.onEdit(clonedObject);
 
 			Session session = HibernateUtil.getCurrentSession();
-			this.depositIn.updateCurrentBalance(this, this.amount);
+			this.depositIn.updateCurrentBalance(this, this.amount,
+					currencyFactor);
 			this.depositIn.onUpdate(session);
 
 			if (this.creditsAndPayments != null) {

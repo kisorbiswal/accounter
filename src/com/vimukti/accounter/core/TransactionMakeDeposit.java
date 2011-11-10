@@ -254,14 +254,14 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isNewEntry) {
 			this.cashAccount.updateCurrentBalance(this.makeDeposit, -1
-					* this.amount);
+					* this.amount, makeDeposit.currencyFactor);
 			this.depositedTransaction.setIsDeposited(Boolean.FALSE);
 		} else {
 			switch (this.type) {
 			case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 
 				this.account.updateCurrentBalance(this.makeDeposit, -1
-						* this.amount);
+						* this.amount, makeDeposit.currencyFactor);
 				this.account.onUpdate(session);
 				break;
 			case TransactionMakeDeposit.TYPE_CUSTOMER:
@@ -296,8 +296,8 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 		if (!this.isNewEntry) {
 			// Update the Undeposited Funds Account of the Entry
-			this.cashAccount
-					.updateCurrentBalance(this.makeDeposit, this.amount);
+			this.cashAccount.updateCurrentBalance(this.makeDeposit,
+					this.amount, makeDeposit.currencyFactor);
 			this.cashAccount.onUpdate(session);
 
 			// Makeing the corresponding Transaction as Deposited.
@@ -310,8 +310,8 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 			case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 
-				this.account
-						.updateCurrentBalance(this.makeDeposit, this.amount);
+				this.account.updateCurrentBalance(this.makeDeposit,
+						this.amount, makeDeposit.currencyFactor);
 				this.account.onUpdate(session);
 
 				break;
@@ -363,14 +363,14 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		if (this.isVoid) {
 			if (!this.isNewEntry) {
 				this.cashAccount.updateCurrentBalance(this.makeDeposit, -1
-						* this.amount);
+						* this.amount, makeDeposit.currencyFactor);
 				this.depositedTransaction.setIsDeposited(Boolean.FALSE);
 			} else {
 				switch (this.type) {
 				case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 
 					this.account.updateCurrentBalance(this.makeDeposit, -1
-							* this.amount);
+							* this.amount, makeDeposit.currencyFactor);
 					this.account.onUpdate(session);
 					break;
 				case TransactionMakeDeposit.TYPE_CUSTOMER:

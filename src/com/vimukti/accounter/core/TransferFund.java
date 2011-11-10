@@ -102,7 +102,7 @@ public class TransferFund extends Transaction {
 		super.onSave(session);
 		if (this.id == 0l) {
 			Account account = this.transferFrom;
-			account.updateCurrentBalance(this, this.total);
+			account.updateCurrentBalance(this, this.total, currencyFactor);
 			session.update(account);
 			account.onUpdate(session);
 
@@ -264,7 +264,7 @@ public class TransferFund extends Transaction {
 
 		Account account = (Account) session.get(Account.class, transferFrom.id);
 
-		account.updateCurrentBalance(this, amount);
+		account.updateCurrentBalance(this, amount, currencyFactor);
 		session.update(account);
 		account.onUpdate(session);
 	}

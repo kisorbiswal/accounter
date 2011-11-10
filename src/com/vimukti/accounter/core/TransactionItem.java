@@ -394,7 +394,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				Account effectingAccount = this.getEffectingAccount();
 				if (effectingAccount != null) {
 					effectingAccount.updateCurrentBalance(this.transaction, -1
-							* this.updateAmount);
+							* this.updateAmount, transaction.currencyFactor);
 
 					session.saveOrUpdate(effectingAccount);
 					effectingAccount.onUpdate(session);
@@ -512,7 +512,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				Account effectingAccount = getEffectingAccount();
 				if (effectingAccount != null) {
 					effectingAccount.updateCurrentBalance(this.transaction,
-							amount);
+							amount, transaction.currencyFactor);
 					session.saveOrUpdate(effectingAccount);
 					effectingAccount.onUpdate(session);
 				}
@@ -609,7 +609,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			Account effectingAccount = this.getEffectingAccount();
 			if (effectingAccount != null) {
 				effectingAccount.updateCurrentBalance(this.transaction, -1
-						* this.getUpdateAmount());
+						* this.getUpdateAmount(), transaction.currencyFactor);
 				effectingAccount.onUpdate(session);
 				session.saveOrUpdate(effectingAccount);
 

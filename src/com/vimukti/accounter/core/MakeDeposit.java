@@ -95,8 +95,8 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		super.onSave(session);
 		if (this.cashBackAccount != null) {
 
-			this.cashBackAccount
-					.updateCurrentBalance(this, this.cashBackAmount);
+			this.cashBackAccount.updateCurrentBalance(this,
+					this.cashBackAmount, currencyFactor);
 			this.cashBackAccount.onUpdate(session);
 
 		}
@@ -244,7 +244,8 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		} else {
 			Account depositInAccount = (Account) session.get(Account.class,
 					makeDeposit.depositIn.id);
-			depositInAccount.updateCurrentBalance(this, makeDeposit.total);
+			depositInAccount.updateCurrentBalance(this, makeDeposit.total,
+					currencyFactor);
 			depositInAccount.onUpdate(session);
 
 			// makeDeposit.doVoidEffect(session);

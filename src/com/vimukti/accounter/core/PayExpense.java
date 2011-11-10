@@ -93,7 +93,7 @@ public class PayExpense extends Transaction {
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
 		Account accountPayable = getCompany().getAccountsPayableAccount();
-		accountPayable.updateCurrentBalance(this, -this.total);
+		accountPayable.updateCurrentBalance(this, -this.total, currencyFactor);
 		session.update(accountPayable);
 		accountPayable.onUpdate(session);
 

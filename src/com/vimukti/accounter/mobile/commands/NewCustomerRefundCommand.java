@@ -323,12 +323,12 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		ClientAccount depositIn = (ClientAccount) CommandUtils
 				.getClientObjectById(refund.getPayFrom(),
 						AccounterCoreType.ACCOUNT, getCompanyId());
-		if (depositIn.isIncrease()) {
-			refund.setEndingBalance(depositIn.getTotalBalance()
-					- enteredBalance);
-		} else {
-			refund.setEndingBalance(depositIn.getTotalBalance()
-					+ enteredBalance);
-		}
+//		if (depositIn.isIncrease()) {
+//			refund.setEndingBalance(depositIn.getTotalBalance()
+//					- enteredBalance);
+//		} else {
+//			refund.setEndingBalance(depositIn.getTotalBalance()
+//					+ enteredBalance);
+//		}
 	}
 }

@@ -364,7 +364,8 @@ public class PayBill extends Transaction {
 
 			double amountEffectedToAccount = total - tdsTotal;
 			if (DecimalUtil.isGreaterThan(amountEffectedToAccount, 0.00D)) {
-				payFrom.updateCurrentBalance(this, amountEffectedToAccount);
+				payFrom.updateCurrentBalance(this, amountEffectedToAccount,
+						currencyFactor);
 				session.update(payFrom);
 				payFrom.onUpdate(HibernateUtil.getCurrentSession());
 			}
@@ -378,7 +379,8 @@ public class PayBill extends Transaction {
 						TAXAgency taxAgency = taxItem.getTaxAgency();
 						Account account = taxAgency
 								.getPurchaseLiabilityAccount();
-						account.updateCurrentBalance(this, tdsTotal);
+						account.updateCurrentBalance(this, tdsTotal,
+								currencyFactor);
 					}
 				}
 			}
@@ -586,15 +588,17 @@ public class PayBill extends Transaction {
 				if (!this.payFrom.equals(payBill.payFrom)) {
 					Account payFromAccount = (Account) session.get(
 							Account.class, payBill.payFrom.id);
-					payFromAccount.updateCurrentBalance(this, effectToAccount);
+					payFromAccount.updateCurrentBalance(this, effectToAccount,
+							payBill.currencyFactor);
 					payFromAccount.onUpdate(session);
 					this.payFrom.updateCurrentBalance(this,
-							preEffectedToAccount);
+							preEffectedToAccount, currencyFactor);
 					this.payFrom.onUpdate(session);
 				} else if (!DecimalUtil.isEquals(effectToAccount,
 						preEffectedToAccount)) {
 					this.payFrom.updateCurrentBalance(this,
-							preEffectedToAccount - effectToAccount);
+							preEffectedToAccount - effectToAccount,
+							currencyFactor);
 					this.payFrom.onUpdate(session);
 				}
 
@@ -651,7 +655,7 @@ public class PayBill extends Transaction {
 					TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
 					Account account = taxAgency.getPurchaseLiabilityAccount();
 					account.updateCurrentBalance(this, payBill.tdsTotal
-							- this.tdsTotal);
+							- this.tdsTotal, currencyFactor);
 				}
 			} else {
 				TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
@@ -699,7 +703,8 @@ public class PayBill extends Transaction {
 
 		double amountEffectedToAccount = total - tdsTotal;
 		if (DecimalUtil.isGreaterThan(amountEffectedToAccount, 0.00D)) {
-			payFrom.updateCurrentBalance(this, -1 * amountEffectedToAccount);
+			payFrom.updateCurrentBalance(this, -1 * amountEffectedToAccount,
+					currencyFactor);
 			session.update(payFrom);
 			payFrom.onUpdate(HibernateUtil.getCurrentSession());
 		}

@@ -128,8 +128,6 @@ public class TAXAgency extends Payee {
 		VATReturn = return1;
 	}
 
-
-
 	/**
 	 * @param paymentTerm
 	 *            the paymentTerm to set
@@ -159,7 +157,8 @@ public class TAXAgency extends Payee {
 			account = this.purchaseLiabilityAccount;
 		}
 		if (account != null) {
-			account.updateCurrentBalance(transaction, amount);
+			account.updateCurrentBalance(transaction, amount,
+					transaction.getCurrencyFactor());
 			session.update(account);
 			account.onUpdate(session);
 		}
@@ -198,7 +197,6 @@ public class TAXAgency extends Payee {
 		ChangeTracker.put(this);
 		return false;
 	}
-
 
 	@Override
 	public Account getAccount() {
@@ -240,7 +238,6 @@ public class TAXAgency extends Payee {
 	public void setTAXFilingFrequency(int tAXReturnFrequency) {
 		this.taxFilingFrequency = tAXReturnFrequency;
 	}
-
 
 	/**
 	 * @return the filedLiabilityAccount

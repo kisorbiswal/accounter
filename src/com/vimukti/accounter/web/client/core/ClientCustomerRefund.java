@@ -74,13 +74,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 		this.isToBePrinted = isToBePrinted;
 	}
 
-	public double getEndingBalance() {
-		return endingBalance;
-	}
-
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
 
 	public boolean getIsVoid() {
 		return isVoid;

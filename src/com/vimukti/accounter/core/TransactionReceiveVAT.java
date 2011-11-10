@@ -205,7 +205,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 					.getFiledLiabilityAccount();
 			if (account != null) {
 				account.updateCurrentBalance(this.receiveVAT,
-						this.amountToReceive);
+						this.amountToReceive, receiveVAT.currencyFactor);
 				session.update(account);
 				account.onUpdate(session);
 			}
@@ -233,7 +233,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 			Account account = taxReturn.getTaxAgency()
 					.getFiledLiabilityAccount();
 			account.updateCurrentBalance(this.receiveVAT, -1
-					* this.amountToReceive);
+					* this.amountToReceive, receiveVAT.currencyFactor);
 		}
 		return false;
 	}
