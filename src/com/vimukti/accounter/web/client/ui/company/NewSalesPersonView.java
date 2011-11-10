@@ -141,6 +141,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoArea = new TextAreaItem();
+		memoArea.setMemo(true, this);
 		memoArea.setWidth(100);
 		memoArea.setTitle(Accounter.constants().memo());
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
