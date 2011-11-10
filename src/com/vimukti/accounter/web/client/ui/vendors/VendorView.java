@@ -1204,6 +1204,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					});
 		} else {
 			vendorNoText.setValue(data.getVendorNumber());
+			balanceDate.setDisabled(true);
 		}
 
 		vendorNoText.setValue(data.getVendorNumber());
@@ -1240,7 +1241,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
-		balanceDate.setDisabled(true);
 
 		// Setting Contacts
 		// gridView.setAllRows(new

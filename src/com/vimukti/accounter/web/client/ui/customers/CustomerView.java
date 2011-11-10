@@ -639,11 +639,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(customerConstants.openingBalance(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
-		balanceText = new AmountField(customerConstants.balance(), this,getBaseCurrency());
+		balanceText = new AmountField(customerConstants.balance(), this,
+				getBaseCurrency());
 		balanceText.setHelpInformation(true);
 		balanceText.setDisabled(true);
 		balanceDate = new DateField(customerConstants.balanceAsOf());
@@ -872,8 +873,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(customerConstants
-				.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(
+				customerConstants.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -890,7 +891,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// salesForm.setFields(salesPersonSelect);
 		// salesForm.setWidth("100%");
 
-		creditLimitText = new AmountField(customerConstants.creditLimit(), this,getBaseCurrency());
+		creditLimitText = new AmountField(customerConstants.creditLimit(),
+				this, getBaseCurrency());
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
@@ -908,8 +910,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		//
 		// });
 
-		creditRatingSelect = new CreditRatingCombo(customerConstants
-				.creditRating());
+		creditRatingSelect = new CreditRatingCombo(
+				customerConstants.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -933,8 +935,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(customerConstants.cstNumber());
 		cstNumberText.setHelpInformation(true);
-		serviceTaxRegistrationNo = new TextItem(customerConstants
-				.serviceTaxRegistrationNumber());
+		serviceTaxRegistrationNo = new TextItem(
+				customerConstants.serviceTaxRegistrationNumber());
 		serviceTaxRegistrationNo.setHelpInformation(true);
 		tinNumberText = new TextItem(customerConstants.tinNumber());
 		tinNumberText.setHelpInformation(true);
@@ -960,8 +962,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(customerConstants
-				.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(
+				customerConstants.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -1154,6 +1156,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					});
 		} else {
 			custNoText.setValue(data.getNumber());
+			balanceDate.setDisabled(true);
 		}
 		// Setting File as
 		fileAsText.setValue(data.getFileAs());
@@ -1174,7 +1177,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
-		balanceDate.setDisabled(true);
+
 		// Setting Memo
 		memoArea.setValue(data.getMemo());
 
