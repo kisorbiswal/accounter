@@ -887,6 +887,7 @@
 		<many-to-one name="currency" column="CURRENCY" class="Currency"
 			lazy="false" not-null="true">
 		</many-to-one>
+		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<property name="type" column="TYPE"></property>
 		<property name="date" column="P_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
