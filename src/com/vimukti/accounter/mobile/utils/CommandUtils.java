@@ -109,9 +109,9 @@ public class CommandUtils {
 
 	public static List<String> getPaymentMethods() {
 		List<String> paymentMethods = new ArrayList<String>();
-		paymentMethods.add(Accounter.constants().cash());
-		paymentMethods.add(Accounter.constants().check());
-		paymentMethods.add(Accounter.constants().creditCard());
+		paymentMethods.add("Cash");
+		paymentMethods.add("Check");
+		paymentMethods.add("Credit Card");
 		return paymentMethods;
 	}
 
