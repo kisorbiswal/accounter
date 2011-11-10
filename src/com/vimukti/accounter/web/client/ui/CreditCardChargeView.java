@@ -98,7 +98,6 @@ public class CreditCardChargeView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private TAXCodeCombo taxCodeSelect;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	public CreditCardChargeView() {
 

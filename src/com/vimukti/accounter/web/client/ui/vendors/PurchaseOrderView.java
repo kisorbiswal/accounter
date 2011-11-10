@@ -102,7 +102,6 @@ public class PurchaseOrderView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);

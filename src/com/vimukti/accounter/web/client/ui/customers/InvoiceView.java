@@ -82,7 +82,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private Double salesTax = 0.0D;
-	private CurrencyFactorWidget currencyWidget;
 	private boolean locationTrackingEnabled;
 	private DateField deliveryDate;
 	protected ClientSalesPerson salesPerson;

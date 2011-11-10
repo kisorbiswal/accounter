@@ -202,6 +202,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected ClientCurrency currency;
 
 	protected double currencyFactor = 1.0;
+	
+	protected CurrencyFactorWidget currencyWidget;
 
 	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
 
@@ -1008,6 +1010,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 								.transactiontotalcannotbe0orlessthan0());
 				}
 			}
+			isValidCurrencyFactor( result);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
 				&& getPreferences().isWarnOnEmptyClass()
@@ -1776,6 +1779,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected ClientCurrency getCurrency(long currency) {
 		return getCompany().getCurrency(currency);
+	}
+	protected ValidationResult isValidCurrencyFactor(ValidationResult result){
+		if(!currencyWidget.isShowFactorField()){
+		if(currencyWidget.getCurrencyFactor() ==0){ 
+			result.addError(currencyWidget,Accounter.constants().pleaseEntervalidCurrencyFactor());
+			}
+		}
+		return result; 
 	}
 
 }

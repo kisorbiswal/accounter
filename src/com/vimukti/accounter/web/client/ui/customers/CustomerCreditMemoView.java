@@ -67,7 +67,6 @@ public class CustomerCreditMemoView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	private AmountLabel transactionTotalinBaseCurrency,
 			transactionTotalinForeignCurrency;

@@ -100,7 +100,6 @@ public class CreditCardExpenseView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	private TAXCodeCombo taxCodeSelect;
 

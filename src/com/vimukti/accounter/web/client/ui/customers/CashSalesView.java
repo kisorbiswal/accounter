@@ -80,7 +80,6 @@ public class CashSalesView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;
 

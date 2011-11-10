@@ -84,7 +84,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private ShipToForm shipToAddress;
 	private int type;
 	private String title;
-	private CurrencyFactorWidget currencyWidget;
 
 	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
@@ -897,7 +896,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 							.cannotbeearlierthantransactiondate());
 		}
 		result.add(customerTransactionTable.validateGrid());
-
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null

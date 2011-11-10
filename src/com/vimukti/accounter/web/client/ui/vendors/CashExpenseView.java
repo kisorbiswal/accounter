@@ -56,7 +56,6 @@ public class CashExpenseView extends
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);

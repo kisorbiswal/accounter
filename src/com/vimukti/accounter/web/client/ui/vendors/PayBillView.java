@@ -89,7 +89,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private AmountLabel amountToVendor;
 	private double toBeSetEndingBalance;
 
-	private CurrencyFactorWidget currencyWidget;
 	private ClientCurrency vendorCurrency;
 
 	public PayBillView() {

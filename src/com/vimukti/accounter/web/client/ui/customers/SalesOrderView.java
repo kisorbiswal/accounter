@@ -99,7 +99,6 @@ public class SalesOrderView extends
 			transactionTotalinForeignCurrency;
 
 	private Double salesTax;
-	private CurrencyFactorWidget currencyWidget;
 
 	public SalesOrderView() {
 		super(ClientTransaction.TYPE_SALES_ORDER);

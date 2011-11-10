@@ -101,7 +101,6 @@ public class ReceivePaymentView extends
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
 	private boolean locationTrackingEnabled;
-	private CurrencyFactorWidget currencyWidget;
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);

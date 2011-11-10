@@ -89,7 +89,6 @@ public class VendorBillView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DynamicForm totalForm = new DynamicForm();
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;

@@ -69,6 +69,7 @@ public class CurrencyFactorWidget extends DynamicForm {
 			currencyForm.hide();
 		} else {
 			currencyForm.show();
+			currencyForm.setRequired(true);
 		}
 
 	}

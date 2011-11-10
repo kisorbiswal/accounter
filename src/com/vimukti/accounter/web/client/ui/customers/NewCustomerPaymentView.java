@@ -72,7 +72,6 @@ public class NewCustomerPaymentView extends
 	protected TextItem checkNo;
 	boolean isChecked = false;
 	private boolean locationTrackingEnabled;
-	private CurrencyFactorWidget currencyWidget;
 
 	public NewCustomerPaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);

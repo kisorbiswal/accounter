@@ -49,7 +49,6 @@ public class VendorCreditMemoView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private boolean locationTrackingEnabled;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);

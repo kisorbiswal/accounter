@@ -63,7 +63,6 @@ public class CashPurchaseView extends
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
-	private CurrencyFactorWidget currencyWidget;
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;

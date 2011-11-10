@@ -71,7 +71,6 @@ public class CustomerRefundView extends
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
 	private boolean locationTrackingEnabled;
-	private CurrencyFactorWidget currencyWidget;
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
