@@ -68,6 +68,7 @@ public class CustomerRefundView extends
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
 	private boolean locationTrackingEnabled;
+	private Double customerBalanceAmount;
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
@@ -96,12 +97,13 @@ public class CustomerRefundView extends
 	protected void customerSelected(ClientCustomer customer) {
 		if (customer == null)
 			return;
+
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
-		amtText.setCurrency(clientCurrency);
-		endBalText
-				.setCurrency(clientCurrency);
-		custBalText.setCurrency(clientCurrency);
 		
+		amtText.setCurrency(clientCurrency);
+		endBalText.setCurrency(clientCurrency);
+		custBalText.setCurrency(clientCurrency);
+
 		this.setCustomer(customer);
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(getCompany().getCustomer(

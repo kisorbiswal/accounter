@@ -980,8 +980,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (bankCurrency.getID() != getBaseCurrency().getID()
-					&& bankCurrency.getID() != currency.getID()) {
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(payFromCombo,
 						accounterConstants.selectProperBankAccount());
 			}

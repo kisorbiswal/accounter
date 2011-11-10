@@ -756,6 +756,8 @@ public class CustomerCreditMemoView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+		
+		
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrencycode(getCompany().getCurrency(
 					customer.getCurrency()));

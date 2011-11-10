@@ -918,6 +918,8 @@ public class SalesOrderView extends
 	@Override
 	protected void customerSelected(final ClientCustomer customer) {
 
+		ClientCurrency currency = getCurrency(customer.getCurrency());
+		
 		if (customer != null) {
 			if (this.getCustomer() != null
 					&& !this.getCustomer().equals(customer)
@@ -963,23 +965,15 @@ public class SalesOrderView extends
 			addresses.addAll(customer.getAddress());
 			shipToAddress.setAddress(addresses);
 		}
-		long currency = customer.getCurrency();
-		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+		
+		if (currency.getID()!= 0) {
+				currencyWidget.setSelectedCurrency(currency);
 		} else {
-			ClientCurrency clientCurrency = getCompany().getPreferences()
-					.getPrimaryCurrency();
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+				currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(getCompany().getCurrency(
-					customer.getCurrency()));
+			super.setCurrencycode(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();

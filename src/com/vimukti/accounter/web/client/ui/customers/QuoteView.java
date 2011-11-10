@@ -114,6 +114,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
+		
+		ClientCurrency currency = getCurrency(customer.getCurrency());
+		
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientEstimate ent = (ClientEstimate) this.transaction;
 
@@ -125,9 +128,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerTransactionTable.updateTotals();
 			}
 			this.customerTransactionTable.resetRecords();
-			long currency = customer.getCurrency();
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			currencyWidget.setSelectedCurrency(clientCurrency);
+
+			currencyWidget.setSelectedCurrency(currency);
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -164,30 +166,24 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		shipToAddress.setAddress(addresses);
 
 		this.setCustomer(customer);
+		
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
+		
 		long taxCode = customer.getTAXCode();
 		if (taxCode != 0) {
 			customerTransactionTable.setTaxCode(taxCode, false);
 		}
-		long currency = customer.getCurrency();
-		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+		
+		if (currency.getID() != 0) {
+				currencyWidget.setSelectedCurrency(currency);
 		} else {
-			ClientCurrency clientCurrency = getCompany().getPreferences()
-					.getPrimaryCurrency();
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+				currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(getCompany().getCurrency(
-					customer.getCurrency()));
+			super.setCurrencycode(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();

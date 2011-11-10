@@ -764,6 +764,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void customerSelected(final ClientCustomer customer) {
+
+		ClientCurrency currency = getCurrency(customer.getCurrency());
+
 		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
 				&& transaction == null)
 			customerTransactionTable.clear();
@@ -774,14 +777,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (this.salesPerson != null && salesPersonCombo != null)
 			salesPersonCombo.setComboItem(this.salesPerson);
-
-		// for (ClientPaymentTerms paymentTerm : paymentTermsList) {
-		// if (paymentTerm.getName().equals(
-		// Accounter.constants().dueOnReceipt())) {
-		// payTermsSelect.addItemThenfireEvent(paymentTerm);
-		// break;
-		// }
-		// }
 
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(customer);
@@ -799,9 +794,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		addresses.addAll(customer.getAddress());
 		shipToAddress.setAddress(addresses);
 
-		// if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-		// super.setCustomerTaxCodetoAccount();
-
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		if (addressListOfCustomer != null) {
 			Iterator it = addressListOfCustomer.iterator();
@@ -811,25 +803,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				allAddresses.put(add.getType(), add);
 			}
 		}
-		long currency = customer.getCurrency();
-		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+
+		if (currency.getID() != 0) {
+			currencyWidget.setSelectedCurrency(currency);
+
 		} else {
-			ClientCurrency clientCurrency = getCompany().getPreferences()
-					.getPrimaryCurrency();
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(getCompany().getCurrency(
-					customer.getCurrency()));
+			super.setCurrencycode(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
-			// modifyForeignCurrencyTotalWidget();
 		}
 
 		getEstimatesAndSalesOrder();

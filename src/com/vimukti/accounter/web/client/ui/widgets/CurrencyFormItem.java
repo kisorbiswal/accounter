@@ -164,4 +164,8 @@ public class CurrencyFormItem extends FormItem<String> {
 	public void setTabIndex(int index) {
 		textBox.setTabIndex(index);
 	}
+	
+	public void changeTextField(double value){
+		textBox.setText(Double.toString(value));
+	}
 }

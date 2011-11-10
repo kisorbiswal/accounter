@@ -35,9 +35,14 @@ public class CurrencyFactorWidget extends DynamicForm {
 	}
 
 	private void factorFieldChagned(double factor) {
+		if(factor == 0.0){
+			factor = 1.0;
+			currencyForm.changeTextField(factor);	
+		}
+		
+			
 		if (listener != null) {
 			listener.currencyChanged(selectedCurrencyItem, factor);
-
 		}
 	}
 

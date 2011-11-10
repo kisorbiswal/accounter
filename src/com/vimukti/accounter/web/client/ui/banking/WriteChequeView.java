@@ -560,8 +560,7 @@ public class WriteChequeView extends
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (!bankCurrency.equals(getBaseCurrency())
-					&& bankCurrency.equals(currency)) {
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(bankAccSelect,
 						accounterConstants.selectProperBankAccount());
 			}

@@ -109,7 +109,6 @@ public class CashSalesView extends
 
 		Label lab1 = new Label(Accounter.constants().newCashSale());
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -139,7 +138,6 @@ public class CashSalesView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
@@ -215,8 +213,6 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		// termsForm.getCellFormatter().getElement(0, 0)
-		// .setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -235,7 +231,6 @@ public class CashSalesView extends
 		// refText.setWidth(160);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
-		// prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
@@ -251,6 +246,7 @@ public class CashSalesView extends
 		transactionTotalForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
 
+		
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), this) {
 
@@ -459,6 +455,9 @@ public class CashSalesView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
+	
+		ClientCurrency currency = getCurrency(customer.getCurrency());
+		
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = (ClientCashSales) this.transaction;
 
@@ -475,6 +474,7 @@ public class CashSalesView extends
 			} else if (ent == null)
 				this.customerAccountTransactionTable.resetRecords();
 		}
+		
 		super.customerSelected(customer);
 		if (this.shippingTerm != null && shippingTermsCombo != null)
 			shippingTermsCombo.setComboItem(this.shippingTerm);
@@ -488,9 +488,6 @@ public class CashSalesView extends
 				&& !taxCodeSelect.getName().equalsIgnoreCase(
 						Accounter.constants().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
-
-		// if (this.priceLevel != null && priceLevelSelect != null)
-		// priceLevelSelect.setComboItem(this.priceLevel);
 
 		if (customer.getPhoneNo() != null)
 			phoneSelect.setValue(customer.getPhoneNo());
@@ -511,20 +508,15 @@ public class CashSalesView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		long currency = customer.getCurrency();
-		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
+		
+		if (currency.getID() != 0) {
+			if (currency != null) {
+				currencyWidget.setSelectedCurrency(currency);
 			}
 		}
 
-		// changeForeignCurrencyTotalText(getCompany().getCurrency(currency)
-		// .getFormalName());
-
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(getCompany().getCurrency(
-					customer.getCurrency()));
+			super.setCurrencycode(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
@@ -601,7 +593,6 @@ public class CashSalesView extends
 			transaction.setDepositIn(depositInAccount.getID());
 		if (contact != null)
 			transaction.setContact(contact);
-		// if (phoneNo != null)
 		transaction.setPhone(phoneSelect.getValue().toString());
 		if (salesPerson != null) {
 			transaction.setSalesPerson(salesPerson.getID());
@@ -621,7 +612,6 @@ public class CashSalesView extends
 		if (priceLevel != null)
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
-		// transaction.setReference(getRefText());
 		if (isTrackTax()) {
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
 					.getAmount()));
@@ -715,9 +705,6 @@ public class CashSalesView extends
 			ClientCompany company = getCompany();
 
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
-			// customerSelected(FinanceApplication.getCompany().getCustomer(
-			// cashSale.getCustomer()));
-
 			if (this.getCustomer() != null) {
 
 				this.contacts = getCustomer().getContacts();
@@ -953,8 +940,7 @@ public class CashSalesView extends
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 
-			if (!(bankCurrency.equals(getBaseCurrency()))
-					&& !(bankCurrency.equals(currency))) {
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(depositInCombo,
 						accounterConstants.selectProperBankAccount());
 			}
