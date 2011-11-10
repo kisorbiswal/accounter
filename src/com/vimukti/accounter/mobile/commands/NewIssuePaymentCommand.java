@@ -272,8 +272,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			chequenum = "1";
 		}
 		issuePayment.setCheckNumber(chequenum);
-		ArrayList<ClientTransactionIssuePayment> issuepayments = get(
-				PAYMENTS_TO_ISSUED).getValue();
+		List<ClientTransactionIssuePayment> issuepayments = getTransactionIssuePayments(issuePayment);
 		issuePayment.setTransactionIssuePayment(issuepayments);
 		setTransactionTotal(issuePayment);
 		create(issuePayment, context);
@@ -284,6 +283,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		for (ClientTransactionIssuePayment rec : issuePayment
 				.getTransactionIssuePayment()) {
 			total += rec.getAmount();
+			rec.setTransaction(issuePayment);
 		}
 		issuePayment.setTotal(total);
 
@@ -321,5 +321,77 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		completeProcess(context);
 		return null;
+	}
+
+	private List<ClientTransactionIssuePayment> getTransactionIssuePayments(
+			ClientIssuePayment issuePayment) {
+		List<ClientTransactionIssuePayment> transactionIssuePaymentsList = new ArrayList<ClientTransactionIssuePayment>();
+
+		ClientTransactionIssuePayment entry;
+		ArrayList<ClientTransactionIssuePayment> issuepayments = get(
+				PAYMENTS_TO_ISSUED).getValue();
+		for (ClientTransactionIssuePayment record : issuepayments) {
+			entry = new ClientTransactionIssuePayment();
+			if (record.getDate() != 0)
+				entry.setDate(record.getDate());
+			if (record.getNumber() != null)
+				entry.setNumber(record.getNumber());
+
+			if (record.getName() != null)
+				entry.setName(record.getName());
+
+			entry.setAmount(record.getAmount());
+			entry.setMemo(record.getMemo());
+
+			if (record.getPaymentMethod() != null) {
+				entry.setPaymentMethod(record.getPaymentMethod());
+			}
+
+			switch (record.getRecordType()) {
+			case ClientTransaction.TYPE_WRITE_CHECK:
+				entry.setWriteCheck(record.getWriteCheck());
+				entry.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
+				break;
+			case ClientTransaction.TYPE_CASH_PURCHASE:
+			case ClientTransaction.TYPE_CASH_EXPENSE:
+			case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+				entry.setCashPurchase(record.getCashPurchase());
+				entry.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+				entry.setCustomerRefund(record.getCustomerRefund());
+				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+				break;
+			case ClientTransaction.TYPE_PAY_TAX:
+				entry.setPaySalesTax(record.getPaySalesTax());
+				entry.setRecordType(ClientTransaction.TYPE_PAY_TAX);
+				break;
+			case ClientTransaction.TYPE_PAY_BILL:
+				entry.setPayBill(record.getPayBill());
+				entry.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+				break;
+			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+				entry.setCreditCardCharge(record.getCreditCardCharge());
+				entry.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+				break;
+			case ClientTransaction.TYPE_RECEIVE_TAX:
+				entry.setReceiveVAT(record.getReceiveVAT());
+				entry.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+				entry.setCustomerPrepayment(record.getCustomerPrepayment());
+				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				break;
+
+			}
+
+			entry.setTransaction(issuePayment);
+
+			transactionIssuePaymentsList.add(entry);
+
+		}
+		return transactionIssuePaymentsList;
+
 	}
 }
