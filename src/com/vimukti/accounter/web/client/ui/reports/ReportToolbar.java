@@ -420,8 +420,12 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 				endDate = getWeekStartDate();
 				endDate.setDay(endDate.getDay() - 1);
-				startDate = new ClientFinanceDate(endDate.getDate());
-				startDate.setDay(startDate.getDay() - 6);
+
+				Calendar startCal = Calendar.getInstance();
+				startCal.setTime(endDate.getDateAsObject());
+				startCal.set(Calendar.DAY_OF_MONTH,
+						startCal.get(Calendar.DAY_OF_MONTH) - 6);
+				startDate = new ClientFinanceDate(startCal.getTime());
 
 				setSelectedDateRange(Accounter.constants().lastWeek());
 
