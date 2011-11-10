@@ -334,16 +334,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		return false;
 	}
 
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		this.previousOpeningBal = openingBalance;
-		// try {
-		// this.previousCustomer = (Customer) this.clone();
-		// } catch (CloneNotSupportedException e) {
-		// //
-		// e.printStackTrace();
-		// }
-	}
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {

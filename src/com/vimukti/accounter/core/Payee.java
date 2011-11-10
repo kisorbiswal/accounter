@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -69,7 +70,7 @@ public abstract class Payee extends CreatableObject implements
 	private String phoneNo;
 	private String faxNo;
 
-	protected double previousOpeningBal;
+	transient private double previousOpeningBal;
 	// UKvariables
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
@@ -175,6 +176,8 @@ public abstract class Payee extends CreatableObject implements
 	}
 
 	protected double openingBalance = 0D;
+
+	private transient double previousCurrencyFactor=1;
 
 	/**
 	 * @return the openingBalance
@@ -506,11 +509,10 @@ public abstract class Payee extends CreatableObject implements
 		journalEntry.setInvolvedPayee(this);
 		journalEntry.setCompany(getCompany());
 		journalEntry.number = number;
-		journalEntry.transactionDate =balanceAsOf;
+		journalEntry.transactionDate = balanceAsOf;
 		journalEntry.memo = "Opening Balance";
 		journalEntry.balanceDue = getOpeningBalance();
 
-		
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		// Line 1
 		TransactionItem item1 = new TransactionItem();
@@ -535,7 +537,6 @@ public abstract class Payee extends CreatableObject implements
 		}
 		items.add(item2);
 
-		
 		journalEntry.setDebitTotal(items.get(1).getLineTotal());
 		journalEntry.setCreditTotal(items.get(0).getLineTotal());
 
@@ -543,8 +544,6 @@ public abstract class Payee extends CreatableObject implements
 
 		return journalEntry;
 	}
-
-	
 
 	public Currency getCurrency() {
 		return currency;
@@ -592,12 +591,15 @@ public abstract class Payee extends CreatableObject implements
 	public boolean onUpdate(Session session) throws CallbackException {
 
 		super.onUpdate(session);
-		if (!DecimalUtil.isEquals(this.openingBalance, this.previousOpeningBal)) {
+		if (!DecimalUtil.isEquals(this.openingBalance, this.previousOpeningBal)
+				|| !DecimalUtil.isEquals(this.currencyFactor,
+						this.previousCurrencyFactor)) {
 
 			this.balance -= previousOpeningBal;
 			this.balance += openingBalance;
 
-			this.balanceInPayeeCurrency -= previousOpeningBal / currencyFactor;
+			this.balanceInPayeeCurrency -= previousOpeningBal
+					/ previousCurrencyFactor;
 			this.balanceInPayeeCurrency += openingBalance / currencyFactor;
 
 			JournalEntry existEntry = (JournalEntry) session
@@ -614,5 +616,11 @@ public abstract class Payee extends CreatableObject implements
 		ChangeTracker.put(this);
 		return false;
 
+	}
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		this.previousOpeningBal = openingBalance;
+		this.previousCurrencyFactor = currencyFactor;
 	}
 }

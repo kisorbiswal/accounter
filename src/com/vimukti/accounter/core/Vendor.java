@@ -288,13 +288,7 @@ public class Vendor extends Payee {
 		return false;
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		this.previousOpeningBal = openingBalance;
-	}
+
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
