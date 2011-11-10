@@ -158,7 +158,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				.transactionDate(), true, true));
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getConstants().Account(), true,
-				true, true) {
+				true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {

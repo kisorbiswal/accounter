@@ -229,7 +229,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select account Items", getConstants().Account(), true,
-				true, true) {
+				true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {

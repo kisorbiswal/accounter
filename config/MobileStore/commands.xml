@@ -604,7 +604,7 @@
 		<alias>Sales Person</alias>
 	</command>
 
-	<command clazz="WriteCheckCommand" name="New Write Check">
+	<command clazz="WriteCheckCommand" name="New WriteCheck">
 		<alias>Write Check</alias>
 		<alias>write check</alias>
 		<alias>Add Write Check</alias>

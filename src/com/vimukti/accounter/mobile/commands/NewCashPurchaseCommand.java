@@ -275,7 +275,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getConstants().Account(), true,
-				true, true) {
+				true) {
 			@Override
 			public List<Account> getAccounts(Context context) {
 				return new ArrayList<Account>(context.getCompany()

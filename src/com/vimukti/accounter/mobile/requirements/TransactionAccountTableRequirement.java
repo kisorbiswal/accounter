@@ -29,10 +29,10 @@ public class TransactionAccountTableRequirement extends
 	private static final String TAX = "accountitemtax";
 
 	public TransactionAccountTableRequirement(String requirementName,
-			String enterString, String recordName, boolean isCreatable,
-			boolean isOptional, boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, isCreatable,
-				isOptional, isAllowFromContext);
+			String enterString, String recordName, boolean isOptional,
+			boolean isAllowFromContext) {
+		super(requirementName, enterString, recordName, true, isOptional,
+				isAllowFromContext);
 	}
 
 	@Override

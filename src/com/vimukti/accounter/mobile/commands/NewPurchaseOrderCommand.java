@@ -181,7 +181,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getConstants().Account(), true,
-				true, true) {
+				true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {

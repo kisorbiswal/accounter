@@ -137,7 +137,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true, true) {
+				.Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {

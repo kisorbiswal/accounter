@@ -247,7 +247,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), true,
+				"please select accountItems", getConstants().Account(), 
 				true, true) {
 
 			@Override
