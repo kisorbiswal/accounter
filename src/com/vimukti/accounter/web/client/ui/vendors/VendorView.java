@@ -50,7 +50,6 @@ import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -72,6 +71,8 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
@@ -103,7 +104,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	TaxItemCombo vendorTDSTaxCode;
 	VendorGroupCombo vendorGroupSelect;
 	SelectCombo preferredPaymentSelect;
-	CurrencyCombo currencyCombo;
+	CurrencyComboWidget currencyCombo;
 	CheckboxItem euVATexempVendor;
 	CheckboxItem track1099MISC;
 	CheckboxItem isTDS;
@@ -115,6 +116,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	LinkedHashMap<String, ClientFax> allFaxes;
 	LinkedHashMap<String, ClientEmail> allEmails;
 
+	private DynamicForm balanceForm;
 	CheckboxItem statusCheck;
 
 	ContactsTable gridView;
@@ -390,11 +392,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(
-				Accounter.constants().openingBalance(), this,getBaseCurrency());
+				Accounter.constants().openingBalance(), this, getBaseCurrency());
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
-		balanceText = new AmountField(Accounter.constants().balance(), this,getBaseCurrency());
+		balanceText = new AmountField(Accounter.constants().balance(), this,
+				getBaseCurrency());
 		balanceText.setHelpInformation(true);
 		balanceText.setDisabled(true);
 
@@ -419,28 +422,13 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 
 		});
-		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
-		currencyCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientCurrency selectItem) {
-						selectCurrency = selectItem;
-						openingBalText.setCurrency(selectItem);
-						balanceText.setCurrency(selectItem);
-					}
-				});
-
+		balanceForm = new DynamicForm();
+		currencyCombo = createCurrencyComboWidget();
 		currencyCombo.setDisabled(isInViewMode());
-
-		accInfoForm.setStyleName("vender-form");
-		if (isMultiCurrencyEnabled()) {
-			accInfoForm.setFields(statusCheck, vendorSinceDate, currencyCombo,
-					openingBalText, balanceDate, balanceText);
-		} else {
-			accInfoForm.setFields(statusCheck, vendorSinceDate, openingBalText,
-					balanceDate, balanceText);
-		}
+		accInfoForm.setFields(statusCheck, vendorSinceDate);
+		balanceForm.setFields(openingBalText, balanceDate, balanceText);
+		
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isSalesTaxAvailable()) {
 				accInfoForm.setFields(taxID);
@@ -546,6 +534,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		// leftVLay.setCellHorizontalAlignment(vendorHPanel, ALIGN_RIGHT);
 		leftVLay.add(vendorForm);
 		leftVLay.add(accInfoForm);
+		if (isMultiCurrencyEnabled()) {
+			leftVLay.add(currencyCombo);
+		}
+		leftVLay.add(balanceForm);
 		// leftVLay.add(fonFaxForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
@@ -586,6 +578,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		/* Adding dynamic forms in list */
 		listforms.add(vendorForm);
 		listforms.add(accInfoForm);
+		listforms.add(balanceForm);
 		listforms.add(memoForm);
 
 		// if (UIUtils.isMSIEBrowser()) {
@@ -625,7 +618,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		expenseAccountsSelect.setDisabled(isInViewMode());
 
 		creditLimitText = new AmountField(Accounter.constants().creditLimit(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 		creditLimitText.setDisabled(isInViewMode());
@@ -983,11 +976,14 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
 		// Setting Currency
-		if (currencyCombo.getSelectedValue() != null)
-			data.setCurrency(currencyCombo.getSelectedValue().getID());
+		if (isMultiCurrencyEnabled()) {
+			data.setCurrency(currencyCombo.getSelectedCurrency().getID());
+		}
+		data.setCurrencyFactor(currencyCombo.getCurrencyFactor());
 
 		// Setting Balance
-		data.setOpeningBalance(openingBalText.getAmount());
+		data.setOpeningBalance(openingBalText.getAmount()
+				* data.getCurrencyFactor());
 
 		data.setBalance(balanceText.getAmount());
 
@@ -1225,8 +1221,13 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Status Check
 		statusCheck.setValue(data.isActive());
 
-		if (data.getCurrency() != 0)
-			currencyCombo.setComboItem(company.getCurrency(data.getCurrency()));
+		if (data.getCurrency() != 0) {
+			selectCurrency = company.getCurrency(data.getCurrency());
+			currencyCombo.setSelectedCurrency(selectCurrency);
+			openingBalText.setCurrency(selectCurrency);
+			balanceText.setCurrency(selectCurrency);
+		}
+		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
 
 		track1099MISC.setValue(data.isActive());
 
@@ -1236,8 +1237,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Account No
 		// accountText.setValue(takenVendor.getBankAccountNo());
 		// Setting Balance
-		openingBalText.setAmount(data.getOpeningBalance());
-		balanceText.setAmount(data.getBalance());
+		openingBalText.setAmount(getAmountInPayeeCurrency(
+				data.getOpeningBalance(), data.getCurrencyFactor()));
+		balanceText.setAmount(data.getBalanceInPayeeCurrency());
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
@@ -1446,5 +1448,27 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected String getViewTitle() {
 		// return messages.newSupplier(Global.get().Vendor());
 		return " ";
+	}	protected CurrencyComboWidget createCurrencyComboWidget() {
+		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
+		ClientCurrency baseCurrency = getCompany().getPreferences()
+				.getPrimaryCurrency();
+
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
+				baseCurrency);
+		widget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(ClientCurrency currency, double factor) {
+				selectCurrency = currency;
+				openingBalText.setCurrency(selectCurrency);
+				balanceText.setCurrency(selectCurrency);
+			}
+		});
+		widget.setDisabled(isInViewMode());
+		return widget;
+	}
+
+	public double getAmountInPayeeCurrency(double amount, double factor) {
+		return amount / factor;
 	}
 }
