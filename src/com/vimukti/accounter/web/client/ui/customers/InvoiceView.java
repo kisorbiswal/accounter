@@ -806,14 +806,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (currency.getID() != 0) {
 			currencyWidget.setSelectedCurrency(currency);
-
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
+		
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrencycode(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
+			modifyForeignCurrencyTotalWidget();
 		}
 
 		getEstimatesAndSalesOrder();
