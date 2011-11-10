@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
-import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -58,6 +57,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 
 /**
@@ -118,7 +118,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private DynamicForm paypalForm;
 	// private CurrencyWidget currency;
 
-	CurrencyCombo currencyCombo;
 	protected ClientCurrency selectCurrency;
 
 	private Label lab1;
@@ -135,6 +134,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	String accountName;
 	String accountNo;
 	private TextItem paypalEmail;
+	private double currencyFactor = 1.0;
+	CurrencyComboWidget currencyCombo;
 
 	public NewAccountView() {
 		super();
@@ -862,10 +863,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				}
 
 			});
+			limitText.setDisabled(isInViewMode());
 			cardNumText = new IntegerField(this, Accounter.constants()
 					.cardOrLoadNumber());
 			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
+			cardNumText.setDisabled(isInViewMode());
 			creditCardForm = UIUtils.form(Accounter.messages()
 					.creditCardAccountInformation((Global.get().Account())));
 			creditCardForm.setDisabled(isInViewMode());
@@ -919,35 +922,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					});
 			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
-
+			currencyCombo = createCurrencyComboWidget();
 			bankAccNumText = new TextItem(Accounter.messages()
 					.bankAccountNumber(Global.get().account()));
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
-
-			currencyCombo = new CurrencyCombo(Accounter.constants().currency());
-			currencyCombo.setDisabled(isInViewMode());
-			currencyCombo
-					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
-						@Override
-						public void selectedComboBoxItem(
-								ClientCurrency selectItem) {
-							selectCurrency = selectItem;
-							currentBalanceText.setCurrency(selectItem);
-							opBalText.setCurrency(selectItem);
-							if (limitText != null) {
-								limitText.setCurrency(selectItem);
-							}
-						}
-
-					});
-
 			bankForm = UIUtils.form(Accounter.messages()
 					.bankAccountInformation(Global.get().Account()));
 			// bankForm.setWidth("100%");
 			if (isMultiCurrencyEnabled()) {
 				bankForm.setFields(getBankNameSelectItem(), typeSelect,
-						bankAccNumText, currencyCombo);
+						bankAccNumText);
 			} else {
 				bankForm.setFields(getBankNameSelectItem(), typeSelect,
 						bankAccNumText);
@@ -965,9 +950,32 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		topHLay.setWidth("100%");
 		// leftLayout.setWidth("90%");
 		topHLay.add(leftLayout);
-		topHLay.add(bankForm);
-		topHLay.setCellHorizontalAlignment(bankForm, ALIGN_RIGHT);
+		if (isMultiCurrencyEnabled()) {
+			VerticalPanel panel = new VerticalPanel();
+			panel.add(bankForm);
+			panel.add(currencyCombo);
+			topHLay.add(panel);
+			topHLay.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
+		} else {
+			topHLay.add(bankForm);
+			topHLay.setCellHorizontalAlignment(bankForm, ALIGN_RIGHT);
+		}
+	}
 
+	protected void updateCurrencyForItems(ClientCurrency selectItem) {
+		currentBalanceText.setCurrency(selectItem);
+		opBalText.setCurrency(selectItem);
+		if (limitText != null) {
+			limitText.setCurrency(selectItem);
+		}
+	}
+
+	public Double getAmountInBaseCurrency(Double amount) {
+		if (selectCurrency != null) {
+			return amount * currencyFactor;
+		} else {
+			return amount;
+		}
 	}
 
 	private void initAccountTypeSelect() {
@@ -1215,9 +1223,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (cashFlowCatSelect.getValue() != null)
 			data.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
 		// data.setCashFlowCategory(0);
-		data.setOpeningBalance(opBalText.getAmount());
+		data.setOpeningBalance(getAmountInBaseCurrency(opBalText.getAmount()));
 		data.setAsOf(asofDate.getEnteredDate().getDate());
-
+		data.setCurrencyFactor(currencyFactor);
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
 			((ClientBankAccount) data).setBank(Utility.getID(selectedBank));
@@ -1241,9 +1249,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 			((ClientBankAccount) data).setBankAccountNumber(bankAccNumText
 					.getValue().toString());
-			if (currencyCombo.getSelectedValue() != null)
-				((ClientBankAccount) data).setCurrency(currencyCombo
-						.getSelectedValue().getID());
+			if (selectCurrency != null) {
+				((ClientBankAccount) data).setCurrency(selectCurrency.getID());
+			}
 			data.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
@@ -1308,7 +1316,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accNoText.setValue(data.getNumber() != null ? String.valueOf(data
 				.getNumber()) : "");
 		accountNo = data.getNumber() != null ? data.getNumber() : "0";
-
 		if (data.getID() == getCompany().getOpeningBalancesAccount())
 			accNoText.setDisabled(true);
 
@@ -1349,11 +1356,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
-				ClientCurrency currency = getCompany().getCurrency(
-						((ClientBankAccount) data).getCurrency());
-				if (currency != null) {
-					currencyCombo.setValue(currency.getFormalName());
-				}
+				initCurrencyFactor();
 				bankAccNumText.setDisabled(true);
 			}
 
@@ -1376,6 +1379,25 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		}
 
+	}
+
+	private void initCurrencyFactor() {
+		if (isMultiCurrencyEnabled()) {
+			if (data.getCurrency() > 0) {
+				this.selectCurrency = getCompany().getCurrency(
+						data.getCurrency());
+			} else {
+				this.selectCurrency = getCompany().getPreferences()
+						.getPrimaryCurrency();
+			}
+			this.currencyFactor = data.getCurrencyFactor();
+			if (this.selectCurrency != null) {
+				currencyCombo.setSelectedCurrency(this.selectCurrency);
+			}
+			currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
+			currencyCombo.setDisabled(isInViewMode());
+		}
+		updateCurrencyForItems(selectCurrency);
 	}
 
 	private void enableOpeningBalaceTxtByType() {
@@ -1678,10 +1700,20 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		commentsArea.setDisabled(isInViewMode());
 		if (bankAccNumText != null) {
 			bankAccNumText.setDisabled(isInViewMode());
-			currencyCombo.setDisabled(isInViewMode());
 		}
 		if (creditCardForm != null) {
 			creditCardForm.setDisabled(isInViewMode());
+		}
+
+		if (currencyCombo != null) {
+			currencyCombo.setDisabled(isInViewMode());
+		}
+		if (limitText != null) {
+			limitText.setDisabled(isInViewMode());
+		}
+
+		if (cardNumText != null) {
+			cardNumText.setDisabled(isInViewMode());
 		}
 		super.onEdit();
 
@@ -1754,5 +1786,25 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
+	}
+
+	protected CurrencyComboWidget createCurrencyComboWidget() {
+		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
+		ClientCurrency baseCurrency = getCompany().getPreferences()
+				.getPrimaryCurrency();
+
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
+				baseCurrency);
+		widget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(ClientCurrency currency, double factor) {
+				selectCurrency = currency;
+				currencyFactor = factor;
+				updateCurrencyForItems(currency);
+			}
+		});
+		widget.setDisabled(isInViewMode());
+		return widget;
 	}
 }
