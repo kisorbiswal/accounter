@@ -61,7 +61,6 @@ import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 public class CreditCardExpenseView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
 
-
 	protected List<String> selectedComboList;
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
@@ -120,7 +119,8 @@ public class CreditCardExpenseView extends
 	//
 	// vendorForm.clear();
 	// termsForm.clear();
-	// vendorCombo = new VendorCombo(Accounter.constants().supplierName(), true) {
+	// vendorCombo = new VendorCombo(Accounter.constants().supplierName(), true)
+	// {
 	// @Override
 	// public void initCombo(List<ClientVendor> list) {
 	// Iterator<ClientVendor> iterator = list.iterator();
@@ -266,7 +266,7 @@ public class CreditCardExpenseView extends
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
-						
+
 						vendorCombo.setComboItem(selectItem);
 						addPhonesContactsAndAddress();
 						long code = selectedVendor.getTAXCode();
@@ -395,7 +395,8 @@ public class CreditCardExpenseView extends
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect, billToAreaItem);
+		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
+				billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
@@ -675,8 +676,8 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		// if (vendorCombo.getSelectedValue() == null)
@@ -687,18 +688,20 @@ public class CreditCardExpenseView extends
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
 		if (payFrmSelect.getSelectedValue() == null) {
-			result.addError(payFrmSelect, Accounter.messages().pleaseSelect(
-					Accounter.constants().payFrom()));
+			result.addError(
+					payFrmSelect,
+					Accounter.messages().pleaseSelect(
+							Accounter.constants().payFrom()));
 		} else {
 			ClientAccount bankAccount = payFrmSelect.getSelectedValue();
 			// check if the currency of accounts is valid or not
 			if (bankAccount != null) {
 				ClientCurrency bankCurrency = getCurrency(bankAccount
 						.getCurrency());
-				if (bankCurrency != getBaseCurrency()
-						&& bankCurrency != currency) {
-					result.addError(payFrmSelect, accounterConstants
-							.selectProperBankAccount());
+				if (!(bankCurrency.equals(getBaseCurrency()))
+						&& !(bankCurrency.equals(currency))) {
+					result.addError(payFrmSelect,
+							accounterConstants.selectProperBankAccount());
 				}
 			}
 		}
@@ -706,8 +709,8 @@ public class CreditCardExpenseView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 			}
 		}
@@ -762,8 +765,7 @@ public class CreditCardExpenseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -803,12 +805,12 @@ public class CreditCardExpenseView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
