@@ -94,8 +94,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				// vatItemComboForSales.setValue("");
 				vatItemComboForPurchases.setDisabled(true);
 				vatItemComboForSales.setDisabled(true);
-				vatItemComboForSales.setRequired(false);
-				vatItemComboForPurchases.setRequired(false);
 			}
 		}
 	}
@@ -140,7 +138,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForPurchases.setHelpInformation(true);
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
-		vatItemComboForPurchases.setRequired(true);
 		vatItemComboForPurchases.setDisabled(isInViewMode());
 		// vatItemComboForPurchases.setWidth(100);
 		vatItemComboForPurchases
@@ -158,7 +155,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForSales.setHelpInformation(true);
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
-		vatItemComboForSales.setRequired(true);
 		vatItemComboForSales.setDisabled(isInViewMode());
 		vatItemComboForSales
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItemGroup>() {
@@ -239,16 +235,12 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					isComboDisabled = false;
 					vatItemComboForPurchases.setDisabled(false);
 					vatItemComboForSales.setDisabled(false);
-					vatItemComboForPurchases.setRequired(true);
-					vatItemComboForSales.setRequired(true);
 				} else {
 					isComboDisabled = true;
 					// vatItemComboForSales.setValue("");
 					// vatItemComboForPurchases.setValue("");
 					vatItemComboForSales.setDisabled(true);
 					vatItemComboForPurchases.setDisabled(true);
-					vatItemComboForPurchases.setRequired(false);
-					vatItemComboForSales.setRequired(false);
 				}
 			}
 		};
@@ -346,6 +338,13 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		// .getID() ? false : true)) : true)) {
 		// result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
 		// }
+		String taxbl = taxableGroupRadio.getValue().toString();
+		taxableGroupRadio.setValue(taxbl);
+		if (taxbl.equalsIgnoreCase(Accounter.constants().taxable())) {
+			if(vatItemComboForSales.getSelectedValue() == null &&vatItemComboForPurchases.getSelectedValue() ==null){
+				result.addError(vatItemComboForSales, Accounter.constants().enterSalesORpurchaseItem());
+			}
+		}
 
 		ClientTAXItemGroup selectedValue = vatItemComboForSales
 				.getSelectedValue();
@@ -359,7 +358,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		if (validationResult != null) {
 			result.addError(vatItemComboForPurchases, validationResult);
 		}
-
+		
+		
+		
 		return result;
 	}
 
