@@ -17,9 +17,7 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 
 	@Override
 	protected String getValue(T row) {
-		double amount = currencyProvider
-				.getAmountInTransactionCurrency(getAmount(row));
-		return DataUtils.getAmountAsString(amount);
+		return DataUtils.getAmountAsString(getAmount(row));
 	}
 
 	protected abstract double getAmount(T row);
@@ -28,9 +26,7 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	public void setValue(T row, String value) {
 		try {
 			double amount = DataUtils.getAmountStringAsDouble(value);
-			double baseCurrencyAmount = currencyProvider
-					.getAmountInBaseCurrency(amount);
-			setAmount(row, baseCurrencyAmount);
+			setAmount(row, amount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
