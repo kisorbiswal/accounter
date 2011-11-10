@@ -624,7 +624,7 @@ public class CustomerRefundView extends
 		//check if the currency of accounts is valid or not
 		if(bankAccount!=null){
 			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
+			if(!bankCurrency.equals(getBaseCurrency()) && bankCurrency.equals(currency)){
 				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
 			}
 		}
