@@ -3745,4 +3745,8 @@ public interface AccounterConstants extends Constants {
 	public String pleaseEntervalidCurrencyFactor();
 
 	public String inventoryTracking();
+	
+	public String exchangeGainAndLossesReport();
+	
+	public String enterSalesORpurchaseItem();
 }
