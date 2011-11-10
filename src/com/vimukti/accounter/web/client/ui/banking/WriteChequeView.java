@@ -60,6 +60,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class WriteChequeView extends
 		AbstractBankTransactionView<ClientWriteCheck> {
@@ -130,7 +131,7 @@ public class WriteChequeView extends
 	private double previousValue = 0.00D;
 
 	private HorizontalPanel unassignedAmountPanel;
-	private CurrencyComboWidget currencyWidget;
+	private CurrencyFactorWidget currencyWidget;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -829,7 +830,7 @@ public class WriteChequeView extends
 		payForm.setFields(paytoSelect, billToCombo, amtText);
 		// payForm.getCellFormatter().setWidth(0, 0, "170px");
 
-		currencyWidget = createCurrencyComboWidget();
+		currencyWidget = createCurrencyFactorWidget();
 
 		VerticalPanel currencyPanel = new VerticalPanel();
 		// currencyPanel.setWidth("100%");
