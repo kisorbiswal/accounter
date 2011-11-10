@@ -5,14 +5,13 @@ import java.util.List;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
-import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
+import com.vimukti.accounter.mobile.requirements.ClientCurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -378,14 +377,13 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new CurrencyRequirement(SELECT_CURRENCY, getMessages()
+		list.add(new ClientCurrencyRequirement(SELECT_CURRENCY, getMessages()
 				.pleaseSelect(getConstants().currency()), getConstants()
 				.currency(), true, true, null) {
 
 			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
+			protected List<ClientCurrency> getLists(Context context) {
+				return getCurrenciesList();
 			}
 
 		});

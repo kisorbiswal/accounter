@@ -94,7 +94,7 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected void getRequirementsValues(ClientTransactionMakeDeposit obj) {
-		ClientAccount accountFrom = get(ACCOUNT_FROM).getValue();
+		Account accountFrom = get(ACCOUNT_FROM).getValue();
 		obj.setAccount(accountFrom.getID());
 
 		String reference = get(REFERENCE).getValue();
@@ -131,7 +131,7 @@ public class MakeDepositTableRequirement extends
 		record.add("", getConstants().receivedFrom());
 		record.add("", getReceivedFrom(t));
 		record.add("", getMessages().payeeFrom(Global.get().Account()));
-		record.add("", account.getName());
+		record.add("", account == null ? "" : account.getName());
 		record.add("", getConstants().reference());
 		record.add("", t.getReference());
 		record.add("", getConstants().amount());

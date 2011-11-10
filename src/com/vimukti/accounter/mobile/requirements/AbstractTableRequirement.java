@@ -10,7 +10,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public abstract class AbstractTableRequirement<T> extends
 		AbstractRequirement<T> {

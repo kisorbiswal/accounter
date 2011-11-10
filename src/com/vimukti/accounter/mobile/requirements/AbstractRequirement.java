@@ -51,7 +51,8 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public Result process(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
 		preferences = context.getPreferences();
-		companyId = context.getCompany().getId();
+		companyId = context.getCompany() == null ? 0 : context.getCompany()
+				.getId();
 		return run(context, makeResult, list, actions);
 	}
 
