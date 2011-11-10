@@ -42,9 +42,15 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		case 3:
 			return bills.getVendorName() != null ? bills.getVendorName() : "";
 		case 4:
-			return DataUtils.amountAsStringWithCurrency(bills.getOriginalAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(bills
+					.getOriginalAmount(), currency);
 		case 5:
-			return DataUtils.amountAsStringWithCurrency(bills.getBalance(), currency);
+			if (bills.getBalance() != null)
+				return DataUtils.amountAsStringWithCurrency(bills.getBalance(),
+						currency);
+			else
+				return DataUtils.amountAsStringWithCurrency(0,
+						currency);
 		case 6:
 			if (!bills.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -96,8 +102,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	@Override
 	public void onDoubleClick(BillsList bills) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(bills.getType(),
-					bills.getTransactionId());
+			ReportsRPC.openTransactionView(bills.getType(), bills
+					.getTransactionId());
 
 	}
 
@@ -129,8 +135,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
 					|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
 							.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
-				showWarningDialog(obj, this.getAccounterCoreType(obj),
-						this.getTransactionID(obj), col);
+				showWarningDialog(obj, this.getAccounterCoreType(obj), this
+						.getTransactionID(obj), col);
 			} else {
 				Accounter.showError(Accounter.constants()
 						.expensecantbevoiditisApproved());
@@ -204,8 +210,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			else
 				return obj1.getNumber().compareTo(obj2.getNumber());
 		case 3:
-			return obj1.getVendorName().toLowerCase()
-					.compareTo(obj2.getVendorName().toLowerCase());
+			return obj1.getVendorName().toLowerCase().compareTo(
+					obj2.getVendorName().toLowerCase());
 
 		case 4:
 			return obj1.getOriginalAmount().compareTo(obj2.getOriginalAmount());
