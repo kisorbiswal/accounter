@@ -20,6 +20,7 @@ import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -127,11 +128,13 @@ public class BankingPortlet extends DashBoardPortlet {
 								true);
 					}
 				});
+				ClientCurrency currency = getCompany().getCurrency(
+						account.getCurrency());
+				final String currencySymbol = currency == null ? getPrimaryCurrencySymbol()
+						: currency.getSymbol();
 				final Label amountLabel = new Label(
-						getPrimaryCurrencySymbol()
-								+ " "
-								+ DataUtils.getAmountAsString(account
-										.getTotalBalance()));
+						DataUtils.getAmountAsString(account.getTotalBalance(),
+								currencySymbol));
 				// amountLabel.setStyleName("tool-box");
 				amountLabel.addStyleName("label-banking");
 				// amountLabel.getElement().getStyle().setMarginLeft(295,
@@ -190,10 +193,9 @@ public class BankingPortlet extends DashBoardPortlet {
 								LineChart.PACKAGE);
 						if (!result.isEmpty()
 								&& result.get(result.size() - 1) != null) {
-							amountLabel.setText(getPrimaryCurrencySymbol()
-									+ " "
-									+ DataUtils.getAmountAsString(result
-											.get(result.size() - 1)));
+							amountLabel.setText(DataUtils.getAmountAsString(
+									result.get(result.size() - 1),
+									currencySymbol));
 						}
 						// GraphChart chart = new GraphChart(
 						// GraphChart.BANK_ACCOUNT_CHART_TYPE, UIUtils

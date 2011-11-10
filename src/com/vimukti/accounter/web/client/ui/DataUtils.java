@@ -327,6 +327,10 @@ public class DataUtils {
 		return buffer.toString();
 	}
 
+	public static String getAmountAsString(double amount, String currencySymbol) {
+		return currencySymbol + " " + DataUtils.getAmountAsString(amount);
+	}
+
 }
 
 class NumberFormat2 {
@@ -729,5 +733,4 @@ class NumberFormat2 {
 
 		return isPercentage ? parsed.doubleValue() / 100 : parsed.doubleValue();
 	}
-
 }

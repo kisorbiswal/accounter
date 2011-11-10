@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
