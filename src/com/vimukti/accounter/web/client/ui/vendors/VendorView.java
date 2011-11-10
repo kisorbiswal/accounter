@@ -252,8 +252,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				ClientTAXItem selectedValue = vendorTDSTaxCode
 						.getSelectedValue();
 				if (selectedValue == null) {
-					result.addError(vendorTDSTaxCode, constants
-							.pleaseSelectTDS());
+					result.addError(vendorTDSTaxCode,
+							constants.pleaseSelectTDS());
 				}
 			}
 		}
@@ -428,7 +428,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		currencyCombo.setDisabled(isInViewMode());
 		accInfoForm.setFields(statusCheck, vendorSinceDate);
 		balanceForm.setFields(openingBalText, balanceDate, balanceText);
-		
+
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isSalesTaxAvailable()) {
 				accInfoForm.setFields(taxID);
@@ -931,10 +931,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting data from General Tab
 
 		// Setting Vendor Name
-		data
-				.setName(vendorNameText.getValue().toString() != null ? vendorNameText
-						.getValue().toString()
-						: "");
+		data.setName(vendorNameText.getValue().toString() != null ? vendorNameText
+				.getValue().toString() : "");
 
 		data.setVendorNumber(vendorNoText.getValue().toString());
 
@@ -1037,9 +1035,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				.getID(selectShippingMethodFromDetailsTab));
 
 		// Setting Preferred Payment Method
-		data
-				.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
-						: preferredPaymentSelect.getSelectedValue());
+		data.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
+				: preferredPaymentSelect.getSelectedValue());
 		// Setting Preferred Payment Terms
 		data.setPaymentTerms(Utility.getID(selectPaymentTermFromDetailsTab));
 
@@ -1056,16 +1053,14 @@ public class VendorView extends BaseView<ClientVendor> {
 			// }
 			if (getCountryPreferences().isServiceTaxAvailable()) {
 				if (serviceTaxRegisterationNumber.getValue() != null) {
-					data
-							.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
-									.getValue().toString());
+					data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+							.getValue().toString());
 				}
 			}
 			if (getCountryPreferences().isVatAvailable()) {
 				if (vatRegistrationNumber != null) {
 					String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
-							.getValue().toString()
-							: "";
+							.getValue().toString() : "";
 					data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
 							: null);
 				}
@@ -1409,6 +1404,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		emailForm.setDisabled(isInViewMode());
 		gridView.setDisabled(isInViewMode());
 		openingBalText.setDisabled(isInViewMode());
+		balanceDate.setDisabled(isInViewMode());
 		// balanceText.setDisabled(!data.isOpeningBalanceEditable());
 		expenseAccountsSelect.setDisabled(isInViewMode());
 		currencyCombo.setDisabled(isInViewMode());
@@ -1448,7 +1444,9 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected String getViewTitle() {
 		// return messages.newSupplier(Global.get().Vendor());
 		return " ";
-	}	protected CurrencyComboWidget createCurrencyComboWidget() {
+	}
+
+	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
 		ClientCurrency baseCurrency = getCompany().getPreferences()
 				.getPrimaryCurrency();
