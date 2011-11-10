@@ -49,7 +49,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class NewCustomerPaymentView extends
@@ -115,11 +114,13 @@ public class NewCustomerPaymentView extends
 					.valueCannotBe0orlessthan0(accounterConstants.amount()));
 		}
 		ClientAccount bankAccount = depositInCombo.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
-				result.addError(depositInCombo,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (!bankCurrency.equals(getBaseCurrency())
+					&& bankCurrency.equals(currency)) {
+				result.addError(depositInCombo,
+						accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -262,7 +263,7 @@ public class NewCustomerPaymentView extends
 		initTransactionNumber();
 		initCustomers();
 		initAccounterClass();
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -401,13 +402,14 @@ public class NewCustomerPaymentView extends
 		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(customerConstants.endingBalance(), this,getBaseCurrency());
+		endBalText = new AmountField(customerConstants.endingBalance(), this,
+				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		customerBalText = new AmountField(Accounter.messages().payeeBalance(
-				Global.get().Customer()), this,getBaseCurrency());
+				Global.get().Customer()), this, getBaseCurrency());
 		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
 		customerBalText.setWidth(100);
@@ -416,13 +418,14 @@ public class NewCustomerPaymentView extends
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
 		balForm.setFields(endBalText, customerBalText);
-		//balForm.getCellFormatter().setWidth(0, 0, "205px");
+		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// payment
 		depositInCombo = createDepositInComboItem(endBalText);
 		depositInCombo.setPopupWidth("500px");
 
-		amountText = new AmountField(customerConstants.amount(), this,getBaseCurrency());
+		amountText = new AmountField(customerConstants.amount(), this,
+				getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -638,11 +641,11 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-		amountText.setCurrency(getCompany().getCurrency(
-				customer.getCurrency()));
-		endBalText.setCurrency(getCompany().getCurrency(
-				customer.getCurrency()));
-	customerBalText.setCurrency(getCompany().getCurrency(
+		amountText
+				.setCurrency(getCompany().getCurrency(customer.getCurrency()));
+		endBalText
+				.setCurrency(getCompany().getCurrency(customer.getCurrency()));
+		customerBalText.setCurrency(getCompany().getCurrency(
 				customer.getCurrency()));
 		if (customer == null)
 			return;

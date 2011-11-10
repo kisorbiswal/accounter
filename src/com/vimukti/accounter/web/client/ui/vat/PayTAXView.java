@@ -174,19 +174,20 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
 		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue);
-//		mainform.setWidth("80%");
+		// mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(companyConstants.amount(), this,getBaseCurrency());
+		amountText = new AmountField(companyConstants.amount(), this,
+				getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
 		endingBalanceText = new AmountField(companyConstants.endingBalance(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
@@ -194,7 +195,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
-//		balForm.getCellFormatter().setWidth(0, 0, "197px");
+		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -270,8 +271,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		if (dueDateOnOrBefore != null) {
 			for (ClientPayTAXEntries cont : filterList) {
-				ClientTAXReturn clientVATReturn = Accounter
-						.getCompany().getVatReturn(cont.getVatReturn());
+				ClientTAXReturn clientVATReturn = Accounter.getCompany()
+						.getVatReturn(cont.getVatReturn());
 				ClientFinanceDate date = new ClientFinanceDate(
 						clientVATReturn.getPeriodEndDate());
 				if (date.equals(dueDateOnOrBefore)
@@ -514,11 +515,13 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			result.addError("TotalAmount", accounterConstants.amount());
 		}
 		ClientAccount bankAccount = payFromAccCombo.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
-				result.addError(payFromAccCombo,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (!bankCurrency.equals(getBaseCurrency())
+					&& bankCurrency.equals(currency)) {
+				result.addError(payFromAccCombo,
+						accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;

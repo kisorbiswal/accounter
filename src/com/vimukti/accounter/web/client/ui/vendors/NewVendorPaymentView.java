@@ -198,13 +198,13 @@ public class NewVendorPaymentView extends
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(Accounter.constants().endingBalance(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this,getBaseCurrency());
+				.Vendor()), this, getBaseCurrency());
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
@@ -223,21 +223,22 @@ public class NewVendorPaymentView extends
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
-//		balForm.setWidth("100%");
+		// balForm.setWidth("100%");
 		if (isMultiCurrencyEnabled())
 			balForm.setFields(currencyCombo);
-		    balForm.setFields(endBalText, vendorBalText);
+		balForm.setFields(endBalText, vendorBalText);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			balForm.setFields(classListCombo);
 		}
-//		balForm.getCellFormatter().setWidth(0, 0, "205px");
+		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// Payment
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(Accounter.constants().amount(), this,getBaseCurrency());
+		amountText = new AmountField(Accounter.constants().amount(), this,
+				getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -288,8 +289,8 @@ public class NewVendorPaymentView extends
 		});
 
 		payForm = UIUtils.form(Accounter.constants().payment());
-		//payForm.setWidth("80%");
-		//payForm.setHeight("90%");
+		// payForm.setWidth("80%");
+		// payForm.setHeight("90%");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		payForm.setFields(vendorCombo, billToCombo, payFromCombo, amountText,
@@ -301,11 +302,11 @@ public class NewVendorPaymentView extends
 				.getCurrentBalance() : 0.00));
 
 		payForm.setCellSpacing(5);
-//		payForm.setWidth("100%");
-//		payForm.getCellFormatter().setWidth(0, 0, "160px");
+		// payForm.setWidth("100%");
+		// payForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		VerticalPanel leftPanel = new VerticalPanel();
-//		leftPanel.setWidth("100%");
+		// leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
 		leftPanel.add(payForm);
 
@@ -356,7 +357,7 @@ public class NewVendorPaymentView extends
 			tdsPanel.add(amountsForm);
 			tdsPanel.setCellVerticalAlignment(amountsForm,
 					HasVerticalAlignment.ALIGN_BOTTOM);
-//			tdsPanel.setCellHeight(amountsForm, "200px");
+			// tdsPanel.setCellHeight(amountsForm, "200px");
 			rightPanel.add(tdsPanel);
 		}
 
@@ -507,7 +508,8 @@ public class NewVendorPaymentView extends
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
 		amountText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
-		vendorBalText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
+		vendorBalText.setCurrency(getCompany()
+				.getCurrency(vendor.getCurrency()));
 		endBalText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
 		if (vendor == null)
 			return;
@@ -626,13 +628,15 @@ public class NewVendorPaymentView extends
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
 		}
-		
+
 		ClientAccount bankAccount = payFromCombo.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
-				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (!bankCurrency.equals(getBaseCurrency())
+					&& bankCurrency.equals(currency)) {
+				result.addError(payFromCombo,
+						accounterConstants.selectProperBankAccount());
 			}
 		}
 

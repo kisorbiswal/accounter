@@ -490,9 +490,8 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null && !isAmountChange) {
-				amtText
-						.setAmount(getAmountInTransactionCurrency(transactionTotal
-								.doubleValue()));
+				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
+						.doubleValue()));
 			}
 
 		}
@@ -508,45 +507,45 @@ public class WriteChequeView extends
 
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable, accounterConstants
-					.blankTransaction());
+			result.addError(transactionVendorAccountTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
 
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
 		}
 		if (unassignedAmountPanel.isVisible()) {
-			result.addError(unassignedAmountPanel, constants
-					.amountAndTotalShouldEqual());
+			result.addError(unassignedAmountPanel,
+					constants.amountAndTotalShouldEqual());
 		}
-		
+
 		ClientAccount bankAccount = bankAccSelect.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
-				result.addError(bankAccSelect,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (!bankCurrency.equals(getBaseCurrency())
+					&& bankCurrency.equals(currency)) {
+				result.addError(bankAccSelect,
+						accounterConstants.selectProperBankAccount());
 			}
 		}
-			
-		
+
 		return result;
 	}
-
 
 	private boolean validateAmount() {
 		double total = 0.0;
@@ -694,7 +693,8 @@ public class WriteChequeView extends
 
 		vendorTDSTaxCode.setDisabled(true);
 
-		balText = new AmountField(Accounter.constants().balance(), this,getBaseCurrency());
+		balText = new AmountField(Accounter.constants().balance(), this,
+				getBaseCurrency());
 		balText.setWidth(100);
 		balText.setDisabled(true);
 
@@ -792,7 +792,8 @@ public class WriteChequeView extends
 
 		// billToCombo.setWidth(100);
 
-		amtText = new AmountField(Accounter.constants().amount(), this,getBaseCurrency());
+		amtText = new AmountField(Accounter.constants().amount(), this,
+				getBaseCurrency());
 		amtText.setWidth(100);
 		amtText.setAmount(getAmountInTransactionCurrency(0.00));
 		amtText.setDisabled(isInViewMode());
@@ -801,8 +802,8 @@ public class WriteChequeView extends
 			@Override
 			public void onBlur(BlurEvent event) {
 				if ((amtText.getAmount() != 0)
-						&& !(DecimalUtil.isEquals(previousValue, amtText
-								.getAmount()))) {
+						&& !(DecimalUtil.isEquals(previousValue,
+								amtText.getAmount()))) {
 					previousValue = amtText.getAmount();
 					isAmountChange = true;
 					validateAmountAndTotal();
@@ -1440,8 +1441,7 @@ public class WriteChequeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1466,9 +1466,9 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
 	}
 
 	@Override
