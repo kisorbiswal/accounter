@@ -107,7 +107,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	private RecurringTransaction recurringTransaction;
 
-	protected double currencyFactor;
+	protected double currencyFactor = 1D;
 
 	/**
 	 * Many transaction consists of List of {@link TransactionItem}s

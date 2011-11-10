@@ -404,7 +404,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 						Accounter.showError(Accounter.constants()
 								.failedtogettheTransactionPayVATList());
 						grid.addEmptyMessage(Accounter.constants()
-								.noFiledVatEntriesToPay());
+								.noFiledTaxEntriesToPay());
 
 					}
 
@@ -419,7 +419,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
 							grid.addEmptyMessage(Accounter.constants()
-									.noFiledVatEntriesToPay());
+									.noFiledTaxEntriesToPay());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue

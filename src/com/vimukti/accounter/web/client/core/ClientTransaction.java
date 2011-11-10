@@ -136,7 +136,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	/**
 	 * Multiplication factor to convert selected currency to base currency
 	 */
-	private double currencyFactor;
+	private double currencyFactor = 1D;
 
 	private ClientAccounterClass accounterClass;
 

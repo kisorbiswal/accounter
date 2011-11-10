@@ -2124,9 +2124,9 @@ public interface AccounterConstants extends Constants {
 
 	public String noEndDate();
 
-	public String noFiledVatEntriesToPay();
+	public String noFiledTaxEntriesToPay();
 
-	public String noFiledVatEntriesToReceive();
+	public String noFiledTaxEntriesToReceive();
 
 	public String noImageisselected();
 

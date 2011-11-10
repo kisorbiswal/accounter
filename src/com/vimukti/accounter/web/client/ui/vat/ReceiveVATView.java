@@ -400,7 +400,7 @@ public class ReceiveVATView extends
 						Accounter.showError(Accounter.constants()
 								.failedtogettheTransactionPayVATList());
 						grid.addEmptyMessage(Accounter.constants()
-								.noFiledVatEntriesToReceive());
+								.noFiledTaxEntriesToReceive());
 
 					}
 
@@ -415,7 +415,7 @@ public class ReceiveVATView extends
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
 							grid.addEmptyMessage(Accounter.constants()
-									.noFiledVatEntriesToReceive());
+									.noFiledTaxEntriesToReceive());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
