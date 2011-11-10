@@ -25,8 +25,6 @@ public class DashBoardView extends BaseHomeView {
 	public DashBoardPortlet moneyGoingPortlet;
 	public DashBoardPortlet expenseClaimsPortlet;
 
-	private Timer timer;
-
 	// private String[] secondColumn;
 	//
 	// private String[] firstColumn;

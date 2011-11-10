@@ -83,12 +83,6 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 						} catch (AccounterException e) {
 							log.error("Failed to get FinanceTool", e);
 						}
-						// TODO
-						// if (ChangeTracker.getChanges().length > 1) {
-						// FinanceTool financeTool = (FinanceTool) session.load(
-						// FinanceTool.class, 1l);
-						// financeTool.putChangesInCometStream();
-						// }
 					} else {
 						response.sendError(HttpServletResponse.SC_FORBIDDEN,
 								"Could Not Complete the Request!");
