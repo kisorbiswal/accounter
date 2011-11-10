@@ -186,8 +186,6 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientCurrency> currencies;
 
-	private ArrayList<ClientLanguage> languages;
-
 	private ArrayList<ClientQuantity> quantities;
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
@@ -1448,18 +1446,6 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
-	private void deleteLanguage(long languageId) {
-		ClientLanguage language = this.getLanguage(languageId);
-		if (language != null) {
-			this.languages.remove(language);
-			fireEvent(new CoreEvent<ClientLanguage>(ChangeType.DELETE, language));
-		}
-	}
-
-	private ClientLanguage getLanguage(long languageId) {
-		return Utility.getObject(this.languages, languageId);
-	}
-
 	public ClientLocation getLocation(long locationId) {
 		return Utility.getObject(this.locations, locationId);
 	}
@@ -1926,11 +1912,6 @@ public class ClientCompany implements IAccounterCore {
 				if (currency.getFormalName() != null)
 					Utility.updateClientList(currency, currencies);
 				break;
-			case LANGUAGE:
-				ClientLanguage language = (ClientLanguage) accounterCoreObject;
-				if (language.getLanguageName() != null)
-					Utility.updateClientList(language, languages);
-				break;
 			case COMPANY_PREFERENCES:
 				this.preferences = (ClientCompanyPreferences) accounterCoreObject;
 				break;
@@ -2084,8 +2065,6 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case LOCATION:
 			deleteLocation(id);
-		case LANGUAGE:
-			deleteLanguage(id);
 		case CURRENCY:
 			deleteCurrency(id);
 		case TAXITEM:
@@ -2585,16 +2564,6 @@ public class ClientCompany implements IAccounterCore {
 		return null;
 	}
 
-	public ClientLanguage getLanguage(String code) {
-		for (ClientLanguage language : languages) {
-			if (language.getLanguageName() != null
-					&& language.getLanguageName().equals(code)) {
-				return language;
-			}
-		}
-		return null;
-	}
-
 	public ClientCompany clone() {
 		ClientCompany clientCompany = (ClientCompany) this.clone();
 		ArrayList<ClientAccount> accounts = new ArrayList<ClientAccount>();
@@ -2638,12 +2607,6 @@ public class ClientCompany implements IAccounterCore {
 			currencies.add(clientCurrency.clone());
 		}
 		clientCompany.currencies = currencies;
-
-		ArrayList<ClientLanguage> languages = new ArrayList<ClientLanguage>();
-		for (ClientLanguage clientLanguage : this.getLanguages()) {
-			languages.add(clientLanguage.clone());
-		}
-		clientCompany.languages = languages;
 
 		ArrayList<ClientCustomerGroup> customerGroups = new ArrayList<ClientCustomerGroup>();
 		for (ClientCustomerGroup clientCustomerGroup : this.customerGroups) {
@@ -3072,11 +3035,4 @@ public class ClientCompany implements IAccounterCore {
 		this.defaultWarehouse = defaultWarehouse;
 	}
 
-	public void setLanguages(ArrayList<ClientLanguage> languages) {
-		this.languages = languages;
-	}
-
-	public ArrayList<ClientLanguage> getLanguages() {
-		return languages;
-	}
 }

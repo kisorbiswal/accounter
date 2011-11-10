@@ -220,8 +220,6 @@ public class Company implements IAccounterServerCore {
 
 	private Set<Currency> currencies = new HashSet<Currency>();
 
-	private Set<Language> languages = new HashSet<Language>();
-
 	private Set<AccounterClass> accounterClasses = new HashSet<AccounterClass>();
 
 	private Set<TAXGroup> taxGroups = new HashSet<TAXGroup>();
@@ -1018,8 +1016,6 @@ public class Company implements IAccounterServerCore {
 		cmp.locations = this.getLocations();
 
 		cmp.currencies = this.getCurrencies();
-		
-		cmp.languages=this.getLanguages();
 
 		cmp.warehouses = this.getWarehouse();
 
@@ -1522,7 +1518,6 @@ public class Company implements IAccounterServerCore {
 		delete(customers, session);
 		delete(vendors, session);
 		delete(currencies, session);
-		delete(languages, session);
 		delete(fiscalYears, session);
 		delete(paymentTerms, session);
 		delete(taxCodes, session);
@@ -1603,19 +1598,10 @@ public class Company implements IAccounterServerCore {
 		return null;
 	}
 
-	public Language getLanguage(String languageName) {
-		for (Language language : languages) {
-			if (language.getLangugeName().equals(languageName)) {
-				return language;
-			}
-		}
-		return null;
-	}
-
 	public Currency getPrimaryCurrency() {
 		return preferences.getPrimaryCurrency();
 	}
-	
+
 	public Measurement getDefaultMeasurement() {
 		return defaultMeasurement;
 	}
@@ -1632,14 +1618,6 @@ public class Company implements IAccounterServerCore {
 		this.defaultWarehouse = defaultWarehouse;
 	}
 
-	public void setLanguages(Set<Language> languages) {
-		this.languages = languages;
-	}
-
-	public Set<Language> getLanguages() {
-		return languages;
-	}
-	
 	/**
 	 * @return the exchangeLossOrGainAccount
 	 */
@@ -1655,5 +1633,4 @@ public class Company implements IAccounterServerCore {
 		this.exchangeLossOrGainAccount = exchangeLossOrGainAccount;
 	}
 
-	
 }
