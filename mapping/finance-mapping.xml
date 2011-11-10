@@ -40,6 +40,7 @@
 		<many-to-one name="currency" column="ACCOUNT_CURRENCY"
 				class="Currency" not-null="true" lazy="false">
 		</many-to-one>
+		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"

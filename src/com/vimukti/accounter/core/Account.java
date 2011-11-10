@@ -254,6 +254,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	private Currency currency;
 
+	/**
+	 * Used in OpeningBalance Only
+	 */
+	private double currencyFactor;
+
 	private double currenctBalanceInAccountCurrency;
 
 	/**
@@ -1342,6 +1347,21 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public void setCurrenctBalanceInAccountCurrency(
 			double currenctBalanceInAccountCurrency) {
 		this.currenctBalanceInAccountCurrency = currenctBalanceInAccountCurrency;
+	}
+
+	/**
+	 * @return the currencyFactor
+	 */
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	/**
+	 * @param currencyFactor
+	 *            the currencyFactor to set
+	 */
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
 	}
 
 }

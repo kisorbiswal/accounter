@@ -138,6 +138,11 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	private long currency;
 
+	/**
+	 * Used in OpeningBalance Updations
+	 */
+	private double currencyFactor;
+
 	private double currenctBalanceInAccountCurrency;
 
 	private int version;
@@ -680,5 +685,20 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	 */
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	/**
+	 * @return the currencyFactor
+	 */
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	/**
+	 * @param currencyFactor
+	 *            the currencyFactor to set
+	 */
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
 	}
 }
