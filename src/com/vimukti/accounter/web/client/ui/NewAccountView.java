@@ -79,17 +79,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private DateField asofDate;
 	private AmountField currentBalanceText;
 	private SelectItem catSelect;
-	private DynamicForm accInfoForm;
+	private DynamicForm accInfoForm, balanceForm;
 	private CheckboxItem cashAccountCheck;
 	private DynamicForm cashBasisForm;
 	private TextAreaItem commentsArea;
 	private DynamicForm commentsForm;
-	private DynamicForm commonForm;
 	private SelectCombo typeSelect;
 	private AmountField limitText;
 	private IntegerField accNoText, cardNumText;
 	private HorizontalPanel topHLay;
-	private HorizontalPanel leftLayout;
+	private VerticalPanel leftLayout;
 	// private TextBox textbox;
 	protected boolean isClose;
 	private List<String> typeMap;
@@ -107,7 +106,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private int cashflowValue;
 
 	private List<Integer> accountTypes;
-	private LinkedHashMap<String, String> accountTypesMap;
 	private boolean isNewBankAccount;
 
 	private String defaultId;
@@ -121,8 +119,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	protected ClientCurrency selectCurrency;
 
 	private Label lab1;
-
-	private int totalValidations = 4;
 
 	VerticalPanel mainVLay;
 
@@ -376,12 +372,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accInfoForm = UIUtils.form(Accounter.messages()
 				.chartOfAccountsInformation(Global.get().Account()));
 		// accInfoForm.setWidth("100%");
-
+		balanceForm = new DynamicForm();
 		topHLay = new HorizontalPanel();
 		// topHLay.setWidth("50%");
-		leftLayout = new HorizontalPanel();
+		leftLayout = new VerticalPanel();
 		// leftLayout.setWidth("90%");
-
+		currencyCombo = createCurrencyComboWidget();
 		if (accountType == 0
 				|| (accountType != ClientAccount.TYPE_BANK && accountType != ClientAccount.TYPE_CREDIT_CARD)) {
 			subAccSelect = new OtherAccountsCombo(Accounter.constants()
@@ -416,6 +412,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// opBalText, asofDate, catSelect);
 
 			if (getPreferences().getUseAccountNumbers()) {
+
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate, currentBalanceText);
 			} else {
@@ -432,15 +429,22 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
 			if (getPreferences().getUseAccountNumbers()) {
+
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate, currentBalanceText);
+						statusBox);
+				balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 			} else {
 				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate, currentBalanceText);
+				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+						statusBox);
+				balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 			}
 
 			leftLayout.add(accInfoForm);
+			if (isMultiCurrencyEnabled()) {
+				leftLayout.add(currencyCombo);
+			}
+			leftLayout.add(balanceForm);
 			if (accountType == ClientAccount.TYPE_BANK)
 				addBankForm();
 			if (accountType == ClientAccount.TYPE_PAYPAL) {
@@ -922,7 +926,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					});
 			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
-			currencyCombo = createCurrencyComboWidget();
 			bankAccNumText = new TextItem(Accounter.messages()
 					.bankAccountNumber(Global.get().account()));
 			bankAccNumText.setHelpInformation(true);
@@ -950,16 +953,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		topHLay.setWidth("100%");
 		// leftLayout.setWidth("90%");
 		topHLay.add(leftLayout);
-		if (isMultiCurrencyEnabled()) {
-			VerticalPanel panel = new VerticalPanel();
-			panel.add(bankForm);
-			panel.add(currencyCombo);
-			topHLay.add(panel);
-			topHLay.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
-		} else {
-			topHLay.add(bankForm);
-			topHLay.setCellHorizontalAlignment(bankForm, ALIGN_RIGHT);
-		}
+
+		topHLay.add(bankForm);
+		topHLay.setCellHorizontalAlignment(bankForm, ALIGN_RIGHT);
+
 	}
 
 	protected void updateCurrencyForItems(ClientCurrency selectItem) {
