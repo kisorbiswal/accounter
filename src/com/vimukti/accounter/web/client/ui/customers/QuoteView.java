@@ -543,7 +543,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "");
+		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2, ALIGN_RIGHT);
 
 		VerticalPanel mainpanel = new VerticalPanel();
 		mainpanel.setWidth("100%");
