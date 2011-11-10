@@ -11,7 +11,7 @@ public class TransactionDiscountColumn extends
 		AmountColumn<ClientTransactionItem> {
 
 	public TransactionDiscountColumn(ICurrencyProvider currencyProvider) {
-		super(currencyProvider);
+		super(currencyProvider,false);
 	}
 
 	@Override

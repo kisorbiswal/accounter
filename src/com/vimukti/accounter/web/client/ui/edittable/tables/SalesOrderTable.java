@@ -63,7 +63,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 		this.addColumn(new TransactionDiscountColumn(currencyProvider));
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider));
+		this.addColumn(new TransactionTotalColumn(currencyProvider,true));
 
 		if (getCompany().getPreferences().isTrackTax()
 				&& getCompany().getPreferences().isTaxPerDetailLine()) {
@@ -91,7 +91,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			this.addColumn(new TransactionVatColumn(currencyProvider));
 		}
 
-		this.addColumn(new AmountColumn<ClientTransactionItem>(currencyProvider) {
+		this.addColumn(new AmountColumn<ClientTransactionItem>(currencyProvider,false) {
 
 			@Override
 			protected double getAmount(ClientTransactionItem row) {

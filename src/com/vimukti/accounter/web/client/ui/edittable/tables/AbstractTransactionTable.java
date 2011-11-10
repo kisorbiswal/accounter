@@ -88,7 +88,7 @@ public abstract class AbstractTransactionTable extends
 
 			}
 
-			super.update(record);
+//			super.update(record); 
 			// totalVat += citem.getVATfraction();
 		}
 

@@ -56,9 +56,6 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 		anchor.addStyleName("anchor");
 	}
 
-	@Override
-	public void updateFromGUI(IsWidget widget, T row) {
-		
-	}
+
 
 }

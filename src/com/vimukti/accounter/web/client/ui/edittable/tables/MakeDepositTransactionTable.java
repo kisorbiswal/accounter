@@ -198,7 +198,7 @@ public abstract class MakeDepositTransactionTable extends
 		});
 
 		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>(
-				currencyProvider) {
+				currencyProvider,true) {
 
 			@Override
 			protected String getColumnName() {

@@ -76,7 +76,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
-import com.vimukti.accounter.web.client.ui.customers.NewCustomerPaymentView;
+import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -519,7 +519,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected TextAreaItem createMemoTextAreaItem() {
 
 		TextAreaItem memoArea = new TextAreaItem();
-		if (!(this instanceof NewCustomerPaymentView
+		if (!(this instanceof CustomerPrePaymentView
 				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
 			memoArea.setMemo(true, this);
 		memoArea.setHelpInformation(true);

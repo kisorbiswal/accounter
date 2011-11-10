@@ -75,11 +75,4 @@ public abstract class DateColumn<T> extends EditColumn<T> {
 
 	protected abstract void setValue(T row, ClientFinanceDate value);
 
-	@Override
-	public void updateFromGUI(IsWidget widget, T row) {
-		DatePicker datePicker = (DatePicker) widget;
-		ClientFinanceDate newValue = new ClientFinanceDate(
-				datePicker.getSelectedDate());
-		setValue(row, newValue);
-	}
 }

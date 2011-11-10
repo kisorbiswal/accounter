@@ -9,17 +9,17 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	public TransactionUnitPriceColumn(ICurrencyProvider currencyProvider) {
-		super(currencyProvider);
+		super(currencyProvider, true);
 	}
 
 	@Override
 	protected double getAmount(ClientTransactionItem row) {
-		return row.getUnitPrice();
+		return currencyProvider.getAmountInTransactionCurrency(row.getUnitPrice());
 	}
 
 	@Override
 	protected void setAmount(ClientTransactionItem row, double value) {
-		row.setUnitPrice(value);
+		row.setUnitPrice(currencyProvider.getAmountInBaseCurrency(value));
 		// TODO doubt, currencyConversion.
 		double lt = row.getQuantity().getValue() * row.getUnitPrice();
 		double disc = row.getDiscount();

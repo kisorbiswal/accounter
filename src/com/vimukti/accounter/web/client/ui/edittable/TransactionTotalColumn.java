@@ -7,19 +7,20 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public class TransactionTotalColumn extends AmountColumn<ClientTransactionItem> {
 
-	public TransactionTotalColumn(ICurrencyProvider currencyProvider) {
-		super(currencyProvider);
+	public TransactionTotalColumn(ICurrencyProvider currencyProvider,
+			boolean updateFromGUI) {
+		super(currencyProvider, updateFromGUI);
 	}
 
 	@Override
 	protected double getAmount(ClientTransactionItem row) {
 
-		return row.getLineTotal();
+		return currencyProvider.getAmountInTransactionCurrency(row.getLineTotal());
 	}
 
 	@Override
 	protected void setAmount(ClientTransactionItem row, double value) {
-		row.setLineTotal(value);
+		row.setLineTotal(currencyProvider.getAmountInBaseCurrency(value));
 	}
 
 	@Override

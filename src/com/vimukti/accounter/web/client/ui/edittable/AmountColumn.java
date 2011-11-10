@@ -10,10 +10,11 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 
 	ICurrencyProvider currencyProvider;
 
-	public AmountColumn(ICurrencyProvider currencyProvider) {
-		super();
+	public AmountColumn(ICurrencyProvider currencyProvider,boolean updateFromGUI) {
+		super(updateFromGUI);
 		this.currencyProvider = currencyProvider;
 	}
+	
 
 	@Override
 	protected String getValue(T row) {
@@ -31,6 +32,7 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 			e.printStackTrace();
 		}
 	}
+
 
 	protected abstract void setAmount(T row, double value);
 

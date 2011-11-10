@@ -108,7 +108,7 @@ public abstract class CustomerAccountTransactionTable extends
 			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 

@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 public class TransactionVatColumn extends TransactionAmountColumn {
 
 	public TransactionVatColumn(ICurrencyProvider currencyProvider) {
-		super(currencyProvider);
+		super(currencyProvider, false);
 	}
 
 	@Override

@@ -274,7 +274,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
 		updateVATCode();
-		if (exceptionMessage.contains("name")) {
+		if (exceptionMessage!=null && exceptionMessage.contains("name")) {
 			data.setName(vatCode);
 
 		}

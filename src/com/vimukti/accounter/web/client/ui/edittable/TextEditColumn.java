@@ -8,15 +8,27 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 
 public abstract class TextEditColumn<T> extends EditColumn<T> {
 
+	private boolean updateFromGUI = false;
+
+	public TextEditColumn(boolean updateFromGUI) {
+		this.updateFromGUI = updateFromGUI;
+	}
+
+	public TextEditColumn() {
+		this(false);
+	}
+
 	protected TextBoxBase createWidget() {
 		return new TextBox();
 	}
 
 	@Override
 	public void updateFromGUI(IsWidget widget, T row) {
-		TextBoxBase box = (TextBoxBase) widget;
-		String newValue = box.getText().trim();
-		setValue(row, newValue);
+		if (updateFromGUI) {
+			TextBoxBase box = (TextBoxBase) widget;
+			String newValue = box.getText().trim();
+			setValue(row, newValue);
+		}
 	}
 
 	@Override

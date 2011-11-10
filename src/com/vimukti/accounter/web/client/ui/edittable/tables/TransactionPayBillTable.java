@@ -147,7 +147,7 @@ public abstract class TransactionPayBillTable extends
 
 		if (canEdit) {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				public int getWidth() {
@@ -177,7 +177,7 @@ public abstract class TransactionPayBillTable extends
 			});
 
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				public int getWidth() {
@@ -207,7 +207,7 @@ public abstract class TransactionPayBillTable extends
 			});
 		} else {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				protected boolean isEnable() {
@@ -306,7 +306,7 @@ public abstract class TransactionPayBillTable extends
 		if (canEdit) {
 
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, true) {
 
 				@Override
 				protected String getColumnName() {
@@ -358,7 +358,7 @@ public abstract class TransactionPayBillTable extends
 				}
 			});
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
@@ -737,8 +737,9 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			public boolean onOK() {
 				try {
-					selectedObject.setCashDiscount(currencyProvider.getAmountInTransactionCurrency(cashDiscountDialog
-							.getCashDiscount()));
+					selectedObject.setCashDiscount(currencyProvider
+							.getAmountInTransactionCurrency(cashDiscountDialog
+									.getCashDiscount()));
 
 					selectedObject.setDiscountAccount(cashDiscountDialog
 							.getSelectedDiscountAccount().getID());
@@ -776,7 +777,7 @@ public abstract class TransactionPayBillTable extends
 
 		if (isTDSEnabled()) {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider,true) {
 
 				@Override
 				protected boolean isEnable() {
@@ -1136,10 +1137,10 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	public void updateAmountsFromGUI() {
-			for (ClientTransactionPayBill item : this.getAllRows()) {
-				updateFromGUI(item);
-			}
-			updateColumnHeaders();
+		for (ClientTransactionPayBill item : this.getAllRows()) {
+			updateFromGUI(item);
+		}
+		updateColumnHeaders();
 	}
 
 }

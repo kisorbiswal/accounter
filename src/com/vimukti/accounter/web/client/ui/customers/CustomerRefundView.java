@@ -62,7 +62,6 @@ public class CustomerRefundView extends
 
 	private Double endingBalance;
 	private boolean isChecked = false;
-	private Double customerBalanceAmount;
 	private String checkNumber;
 	private ArrayList<DynamicForm> listforms;
 	protected DynamicForm payForm;
@@ -95,11 +94,14 @@ public class CustomerRefundView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-		amtText.setCurrency(getCompany().getCurrency(customer.getCurrency()));
-		endBalText.setCurrency(getCompany().getCurrency(customer.getCurrency()));
-		custBalText.setCurrency(getCompany().getCurrency(customer.getCurrency()));
 		if (customer == null)
 			return;
+		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
+		amtText.setCurrency(clientCurrency);
+		endBalText
+				.setCurrency(clientCurrency);
+		custBalText.setCurrency(clientCurrency);
+		
 		this.setCustomer(customer);
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(getCompany().getCustomer(
@@ -109,13 +111,7 @@ public class CustomerRefundView extends
 		super.initBillToCombo();
 		setCustomerBalance(customer.getBalance());
 		refundAmountChanged(amtText.getAmount());
-		long currency = customer.getCurrency();
-		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
-		}
+		currencyWidget.setSelectedCurrency(clientCurrency);
 	}
 
 	@Override
@@ -194,7 +190,8 @@ public class CustomerRefundView extends
 
 				});
 
-		amtText = new AmountField(customerConstants.amount(), this,getBaseCurrency());
+		amtText = new AmountField(customerConstants.amount(), this,
+				getBaseCurrency());
 		amtText.setHelpInformation(true);
 		amtText.setRequired(true);
 		amtText.setWidth(100);
@@ -273,14 +270,15 @@ public class CustomerRefundView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 
-		endBalText = new AmountField(customerConstants.endingBalance(), this,getBaseCurrency());
+		endBalText = new AmountField(customerConstants.endingBalance(), this,
+				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setDisabled(true);
 
 		setEndingBalance(null);
 
 		custBalText = new AmountField(Accounter.messages().payeeBalance(
-				Global.get().Customer()), this,getBaseCurrency());
+				Global.get().Customer()), this, getBaseCurrency());
 		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);
 		setCustomerBalance(null);
@@ -290,13 +288,13 @@ public class CustomerRefundView extends
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
 		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
-//		custForm.getCellFormatter().setWidth(0, 0, "160px");
+		// custForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
 		balForm.setFields(endBalText, custBalText);
-//		balForm.getCellFormatter().setWidth(0, 0, "205px");
+		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -570,7 +568,7 @@ public class CustomerRefundView extends
 		initCustomers();
 
 		initPayFromAccounts();
-		if(isMultiCurrencyEnabled()){
+		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
 	}
@@ -618,11 +616,12 @@ public class CustomerRefundView extends
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
 		ClientAccount bankAccount = payFromSelect.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(!bankCurrency.equals(getBaseCurrency()) && !bankCurrency.equals(currency)){
-				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+				result.addError(payFromCombo,
+						accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;

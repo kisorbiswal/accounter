@@ -49,9 +49,8 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
-public class NewCustomerPaymentView extends
+public class CustomerPrePaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
@@ -73,7 +72,7 @@ public class NewCustomerPaymentView extends
 	boolean isChecked = false;
 	private boolean locationTrackingEnabled;
 
-	public NewCustomerPaymentView() {
+	public CustomerPrePaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
@@ -116,8 +115,7 @@ public class NewCustomerPaymentView extends
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (!bankCurrency.equals(getBaseCurrency())
-					&& bankCurrency.equals(currency)) {
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(depositInCombo,
 						accounterConstants.selectProperBankAccount());
 			}
@@ -125,9 +123,9 @@ public class NewCustomerPaymentView extends
 		return result;
 	}
 
-	public static NewCustomerPaymentView getInstance() {
+	public static CustomerPrePaymentView getInstance() {
 
-		return new NewCustomerPaymentView();
+		return new CustomerPrePaymentView();
 
 	}
 
@@ -640,29 +638,22 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-		amountText
-				.setCurrency(getCompany().getCurrency(customer.getCurrency()));
-		endBalText
-				.setCurrency(getCompany().getCurrency(customer.getCurrency()));
-		customerBalText.setCurrency(getCompany().getCurrency(
-				customer.getCurrency()));
 		if (customer == null)
 			return;
+		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
+		amountText.setCurrency(clientCurrency);
+		endBalText.setCurrency(clientCurrency);
+		customerBalText.setCurrency(clientCurrency);
+
 		this.setCustomer(customer);
-		if (customer != null && customerCombo != null) {
+		if (customerCombo != null) {
 			customerCombo.setComboItem(customer);
 		}
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
-		customerBalText.setAmount(customer.getBalance());
+		customerBalText.setAmount(customer.getBalanceInPayeeCurrency());
 		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
-		long currency = customer.getCurrency();
-		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
-		}
+		currencyWidget.setSelectedCurrency(clientCurrency);
 
 	}
 

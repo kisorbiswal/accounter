@@ -153,7 +153,7 @@ public abstract class TransactionReceivePaymentTable extends
 		this.addColumn(invoiceNumber);
 
 		AmountColumn<ClientTransactionReceivePayment> invoiceAmountColumn = new AmountColumn<ClientTransactionReceivePayment>(
-				currencyProvider) {
+				currencyProvider, false) {
 
 			@Override
 			protected boolean isEnable() {
@@ -186,7 +186,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 		if (canEdit) {
 			AmountColumn<ClientTransactionReceivePayment> amountDueColumn = new AmountColumn<ClientTransactionReceivePayment>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				protected boolean isEnable() {
@@ -320,11 +320,12 @@ public abstract class TransactionReceivePaymentTable extends
 		this.addColumn(appliedCreditsColumn);
 
 		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new AmountColumn<ClientTransactionReceivePayment>(
-				currencyProvider) {
+				currencyProvider, true) {
 
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(Accounter.constants().payment());
+				return getColumnNameWithCurrency(Accounter.constants()
+						.payment());
 			}
 
 			@Override

@@ -154,7 +154,7 @@ public abstract class TransactionJournalEntryTable extends
 		this.addColumn(memoColumn);
 
 		AmountColumn<ClientTransactionItem> debitColumn = new AmountColumn<ClientTransactionItem>(
-				currencyProvider) {
+				currencyProvider,false) {
 
 			@Override
 			protected double getAmount(ClientTransactionItem row) {
@@ -184,7 +184,7 @@ public abstract class TransactionJournalEntryTable extends
 		this.addColumn(debitColumn);
 
 		AmountColumn<ClientTransactionItem> creditColumn = new AmountColumn<ClientTransactionItem>(
-				currencyProvider) {
+				currencyProvider,false) {
 
 			@Override
 			protected double getAmount(ClientTransactionItem row) {

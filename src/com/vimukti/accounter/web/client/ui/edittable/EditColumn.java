@@ -49,7 +49,9 @@ public abstract class EditColumn<R> {
 		return Accounter.getCompany().getPreferences();
 	}
 
-	public abstract void updateFromGUI(IsWidget widget, R row);
+	protected void updateFromGUI(IsWidget widget, R row){
+		
+	}
 
 	public void updateHeader() {
 		if (getColumnName().length() > 0)

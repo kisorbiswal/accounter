@@ -26,7 +26,7 @@ public class CustomerPaymentsAction extends Action {
 
 			@Override
 			public void onCreated() {
-				NewCustomerPaymentView view = NewCustomerPaymentView
+				CustomerPrePaymentView view = CustomerPrePaymentView
 						.getInstance();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, CustomerPaymentsAction.this);

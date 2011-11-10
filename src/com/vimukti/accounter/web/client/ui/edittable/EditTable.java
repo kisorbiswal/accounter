@@ -18,7 +18,7 @@ public abstract class EditTable<R> extends SimplePanel {
 	private CellFormatter cellFormatter;
 	private RowFormatter rowFormatter;
 	private List<R> rows = new ArrayList<R>();
-	private boolean isDesable;
+	private boolean isDisabled;
 	private boolean columnsCreated;
 
 	public EditTable() {
@@ -43,11 +43,13 @@ public abstract class EditTable<R> extends SimplePanel {
 		}
 	}
 
-	public void setDisabled(boolean isDesable) {
-		this.setDesable(isDesable);
-		updateHeaderState(isDesable);
-		for (R r : rows) {
-			update(r);
+	public void setDisabled(boolean isDesabled) {
+		if (this.isDisabled != isDesabled) {
+			this.isDisabled = isDesabled;
+			updateHeaderState(isDesabled);
+			for (R r : rows) {
+				update(r);
+			}
 		}
 	}
 
@@ -60,7 +62,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		int index = rows.indexOf(row);
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
-		context.setDesable(isDesable());
+		context.setDesable(isDisabled);
 		context.setCellFormatter(cellFormatter);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
@@ -92,7 +94,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
 		context.setCellFormatter(cellFormatter);
-		context.setDesable(isDesable());
+		context.setDesable(isDisabled);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
 			EditColumn<R> column = columns.get(x);
@@ -186,13 +188,10 @@ public abstract class EditTable<R> extends SimplePanel {
 		return false;
 	}
 
-	public boolean isDesable() {
-		return isDesable;
+	public boolean isDisabled() {
+		return isDisabled;
 	}
 
-	public void setDesable(boolean isDesable) {
-		this.isDesable = isDesable;
-	}
 
 	protected void onDelete(R obj) {
 
@@ -244,6 +243,6 @@ public abstract class EditTable<R> extends SimplePanel {
 			column.updateHeader();
 		}
 	}
-	
+
 	protected abstract boolean isInViewMode();
 }
