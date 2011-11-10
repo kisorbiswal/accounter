@@ -19,7 +19,7 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT };
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT };
 	}
 
 	@Override

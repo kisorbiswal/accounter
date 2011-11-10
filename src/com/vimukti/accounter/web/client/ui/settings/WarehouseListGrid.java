@@ -21,7 +21,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 		case 0:
 			return ListGrid.COLUMN_TYPE_TEXT;
 		case 1:
-			return ListGrid.COLUMN_TYPE_TEXT;
+			return ListGrid.COLUMN_TYPE_LINK;
 		case 2:
 			return ListGrid.COLUMN_TYPE_TEXT;
 		case 3:

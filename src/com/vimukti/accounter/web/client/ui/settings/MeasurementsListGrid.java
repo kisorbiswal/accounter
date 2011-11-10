@@ -23,7 +23,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	protected int getColumnType(int col) {
 		switch (col) {
 		case 0:
-			return ListGrid.COLUMN_TYPE_TEXT;
+			return ListGrid.COLUMN_TYPE_LINK;
 		case 1:
 			return ListGrid.COLUMN_TYPE_TEXT;
 		case 2:

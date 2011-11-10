@@ -20,7 +20,7 @@ public class WarehouseTransferListGrid extends
 	protected int getColumnType(int index) {
 		switch (index) {
 		case 0:
-			return ListGrid.COLUMN_TYPE_TEXT;
+			return ListGrid.COLUMN_TYPE_LINK;
 		case 1:
 			return ListGrid.COLUMN_TYPE_TEXT;
 		case 2:
