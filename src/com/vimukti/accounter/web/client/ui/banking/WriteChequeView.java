@@ -59,7 +59,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class WriteChequeView extends
@@ -173,10 +172,12 @@ public class WriteChequeView extends
 
 	protected void updateAddressAndGrid() {
 		// Set<Address> add = null;
+		long currency = 0;
 
 		if (payee instanceof ClientCustomer) {
 			selectedCustomer = (ClientCustomer) payee;
 			addressList = selectedCustomer.getAddress();
+			currency = selectedCustomer.getCurrency();
 			// if (transaction == null) {
 			// customerAccountsDisclosurePanel.setVisible(true);
 			// customerItemsDisclosurePanel.setVisible(true);
@@ -187,6 +188,7 @@ public class WriteChequeView extends
 
 			selectedVendor = (ClientVendor) payee;
 			addressList = selectedVendor.getAddress();
+			currency = selectedVendor.getCurrency();
 			// vendorAccountsDisclosurePanel.setVisible(true);
 			// vendorItemsDisclosurePanel.setVisible(true);
 			// changeGrid(vendorAccountsDisclosurePanel,
@@ -212,7 +214,27 @@ public class WriteChequeView extends
 			// }
 
 		}
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		} else {
+			ClientCurrency clientCurrency = getCompany().getPreferences()
+					.getPrimaryCurrency();
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		}
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
+		
 		transactionVendorAccountTable.updateTotals();
+		this.transactionVendorAccountTable.updateAmountsFromGUI();
+		
+		totalTxt.setTitle(Accounter.messages().currencyTotal(formalName));
+		amtText.setTitle(Accounter.messages().amount(formalName));
+		balText.setTitle(Accounter.messages().balance(formalName));
 		// getAddreses(add);
 		if (isInViewMode()) {
 			if (transaction.getAddress() != null)
@@ -753,6 +775,7 @@ public class WriteChequeView extends
 											payee.getTaxItemCode())));
 
 							transactionVendorAccountTable.resetRecords();
+
 							// } else if (payee instanceof ClientTAXAgency)
 							// {
 							// taxAgencyGrid.removeAllRecords();
@@ -864,7 +887,7 @@ public class WriteChequeView extends
 		vatPanel.setWidth("100%");
 		amountPanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		totalTxt = createTransactionTotalNonEditableLabel();
+		totalTxt = createTransactionTotalNonEditableLabel(getBaseCurrency());
 		vatTotalNonEditableText = new AmountLabel("Tax");
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
@@ -1533,7 +1556,7 @@ public class WriteChequeView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		transactionVendorAccountTable.updateAmountsFromGUI();
+		this.transactionVendorAccountTable.updateAmountsFromGUI();
 	}
 
 	@Override

@@ -313,12 +313,12 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableLabel() {
+	protected AmountLabel createTransactionTotalNonEditableLabel(ClientCurrency clientCurrency) {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().total());
-		amountItem.setDisabled(true);
+		AmountLabel amountLabel = new AmountLabel(Accounter.messages()
+				.currencyTotal(clientCurrency.getFormalName()));
 
-		return amountItem;
+		return amountLabel;
 
 	}
 

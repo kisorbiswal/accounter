@@ -553,7 +553,7 @@ public class CreditCardChargeView extends
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 

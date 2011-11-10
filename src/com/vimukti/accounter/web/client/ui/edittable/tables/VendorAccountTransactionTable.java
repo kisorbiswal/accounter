@@ -162,4 +162,9 @@ public abstract class VendorAccountTransactionTable extends
 		}
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
+	
+	@Override
+	public void updateAmountsFromGUI() {
+		super.updateAmountsFromGUI();
+	}
 }
