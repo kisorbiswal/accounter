@@ -55,6 +55,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_CASH_EXPENSE,
 						context.getCompany()));
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
 	}
 
@@ -352,12 +353,11 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			if (currency != null) {
 				cashPurchase.setCurrency(currency.getID());
 			}
-
-			double factor = get(CURRENCY_FACTOR).getValue();
-			cashPurchase.setCurrencyFactor(factor);
 		}
 
 		cashPurchase.setTransactionItems(items);
+		double factor = get(CURRENCY_FACTOR).getValue();
+		cashPurchase.setCurrencyFactor(factor);
 		updateTotals(context, cashPurchase, false);
 		create(cashPurchase, context);
 		return null;
