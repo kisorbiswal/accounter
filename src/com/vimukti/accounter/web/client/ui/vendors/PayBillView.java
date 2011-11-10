@@ -46,7 +46,6 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTa
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -653,7 +652,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(vpPanel, "50%");
 		topHLay.setCellHorizontalAlignment(vpPanel, ALIGN_RIGHT);
-
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 
 		bottomAmtsLayout.setWidth("100%");
@@ -704,13 +702,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected void vendorSelected(final ClientVendor vendor) {
-		
-		 vendorCurrency = getCompany().getCurrency(vendor.getCurrency());
-		
+
+		vendorCurrency = getCurrency(vendor.getCurrency());
 		endBalText.setCurrency(vendorCurrency);
-		amountLabel
-				.setTitle(Accounter.messages().currencyTotal(vendorCurrency
-								.getFormalName()));
+		amountLabel.setTitle(Accounter.messages().currencyTotal(
+				vendorCurrency.getFormalName()));
 
 		if (vendor == null) {
 			paybillTransactionList = null;

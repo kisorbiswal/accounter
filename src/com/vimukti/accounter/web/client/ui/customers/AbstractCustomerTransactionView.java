@@ -248,7 +248,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		this.setCustomer(customer);
 		if (customer == null)
 			return;
-
+		currency = getCurrency(customer.getCurrency());
 		initContacts(customer);
 		Iterator<ClientContact> iterator = contacts.iterator();
 		while (iterator.hasNext()) {
@@ -553,7 +553,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	public DepositInAccountCombo createDepositInComboItem(final AmountField endBalText) {
+	public DepositInAccountCombo createDepositInComboItem(
+			final AmountField endBalText) {
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
 				Accounter.constants().depositIn());
@@ -566,8 +567,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 
 						depositInAccountSelected(selectItem);
-						if (endBalText != null){
-						endBalText.setAmount(selectItem.getOpeningBalance());
+						if (endBalText != null) {
+							endBalText.setAmount(selectItem.getOpeningBalance());
 						}
 					}
 
@@ -719,10 +720,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	protected AmountField createTransactionTotalNonEditableItem(ClientCurrency currency) {
+	protected AmountField createTransactionTotalNonEditableItem(
+			ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants().total(),
-				this,currency);
+				this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
