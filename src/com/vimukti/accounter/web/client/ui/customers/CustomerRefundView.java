@@ -48,8 +48,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class CustomerRefundView extends
 		AbstractCustomerTransactionView<ClientCustomerRefund> {
@@ -619,11 +617,11 @@ public class CustomerRefundView extends
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
-		ClientAccount bankAccount = payFromCombo.getSelectedValue();
+		ClientAccount bankAccount = payFromSelect.getSelectedValue();
 		//check if the currency of accounts is valid or not
 		if(bankAccount!=null){
 			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(!bankCurrency.equals(getBaseCurrency()) && bankCurrency.equals(currency)){
+			if(!bankCurrency.equals(getBaseCurrency()) && !bankCurrency.equals(currency)){
 				result.addError(payFromCombo,accounterConstants.selectProperBankAccount());
 			}
 		}
