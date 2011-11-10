@@ -359,9 +359,9 @@ public class CashSalesView extends
 			prodAndServiceForm2.setFields(transactionTotalForeignCurrency);
 		}
 		prodAndServiceForm2.addStyleName("boldtext");
-		
+
 		currencyWidget = createCurrencyFactorWidget();
-		
+
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
@@ -825,7 +825,7 @@ public class CashSalesView extends
 		superinitTransactionViewData();
 		initCashSalesView();
 		initAccounterClass();
-		
+
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
@@ -950,12 +950,22 @@ public class CashSalesView extends
 			}
 		}
 		ClientAccount bankAccount = depositInCombo.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
-				result.addError(depositInCombo,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (!(bankCurrency.getFormalName().toLowerCase()
+					.equals(getBaseCurrency().getFormalName().toLowerCase()))
+					&& !(bankCurrency.getFormalName().toLowerCase()
+							.equals(currency.getFormalName().toLowerCase()))){
+				result.addError(depositInCombo,
+						accounterConstants.selectProperBankAccount());
 			}
+
+			// if (bankCurrency.getFormalName() != getBaseCurrency()
+			// .getFormalName()
+			// || bankCurrency.getFormalName() != currency.getFormalName()) {
+			//
+			// }
 		}
 		return result;
 
