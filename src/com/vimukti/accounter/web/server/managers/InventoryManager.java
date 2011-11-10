@@ -58,10 +58,10 @@ public class InventoryManager extends Manager {
 							: ((String) object[3])));
 					invoicesList.setCustomerName((String) object[4]);
 					invoicesList.setNetAmount((Double) object[5]);
-					invoicesList.setDueDate(((Long) object[6]) == null ? null
+					invoicesList.setDueDate(object[6] == null ? null
 							: new ClientFinanceDate((Long) object[6]));
 					invoicesList.setTotalPrice((Double) object[7]);
-					invoicesList.setBalance(((Double) object[8]) == null ? null
+					invoicesList.setBalance(object[8] == null ? null
 							: (Double) object[8]);
 					invoicesList.setVoided((Boolean) object[9]);
 					invoicesList.setStatus((Integer) object[10]);

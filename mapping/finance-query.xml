@@ -1668,14 +1668,14 @@
 		END AS DUE_DATE ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
-		T.TOTAL AS INVOICE_AMOUNT,
+		(T.TOTAL/T.CURRENCY_FACTOR) AS INVOICE_AMOUNT,
 		CASE
 		WHEN
 		T.T_TYPE = 5
 		THEN
-		CR.BALANCE_DUE
+		(CR.BALANCE_DUE/T.CURRENCY_FACTOR) 
 		WHEN T.T_TYPE = 8
-		THEN I.BALANCE_DUE
+		THEN (I.BALANCE_DUE/T.CURRENCY_FACTOR) 
 		END
 		AS AMOUNT_DUE,
 		CASE
@@ -1687,13 +1687,14 @@
 		DISCOUNT_DATE ,
 		CASE
 		WHEN T.T_TYPE = 5
-		THEN CR.PAYMENTS
+		THEN (CR.PAYMENTS/T.CURRENCY_FACTOR) 
 		WHEN
 		T.T_TYPE = 8
-		THEN I.PAYMENTS
+		THEN (I.PAYMENTS/T.CURRENCY_FACTOR) 
 		END AS PAYMENTS,
 		PT.DISCOUNT_PERCENT AS
 		PT_DISCOUNT
+		
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
@@ -2602,7 +2603,6 @@
 		<return-scalar column="SALES_PERSON_ID" type="long" />
 		<return-scalar column="TAX_AGENCY_ID" type="long" />
 		<return-scalar column="FIXED_ASSET_ID" type="long" />
-		<return-scalar column="PAY_SALES_TAX_ID" type="long" />
 		<return-scalar column="CASH_PURCHASE_ID" type="long" />
 		<return-scalar column="CASH_SALES_ID" type="long" />
 		<return-scalar column="CREDIT_CARD_CHARGE_ID" type="long" />
@@ -4480,6 +4480,8 @@
 		<return-scalar column="PREVIOUS_FIFTH_MONTH_TOTAL" type="double" />
 		<return-scalar column="YEAR_TO_DATE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="TRANSACTION_CURRENCY_FACTOR" type="double" />
+		<return-scalar column="PAYEE_CURRENCY" type="long" />
 		SELECT P.IS_ACTIVE AS IS_ACTIVE,
 
 		P.NAME AS CUSTOMER_NAME,
@@ -4707,8 +4709,14 @@
 		) AS
 		YEAR_TO_DATE,
 
-		P.BALANCE AS
-		BALANCE
+		P.BALANCE_IN_PAYEE_CURRENCY AS
+		BALANCE,
+		
+		CASE WHEN T.CURRENCY_FACTOR IS NULL 
+			THEN 1 ELSE T.CURRENCY_FACTOR END
+		 AS TRANSACTION_CURRENCY_FACTOR,
+		 
+		P.CURRENCY	AS PAYEE_CURRENCY
 
 		FROM PAYEE P
 
@@ -4762,6 +4770,8 @@
 		<return-scalar column="PREVIOUS_FIFTH_MONTH_TOTAL" type="double" />
 		<return-scalar column="YEAR_TO_DATE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="TRANSACTION_CURRENCY_FACTOR" type="double" />
+		<return-scalar column="PAYEE_CURRENCY" type="long" />
 		SELECT P.IS_ACTIVE AS IS_ACTIVE,
 
 		P.NAME AS VENDOR_NAME,
@@ -4978,8 +4988,14 @@
 		END
 		) AS YEAR_TO_DATE,
 
-		P.BALANCE AS
-		BALANCE
+		P.BALANCE_IN_PAYEE_CURRENCY AS
+		BALANCE,
+		
+		CASE WHEN T.CURRENCY_FACTOR IS NULL 
+			THEN 1 ELSE T.CURRENCY_FACTOR END
+		 AS TRANSACTION_CURRENCY_FACTOR,
+		 
+		P.CURRENCY	AS PAYEE_CURRENCY	
 
 		FROM PAYEE P
 

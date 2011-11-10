@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
@@ -20,9 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
-
-	ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
 
 	public CustomerListGrid() {
 		super(false, true);
@@ -37,25 +33,33 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		case 1:
 			return payee.getPayeeName();
 		case 2:
-			return DataUtils.amountAsStringWithCurrency(payee.getCurrentMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getCurrentMonth(), payee.getCurrecny());
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(payee.getPreviousMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousMonth(), payee.getCurrecny());
 		case 4:
-			return DataUtils.amountAsStringWithCurrency(payee.getPreviousSecondMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousSecondMonth(), payee.getCurrecny());
 
 		case 5:
-			return DataUtils.amountAsStringWithCurrency(payee.getPreviousThirdMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousThirdMonth(), payee.getCurrecny());
 
 		case 6:
-			return DataUtils.amountAsStringWithCurrency(payee.getPreviousFourthMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousFourthMonth(), payee.getCurrecny());
 
 		case 7:
-			return DataUtils.amountAsStringWithCurrency(payee.getPreviousFifthMonth(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousFifthMonth(), payee.getCurrecny());
 
 		case 8:
-			return DataUtils.amountAsStringWithCurrency(payee.getYearToDate(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getYearToDate(),
+					payee.getCurrecny());
 		case 9:
-			return DataUtils.amountAsStringWithCurrency(payee.getBalance(), currency);
+			return DataUtils.amountAsStringWithCurrency(payee.getBalance(),
+					payee.getCurrecny());
 		case 10:
 			updateTotal(payee, true);
 			return Accounter.getFinanceMenuImages().delete();

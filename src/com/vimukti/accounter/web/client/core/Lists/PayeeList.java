@@ -15,7 +15,7 @@ public class PayeeList implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	int type;
 	public long id;
 	String payeeName;
@@ -26,6 +26,8 @@ public class PayeeList implements IAccounterCore {
 	double previousFourthMonth = 0D;
 	double previousFifthMonth = 0D;
 	double yearToDate = 0D;
+
+	long currecny;
 
 	double balance = 0D;
 
@@ -245,7 +247,22 @@ public class PayeeList implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	/**
+	 * @return the currecny
+	 */
+	public long getCurrecny() {
+		return currecny;
+	}
+
+	/**
+	 * @param currecny
+	 *            the currecny to set
+	 */
+	public void setCurrecny(long currecny) {
+		this.currecny = currecny;
 	}
 
 }

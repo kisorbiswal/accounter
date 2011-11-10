@@ -128,7 +128,8 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 
 							@Override
 							public boolean filter(ClientTAXCode e) {
-								if (e.getTAXItemGrpForPurchases() != 0) {
+								if (!e.isTaxable()
+										|| e.getTAXItemGrpForPurchases() != 0) {
 									return true;
 								}
 								return false;

@@ -117,7 +117,8 @@ public abstract class CustomerItemTransactionTable extends
 
 							@Override
 							public boolean filter(ClientTAXCode e) {
-								if (e.getTAXItemGrpForSales() != 0) {
+								if (!e.isTaxable()
+										|| e.getTAXItemGrpForSales() != 0) {
 									return true;
 								}
 								return false;

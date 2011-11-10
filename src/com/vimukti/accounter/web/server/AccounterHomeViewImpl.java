@@ -1426,20 +1426,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory) {
-
-		ArrayList<PayeeList> payeeList = null;
-
-		try {
-			FinanceTool tool = getFinanceTool();
-			return tool != null ? tool.getPayeeList(transactionCategory,
-					getCompanyId()) : null;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return payeeList;
-
+	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
+			throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		return tool != null ? tool.getPayeeList(transactionCategory,
+				getCompanyId()) : null;
 	}
 
 	@Override

@@ -1517,7 +1517,6 @@ public class Company implements IAccounterServerCore {
 		delete(accounts, session);
 		delete(customers, session);
 		delete(vendors, session);
-		delete(currencies, session);
 		delete(fiscalYears, session);
 		delete(paymentTerms, session);
 		delete(taxCodes, session);
@@ -1551,6 +1550,7 @@ public class Company implements IAccounterServerCore {
 		delete(warehouses, session);
 		delete(measurements, session);
 		delete(usersList, session);
+		delete(currencies, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {

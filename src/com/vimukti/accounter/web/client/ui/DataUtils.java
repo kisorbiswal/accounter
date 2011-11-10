@@ -328,7 +328,15 @@ public class DataUtils {
 		return buffer.toString();
 	}
 
-	public static String amountAsStringWithCurrency(double amount, ClientCurrency currency) {
+	public static String amountAsStringWithCurrency(double amount,
+			long currencyID) {
+		ClientCurrency currency = Accounter.getCompany()
+				.getCurrency(currencyID);
+		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
+	}
+
+	public static String amountAsStringWithCurrency(Double amount,
+			ClientCurrency currency) {
 		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
 	}
 

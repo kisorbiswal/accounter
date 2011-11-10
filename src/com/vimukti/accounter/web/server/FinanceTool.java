@@ -1392,7 +1392,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<PayeeList> getPayeeList(int transactionCategory,
-			long companyId) throws DAOException {
+			long companyId) throws AccounterException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
@@ -1605,30 +1605,42 @@ public class FinanceTool {
 				while ((iterator).hasNext()) {
 
 					object = (Object[]) iterator.next();
+					double currencyFactor = (Double) object[12];
 
 					if (payeeName != null && ((String) object[1]) != null
 							&& payeeName.equals((String) object[1])) {
 
+						double currentMount = (Double) object[4];
 						payeeList.setCurrentMonth(payeeList.getCurrentMonth()
-								+ (Double) object[4]);
+								+ (currentMount / currencyFactor));
 
+						double preMnt = (Double) object[5];
 						payeeList.setPreviousMonth(payeeList.getPreviousMonth()
-								+ (Double) object[5]);
+								+ (preMnt / currencyFactor));
 
+						double pre2Mnt = (Double) object[6];
 						payeeList.setPreviousSecondMonth(payeeList
-								.getPreviousSecondMonth() + (Double) object[6]);
+								.getPreviousSecondMonth()
+								+ (pre2Mnt / currencyFactor));
 
+						double pre3Mnt = (Double) object[7];
 						payeeList.setPreviousThirdMonth(payeeList
-								.getPreviousThirdMonth() + (Double) object[7]);
+								.getPreviousThirdMonth()
+								+ (pre3Mnt / currencyFactor));
 
+						double pre4mnt = (Double) object[8];
 						payeeList.setPreviousFourthMonth(payeeList
-								.getPreviousFourthMonth() + (Double) object[8]);
+								.getPreviousFourthMonth()
+								+ (pre4mnt / currencyFactor));
 
+						double pre5Mnt = (Double) object[9];
 						payeeList.setPreviousFifthMonth(payeeList
-								.getPreviousFifthMonth() + (Double) object[9]);
+								.getPreviousFifthMonth()
+								+ (pre5Mnt / currencyFactor));
 
+						double yearToDate = (Double) object[10];
 						payeeList.setYearToDate(payeeList.getYearToDate()
-								+ (Double) object[10]);
+								+ (yearToDate / currencyFactor));
 
 					} else {
 
@@ -1640,13 +1652,27 @@ public class FinanceTool {
 						payeeList.setPayeeName(payeeName);
 						payeeList.setType((Integer) object[2]);
 						payeeList.setID((Long) object[3]);
-						payeeList.setCurrentMonth((Double) object[4]);
-						payeeList.setPreviousMonth((Double) object[5]);
-						payeeList.setPreviousSecondMonth((Double) object[6]);
-						payeeList.setPreviousThirdMonth((Double) object[7]);
-						payeeList.setPreviousFourthMonth((Double) object[8]);
-						payeeList.setPreviousFifthMonth((Double) object[9]);
-						payeeList.setYearToDate((Double) object[10]);
+						payeeList.setCurrecny((Long) object[13]);
+
+						double currentMonth = (Double) object[4];
+						payeeList
+								.setCurrentMonth(currentMonth / currencyFactor);
+						double preMnt = (Double) object[5];
+						payeeList.setPreviousMonth(preMnt / currencyFactor);
+						double pre2Mnt = (Double) object[6];
+						payeeList.setPreviousSecondMonth(pre2Mnt
+								/ currencyFactor);
+						double pre3Mnt = (Double) object[7];
+						payeeList.setPreviousThirdMonth(pre3Mnt
+								/ currencyFactor);
+						double pre4Mnt = (Double) object[8];
+						payeeList.setPreviousFourthMonth(pre4Mnt
+								/ currencyFactor);
+						double pre5Mnt = (Double) object[9];
+						payeeList.setPreviousFifthMonth(pre5Mnt
+								/ currencyFactor);
+						double yearToDate = (Double) object[10];
+						payeeList.setYearToDate(yearToDate / currencyFactor);
 						payeeList.setBalance((Double) object[11]);
 
 						queryResult.add(payeeList);
@@ -1654,10 +1680,10 @@ public class FinanceTool {
 				}
 				return new ArrayList<PayeeList>(queryResult);
 			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+				throw (new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT));
+		} catch (AccounterException e) {
+			throw (new AccounterException(AccounterException.ERROR_INTERNAL, e));
 		}
 	}
 

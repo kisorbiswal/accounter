@@ -276,7 +276,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
 			throws AccounterException;
 
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory);
+	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
+			throws AccounterException;
 
 	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate);
 

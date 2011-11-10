@@ -137,7 +137,8 @@ public abstract class VendorAccountTransactionTable extends
 
 							@Override
 							public boolean filter(ClientTAXCode e) {
-								if (e.getTAXItemGrpForPurchases() != 0) {
+								if (!e.isTaxable()
+										|| e.getTAXItemGrpForPurchases() != 0) {
 									return true;
 								}
 								return false;
@@ -162,7 +163,7 @@ public abstract class VendorAccountTransactionTable extends
 		}
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
-	
+
 	@Override
 	public void updateAmountsFromGUI() {
 		super.updateAmountsFromGUI();

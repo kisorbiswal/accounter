@@ -9,9 +9,9 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class VendorsListCommand extends NewAbstractCommand {
@@ -24,7 +24,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		
+
 		list.add(new ActionRequirement(VENDOR_TYPE, null) {
 
 			@Override
@@ -35,7 +35,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 				return list;
 			}
 		});
-		
+
 		list.add(new ShowListRequirement<PayeeList>("vendorssList",
 				"Please Select vendor", 5) {
 
@@ -73,25 +73,22 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<PayeeList> getLists(Context context) {
-				 ArrayList<PayeeList> completeList = getVendorList(context);
-				 ArrayList<PayeeList> result = new ArrayList<PayeeList>();
-				 
-				 String type = get(VENDOR_TYPE).getValue();
-				 
-					 for(PayeeList payee: completeList)
-					 {
-						 if(type.equalsIgnoreCase("Active"))
-						 {
-							 if(payee.isActive())
-								 result.add(payee);
-						 }
-						 if(type.equalsIgnoreCase("In-Active"))
-						 {
-							 if(!payee.isActive())
-								 result.add(payee);
-						 }
-					 }
-					return result;
+				ArrayList<PayeeList> completeList = getVendorList(context);
+				ArrayList<PayeeList> result = new ArrayList<PayeeList>();
+
+				String type = get(VENDOR_TYPE).getValue();
+
+				for (PayeeList payee : completeList) {
+					if (type.equalsIgnoreCase("Active")) {
+						if (payee.isActive())
+							result.add(payee);
+					}
+					if (type.equalsIgnoreCase("In-Active")) {
+						if (!payee.isActive())
+							result.add(payee);
+					}
+				}
+				return result;
 			}
 
 		});
@@ -136,7 +133,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 		try {
 			return financeTool.getPayeeList(ClientTransaction.CATEGORY_VENDOR,
 					context.getCompany().getID());
-		} catch (DAOException e) {
+		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
 		return null;
