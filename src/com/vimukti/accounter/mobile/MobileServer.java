@@ -32,8 +32,10 @@ public class MobileServer {
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			public ChannelPipeline getPipeline() {
 				// new SslHandler(getSSLEngine()),
-				return Channels.pipeline(new MobileDecoder(),
-						new MobileChannelHandler(new MobileMessageHandler()));
+				return Channels.pipeline(
+						new MobileDecoder(),
+						new MobileChannelHandler(MobileMessageHandler
+								.getInstance()));
 			}
 		});
 

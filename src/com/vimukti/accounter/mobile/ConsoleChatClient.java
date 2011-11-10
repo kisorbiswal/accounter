@@ -14,7 +14,6 @@ import java.net.Socket;
  * 
  */
 public class ConsoleChatClient {
-	MobileMessageHandler handler = new MobileMessageHandler();
 
 	public void start() {
 		try {

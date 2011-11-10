@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.hibernate.Session;
 
@@ -23,29 +24,46 @@ import com.vimukti.accounter.utils.HibernateUtil;
  * @author Prasanna Kumar G
  * 
  */
-public class MobileMessageHandler {
-
+public class MobileMessageHandler extends Thread {
+	private static MobileMessageHandler instance;
 	private Map<String, MobileSession> sessions = new HashMap<String, MobileSession>();
+	private LinkedBlockingQueue<MobileChannelContext> queue = new LinkedBlockingQueue<MobileChannelContext>();
 
-	/**
-	 * @param message
-	 * @param commandSender
-	 * @param message2
-	 * @return
-	 * @throws AccounterMobileException
-	 */
-	public String messageReceived(String networkId, String message,
-			AdaptorType adaptorType, int networkType)
-			throws AccounterMobileException {
-		if (message.isEmpty()) {
-			return message;
+	private MobileMessageHandler() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				MobileChannelContext take = queue.take();
+				messageReceived(take);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		String processMessage = processMessage(networkId, message, adaptorType,
-				networkType, null);
-		if (networkType == AccounterChatServer.NETWORK_TYPE_GTALK) {
-			sessions.get(networkId).await(this, networkId);
+	}
+
+	public void messageReceived(MobileChannelContext context) {
+		if (context.getMessage().isEmpty()) {
+			return;
 		}
-		return processMessage;
+		String processMessage;
+		try {
+			processMessage = processMessage(context.getNetworkId(),
+					context.getMessage(), context.getAdaptorType(),
+					context.getNetworkType(), null);
+		} catch (AccounterMobileException e) {
+			e.printStackTrace();
+			processMessage = "Exception: " + e.getMessage();
+		}
+
+		if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_GTALK) {
+			sessions.get(context.getNetworkId()).await(this,
+					context.getNetworkId());
+		}
+		context.send(processMessage);
 	}
 
 	private String processMessage(String networkId, String message,
@@ -74,7 +92,6 @@ public class MobileMessageHandler {
 					result.resultParts.add(0, resultParts.get(i - 1));
 				}
 			}
-			String reply = adoptor.postProcess(result);
 			boolean hasNextCommand = true;
 			if (userMessage.getCommand() != null
 					&& userMessage.getCommand().isDone()) {
@@ -100,15 +117,10 @@ public class MobileMessageHandler {
 				return processMessage(networkId, nextCommand, adaptorType,
 						networkType, result);
 			}
-
 			if (!hasNextCommand) {
-				reply += "\nEnter Command";
+				result.add("Enter Command");
 			}
-
-			if (reply.isEmpty()) {
-				System.out.println();
-			}
-			return reply;
+			return adoptor.postProcess(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterMobileException(e);
@@ -126,7 +138,7 @@ public class MobileMessageHandler {
 	 * @return
 	 * @throws AccounterMobileException
 	 */
-	public UserMessage preProcess(MobileSession session, String message,
+	private UserMessage preProcess(MobileSession session, String message,
 			String networkId, int networkType) throws AccounterMobileException {
 		UserMessage userMessage = new UserMessage(message, networkId,
 				networkType);
@@ -317,5 +329,21 @@ public class MobileMessageHandler {
 
 	public void logout(String networkId) {
 		sessions.remove(networkId);
+	}
+
+	public void putMessage(MobileChannelContext context) {
+		try {
+			queue.put(context);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static MobileMessageHandler getInstance() {
+		if (instance == null) {
+			instance = new MobileMessageHandler();
+			instance.start();
+		}
+		return instance;
 	}
 }

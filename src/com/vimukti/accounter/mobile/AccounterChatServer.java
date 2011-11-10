@@ -36,7 +36,7 @@ public class AccounterChatServer implements ChatManagerListener,
 	 * Creates new Instance
 	 */
 	public AccounterChatServer() {
-		this.messageHandler = new MobileMessageHandler();
+		this.messageHandler = MobileMessageHandler.getInstance();
 	}
 
 	public void start() {
@@ -72,7 +72,6 @@ public class AccounterChatServer implements ChatManagerListener,
 			}, 500);
 		} catch (Exception e) {
 			log.error("Unable to Strart Chat Server.");
-			e.printStackTrace();
 		}
 		log.info("Chat Server Started....");
 	}
@@ -87,15 +86,21 @@ public class AccounterChatServer implements ChatManagerListener,
 		}
 		System.out.println("Message " + message);
 		if (message != null) {
-			try {
-				String replay = messageHandler.messageReceived(from, message,
-						AdaptorType.CHAT, NETWORK_TYPE_GTALK);
-				chat.sendMessage(replay);
-			} catch (AccounterMobileException e) {
-				e.printStackTrace();
-			} catch (XMPPException e) {
-				e.printStackTrace();
-			}
+			MobileChannelContext context = new MobileChannelContext(from,
+					message, AdaptorType.CHAT, NETWORK_TYPE_GTALK) {
+
+				@Override
+				public void send(String string) {
+					try {
+						chat.sendMessage(string);
+					} catch (XMPPException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+
+			messageHandler.putMessage(context);
+
 		}
 	}
 

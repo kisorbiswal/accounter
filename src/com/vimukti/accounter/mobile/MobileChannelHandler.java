@@ -23,20 +23,28 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	}
 
 	@Override
-	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e)
+	public void messageReceived(ChannelHandlerContext ctx, final MessageEvent e)
 			throws Exception {
 		String message = (String) e.getMessage();
 		String networkId = (String) ctx.getAttachment();
-
-		String messageReceived = messageHandler.messageReceived(networkId,
+		MobileChannelContext context = new MobileChannelContext(networkId,
 				message, AdaptorType.MOBILE,
-				AccounterChatServer.NETWORK_TYPE_MOBILE);
+				AccounterChatServer.NETWORK_TYPE_MOBILE) {
 
-		Channel channel = e.getChannel();
+			@Override
+			public void send(String string) {
+				if (string.isEmpty()) {
+					System.out.println();
+				}
+				Channel channel = e.getChannel();
 
-		ChannelBuffer buffer = ChannelBuffers.copiedBuffer(messageReceived,
-				Charset.forName("UTF-8"));
-		channel.write(buffer);
+				ChannelBuffer buffer = ChannelBuffers.copiedBuffer(string,
+						Charset.forName("UTF-8"));
+				channel.write(buffer);
+			}
+		};
+		messageHandler.putMessage(context);
+
 	}
 
 	@Override
