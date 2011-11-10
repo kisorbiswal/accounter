@@ -302,10 +302,20 @@ public abstract class Payee extends CreatableObject implements
 		this.payeeSince = payeeSince;
 	}
 
+	/**
+	 * 
+	 * @param session
+	 * @param transaction
+	 * @param amount
+	 * @param object
+	 * 
+	 *            method for reverse back effect on the Account related to this
+	 *            Payee
+	 */
+
 	public void updateBalance(Session session, Transaction transaction,
 			double amount) {
-
-		updateBalance(session, transaction, amount, null);
+		updateBalance(session, transaction, amount, true);
 	}
 
 	/**
@@ -320,7 +330,7 @@ public abstract class Payee extends CreatableObject implements
 	 */
 
 	public void updateBalance(Session session, Transaction transaction,
-			double amount, TAXRateCalculation object) {
+			double amount, boolean updateBalanceInPayeeCurrency) {
 
 		/**
 		 * To check whether this payee is Customer, Vendor or Tax Agency.
@@ -332,19 +342,22 @@ public abstract class Payee extends CreatableObject implements
 
 		if (this.type == TYPE_CUSTOMER) {
 			this.balance -= amount;
-			this.balanceInPayeeCurrency -= amount
-					/ transaction.getCurrencyFactor();
+			if (updateBalanceInPayeeCurrency) {
+				this.balanceInPayeeCurrency -= amount
+						/ transaction.getCurrencyFactor();
+			}
 		} else if (this.type == TYPE_VENDOR || this.type == TYPE_TAX_AGENCY) {
 			this.balance += amount;
-			this.balanceInPayeeCurrency += amount
-					/ transaction.getCurrencyFactor();
+			if (updateBalanceInPayeeCurrency) {
+				this.balanceInPayeeCurrency += amount
+						/ transaction.getCurrencyFactor();
+			}
 		}
 
 		/**
 		 * Getting the Account related to this Payee.
 		 */
-		Account account = (object == null) ? this.getAccount() : object
-				.getSalesLiabilityAccount();
+		Account account = this.getAccount();
 
 		// /**
 		// * In case of ItemReceipt instead of Updating Accounts Payable balance
