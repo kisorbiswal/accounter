@@ -486,7 +486,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setOpeningBalance(openingBalText.getAmount()
 				* data.getCurrencyFactor());
 
-		data.setBalance(balanceText.getAmount());
+		// data.setBalance(balanceText.getAmount());
 		// Setting Balance As of
 		data.setBalanceAsOf(balanceDate.getEnteredDate().getDate());
 
