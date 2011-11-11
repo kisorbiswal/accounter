@@ -46,7 +46,6 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTa
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
@@ -128,8 +127,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			amountToVendor.setAmount(totalPayment);
 			tdsPayableAmount.setAmount(tdsTotal);
 			amountLabelForeign.setAmount(totalPayment + tdsTotal);
-			amountLableBase.setAmount(getAmountInBaseCurrency(totalPayment)
-					+ getAmountInBaseCurrency(tdsTotal));
+			amountLableBase.setAmount(toBeSetAmount + grid.getTDSTotal());
 
 			if (payFromAccount != null) {
 				if (isInViewMode()) {

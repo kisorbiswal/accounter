@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
-import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -69,7 +68,8 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
-				row.setPayment(row.getAmountDue());
+				row.setPayment(currencyProvider.getAmountInBaseCurrency(row
+						.getAmountDue()));
 				onSelectionChanged(row, value);
 			}
 
@@ -315,12 +315,14 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected double getAmount(ClientTransactionPayBill row) {
-					return row.getPayment();
+					return currencyProvider.getAmountInTransactionCurrency(row
+							.getPayment());
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
 						double value) {
+					value = currencyProvider.getAmountInBaseCurrency(value);
 					onSelectionChanged(row, true);
 					row.setPayment(value);
 					updateTotals(row, value);
@@ -362,7 +364,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getPayment());
+					return DataUtils.getAmountAsString(currencyProvider
+							.getAmountInTransactionCurrency(row.getPayment()));
 				}
 
 				@Override
@@ -377,7 +380,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected double getAmount(ClientTransactionPayBill row) {
-					return row.getPayment();
+					return currencyProvider.getAmountInTransactionCurrency(row
+							.getPayment());
 				}
 
 				@Override
@@ -777,7 +781,7 @@ public abstract class TransactionPayBillTable extends
 
 		if (isTDSEnabled()) {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider,true) {
+					currencyProvider, true) {
 
 				@Override
 				protected boolean isEnable() {
@@ -838,8 +842,10 @@ public abstract class TransactionPayBillTable extends
 			if (DecimalUtil.isEquals(totalValue, 0)) {
 				result.addError(this, Accounter.constants()
 						.totalPaymentNotZeroForSelectedRecords());
-			} else if (DecimalUtil.isGreaterThan(totalValue,
-					transactionPayBill.getAmountDue())) {
+			} else if (DecimalUtil
+					.isGreaterThan(totalValue, currencyProvider
+							.getAmountInBaseCurrency(transactionPayBill
+									.getAmountDue()))) {
 				result.addError(this, Accounter.constants()
 						.totalPaymentNotExceedDueForSelectedRecords());
 			}
@@ -1114,7 +1120,9 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	private void updatesAmounts(ClientTransactionPayBill bill) {
-		double amountToPay = bill.getAmountDue() - bill.getAppliedCredits()
+		double amountToPay = currencyProvider.getAmountInBaseCurrency(bill
+				.getAmountDue())
+				- bill.getAppliedCredits()
 				- bill.getCashDiscount();
 		double tdsToPay = calculateTDS(amountToPay);
 		double payment = amountToPay - tdsToPay;
@@ -1124,7 +1132,9 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	private void updateTotals(ClientTransactionPayBill bill, double payment) {
-		double amountToPay = bill.getAmountDue() - bill.getAppliedCredits()
+		double amountToPay = currencyProvider.getAmountInBaseCurrency(bill
+				.getAmountDue())
+				- bill.getAppliedCredits()
 				- bill.getCashDiscount();
 		double tdsToPay = calculateTDS(amountToPay);
 		tdsToPay = (payment / (amountToPay - tdsToPay)) * tdsToPay;

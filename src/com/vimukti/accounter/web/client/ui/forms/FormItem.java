@@ -149,7 +149,9 @@ public abstract class FormItem<T> {
 	}
 
 	public void show() {
-		getLabelWidget().setVisible(true);
+		if (label != null) {
+			label.setVisible(true);
+		}
 		getMainWidget().setVisible(true);
 	}
 
@@ -158,7 +160,9 @@ public abstract class FormItem<T> {
 	}
 
 	public void hide() {
-		getLabelWidget().setVisible(false);
+		if (label != null) {
+			label.setVisible(false);
+		}
 		getMainWidget().setVisible(false);
 	}
 
@@ -370,8 +374,8 @@ public abstract class FormItem<T> {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
-				result.addError(item, Accounter.messages().pleaseEnter(
-						item.getTitle()));
+				result.addError(item,
+						Accounter.messages().pleaseEnter(item.getTitle()));
 			}
 		}
 		return result;
