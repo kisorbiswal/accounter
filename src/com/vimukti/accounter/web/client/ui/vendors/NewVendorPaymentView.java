@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
@@ -69,7 +68,6 @@ public class NewVendorPaymentView extends
 	private VerticalPanel tdsPanel;
 	private double toBeSetEndingBalance;
 	private double toBeSetVendorBalance;
-	//private CurrencyCombo currencyCombo;
 	protected ClientCurrency selectCurrency;
 
 	private NewVendorPaymentView() {
@@ -422,6 +420,7 @@ public class NewVendorPaymentView extends
 	protected void accountSelected(ClientAccount account) {
 		super.accountSelected(account);
 		this.endBalText.setAmount(account.getCurrentBalance());
+		endBalText.setCurrency(getCurrency(account.getCurrency()));
 		adjustBalance();
 	}
 
@@ -510,7 +509,8 @@ public class NewVendorPaymentView extends
 		amountText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
 		vendorBalText.setCurrency(getCompany()
 				.getCurrency(vendor.getCurrency()));
-		endBalText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
+		
+		
 		if (vendor == null)
 			return;
 		this.setVendor(vendor);
