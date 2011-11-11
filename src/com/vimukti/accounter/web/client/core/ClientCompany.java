@@ -3037,9 +3037,34 @@ public class ClientCompany implements IAccounterCore {
 	public void setDefaultWarehouse(long defaultWarehouse) {
 		this.defaultWarehouse = defaultWarehouse;
 	}
-	
+
 	public ClientCurrency getPrimaryCurrency() {
 		return getCurrency(getPreferences().getPrimaryCurrency().id);
+	}
+
+	public boolean hasOtherCountryCurrency() {
+		
+		long id=getPreferences().getPrimaryCurrency().id;
+
+		// for checking in all the Active Accounts
+		ArrayList<ClientAccount> activeAccounts = getActiveAccounts();
+		for (ClientAccount account : activeAccounts) {
+			ClientCurrency currency = getCurrency(account.getCurrency());
+			if (id!=currency.id) {
+				return true;
+			}
+		}
+
+		// for checking in all the Active Payee
+		ArrayList<ClientPayee> activePayees = getActivePayees();
+		for (ClientPayee payee : activePayees) {
+			ClientCurrency currency = getCurrency(payee.getCurrency());
+			if (id!=currency.id) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 }
