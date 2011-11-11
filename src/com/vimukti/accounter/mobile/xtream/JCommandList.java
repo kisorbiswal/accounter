@@ -12,7 +12,8 @@ public class JCommandList {
 	public int addAll(CommandList object, int code) {
 		for (UserCommand command : object) {
 			JCommand jCommand = new JCommand();
-			jCommand.set(command.getDisplayName(), String.valueOf((char) code));
+			jCommand.set(command.getDisplayName(),
+					String.valueOf((char) code++));
 			commandNames.add(jCommand);
 		}
 		return code;
