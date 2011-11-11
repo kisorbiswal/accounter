@@ -3671,7 +3671,7 @@
 		when
 		T.T_TYPE = 1
 		or T.T_TYPE = 3
-		or T.T_TYPE = 2 or T.T_TYPE = 27
+		or T.T_TYPE = 2 or T.T_TYPE = 26 or T.T_TYPE = 27
 		then
 		T.TOTAL
 		when
