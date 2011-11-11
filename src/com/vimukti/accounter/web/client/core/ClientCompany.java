@@ -1175,7 +1175,7 @@ public class ClientCompany implements IAccounterCore {
 	public ClientCurrency getCurrency(long currencyId) {
 		ClientCurrency object = Utility.getObject(this.currencies, currencyId);
 		if(object==null){
-			return getPreferences().getPrimaryCurrency();
+			return getPrimaryCurrency();
 		}
 		return object;
 	}
