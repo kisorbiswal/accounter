@@ -484,7 +484,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo.setDefaultValue(Accounter.constants()
 				.onlineBanking());
 
@@ -545,7 +544,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		payForm = new DynamicForm();
-		// payForm.setWidth("80%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
@@ -569,7 +567,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		});
 
 		DynamicForm balForm = new DynamicForm();
-		// balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
@@ -611,6 +608,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		amountLableBase.setDisabled(true);
 
 		currencyWidget = createCurrencyFactorWidget();
+
 		this.tdsPayableAmount = new AmountLabel(constants.tdsAmount());
 		tdsPayableAmount.setDisabled(true);
 
@@ -646,6 +644,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		vpPanel.setCellHorizontalAlignment(balForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		vpPanel.add(balForm);
+
 		if (isMultiCurrencyEnabled()) {
 			vpPanel.add(currencyWidget);
 			vpPanel.setCellHorizontalAlignment(currencyWidget,
@@ -720,7 +719,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected void vendorSelected(final ClientVendor vendor) {
 
 		vendorCurrency = getCurrency(vendor.getCurrency());
+
 		endBalText.setCurrency(vendorCurrency);
+
 		amountLabelForeign.setTitle(Accounter.messages().currencyTotal(
 				vendorCurrency.getFormalName()));
 
@@ -762,21 +763,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			getTransactionPayBills(vendor);
 		}
 		initTransactionTotalNonEditableItem();
-		long currency = vendor.getCurrency();
-		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+
+		if (vendorCurrency.getID() != 0) {
+			currencyWidget.setSelectedCurrency(vendorCurrency);
 		} else {
-			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
+
 		if (isMultiCurrencyEnabled() && !isInViewMode()) {
-			super.setCurrencycode(getCompany()
-					.getCurrency(vendor.getCurrency()));
+			super.setCurrencycode(vendorCurrency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 		}
@@ -820,6 +815,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			return;
 		this.payFromAccount = account;
 		endBalText.setAmount(payFromAccount.getCurrentBalance());
+		endBalText.setCurrency(getCurrency(payFromAccount.getCurrency()));
 		adjustAmountAndEndingBalance();
 	}
 
@@ -836,7 +832,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
-				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
@@ -883,7 +878,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
 		}
-		// super.initTransactionViewData();
+
 		initVendors();
 		initTransactionTotalNonEditableItem();
 		if (locationTrackingEnabled)
@@ -1279,9 +1274,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						accountSelected(selectItem);
-						// selectedAccount = (Account) selectItem;
-						// adjustBalance();
-
 					}
 
 				});

@@ -60,7 +60,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		super(Accounter.constants().cashDiscount(), Accounter.constants()
 				.cashDiscountPleaseAddDetails());
 		this.currencyProvider = currencyProvider;
-		this.cashDiscountValue = discountValue;
+		this.cashDiscountValue = currencyProvider.getAmountInBaseCurrency(discountValue);
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
 		createControls();

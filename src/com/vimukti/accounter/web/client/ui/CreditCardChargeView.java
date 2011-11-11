@@ -54,15 +54,12 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
 	protected List<String> selectedComboList;
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
-	// protected TextItem refText;
 	AmountField totText;
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
@@ -75,18 +72,15 @@ public class CreditCardChargeView extends
 
 	VendorCombo vendorNameSelect;
 	protected PayFromAccountsCombo payFrmSelect;
-	private TextAreaItem addrArea;
 
 	protected String selectPaymentMethod;
 
-	// protected ClientVendor selectedVendor;
-
 	private DynamicForm totForm;
 
-	private HorizontalPanel botPanel, addLinkPanel;
+	private HorizontalPanel botPanel;
 	HorizontalPanel totPanel;
 
-	private VerticalPanel leftVLay, botVLay;
+	private VerticalPanel leftVLay;
 
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
@@ -269,17 +263,6 @@ public class CreditCardChargeView extends
 			cheqNoText.setValue("");
 			cheqNoText.setDisabled(true);
 		}
-	}
-
-	private void setDisableStaeForFormItems() {
-
-		// for (FormItem formItem : formItems) {
-		//
-		// if (formItem != null)
-		// formItem.setDisabled(isEdit);
-		//
-		// }
-
 	}
 
 	@Override
@@ -495,11 +478,11 @@ public class CreditCardChargeView extends
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
-//		vendorForm.setWidth("100%");
+		// vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactCombo, phoneSelect,
 				billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-//		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
+		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		payMethSelect = new SelectCombo(Accounter.constants().paymentMethod());
 		payMethSelect.setRequired(true);
@@ -532,7 +515,7 @@ public class CreditCardChargeView extends
 		// formItems.add(delivDate);
 
 		termsForm = UIUtils.form(Accounter.constants().terms());
-//		termsForm.setWidth("100%");
+		// termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 
@@ -543,11 +526,6 @@ public class CreditCardChargeView extends
 			classListCombo = createAccounterClassListCombo();
 			termsForm.setFields(classListCombo);
 		}
-
-//		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "203px");
-
-		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue(String.valueOf(0.00));
@@ -744,7 +722,7 @@ public class CreditCardChargeView extends
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightHLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
-		
+
 		VerticalPanel vLay1 = new VerticalPanel();
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
@@ -1049,7 +1027,7 @@ public class CreditCardChargeView extends
 	}
 
 	private void resetFormView() {
-//		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+		// vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		// refText.setWidth("200px");
 	}
 

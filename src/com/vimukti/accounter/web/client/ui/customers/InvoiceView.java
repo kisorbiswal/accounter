@@ -67,7 +67,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -416,10 +415,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		netAmountLabel = createNetAmountLabel();
 
 		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
-				.getPrimaryCurrency());
+				.getPreferences().getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-				.getPrimaryCurrency());
+				.getPreferences().getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
@@ -685,7 +684,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				@Override
 				public void onClick(ClickEvent event) {
 					ActionFactory.getEmailViewAction().run(transaction, false);
-
 				}
 			});
 		}
@@ -809,7 +807,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
-		
+
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrencycode(currency);
 			setCurrencyFactor(1.0);
@@ -854,7 +852,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getPrimaryCurrency();
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				if (this.currency != null) {
@@ -863,7 +862,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
-
 			}
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			this.contact = transaction.getContact();
@@ -1485,10 +1483,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		memoTextAreaItem.setDisabled(isInViewMode());
 		customerTransactionTable.setDisabled(isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
-		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+		currencyWidget.setDisabled(isInViewMode());
 
-		}
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (shippingTermsCombo != null)

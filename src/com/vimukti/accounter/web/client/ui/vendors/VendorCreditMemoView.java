@@ -581,7 +581,7 @@ public class VendorCreditMemoView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		transactionTotalNonEditableText
-				.setAmount(getAmountInBaseCurrency(grandTotal));
+				.setAmount(grandTotal);
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 

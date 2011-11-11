@@ -66,15 +66,10 @@ public class VendorBillView extends
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
 
-	private CheckboxItem euVATexempVendor;
 
-	private CheckboxItem showPricesWithVAT;
 	private AmountLabel netAmount;
 
-	private AmountField total;
-
-	private DynamicForm vendorForm, vatForm;
-	private LinkItem purchaseLabel;
+	private DynamicForm vendorForm;
 	private VendorBillListDialog dialog;
 	private Double balanceDue = 0.0;
 
@@ -190,7 +185,8 @@ public class VendorBillView extends
 			balanceDueNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getBalanceDue()));
-
+			balanceDueNonEditableText.setCurrency(getTransactionCurrency());
+			
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate()) : getTransactionDate());
