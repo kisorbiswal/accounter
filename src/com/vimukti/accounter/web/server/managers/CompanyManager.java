@@ -317,7 +317,8 @@ public class CompanyManager extends Manager {
 	private void createOrUpdatePrimaryCurrency(ClientCompany company,
 			Company serverCompany) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		ClientCurrency primaryCurrency = company.getPrimaryCurrency();
+		ClientCurrency primaryCurrency = company.getPreferences()
+				.getPrimaryCurrency();
 		Currency existcurrency = serverCompany.getCurrency(primaryCurrency
 				.getFormalName());
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
