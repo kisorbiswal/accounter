@@ -1,15 +1,18 @@
 package com.vimukti.accounter.mobile;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * Handles the Request from User and Executes corresponding Command
@@ -128,12 +131,34 @@ public class CommandProcessor {
 		}
 		Result result = null;
 		try {
+			context.setPreferences(CompanyPreferenceThreadLocal.get());
 			result = command.run(context);
 			result = processResult(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = context.makeResult();
 			result.add("You got an Exception....@@@@@@@");
+
+			try {
+				FileInputStream inputStream = new FileInputStream(
+						"C:/Users/vimukti04/Desktop/exceptions.txt");
+				int available = inputStream.available();
+				byte[] data = new byte[available];
+				inputStream.read(data);
+				inputStream.close();
+
+				FileOutputStream fileOut = new FileOutputStream(
+						"C:/Users/vimukti04/Desktop/exceptions.txt");
+				PrintWriter printWriter = new PrintWriter(fileOut);
+				printWriter.write(new String(data));
+				printWriter
+						.write("===================================================\n");
+				e.printStackTrace(printWriter);
+				printWriter.flush();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
 		}
 		return result;
 	}
