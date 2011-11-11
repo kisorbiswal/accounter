@@ -39,8 +39,6 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransac
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CashExpenseView extends
@@ -50,7 +48,6 @@ public class CashExpenseView extends
 	public List<String> selectedComboList;
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
-	private TextAreaItem billToAreaItem;
 	private boolean locationTrackingEnabled;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
@@ -223,11 +220,9 @@ public class CashExpenseView extends
 	protected void createControls() {
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
-		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
 		titlelabel = new Label(Accounter.constants().cashExpense());
 		titlelabel.setStyleName(Accounter.constants().labelTitle());
-		// titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -284,7 +279,6 @@ public class CashExpenseView extends
 		// formItems.add(billToCombo);
 
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
-		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(Accounter.constants().chequeNo());
 		checkNo.setDisabled(true);
@@ -292,9 +286,7 @@ public class CashExpenseView extends
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		// paymentMethodCombo.removeComboItem(constants.cheque());
 
-		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -479,16 +471,11 @@ public class CashExpenseView extends
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 
-			if (isMultiCurrencyEnabled()) {
+			totalForm.setFields(netAmount, vatTotalNonEditableText,
+					transactionTotalNonEditableText);
 
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
-			} else {
-
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalNonEditableText);
-			}
+			if (isMultiCurrencyEnabled())
+				totalForm.setFields(transactionTotalinForeignCurrency);
 
 			vpanel.add(totalForm);
 
@@ -520,12 +507,11 @@ public class CashExpenseView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
-			if (isMultiCurrencyEnabled()) {
-				totalForm.setFields(transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
-			} else {
-				totalForm.setFields(transactionTotalNonEditableText);
-			}
+
+			totalForm.setFields(transactionTotalNonEditableText);
+
+			if (isMultiCurrencyEnabled())
+				totalForm.setFields(transactionTotalinForeignCurrency);
 
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
@@ -551,8 +537,6 @@ public class CashExpenseView extends
 		listforms.add(memoForm);
 		listforms.add(totalForm);
 
-		// if (UIUtils.isMSIEBrowser())
-		// resetFormView();
 
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
@@ -574,7 +558,6 @@ public class CashExpenseView extends
 						.cheque()) && isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
-			// setCheckNumber();
 		} else {
 			checkNo.setValue("");
 		}
@@ -648,7 +631,7 @@ public class CashExpenseView extends
 				}
 			}
 			transactionTotalNonEditableText
-					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+					.setAmount(transaction.getTotal());
 			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
@@ -783,7 +766,7 @@ public class CashExpenseView extends
 							- lineTotal));
 		}
 		transactionTotalNonEditableText
-				.setAmount(getAmountInBaseCurrency(grandTotal));
+				.setAmount(grandTotal);
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}
