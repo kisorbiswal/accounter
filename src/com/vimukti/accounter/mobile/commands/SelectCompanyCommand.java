@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.MobileSession;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -42,13 +43,52 @@ public class SelectCompanyCommand extends Command {
 
 	@Override
 	public Result run(Context context) {
+		Result makeResult = context.makeResult();
+		Object choice = context.getSelection("Choice");
+		if (choice != null) {
+			if (choice.equals("No")) {
+				markDone();
+				makeResult = context.makeResult();
+				makeResult
+						.add("Selecting Company has been canceled. Continue with your Company.");
+				return makeResult;
+			} else {
+				makeResult.add("Your commands are canceled.");
+				MobileSession ioSession = context.getIOSession();
+				Command currentCommand = ioSession.getCurrentCommand();
+				while (currentCommand != null) {
+					currentCommand.markDone();
+					ioSession.refreshCurrentCommand();
+					currentCommand = ioSession.getCurrentCommand();
+				}
+			}
+		}
+		if (context.getString() == null || context.getString().isEmpty()) {
+			Company company = context.getCompany();
+			if (company != null && choice == null) {
+				makeResult = context.makeResult();
+				makeResult
+						.add("If you want to change company, your previuos commands are getting canceled. proccede?");
+				ResultList list = new ResultList("Choice");
+				Record e = new Record("Yes");
+				e.add("", "Yes (Cancel all my previous commands)");
+				list.add(e);
+
+				e = new Record("No");
+				e.add("", "No (Continue with '" + company.getDisplayName()
+						+ "')");
+				list.add(e);
+				makeResult.add(list);
+				return makeResult;
+			}
+		}
 		Requirement companyReq = get(COMPANY);
 
 		Company selection = context.getSelection(COMPANY);
 		if (selection != null) {
+			makeResult.add(selection.getDisplayName() + " has been selected.");
 			companyReq.setValue(selection);
 		}
-		Result makeResult = context.makeResult();
 		Client client = context.getIOSession().getClient();
 		if (!companyReq.isDone()) {
 			if (client != null) {

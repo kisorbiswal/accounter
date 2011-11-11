@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.CommandList;
@@ -8,6 +9,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class UsersCommand extends NewAbstractCommand {
 
@@ -65,8 +68,13 @@ public class UsersCommand extends NewAbstractCommand {
 	}
 
 	private List<ClientUserInfo> getUsersList(Context context) {
-		return null;// context.getClientCompany().getUsersList();
-
+		try {
+			return new FinanceTool().getUserManager().getAllUsers(
+					getCompanyId());
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientUserInfo>();
 	}
 
 	@Override
