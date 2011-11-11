@@ -6,7 +6,7 @@
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
-<script src="/jscripts/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="/jscripts/jquery-1.7.min.js" type="text/javascript"></script>
 <link type="text/css" href="/css/ss.css" rel="stylesheet" />
 <script  type="text/javascript" >
 $(document).ready(function() {

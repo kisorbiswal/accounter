@@ -31,7 +31,7 @@
 			}
 		});
 	});
-	if(news.list.length>1){
+	if(news.list.length>0){
 		$('#unChangedNewsDiv>h4>a').attr("href" ,news.list[0].url);
 		$('#unChangedNewsDiv>h4>a').text(news.list[0].title);
 		$('#unChangedNewsDiv>h3').text(news.list[0].body);}
@@ -78,7 +78,8 @@
 			function cahngeContent(){
 				 $('#unChangedNewsDiv>h4>a').attr("href" ,news.list[changingindex].url);
 					$('#unChangedNewsDiv>h4>a').text(news.list[changingindex].title);
-					$('#unChangedNewsDiv>h3').text(news.list[changingindex].body);			}
+					$('#unChangedNewsDiv>h3').text(news.list[changingindex].body);		
+					}
 		 
 	 
 	});	
