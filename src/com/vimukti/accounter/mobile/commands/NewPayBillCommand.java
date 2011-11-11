@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -173,6 +174,11 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(getMessages().create(getConstants().bankAccount()));
+			}
+
+			@Override
 			protected List<Account> getLists(Context context) {
 				List<Account> filteredList = new ArrayList<Account>();
 				for (Account obj : context.getCompany().getAccounts()) {
@@ -259,6 +265,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(FILTER_BY_DUE_ON_BEFORE, getMessages()
 				.pleaseEnter(getConstants().filterByBilldueonorbefore()),
 				getConstants().filterByBilldueonorbefore(), true, true));
+
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
