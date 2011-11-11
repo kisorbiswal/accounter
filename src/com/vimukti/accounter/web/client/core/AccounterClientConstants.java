@@ -104,7 +104,7 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 			.messages().payeeCredit(Global.get().Vendor());
 	public static final String TYPE_WRITE_CHECK = "Write Check";
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
-	public static final String TYPE_PAY_SALES_TAX = "Pay Sales Tax";
+	public static final String TYPE_PAY_TAX = "Pay Tax";
 	public static final String TYPE_SALES_ORDER = "Sales Order";
 	public static final String TYPE_PURCHASE_ORDER = "Purchase Order";
 	public static final String TYPE_ITEM_RECEIPT = "Item Receipt";

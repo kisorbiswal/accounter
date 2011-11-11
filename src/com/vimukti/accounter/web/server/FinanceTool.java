@@ -729,6 +729,7 @@ public class FinanceTool {
 			List<JournalEntry> openingBalanceEntries = query.list();
 
 			for (JournalEntry je : openingBalanceEntries) {
+				double currencyFactor = je.getCurrencyFactor();
 				ReceivePaymentTransactionList receivePaymentTransactionList = new ReceivePaymentTransactionList();
 				receivePaymentTransactionList.setTransactionId(je.getID());
 				receivePaymentTransactionList.setType(je.getType());
@@ -736,8 +737,9 @@ public class FinanceTool {
 						je.getDate().getDate()));
 				receivePaymentTransactionList.setNumber(je.getNumber());
 				receivePaymentTransactionList.setInvoiceAmount(je
-						.getDebitTotal());
-				receivePaymentTransactionList.setAmountDue(je.getBalanceDue());
+						.getDebitTotal() / currencyFactor);
+				receivePaymentTransactionList.setAmountDue(je.getBalanceDue()
+						/ currencyFactor);
 				receivePaymentTransactionList
 						.setDiscountDate(new ClientFinanceDate(je.getDate()
 								.getDate()));

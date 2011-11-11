@@ -505,8 +505,7 @@ public abstract class Payee extends CreatableObject implements
 		journalEntry.number = number;
 		journalEntry.transactionDate = balanceAsOf;
 		journalEntry.memo = "Opening Balance";
-		journalEntry.balanceDue = getOpeningBalance()*currencyFactor;
-		
+		journalEntry.balanceDue = getOpeningBalance() * currencyFactor;
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		// Line 1
@@ -515,9 +514,9 @@ public abstract class Payee extends CreatableObject implements
 		item1.setType(TransactionItem.TYPE_ACCOUNT);
 		item1.setDescription(getName());
 		if (this instanceof Customer) {
-			item1.setLineTotal(-1 * getOpeningBalance()*currencyFactor);
+			item1.setLineTotal(-1 * getOpeningBalance() * currencyFactor);
 		} else {
-			item1.setLineTotal(getOpeningBalance()*currencyFactor);
+			item1.setLineTotal(getOpeningBalance() * currencyFactor);
 		}
 		items.add(item1);
 
@@ -526,9 +525,9 @@ public abstract class Payee extends CreatableObject implements
 		item2.setType(TransactionItem.TYPE_ACCOUNT);
 		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
 		if (this instanceof Customer) {
-			item2.setLineTotal(getOpeningBalance()*currencyFactor);
+			item2.setLineTotal(getOpeningBalance() * currencyFactor);
 		} else {
-			item2.setLineTotal(-1 * getOpeningBalance()*currencyFactor);
+			item2.setLineTotal(-1 * getOpeningBalance() * currencyFactor);
 		}
 		items.add(item2);
 
@@ -536,6 +535,9 @@ public abstract class Payee extends CreatableObject implements
 		journalEntry.setCreditTotal(items.get(0).getLineTotal());
 
 		journalEntry.setTransactionItems(items);
+
+		journalEntry.setCurrency(currency);
+		journalEntry.setCurrencyFactor(currencyFactor);
 
 		return journalEntry;
 	}
@@ -548,7 +550,6 @@ public abstract class Payee extends CreatableObject implements
 		this.currency = currency;
 	}
 
-
 	/**
 	 * @return the balanceAsOf
 	 */
@@ -559,7 +560,6 @@ public abstract class Payee extends CreatableObject implements
 	public void setBalanceAsOf(FinanceDate balanceAsOf) {
 		this.balanceAsOf = balanceAsOf;
 	}
-
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {

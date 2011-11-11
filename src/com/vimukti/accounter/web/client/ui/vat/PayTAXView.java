@@ -635,7 +635,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	public void onEdit() {
 
 		if (transaction.canEdit) {
-			Accounter.showWarning(AccounterWarningType.PAYVAT_EDITING,
+			Accounter.showWarning(AccounterWarningType.PAYTAX_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override

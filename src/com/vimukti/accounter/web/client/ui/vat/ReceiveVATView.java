@@ -192,13 +192,14 @@ public class ReceiveVATView extends
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(companyConstants.amount(), this,getBaseCurrency());
+		amountText = new AmountField(companyConstants.amount(), this,
+				getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
 		endingBalanceText = new AmountField(companyConstants.bankBalance(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
@@ -481,7 +482,6 @@ public class ReceiveVATView extends
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
@@ -507,11 +507,12 @@ public class ReceiveVATView extends
 			}
 		}
 		ClientAccount bankAccount = depositInAccCombo.getSelectedValue();
-		//check if the currency of accounts is valid or not
-		if(bankAccount!=null){
-			ClientCurrency bankCurrency=getCurrency(bankAccount.getCurrency());
-			if(bankCurrency!=getBaseCurrency() && bankCurrency!=currency){
-				result.addError(depositInAccCombo,accounterConstants.selectProperBankAccount());
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+				result.addError(depositInAccCombo,
+						accounterConstants.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -625,7 +626,7 @@ public class ReceiveVATView extends
 	public void onEdit() {
 
 		if (transaction.canEdit) {
-			Accounter.showWarning(AccounterWarningType.PAYVAT_EDITING,
+			Accounter.showWarning(AccounterWarningType.TAXREFUND_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
