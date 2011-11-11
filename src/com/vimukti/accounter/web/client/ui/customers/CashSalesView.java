@@ -517,7 +517,11 @@ public class CashSalesView extends
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrencycode(currency);
-			setCurrencyFactor(1.0);
+			if (currency.equals(getBaseCurrency())){
+				setCurrencyFactor(1.0);
+			}else{
+				setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			}
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
