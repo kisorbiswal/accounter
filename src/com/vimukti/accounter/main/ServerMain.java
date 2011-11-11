@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.mobile.AccounterChatServer;
+import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
 import com.vimukti.accounter.mobile.MobileServer;
 import com.vimukti.accounter.mobile.store.CommandsFactory;
@@ -50,20 +51,46 @@ public class ServerMain extends Main {
 
 		Global.set(new ServerGlobal());
 
-		CommandsFactory.INSTANCE.reload();
-		PatternStore.INSTANCE.reload();
-
-		if (ServerConfiguration.isEnableChatServer()) {
-			ConsoleChatServer consoleChat = new ConsoleChatServer();
-			consoleChat.start();
-		}
-		AccounterChatServer accounterChatServer = new AccounterChatServer();
-		accounterChatServer.start();
-		new MobileServer().strat();
+		stratChatServers();
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
 
+	}
+
+	private static void stratChatServers() throws AccounterMobileException {
+		boolean isEnableCommands = false;
+		try {
+			if (ServerConfiguration.isEnableConsoleChatServer()) {
+				new ConsoleChatServer().start();
+				isEnableCommands = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (ServerConfiguration.isEnableIMChatServer()) {
+				new AccounterChatServer().start();
+				isEnableCommands = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (ServerConfiguration.isEnableMobileChatServer()) {
+				new MobileServer().strat();
+				isEnableCommands = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (isEnableCommands) {
+			CommandsFactory.INSTANCE.reload();
+			PatternStore.INSTANCE.reload();
+		}
 	}
 
 	private static void initLogger() {
