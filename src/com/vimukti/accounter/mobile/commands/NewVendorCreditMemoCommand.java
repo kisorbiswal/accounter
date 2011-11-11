@@ -143,7 +143,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPrimaryCurrency())) {
+									.equals(context.getPreferences().getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}

@@ -893,7 +893,6 @@
 		<property name="date" column="P_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="balance" column="BALANCE"></property>
-		<property name="balanceInPayeeCurrency" column="BALANCE_IN_PAYEE_CURRENCY"></property>
 		<property name="openingBalance" column="OPENING_BALANCE"></property>
 		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
