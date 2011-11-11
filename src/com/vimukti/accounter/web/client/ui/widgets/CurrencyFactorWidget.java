@@ -59,7 +59,6 @@ public class CurrencyFactorWidget extends DynamicForm {
 	}
 
 	private void showFactorField(boolean showFactorField) {
-		currencyForm.setDisabled(showFactorField);
 		if (selectedCurrencyItem == null) {
 			selectedCurrencyItem = Accounter.getCompany().getPrimaryCurrency();
 		}
