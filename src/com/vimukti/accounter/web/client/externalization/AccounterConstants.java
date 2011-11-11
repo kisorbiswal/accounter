@@ -3741,12 +3741,14 @@ public interface AccounterConstants extends Constants {
 	public String oneUserCanEnterOneValueOnlyForEachMessage();
 
 	public String selectProperBankAccount();
-	
+
 	public String pleaseEntervalidCurrencyFactor();
 
 	public String inventoryTracking();
-	
+
 	public String exchangeGainAndLossesReport();
-	
+
 	public String enterSalesORpurchaseItem();
+
+	public String depreciationShedule();
 }
