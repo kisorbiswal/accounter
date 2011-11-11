@@ -14,6 +14,16 @@
 	</pattern>
 
 	<pattern>
+		<input>Bank</input>
+		<input>Banking</input>
+		<output>
+			<command>Bank Accounts</command>
+			<command>Create Bank Account</command>
+			<command>Deposits / Transfer Funds</command>
+		</output>
+	</pattern>
+
+	<pattern>
 		<input>DashBoard</input>
 		<input>DashBord</input>
 		<output>
@@ -35,7 +45,7 @@
 		<input>FinancialYear</input>
 		<output>
 			<command>Create New Fiscal Year</command>
-			<command> Close Fiscal Year</command>
+			<command>Close Fiscal Year</command>
 			<command>Edit Fiscal Year</command>
 			<command>Delete Fiscal Year</command>
 		</output>
@@ -170,7 +180,7 @@
 			<command>Create New Item</command>
 		</output>
 	</pattern>
-	
+
 	<pattern>
 		<input>Help</input>
 		<output>
@@ -269,8 +279,8 @@
 			<command>Class List</command>
 		</output>
 	</pattern>
-	
-	
+
+
 	<pattern>
 		<input>Quote</input>
 		<output>
