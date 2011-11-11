@@ -190,6 +190,6 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	}
 
 	public String getPrimaryCurrencySymbol() {
-		return getCompany().getPrimaryCurrency().getSymbol();
+		return getPreferences().getPrimaryCurrency().getSymbol();
 	}
 }
