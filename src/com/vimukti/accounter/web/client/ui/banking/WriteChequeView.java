@@ -130,7 +130,8 @@ public class WriteChequeView extends
 	private double previousValue = 0.00D;
 
 	private HorizontalPanel unassignedAmountPanel;
-	private CurrencyFactorWidget currencyWidget;
+
+	// private CurrencyFactorWidget currencyWidget;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -227,10 +228,10 @@ public class WriteChequeView extends
 		}
 		String formalName = currencyWidget.getSelectedCurrency()
 				.getFormalName();
-		
+
 		transactionVendorAccountTable.updateTotals();
 		this.transactionVendorAccountTable.updateAmountsFromGUI();
-		
+
 		totalTxt.setTitle(Accounter.messages().currencyTotal(formalName));
 		amtText.setTitle(Accounter.messages().amount(formalName));
 		balText.setTitle(Accounter.messages().balance(formalName));
@@ -611,7 +612,7 @@ public class WriteChequeView extends
 		transaction.setPaymentMethod("Check");
 
 		// Setting Address
-		transaction.setAddress(billingAddress);
+		// transaction.setAddress(billingAddress);
 
 		// Setting Transactions
 		// FIXME Need to assign transaction Items from to tables.
@@ -809,8 +810,8 @@ public class WriteChequeView extends
 
 		// formItems.add(paytoSelect);
 
-		billToCombo = createBillToComboItem();
-		billToCombo.setDisabled(true);
+		// billToCombo = createBillToComboItem();
+		// billToCombo.setDisabled(true);
 
 		// billToCombo.setWidth(100);
 
@@ -848,7 +849,7 @@ public class WriteChequeView extends
 
 		payForm = new DynamicForm();
 		// payForm.setWidth("100%");
-		payForm.setFields(paytoSelect, billToCombo, amtText);
+		payForm.setFields(paytoSelect, amtText);
 		// payForm.getCellFormatter().setWidth(0, 0, "170px");
 
 		currencyWidget = createCurrencyFactorWidget();
@@ -1370,7 +1371,7 @@ public class WriteChequeView extends
 		setMode(EditMode.EDIT);
 		date.setDisabled(isInViewMode());
 		paytoSelect.setDisabled(isInViewMode());
-		billToCombo.setDisabled(isInViewMode());
+		// billToCombo.setDisabled(isInViewMode());
 		amtText.setDisabled(isInViewMode());
 		toprintCheck.setDisabled(isInViewMode());
 		bankAccSelect.setDisabled(isInViewMode());
@@ -1520,7 +1521,7 @@ public class WriteChequeView extends
 
 	private void settabIndexes() {
 		paytoSelect.setTabIndex(1);
-		billToCombo.setTabIndex(2);
+		// billToCombo.setTabIndex(2);
 		amtText.setTabIndex(3);
 		date.setTabIndex(4);
 		transactionNumber.setTabIndex(5);
