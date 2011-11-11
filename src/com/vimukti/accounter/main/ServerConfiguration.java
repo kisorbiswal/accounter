@@ -26,7 +26,10 @@ public class ServerConfiguration {
 	private static int consoleChatServerPort;
 	private static int mobileChatServerPort;
 	public static boolean isDebugMode;
-	private static boolean enableChatServer;
+
+	private static boolean enableConsoleChatServer;
+	private static boolean enableIMChatServer;
+	private static boolean enableMobileChatServer;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -96,7 +99,8 @@ public class ServerConfiguration {
 			String username = prop.getProperty("username", null);
 			String password = prop.getProperty("password", null);
 			String dialect = prop.getProperty("dialect", null);
-			String showSql = prop.getProperty("showsql", null);;
+			String showSql = prop.getProperty("showsql", null);
+			;
 			if (databaseUrl == null || username == null || password == null
 					|| dialect == null) {
 				System.err.println("Invalid configuration for database");
@@ -114,8 +118,12 @@ public class ServerConfiguration {
 			sessionDbUrl = prop.getProperty("sessionDbUrl", null);
 			chatUsername = prop.getProperty("chatUsername", null);
 			chatpassword = prop.getProperty("chatPassword", null);
-			enableChatServer = prop.getProperty("enableChatServer", null)
+			enableConsoleChatServer = prop.getProperty(
+					"enableConsoleChatServer", null).equalsIgnoreCase("true");
+			enableIMChatServer = prop.getProperty("enableIMChatServer", null)
 					.equalsIgnoreCase("true");
+			enableMobileChatServer = prop.getProperty("enableMobileChatServer",
+					null).equalsIgnoreCase("true");
 
 		} catch (NumberFormatException ne) {
 			System.err
@@ -212,8 +220,16 @@ public class ServerConfiguration {
 		return "config/MobileStore";
 	}
 
-	public static boolean isEnableChatServer() {
-		return enableChatServer;
+	public static boolean isEnableConsoleChatServer() {
+		return enableConsoleChatServer;
+	}
+
+	public static boolean isEnableIMChatServer() {
+		return enableIMChatServer;
+	}
+
+	public static boolean isEnableMobileChatServer() {
+		return enableMobileChatServer;
 	}
 
 	public static int getConsoleChatServerPort() {
