@@ -231,8 +231,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -583,8 +583,8 @@ public class CustomerRefundView extends
 					.valueCannotBe0orlessthan0(Accounter.constants().amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
-				getAmountInBaseCurrency(amtText.getAmount()),
-				payFromSelect.getSelectedValue())) {
+				getAmountInBaseCurrency(amtText.getAmount()), payFromSelect
+						.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
@@ -593,8 +593,8 @@ public class CustomerRefundView extends
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
-				result.addError(payFromCombo,
-						accounterConstants.selectProperBankAccount());
+				result.addError(payFromCombo, accounterConstants
+						.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -683,6 +683,9 @@ public class CustomerRefundView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
+		if (!currencyWidget.isShowFactorField()) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();
