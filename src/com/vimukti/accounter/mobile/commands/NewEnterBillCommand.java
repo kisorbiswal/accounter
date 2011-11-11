@@ -40,6 +40,8 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -208,14 +210,18 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().billNo()), getConstants().billNo(), true, true));
+
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getConstants().transactionDate()), getConstants()
 				.transactionDate(), true, true));
+
 		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
 				getConstants().dueDate()), getConstants().dueDate(), true, true));
+
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
 				getConstants().deliveryDate()), getConstants().deliveryDate(),
 				true, true));
+
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
 				.pleaseSelect(getConstants().paymentTerm()), getConstants()
 				.paymentTerms(), true, true, null) {
@@ -233,8 +239,28 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
-				return new ArrayList<Account>(context.getCompany()
-						.getAccounts());
+				return Utility.filteredList(new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						if (account.getType() != Account.TYPE_CASH
+								&& account.getType() != Account.TYPE_BANK
+								&& account.getType() != Account.TYPE_INVENTORY_ASSET
+								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != Account.TYPE_INCOME
+								&& account.getType() != Account.TYPE_OTHER_INCOME
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != Account.TYPE_OTHER_ASSET
+								&& account.getType() != Account.TYPE_EQUITY
+								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}
 		});
 
