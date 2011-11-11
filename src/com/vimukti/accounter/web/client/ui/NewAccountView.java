@@ -424,11 +424,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 
 		leftLayout.add(accInfoForm);
-
+		leftLayout.add(currencyCombo);
 		leftLayout.add(balanceForm);
-		if (isMultiCurrencyEnabled()) {
-			leftLayout.add(currencyCombo);
-		}
 
 		if (accountType == ClientAccount.TYPE_BANK)
 			addBankForm();
@@ -592,11 +589,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// getBankNameSelectItem();
 		// reset(bankForm);
 		// }
-		accInfoForm.setWidth("100%");
-		topHLay.setWidth("100%");
-		// leftLayout.setWidth("90%");
-		topHLay.add(leftLayout);
 		topHLay.add(paypalForm);
+		topHLay.setCellHorizontalAlignment(paypalForm, ALIGN_RIGHT);
 
 	}
 
@@ -680,47 +674,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				topHLay.remove(bankForm);
 			if (creditCardForm != null)
 				topHLay.remove(creditCardForm);
-			accInfoForm.removeAllRows();
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
-			// opBalText, asofDate, catSelect);
-			if (getPreferences().getUseAccountNumbers() == true) {
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(4000, 4999));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate);
-			}
-			// leftLayout.add(accInfoForm);
-			reset(accInfoForm);
+
 			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
 					"4000", "4999"));
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
-			// topHLay.setWidth("50%");
-
 		}
 
 		else {
 			selectedBank = null;
-			topHLay.add(accInfoForm);
-			topHLay.remove(leftLayout);
-			reset(accInfoForm);
-			accInfoForm.removeAllRows();
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, cashFlowCatSelect, opBalText, asofDate,
-			// catSelect);
-			if (getPreferences().getUseAccountNumbers() == true) {
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(4000, 4999));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate);
-			}
-			leftLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
-			leftLayout.add(accInfoForm);
 			accTypeSelect.setSelected(selectedId);
 
 			if (accountType == ClientAccount.TYPE_BANK) {
@@ -734,11 +696,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				addCreditCardForm();
 
 			}
-
-			topHLay.setWidth("100%");
-			// topHLay.reflowNow();
-			// mainVLay.reflowNow();
-
 		}
 		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		if (isNewBankAccount())
@@ -785,12 +742,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (bankForm != null) {
 
 			topHLay.remove(bankForm);
-			if (paypalForm != null) {
-				topHLay.remove(paypalForm);
-			}
-
-			bankNameSelect = null;
 		}
+		if (paypalForm != null) {
+			topHLay.remove(paypalForm);
+		}
+
+		bankNameSelect = null;
 		if (creditCardForm == null) {
 			lab1.setText("Credit Card Account");
 			typeSelect = new SelectCombo("Credit Card Type");
@@ -868,9 +825,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				getBankNameSelectItem();
 			reset(creditCardForm);
 		}
-		accInfoForm.setWidth("100%");
-		topHLay.add(leftLayout);
 		topHLay.add(creditCardForm);
+		topHLay.setCellHorizontalAlignment(creditCardForm, ALIGN_RIGHT);
 
 	}
 
@@ -932,10 +888,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				getBankNameSelectItem();
 			reset(bankForm);
 		}
-		accInfoForm.setWidth("100%");
-		topHLay.setWidth("100%");
-		// leftLayout.setWidth("90%");
-		topHLay.add(leftLayout);
 
 		topHLay.add(bankForm);
 		topHLay.setCellHorizontalAlignment(bankForm, ALIGN_RIGHT);
