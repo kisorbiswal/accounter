@@ -13,8 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
-	ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);

@@ -456,10 +456,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
 		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		customerTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), this) {
@@ -686,8 +686,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getPreferences()
-							.getPrimaryCurrency();
+					this.currency = getCompany().getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);

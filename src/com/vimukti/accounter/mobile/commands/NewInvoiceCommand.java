@@ -134,7 +134,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
 									.equals(context.getCompany()
-											.getPreferences()
 											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}

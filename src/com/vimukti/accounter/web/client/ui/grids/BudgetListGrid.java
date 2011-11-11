@@ -62,7 +62,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 		case 1:
 			return DataUtils.amountAsStringWithCurrency(budget.getTotalAmount(),
 
-			getCompany().getPreferences().getPrimaryCurrency());
+			getCompany().getPrimaryCurrency());
 		default:
 			break;
 		}

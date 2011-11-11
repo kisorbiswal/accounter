@@ -19,8 +19,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
-	private ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public InvoiceListGrid() {
 		super(false);

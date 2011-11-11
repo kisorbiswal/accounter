@@ -267,8 +267,8 @@ public class CustomerPrePayment extends Transaction {
 					this.total)) {
 
 				customerPrePayment.customer.updateBalance(session,
-						customerPrePayment, -customerPrePayment.total);
-				this.customer.updateBalance(session, this, this.total);
+						this, customerPrePayment.total);
+				this.customer.updateBalance(session, this, -this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
 
 			}
@@ -278,11 +278,11 @@ public class CustomerPrePayment extends Transaction {
 
 				Account depositInAccount = (Account) session.get(Account.class,
 						customerPrePayment.depositIn.id);
-				depositInAccount.updateCurrentBalance(customerPrePayment,
-						-customerPrePayment.total,
+				depositInAccount.updateCurrentBalance(this,
+						customerPrePayment.total,
 						customerPrePayment.currencyFactor);
 				depositInAccount.onUpdate(session);
-				this.depositIn.updateCurrentBalance(this, this.total,
+				this.depositIn.updateCurrentBalance(this, -this.total,
 						this.currencyFactor);
 				this.depositIn.onUpdate(session);
 

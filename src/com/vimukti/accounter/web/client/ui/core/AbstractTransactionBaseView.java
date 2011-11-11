@@ -202,7 +202,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected ClientCurrency currency;
 
 	protected double currencyFactor = 1.0;
-	
+
 	protected CurrencyFactorWidget currencyWidget;
 
 	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
@@ -1010,7 +1010,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 								.transactiontotalcannotbe0orlessthan0());
 				}
 			}
-			isValidCurrencyFactor( result);
+		isValidCurrencyFactor(result);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
 				&& getPreferences().isWarnOnEmptyClass()
@@ -1138,7 +1138,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				transaction.setAccounterClass(clientAccounterClass);
 			}
 			if (currency == null) {
-				currency = getCompany().getPreferences().getPrimaryCurrency();
+				currency = getCompany().getPrimaryCurrency();
 			}
 		}
 	}
@@ -1149,8 +1149,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
-		ClientCurrency baseCurrency = getCompany().getPreferences()
-				.getPrimaryCurrency();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
 
 		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
 				baseCurrency);
@@ -1168,8 +1167,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected CurrencyFactorWidget createCurrencyFactorWidget() {
-		ClientCurrency baseCurrency = getCompany().getPreferences()
-				.getPrimaryCurrency();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
 
 		CurrencyFactorWidget widget = new CurrencyFactorWidget(baseCurrency);
 		widget.setListener(new CurrencyChangeListener() {
@@ -1774,16 +1772,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected ClientCurrency getBaseCurrency() {
-		return getCompany().getPreferences().getPrimaryCurrency();
+		return getCompany().getPrimaryCurrency();
 	}
 
 	protected ClientCurrency getCurrency(long currency) {
 		return getCompany().getCurrency(currency);
 	}
-	protected void isValidCurrencyFactor(ValidationResult result){
-		if(!currencyWidget.isShowFactorField()){
-		if(currencyWidget.getCurrencyFactor() ==0){ 
-			result.addError(currencyWidget,Accounter.constants().pleaseEntervalidCurrencyFactor());
+
+	protected void isValidCurrencyFactor(ValidationResult result) {
+		if (!currencyWidget.isShowFactorField()) {
+			if (currencyWidget.getCurrencyFactor() == 0) {
+				result.addError(currencyWidget, Accounter.constants()
+						.pleaseEntervalidCurrencyFactor());
 			}
 		}
 	}

@@ -416,10 +416,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		netAmountLabel = createNetAmountLabel();
 
 		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
@@ -854,8 +854,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getPreferences()
-							.getPrimaryCurrency();
+					this.currency = getCompany().getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				if (this.currency != null) {

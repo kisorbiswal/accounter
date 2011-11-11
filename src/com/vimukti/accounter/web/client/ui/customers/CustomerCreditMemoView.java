@@ -181,9 +181,9 @@ public class CustomerCreditMemoView extends
 
 		taxTotalNonEditableText = createVATTotalNonEditableLabel();
 		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -464,8 +464,7 @@ public class CustomerCreditMemoView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getPreferences()
-							.getPrimaryCurrency();
+					this.currency = getCompany().getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
@@ -750,8 +749,7 @@ public class CustomerCreditMemoView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		} else {
-			ClientCurrency clientCurrency = getCompany().getPreferences()
-					.getPrimaryCurrency();
+			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}

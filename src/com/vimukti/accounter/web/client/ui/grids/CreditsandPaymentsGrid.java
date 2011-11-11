@@ -33,8 +33,7 @@ public class CreditsandPaymentsGrid extends
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
 
-	ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	private ClientTransactionReceivePayment traReceivePayment;
 	public LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> creditsMap = new LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>>();

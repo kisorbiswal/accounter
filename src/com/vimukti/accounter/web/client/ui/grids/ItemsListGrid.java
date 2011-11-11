@@ -14,8 +14,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
-	private ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public ItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);

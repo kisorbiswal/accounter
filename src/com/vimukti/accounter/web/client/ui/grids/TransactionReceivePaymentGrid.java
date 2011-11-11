@@ -66,8 +66,7 @@ public class TransactionReceivePaymentGrid extends
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
-	private ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	@Override
 	public void init() {

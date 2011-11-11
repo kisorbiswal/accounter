@@ -347,9 +347,9 @@ public class SalesOrderView extends
 				"memoFormAlign");
 
 		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		// priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
@@ -615,8 +615,7 @@ public class SalesOrderView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getPreferences()
-							.getPrimaryCurrency();
+					this.currency = getCompany().getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);

@@ -51,8 +51,7 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	}
 
 	protected String getColumnNameWithCurrency(String name) {
-		String currencyName = Accounter.getCompany().getPreferences()
-				.getPrimaryCurrency().getFormalName();
+		String currencyName = Accounter.getCompany().getPrimaryCurrency().getFormalName();
 		if (currencyProvider.getTransactionCurrency() != null) {
 			currencyName = currencyProvider.getTransactionCurrency()
 					.getFormalName();

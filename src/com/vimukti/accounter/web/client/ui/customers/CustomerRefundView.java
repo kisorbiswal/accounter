@@ -108,7 +108,7 @@ public class CustomerRefundView extends
 		}
 		addressListOfCustomer = customer.getAddress();
 		super.initBillToCombo();
-		custBalText.setAmount(customer.getBalanceInPayeeCurrency());
+		custBalText.setAmount(customer.getBalance());
 		refundAmountChanged(amtText.getAmount());
 		currencyWidget.setSelectedCurrency(clientCurrency);
 	}
@@ -529,8 +529,8 @@ public class CustomerRefundView extends
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
 
-			endBalText.setAmount(customer.getBalanceInPayeeCurrency());
-			custBalText.setAmount(customer.getBalanceInPayeeCurrency());
+			endBalText.setAmount(customer.getBalance());
+			custBalText.setAmount(customer.getBalance());
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 

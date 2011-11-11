@@ -508,14 +508,14 @@ public class ReceivePaymentView extends
 		initListGrid();
 
 		unUsedCreditsText = new AmountLabel(Accounter.messages().unusedCredits(
-				getCompany().getPreferences().getPrimaryCurrency()
+				getCompany().getPrimaryCurrency()
 						.getFormalName()));
 		unUsedCreditsText.setHelpInformation(true);
 		unUsedCreditsText.setDisabled(true);
 
 		unUsedPaymentsText = new AmountLabel(Accounter.messages()
 				.unusedPayments(
-						getCompany().getPreferences().getPrimaryCurrency()
+						getCompany().getPrimaryCurrency()
 								.getFormalName()));
 		unUsedPaymentsText.setHelpInformation(true);
 		unUsedPaymentsText.setDisabled(true);

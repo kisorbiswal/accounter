@@ -90,10 +90,10 @@ public class SoldAndDisposedItemsListGrid extends
 
 		case 4:
 			return DataUtils.amountAsStringWithCurrency(asset.getSalePrice(), getCompany()
-					.getPreferences().getPrimaryCurrency());
+					.getPrimaryCurrency());
 		case 5:
 			return DataUtils.amountAsStringWithCurrency(asset.getLossOrGain(), getCompany()
-					.getPreferences().getPrimaryCurrency());
+					.getPrimaryCurrency());
 
 		case 6:
 			return Accounter.constants().showHistory();

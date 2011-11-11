@@ -218,10 +218,10 @@ public class CashPurchaseView extends
 		netAmount.setDisabled(true);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
@@ -507,8 +507,7 @@ public class CashPurchaseView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getPreferences()
-							.getPrimaryCurrency();
+					this.currency = getCompany().getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
@@ -643,8 +642,7 @@ public class CashPurchaseView extends
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrency(clientCurrency);
 		} else {
-			ClientCurrency clientCurrency = getCompany().getPreferences()
-					.getPrimaryCurrency();
+			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}

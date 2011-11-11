@@ -45,7 +45,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 			return obj.getVendorName();
 		case 3:
 			return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), getCompany()
-					.getPreferences().getPrimaryCurrency());
+					.getPrimaryCurrency());
 
 		default:
 			break;

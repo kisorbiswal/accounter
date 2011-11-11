@@ -57,7 +57,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return obj.getCheckNumber();
 		case 8:
 			return DataUtils.amountAsStringWithCurrency(obj.getAmountPaid(), getCompany()
-					.getPreferences().getPrimaryCurrency());
+					.getPrimaryCurrency());
 		case 9:
 			if (!obj.isVoided())
 				return Accounter.getFinanceImages().notvoid();

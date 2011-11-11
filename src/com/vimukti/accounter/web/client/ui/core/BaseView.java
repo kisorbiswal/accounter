@@ -176,7 +176,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 	
 	protected ClientCurrency getBaseCurrency() {
-		return getCompany().getPreferences().getPrimaryCurrency();
+		return getCompany().getPrimaryCurrency();
 	}
 
 	protected ClientCurrency getCurrency(long currency) {

@@ -651,7 +651,7 @@ public class CustomerPrePaymentView extends
 		}
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
-		customerBalText.setAmount(customer.getBalanceInPayeeCurrency());
+		customerBalText.setAmount(customer.getBalance());
 		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
 		currencyWidget.setSelectedCurrency(clientCurrency);
 

@@ -1174,6 +1174,9 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientCurrency getCurrency(long currencyId) {
 		ClientCurrency object = Utility.getObject(this.currencies, currencyId);
+		if(object==null){
+			return getPreferences().getPrimaryCurrency();
+		}
 		return object;
 	}
 
@@ -3033,6 +3036,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setDefaultWarehouse(long defaultWarehouse) {
 		this.defaultWarehouse = defaultWarehouse;
+	}
+	
+	public ClientCurrency getPrimaryCurrency() {
+		return getCurrency(getPreferences().getPrimaryCurrency().id);
 	}
 
 }

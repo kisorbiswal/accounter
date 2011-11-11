@@ -17,7 +17,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 				getCompany().getCurrencies());
 		initCombo(currency);
 		if (!currency.isEmpty()) {
-			setSelected(getCompany().getPreferences().getPrimaryCurrency()
+			setSelected(getCompany().getPrimaryCurrency()
 					.getFormalName());
 		}
 	}

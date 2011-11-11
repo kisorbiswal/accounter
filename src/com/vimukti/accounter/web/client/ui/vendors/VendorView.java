@@ -1234,7 +1234,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Balance
 		openingBalText.setAmount(getAmountInPayeeCurrency(
 				data.getOpeningBalance(), data.getCurrencyFactor()));
-		balanceText.setAmount(data.getBalanceInPayeeCurrency());
+		balanceText.setAmount(data.getBalance());
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
@@ -1448,8 +1448,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
-		ClientCurrency baseCurrency = getCompany().getPreferences()
-				.getPrimaryCurrency();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
 
 		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
 				baseCurrency);

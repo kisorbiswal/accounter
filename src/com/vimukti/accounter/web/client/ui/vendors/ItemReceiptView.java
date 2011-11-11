@@ -165,7 +165,7 @@ public class ItemReceiptView extends
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 

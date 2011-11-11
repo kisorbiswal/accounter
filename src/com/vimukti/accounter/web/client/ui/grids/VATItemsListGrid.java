@@ -93,7 +93,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 				return item.getTaxRate() + "%";
 			else
 				return DataUtils.amountAsStringWithCurrency(item.getTaxRate(), getCompany()
-						.getPreferences().getPrimaryCurrency());
+						.getPrimaryCurrency());
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";

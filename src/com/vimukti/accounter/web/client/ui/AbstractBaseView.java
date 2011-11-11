@@ -495,7 +495,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		return getCompany().getPreferences().isEnableMultiCurrency();
 	}
 	protected ClientCurrency getBaseCurrency() {
-		return getCompany().getPreferences().getPrimaryCurrency();
+		return getCompany().getPrimaryCurrency();
 	}
 
 	protected ClientCurrency getCurrency(long currency) {

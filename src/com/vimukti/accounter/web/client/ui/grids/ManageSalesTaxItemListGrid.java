@@ -32,7 +32,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 				return obj.getTaxRate() + "%";
 			else
 				return DataUtils.amountAsStringWithCurrency(obj.getTaxRate(), getCompany()
-						.getPreferences().getPrimaryCurrency());
+						.getPrimaryCurrency());
 		case 3:
 			ClientTAXAgency agency = null;
 			if (obj.getTaxAgency() != 0) {

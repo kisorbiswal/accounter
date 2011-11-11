@@ -35,8 +35,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_LINK };
 	private TaxHistoryView taxHistoryView;
-	private ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public TAXHistoryGrid(boolean isMultiselectionEnable) {
 		super(isMultiselectionEnable);

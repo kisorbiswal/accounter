@@ -82,7 +82,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 							.getPurchaseDate())) : "";
 		case 4:
 			return DataUtils.amountAsStringWithCurrency(asset.getPurchasePrice(), getCompany()
-					.getPreferences().getPrimaryCurrency());
+					.getPrimaryCurrency());
 		case 5:
 			return Accounter.constants().showHistory();
 		case 6:

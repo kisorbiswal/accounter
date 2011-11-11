@@ -70,8 +70,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 	private ClientCurrency getDeleteObject() {
 		ClientCurrency currency = (ClientCurrency) listGridView.getSelection();
-		String primaryCurrencyString = getCompany().getPreferences()
-				.getPrimaryCurrency().getFormalName();
+		String primaryCurrencyString = getCompany().getPrimaryCurrency().getFormalName();
 
 		if (currency.getFormalName().toLowerCase()
 				.contains(primaryCurrencyString.toLowerCase())) {
@@ -117,8 +116,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		clientCurrency = (ClientCurrency) listGridView.getSelection();
-		ClientCurrency currency = getCompany().getPreferences()
-				.getPrimaryCurrency();
+		ClientCurrency currency = getCompany().getPrimaryCurrency();
 		if (currency != null && clientCurrency.getID() == currency.getID()) {
 			result.addError(this, Accounter.constants()
 					.CannotDeletePrimaryCurrency());

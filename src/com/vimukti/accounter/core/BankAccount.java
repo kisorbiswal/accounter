@@ -71,20 +71,6 @@ public class BankAccount extends Account {
 		this.lastReconcilationDate = lastReconcilationDate;
 	}
 
-	@Override
-	public boolean equals(Account account) {
-		if (!(account instanceof BankAccount)) {
-			return false;
-		}
-		BankAccount bankAccount = (BankAccount) account;
-		if (super.equals(account)
-				&& this.bankAccountType == bankAccount.bankAccountType
-				&& (this.bank != null && bankAccount.bank != null) ? (this.bank
-				.equals(bankAccount.bank))
-				: true && (this.bankAccountNumber != null && bankAccount.bankAccountNumber != null) ? (this.bankAccountNumber
-						.equals(bankAccount.bankAccountNumber)) : true)
-			return true;
-		return false;
-	}
+	
 
 }

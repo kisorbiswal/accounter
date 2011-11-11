@@ -73,7 +73,7 @@ public class TransactionIssuePaymentGrid extends
 			return issuepayment.getMemo();
 		case 4:
 			return DataUtils.amountAsStringWithCurrency(issuepayment.getAmount(), getCompany()
-					.getPreferences().getPrimaryCurrency());
+					.getPrimaryCurrency());
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment
 					.getPaymentMethod() : Accounter.constants().check();

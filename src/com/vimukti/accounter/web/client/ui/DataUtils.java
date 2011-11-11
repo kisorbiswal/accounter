@@ -333,8 +333,7 @@ public class DataUtils {
 		ClientCurrency currency = Accounter.getCompany()
 				.getCurrency(currencyID);
 		if (currency == null) {
-			currency = Accounter.getCompany().getPreferences()
-					.getPrimaryCurrency();
+			currency = Accounter.getCompany().getPrimaryCurrency();
 		}
 		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
 	}

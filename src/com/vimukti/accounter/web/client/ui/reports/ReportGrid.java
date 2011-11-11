@@ -128,7 +128,7 @@ public class ReportGrid<R> extends CustomTable {
 
 	private String getValue(Object object) {
 		return (object instanceof Double ? DataUtils.amountAsStringWithCurrency((Double) object,
-				Accounter.getCompany().getPreferences().getPrimaryCurrency())
+				Accounter.getCompany().getPrimaryCurrency())
 				: object.toString());
 	}
 

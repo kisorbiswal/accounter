@@ -22,8 +22,7 @@ public class TransactionPayTAXGrid extends
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
 	private PayTAXView payVATView;
-	ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	AccounterConstants accounterConstants = Accounter.constants();
 

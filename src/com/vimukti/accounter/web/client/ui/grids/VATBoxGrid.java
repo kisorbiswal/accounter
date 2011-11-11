@@ -33,7 +33,7 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 		}
 		if (index == 1) {
 			return DataUtils.amountAsStringWithCurrency(obj.getAmount(), getCompany()
-					.getPreferences().getPrimaryCurrency());
+					.getPrimaryCurrency());
 		}
 		return null;
 	}

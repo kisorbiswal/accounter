@@ -36,8 +36,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		case 2:
 			return obj.getCustomerName();
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(obj.getTotal(), getCompany().getPreferences()
-					.getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(obj.getTotal(), getCompany().getPrimaryCurrency());
 			// case 7:
 			// return amountAsString(obj.getBalance());
 

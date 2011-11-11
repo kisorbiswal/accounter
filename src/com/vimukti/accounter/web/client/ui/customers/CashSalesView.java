@@ -242,9 +242,9 @@ public class CashSalesView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		transactionTotalBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 		transactionTotalForeignCurrency = createForeignCurrencyAmountLable(getCompany()
-				.getPreferences().getPrimaryCurrency());
+				.getPrimaryCurrency());
 
 		
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
@@ -692,8 +692,7 @@ public class CashSalesView extends
 					this.currency = getCompany().getCurrency(
 							transaction.getCurrency());
 				} else {
-					this.currency = getCompany().getPreferences()
-							.getPrimaryCurrency();
+					this.currency = getCompany().getPrimaryCurrency();
 				}
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);

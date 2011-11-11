@@ -44,7 +44,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 7:
 			return DataUtils.amountAsStringWithCurrency(customerRefund.getAmountPaid(),
 
-			getCompany().getPreferences().getPrimaryCurrency());
+			getCompany().getPrimaryCurrency());
 		case 8:
 			if (!customerRefund.isVoided())
 				return Accounter.getFinanceImages().notvoid();

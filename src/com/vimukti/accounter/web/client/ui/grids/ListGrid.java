@@ -83,8 +83,7 @@ public abstract class ListGrid<T> extends CustomTable {
 
 	private boolean isEditEnable;
 
-	ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	private int editEventType = 1;
 	protected RecordClickHandler<T> recordClickHandler;

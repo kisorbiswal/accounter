@@ -429,7 +429,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 
 	}
 	protected ClientCurrency getBaseCurrency() {
-		return getCompany().getPreferences().getPrimaryCurrency();
+		return getCompany().getPrimaryCurrency();
 	}
 
 	protected ClientCurrency getCurrency(long currency) {

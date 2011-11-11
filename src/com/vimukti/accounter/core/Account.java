@@ -800,6 +800,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
+		if(this.currency==null){
+			this.currency=getCompany().getPrimaryCurrency();
+		}
 
 		try {
 			if (this.type == Account.TYPE_INCOME
@@ -967,6 +970,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return;
 		}
 		amount = (isIncrease ? 1 : -1) * amount;
+		
+		if(this.getCurrency()==getCompany().getPrimaryCurrency()){
+			currencyFactor=1;
+		}
 
 		log.info("Current Balance of  " + this.getName()
 				+ " has been updated from " + this.currentBalance);
@@ -1152,6 +1159,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		journalEntry.number = number;
 		journalEntry.transactionDate = account.asOf;
 		journalEntry.memo = "Opening Balance";
+		journalEntry.currencyFactor = this.currencyFactor;
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		TransactionItem item1 = new TransactionItem();
@@ -1189,57 +1197,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				+ this.totalBalance;
 	}
 
-	public boolean equals(Account account) {
-
-		if (this.version == account.version
-				&& this.id == account.id
-				&& this.type == account.type
-				&& this.isActive == account.isActive
-				&& DecimalUtil.isEquals(this.openingBalance,
-						account.openingBalance)
-				&& this.isConsiderAsCashAccount == account.isConsiderAsCashAccount
-				// && this.bankAccountType == account.bankAccountType
-				&& this.cashFlowCategory == account.cashFlowCategory
-				&& DecimalUtil.isEquals(this.creditLimit, account.creditLimit)
-				&& this.isIncrease == account.isIncrease
-				&& DecimalUtil.isEquals(this.currentBalance,
-						account.currentBalance)
-				&& DecimalUtil
-						.isEquals(this.totalBalance, account.totalBalance)
-				&& this.baseType == account.baseType
-				&& this.isOpeningBalanceEditable == account.isOpeningBalanceEditable
-				&& (this.number != null && account.number != null) ? (this.number
-				.equals(account.number))
-				: true && (this.name != null && account.name != null) ? (this.name
-						.equals(account.name))
-						: true && (this.parent != null && account.parent != null) ? (this.parent
-								.equals(account.parent))
-								: true && (this.asOf != null && account.asOf != null) ? (this.asOf
-										.equals(account.asOf))
-										: true && (this.comment != null && account.comment != null) ? (this.comment
-												.equals(account.comment))
-												: true
-												// && (this.bank != null &&
-												// account.bank != null) ?
-												// (this.bank
-												// .equals(account.bank))
-												// : true &&
-												// (this.bankAccountNumber !=
-												// null &&
-												// account.bankAccountNumber !=
-												// null) ?
-												// (this.bankAccountNumber
-												// .equals(account.bankAccountNumber))
-												// : true
-												&& (this.cardOrLoanNumber != null && account.cardOrLoanNumber != null) ? (this.cardOrLoanNumber
-														.equals(account.cardOrLoanNumber))
-														: true && (this.hierarchy != null && account.hierarchy != null) ? (this.hierarchy
-																.equals(account.hierarchy))
-																: true)
-			return true;
-
-		return false;
-	}
 
 	public void setNumber(String number) {
 		this.number = number;

@@ -407,55 +407,39 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			hierText.setHelpInformation(true);
 			hierText.setDisabled(true);
 			hierText.setWidth(100);
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
-			// opBalText, asofDate, catSelect);
+		}
+		// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+		// statusBox, cashFlowCatSelect, opBalText, asofDate,
+		// catSelect);
+		if (getPreferences().getUseAccountNumbers()) {
 
-			if (getPreferences().getUseAccountNumbers()) {
-
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate, currentBalanceText);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate, currentBalanceText);
-			}
-
-			leftLayout.add(accInfoForm);
-			topHLay.add(leftLayout);
-
+			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+					statusBox);
+			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		} else {
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, cashFlowCatSelect, opBalText, asofDate,
-			// catSelect);
-			if (getPreferences().getUseAccountNumbers()) {
+			accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
+			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+					statusBox);
+			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
+		}
 
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox);
-				balanceForm.setFields(opBalText, asofDate, currentBalanceText);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox);
-				balanceForm.setFields(opBalText, asofDate, currentBalanceText);
-			}
+		leftLayout.add(accInfoForm);
 
-			leftLayout.add(accInfoForm);
-			if (isMultiCurrencyEnabled()) {
-				leftLayout.add(currencyCombo);
-			}
-			leftLayout.add(balanceForm);
-			if (accountType == ClientAccount.TYPE_BANK)
-				addBankForm();
-			if (accountType == ClientAccount.TYPE_PAYPAL) {
-				addPaypalForm();
-			} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-				addCreditCardForm();
-				topHLay.setWidth("100%");
+		leftLayout.add(balanceForm);
+		if (isMultiCurrencyEnabled()) {
+			leftLayout.add(currencyCombo);
+		}
 
-			}
+		if (accountType == ClientAccount.TYPE_BANK)
+			addBankForm();
+		if (accountType == ClientAccount.TYPE_PAYPAL) {
+			addPaypalForm();
+		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+			addCreditCardForm();
+			topHLay.setWidth("100%");
 
 		}
+		topHLay.add(leftLayout);
 		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		cashAccountCheck = new CheckboxItem(Accounter.messages()
 				.thisIsConsideredACashAccount(Global.get().Account()));
@@ -522,8 +506,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private CurrencyComboWidget createCurrencyWidget() {
 
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
-		ClientCurrency baseCurrency = getCompany().getPreferences()
-				.getPrimaryCurrency();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
 
 		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
 				baseCurrency);
@@ -1384,8 +1367,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				this.selectCurrency = getCompany().getCurrency(
 						data.getCurrency());
 			} else {
-				this.selectCurrency = getCompany().getPreferences()
-						.getPrimaryCurrency();
+				this.selectCurrency = getCompany().getPrimaryCurrency();
 			}
 			this.currencyFactor = data.getCurrencyFactor();
 			if (this.selectCurrency != null) {
@@ -1787,8 +1769,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
-		ClientCurrency baseCurrency = getCompany().getPreferences()
-				.getPrimaryCurrency();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
 
 		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
 				baseCurrency);

@@ -45,7 +45,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 8:
 			return DataUtils.amountAsStringWithCurrency(list.getAmountPaid(),
 
-			getCompany().getPreferences().getPrimaryCurrency());
+			getCompany().getPrimaryCurrency());
 		case 9:
 			if (!list.isVoided())
 				return Accounter.getFinanceImages().notvoid();

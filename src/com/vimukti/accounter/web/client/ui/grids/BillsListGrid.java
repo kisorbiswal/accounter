@@ -19,8 +19,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class BillsListGrid extends BaseListGrid<BillsList> {
 
-	ClientCurrency currency = getCompany().getPreferences()
-			.getPrimaryCurrency();
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 	public static AccounterErrors accounterErrors = (AccounterErrors) GWT
 			.create(AccounterErrors.class);
 
