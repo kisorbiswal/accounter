@@ -171,11 +171,13 @@ public class MobileMessageHandler extends Thread {
 			String commandString = message;
 			Command matchedCommand = null;
 			while (!commandString.isEmpty()) {
-				commandString = commandString.substring(0,
-						commandString.lastIndexOf(" "));
+				int lastIndexOf = commandString.lastIndexOf(" ");
+				if (lastIndexOf > 0) {
+					commandString = commandString.substring(0, lastIndexOf);
+				}
 				matchedCommand = CommandsFactory.INSTANCE
 						.getCommand(commandString);
-				if (matchedCommand != null) {
+				if (matchedCommand != null || lastIndexOf < 0) {
 					break;
 				}
 			}
