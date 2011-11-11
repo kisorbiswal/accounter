@@ -36,7 +36,7 @@ public abstract class CustomerGroupRequirement extends
 	@Override
 	protected void setCreateCommand(CommandList list) {
 		list.add(getMessages().create(
-				getMessages().customerGroup(Global.get().Customer())));
+				getMessages().payeeGroup(Global.get().Customer())));
 	}
 
 	@Override
