@@ -91,7 +91,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		leftVLay.add(payForm);
 
 		AmountField endBalText = new AmountField(
-				customerConstants.endingBalance(), this,getBaseCurrency());
+				customerConstants.bankBalance(), this,getBaseCurrency());
 		// endBalText.setWidth("*");
 		endBalText.setDisabled(true);
 

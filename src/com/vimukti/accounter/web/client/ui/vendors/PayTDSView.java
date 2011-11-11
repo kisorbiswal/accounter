@@ -163,7 +163,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(companyConstants.endingBalance(),
+		endingBalanceText = new AmountField(companyConstants.bankBalance(),
 				this,getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");

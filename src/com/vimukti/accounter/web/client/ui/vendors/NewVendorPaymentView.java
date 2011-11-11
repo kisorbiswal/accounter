@@ -197,7 +197,7 @@ public class NewVendorPaymentView extends
 		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(Accounter.constants().endingBalance(),
+		endBalText = new AmountField(Accounter.constants().bankBalance(),
 				this, getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);

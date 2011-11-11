@@ -9,8 +9,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -56,8 +54,8 @@ public class CustomerPrePaymentView extends
 			.create(AccounterConstants.class);
 	AccounterMessages accounterMessages = GWT.create(AccounterMessages.class);
 
-	private CheckboxItem printCheck;
-	private AmountField amountText, endBalText, customerBalText;
+	// private CheckboxItem printCheck;
+	private AmountField amountText, bankBalText, customerBalText;
 	protected double enteredBalance;
 	private DynamicForm payForm;
 	Double toBeSetEndingBalance;
@@ -115,7 +113,10 @@ public class CustomerPrePaymentView extends
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+			ClientCurrency customerCurrency = getCurrency(customer
+					.getCurrency());
+			if (bankCurrency != getBaseCurrency()
+					&& bankCurrency != customerCurrency) {
 				result.addError(depositInCombo,
 						accounterConstants.selectProperBankAccount());
 			}
@@ -160,30 +161,24 @@ public class CustomerPrePaymentView extends
 			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
-			String value;
-			if (checkNo.getValue().toString()
-					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
-				value = String.valueOf(Accounter.constants().toBePrinted());
-			} else {
-				value = String.valueOf(checkNo.getValue());
-			}
+			String value = String.valueOf(checkNo.getValue());
 			transaction.setCheckNumber(value);
 		} else {
 			transaction.setCheckNumber("");
 
 		}
-		if (transaction.getID() != 0)
-
-			printCheck.setValue(transaction.isToBePrinted());
-		else
-			printCheck.setValue(true);
+		// if (transaction.getID() != 0)
+		//
+		// printCheck.setValue(transaction.isToBePrinted());
+		// else
+		// printCheck.setValue(true);
 
 		if (transactionDate != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 		transaction.setMemo(getMemoTextAreaItem());
 
-		if (toBeSetEndingBalance != null)
-			transaction.setEndingBalance(toBeSetEndingBalance);
+		// if (toBeSetEndingBalance != null)
+		// transaction.setEndingBalance(toBeSetEndingBalance);
 		if (toBeSetCustomerBalance != null)
 			transaction.setCustomerBalance(toBeSetCustomerBalance);
 
@@ -225,33 +220,36 @@ public class CustomerPrePaymentView extends
 					.getTotal()));
 			customerBalText.setAmount(getAmountInTransactionCurrency(customer
 					.getBalance()));
-			endBalText.setAmount(getAmountInTransactionCurrency(transaction
-					.getEndingBalance()));
+			// bankBalText.setAmount(getAmountInTransactionCurrency(transaction.g));
 			paymentMethodSelected(transaction.getPaymentMethod());
 			this.depositInAccount = comapny.getAccount(transaction
 					.getDepositIn());
-			if (depositInAccount != null)
+			if (depositInAccount != null) {
 				depositInCombo.setComboItem(depositInAccount);
+				bankBalText.setAmount(depositInAccount.getTotalBalance());
+
+			}
 
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-			if (transaction.getPaymentMethod().equals(constants.check())) {
-				printCheck.setDisabled(isInViewMode());
-				checkNo.setDisabled(isInViewMode());
-			} else {
-				printCheck.setDisabled(true);
-				checkNo.setDisabled(true);
-			}
+			checkNo.setValue(transaction.getCheckNumber());
+			// if (transaction.getPaymentMethod().equals(constants.check())) {
+			// printCheck.setDisabled(isInViewMode());
+			// checkNo.setDisabled(isInViewMode());
+			// } else {
+			// printCheck.setDisabled(true);
+			// checkNo.setDisabled(true);
+			// }
 
-			if (transaction.getCheckNumber() != null) {
-				if (transaction.getCheckNumber().equals(
-						Accounter.constants().toBePrinted())) {
-					checkNo.setValue(Accounter.constants().toBePrinted());
-					printCheck.setValue(true);
-				} else {
-					checkNo.setValue(transaction.getCheckNumber());
-					printCheck.setValue(false);
-				}
-			}
+			// if (transaction.getCheckNumber() != null) {
+			// if (transaction.getCheckNumber().equals(
+			// Accounter.constants().toBePrinted())) {
+			// checkNo.setValue(Accounter.constants().toBePrinted());
+			// printCheck.setValue(true);
+			// } else {
+			// checkNo.setValue(transaction.getCheckNumber());
+			// printCheck.setValue(false);
+			// }
+			// }
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -275,10 +273,11 @@ public class CustomerPrePaymentView extends
 			return;
 		this.depositInAccount = account;
 		depositInCombo.setValue(depositInAccount);
-		if (account != null && !(Boolean) printCheck.getValue()) {
-			setCheckNumber();
-		} else if (account == null)
-			checkNo.setValue("");
+		bankBalText.setAmount(depositInAccount.getTotalBalance());
+		// if (account != null && !(Boolean) printCheck.getValue()) {
+		// setCheckNumber();
+		// } else if (account == null)
+		// checkNo.setValue("");
 		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
 	}
 
@@ -399,11 +398,11 @@ public class CustomerPrePaymentView extends
 		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(customerConstants.endingBalance(), this,
+		bankBalText = new AmountField(customerConstants.bankBalance(), this,
 				getBaseCurrency());
-		endBalText.setHelpInformation(true);
-		endBalText.setWidth(100);
-		endBalText.setDisabled(true);
+		bankBalText.setHelpInformation(true);
+		bankBalText.setWidth(100);
+		bankBalText.setDisabled(true);
 
 		customerBalText = new AmountField(Accounter.messages().payeeBalance(
 				Global.get().Customer()), this, getBaseCurrency());
@@ -414,11 +413,11 @@ public class CustomerPrePaymentView extends
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
-		balForm.setFields(endBalText, customerBalText);
+		balForm.setFields(bankBalText, customerBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// payment
-		depositInCombo = createDepositInComboItem(endBalText);
+		depositInCombo = createDepositInComboItem(bankBalText);
 		depositInCombo.setPopupWidth("500px");
 
 		amountText = new AmountField(customerConstants.amount(), this,
@@ -432,37 +431,36 @@ public class CustomerPrePaymentView extends
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
 						.check()));
-		printCheck = new CheckboxItem(customerConstants.toBePrinted());
-		printCheck.setValue(true);
-		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				isChecked = (Boolean) event.getValue();
-				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
-						checkNo.setValue(Accounter.constants().toBePrinted());
-						checkNo.setDisabled(true);
-					} else {
-						if (depositInAccount == null)
-							checkNo.setValue(Accounter.constants()
-									.toBePrinted());
-						else if (isInViewMode()) {
-							checkNo.setValue(((ClientCustomerPrePayment) transaction)
-									.getCheckNumber());
-						}
-					}
-				} else
-					// setCheckNumber();
-					checkNo.setValue("");
-				checkNo.setDisabled(false);
-
-			}
-		});
-
+		// printCheck = new CheckboxItem(customerConstants.toBePrinted());
+		// printCheck.setValue(true);
+		// printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
+		//
+		// @Override
+		// public void onValueChange(ValueChangeEvent<Boolean> event) {
+		// isChecked = (Boolean) event.getValue();
+		// if (isChecked) {
+		// if (printCheck.getValue().toString()
+		// .equalsIgnoreCase("true")) {
+		// checkNo.setValue(Accounter.constants().toBePrinted());
+		// checkNo.setDisabled(true);
+		// } else {
+		// if (depositInAccount == null)
+		// checkNo.setValue(Accounter.constants()
+		// .toBePrinted());
+		// else if (isInViewMode()) {
+		// checkNo.setValue(((ClientCustomerPrePayment) transaction)
+		// .getCheckNumber());
+		// }
+		// }
+		// } else
+		// // setCheckNumber();
+		// checkNo.setValue("");
+		// checkNo.setDisabled(false);
+		//
+		// }
+		// });
 		checkNo = createCheckNumberItm();
-		checkNo.setValue(Accounter.constants().toBePrinted());
+		// checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
 		// checkNo.setDisabled(true);
 		checkNo.addChangeHandler(new ChangeHandler() {
@@ -472,6 +470,7 @@ public class CustomerPrePaymentView extends
 				checkNumber = checkNo.getValue().toString();
 			}
 		});
+		checkNo.setDisabled(isInViewMode());
 		currencyWidget = createCurrencyFactorWidget();
 		payForm = UIUtils.form(customerConstants.payment());
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
@@ -480,12 +479,11 @@ public class CustomerPrePaymentView extends
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		payForm.setFields(customerCombo, billToCombo, depositInCombo,
-				amountText, paymentMethodCombo, printCheck, checkNo,
-				memoTextAreaItem);
+				amountText, paymentMethodCombo, checkNo, memoTextAreaItem);
 		// memo and Reference
 		double amount = depositInCombo.getSelectedValue() != null ? depositInCombo
 				.getSelectedValue().getCurrentBalance() : 0.00;
-		endBalText.setAmount(getAmountInTransactionCurrency(amount));
+		bankBalText.setAmount(getAmountInTransactionCurrency(amount));
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -559,7 +557,7 @@ public class CustomerPrePaymentView extends
 	private TextItem createCheckNumberItm() {
 		TextItem checkNoTextItem = new TextItem(
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()) + " " + "No");
+						.constants().checkNo()));
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}
@@ -625,13 +623,15 @@ public class CustomerPrePaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
-				printCheck.setDisabled(false);
-				checkNo.setDisabled(false);
-			} else {
-				printCheck.setDisabled(true);
-				checkNo.setDisabled(true);
-			}
+			// if
+			// (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque()))
+			// {
+			// //printCheck.setDisabled(false);
+			// //checkNo.setDisabled(false);
+			// } else {
+			// //printCheck.setDisabled(true);
+			// //checkNo.setDisabled(true);
+			// }
 		}
 
 	}
@@ -642,7 +642,7 @@ public class CustomerPrePaymentView extends
 			return;
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
 		amountText.setCurrency(clientCurrency);
-		endBalText.setCurrency(clientCurrency);
+		bankBalText.setCurrency(clientCurrency);
 		customerBalText.setCurrency(clientCurrency);
 
 		this.setCustomer(customer);
@@ -702,20 +702,20 @@ public class CustomerPrePaymentView extends
 		customerCombo.setDisabled(isInViewMode());
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
-		printCheck.setDisabled(isInViewMode());
+		// printCheck.setDisabled(isInViewMode());
 		amountText.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
-		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNo.setValue(Accounter.constants().toBePrinted());
-			checkNo.setDisabled(true);
-		}
-		if (paymentMethodCombo.getSelectedValue().equalsIgnoreCase(
-				Accounter.constants().cheque())
-				&& printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNo.setValue(Accounter.constants().toBePrinted());
-			checkNo.setDisabled(false);
-		}
+		// if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
+		// checkNo.setValue(Accounter.constants().toBePrinted());
+		// checkNo.setDisabled(true);
+		// }
+		// if (paymentMethodCombo.getSelectedValue().equalsIgnoreCase(
+		// Accounter.constants().cheque())
+		// && printCheck.getValue().toString().equalsIgnoreCase("true")) {
+		// checkNo.setValue(Accounter.constants().toBePrinted());
+		checkNo.setDisabled(isInViewMode());
+		// }
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -735,8 +735,8 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (endBalText != null)
-			this.endBalText
+		if (bankBalText != null)
+			this.bankBalText
 					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 		if (customerBalText != null)
 			this.customerBalText
@@ -828,12 +828,12 @@ public class CustomerPrePaymentView extends
 		depositInCombo.setTabIndex(3);
 		amountText.setTabIndex(4);
 		paymentMethodCombo.setTabIndex(5);
-		printCheck.setTabIndex(6);
+		// printCheck.setTabIndex(6);
 		checkNo.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
 		transactionDateItem.setTabIndex(9);
 		transactionNumber.setTabIndex(10);
-		endBalText.setTabIndex(11);
+		bankBalText.setTabIndex(11);
 		customerBalText.setTabIndex(12);
 		saveAndCloseButton.setTabIndex(13);
 		saveAndNewButton.setTabIndex(14);

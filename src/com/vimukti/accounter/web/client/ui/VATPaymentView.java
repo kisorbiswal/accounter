@@ -137,7 +137,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentInformationForm.setFields(vatBalance, amount, memo, referenceNo);
 
 		endingBalanceText = new AmountField(Accounter.constants()
-				.endingBalance(), this,getBaseCurrency());
+				.bankBalance(), this,getBaseCurrency());
 		// endingBalanceText.setWidth("*");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// endingBalanceText.setAlign(Alignment.RIGHT);

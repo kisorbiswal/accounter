@@ -551,7 +551,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 
-		endBalText = new AmountField(Accounter.constants().endingBalance(),
+		endBalText = new AmountField(Accounter.constants().bankBalance(),
 				this, getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);

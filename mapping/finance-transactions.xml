@@ -296,7 +296,6 @@
 				cascade="save-update" column="DEPOSITIN_ID"></many-to-one>
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID"></many-to-one>
-			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<component name="address" class="Address" lazy="false">
@@ -449,8 +448,8 @@
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
-			<many-to-one name="usedInvoice" class="Invoice"
-				lazy="false" column="USED_INVOICE">
+			<many-to-one name="usedInvoice" class="Invoice" lazy="false"
+				column="USED_INVOICE">
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
@@ -1017,7 +1016,8 @@
 		</many-to-one>
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE"></property>
-			<many-to-one name="unit" class="Unit" column="QTY_UNIT" lazy="false"></many-to-one>
+			<many-to-one name="unit" class="Unit" column="QTY_UNIT"
+				lazy="false"></many-to-one>
 		</component>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="discount" column="DISCOUNT"></property>
@@ -1261,8 +1261,8 @@
 		</many-to-one>
 		<property name="amountToPay" column="AMOUNT_TO_PAY"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="taxReturn" class="TAXReturn"
-			lazy="false" column="VAT_RETURN_ID">
+		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
+			column="VAT_RETURN_ID">
 		</many-to-one>
 		<many-to-one name="payVAT" class="PayTAX" lazy="false"
 			column="PAY_VAT_ID">
@@ -1278,8 +1278,8 @@
 		</many-to-one>
 		<property name="amountToReceive" column="AMOUNT_TO_RECEIVE"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="taxReturn" class="TAXReturn"
-			lazy="false" column="TAX_RETURN_ID">
+		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
+			column="TAX_RETURN_ID">
 		</many-to-one>
 		<many-to-one name="receiveVAT" class="ReceiveVAT" lazy="false"
 			column="RECEIVE_VAT_ID">
@@ -1299,8 +1299,8 @@
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			column="TAXAGENCY_ID">
 		</many-to-one>
-		<many-to-one name="taxReturn" class="TAXReturn"
-			lazy="false" column="TAX_RETURN_ID">
+		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
+			column="TAX_RETURN_ID">
 		</many-to-one>
 		<property name="grassAmount" column="GRASS_AMOUNT"></property>
 		<property name="netAmount" column="NET_AMOUNT"></property>

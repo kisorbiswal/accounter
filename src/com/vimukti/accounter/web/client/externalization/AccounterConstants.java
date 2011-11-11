@@ -1152,7 +1152,7 @@ public interface AccounterConstants extends Constants {
 
 	public String endDateType();
 
-	public String endingBalance();
+	public String bankBalance();
 
 	public String endLastCalendarQuarter();
 

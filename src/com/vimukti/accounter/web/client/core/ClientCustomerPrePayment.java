@@ -12,8 +12,6 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 
 	private double customerBalance = 0D;
 
-	private double endingBalance;
-
 	private boolean isToBePrinted;
 
 	private String checkNumber;
@@ -88,13 +86,6 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 		this.balanceDue = balanceDue;
 	}
 
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
-
-	public double getEndingBalance() {
-		return endingBalance;
-	}
 
 	public void setToBePrinted(boolean isToBePrinted) {
 		this.isToBePrinted = isToBePrinted;

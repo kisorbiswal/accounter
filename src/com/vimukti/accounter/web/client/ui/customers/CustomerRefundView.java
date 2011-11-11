@@ -269,7 +269,7 @@ public class CustomerRefundView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 
-		endBalText = new AmountField(customerConstants.endingBalance(), this,
+		endBalText = new AmountField(customerConstants.bankBalance(), this,
 				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setDisabled(true);

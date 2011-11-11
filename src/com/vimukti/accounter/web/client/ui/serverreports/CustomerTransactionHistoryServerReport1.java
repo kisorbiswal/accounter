@@ -90,7 +90,7 @@ public class CustomerTransactionHistoryServerReport1 extends
 		} else if (sectionDepth == 2) {
 			// Inside fist section
 			addSection(getConstants().beginingBalance(), getConstants()
-					.endingBalance(), new int[] { 3, 5, 8, 9 });
+					.bankBalance(), new int[] { 3, 5, 8, 9 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {

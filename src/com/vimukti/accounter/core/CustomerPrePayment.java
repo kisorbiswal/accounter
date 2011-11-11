@@ -27,8 +27,6 @@ public class CustomerPrePayment extends Transaction {
 
 	Account depositIn;
 
-	double endingBalance = 0D;
-
 	double customerBalance = 0D;
 
 	double balanceDue = 0D;
@@ -71,13 +69,6 @@ public class CustomerPrePayment extends Transaction {
 	 */
 	public Account getAccount() {
 		return depositIn;
-	}
-
-	/**
-	 * @return the endingBalance
-	 */
-	public double getEndingBalance() {
-		return endingBalance;
 	}
 
 	/**
@@ -187,9 +178,6 @@ public class CustomerPrePayment extends Transaction {
 		this.total = total;
 	}
 
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;

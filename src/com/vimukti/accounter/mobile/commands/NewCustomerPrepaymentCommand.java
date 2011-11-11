@@ -326,15 +326,15 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 					- enteredBalance);
 
 		}
-		ClientAccount depositIn = (ClientAccount) CommandUtils
-				.getClientObjectById(customerPrePayment.getDepositIn(),
-						AccounterCoreType.ACCOUNT, getCompanyId());
-		if (depositIn.isIncrease()) {
-			customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
-					- enteredBalance);
-		} else {
-			customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
-					+ enteredBalance);
-		}
+		// ClientAccount depositIn = (ClientAccount) CommandUtils
+		// .getClientObjectById(customerPrePayment.getDepositIn(),
+		// AccounterCoreType.ACCOUNT, getCompanyId());
+		// if (depositIn.isIncrease()) {
+		// customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
+		// - enteredBalance);
+		// } else {
+		// customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
+		// + enteredBalance);
+		// }
 	}
 }
