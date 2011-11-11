@@ -1,24 +1,18 @@
 package com.vimukti.accounter.mobile;
 
 public class UserCommand {
-	private String displayName;
+	private String inputs;
 	private String commandName;
+	private String displayName;
 
-	public UserCommand(String displayName) {
-		this(displayName, displayName);
+	public UserCommand(String commandName) {
+		this(commandName, commandName, "");
 	}
 
-	public UserCommand(String displayName, String commandName) {
-		this.displayName = displayName;
+	public UserCommand(String commandName, String displayName, String inputs) {
+		this.setDisplayName(displayName);
 		this.commandName = commandName;
-	}
-
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+		this.setInputs(inputs);
 	}
 
 	public String getCommandName() {
@@ -32,5 +26,21 @@ public class UserCommand {
 	@Override
 	public String toString() {
 		return displayName;
+	}
+
+	public String getInputs() {
+		return inputs;
+	}
+
+	public void setInputs(String inputs) {
+		this.inputs = inputs;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }

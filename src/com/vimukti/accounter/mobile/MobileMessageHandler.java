@@ -168,16 +168,16 @@ public class MobileMessageHandler extends Thread {
 		}
 
 		if (session.isAuthenticated() || message.equalsIgnoreCase("cancel")) {
-			String commandString = "";
+			String commandString = message;
 			Command matchedCommand = null;
-			for (String str : message.split(" ")) {
-				commandString += str;
+			while (!commandString.isEmpty()) {
+				commandString = commandString.substring(0,
+						commandString.lastIndexOf(" "));
 				matchedCommand = CommandsFactory.INSTANCE
 						.getCommand(commandString);
 				if (matchedCommand != null) {
 					break;
 				}
-				commandString += ' ';
 			}
 
 			if (matchedCommand != null) {
@@ -185,13 +185,13 @@ public class MobileMessageHandler extends Thread {
 				userMessage.setOriginalMsg(message);
 				command = matchedCommand;
 				userMessage.setCommandString(commandString.trim());
-			}
-
-			Result result = PatternStore.INSTANCE.find(message);
-			if (result != null) {
-				userMessage.setType(Type.HELP);
-				userMessage.setResult(result);
-				return userMessage;
+			} else {
+				Result result = PatternStore.INSTANCE.find(message);
+				if (result != null) {
+					userMessage.setType(Type.HELP);
+					userMessage.setResult(result);
+					return userMessage;
+				}
 			}
 		}
 
@@ -284,23 +284,10 @@ public class MobileMessageHandler extends Thread {
 			return null;
 		}
 		UserCommand userCommand = commands.get(index);
-		String commandString = userCommand.getCommandName();
-		if (commandString == null) {
-			return null;
-		}
-		Command command = null;
-		String str = "";
-		for (String s : commandString.split(" ")) {
-			str += s;
-			command = CommandsFactory.INSTANCE.getCommand(str);
-			if (command != null) {
-				break;
-			}
-			str += " ";
-		}
-		commandString = commandString.replaceAll(str.trim(), "").trim();
-		userMessage.setOriginalMsg(commandString);
-		userMessage.setCommandString(str);
+		Command command = CommandsFactory.INSTANCE.getCommand(userCommand
+				.getCommandName());
+		userMessage.setOriginalMsg(userCommand.getCommandName());
+		userMessage.setCommandString(userCommand.getInputs());
 		return command;
 	}
 
