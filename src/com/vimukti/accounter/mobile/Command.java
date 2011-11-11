@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vimukti.accounter.web.client.core.ClientCompany;
-
 public abstract class Command {
 	MobileConstants constants;
 	MobileMessages messages;
@@ -14,7 +12,6 @@ public abstract class Command {
 	private List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
-	private ClientCompany clientCompany;
 
 	public Command() {
 		init();
@@ -95,10 +92,6 @@ public abstract class Command {
 	public Object getResultObject() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public void setClientCompany(ClientCompany clientCompany) {
-		this.clientCompany = clientCompany;
 	}
 
 	public List<Requirement> getRequirements() {

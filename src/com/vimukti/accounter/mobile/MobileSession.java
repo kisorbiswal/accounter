@@ -244,10 +244,10 @@ public class MobileSession {
 		}
 		Company company = getCompany();
 		if (company != null) {
-			ClientCompanyPreferences preferences;
 			try {
-				preferences = new FinanceTool().getCompanyManager()
-						.getClientCompanyPreferences(company);
+				ClientCompanyPreferences preferences = new FinanceTool()
+						.getCompanyManager().getClientCompanyPreferences(
+								company);
 				CompanyPreferenceThreadLocal.set(preferences);
 			} catch (AccounterException e) {
 				e.printStackTrace();

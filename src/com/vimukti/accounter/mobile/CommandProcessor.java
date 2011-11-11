@@ -128,10 +128,6 @@ public class CommandProcessor {
 		}
 		Result result = null;
 		try {
-			if (session.getCompanyID() != 0) {
-				context.setPreferences(new FinanceTool().getCompanyManager()
-						.getClientCompanyPreferences(session.getCompany()));
-			}
 			result = command.run(context);
 			result = processResult(result);
 		} catch (Exception e) {

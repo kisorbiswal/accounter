@@ -69,6 +69,52 @@ public class MobileMessageHandler extends Thread {
 	private String processMessage(String networkId, String message,
 			AdaptorType adaptorType, int networkType, Result oldResult)
 			throws AccounterMobileException {
+		if (true) {
+			Result result = new Result();
+			result.add("First message");
+			result.add("Secound Message");
+
+			ResultList list = new ResultList("");
+			Record record = new Record("");
+			record.add("", "AAAAAAAA AAAAAA AAAAAAAA AAAAAAA");
+			record.add("", "BBBB BBBBBB BBBBB BBBB BBB");
+			record.add("", "CCCC CCCC CCCCCC CCCC CCCCCC");
+			list.add(record);
+			record = new Record("");
+			record.add("", "AAAAAAAA AAAAAA AAAAAAAA AAAAAAA");
+			record.add("", "BBBB BBBBBB BBBBB BBBB BBB");
+			record.add("", "CCCC CCCC CCCCCC CCCC CCCCCC");
+			list.add(record);
+			record = new Record("");
+			record.add("", "AAAAAAAA AAAAAA AAAAAAAA AAAAAAA");
+			record.add("", "BBBB BBBBBB BBBBB BBBB BBB");
+			record.add("", "CCCC CCCC CCCCCC CCCC CCCCCC");
+			list.add(record);
+			record = new Record("");
+			record.add("", "AAAAAAAA AAAAAA AAAAAAAA AAAAAAA");
+			record.add("", "BBBB BBBBBB BBBBB BBBB BBB");
+			record.add("", "CCCC CCCC CCCCCC CCCC CCCCCC");
+			list.add(record);
+			result.add(list);
+
+			ResultList list2 = new ResultList("");
+			Record record2 = new Record("");
+			record2.add("Name", "Nagaraju");
+			list2.add(record2);
+			record2 = new Record("");
+			record2.add("Student", "GIOE Games");
+			list2.add(record2);
+
+			result.add(list2);
+
+			CommandList commandList = new CommandList();
+			commandList.add("Account");
+			commandList.add("Customer");
+			commandList.add("Vendor");
+			result.add(commandList);
+			return getAdaptor(adaptorType).postProcess(result);
+
+		}
 		Session openSession = HibernateUtil.openSession();
 		try {
 			MobileSession session = sessions.get(networkId);
