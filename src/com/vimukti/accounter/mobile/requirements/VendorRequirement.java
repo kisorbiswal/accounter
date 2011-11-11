@@ -18,7 +18,7 @@ public abstract class VendorRequirement extends ListRequirement<Vendor> {
 	protected Record createRecord(Vendor value) {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
-		record.add(" ,Balance", value.getBalance());
+		record.add("Balance", value.getBalance());
 		return record;
 	}
 
