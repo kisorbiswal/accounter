@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class NewSalesPersonCommand extends NewAbstractCommand {
 
@@ -37,6 +39,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 	private static final String DO_LASTREVIEW = "dateOfLastReview";
 	private static final String DO_RELEASE = "dateOfRelease";
 	private static final String MEMO = "memo";
+	private static final String ACTIVE = "active";
 
 	@Override
 	public String getId() {
@@ -48,7 +51,15 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 		list.add(new NameRequirement(SALES_PERSON_NAME, getMessages()
 				.pleaseEnter(getConstants().salesPersonName()), getConstants()
-				.salesPersonName(), false, true));
+				.salesPersonName(), false, true) {
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				get(FILE_AS).setValue(value);
+			}
+		});
+
 		list.add(new NameRequirement(FILE_AS, getMessages().pleaseEnter(
 				getConstants().fileAs() + " " + getConstants().name()),
 				getConstants().fileAs(), true, true));
@@ -120,6 +131,18 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		list.add(new NameRequirement(WEB_PAGE_ADDRESS, getMessages()
 				.pleaseEnter(getConstants().webPageAddress()), getConstants()
 				.webPageAddress(), true, true));
+		list.add(new BooleanRequirement(ACTIVE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getConstants().active();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getConstants().inActive();
+			}
+		});
 
 		list.add(new StringListRequirement(GENDER, getMessages().pleaseEnter(
 				getConstants().gender()), getConstants().gender(), true, true,
@@ -182,6 +205,9 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		String phone = get(PHONE).getValue();
 		salesPerson.setPhoneNo(phone);
 
+		boolean isactive = (Boolean) get(ACTIVE).getValue();
+		salesPerson.setActive(isactive);
+
 		String fax = get(FAX).getValue();
 		salesPerson.setFaxNo(fax);
 
@@ -202,6 +228,17 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 		ClientFinanceDate do_hire = get(DO_HIRE).getValue();
 		salesPerson.setDateOfHire(do_hire);
+
+		if (do_birth.getDate() != 0) {
+			long mustdate = new ClientFinanceDate().getDate() - 180000;
+			if ((new ClientFinanceDate(mustdate).before(do_birth))) {
+				Result result = new Result();
+				result.add(getConstants()
+						.dateofBirthshouldshowmorethan18years()
+						+ ". Because Sales Person should have 18 years");
+				return result;
+			}
+		}
 
 		ClientFinanceDate do_lastreview = get(DO_LASTREVIEW).getValue();
 		salesPerson.setDateOfLastReview(do_lastreview);
@@ -264,6 +301,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		get(DO_LASTREVIEW).setDefaultValue(new ClientFinanceDate());
 		get(DO_RELEASE).setDefaultValue(new ClientFinanceDate());
 		get(MEMO).setDefaultValue("");
+		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 
 	}
 
