@@ -23,7 +23,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	TAX_GROUP("ClientTAXGroup", "TAXGroup"),
 
-	TAX_ITEM_GROUP("ClientTaxItemGroup", "TaxItemGroup"),
+	TAX_ITEM_GROUP("ClientTAXItemGroup", "TAXItemGroup"),
 
 	BOX_1099("ClientBox1099", "Box1099"),
 
