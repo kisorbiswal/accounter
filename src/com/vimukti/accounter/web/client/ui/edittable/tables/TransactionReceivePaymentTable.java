@@ -320,7 +320,7 @@ public abstract class TransactionReceivePaymentTable extends
 		this.addColumn(appliedCreditsColumn);
 
 		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new AmountColumn<ClientTransactionReceivePayment>(
-				currencyProvider, true) {
+				currencyProvider, false) {
 
 			@Override
 			protected String getColumnName() {
