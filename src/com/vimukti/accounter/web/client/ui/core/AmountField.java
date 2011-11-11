@@ -19,15 +19,15 @@ public class AmountField extends TextItem {
 
 	private WidgetWithErrors errorsWidget;
 
-	private boolean showCurrency =true;
+	private boolean showCurrency = true;
 
-	public AmountField(final String name,
-			WidgetWithErrors errorsViewGrid,ClientCurrency currency) {
+	public AmountField(final String name, WidgetWithErrors errorsViewGrid,
+			ClientCurrency currency) {
 		this.errorsWidget = errorsViewGrid;
 		setName(name);
 		if (showCurrency) {
 			setTitle(name + "(" + currency.getFormalName() + ")");
-		}else {
+		} else {
 			setTitle(name);
 		}
 		// addFocusHandler(getFocusHandler());
@@ -47,6 +47,16 @@ public class AmountField extends TextItem {
 		// }
 		// });
 		this.currency = currency;
+	}
+
+	public AmountField(final String name, WidgetWithErrors errorsViewGrid) {
+		this.errorsWidget = errorsViewGrid;
+		setName(name);
+		setTitle(name);
+		addBlurHandler(getBlurHandler());
+		setKeyPressFilter("[0-9.]");
+		setAmount(0.00D);
+		((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
 	}
 
 	private void setKeyPressFilter(String string) {
@@ -112,7 +122,7 @@ public class AmountField extends TextItem {
 		this.currency = currency;
 		if (showCurrency) {
 			setTitle(getName() + "(" + currency.getFormalName() + ")");
-		}else {
+		} else {
 			setTitle(getName());
 		}
 	}

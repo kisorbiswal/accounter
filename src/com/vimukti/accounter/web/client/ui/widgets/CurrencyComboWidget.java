@@ -156,4 +156,12 @@ public class CurrencyComboWidget extends DynamicForm {
 		this.showFactorField = showFactorField;
 	}
 
+	public void disabledFactorField(boolean showFactorField) {
+		if (showFactorField) {
+			currencyForm.hide();
+		} else {
+			currencyForm.show();
+		}
+	}
+
 }

@@ -1236,9 +1236,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			currencyCombo.setSelectedCurrency(selectCurrency);
 			openingBalText.setCurrency(selectCurrency);
 			balanceText.setCurrency(selectCurrency);
+			if (!selectCurrency.equals(getCompany().getPreferences()
+					.getPrimaryCurrency())) {
+				currencyCombo.disabledFactorField(true);
+			}
 		}
 		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
-
 		// Setting payemnt term
 		selectPayTermFromDetailsTab = getCompany().getPaymentTerms(
 				data.getPaymentTerm());
@@ -1347,6 +1350,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
 		currencyCombo.setDisabled(isInViewMode());
+		if (!selectCurrency.equals(getCompany().getPreferences()
+				.getPrimaryCurrency())) {
+			currencyCombo.disabledFactorField(false);
+		}
 		bankAccountSelect.setDisabled(isInViewMode());
 		bankNameSelect.setDisabled(isInViewMode());
 		bankBranchSelect.setDisabled(isInViewMode());

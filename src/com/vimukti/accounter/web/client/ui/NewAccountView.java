@@ -1326,6 +1326,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				currencyCombo.setSelectedCurrency(this.selectCurrency);
 			}
 			currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
+			if (!selectCurrency.equals(getCompany().getPreferences()
+					.getPrimaryCurrency())) {
+				currencyCombo.disabledFactorField(true);
+			}
 			currencyCombo.setDisabled(isInViewMode());
 		}
 		updateCurrencyForItems(selectCurrency);
@@ -1638,6 +1642,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (currencyCombo != null) {
 			currencyCombo.setDisabled(isInViewMode());
+			if (!selectCurrency.equals(getCompany().getPreferences()
+					.getPrimaryCurrency())) {
+				currencyCombo.disabledFactorField(false);
+			}
 		}
 		if (limitText != null) {
 			limitText.setDisabled(isInViewMode());

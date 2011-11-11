@@ -493,14 +493,14 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private HorizontalPanel addTextBoxTableControl() {
 
-		nameItem = new TextItem("Name");
+		nameItem = new TextItem(messages.name());
 		nameItem.addStyleName("name-item");
 		pageSizeLabel = new Label(messages.pageSize());
-		topMarginBox = new AmountField(messages.topMargin(), this,getBaseCurrency());
+		topMarginBox = new AmountField(messages.topMargin(), this);
 		topMarginBox.setAmount(1.35);
-		bottomMarginBox = new AmountField(messages.bottomMargin(), this,getBaseCurrency());
+		bottomMarginBox = new AmountField(messages.bottomMargin(), this);
 		bottomMarginBox.setAmount(1.00);
-		addressPadBox = new AmountField(messages.addressPadding(), this,getBaseCurrency());
+		addressPadBox = new AmountField(messages.addressPadding(), this);
 		addressPadBox.setAmount(1.00);
 		// draftBox = new TextBox();
 		// draftBox.setText(messages

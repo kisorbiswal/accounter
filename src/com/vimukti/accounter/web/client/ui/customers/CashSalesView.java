@@ -246,7 +246,6 @@ public class CashSalesView extends
 		transactionTotalForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
-		
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), this) {
 
@@ -363,7 +362,8 @@ public class CashSalesView extends
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2, ALIGN_RIGHT);
+		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
+				ALIGN_RIGHT);
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -455,9 +455,9 @@ public class CashSalesView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-	
+
 		ClientCurrency currency = getCurrency(customer.getCurrency());
-		
+
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = (ClientCashSales) this.transaction;
 
@@ -474,7 +474,7 @@ public class CashSalesView extends
 			} else if (ent == null)
 				this.customerAccountTransactionTable.resetRecords();
 		}
-		
+
 		super.customerSelected(customer);
 		if (this.shippingTerm != null && shippingTermsCombo != null)
 			shippingTermsCombo.setComboItem(this.shippingTerm);
@@ -508,7 +508,7 @@ public class CashSalesView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		
+
 		if (currency.getID() != 0) {
 			if (currency != null) {
 				currencyWidget.setSelectedCurrency(currency);
@@ -517,9 +517,9 @@ public class CashSalesView extends
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrencycode(currency);
-			if (currency.equals(getBaseCurrency())){
+			if (currency.equals(getBaseCurrency())) {
 				setCurrencyFactor(1.0);
-			}else{
+			} else {
 				setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			}
 			updateAmountsFromGUI();
@@ -792,7 +792,8 @@ public class CashSalesView extends
 			}
 
 			memoTextAreaItem.setDisabled(true);
-
+			netAmountLabel.setAmount(getAmountInBaseCurrency(transaction
+					.getTotal()));
 			transactionTotalBaseCurrency
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
