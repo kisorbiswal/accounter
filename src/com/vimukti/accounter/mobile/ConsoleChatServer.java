@@ -12,8 +12,6 @@ import java.net.Socket;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
-import com.vimukti.accounter.mobile.store.CommandsFactory;
-import com.vimukti.accounter.mobile.store.PatternStore;
 
 /**
  * @author Prasanna Kumar G
