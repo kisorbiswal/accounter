@@ -19,6 +19,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public static final String VALUES = "values";
 	public static final String ACTIONS = "actions";
 	public static final String FIRST_MESSAGE = "firstMessage";
+
 	private IGlobal global;
 	private AccounterConstants constants;
 	private AccounterMessages messages;
