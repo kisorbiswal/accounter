@@ -208,8 +208,8 @@ public abstract class CompanyInitializer {
 		this.preferences.setShowRegisteredAddress(false);
 		// this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 		this.preferences.setDateFormat(getDateFormat());
-		this.preferences.setSalesOrderEnabled(true);
-		this.preferences.setPurchaseOrderEnabled(true);
+		this.preferences.setSalesOrderEnabled(false);
+		this.preferences.setPurchaseOrderEnabled(false);
 		FinanceDate depreciationStartDateCal = new FinanceDate();
 		depreciationStartDateCal.set(fiscalYearStartDate);
 		this.preferences.setDepreciationStartDate(depreciationStartDateCal);
