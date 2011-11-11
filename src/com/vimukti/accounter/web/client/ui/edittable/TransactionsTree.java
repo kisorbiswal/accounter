@@ -86,6 +86,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	public void setAllrows(ArrayList<EstimatesAndSalesOrdersList> result,
 			boolean isNew) {
 		tree.clear();
+		quotesTree = null;
+		chargesTree = null;
+		creditsTree = null;
+		billableTree = null;
+		salesOrderTree = null;
 		boolean isAllrowsSelected = false;
 		if (result.isEmpty() && isNew) {
 			return;
