@@ -5309,9 +5309,11 @@
 	<sql-query name="getTaxItemGroupWithSameName">
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
-		<query-param name="id" type="Long" />
+		<query-param name="id" type="long" />
 
-		SELECT * FROM TAX_ITEM_GROUPS V WHERE V.NAME =:name AND V.ID !=:id AND
+		<return-scalar column="NAME" type="string" />
+		
+		SELECT V.NAME FROM TAX_ITEM_GROUPS V WHERE V.NAME =:name AND V.ID !=:id AND
 		V.COMPANY_ID=:companyId
 
 
@@ -5321,8 +5323,10 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 		<query-param name="id" type="long" />
+		
+		<return-scalar column="NAME" type="string" />
 
-		SELECT * FROM TAX_CODE T WHERE
+		SELECT T.NAME FROM TAX_CODE T WHERE
 		T.NAME =:name AND T.ID !=:id AND
 		T.COMPANY_ID=:companyId
 
