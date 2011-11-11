@@ -148,8 +148,8 @@ public class AuthenticationCommand extends Command {
 						CommandList commandList = new CommandList();
 						commandList.add("Signup");
 						commandList.add(new UserCommand("Signup with"
-								+ context.getNetworkId(), "Signup "
-								+ context.getNetworkId()));
+								+ context.getNetworkId(), "Signup", context
+								.getNetworkId()));
 						makeResult.add(commandList);
 					}
 
