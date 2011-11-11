@@ -56,7 +56,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class CreditCardExpenseView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -64,7 +63,6 @@ public class CreditCardExpenseView extends
 	protected List<String> selectedComboList;
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
-	// protected TextItem refText;
 	AmountField totText;
 	AccounterConstants accounterConstants = Accounter.constants();
 	List<String> idPhoneNumberForContacts = new ArrayList<String>();
@@ -72,22 +70,16 @@ public class CreditCardExpenseView extends
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
 	protected SelectCombo payMethSelect;
-	// VendorCombo vendorNameSelect;
-
-	private TextAreaItem addrArea;
-
 	protected PayFromAccountsCombo payFrmSelect;
 
 	protected String selectPaymentMethod;
 
-	// protected ClientVendor selectedVendor;
-
 	private DynamicForm totForm;
 
-	private HorizontalPanel botPanel, addLinkPanel;
+	private HorizontalPanel botPanel;
 	HorizontalPanel totPanel;
 
-	private VerticalPanel leftVLay, botVLay;
+	private VerticalPanel leftVLay;
 
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
@@ -109,110 +101,6 @@ public class CreditCardExpenseView extends
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 	}
-
-	//
-	// @Override
-	// protected void initViewType() {
-	//
-	// titlelabel.setText(Accounter.constants().creditCardExpense());
-	//
-	// vendorForm.clear();
-	// termsForm.clear();
-	// vendorCombo = new VendorCombo(Accounter.constants().supplierName(), true)
-	// {
-	// @Override
-	// public void initCombo(List<ClientVendor> list) {
-	// Iterator<ClientVendor> iterator = list.iterator();
-	// while (iterator.hasNext()) {
-	// ClientVendor vdr = iterator.next();
-	// if (vdr.getVendorGroup() != 0) {
-	// ClientVendorGroup vendorGrougp = Accounter.getCompany()
-	// .getVendorGroup(vdr.getVendorGroup());
-	// if (!vendorGrougp.getName().equals(
-	// AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
-	// iterator.remove();
-	// }
-	// } else {
-	// iterator.remove();
-	// }
-	//
-	// }
-	// super.initCombo(list);
-	// }
-	//
-	// @Override
-	// public void onAddNew() {
-	// NewVendorAction action = ActionFactory.getNewVendorAction();
-	//
-	// action.setCallback(new ActionCallback<ClientVendor>() {
-	//
-	// @Override
-	// public void actionResult(ClientVendor result) {
-	// if (result.getDisplayName() != null)
-	// addItemThenfireEvent(result);
-	//
-	// }
-	// });
-	// action.setOpenedFrom(NewVendorAction.FROM_CREDIT_CARD_EXPENSE);
-	// action.run(null, true);
-	//
-	// }
-	// };
-	// vendorCombo.setHelpInformation(true);
-	// vendorCombo.addSelectionChangeHandler(new
-	// IAccounterComboSelectionChangeHandler<ClientVendor>() {
-	//
-	// @Override
-	// public void selectedComboBoxItem(ClientVendor selectItem) {
-	// selectedVendor = selectItem;
-	// vendorCombo.setComboItem(selectItem);
-	// addPhonesContactsAndAddress();
-	// }
-	// });
-	//
-	// vendorCombo.setRequired(true);
-	// String listString[] = new String[] {
-	// Accounter.constants().cash(),
-	// UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-	// .constants().check()),
-	// Accounter.constants().creditCard(),
-	// Accounter.constants().directDebit(),
-	// Accounter.constants().masterCard(),
-	// Accounter.constants().onlineBanking(),
-	// Accounter.constants().standingOrder(),
-	// Accounter.constants().switchMaestro() };
-	//
-	// selectedComboList = new ArrayList<String>();
-	// for (int i = 0; i < listString.length; i++) {
-	// selectedComboList.add(listString[i]);
-	// }
-	// payMethSelect.initCombo(selectedComboList);
-	//
-	// termsForm.setFields(payMethSelect, payFrmSelect, cheqNoText, delivDate);
-	// HorizontalPanel hPanel = (HorizontalPanel) termsForm.getParent();
-	// termsForm.removeFromParent();
-	// termsForm.setWidth("100%");
-	// termsForm.getCellFormatter().getElement(0, 0)
-	// .setAttribute(Accounter.constants().width(), "203px");
-	// hPanel.add(termsForm);
-	//
-	// if (isEdit) {
-	// ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge)
-	// transaction;
-	// vendorCombo.setComboItem(getCompany().getVendor(
-	// creditCardCharge.getVendor()));
-	// vendorCombo.setDisabled(true);
-	// }
-	// vendorForm.setFields(vendorCombo, contactNameSelect, phoneSelect,
-	// billToAreaItem);
-	// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
-	// vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-	// VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
-	// vendorForm.removeFromParent();
-	// verticalPanel.add(vendorForm);
-	// // verticalPanel.setSpacing(10);
-	//
-	// }
 
 	@Override
 	protected void createControls() {
@@ -275,11 +163,19 @@ public class CreditCardExpenseView extends
 										.getDefaultTaxCode();
 							taxCodeSelect.setComboItem(getCompany().getTAXCode(
 									code));
+							ClientCurrency currency = getCurrency(selectedVendor
+									.getCurrency());
+							if (currency.getID() != 0) {
+								currencyWidget.setSelectedCurrency(currency);
+							} else {
+								currencyWidget
+										.setSelectedCurrency(getBaseCurrency());
+							}
+							modifyForeignCurrencyTotalWidget();
 						}
 					}
 				});
 
-		// vendorCombo.setRequired(true);
 		String listString[] = new String[] {
 				Accounter.constants().cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
@@ -328,7 +224,6 @@ public class CreditCardExpenseView extends
 		regPanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		labeldateNoLayout.setWidth("100%");
-		// labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
@@ -443,13 +338,14 @@ public class CreditCardExpenseView extends
 			classListCombo = createAccounterClassListCombo();
 			termsForm.setFields(classListCombo);
 		}
-		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
+
+		transactionTotalTransactionCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
@@ -570,7 +466,11 @@ public class CreditCardExpenseView extends
 		currencyWidget = createCurrencyFactorWidget();
 		if (getPreferences().isTrackPaidTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+					transactionTotalBaseCurrencyText);
+			
+			if (isMultiCurrencyEnabled())
+				totalForm.setFields(transactionTotalTransactionCurrencyText);
+			
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -589,8 +489,11 @@ public class CreditCardExpenseView extends
 			bottompanel.add(botPanel);
 
 		} else {
-			totForm.setFields(transactionTotalNonEditableText);
-
+			totForm.setFields(transactionTotalBaseCurrencyText);
+			
+			if (isMultiCurrencyEnabled())
+				totForm.setFields(transactionTotalTransactionCurrencyText);
+			
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
@@ -661,13 +564,11 @@ public class CreditCardExpenseView extends
 		listforms.add(totalForm);
 		listforms.add(totForm);
 
-		// if (UIUtils.isMSIEBrowser())
-		// resetFormView();
-
 		if (isInViewMode()) {
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					transaction.getPayFrom()));
 		}
+
 	}
 
 	@Override
@@ -704,6 +605,7 @@ public class CreditCardExpenseView extends
 				}
 			}
 		}
+		
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
@@ -776,7 +678,11 @@ public class CreditCardExpenseView extends
 					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 				}
 			}
-			transactionTotalNonEditableText
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
+
+			transactionTotalTransactionCurrencyText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 
@@ -1146,15 +1052,21 @@ public class CreditCardExpenseView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getPreferences().isTrackPaidTax()) {
-			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
+			transactionTotalBaseCurrencyText
+					.setAmount(grandTotal);
+			
 			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
+			transactionTotalTransactionCurrencyText
+			.setAmount(getAmountInTransactionCurrency(grandTotal));
+			
 		} else {
-			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
+			transactionTotalBaseCurrencyText
+					.setAmount(grandTotal);
+			transactionTotalTransactionCurrencyText
+			.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 
 	}
@@ -1250,5 +1162,18 @@ public class CreditCardExpenseView extends
 	public void updateAmountsFromGUI() {
 		vendorAccountTransactionTable.updateAmountsFromGUI();
 		vendorItemTransactionTable.updateAmountsFromGUI();
+		modifyForeignCurrencyTotalWidget();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalTransactionCurrencyText.hide();
+		} else {
+			transactionTotalTransactionCurrencyText.show();
+			transactionTotalTransactionCurrencyText.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 }

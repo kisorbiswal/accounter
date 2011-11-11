@@ -305,9 +305,12 @@ public class CreditCardChargeView extends
 					}
 				}
 			}
-			transactionTotalNonEditableText
+			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
+			transactionTotalTransactionCurrencyText
+			.setAmount(getAmountInTransactionCurrency(transaction
+					.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -531,8 +534,10 @@ public class CreditCardChargeView extends
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel(getBaseCurrency());
-
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		
+		transactionTotalTransactionCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
 		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
@@ -654,7 +659,10 @@ public class CreditCardChargeView extends
 
 		if (isTrackTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+					transactionTotalBaseCurrencyText);
+			if(isMultiCurrencyEnabled())
+				totalForm.setFields(transactionTotalTransactionCurrencyText);
+			
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -682,8 +690,9 @@ public class CreditCardChargeView extends
 			// botPanel.setCellHorizontalAlignment(totalForm,
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
-			totForm.setFields(transactionTotalNonEditableText);
-
+			totForm.setFields(transactionTotalBaseCurrencyText);
+			if(isMultiCurrencyEnabled())
+				totalForm.setFields(transactionTotalTransactionCurrencyText);
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
@@ -878,15 +887,20 @@ public class CreditCardChargeView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (isTrackTax()) {
-			transactionTotalNonEditableText
+			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInTransactionCurrency(grandTotal));
+			transactionTotalTransactionCurrencyText
+			.setAmount(getAmountInTransactionCurrency(grandTotal));
+			
 			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
 		} else {
-			transactionTotalNonEditableText
+			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInTransactionCurrency(grandTotal));
+			transactionTotalTransactionCurrencyText
+			.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 	}
 

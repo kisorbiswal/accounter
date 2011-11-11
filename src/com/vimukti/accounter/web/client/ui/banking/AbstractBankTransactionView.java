@@ -67,8 +67,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected CheckboxItem vatinclusiveCheck;
 
 	protected List<ClientAccount> accounts;
-	protected AmountLabel netAmount, transactionTotalNonEditableText,
-			vatTotalNonEditableText;
+	protected AmountLabel netAmount, transactionTotalBaseCurrencyText,
+			transactionTotalTransactionCurrencyText, vatTotalNonEditableText;
 	protected ClientVendor selectedVendor;
 	protected ClientTAXCode taxCode;
 
@@ -134,7 +134,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	public AmountField createAmountText(ClientCurrency currency) {
 
 		AmountField amtText = new AmountField(Accounter.constants().amount(),
-				this,currency);
+				this, currency);
 		// amtText.setWidth("*");
 
 		amtText.setColSpan(1);
@@ -150,7 +150,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants().tax(),
-				this,currency);
+				this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -303,17 +303,19 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	}
 
-	protected AmountField createTransactionTotalNonEditableItem(ClientCurrency currency) {
+	protected AmountField createTransactionTotalNonEditableItem(
+			ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(Accounter.constants().total(),
-				this,currency);
+				this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
 
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableLabel(ClientCurrency clientCurrency) {
+	protected AmountLabel createTransactionTotalNonEditableLabel(
+			ClientCurrency clientCurrency) {
 
 		AmountLabel amountLabel = new AmountLabel(Accounter.messages()
 				.currencyTotal(clientCurrency.getFormalName()));

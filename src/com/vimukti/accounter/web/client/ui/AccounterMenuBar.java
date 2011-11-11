@@ -270,21 +270,6 @@ public class AccounterMenuBar extends HorizontalPanel {
 		return reportMenuBar;
 	}
 
-	// private IMenu getBankingSubMenu() {
-	// IMenu SubMenuBar = getSubMenu();
-	// SubMenuBar.addItem(ActionFactory.getDetailReportAction());
-	// SubMenuBar.addItem(ActionFactory.getCheckDetailReport());
-	// return SubMenuBar;
-	// }
-
-	// private IMenu getSalesAndPurchaseMenu() {
-	// IMenu salesAndPurchaseMenuBar = new IMenu();
-	// salesAndPurchaseMenuBar.addItem(ActionFactory
-	// .getSalesOpenOrderAction());
-	// salesAndPurchaseMenuBar.addItem(ActionFactory
-	// .getPurchaseOpenOrderAction());
-	// return salesAndPurchaseMenuBar;
-	// }
 
 	private IMenu getSalesSubMenu() {
 		IMenu salesMenu = getSubMenu();
