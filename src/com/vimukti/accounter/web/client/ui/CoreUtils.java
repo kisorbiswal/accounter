@@ -2078,7 +2078,15 @@ public class CoreUtils {
 
 	public static List<ClientCurrency> getCurrencies(
 			List<ClientCurrency> existCurrencies) {
-		return Arrays.asList(currencies);
+		List<ClientCurrency> returnedList = new ArrayList<ClientCurrency>();
+		returnedList.addAll(existCurrencies);
+		for (int i = 0; i < currencies.length; i++) {
+			if (!existCurrencies.contains(currencies[i])) {
+				returnedList.add(currencies[i]);
+			}
+		}
+
+		return returnedList;
 	}
 
 	public static ClientCurrency getCurrency(String formalName) {
