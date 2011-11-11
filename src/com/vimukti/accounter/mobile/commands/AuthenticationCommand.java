@@ -55,7 +55,7 @@ public class AuthenticationCommand extends Command {
 			Object attribute = context.getAttribute("input");
 			if (attribute == null || string == null) {
 				context.setAttribute("input", "userName");
-				makeResult.add("Please Enter Username. Or press Sighn up");
+				makeResult.add("Please Enter Username. Or press Signup");
 				CommandList commandList = new CommandList();
 				commandList.add("Signup");
 				makeResult.add(commandList);
@@ -99,7 +99,7 @@ public class AuthenticationCommand extends Command {
 					makeResult
 							.add("There is no account found with given Email Id and Password");
 					makeResult
-							.add("Please Enter valid Accounter Email Id. Or press Sighn up");
+							.add("Please Enter valid Accounter Email Id. Or press Signup");
 					CommandList commandList = new CommandList();
 					commandList.add("Signup");
 					makeResult.add(commandList);
@@ -144,11 +144,11 @@ public class AuthenticationCommand extends Command {
 									.add("There is no account found with given Email Id");
 						}
 						makeResult
-								.add("Enter valid Accounter Email Id. Or to Sighn up");
+								.add("Enter valid Accounter Email Id. Or Signup");
 						CommandList commandList = new CommandList();
 						commandList.add("Signup");
-						commandList.add(new UserCommand("Signup with"
-								+ context.getNetworkId(), "Signup", context
+						commandList.add(new UserCommand("Signup", "Signup with "
+								+ context.getNetworkId(), context
 								.getNetworkId()));
 						makeResult.add(commandList);
 					}
