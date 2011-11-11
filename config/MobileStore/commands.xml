@@ -522,8 +522,8 @@
 		<alias>Sales Orders</alias>
 	</command>
 
-	<command clazz="ReceivedPaymentsListCommand" name="Receive Payments List">
-		<alias>Receive Payments</alias>
+	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
+		<alias>Received Payments</alias>
 		<alias>Received Payments List</alias>
 	</command>
 
