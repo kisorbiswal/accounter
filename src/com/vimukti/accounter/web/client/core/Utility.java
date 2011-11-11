@@ -97,7 +97,7 @@ public class Utility implements IsSerializable, Serializable {
 			transactionName = AccounterClientConstants.TYPE_PAY_TAX;
 			break;
 		case ClientTransaction.TYPE_RECEIVE_TAX:
-			transactionName = AccounterClientConstants.TYPE_RECEIVE_VAT;
+			transactionName = AccounterClientConstants.TYPE_RECEIVE_TAX;
 			break;
 		case ClientTransaction.TYPE_SALES_ORDER:
 			transactionName = AccounterClientConstants.TYPE_SALES_ORDER;

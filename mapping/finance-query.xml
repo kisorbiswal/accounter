@@ -643,10 +643,10 @@
 		OR T.T_TYPE = 11
 		THEN P.NAME
 		WHEN T.T_TYPE = 17
-		THEN 'TaxAgency Payment'
+		THEN 'TAXAgency Payment'
 		WHEN T.T_TYPE = 30 OR
 		T.T_TYPE=31
-		THEN 'VATAgency Payment'
+		THEN 'TAXAgency Payment'
 		END AS NAME,
 		T.PAYMENT_METHOD AS
 		PAYMENT_METHOD,

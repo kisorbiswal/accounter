@@ -108,7 +108,7 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String TYPE_SALES_ORDER = "Sales Order";
 	public static final String TYPE_PURCHASE_ORDER = "Purchase Order";
 	public static final String TYPE_ITEM_RECEIPT = "Item Receipt";
-	public static final String TYPE_RECEIVE_VAT = "Receive VAT ";
+	public static final String TYPE_RECEIVE_TAX = "Receive TAX";
 	public static final String TYPE_VAT_RETURN = "VAT Return ";
 
 	// CONSTANTS FOR TRANSACTION STATUS
