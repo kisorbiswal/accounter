@@ -228,7 +228,8 @@ public class CustomerPrePaymentView extends
 				depositInCombo.setComboItem(depositInAccount);
 				bankBalText.setAmount(depositInAccount
 						.getTotalBalanceInAccountCurrency());
-
+				bankBalText.setCurrency(getCompany().getCurrency(
+						depositInAccount.getCurrency()));
 			}
 
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
@@ -482,9 +483,13 @@ public class CustomerPrePaymentView extends
 		payForm.setFields(customerCombo, billToCombo, depositInCombo,
 				amountText, paymentMethodCombo, checkNo, memoTextAreaItem);
 		// memo and Reference
-		double amount = depositInCombo.getSelectedValue() != null ? depositInCombo
-				.getSelectedValue().getCurrentBalance() : 0.00;
-		bankBalText.setAmount(getAmountInTransactionCurrency(amount));
+		ClientAccount selectedValue = depositInCombo.getSelectedValue();
+		if (selectedValue != null) {
+			bankBalText.setAmount(selectedValue
+					.getTotalBalanceInAccountCurrency());
+			bankBalText.setCurrency(getCompany().getCurrency(
+					selectedValue.getCurrency()));
+		}
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
