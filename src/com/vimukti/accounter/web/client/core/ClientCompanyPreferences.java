@@ -787,7 +787,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		return preferences;
 	}
 
-	ClientCurrency getPrimaryCurrency() {
+	public ClientCurrency getPrimaryCurrency() {
 		return primaryCurrency;
 	}
 
