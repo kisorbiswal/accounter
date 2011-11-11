@@ -79,7 +79,7 @@ public class CurrencyComboWidget extends DynamicForm {
 	}
 
 	private void showFactorField(boolean showFactorField) {
-		currencyForm.setDisabled(showFactorField);
+		// currencyForm.setDisabled(showFactorField);
 		updateFactorFieldTitle(); // 1<SELCTED currency>=
 		double factor = 1;/*
 						 * factorFieldDisableStatus ? 1 : getFactorByRPC(
