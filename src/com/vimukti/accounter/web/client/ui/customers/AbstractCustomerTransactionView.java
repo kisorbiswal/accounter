@@ -568,7 +568,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 						depositInAccountSelected(selectItem);
 						if (endBalText != null) {
-							endBalText.setAmount(selectItem.getTotalBalance());
+							endBalText.setAmount(selectItem
+									.getTotalBalanceInAccountCurrency());
 						}
 					}
 

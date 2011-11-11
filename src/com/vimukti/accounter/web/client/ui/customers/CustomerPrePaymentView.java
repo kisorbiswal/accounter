@@ -226,7 +226,8 @@ public class CustomerPrePaymentView extends
 					.getDepositIn());
 			if (depositInAccount != null) {
 				depositInCombo.setComboItem(depositInAccount);
-				bankBalText.setAmount(depositInAccount.getTotalBalance());
+				bankBalText.setAmount(depositInAccount
+						.getTotalBalanceInAccountCurrency());
 
 			}
 
