@@ -95,6 +95,7 @@ public class MobileMessageHandler extends Thread {
 			boolean hasNextCommand = true;
 			if (userMessage.getCommand() != null
 					&& userMessage.getCommand().isDone()) {
+				session.refreshCurrentCommand();
 				String nextCommand = result.getNextCommand();
 				if (nextCommand == null) {
 					session.refreshCurrentCommand();
@@ -171,13 +172,16 @@ public class MobileMessageHandler extends Thread {
 			String commandString = message;
 			Command matchedCommand = null;
 			while (!commandString.isEmpty()) {
+				matchedCommand = CommandsFactory.INSTANCE
+						.getCommand(commandString);
+				if (matchedCommand != null) {
+					break;
+				}
 				int lastIndexOf = commandString.lastIndexOf(" ");
 				if (lastIndexOf > 0) {
 					commandString = commandString.substring(0, lastIndexOf);
 				}
-				matchedCommand = CommandsFactory.INSTANCE
-						.getCommand(commandString);
-				if (matchedCommand != null || lastIndexOf < 0) {
+				if (lastIndexOf < 0) {
 					break;
 				}
 			}
@@ -288,8 +292,8 @@ public class MobileMessageHandler extends Thread {
 		UserCommand userCommand = commands.get(index);
 		Command command = CommandsFactory.INSTANCE.getCommand(userCommand
 				.getCommandName());
-		userMessage.setOriginalMsg(userCommand.getCommandName());
-		userMessage.setCommandString(userCommand.getInputs());
+		userMessage.setOriginalMsg(userCommand.getInputs());
+		userMessage.setCommandString(userCommand.getCommandName());
 		return command;
 	}
 
