@@ -671,8 +671,7 @@ public class CustomerCreditMemoView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalinBaseCurrency
-				.setAmount(getAmountInBaseCurrency(transactionTotal));
+		transactionTotalinBaseCurrency.setAmount(transactionTotal);
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(transactionTotal));
 	}
@@ -754,8 +753,7 @@ public class CustomerCreditMemoView extends
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
-		
-		
+
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrencycode(getCompany().getCurrency(
 					customer.getCurrency()));
