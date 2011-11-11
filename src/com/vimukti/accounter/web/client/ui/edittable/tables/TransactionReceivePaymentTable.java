@@ -206,7 +206,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected double getAmount(ClientTransactionReceivePayment row) {
-					return row.getDummyDue();
+					return row.getAmountDue();
 				}
 
 				@Override
@@ -330,7 +330,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected double getAmount(ClientTransactionReceivePayment row) {
-				return row.getPayment();
+				return currencyProvider.getAmountInTransactionCurrency(row
+						.getPayment());
 			}
 
 			@Override
@@ -339,12 +340,14 @@ public abstract class TransactionReceivePaymentTable extends
 				if (isInViewMode()) {
 					return;
 				}
+				value = currencyProvider.getAmountInBaseCurrency(value);
 				double amt, originalPayment;
 				try {
 					originalPayment = item.getPayment();
 					amt = value;
 					if (!isSelected(item)) {
-						item.setPayment(item.getAmountDue());
+						item.setPayment(currencyProvider
+								.getAmountInBaseCurrency(item.getAmountDue()));
 						onSelectionChanged(item, true);
 					}
 					item.setPayment(amt);
@@ -353,7 +356,8 @@ public abstract class TransactionReceivePaymentTable extends
 					double totalValue = item.getCashDiscount()
 							+ item.getWriteOff() + item.getAppliedCredits()
 							+ item.getPayment();
-					if (AccounterValidator.validatePayment(item.getAmountDue(),
+					if (AccounterValidator.validatePayment(currencyProvider
+							.getAmountInBaseCurrency(item.getAmountDue()),
 							totalValue)) {
 						recalculateGridAmounts();
 						updateTotalPayment(0.0);
@@ -380,8 +384,9 @@ public abstract class TransactionReceivePaymentTable extends
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
 				result.addError(this, accounterMessages
 						.valueCannotBe0orlessthan0(customerConstants.amount()));
-			} else if (DecimalUtil.isGreaterThan(totalValue,
-					transactionReceivePayment.getAmountDue())
+			} else if (DecimalUtil.isGreaterThan(totalValue, currencyProvider
+					.getAmountInBaseCurrency(transactionReceivePayment
+							.getAmountDue()))
 					|| DecimalUtil.isEquals(totalValue, 0)) {
 				result.addError(this, Accounter.constants()
 						.receivePaymentExcessDue());
@@ -731,7 +736,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 	private void updatePayment(ClientTransactionReceivePayment payment) {
 		payment.setPayment(0);
-		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
+		double paymentValue = currencyProvider.getAmountInBaseCurrency(payment
+				.getAmountDue()) - getTotalValue(payment);
 		payment.setPayment(paymentValue);
 		updateAmountDue(payment);
 		updateTotalPayment(payment.getPayment());
@@ -875,12 +881,13 @@ public abstract class TransactionReceivePaymentTable extends
 	public void updateAmountDue(ClientTransactionReceivePayment item) {
 		double totalValue = item.getCashDiscount() + item.getWriteOff()
 				+ item.getAppliedCredits() + item.getPayment();
-
-		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
+		double amountInBaseCurrency = currencyProvider
+				.getAmountInBaseCurrency(item.getAmountDue());
+		if (!DecimalUtil.isGreaterThan(totalValue, amountInBaseCurrency)) {
 			if (!DecimalUtil.isLessThan(item.getPayment(), 0.00))
-				item.setDummyDue(item.getAmountDue() - totalValue);
+				item.setDummyDue(amountInBaseCurrency - totalValue);
 			else
-				item.setDummyDue(item.getAmountDue() + item.getPayment()
+				item.setDummyDue(amountInBaseCurrency + item.getPayment()
 						- totalValue);
 
 		}

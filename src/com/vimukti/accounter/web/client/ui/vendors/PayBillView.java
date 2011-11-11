@@ -774,7 +774,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
-		if (isMultiCurrencyEnabled()) {
+		if (isMultiCurrencyEnabled() && !isInViewMode()) {
 			super.setCurrencycode(getCompany()
 					.getCurrency(vendor.getCurrency()));
 			setCurrencyFactor(1.0);
