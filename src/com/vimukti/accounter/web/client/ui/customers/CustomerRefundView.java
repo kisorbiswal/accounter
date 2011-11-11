@@ -55,7 +55,7 @@ public class CustomerRefundView extends
 	protected PayFromAccountsCombo payFromSelect;
 	protected ClientAccount selectedAccount;
 	protected AmountField amtText;
-	private AmountField endBalText, custBalText;
+	private AmountField bankBalText, custBalText;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
 	private TAXCodeCombo taxCodeSelect;
@@ -98,7 +98,7 @@ public class CustomerRefundView extends
 			return;
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
 		amtText.setCurrency(clientCurrency);
-		endBalText.setCurrency(clientCurrency);
+		bankBalText.setCurrency(clientCurrency);
 		custBalText.setCurrency(clientCurrency);
 
 		this.setCustomer(customer);
@@ -109,7 +109,6 @@ public class CustomerRefundView extends
 		addressListOfCustomer = customer.getAddress();
 		super.initBillToCombo();
 		custBalText.setAmount(customer.getBalance());
-		refundAmountChanged(amtText.getAmount());
 		currencyWidget.setSelectedCurrency(clientCurrency);
 	}
 
@@ -183,8 +182,9 @@ public class CustomerRefundView extends
 
 						selectedAccount = selectItem;
 
-						setEndingBalance(selectedAccount.getTotalBalance());
-						refundAmountChanged(amtText.getAmount());
+						bankBalText.setAmount(selectedAccount.getTotalBalanceInAccountCurrency());
+						bankBalText.setCurrency(getCompany().getCurrency(
+								selectedAccount.getCurrency()));
 					}
 
 				});
@@ -206,14 +206,7 @@ public class CustomerRefundView extends
 					setRefundAmount(0.00D);
 
 				}
-
 				else if (!DecimalUtil.isLessThan(givenAmount, 0)) {
-					try {
-						if (!AccounterValidator.isAmountTooLarge(givenAmount))
-							refundAmountChanged(givenAmount);
-					} catch (InvalidEntryException e) {
-					}
-
 					setRefundAmount(givenAmount);
 
 				}
@@ -269,12 +262,11 @@ public class CustomerRefundView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 
-		endBalText = new AmountField(customerConstants.bankBalance(), this,
+		bankBalText = new AmountField(customerConstants.bankBalance(), this,
 				getBaseCurrency());
-		endBalText.setHelpInformation(true);
-		endBalText.setDisabled(true);
+		bankBalText.setHelpInformation(true);
+		bankBalText.setDisabled(true);
 
-		setEndingBalance(null);
 
 		custBalText = new AmountField(Accounter.messages().payeeBalance(
 				Global.get().Customer()), this, getBaseCurrency());
@@ -291,7 +283,7 @@ public class CustomerRefundView extends
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
-		balForm.setFields(endBalText, custBalText);
+		balForm.setFields(bankBalText, custBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -354,7 +346,7 @@ public class CustomerRefundView extends
 		memoTextAreaItem.setTabIndex(8);
 		transactionDateItem.setTabIndex(9);
 		transactionNumber.setTabIndex(10);
-		endBalText.setTabIndex(11);
+		bankBalText.setTabIndex(11);
 		custBalText.setTabIndex(12);
 		saveAndCloseButton.setTabIndex(13);
 		saveAndNewButton.setTabIndex(14);
@@ -429,13 +421,7 @@ public class CustomerRefundView extends
 		return value;
 	}
 
-	protected void refundAmountChanged(Double givenAmount) {
-		if (selectedAccount != null) {
-			endingBalance = selectedAccount.getTotalBalance();
-			endingBalance -= givenAmount;
-			setEndingBalance(endingBalance);
-		}
-	}
+	
 
 	protected void setRefundAmount(Double amountValue) {
 		if (amountValue == null)
@@ -443,16 +429,7 @@ public class CustomerRefundView extends
 		amtText.setAmount(getAmountInTransactionCurrency(amountValue));
 	}
 
-	protected void setEndingBalance(Double totalBalance) {
 
-		if (totalBalance == null)
-			totalBalance = 0.0D;
-
-		endBalText.setAmount(totalBalance);
-
-		this.endingBalance = totalBalance;
-
-	}
 
 	@Override
 	protected void initMemoAndReference() {
@@ -523,13 +500,18 @@ public class CustomerRefundView extends
 			}
 			this.selectedAccount = getCompany().getAccount(
 					transaction.getPayFrom());
-			if (selectedAccount != null)
+			if (selectedAccount != null){
 				payFromSelect.setComboItem(selectedAccount);
+				bankBalText.setAmount(selectedAccount.getTotalBalanceInAccountCurrency());
+				bankBalText.setCurrency(getCompany().getCurrency(
+						selectedAccount.getCurrency()));
+
+			}
 			this.billingAddress = transaction.getAddress();
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
 
-			endBalText.setAmount(customer.getBalance());
+			
 			custBalText.setAmount(customer.getBalance());
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
@@ -755,6 +737,6 @@ public class CustomerRefundView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		refundAmountChanged(amtText.getAmount());
+		// refundAmountChanged(amtText.getAmount());
 	}
 }
