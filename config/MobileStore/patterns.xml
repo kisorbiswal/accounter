@@ -304,5 +304,14 @@
 			<command>Create Vendor Payment</command>
 		</output>
 	</pattern>
+	<pattern>
+		<input>Journal Entry</input>
+		<output>
+			<command>New Journal Entry</command>
+			<command>Edit Journal Entry</command>
+			<command>Journal Entries List</command>
+			<command>Delete Journal Entry</command>
+		</output>
+	</pattern>
 </patterns>
 
