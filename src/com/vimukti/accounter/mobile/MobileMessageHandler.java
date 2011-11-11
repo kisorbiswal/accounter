@@ -84,6 +84,10 @@ public class MobileMessageHandler extends Thread {
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 			UserMessage userMessage = preProcess(session, message, networkId,
 					networkType);
+
+			Command command = userMessage.getCommand();
+			session.addCommand(command);
+
 			Result result = getCommandProcessor().handleMessage(session,
 					userMessage);
 			if (oldResult != null) {
@@ -93,8 +97,7 @@ public class MobileMessageHandler extends Thread {
 				}
 			}
 			boolean hasNextCommand = true;
-			if (userMessage.getCommand() != null
-					&& userMessage.getCommand().isDone()) {
+			if (command != null && command.isDone()) {
 				session.refreshCurrentCommand();
 				String nextCommand = result.getNextCommand();
 				if (nextCommand == null) {
@@ -229,10 +232,6 @@ public class MobileMessageHandler extends Thread {
 		}
 
 		userMessage.setLastResult(lastResult);
-
-		if (command != null && !command.isDone()) {
-			session.addCommand(command);
-		}
 
 		if (command != null) {
 			userMessage.setType(Type.COMMAND);

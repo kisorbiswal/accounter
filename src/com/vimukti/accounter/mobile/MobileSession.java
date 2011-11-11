@@ -126,7 +126,7 @@ public class MobileSession {
 			}
 			Command pop = userMessage.getCommand();
 			if (pop == null) {
-				break;
+				continue;
 			}
 			if (!pop.isDone()) {
 				setCurrentCommand(pop);
@@ -214,7 +214,12 @@ public class MobileSession {
 	public void addCommand(Command command) {
 		if (currentCommand != command) {
 			UserMessage lastMessage = getLastMessage();
-			commandStack.push(lastMessage);
+			if (lastMessage != null) {
+				Command command2 = lastMessage.getCommand();
+				if (command2 != null && !command2.isDone()) {
+					commandStack.push(lastMessage);
+				}
+			}
 			setCurrentCommand(command);
 		}
 	}

@@ -34,7 +34,6 @@ public class ConsoleChatServer extends Thread {
 		try {
 			ServerSocket server = new ServerSocket(
 					ServerConfiguration.getConsoleChatServerPort());
-			loadCommandsAndPatterns();
 			Socket socket = null;
 			while ((socket = server.accept()) != null) {
 				new ConsoleSocketHandler(socket, messageHandler).start();
@@ -43,15 +42,6 @@ public class ConsoleChatServer extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * @throws AccounterMobileException
-	 * 
-	 */
-	private void loadCommandsAndPatterns() throws AccounterMobileException {
-		CommandsFactory.INSTANCE.reload();
-		PatternStore.INSTANCE.reload();
 	}
 
 	@Override
@@ -70,6 +60,7 @@ public class ConsoleChatServer extends Thread {
 		}
 
 		public void run() {
+			String user = null;
 			try {
 				final ObjectOutputStream out = new ObjectOutputStream(
 						socket.getOutputStream());
@@ -77,8 +68,9 @@ public class ConsoleChatServer extends Thread {
 				ObjectInputStream in = new ObjectInputStream(inputStream);
 				out.writeObject("Connection Successfull");
 				System.out.println("Console Chat Server Started.");
-				while (true) {
-					String user = (String) in.readObject();
+
+				while (socket.isConnected()) {
+					user = (String) in.readObject();
 					Object readObject = in.readObject();
 					String msg = (String) readObject;
 					System.out.println(msg);
@@ -99,6 +91,7 @@ public class ConsoleChatServer extends Thread {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				handler.logout(user);
 			}
 		}
 
