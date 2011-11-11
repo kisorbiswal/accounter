@@ -199,8 +199,6 @@ public interface AccounterMessages extends Messages {
 
 	public String payeeGroup(String payee);
 
-	public String customerGroup(String customer);
-
 	public String payeeGroupAlreadyExists(String payee);
 
 	public String payeeGroupList(String payee);
