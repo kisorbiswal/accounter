@@ -87,12 +87,6 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		return null;
 	}
 
-	public void updateComboItems(boolean isSales) {
-		this.isSales = isSales;
-		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
-				.getActiveTaxCodes()));
-	}
-
 	protected List<ClientTAXCode> getTAXCodesForSalesOrPurchase(
 			List<ClientTAXCode> activeTaxCodes) {
 
