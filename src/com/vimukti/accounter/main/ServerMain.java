@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.mobile.AccounterChatServer;
+import com.vimukti.accounter.mobile.ConsoleChatServer;
 import com.vimukti.accounter.mobile.MobileServer;
 import com.vimukti.accounter.mobile.store.CommandsFactory;
 import com.vimukti.accounter.mobile.store.PatternStore;
@@ -52,15 +53,12 @@ public class ServerMain extends Main {
 		CommandsFactory.INSTANCE.reload();
 		PatternStore.INSTANCE.reload();
 
-		try {
-			// if (ServerConfiguration.isEnableChatServer()) {
-			// ConsoleChatServer consoleChat = new ConsoleChatServer();
-			// consoleChat.start();
-			// }
-			AccounterChatServer accounterChatServer = new AccounterChatServer();
-			accounterChatServer.start();
-		} catch (Exception e) {
+		if (ServerConfiguration.isEnableChatServer()) {
+			ConsoleChatServer consoleChat = new ConsoleChatServer();
+			consoleChat.start();
 		}
+		AccounterChatServer accounterChatServer = new AccounterChatServer();
+		accounterChatServer.start();
 		new MobileServer().strat();
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
