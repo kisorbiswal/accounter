@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -2954,8 +2953,9 @@ public class ReportManager extends Manager {
 				.setParameter("companyId", companyId);
 
 		List<Object[]> taxReturnEntries = session
-				.getNamedQuery("getLastTAXReturn.Entries.by.taxAgency")
-				.setEntity("company", getCompany(companyId))
+				.getNamedQuery(
+						"getAllTAXReturnEntries.groupby.transaction.id.for.reports")
+				.setParameter("companyId", companyId)
 				.setParameter("taxAgency", taxAgency).list();
 
 		List<Object[]> list = query.list();
@@ -3004,7 +3004,7 @@ public class ReportManager extends Manager {
 				newEntry.setTransactionNumber((String) entry[1]);
 				newEntry.setTransactionType((Integer) entry[2]);
 				newEntry.setTransactionDate(new ClientFinanceDate(
-						(Date) entry[3]));
+						(Long) entry[3]));
 				newEntry.setTaxItemName((String) entry[8]);
 				newEntry.setTAXRate((Double) entry[9]);
 				newEntry.setPercentage(true);
