@@ -138,27 +138,6 @@ public class CommandProcessor {
 			e.printStackTrace();
 			result = context.makeResult();
 			result.add("You got an Exception....@@@@@@@");
-
-			try {
-				FileInputStream inputStream = new FileInputStream(
-						"C:/Users/vimukti04/Desktop/exceptions.txt");
-				int available = inputStream.available();
-				byte[] data = new byte[available];
-				inputStream.read(data);
-				inputStream.close();
-
-				FileOutputStream fileOut = new FileOutputStream(
-						"C:/Users/vimukti04/Desktop/exceptions.txt");
-				PrintWriter printWriter = new PrintWriter(fileOut);
-				printWriter.write(new String(data));
-				printWriter
-						.write("===================================================\n");
-				e.printStackTrace(printWriter);
-				printWriter.flush();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-
 		}
 		return result;
 	}
