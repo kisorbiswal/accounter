@@ -179,6 +179,9 @@ public class WriteChequeView extends
 			selectedCustomer = (ClientCustomer) payee;
 			addressList = selectedCustomer.getAddress();
 			currency = selectedCustomer.getCurrency();
+			if (isTrackTax() && !isTaxPerDetailLine() && taxCodeSelect != null) {
+				taxCodeSelect.updateComboItems(true);
+			}
 			// if (transaction == null) {
 			// customerAccountsDisclosurePanel.setVisible(true);
 			// customerItemsDisclosurePanel.setVisible(true);
@@ -190,6 +193,9 @@ public class WriteChequeView extends
 			selectedVendor = (ClientVendor) payee;
 			addressList = selectedVendor.getAddress();
 			currency = selectedVendor.getCurrency();
+			if (isTrackTax() && !isTaxPerDetailLine() && taxCodeSelect != null) {
+				taxCodeSelect.updateComboItems(false);
+			}
 			// vendorAccountsDisclosurePanel.setVisible(true);
 			// vendorItemsDisclosurePanel.setVisible(true);
 			// changeGrid(vendorAccountsDisclosurePanel,
@@ -198,6 +204,9 @@ public class WriteChequeView extends
 		} else if (payee instanceof ClientTAXAgency) {
 			selectedTaxAgency = (ClientTAXAgency) payee;
 			addressList = selectedTaxAgency.getAddress();
+			if (isTrackTax() && !isTaxPerDetailLine() && taxCodeSelect != null) {
+				taxCodeSelect.updateComboItems(false);
+			}
 			// vendorAccountsDisclosurePanel.setVisible(true);
 			// vendorItemsDisclosurePanel.setVisible(true);
 			// changeGrid(vendorAccountsDisclosurePanel,

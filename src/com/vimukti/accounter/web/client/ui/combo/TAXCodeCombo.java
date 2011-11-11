@@ -18,13 +18,15 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	public TAXCodeCombo(String title, boolean isSales) {
 		super(title);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(getCompany().getActiveTaxCodes()));
+		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
+				.getActiveTaxCodes()));
 	}
 
 	public TAXCodeCombo(String title, boolean isAddNewRequired, boolean isSales) {
 		super(title, isAddNewRequired, 1);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(getCompany().getActiveTaxCodes()));
+		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
+				.getActiveTaxCodes()));
 	}
 
 	@Override
@@ -85,7 +87,13 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		return null;
 	}
 
-	protected List<ClientTAXCode> TAXCodesForSalesOrPurchase(
+	public void updateComboItems(boolean isSales) {
+		this.isSales = isSales;
+		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
+				.getActiveTaxCodes()));
+	}
+
+	protected List<ClientTAXCode> getTAXCodesForSalesOrPurchase(
 			List<ClientTAXCode> activeTaxCodes) {
 
 		List<ClientTAXCode> taxCodeList = new ArrayList<ClientTAXCode>();
