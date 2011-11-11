@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.Context;
@@ -17,7 +18,8 @@ public abstract class NewCommand extends Command {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Result run(Context context) {
-		companyId = context.getCompany().getID();
+		Company company = context.getCompany();
+		companyId = company == null ? 0 : company.getID();
 		Result result = process(context);
 		List<String> first = (List<String>) context
 				.getAttribute("firstMessage");
