@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
@@ -549,14 +550,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 
-		endBalText = new AmountField(Accounter.constants().bankBalance(),
-				this, getBaseCurrency());
+		endBalText = new AmountField(Accounter.constants().bankBalance(), this,
+				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		endBalText.setDisabled(true);
 		tdsCombo = new TaxItemCombo(Accounter.constants().tds(),
-				ClientTAXItem.TAX_TYPE_TDS);
+				ClientTAXAgency.TAX_TYPE_TDS);
 		tdsCombo.setDisabled(isInViewMode());
 		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 

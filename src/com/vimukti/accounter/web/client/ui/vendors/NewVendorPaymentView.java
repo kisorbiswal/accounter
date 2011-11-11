@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -315,7 +316,7 @@ public class NewVendorPaymentView extends
 		rightPanel.setCellHorizontalAlignment(balForm,
 				HasHorizontalAlignment.ALIGN_CENTER);
 		this.tdsCombo = new TaxItemCombo(constants.tds(),
-				ClientTAXItem.TAX_TYPE_TDS);
+				ClientTAXAgency.TAX_TYPE_TDS);
 		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 
 			@Override

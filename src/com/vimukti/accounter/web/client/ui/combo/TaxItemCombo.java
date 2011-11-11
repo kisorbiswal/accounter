@@ -31,13 +31,13 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 		List<ClientTAXItem> taxItemList = new ArrayList<ClientTAXItem>();
 		for (ClientTAXItem taxItem : arrayList) {
 
-			if (type == ClientTAXItem.TAX_TYPE_TDS) {
+			if (type == ClientTAXAgency.TAX_TYPE_TDS) {
 				if (getCompany().getTaxAgency(taxItem.getTaxAgency())
 						.getTaxType() == ClientTAXAgency.TAX_TYPE_TDS) {
 					taxItemList.add(taxItem);
 				}
 
-			} else if (type == ClientTAXItem.TAX_TYPE_VAT) {
+			} else if (type == ClientTAXAgency.TAX_TYPE_VAT) {
 				if (getCompany().getTaxAgency(taxItem.getTaxAgency())
 						.getTaxType() == ClientTAXAgency.TAX_TYPE_VAT) {
 					taxItemList.add(taxItem);

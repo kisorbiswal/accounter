@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -692,7 +693,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		taxIDText.setWidth(100);
 		taxIDText.setDisabled(isInViewMode());
 		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
-				.Vendor()), ClientTAXItem.TAX_TYPE_TDS);
+				.Vendor()), ClientTAXAgency.TAX_TYPE_TDS);
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
 		vendorTDSTaxCode.setDisabled(true);

@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -710,7 +709,7 @@ public class WriteChequeView extends
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		vendorTDSTaxCode = new TaxItemCombo(Accounter.constants().tds(),
-				ClientTAXItem.TAX_TYPE_TDS);
+				ClientTAXAgency.TAX_TYPE_TDS);
 
 		vendorTDSTaxCode.setDisabled(true);
 

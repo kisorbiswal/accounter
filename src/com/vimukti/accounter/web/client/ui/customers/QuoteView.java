@@ -53,7 +53,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
@@ -114,9 +113,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-		
+
 		ClientCurrency currency = getCurrency(customer.getCurrency());
-		
+
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientEstimate ent = (ClientEstimate) this.transaction;
 
@@ -166,20 +165,20 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		shipToAddress.setAddress(addresses);
 
 		this.setCustomer(customer);
-		
+
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		
+
 		long taxCode = customer.getTAXCode();
 		if (taxCode != 0) {
 			customerTransactionTable.setTaxCode(taxCode, false);
 		}
-		
+
 		if (currency.getID() != 0) {
-				currencyWidget.setSelectedCurrency(currency);
+			currencyWidget.setSelectedCurrency(currency);
 		} else {
-				currencyWidget.setSelectedCurrency(getBaseCurrency());
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 
 		if (isMultiCurrencyEnabled()) {
@@ -326,9 +325,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
-		locationCombo = createLocationCombo();
-		locationCombo.setHelpInformation(true);
-
+		if (locationTrackingEnabled) {
+			locationCombo = createLocationCombo();
+			locationCombo.setHelpInformation(true);
+			locationCombo.setDisabled(isInViewMode());
+		}
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			classListCombo.setHelpInformation(true);
+			classListCombo.setDisabled(isInViewMode());
+		}
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
@@ -416,11 +423,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
-
-		if (locationTrackingEnabled)
-			phoneForm.setFields(locationCombo);
-		// formItems.add(deliveryDate);
-
+		DynamicForm locationform = new DynamicForm();
+		if (locationTrackingEnabled) {
+			if (type == ClientEstimate.QUOTES) {
+				phoneForm.setFields(locationCombo);
+			} else {
+				locationform.setFields(locationCombo);
+				locationform.setFields(classListCombo);
+			}
+		}
 		if (getPreferences().isSalesPersonEnabled()) {
 			phoneForm.setFields(salesPersonCombo, payTermsSelect,
 					quoteExpiryDate, deliveryDate);
@@ -540,7 +551,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "");
-		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2, ALIGN_RIGHT);
+		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
+				ALIGN_RIGHT);
 
 		VerticalPanel mainpanel = new VerticalPanel();
 		mainpanel.setWidth("100%");
@@ -558,8 +570,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		if (type == ClientEstimate.QUOTES)
+		if (type == ClientEstimate.QUOTES) {
 			rightVLay.add(phoneForm);
+		} else {
+			rightVLay.add(locationform);
+		}
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
 			rightVLay.setCellHorizontalAlignment(currencyWidget,
@@ -785,6 +800,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		initAccounterClass();
 		superinitTransactionViewData();
 		initAllItems();
 		initAccounterClass();
@@ -997,6 +1013,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		locationCombo.setDisabled(isInViewMode());
+		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
