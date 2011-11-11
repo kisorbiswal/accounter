@@ -464,7 +464,7 @@ public class CreditCardExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalBaseCurrencyText);
 			
