@@ -63,16 +63,30 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	}
 
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
-	public List<ClientTAXItemGroup> getFilteredVATItems() {
+	public List<ClientTAXItemGroup> getFilteredVATItems(boolean salesItems) {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
 				.getTaxItemGroups();
 		taxItemGroups.addAll(getCompany().getActiveTaxItems());
-		for (ClientTAXItemGroup vatItem : getCompany().getActiveTaxItems()) {
+		for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 			if (vatItem.isPercentage()) {
-				vatItmsList.add(vatItem);
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						vatItem.getTaxAgency());
+				if(salesItems){
+					if(taxAgency.getSalesLiabilityAccount() !=0){
+					vatItmsList.add(vatItem);
+						}
+					}
+					if(!salesItems){
+						if(taxAgency.getPurchaseLiabilityAccount() !=0){
+						vatItmsList.add(vatItem);
+							}
+						}
+						
+				
+				}
 			}
-		}
+		 
 		return vatItmsList;
 	}
 
@@ -88,7 +102,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 		// vatItmsList.add(vatItem);
 		// }
 		// }
-		return getFilteredVATItems();
+		return getFilteredVATItems(true);
 	}
 
 	/*
@@ -103,7 +117,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 		// vatItmsList.add(vatItem);
 		// }
 		// }
-		return getFilteredVATItems();
+		return getFilteredVATItems(false);
 	}
 
 	/*
