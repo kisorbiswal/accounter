@@ -26,8 +26,8 @@
 		<alias>Select Company</alias>
 	</command>
 
-	<command clazz="NewCustomerGroupCommand" name="New CustomerGroup">
-		<alias>Create CustomerGroup</alias>
+	<command clazz="NewCustomerGroupCommand" name="New Customer Group">
+		<alias>Create Customer Group</alias>
 	</command>
 
 	<command clazz="NewInvoiceCommand" name="New Invoice">
