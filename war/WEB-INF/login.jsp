@@ -32,14 +32,14 @@
 		});
 	});
 	if(news.list.length>0){
-		$('#unChangedNewsDiv>h4>a').attr("href" ,news.list[0].url);
-		$('#unChangedNewsDiv>h4>a').text(news.list[0].title);
-		$('#unChangedNewsDiv>h3').text(news.list[0].body);}
+		$('#unChangedNewsDiv>h3>a').attr("href" ,news.list[0].url);
+		$('#unChangedNewsDiv>h3>a').text(news.list[0].title);
+		$('#news_body').text(news.list[0].body);}
 		var changingindex =1;
 		var setTimeIntervel;
 		timerStarted();
 			for(var i=0; i <  news.list.length; i++){
-					var listItemDiv = $("<li id="+news.list[i].id+"><a target=_blank href="+news.list[i].url+"</a>"+news.list[i].title+"</li></br>");
+					var listItemDiv = $("<li id="+news.list[i].id+"><a target=_blank href='"+news.list[i].url+"'>"+news.list[i].title+"</a></li></br>");
 					$('#feedDivUl').append($(listItemDiv));
 			}
 			
@@ -65,9 +65,9 @@
 				  if(changingindex <news.list.length)
 					changingindex = changingindex+1;	
 				  if(news.list.length>1){
-				  $('#unChangedNewsDiv>h4>a').attr("href" ,news.list[changingindex-1].url);
-					$('#unChangedNewsDiv>h4>a').text(news.list[changingindex-1].title);
-					$('#unChangedNewsDiv>h3').text(news.list[changingindex-1].body);}
+				  $('#unChangedNewsDiv>h3>a').attr("href" ,news.list[changingindex-1].url);
+					$('#unChangedNewsDiv>h3>a').text(news.list[changingindex-1].title);
+					$('#news_body').text(news.list[changingindex-1].body);}
 					if(changingindex ==news.list.length){
 						changingindex=0;
 					}
@@ -76,9 +76,9 @@
 				
 			}
 			function cahngeContent(){
-				 $('#unChangedNewsDiv>h4>a').attr("href" ,news.list[changingindex].url);
-					$('#unChangedNewsDiv>h4>a').text(news.list[changingindex].title);
-					$('#unChangedNewsDiv>h3').text(news.list[changingindex].body);		
+				 $('#unChangedNewsDiv>h3>a').attr("href" ,news.list[changingindex].url);
+					$('#unChangedNewsDiv>h3>a').text(news.list[changingindex].title);
+					$('#news_body').text(news.list[changingindex].body);		
 					}
 		 
 	 
@@ -100,9 +100,9 @@
 			  <div class="new_login_page">
 			  <div id ="feedDiv">
 			  <h2>What's New</h2>
-			  <div id="unChangedNewsDiv" class = "news"><h4>
-			  <a target="_blank"></a><br/><h3></h3>
-			  </h4></div>
+			  <div id="unChangedNewsDiv" class = "news"><h3>
+			  <a target="_blank"></a></h3><div id='news_body'></div>
+			  </div>
 			  <ul id="feedDivUl"></ul>
 			  </div>
 			   
