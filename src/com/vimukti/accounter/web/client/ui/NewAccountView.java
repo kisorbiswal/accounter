@@ -16,7 +16,6 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -1288,7 +1287,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
-				initCurrencyFactor();
+				if (isMultiCurrencyEnabled()) {
+					initCurrencyFactor();
+				}
 				bankAccNumText.setDisabled(true);
 			}
 
@@ -1314,24 +1315,21 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void initCurrencyFactor() {
-		if (isMultiCurrencyEnabled()) {
-			if (data.getCurrency() > 0) {
-				this.selectCurrency = getCompany().getCurrency(
-						data.getCurrency());
-			} else {
-				this.selectCurrency = getCompany().getPrimaryCurrency();
-			}
-			this.currencyFactor = data.getCurrencyFactor();
-			if (this.selectCurrency != null) {
-				currencyCombo.setSelectedCurrency(this.selectCurrency);
-			}
-			currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
-			if (!selectCurrency.equals(getCompany().getPreferences()
-					.getPrimaryCurrency())) {
-				currencyCombo.disabledFactorField(true);
-			}
-			currencyCombo.setDisabled(isInViewMode());
+		if (data.getCurrency() > 0) {
+			this.selectCurrency = getCompany().getCurrency(data.getCurrency());
+		} else {
+			this.selectCurrency = getCompany().getPrimaryCurrency();
 		}
+		this.currencyFactor = data.getCurrencyFactor();
+		if (this.selectCurrency != null) {
+			currencyCombo.setSelectedCurrency(this.selectCurrency);
+		}
+		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
+		if (!selectCurrency.equals(getCompany().getPreferences()
+				.getPrimaryCurrency())) {
+			currencyCombo.disabledFactorField(true);
+		}
+		currencyCombo.setDisabled(isInViewMode());
 		updateCurrencyForItems(selectCurrency);
 	}
 
