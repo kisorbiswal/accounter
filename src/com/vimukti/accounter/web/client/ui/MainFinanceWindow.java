@@ -69,7 +69,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// if (!Accounter.isMacApp()) {
 		// add(hMenuBar);
 		// }
-		boolean isTouch = false;/* isTablet */
+		boolean isTouch = isTouch();
 		IMenuFactory menuFactory = null;
 		if (isTouch) {
 			menuFactory = new TouchMenuFactory();
@@ -102,10 +102,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	}
 
-	private boolean isTablet() {
-
-		return false;
-	}
+	private native boolean isTouch() /*-{
+    	return $wnd.isTouch;
+	}-*/;
 
 	public HelpItem getHelpItem() {
 		return item;
