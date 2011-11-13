@@ -41,7 +41,6 @@ public class OpenCompanyServlet extends BaseServlet {
 
 		String url = request.getRequestURI().toString();
 		request.setAttribute(IS_TOUCH,request.getSession().getAttribute(IS_TOUCH));
-		request.getSession().removeAttribute(IS_TOUCH);
 		
 		if (url.equals(ACCOUNTER_OLD_URL)) {
 			dispatch(request, response, REDIRECT_PAGE);
