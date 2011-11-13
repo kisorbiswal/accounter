@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -88,7 +89,7 @@ public abstract class AbstractTransactionTable extends
 
 			}
 
-//			super.update(record); 
+			// super.update(record);
 			// totalVat += citem.getVATfraction();
 		}
 
@@ -204,22 +205,38 @@ public abstract class AbstractTransactionTable extends
 		// 1. checking for the name of the transaction item
 		// 2. checking for the vat code if the company is of type UK
 		// TODO::: check whether this validation is working or not
-		for (ClientTransactionItem item : this.getRecords()) {
-			if (item.isEmpty()) {
+		for (ClientTransactionItem transactionItem : this.getRecords()) {
+			if (transactionItem.isEmpty()) {
 				continue;
 			}
-			if (item.getAccountable() == null) {
-				result.addError("GridItem-" + item.getType(), Accounter
-						.messages().pleaseSelect(
-								Utility.getItemType(item.getType())));
+			if (transactionItem.getAccountable() == null) {
+				result.addError(
+						"GridItem-" + transactionItem.getType(),
+						Accounter.messages().pleaseSelect(
+								Utility.getItemType(transactionItem.getType())));
 			}
 			if (enableTax && showTaxCode) {
-				if (item.getTaxCode() == 0) {
-					result.addError("GridItemUK-" + item.getAccount(),
+				if (transactionItem.getTaxCode() == 0) {
+					result.addError(
+							"GridItemUK-" + transactionItem.getAccount(),
 							Accounter.messages().pleaseSelect(
 									Accounter.constants().taxCode()));
 				}
 
+			}
+
+			if (transactionItem.isBillable()) {
+				if (transactionItem.getCustomer() == 0) {
+					result.addError("Customer",
+							constants.mustSelectCustomerForBillable());
+				} else if (transactionItem.getItem() > 0) {
+					ClientItem item = getCompany().getItem(
+							transactionItem.getItem());
+					if (!item.isIBuyThisItem || !item.isISellThisItem) {
+						result.addError("Item", constants
+								.onlySellableItemsCanBeMarkedAsBillable());
+					}
+				}
 			}
 		}
 		if (DecimalUtil.isLessThan(lineTotal, 0.0)) {

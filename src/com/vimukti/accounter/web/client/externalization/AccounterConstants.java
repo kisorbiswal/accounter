@@ -3751,4 +3751,8 @@ public interface AccounterConstants extends Constants {
 	public String enterSalesORpurchaseItem();
 
 	public String depreciationShedule();
+
+	public String mustSelectCustomerForBillable();
+
+	public String onlySellableItemsCanBeMarkedAsBillable();
 }
