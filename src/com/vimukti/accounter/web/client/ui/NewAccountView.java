@@ -373,7 +373,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// accInfoForm.setWidth("100%");
 		balanceForm = new DynamicForm();
 		topHLay = new HorizontalPanel();
-		// topHLay.setWidth("50%");
+		topHLay.setWidth("100%");
 		leftLayout = new VerticalPanel();
 		// leftLayout.setWidth("90%");
 		currencyCombo = createCurrencyComboWidget();
@@ -426,16 +426,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		leftLayout.add(currencyCombo);
 		leftLayout.add(balanceForm);
 
+		topHLay.add(leftLayout);
+		
 		if (accountType == ClientAccount.TYPE_BANK)
 			addBankForm();
 		if (accountType == ClientAccount.TYPE_PAYPAL) {
 			addPaypalForm();
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 			addCreditCardForm();
-			topHLay.setWidth("100%");
-
 		}
-		topHLay.add(leftLayout);
+		
 		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		cashAccountCheck = new CheckboxItem(Accounter.messages()
 				.thisIsConsideredACashAccount(Global.get().Account()));
