@@ -352,17 +352,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
 		if (getPreferences().isSalesPersonEnabled()) {
-			termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem
-					);
-			//removed sales ordered number textbox in form
-			
+			termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
+					orderNumText);
 
 			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 		} else {
-			termsForm.setFields(payTermsSelect, dueDateItem);
-			//removed sales ordered number textbox in form
+			termsForm.setFields(payTermsSelect, dueDateItem, orderNumText);
 			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
@@ -893,7 +890,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				customerCombo.setComboItem(getCustomer());
 				getEstimatesAndSalesOrder();
 			}
-			
+
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 			if (getCustomer() != null)
 				addresses.addAll(getCustomer().getAddress());
