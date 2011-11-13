@@ -52,6 +52,8 @@ public class BaseServlet extends HttpServlet {
 	protected static final String PARAM_LAST_NAME = "lastName";
 	protected static final String PARAM_COUNTRY = "country";
 	protected static final String PARAM_PH_NO = "phNo";
+	
+	protected static final String IS_TOUCH = "isTouch";
 
 	protected static final String ATTR_MESSAGE = "message";
 	protected static final String ATTR_COMPANY_LIST = "companeyList";

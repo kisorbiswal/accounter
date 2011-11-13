@@ -179,10 +179,12 @@ public class CompaniesServlet extends BaseServlet {
 			long companyID) throws IOException {
 		HttpSession httpSession = req.getSession();
 		httpSession.setAttribute(COMPANY_ID, companyID);
+		httpSession.setAttribute(IS_TOUCH, req.getParameter(IS_TOUCH));
 		addMacAppCookie(req, resp);
 
 		Session session = HibernateUtil.openSession();
 		try {
+
 			Company company = (Company) session.get(Company.class, companyID);
 			if (company != null) {
 

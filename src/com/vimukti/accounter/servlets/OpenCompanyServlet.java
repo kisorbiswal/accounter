@@ -40,6 +40,9 @@ public class OpenCompanyServlet extends BaseServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String url = request.getRequestURI().toString();
+		request.setAttribute(IS_TOUCH,request.getSession().getAttribute(IS_TOUCH));
+		request.getSession().removeAttribute(IS_TOUCH);
+		
 		if (url.equals(ACCOUNTER_OLD_URL)) {
 			dispatch(request, response, REDIRECT_PAGE);
 			return;
@@ -47,6 +50,7 @@ public class OpenCompanyServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 
 		if (emailID != null) {
+			
 			Long serverCompanyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
 			String create = (String) request.getSession().getAttribute(CREATE);
