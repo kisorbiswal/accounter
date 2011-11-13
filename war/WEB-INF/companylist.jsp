@@ -23,9 +23,9 @@
 			var el = document.createElement('div');
 			el.setAttribute('ongesturestart', 'return;');
 			if(typeof el.ongesturestart == "function"){
-				return false;
-			}else {
 				return true;
+			}else {
+				return false;
 			}
 		}
 	</script>
