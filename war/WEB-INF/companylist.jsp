@@ -9,6 +9,26 @@
 		<link rel="shortcut icon" href="/images/favicon.ico" />
 		<%@ include file="./feedback.jsp" %>
 		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+	<script type="text/javascript">
+		function goto(comp){
+			$(document).ready(function() {
+				var params= {
+					companyId: comp,
+					isTouch: touchDeviceTest()
+				};
+				document.location = '/main/companies' + '?' + $.param(params);
+			});
+		};
+		function touchDeviceTest() {
+			var el = document.createElement('div');
+			el.setAttribute('ongesturestart', 'return;');
+			if(typeof el.ongesturestart == "function"){
+				return false;
+			}else {
+				return true;
+			}
+		}
+	</script>
   </head>
   <body>
   <div id="commanContainer">
@@ -29,8 +49,8 @@
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/main/companies?companyId=${company.id}"/>
 			    <c:set var='deleteurl' value="/main/deletecompany?companyId=${company.id}"/>
-			   <div class="companies-list"><a href= '${url}'>${company.preferences.tradingName} - ${company.registeredAddress.countryOrRegion} </a> <a class="delete_company" href= '${deleteurl}' >Delete</a></div>
-		   </c:forEach>
+			   <div class="companies-list"><a onClick=goto(${company.id}) href="#">${company.preferences.tradingName} - ${company.registeredAddress.countryOrRegion} </a> <a class="delete_company" href= '${deleteurl}' >Delete</a></div>
+		   </c:forEach> 
 	    </c:if>
 	    </li>
 	   </ul>
