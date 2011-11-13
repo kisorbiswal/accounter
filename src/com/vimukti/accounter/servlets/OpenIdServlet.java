@@ -71,7 +71,7 @@ public class OpenIdServlet extends ThirdPartySignupServlet {
 			processReturn(req, resp);
 		} else {
 			String identifier = req.getParameter("openid_identifier");
-			//String identifier ="https://www.google.com/accounts/o8/id";
+			// String identifier ="https://www.google.com/accounts/o8/id";
 			if (identifier != null) {
 				this.authRequest(identifier, req, resp);
 			} else {
@@ -191,11 +191,11 @@ public class OpenIdServlet extends ThirdPartySignupServlet {
 		FetchRequest fetch = FetchRequest.createFetchRequest();
 		fetch.addAttribute("email", "http://axschema.org/contact/email", true,
 				1);
-		fetch.addAttribute("firstname", "http://axschema.org/namePerson/first", true,
-				1);
-		fetch.addAttribute("lastname", "http://axschema.org/namePerson/last", true,
-				1);
-		
+		fetch.addAttribute("firstname", "http://axschema.org/namePerson/first",
+				true, 1);
+		fetch.addAttribute("lastname", "http://axschema.org/namePerson/last",
+				true, 1);
+
 		authReq.addExtension(fetch);
 	}
 
@@ -204,13 +204,13 @@ public class OpenIdServlet extends ThirdPartySignupServlet {
 		Identifier identifier = this.verifyResponse(req);
 		if (identifier == null) {
 			redirectExternal(req, resp, LOGIN_URL);
-			return ;
+			return;
 		} else {
 			req.setAttribute("identifier", identifier.getIdentifier());
 			String email = (String) req.getAttribute("email");
 			String firstname = (String) req.getAttribute("firstname");
 			String lasename = (String) req.getAttribute("lastname");
-			loginForUser(email,firstname,lasename, req, resp);
+			loginForUser(email, firstname, lasename, req, resp);
 		}
 	}
 
@@ -292,24 +292,12 @@ public class OpenIdServlet extends ThirdPartySignupServlet {
 			FetchResponse fetchResp = (FetchResponse) authSuccess
 					.getExtension(AxMessage.OPENID_NS_AX);
 
-			List emails = fetchResp.getAttributeValues("email");
-			String email = (String) emails.get(0);
-			List firstname = fetchResp.getAttributeValues("fullname");
-			String firstn = (String) firstname.get(0);
-
-//			 List aliases = fetchResp.getAttributeAliases();
-//			 Map attributes = new LinkedHashMap();
-//			 for (Iterator iter = aliases.iterator(); iter.hasNext();) {
-//			 String alias = (String) iter.next();
-//			 List values = fetchResp.getAttributeValues(alias);
-//			 if (values.size() > 0) {
-//			 String[] arr = new String[values.size()];
-//			 values.toArray(arr);
-//			 attributes.put(alias, StringUtils.join(arr));
-//			 }
-//			 }
-//			 httpReq.setAttribute("attributes", attributes);
-			 httpReq.setAttribute("email", email);
+			String email = fetchResp.getAttributeValue("email");
+			String firstname = fetchResp.getAttributeValue("firstname");
+			String lastname = fetchResp.getAttributeValue("lastname");
+			httpReq.setAttribute("email", email);
+			httpReq.setAttribute("firstname", firstname);
+			httpReq.setAttribute("lastname", lastname);
 		}
 	}
 
