@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -202,6 +203,12 @@ public class CommandUtils {
 
 	public static ClientPaymentTerms getPaymentTermByName(Company company,
 			String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ClientShippingTerms getshippingTermsByNameByName(
+			Company company, String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
