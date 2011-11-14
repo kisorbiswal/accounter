@@ -44,6 +44,8 @@
 		<alias>Create Account</alias>
 		<alias>Add Account</alias>
 		<alias>Update Account</alias>
+		<alias>Modify Account</alias>
+		<alias>Edit Account</alias>
 	</command>
 
 	<command clazz="AccountsListCommand" name="Account List">
@@ -445,6 +447,9 @@
 	<command clazz="NewCustomerCommand" name="New Customer">
 		<alias>Create Customer</alias>
 		<alias>Add Customer</alias>
+		<alias>Update Customer</alias>
+		<alias>Modify Customer</alias>
+		<alias>Edit Customer</alias>
 	</command>
 
 	<command clazz="NewCreditRatingCommand" name="New Credit Rating">
@@ -554,13 +559,15 @@
 		<alias>Users List</alias>
 	</command>
 
-	<command clazz="NewVendorCommand" name="Supplier">
+	<command clazz="NewVendorCommand" name="Create Supplier">
 		<alias>New Supplier </alias>
 		<alias>Add Supplier </alias>
-		<alias>Create Supplier</alias>
 		<alias>New Vendor</alias>
 		<alias>Create Vendor</alias>
 		<alias>Add Vendor</alias>
+		<alias>Update Vendor</alias>
+		<alias>Modify Vendor</alias>
+		<alias>Edit Vendor</alias>
 	</command>
 
 	<command clazz="VendorPaymentsCommand" name="Vendor Payments">
