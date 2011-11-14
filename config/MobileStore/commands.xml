@@ -620,6 +620,7 @@
 
 	<command clazz="QuotesListCommand" name="Quotes List">
 		<alias>Quotes</alias>
+		<alias>Quotes List</alias>
 		<alias>Estimates</alias>
 		<alias>Estimates List</alias>
 	</command>
