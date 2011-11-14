@@ -212,7 +212,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 		}
 		if (account == null) {
 			addFirstMessage(context, "Select an account to update.");
-			return "Accounts " + string.trim();
+			return "Accounts " + string.trim() + ",update";
 		}
 
 		get(ACCOUNT_TYPE)

@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.Global;
@@ -21,6 +22,7 @@ import com.vimukti.accounter.web.client.Global;
 public class AccountsListCommand extends NewAbstractCommand {
 
 	private static final String ACCOUNT_TYPE = "accountType";
+	private String destType;
 
 	@Override
 	public String getId() {
@@ -32,6 +34,19 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<Account>("Accounts",
 				"Please Enter name or number", 10) {
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					Account value) {
+				if (destType == null) {
+					commandList.add(new UserCommand("Edit account", value
+							.getName()));
+					commandList.add(new UserCommand("Delete account", value
+							.getName()));
+					commandList.add(new UserCommand("Register account", value
+							.getName()));
+				}
+			}
+
 			@Override
 			protected Record createRecord(Account value) {
 				Record record = new Record(value);
@@ -89,7 +104,14 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Account value) {
-				return "update account " + value.getName();
+				if (destType.equals("update")) {
+					return "Update account " + value.getName();
+				}
+				if (destType.equals("register")) {
+					return "Register account " + value.getName();
+				}
+
+				return null;
 			}
 		});
 
@@ -130,6 +152,12 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		String[] split = string.split(",");
+		if (split.length > 2) {
+			destType = split[1];
+			context.setString(split[0]);
+		}
 		return null;
 	}
 }
