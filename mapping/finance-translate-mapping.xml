@@ -29,7 +29,7 @@
 		<property name="version" column="VERSION" type="int"></property>
 		<property name="isNotUsed" column="IS_NOT_USED"></property>
 		<set name="localMessages" lazy="false" inverse="true">
-			<key column="ID" />
+			<key column="MESSAGE_ID" />
 			<one-to-many class="LocalMessage" />
 		</set>
 	</class>
