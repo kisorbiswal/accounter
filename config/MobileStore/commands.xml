@@ -439,6 +439,9 @@
 
 	<command clazz="NewShippingTermCommand" name="New Shipping Term">
 		<alias>New Shipping Term</alias>
+		<alias>Update Shipping Term</alias>
+		<alias>Modify Shipping Term</alias>
+		<alias>Edit Shipping Term</alias>
 	</command>
 
 	<command clazz="NewSalesPersonCommand" name="New SalesPerson">
