@@ -378,13 +378,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
 			if (e != null) {
 				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
-					// invoice.setEstimate(e.getTransactionId());
 					ClientEstimate cct = getEstimate(
 							estimatesAndSalesOrdersList.getTransactionId(),
 							context);
 					estimates.add(cct);
 				} else {
-					// invoice.setSalesOrder(e.getTransactionId());
 					ClientSalesOrder cSalesOrder = getSalesOrder(
 							estimatesAndSalesOrdersList.getTransactionId(),
 							context);
@@ -405,6 +403,26 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		invoice.setTransactionItems(items);
 		double taxTotal = updateTotals(context, invoice, true);
+		double totalAmount = 0.0;
+		double totalNetAmount = 0.0;
+		for (ClientSalesOrder clientSalesOrder : salesOrders) {
+			totalAmount += clientSalesOrder.getTotal();
+			totalNetAmount += clientSalesOrder.getNetAmount();
+			taxTotal += clientSalesOrder.getTaxTotal();
+		}
+		for (ClientEstimate clientEstimate : estimates) {
+			if (clientEstimate.getEstimateType() == ClientEstimate.CREDITS) {
+				totalAmount -= clientEstimate.getTotal();
+				totalNetAmount -= clientEstimate.getNetAmount();
+				taxTotal -= clientEstimate.getTaxTotal();
+			} else {
+				totalAmount += clientEstimate.getTotal();
+				totalNetAmount += clientEstimate.getNetAmount();
+				taxTotal += clientEstimate.getTaxTotal();
+			}
+		}
+		invoice.setNetAmount(invoice.getNetAmount() + totalNetAmount);
+		invoice.setTotal(invoice.getTotal() + totalAmount);
 		invoice.setTaxTotal(taxTotal);
 		create(invoice, context);
 		return null;
@@ -456,6 +474,30 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		double[] result = getTransactionTotal(context, isVatInclusive,
 				allrecords, true);
+		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
+				.getValue();
+		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
+			if (e != null) {
+				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
+					ClientEstimate clientEstimate = getEstimate(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					if (clientEstimate.getEstimateType() == ClientEstimate.CREDITS) {
+						result[0] -= clientEstimate.getNetAmount();
+						result[1] -= clientEstimate.getTaxTotal();
+					} else {
+						result[0] += clientEstimate.getNetAmount();
+						result[1] += clientEstimate.getTaxTotal();
+					}
+				} else {
+					ClientSalesOrder cSalesOrder = getSalesOrder(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					result[0] += cSalesOrder.getNetAmount();
+					result[1] += cSalesOrder.getTaxTotal();
+				}
+			}
+		}
 		if (context.getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
 		}
