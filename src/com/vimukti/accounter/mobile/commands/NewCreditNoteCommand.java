@@ -28,7 +28,9 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -44,6 +46,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
  * 
  */
 public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
+	ClientCustomerCreditMemo creditMemo;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -233,18 +236,65 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (invoiceByNum == null) {
+				return "Invoices List " + string;
+			}
+			creditMemo = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			creditMemo = new ClientCustomerCreditMemo();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(creditMemo.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(DATE).setValue(creditMemo.getDate());
+		get("CreditNumber").setValue(creditMemo.getNumber());
+		get(CONTACT).setValue(toServerContact(creditMemo.getContact()));
+		get(BILL_TO).setValue(creditMemo.getBillingAddress());
+		get(CURRENCY_FACTOR).setValue(creditMemo.getCurrencyFactor());
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> transactionItems = creditMemo
+				.getTransactionItems();
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ITEMS).setValue(items);
+		get(ACCOUNTS).setValue(accounts);
+		get(IS_VAT_INCLUSIVE).setValue(creditMemo.isAmountsIncludeVAT());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Create  New Customer CreditNote.......";
+		return creditMemo.getID() == 0 ? "Create  New Customer CreditNote......."
+				: "Updating Customer credit note";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(
-				getMessages().customerCreditNote(Global.get().customer()));
+		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().customerCreditNote(Global.get().customer()))
+				: "Customer credit memo is ready to create with following details";
 	}
 
 	@Override
@@ -264,8 +314,11 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(
-				getMessages().customerCreditNote(Global.get().customer()));
+		return creditMemo.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().customerCreditNote(Global.get().customer()))
+				: getMessages().updateSuccessfully(
+						getMessages().customerCreditNote(
+								Global.get().customer()));
 
 	}
 
@@ -306,7 +359,6 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientCompanyPreferences preferences = context.getPreferences();
-		ClientCustomerCreditMemo creditMemo = new ClientCustomerCreditMemo();
 		creditMemo.setType(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 		Customer customer = get(CUSTOMER).getValue();
 		creditMemo.setCustomer(customer.getID());
