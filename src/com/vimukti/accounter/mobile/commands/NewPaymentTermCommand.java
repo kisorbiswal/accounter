@@ -7,6 +7,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
 public class NewPaymentTermCommand extends NewAbstractCommand {
@@ -15,9 +16,10 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 	private final static String DESCRIPTION = "Description";
 	private final static String DUE_DAYS = "Due Days";
 
+	private ClientPaymentTerms paymentTerms;
+
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -39,8 +41,6 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientPaymentTerms paymentTerms = new ClientPaymentTerms();
-
 		String paymnetTermName = get(PAYMENT_TERMS).getValue();
 		paymentTerms.setName(paymnetTermName);
 
@@ -58,18 +58,46 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Vendors List";
+			}
+			ClientPaymentTerms paymentTermsByName = CommandUtils
+					.getPaymentTermByName(context.getCompany(), string);
+			if (paymentTermsByName == null) {
+				return "Payment Terms List " + string;
+			}
+			paymentTerms = paymentTermsByName;
+			get(PAYMENT_TERMS).setValue(paymentTermsByName.getName());
+			get(DUE_DAYS).setValue(paymentTermsByName.getDueDays());
+			get(DESCRIPTION).setValue(paymentTermsByName.getDescription());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(PAYMENT_TERMS).setValue(string);
+			}
+			paymentTerms = new ClientPaymentTerms();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "New Payment term commond is activated";
+		if (paymentTerms.getID() == 0) {
+			return "New Payment term command is activated";
+		} else {
+			return "Update payment term command activated";
+		}
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "New Payment term commond is ready to create with the following values";
+		if (paymentTerms.getID() == 0) {
+			return "New Payment term command is ready to create with the following values";
+		} else {
+			return "Payment term is ready update with following values";
+		}
 	}
 
 	@Override
@@ -80,7 +108,11 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "New payment term commond is created successfully";
+		if (paymentTerms.getID() == 0) {
+			return "New payment term is created successfully";
+		} else {
+			return "Payment term updated successfully";
+		}
 	}
 
 }
