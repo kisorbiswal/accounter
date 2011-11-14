@@ -352,6 +352,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		try {
 			for (Object obj : set) {
 				if (obj != null) {
+					obj=HibernateUtil.initializeAndUnproxy(obj);
 					Class<? extends Object> resultClass = Class
 							.forName("com.vimukti.accounter.web.client.core.Client"
 									+ obj.getClass().getSimpleName());
