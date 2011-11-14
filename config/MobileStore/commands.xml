@@ -382,6 +382,9 @@
 
 	<command clazz="NewCashSaleCommand" name="New CashSale">
 		<alias>Add Cash Sale</alias>
+		<alias>Modify Cash Sale</alias>
+		<alias>Update Cash Sale</alias>
+		<alias>Edit Cash Sale</alias>
 		<alias>Create Cash Sale</alias>
 	</command>
 

@@ -37,6 +37,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirem
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -53,6 +54,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 	private static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
 	private static final String SHIPPING_TERMS = "shippingTerms";
 	private static final String SHIPPING_METHODS = "shippingMethods";
+	ClientCashSales cashSale;
 
 	@Override
 	public String getId() {
@@ -425,8 +427,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-
-		ClientCashSales cashSale = new ClientCashSales();
 		ClientFinanceDate date = get(DATE).getValue();
 		cashSale.setDate(date.getDate());
 
@@ -525,12 +525,15 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().cashSale());
+		return cashSale.getID() == 0 ? getMessages().creating(
+				getConstants().cashSale()) : "Cash sale updating...";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().cashSale());
+		return cashSale.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().cashSale())
+				: "Cash sale is ready to update with following details";
 	}
 
 	@Override
@@ -548,7 +551,9 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().cashSale());
+		return cashSale.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().cashSale()) : getMessages().updateSuccessfully(
+				getConstants().cashSale());
 	}
 
 	@Override
@@ -573,8 +578,65 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Cash Sales List";
+			}
+			ClientCashSales invoiceByNum = (ClientCashSales) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (invoiceByNum == null) {
+				return "Cash Sales List " + string;
+			}
+			cashSale = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			cashSale = new ClientCashSales();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> transactionItems = cashSale
+				.getTransactionItems();
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ITEM) {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ITEMS).setValue(items);
+		get(ACCOUNTS).setValue(accounts);
+		get(DATE).setValue(cashSale.getDate());
+		get(NUMBER).setValue(cashSale.getNumber());
+		get(SHIPPING_TERMS).setValue(
+				CommandUtils.getServerObjectById(cashSale.getShippingTerm(),
+						AccounterCoreType.SHIPPING_TERM));
+		get(SHIPPING_METHODS).setValue(
+				CommandUtils.getServerObjectById(cashSale.getShippingMethod(),
+						AccounterCoreType.SHIPPING_METHOD));
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(cashSale.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(CONTACT).setValue(toServerContact(cashSale.getContact()));
+		get(PHONE).setValue(cashSale.getPhone());
+		get(MEMO).setValue(cashSale.getMemo());
+		get(PAYMENT_METHOD).setValue(cashSale.getPaymentMethod());
+		get(DEPOSIT_OR_TRANSFER_TO).setValue(
+				CommandUtils.getServerObjectById(cashSale.getDepositIn(),
+						AccounterCoreType.ACCOUNT));
+		get(DELIVERY_DATE).setValue(
+				new ClientFinanceDate(cashSale.getDeliverydate()));
+		get(CURRENCY_FACTOR).setValue(cashSale.getCurrencyFactor());
 	}
 
 }
