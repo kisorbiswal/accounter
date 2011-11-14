@@ -15,7 +15,7 @@ public class Slovakia extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "SKK";
+		return "EUR";
 	}
 
 	@Override

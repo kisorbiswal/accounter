@@ -15,7 +15,7 @@ public class Estonia extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "EEK";
+		return "EUR";
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class Cyprus extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "CYP";
+		return "EUR";
 	}
 
 	@Override

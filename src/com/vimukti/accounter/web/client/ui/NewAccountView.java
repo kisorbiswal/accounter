@@ -422,12 +422,21 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		}
 
+		if (getData() == null) {
+			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
+					: new ClientBankAccount();
+			setData(account);
+		}
+
 		leftLayout.add(accInfoForm);
 		leftLayout.add(currencyCombo);
 		leftLayout.add(balanceForm);
 
+		currencyCombo.setVisible(ClientAccount
+				.isAllowCurrencyChange(accountType));
+
 		topHLay.add(leftLayout);
-		
+
 		if (accountType == ClientAccount.TYPE_BANK)
 			addBankForm();
 		if (accountType == ClientAccount.TYPE_PAYPAL) {
@@ -435,7 +444,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 			addCreditCardForm();
 		}
-		
+
 		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		cashAccountCheck = new CheckboxItem(Accounter.messages()
 				.thisIsConsideredACashAccount(Global.get().Account()));
@@ -469,11 +478,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// Accounter.constants().width(), "200");
 		// currency = createCurrencyWidget();
 
-		if (getData() == null) {
-			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
-					: new ClientBankAccount();
-			setData(account);
-		}
 		mainVLay = new VerticalPanel();
 		mainVLay.addStyleName("fields-panel");
 
@@ -1180,9 +1184,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 			((ClientBankAccount) data).setBankAccountNumber(bankAccNumText
 					.getValue().toString());
-			if (selectCurrency != null) {
-				((ClientBankAccount) data).setCurrency(selectCurrency.getID());
-			}
 			data.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
@@ -1214,6 +1215,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			data.setIncrease(Boolean.FALSE);
 		}
 		data.updateBaseTypes();
+		if (data.isAllowCurrencyChange() && selectCurrency != null) {
+			((ClientBankAccount) data).setCurrency(selectCurrency.getID());
+		}
 	}
 
 	@Override
@@ -1287,9 +1291,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
-				if (isMultiCurrencyEnabled()) {
-					initCurrencyFactor();
-				}
+
 				bankAccNumText.setDisabled(true);
 			}
 
@@ -1310,6 +1312,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				hierText.setValue(data.getHierarchy());
 			}
 
+		}
+		if (data.isAllowCurrencyChange() && isMultiCurrencyEnabled()) {
+			initCurrencyFactor();
 		}
 
 	}
@@ -1591,6 +1596,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		resetView();
 		statusBox.setValue(true);
 		getNextAccountNo();
+		currencyCombo.setVisible(ClientAccount
+				.isAllowCurrencyChange(accountType));
 	}
 
 	private void getNextAccountNo() {
@@ -1638,7 +1645,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			creditCardForm.setDisabled(isInViewMode());
 		}
 
-		if (currencyCombo != null) {
+		if (currencyCombo != null && data.isAllowCurrencyChange()) {
 			currencyCombo.setDisabled(isInViewMode());
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {

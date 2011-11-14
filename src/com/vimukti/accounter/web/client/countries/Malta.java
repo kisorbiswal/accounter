@@ -15,7 +15,7 @@ public class Malta extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "MTL";
+		return "EUR";
 	}
 
 	@Override
