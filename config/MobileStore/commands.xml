@@ -694,7 +694,10 @@
 		<alias>Create Product Item</alias>
 	</command>
 	<command clazz="NewCustomerGroupCommand" name="CustomerGroup">
-		<alias>Create CustomerGroup</alias>
+		<alias>Create Customer Group</alias>
+		<alias>Update Customer Group</alias>
+		<alias>Modify Customer Group</alias>
+		<alias>Edit Customer Group</alias>
 	</command>
 	<command clazz="NewCreditNoteCommand" name="New CreditNote">
 		<alias>create creditNote</alias>

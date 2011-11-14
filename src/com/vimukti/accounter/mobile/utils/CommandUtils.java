@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
@@ -183,5 +184,11 @@ public class CommandUtils {
 			}
 		}
 		return false;
+	}
+
+	public static ClientCustomerGroup getCustomerGroupByName(Company company,
+			String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -6,6 +6,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 
@@ -17,21 +18,50 @@ import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 public class NewCustomerGroupCommand extends NewAbstractTransactionCommand {
 	private static final String CUSTPMERGROUP_NAME = "CustomerGroup Name";
 
+	private ClientCustomerGroup customerGroup;
+
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Customers";
+			}
+			ClientCustomerGroup customerGroupByName = CommandUtils
+					.getCustomerGroupByName(context.getCompany(), string);
+			if (customerGroupByName == null) {
+				return "Customers " + string;
+			}
+			customerGroup = customerGroupByName;
+			get(CUSTPMERGROUP_NAME).setValue(customerGroup.getName());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(CUSTPMERGROUP_NAME).setValue(string);
+			}
+			customerGroup = new ClientCustomerGroup();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating new Customer Group... ";
+		if (customerGroup.getID() == 0) {
+			return "Creating new Customer Group... ";
+		} else {
+			return "Updating Custoerm Group " + customerGroup.getDisplayName();
+		}
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(
-				getMessages().payeeGroup(Global.get().customer()));
+		if (customerGroup.getID() == 0) {
+			return getMessages().readyToCreate(
+					getMessages().payeeGroup(Global.get().customer()));
+		} else {
+			return getMessages().readyToUpdate(
+					getMessages().payeeGroup(Global.get().customer()));
+		}
 	}
 
 	@Override
@@ -42,13 +72,17 @@ public class NewCustomerGroupCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(
-				getMessages().payeeGroup(Global.get().customer()));
+		if (customerGroup.getID() == 0) {
+			return getMessages().createSuccessfully(
+					getMessages().payeeGroup(Global.get().customer()));
+		} else {
+			return getMessages().updateSuccessfully(
+					getMessages().payeeGroup(Global.get().customer()));
+		}
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -61,7 +95,6 @@ public class NewCustomerGroupCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientCustomerGroup customerGroup = new ClientCustomerGroup();
 		customerGroup.setName((String) get(CUSTPMERGROUP_NAME).getValue());
 		create(customerGroup, context);
 		return null;
