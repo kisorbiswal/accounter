@@ -178,7 +178,6 @@ public class CustomerPrePayment extends Transaction {
 		this.total = total;
 	}
 
-
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 
@@ -254,9 +253,9 @@ public class CustomerPrePayment extends Transaction {
 			} else if (!DecimalUtil.isEquals(customerPrePayment.total,
 					this.total)) {
 
-				customerPrePayment.customer.updateBalance(session,
-						this, customerPrePayment.total);
-				this.customer.updateBalance(session, this, -this.total);
+				customerPrePayment.customer.updateBalance(session, this,
+						-customerPrePayment.total);
+				this.customer.updateBalance(session, this, +this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
 
 			}

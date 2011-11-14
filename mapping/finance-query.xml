@@ -625,6 +625,7 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="PAYBILL_TYPE" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CURRENCY" type="long" />
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -660,10 +661,10 @@
 		T.T_TYPE = 17
 		OR
 		T.T_TYPE = 5
-		THEN T.TOTAL
-		WHEN T.T_TYPE=30
+		THEN (T.TOTAL/T.CURRENCY_FACTOR)
+		WHEN T.T_TYPE=17
 		THEN
-		(SELECT SUM(TPV1.AMOUNT_TO_PAY) FROM PAY_TAX PV1
+		(SELECT (SUM(TPV1.AMOUNT_TO_PAY)/T.CURRENCY_FACTOR) FROM PAY_TAX PV1
 		LEFT OUTER JOIN
 		TRANSACTION_PAY_TAX TPV1
 		ON PV1.ID = TPV1.PAY_VAT_ID
@@ -671,7 +672,7 @@
 		T.ID)
 		WHEN T.T_TYPE=31
 		THEN
-		(SELECT SUM(TRV1.AMOUNT_TO_RECEIVE) FROM
+		(SELECT (SUM(TRV1.AMOUNT_TO_RECEIVE)/T.CURRENCY_FACTOR) FROM
 		RECEIVE_VAT RV1
 		LEFT OUTER JOIN
 		TRANSACTION_RECEIVE_VAT TRV1
@@ -696,7 +697,8 @@
 		WHEN
 		T.T_TYPE = 15
 		THEN WC.CHECK_NUMBER
-		END AS CHECK_NUMBER
+		END AS CHECK_NUMBER,
+		T.CURRENCY AS CURRENCY
 
 		FROM TRANSACTION T
 		LEFT
@@ -793,6 +795,7 @@
 		<return-scalar column="PAYBILL_TYPE" type="int" />
 		<return-scalar column="VOIDED" type="boolean" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CURRENCY" type="long" />
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -815,7 +818,7 @@
 		WHEN T.T_TYPE=11
 		THEN P.NAME END AS NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
-		T.TOTAL AS
+		(T.TOTAL/T.CURRENCY_FACTOR) AS
 		AMOUNT_PAID,
 		PB.PAYBILL_TYPE AS PAYBILL_TYPE,
 		T.IS_VOID AS VOIDED,
@@ -825,7 +828,8 @@
 		WHEN T.T_TYPE = 15
 		THEN
 		WC.CHECK_NUMBER
-		END AS CHECK_NUMBER
+		END AS CHECK_NUMBER,
+		T.CURRENCY AS CURRENCY
 
 		FROM
 		TRANSACTION T
@@ -1860,6 +1864,7 @@
 		<return-scalar column="NAME" type="string" />
 		<return-scalar column="PAYMENT_METHOD" type="string" />
 		<return-scalar column="AMOUNT_PAID" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -1875,7 +1880,8 @@
 
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
 
-		T.TOTAL AS AMOUNT_PAID
+		(T.TOTAL/T.CURRENCY_FACTOR) AS AMOUNT_PAID,
+		T.CURRENCY AS CURRENCY
 
 
 		FROM
@@ -1981,6 +1987,7 @@
 		<return-scalar column="NAME" type="string" />
 		<return-scalar column="PAYMENT_METHOD" type="string" />
 		<return-scalar column="AMOUNT_PAID" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -1995,9 +2002,12 @@
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
 		CASE
 		WHEN T.T_TYPE = 5 THEN
-		CR.PAYMENTS
-		ELSE T.TOTAL
-		END AS AMOUNT_PAID
+		(CR.PAYMENTS/T.CURRENCY_FACTOR)
+		ELSE (T.TOTAL/T.CURRENCY_FACTOR) 
+		END AS AMOUNT_PAID,
+		T.CURRENCY AS CURRENCY
+		
+		
 		FROM TRANSACTION T
 		LEFT OUTER
 		JOIN

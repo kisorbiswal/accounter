@@ -74,9 +74,9 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
-import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -1780,12 +1780,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected void isValidCurrencyFactor(ValidationResult result) {
-		if (!currencyWidget.isShowFactorField()) {
+		if (currencyWidget != null && !currencyWidget.isShowFactorField()) {
 			if (currencyWidget.getCurrencyFactor() == 0) {
 				result.addError(currencyWidget, Accounter.constants()
 						.pleaseEntervalidCurrencyFactor());
 			}
 		}
 	}
-
 }

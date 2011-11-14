@@ -99,6 +99,17 @@ public class NewVendorPaymentView extends
 		} else {
 			ClientCompany comapny = getCompany();
 
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+			}
+
 			if (transaction.isAmountIncludeTDS()) {
 				amountText
 						.setAmount(getAmountInTransactionCurrency((Double) transaction
@@ -125,9 +136,9 @@ public class NewVendorPaymentView extends
 				paymentMethodCombo.setDisabled(true);
 			}
 
-//			if (currency != null) {
-//				currencyCombo.setValue(currency.getFormalName());
-//			}
+			// if (currency != null) {
+			// currencyCombo.setValue(currency.getFormalName());
+			// }
 
 			endBalText.setAmount(getAmountInTransactionCurrency(transaction
 					.getEndingBalance()));
@@ -196,8 +207,8 @@ public class NewVendorPaymentView extends
 		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(Accounter.constants().bankBalance(),
-				this, getBaseCurrency());
+		endBalText = new AmountField(Accounter.constants().bankBalance(), this,
+				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
@@ -208,23 +219,24 @@ public class NewVendorPaymentView extends
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
 
-//		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
-//		currencyCombo.setDisabled(isInViewMode());
-//		currencyCombo
-//				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
-//
-//					@Override
-//					public void selectedComboBoxItem(ClientCurrency selectItem) {
-//						selectCurrency = selectItem;
-//					}
-//				});
+		// currencyCombo = new CurrencyCombo(Accounter.constants().currency());
+		// currencyCombo.setDisabled(isInViewMode());
+		// currencyCombo
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<ClientCurrency>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(ClientCurrency selectItem) {
+		// selectCurrency = selectItem;
+		// }
+		// });
 
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
 		// balForm.setWidth("100%");
-//		if (isMultiCurrencyEnabled())
-//			balForm.setFields(currencyCombo);
+		// if (isMultiCurrencyEnabled())
+		// balForm.setFields(currencyCombo);
 		balForm.setFields(endBalText, vendorBalText);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -360,6 +372,12 @@ public class NewVendorPaymentView extends
 			rightPanel.add(tdsPanel);
 		}
 
+		currencyWidget = createCurrencyFactorWidget();
+		if (isMultiCurrencyEnabled()) {
+			rightPanel.add(currencyWidget);
+			rightPanel.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
+		}
+
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.addStyleName("fields-panel");
 		hLay.setWidth("100%");
@@ -470,9 +488,9 @@ public class NewVendorPaymentView extends
 			} else
 				printCheck.setValue(true);
 
-//			if (currencyCombo.getSelectedValue() != null)
-//				transaction.setCurrency(currencyCombo.getSelectedValue()
-//						.getID());
+			// if (currencyCombo.getSelectedValue() != null)
+			// transaction.setCurrency(currencyCombo.getSelectedValue()
+			// .getID());
 
 			// Setting Memo
 			transaction.setMemo(getMemoTextAreaItem());
@@ -483,6 +501,11 @@ public class NewVendorPaymentView extends
 
 			// Setting UnusedAmount
 			transaction.setUnusedAmount(transaction.getTotal());
+
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
+			transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
 		}
 	}
@@ -507,14 +530,14 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
-		amountText.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
-		vendorBalText.setCurrency(getCompany()
-				.getCurrency(vendor.getCurrency()));
-		
-		
-		if (vendor == null)
+		if (vendor == null) {
 			return;
+		}
 		this.setVendor(vendor);
+		ClientCurrency clientCurrency = getCurrency(vendor.getCurrency());
+		amountText.setCurrency(clientCurrency);
+		vendorBalText.setCurrency(clientCurrency);
+
 		tdsPanel.setVisible(vendor.isTdsApplicable());
 		this.addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
@@ -525,6 +548,7 @@ public class NewVendorPaymentView extends
 		}
 		vendorBalText.setAmount(vendor.getBalance());
 		adjustBalance();
+		currencyWidget.setSelectedCurrency(clientCurrency);
 	}
 
 	protected void setCheckNumber() {
@@ -553,7 +577,7 @@ public class NewVendorPaymentView extends
 
 	public void adjustBalance() {
 
-		double enteredBalance = amountText.getAmount();
+		double enteredBalance = getAmountInBaseCurrency(amountText.getAmount());
 		if (DecimalUtil.isLessThan(enteredBalance, 0)
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
 			amountText.setAmount(getAmountInTransactionCurrency(0D));
@@ -600,13 +624,22 @@ public class NewVendorPaymentView extends
 
 		}
 		if (payFromAccount != null) {
-			if (payFromAccount.isIncrease()) {
-				toBeSetEndingBalance = payFromAccount.getTotalBalance()
-						+ vendorPayment;
+			double balanceToBeUpdate;
+			if (payFromAccount.getCurrency() == getPreferences()
+					.getPrimaryCurrency().getID()) {
+				balanceToBeUpdate = enteredBalance;
 			} else {
-				toBeSetEndingBalance = payFromAccount.getTotalBalance()
-						- vendorPayment;
+				balanceToBeUpdate = getAmountInTransactionCurrency(enteredBalance);
 			}
+
+			if (payFromAccount.isIncrease()) {
+				toBeSetEndingBalance = payFromAccount
+						.getTotalBalanceInAccountCurrency() + balanceToBeUpdate;
+			} else {
+				toBeSetEndingBalance = payFromAccount
+						.getTotalBalanceInAccountCurrency() - balanceToBeUpdate;
+			}
+
 			// endBalText
 			// .setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 		}
@@ -760,7 +793,7 @@ public class NewVendorPaymentView extends
 		checkNo.setDisabled(isInViewMode());
 		amountText.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
-		//currencyCombo.setDisabled(isInViewMode());
+		// currencyCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(Accounter.constants().toBePrinted());
@@ -777,6 +810,10 @@ public class NewVendorPaymentView extends
 			locationCombo.setDisabled(isInViewMode());
 		tdsCombo.setDisabled(false);
 		amountIncludeTds.setDisabled(false);
+
+		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		super.onEdit();
 

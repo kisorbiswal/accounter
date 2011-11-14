@@ -809,6 +809,7 @@ public class VendorManager extends Manager {
 					vendorPaymentsList.setName((String) object[6]);
 					vendorPaymentsList.setPaymentMethodName((String) object[7]);
 					vendorPaymentsList.setAmountPaid((Double) object[8]);
+					vendorPaymentsList.setCurrency((Long) object[9]);
 
 					queryResult.add(vendorPaymentsList);
 				}
@@ -1011,7 +1012,7 @@ public class VendorManager extends Manager {
 								.setVoided(object[10] != null ? (Boolean) object[10]
 										: false);
 						vendorPaymentsList.setCheckNumber((String) object[11]);
-
+						vendorPaymentsList.setCurrency((Long) object[12]);
 						queryResult.add(vendorPaymentsList);
 					}
 				}

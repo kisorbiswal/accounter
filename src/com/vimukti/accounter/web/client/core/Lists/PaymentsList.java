@@ -61,6 +61,8 @@ public class PaymentsList implements IsSerializable, Serializable {
 
 	int payBillType;
 
+	private long currency;
+
 	public int getPayBillType() {
 		return payBillType;
 	}
@@ -218,6 +220,18 @@ public class PaymentsList implements IsSerializable, Serializable {
 
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
+	}
+
+	public long getCurrency() {
+		return this.currency;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }

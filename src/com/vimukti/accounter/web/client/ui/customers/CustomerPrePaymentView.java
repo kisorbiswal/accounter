@@ -44,7 +44,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -310,18 +309,25 @@ public class CustomerPrePaymentView extends
 
 		}
 		if (depositInAccount != null) {
+			double balanceToBeUpdate;
+			if (depositInAccount.getCurrency() == getPreferences()
+					.getPrimaryCurrency().getID()) {
+				balanceToBeUpdate = enteredBalance;
+			} else {
+				balanceToBeUpdate = getAmountInTransactionCurrency(enteredBalance);
+			}
 
 			if (depositInAccount.isIncrease()) {
-				toBeSetEndingBalance = depositInAccount.getTotalBalance()
-						- enteredBalance;
+				toBeSetEndingBalance = depositInAccount
+						.getTotalBalanceInAccountCurrency() - balanceToBeUpdate;
 			} else {
-				toBeSetEndingBalance = depositInAccount.getTotalBalance()
-						+ enteredBalance;
+				toBeSetEndingBalance = depositInAccount
+						.getTotalBalanceInAccountCurrency() + balanceToBeUpdate;
 			}
 			if (isInViewMode()
 					&& depositInAccount.getID() == (customerPrePayment
 							.getDepositIn())
-					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
+					&& !DecimalUtil.isEquals(balanceToBeUpdate, 0)) {
 				toBeSetEndingBalance = toBeSetEndingBalance
 						- transaction.getTotal();
 			}

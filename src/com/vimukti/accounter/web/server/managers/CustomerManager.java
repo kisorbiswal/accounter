@@ -397,7 +397,7 @@ public class CustomerManager extends Manager {
 					paymentsList.setName((String) object[6]);
 					paymentsList.setPaymentMethodName((String) object[7]);
 					paymentsList.setAmountPaid((Double) object[8]);
-
+					paymentsList.setCurrency((Long) object[9]);
 					queryResult.add(paymentsList);
 				}
 				return new ArrayList<PaymentsList>(queryResult);
@@ -449,6 +449,7 @@ public class CustomerManager extends Manager {
 							.setPayBillType(object[10] != null ? (Integer) object[10]
 									: 0);
 					paymentsList.setCheckNumber((String) object[11]);
+					paymentsList.setCurrency((Long) object[12]);
 					queryResult.add(paymentsList);
 					// }
 				}
