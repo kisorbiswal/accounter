@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -187,6 +188,12 @@ public class CommandUtils {
 	}
 
 	public static ClientCustomerGroup getCustomerGroupByName(Company company,
+			String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ClientVendorGroup getVendorGroupByName(Company company,
 			String string) {
 		// TODO Auto-generated method stub
 		return null;

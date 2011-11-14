@@ -5,7 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 
@@ -14,12 +14,13 @@ import com.vimukti.accounter.web.client.core.ClientVendorGroup;
  * @author Lingarao.R
  * 
  */
-public class NewVendorGroupCommand extends AbstractTransactionCommand {
+public class NewVendorGroupCommand extends NewAbstractTransactionCommand {
 	private static final String VENDORGROUP_NAME = "VendorGroup Name";
+
+	private ClientVendorGroup vendorGroup;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -30,46 +31,70 @@ public class NewVendorGroupCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Object attribute = context.getAttribute(INPUT_ATTR);
-		if (attribute == null) {
-			context.setAttribute(INPUT_ATTR, "optional");
+	protected String initObject(Context context, boolean isUpdate) {
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Vendors List";
+			}
+			ClientVendorGroup customerGroupByName = CommandUtils
+					.getVendorGroupByName(context.getCompany(), string);
+			if (customerGroupByName == null) {
+				return "Vendors List " + string;
+			}
+			vendorGroup = customerGroupByName;
+			get(VENDORGROUP_NAME).setValue(vendorGroup.getName());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(VENDORGROUP_NAME).setValue(string);
+			}
+			vendorGroup = new ClientVendorGroup();
 		}
-		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(
-				getMessages().payeeGroup(Global.get().Vendor())));
-		ResultList list = new ResultList("values");
-		makeResult.add(list);
-		ResultList actions = new ResultList(ACTIONS);
-		makeResult.add(actions);
-
-		Result result = nameRequirement(context, list, VENDORGROUP_NAME,
-				getMessages().payeeGroup(Global.get().Vendor()),
-				getMessages().pleaseEnter(
-						getMessages().payeeGroup(Global.get().Vendor())));
-		if (result != null) {
-			return result;
-		}
-		markDone();
-		return createvendorGroupObject(context);
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result createvendorGroupObject(Context context) {
-		ClientVendorGroup vendorGroup = new ClientVendorGroup();
+	@Override
+	protected Result onCompleteProcess(Context context) {
 		vendorGroup.setName((String) get(VENDORGROUP_NAME).getValue());
 		create(vendorGroup, context);
-		markDone();
-		Result result = new Result();
-		result.add(getMessages().createSuccessfully(
-				getMessages().payeeGroup(Global.get().Vendor())));
-
-		return result;
+		return null;
 	}
 
+	@Override
+	protected String getWelcomeMessage() {
+		if (vendorGroup.getID() == 0) {
+			return "Creating new Vendor Group... ";
+		} else {
+			return "Updating Vendor Group " + vendorGroup.getDisplayName();
+		}
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		if (vendorGroup.getID() == 0) {
+			return getMessages().readyToCreate(
+					getMessages().payeeGroup(Global.get().vendor()));
+		} else {
+			return getMessages().readyToUpdate(
+					getMessages().payeeGroup(Global.get().vendor()));
+		}
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		if (vendorGroup.getID() == 0) {
+			return getMessages().createSuccessfully(
+					getMessages().payeeGroup(Global.get().vendor()));
+		} else {
+			return getMessages().updateSuccessfully(
+					getMessages().payeeGroup(Global.get().vendor()));
+		}
+	}
 }
