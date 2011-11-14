@@ -13,6 +13,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -129,6 +130,23 @@ public class CommandUtils {
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	public static ClientCustomer getCustomerByName(Company company,
+			String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ClientCustomer getCustomerByNumber(Company company,
+			long numberFromString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Vendor getVendorByNumber(Company company, long string) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
