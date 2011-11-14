@@ -121,7 +121,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 						if (vatItemGroup instanceof ClientTAXItem) {
 							vatRate = ((ClientTAXItem) vatItemGroup)
 									.getTaxRate();
-						} else {
+						} else if (vatItemGroup instanceof ClientTAXGroup) {
 							vatRate = ((ClientTAXGroup) vatItemGroup)
 									.getGroupRate();
 						}
