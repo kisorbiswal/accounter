@@ -520,7 +520,9 @@
 	<command clazz="NewBankAccountCommand" name="New BankAccount">
 		<alias>Add BankAccount</alias>
 		<alias>Create Bank Account</alias>
-		<alias>Bank Account</alias>
+		<alias>Edit BankAccount</alias>
+		<alias>Update BankAccount</alias>
+		<alias>Modify BankAccount</alias>
 	</command>
 
 	<command clazz="AccountRegisterCommand" name="AccountRegister">

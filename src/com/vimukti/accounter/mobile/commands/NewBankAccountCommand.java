@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -35,11 +36,10 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 	private static final String ASOF = "AsOf";
 	private static final String COMMENTS = "Comments";
-	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
 	private static final String BANK_NAME = "Bank Name";
 	private static final String BANK_ACCOUNT_NUMBER = "Bank Account Number";
 	private static final String ACCOUNT_TYPE = "Account Type";
-	private ClientBankAccount account;
+	private ClientBankAccount bankAccount;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -150,58 +150,57 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// String string = context.getString();
-		// if (string.isEmpty()) {
-		// if (!isUpdate) {
-		// account = new ClientBankAccount();
-		// return null;
-		// }
-		// }
-		//
-		// account = context.getClientCompany().getAccountByName(string);
-		// if (account == null) {
-		// account = context.getClientCompany().getAccountByNumber(
-		// getNumberFromString(string));
-		// }
-		// if (account == null) {
-		// addFirstMessage(context, "Select an account to update.");
-		// return "Accounts " + string.trim();
-		// }
-		//
-		// get(ACCOUNT_TYPE)
-		// .setValue(getAccountTypes().get(account.getType() - 1));
-		//
-		// get(ACCOUNT_NAME).setValue(account.getName());
-		// get(ACCOUNT_NAME).setEditable(false);
-		//
-		// get(ACCOUNT_NUMBER).setValue(account.getNumber());
-		// get(ACCOUNT_NUMBER).setEditable(false);
-		//
-		// get(OPENINGBALANCE).setValue(account.getOpeningBalance());
-		// get(ACTIVE).setValue(account.getIsActive());
-		// get(CONSIDER_AS_CASH_ACCOUNT).setValue(
-		// account.isConsiderAsCashAccount());
-		// get(ASOF).setValue(new ClientFinanceDate(account.getAsOf()));
-		// get(COMMENTS).setValue(account.getComment());
+		String string = context.getString();
+		if (string.isEmpty()) {
+			if (!isUpdate) {
+				bankAccount = new ClientBankAccount();
+				return null;
+			}
+		}
+
+		bankAccount = (ClientBankAccount) CommandUtils.getAccountByName(
+				context.getCompany(), string);
+		if (bankAccount == null) {
+			bankAccount = (ClientBankAccount) CommandUtils.getAccountByNumber(
+					context.getCompany(), getNumberFromString(string));
+		}
+		if (bankAccount == null) {
+			addFirstMessage(context, "Select an account to update.");
+			return "Accounts " + string.trim();
+		}
+
+		get(ACCOUNT_TYPE).setValue(
+				getAccountTypes().get(bankAccount.getType() - 1));
+
+		get(ACCOUNT_NAME).setValue(bankAccount.getName());
+		get(ACCOUNT_NAME).setEditable(false);
+
+		get(ACCOUNT_NUMBER).setValue(bankAccount.getNumber());
+		get(ACCOUNT_NUMBER).setEditable(false);
+
+		get(OPENINGBALANCE).setValue(bankAccount.getOpeningBalance());
+		get(ACTIVE).setValue(bankAccount.getIsActive());
+		get(ASOF).setValue(new ClientFinanceDate(bankAccount.getAsOf()));
+		get(COMMENTS).setValue(bankAccount.getComment());
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		// if (account.getID() == 0) {
-		return "Create Bank Account Command is activated.";
-		// }
-		// return "Update Bank Account(" + account.getName()
-		// + ") Command is activated.";
+		if (bankAccount.getID() == 0) {
+			return "Create Bank Account Command is activated.";
+		}
+		return "Update Bank Account(" + bankAccount.getName()
+				+ ") Command is activated.";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		// if (account.getID() == 0) {
-		return " Bank Account is ready to created with following details.";
-		// } else {
-		// return "Bank Account is ready to updated with following details.";
-		// }
+		if (bankAccount.getID() == 0) {
+			return " Bank Account is ready to created with following details.";
+		} else {
+			return "Bank Account is ready to updated with following details.";
+		}
 	}
 
 	@Override
@@ -213,22 +212,20 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		// if (account.getID() == 0) {
-		return "Bank Account is created succesfully.";
-		// } else {
-		// return "Account is updated successfully.";
-		// }
+		if (bankAccount.getID() == 0) {
+			return "Bank Account is created succesfully.";
+		} else {
+			return "Account is updated successfully.";
+		}
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientBankAccount bankAccount = new ClientBankAccount();
 		bankAccount.setType(Account.TYPE_BANK);
 		bankAccount.setName((String) get(ACCOUNT_NAME).getValue());
 		bankAccount.setNumber((String) get(ACCOUNT_NUMBER).getValue());
