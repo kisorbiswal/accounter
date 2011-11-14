@@ -3,8 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import org.zefer.html.doc.s;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
@@ -38,7 +37,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
@@ -80,7 +78,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -399,7 +396,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 	}
 
 	protected List<ClientContact> getVendorContacts() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -493,7 +489,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 		if (paymentTerms != null)
 			vendor.setPaymentTerms(paymentTerms.getID());
 
-		ClientVendorGroup value = get(VENDOR_GROUP).getValue();
+		VendorGroup value = get(VENDOR_GROUP).getValue();
 		if (value != null)
 			vendor.setVendorGroup(value.getID());
 		vendor.setActive(isActive);
@@ -542,8 +538,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			vendor = (ClientVendor) CommandUtils.getClientObjectById(
 					vendorByName.getID(), AccounterCoreType.VENDOR, context
 							.getCompany().getId());
-			// TODO
-
+			setValues();
 		} else {
 			vendor = new ClientVendor();
 			if (string.isEmpty()) {
@@ -551,6 +546,63 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		}
 		return null;
+	}
+
+	private void setValues() {
+		get(VENDOR_NAME).setValue(vendor.getName());
+		get(VENDOR_NUMBER).setValue(vendor.getVendorNumber());
+		get(VENDOR_GROUP).setValue(
+				CommandUtils.getServerObjectById(vendor.getVendorGroup(),
+						AccounterCoreType.VENDOR_GROUP));
+		get(ACTIVE).setValue(vendor.isActive());
+		get(VENDOR_SINCE).setValue(
+				new ClientFinanceDate(vendor.getPayeeSince()));
+		get(BALANCE).setValue(vendor.getBalance());
+		get(BALANCE).setEditable(false);
+		get(BALANCE_AS_OF).setValue(
+				new ClientFinanceDate(vendor.getBalanceAsOf()));
+		Set<ClientAddress> address = vendor.getAddress();
+		for (ClientAddress clientAddress : address) {
+			if (clientAddress.getType() == ClientAddress.TYPE_BILL_TO) {
+				get(BILL_TO).setValue(clientAddress);
+			} else if (clientAddress.getType() == ClientAddress.TYPE_SHIP_TO) {
+				get(SHIP_TO).setValue(clientAddress);
+			}
+		}
+		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
+		get(VENDOR_VAT_CODE).setValue(
+				CommandUtils.getServerObjectById(vendor.getTAXCode(),
+						AccounterCoreType.TAX_CODE));
+
+		ArrayList<Contact> arrayList = new ArrayList<Contact>();
+		for (ClientContact contact : vendor.getContacts()) {
+			arrayList.add(toServerContact(contact));
+		}
+		get(CONTACTS).setValue(arrayList);
+		get(ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(vendor.getExpenseAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(PHONE).setValue(vendor.getPhoneNo());
+		get(FAX).setValue(vendor.getFaxNo());
+		get(EMAIL).setValue(vendor.getEmail());
+		get(WEB_PAGE_ADDRESS).setValue(vendor.getWebPageAddress());
+		get(CREDIT_LIMIT).setValue(vendor.getCreditLimit());
+		get(BANK_NAME).setValue(vendor.getBankName());
+		get(ACCOUNT_NO).setValue(vendor.getBankAccountNo());
+		get(BANK_BRANCH).setValue(vendor.getBankBranch());
+		get(SHIPPING_METHODS).setValue(
+				CommandUtils.getServerObjectById(vendor.getShippingMethod(),
+						AccounterCoreType.SHIPPING_METHOD));
+		get(PAYMENT_METHOD).setValue(vendor.getPaymentMethod());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(vendor.getPaymentTerms(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(VAT_REGISTRATION_NUMBER)
+				.setValue(vendor.getVATRegistrationNumber());
+		get(CST_NUM).setValue(vendor.getCstNumber());
+		get(SERVICE_TAX_NUM).setValue(vendor.getServiceTaxRegistrationNumber());
+		get(TIN_NUM).setValue(vendor.getTinNumber());
+		get(TRACK_PAYMENTS_FOR_1099).setValue(vendor.isTrackPaymentsFor1099());
 	}
 
 	@Override

@@ -163,6 +163,20 @@ public abstract class NewAbstractCommand extends NewCommand {
 		return clientContact;
 	}
 
+	protected Contact toServerContact(ClientContact contact) {
+		if (contact == null) {
+			return null;
+		}
+		Contact clientContact = new Contact();
+		clientContact.setBusinessPhone(contact.getBusinessPhone());
+		clientContact.setEmail(contact.getEmail());
+		clientContact.setName(contact.getName());
+		clientContact.setPrimary(contact.isPrimary());
+		clientContact.setTitle(contact.getTitle());
+		clientContact.setVersion(contact.getVersion());
+		return clientContact;
+	}
+
 	protected ClientAddress toClientAddress(Address address) {
 		if (address == null) {
 			return null;

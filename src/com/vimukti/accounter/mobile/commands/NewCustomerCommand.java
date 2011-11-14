@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
@@ -31,6 +32,7 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -389,7 +391,6 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				.getCountryPreferences();
 		ClientCompanyPreferences preferences = context.getPreferences();
 
-		customer = new ClientCustomer();
 		String name = get(CUSTOMER_NAME).getValue();
 		String number = null;
 		if (preferences.getUseCustomerId()) {
@@ -545,7 +546,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				}
 			}
 			customer = customerByName;
-			// TODO Fill All fields
+			setValues();
 		} else {
 			String string = context.getString();
 			if (!string.isEmpty()) {
@@ -554,5 +555,61 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			customer = new ClientCustomer();
 		}
 		return null;
+	}
+
+	private void setValues() {
+		get(CUSTOMER_NAME).setValue(customer.getName());
+		get(NUMBER).setValue(customer.getNumber());
+		get(CUSTOMER_GROUP).setValue(
+				CommandUtils.getServerObjectById(customer.getCustomerGroup(),
+						AccounterCoreType.VENDOR_GROUP));
+		get(CUSTOMER_SINCEDATE).setValue(
+				new ClientFinanceDate(customer.getPayeeSince()));
+		get(BALANCE).setValue(customer.getBalance());
+		get(BALANCE).setEditable(false);
+		get(BALANCE).setValue(new ClientFinanceDate(customer.getBalanceAsOf()));
+		Set<ClientAddress> address = customer.getAddress();
+		for (ClientAddress clientAddress : address) {
+			if (clientAddress.getType() == ClientAddress.TYPE_BILL_TO) {
+				get(BILLTO).setValue(clientAddress);
+			} else if (clientAddress.getType() == ClientAddress.TYPE_SHIP_TO) {
+				get(SHIPTO).setValue(clientAddress);
+			}
+		}
+		get(CREDIT_RATING).setValue(
+				CommandUtils.getServerObjectById(customer.getCreditRating(),
+						AccounterCoreType.CREDIT_RATING));
+		get(SALESPERSON).setValue(
+				CommandUtils.getServerObjectById(customer.getSalesPerson(),
+						AccounterCoreType.SALES_PERSON));
+		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
+		get(CUSTOMER_VATCODE).setValue(
+				CommandUtils.getServerObjectById(customer.getTAXCode(),
+						AccounterCoreType.TAX_CODE));
+
+		ArrayList<Contact> arrayList = new ArrayList<Contact>();
+		for (ClientContact contact : customer.getContacts()) {
+			arrayList.add(toServerContact(contact));
+		}
+		get(CONTACT).setValue(arrayList);
+		get(PHONE).setValue(customer.getPhoneNo());
+		get(FAX).setValue(customer.getFaxNo());
+		get(EMAIL).setValue(customer.getEmail());
+		get(WEBADRESS).setValue(customer.getWebPageAddress());
+		get(BANK_NAME).setValue(customer.getBankName());
+		get(BANK_ACCOUNT_NUM).setValue(customer.getBankAccountNo());
+		get(BANK_BRANCH).setValue(customer.getBankBranch());
+		get(SHIPPING_METHODS).setValue(
+				CommandUtils.getServerObjectById(customer.getShippingMethod(),
+						AccounterCoreType.SHIPPING_METHOD));
+		get(PAYMENT_METHOD).setValue(customer.getPaymentMethod());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(customer.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(VATREGISTER_NUM).setValue(customer.getVATRegistrationNumber());
+		get(CST_NUM).setValue(customer.getCstNumber());
+		get(SERVICE_TAX_NUM).setValue(
+				customer.getServiceTaxRegistrationNumber());
+		get(TIN_NUM).setValue(customer.getTinNumber());
 	}
 }
