@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
@@ -330,12 +331,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			locationCombo.setHelpInformation(true);
 			locationCombo.setDisabled(isInViewMode());
 		}
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			classListCombo.setHelpInformation(true);
-			classListCombo.setDisabled(isInViewMode());
-		}
+
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
@@ -429,7 +425,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				phoneForm.setFields(locationCombo);
 			} else {
 				locationform.setFields(locationCombo);
-				locationform.setFields(classListCombo);
 			}
 		}
 		if (getPreferences().isSalesPersonEnabled()) {
@@ -445,7 +440,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			phoneForm.setFields(classListCombo);
+			if (type == ClientEstimate.QUOTES) {
+				phoneForm.setFields(classListCombo);
+			} else {
+				locationform.setFields(classListCombo);
+			}
+			classListCombo.setDisabled(isInViewMode());
 		}
 
 		Label lab2 = new Label(customerConstants.productAndService());
@@ -800,7 +800,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		initAccounterClass();
 		superinitTransactionViewData();
 		initAllItems();
 		initAccounterClass();
