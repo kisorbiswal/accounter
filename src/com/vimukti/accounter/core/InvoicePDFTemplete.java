@@ -103,10 +103,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// for primary curreny
-			Currency primaryCurrency = company.getPrimaryCurrency();
-			if (primaryCurrency != null)
-				if (primaryCurrency.getFormalName().trim().length() > 0) {
-					t.setVariable("currency", primaryCurrency.getFormalName()
+			Currency currency = invoice.getCustomer().getCurrency();
+			if (currency != null)
+				if (currency.getFormalName().trim().length() > 0) {
+					t.setVariable("currency", currency.getFormalName()
 							.trim());
 					t.addBlock("currency");
 				}
@@ -232,6 +232,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 			}
 
+			
+			double currencyFactor = invoice.getCurrencyFactor();
+			
+			
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
@@ -244,11 +248,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 							.getQuantity().getValue(), null, maxDecimalPoints));
 				}
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
-						.getUnitPrice()));
-				String totalPrice = largeAmountConversation(item.getLineTotal());
+						.getUnitPrice()/currencyFactor));
+				String totalPrice = largeAmountConversation(item.getLineTotal()/currencyFactor);
 
 				String vatAmount = getDecimalsUsingMaxDecimals(
-						item.getVATfraction(), null, 2);
+						item.getVATfraction()/currencyFactor, null, 2);
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -274,8 +278,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 				t.addBlock("invoiceRecord");
 			}
+			
+			
 			// for displaying sub total, vat total, total
-			String subtotal = largeAmountConversation(invoice.getNetAmount());
+			String subtotal = largeAmountConversation(invoice.getNetAmount()/currencyFactor);
 			if (company.getPreferences().isTrackTax()) {
 				t.setVariable("NetAmount", "Net Amount");
 				t.setVariable("subTotal", subtotal);
@@ -283,19 +289,19 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable("vatlabel", "Tax ");
 					t.setVariable("vatTotal",
-							largeAmountConversation((invoice.getTaxTotal())));
+							largeAmountConversation((invoice.getTaxTotal()/currencyFactor)));
 					t.addBlock("VatTotal");
 				}
 			}
 
-			String total = largeAmountConversation(invoice.getTotal());
+			String total = largeAmountConversation(invoice.getTotal()/currencyFactor);
 			t.setVariable("total", total);
 			t.setVariable("blankText", invoice.getMemo());
 
 			t.setVariable("payment",
-					largeAmountConversation(invoice.getPayments()));
+					largeAmountConversation(invoice.getPayments()/currencyFactor));
 			t.setVariable("balancedue",
-					largeAmountConversation(invoice.getBalanceDue()));
+					largeAmountConversation(invoice.getBalanceDue()/currencyFactor));
 			t.addBlock("itemDetails");
 
 			t.setVariable("dueDate", invoice.getDueDate().toString());
