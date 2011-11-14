@@ -18,7 +18,10 @@ import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -28,7 +31,12 @@ public class MacMenuServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private StringBuilder builder;
+	private User user;
+	private Company company;
+	private CompanyPreferences preferences;
+	private IGlobal iGlobal;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -37,6 +45,7 @@ public class MacMenuServlet extends BaseServlet {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 
 			Company company = getCompany(req);
+			
 			Session hibernateSession = HibernateUtil.openSession();
 			try {
 				CompanyPreferenceThreadLocal.set(new FinanceTool()
@@ -57,11 +66,7 @@ public class MacMenuServlet extends BaseServlet {
 
 	}
 
-	private StringBuilder builder;
-	private User user;
-	private Company company;
-	private CompanyPreferences preferences;
-	private IGlobal iGlobal;
+
 
 	private void generateXML(Company company, String emailId)
 			throws IOException {
@@ -404,18 +409,28 @@ public class MacMenuServlet extends BaseServlet {
 
 		if (preferences.isTrackTax()) {
 			StringBuilder vatValue = new StringBuilder();
-			subMenu(vatValue, iGlobal.constants().priorVATReturns(),
-					"company/accounter#priorVatReturns");
-			subMenu(vatValue, iGlobal.constants().vatDetail(),
-					"company/accounter#vatDetail");
-			subMenu(vatValue, iGlobal.constants().vat100(),
-					"company/accounter#vat100");
-			subMenu(vatValue, iGlobal.constants().uncategorisedVATAmounts(),
-					"company/accounter#uncategorisedVatAmounts");
+			
+			if (company.getCountryPreferences() instanceof UnitedKingdom) {
+				subMenu(vatValue, iGlobal.constants().priorVATReturns(),
+						"company/accounter#priorVatReturns");
+				subMenu(vatValue, iGlobal.constants().vatDetail(),
+						"company/accounter#vatDetail");
+				subMenu(vatValue, iGlobal.constants().vat100(),
+						"company/accounter#vat100");
+				subMenu(vatValue,
+						iGlobal.constants().uncategorisedVATAmounts(),
+						"company/accounter#uncategorisedVatAmounts");
+				subMenu(vatValue, iGlobal.constants().ecSalesList(),
+						"company/accounter#ecSalesList");
+			} else {
+				subMenu(vatValue, iGlobal.constants().taxItemDetailReport(),
+						"company/accounter#TaxItemDetail");
+				subMenu(vatValue, iGlobal.constants().taxItemExceptionDetailReport(),
+						"company/accounter#taxItemExceptionDetails");
+			}
 			subMenu(vatValue, iGlobal.constants().vatItemSummary(),
 					"company/accounter#vatItemSummary");
-			subMenu(vatValue, iGlobal.constants().ecSalesList(),
-					"company/accounter#ecSalesList");
+
 			menu(reportsValue, iGlobal.constants().vat(), vatValue);
 		}
 		mainMenu(builder, iGlobal.constants().reports(), reportsValue);
@@ -748,8 +763,8 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#shippingMethodsList");
 			subMenu(manageSupportLists, iGlobal.constants().shippingTermList(),
 					"company/accounter#shippingTermsList");
-//			subMenu(manageSupportLists, iGlobal.constants().priceLevelList(),
-//					"company/accounter#priceLevels");
+			// subMenu(manageSupportLists, iGlobal.constants().priceLevelList(),
+			// "company/accounter#priceLevels");
 			subMenu(manageSupportLists, iGlobal.constants().itemGroupList(),
 					"company/accounter#itemGroupList");
 			subMenu(manageSupportLists, iGlobal.constants().creditRatingList(),
