@@ -154,7 +154,8 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
+									.equals(context.getPreferences()
+											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}
@@ -358,12 +359,13 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		newSalesOrder.setPhone((String) get(PHONE).getValue());
 		int statusNumber = 0;
 		if (get(STATUS).getValue().equals(getConstants().open())) {
-			statusNumber = 1;
+			statusNumber = ClientTransaction.STATUS_OPEN;
 		} else if (get(STATUS).getValue().equals(getConstants().completed())) {
-			statusNumber = 2;
+			statusNumber = ClientTransaction.STATUS_COMPLETED;
 		} else if (get(STATUS).getValue().equals(getConstants().cancelled())) {
-			statusNumber = 3;
+			statusNumber = ClientTransaction.STATUS_CANCELLED;
 		}
+
 		ClientAddress billTo = get(BILL_TO).getValue();
 		newSalesOrder.setBillingAddress(billTo);
 		newSalesOrder.setStatus(statusNumber);

@@ -5,6 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
@@ -26,7 +27,8 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VENDORGROUP_NAME, false, true));
+		list.add(new StringRequirement(VENDORGROUP_NAME, "Please enter "
+				+ Global.get().Vendor() + "Group name", "Comment", false, true));
 
 	}
 

@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -141,7 +142,20 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new PurchaseOrderListRequirements(PURCHASE_ORDER,
 				getMessages().selectTypeOfThis(getConstants().purchaseOrder()),
-				getConstants().purchaseOrderList(), true, true, null) {
+				getConstants().purchaseOrderList(), true, true,
+				new ChangeListner<PurchaseOrdersList>() {
+
+					@Override
+					public void onSelection(PurchaseOrdersList e) {
+						ClientPurchaseOrder cct = null;
+						if (e != null) {
+							if (e.getType() == ClientTransaction.TYPE_PURCHASE_ORDER) {
+								cct = getpurchaseOrders(e.getTransactionId());
+								selectedPurchaseOrder(cct);
+							}
+						}
+					}
+				}) {
 
 			@Override
 			protected List<PurchaseOrdersList> getLists(Context context) {
@@ -404,10 +418,11 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		ClientPurchaseOrder cct = null;
 		if (e != null) {
 			if (e.getType() == ClientTransaction.TYPE_PURCHASE_ORDER) {
-				cct = getpurchaseOrders(e.getTransactionId(), context);
-				addpurchaseOrders(cct, items);
+				cct = getpurchaseOrders(e.getTransactionId());
+				enterBill.setPurchaseOrder(cct.getID());
 			}
 		}
+
 		if (preferences.isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
@@ -439,38 +454,18 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	private void addpurchaseOrders(ClientPurchaseOrder cct,
-			List<ClientTransactionItem> items) {
-		for (ClientTransactionItem cst : cct.getTransactionItems()) {
-			ClientTransactionItem clientItem = new ClientTransactionItem();
-			if (cst.getLineTotal() != 0.0) {
-				clientItem.setDescription(cst.getDescription());
-				clientItem.setType(cst.getType());
-				clientItem.setAccount(cst.getAccount());
-				clientItem.setItem(cst.getItem());
-				clientItem.setVATfraction(cst.getVATfraction());
-				clientItem.setTaxCode(cst.getTaxCode());
-				clientItem.setDescription(cst.getDescription());
-				clientItem.setQuantity(cst.getQuantity());
-				clientItem.setUnitPrice(cst.getUnitPrice());
-				clientItem.setDiscount(cst.getDiscount());
-				clientItem.setLineTotal(cst.getLineTotal() - cst.getInvoiced());
-				clientItem.setTaxable(cst.isTaxable());
-				clientItem.setReferringTransactionItem(cst.getID());
-
-				items.add(clientItem);
-			}
-		}
-
-	}
-
-	private ClientPurchaseOrder getpurchaseOrders(long transactionId,
-			Context context) {
+	/**
+	 * get the purchase Order object by id
+	 * 
+	 * @param transactionId
+	 * @return
+	 */
+	private ClientPurchaseOrder getpurchaseOrders(long transactionId) {
 		ClientPurchaseOrder cPurchaseOrder = null;
 		try {
 			cPurchaseOrder = new FinanceTool().getManager().getObjectById(
 					AccounterCoreType.PURCHASEORDER, transactionId,
-					context.getCompany().getID());
+					getCompanyId());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		} catch (AccounterException e) {
@@ -483,5 +478,88 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param purchaseOrder
+	 */
+	public void selectedPurchaseOrder(ClientPurchaseOrder purchaseOrder) {
+		if (purchaseOrder == null) {
+			return;
+		}
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+
+		for (ClientTransactionItem record : accounts) {
+			for (ClientTransactionItem salesRecord : purchaseOrder
+					.getTransactionItems())
+				if (record.getReferringTransactionItem() == salesRecord.getID()) {
+					// vendorAccountTransactionTable.delete(record);;
+				}
+		}
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
+		for (ClientTransactionItem item : items) {
+			for (ClientTransactionItem salesRecord : purchaseOrder
+					.getTransactionItems())
+				if (item.getReferringTransactionItem() == salesRecord.getID()) {
+					// vendorItemTransactionTable.delete(record);}
+				}
+		}
+
+		// if (selectedOrdersAndItemReceipts != null)
+		// selectedOrdersAndItemReceipts.add(purchaseOrder);
+
+		List<ClientTransactionItem> itemsList = new ArrayList<ClientTransactionItem>();
+		// selectedOrdersAndItemReceipts.add(purchaseOrder);
+
+		for (ClientTransactionItem transactionitem : purchaseOrder
+				.getTransactionItems()) {
+			if (transactionitem.getLineTotal() - transactionitem.getInvoiced() <= 0) {
+				continue;
+			}
+			ClientTransactionItem clientItem = new ClientTransactionItem();
+			clientItem.setType(transactionitem.getType());
+			clientItem.setDescription(transactionitem.getDescription());
+			clientItem.setTaxCode(transactionitem.getTaxCode());
+			clientItem.setReferringTransactionItem(transactionitem.getID());
+			clientItem.setAccount(transactionitem.getAccount());
+			clientItem.setItem(transactionitem.getItem());
+			clientItem.setQuantity(transactionitem.getQuantity());
+			clientItem.setUnitPrice(transactionitem.getUnitPrice());
+			clientItem.setDiscount(transactionitem.getDiscount());
+			clientItem.setLineTotal(transactionitem.getLineTotal()
+					- transactionitem.getInvoiced());
+			clientItem.setVATfraction(transactionitem.getVATfraction());
+			clientItem.setVatItem(transactionitem.getVatItem());
+			clientItem.setTaxable(transactionitem.isTaxable());
+
+			itemsList.add(clientItem);
+
+		}
+
+		get(ACCOUNTS).setValue(getAccountTransactionItems(itemsList));
+		get(ITEMS).setValue(getItemTransactionItems(itemsList));
+	}
+
+	public List<ClientTransactionItem> getAccountTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : transactionItems) {
+			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				list.add(item);
+			}
+		}
+		return list;
+	}
+
+	public List<ClientTransactionItem> getItemTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : transactionItems) {
+			if (item.getType() == ClientTransactionItem.TYPE_ITEM) {
+				list.add(item);
+			}
+		}
+		return list;
 	}
 }

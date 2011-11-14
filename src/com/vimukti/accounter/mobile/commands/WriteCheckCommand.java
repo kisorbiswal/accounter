@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -93,7 +94,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseSelect(getConstants().currency()), getConstants()
-				.currency(), false, true) {
+				.currency(), true, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
 				ClientCurrency primaryCurrency = getPreferences()
@@ -256,13 +257,38 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		ClientWriteCheck writeCheck = new ClientWriteCheck();
 		Payee payee = (Payee) get(PAYEE).getValue();
-		if (payee.getType() == Payee.TYPE_CUSTOMER) {
-			writeCheck.setCustomer(payee.getID());
-		} else if (payee.getType() == Payee.TYPE_VENDOR) {
-			writeCheck.setVendor(payee.getID());
-		} else {
-			writeCheck.setTaxAgency(payee.getID());
+		if (payee != null) {
+			// In Edit mode If payee was changed to customer to vendor or
+			// anything else
+			// previous object should become null;
+			writeCheck.setCustomer(0);
+			writeCheck.setVendor(0);
+			writeCheck.setTaxAgency(0);
+
+			switch (payee.getType()) {
+			case ClientPayee.TYPE_CUSTOMER:
+				writeCheck.setCustomer(payee.getID());
+				writeCheck.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
+				break;
+			case ClientPayee.TYPE_VENDOR:
+				writeCheck.setVendor(payee.getID());
+				writeCheck.setPayToType(ClientWriteCheck.TYPE_VENDOR);
+				break;
+
+			case ClientPayee.TYPE_TAX_AGENCY:
+				writeCheck.setTaxAgency(payee.getID());
+				writeCheck.setPayToType(ClientWriteCheck.TYPE_TAX_AGENCY);
+
+				break;
+			}
 		}
+		// if (payee.getType() == Payee.TYPE_CUSTOMER) {
+		// writeCheck.setCustomer(payee.getID());
+		// } else if (payee.getType() == Payee.TYPE_VENDOR) {
+		// writeCheck.setVendor(payee.getID());
+		// } else {
+		// writeCheck.setTaxAgency(payee.getID());
+		// }
 
 		Account bankAccount = get(BANK_ACCOUNT).getValue();
 		writeCheck.setBankAccount(bankAccount.getID());
