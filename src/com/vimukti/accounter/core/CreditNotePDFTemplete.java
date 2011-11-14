@@ -64,10 +64,10 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 
 			// for primary curreny
-			Currency primaryCurrency = company.getPrimaryCurrency();
-			if (primaryCurrency != null)
-				if (primaryCurrency.getFormalName().trim().length() > 0) {
-					t.setVariable("currency", primaryCurrency.getFormalName()
+			Currency currency = memo.getCustomer().getCurrency();
+			if (currency != null)
+				if (currency.getFormalName().trim().length() > 0) {
+					t.setVariable("currency", currency.getFormalName()
 							.trim());
 					t.addBlock("currency");
 				}
@@ -131,6 +131,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 			}
 
+			
+			double currencyFactor = memo.getCurrencyFactor();
+			
 			// for displaying the credit item details
 			if (!memo.getTransactionItems().isEmpty()) {
 
@@ -142,12 +145,12 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 							item.getQuantity().getValue(), null,
 							maxDecimalPoints));
 					String unitPrice = forZeroAmounts(largeAmountConversation(item
-							.getUnitPrice()));
+							.getUnitPrice()/currencyFactor));
 					String totalPrice = largeAmountConversation(item
-							.getLineTotal());
+							.getLineTotal()/currencyFactor);
 					String vatRate = item.getTaxCode().getName();
 					String vatAmount = getDecimalsUsingMaxDecimals(
-							item.getVATfraction(), null, 2);
+							item.getVATfraction()/currencyFactor, null, 2);
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -176,10 +179,10 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			// for displaying the total price details
 
 			String memoVal = forNullValue(memo.getMemo());
-			String subTotal = largeAmountConversation(memo.getNetAmount());
-			String vatTotal = largeAmountConversation(memo.getTotal()
-					- memo.getNetAmount());
-			String total = largeAmountConversation(memo.getTotal());
+			String subTotal = largeAmountConversation(memo.getNetAmount()/currencyFactor);
+			String vatTotal = largeAmountConversation((memo.getTotal()
+					- memo.getNetAmount())/currencyFactor);
+			String total = largeAmountConversation(memo.getTotal()/currencyFactor);
 
 			t.setVariable("memoText", memoVal);
 			if (company.getPreferences().isTrackTax()) {
