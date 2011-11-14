@@ -174,6 +174,8 @@ public interface AccounterMessages extends Messages {
 
 	public String createSuccessfully(String cashSale);
 
+	public String updateSuccessfully(String cashSale);
+
 	public String createanyadditionalbankaccounts(String msgString);
 
 	public String creating(String quote);
@@ -430,6 +432,8 @@ public interface AccounterMessages extends Messages {
 			String endMonth);
 
 	public String readyToCreate(String cashSale);
+
+	public String readyToUpdate(String cashSale);
 
 	public String recommendedAccounts();
 
