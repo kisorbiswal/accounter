@@ -104,7 +104,6 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		pager.updateRange();
 	}
 
-	@Override
 	public void updateListData() {
 
 		if ((languageCombo.getSelectedValue() != null)
