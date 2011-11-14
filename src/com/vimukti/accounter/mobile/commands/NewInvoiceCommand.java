@@ -556,7 +556,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		List<EstimatesAndSalesOrdersList> e = getEstimatesSalesOrderList();
 		get(ESTIMATEANDSALESORDER).setValue(e);
 		get(IS_VAT_INCLUSIVE).setValue(invoice.isAmountsIncludeVAT());
-
 	}
 
 	private List<EstimatesAndSalesOrdersList> getEstimatesSalesOrderList() {

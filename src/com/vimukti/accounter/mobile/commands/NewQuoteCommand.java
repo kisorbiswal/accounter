@@ -27,7 +27,9 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -48,9 +50,10 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	private static final String EXPIRATION_DATE = "expirationDate";
 	private static final String PAYMENT_TERMS = "paymentTerms";
 
+	private ClientEstimate estimate;
+
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -236,9 +239,6 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientEstimate estimate = new ClientEstimate();
-
 		Customer customer = get(CUSTOMER).getValue();
 		estimate.setCustomer(customer.getID());
 		estimate.setType(ClientEstimate.TYPE_ESTIMATE);
@@ -303,12 +303,15 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().quote());
+		return estimate.getID() == 0 ? getMessages().creating(
+				getConstants().quote()) : "Quote updating..";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().quote());
+		return estimate.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().quote())
+				: "Quote is ready to update with following details";
 	}
 
 	@Override
@@ -339,7 +342,9 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().quote());
+		return estimate.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().quote()) : getMessages().updateSuccessfully(
+				getConstants().quote());
 	}
 
 	@Override
@@ -355,8 +360,50 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Quotes List";
+			}
+			ClientEstimate estimateByNum = (ClientEstimate) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (estimateByNum == null) {
+				return "Quotes List " + string;
+			}
+			estimate = estimateByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			estimate = new ClientEstimate();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(DATE).setValue(estimate.getDate());
+		get(NUMBER).setValue(estimate.getNumber());
+		get(ITEMS).setValue(estimate.getTransactionItems());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(estimate.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(DELIVERY_DATE).setValue(
+				new ClientFinanceDate(estimate.getDeliveryDate()));
+		get(EXPIRATION_DATE).setValue(estimate.getExpirationDate());
+		get(CONTACT).setValue(toServerContact(estimate.getContact()));
+		get(BILL_TO).setValue(estimate.getAddress());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(estimate.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(ORDER_NO).setValue(estimate.getNumber());
+		get(MEMO).setValue(estimate.getMemo());
+		get(CURRENCY_FACTOR).setValue(estimate.getCurrencyFactor());
+		get(IS_VAT_INCLUSIVE).setValue(estimate.isAmountsIncludeVAT());
+		get(PHONE).setValue(estimate.getPhone());
 	}
 
 }
