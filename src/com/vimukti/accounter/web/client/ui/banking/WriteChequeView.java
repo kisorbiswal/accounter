@@ -69,7 +69,7 @@ public class WriteChequeView extends
 	private DynamicForm bankAccForm;
 
 	private HorizontalPanel labelLayout;
-	public AmountLabel netAmount, totalTxtForeignCurrency, totalTxtBaseCurrency;
+	public AmountLabel netAmount, totalTxtTransactionCurrency, totalTxtBaseCurrency;
 	
 
 	AmountLabel vatTotalNonEditableText;
@@ -228,7 +228,7 @@ public class WriteChequeView extends
 		transactionVendorAccountTable.updateTotals();	
 		this.transactionVendorAccountTable.updateAmountsFromGUI();
 
-		totalTxtForeignCurrency.setTitle(Accounter.messages().currencyTotal(formalName));
+		totalTxtTransactionCurrency.setTitle(Accounter.messages().currencyTotal(formalName));
 		
 		totalTxtBaseCurrency.setTitle(Accounter.messages().currencyTotal(getBaseCurrency().getFormalName()
 				));
@@ -891,7 +891,7 @@ public class WriteChequeView extends
 		amountPanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		
-		totalTxtForeignCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		totalTxtTransactionCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
 		
 		totalTxtBaseCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
 		
@@ -925,7 +925,7 @@ public class WriteChequeView extends
 
 			}
 		}
-		totalForm.setFields(totalTxtForeignCurrency);
+		totalForm.setFields(totalTxtTransactionCurrency);
 		
 		if(isMultiCurrencyEnabled()){
 			totalForm.setFields(totalTxtBaseCurrency);
@@ -1199,7 +1199,7 @@ public class WriteChequeView extends
 		}
 		netAmount.setAmount(getAmountInTransactionCurrency(grandTotal));
 		
-		totalTxtForeignCurrency.setAmount(getAmountInTransactionCurrency(total));
+		totalTxtTransactionCurrency.setAmount(getAmountInTransactionCurrency(total));
 		
 
 			totalTxtBaseCurrency.setAmount(total);
@@ -1207,7 +1207,7 @@ public class WriteChequeView extends
 		
 		
 		if (amtText.getAmount() == 0) {
-			amtText.setAmount(totalTxtForeignCurrency.getAmount());
+			amtText.setAmount(totalTxtTransactionCurrency.getAmount());
 			previousValue = amtText.getAmount();
 		}
 		if (isAmountChange)
@@ -1216,7 +1216,7 @@ public class WriteChequeView extends
 	}
 
 	private void validateAmountAndTotal() {
-		unassignedAmount.setAmount(amtText.getAmount() - totalTxtForeignCurrency.getAmount());
+		unassignedAmount.setAmount(amtText.getAmount() - totalTxtTransactionCurrency.getAmount());
 		if (unassignedAmount.getAmount() != 0) {
 			showUnassignedFields();
 		} else {
