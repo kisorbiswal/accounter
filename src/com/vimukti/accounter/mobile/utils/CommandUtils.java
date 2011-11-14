@@ -162,4 +162,26 @@ public class CommandUtils {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public static <T> boolean contains(List<T> values, T value) {
+		long id = 0;
+		if (value instanceof IAccounterCore) {
+			id = ((IAccounterCore) value).getID();
+			for (T t : values) {
+				long id2 = ((IAccounterCore) t).getID();
+				if (id2 == id) {
+					return true;
+				}
+			}
+		} else if (value instanceof IAccounterServerCore) {
+			id = ((IAccounterServerCore) value).getID();
+			for (T t : values) {
+				long id2 = ((IAccounterServerCore) t).getID();
+				if (id2 == id) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
