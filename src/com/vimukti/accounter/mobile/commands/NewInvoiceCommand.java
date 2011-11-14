@@ -31,11 +31,13 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
@@ -58,6 +60,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	private static final String DUE_DATE = "duedate";
 	private static final String ORDER_NO = "orderNo";
 
+	private ClientInvoice invoice;
+
 	@Override
 	public String getId() {
 		return null;
@@ -65,7 +69,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getWelcomeMessage() {
-		return "Creating new invoice... ";
+		return invoice.getID() == 0 ? "Creating new invoice... "
+				: "Updating invoice";
 	}
 
 	@Override
@@ -324,9 +329,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientInvoice invoice = new ClientInvoice();
-
 		ClientFinanceDate date = get(DATE).getValue();
 		invoice.setDate(date.getDate());
 
@@ -430,7 +432,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().invoice());
+		return invoice.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().invoice())
+				: "Invoice ready to update with follwoing details";
 	}
 
 	@Override
@@ -454,7 +458,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().invoice());
+		return invoice.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().invoice()) : getMessages().updateSuccessfully(
+				getConstants().invoice());
 	}
 
 	@Override
@@ -506,8 +512,76 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientInvoice invoiceByNum = (ClientInvoice) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (invoiceByNum == null) {
+				return "Invoices List " + string;
+			}
+			invoice = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			invoice = new ClientInvoice();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(DATE).setValue(invoice.getDate());
+		get(NUMBER).setValue(invoice.getNumber());
+		get(ITEMS).setValue(invoice.getTransactionItems());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(invoice.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(DUE_DATE).setValue(new ClientFinanceDate(invoice.getDueDate()));
+		get(CONTACT).setValue(toServerContact(invoice.getContact()));
+		get(BILL_TO).setValue(invoice.getBillingAddress());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(invoice.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(ORDER_NO).setValue(invoice.getOrderNum());
+		get(MEMO).setValue(invoice.getMemo());
+		get(CURRENCY_FACTOR).setValue(invoice.getCurrencyFactor());
+
+		List<EstimatesAndSalesOrdersList> e = getEstimatesSalesOrderList();
+		get(ESTIMATEANDSALESORDER).setValue(e);
+		get(IS_VAT_INCLUSIVE).setValue(invoice.isAmountsIncludeVAT());
+
+	}
+
+	private List<EstimatesAndSalesOrdersList> getEstimatesSalesOrderList() {
+		List<EstimatesAndSalesOrdersList> list = new ArrayList<EstimatesAndSalesOrdersList>();
+		List<ClientEstimate> estimates = invoice.getEstimates();
+		if (estimates == null) {
+			return list;
+		}
+		for (ClientEstimate clientEstimate : estimates) {
+			EstimatesAndSalesOrdersList el = new EstimatesAndSalesOrdersList();
+			el.setTransactionId(clientEstimate.getID());
+			el.setType(clientEstimate.getType());
+			el.setTransactionNumber(clientEstimate.getNumber());
+			el.setTotal(clientEstimate.getTotal());
+			el.setDate(clientEstimate.getDate());
+			ClientCustomer clientObjectById = (ClientCustomer) CommandUtils
+					.getClientObjectById(clientEstimate.getCustomer(),
+							AccounterCoreType.CUSTOMER, getCompanyId());
+			el.setCustomerName(clientObjectById != null ? clientObjectById
+					.getName() : "");
+			el.setEstimateType(clientEstimate.getEstimateType());
+			list.add(el);
+		}
+
+		return list;
 	}
 
 }

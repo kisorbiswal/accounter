@@ -29,6 +29,9 @@
 	<command clazz="NewInvoiceCommand" name="New Invoice">
 		<alias>Create Invoice</alias>
 		<alias>Add Invoice</alias>
+		<alias>Update Invoice</alias>
+		<alias>Edit Invoice</alias>
+		<alias>Modify Invoice</alias>
 		<alias>Create New Invoice</alias>
 	</command>
 
