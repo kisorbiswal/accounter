@@ -591,11 +591,13 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void updateEstimateTotal(ClientEstimate transaction) {
 		if (transaction.getEstimateType() == ClientEstimate.CREDITS) {
 			grandTotal -= transaction.getTotal();
+			lineTotal -= transaction.getNetAmount();
+			totalTax -= transaction.getTaxTotal();
 		} else {
 			grandTotal += transaction.getTotal();
+			lineTotal += transaction.getNetAmount();
+			totalTax += transaction.getTaxTotal();
 		}
-		lineTotal += transaction.getNetAmount();
-		totalTax += transaction.getTaxTotal();
 	}
 
 	public abstract void updateTransactionTotal();
