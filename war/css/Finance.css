@@ -882,7 +882,7 @@ iframe,.address div {
 .add-new-expense {
 	margin-bottom: 20px;
 }
-.user-html,.company-settings-html{
+.user-html,.company-settings-html,.general-main-class tr:last-child td:last-child tr:FIRST-CHILD .gwt-HTML{
 	font-size: 1.6em;
 	color: #3d3d3d;
 }
