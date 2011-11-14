@@ -1,20 +1,25 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 
 public class NewCreditRatingCommand extends NewAbstractCommand {
 
 	private static final String CREDIT_RATING_NAME = "CreditRationgName";
 
+	private ClientCreditRating creditRating;
+
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -28,8 +33,6 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientCreditRating creditRating = new ClientCreditRating();
 		creditRating.setName(get(CREDIT_RATING_NAME).getValue().toString());
 		create(creditRating, context);
 		return null;
@@ -38,22 +41,53 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().creditRating());
+		return creditRating.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().creditRating()) : getMessages().readyToUpdate(
+				getConstants().creditRating());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().creditRating());
+		return creditRating.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().creditRating())
+				: "Credit rating list updated succesfully";
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().creditRating());
+		return creditRating.getID() == 0 ? getMessages().creating(
+				getConstants().creditRating())
+				: "Update credit rating command activated";
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Credit Rating List";
+			}
+			Set<CreditRating> shippingMethods = context.getCompany()
+					.getCreditRatings();
+			for (CreditRating shippingMethod : shippingMethods) {
+				if (shippingMethod.getName().equals(string)) {
+					creditRating = (ClientCreditRating) CommandUtils
+							.getClientObjectById(shippingMethod.getID(),
+									AccounterCoreType.CREDIT_RATING,
+									getCompanyId());
+				}
+			}
+			if (creditRating == null) {
+				return "Credit Rating List " + string;
+			}
+			get(CREDIT_RATING_NAME).setValue(creditRating.getName());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(CREDIT_RATING_NAME).setValue(string);
+			}
+			creditRating = new ClientCreditRating();
+		}
 		return null;
 	}
 
