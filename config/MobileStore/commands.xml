@@ -442,6 +442,9 @@
 	<command clazz="NewSalesPersonCommand" name="New SalesPerson">
 		<alias>Create Sales Person</alias>
 		<alias>Add Sales Person</alias>
+		<alias>Update Sales Person</alias>
+		<alias>Modify Sales Person</alias>
+		<alias>Edit Sales Person</alias>
 	</command>
 
 	<command clazz="NewCustomerCommand" name="New Customer">
@@ -611,7 +614,7 @@
 	</command>
 
 	<command clazz="SalesPersonsListCommand" name="Sales Person List">
-		<alias>Sales Person</alias>
+		<alias>Sales Persons</alias>
 	</command>
 
 	<command clazz="WriteCheckCommand" name="New WriteCheck">

@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
+import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -146,6 +147,18 @@ public class CommandUtils {
 	}
 
 	public static Vendor getVendorByNumber(Company company, long string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ClientSalesPerson getSalesPersonByNumber(Company company,
+			long numberFromString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ClientSalesPerson getSalesPersonByName(Company company,
+			String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}

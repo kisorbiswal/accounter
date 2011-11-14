@@ -16,6 +16,8 @@ import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
@@ -39,6 +41,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 	private static final String DO_RELEASE = "dateOfRelease";
 	private static final String MEMO = "memo";
 	private static final String ACTIVE = "active";
+	ClientSalesPerson salesPerson;
 
 	@Override
 	public String getId() {
@@ -187,8 +190,6 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientSalesPerson salesPerson = new ClientSalesPerson();
-
 		String name = get(SALES_PERSON_NAME).getValue();
 		salesPerson.setFirstName(name);
 
@@ -214,10 +215,10 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		salesPerson.setExpenseAccount(value != null ? value.getID() : 0);
 
 		String email = get(E_MAIL).getValue();
-		salesPerson.setFaxNo(email);
+		salesPerson.setEmail(email);
 
 		String webPage = get(WEB_PAGE_ADDRESS).getValue();
-		salesPerson.setFaxNo(webPage);
+		salesPerson.setWebPageAddress(webPage);
 
 		String gender = get(GENDER).getValue();
 		salesPerson.setGender(gender);
@@ -262,28 +263,90 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().salesPerson());
+		if (salesPerson.getID() == 0) {
+			return getMessages().readyToCreate(getConstants().salesPerson());
+		} else {
+			return getMessages().readyToUpdate(getConstants().salesPerson());
+		}
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().salesPerson());
+		if (salesPerson.getID() == 0) {
+			return getMessages().createSuccessfully(
+					getConstants().salesPerson());
+		} else {
+			return getMessages().updateSuccessfully(
+					getConstants().salesPerson());
+		}
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().salesPerson());
+		if (salesPerson.getID() == 0) {
+			return getMessages().creating(getConstants().salesPerson());
+		} else {
+			return "Updateing" + getConstants().salesPerson() + " "
+					+ salesPerson.getDisplayName();
+		}
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Sales Person List";
+			}
+			ClientSalesPerson salesPersonByName = CommandUtils
+					.getSalesPersonByName(context.getCompany(), string);
+			if (salesPersonByName == null) {
+				salesPersonByName = CommandUtils.getSalesPersonByNumber(
+						context.getCompany(), getNumberFromString(string));
+				if (salesPersonByName == null) {
+					return "Sales Person List " + string;
+				}
+			}
+			salesPerson = salesPersonByName;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(SALES_PERSON_NAME).setValue(string);
+			}
+			salesPerson = new ClientSalesPerson();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(SALES_PERSON_NAME).setValue(salesPerson.getName());
+		get(FILE_AS).setValue(salesPerson.getFileAs());
+		get(JOB_TITLE).setValue(salesPerson.getJobTitle());
+		get(ADDRESS).setValue(salesPerson.getAddress());
+		get(PHONE).setValue(salesPerson.getPhoneNo());
+		get(ACTIVE).setValue(salesPerson.isActive());
+		get(FAX).setValue(salesPerson.getFaxNo());
+		get(EXPENSE_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(
+						salesPerson.getExpenseAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(E_MAIL).setValue(salesPerson.getEmail());
+		get(WEB_PAGE_ADDRESS).setValue(salesPerson.getWebPageAddress());
+		get(GENDER).setValue(salesPerson.getGender());
+		get(DO_BIRTH).setValue(
+				new ClientFinanceDate(salesPerson.getDateOfBirth()));
+		get(DO_HIRE).setValue(
+				new ClientFinanceDate(salesPerson.getDateOfHire()));
+		get(DO_LASTREVIEW).setValue(
+				new ClientFinanceDate(salesPerson.getDateOfLastReview()));
+		get(DO_RELEASE).setValue(
+				new ClientFinanceDate(salesPerson.getDateOfRelease()));
+		get(MEMO).setValue(salesPerson.getMemo());
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
-
 		String name = get(SALES_PERSON_NAME).getValue();
 		if (get(FILE_AS).getValue() == null)
 			get(FILE_AS).setDefaultValue(name);
