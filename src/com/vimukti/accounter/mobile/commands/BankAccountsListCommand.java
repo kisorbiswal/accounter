@@ -85,7 +85,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().vatCodeList();
+				return getConstants().bankAccounts();
 			}
 
 			@Override

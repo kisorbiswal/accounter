@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class NewSalesPersonCommand extends NewAbstractCommand {
 
