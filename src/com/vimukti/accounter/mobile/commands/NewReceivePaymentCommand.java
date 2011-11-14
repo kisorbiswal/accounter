@@ -758,8 +758,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		ClientReceivePayment payment = new ClientReceivePayment();
 
-		ClientCustomer customer = get(CUSTOMER).getValue();
-		payment.setCustomer(customer);
+		Customer customer = get(CUSTOMER).getValue();
+		payment.setCustomer(customer.getID());
 		payment.setType(ClientTransaction.TYPE_RECEIVE_PAYMENT);
 		double amount = get(AMOUNT_RECEIVED).getValue();
 		payment.setAmount(amount);
