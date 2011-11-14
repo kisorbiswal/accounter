@@ -396,6 +396,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 	}
 
 	protected List<ClientContact> getVendorContacts() {
+		if (vendor.getID() != 0) {
+			return new ArrayList<ClientContact>(vendor.getContacts());
+		}
 		return null;
 	}
 
@@ -607,12 +610,21 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(Global.get().Vendor());
+		if (vendor.getID() == 0) {
+			return getMessages().creating(Global.get().Vendor());
+		} else {
+			return "Updating '" + vendor.getDisplayName()
+					+ Global.get().Vendor();
+		}
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(Global.get().Vendor());
+		if (vendor.getID() == 0) {
+			return getMessages().readyToCreate(Global.get().Vendor());
+		} else {
+			return getMessages().readyToUpdate(Global.get().Vendor());
+		}
 	}
 
 	@Override
@@ -627,7 +639,11 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(Global.get().Vendor());
+		if (vendor.getID() == 0) {
+			return getMessages().createSuccessfully(Global.get().Vendor());
+		} else {
+			return getMessages().updateSuccessfully(Global.get().Vendor());
+		}
 	}
 
 }

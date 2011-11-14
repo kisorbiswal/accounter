@@ -378,6 +378,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<ClientContact> getList() {
+				if (customer.getID() != 0) {
+					return new ArrayList<ClientContact>(customer.getContacts());
+				}
 				return null;
 			}
 
