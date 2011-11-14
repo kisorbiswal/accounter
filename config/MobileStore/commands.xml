@@ -636,6 +636,9 @@
 		<alias>Create PurchaseOrder</alias>
 		<alias>Add PurchaseOrder</alias>
 		<alias>Create Purchase Order</alias>
+		<alias>Edit Purchase Order</alias>
+		<alias>Update Purchase Order</alias>
+		<alias>Modify Purchase Order</alias>
 		<alias>Create New PurchaseOrder</alias>
 	</command>
 

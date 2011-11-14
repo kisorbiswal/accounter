@@ -32,7 +32,9 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -46,21 +48,83 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 	public static final String STATUS = "status";
 	public static final String VENDOR_ORDER_NO = "vendorOrderNo";
+	ClientPurchaseOrder purchaseOrder;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientPurchaseOrder invoiceByNum = (ClientPurchaseOrder) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (invoiceByNum == null) {
+				return "Invoices List " + string;
+			}
+			purchaseOrder = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			purchaseOrder = new ClientPurchaseOrder();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> transactionItems = purchaseOrder
+				.getTransactionItems();
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ITEMS).setValue(items);
+		get(ACCOUNTS).setValue(accounts);
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(purchaseOrder.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(DATE).setValue(purchaseOrder.getDate());
+		get(PHONE).setValue(purchaseOrder.getPhone());
+		get(STATUS).setValue(purchaseOrder.getStatus());
+		get(NUMBER).setValue(purchaseOrder.getNumber());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(
+						purchaseOrder.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(DUE_DATE).setValue(
+				new ClientFinanceDate(purchaseOrder.getDueDate()));
+		get(RECIEVED_DATE).setValue(purchaseOrder.getDate());
+		get(DISPATCH_DATE).setValue(
+				new ClientFinanceDate(purchaseOrder.getDespatchDate()));
+		get(ORDER_NO).setValue(purchaseOrder.getPurchaseOrderNumber());
+		get(BILL_TO).setValue(purchaseOrder.getShippingAddress());
+		get(CURRENCY_FACTOR).setValue(purchaseOrder.getCurrencyFactor());
+		get(IS_VAT_INCLUSIVE).setValue(purchaseOrder.isAmountsIncludeVAT());
+		get(MEMO).setValue(purchaseOrder.getMemo());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getConstants().purchaseOrder());
+		return purchaseOrder.getID() == 0 ? getMessages().create(
+				getConstants().purchaseOrder())
+				: "Update purchase order command activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().purchaseOrder());
+		return purchaseOrder.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().purchaseOrder())
+				: "Purchase order is ready to create with following details";
 	}
 
 	@Override
@@ -89,12 +153,13 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().purchaseOrder());
+		return purchaseOrder.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().purchaseOrder()) : getMessages()
+				.updateSuccessfully(getConstants().purchaseOrder());
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -169,7 +234,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
+									.equals(context.getPreferences()
+											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}
@@ -381,16 +447,15 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-		ClientPurchaseOrder newPurchaseOrder = new ClientPurchaseOrder();
-		newPurchaseOrder.setType(ClientTransaction.TYPE_PURCHASE_ORDER);
+		purchaseOrder.setType(ClientTransaction.TYPE_PURCHASE_ORDER);
 
 		Vendor vendor = get(VENDOR).getValue();
 		ClientFinanceDate transaDate = get(DATE).getValue();
-		newPurchaseOrder.setDate(transaDate.getDate());
+		purchaseOrder.setDate(transaDate.getDate());
 
-		newPurchaseOrder.setVendor(vendor.getID());
+		purchaseOrder.setVendor(vendor.getID());
 
-		newPurchaseOrder.setPhone((String) get(PHONE).getValue());
+		purchaseOrder.setPhone((String) get(PHONE).getValue());
 
 		int statusNumber = 0;
 		if (get(STATUS).getValue().equals(getConstants().open())) {
@@ -400,52 +465,52 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		} else if (get(STATUS).equals(getConstants().cancelled())) {
 			statusNumber = 3;
 		}
-		newPurchaseOrder.setStatus(statusNumber);
+		purchaseOrder.setStatus(statusNumber);
 
-		newPurchaseOrder.setNumber((String) get(NUMBER).getValue());
+		purchaseOrder.setNumber((String) get(NUMBER).getValue());
 
 		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		if (newPaymentTerms != null)
-			newPurchaseOrder.setPaymentTerm(newPaymentTerms.getID());
+			purchaseOrder.setPaymentTerm(newPaymentTerms.getID());
 
 		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
-		newPurchaseOrder.setDate(dueDate.getDate());
+		purchaseOrder.setDate(dueDate.getDate());
 
 		ClientFinanceDate receivedDate = get(RECIEVED_DATE).getValue();
-		newPurchaseOrder.setDate(receivedDate.getDate());
+		purchaseOrder.setDate(receivedDate.getDate());
 
 		ClientFinanceDate dispatchDate = get(DISPATCH_DATE).getValue();
-		newPurchaseOrder.setDate(dispatchDate.getDate());
+		purchaseOrder.setDate(dispatchDate.getDate());
 		String no = get(ORDER_NO).getValue();
-		newPurchaseOrder.setPurchaseOrderNumber(no);
+		purchaseOrder.setPurchaseOrderNumber(no);
 		ClientAddress address = get(BILL_TO).getValue();
-		newPurchaseOrder.setShippingAddress(address);
+		purchaseOrder.setShippingAddress(address);
 		if (context.getPreferences().isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();
 			if (currency != null) {
-				newPurchaseOrder.setCurrency(currency.getID());
+				purchaseOrder.setCurrency(currency.getID());
 			}
 
 			double factor = get(CURRENCY_FACTOR).getValue();
-			newPurchaseOrder.setCurrencyFactor(factor);
+			purchaseOrder.setCurrencyFactor(factor);
 		}
 
 		items.addAll(accounts);
-		newPurchaseOrder.setTransactionItems(items);
-		updateTotals(context, newPurchaseOrder, false);
+		purchaseOrder.setTransactionItems(items);
+		updateTotals(context, purchaseOrder, false);
 
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			newPurchaseOrder.setAmountsIncludeVAT(isVatInclusive);
+			purchaseOrder.setAmountsIncludeVAT(isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
 		String memo = get(MEMO).getValue();
-		newPurchaseOrder.setMemo(memo);
-		create(newPurchaseOrder, context);
+		purchaseOrder.setMemo(memo);
+		create(purchaseOrder, context);
 		return null;
 	}
 
