@@ -2360,7 +2360,7 @@ public class FinanceTool {
 					Message message = (Message) messageQuery.uniqueResult();
 					Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
 					for (LocalMessage localMessage : message.getLocalMessages()) {
-						if (localMessage.isApproved()) {
+						if (!localMessage.isApproved()) {
 							localMessages.add(localMessage);
 						}
 					}
@@ -2377,7 +2377,14 @@ public class FinanceTool {
 
 			for (Message message : messages) {
 
-				Set<LocalMessage> localMessages = message.getLocalMessages();
+				Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
+
+				for (LocalMessage localMessage : message.getLocalMessages()) {
+					if (localMessage.getLang().equals(lang)) {
+						localMessages.add(localMessage);
+					}
+				}
+				message.setLocalMessages(localMessages);
 
 				ClientMessage clientMessage = new ClientMessage();
 				clientMessage.setId(message.getId());
