@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorGroup;
  * @author Lingarao.R
  * 
  */
-public class NewVendorGroupCommand extends NewAbstractTransactionCommand {
+public class NewVendorGroupCommand extends NewAbstractCommand {
 	private static final String VENDORGROUP_NAME = "VendorGroup Name";
 
 	private ClientVendorGroup vendorGroup;

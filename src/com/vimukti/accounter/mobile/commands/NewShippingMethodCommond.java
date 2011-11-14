@@ -1,17 +1,22 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 
 public class NewShippingMethodCommond extends NewAbstractCommand {
 
 	private static final String SHIPPING_METHOD_NAME = "Shipping Mehtod";
 	private static final String DESCRIPTION = "description";
+	private ClientShippingMethod shippingMethod;
 
 	@Override
 	public String getId() {
@@ -28,17 +33,52 @@ public class NewShippingMethodCommond extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Shipping Methods";
+			}
+			Set<ShippingMethod> shippingMethods = context.getCompany()
+					.getShippingMethods();
+			for (ShippingMethod shippingMethod : shippingMethods) {
+				if (shippingMethod.getName().equals(string)) {
+					this.shippingMethod = (ClientShippingMethod) CommandUtils
+							.getClientObjectById(shippingMethod.getID(),
+									AccounterCoreType.SHIPPING_METHOD,
+									getCompanyId());
+				}
+			}
+			if (shippingMethod == null) {
+				return "Shipping Methods " + string;
+			}
+			get(SHIPPING_METHOD_NAME).setValue(shippingMethod.getName());
+			get(DESCRIPTION).setValue(shippingMethod.getDescription());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(SHIPPING_METHOD_NAME).setValue(string);
+			}
+			shippingMethod = new ClientShippingMethod();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Shipping Method Commond is activated";
+		if (shippingMethod.getID() == 0) {
+			return "Shipping Method Commond is activated";
+		} else {
+			return "Update shipping method command activated";
+		}
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return " Shppping Method is ready to created with following details.";
+		if (shippingMethod.getID() == 0) {
+			return " Shipping Method is ready to create with following details.";
+		} else {
+			return "Shipping method is ready to update with following details";
+		}
 	}
 
 	@Override
@@ -47,15 +87,19 @@ public class NewShippingMethodCommond extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "New Shipping Method is Created Successfully";
+		if (shippingMethod.getID() == 0) {
+			return "Shipping Method is Created Successfully";
+		} else {
+			return "Shipping method updated successdfully";
+		}
 	}
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientShippingMethod newShippingTerm = new ClientShippingMethod();
-		newShippingTerm.setName((String) get(SHIPPING_METHOD_NAME).getValue());
-		newShippingTerm.setDescription((String) get(DESCRIPTION).getValue());
-		create(newShippingTerm, context);
+		shippingMethod = new ClientShippingMethod();
+		shippingMethod.setName((String) get(SHIPPING_METHOD_NAME).getValue());
+		shippingMethod.setDescription((String) get(DESCRIPTION).getValue());
+		create(shippingMethod, context);
 		markDone();
 		return null;
 	}

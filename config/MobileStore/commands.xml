@@ -432,6 +432,9 @@
 		<alias>Shipping Method</alias>
 		<alias>Create ShippingMethods</alias>
 		<alias>Create Shipping Method</alias>
+		<alias>Update Shipping Method</alias>
+		<alias>Modify Shipping Method</alias>
+		<alias>Edit Shipping Method</alias>
 	</command>
 
 	<command clazz="NewShippingTermCommand" name="New Shipping Term">
