@@ -100,6 +100,7 @@ public class Header extends HorizontalPanel {
 				});
 			}
 		}
+		userName.setWidth("100%");
 		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
@@ -149,6 +150,7 @@ public class Header extends HorizontalPanel {
 		headerLinks.addStyleName("header_links");
 
 		panel3 = new VerticalPanel();
+		panel3.setWidth("100%");
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
 		panel3.add(help);
