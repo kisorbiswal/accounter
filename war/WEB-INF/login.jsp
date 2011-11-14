@@ -39,7 +39,8 @@
 		var setTimeIntervel;
 		timerStarted();
 			for(var i=0; i <  news.list.length; i++){
-					var listItemDiv = $("<li id="+news.list[i].id+"><a target=_blank href='"+news.list[i].url+"'>"+news.list[i].title+"</a></li></br>");
+				$(news.list[i]).attr("clientid" ,i);
+				var listItemDiv = $("<li id="+news.list[i].clientid+"><a target=_blank href="+news.list[i].url+"</a>"+news.list[i].title+"</li></br>");
 					$('#feedDivUl').append($(listItemDiv));
 			}
 			
@@ -62,6 +63,8 @@
 			
 			function timerStarted(){
 			  setTimeIntervel =	setInterval ( function (){
+				  $('li').removeClass("listItemHover");
+				  $('#'+changingindex).addClass("listItemHover");
 				  if(changingindex <news.list.length)
 					changingindex = changingindex+1;	
 				  if(news.list.length>1){
