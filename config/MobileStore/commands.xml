@@ -464,6 +464,9 @@
 		<alias>Create Credit Rating</alias>
 		<alias>Add Credit Rating</alias>
 		<alias>Credit Rating</alias>
+		<alias>Update Credit Rating</alias>
+		<alias>Modify Credit Rating</alias>
+		<alias>Edit Credit Rating</alias>
 	</command>
 
 	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
