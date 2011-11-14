@@ -834,7 +834,6 @@ public class FinanceTool {
 				// .setID((object[0] == null ? null : ((Long) object[0])));
 				writeCheck.setDate((new FinanceDate((Long) object[1])));
 				writeCheck.setPayToType((Integer) object[2]);
-				writeCheck.setBalance((Double) object[3]);
 				writeCheck.setCustomer(object[4] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[4])) : null);
 				writeCheck.setVendor(object[5] != null ? (Vendor) session.get(

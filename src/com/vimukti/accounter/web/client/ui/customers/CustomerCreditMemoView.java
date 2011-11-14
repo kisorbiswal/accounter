@@ -755,7 +755,7 @@ public class CustomerCreditMemoView extends
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(getCompany().getCurrency(
+			super.setCurrency(getCompany().getCurrency(
 					customer.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();

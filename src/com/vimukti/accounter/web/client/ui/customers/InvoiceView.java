@@ -809,7 +809,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(currency);
+			super.setCurrency(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();

@@ -772,7 +772,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		if (isMultiCurrencyEnabled() && !isInViewMode()) {
-			super.setCurrencycode(vendorCurrency);
+			super.setCurrency(vendorCurrency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 		}

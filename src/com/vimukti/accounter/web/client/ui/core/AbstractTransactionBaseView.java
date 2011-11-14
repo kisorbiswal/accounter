@@ -1157,7 +1157,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			@Override
 			public void currencyChanged(ClientCurrency currency, double factor) {
-				setCurrencycode(currency);
+				setCurrency(currency);
 				setCurrencyFactor(factor);
 				updateAmountsFromGUI();
 			}
@@ -1174,7 +1174,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			@Override
 			public void currencyChanged(ClientCurrency currency, double factor) {
-				setCurrencycode(currency);
+				setCurrency(currency);
 				setCurrencyFactor(factor);
 				updateAmountsFromGUI();
 			}
@@ -1582,7 +1582,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return currency;
 	}
 
-	public void setCurrencycode(ClientCurrency currencycode) {
+	public void setCurrency(ClientCurrency currencycode) {
 		this.currency = currencycode;
 	}
 

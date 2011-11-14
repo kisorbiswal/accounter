@@ -18,8 +18,6 @@ public class ClientWriteCheck extends ClientTransaction {
 
 	long bankAccount;
 
-	double balance;
-
 	long customer;
 
 	long vendor;
@@ -85,20 +83,6 @@ public class ClientWriteCheck extends ClientTransaction {
 		this.bankAccount = bankAccountId;
 	}
 
-	/**
-	 * @return the balance
-	 */
-	public double getBalance() {
-		return balance;
-	}
-
-	/**
-	 * @param balance
-	 *            the balance to set
-	 */
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
 
 	/**
 	 * @return the customer

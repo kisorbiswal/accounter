@@ -1150,7 +1150,7 @@ public class PurchaseOrderView extends
 		vendorCombo.setComboItem(vendor);
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(getCompany()
+			super.setCurrency(getCompany()
 					.getCurrency(vendor.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();

@@ -871,7 +871,6 @@
 			<many-to-one name="bankAccount" class="Account" lazy="false"
 				cascade="save-update" column="ACCOUNT_ID">
 			</many-to-one>
-			<property name="balance" column="BALANCE"></property>
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>

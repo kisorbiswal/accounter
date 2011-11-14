@@ -41,8 +41,6 @@ public class WriteCheck extends Transaction {
 	@ReffereredObject
 	Account bankAccount;
 
-	double balance;
-
 	/**
 	 * The Customer to whom we are writing this check.
 	 */
@@ -120,20 +118,6 @@ public class WriteCheck extends Transaction {
 		return bankAccount;
 	}
 
-	/**
-	 * @return the balance
-	 */
-	public double getBalance() {
-		return balance;
-	}
-
-	/**
-	 * @param balance
-	 *            the balance to set
-	 */
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
 
 	/**
 	 * @return the customer

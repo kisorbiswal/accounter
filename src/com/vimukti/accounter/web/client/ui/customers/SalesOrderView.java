@@ -972,7 +972,7 @@ public class SalesOrderView extends
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(currency);
+			super.setCurrency(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();

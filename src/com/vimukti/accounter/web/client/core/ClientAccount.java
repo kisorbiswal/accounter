@@ -700,10 +700,9 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public void setCurrencyFactor(double currencyFactor) {
 		this.currencyFactor = currencyFactor;
 	}
-
+	
 	public boolean isAllowCurrencyChange() {
-		return (type == TYPE_BANK || type == TYPE_PAYPAL
-				|| type == TYPE_CREDIT_CARD || type == TYPE_CASH);
+		return isAllowCurrencyChange(type);
 	}
 
 	public static boolean isAllowCurrencyChange(int accountType) {

@@ -158,7 +158,7 @@ public class ReceivePaymentView extends
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(currency);
+			super.setCurrency(currency);
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();

@@ -650,7 +650,7 @@ public class CashPurchaseView extends
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(getCompany()
+			super.setCurrency(getCompany()
 					.getCurrency(vendor.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();

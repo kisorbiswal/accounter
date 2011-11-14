@@ -516,7 +516,7 @@ public class CashSalesView extends
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrencycode(currency);
+			super.setCurrency(currency);
 			if (currency.equals(getBaseCurrency())) {
 				setCurrencyFactor(1.0);
 			} else {
