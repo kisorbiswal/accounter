@@ -651,9 +651,11 @@
 	</command>
 
 	<command clazz="WriteCheckCommand" name="New WriteCheck">
-		<alias>Write Check</alias>
-		<alias>write check</alias>
+		<alias>Create Write Check</alias>
 		<alias>Add Write Check</alias>
+		<alias>Update Write Check</alias>
+		<alias>Modify Write Check</alias>
+		<alias>Edit Write Check</alias>
 	</command>
 
 	<command clazz="NewItemGroupCommand" name="ItemGroup">

@@ -23,7 +23,9 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayeeRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -39,6 +41,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	private static final String PAYEE = "payee";
 	private static final String BANK_ACCOUNT = "bankAccount";
 	private static final String AMOUNT = "amount";
+
+	ClientWriteCheck writeCheck;
 
 	@Override
 	public String getId() {
@@ -255,7 +259,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientWriteCheck writeCheck = new ClientWriteCheck();
 		Payee payee = (Payee) get(PAYEE).getValue();
 		if (payee != null) {
 			// In Edit mode If payee was changed to customer to vendor or
@@ -340,18 +343,67 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientWriteCheck invoiceByNum = (ClientWriteCheck) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (invoiceByNum == null) {
+				return "Invoices List " + string;
+			}
+			writeCheck = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			writeCheck = new ClientWriteCheck();
+		}
 		return null;
+
+	}
+
+	private void setValues() {
+		if (writeCheck.getCustomer() != 0) {
+			get(PAYEE).setValue(
+					CommandUtils.getServerObjectById(writeCheck.getCustomer(),
+							AccounterCoreType.PAYEE));
+		} else if (writeCheck.getVendor() != 0) {
+			get(PAYEE).setValue(
+					CommandUtils.getServerObjectById(writeCheck.getVendor(),
+							AccounterCoreType.PAYEE));
+		} else if (writeCheck.getTaxAgency() != 0) {
+			get(PAYEE).setValue(
+					CommandUtils.getServerObjectById(writeCheck.getTaxAgency(),
+							AccounterCoreType.PAYEE));
+		}
+		get(BANK_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(writeCheck.getBankAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(DATE).setValue(writeCheck.getDate());
+		get(NUMBER).setValue(writeCheck.getNumber());
+		get(AMOUNT).setValue(writeCheck.getNetAmount());
+		get(ACCOUNTS).setValue(writeCheck.getTransactionItems());
+		get(IS_VAT_INCLUSIVE).setValue(writeCheck.isAmountsIncludeVAT());
+		get(CURRENCY_FACTOR).setValue(writeCheck.getCurrencyFactor());
+		get(MEMO).setValue(writeCheck.getMemo());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().writeCheck());
+		return writeCheck.getID() == 0 ? getMessages().creating(
+				getConstants().writeCheck()) : "Updating write check";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().writeCheck());
+		return writeCheck.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().writeCheck())
+				: "Write check is ready to update with following details";
 	}
 
 	@Override
@@ -367,7 +419,9 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().writeCheck());
+		return writeCheck.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().writeCheck()) : getMessages()
+				.updateSuccessfully(getConstants().writeCheck());
 	}
 
 }
