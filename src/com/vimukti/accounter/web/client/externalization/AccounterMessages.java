@@ -643,4 +643,8 @@ public interface AccounterMessages extends Messages {
 	public String amount(String string);
 
 	public String balance(String string);
+
+	public String range(int start, int last);
+
+	public String languageName(String languageTooltip, String languageName);
 }

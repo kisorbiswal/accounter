@@ -54,7 +54,8 @@ public class MessagePanel extends VerticalPanel {
 								@Override
 								public void onSuccess(Boolean result) {
 									if (result) {
-										view.updateData();
+										view.refreshPager();
+										view.updateListData();
 									} else {
 										Accounter
 												.showError(Accounter
@@ -122,7 +123,8 @@ public class MessagePanel extends VerticalPanel {
 
 							@Override
 							public void onSuccess(Boolean result) {
-								view.updateData();
+								view.refreshPager();
+								view.updateListData();
 							}
 						});
 			}
@@ -145,7 +147,8 @@ public class MessagePanel extends VerticalPanel {
 
 							@Override
 							public void onSuccess(Boolean result) {
-								view.updateData();
+								view.refreshPager();
+								view.updateListData();
 							}
 						});
 

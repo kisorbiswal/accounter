@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientLanguage;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.LanguageCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class TranslationView extends AbstractBaseView<ClientMessage> {
@@ -24,6 +26,8 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private List<String> optionsList;
 	private Label selectedLanguageLabel;
 	private VerticalPanel dataPanel, mainPanel;
+	private CustomTranslationPager pager;
+	private boolean haveRecords;
 
 	public TranslationView() {
 		super();
@@ -50,7 +54,9 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 					@Override
 					public void selectedComboBoxItem(ClientLanguage selectItem) {
-						updateData();
+						haveRecords = false;
+						refreshPager();
+						updateListData();
 					}
 				});
 
@@ -59,7 +65,9 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						updateData();
+						haveRecords = false;
+						refreshPager();
+						updateListData();
 					}
 				});
 
@@ -69,7 +77,10 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 					.selectedTranslated(languageCombo.getSelectedValue()
 							.getLanguageTooltip()));
 		}
-		updateData();
+		pager = new CustomTranslationPager(0, 5, this);
+		dataPanel = new VerticalPanel();
+		refreshPager();
+		updateListData();
 
 		DynamicForm combosForm = new DynamicForm();
 		combosForm.setNumCols(4);
@@ -83,15 +94,19 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		selectedLanguageLabel.addStyleName("selected-language");
 		mainPanel.setWidth("100%");
 		this.add(mainPanel);
-
+		this.add(pager);
+		this.setCellHorizontalAlignment(pager, HasAlignment.ALIGN_CENTER);
 	}
 
-	protected void updateData() {
-		if (dataPanel != null)
-			mainPanel.remove(dataPanel);
+	protected void refreshPager() {
+		pager.setStart(CustomTranslationPager.DEFAULT_START);
+		pager.setRange(CustomTranslationPager.DEFAULT_RANGE);
+		pager.updateRange();
+	}
 
-		dataPanel = new VerticalPanel();
-		dataPanel.addStyleName("translated-result");
+	@Override
+	public void updateListData() {
+
 		if ((languageCombo.getSelectedValue() != null)
 				&& (optionsCombo.getSelectedValue() != null)) {
 			selectedLanguageLabel.setText(messages
@@ -100,20 +115,48 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 			Accounter.createTranslateService().getMessages(
 					languageCombo.getSelectedValue().getLanguageTooltip(),
-					getStatus(optionsCombo.getSelectedValue()), 0, 10,
+					getStatus(optionsCombo.getSelectedValue()),
+					pager.getStart(), pager.getRange(),
 					new AsyncCallback<ArrayList<ClientMessage>>() {
 
 						@Override
 						public void onSuccess(ArrayList<ClientMessage> result) {
-							for (int i = 0; i < result.size(); i++) {
-								MessagePanel messagePanel = new MessagePanel(
-										TranslationView.this, languageCombo
-												.getSelectedValue()
-												.getLanguageTooltip(), result
-												.get(i));
-								dataPanel.add(messagePanel);
+							if (result.size() != 0) {
+								if (dataPanel != null) {
+									mainPanel.remove(dataPanel);
+									dataPanel = new VerticalPanel();
+								}
+
+								dataPanel.addStyleName("translated-result");
+								pager.setData(result);
+								pager.setRange(result.size());
+								pager.updateRange();
+								pager.setVisible(true);
+								for (int i = 0; i < result.size(); i++) {
+									MessagePanel messagePanel = new MessagePanel(
+											TranslationView.this, languageCombo
+													.getSelectedValue()
+													.getLanguageTooltip(),
+											result.get(i));
+									dataPanel.add(messagePanel);
+								}
+								mainPanel.add(dataPanel);
+							} else {
+								if (!isHaveRecords()) {
+									if (dataPanel != null) {
+										mainPanel.remove(dataPanel);
+										dataPanel = new VerticalPanel();
+									}
+									dataPanel.addStyleName("translated-result");
+									Label error = new Label(
+											AccounterWarningType.RECORDSEMPTY);
+									dataPanel.add(error);
+									dataPanel.setCellHorizontalAlignment(error,
+											HasAlignment.ALIGN_CENTER);
+									mainPanel.add(dataPanel);
+									pager.setVisible(false);
+								}
 							}
-							mainPanel.add(dataPanel);
 						}
 
 						@Override
@@ -162,6 +205,14 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setHaveRecords(boolean haveRecords) {
+		this.haveRecords = haveRecords;
+	}
+
+	public boolean isHaveRecords() {
+		return haveRecords;
 	}
 
 }

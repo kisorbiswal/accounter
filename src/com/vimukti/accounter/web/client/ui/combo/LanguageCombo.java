@@ -1,12 +1,13 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientLanguage;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
 	public LanguageCombo(String title) {
-		super(title, false, 2);
+		super(title, false, 1);
 		initCombo(CoreUtils.getLanguages());
 	}
 
@@ -20,14 +21,13 @@ public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
 	@Override
 	protected String getColumnData(ClientLanguage object, int col) {
-		switch (col) {
-		case 0:
-			return object.getLanguageTooltip();
-		case 1:
-			return object.getLanguageName();
-		default:
-			break;
-		}
+		if (object != null)
+			if (object.getLanguageTooltip().equals(object.getLanguageName())) {
+				return object.getLanguageName();
+			} else {
+				return Accounter.messages().languageName(
+						object.getLanguageName(), object.getLanguageTooltip());
+			}
 		return "";
 	}
 

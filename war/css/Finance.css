@@ -1654,3 +1654,8 @@ input.date-field-textbox{
 	padding: 7px 0;
 	font-weight: bold;
 }
+.pager-range{
+	font-size: 16px;
+    font-weight: bold;
+    padding: 2px 9px 0;
+}
