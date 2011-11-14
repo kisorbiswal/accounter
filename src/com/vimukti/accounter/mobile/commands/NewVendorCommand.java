@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.zefer.html.doc.s;
+
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -28,7 +31,9 @@ import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorGroupRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -71,7 +76,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	private static final String SHIPPING_METHODS = "shippingMethod";
 	private static final String SHIP_TO = "shipTo";
-	private boolean isUpdate;
+	private ClientVendor vendor;
 
 	@Override
 	public String getId() {
@@ -175,12 +180,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 				List<ClientContact> contacts = getVendorContacts();
 				return new ArrayList<ClientContact>(contacts);
 			}
-
-			@Override
-			protected String getEmptyString() {
-				return isUpdate ? getMessages().youDontHaveAny(
-						getConstants().contacts()) : "";
-			}
 		});
 
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
@@ -234,11 +233,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
 						getConstants().shippingMethod());
-			}
-
-			@Override
-			protected boolean filter(ShippingMethod e, String name) {
-				return e.getName().equals(name);
 			}
 		});
 
@@ -416,7 +410,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 		ICountryPreferences countryPreferences = context.getCompany()
 				.getCountryPreferences();
 
-		ClientVendor vendor = new ClientVendor();
 		String name = get(VENDOR_NAME).getValue();
 		String number = null;
 		if (preferences.getUseVendorId()) {
@@ -532,8 +525,31 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
-		this.isUpdate = isUpdate;
+		String string = context.getString();
+		if (isUpdate) {
+			if (string.isEmpty()) {
+				return "vendors";
+			}
+			Vendor vendorByName = CommandUtils.getVendorByName(
+					context.getCompany(), string);
+			if (vendorByName == null) {
+				vendorByName = CommandUtils.getVendorByNumber(
+						context.getCompany(), getNumberFromString(string));
+				if (vendorByName == null) {
+					return "vendors " + string;
+				}
+			}
+			vendor = (ClientVendor) CommandUtils.getClientObjectById(
+					vendorByName.getID(), AccounterCoreType.VENDOR, context
+							.getCompany().getId());
+			// TODO
+
+		} else {
+			vendor = new ClientVendor();
+			if (string.isEmpty()) {
+				get(VENDOR_NAME).setValue(string);
+			}
+		}
 		return null;
 	}
 

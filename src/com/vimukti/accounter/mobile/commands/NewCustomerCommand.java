@@ -1,15 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import com.vimukti.accounter.core.CreditRating;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
@@ -32,6 +29,7 @@ import com.vimukti.accounter.mobile.requirements.SalesPersonRequirement;
 import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -64,13 +62,12 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	private static final String CST_NUM = "CST number";
 	private static final String SERVICE_TAX_NUM = "Service tax registration no";
 	private static final String TIN_NUM = "Taxpayer identification number";
-	private static final String ADDRESS = "address";
 	private static final String SHIPPING_METHODS = "shippingMethod";
 	private static final String PAYMENT_TERMS = "paymentTerms";
 	private static final String CONTACT = "contact";
 	private static final String SHIPTO = "shipTo";
 	private static final String BILLTO = "billTo";
-	private boolean isUpdate;
+	private ClientCustomer customer;
 
 	@Override
 	public String getId() {
@@ -178,10 +175,6 @@ public class NewCustomerCommand extends NewAbstractCommand {
 						getConstants().shippingMethod());
 			}
 
-			@Override
-			protected boolean filter(ShippingMethod e, String name) {
-				return e.getName().startsWith(name);
-			}
 		});
 
 		// TODO list.add(new Requirement(PRICE_LEVEL, true, true));
@@ -383,31 +376,20 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<ClientContact> getList() {
-				List<ClientContact> contacts = getCustomerContacts();
-				return new ArrayList<ClientContact>(contacts);
+				return null;
 			}
 
-			@Override
-			protected String getEmptyString() {
-				return isUpdate ? getMessages().youDontHaveAny(
-						getConstants().contacts()) : "";
-			}
 		});
 
 	}
 
-	protected List<ClientContact> getCustomerContacts() {
-		return null;
-	}
-
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		LinkedHashMap<Integer, ClientAddress> allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		ICountryPreferences countryPreferences = context.getCompany()
 				.getCountryPreferences();
 		ClientCompanyPreferences preferences = context.getPreferences();
 
-		ClientCustomer customer = new ClientCustomer();
+		customer = new ClientCustomer();
 		String name = get(CUSTOMER_NAME).getValue();
 		String number = null;
 		if (preferences.getUseCustomerId()) {
@@ -510,31 +492,22 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param allAddresses
-	 * @return
-	 */
-	private Set<ClientAddress> getAdress(
-			LinkedHashMap<Integer, ClientAddress> allAddresses) {
-		Collection add = allAddresses.values();
-		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
-		Iterator it = add.iterator();
-		while (it.hasNext()) {
-			ClientAddress a = (ClientAddress) it.next();
-			toBeSet.add(a);
-		}
-		return toBeSet;
-	}
-
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating New Customer..";
+		if (customer.getID() == 0) {
+			return "Creating New Customer..";
+		} else {
+			return "Updating '" + customer.getDisplayName() + "' Customer..";
+		}
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(Global.get().Customer());
+		if (customer.getID() == 0) {
+			return getMessages().readyToCreate(Global.get().Customer());
+		} else {
+			return getMessages().readyToUpdate(Global.get().Customer());
+		}
 	}
 
 	@Override
@@ -547,17 +520,39 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(Global.get().Customer());
+		if (customer.getID() == 0) {
+			return getMessages().createSuccessfully(Global.get().Customer());
+		} else {
+			return getMessages().updateSuccessfully(Global.get().Customer());
+		}
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		this.isUpdate = isUpdate;
-		String string = context.getString();
-		if (!string.isEmpty()) {
-			get(CUSTOMER_NAME).setValue(string);
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Customers";
+			}
+			ClientCustomer customerByName = CommandUtils.getCustomerByName(
+					context.getCompany(), string);
+			if (customerByName == null) {
+				customerByName = CommandUtils.getCustomerByNumber(
+						context.getCompany(), getNumberFromString(string));
+				if (customerByName == null) {
+					return "Customers " + string;
+				}
+			}
+			customer = customerByName;
+			// TODO Fill All fields
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(CUSTOMER_NAME).setValue(string);
+			}
+			customer = new ClientCustomer();
 		}
 		return null;
 	}
-
 }

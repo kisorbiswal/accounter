@@ -22,19 +22,16 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-
 		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-
 		return null;
 	}
 
@@ -46,13 +43,11 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-
 		return "Success";
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -73,8 +68,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Customer value) {
-				// TODO Auto-generated method stub
-				return null;
+				return "update customer #" + value.getNumber();
 			}
 
 			@Override

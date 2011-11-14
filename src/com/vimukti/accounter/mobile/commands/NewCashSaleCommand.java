@@ -399,10 +399,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 						getConstants().shippingMethod());
 			}
 
-			@Override
-			protected boolean filter(ShippingMethod e, String name) {
-				return e.getName().startsWith(name);
-			}
 		});
 
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(

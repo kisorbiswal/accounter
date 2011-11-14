@@ -231,12 +231,6 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				List<ClientContact> contacts = getAgencyContacts();
 				return new ArrayList<ClientContact>(contacts);
 			}
-
-			@Override
-			protected String getEmptyString() {
-				return isUpdate ? getMessages().youDontHaveAny(
-						getConstants().contacts()) : "";
-			}
 		});
 
 	}
