@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 
@@ -224,7 +225,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				break;
 			}
 			T r = records.get(i);
-			if (skipRecords.contains(r)) {
+			if (CommandUtils.contains(skipRecords, r)) {
 				continue;
 			}
 			num++;

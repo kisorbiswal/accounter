@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 
 public abstract class AbstractTableRequirement<T> extends
 		AbstractRequirement<T> {
@@ -120,7 +121,7 @@ public abstract class AbstractTableRequirement<T> extends
 		List<T> allValues = getList();
 
 		for (T t : allValues) {
-			if (!oldValues.contains(t)) {
+			if (CommandUtils.contains(oldValues, t)) {
 				list.add(createFullRecord(t));
 			}
 		}

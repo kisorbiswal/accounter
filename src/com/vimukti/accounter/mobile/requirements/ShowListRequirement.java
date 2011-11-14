@@ -24,6 +24,13 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 
 		T values = context.getSelection(getName());
 		if (values != null) {
+			CommandList commandList = new CommandList();
+			setSelectCommands(commandList, values);
+			if (commandList.size() != 0) {
+				Result result = new Result();
+				result.add(commandList);
+				return result;
+			}
 			String onSelection = onSelection(values);
 			if (onSelection != null) {
 				Result result = new Result();
@@ -82,6 +89,10 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 			makeResult.add(paginationList);
 		}
 		return null;
+	}
+
+	protected void setSelectCommands(CommandList commandList, T value) {
+
 	}
 
 	private List<T> getFilterList(Context context, String string) {
