@@ -739,5 +739,8 @@
 		<alias>New CustomerCreditNote</alias>
 		<alias>New CustomerCreditMemo</alias>
 		<alias>Create CreditMemo</alias>
+		<alias>Update CreditMemo</alias>
+		<alias>Edit CreditMemo</alias>
+		<alias>Modify CreditMemo</alias>
 	</command>
 </commands>
