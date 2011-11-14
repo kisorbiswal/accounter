@@ -15,6 +15,10 @@ public class UserCommand {
 		this.setInputs(inputs);
 	}
 
+	public UserCommand(String commandName, String inputs) {
+		this(commandName, commandName, inputs);
+	}
+
 	public String getCommandName() {
 		return commandName;
 	}
