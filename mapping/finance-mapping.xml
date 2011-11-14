@@ -1213,28 +1213,24 @@
 		<property name="vatAmount" column="VAT_AMOUNT"></property>
 		<property name="lineTotal" column="LINE_TOTAL"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="transactionItem" class="TransactionItem"
-			lazy="false" column="TRANSACTION_ITEM_ID">
+		<many-to-one name="transactionItem" class="TransactionItem" column="TRANSACTION_ITEM_ID">
 		</many-to-one>
-		<many-to-one name="taxItem" class="TAXItem" lazy="false"
+		<many-to-one name="taxItem" class="TAXItem"
 			column="TAX_ITEM_ID">
 		</many-to-one>
 		<property name="transactionDate" column="TRANSACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+		<many-to-one name="taxAgency" class="TAXAgency" 
 			column="TAX_AGENCY_ID">
 		</many-to-one>
 		<property name="rate" column="RATE"></property>
-		<many-to-one name="vatReturnBox" class="VATReturnBox"
-			lazy="false" column="VAT_RETURN_BOX_ID">
+		<many-to-one name="vatReturnBox" class="VATReturnBox" column="VAT_RETURN_BOX_ID">
 		</many-to-one>
-		<many-to-one name="purchaseLiabilityAccount" class="Account"
-			lazy="false" column="PURCHASE_LIABILITY_ACCOUNT_ID">
+		<many-to-one name="purchaseLiabilityAccount" class="Account" column="PURCHASE_LIABILITY_ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="salesLiabilityAccount" class="Account"
-			lazy="false" column="SALES_LIABILITY_ACCOUNT_ID">
+		<many-to-one name="salesLiabilityAccount" class="Account" column="SALES_LIABILITY_ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
+		<many-to-one name="taxReturn" class="TAXReturn"
 			column="TAX_RETURN">
 		</many-to-one>
 	</class>

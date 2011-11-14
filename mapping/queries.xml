@@ -1314,9 +1314,6 @@
 		from com.vimukti.accounter.core.TAXRateCalculation v where
 		v.taxItem.company=:company and v.taxItem
 		is not null and
-		(v.isVATGroupEntry = true and v.taxItem != 4 and
-		v.taxItem != 12 and
-		v.taxItem != 14) or (v.isVATGroupEntry = false) and
 		v.transactionDate
 		between
 		:startDate and :endDate order
