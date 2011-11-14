@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -14,6 +15,8 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 
 public class NewVATCodeCommand extends NewAbstractCommand {
@@ -24,6 +27,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	private static final String VATITEM_FOR_PURCHASE = "vatItemForPurchase";
 	private static final String IS_ACTIVE = "isActive";
 	private static final String TAX_CODE = "Tax Code";
+
+	private ClientTAXCode taxCode;
 
 	@Override
 	public String getId() {
@@ -221,9 +226,6 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientTAXCode taxCode = new ClientTAXCode();
-
 		String name = get(TAX_CODE).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
 		Boolean isTaxable = (Boolean) get(IS_TAXABLE).getValue();
@@ -253,18 +255,54 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "VAT Codes List";
+			}
+			Set<TAXCode> serverTaxCodes = context.getCompany().getTaxCodes();
+			for (TAXCode vatCode : serverTaxCodes) {
+				if (vatCode.getName().equals(string)) {
+					taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
+							vatCode.getID(), AccounterCoreType.TAX_CODE,
+							getCompanyId());
+				}
+			}
+			if (taxCode == null) {
+				return "VAT Codes List " + string;
+			}
+			get(TAX_CODE).setValue(taxCode.getName());
+			get(DESCRIPTION).setValue(taxCode.getDescription());
+			get(IS_ACTIVE).setValue(taxCode.isActive());
+			get(IS_TAXABLE).setValue(taxCode.isTaxable());
+			get(VATITEM_FOR_SALES).setValue(
+					CommandUtils.getClientObjectById(
+							taxCode.getTAXItemGrpForSales(),
+							AccounterCoreType.TAX_ITEM_GROUP, getCompanyId()));
+			get(VATITEM_FOR_PURCHASE).setValue(
+					CommandUtils.getClientObjectById(
+							taxCode.getTAXItemGrpForPurchases(),
+							AccounterCoreType.TAX_ITEM_GROUP, getCompanyId()));
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(TAX_CODE).setValue(string);
+			}
+			taxCode = new ClientTAXCode();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "New vat code command is activated";
+		return taxCode.getID() == 0 ? "New vat code command is activated"
+				: "Update VAT Code command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "New vat code commond is ready to create with the following values";
+		return taxCode.getID() == 0 ? "New vat code commond is ready to create with the following values"
+				: "VAT Code is ready to update with following values";
 	}
 
 	@Override
@@ -275,6 +313,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "New vat code commond is created successfully";
+		return taxCode.getID() == 0 ? "New vat code commond is created successfully"
+				: "VAT Code updated successfully";
 	}
 }

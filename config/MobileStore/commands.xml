@@ -329,6 +329,9 @@
 		<alias>Add TAX Code</alias>
 		<alias>Create TAX Code</alias>
 		<alias>New TAX Code</alias>
+		<alias>Update TAX Code</alias>
+		<alias>Edit TAX Code</alias>
+		<alias>Modify TAX Code</alias>
 	</command>
 
 	<command clazz="NewVATAgencyCommand" name="New VAT Agncy">
