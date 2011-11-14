@@ -73,12 +73,12 @@ public class TAXItemExceptionDetailReport extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "TaxItem ExceptionDetails";
+		return "taxItemExceptionDetails";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "TaxItem-ExceptionDetails";
+		return "TaxItemExceptionDetails";
 	}
 
 	public void setTaxReturn(ClientTAXReturn taxReturn) {

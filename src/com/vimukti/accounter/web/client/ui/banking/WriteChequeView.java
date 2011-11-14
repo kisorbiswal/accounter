@@ -97,8 +97,6 @@ public class WriteChequeView extends
 
 	private DateField date;
 	AccounterConstants accounterConstants = Accounter.constants();
-	// private boolean isVendor;
-	// private String transactionNumber = "";
 
 	private DynamicForm amtForm;
 
@@ -806,12 +804,7 @@ public class WriteChequeView extends
 
 				});
 
-		// formItems.add(paytoSelect);
 
-		// billToCombo = createBillToComboItem();
-		// billToCombo.setDisabled(true);
-
-		// billToCombo.setWidth(100);
 
 		amtText = new AmountField(Accounter.constants().amount(), this,
 				getBaseCurrency());

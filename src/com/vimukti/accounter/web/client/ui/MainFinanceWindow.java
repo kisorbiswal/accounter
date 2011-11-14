@@ -581,6 +581,19 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getVATUncategorisedAmountsReportAction()
 				.getHistoryToken(), ActionFactory
 				.getVATUncategorisedAmountsReportAction());
+
+		actions.put(ActionFactory.getVATExceptionDetailsReportAction()
+				.getHistoryToken(), ActionFactory
+				.getVATExceptionDetailsReportAction());
+
+		actions.put(ActionFactory.getTaxItemExceptionDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getTaxItemExceptionDetailReportAction());
+
+		actions.put(ActionFactory.getTaxItemDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getTaxItemDetailReportAction());
+
 		actions.put(ActionFactory.getVATItemSummaryReportAction()
 				.getHistoryToken(), ActionFactory
 				.getVATItemSummaryReportAction());
@@ -695,16 +708,16 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getMeasurementsAction());
 		actions.put(ActionFactory.getStockAdjustmentAction().getHistoryToken(),
 				ActionFactory.getStockAdjustmentAction());
-		
+
 		actions.put(ActionFactory.getStockSettingsAction().getHistoryToken(),
 				ActionFactory.getStockSettingsAction());
-		
-		actions.put(ActionFactory.getStockAdjustmentsListAction().getHistoryToken(),
-				ActionFactory.getStockAdjustmentsListAction());
-		
-		
-		actions.put(ActionFactory.getCurrencyGroupListAction().getHistoryToken(),
-				ActionFactory.getCurrencyGroupListAction());
+
+		actions.put(ActionFactory.getStockAdjustmentsListAction()
+				.getHistoryToken(), ActionFactory
+				.getStockAdjustmentsListAction());
+
+		actions.put(ActionFactory.getCurrencyGroupListAction()
+				.getHistoryToken(), ActionFactory.getCurrencyGroupListAction());
 
 	}
 
