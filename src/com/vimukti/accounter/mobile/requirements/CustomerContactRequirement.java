@@ -110,4 +110,9 @@ public abstract class CustomerContactRequirement extends
 		return contacts.isEmpty() ? "Add Contact" : getMessages().addMore(
 				getConstants().contacts());
 	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAny(getConstants().contacts());
+	}
 }

@@ -85,4 +85,15 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	protected long getCompanyId() {
 		return companyId;
 	}
+
+	protected long getNumberFromString(String string) {
+		if (string.isEmpty()) {
+			return 0;
+		}
+		if (string.charAt(0) != '#') {
+			return 0;
+		}
+		string = string.substring(1);
+		return Long.parseLong(string);
+	}
 }

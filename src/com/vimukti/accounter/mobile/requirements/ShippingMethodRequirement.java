@@ -37,4 +37,8 @@ public abstract class ShippingMethodRequirement extends
 		return getMessages().pleaseSelect(getConstants().shippingMethod());
 	}
 
+	@Override
+	protected boolean filter(ShippingMethod e, String name) {
+		return e.getName().startsWith(name);
+	}
 }

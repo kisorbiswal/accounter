@@ -40,6 +40,8 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 
 	@Override
 	protected boolean filter(Account e, String name) {
-		return e.getName().toLowerCase().startsWith(name.toLowerCase());
+		return e.getName().toLowerCase().startsWith(name.toLowerCase())
+				|| e.getNumber().startsWith(
+						String.valueOf(getNumberFromString(name)));
 	}
 }
