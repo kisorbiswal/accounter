@@ -35,7 +35,7 @@
 		<alias>Create New Invoice</alias>
 	</command>
 
-	<command clazz="NewVendorGroupCommand" name="New Vendor Group">
+	<command clazz="NewVendorGroupCommand" name="New VendorGroup">
 		<alias>Create Vendor Group</alias>
 		<alias>Update Vendor Group</alias>
 		<alias>Modify Vendor Group</alias>
@@ -313,6 +313,7 @@
 		<alias>Bill Enter</alias>
 		<alias>Bill</alias>
 		<alias>Create Enter Bill</alias>
+		<alias>EnterBill</alias>
 	</command>
 
 	<command clazz="NewPayBillCommand" name="Pay Bill">
@@ -418,6 +419,7 @@
 		<alias>Add Transfer Funds</alias>
 		<alias>Deposits And TransferFunds</alias>
 		<alias>New Deposits And TransferFunds</alias>
+		<alias>Deposits / Transfer Fund</alias>
 	</command>
 
 	<command clazz="NewLocationCommond" name="New Location">
@@ -486,6 +488,7 @@
 		<alias>Create Customer Payment</alias>
 		<alias>Add Customer Prepayment</alias>
 		<alias>Create CustomerPrepayment</alias>
+
 	</command>
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
@@ -633,6 +636,7 @@
 		<alias>Create PurchaseOrder</alias>
 		<alias>Add PurchaseOrder</alias>
 		<alias>Create Purchase Order</alias>
+		<alias>Create New PurchaseOrder</alias>
 	</command>
 
 	<command clazz="VoidTransactionCommand" name="Void Transaction">
@@ -703,6 +707,7 @@
 	<command clazz="BankAccountsListCommand" name="BankAccounts">
 		<alias>Bank Accounts List</alias>
 		<alias>Bank List</alias>
+		<alias>Bank Accounts</alias>
 	</command>
 
 	<command clazz="SignupCommand" name="Signup">
