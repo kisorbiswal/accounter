@@ -636,6 +636,9 @@
 		<alias>Add ItemGroup</alias>
 		<alias>Create Item Group</alias>
 		<alias>Create ItemGroup</alias>
+		<alias>Update Item Group</alias>
+		<alias>Edit Item Group</alias>
+		<alias>Modify Item Group</alias>
 	</command>
 
 	<command clazz="QuotesListCommand" name="Quotes List">
