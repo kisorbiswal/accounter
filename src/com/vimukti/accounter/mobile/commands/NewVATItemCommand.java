@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -16,6 +17,8 @@ import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -28,6 +31,8 @@ public class NewVATItemCommand extends NewAbstractCommand {
 	private static final String TAX_ITEM_NAME = "Tax Item Name";
 	private static final String TAX_RATE = "Tax Rate";
 	private static final String TAX_AGENCY = "Tax Agency";
+
+	private ClientTAXItem taxItem;
 
 	@Override
 	public String getId() {
@@ -192,7 +197,6 @@ public class NewVATItemCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientTAXItem taxItem = new ClientTAXItem();
 		String name = (String) get(TAX_ITEM_NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
 		double taxRate = get(TAX_RATE).getValue();
@@ -217,18 +221,52 @@ public class NewVATItemCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "VAT Items List";
+			}
+			Set<TAXItem> taxItems = context.getCompany().getTaxItems();
+			for (TAXItem vatItem : taxItems) {
+				if (vatItem.getName().equals(string)) {
+					taxItem = (ClientTAXItem) CommandUtils.getClientObjectById(
+							vatItem.getID(), AccounterCoreType.TAXITEM,
+							getCompanyId());
+				}
+			}
+			if (taxItem == null) {
+				return "VAT Items List " + string;
+			}
+			get(TAX_ITEM_NAME).setValue(taxItem.getName());
+			get(DESCRIPTION).setValue(taxItem.getDescription());
+			get(TAX_RATE).setValue(taxItem.getTaxRate());
+			get(IS_ACTIVE).setValue(taxItem.isActive());
+			get(TAX_AGENCY).setValue(
+					CommandUtils.getServerObjectById(taxItem.getTaxAgency(),
+							AccounterCoreType.TAXAGENCY));
+			get(VAT_RETURN_BOX).setValue(
+					CommandUtils.getClientObjectById(taxItem.getVatReturnBox(),
+							AccounterCoreType.VATRETURNBOX, getCompanyId()));
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(TAX_ITEM_NAME).setValue(string);
+			}
+			taxItem = new ClientTAXItem();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "New Vat Item commond is activated";
+		return taxItem.getID() == 0 ? "New Vat Item commond is activated"
+				: "Update VAT Item command activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "New vat item is ready to create with the following values";
+		return taxItem.getID() == 0 ? "New vat item is ready to create with the following values"
+				: "VAT Item is ready to update with following values";
 	}
 
 	@Override
@@ -238,7 +276,8 @@ public class NewVATItemCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "New vat Item created Successfully";
+		return taxItem.getID() == 0 ? "New vat Item created Successfully"
+				: "VAT Item updated successfully";
 	}
 
 }
