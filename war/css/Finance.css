@@ -1604,25 +1604,53 @@ input.date-field-textbox{
     font-weight: bold;
 }
 .local_message_panel{
+	padding: 5px;
+	width: 100%;
 }
 .add_new_message_box{
-}
-.up_image_panel, .down_image_panel{
+	  height: 30px !important;
+   	  width: 500px !important;
+   	  border: 1px solid #AAAAAA;
+   	  border-radius:3px 3px 3px 3px;
 }
 .message_label{
 	font-weight: bold;
+	width: 100%;
 }
 .votes_panel{
-}
+	border-right: 1px solid #AAAAAA;
+    padding: 0 14px 0 0;
+ }
+ .votes-message-panel{
+ 	border-bottom: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    margin: 5px 0;
+	width: 100%;
+ }
 .message_panel{
-	border: 1px none;
-    padding: 10px 0;
+ 	background: none repeat scroll 0 0 #F0F0F0;
+    border: 1px solid gray;
+    margin: 12px;
+    padding: 10px;
+    width: 97%;
+}
+.message-panel-parent{
+	width: 100%;
 }
 .up_label, .down_label{
 	font-size: 17px;
     font-weight: bold;
+    width: 100%;
 }
 .image_button{
- padding: 7px 8px !important;
- border-radius: 4px 4px 4px 4px;
+ 	padding: 7px 15px !important;
+ 	border-radius: 4px 4px 4px 4px;
+}
+.translated-result{
+	background-color: white;
+	width: 100%;
+}
+.selected-language{
+	padding: 7px 0;
+	font-weight: bold;
 }

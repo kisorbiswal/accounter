@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientLanguage;
 public class CoreUtils {
 	// ISO 639-2 Code
 	private static ClientLanguage[] languages = new ClientLanguage[] {
+			new ClientLanguage("English", "English", "ENG"),
 			new ClientLanguage("Afrikaans", "Afrikaans", "AFR"),
 			new ClientLanguage("Albanian", "Shqip", "ALB"),
 			new ClientLanguage("Arabic", "‏العربية‏", "ARA"),

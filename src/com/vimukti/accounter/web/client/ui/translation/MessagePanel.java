@@ -41,6 +41,7 @@ public class MessagePanel extends VerticalPanel {
 		}
 
 		final TextBox addNewMessageBox = new TextBox();
+		addNewMessageBox.removeStyleName("gwt-TextBox");
 		addNewMessageBox.addKeyPressHandler(new KeyPressHandler() {
 			public void onKeyPress(KeyPressEvent event) {
 				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER
@@ -82,12 +83,15 @@ public class MessagePanel extends VerticalPanel {
 		mainPanel.addStyleName("message_panel");
 
 		this.add(mainPanel);
+
+		this.addStyleName("message-panel-parent");
 	}
 
 	private HorizontalPanel getLocalMessgePanel(
 			final ClientLocalMessage clientLocalMessage) {
 
 		HorizontalPanel votesPanel = new HorizontalPanel();
+		HorizontalPanel votesWithMsgPanel = new HorizontalPanel();
 
 		VerticalPanel upVotesPanel = new VerticalPanel();
 		VerticalPanel downVotesPanel = new VerticalPanel();
@@ -160,14 +164,16 @@ public class MessagePanel extends VerticalPanel {
 
 		downVotesPanel.add(downImage);
 		downVotesPanel.add(downVotesLenghtLabel);
-		upVotesPanel.setCellHorizontalAlignment(downVotesLenghtLabel,
+		downVotesPanel.setCellHorizontalAlignment(downVotesLenghtLabel,
 				HasAlignment.ALIGN_CENTER);
 
 		votesPanel.add(upVotesPanel);
 		votesPanel.add(downVotesPanel);
-		votesPanel.add(messageLabel);
+		votesWithMsgPanel.add(votesPanel);
+		votesWithMsgPanel.add(messageLabel);
 		votesPanel.setSpacing(4);
-		votesPanel.setCellVerticalAlignment(messageLabel,
+		votesWithMsgPanel.setSpacing(4);
+		votesWithMsgPanel.setCellVerticalAlignment(messageLabel,
 				HasAlignment.ALIGN_MIDDLE);
 
 		upVotesPanel.addStyleName("up_image_panel");
@@ -176,9 +182,11 @@ public class MessagePanel extends VerticalPanel {
 		upVotesLengthLabel.addStyleName("up_label");
 		downVotesLenghtLabel.addStyleName("down_label");
 
+		votesWithMsgPanel.setCellWidth(votesPanel, "12%");
+		votesWithMsgPanel.addStyleName("votes-message-panel");
 		votesPanel.addStyleName("votes_panel");
 
-		return votesPanel;
+		return votesWithMsgPanel;
 	}
 
 }

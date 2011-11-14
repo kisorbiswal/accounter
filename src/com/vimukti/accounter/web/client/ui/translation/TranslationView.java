@@ -6,18 +6,22 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientLanguage;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.LanguageCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class TranslationView extends AbstractBaseView<ClientMessage> {
-	private SelectCombo languageCombo, optionsCombo;
-	private List<String> optionsList, languagesList;
+	private LanguageCombo languageCombo;
+	private SelectCombo optionsCombo;
+	private List<String> optionsList;
 	private Label selectedLanguageLabel;
 	private VerticalPanel dataPanel, mainPanel;
 
@@ -39,20 +43,13 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		}
 		optionsCombo.setSelected(constants.untranslated());
 
-		languagesList = new ArrayList<String>();
-		languagesList.add(constants.userLocal());
-
-		languageCombo = new SelectCombo(constants.languages());
-		for (int i = 0; i < languagesList.size(); i++) {
-			languageCombo.addItem(languagesList.get(i));
-		}
-		languageCombo.setSelected(constants.userLocal());
-
+		languageCombo = new LanguageCombo(constants.languages());
+		languageCombo.setComboItem(CoreUtils.getLanguages().get(0));
 		languageCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientLanguage>() {
 
 					@Override
-					public void selectedComboBoxItem(String selectItem) {
+					public void selectedComboBoxItem(ClientLanguage selectItem) {
 						updateData();
 					}
 				});
@@ -69,7 +66,8 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		selectedLanguageLabel = new Label();
 		if (languageCombo.getSelectedValue() != null) {
 			selectedLanguageLabel.setText(messages
-					.selectedTranslated(languageCombo.getSelectedValue()));
+					.selectedTranslated(languageCombo.getSelectedValue()
+							.getLanguageTooltip()));
 		}
 		updateData();
 
@@ -81,6 +79,9 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		mainPanel.add(combosForm);
 		mainPanel.add(selectedLanguageLabel);
 		mainPanel.add(dataPanel);
+
+		selectedLanguageLabel.addStyleName("selected-language");
+		mainPanel.setWidth("100%");
 		this.add(mainPanel);
 
 	}
@@ -90,13 +91,15 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 			mainPanel.remove(dataPanel);
 
 		dataPanel = new VerticalPanel();
+		dataPanel.addStyleName("translated-result");
 		if ((languageCombo.getSelectedValue() != null)
 				&& (optionsCombo.getSelectedValue() != null)) {
 			selectedLanguageLabel.setText(messages
-					.selectedTranslated(languageCombo.getSelectedValue()));
+					.selectedTranslated(languageCombo.getSelectedValue()
+							.getLanguageTooltip()));
 
 			Accounter.createTranslateService().getMessages(
-					languageCombo.getSelectedValue(),
+					languageCombo.getSelectedValue().getLanguageTooltip(),
 					getStatus(optionsCombo.getSelectedValue()), 0, 10,
 					new AsyncCallback<ArrayList<ClientMessage>>() {
 
@@ -105,7 +108,8 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 							for (int i = 0; i < result.size(); i++) {
 								MessagePanel messagePanel = new MessagePanel(
 										TranslationView.this, languageCombo
-												.getSelectedValue(), result
+												.getSelectedValue()
+												.getLanguageTooltip(), result
 												.get(i));
 								dataPanel.add(messagePanel);
 							}
