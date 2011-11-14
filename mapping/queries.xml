@@ -1451,7 +1451,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Activity at where
 		at.time between
-		:fromDate and :endDate and at.company=:company
+		:fromDate and :endDate and at.company=:company order by at.time desc
 	</query>
 
 	<query name="get.reconciliations.by.accountId">
