@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+
 import java.util.Date;
 
+
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -87,10 +91,14 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return new Date(object.getTime()).toString();
+				DateTimeFormat datefmt = DateTimeFormat.getFormat(Accounter.getCompany().getPreferences().getDateFormat());
+				String dateformat = datefmt.format(new Date(object.getTime()));
+				 DateTimeFormat timefmt = DateTimeFormat.getFormat("h:mm a");
+				 String timeFormat = timefmt.format(new Date(object.getTime()));
+				return dateformat+" "+timeFormat;
 			}
 		};
-		dateColumn.setSortable(true);
+	//	  dateColumn.setSortable(false);
 
 		TextColumn<ClientActivity> userNameColumn = new TextColumn<ClientActivity>() {
 
