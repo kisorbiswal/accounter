@@ -537,6 +537,9 @@
 			<many-to-one name="depositIn" class="Account" lazy="false"
 				cascade="save-update" column="DEPOSIT_IN_ID">
 			</many-to-one>
+			<many-to-one name="depositFrom" class="Account" lazy="false"
+				cascade="save-update" column="DEPOSIT_FROM_ID">
+			</many-to-one>
 			<many-to-one name="cashBackAccount" class="Account" lazy="false"
 				cascade="save-update" column="CASH_BACK_ACCOUNT_ID">
 			</many-to-one>
