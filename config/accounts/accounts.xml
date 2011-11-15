@@ -1001,7 +1001,7 @@
 			<account type="Income" name="Special Events Contributions" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Speciel Events Sales ( Nongift)" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Program Services fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
-			<account type="Cost Of Goods" name="Cost of Sales - Inventory Sales" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Cost Of Goods Sold" name="Cost of Sales - Inventory Sales" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Awards &amp; Grants" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Benefits Paid To or For members" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Cash Awards &amp; Grants" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
