@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -268,6 +269,11 @@ public abstract class TransactionReceivePaymentTable extends
 			protected String getColumnName() {
 				return Accounter.constants().cashDiscount();
 			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
+			}
 		};
 		this.addColumn(cashDiscountColumn);
 
@@ -291,6 +297,11 @@ public abstract class TransactionReceivePaymentTable extends
 			@Override
 			protected String getColumnName() {
 				return Accounter.constants().writeOff();
+			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
 			}
 		};
 		this.addColumn(writeOffColumn);
@@ -316,11 +327,30 @@ public abstract class TransactionReceivePaymentTable extends
 			protected String getColumnName() {
 				return Accounter.constants().appliedCredits();
 			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
+			}
 		};
 		this.addColumn(appliedCreditsColumn);
 
 		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new AmountColumn<ClientTransactionReceivePayment>(
 				currencyProvider, false) {
+
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientTransactionReceivePayment> context) {
+				TextBoxBase box = (TextBoxBase) widget;
+				String value = getValue(context.getRow());
+				box.setEnabled(isEnable(context.getRow())
+						&& !context.isDesable());
+				box.setText(value);
+			}
+
+			private boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
+			}
 
 			@Override
 			protected String getColumnName() {
@@ -672,6 +702,26 @@ public abstract class TransactionReceivePaymentTable extends
 
 	}
 
+	public void revertCredits() {
+		if (revertedCreditsStack != null && revertedCreditsStack.size() != 0) {
+			Map<Integer, Object> stkCredit = revertedCreditsStack.peek();
+
+			for (Integer indx : stkCredit.keySet()) {
+
+				TempCredit tempCrt = (TempCredit) stkCredit.get(indx);
+				ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
+						.get(indx.intValue());
+				rec.setBalance(rec.getBalance() + tempCrt.getAmountToUse());
+				rec.setRemaoningBalance(rec.getBalance());
+				rec.setAmtTouse(0);
+			}
+			if (creditsStack.contains(stkCredit)) {
+				creditsStack.remove(stkCredit);
+			}
+			revertedCreditsStack.clear();
+		}
+	}
+
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
 			throw new Exception(Accounter.constants()
@@ -850,14 +900,14 @@ public abstract class TransactionReceivePaymentTable extends
 										+ toBeAddCr.getAmountToUse());
 							}
 						}
-					} else {
-						revertedCreditsStack = new Stack<Map<Integer, Object>>();
-						revertedCreditsStack.push(toBeRvrtMap);
 					}
+					revertedCreditsStack = new Stack<Map<Integer, Object>>();
+					revertedCreditsStack.push(toBeRvrtMap);
 				}
 			}
 
 			obj.setCreditsApplied(false);
+			revertCredits();
 		}
 		if (newAppliedCreditsDialiog != null
 				&& newAppliedCreditsDialiog.grid.getRecords().size() == 0)

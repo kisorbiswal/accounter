@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -32,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends
@@ -283,6 +285,11 @@ public abstract class TransactionPayBillTable extends
 			protected String getColumnName() {
 				return Accounter.constants().discount();
 			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionPayBill row) {
+				return selectedValues.contains(indexOf(row));
+			}
 		});
 
 		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
@@ -301,12 +308,31 @@ public abstract class TransactionPayBillTable extends
 			protected String getColumnName() {
 				return Accounter.constants().credits();
 			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionPayBill row) {
+				return selectedValues.contains(indexOf(row));
+			}
 		});
 
 		if (canEdit) {
 
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
 					currencyProvider, true) {
+
+				@Override
+				public void render(IsWidget widget,
+						RenderContext<ClientTransactionPayBill> context) {
+					TextBoxBase box = (TextBoxBase) widget;
+					String value = getValue(context.getRow());
+					box.setEnabled(isEnable(context.getRow())
+							&& !context.isDesable());
+					box.setText(value);
+				}
+
+				private boolean isEnable(ClientTransactionPayBill row) {
+					return selectedValues.contains(indexOf(row));
+				}
 
 				@Override
 				protected String getColumnName() {
@@ -1005,27 +1031,32 @@ public abstract class TransactionPayBillTable extends
 								// }
 							}
 						}
-					} else {
-						/*
-						 * If the there are no selected records,then save these
-						 * reverted credits in a stack.And apply these credits
-						 * when any record selected
-						 */
-						// revertedCreditsStack = new Stack<Map<Integer,
-						// Object>>();
-						// revertedCreditsStack.push(toBeRvrtMap);
-						for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
-							crdt.setBalance(crdt.getActualAmt());
-							crdt.setRemaoningBalance(0);
-							crdt.setAmtTouse(0);
-							getCreditsAndPaymentsDialiog().grid
-									.updateData(crdt);
-						}
 					}
+					// else {
+					// /*
+					// * If the there are no selected records,then save these
+					// * reverted credits in a stack.And apply these credits
+					// * when any record selected
+					// */
+					// // revertedCreditsStack = new Stack<Map<Integer,
+					// // Object>>();
+					// // revertedCreditsStack.push(toBeRvrtMap);
+					// for (ClientCreditsAndPayments crdt :
+					// updatedCustomerCreditsAndPayments) {
+					// crdt.setBalance(crdt.getActualAmt());
+					// crdt.setRemaoningBalance(0);
+					// crdt.setAmtTouse(0);
+					// getCreditsAndPaymentsDialiog().grid
+					// .updateData(crdt);
+					// }
+					// }
+					revertedCreditsStack = new Stack<Map<Integer, Object>>();
+					revertedCreditsStack.push(toBeRvrtMap);
 				}
 			}
 			obj.setTempCredits(null);
 			obj.setCreditsApplied(false);
+			revertCredits();
 		}
 		if (getCreditsAndPaymentsDialiog() != null
 				&& getCreditsAndPaymentsDialiog().grid.getRecords().size() == 0)
@@ -1038,6 +1069,27 @@ public abstract class TransactionPayBillTable extends
 		update(obj);
 		adjustAmountAndEndingBalance();
 		updateFootervalues(obj, canEdit);
+		calculateUnusedCredits();
+	}
+
+	public void revertCredits() {
+		if (revertedCreditsStack != null && revertedCreditsStack.size() != 0) {
+			Map<Integer, Object> stkCredit = revertedCreditsStack.peek();
+
+			for (Integer indx : stkCredit.keySet()) {
+
+				TempCredit tempCrt = (TempCredit) stkCredit.get(indx);
+				ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
+						.get(indx.intValue());
+				rec.setBalance(rec.getBalance() + tempCrt.getAmountToUse());
+				rec.setRemaoningBalance(rec.getBalance());
+				rec.setAmtTouse(0);
+			}
+			if (creditsStack.contains(stkCredit)) {
+				creditsStack.remove(stkCredit);
+			}
+			revertedCreditsStack.clear();
+		}
 	}
 
 	protected abstract void deleteTotalPayment(ClientTransactionPayBill obj);
