@@ -383,4 +383,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getItemStatuses(long wareHouse,
 			AsyncCallback<ArrayList<ClientItemStatus>> callback);
 
+	public void getAccounts(int typeOfAccount,
+			AsyncCallback<ArrayList<ClientAccount>> callBack);
+
 }

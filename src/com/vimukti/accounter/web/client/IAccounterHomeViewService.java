@@ -348,4 +348,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
 			throws AccounterException;
+
+	ArrayList<ClientAccount> getAccounts(int typeOfAccount)
+			throws AccounterException;
 }

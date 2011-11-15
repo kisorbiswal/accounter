@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
@@ -93,7 +94,14 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void initListCallback() {
+		super.initListCallback();
+		Accounter.createHomeService().getAccounts(typeOfAccount, this);
+	}
 
+	@Override
+	public void onSuccess(ArrayList<ClientAccount> result) {
+		listOfAccounts = result;
+		filterList(true);
 	}
 
 	@Override
@@ -107,11 +115,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		grid = new ChartOfAccountsListGrid(false);
 		grid.init();
 		// grid.setHeight("200");
-		if (typeOfAccount == 0)
-			listOfAccounts = getCompany().getAccounts();
-		else
-			listOfAccounts = getCompany().getAccounts(typeOfAccount);
-		filterList(true);
 	}
 
 	@Override

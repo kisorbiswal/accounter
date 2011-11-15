@@ -1698,4 +1698,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				getCompanyId());
 	}
 
+	@Override
+	public ArrayList<ClientAccount> getAccounts(int typeOfAccount)
+			throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getCompanyManager().getAccounts(typeOfAccount,
+				getCompanyId());
+	}
+
 }
