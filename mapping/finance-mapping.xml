@@ -197,15 +197,9 @@
 		<!-- <one-to-many class="PaySalesTaxEntries" /> -->
 		<!-- </set> -->
 
-		<set name="nominalCodeRange" table="COMPANY_NOMINAL_CODE_RANGE"
-			lazy="true" cascade="save-update">
-			<key column="COMPANY_ID" not-null="true" />
-			<composite-element class="NominalCodeRange">
-				<property name="accountSubBaseType" column="ACCOUNT_SUB_BASE_TYPE"
-					not-null="true"></property>
-				<property name="minimum" column="MINIMUM" not-null="true"></property>
-				<property name="maximum" column="MAXIMUM" not-null="true"></property>
-			</composite-element>
+		<set name="nominalCodeRange" cascade="save-update,delete">
+			<key column="COMPANY_ID"/>
+			<one-to-many class="NominalCodeRange" />
 		</set>
 
 		<property name="companyEmailForCustomers" column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
@@ -597,6 +591,16 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="AccounterClass" />
 		</set>
+	</class>
+	
+	<class name="NominalCodeRange" table="NOMINAL_CODE_RANGE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="accountSubBaseType" column="ACCOUNT_SUB_BASE_TYPE"
+					not-null="true"></property>
+		<property name="minimum" column="MINIMUM" not-null="true"></property>
+		<property name="maximum" column="MAXIMUM" not-null="true"></property>
 	</class>
 	<!-- <class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id name="id" 
 		column="ID"> <generator class="identity" /> </id> Company Preferences <property 
@@ -1234,7 +1238,7 @@
 			column="TAX_RETURN">
 		</many-to-one>
 	</class>
-	<class name="ItemBackUp" table="ITEM_BACK_UP">
+<!-- 	<class name="ItemBackUp" table="ITEM_BACK_UP">
 		<id name="id" column="ID">
 			<generator class="identity"></generator>
 		</id>
@@ -1243,7 +1247,7 @@
 			column="INCOME_ACCOUNT_ID"></many-to-one>
 		<many-to-one name="expenseAccount" class="Account" lazy="false"
 			column="EXPENSE_ACCOUNT_ID"></many-to-one>
-	</class>
+	</class> -->
 	<class name="UnitOfMeasure" table="UNIT_OF_MEASURE">
 		<id name="id" column="ID">
 			<generator class="identity" />

@@ -1,5 +1,9 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
@@ -112,6 +116,8 @@ public class Estimate extends Transaction {
 
 	@ReffereredObject
 	private EnterBill enterBill;
+
+	private Invoice oldUsedInvoice;
 
 	public Estimate() {
 		setType(Transaction.TYPE_ESTIMATE);
@@ -324,6 +330,12 @@ public class Estimate extends Transaction {
 	}
 
 	@Override
+	public void onLoad(Session session, Serializable arg1) {
+		super.onLoad(session, arg1);
+		this.oldUsedInvoice = usedInvoice;
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
@@ -409,12 +421,38 @@ public class Estimate extends Transaction {
 	 *            the usedTransaction to set
 	 */
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
-		this.usedInvoice = usedTransaction;
-		if (transactionItems == null) {
-			return;
+		if (this.usedInvoice == null) {
+			this.usedInvoice = usedTransaction;
+			for (TransactionItem item : transactionItems) {
+				item.doCreateEffect(session);
+			}
+		} else if (usedTransaction == null) {
+			this.usedInvoice = null;
+			List<TransactionItem> newItems = new ArrayList<TransactionItem>();
+			try {
+				for (TransactionItem item : transactionItems) {
+					newItems.add(item.clone());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			transactionItems.clear();
+			transactionItems.addAll(newItems);
 		}
-		for (TransactionItem item : transactionItems) {
-			item.doCreateEffect(session);
-		}
+	}
+
+	/**
+	 * @return the oldUsedInvoice
+	 */
+	public Invoice getOldUsedInvoice() {
+		return oldUsedInvoice;
+	}
+
+	/**
+	 * @param oldUsedInvoice
+	 *            the oldUsedInvoice to set
+	 */
+	public void setOldUsedInvoice(Invoice oldUsedInvoice) {
+		this.oldUsedInvoice = oldUsedInvoice;
 	}
 }

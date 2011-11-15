@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -381,10 +380,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE)
 			return false;
 
-		if (!Arrays.asList(Transaction.TYPE_ESTIMATE,
-				Transaction.TYPE_SALES_ORDER, Transaction.TYPE_PURCHASE_ORDER)
-				.contains(this.transaction.getType())) {
-
+		if (shouldUpdateAccounts(true)) {
 			this.transaction.clonedTransactionDate = this.transaction.oldTransaction.transactionDate;
 
 			// double amount = (isPositiveTransaction() ? -1d : 1d)
@@ -499,11 +495,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		 * First take the Back up of the TransactionItem information
 		 */
 		// ItemBackUp itemBackUp = null;
-		if (this.type == TYPE_ITEM) {
-			this.itemBackUp = new ItemBackUp(this);
-			// this.itemBackUpList.add(itemBackUp);
-		}
-		if (shouldUpdateAccounts()) {
+		// if (this.type == TYPE_ITEM) {
+		// this.itemBackUp = new ItemBackUp(this);
+		// // this.itemBackUpList.add(itemBackUp);
+		// }
+		if (shouldUpdateAccounts(false)) {
 			double amount = (isPositiveTransaction() ? 1d : -1d)
 					* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 							- this.VATfraction : this.lineTotal);
@@ -539,10 +535,15 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// ChangeTracker.put(this);
 	}
 
-	private boolean shouldUpdateAccounts() {
+	private boolean shouldUpdateAccounts(boolean whenDeleting) {
 		switch (transaction.getType()) {
 		case Transaction.TYPE_ESTIMATE:
-			return ((Estimate) transaction).getUsedInvoice() != null;
+			Estimate est = (Estimate) transaction;
+			if (whenDeleting) {
+				return est.getUsedInvoice() != est.getOldUsedInvoice();
+			} else {
+				return est.getUsedInvoice() != null;
+			}
 		case Transaction.TYPE_SALES_ORDER:
 			return ((SalesOrder) transaction).getUsedInvoice() != null;
 		case Transaction.TYPE_PURCHASE_ORDER:
@@ -827,6 +828,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	protected TransactionItem clone() throws CloneNotSupportedException {
 		TransactionItem item = (TransactionItem) super.clone();
 		item.setId(0);
+		item.taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
 		return item;
 	}
 

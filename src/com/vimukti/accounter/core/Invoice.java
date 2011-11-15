@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -562,7 +563,9 @@ public class Invoice extends Transaction implements Lifecycle {
 						: Estimate.STATUS_OPEN;
 
 				// }
-				estimate.setUsedInvoice(this, session);
+				if (isCreated) {
+					estimate.setUsedInvoice(invoice, session);
+				}
 				estimate.onUpdate(session);
 				session.saveOrUpdate(estimate);
 			}
@@ -945,12 +948,44 @@ public class Invoice extends Transaction implements Lifecycle {
 			// }
 			this.updateTransactionReceivepayments();
 		}
-		modifySalesOrder(invoice, false);
-		modifySalesOrder(this, true);
-		modifyEstimate(invoice, false);
-		modifyEstimate(this, true);
+		// modifySalesOrder(invoice, false);
+		// modifySalesOrder(this, true);
+		// modifyEstimate(invoice, false);
+		// modifyEstimate(this, true);
+		doUpdateEffectEstiamtes(this, invoice, session);
 		super.onEdit(invoice);
 
+	}
+
+	private void doUpdateEffectEstiamtes(Invoice newInvoice,
+			Invoice oldInvoice, Session session) {
+		List<Estimate> estimatesExistsInOldInvoice = new ArrayList<Estimate>();
+		for (Estimate oldEstiamte : oldInvoice.getEstimates()) {
+			Estimate est = null;
+			for (Estimate newEstimate : newInvoice.getEstimates()) {
+				if (oldEstiamte.getID() == newEstimate.getID()) {
+					est = newEstimate;
+					estimatesExistsInOldInvoice.add(newEstimate);
+					break;
+				}
+			}
+			if (est != null) {
+				est.setUsedInvoice(newInvoice, session);
+			} else {
+				est = (Estimate) session.get(Estimate.class, oldEstiamte.id);
+				est.setUsedInvoice(null, session);
+			}
+			if (est != null) {
+				session.saveOrUpdate(est);
+			}
+		}
+
+		for (Estimate est : newInvoice.getEstimates()) {
+			if (!estimatesExistsInOldInvoice.contains(est)) {
+				est.setUsedInvoice(newInvoice, session);
+				session.saveOrUpdate(est);
+			}
+		}
 	}
 
 	private void updateTransactionReceivepayments() {

@@ -448,7 +448,7 @@
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
-			<many-to-one name="usedInvoice" class="Invoice" lazy="false"
+			<many-to-one name="usedInvoice" class="Invoice"
 				column="USED_INVOICE">
 			</many-to-one>
 		</joined-subclass>
@@ -1027,9 +1027,9 @@
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<many-to-one name="itemBackUp" class="ItemBackUp" cascade="save-update,delete"
+		<!-- <many-to-one name="itemBackUp" class="ItemBackUp" cascade="save-update,delete"
 			lazy="false" column="ITEM_BACK_UP">
-		</many-to-one>
+		</many-to-one> -->
 		<!-- <set name="taxRateCalculationEntriesList" inverse="true" cascade="all-delete-orphan" 
 			lazy="false"> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
 			/> </set> -->
