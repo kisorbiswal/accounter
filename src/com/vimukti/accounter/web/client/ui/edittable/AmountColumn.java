@@ -59,4 +59,11 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 		return Accounter.messages().nameWithCurrency(name, currencyName);
 	}
 
+	
+	protected String getColumnNameWithBaseCurrency(String name)
+	{
+		String formalName = Accounter.getCompany().getPrimaryCurrency().getFormalName();
+		
+		return Accounter.messages().nameWithCurrency(name, formalName);
+	}
 }
