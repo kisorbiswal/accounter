@@ -787,7 +787,7 @@ public class CashPurchaseView extends
 							- lineTotal));
 		}
 		transactionTotalNonEditableText
-				.setAmount(getAmountInBaseCurrency(grandTotal));
+				.setAmount(grandTotal);
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}
