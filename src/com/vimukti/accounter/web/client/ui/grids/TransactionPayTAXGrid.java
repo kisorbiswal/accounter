@@ -67,7 +67,8 @@ public class TransactionPayTAXGrid extends
 		try {
 
 			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString()) + "");
+					.getReformatedAmount(value.toString())
+					+ "");
 			editingRecord.setAmountToPay(payment);
 			updateData(editingRecord);
 
@@ -198,12 +199,17 @@ public class TransactionPayTAXGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
-		for (ClientTransactionPayTAX tax : getSelectedRecords()) {
-			if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
-				result.addError(this, Accounter.constants()
-						.pleaseEnterAmountToPay());
-			}
+		if (getSelectedRecords().size() == 0) {
+			result.addError(this, Accounter.constants()
+					.pleaseSelectAtLeastOneRecord());
+		} else {
+			for (ClientTransactionPayTAX tax : getSelectedRecords()) {
+				if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
+					result.addError(this, Accounter.constants()
+							.pleaseEnterAmountToPay());
+				}
 
+			}
 		}
 		return result;
 	}

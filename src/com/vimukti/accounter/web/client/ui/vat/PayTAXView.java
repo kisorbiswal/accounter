@@ -511,11 +511,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		} else {
 			result.add(grid.validateGrid());
 		}
-		if (!AccounterValidator.isPositiveAmount(totalAmount)) {
-			// FIXME Confirm Object
-			result.addError("TotalAmount", messages
-					.shouldNotbeZero(accounterConstants.amount()));
-		}
 		ClientAccount bankAccount = payFromAccCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
