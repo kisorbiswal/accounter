@@ -97,6 +97,13 @@ public class CurrencyFactorWidget extends DynamicForm {
 		selectedCurrencyItem = clientCurrency;
 		showFactorField(showFactorField);
 	}
+	
+	public void compareCurrency(ClientCurrency clientCurrency1,ClientCurrency clientCurrency2) {
+		setShowFactorField(clientCurrency1.equals(clientCurrency2));
+		selectedCurrencyItem = clientCurrency1;
+		showFactorField(showFactorField);
+		}
+
 
 	public ClientCurrency getSelectedCurrency() {
 		return selectedCurrencyItem;
