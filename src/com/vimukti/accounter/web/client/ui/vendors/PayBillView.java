@@ -620,8 +620,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		DynamicForm textForm = new DynamicForm();
 		textForm.setNumCols(2);
 		textForm.setStyleName("unused-payments");
-		textForm.setFields(unUsedCreditsText, amountToVendor, tdsPayableAmount,
-				amountLableBase);
+		if (!isInViewMode()) {
+			textForm.setFields(unUsedCreditsText, amountToVendor,
+					tdsPayableAmount, amountLableBase);
+		} else {
+			textForm.setFields(amountToVendor, tdsPayableAmount,
+					amountLableBase);
+		}
 		if (isMultiCurrencyEnabled())
 			textForm.setFields(amountLabelForeign);
 		if (!getPreferences().isTDSEnabled()) {
