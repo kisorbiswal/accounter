@@ -39,6 +39,10 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	 */
 	@ReffereredObject
 	Account cashBackAccount;
+	
+	
+	Account depositFrom;
+
 
 	/**
 	 * Description for Cash Back Memo
@@ -100,6 +104,12 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			this.cashBackAccount.onUpdate(session);
 
 		}
+		
+		depositIn.updateCurrentBalance(this, -this.total, this.currencyFactor);
+		session.save(depositIn);
+		depositFrom.updateCurrentBalance(this, this.total, this.currencyFactor);
+		session.save(depositFrom);
+		
 		return false;
 	}
 
@@ -138,7 +148,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	@Override
 	public Account getEffectingAccount() {
-		return this.depositIn;
+		return null;
 	}
 
 	@Override
@@ -205,6 +215,15 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	public Payee getInvolvedPayee() {
 		return null;
 	}
+	
+	public Account getDepositFrom() {
+		return depositFrom;
+	}
+
+	public void setDepositFrom(Account depositFrom) {
+		this.depositFrom = depositFrom;
+	}
+	 
 
 	public boolean equals(MakeDeposit obj) {
 		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn
@@ -237,36 +256,52 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		MakeDeposit makeDeposit = (MakeDeposit) clonedObject;
 
-		if ((this.isVoid() && !makeDeposit.isVoid())
+		if ((this.isVoid && !makeDeposit.isVoid)
 				|| (this.isDeleted() && !makeDeposit.isDeleted())) {
 			this.doVoidEffect(session);
 
 		} else {
-			Account depositInAccount = (Account) session.get(Account.class,
-					makeDeposit.depositIn.id);
-			depositInAccount.updateCurrentBalance(this, makeDeposit.total,
-					currencyFactor);
-			depositInAccount.onUpdate(session);
-
-			// makeDeposit.doVoidEffect(session);
-			cleanTransactionMakeDeposits(makeDeposit);
-
-			this.onSave(session);
+			if (!this.depositIn.equals(makeDeposit.depositIn)
+					|| !DecimalUtil.isEquals(this.total,
+							makeDeposit.total)) {
+				Account depositInAccount = (Account) session.get(Account.class,
+						makeDeposit.depositIn.id);
+				depositInAccount.updateCurrentBalance(this,
+						makeDeposit.total,
+						makeDeposit.currencyFactor);
+				depositInAccount.onUpdate(session);
+				session.saveOrUpdate(depositInAccount);
+				
+				this.depositIn.updateCurrentBalance(this, -this.total,
+						this.currencyFactor);
+				this.depositIn.onUpdate(session);
+				session.saveOrUpdate(this.depositIn);
+			}
+			if (!this.depositFrom.equals(makeDeposit.depositFrom)
+					|| !DecimalUtil.isEquals(this.total,
+							makeDeposit.total)) {
+				Account depositFromAccount = (Account) session.get(Account.class,
+						makeDeposit.depositFrom.id);
+				depositFromAccount.updateCurrentBalance(this,
+						-makeDeposit.total,
+						makeDeposit.currencyFactor);
+				depositFromAccount.onUpdate(session);
+				session.saveOrUpdate(depositFromAccount);
+				
+				this.depositFrom.updateCurrentBalance(this, this.total,
+						this.currencyFactor);
+				this.depositFrom.onUpdate(session);
+				session.saveOrUpdate(this.depositFrom);
+			}
 		}
-
 		super.onEdit(makeDeposit);
 	}
 
 	private void doVoidEffect(Session session) {
-		for (TransactionMakeDeposit transactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposit.setIsVoid(true);
-			transactionMakeDeposit.onUpdate(session);
-		}
-	}
-
-	private void cleanTransactionMakeDeposits(MakeDeposit makeDeposit) {
-		if (makeDeposit.getTransactionMakeDeposit() != null)
-			makeDeposit.transactionMakeDeposit.clear();
+		depositIn.updateCurrentBalance(this, this.total, this.currencyFactor);
+		session.save(depositIn);
+		depositFrom.updateCurrentBalance(this, -this.total, this.currencyFactor);
+		session.save(depositFrom);
 	}
 
 	@Override
