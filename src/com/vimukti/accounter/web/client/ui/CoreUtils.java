@@ -2080,7 +2080,16 @@ public class CoreUtils {
 		List<ClientCurrency> returnedList = new ArrayList<ClientCurrency>();
 		returnedList.addAll(existCurrencies);
 		for (int i = 0; i < currencies.length; i++) {
-			if (!existCurrencies.contains(currencies[i])) {
+			boolean isExists = false;
+			ClientCurrency clientCurrency = currencies[i];
+			for (ClientCurrency currency : existCurrencies) {
+				if (clientCurrency.getFormalName().endsWith(
+						currency.getFormalName())) {
+					isExists = true;
+					break;
+				}
+			}
+			if (!isExists) {
 				returnedList.add(currencies[i]);
 			}
 		}
