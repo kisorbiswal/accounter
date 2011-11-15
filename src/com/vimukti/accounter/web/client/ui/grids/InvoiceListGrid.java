@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -10,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -18,7 +20,8 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
-
+	public static AccounterErrors accounterErrors = (AccounterErrors) GWT
+			.create(AccounterErrors.class);
 	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public InvoiceListGrid() {
@@ -61,9 +64,11 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 6:
 			return invoicesList.getNetAmount();
 		case 7:
-			return DataUtils.amountAsStringWithCurrency(invoicesList.getTotalPrice(), currency);
+			return DataUtils.amountAsStringWithCurrency(invoicesList
+					.getTotalPrice(), currency);
 		case 8:
-			return DataUtils.amountAsStringWithCurrency(invoicesList.getBalance(), currency);
+			return DataUtils.amountAsStringWithCurrency(invoicesList
+					.getBalance(), currency);
 		case 9:
 
 			if (!invoicesList.isVoided())
@@ -102,15 +107,20 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	public void onDoubleClick(InvoicesList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(),
-					obj.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 	}
 
 	protected void onClick(InvoicesList obj, int row, int col) {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 9 && !obj.isVoided()) {
-			showWarningDialog(obj, col);
+			if (obj.getType() == ClientTransaction.TYPE_INVOICE
+					&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
+							.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
+				Accounter.showError(accounterErrors.billPaidSoYouCantVoid());
+			} else
+				showWarningDialog(obj, col);
 		}
 		// else if (col == 9) {
 		// if (!isDeleted)
@@ -168,8 +178,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	}
 
 	protected void voidTransaction(final InvoicesList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getTransactionId());
 	}
 
 	protected void deleteTransaction(final InvoicesList obj) {
