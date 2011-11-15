@@ -545,7 +545,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				return est.getUsedInvoice() != null;
 			}
 		case Transaction.TYPE_SALES_ORDER:
-			return ((SalesOrder) transaction).getUsedInvoice() != null;
+			SalesOrder order = ((SalesOrder) transaction);
+			if (whenDeleting) {
+				return order.getUsedInvoice() != order.getOldUsedInvoice();
+			} else {
+				return order.getUsedInvoice() != null;
+			}
 		case Transaction.TYPE_PURCHASE_ORDER:
 			return ((PurchaseOrder) transaction).getUsedBill() != null;
 		default:

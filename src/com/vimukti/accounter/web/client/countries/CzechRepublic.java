@@ -16,7 +16,7 @@ public class CzechRepublic extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "CSK";
+		return "CZK";
 	}
 
 	@Override

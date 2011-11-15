@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.countries;
 
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Macao extends AbstractCountryPreferences {
+public class Macau extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {

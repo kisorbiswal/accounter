@@ -643,12 +643,15 @@ public class Invoice extends Transaction implements Lifecycle {
 		invoice.payments = invoice.total;
 		invoice.balanceDue = 0.0;
 
-		modifyEstimate(invoice, false);
+		for (Estimate estimate : invoice.getEstimates()) {
+			estimate.setUsedInvoice(null, session);
+			session.saveOrUpdate(estimate);
+		}
 
-		modifySalesOrder(invoice, false);
-		// if (invoice.salesOrder != null) {
-		// invoice.salesOrder.status = Transaction.STATUS_CANCELLED;
-		// }
+		for (SalesOrder salesOrder : invoice.getSalesOrders()) {
+			salesOrder.setUsedInvoice(null, session);
+			session.saveOrUpdate(salesOrder);
+		}
 
 	}
 
@@ -947,13 +950,45 @@ public class Invoice extends Transaction implements Lifecycle {
 			// modifyEstimate(this, true);
 			// }
 			this.updateTransactionReceivepayments();
+			doUpdateEffectEstiamtes(this, invoice, session);
+			doUpdateEffectSalesOrder(this, invoice, session);
 		}
-		// modifySalesOrder(invoice, false);
-		// modifySalesOrder(this, true);
-		// modifyEstimate(invoice, false);
-		// modifyEstimate(this, true);
-		doUpdateEffectEstiamtes(this, invoice, session);
+
 		super.onEdit(invoice);
+
+	}
+
+	private void doUpdateEffectSalesOrder(Invoice newInvoice,
+			Invoice oldInvoice, Session session) {
+
+		List<SalesOrder> salesOrdersExistsInOldInvoice = new ArrayList<SalesOrder>();
+		for (SalesOrder oldEstiamte : oldInvoice.getSalesOrders()) {
+			SalesOrder salesOrder = null;
+			for (SalesOrder newSalesOrder : newInvoice.getSalesOrders()) {
+				if (oldEstiamte.getID() == newSalesOrder.getID()) {
+					salesOrder = newSalesOrder;
+					salesOrdersExistsInOldInvoice.add(newSalesOrder);
+					break;
+				}
+			}
+			if (salesOrder != null) {
+				salesOrder.setUsedInvoice(newInvoice, session);
+			} else {
+				salesOrder = (SalesOrder) session.get(SalesOrder.class,
+						oldEstiamte.id);
+				salesOrder.setUsedInvoice(null, session);
+			}
+			if (salesOrder != null) {
+				session.saveOrUpdate(salesOrder);
+			}
+		}
+
+		for (SalesOrder salesOrder : newInvoice.getSalesOrders()) {
+			if (!salesOrdersExistsInOldInvoice.contains(salesOrder)) {
+				salesOrder.setUsedInvoice(newInvoice, session);
+				session.saveOrUpdate(salesOrder);
+			}
+		}
 
 	}
 
