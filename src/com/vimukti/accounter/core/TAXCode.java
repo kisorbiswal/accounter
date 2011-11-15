@@ -278,18 +278,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		return true;
 	}
 
-	@Override
-	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public double getSalesTaxRate() {
 		return salesTaxRate;
 	}
