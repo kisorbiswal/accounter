@@ -690,6 +690,10 @@ public abstract class Transaction extends CreatableObject implements
 		super.onSave(session);
 		doCreateEffect(session);
 		addCreateHistory();
+		if (currency == null) {
+			currency = getCompany().getPrimaryCurrency();
+			currencyFactor = 1;
+		}
 		return false;
 	}
 
