@@ -43,6 +43,7 @@ import com.vimukti.accounter.core.CloneUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.FinanceDate;
@@ -81,6 +82,7 @@ import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -2642,8 +2644,60 @@ public class FinanceTool {
 			}
 		}
 	}
-	
-	public HashMap<String, String> getKeyAndValues(long clientId){
+
+	public boolean setApprove(int id, boolean isApproved) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getLocalMessageById")
+					.setParameter("id", id);
+			LocalMessage localMessage = (LocalMessage) query.uniqueResult();
+
+			if (localMessage == null) {
+				return false;
+			}
+
+			localMessage.setApproved(isApproved);
+
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			session.saveOrUpdate(localMessage);
+			transaction.commit();
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private long updatePrimaryCurrency(long companyId, ClientCurrency currency)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Currency existingCurrency = company.getCurrency(currency
+				.getFormalName());
+		if (existingCurrency == null) {
+			existingCurrency = new Currency();
+			existingCurrency = new ServerConvertUtil().toServerObject(
+					existingCurrency, currency, session);
+			existingCurrency.setCompany(company);
+			session.save(existingCurrency);
+		}
+		company.getPreferences().setPrimaryCurrency(existingCurrency);
+		Query query = session
+				.getNamedQuery("update.primay.currency.in.company")
+				.setParameter("companyId", companyId)
+				.setParameter("currencyId", existingCurrency.getID());
+		query.executeUpdate();
+		return existingCurrency.getID();
+	}
+
+	public HashMap<String, String> getKeyAndValues(long clientId) {
 		return null;
 	}
 }

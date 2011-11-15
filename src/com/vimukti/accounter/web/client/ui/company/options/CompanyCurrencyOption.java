@@ -75,6 +75,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 		if (getCompany().hasOtherCountryCurrency()) {
 			isEnableMultiCurrencyCheckBox.setEnabled(false);
 		}
+		setEnable(false);
 	}
 
 	@Override
@@ -119,4 +120,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 				isEnableMultiCurrencyCheckBox.getValue());
 	}
 
+	public void setEnable(boolean isEnable) {
+		primaryCurrencyListBox.setEnabled(isEnable);
+	}
 }

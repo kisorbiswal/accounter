@@ -6392,6 +6392,13 @@
 		GROUP BY T.ID,TI.ID;
 
 	</sql-query>
+	
+	<sql-query name="update.primay.currency.in.company">
+		<query-param name="companyId" type="long" />
+		<query-param name="currencyId" type="long" />
+		UPDATE TRANSACTION SET CURRENCY=:currencyId WHERE COMPANY_ID=:companyId;
+		UPDATE ACCOUNT SET ACCOUNT_CURRENCY=:currencyId WHERE COMPANY_ID=:companyId;
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

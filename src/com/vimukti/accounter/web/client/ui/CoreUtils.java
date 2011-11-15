@@ -1968,7 +1968,8 @@ public class CoreUtils {
 			new ClientCurrency("French Polynesia", "XPF", "FF"),
 			new ClientCurrency("Swedish Krona", "SEK", "kr"),
 			new ClientCurrency("Czech koruna", "CZK", "Kč"),
-			new ClientCurrency("West African CFA franc", "XOF", "Kč") };
+			new ClientCurrency("West African CFA franc", "XOF", "Kč"),
+			new ClientCurrency("Macanese pataca", "MOP", "MOP$") };
 
 	/*
 	 * private static String[] currencyNames = new String[] {
