@@ -1606,5 +1606,11 @@
 		<query-param name="companyId" type="long"/>
 		from com.vimukti.accounter.core.StockAdjustment st where st.company.id=:companyId
 	</query>
+	
+	<query name="getAccountsOfType">
+		<query-param name="companyId" type="long"/>
+		<query-param name="type" type="int"/>
+		from com.vimukti.accounter.core.Account a where a.type=:type and a.company.id =:companyId
+	</query>
 
 </hibernate-mapping>
