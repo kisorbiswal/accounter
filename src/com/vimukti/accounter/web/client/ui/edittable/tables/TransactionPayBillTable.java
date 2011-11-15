@@ -102,7 +102,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 98;
 				}
 
 				@Override
@@ -137,7 +137,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public int getWidth() {
-				return 80;
+				return 65;
 			}
 
 			@Override
@@ -153,7 +153,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 133;
 				}
 
 				@Override
@@ -163,7 +163,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().originalAmount();
+					return getColumnNameWithCurrency(Accounter.constants().originalAmount());
 				}
 
 				@Override
@@ -193,7 +193,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountDue();
+					return getColumnNameWithCurrency(Accounter.constants().amountDue());
 				}
 
 				@Override
@@ -290,6 +290,8 @@ public abstract class TransactionPayBillTable extends
 			protected boolean isEnable(ClientTransactionPayBill row) {
 				return selectedValues.contains(indexOf(row));
 			}
+
+			
 		});
 
 		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
@@ -313,6 +315,8 @@ public abstract class TransactionPayBillTable extends
 			protected boolean isEnable(ClientTransactionPayBill row) {
 				return selectedValues.contains(indexOf(row));
 			}
+
+			
 		});
 
 		if (canEdit) {
@@ -336,7 +340,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().payments();
+					return getColumnNameWithBaseCurrency(Accounter.constants().payments());
 				}
 
 				@Override
