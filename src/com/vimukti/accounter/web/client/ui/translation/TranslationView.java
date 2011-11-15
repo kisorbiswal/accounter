@@ -28,6 +28,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private VerticalPanel dataPanel, mainPanel;
 	private CustomTranslationPager pager;
 	private boolean haveRecords;
+	public boolean hasMoreRecords;
 
 	public TranslationView() {
 		super();
@@ -115,45 +116,21 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 			Accounter.createTranslateService().getMessages(
 					languageCombo.getSelectedValue().getLanguageTooltip(),
 					getStatus(optionsCombo.getSelectedValue()),
-					pager.getStart(), pager.getRange(),
+					pager.getStart(), pager.getRange() + 1,
 					new AsyncCallback<ArrayList<ClientMessage>>() {
 
 						@Override
 						public void onSuccess(ArrayList<ClientMessage> result) {
 							if (result.size() != 0) {
-								if (dataPanel != null) {
-									mainPanel.remove(dataPanel);
-									dataPanel = new VerticalPanel();
-								}
-
-								dataPanel.addStyleName("translated-result");
-								pager.setData(result);
-								pager.setRange(result.size());
-								pager.updateRange();
-								pager.setVisible(true);
+								result = setCorrectResult(result);
+								createNewDataPanel();
+								pager.updateData(result);
 								for (int i = 0; i < result.size(); i++) {
-									MessagePanel messagePanel = new MessagePanel(
-											TranslationView.this, languageCombo
-													.getSelectedValue()
-													.getLanguageTooltip(),
-											result.get(i));
-									dataPanel.add(messagePanel);
+									addMessageToMessagePanel(result.get(i));
 								}
-								mainPanel.add(dataPanel);
 							} else {
 								if (!isHaveRecords()) {
-									if (dataPanel != null) {
-										mainPanel.remove(dataPanel);
-										dataPanel = new VerticalPanel();
-									}
-									dataPanel.addStyleName("translated-result");
-									Label error = new Label(
-											AccounterWarningType.RECORDSEMPTY);
-									dataPanel.add(error);
-									dataPanel.setCellHorizontalAlignment(error,
-											HasAlignment.ALIGN_CENTER);
-									mainPanel.add(dataPanel);
-									pager.setVisible(false);
+									addEmptyMsg();
 								}
 							}
 						}
@@ -166,6 +143,40 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 					});
 
 		}
+	}
+
+	protected ArrayList<ClientMessage> setCorrectResult(
+			ArrayList<ClientMessage> result) {
+		if (result.size() == pager.getRange() + 1) {
+			hasMoreRecords = true;
+			result.remove(pager.getRange());
+		} else {
+			hasMoreRecords = false;
+		}
+		return result;
+	}
+
+	protected void addMessageToMessagePanel(ClientMessage result) {
+		MessagePanel messagePanel = new MessagePanel(this, languageCombo
+				.getSelectedValue().getLanguageTooltip(), result);
+		dataPanel.add(messagePanel);
+	}
+
+	protected void addEmptyMsg() {
+		createNewDataPanel();
+		Label error = new Label(AccounterWarningType.RECORDSEMPTY);
+		dataPanel.add(error);
+		dataPanel.setCellHorizontalAlignment(error, HasAlignment.ALIGN_CENTER);
+		pager.setVisible(false);
+	}
+
+	protected void createNewDataPanel() {
+		if (dataPanel != null) {
+			mainPanel.remove(dataPanel);
+			dataPanel = new VerticalPanel();
+		}
+		mainPanel.add(dataPanel);
+		dataPanel.addStyleName("translated-result");
 	}
 
 	private int getStatus(String statusMessage) {

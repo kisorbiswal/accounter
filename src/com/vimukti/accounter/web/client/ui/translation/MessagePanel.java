@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -154,6 +155,41 @@ public class MessagePanel extends VerticalPanel {
 
 			}
 		});
+		final ImageButton non_approveImageButton = new ImageButton(Accounter
+				.getFinanceImages().blackTick());
+		final ImageButton approveImageButton = new ImageButton(Accounter
+				.getFinanceImages().greenTick());
+		final FlowPanel approvePanel = new FlowPanel();
+
+		if (clientLocalMessage.isApproved()) {
+			approvePanel.add(approveImageButton);
+		} else {
+			approvePanel.add(non_approveImageButton);
+		}
+
+		non_approveImageButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Accounter.createTranslateService().setApprove(
+						clientLocalMessage.getId(), true,
+						new AsyncCallback<Boolean>() {
+
+							@Override
+							public void onSuccess(Boolean result) {
+								if (result) {
+									approvePanel.remove(non_approveImageButton);
+									approvePanel.add(approveImageButton);
+								}
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+
+							}
+						});
+			}
+		});
 
 		Label upVotesLengthLabel = new Label(String.valueOf(clientLocalMessage
 				.getUps()));
@@ -172,6 +208,7 @@ public class MessagePanel extends VerticalPanel {
 
 		votesPanel.add(upVotesPanel);
 		votesPanel.add(downVotesPanel);
+		votesWithMsgPanel.add(approvePanel);
 		votesWithMsgPanel.add(votesPanel);
 		votesWithMsgPanel.add(messageLabel);
 		votesPanel.setSpacing(4);
@@ -188,6 +225,8 @@ public class MessagePanel extends VerticalPanel {
 		votesWithMsgPanel.setCellWidth(votesPanel, "12%");
 		votesWithMsgPanel.addStyleName("votes-message-panel");
 		votesPanel.addStyleName("votes_panel");
+		approvePanel.getElement().getParentElement()
+				.addClassName("approve-img");
 
 		return votesWithMsgPanel;
 	}

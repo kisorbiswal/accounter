@@ -2562,4 +2562,34 @@ public class FinanceTool {
 			}
 		}
 	}
+	
+	public boolean setApprove(int id, boolean isApproved) {
+		  Session session = null;
+		  try {
+		   session = HibernateUtil.openSession();
+
+		   Query query = session.getNamedQuery("getLocalMessageById")
+		     .setParameter("id", id);
+		   LocalMessage localMessage = (LocalMessage) query.uniqueResult();
+
+		   if (localMessage == null) {
+		    return false;
+		   }
+
+		   localMessage.setApproved(isApproved);
+
+		   org.hibernate.Transaction transaction = session.beginTransaction();
+		   session.saveOrUpdate(localMessage);
+		   transaction.commit();
+
+		   return true;
+		  } catch (Exception e) {
+		   e.printStackTrace();
+		   return false;
+		  } finally {
+		   if (session != null) {
+		    session.close();
+		   }
+		  }
+		 }
 }

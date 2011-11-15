@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.server.translate;
 import java.util.ArrayList;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.Status;
 import com.vimukti.accounter.web.client.translate.TranslateService;
@@ -58,6 +57,15 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 			return false;
 		}
 		return new FinanceTool().addVote(localMessageId, up, userEmail);
+	}
+
+	@Override
+	public boolean setApprove(int localMessageId, boolean isApprove) {
+		String userEmail = getUserEmail();
+		if (userEmail == null) {
+			return false;
+		}
+		return new FinanceTool().setApprove(localMessageId, isApprove);
 	}
 
 	protected String getUserEmail() {

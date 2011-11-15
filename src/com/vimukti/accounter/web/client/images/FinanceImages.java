@@ -233,4 +233,10 @@ public interface FinanceImages extends ClientBundle {
 	
 	@Source("arrow_right.png")
 	ImageResource rightArrow();
+	
+	@Source("green_tick.jpg")
+	ImageResource greenTick();
+	
+	@Source("black_tick.jpg")
+	ImageResource blackTick();
 }

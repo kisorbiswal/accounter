@@ -1659,3 +1659,7 @@ input.date-field-textbox{
     font-weight: bold;
     padding: 2px 9px 0;
 }
+.approve-img {
+	vertical-align: middle !important;
+	width: 1%;	
+}

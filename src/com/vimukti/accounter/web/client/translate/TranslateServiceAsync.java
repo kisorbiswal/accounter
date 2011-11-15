@@ -19,4 +19,7 @@ public interface TranslateServiceAsync {
 	void getMessages(String lang, int status, int from, int to,
 			AsyncCallback<ArrayList<ClientMessage>> callback);
 
+	public void setApprove(int localMessageId, boolean isApprove,
+			AsyncCallback<Boolean> callback);
+
 }
