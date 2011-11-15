@@ -417,7 +417,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		} else {
 			accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+			accInfoForm.setFields(accTypeSelect, accNameText,
 					statusBox);
 			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		}
