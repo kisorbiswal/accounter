@@ -116,10 +116,16 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			String vatRegistrationNumber = invoice.getCustomer()
 					.getVATRegistrationNumber();
 
-			if (company.getCountryPreferences().isVatAvailable() && company.getPreferences().isTrackTax()) {
-			t.setVariable("customerVATNumber", vatRegistrationNumber == null ? " "
-					: vatRegistrationNumber);
-			t.addBlock("customerVat");
+			if (company.getCountryPreferences().isVatAvailable()
+					&& company.getPreferences().isTrackTax()) {
+
+				String val = vatRegistrationNumber == null ? " "
+						: vatRegistrationNumber;
+
+				if (val.trim().length() > 0) {
+					t.setVariable("customerVATNumber", val);
+					t.addBlock("customerVat");
+				}
 			}
 
 			// for getting customer contact name
