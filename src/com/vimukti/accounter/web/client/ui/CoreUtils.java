@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientLanguage;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
 
 /**
  * @author Prasanna Kumar G
