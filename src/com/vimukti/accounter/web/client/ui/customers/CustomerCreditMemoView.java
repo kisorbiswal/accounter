@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CustomerCreditMemoView extends
@@ -274,7 +273,7 @@ public class CustomerCreditMemoView extends
 		if (isTrackTax()) {
 			prodAndServiceForm2.setFields(netAmountLabel,
 					taxTotalNonEditableText);
-			if (isTaxPerDetailLine()) {
+			if (!isTaxPerDetailLine()) {
 				form.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		}
@@ -755,8 +754,7 @@ public class CustomerCreditMemoView extends
 		}
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrency(getCompany().getCurrency(
-					customer.getCurrency()));
+			super.setCurrency(getCompany().getCurrency(customer.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
