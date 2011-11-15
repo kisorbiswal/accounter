@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -105,14 +106,7 @@ public class CreditCardChargeView extends
 
 	}
 
-	// public CreditCardChargeView(CreditCardCharge creditCardChargeTaken) {
-	// // this.creditCardChargeTaken = creditCardChargeTaken;
-	//
-	// // addpayFromAccountsList();
-	// // addVendorsList();
-	// // createControls();
-	// super(creditCardChargeTaken);
-	// }
+
 
 	protected void addPhonesContactsAndAddress() {
 		Set<ClientAddress> allAddress = new HashSet<ClientAddress>();
@@ -241,7 +235,6 @@ public class CreditCardChargeView extends
 			setMemoTextAreaItem(((ClientCreditCardCharge) transaction)
 					.getMemo());
 		}
-		// refText.setValue(creditCardChargeTaken.getReference());
 
 	}
 
@@ -272,13 +265,11 @@ public class CreditCardChargeView extends
 			resetElements();
 			initpayFromAccountCombo();
 		} else {
-
 			if (currencyWidget != null) {
 				this.currency = getCompany().getCurrency(
 						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setSelectedCurrency(this.currency);
-				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
@@ -309,8 +300,8 @@ public class CreditCardChargeView extends
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
 			transactionTotalTransactionCurrencyText
-			.setAmount(getAmountInTransactionCurrency(transaction
-					.getTotal()));
+					.setAmount(transaction
+							.getTotal());
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -442,6 +433,20 @@ public class CreditCardChargeView extends
 						contactCombo.setDisabled(false);
 						addPhonesContactsAndAddress();
 						initContacts(selectItem);
+
+						ClientCurrency clientCurrency = getCompany()
+								.getCurrency(selectedVendor.getCurrency());
+						currencyWidget.setSelectedCurrency(clientCurrency);
+
+						String formalName = currencyWidget
+								.getSelectedCurrency().getFormalName();
+
+						if (isMultiCurrencyEnabled()) {
+							setCurrency(clientCurrency);
+							setCurrencyFactor(1.0);
+							updateAmountsFromGUI();
+							modifyForeignCurrencyTotalWidget();
+						}
 					}
 
 				});
@@ -535,9 +540,9 @@ public class CreditCardChargeView extends
 		netAmount.setDisabled(true);
 
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
-		
+
 		transactionTotalTransactionCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
-		
+
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
 		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
@@ -660,9 +665,9 @@ public class CreditCardChargeView extends
 		if (isTrackTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalBaseCurrencyText);
-			if(isMultiCurrencyEnabled())
+			if (isMultiCurrencyEnabled())
 				totalForm.setFields(transactionTotalTransactionCurrencyText);
-			
+
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -679,20 +684,10 @@ public class CreditCardChargeView extends
 			bottompanel.add(vPanel);
 			bottompanel.add(botPanel);
 
-			// totalForm.setFields(netAmount, vatTotalNonEditableText,
-			// transactionTotalNonEditableText);
-			// // botPanel.add(memoForm);
-			// botPanel.add(vPanel);
-			// botPanel.add(vatCheckform);
-			// botPanel.setCellHorizontalAlignment(vatCheckform,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-			// botPanel.add(totalForm);
-			// botPanel.setCellHorizontalAlignment(totalForm,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalBaseCurrencyText);
-			if(isMultiCurrencyEnabled())
-				totalForm.setFields(transactionTotalTransactionCurrencyText);
+			if (isMultiCurrencyEnabled())
+				totForm.setFields(transactionTotalTransactionCurrencyText);
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
@@ -708,11 +703,9 @@ public class CreditCardChargeView extends
 		}
 
 		leftVLay = new VerticalPanel();
-		// leftVLay.setWidth("80%");
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightHLay = new VerticalPanel();
-		// rightHLay.setWidth("80%");
 		rightHLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		rightHLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
@@ -733,13 +726,8 @@ public class CreditCardChargeView extends
 		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
 
 		VerticalPanel vLay1 = new VerticalPanel();
-		// vLay1.add(lab2);
-		// vLay1.add(addButton);
-		// multi currency combo
 		vLay1.add(accountsDisclosurePanel);
 		vLay1.add(itemsDisclosurePanel);
-		// vLay1.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -772,6 +760,10 @@ public class CreditCardChargeView extends
 					transaction.getPayFrom()));
 		}
 		settabIndexes();
+		
+		if(isMultiCurrencyEnabled()){
+			modifyForeignCurrencyTotalWidget();
+		}
 	}
 
 	// protected void payFromMethodSelected(Account account2) {
@@ -886,21 +878,15 @@ public class CreditCardChargeView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
+		transactionTotalBaseCurrencyText
+				.setAmount(grandTotal);
+		transactionTotalTransactionCurrencyText
+				.setAmount(getAmountInTransactionCurrency(grandTotal));
 		if (isTrackTax()) {
-			transactionTotalBaseCurrencyText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
-			transactionTotalTransactionCurrencyText
-			.setAmount(getAmountInTransactionCurrency(grandTotal));
-			
 			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
-		} else {
-			transactionTotalBaseCurrencyText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
-			transactionTotalTransactionCurrencyText
-			.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 	}
 
@@ -1138,7 +1124,20 @@ public class CreditCardChargeView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
+		this.vendorItemTransactionTable.updateAmountsFromGUI();
+		this.vendorAccountTransactionTable.updateAmountsFromGUI();
 
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			transactionTotalTransactionCurrencyText.hide();
+		} else {
+			transactionTotalTransactionCurrencyText.show();
+			transactionTotalTransactionCurrencyText.setTitle(Accounter
+					.messages().currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
 	}
 }
