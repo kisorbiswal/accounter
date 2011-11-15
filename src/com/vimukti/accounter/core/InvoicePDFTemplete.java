@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * this class is used to generate Invoice report in PDF format
@@ -110,6 +111,16 @@ public class InvoicePDFTemplete implements PrintTemplete {
 							.trim());
 					t.addBlock("currency");
 				}
+
+			// for customer VAT Registration Number
+			String vatRegistrationNumber = invoice.getCustomer()
+					.getVATRegistrationNumber();
+
+			if (company.getCountryPreferences().isVatAvailable() && company.getPreferences().isTrackTax()) {
+			t.setVariable("customerVATNumber", vatRegistrationNumber == null ? " "
+					: vatRegistrationNumber);
+			t.addBlock("customerVat");
+			}
 
 			// for getting customer contact name
 			String cname = "";
@@ -232,10 +243,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 			}
 
-			
 			double currencyFactor = invoice.getCurrencyFactor();
-			
-			
+
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
@@ -248,11 +257,12 @@ public class InvoicePDFTemplete implements PrintTemplete {
 							.getQuantity().getValue(), null, maxDecimalPoints));
 				}
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
-						.getUnitPrice()/currencyFactor));
-				String totalPrice = largeAmountConversation(item.getLineTotal()/currencyFactor);
+						.getUnitPrice() / currencyFactor));
+				String totalPrice = largeAmountConversation(item.getLineTotal()
+						/ currencyFactor);
 
 				String vatAmount = getDecimalsUsingMaxDecimals(
-						item.getVATfraction()/currencyFactor, null, 2);
+						item.getVATfraction() / currencyFactor, null, 2);
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -278,30 +288,34 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 				t.addBlock("invoiceRecord");
 			}
-			
-			
+
 			// for displaying sub total, vat total, total
-			String subtotal = largeAmountConversation(invoice.getNetAmount()/currencyFactor);
+			String subtotal = largeAmountConversation(invoice.getNetAmount()
+					/ currencyFactor);
 			if (company.getPreferences().isTrackTax()) {
 				t.setVariable("NetAmount", "Net Amount");
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable("vatlabel", "Tax ");
-					t.setVariable("vatTotal",
-							largeAmountConversation((invoice.getTaxTotal()/currencyFactor)));
+					t.setVariable(
+							"vatTotal",
+							largeAmountConversation((invoice.getTaxTotal() / currencyFactor)));
 					t.addBlock("VatTotal");
 				}
 			}
 
-			String total = largeAmountConversation(invoice.getTotal()/currencyFactor);
+			String total = largeAmountConversation(invoice.getTotal()
+					/ currencyFactor);
 			t.setVariable("total", total);
 			t.setVariable("blankText", invoice.getMemo());
 
 			t.setVariable("payment",
-					largeAmountConversation(invoice.getPayments()/currencyFactor));
+					largeAmountConversation(invoice.getPayments()
+							/ currencyFactor));
 			t.setVariable("balancedue",
-					largeAmountConversation(invoice.getBalanceDue()/currencyFactor));
+					largeAmountConversation(invoice.getBalanceDue()
+							/ currencyFactor));
 			t.addBlock("itemDetails");
 
 			t.setVariable("dueDate", invoice.getDueDate().toString());
