@@ -8,7 +8,7 @@ public class ClientLocalMessage implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int id;
+	long id;
 
 	String value;
 
@@ -20,11 +20,11 @@ public class ClientLocalMessage implements Serializable {
 
 	boolean isApproved;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

@@ -14,28 +14,18 @@ public class ClientMessage implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int id;
-
-	String key;
+	long id;
 
 	String value;
 
 	ArrayList<ClientLocalMessage> localMessages;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
 	}
 
 	public String getValue() {

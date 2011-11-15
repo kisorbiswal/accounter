@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import com.vimukti.accounter.web.client.core.ClientLanguage;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 

@@ -8,9 +8,10 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="message" column="MESSAGE_ID" class="Message"></many-to-one>
+		<many-to-one name="message" column="MESSAGE_ID" class="Message"
+			not-null="true"></many-to-one>
 		<property name="lang" column="LANGUAGE"></property>
-		<property name="value" unique="true" column="VALUE"></property>
+		<property name="value" column="VALUE"></property>
 		<property name="ups" column="UPS" type="int"></property>
 		<property name="downs" column="DOWNS" type="int"></property>
 		<property name="isApproved" column="IS_APPROVED"></property>
@@ -20,17 +21,26 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 	</class>
 
-	<class name="Message" table="MESSAGE">
+	<class name="Key" table="KEY">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<property name="key" column="KEY"></property>
-		<property name="value" column="VALUE"></property>
-		<property name="version" column="VERSION" type="int"></property>
+	</class>
+
+	<class name="Message" table="MESSAGE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="value" unique="true" column="VALUE"></property>
 		<property name="isNotUsed" column="IS_NOT_USED"></property>
 		<set name="localMessages" lazy="false" inverse="true">
 			<key column="MESSAGE_ID" />
 			<one-to-many class="LocalMessage" />
+		</set>
+		<set name="keys" table="KEY_MESSAGES" lazy="false" cascade="all">
+			<key column="MESSAGE_ID"></key>
+			<many-to-many column="KEY_ID" class="Key" />
 		</set>
 	</class>
 
@@ -45,25 +55,22 @@
 			class="com.vimukti.accounter.core.Client"></many-to-one>
 	</class>
 
+	<class name="Language" table="LANGUAGE">
+		<id name="code" column="CODE"></id>
+		<property name="name" column="NAME"></property>
+		<property name="tooltip" column="TOOLTIP"></property>
+	</class>
+
 	<query name="getMessageById">
-		<query-param name="id" type="int" />
+		<query-param name="id" type="long" />
 		from com.vimukti.accounter.web.server.translate.Message m where
 		m.id=:id
 	</query>
 
 	<query name="getLocalMessageById">
-		<query-param name="id" type="int" />
+		<query-param name="id" type="long" />
 		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
 		lm.id=:id
-	</query>
-
-	<query name="getLocalMessageByClient">
-		<query-param name="clientId" type="long" />
-		<query-param name="messageId" type="int" />
-		<query-param name="lang" type="string" />
-		from com.vimukti.accounter.web.server.translate.LocalMessage
-		lm where lm.createdBy.id=:clientId and lm.message.id=:messageId and
-		lm.lang=:lang
 	</query>
 
 	<query name="getVoteByClientId">
@@ -73,48 +80,23 @@
 		v.client.id=:clientId and v.localMessage.id=:localMessageId
 	</query>
 
-	<query name="getLocalMessages">
-		<query-param name="messageId" type="int" />
-		<query-param name="lang" type="string" />
-		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
-		lm.message.id=:messageId and lm.lang=:lang
-	</query>
+	<!-- <query name="getLocalMessages"> <query-param name="messageId" type="int" 
+		/> <query-param name="lang" type="string" /> from com.vimukti.accounter.web.server.translate.LocalMessage 
+		lm where lm.message.id=:messageId and lm.lang=:lang </query> -->
 
-	<sql-query name="getNextMessageId">
-		<query-param name="lastMessageId" type="int" />
-		<return-scalar column="ID" type="int" />
-		<return-scalar column="TOT" type="int" />
-		SELECT
-		M.ID,
-		COUNT(LM.ID) AS TOT
-		FROM MESSAGE M
-		LEFT JOIN LOCAL_MESSAGE
-		LM
-		ON M.ID=LM.MESSAGE_ID
-		WHERE M.ID!=:lastMessageId
-		GROUP BY M.ID ORDER BY
-		TOT LIMIT 1;
-	</sql-query>
+	<!-- <sql-query name="getNextMessageId"> <query-param name="lastMessageId" 
+		type="int" /> <return-scalar column="ID" type="int" /> <return-scalar column="TOT" 
+		type="int" /> SELECT M.ID, COUNT(LM.ID) AS TOT FROM MESSAGE M LEFT JOIN LOCAL_MESSAGE 
+		LM ON M.ID=LM.MESSAGE_ID WHERE M.ID!=:lastMessageId GROUP BY M.ID ORDER BY 
+		TOT LIMIT 1; </sql-query> -->
 
-	<sql-query name="getNoOfMessagesTranslatedByLang">
-		<query-param name="lang" type="string" />
-		SELECT COUNT(*) AS ROWCOUNT
-		FROM
-		(SELECT LM.MESSAGE_ID FROM
-		LOCAL_MESSAGE LM
-		WHERE LM.LANGUAGE=:lang GROUP BY
-		LM.MESSAGE_ID ) AS T ;
-	</sql-query>
-
-	<sql-query name="getNoOfMessagesApprovedByLang">
-		<query-param name="lang" type="string" />
-		SELECT COUNT(*) AS ROWCOUNT
-		FROM
-		(SELECT LM.MESSAGE_ID FROM
-		LOCAL_MESSAGE LM
-		WHERE LM.LANGUAGE=:lang AND LM.IS_APPROVED = TRUE
-		GROUP BY LM.MESSAGE_ID ) AS T ;
-	</sql-query>
+	<!-- <sql-query name="getNoOfMessagesTranslatedByLang"> <query-param name="lang" 
+		type="string" /> SELECT COUNT(*) AS ROWCOUNT FROM (SELECT LM.MESSAGE_ID FROM 
+		LOCAL_MESSAGE LM WHERE LM.LANGUAGE=:lang GROUP BY LM.MESSAGE_ID ) AS T ; 
+		</sql-query> <sql-query name="getNoOfMessagesApprovedByLang"> <query-param 
+		name="lang" type="string" /> SELECT COUNT(*) AS ROWCOUNT FROM (SELECT LM.MESSAGE_ID 
+		FROM LOCAL_MESSAGE LM WHERE LM.LANGUAGE=:lang AND LM.IS_APPROVED = TRUE GROUP 
+		BY LM.MESSAGE_ID ) AS T ; </sql-query> -->
 
 	<sql-query name="getNoOfMessages">
 		SELECT COUNT(*) FROM MESSAGE;
@@ -125,9 +107,16 @@
 		com.vimukti.accounter.web.server.translate.Message m where m.id != 0
 	</query>
 
+	<query name="getKeys">
+		from
+		com.vimukti.accounter.web.server.translate.Key k
+		where k.id != 0
+	</query>
+
 	<sql-query name="getMessagesByLimit">
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
+		<return-scalar column="ID" type="long" />
 		SELECT M.ID FROM MESSAGE M LIMIT :limt OFFSET :fm
 	</sql-query>
 
@@ -135,10 +124,13 @@
 		<query-param name="lang" type="string" />
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
-		<return-scalar column="ID" type="int" />
-		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE
+		<return-scalar column="ID" type="long" />
+		SELECT M.ID FROM MESSAGE M WHERE(SELECT COUNT(*) FROM
+		LOCAL_MESSAGE
 		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 LIMIT :limt OFFSET
+		WHERE
+		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0
+		LIMIT :limt OFFSET
 		:fm
 	</sql-query>
 
@@ -147,20 +139,28 @@
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		<query-param name="clientId" type="long" />
-		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE
+		<return-scalar column="ID" type="long" />
+		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
+		LOCAL_MESSAGE
 		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.CLIENT=:clientId)=1 LIMIT :limt OFFSET :fm
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
+		AND
+		LM.CLIENT=:clientId)=1 LIMIT
+		:limt OFFSET :fm
 	</sql-query>
 
 	<sql-query name="getApprovedMessages">
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		<query-param name="lang" type="string" />
-		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE
+		<return-scalar column="ID" type="long" />
+		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
+		LOCAL_MESSAGE
 		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE)=0 LIMIT :limt OFFSET :fm
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
+		AND
+		LM.IS_APPROVED=TRUE)=0 LIMIT
+		:limt OFFSET :fm
 	</sql-query>
 
 </hibernate-mapping>

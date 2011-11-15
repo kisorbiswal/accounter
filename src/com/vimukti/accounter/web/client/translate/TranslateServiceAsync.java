@@ -6,20 +6,20 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface TranslateServiceAsync {
 
-	void getStatus(AsyncCallback<ArrayList<Status>> callback);
+	// void getStatus(AsyncCallback<ArrayList<Status>> callback);
 
 	// void getNext(String lang, int lastMessageId,
 	// AsyncCallback<ClientMessage> callback);
 
-	void addTranslation(int id, String lang, String value,
+	void addTranslation(long id, String lang, String value,
 			AsyncCallback<Boolean> callback);
 
-	void vote(int localMessageId, boolean up, AsyncCallback<Boolean> callback);
+	void vote(long localMessageId, boolean up, AsyncCallback<Boolean> callback);
 
 	void getMessages(String lang, int status, int from, int to,
 			AsyncCallback<ArrayList<ClientMessage>> callback);
 
-	public void setApprove(int localMessageId, boolean isApprove,
+	public void setApprove(long localMessageId, boolean isApprove,
 			AsyncCallback<Boolean> callback);
 
 }

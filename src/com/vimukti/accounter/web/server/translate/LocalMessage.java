@@ -12,7 +12,7 @@ public class LocalMessage implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int id;
+	long id;
 
 	Message message;
 
@@ -30,20 +30,20 @@ public class LocalMessage implements Serializable {
 
 	Date createdDate;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setMessage(Message message) {
+		this.message = message;
 	}
 
 	public Message getMessage() {
 		return message;
 	}
 
-	public void setMessage(Message message) {
-		this.message = message;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getLang() {

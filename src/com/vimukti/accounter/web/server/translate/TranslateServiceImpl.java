@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
-import com.vimukti.accounter.web.client.translate.Status;
 import com.vimukti.accounter.web.client.translate.TranslateService;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -17,14 +16,14 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1L;
 	private static final String EMAIL_ID = "emailId";
 
-	@Override
-	public ArrayList<Status> getStatus() {
-		String userEmail = getUserEmail();
-		if (userEmail == null) {
-			return null;
-		}
-		return new FinanceTool().getTranslationStatus();
-	}
+	// @Override
+	// public ArrayList<Status> getStatus() {
+	// String userEmail = getUserEmail();
+	// if (userEmail == null) {
+	// return null;
+	// }
+	// return new FinanceTool().getTranslationStatus();
+	// }
 
 	// @Override
 	// public ClientMessage getNext(String lang, int lastMessageId) {
@@ -42,7 +41,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	// }
 
 	@Override
-	public boolean addTranslation(int id, String lang, String value) {
+	public boolean addTranslation(long id, String lang, String value) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
 			return false;
@@ -51,7 +50,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public boolean vote(int localMessageId, boolean up) {
+	public boolean vote(long localMessageId, boolean up) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
 			return false;
@@ -60,7 +59,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public boolean setApprove(int localMessageId, boolean isApprove) {
+	public boolean setApprove(long localMessageId, boolean isApprove) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
 			return false;
