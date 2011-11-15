@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -80,17 +81,24 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	public void onSave(boolean reopen) {
-		ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();
 
-		ClientTAXReturn selection = grid.getSelection();
+	
+		List<ClientTAXReturn> selectedRecords = grid.getSelectedRecords();
+
+		List<ClientTransactionPayTAX> payTaxEntriesList = new ArrayList<ClientTransactionPayTAX>();
+		ClientTransactionPayTAX payTAXEntry = null;
+		for (ClientTAXReturn taxReturn : selectedRecords) {
+			payTAXEntry = new ClientTransactionPayTAX();
+			payTAXEntry.setTaxDue(taxReturn.getBalance());
+			payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
+			payTAXEntry.setVatReturn(taxReturn.getID());
+			payTaxEntriesList.add(payTAXEntry);
+		}
+
 		ClientPayTAX clientPayTAX = new ClientPayTAX();
-		clientTransactionPayTAX.setTaxAgency(selection.getTaxAgency());
-		clientTransactionPayTAX.setTaxDue(selection.getBalance());
-		List<ClientTransactionPayTAX> data = new ArrayList<ClientTransactionPayTAX>();
-		data.add(clientTransactionPayTAX);
-		clientPayTAX.setTransactionPayTax(data);
-		// TODO
-		// ActionFactory.getpayTAXAction().run(clientPayTAX, true);
+		clientPayTAX.setTransactionPayTax(payTaxEntriesList);
+
+		ActionFactory.getpayTAXAction().run(clientPayTAX, true);
 	}
 
 	private void initComboItems() {
