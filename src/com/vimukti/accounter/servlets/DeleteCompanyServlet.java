@@ -39,6 +39,12 @@ public class DeleteCompanyServlet extends BaseServlet {
 			return;
 		}
 		String companyId = req.getParameter(COMPANY_ID);
+		setOptions(req, companyId, emailID);
+		dispatch(req, resp, deleteCompanyView);
+	}
+
+	private void setOptions(HttpServletRequest req, String companyId,
+			String emailID) {
 		boolean canDeleteFromSingle = true, canDeleteFromAll = true;
 		Session hibernateSession = HibernateUtil.openSession();
 		try {
@@ -70,24 +76,32 @@ public class DeleteCompanyServlet extends BaseServlet {
 		req.setAttribute("canDeleteFromSingle", canDeleteFromSingle);
 		req.setAttribute("canDeleteFromAll", canDeleteFromAll);
 		req.getSession().setAttribute(COMPANY_ID, companyId);
-		dispatch(req, resp, deleteCompanyView);
+
 	}
 
 	/**
 	 * @param req
 	 * @param resp
 	 * @throws IOException
+	 * @throws ServletException
 	 */
 	private void deleteComapny(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+			throws IOException, ServletException {
 		final String email = (String) req.getSession().getAttribute(EMAIL_ID);
 
 		String message = "";
 
 		final String companyID = (String) req.getSession().getAttribute(
 				COMPANY_ID);
-		final boolean deleteAllUsers = req.getParameter("delete").equals(
-				"deleteAllUsers");
+		String delete = req.getParameter("delete");
+		if (delete == null) {
+			req.setAttribute("message", "Please select the option.");
+			setOptions(req, companyID, email);
+			dispatch(req, resp, deleteCompanyView);
+			return;
+		}
+
+		final boolean deleteAllUsers = delete.equals("deleteAllUsers");
 		final HttpSession httpSession = req.getSession();
 		new Thread(new Runnable() {
 
