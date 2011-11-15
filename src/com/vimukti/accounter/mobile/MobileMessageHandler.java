@@ -159,9 +159,11 @@ public class MobileMessageHandler extends Thread {
 
 		if (command == null && !session.isAuthenticated()) {
 			command = new AuthenticationCommand();
-			userMessage.setOriginalMsg("");// To know it is first
-			message = "";
-			userMessage.setCommandString("");
+			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
+				userMessage.setOriginalMsg("");// To know it is first
+				message = "";
+				userMessage.setCommandString("");
+			}
 		}
 		if (command == null) {
 			long companyId = session.getCompanyID();
