@@ -288,14 +288,8 @@ public class ReceiveVATView extends
 	}
 
 	private void calculateEndingBalance() {
-
 		if (selectedDepositInAccount != null) {
-
-			if (selectedDepositInAccount.isIncrease())
 				endingBalance = initialEndingBalance + totalAmount;
-			else
-				endingBalance = initialEndingBalance - totalAmount;
-
 			endingBalanceText.setValue(DataUtils
 					.getAmountAsString(endingBalance));
 
