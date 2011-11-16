@@ -20,7 +20,7 @@
 		<property name="number" column="NUMBER"></property>
 		<property name="isVoid" column="IS_VOID"></property>
 		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo" type="text" column="MEMO"></property>
 		<property name="reference" column="REFERENCE"></property>
 		<property name="subTotal" column="SUB_TOTAL"></property>
 		<property name="totalTaxableAmount" column="TOTAL_TAXABLE_AMOUNT"></property>
@@ -1056,7 +1056,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo"  type="text" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
 		<property name="balanceInPayeeCurrency" column="BALANCE_IN_PAYYE_CURRENCY"></property>
@@ -1080,7 +1080,7 @@
 		</id>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo"  type="text" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
 		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
 			lazy="false" cascade="save-update" column="TRANSACTION_RECEIVE_PAYMENT_ID">
@@ -1247,7 +1247,7 @@
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
 		<property name="name" column="NAME"></property>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo"  type="text" column="MEMO"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
