@@ -517,6 +517,9 @@
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
 		<alias>Create Customer Refund</alias>
 		<alias>Add Customer Refund</alias>
+		<alias>Edit Customer Refund</alias>
+		<alias>Update Customer Refund</alias>
+		<alias>Modify Customer Refund</alias>
 	</command>
 
 	<command clazz="NewBankAccountCommand" name="New BankAccount">

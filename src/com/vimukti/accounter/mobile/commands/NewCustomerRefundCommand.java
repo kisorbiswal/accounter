@@ -25,7 +25,6 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -34,23 +33,62 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
+	ClientCustomerRefund customerRefund;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Customer Refunds List";
+			}
+			ClientCustomerRefund transactionByNum = (ClientCustomerRefund) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (transactionByNum == null) {
+				return "Customer Refunds List " + string;
+			}
+			customerRefund = transactionByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			customerRefund = new ClientCustomerRefund();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(DATE).setValue(customerRefund.getDate());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(customerRefund.getPayTo(),
+						AccounterCoreType.CUSTOMER));
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(customerRefund.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(PAYMENT_METHOD).setValue(customerRefund.getPaymentMethod());
+		get(AMOUNT).setValue(customerRefund.getTotal());
+		get(TO_BE_PRINTED).setValue(customerRefund.getIsToBePrinted());
+		get(CHEQUE_NO).setValue(customerRefund.getCheckNumber());
+		get(CURRENCY_FACTOR).setValue(customerRefund.getCurrencyFactor());
+		get(MEMO).setValue(customerRefund.getMemo());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(
-				getMessages().customerRefund(Global.get().Customer()));
+		return customerRefund.getID() == 0 ? getMessages().create(
+				getMessages().customerRefund(Global.get().Customer()))
+				: "Update Customer Refund command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-
-		return getMessages().readyToCreate(
-				getMessages().customerRefund(Global.get().Customer()));
+		return customerRefund.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().customerRefund(Global.get().Customer()))
+				: "Customer Refund is ready to update with following details";
 	}
 
 	@Override
@@ -68,14 +106,14 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-
-		return getMessages().createSuccessfully(
-				getMessages().customerRefund(Global.get().Customer()));
+		return customerRefund.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().customerRefund(Global.get().Customer()))
+				: getMessages().updateSuccessfully(
+						getMessages().customerRefund(Global.get().Customer()));
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -274,8 +312,6 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientCustomerRefund customerRefund = new ClientCustomerRefund();
 		ClientFinanceDate date = get(DATE).getValue();
 		Customer clientcustomer = get(CUSTOMER).getValue();
 		Account account = get(PAY_FROM).getValue();
@@ -320,15 +356,12 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
 			enteredBalance = 0D;
 		}
-		ClientAccount depositIn = (ClientAccount) CommandUtils
-				.getClientObjectById(refund.getPayFrom(),
-						AccounterCoreType.ACCOUNT, getCompanyId());
-//		if (depositIn.isIncrease()) {
-//			refund.setEndingBalance(depositIn.getTotalBalance()
-//					- enteredBalance);
-//		} else {
-//			refund.setEndingBalance(depositIn.getTotalBalance()
-//					+ enteredBalance);
-//		}
+		// if (depositIn.isIncrease()) {
+		// refund.setEndingBalance(depositIn.getTotalBalance()
+		// - enteredBalance);
+		// } else {
+		// refund.setEndingBalance(depositIn.getTotalBalance()
+		// + enteredBalance);
+		// }
 	}
 }
