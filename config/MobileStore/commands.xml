@@ -389,10 +389,13 @@
 		<alias>Create Cash Sale</alias>
 	</command>
 
-	<command clazz="NewCreditCardChargeCommond" name="New CreditcardCharge">
+	<command clazz="NewCreditCardChargeCommand" name="New CreditcardCharge">
 		<alias>Credit Card Charge</alias>
 		<alias>Create Credit Card Charge</alias>
 		<alias>Add Credit Card Charge</alias>
+		<alias>Create Credit Card Charge</alias>
+		<alias>Edit Credit Card Charge</alias>
+		<alias>Update Credit Card Charge</alias>
 	</command>
 
 	<command clazz="NewCreditCardExpenseCommand" name="New CreditCardExpense">
@@ -417,7 +420,7 @@
 		<alias>Modify Cash Expense</alias>
 	</command>
 
-	<command clazz="NewMakeDepositCommond" name="New MakeDeposit">
+	<command clazz="NewMakeDepositCommand" name="New MakeDeposit">
 		<alias>Make Deposit</alias>
 		<alias>Add Make Deposit</alias>
 		<alias>New Transfer Funds</alias>
@@ -427,7 +430,7 @@
 		<alias>Deposits / Transfer Fund</alias>
 	</command>
 
-	<command clazz="NewLocationCommond" name="New Location">
+	<command clazz="NewLocationCommand" name="New Location">
 		<alias>Location</alias>
 		<alias>Create Location</alias>
 	</command>
@@ -447,7 +450,7 @@
 		<alias>Vedor Credit</alias>
 	</command>
 
-	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
+	<command clazz="NewShippingMethodCommand" name="New Shipping Method">
 		<alias>Shipping Method</alias>
 		<alias>Create ShippingMethods</alias>
 		<alias>Create Shipping Method</alias>
