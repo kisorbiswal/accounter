@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
@@ -34,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
@@ -49,7 +49,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
  */
 public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
-	private ArrayList<ClientTransactionPayBill> records;
 	ArrayList<PayBillTransactionList> billsList = new ArrayList<PayBillTransactionList>();
 
 	@Override
@@ -94,7 +93,6 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Vendor value) {
-						records = null;
 					}
 				}) {
 
@@ -295,62 +293,19 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				.billsToPay()) {
 
 			@Override
-			protected List<ClientTransactionPayBill> getList() {
-				return getTransactionPayBills((Vendor) NewPayBillCommand.this
-						.get(VENDOR).getValue());
+			protected List<PayBillTransactionList> getList() {
+				try {
+					return new FinanceTool().getVendorManager()
+							.getTransactionPayBills(
+									((Vendor) NewPayBillCommand.this
+											.get(VENDOR).getValue()).getID(),
+									getCompany().getID());
+				} catch (DAOException e) {
+					e.printStackTrace();
+				}
+				return billsList;
 			}
 		});
-	}
-
-	private List<ClientTransactionPayBill> getTransactionPayBills(
-			Vendor clinetVendor) {
-		if (records != null) {
-			return records;
-		}
-		try {
-			billsList = new FinanceTool().getVendorManager()
-					.getTransactionPayBills(clinetVendor.getID(),
-							clinetVendor.getCompany().getID());
-
-			if (billsList != null) {
-				records = new ArrayList<ClientTransactionPayBill>();
-				for (PayBillTransactionList curntRec : billsList) {
-					ClientTransactionPayBill record = new ClientTransactionPayBill();
-					if (curntRec.getType() == ClientTransaction.TYPE_ENTER_BILL) {
-						record.setEnterBill(curntRec.getTransactionId());
-					}
-					record.setAmountDue(curntRec.getAmountDue());
-
-					record.setDummyDue(curntRec.getAmountDue());
-
-					record.setBillNumber(curntRec.getBillNumber());
-
-					record.setCashDiscount(curntRec.getCashDiscount());
-
-					record.setAppliedCredits(curntRec.getCredits());
-
-					record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-							.getDiscountDate().getDate() : 0);
-
-					record.setDueDate(curntRec.getDueDate() != null ? curntRec
-							.getDueDate().getDate() : 0);
-
-					record.setOriginalAmount(curntRec.getOriginalAmount());
-
-					// record.setPayment(curntRec.getPayment());
-					ClientPayee vendor = CommandUtils
-							.getPayeeByName(clinetVendor.getCompany(),
-									curntRec.getVendorName());
-					if (vendor != null)
-						record.setVendor(vendor.getID());
-					records.add(record);
-				}
-				return records;
-			}
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	protected List<ClientCreditsAndPayments> getVendorCreditsAndPayments(
@@ -424,13 +379,15 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 								AccounterCoreType.TAXITEM, getCompanyId()));
 			}
 		}
-		List<ClientTransactionPayBill> paybills = get(BILLS_DUE).getValue();
-		for (ClientTransactionPayBill p : paybills) {
+		List<PayBillTransactionList> paybills = get(BILLS_DUE).getValue();
+		List<ClientTransactionPayBill> transactionPayBills = getTransactionPayBills(
+				paybills, context);
+		for (ClientTransactionPayBill p : transactionPayBills) {
 			p.setAmountDue(p.getAmountDue());
 			p.setPayBill(paybill);
 		}
 
-		paybill.setTransactionPayBill(paybills);
+		paybill.setTransactionPayBill(transactionPayBills);
 		Double totalCredits = 0D;
 		for (ClientCreditsAndPayments credit : getVendorCreditsAndPayments(
 				vendor.getID(), context.getCompany().getId())) {
@@ -438,18 +395,55 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		}
 		paybill.setUnUsedCredits(totalCredits);
 
-		adjustAmountAndEndingBalance(paybill, context);
+		adjustAmountAndEndingBalance(paybill, transactionPayBills, context);
 		create(paybill, context);
 
 		return null;
 	}
 
+	private List<ClientTransactionPayBill> getTransactionPayBills(
+			List<PayBillTransactionList> paybills, Context context) {
+		List<ClientTransactionPayBill> clientTransactionPayBills = new ArrayList<ClientTransactionPayBill>();
+		for (PayBillTransactionList curntRec : paybills) {
+
+			ClientTransactionPayBill record = new ClientTransactionPayBill();
+			if (curntRec.getType() == ClientTransaction.TYPE_ENTER_BILL) {
+				record.setEnterBill(curntRec.getTransactionId());
+			}
+			record.setAmountDue(curntRec.getAmountDue());
+
+			record.setDummyDue(curntRec.getAmountDue());
+
+			record.setBillNumber(curntRec.getBillNumber());
+
+			record.setCashDiscount(curntRec.getCashDiscount());
+
+			record.setAppliedCredits(curntRec.getCredits());
+
+			record.setDiscountDate(curntRec.getDiscountDate().getDate());
+
+			record.setDueDate(curntRec.getDueDate() != null ? curntRec
+					.getDueDate().getDate() : 0);
+
+			record.setOriginalAmount(curntRec.getOriginalAmount());
+
+			// record.setPayment(curntRec.getPayment());
+			Payee vendor = get(VENDOR).getValue();
+			if (vendor != null)
+				record.setVendor(vendor.getID());
+			clientTransactionPayBills.add(record);
+
+		}
+		return clientTransactionPayBills;
+
+	}
+
 	private void adjustAmountAndEndingBalance(ClientPayBill transaction,
-			Context context) {
-		List<ClientTransactionPayBill> selectedRecords = get(BILLS_DUE)
-				.getValue();
+			List<ClientTransactionPayBill> transactionPayBills, Context context) {
+		// List<ClientTransactionPayBill> selectedRecords = get(BILLS_DUE)
+		// .getValue();
 		double toBeSetAmount = 0.0;
-		for (ClientTransactionPayBill rec : selectedRecords) {
+		for (ClientTransactionPayBill rec : transactionPayBills) {
 			toBeSetAmount += rec.getPayment();
 
 		}
