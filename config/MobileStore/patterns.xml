@@ -19,7 +19,7 @@
 		<output>
 			<command>Bank Accounts</command>
 			<command>Create Bank Account</command>
-			<command>Deposits / Transfer Funds</command>
+			<command>Deposits and Transfer Funds</command>
 		</output>
 	</pattern>
 
