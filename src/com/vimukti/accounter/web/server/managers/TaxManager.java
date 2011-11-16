@@ -1162,9 +1162,9 @@ public class TaxManager extends Manager {
 					newEntry.setGrassAmount(newEntry.getTaxAmount()
 							+ newEntry.getNetAmount());
 					newEntry.setTransaction(transactionID);
-					newEntry.setTransactionType((Integer) objects[1]);
-					newEntry.setTransactionDate((Long) objects[2]);
-					newEntry.setTaxItem((Long) objects[6]);
+					newEntry.setTransactionType((Integer) objects[3]);
+					newEntry.setTransactionDate((Long) objects[4]);
+					newEntry.setTaxItem((Long) objects[5]);
 					newEntry.setTaxAgency(taxAgency);
 					newEntry.setTAXGroupEntry(false);
 					resultTAXReturnEntries.add(newEntry);
@@ -1182,7 +1182,7 @@ public class TaxManager extends Manager {
 				newEntry.setTransaction((Long) entry[0]);
 				newEntry.setTransactionType((Integer) entry[1]);
 				newEntry.setTransactionDate((Long) entry[2]);
-				newEntry.setTaxItem((Long) entry[6]);
+				newEntry.setTaxItem((Long) entry[5]);
 				newEntry.setTaxAgency(taxAgency);
 				newEntry.setTAXGroupEntry(false);
 				resultTAXReturnEntries.add(newEntry);

@@ -2975,7 +2975,8 @@ public class ReportManager extends Manager {
 				if (transactionID == transaction) {
 					newEntry = new TAXItemDetail();
 					newEntry.setFiledTAXAmount((Double) entry[5]);
-					newEntry.setTaxAmount(taxAmount - (Double) entry[5]);
+					double amount = taxAmount - (Double) entry[5];
+					newEntry.setTaxAmount(amount >= 0 ? amount : -1 * amount);
 					newEntry.setNetAmount(netAmount - (Double) entry[6]);
 					newEntry.setTotal(newEntry.getTaxAmount()
 							+ newEntry.getNetAmount());
@@ -2993,7 +2994,8 @@ public class ReportManager extends Manager {
 					iterator.remove();
 				}
 			}
-			if (newEntry == null) {
+			if (newEntry == null && (Boolean) entry[4]
+					&& (Double) entry[5] != 0) {
 				newEntry = new TAXItemDetail();
 				newEntry.setFiledTAXAmount((Double) entry[5]);
 				newEntry.setTaxAmount(0);
