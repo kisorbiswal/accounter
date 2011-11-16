@@ -724,7 +724,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	protected void vendorSelected(final ClientVendor vendor) {
 
-		vendorCurrency = getCurrency(vendor.getCurrency());
+		long currency = vendor.getCurrency();
+		if (currency != 0) {
+			vendorCurrency = getCurrency(currency);
+		} else {
+			vendorCurrency = getCompany().getPrimaryCurrency();
+		}
 
 		endBalText.setCurrency(vendorCurrency);
 
