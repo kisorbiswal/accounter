@@ -166,6 +166,7 @@ public class TransactionAccountTableRequirement extends
 			get(TAXCODE).setDefaultValue(
 					CommandUtils.getServerObjectById(obj.getTaxCode(),
 							AccounterCoreType.TAX_CODE));
+			get(TAX).setDefaultValue(false);
 		} else {
 			get(TAX).setDefaultValue(obj.isTaxable());
 		}

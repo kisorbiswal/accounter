@@ -31,7 +31,7 @@ public abstract class PurchaseOrderListRequirements extends
 		Record rec = new Record(value);
 		if (value.getType() == ClientTransaction.TYPE_PURCHASE_ORDER) {
 			rec.add("", getConstants().purchaseOrder());
-			rec.add("", value.getBalance());
+			rec.add("", value.getPurchasePrice());
 		}
 		return rec;
 	}
