@@ -2591,20 +2591,6 @@
 		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
-	<!-- <sql-query name="canDeleteTaxAgency"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="TAX_CODE_ID" type="long" /> <return-scalar column="TAX_RATE_CALCULATION_ID" 
-		type="long" /> <return-scalar column="PAY_SALES_TAX_ID" type="long" /> <return-scalar 
-		column="WRITE_CHECK_ID" type="long" /> <return-scalar column="TRANSACTION_PAYSALESTAX_ID" 
-		type="long" /> <return-scalar column="PAYSALESTAXENTRIES_ID" type="long" 
-		/> SELECT TC.ID AS TAX_CODE_ID, TRC.ID AS TAX_RATE_CALCULATION_ID, PST.ID 
-		AS PAY_SALES_TAX_ID, WC.ID AS WRITE_CHECK_ID, TPS.ID AS TRANSACTION_PAYSALESTAX_ID, 
-		PSE.ID AS PAYSALESTAXENTRIES_ID FROM TAXAGENCY TA LEFT OUTER JOIN TAXCODE 
-		TC ON TA.ID= TC.TAXAGENCY_ID LEFT OUTER JOIN TAX_RATE_CALCULATION TRC ON 
-		TA.ID = TRC.TAXAGENCY_ID LEFT OUTER JOIN PAY_SALES_TAX PST ON TA.ID = PST.TAX_AGENCY_ID 
-		LEFT OUTER JOIN WRITE_CHECKS WC ON TA.ID = WC.TAX_AGENCY_ID LEFT OUTER JOIN 
-		TRANSACTION_PAY_SALES_TAX TPS ON TA.ID = TPS.TAX_AGENCY_ID LEFT OUTER JOIN 
-		PAY_SALES_TAX_ENTRIES PSE ON TC.ID = PSE.TAXCODE_ID LEFT OUTER JOIN VAT_RETURN 
-		VR ON TA.ID = VAT_AGENCY WHERE TA.ID=:inputId LIMIT 1 </sql-query> -->
 
 	<sql-query name="canDeleteAccount">
 		<query-param name="inputId" type="long" />
@@ -2867,35 +2853,7 @@
 		:inputId AND I.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
-	<!-- <sql-query name="canDeleteTAXItem"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="TAXGROUP_ID" type="long" /> <return-scalar column="TAX_RATE_CALCULATION_ID" 
-		type="long" /> SELECT TG.ID AS TAXGROUP_ID, TRC.ID AS TAX_RATE_CALCULATION_ID 
-		FROM TAX_ITEM TI LEFT OUTER JOIN TAX_GROUP_TAX_ITEM TGTI ON TGTI.TAX_ITEM_ID 
-		= TI.ID LEFT OUTER JOIN TAX_GROUP TG ON TG.ID = TGTI.TAX_GROUP_ID LEFT OUTER 
-		JOIN TAX_RATE_CALCULATION TRC ON TRC.TAX_ITEM_ID = TI.ID WHERE TI.ID =:inputId 
-		LIMIT 1 </sql-query> -->
 
-	<!-- <sql-query name="canDeleteTaxCode"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="TAXGROUP_ID" type="long" /> <return-scalar column="TAX_RATE_CALCULATION_ID" 
-		type="long" /> <return-scalar column="ENTRY_ID" type="long" /> <return-scalar 
-		column="TRANSACTION_ITEM_ID" type="long" /> <return-scalar column="TRANSACTION_PAY_SALES_TAX_ID" 
-		type="long" /> <return-scalar column="PAY_SALES_TAX_ENTRIES_ID" type="long" 
-		/> SELECT TG.ID AS TAXGROUP_ID, TRC.ID AS TAX_RATE_CALCULATION_ID, E.ID AS 
-		ENTRY_ID, TI.ID AS TRANSACTION_ITEM_ID, TPS.ID AS TRANSACTION_PAY_SALES_TAX_ID, 
-		PSTE.ID AS PAY_SALES_TAX_ENTRIES_ID FROM TAXCODE TC LEFT OUTER JOIN TAXGROUP_TAXCODE 
-		TT ON TC.ID = TT.TAXCODE_ID LEFT OUTER JOIN TAXGROUP TG ON TG.ID= TT.TAXGROUP_ID 
-		LEFT OUTER JOIN TAX_RATE_CALCULATION TRC ON TC.ID = TRC.TAX_CODE_ID LEFT 
-		OUTER JOIN ENTRY E ON TC.ID= E.TAXCODE_ID LEFT OUTER JOIN TRANSACTION_ITEM 
-		TI ON TC.ID = TI.TAXCODE_ID LEFT OUTER JOIN TRANSACTION_PAY_SALES_TAX TPS 
-		ON TC.ID= TPS.TAX_CODE_ID LEFT OUTER JOIN PAY_SALES_TAX_ENTRIES PSTE ON TC.ID= 
-		PSTE.TAXCODE_ID WHERE TC.ID=:inputId LIMIT 1 </sql-query> -->
-
-	<!-- <sql-query name="canDeleteTAXGroup"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="CUSTOMER_ID" type="long" /> <return-scalar column="TRANSACTION_ITEM_ID" 
-		type="long" /> SELECT C.ID AS CUSTOMER_ID, TI.ID AS TRANSACTION_ITEM_ID FROM 
-		TAX_GROUP TG LEFT OUTER JOIN CUSTOMER C ON TG.ID = C.TAX_GROUP_ID LEFT OUTER 
-		JOIN TRANSACTION_ITEM TI ON TG.ID = TI.TAXGROUP_ID WHERE TG.ID =:inputId 
-		LIMIT 1 </sql-query> -->
 
 	<sql-query name="canDeleteCustomerGroup">
 		<query-param name="inputId" type="long" />
@@ -5590,7 +5548,7 @@
 
 	<sql-query name="getPointsForBankAccount">
 		<query-param name="companyId" type="long" />
-		<query-param name="accountNo" type="long" />
+		<query-param name="accountId" type="long" />
 		<query-param name="previousThreeDaysBackDateCal" type="long" />
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
 		<query-param name="previousOneDayBackDateCal" type="long" />
@@ -5689,7 +5647,7 @@
 		FROM
 		ACCOUNT A
 		WHERE
-		A.A_NUMBER =:accountNo AND
+		A.ID =:accountId AND
 		A.COMPANY_ID =:companyId
 
 	</sql-query>
