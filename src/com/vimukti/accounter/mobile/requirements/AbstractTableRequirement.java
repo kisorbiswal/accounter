@@ -121,7 +121,7 @@ public abstract class AbstractTableRequirement<T> extends
 		List<T> allValues = getList();
 
 		for (T t : allValues) {
-			if (CommandUtils.contains(oldValues, t)) {
+			if (!CommandUtils.contains(oldValues, t)) {
 				list.add(createFullRecord(t));
 			}
 		}
