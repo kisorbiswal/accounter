@@ -221,18 +221,19 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 		get(ACCOUNT_TYPE)
 				.setValue(getAccountTypes().get(account.getType() - 1));
-
+		get(ACCOUNT_TYPE).setEditable(false);
 		get(ACCOUNT_NAME).setValue(account.getName());
-		get(ACCOUNT_NAME).setEditable(false);
 
 		get(ACCOUNT_NUMBER).setValue(account.getNumber());
-		get(ACCOUNT_NUMBER).setEditable(false);
 
 		get(OPENINGBALANCE).setValue(account.getOpeningBalance());
+		get(OPENINGBALANCE).setEditable(false);
 		get(ACTIVE).setValue(account.getIsActive());
 		get(CONSIDER_AS_CASH_ACCOUNT).setValue(
 				account.isConsiderAsCashAccount());
+		get(CONSIDER_AS_CASH_ACCOUNT).setEditable(false);
 		get(ASOF).setValue(new ClientFinanceDate(account.getAsOf()));
+		get(ASOF).setEditable(false);
 		get(COMMENTS).setValue(account.getComment());
 		return null;
 	}
