@@ -26,7 +26,9 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -36,15 +38,20 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
+	ClientCashPurchase cashPurchase;
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getConstants().cashExpense());
+		return cashPurchase.getID() == 0 ? getMessages().create(
+				getConstants().cashExpense())
+				: "Update Cash Expense Command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().cashExpense());
+		return cashPurchase.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().cashExpense())
+				: "Cash expense is ready to update with following details";
 	}
 
 	@Override
@@ -61,7 +68,9 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().cashExpense());
+		return cashPurchase.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().cashExpense()) : getMessages()
+				.updateSuccessfully(getConstants().cashExpense());
 	}
 
 	@Override
@@ -247,8 +256,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), 
-				true, true) {
+				"please select accountItems", getConstants().Account(), true,
+				true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -323,7 +332,6 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-		ClientCashPurchase cashPurchase = new ClientCashPurchase();
 		cashPurchase.setType(ClientTransaction.TYPE_CASH_EXPENSE);
 		Vendor vendor = get(VENDOR).getValue();
 		cashPurchase.setVendor(vendor.getID());
@@ -365,7 +373,52 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		String string = context.getString();
+		if (isUpdate) {
+			if (string.isEmpty()) {
+				return "Received Payments List";
+			}
+			ClientCashPurchase transactionByNum = (ClientCashPurchase) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (transactionByNum == null) {
+				return "Received Payments List " + string;
+			}
+			cashPurchase = transactionByNum;
+			setValues();
+		} else {
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			cashPurchase = new ClientCashPurchase();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> transactionItems = cashPurchase
+				.getTransactionItems();
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ACCOUNTS).setValue(accounts);
+		get(ITEMS).setValue(items);
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(cashPurchase.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(PAYMENT_METHOD).setValue(cashPurchase.getPaymentMethod());
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(cashPurchase.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(DATE).setValue(cashPurchase.getDate());
+		get(NUMBER).setValue(cashPurchase.getNumber());
+		get(MEMO).setValue(cashPurchase.getMemo());
+		get(CURRENCY_FACTOR).setValue(cashPurchase.getCurrencyFactor());
 	}
 }
