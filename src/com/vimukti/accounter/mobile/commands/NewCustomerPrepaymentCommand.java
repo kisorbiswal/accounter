@@ -22,7 +22,9 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -31,24 +33,64 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand {
+	ClientCustomerPrePayment prePayment;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientCustomerPrePayment transactionByNum = (ClientCustomerPrePayment) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (transactionByNum == null) {
+				return "Invoices List " + string;
+			}
+			prePayment = transactionByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			prePayment = new ClientCustomerPrePayment();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(DATE).setValue(prePayment.getDate());
+		get(NUMBER).setValue(prePayment.getNumber());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(prePayment.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(prePayment.getDepositIn(),
+						AccounterCoreType.ACCOUNT));
+		get(AMOUNT).setValue(prePayment.getTotal());
+		get(PAYMENT_METHOD).setValue(prePayment.getPaymentMethod());
+		get(CHEQUE_NO).setValue(prePayment.getCheckNumber());
+		get(TO_BE_PRINTED).setValue(prePayment.isToBePrinted());
+		get(MEMO).setValue(prePayment.getMemo());
+		get(CURRENCY_FACTOR).setValue(prePayment.getCurrencyFactor());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(
-				getMessages().payeePrePayment(Global.get().Customer()));
+		return prePayment.getID() == 0 ? getMessages().create(
+				getMessages().payeePrePayment(Global.get().Customer()))
+				: "Update Customer Prepayment command activated";
 
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(
-				getMessages().payeePrePayment(Global.get().Customer()));
+		return prePayment.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().payeePrePayment(Global.get().Customer()))
+				: "Customer Prepayment is ready to update with following details";
 	}
 
 	@Override
@@ -66,13 +108,14 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(
-				getMessages().payeePrePayment(Global.get().Customer()));
+		return prePayment.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().payeePrePayment(Global.get().Customer()))
+				: getMessages().updateSuccessfully(
+						getMessages().payeePrePayment(Global.get().Customer()));
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -273,8 +316,6 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientCustomerPrePayment prePayment = new ClientCustomerPrePayment();
 		ClientFinanceDate date = get(DATE).getValue();
 		prePayment.setDate(date.getDate());
 		String number = get(NUMBER).getValue();
