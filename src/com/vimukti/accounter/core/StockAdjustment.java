@@ -25,16 +25,6 @@ public class StockAdjustment extends CreatableObject implements
 
 	private Set<StockAdjustmentItem> stockAdjustmentItems;
 
-	// private boolean completed;
-
-	// public boolean isCompleted() {
-	// return completed;
-	// }
-
-	// public void setCompleted(boolean completed) {
-	// this.completed = completed;
-	// }
-
 	@Override
 	public String toString() {
 		return null;
@@ -81,17 +71,15 @@ public class StockAdjustment extends CreatableObject implements
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		for (StockAdjustmentItem item : stockAdjustmentItems) {
-			item.setCompany(getCompany());
-			item.setAdjustment(this);
+			item.setWarehouse(wareHouse);
 		}
 		return super.onSave(session);
 	}
-	
+
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		for (StockAdjustmentItem item : stockAdjustmentItems) {
-			item.setCompany(getCompany());
-			item.setAdjustment(this);
+			item.setWarehouse(wareHouse);
 		}
 		return super.onUpdate(session);
 	}
