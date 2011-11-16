@@ -769,21 +769,18 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#itemGroupList");
 			subMenu(manageSupportLists, iGlobal.constants().creditRatingList(),
 					"company/accounter#creditRatingList");
-			subMenu(manageSupportLists, iGlobal.constants().priceLevelList(),
+			subMenu(manageSupportLists, iGlobal.constants().currencyList(),
 					"company/accounter#currencyGroupList");
-
 			if (isClassTracking()) {
 				subMenu(manageSupportLists, iGlobal.constants()
 						.accounterClassList(),
 						"company/accounter#accounter-Class-List");
 			}
-
 			if (isLocationTracking()) {
 				subMenu(manageSupportLists, iGlobal.constants()
 						.locationGroupList(),
 						"company/accounter#location-group-list");
 			}
-
 			menu(mainMenuValue, iGlobal.constants().manageSupportLists(),
 					manageSupportLists);
 		}
