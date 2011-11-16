@@ -407,9 +407,11 @@
 		<alias>CustomerCredit</alias>
 		<alias>Create Customer Credit</alias>
 	</command>
-	<command clazz="NewCashExpenseCommand" name="New CashExpense">
-		<alias>Cash Expense</alias>
-		<alias>Create Cash Expense</alias>
+	<command clazz="NewCashExpenseCommand" name="New Cash Expense">
+		<alias>Add Cash Expense</alias>
+		<alias>Edit Cash Expense</alias>
+		<alias>Update Cash Expense</alias>
+		<alias>Modify Cash Expense</alias>
 	</command>
 
 	<command clazz="NewMakeDepositCommond" name="New MakeDeposit">
