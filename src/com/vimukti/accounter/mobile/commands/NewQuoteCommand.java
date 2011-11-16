@@ -399,13 +399,13 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 						AccounterCoreType.CUSTOMER));
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(estimate.getDeliveryDate()));
-		get(EXPIRATION_DATE).setValue(estimate.getExpirationDate());
+		get(EXPIRATION_DATE).setValue(
+				new ClientFinanceDate(estimate.getExpirationDate()));
 		get(CONTACT).setValue(toServerContact(estimate.getContact()));
 		get(BILL_TO).setValue(estimate.getAddress());
 		get(PAYMENT_TERMS).setValue(
 				CommandUtils.getServerObjectById(estimate.getPaymentTerm(),
 						AccounterCoreType.PAYMENT_TERM));
-		get(ORDER_NO).setValue(estimate.getNumber());
 		get(MEMO).setValue(estimate.getMemo());
 		get(CURRENCY_FACTOR).setValue(estimate.getCurrencyFactor());
 		get(IS_VAT_INCLUSIVE).setValue(estimate.isAmountsIncludeVAT());

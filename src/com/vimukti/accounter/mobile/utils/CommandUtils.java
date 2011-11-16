@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
@@ -291,10 +290,17 @@ public class CommandUtils {
 	public static ClientTransaction getClientTransactionByNumber(
 			Company company, String number, AccounterCoreType type) {
 		Session currentSession = HibernateUtil.getCurrentSession();
-		Query query = currentSession.getNamedQuery("getTransactionByNumber")
+		Class<?> serverClass = getClientEquivalentServerClass(type);
+		if (serverClass == null) {
+			return null;
+		}
+		Transaction uniqueResult = (Transaction) currentSession
+				.createQuery(
+						"from "
+								+ serverClass.getName()
+								+ " transaction where transaction.number=:number and transaction.company=:company")
 				.setParameter("number", number)
-				.setParameter("company", company);
-		Transaction uniqueResult = (Transaction) query.uniqueResult();
+				.setParameter("company", company).uniqueResult();
 		if (uniqueResult != null) {
 			ClientTransaction transaction = (ClientTransaction) getClientObjectById(
 					uniqueResult.getID(), type, company.getId());
@@ -382,5 +388,28 @@ public class CommandUtils {
 			}
 		}
 		return null;
+	}
+
+	private static Class<?> getClientEquivalentServerClass(
+			AccounterCoreType type) {
+
+		String clientClassName = type.getClientClassSimpleName();
+
+		clientClassName = clientClassName.replaceAll("Client", "");
+
+		Class<?> clazz = null;
+
+		// FIXME if Class class1 if of another package other than,
+		// com.vimukti.accounter.core
+
+		try {
+			String qualifiedName = "com.vimukti.accounter.core."
+					+ clientClassName;
+			clazz = Class.forName(qualifiedName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return clazz;
 	}
 }
