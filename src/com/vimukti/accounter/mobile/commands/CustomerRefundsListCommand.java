@@ -81,8 +81,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(CustomerRefundsList value) {
-
-				return null;
+				return "Update Customer Refund " + value.getPaymentNumber();
 			}
 
 			@Override

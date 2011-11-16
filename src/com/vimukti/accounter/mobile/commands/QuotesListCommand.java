@@ -78,8 +78,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Estimate value) {
-				// TODO Auto-generated method stub
-				return null;
+				return "Update Estimate " + value.getNumber();
 			}
 
 			@Override

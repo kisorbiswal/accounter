@@ -330,7 +330,6 @@
 
 	<command clazz="NewPayBillCommand" name="Pay Bill">
 		<alias>BillPay</alias>
-		<alias>Payments</alias>
 		<alias>Create Pay Bill</alias>
 	</command>
 

@@ -69,7 +69,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(PaymentsList value) {
-				return null;
+				return "Update Vendor Prepayment " + value.getPaymentNumber();
 			}
 
 			@Override

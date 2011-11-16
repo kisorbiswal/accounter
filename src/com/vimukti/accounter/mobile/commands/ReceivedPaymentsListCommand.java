@@ -76,8 +76,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ReceivePaymentsList value) {
-				// TODO Auto-generated method stub
-				return null;
+				return "Update Customer Prepayment " + value.getNumber();
 			}
 
 			@Override

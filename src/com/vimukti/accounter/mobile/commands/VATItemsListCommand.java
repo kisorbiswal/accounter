@@ -34,8 +34,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 				return list;
 			}
 		});
-		
-		
+
 		list.add(new ShowListRequirement<TAXItem>("taxItemsList",
 				"Please Select Vat Item", 5) {
 			@Override
@@ -92,7 +91,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(TAXItem value) {
-				return null;
+				return "Update Tax Item " + value.getName();
 			}
 		});
 
