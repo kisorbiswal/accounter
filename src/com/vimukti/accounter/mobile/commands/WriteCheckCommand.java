@@ -352,12 +352,14 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Write Check to update.");
 				return "Invoices List";
 			}
 			ClientWriteCheck invoiceByNum = (ClientWriteCheck) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select a Write Check to update.");
 				return "Invoices List " + string;
 			}
 			writeCheck = invoiceByNum;

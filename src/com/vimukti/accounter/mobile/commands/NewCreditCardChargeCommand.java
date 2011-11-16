@@ -402,12 +402,16 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
+				addFirstMessage(context,
+						"Select a Credit Card Charge to update.");
 				return "Expenses List";
 			}
 			ClientCreditCardCharge transactionByNum = (ClientCreditCardCharge) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (transactionByNum == null) {
+				addFirstMessage(context,
+						"Select a Credit Card Charge to update.");
 				return "Expenses List " + string;
 			}
 			creditCardCharge = transactionByNum;

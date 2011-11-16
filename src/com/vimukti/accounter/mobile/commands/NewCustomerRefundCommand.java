@@ -41,12 +41,14 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Customer Refund to update.");
 				return "Customer Refunds List";
 			}
 			ClientCustomerRefund transactionByNum = (ClientCustomerRefund) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (transactionByNum == null) {
+				addFirstMessage(context, "Select a Customer Refund to update.");
 				return "Customer Refunds List " + string;
 			}
 			customerRefund = transactionByNum;

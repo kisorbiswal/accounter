@@ -25,12 +25,14 @@ public class NewCustomerGroupCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Customer Group to update.");
 				return "Customers";
 			}
 			ClientCustomerGroup customerGroupByName = CommandUtils
 					.getCustomerGroupByName(context.getCompany(), string);
 			if (customerGroupByName == null) {
-				return "Customers " + string;
+				addFirstMessage(context, "Select a Customer Group to update.");
+				return "Customers " + string.trim();
 			}
 			customerGroup = customerGroupByName;
 			get(CUSTPMERGROUP_NAME).setValue(customerGroup.getName());

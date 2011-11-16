@@ -9,7 +9,6 @@ import java.util.Set;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
@@ -39,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class NewCustomerCommand extends NewAbstractCommand {
@@ -532,20 +532,20 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Customer to update.");
 				return "Customers";
 			}
-			Payee customerByName = CommandUtils.getPayeeByName(
+			ClientPayee customerByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (customerByName == null) {
 				customerByName = CommandUtils.getCustomerByNumber(
 						context.getCompany(), string);
 				if (customerByName == null) {
-					return "Customers " + string;
+					addFirstMessage(context, "Select a Customer to update.");
+					return "Customers " + string.trim();
 				}
 			}
-			customer = (ClientCustomer) CommandUtils.getClientObjectById(
-					customerByName.getID(), AccounterCoreType.CUSTOMER, context
-							.getCompany().getId());
+			customer = (ClientCustomer) customerByName;
 			setValues();
 		} else {
 			String string = context.getString();

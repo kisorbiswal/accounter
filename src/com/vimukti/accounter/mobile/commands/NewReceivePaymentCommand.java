@@ -339,12 +339,14 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Received Payment to update.");
 				return "Received Payments List";
 			}
 			ClientReceivePayment transactionByNum = (ClientReceivePayment) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (transactionByNum == null) {
+				addFirstMessage(context, "Select a Received Payment to update.");
 				return "Received Payments List " + string;
 			}
 			payment = transactionByNum;

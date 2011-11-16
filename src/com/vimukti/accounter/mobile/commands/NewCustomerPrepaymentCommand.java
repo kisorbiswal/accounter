@@ -41,12 +41,16 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context,
+						"Select a Customer Prepayment to update.");
 				return "Invoices List";
 			}
 			ClientCustomerPrePayment transactionByNum = (ClientCustomerPrePayment) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (transactionByNum == null) {
+				addFirstMessage(context,
+						"Select a Customer Prepayment to update.");
 				return "Invoices List " + string;
 			}
 			prePayment = transactionByNum;

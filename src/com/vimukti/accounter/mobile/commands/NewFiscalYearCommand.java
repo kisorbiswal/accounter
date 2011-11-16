@@ -67,6 +67,7 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select Fiscal year to update.");
 				return "";
 			}
 			ClientFinanceDate date = context.getDate();
@@ -74,6 +75,7 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 			ClientFiscalYear year = CommandUtils.getFiscalYearByDate(
 					date.getDate(), integer, context.getCompany());
 			if (year == null) {
+				addFirstMessage(context, "Select a fiscal year to update.");
 				return "" + string;
 			}
 			fiscalYear = year;

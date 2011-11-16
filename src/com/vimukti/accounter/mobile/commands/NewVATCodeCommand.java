@@ -258,6 +258,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a VAT Code to update.");
 				return "VAT Codes List";
 			}
 			Set<TAXCode> serverTaxCodes = context.getCompany().getTaxCodes();
@@ -269,6 +270,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 				}
 			}
 			if (taxCode == null) {
+				addFirstMessage(context, "Select a VAT Code to update.");
 				return "VAT Codes List " + string;
 			}
 			get(TAX_CODE).setValue(taxCode.getName());

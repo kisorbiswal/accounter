@@ -61,12 +61,14 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				return "Vendors List";
+				addFirstMessage(context, "Select a Payment Term to update.");
+				return "Payment Terms List";
 			}
 			ClientPaymentTerms paymentTermsByName = CommandUtils
 					.getPaymentTermByName(context.getCompany(), string);
 			if (paymentTermsByName == null) {
-				return "Payment Terms List " + string;
+				addFirstMessage(context, "Select a Payment Term to update.");
+				return "Payment Terms List " + string.trim();
 			}
 			paymentTerms = paymentTermsByName;
 			get(PAYMENT_TERMS).setValue(paymentTermsByName.getName());

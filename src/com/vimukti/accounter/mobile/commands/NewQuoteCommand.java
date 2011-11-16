@@ -364,12 +364,14 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Quote to update.");
 				return "Quotes List";
 			}
 			ClientEstimate estimateByNum = (ClientEstimate) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (estimateByNum == null) {
+				addFirstMessage(context, "Select a Quote to update.");
 				return "Quotes List " + string;
 			}
 			estimate = estimateByNum;

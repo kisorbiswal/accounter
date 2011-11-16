@@ -8,7 +8,6 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
@@ -36,6 +35,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
@@ -521,24 +521,24 @@ public class NewVendorCommand extends NewAbstractCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Vendor to update.");
 				return "vendors";
 			}
-			Payee vendorByName = CommandUtils.getPayeeByName(
+			ClientPayee vendorByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (vendorByName == null) {
 				vendorByName = CommandUtils.getVendorByNumber(
 						context.getCompany(), string);
 				if (vendorByName == null) {
-					return "vendors " + string;
+					addFirstMessage(context, "Select a Vendor to update.");
+					return "vendors " + string.trim();
 				}
 			}
-			vendor = (ClientVendor) CommandUtils.getClientObjectById(
-					vendorByName.getID(), AccounterCoreType.VENDOR, context
-							.getCompany().getId());
+			vendor = (ClientVendor) vendorByName;
 			setValues();
 		} else {
 			vendor = new ClientVendor();
-			if (string.isEmpty()) {
+			if (!string.isEmpty()) {
 				get(VENDOR_NAME).setValue(string);
 			}
 		}

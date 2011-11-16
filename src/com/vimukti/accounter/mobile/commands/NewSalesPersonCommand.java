@@ -296,12 +296,14 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Sales Person to update.");
 				return "Sales Person List";
 			}
 			ClientSalesPerson salesPersonByName = CommandUtils
 					.getSalesPersonByName(context.getCompany(), string);
 			if (salesPersonByName == null) {
-				return "Sales Person List " + string;
+				addFirstMessage(context, "Select a Sales Person to update.");
+				return "Sales Person List " + string.trim();
 			}
 			salesPerson = salesPersonByName;
 			setValues();

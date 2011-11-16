@@ -37,12 +37,14 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Vendor Group to update.");
 				return "Vendors List";
 			}
 			ClientVendorGroup customerGroupByName = CommandUtils
 					.getVendorGroupByName(context.getCompany(), string);
 			if (customerGroupByName == null) {
-				return "Vendors List " + string;
+				addFirstMessage(context, "Select a Vendor Group to update.");
+				return "Vendors List " + string.trim();
 			}
 			vendorGroup = customerGroupByName;
 			get(VENDORGROUP_NAME).setValue(vendorGroup.getName());

@@ -41,11 +41,13 @@ public class NewClassCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Class to update.");
 				return "Location list";
 			}
 			AccounterClass classByName = CommandUtils.getClassByName(
 					context.getCompany(), string);
 			if (classByName == null) {
+				addFirstMessage(context, "Select a Class to update.");
 				return "Location list " + string;
 			}
 			accounterClass = (ClientAccounterClass) CommandUtils

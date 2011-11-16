@@ -48,12 +48,14 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Cash Purchase to update.");
 				return "Invoices List";
 			}
 			ClientCashPurchase transactionByNum = (ClientCashPurchase) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (transactionByNum == null) {
+				addFirstMessage(context, "Select a Cash Purchase to update.");
 				return "Invoices List " + string;
 			}
 			cashPurchase = transactionByNum;

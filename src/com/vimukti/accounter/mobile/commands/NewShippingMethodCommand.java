@@ -36,6 +36,7 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Shipping Method to update.");
 				return "Shipping Methods";
 			}
 			Set<ShippingMethod> shippingMethods = context.getCompany()
@@ -49,7 +50,8 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 				}
 			}
 			if (shippingMethod == null) {
-				return "Shipping Methods " + string;
+				addFirstMessage(context, "Select a Shipping Method to update.");
+				return "Shipping Methods " + string.trim();
 			}
 			get(SHIPPING_METHOD_NAME).setValue(shippingMethod.getName());
 			get(DESCRIPTION).setValue(shippingMethod.getDescription());

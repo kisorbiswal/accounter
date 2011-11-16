@@ -56,12 +56,14 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Purchase order to update.");
 				return "Invoices List";
 			}
 			ClientPurchaseOrder invoiceByNum = (ClientPurchaseOrder) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select a purchase order to update.");
 				return "Invoices List " + string;
 			}
 			purchaseOrder = invoiceByNum;

@@ -42,11 +42,13 @@ public class NewLocationCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Location to update.");
 				return "Location list";
 			}
 			Location locationByName = CommandUtils.getLocationByName(
 					context.getCompany(), string);
 			if (locationByName == null) {
+				addFirstMessage(context, "Select a Location to update.");
 				return "Location list " + string;
 			}
 			location = (ClientLocation) CommandUtils.getClientObjectById(

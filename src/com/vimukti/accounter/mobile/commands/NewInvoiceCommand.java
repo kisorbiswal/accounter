@@ -516,12 +516,14 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an Invoice to update.");
 				return "Invoices List";
 			}
 			ClientInvoice invoiceByNum = (ClientInvoice) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select an Invoice to update.");
 				return "Invoices List " + string;
 			}
 			invoice = invoiceByNum;

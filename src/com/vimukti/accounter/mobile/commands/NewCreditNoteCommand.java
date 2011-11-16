@@ -239,12 +239,14 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Credit Note to update.");
 				return "Invoices List";
 			}
 			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select a Credit Note to update.");
 				return "Invoices List " + string;
 			}
 			creditMemo = invoiceByNum;
