@@ -1,26 +1,20 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class EstimatesAndSalesOrderTableRequirement extends
 		AbstractTableRequirement<EstimatesAndSalesOrdersList> {
 
 	public EstimatesAndSalesOrderTableRequirement(String requirementName,
-			String enterString, String recordName, boolean isOptional,
-			boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, false, isOptional,
-				isAllowFromContext);
-		setDefaultValue(new ArrayList<EstimatesAndSalesOrdersList>());
+			String enterString, String recordName) {
+		super(requirementName, enterString, recordName, false, false, true);
+		// setDefaultValue(new ArrayList<EstimatesAndSalesOrdersList>());
 	}
 
 	@Override
@@ -71,19 +65,8 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 		return rec;
 	}
 
-	@Override
-	protected List<EstimatesAndSalesOrdersList> getList() {
-		try {
-			return new FinanceTool().getCustomerManager()
-					.getEstimatesAndSalesOrdersList(getCustomer().getID(),
-							getCustomer().getCompany().getID());
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<EstimatesAndSalesOrdersList>();
-	}
-
-	protected abstract Customer getCustomer();
+	//
+	// protected abstract Customer getCustomer();
 
 	@Override
 	protected Record createRecord(EstimatesAndSalesOrdersList t) {
