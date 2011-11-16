@@ -180,6 +180,8 @@ public class MessagePanel extends VerticalPanel {
 								if (result) {
 									approvePanel.remove(non_approveImageButton);
 									approvePanel.add(approveImageButton);
+									view.refreshPager();
+									view.updateListData();
 								}
 							}
 
@@ -193,8 +195,8 @@ public class MessagePanel extends VerticalPanel {
 
 		Label upVotesLengthLabel = new Label(String.valueOf(clientLocalMessage
 				.getUps()));
-		Label downVotesLenghtLabel = new Label(String
-				.valueOf(clientLocalMessage.getDowns()));
+		Label downVotesLenghtLabel = new Label(
+				String.valueOf(clientLocalMessage.getDowns()));
 
 		upVotesPanel.add(upImage);
 		upVotesPanel.add(upVotesLengthLabel);

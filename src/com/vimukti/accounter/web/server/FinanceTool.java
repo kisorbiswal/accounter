@@ -2624,8 +2624,8 @@ public class FinanceTool {
 			List<LocalMessage> list = messagesQuery.list();
 
 			for (LocalMessage locMessage : list) {
-				if (localMessage.isApproved()) {
-					localMessage.setApproved(false);
+				if (locMessage.isApproved()) {
+					locMessage.setApproved(false);
 					org.hibernate.Transaction transaction = session
 							.beginTransaction();
 					session.saveOrUpdate(locMessage);
