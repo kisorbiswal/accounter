@@ -78,6 +78,10 @@ public class ClientVendor extends ClientPayee {
 	public ClientVendor() {
 	}
 
+	public ClientVendor(long currency) {
+		super(currency);
+	}
+
 	/**
 	 * @return the accountNumber
 	 */

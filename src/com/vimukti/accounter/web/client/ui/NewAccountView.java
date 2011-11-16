@@ -417,14 +417,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		} else {
 			accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-			accInfoForm.setFields(accTypeSelect, accNameText,
-					statusBox);
+			accInfoForm.setFields(accTypeSelect, accNameText, statusBox);
 			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		}
 
 		if (getData() == null) {
-			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
-					: new ClientBankAccount();
+			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount(
+					getCompany().getPrimaryCurrency().getID())
+					: new ClientBankAccount(getCompany().getPrimaryCurrency()
+							.getID());
 			setData(account);
 		}
 

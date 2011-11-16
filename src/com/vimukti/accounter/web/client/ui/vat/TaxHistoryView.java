@@ -82,14 +82,17 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	@Override
 	public void onSave(boolean reopen) {
 
-	
 		List<ClientTAXReturn> selectedRecords = grid.getSelectedRecords();
 
 		List<ClientTransactionPayTAX> payTaxEntriesList = new ArrayList<ClientTransactionPayTAX>();
 		ClientTransactionPayTAX payTAXEntry = null;
 		for (ClientTAXReturn taxReturn : selectedRecords) {
 			payTAXEntry = new ClientTransactionPayTAX();
-			payTAXEntry.setTaxDue(taxReturn.getBalance());
+			if (taxReturn.getBalance() >= 0) {
+				payTAXEntry.setTaxDue(taxReturn.getBalance());
+			} else {
+				payTAXEntry.setAmountToPay(taxReturn.getBalance());
+			}
 			payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
 			payTAXEntry.setVatReturn(taxReturn.getID());
 			payTaxEntriesList.add(payTAXEntry);
@@ -158,7 +161,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		grid.removeAllRecords();
 		if (selectItem.equals(constants.paid())) {
 			for (ClientTAXReturn a : clientAbstractTAXReturns) {
-				if (a.getBalance() == 0) {
+				if (a.getBalance() <= 0) {
 					this.grid.addData(a);
 				}
 			}

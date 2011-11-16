@@ -1112,7 +1112,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// if (takenCustomer == null)
 		// initFiscalYear();
 		if (data == null) {
-			setData(new ClientCustomer());
+			setData(new ClientCustomer(getCompany().getPrimaryCurrency()
+					.getID()));
 		}
 		// initTaxAgenciesList();
 		initMainValues();

@@ -1137,7 +1137,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void initData() {
 		super.initData();
 		if (data == null) {
-			setData(new ClientVendor());
+			setData(new ClientVendor(getCompany().getPrimaryCurrency().getID()));
 		}
 		company = getCompany();
 		// getFiscalYear();

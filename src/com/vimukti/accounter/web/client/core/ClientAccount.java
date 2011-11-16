@@ -194,6 +194,10 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	}
 
+	public ClientAccount(long currency) {
+		this.currency = currency;
+	}
+
 	public long getLinkedAccumulatedDepreciationAccount() {
 		return linkedAccumulatedDepreciationAccount;
 	}
@@ -700,7 +704,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public void setCurrencyFactor(double currencyFactor) {
 		this.currencyFactor = currencyFactor;
 	}
-	
+
 	public boolean isAllowCurrencyChange() {
 		return isAllowCurrencyChange(type);
 	}

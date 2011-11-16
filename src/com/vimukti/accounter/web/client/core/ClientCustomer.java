@@ -80,6 +80,10 @@ public class ClientCustomer extends ClientPayee {
 	public ClientCustomer() {
 	}
 
+	public ClientCustomer(long currency) {
+		super(currency);
+	}
+
 	/**
 	 * @return the webPageAddress
 	 */

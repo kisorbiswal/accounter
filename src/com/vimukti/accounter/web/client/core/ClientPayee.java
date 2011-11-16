@@ -70,6 +70,14 @@ public abstract class ClientPayee implements IAccounterCore {
 	long TAXCode;
 	long TAXItem;
 
+	public ClientPayee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public ClientPayee(long currency) {
+		this.currency = currency;
+	}
+
 	public long getTaxItemCode() {
 		return TAXItem;
 	}
@@ -456,7 +464,6 @@ public abstract class ClientPayee implements IAccounterCore {
 	public void setCurrency(long currency) {
 		this.currency = currency;
 	}
-
 
 	/**
 	 * @return the currencyFactor

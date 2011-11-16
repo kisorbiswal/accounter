@@ -22,6 +22,10 @@ public class ClientBankAccount extends ClientAccount {
 		this.type = TYPE_BANK;
 	}
 
+	public ClientBankAccount(long currency) {
+		super(currency);
+	}
+
 	public long getBank() {
 		return bank;
 	}
