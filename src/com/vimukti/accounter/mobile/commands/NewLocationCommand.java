@@ -8,7 +8,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 
-public class NewLocationCommond extends NewAbstractCommand {
+public class NewLocationCommand extends NewAbstractCommand {
 
 	private static final String LOCATION_NAME = "location name";
 

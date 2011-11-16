@@ -28,7 +28,9 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -37,13 +39,13 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
+public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 
 	private static final String DELIVERY_DATE = "deliveryDate";
+	ClientCreditCardCharge creditCardCharge;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -185,7 +187,7 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 			@Override
 			protected List<Contact> getLists(Context context) {
 				return new ArrayList<Contact>(
-						((Vendor) NewCreditCardChargeCommond.this.get(VENDOR)
+						((Vendor) NewCreditCardChargeCommand.this.get(VENDOR)
 								.getValue()).getContacts());
 			}
 
@@ -328,8 +330,6 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-		ClientCreditCardCharge creditCardCharge = new ClientCreditCardCharge();
-
 		Vendor supplier = get(VENDOR).getValue();
 		creditCardCharge.setVendor(supplier.getID());
 
@@ -398,18 +398,73 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		String string = context.getString();
+		if (isUpdate) {
+			if (string.isEmpty()) {
+				return "Expenses List";
+			}
+			ClientCreditCardCharge transactionByNum = (ClientCreditCardCharge) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (transactionByNum == null) {
+				return "Expenses List " + string;
+			}
+			creditCardCharge = transactionByNum;
+			setValues();
+		} else {
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			creditCardCharge = new ClientCreditCardCharge();
+		}
 		return null;
+
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem clientTransactionItem : creditCardCharge
+				.getTransactionItems()) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ACCOUNTS).setValue(accounts);
+		get(ITEMS).setValue(items);
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(creditCardCharge.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(CONTACT).setValue(toServerContact(creditCardCharge.getContact()));
+		get(DATE).setValue(creditCardCharge.getDate());
+		get(NUMBER).setValue(creditCardCharge.getNumber());
+		get(PAYMENT_METHOD).setValue(creditCardCharge.getPaymentMethod());
+		get(PHONE).setValue(creditCardCharge.getPhone());
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(creditCardCharge.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(DELIVERY_DATE).setValue(
+				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
+		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());
+		get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor());
+		get(MEMO).setValue(creditCardCharge.getMemo());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().creditCardCharge());
+		return creditCardCharge.getID() == 0 ? getMessages().creating(
+				getConstants().creditCardCharge())
+				: "Update credit card charge command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().creditCardCharge());
+		return creditCardCharge.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().creditCardCharge())
+				: "Credit card charge is ready to update with following details";
 	}
 
 	@Override
@@ -430,8 +485,10 @@ public class NewCreditCardChargeCommond extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(
-				getConstants().creditCardCharge());
+		return creditCardCharge.getID() == 0 ? getMessages()
+				.createSuccessfully(getConstants().creditCardCharge())
+				: getMessages().updateSuccessfully(
+						getConstants().creditCardCharge());
 	}
 
 	@Override

@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class NewMakeDepositCommond extends NewAbstractTransactionCommand {
+public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 	private static final String TRANSFERED_ACCOUNT = "transferedAccount";
 	private static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
 
