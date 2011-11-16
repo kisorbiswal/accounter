@@ -29,6 +29,8 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -44,15 +46,20 @@ import com.vimukti.accounter.web.client.core.ListFilter;
  * 
  */
 public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand {
+	ClientCustomerCreditMemo creditMemo;
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getConstants().CustomerCreditNote());
+		return creditMemo.getID() == 0 ? getMessages().create(
+				getConstants().CustomerCreditNote())
+				: "Update Customer Credit Note Command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().CustomerCreditNote());
+		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().CustomerCreditNote())
+				: "Customer credit note is ready to update with following details";
 	}
 
 	@Override
@@ -72,13 +79,13 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(
-				getConstants().CustomerCreditNote());
+		return creditMemo.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().CustomerCreditNote()) : getMessages()
+				.updateSuccessfully(getConstants().CustomerCreditNote());
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -295,8 +302,6 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			return new Result();
 		}
 
-		ClientCustomerCreditMemo creditMemo = new ClientCustomerCreditMemo();
-
 		ClientFinanceDate date = get(DATE).getValue();
 		creditMemo.setDate(date.getDate());
 
@@ -346,8 +351,54 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (invoiceByNum == null) {
+				return "Invoices List " + string;
+			}
+			creditMemo = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			creditMemo = new ClientCustomerCreditMemo();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> transactionItems = creditMemo
+				.getTransactionItems();
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ITEMS).setValue(items);
+		get(ACCOUNTS).setValue(accounts);
+		get(DATE).setValue(creditMemo.getDate());
+		get(NUMBER).setValue(creditMemo.getNumber());
+		get(CONTACT).setValue(toServerContact(creditMemo.getContact()));
+		get(BILL_TO).setValue(creditMemo.getBillingAddress());
+		get(IS_VAT_INCLUSIVE).setValue(creditMemo.isAmountsIncludeVAT());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(creditMemo.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(CURRENCY_FACTOR).setValue(creditMemo.getCurrencyFactor());
+		get(MEMO).setValue(creditMemo.getMemo());
 	}
 
 	@Override

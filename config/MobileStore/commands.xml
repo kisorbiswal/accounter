@@ -430,6 +430,9 @@
 	<command clazz="NewCustomerCreditMemoCommand" name="New CustomerCreditMemo">
 		<alias>Create Customer Credit Memo</alias>
 		<alias>Add Customer Credit Memo</alias>
+		<alias>Edit Customer Credit Memo</alias>
+		<alias>Update Customer Credit Memo</alias>
+		<alias>Modify Customer Credit Memo</alias>
 		<alias>CustomerCredit</alias>
 		<alias>Create Customer Credit</alias>
 	</command>
