@@ -263,11 +263,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			Payee vendorByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (vendorByName == null) {
-				vendorByName = CommandUtils.getPayeeByNumber(
-						context.getCompany(), getNumberFromString(string));
-				if (vendorByName == null) {
-					return "vendors " + string;
-				}
+				return "vendors " + string;
 			}
 			taxAgency = (ClientTAXAgency) CommandUtils.getClientObjectById(
 					vendorByName.getID(), AccounterCoreType.TAXAGENCY, context

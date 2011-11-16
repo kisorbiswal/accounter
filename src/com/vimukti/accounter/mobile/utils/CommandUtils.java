@@ -7,6 +7,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Item;
@@ -14,7 +15,9 @@ import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -147,20 +150,42 @@ public class CommandUtils {
 		return null;
 	}
 
-	public static Payee getPayeeByNumber(Company company, long string) {
-		// TODO Auto-generated method stub
+	public static Customer getCustomerByNumber(Company company,
+			String customerNumber) {
+		Set<Customer> customers = company.getCustomers();
+		for (Customer customer : customers) {
+			if (customer.getNumber().equals(customerNumber)) {
+				return customer;
+			}
+		}
 		return null;
 	}
 
-	public static ClientSalesPerson getSalesPersonByNumber(Company company,
-			long numberFromString) {
-		// TODO Auto-generated method stub
+	public static Vendor getVendorByNumber(Company company, String vendorNumber) {
+		Set<Vendor> vendors = company.getVendors();
+		for (Vendor vendor : vendors) {
+			if (vendor.getVendorNumber().equals(vendorNumber)) {
+				return vendor;
+			}
+		}
 		return null;
 	}
 
 	public static ClientSalesPerson getSalesPersonByName(Company company,
 			String string) {
-		// TODO Auto-generated method stub
+		Set<SalesPerson> salesPersons = company.getSalesPersons();
+		for (SalesPerson salesPerson : salesPersons) {
+			if (salesPerson.getName().equals(string)
+					|| salesPerson.getFirstName().equals(string)
+					|| salesPerson.getLastName().equals(string)
+					|| salesPerson.getMiddleName1().equals(string)
+					|| salesPerson.getMiddleName2().equals(string)
+					|| salesPerson.getMiddleName3().equals(string)) {
+				return (ClientSalesPerson) getClientObjectById(
+						salesPerson.getID(), AccounterCoreType.SALES_PERSON,
+						company.getId());
+			}
+		}
 		return null;
 	}
 

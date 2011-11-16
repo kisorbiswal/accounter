@@ -537,8 +537,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			Payee customerByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (customerByName == null) {
-				customerByName = CommandUtils.getPayeeByNumber(
-						context.getCompany(), getNumberFromString(string));
+				customerByName = CommandUtils.getCustomerByNumber(
+						context.getCompany(), string);
 				if (customerByName == null) {
 					return "Customers " + string;
 				}

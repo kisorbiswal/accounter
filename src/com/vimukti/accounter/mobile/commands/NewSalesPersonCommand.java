@@ -301,11 +301,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 			ClientSalesPerson salesPersonByName = CommandUtils
 					.getSalesPersonByName(context.getCompany(), string);
 			if (salesPersonByName == null) {
-				salesPersonByName = CommandUtils.getSalesPersonByNumber(
-						context.getCompany(), getNumberFromString(string));
-				if (salesPersonByName == null) {
-					return "Sales Person List " + string;
-				}
+				return "Sales Person List " + string;
 			}
 			salesPerson = salesPersonByName;
 			setValues();
