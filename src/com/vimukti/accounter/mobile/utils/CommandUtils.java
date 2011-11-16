@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -182,6 +183,15 @@ public class CommandUtils {
 			id = ((IAccounterServerCore) value).getID();
 			for (T t : values) {
 				long id2 = ((IAccounterServerCore) t).getID();
+				if (id2 == id) {
+					return true;
+				}
+			}
+		} else if (value instanceof IssuePaymentTransactionsList) {
+			id = ((IssuePaymentTransactionsList) value).getTransactionId();
+			for (T t : values) {
+				long id2 = ((IssuePaymentTransactionsList) t)
+						.getTransactionId();
 				if (id2 == id) {
 					return true;
 				}
