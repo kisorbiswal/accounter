@@ -354,6 +354,7 @@ public class CustomerManager extends Manager {
 					receivePaymentsList.setVoided((Boolean) object[7]);
 					receivePaymentsList.setStatus((Integer) object[8]);
 					receivePaymentsList.setCheckNumber((String) object[9]);
+					receivePaymentsList.setCurrency((Long) object[10]);
 
 					queryResult.add(receivePaymentsList);
 				}

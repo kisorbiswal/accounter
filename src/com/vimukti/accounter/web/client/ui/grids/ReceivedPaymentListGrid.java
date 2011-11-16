@@ -40,8 +40,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		case 5:
 			return receivePayment.getCheckNumber();
 		case 6:
-			return DataUtils.amountAsStringWithCurrency(receivePayment.getAmountPaid(), getCompany()
-					.getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(
+					receivePayment.getAmountPaid(),
+					getCompany().getCurrency(receivePayment.getCurrency()));
 		case 7:
 			if (!receivePayment.isVoided())
 				return Accounter.getFinanceImages().notvoid();
