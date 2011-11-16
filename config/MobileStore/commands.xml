@@ -567,7 +567,11 @@
 	</command>
 
 	<command clazz="NewClassCommand" name="New Class">
-		<alias>Class</alias>
+		<alias>Create Class</alias>
+		<alias>Edit Class</alias>
+		<alias>Update Class</alias>
+		<alias>Modify Class</alias>
+		<alias>Add Class</alias>
 	</command>
 
 	<command clazz="BankAccountReconcilationHistoryCommand" name="ReconcilationHistory">

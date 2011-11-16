@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
@@ -248,6 +249,11 @@ public class CommandUtils {
 	}
 
 	public static Location getLocationByName(Company company, String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static AccounterClass getClassByName(Company company, String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
