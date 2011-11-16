@@ -2719,6 +2719,9 @@ public class FinanceTool {
 				Object[] next = (Object[]) iterator.next();
 				String key = (String) next[0];
 				String value = (String) next[1];
+				if (result.containsKey(key)) {
+					continue;
+				}
 				value.replace("'", "\\'");
 				result.put(key, value);
 			}
