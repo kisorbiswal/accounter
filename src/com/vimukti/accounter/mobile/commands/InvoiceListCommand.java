@@ -116,8 +116,7 @@ public class InvoiceListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(InvoicesList value) {
-				// TODO Auto-generated method stub
-				return null;
+				return "update invoice #" + value.getNumber();
 			}
 
 			@Override
