@@ -8,7 +8,7 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -80,7 +80,7 @@ public abstract class IssuePaymentTableRequirement extends
 	@Override
 	protected void setRequirementsDefaultValues(IssuePaymentTransactionsList obj) {
 
-		get(DATE).setDefaultValue(new FinanceDate(obj.getDate()));
+		get(DATE).setDefaultValue((obj.getDate()));
 		get(NUMBER).setDefaultValue(obj.getNumber());
 		get(NAME).setDefaultValue(obj.getName());
 		get(MEMO).setDefaultValue(obj.getMemo());
