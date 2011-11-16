@@ -272,17 +272,25 @@
 	<command clazz="NewServiceItemCommand" name="New Service Item">
 		<alias>Add Service Item</alias>
 		<alias>Create Service Item</alias>
-		<alias>Create New Service Item</alias>
+		<alias>Update Service Item</alias>
+		<alias>Modify Service Item</alias>
+		<alias>Edit Service Item</alias>
 	</command>
 
 	<command clazz="NewNonInventoryItemCommand" name="New Non Inventory Item">
 		<alias>Non Inventory Item</alias>
 		<alias>Create Non Inventory Item</alias>
+		<alias>Edit Non Inventory Item</alias>
+		<alias>Modify Non Inventory Item</alias>
+		<alias>Update Non Inventory Item</alias>
 	</command>
 
 	<command clazz="NewInventoryItemCommand" name="New Inventory Item">
 		<alias>Inventory Item</alias>
 		<alias>Create Inventory Item</alias>
+		<alias>Edit Inventory Item</alias>
+		<alias>Modify Inventory Item</alias>
+		<alias>Update Inventory Item</alias>
 	</command>
 
 	<command clazz="ItemsCommand" name="Items List">
@@ -566,7 +574,7 @@
 		<alias>Create Vendor Prepayment</alias>
 		<alias>Update Vendor Prepayment</alias>
 		<alias>Modify Vendor Prepayment</alias>
-		<alias>Edit Vendor Prepayment</alias>		
+		<alias>Edit Vendor Prepayment</alias>
 		<alias>New Vendor Prepayment</alias>
 	</command>
 
@@ -754,6 +762,9 @@
 	<command clazz="NewProductItemCommand" name="Product Item">
 		<alias>Create New Product Item</alias>
 		<alias>Create Product Item</alias>
+		<alias>Update Product Item</alias>
+		<alias>Modify Product Item</alias>
+		<alias>Edit Product Item</alias>
 	</command>
 	<command clazz="NewCustomerGroupCommand" name="CustomerGroup">
 		<alias>Create Customer Group</alias>

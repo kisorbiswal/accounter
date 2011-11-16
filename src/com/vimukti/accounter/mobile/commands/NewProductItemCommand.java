@@ -25,7 +25,8 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating Product Item";
+		return getItem().getID() == 0 ? "Creating Product Item"
+				: "Updating Product Item";
 	}
 
 }

@@ -29,7 +29,8 @@ public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating Non Inventory Item";
+		return getItem().getID() == 0 ? "Creating Non Inventory Item"
+				: "Updating Non Inventory Item";
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.services.DAOException;
@@ -213,6 +214,11 @@ public class CommandUtils {
 
 	public static ClientTransaction getClientTransactionByNumber(
 			Company company, long numberFromString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Item getItemByName(Company company, String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}

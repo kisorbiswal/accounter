@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
@@ -19,7 +20,9 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -45,6 +48,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	protected static final String WEIGHT = "weight";
 	private static final String TAXCODE = "taxCode";
 	private int itemType;
+	private ClientItem item;
 
 	public AbstractItemCreateCommand(int itemType) {
 		this.itemType = itemType;
@@ -421,8 +425,6 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientItem item = new ClientItem();
-
 		String name = (String) get(NAME).getValue();
 
 		// TODO:check weather it is product or service item
@@ -450,52 +452,56 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		Vendor preferedSupplier = (Vendor) get(PREFERRED_SUPPLIER).getValue();
 		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
 
-		item.setName(name);
-		item.setWeight(weight);
-		item.setISellThisItem(iSellthis);
+		getItem().setName(name);
+		getItem().setWeight(weight);
+		getItem().setISellThisItem(iSellthis);
 		if (iSellthis) {
-			item.setSalesDescription(description);
-			item.setSalesPrice(price);
-			item.setIncomeAccount(incomeAccount.getID());
-			item.setTaxable(isTaxable);
-			item.setCommissionItem(isCommisionItem);
+			getItem().setSalesDescription(description);
+			getItem().setSalesPrice(price);
+			getItem().setIncomeAccount(incomeAccount.getID());
+			getItem().setTaxable(isTaxable);
+			getItem().setCommissionItem(isCommisionItem);
 		}
-		item.setStandardCost(cost);
+		getItem().setStandardCost(cost);
 		if (context.getCompany().getPreferences().isClassOnePerTransaction()) {
-			item.setTaxCode(vatcode.getID());
+			getItem().setTaxCode(vatcode.getID());
 		}
-		item.setActive(isActive);
-		item.setIBuyThisItem(isBuyservice);
+		getItem().setActive(isActive);
+		getItem().setIBuyThisItem(isBuyservice);
 		if (itemGroup != null)
-			item.setItemGroup(itemGroup.getID());
+			getItem().setItemGroup(itemGroup.getID());
 		if (isBuyservice) {
-			item.setPurchaseDescription(purchaseDescription);
-			item.setPurchasePrice(purchasePrice);
-			item.setExpenseAccount(expenseAccount.getID());
+			getItem().setPurchaseDescription(purchaseDescription);
+			getItem().setPurchasePrice(purchasePrice);
+			getItem().setExpenseAccount(expenseAccount.getID());
 			if (preferedSupplier != null)
-				item.setPreferredVendor(preferedSupplier.getID());
-			item.setVendorItemNumber(supplierServiceNo);
+				getItem().setPreferredVendor(preferedSupplier.getID());
+			getItem().setVendorItemNumber(supplierServiceNo);
 		}
-		item.setType(itemType);
-		create(item, context);
+		getItem().setType(itemType);
+		create(getItem(), context);
 
 		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().item());
+		return getItem().getID() == 0 ? getMessages().readyToCreate(
+				getConstants().item())
+				: "Item is ready to update with following details";
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().item());
+		return getItem().getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().item()) : getMessages().updateSuccessfully(
+				getConstants().item());
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
 		if (!isUpdate) {
-			String string = context.getString();
 			if (!string.isEmpty()) {
 				if (string.equals("sell")) {
 					get(I_SELL_THIS).setValue(true);
@@ -505,7 +511,33 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			} else {
 				get(I_SELL_THIS).setValue(true);
 			}
+		} else {
+			if (string.isEmpty()) {
+				return "Items List";
+			}
+			Item customerByName = CommandUtils.getItemByName(
+					context.getCompany(), string);
+			if (customerByName == null) {
+				return "Items List " + string;
+			}
+			setItem((ClientItem) CommandUtils.getClientObjectById(
+					customerByName.getID(), AccounterCoreType.ITEM, context
+							.getCompany().getId()));
+			setValues();
 		}
 		return null;
+	}
+
+	private void setValues() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public ClientItem getItem() {
+		return item;
+	}
+
+	public void setItem(ClientItem item) {
+		this.item = item;
 	}
 }
