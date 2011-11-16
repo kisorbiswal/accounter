@@ -147,7 +147,6 @@ public class TranslationUploadServlet extends BaseServlet {
 			} else {// NO
 				oldMessage = getMessageByKey(key);
 				// Check if Key Exists
-				int i = 1;
 				if (oldMessage != null) {// YES
 					// Check if Local Messages exist to old key
 					Set<Key> keys = new HashSet<Key>();

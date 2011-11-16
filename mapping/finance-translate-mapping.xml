@@ -10,7 +10,8 @@
 		</id>
 		<many-to-one name="message" column="MESSAGE_ID" class="Message"
 			not-null="true"></many-to-one>
-		<property name="lang" column="LANGUAGE"></property>
+		<many-to-one name="lang" column="LANGUAGE" class="Language"
+			not-null="true"></many-to-one>
 		<property name="value" column="VALUE"></property>
 		<property name="ups" column="UPS" type="int"></property>
 		<property name="downs" column="DOWNS" type="int"></property>
@@ -162,5 +163,11 @@
 		LM.IS_APPROVED=TRUE)=0 LIMIT
 		:limt OFFSET :fm
 	</sql-query>
+
+	<query name="getLanguageById">
+		<query-param name="code" type="string" />
+		from com.vimukti.accounter.web.server.translate.Language l where
+		l.code=:code
+	</query>
 
 </hibernate-mapping>
