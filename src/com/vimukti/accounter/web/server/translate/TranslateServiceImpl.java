@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.server.translate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateService;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -80,5 +82,9 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 			return null;
 		}
 		return new FinanceTool().getMessages(status, lang, userEmail, from, to);
+	}
+
+	public List<ClientLanguage> getLanguages() {
+		return new FinanceTool().getLanguages();
 	}
 }
