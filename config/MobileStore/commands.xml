@@ -451,6 +451,7 @@
 		<alias>Deposits And TransferFunds</alias>
 		<alias>New Deposits And TransferFunds</alias>
 		<alias>Deposits / Transfer Fund</alias>
+		<alias>Deposits and Transfer Funds</alias>
 	</command>
 
 	<command clazz="NewLocationCommand" name="New Location">
