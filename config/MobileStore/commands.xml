@@ -499,6 +499,9 @@
 		<alias>Create Receive Payment</alias>
 		<alias>Add ReceivePayment</alias>
 		<alias>Create Receive Payment</alias>
+		<alias>Update Receive Payment</alias>
+		<alias>Edit Receive Payment</alias>
+		<alias>Modify Receive Payment</alias>
 		<alias>Add receive payment</alias>
 	</command>
 
