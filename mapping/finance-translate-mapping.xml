@@ -170,4 +170,10 @@
 		l.code=:code
 	</query>
 
+	<query name="getLanguages">
+		from
+		com.vimukti.accounter.web.server.translate.Language l where
+		l.code!=''
+	</query>
+
 </hibernate-mapping>

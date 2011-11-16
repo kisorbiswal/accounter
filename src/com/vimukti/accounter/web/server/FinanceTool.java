@@ -106,6 +106,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
@@ -2690,5 +2691,32 @@ public class FinanceTool {
 		HashMap<String, String> result = new HashMap<String, String>();
 		result.put("test", "value");
 		return result;
+	}
+
+	public List<ClientLanguage> getLanguages() {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getLanguages");
+			List<Language> list = query.list();
+
+			ArrayList<ClientLanguage> result = new ArrayList<ClientLanguage>();
+
+			for (Language language : list) {
+				ClientLanguage clientLanguage = new ClientLanguage(
+						language.getLanguageTooltip(),
+						language.getLangugeName(), language.getLanguageCode());
+				result.add(clientLanguage);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 }
