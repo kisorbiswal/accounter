@@ -514,7 +514,7 @@ public class CompanyManager extends Manager {
 		}
 
 		// }
-		Utility.updateCurrentFiscalYear();
+		Utility.updateCurrentFiscalYear(getCompany(companyId));
 		transaction.commit();
 
 	}

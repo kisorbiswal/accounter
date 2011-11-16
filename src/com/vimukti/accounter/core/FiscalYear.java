@@ -175,7 +175,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		this.isOnSaveProccessed = true;
 		// this.setPreviousStartDate(this.getStartDate());
 		this.setStatus(FiscalYear.STATUS_OPEN);
-		Utility.updateCurrentFiscalYear();
+		Utility.updateCurrentFiscalYear(getCompany());
 		onUpdate(session);
 		return false;
 	}
@@ -386,7 +386,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		// }
 		// }
 		this.setPreviousStartDate(this.getStartDate());
-		Utility.updateCurrentFiscalYear();
+		Utility.updateCurrentFiscalYear(getCompany());
 		ChangeTracker.put(this);
 		return false;
 	}

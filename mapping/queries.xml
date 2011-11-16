@@ -1612,5 +1612,10 @@
 		<query-param name="type" type="int"/>
 		from com.vimukti.accounter.core.Account a where a.type=:type and a.company.id =:companyId
 	</query>
+	
+	<query name="getFiscalYears.of.company">
+		<query-param name="company" type="Company"/>
+		from com.vimukti.accounter.core.FiscalYear f where f.company=:company
+	</query>
 
 </hibernate-mapping>

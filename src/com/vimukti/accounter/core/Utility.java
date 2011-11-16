@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.google.gwt.visualization.client.Query;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -1394,13 +1395,10 @@ public class Utility {
 		return valueTobesend;
 	}
 
-	public static void updateCurrentFiscalYear() {
+	public static void updateCurrentFiscalYear(Company company) {
 		Session session = HibernateUtil.getCurrentSession();
-		Criteria criteria = session.createCriteria(FiscalYear.class);
-
-		List<FiscalYear> listofiscalyrs = criteria.list();
-
-		Iterator<FiscalYear> iterator = listofiscalyrs.iterator();
+		List list = session.getNamedQuery("getFiscalYears.of.company").setEntity("company", company).list();
+		Iterator<FiscalYear> iterator = list.iterator();
 
 		boolean isCurrentOne = false;
 

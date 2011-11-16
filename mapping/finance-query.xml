@@ -1765,7 +1765,7 @@
 		WHERE I.BALANCE_DUE > 0.0 and
 		I.DUE_DATE &lt;= CURRENT_DATE AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID
-		DESC LIMIT 0, 10
+		DESC LIMIT 10
 	</sql-query>
 
 	<sql-query name="getLatestInvoices">
@@ -1850,8 +1850,7 @@
 		PAYEE P
 		on P.ID = C.ID
 		where T.T_TYPE in(1,4,8,15) AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0,
-		10
+		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Vendor Payments of Latest 10 -->
@@ -1910,7 +1909,7 @@
 		on P.ID = V.ID
 		OR P.ID = TA.ID
 		WHERE T.T_TYPE in(11,15) AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0,10
+		ORDER BY T.ID DESC LIMIT 10
 
 	</sql-query>
 
@@ -1974,7 +1973,7 @@
 		CP.VENDOR_ID OR WC.VENDOR_ID
 		LEFT OUTER JOIN PAYEE P ON P.ID = V.ID
 		WHERE T.T_TYPE in (2,4,6,14,15) AND T.COMPANY_ID=:companyId ORDER BY
-		T.ID DESC LIMIT 0,10
+		T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Payments of Latest 10 -->
@@ -2045,7 +2044,7 @@
 		on P.ID = C.ID OR P.ID = V.ID
 		WHERE
 		T.T_TYPE in (2,3,5,11,15) AND T.COMPANY_ID=:companyId ORDER BY T.ID
-		DESC LIMIT 0,10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Cash Purchases of Latest 10 -->
@@ -2089,7 +2088,7 @@
 		CASH_PURCHASE CP
 		JOIN TRANSACTION T ON CP.ID = T.ID AND T.COMPANY_ID=:companyId ORDER
 		BY CP.ID
-		DESC LIMIT 0,10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Cash Sales of Latest 10 -->
@@ -2111,7 +2110,7 @@
 		T.COMPANY_ID=:companyId
 		ORDER BY T.ID
 		DESC
-		LIMIT 0,10
+		LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Checks of Latest 10 -->
@@ -2145,7 +2144,7 @@
 		WC.ID = T.ID AND
 		T.COMPANY_ID=:companyId
 		ORDER
-		BY T.ID DESC LIMIT 0,10
+		BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Customer Refunds of Latest 10 -->
@@ -2171,7 +2170,7 @@
 		ON
 		CR.ID = T.ID
 		AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0, 10
+		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Customers of Latest 10 -->
@@ -2190,7 +2189,7 @@
 		PAYEE P ON
 		P.ID = C.ID AND
 		P.COMPANY_ID=:companyId
-		ORDER BY C.ID DESC LIMIT 0, 10
+		ORDER BY C.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Deposits of Latest 10 -->
@@ -2220,7 +2219,7 @@
 		MD JOIN TRANSACTION T ON MD.ID =
 		T.ID AND T.COMPANY_ID=:companyId ORDER
 		BY T.ID
-		DESC LIMIT 0, 10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the TransferFunds of Latest 10 -->
@@ -2245,7 +2244,7 @@
 		ON TF.ID =
 		T.ID
 		AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0, 10
+		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Items of Latest 10 -->
@@ -2264,7 +2263,7 @@
 		FROM ITEM I WHERE
 		I.COMPANY_ID=:companyId
 		ORDER BY I.ID
-		DESC LIMIT 0, 10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Sales Items of Latest 10 -->
@@ -2283,7 +2282,7 @@
 		FROM ITEM I
 		WHERE
 		I.IS_SELL_ITEM = TRUE AND I.COMPANY_ID=:companyId ORDER BY I.ID DESC
-		LIMIT 0, 10
+		LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Purchase Items of Latest 10 -->
@@ -2302,7 +2301,7 @@
 		FROM ITEM I
 		WHERE
 		I.IS_BUY_ITEM = TRUE AND I.COMPANY_ID=:companyId ORDER BY I.ID DESC
-		LIMIT 0, 10
+		LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Vendors of Latest 10 -->
@@ -2318,7 +2317,7 @@
 		P.P_DATE AS
 		PAYEE_DATE,P.ID AS PAYEE_ID FROM VENDOR V LEFT JOIN
 		PAYEE P ON P.ID =
-		V.ID AND P.COMPANY_ID=:companyId ORDER BY V.ID DESC LIMIT 0, 10
+		V.ID AND P.COMPANY_ID=:companyId ORDER BY V.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Quotes of Latest 10 -->
@@ -2341,7 +2340,7 @@
 		JOIN
 		CUSTOMER C ON C.ID = E1.CUSTOMER_ID
 		ORDER BY
-		T.ID DESC LIMIT 0,10
+		T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Checks of Latest 10 -->
@@ -5746,7 +5745,7 @@
 
 		WHERE
 		BT.ID
-		=:inputId AND BT.COMPANY_ID=:companyId LIMIT 1,2
+		=:inputId AND BT.COMPANY_ID=:companyId LIMIT 2 OFFSET 1
 
 		<!-- <return-scalar column="INVOICE_ID" type="long" /> <return-scalar column="CUSTOMER_CREDIT_MEMO_ID" 
 			type="long" /> SELECT BT.ID AS BRANDING_THEME_ID, I.ID AS INVOICE_ID, CCM.ID 
@@ -6007,7 +6006,7 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 
-		SELECT AT.ID,AT.TRANSACTION_ID, SUM(AT.AMOUNT) AS AMOUNT
+		SELECT AT.TRANSACTION_ID, SUM(AT.AMOUNT) AS AMOUNT
 		FROM
 
 		ACCOUNT_TRANSACTION AT
@@ -6350,7 +6349,7 @@
 
 		WHERE T.COMPANY_ID=:companyId AND
 		TI.TAX_AGENCY=:taxAgency
-		GROUP BY T.ID,TI.ID;
+		GROUP BY T.ID,TI.ID,TIG.ID;
 
 	</sql-query>
 	
