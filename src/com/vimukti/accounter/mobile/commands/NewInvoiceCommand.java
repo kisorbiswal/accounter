@@ -99,7 +99,25 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 						.getCustomers());
 			}
 		});
+		list.add(new EstimatesAndSalesOrderTableRequirement(
+				ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
+						getConstants().quote()), getConstants()
+						.quoteAndSalesOrderList()) {
 
+			@Override
+			protected List<EstimatesAndSalesOrdersList> getList() {
+				Customer customer = (Customer) NewInvoiceCommand.this.get(
+						CUSTOMER).getValue();
+				try {
+					return new FinanceTool().getCustomerManager()
+							.getEstimatesAndSalesOrdersList(customer.getID(),
+									getCompanyId());
+				} catch (DAOException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -209,18 +227,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
-
-		list.add(new EstimatesAndSalesOrderTableRequirement(
-				ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
-						getConstants().quote()), getConstants()
-						.quoteAndSalesOrderList(), true, true) {
-
-			@Override
-			protected Customer getCustomer() {
-				return (Customer) NewInvoiceCommand.this.get(CUSTOMER)
-						.getValue();
-			}
-		});
 
 		// list.add(new EstimatesAndSalesOrderListRequirement(
 		// ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
