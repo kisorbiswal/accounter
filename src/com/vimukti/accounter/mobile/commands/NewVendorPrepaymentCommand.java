@@ -22,7 +22,9 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -36,23 +38,63 @@ import com.vimukti.accounter.web.client.core.ListFilter;
  * 
  */
 public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
+	ClientPayBill paybill;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientPayBill invoiceByNum = (ClientPayBill) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (invoiceByNum == null) {
+				return "Invoices List " + string;
+			}
+			paybill = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			paybill = new ClientPayBill();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(paybill.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(BILL_TO).setValue(paybill.getAddress());
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(paybill.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(CURRENCY_FACTOR).setValue(paybill.getCurrencyFactor());
+		get(AMOUNT).setValue(paybill.getTotal());
+		get(PAYMENT_METHOD).setValue(paybill.getPaymentMethod());
+		get(TO_BE_PRINTED).setValue(paybill.isToBePrinted());
+		get(MEMO).setValue(paybill.getMemo());
+		get(CHEQUE_NO).setValue(paybill.getCheckNumber());
+		get(DATE).setValue(paybill.getDate());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(
-				getMessages().payeePaymentList(Global.get().Vendor()));
+		return paybill.getID() == 0 ? getMessages().create(
+				getMessages().payeePaymentList(Global.get().Vendor()))
+				: "Update Vendor Prepayment command activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(
-				getMessages().payeePrePayment(Global.get().Vendor()));
+		return paybill.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().payeePrePayment(Global.get().Vendor()))
+				: "Vendor prepayment is ready to update with following details";
 	}
 
 	@Override
@@ -70,13 +112,14 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 
-		return getMessages().createSuccessfully(
-				getMessages().payeePrePayment(Global.get().Vendor()));
+		return paybill.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().payeePrePayment(Global.get().Vendor()))
+				: getMessages().updateSuccessfully(
+						getMessages().payeePayment(Global.get().Vendor()));
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -148,7 +191,8 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
+									.equals(context.getPreferences()
+											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}
@@ -281,8 +325,6 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientPayBill paybill = new ClientPayBill();
 		Vendor vendor = (Vendor) get(VENDOR).getValue();
 		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
 		Account pay = (Account) get(PAY_FROM).getValue();

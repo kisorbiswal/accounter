@@ -542,10 +542,12 @@
 	</command>
 
 	<command clazz="NewVendorPrepaymentCommand" name="Vendor Prepayment">
-		<alias>Prepayment</alias>
 		<alias>Vendor Prepayment</alias>
 		<alias>Add Vendor Prepayment</alias>
 		<alias>Create Vendor Prepayment</alias>
+		<alias>Update Vendor Prepayment</alias>
+		<alias>Modify Vendor Prepayment</alias>
+		<alias>Edit Vendor Prepayment</alias>		
 		<alias>New Vendor Prepayment</alias>
 	</command>
 
