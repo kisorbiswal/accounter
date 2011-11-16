@@ -100,8 +100,7 @@ public class OpenCompanyServlet extends BaseServlet {
 				namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
 				Client client = (Client) namedQuery.uniqueResult();
 				String language = getlocale().getLanguage();
-				HashMap<String, String> keyAndValues = financeTool
-						.getKeyAndValues(client.getID(), language);
+				HashMap<String, String> keyAndValues = null;//financeTool.getKeyAndValues(client.getID(), language);
 				
 				request.setAttribute("messages", keyAndValues);
 				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
