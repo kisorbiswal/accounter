@@ -445,32 +445,12 @@ public class TaxManager extends Manager {
 
 	}
 
-	public boolean hasFileVAT(TAXAgency vatAgency, FinanceDate startDate,
-			FinanceDate endDate, Company company) {
-
-		Criteria criteria = HibernateUtil.getCurrentSession().createCriteria(
-				TAXReturn.class);
-
-		List list = criteria.add(Restrictions.ge("periodEndDate", endDate))
-				.add(Restrictions.eq("company", company)).list();
-
-		if (list != null && list.size() > 0 && list.get(0) != null)
-			return true;
-
-		return false;
-	}
-
 	public ClientTAXReturn getVATReturnDetails(TAXAgency taxAgency,
 			FinanceDate fromDate, FinanceDate toDate, long companyId)
 			throws DAOException, AccounterException {
 
 		Company company = getCompany(companyId);
 
-		if (hasFileVAT(taxAgency, fromDate, toDate, company)) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT);
-			// "FileVAT is already done in this period. Choose another VAT period");
-		}
 		TAXReturn taxReturn = new TAXReturn();
 
 		// List<Box> boxes = createBoxes(vatAgency);
