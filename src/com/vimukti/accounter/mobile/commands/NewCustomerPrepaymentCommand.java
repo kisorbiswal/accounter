@@ -45,9 +45,13 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 						"Select a Customer Prepayment to update.");
 				return "Invoices List";
 			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			ClientCustomerPrePayment transactionByNum = (ClientCustomerPrePayment) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(),
-							getNumberFromString(string));
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CUSTOMERPREPAYMENT);
 			if (transactionByNum == null) {
 				addFirstMessage(context,
 						"Select a Customer Prepayment to update.");

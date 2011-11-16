@@ -538,6 +538,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			ClientPayee customerByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (customerByName == null) {
+				long numberFromString = getNumberFromString(string);
+				if (numberFromString != 0) {
+					string = String.valueOf(numberFromString);
+				}
 				customerByName = CommandUtils.getCustomerByNumber(
 						context.getCompany(), string);
 				if (customerByName == null) {
@@ -567,7 +571,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				new ClientFinanceDate(customer.getPayeeSince()));
 		get(BALANCE).setValue(customer.getBalance());
 		get(BALANCE).setEditable(false);
-		get(BALANCE).setValue(new ClientFinanceDate(customer.getBalanceAsOf()));
+		get(BALANCE_ASOF_DATE).setValue(
+				new ClientFinanceDate(customer.getBalanceAsOf()));
 		Set<ClientAddress> address = customer.getAddress();
 		for (ClientAddress clientAddress : address) {
 			if (clientAddress.getType() == ClientAddress.TYPE_BILL_TO) {

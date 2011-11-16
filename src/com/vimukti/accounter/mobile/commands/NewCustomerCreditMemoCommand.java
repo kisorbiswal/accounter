@@ -359,9 +359,13 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 						"Select a Customer credit note to update.");
 				return "Invoices List";
 			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(),
-							getNumberFromString(string));
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CUSTOMERCREDITMEMO);
 			if (invoiceByNum == null) {
 				addFirstMessage(context,
 						"Select a Customer credit note to update.");

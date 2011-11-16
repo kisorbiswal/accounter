@@ -161,8 +161,12 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		bankAccount = (ClientBankAccount) CommandUtils.getAccountByName(
 				context.getCompany(), string);
 		if (bankAccount == null) {
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			bankAccount = (ClientBankAccount) CommandUtils.getAccountByNumber(
-					context.getCompany(), getNumberFromString(string));
+					context.getCompany(), string);
 		}
 		if (bankAccount == null) {
 			addFirstMessage(context, "Select an account to update.");

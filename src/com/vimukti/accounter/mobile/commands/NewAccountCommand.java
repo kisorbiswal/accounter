@@ -207,8 +207,12 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 		account = CommandUtils.getAccountByName(context.getCompany(), string);
 		if (account == null) {
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			account = CommandUtils.getAccountByNumber(context.getCompany(),
-					getNumberFromString(string));
+					string);
 		}
 		if (account == null) {
 			addFirstMessage(context, "Select an account to update.");

@@ -585,9 +585,13 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Cash Sale to update.");
 				return "Cash Sales List";
 			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			ClientCashSales invoiceByNum = (ClientCashSales) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(),
-							getNumberFromString(string));
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CASHSALES);
 			if (invoiceByNum == null) {
 				addFirstMessage(context, "Select a Cash Sale to update.");
 				return "Cash Sales List " + string;

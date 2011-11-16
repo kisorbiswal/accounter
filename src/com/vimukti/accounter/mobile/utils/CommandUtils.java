@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Company;
@@ -19,10 +22,12 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingTerms;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -121,7 +126,7 @@ public class CommandUtils {
 	}
 
 	public static ClientAccount getAccountByNumber(Company company,
-			long numberFromString) {
+			String numberFromString) {
 		Set<Account> accounts = company.getAccounts();
 		for (Account account : accounts) {
 			if (account.getNumber().equals(numberFromString)) {
@@ -284,8 +289,17 @@ public class CommandUtils {
 	}
 
 	public static ClientTransaction getClientTransactionByNumber(
-			Company company, long numberFromString) {
-		// TODO
+			Company company, String number, AccounterCoreType type) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Query query = currentSession.getNamedQuery("getTransactionByNumber")
+				.setParameter("number", number)
+				.setParameter("company", company);
+		Transaction uniqueResult = (Transaction) query.uniqueResult();
+		if (uniqueResult != null) {
+			ClientTransaction transaction = (ClientTransaction) getClientObjectById(
+					uniqueResult.getID(), type, company.getId());
+			return transaction;
+		}
 		return null;
 	}
 

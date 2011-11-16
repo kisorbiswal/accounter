@@ -406,9 +406,13 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 						"Select a Credit Card Charge to update.");
 				return "Expenses List";
 			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			ClientCreditCardCharge transactionByNum = (ClientCreditCardCharge) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(),
-							getNumberFromString(string));
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CREDITCARDCHARGE);
 			if (transactionByNum == null) {
 				addFirstMessage(context,
 						"Select a Credit Card Charge to update.");

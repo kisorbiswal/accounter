@@ -511,6 +511,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			} else {
 				get(I_SELL_THIS).setValue(true);
 			}
+			setItem(new ClientItem());
 		} else {
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select an Item to update.");
