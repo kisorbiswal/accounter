@@ -447,6 +447,9 @@
 	<command clazz="NewLocationCommand" name="New Location">
 		<alias>Location</alias>
 		<alias>Create Location</alias>
+		<alias>Update Location</alias>
+		<alias>Edit Location</alias>
+		<alias>Modify Location</alias>
 	</command>
 
 	<command clazz="NewIssuePaymentCommand" name="New IssuePayment">

@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
+import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -243,6 +244,11 @@ public class CommandUtils {
 						company.getId());
 			}
 		}
+		return null;
+	}
+
+	public static Location getLocationByName(Company company, String string) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

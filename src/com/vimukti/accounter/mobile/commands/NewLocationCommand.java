@@ -2,15 +2,19 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 
 public class NewLocationCommand extends NewAbstractCommand {
 
 	private static final String LOCATION_NAME = "location name";
+	ClientLocation location;
 
 	@Override
 	public String getId() {
@@ -26,7 +30,6 @@ public class NewLocationCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientLocation location = new ClientLocation();
 		location.setLocationName((String) get(LOCATION_NAME).getValue());
 		create(location, context);
 		markDone();
@@ -35,18 +38,41 @@ public class NewLocationCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Location list";
+			}
+			Location locationByName = CommandUtils.getLocationByName(
+					context.getCompany(), string);
+			if (locationByName == null) {
+				return "Location list " + string;
+			}
+			location = (ClientLocation) CommandUtils.getClientObjectById(
+					locationByName.getID(), AccounterCoreType.LOCATION, context
+							.getCompany().getId());
+			get(LOCATION_NAME).setValue(location.getName());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(LOCATION_NAME).setValue(string);
+			}
+			location = new ClientLocation();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "New Location Commond is Activated";
+		return location.getID() == 0 ? "New Location Commond is Activated"
+				: "Update Location command activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "New Location commond is ready with the following values";
+		return location.getID() == 0 ? "New Location commond is ready with the following values"
+				: "Location is ready to update with following details";
 	}
 
 	@Override
@@ -55,7 +81,8 @@ public class NewLocationCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "New Location commond is created successfully";
+		return location.getID() == 0 ? "New Location commond is created successfully"
+				: "Location updated successfully";
 	}
 
 }
