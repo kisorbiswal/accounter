@@ -603,36 +603,7 @@
 		<property name="minimum" column="MINIMUM" not-null="true"></property>
 		<property name="maximum" column="MAXIMUM" not-null="true"></property>
 	</class>
-	<!-- <class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id name="id" 
-		column="ID"> <generator class="identity" /> </id> Company Preferences <property 
-		name="useAccountNumbers" column="USE_ACCOUNT_NUMBERS"></property> <property 
-		name="useClasses" column="USE_CLASSES"></property> <property name="useJobs" 
-		column="USE_JOBS"></property> <property name="useChangeLog" column="USE_CHANGE_LOG"></property> 
-		<property name="logSpaceUsed" column="LOG_SPACE_USED"></property> <property 
-		name="allowDuplicateDocumentNumbers" column="ALLOW_DUPLICATE_DOCUMENT_NUMBERS"></property> 
-		<property name="doYouPaySalesTax" column="DO_YOU_PAY_SALES_TAX"></property> 
-		<property name="isAccuralBasis" column="IS_ACCURAL_BASI"></property> <property 
-		name="startOfFiscalYear" column="START_OF_FISCAL_YEAR" type="date"></property> 
-		<property name="endOfFiscalYear" column="END_OF_FISCAL_YEAR" type="date"></property> 
-		<property name="useForeignCurrency" column="USE_FOREIGN_CURRENCY"></property> 
-		<property name="isMyAccountantWillrunPayroll" column="IS_MY_ACCOUNTANT_WILL_RUN_PAYROLL"></property> 
-		Customer Preferences <property name="useCustomerId" column="USE_CUSTOMER_ID"></property> 
-		<property name="defaultShippingTerm" column="DEFAULT_SHIPPING_TERM"></property> 
-		<property name="defaultAnnualInterestRate" column="DEFAULT_ANNUAL_INTEREST_RATE"></property> 
-		<property name="defaultMinimumFinanceCharge" column="DEFAULT_MINIMUM_FINANCE_CHARGE"></property> 
-		<property name="graceDays" column="GRACE_DAYS"></property> <property name="doesCalculateFinanceChargeFromInvoiceDate" 
-		column="DOES_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE"></property> Customer 
-		Preferences <property name="useVendorId" column="USE_VENDOR_ID"></property> 
-		<property name="useItemNumbers" column="USE_ITEM_NUMBERS"></property> <property 
-		name="checkForItemQuantityOnHand" column="CHECK_FOR_ITEM_QUANTITY_ON_HAND"></property> 
-		<property name="updateCostAutomatically" column="UPDATE_COST_AUTOMATICALLY"></property> 
-		<property name="version" column="VERSION"></property> </class> -->
-	<!-- <class name="Contact" table="CONTACT"> <id name="id" column="ID"> <generator 
-		class="identity" /> </id> <property name="isPrimary" column="IS_PRIMARY"></property> 
-		<property name="name" column="NAME"></property> <property name="title" column="TITLE"></property> 
-		<property name="businessPhone" column="BUSINESS_PHONE"></property> <property 
-		name="version" column="VERSION"></property> <property name="email" column="EMAIL"></property> 
-		</class> -->
+	
 	<class name="CreditRating" table="CREDITRATING">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -1468,14 +1439,7 @@
 		<property name="totalBox" column="TOTAL_BOX"></property>
 		<property name="vatReturnType" column="VAT_RETURN_TYPE"></property>
 	</class>
-	<!-- <class name="Box" table="BOX"> <id name="id" column="ID"> <generator 
-		class="identity" /> </id> <many-to-one name="company" column="COMPANY_ID" 
-		class="Company" not-null="true" lazy="false"> </many-to-one> <property name="name" 
-		not-null="true" column="NAME"></property> <property name="boxNumber" column="BOX_NUMBER"></property> 
-		<property name="amount" column="AMOUNT"></property> <list name="taxRateCalculations" 
-		lazy="false" cascade="save-update,delete"> <key column="TAX_RATE_CALCULATION_ID"></key> 
-		<list-index column="VRC" /> <one-to-many class="TAXRateCalculation" /> </list> 
-		</class> -->
+
 	<class name="TAXCode" table="TAX_CODE">
 		<id name="id" column="ID">
 			<generator class="identity" />
