@@ -8,12 +8,11 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.ItemGroup;
-import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
@@ -31,9 +30,9 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CommandUtils {
 
-	public static Vendor getVendorByName(Company company, String vendorName) {
-		Set<Vendor> vendors = company.getVendors();
-		for (Vendor vendor : vendors) {
+	public static Payee getPayeeByName(Company company, String vendorName) {
+		Set<Payee> vendors = company.getPayees();
+		for (Payee vendor : vendors) {
 			if (vendor.getName().equals(vendorName)) {
 				return vendor;
 			}
@@ -140,19 +139,7 @@ public class CommandUtils {
 		return null;
 	}
 
-	public static ClientCustomer getCustomerByName(Company company,
-			String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public static ClientCustomer getCustomerByNumber(Company company,
-			long numberFromString) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public static Vendor getVendorByNumber(Company company, long string) {
+	public static Payee getPayeeByNumber(Company company, long string) {
 		// TODO Auto-generated method stub
 		return null;
 	}

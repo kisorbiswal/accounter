@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -20,6 +20,8 @@ import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -34,19 +36,17 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	private static final String FAX = "fax";
 	private static final String EMAIL = "email";
 	private static final String WEBSITE = "webPageAddress";
-	private static final String VAT_AGENCY_CONTACT = "vatAgencyContact";
 	protected static final String CONTACT_NAME = "contactName";
 	protected static final String TITLE = "title";
 	protected static final String BUSINESS_PHONE = "businessPhone";
 	protected static final String CONTACT_EMAIL = "contactEmail";
 	private static final String IS_ACTIVE = "isActive";
 
-	private static final String VAT_AGENCY_ADDRESS = "vatAgencyAddress";
 	private static final String TAX_AGENCY_NAME = "Tax Agency Name";
 	private static final String VAT_RETURN = "Vat Return";
 	private static final String ADREESS = "address";
 	private static final String CONTACTS = "contact";
-	protected boolean isUpdate;
+	ClientTAXAgency taxAgency;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -236,11 +236,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	}
 
 	protected List<ClientContact> getAgencyContacts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	protected List<Contact> getContactList(Context context) {
+		if (taxAgency.getID() != 0) {
+			new ArrayList<ClientContact>(taxAgency.getContacts());
+		}
 		return null;
 	}
 
@@ -257,19 +255,74 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
-		this.isUpdate = isUpdate;
+		String string = context.getString();
+		if (isUpdate) {
+			if (string.isEmpty()) {
+				return "vendors";
+			}
+			Payee vendorByName = CommandUtils.getPayeeByName(
+					context.getCompany(), string);
+			if (vendorByName == null) {
+				vendorByName = CommandUtils.getPayeeByNumber(
+						context.getCompany(), getNumberFromString(string));
+				if (vendorByName == null) {
+					return "vendors " + string;
+				}
+			}
+			taxAgency = (ClientTAXAgency) CommandUtils.getClientObjectById(
+					vendorByName.getID(), AccounterCoreType.TAXAGENCY, context
+							.getCompany().getId());
+			setValues();
+		} else {
+			taxAgency = new ClientTAXAgency();
+			if (string.isEmpty()) {
+				get(TAX_AGENCY_NAME).setValue(string);
+			}
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(TAX_AGENCY_NAME).setValue(taxAgency.getName());
+		get(PAYMENT_TERM).setValue(
+				CommandUtils.getServerObjectById(taxAgency.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(SALES_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(
+						taxAgency.getSalesLiabilityAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(PHONE).setValue(taxAgency.getPhoneNo());
+		get(FAX).setValue(taxAgency.getFaxNo());
+		get(EMAIL).setValue(taxAgency.getEmail());
+		get(WEBSITE).setValue(taxAgency.getWebPageAddress());
+		get(ADREESS).setValue(
+				new ArrayList<ClientAddress>(taxAgency.getAddress()));
+		get(CONTACTS).setValue(
+				new ArrayList<ClientContact>(taxAgency.getContacts()));
+		get(PURCHASE_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(
+						taxAgency.getPurchaseLiabilityAccount(),
+						AccounterCoreType.ACCOUNT));
+		int vatReturn = taxAgency.getVATReturn();
+		if (vatReturn == ClientTAXAgency.RETURN_TYPE_NONE) {
+			get(VAT_RETURN).setValue("");
+		} else if (vatReturn == ClientTAXAgency.RETURN_TYPE_UK_VAT) {
+			get(VAT_RETURN).setValue("UK VAT");
+		} else if (vatReturn == ClientTAXAgency.RETURN_TYPE_IRELAND_VAT) {
+			get(VAT_RETURN).setValue(null);
+		}
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "NewVatAgency commond is activated";
+		return taxAgency.getID() == 0 ? "NewVatAgency commond is activated"
+				: "Update VAT Agency command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "NewVatAgencyCommond is ready to create with the following values";
+		return taxAgency.getID() == 0 ? "NewVatAgencyCommond is ready to create with the following values"
+				: "VAT Agency is ready to update with following details";
 	}
 
 	@Override
@@ -279,7 +332,8 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "New vat commond is created successfully";
+		return taxAgency.getID() == 0 ? "New vat commond is created successfully"
+				: "VAT Agency is updated successfully";
 	}
 
 	@Override
@@ -289,8 +343,6 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientTAXAgency taxAgency = new ClientTAXAgency();
 		String name = get(TAX_AGENCY_NAME).getValue();
 		PaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
 		Account salesAccount = get(SALES_ACCOUNT).getValue();
@@ -324,15 +376,8 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			listAddress.add(address);
 		}
 		taxAgency.setAddress(listAddress);
-		List<Contact> contactList = get(CONTACTS).getValue();
-		Set<ClientContact> contactsList = new HashSet<ClientContact>();
-		if (!contactList.isEmpty()) {
-			for (Contact contact : contactList) {
-				contactsList.add(toClientContact(contact));
-			}
-			taxAgency.setContacts(contactsList);
-		}
-
+		List<ClientContact> contactList = get(CONTACTS).getValue();
+		taxAgency.setContacts(new HashSet<ClientContact>(contactList));
 		if (context.getPreferences().isTrackPaidTax()) {
 			Account purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
 			String vatReturn = get(VAT_RETURN).getValue();
@@ -360,293 +405,4 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		return vatReturnList;
 	}
-
-	//
-	// private static final String PAYMENT_TERM = "paymentTerm";
-	// private static final String SALES_ACCOUNT = "salesLiabilityAccount";
-	// private static final String PURCHASE_ACCOUNT =
-	// "purchaseLiabilityAccount";
-	// private static final String PHONE = "phone";
-	// private static final String FAX = "fax";
-	// private static final String EMAIL = "email";
-	// private static final String WEBSITE = "webPageAddress";
-	// private static final String VAT_AGENCY_CONTACT = "vatAgencyContact";
-	// protected static final String CONTACT_NAME = "contactName";
-	// protected static final String TITLE = "title";
-	// protected static final String BUSINESS_PHONE = "businessPhone";
-	// protected static final String CONTACT_EMAIL = "contactEmail";
-	// private static final String IS_ACTIVE = "isActive";
-	//
-	// private static final String VAT_AGENCY_ADDRESS = "vatAgencyAddress";
-	//
-	// @Override
-	// public String getId() {
-	// // TODO Auto-generated method stub
-	// return null;
-	// }
-	//
-	// @Override
-	// protected void addRequirements(List<Requirement> list) {
-	// list.add(new Requirement(NAME, false, true));
-	// list.add(new Requirement(PAYMENT_TERM, false, true));
-	// list.add(new Requirement(SALES_ACCOUNT, false, true));
-	// // if (getCompanyType(c) != 0) {
-	// list.add(new Requirement(VAT_RETURN, false, true));
-	// list.add(new Requirement(PURCHASE_ACCOUNT, false, true));
-	// // }
-	// list.add(new Requirement(VAT_AGENCY_ADDRESS, true, true));
-	// list.add(new Requirement(PHONE, true, true));
-	// list.add(new Requirement(FAX, true, true));
-	// list.add(new Requirement(EMAIL, true, true));
-	// list.add(new Requirement(WEBSITE, true, true));
-	// list.add(new ObjectListRequirement(VAT_AGENCY_CONTACT, true, true) {
-	//
-	// @Override
-	// public void addRequirements(List<Requirement> list) {
-	// list.add(new Requirement(CONTACT_NAME, true, true));
-	// list.add(new Requirement(TITLE, true, true));
-	// list.add(new Requirement(BUSINESS_PHONE, true, true));
-	// list.add(new Requirement(CONTACT_EMAIL, true, true));
-	// }
-	// });
-	// list.add(new Requirement(IS_ACTIVE, true, true));
-	// }
-	//
-	// @Override
-	// public Result run(Context context) {
-	// Object attribute = context.getAttribute(INPUT_ATTR);
-	// if (attribute == null) {
-	// context.setAttribute(INPUT_ATTR, "optional");
-	// }
-	// Result result = context.makeResult();
-	//
-	// String process = (String) context.getAttribute(PROCESS_ATTR);
-	// if (process != null) {
-	// if (process.equals(CONTACT_PROCESS)) {
-	// result = contactProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// }
-	// if (process.equals(ADDRESS_PROCESS)) {
-	// result = addressProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// }
-	// }
-	// Result makeResult = context.makeResult();
-	// makeResult.add(getMessages().readyToCreate(getConstants().vatAgency()));
-	// ResultList list = new ResultList("values");
-	// makeResult.add(list);
-	// ResultList actions = new ResultList(ACTIONS);
-	// makeResult.add(actions);
-	//
-	// setOptionalValues();
-	//
-	// result = nameRequirement(context, list, NAME, getConstants()
-	// .vatAgencyName(),
-	// getMessages().pleaseEnter(getConstants().vatAgencyName()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = paymentTermsRequirement(context, list, PAYMENT_TERM,
-	// getMessages().pleaseSelect(getConstants().paymentTerm()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = accountRequirement(context, list, SALES_ACCOUNT, getMessages()
-	// .salesLiabilityAccount(Global.get().Account()),
-	// new ListFilter<ClientAccount>() {
-	//
-	// @Override
-	// public boolean filter(ClientAccount account) {
-	// return account.getIsActive()
-	// && Arrays
-	// .asList(ClientAccount.TYPE_INCOME,
-	// ClientAccount.TYPE_EXPENSE,
-	// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-	// ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-	// ClientAccount.TYPE_FIXED_ASSET)
-	// .contains(account.getType());
-	// }
-	// });
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// if (getClientCompany().getPreferences().isTrackPaidTax()) {
-	// result = accountRequirement(
-	// context,
-	// list,
-	// PURCHASE_ACCOUNT,
-	// getMessages().purchaseLiabilityAccount(
-	// Global.get().Account()),
-	// new ListFilter<ClientAccount>() {
-	//
-	// @Override
-	// public boolean filter(ClientAccount account) {
-	// return account.getIsActive()
-	// && Arrays
-	// .asList(ClientAccount.TYPE_INCOME,
-	// ClientAccount.TYPE_EXPENSE,
-	// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-	// ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-	// ClientAccount.TYPE_FIXED_ASSET)
-	// .contains(account.getType());
-	// }
-	// });
-	// if (result != null) {
-	// return result;
-	// }
-	// result = vatReturnRequirement(context, list, VAT_RETURN);
-	// if (result != null) {
-	// return result;
-	// }
-	// }
-	//
-	// result = createOptionalResult(context, list, actions, makeResult);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// return createVatAgency(context);
-	// }
-	//
-	// private void setOptionalValues() {
-	// Requirement isActiveReq = get(IS_ACTIVE);
-	// if (isActiveReq.getDefaultValue() == null) {
-	// isActiveReq.setDefaultValue(true);
-	// }
-	// Requirement contactsReq = get(VAT_AGENCY_CONTACT);
-	// if (contactsReq.getDefaultValue() == null) {
-	// contactsReq.setDefaultValue(new HashSet<ClientContact>());
-	// }
-	// Requirement addressReq = get(VAT_AGENCY_ADDRESS);
-	// if (addressReq.getDefaultValue() == null) {
-	// addressReq.setDefaultValue(new ClientAddress());
-	// }
-	// Requirement phoneReq = get(PHONE);
-	// if (phoneReq.getDefaultValue() == null) {
-	// phoneReq.setDefaultValue(new String());
-	// }
-	// Requirement faxReq = get(FAX);
-	// if (faxReq.getDefaultValue() == null) {
-	// faxReq.setDefaultValue(new String());
-	// }
-	// Requirement emailReq = get(EMAIL);
-	// if (emailReq.getDefaultValue() == null) {
-	// emailReq.setDefaultValue(new String());
-	// }
-	// Requirement websiteReq = get(WEBSITE);
-	// if (websiteReq.getDefaultValue() == null) {
-	// websiteReq.setDefaultValue(new String());
-	// }
-	// }
-	//
-	// private Result createVatAgency(Context context) {
-	// ClientTAXAgency taxAgency = new ClientTAXAgency();
-	// String name = get(NAME).getValue();
-	// ClientPaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
-	// ClientAccount salesAccount = get(SALES_ACCOUNT).getValue();
-	// ClientAddress address = (ClientAddress) get(VAT_AGENCY_ADDRESS)
-	// .getValue();
-	// String phone = (String) get(PHONE).getValue();
-	// String fax = (String) get(FAX).getValue();
-	// String email = (String) get(EMAIL).getValue();
-	// String website = (String) get(WEBSITE).getValue();
-	// Set<ClientContact> contacts = get(VAT_AGENCY_CONTACT).getValue();
-	//
-	// HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
-	// if (address != null) {
-	// addresses.add(address);
-	// }
-	//
-	// taxAgency.setName(name);
-	// taxAgency.setPaymentTerm(paymentTerm.getID());
-	// taxAgency.setSalesLiabilityAccount(salesAccount.getID());
-	// taxAgency.setAddress(addresses);
-	// taxAgency.setPhoneNo(phone);
-	// taxAgency.setFaxNo(fax);
-	// taxAgency.setEmail(email);
-	// taxAgency.setWebPageAddress(website);
-	// taxAgency.setContacts(contacts);
-	// if (getClientCompany().getPreferences().isTrackPaidTax()) {
-	// ClientAccount purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
-	// String vatReturn = get(VAT_RETURN).getValue();
-	// taxAgency.setPurchaseLiabilityAccount(purchaseAccount.getID());
-	// if (vatReturn == "") {
-	// taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
-	// } else if (vatReturn == "UK VAT") {
-	// taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
-	// } else {
-	// taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
-	// }
-	// }
-	//
-	// create(taxAgency, context);
-	//
-	// markDone();
-	// Result result = new Result();
-	// result.add(getMessages().createSuccessfully(getConstants().taxAgency()));
-	//
-	// return result;
-	// }
-	//
-	// private Result createOptionalResult(Context context, ResultList list,
-	// ResultList actions, Result makeResult) {
-	// // context.setAttribute(INPUT_ATTR, "optional");
-	//
-	// Object selection = context.getSelection(ACTIONS);
-	// if (selection != null) {
-	// ActionNames actionName = (ActionNames) selection;
-	// switch (actionName) {
-	// case FINISH:
-	// context.removeAttribute(INPUT_ATTR);
-	// return null;
-	// default:
-	// break;
-	// }
-	// }
-	//
-	// selection = context.getSelection("values");
-	//
-	// Result result = numberOptionalRequirement(context, list, selection,
-	// PHONE, getConstants().phoneNumber(),
-	// getMessages().pleaseEnter(getConstants().phoneNumber()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = numberOptionalRequirement(context, list, selection, FAX,
-	// getConstants().fax(),
-	// getMessages().pleaseEnter(getConstants().fax()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = stringOptionalRequirement(context, list, selection, EMAIL,
-	// getConstants().email(),
-	// getMessages().pleaseEnter(getConstants().email()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = stringOptionalRequirement(context, list, selection, WEBSITE,
-	// getConstants().webSite(),
-	// getMessages().pleaseEnter(getConstants().webPageAddress()));
-	// if (result != null) {
-	// return result;
-	// }
-	// booleanOptionalRequirement(context, selection, list, IS_ACTIVE,
-	// getMessages().active(getConstants().vatAgency()), getMessages()
-	// .inActive(getConstants().vatAgency()));
-	//
-	// Record finish = new Record(ActionNames.FINISH);
-	// finish.add("", getMessages().finishToCreate(getConstants().vatAgency()));
-	// actions.add(finish);
-	// return makeResult;
-	// }
 }

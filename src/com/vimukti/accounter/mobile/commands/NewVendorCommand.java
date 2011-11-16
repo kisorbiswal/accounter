@@ -8,10 +8,10 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -414,7 +414,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 		if (preferences.getUseVendorId()) {
 			number = get(VENDOR_NUMBER).getValue().toString();
 		}
-		List<Contact> contact = get(CONTACTS).getValue();
+		List<ClientContact> contact = get(CONTACTS).getValue();
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		ClientFinanceDate balancedate = get(BALANCE_AS_OF).getValue();
 		double balance = get(BALANCE).getValue();
@@ -451,12 +451,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 			addresses.add(shipTo);
 
 		}
-		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
-		if (contact != null) {
-			for (Contact clientContact : contact) {
-				contacts.add(toClientContact(clientContact));
-			}
-		}
 		vendor.setName(name);
 		if (preferences.getUseVendorId())
 			vendor.setVendorNumber(number);
@@ -465,7 +459,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			vendor.setBalanceAsOf(balancedate.getDate());
 		}
 		// vendor.set
-		vendor.setContacts(contacts);
+		vendor.setContacts(new HashSet<ClientContact>(contact));
 		vendor.setBalance(balance);
 		if (!addresses.isEmpty())
 			vendor.setAddress(addresses);
@@ -529,10 +523,10 @@ public class NewVendorCommand extends NewAbstractCommand {
 			if (string.isEmpty()) {
 				return "vendors";
 			}
-			Vendor vendorByName = CommandUtils.getVendorByName(
+			Payee vendorByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (vendorByName == null) {
-				vendorByName = CommandUtils.getVendorByNumber(
+				vendorByName = CommandUtils.getPayeeByNumber(
 						context.getCompany(), getNumberFromString(string));
 				if (vendorByName == null) {
 					return "vendors " + string;

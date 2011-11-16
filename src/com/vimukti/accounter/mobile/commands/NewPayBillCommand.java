@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
@@ -337,8 +338,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 					record.setOriginalAmount(curntRec.getOriginalAmount());
 
 					// record.setPayment(curntRec.getPayment());
-					Vendor vendor = CommandUtils
-							.getVendorByName(clinetVendor.getCompany(),
+					Payee vendor = CommandUtils
+							.getPayeeByName(clinetVendor.getCompany(),
 									curntRec.getVendorName());
 					if (vendor != null)
 						record.setVendor(vendor.getID());

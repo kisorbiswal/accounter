@@ -9,6 +9,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
@@ -436,13 +437,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		customer.setName(name);
 		if (preferences.getUseCustomerId())
 			customer.setNumber(number);
-
-		HashSet<ClientContact> contacts = new HashSet<ClientContact>();
-		if (contact != null)
-			for (ClientContact Contact : contact) {
-				contacts.add(Contact);
-			}
-		customer.setContacts(contacts);
+		customer.setContacts(new HashSet<ClientContact>(contact));
 		customer.setBalance(balance);
 		if (balancedate != null) {
 			customer.setBalanceAsOf(balancedate.getDate());
@@ -539,16 +534,18 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			if (string.isEmpty()) {
 				return "Customers";
 			}
-			ClientCustomer customerByName = CommandUtils.getCustomerByName(
+			Payee customerByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (customerByName == null) {
-				customerByName = CommandUtils.getCustomerByNumber(
+				customerByName = CommandUtils.getPayeeByNumber(
 						context.getCompany(), getNumberFromString(string));
 				if (customerByName == null) {
 					return "Customers " + string;
 				}
 			}
-			customer = customerByName;
+			customer = (ClientCustomer) CommandUtils.getClientObjectById(
+					customerByName.getID(), AccounterCoreType.CUSTOMER, context
+							.getCompany().getId());
 			setValues();
 		} else {
 			String string = context.getString();

@@ -343,6 +343,9 @@
 		<alias>Add VAT Agency</alias>
 		<alias>Add TAX Agency</alias>
 		<alias>Create TAX Agency</alias>
+		<alias>Edit TAX Agency</alias>
+		<alias>Update TAX Agency</alias>
+		<alias>Modify TAX Agency</alias>
 		<alias>New TAX Agency</alias>
 	</command>
 
