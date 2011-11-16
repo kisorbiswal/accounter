@@ -8,6 +8,7 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Item;
@@ -15,9 +16,12 @@ import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -222,36 +226,69 @@ public class CommandUtils {
 
 	public static ClientCustomerGroup getCustomerGroupByName(Company company,
 			String string) {
-		// TODO Auto-generated method stub
+		Set<CustomerGroup> customerGroups = company.getCustomerGroups();
+		for (CustomerGroup customerGroup : customerGroups) {
+			if (customerGroup.getName().equals(string)) {
+				return (ClientCustomerGroup) getClientObjectById(
+						customerGroup.getID(),
+						AccounterCoreType.CUSTOMER_GROUP, company.getId());
+			}
+		}
 		return null;
 	}
 
 	public static ClientVendorGroup getVendorGroupByName(Company company,
 			String string) {
-		// TODO Auto-generated method stub
+		Set<VendorGroup> vendorGroups = company.getVendorGroups();
+		for (VendorGroup vendorGroup : vendorGroups) {
+			if (vendorGroup.getName().equals(string)) {
+				return (ClientVendorGroup) getClientObjectById(
+						vendorGroup.getID(), AccounterCoreType.VENDOR_GROUP,
+						company.getId());
+			}
+		}
 		return null;
 	}
 
 	public static ClientPaymentTerms getPaymentTermByName(Company company,
 			String string) {
-		// TODO Auto-generated method stub
+		Set<PaymentTerms> paymentTerms = company.getPaymentTerms();
+		for (PaymentTerms paymentTerm : paymentTerms) {
+			if (paymentTerm.getName().equals(string)) {
+				return (ClientPaymentTerms) getClientObjectById(
+						paymentTerm.getID(), AccounterCoreType.PAYMENT_TERM,
+						company.getId());
+			}
+		}
 		return null;
 	}
 
 	public static ClientShippingTerms getshippingTermsByNameByName(
 			Company company, String string) {
-		// TODO Auto-generated method stub
+		Set<ShippingTerms> shippingTerms = company.getShippingTerms();
+		for (ShippingTerms shippingTerm : shippingTerms) {
+			if (shippingTerm.getName().equals(string)) {
+				return (ClientShippingTerms) getClientObjectById(
+						shippingTerm.getID(), AccounterCoreType.SHIPPING_TERM,
+						company.getId());
+			}
+		}
 		return null;
 	}
 
 	public static ClientTransaction getClientTransactionByNumber(
 			Company company, long numberFromString) {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 
 	public static Item getItemByName(Company company, String string) {
-		// TODO Auto-generated method stub
+		Set<Item> items = company.getItems();
+		for (Item item : items) {
+			if (item.getName().equals(string)) {
+				return item;
+			}
+		}
 		return null;
 	}
 
@@ -277,12 +314,22 @@ public class CommandUtils {
 	}
 
 	public static Location getLocationByName(Company company, String string) {
-		// TODO Auto-generated method stub
+		Set<Location> locations = company.getLocations();
+		for (Location location : locations) {
+			if (location.getName().equals(string)) {
+				return location;
+			}
+		}
 		return null;
 	}
 
 	public static AccounterClass getClassByName(Company company, String string) {
-		// TODO Auto-generated method stub
+		Set<AccounterClass> accounterClasses = company.getAccounterClasses();
+		for (AccounterClass accounterClass : accounterClasses) {
+			if (accounterClass.getName().equals(string)) {
+				return accounterClass;
+			}
+		}
 		return null;
 	}
 
