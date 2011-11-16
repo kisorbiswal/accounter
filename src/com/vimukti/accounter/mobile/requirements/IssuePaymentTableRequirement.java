@@ -1,14 +1,19 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
+import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class IssuePaymentTableRequirement extends
-		AbstractTableRequirement<ClientTransactionIssuePayment> {
+		AbstractTableRequirement<IssuePaymentTransactionsList> {
 
 	private static final String DATE = "date";
 	private static final String NUMBER = "number";
@@ -18,8 +23,11 @@ public abstract class IssuePaymentTableRequirement extends
 	private static final String PAYMENT_METHOD = "paymentMethod";
 
 	public IssuePaymentTableRequirement(String requirementName,
-			String enterString, String recordName) {
-		super(requirementName, enterString, recordName, false, false, true);
+			String enterString, String recordName, boolean isOptional,
+			boolean isAllowFromContext) {
+		super(requirementName, enterString, recordName, false, isOptional,
+				isAllowFromContext);
+		setDefaultValue(new ArrayList<IssuePaymentTransactionsList>());
 	}
 
 	@Override
@@ -64,16 +72,15 @@ public abstract class IssuePaymentTableRequirement extends
 	}
 
 	@Override
-	protected void getRequirementsValues(ClientTransactionIssuePayment obj) {
+	protected void getRequirementsValues(IssuePaymentTransactionsList obj) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void setRequirementsDefaultValues(
-			ClientTransactionIssuePayment obj) {
+	protected void setRequirementsDefaultValues(IssuePaymentTransactionsList obj) {
 
-		get(DATE).setDefaultValue(new ClientFinanceDate(obj.getDate()));
+		get(DATE).setDefaultValue(new FinanceDate(obj.getDate()));
 		get(NUMBER).setDefaultValue(obj.getNumber());
 		get(NAME).setDefaultValue(obj.getName());
 		get(MEMO).setDefaultValue(obj.getMemo());
@@ -82,13 +89,14 @@ public abstract class IssuePaymentTableRequirement extends
 	}
 
 	@Override
-	protected ClientTransactionIssuePayment getNewObject() {
-		// TODO Auto-generated method stub
-		return null;
+	protected IssuePaymentTransactionsList getNewObject() {
+		return new IssuePaymentTransactionsList();
 	}
 
+	protected abstract Account getAccount();
+
 	@Override
-	protected Record createFullRecord(ClientTransactionIssuePayment t) {
+	protected Record createFullRecord(IssuePaymentTransactionsList t) {
 		Record record = new Record(t);
 		record.add("", getConstants().date());
 		record.add("", t.getDate());
@@ -106,13 +114,23 @@ public abstract class IssuePaymentTableRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientTransactionIssuePayment t) {
+	protected List<IssuePaymentTransactionsList> getList() {
+		try {
+			return new FinanceTool().getVendorManager().getChecks(
+					getAccount().getID(), getCompanyId());
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	protected Record createRecord(IssuePaymentTransactionsList t) {
 		return createFullRecord(t);
 	}
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().payments());
+		return "Add More PayMent Issues";
 	}
-
 }
