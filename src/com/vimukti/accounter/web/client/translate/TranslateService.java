@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.translate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -17,4 +18,6 @@ public interface TranslateService extends RemoteService {
 			int to);
 
 	boolean setApprove(long localMessageId, boolean isApprove);
+
+	List<ClientLanguage> getLanguages();
 }
