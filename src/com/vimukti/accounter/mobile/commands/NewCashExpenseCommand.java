@@ -376,13 +376,13 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				return "Received Payments List";
+				return "Expenses List";
 			}
 			ClientCashPurchase transactionByNum = (ClientCashPurchase) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(),
 							getNumberFromString(string));
 			if (transactionByNum == null) {
-				return "Received Payments List " + string;
+				return "Expenses List " + string;
 			}
 			cashPurchase = transactionByNum;
 			setValues();
