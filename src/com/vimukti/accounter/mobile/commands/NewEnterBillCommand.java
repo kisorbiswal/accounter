@@ -302,7 +302,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected List<Contact> getLists(Context context) {
 				return new ArrayList<Contact>(
-						((Customer) NewEnterBillCommand.this.get(VENDOR)
+						((Vendor) NewEnterBillCommand.this.get(VENDOR)
 								.getValue()).getContacts());
 			}
 
