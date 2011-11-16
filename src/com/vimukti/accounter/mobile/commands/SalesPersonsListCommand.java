@@ -64,7 +64,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(SalesPerson value) {
-				return null;
+				return "Update Sales Person " + value.getFirstName();
 			}
 
 			@Override
@@ -97,7 +97,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected boolean filter(SalesPerson e, String name) {
-				return e.getName().startsWith(name);
+				return e.getFirstName().startsWith(name);
 			}
 
 			@Override

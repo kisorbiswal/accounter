@@ -199,12 +199,15 @@ public class CommandUtils {
 			String string) {
 		Set<SalesPerson> salesPersons = company.getSalesPersons();
 		for (SalesPerson salesPerson : salesPersons) {
-			if (salesPerson.getName().equals(string)
-					|| salesPerson.getFirstName().equals(string)
-					|| salesPerson.getLastName().equals(string)
-					|| salesPerson.getMiddleName1().equals(string)
-					|| salesPerson.getMiddleName2().equals(string)
-					|| salesPerson.getMiddleName3().equals(string)) {
+			if (salesPerson.getFirstName().equals(string)
+					|| (salesPerson.getLastName() != null && salesPerson
+							.getLastName().equals(string))
+					|| (salesPerson.getMiddleName1() != null && salesPerson
+							.getMiddleName1().equals(string))
+					|| (salesPerson.getMiddleName2() != null && salesPerson
+							.getMiddleName2().equals(string))
+					|| (salesPerson.getMiddleName3() != null && salesPerson
+							.getMiddleName3().equals(string))) {
 				return (ClientSalesPerson) getClientObjectById(
 						salesPerson.getID(), AccounterCoreType.SALES_PERSON,
 						company.getId());
