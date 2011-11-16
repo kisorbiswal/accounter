@@ -107,33 +107,13 @@ public class VendorTransactionHistoryServerReport extends
 			return getDateByCompanyType(record.getDate());
 		case 3:
 			return record.getNumber();
-			// case 3:
-			// return record.getReference();
-			// return record.getInvoicedAmount();
 		case 4:
 			return record.getAccount();
-			// return record.getPaidAmount();
 		case 5:
 			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? record
 					.getPaidAmount()
 					: record.getInvoicedAmount();
-			// return record.getDiscount();
-			// case 6:
-			// return record.getInvoicedAmount() - record.getPaidAmount()
-			// - record.getDiscount();
-			// case 7:
-			// return Utility.getTransactionStatus(record.getType(), record
-			// .getStatus());
-			// case 8:
-			// return record.getNumber();
-			// case 9:
-			// return record.getMemo();sort
-			// case 10:
-			// return record.getDueDate();
-			// case 11:
-			// return record.getDebit();
-			// case 12:
-			// return record.getCredit();
+
 
 		}
 		return null;
