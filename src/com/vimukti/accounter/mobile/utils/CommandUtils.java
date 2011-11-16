@@ -26,16 +26,19 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
@@ -45,11 +48,12 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CommandUtils {
 
-	public static Payee getPayeeByName(Company company, String vendorName) {
+	public static ClientPayee getPayeeByName(Company company, String vendorName) {
 		Set<Payee> vendors = company.getPayees();
 		for (Payee vendor : vendors) {
 			if (vendor.getName().equals(vendorName)) {
-				return vendor;
+				return (ClientPayee) getClientObjectById(vendor.getID(),
+						AccounterCoreType.PAYEE, company.getId());
 			}
 		}
 		return null;
@@ -154,22 +158,25 @@ public class CommandUtils {
 		return null;
 	}
 
-	public static Customer getCustomerByNumber(Company company,
+	public static ClientCustomer getCustomerByNumber(Company company,
 			String customerNumber) {
 		Set<Customer> customers = company.getCustomers();
 		for (Customer customer : customers) {
 			if (customer.getNumber().equals(customerNumber)) {
-				return customer;
+				return (ClientCustomer) getClientObjectById(customer.getID(),
+						AccounterCoreType.CUSTOMER, company.getId());
 			}
 		}
 		return null;
 	}
 
-	public static Vendor getVendorByNumber(Company company, String vendorNumber) {
+	public static ClientVendor getVendorByNumber(Company company,
+			String vendorNumber) {
 		Set<Vendor> vendors = company.getVendors();
 		for (Vendor vendor : vendors) {
 			if (vendor.getVendorNumber().equals(vendorNumber)) {
-				return vendor;
+				return (ClientVendor) getClientObjectById(vendor.getID(),
+						AccounterCoreType.VENDOR, company.getId());
 			}
 		}
 		return null;
