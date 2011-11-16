@@ -1160,13 +1160,6 @@
 		=:id and tmd.depositedTransaction.company=:company
 	</query>
 
-	<query name="getTransactionByNumber">
-		<query-param name="number" type="string" />
-		<query-param name="company" type="Company" />
-		from
-		com.vimukti.accounter.core.Transaction transaction where transaction.number
-		=:number and transaction.company=:company
-	</query>
 	<query name="getTransactionMakeDeposit.by.checking.isDepositedandisVoid">
 		<query-param name="company" type="Company" />
 		from
