@@ -802,7 +802,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		}
 
-		if (currency.getID() != 0) {
+		if (currency != null && currency.getID() != 0) {
 			currencyWidget.setSelectedCurrency(currency);
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());

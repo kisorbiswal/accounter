@@ -1962,7 +1962,6 @@ public class CoreUtils {
 			new ClientCurrency("Zimbabwean Dollar", "ZWD", "Z$"),
 			new ClientCurrency("DanishKrone", "DKK", "Kr"),
 			new ClientCurrency("Euro", "EUR", "€"),
-			new ClientCurrency("Puerto Rico", "USD", "$"),
 			new ClientCurrency("Cyprus Pound", "CYP", "£"),
 			new ClientCurrency("Ecuadorian sucre", "ECS", "S/."),
 			new ClientCurrency("French Polynesia", "XPF", "FF"),

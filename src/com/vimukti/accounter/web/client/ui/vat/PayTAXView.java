@@ -105,10 +105,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedPayFromAccount = selectItem;
 						selectedAccount(selectItem);
-						amountText.setCurrency(getCurrency(selectItem
-								.getCurrency()));
-						endingBalanceText.setCurrency(getCurrency(selectItem
-								.getCurrency()));
+						ClientCurrency currency = getCurrency(selectItem
+								.getCurrency());
+						amountText.setCurrency(currency);
+						endingBalanceText.setCurrency(currency);
 						// initialEndingBalance = selectedPayFromAccount
 						// .getTotalBalance() != 0 ? selectedPayFromAccount
 						// .getTotalBalance()
@@ -263,7 +263,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	 */
 	private void selectedAccount(ClientAccount selectItem) {
 		ClientCurrency accountAccount = getCurrency(selectItem.getCurrency());
-		if (accountAccount.getID() != 0) {
+		if (accountAccount != null && accountAccount.getID() != 0) {
 			currencyWidget.setSelectedCurrency(accountAccount);
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());

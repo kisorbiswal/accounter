@@ -116,10 +116,10 @@ public class ReceiveVATView extends
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedDepositInAccount = selectItem;
-						amountText.setCurrency(getCompany().getCurrency(
-								selectItem.getCurrency()));
-						endingBalanceText.setCurrency(getCompany().getCurrency(
-								selectItem.getCurrency()));
+						ClientCurrency currency = getCompany().getCurrency(
+								selectItem.getCurrency());
+						amountText.setCurrency(currency);
+						endingBalanceText.setCurrency(currency);
 						// initialEndingBalance = selectedPayFromAccount
 						// .getTotalBalance() != 0 ? selectedPayFromAccount
 						// .getTotalBalance()
@@ -289,7 +289,7 @@ public class ReceiveVATView extends
 
 	private void calculateEndingBalance() {
 		if (selectedDepositInAccount != null) {
-				endingBalance = initialEndingBalance + totalAmount;
+			endingBalance = initialEndingBalance + totalAmount;
 			endingBalanceText.setValue(DataUtils
 					.getAmountAsString(endingBalance));
 

@@ -119,6 +119,9 @@ public class AmountField extends TextItem {
 	}
 
 	public void setCurrency(ClientCurrency currency) {
+		if (currency == null) {
+			return;
+		}
 		this.currency = currency;
 		if (showCurrency) {
 			setTitle(getName() + "(" + currency.getFormalName() + ")");
