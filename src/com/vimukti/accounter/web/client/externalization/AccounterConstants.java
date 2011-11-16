@@ -3755,6 +3755,8 @@ public interface AccounterConstants extends Constants {
 	public String mustSelectCustomerForBillable();
 
 	public String onlySellableItemsCanBeMarkedAsBillable();
-	
+
 	public String depositFrom();
+
+	public String taxList();
 }

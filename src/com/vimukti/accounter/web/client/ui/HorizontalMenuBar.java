@@ -510,11 +510,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			vatmenu.addItem(ActionFactory.getTaxHistoryAction());
 		}
 		vatmenu.addSeparator();
-		if (preferences.isTDSEnabled()) {
-			vatmenu.addItem(ActionFactory.getpayTDSAction());
-			vatmenu.addItem(Accounter.constants().tds(), getTDSMenu());
-			vatmenu.addSeparator();
-		}
+		// if (preferences.isTDSEnabled()) {
+		// vatmenu.addItem(ActionFactory.getpayTDSAction());
+		// vatmenu.addItem(Accounter.constants().tds(), getTDSMenu());
+		// vatmenu.addSeparator();
+		// }
 
 		vatmenu.addItem(Accounter.constants().vatList(), getVATsListMenu());
 
@@ -849,8 +849,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(Global.get().messages().payeeLists(
-				Global.get().Vendor()), getVendorListMenu());
+		vendorMenuBar.addItem(
+				Global.get().messages().payeeLists(Global.get().Vendor()),
+				getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -902,8 +903,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			customerMenuBar.addItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparator();
 		}
-		customerMenuBar.addItem(Accounter.messages().payeeLists(
-				Global.get().Customer()), getCustomerListMenu());
+		customerMenuBar.addItem(
+				Accounter.messages().payeeLists(Global.get().Customer()),
+				getCustomerListMenu());
 		return customerMenuBar;
 	}
 

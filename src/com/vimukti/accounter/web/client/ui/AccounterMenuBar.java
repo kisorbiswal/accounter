@@ -182,13 +182,13 @@ public class AccounterMenuBar extends HorizontalPanel {
 			vatmenu.addMenuItem(ActionFactory.getTaxHistoryAction());
 		}
 		vatmenu.addSeparatorItem();
-		if (preferences.isTDSEnabled()) {
-			vatmenu.addMenuItem(ActionFactory.getpayTDSAction());
-			vatmenu.addMenuItem(Accounter.constants().tds(), getTDSMenu());
-			vatmenu.addSeparatorItem();
-		}
+		// if (preferences.isTDSEnabled()) {
+		// vatmenu.addMenuItem(ActionFactory.getpayTDSAction());
+		// vatmenu.addMenuItem(Accounter.constants().tds(), getTDSMenu());
+		// vatmenu.addSeparatorItem();
+		// }
 
-		vatmenu.addMenuItem(Accounter.constants().vatList(), getVATsListMenu());
+		vatmenu.addMenuItem(Accounter.constants().taxList(), getVATsListMenu());
 
 		return vatmenu;
 	}
@@ -269,7 +269,6 @@ public class AccounterMenuBar extends HorizontalPanel {
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
 		return reportMenuBar;
 	}
-
 
 	private IMenu getSalesSubMenu() {
 		IMenu salesMenu = getSubMenu();
