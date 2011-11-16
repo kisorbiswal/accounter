@@ -13,6 +13,10 @@ public class ClientLanguage implements IAccounterCore {
 	private String tooltip;
 	private String code;
 
+	public ClientLanguage() {
+
+	}
+
 	public ClientLanguage(String languageTooltip, String langugeName,
 			String languageCode) {
 		this.setLangugeName(langugeName);
