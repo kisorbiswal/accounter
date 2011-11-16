@@ -16,7 +16,7 @@ public class LocalMessage implements Serializable {
 
 	Message message;
 
-	String lang;
+	Language lang;
 
 	String value;
 
@@ -46,11 +46,11 @@ public class LocalMessage implements Serializable {
 		this.id = id;
 	}
 
-	public String getLang() {
+	public Language getLang() {
 		return lang;
 	}
 
-	public void setLang(String lang) {
+	public void setLang(Language lang) {
 		this.lang = lang;
 	}
 
