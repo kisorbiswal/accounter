@@ -176,4 +176,24 @@
 		l.code!=''
 	</query>
 
+	<query name="getLocalMessagesByMessageId">
+		<query-param name="messageId" type="long" />
+		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
+		lm.message.id=:messageId
+	</query>
+
+	<sql-query name="getKeyAndValues">
+		<query-param name="clientId" type="long" />
+		<query-param name="lang" type="string" />
+		SELECT K.KEY,CASE
+		WHEN (LM.LANGUAGE=:lang)
+		THEN LM.VALUE
+		ELSE
+		M.VALUE
+		END AS VALUE
+		FROM KEY K LEFT JOIN KEY_MESSAGES KM ON KM.KEY_ID = K.ID LEFT JOIN MESSAGE
+		M ON M.ID=KM.MESSAGE_ID LEFT JOIN LOCAL_MESSAGE LM ON
+		LM.MESSAGE_ID=M.ID AND LM.CLIENT=:clientId
+	</sql-query>
+
 </hibernate-mapping>

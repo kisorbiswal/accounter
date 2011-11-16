@@ -2618,6 +2618,21 @@ public class FinanceTool {
 				return false;
 			}
 
+			Query messagesQuery = session.getNamedQuery(
+					"getLocalMessagesByMessageId").setParameter("messageId",
+					localMessage.getMessage().getId());
+			List<LocalMessage> list = messagesQuery.list();
+
+			for (LocalMessage locMessage : list) {
+				if (localMessage.isApproved()) {
+					localMessage.setApproved(false);
+					org.hibernate.Transaction transaction = session
+							.beginTransaction();
+					session.saveOrUpdate(locMessage);
+					transaction.commit();
+				}
+			}
+
 			localMessage.setApproved(isApproved);
 
 			org.hibernate.Transaction transaction = session.beginTransaction();
@@ -2688,9 +2703,36 @@ public class FinanceTool {
 	public HashMap<String, String> getKeyAndValues(long clientId,
 			String langCode) {
 		// Replace("'", "\\'")
-		HashMap<String, String> result = new HashMap<String, String>();
-		result.put("test", "value");
-		return result;
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getKeyAndValues")
+					.setParameter("clientId", clientId)
+					.setParameter("lang", langCode);
+			List list = query.list();
+
+			HashMap<String, String> result = new HashMap<String, String>();
+
+			Iterator iterator = list.iterator();
+			while (iterator.hasNext()) {
+				Object[] next = (Object[]) iterator.next();
+				String key = (String) next[0];
+				String value = (String) next[1];
+				value.replace("'", "\\'");
+				result.put(key, value);
+			}
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
 	}
 
 	public List<ClientLanguage> getLanguages() {
