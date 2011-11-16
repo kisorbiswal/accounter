@@ -48,7 +48,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context,
 						"Select a Vendor Prepayment to update.");
-				return "Invoices List";
+				return "Vendor Payments List";
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -60,7 +60,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			if (invoiceByNum == null) {
 				addFirstMessage(context,
 						"Select a Vendor Prepayment to update.");
-				return "Invoices List " + string;
+				return "Vendor Payments List " + string;
 			}
 			paybill = invoiceByNum;
 			setValues();

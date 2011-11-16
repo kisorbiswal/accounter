@@ -583,7 +583,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Cash Sale to update.");
-				return "Cash Sales List";
+				return "Invoices List";
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -594,7 +594,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 							AccounterCoreType.CASHSALES);
 			if (invoiceByNum == null) {
 				addFirstMessage(context, "Select a Cash Sale to update.");
-				return "Cash Sales List " + string;
+				return "Invoices List " + string;
 			}
 			cashSale = invoiceByNum;
 			setValues();

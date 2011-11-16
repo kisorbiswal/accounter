@@ -49,7 +49,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Cash Purchase to update.");
-				return "Invoices List";
+				return "Bills And Expenses List";
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -60,7 +60,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 							AccounterCoreType.CASHPURCHASE);
 			if (transactionByNum == null) {
 				addFirstMessage(context, "Select a Cash Purchase to update.");
-				return "Invoices List " + string;
+				return "Bills And Expenses List " + string;
 			}
 			cashPurchase = transactionByNum;
 			setValues();

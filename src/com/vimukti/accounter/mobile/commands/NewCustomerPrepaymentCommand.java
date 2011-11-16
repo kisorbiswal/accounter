@@ -43,7 +43,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			if (string.isEmpty()) {
 				addFirstMessage(context,
 						"Select a Customer Prepayment to update.");
-				return "Invoices List";
+				return "Received Payments List";
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -55,7 +55,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			if (transactionByNum == null) {
 				addFirstMessage(context,
 						"Select a Customer Prepayment to update.");
-				return "Invoices List " + string;
+				return "Received Payments List " + string;
 			}
 			prePayment = transactionByNum;
 			setValues();
