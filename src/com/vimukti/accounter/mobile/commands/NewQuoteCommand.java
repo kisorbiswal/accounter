@@ -241,7 +241,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		Customer customer = get(CUSTOMER).getValue();
 		estimate.setCustomer(customer.getID());
-		estimate.setType(ClientEstimate.TYPE_ESTIMATE);
+		estimate.setEstimateType(ClientEstimate.QUOTES);
 
 		ClientFinanceDate date = get(DATE).getValue();
 		estimate.setDate(date.getDate());
@@ -281,8 +281,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		}
 
 		estimate.setTransactionItems(items);
-		double taxTotal = updateTotals(context, estimate, true);
-		estimate.setTaxTotal(taxTotal);
+
 		PaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		estimate.setPaymentTerm(paymentTerm.getID());
 
@@ -293,9 +292,11 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		estimate.setDeliveryDate(deliveryDate.getDate());
 		ClientFinanceDate expiryDdate = get(EXPIRATION_DATE).getValue();
 		estimate.setExpirationDate(expiryDdate.getDate());
-
+		estimate.setCurrencyFactor(1);
 		String memo = get(MEMO).getValue();
 		estimate.setMemo(memo);
+		double taxTotal = updateTotals(context, estimate, true);
+		estimate.setTaxTotal(taxTotal);
 		create(estimate, context);
 
 		return null;
