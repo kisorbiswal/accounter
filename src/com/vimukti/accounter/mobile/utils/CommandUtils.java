@@ -12,7 +12,9 @@ import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Location;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -21,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
@@ -255,6 +258,36 @@ public class CommandUtils {
 
 	public static AccounterClass getClassByName(Company company, String string) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ClientMeasurement getMeasurement(Company company,
+			String string) {
+		Set<Measurement> measurements = company.getMeasurements();
+		for (Measurement measurement : measurements) {
+			if (measurement.getName().equals(string)) {
+				return (ClientMeasurement) getClientObjectById(
+						measurement.getID(), AccounterCoreType.MEASUREMENT,
+						company.getId());
+			} else if (measurement.getDesctiption().equals(string)) {
+				return (ClientMeasurement) getClientObjectById(
+						measurement.getID(), AccounterCoreType.MEASUREMENT,
+						company.getId());
+			} else if (measurement.getDefaultUnit().getType().equals(string)) {
+				return (ClientMeasurement) getClientObjectById(
+						measurement.getID(), AccounterCoreType.MEASUREMENT,
+						company.getId());
+			} else {
+				Set<Unit> units = measurement.getUnits();
+				for (Unit unit : units) {
+					if (unit.getType().equals(string)) {
+						return (ClientMeasurement) getClientObjectById(
+								measurement.getID(),
+								AccounterCoreType.MEASUREMENT, company.getId());
+					}
+				}
+			}
+		}
 		return null;
 	}
 }

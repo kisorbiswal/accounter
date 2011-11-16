@@ -731,6 +731,9 @@
 	<command clazz="NewMeasurementCommand" name="Measurement">
 		<alias>New Measurement</alias>
 		<alias>Create Measurement</alias>
+		<alias>Edit Measurement</alias>
+		<alias>Update Measurement</alias>
+		<alias>Modify Measurement</alias>
 	</command>
 
 	<command clazz="VATCodesListCommand" name="TAX Codes List">

@@ -1024,7 +1024,7 @@ public class Company implements IAccounterServerCore {
 		return cmp;
 	}
 
-	private Set<Measurement> getMeasurements() {
+	public Set<Measurement> getMeasurements() {
 		return measurements;
 	}
 
