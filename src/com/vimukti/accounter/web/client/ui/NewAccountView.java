@@ -1735,7 +1735,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
 		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
-
+		selectCurrency = baseCurrency;
 		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
 				baseCurrency);
 		widget.setListener(new CurrencyChangeListener() {
