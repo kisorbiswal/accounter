@@ -274,6 +274,7 @@
 		<alias>Create Service Item</alias>
 		<alias>Update Service Item</alias>
 		<alias>Modify Service Item</alias>
+		<alias>Create New Service Item</alias>
 		<alias>Edit Service Item</alias>
 	</command>
 
