@@ -28,7 +28,9 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -38,22 +40,77 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
+	ClientCashPurchase cashPurchase;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "Invoices List";
+			}
+			ClientCashPurchase transactionByNum = (ClientCashPurchase) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(),
+							getNumberFromString(string));
+			if (transactionByNum == null) {
+				return "Invoices List " + string;
+			}
+			cashPurchase = transactionByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			cashPurchase = new ClientCashPurchase();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem clientTransactionItem : cashPurchase
+				.getTransactionItems()) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ITEMS).setValue(items);
+		get(ACCOUNTS).setValue(accounts);
+		get(DATE).setValue(cashPurchase.getDate());
+		get(NUMBER).setValue(cashPurchase.getNumber());
+		get(CURRENCY_FACTOR).setValue(cashPurchase.getCurrencyFactor());
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(cashPurchase.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(CONTACT).setValue(toServerContact(cashPurchase.getContact()));
+		get(PHONE).setValue(cashPurchase.getPhone());
+		get(MEMO).setValue(cashPurchase.getMemo());
+		get(PAYMENT_METHOD).setValue(cashPurchase.getPaymentMethod());
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(cashPurchase.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(CHEQUE_NO).setValue(cashPurchase.getCheckNumber());
+		get(DELIVERY_DATE).setValue(
+				new ClientFinanceDate(cashPurchase.getDeliveryDate()));
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-
-		return getMessages().create(getConstants().cashPurchase());
+		return cashPurchase.getID() == 0 ? getMessages().create(
+				getConstants().cashPurchase())
+				: "Update Cash Purchase command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().cashPurchase());
+		return cashPurchase.getID() == 0 ? getMessages().readyToCreate(
+				getConstants().cashPurchase())
+				: "Cash Purchase is ready to update with following details";
 	}
 
 	@Override
@@ -83,13 +140,13 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-
-		return getMessages().createSuccessfully(getConstants().cashPurchase());
+		return cashPurchase.getID() == 0 ? getMessages().createSuccessfully(
+				getConstants().cashPurchase()) : getMessages()
+				.updateSuccessfully(getConstants().cashPurchase());
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -383,7 +440,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-		ClientCashPurchase cashPurchase = new ClientCashPurchase();
 		ClientFinanceDate date = get(DATE).getValue();
 		cashPurchase.setDate(date.getDate());
 
