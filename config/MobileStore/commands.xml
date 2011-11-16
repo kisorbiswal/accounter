@@ -303,6 +303,9 @@
 
 	<command clazz="NewFiscalYearCommand" name="New FiscalYear">
 		<alias>Create Fiscal Year</alias>
+		<alias>Edit Fiscal Year</alias>
+		<alias>Update Fiscal Year</alias>
+		<alias>Modify Fiscal Year</alias>
 		<alias>Add Fiscal Year</alias>
 	</command>
 

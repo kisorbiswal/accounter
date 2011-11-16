@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
@@ -220,6 +222,27 @@ public class CommandUtils {
 
 	public static Item getItemByName(Company company, String string) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ClientFiscalYear getFiscalYearByDate(long string,
+			Integer integer, Company company) {
+		Set<FiscalYear> fiscalYears = company.getFiscalYears();
+		for (FiscalYear fiscalYear : fiscalYears) {
+			if (fiscalYear.getStartDate().getDate() == string) {
+				return (ClientFiscalYear) getClientObjectById(
+						fiscalYear.getID(), AccounterCoreType.FISCALYEAR,
+						company.getId());
+			} else if (fiscalYear.getEndDate().getDate() == string) {
+				return (ClientFiscalYear) getClientObjectById(
+						fiscalYear.getID(), AccounterCoreType.FISCALYEAR,
+						company.getId());
+			} else if (fiscalYear.getStatus() == integer) {
+				return (ClientFiscalYear) getClientObjectById(
+						fiscalYear.getID(), AccounterCoreType.FISCALYEAR,
+						company.getId());
+			}
+		}
 		return null;
 	}
 }
