@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.requirements;
 import java.io.IOException;
 import java.util.List;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -24,6 +25,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	private AccounterConstants constants;
 	private AccounterMessages messages;
 	private ClientCompanyPreferences preferences;
+	private Company company;
 	private long companyId;
 
 	public AbstractRequirement(String requirementName, String enterString,
@@ -54,6 +56,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		preferences = context.getPreferences();
 		companyId = context.getCompany() == null ? 0 : context.getCompany()
 				.getId();
+		setCompany(context.getCompany());
 		return run(context, makeResult, list, actions);
 	}
 
@@ -95,5 +98,13 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		}
 		string = string.substring(1);
 		return Long.parseLong(string);
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }

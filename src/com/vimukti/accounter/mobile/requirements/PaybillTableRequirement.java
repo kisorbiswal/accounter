@@ -5,11 +5,10 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
+import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 
 public abstract class PaybillTableRequirement extends
-		AbstractTableRequirement<ClientTransactionPayBill> {
+		AbstractTableRequirement<PayBillTransactionList> {
 	private static final String BILL_NO = "BillNo";
 	private static final String ORIGINAL_AMOUNT = "OriginalAmount";
 	private static final String AMOUNT = "Amount";
@@ -47,7 +46,7 @@ public abstract class PaybillTableRequirement extends
 	}
 
 	@Override
-	public void setOtherFields(ResultList list, ClientTransactionPayBill obj) {
+	public void setOtherFields(ResultList list, PayBillTransactionList obj) {
 		double amount = get(AMOUNT).getValue();
 		Double due = obj.getAmountDue() - amount;
 		Record record = new Record(due);
@@ -57,7 +56,7 @@ public abstract class PaybillTableRequirement extends
 	}
 
 	@Override
-	protected void getRequirementsValues(ClientTransactionPayBill obj) {
+	protected void getRequirementsValues(PayBillTransactionList obj) {
 		Double amount = get(AMOUNT).getValue();
 		Double due = obj.getAmountDue() - amount;
 		obj.setPayment(amount);
@@ -65,21 +64,21 @@ public abstract class PaybillTableRequirement extends
 	}
 
 	@Override
-	protected void setRequirementsDefaultValues(ClientTransactionPayBill obj) {
-		get(DUE_DATE).setValue(new ClientFinanceDate(obj.getDueDate()));
+	protected void setRequirementsDefaultValues(PayBillTransactionList obj) {
+		get(DUE_DATE).setValue(obj.getDueDate());
 		get(BILL_NO).setValue(obj.getBillNumber());
 		get(ORIGINAL_AMOUNT).setValue(obj.getOriginalAmount());
 		get(AMOUNT).setValue(obj.getAmountDue());
 	}
 
 	@Override
-	protected ClientTransactionPayBill getNewObject() {
+	protected PayBillTransactionList getNewObject() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected Record createFullRecord(ClientTransactionPayBill t) {
+	protected Record createFullRecord(PayBillTransactionList t) {
 		Record record = new Record(t);
 		record.add("", getConstants().dueDate());
 		record.add("", t.getDueDate());
@@ -95,7 +94,7 @@ public abstract class PaybillTableRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientTransactionPayBill t) {
+	protected Record createRecord(PayBillTransactionList t) {
 		return createFullRecord(t);
 	}
 
