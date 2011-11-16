@@ -105,18 +105,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 						.quoteAndSalesOrderList()) {
 
 			@Override
-			protected List<EstimatesAndSalesOrdersList> getList() {
-				Customer customer = (Customer) NewInvoiceCommand.this.get(
-						CUSTOMER).getValue();
-				try {
-					return new FinanceTool().getCustomerManager()
-							.getEstimatesAndSalesOrdersList(customer.getID(),
-									getCompanyId());
-				} catch (DAOException e) {
-					e.printStackTrace();
-				}
-				return null;
+			protected Customer getCustomer() {
+				return (Customer) NewInvoiceCommand.this.get(CUSTOMER)
+						.getValue();
 			}
+
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
