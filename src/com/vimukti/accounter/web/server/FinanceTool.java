@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -31,7 +32,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.google.gwt.dev.util.collect.HashMap;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
@@ -120,6 +120,7 @@ import com.vimukti.accounter.web.server.managers.SalesManager;
 import com.vimukti.accounter.web.server.managers.TaxManager;
 import com.vimukti.accounter.web.server.managers.UserManager;
 import com.vimukti.accounter.web.server.managers.VendorManager;
+import com.vimukti.accounter.web.server.translate.Language;
 import com.vimukti.accounter.web.server.translate.LocalMessage;
 import com.vimukti.accounter.web.server.translate.Message;
 import com.vimukti.accounter.web.server.translate.Vote;
@@ -2352,7 +2353,8 @@ public class FinanceTool {
 					Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
 					for (LocalMessage localMessage : message.getLocalMessages()) {
 						if (!localMessage.isApproved()
-								&& localMessage.getLang().equals(lang)) {
+								&& localMessage.getLang().getLanguageCode()
+										.equals(lang)) {
 							localMessages.add(localMessage);
 						}
 					}
@@ -2374,7 +2376,7 @@ public class FinanceTool {
 				Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
 
 				for (LocalMessage localMessage : message.getLocalMessages()) {
-					if (localMessage.getLang().equals(lang)) {
+					if (localMessage.getLang().getLanguageCode().equals(lang)) {
 						localMessages.add(localMessage);
 					}
 				}
@@ -2503,9 +2505,13 @@ public class FinanceTool {
 				}
 			}
 
+			Query languageQuery = session.getNamedQuery("getLanguageById")
+					.setParameter("code", lang);
+			Language language = (Language) languageQuery.uniqueResult();
+
 			LocalMessage localMessage = new LocalMessage();
 			localMessage.setMessage(message);
-			localMessage.setLang(lang);
+			localMessage.setLang(language);
 			localMessage.setValue(value);
 			localMessage.setCreatedDate(new Date(System.currentTimeMillis()));
 			localMessage.setCreatedBy(client);
@@ -2524,6 +2530,7 @@ public class FinanceTool {
 
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		} finally {
 			if (session != null) {
@@ -2645,36 +2652,6 @@ public class FinanceTool {
 		}
 	}
 
-	public boolean setApprove(int id, boolean isApproved) {
-		Session session = null;
-		try {
-			session = HibernateUtil.openSession();
-
-			Query query = session.getNamedQuery("getLocalMessageById")
-					.setParameter("id", id);
-			LocalMessage localMessage = (LocalMessage) query.uniqueResult();
-
-			if (localMessage == null) {
-				return false;
-			}
-
-			localMessage.setApproved(isApproved);
-
-			org.hibernate.Transaction transaction = session.beginTransaction();
-			session.saveOrUpdate(localMessage);
-			transaction.commit();
-
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-	}
-
 	private long updatePrimaryCurrency(long companyId, ClientCurrency currency)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -2697,7 +2674,21 @@ public class FinanceTool {
 		return existingCurrency.getID();
 	}
 
-	public HashMap<String, String> getKeyAndValues(long clientId) {
-		return null;
+	/**
+	 * Return all local messages of given language for the given client. All
+	 * Values must be single quote escaped for Javascript
+	 * 
+	 * ex: that's => that\'s
+	 * 
+	 * @param clientId
+	 * @param langCode
+	 * @return
+	 */
+	public HashMap<String, String> getKeyAndValues(long clientId,
+			String langCode) {
+		// Replace("'", "\\'")
+		HashMap<String, String> result = new HashMap<String, String>();
+		result.put("test", "value");
+		return result;
 	}
 }

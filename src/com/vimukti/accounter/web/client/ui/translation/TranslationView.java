@@ -114,7 +114,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 							.getLanguageTooltip()));
 
 			Accounter.createTranslateService().getMessages(
-					languageCombo.getSelectedValue().getLanguageTooltip(),
+					languageCombo.getSelectedValue().getLanguageCode(),
 					getStatus(optionsCombo.getSelectedValue()),
 					pager.getStart(), pager.getRange() + 1,
 					new AsyncCallback<ArrayList<ClientMessage>>() {
@@ -158,7 +158,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 	protected void addMessageToMessagePanel(ClientMessage result) {
 		MessagePanel messagePanel = new MessagePanel(this, languageCombo
-				.getSelectedValue().getLanguageTooltip(), result);
+				.getSelectedValue().getLanguageCode(), result);
 		dataPanel.add(messagePanel);
 	}
 
