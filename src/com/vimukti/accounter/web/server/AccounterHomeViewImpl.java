@@ -1494,13 +1494,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo) {
+			long accountId) {
 
 		List<Double> resultList = new ArrayList<Double>();
 		try {
 
 			resultList = getFinanceTool().getDashboardManager()
-					.getGraphPointsforAccount(chartType, accountNo,
+					.getGraphPointsforAccount(chartType, accountId,
 							getCompanyId());
 
 		} catch (Exception e) {

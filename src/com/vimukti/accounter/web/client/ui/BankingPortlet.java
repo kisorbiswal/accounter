@@ -208,7 +208,7 @@ public class BankingPortlet extends DashBoardPortlet {
 				try {
 					Accounter.createHomeService().getGraphPointsforAccount(
 							GraphChart.BANK_ACCOUNT_CHART_TYPE,
-							Long.valueOf(account.getNumber()), callBack);
+							account.getID(), callBack);
 					i++;
 				} catch (Exception e) {
 					System.err.println(e);

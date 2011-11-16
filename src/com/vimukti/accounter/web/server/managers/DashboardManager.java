@@ -30,7 +30,7 @@ import com.vimukti.accounter.web.client.ui.GraphChart;
 
 public class DashboardManager extends Manager {
 
-	public ArrayList<Double> getBankingChartValues(long accountNo,
+	public ArrayList<Double> getBankingChartValues(long accountId,
 			long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -63,7 +63,7 @@ public class DashboardManager extends Manager {
 		Query query = session
 				.getNamedQuery("getPointsForBankAccount")
 				.setLong("companyId", companyId)
-				.setParameter("accountNo", accountNo)
+				.setParameter("accountId", accountId)
 				.setParameter("previousThreeDaysBackDateCal",
 						new FinanceDate(dateCal[0].getTime()).getDate())
 				.setParameter("previousTwoDaysBackDateCal",
@@ -332,10 +332,10 @@ public class DashboardManager extends Manager {
 	}
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo, long companyId) throws DAOException {
+			long accountId, long companyId) throws DAOException {
 
 		if (chartType == GraphChart.BANK_ACCOUNT_CHART_TYPE) {
-			return getBankingChartValues(accountNo, companyId);
+			return getBankingChartValues(accountId, companyId);
 		} else if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 			return getMoneyInChartValues(companyId);
 		} else if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
