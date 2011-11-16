@@ -1,6 +1,8 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,15 +15,19 @@ import net.zschech.gwt.comet.server.CometSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class OpenCompanyServlet extends BaseServlet {
 
@@ -88,7 +94,16 @@ public class OpenCompanyServlet extends BaseServlet {
 				// there is no session, so do external redirect to login page
 				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				// response.setHeader("Location", "/Accounter.jsp");
-
+				
+				FinanceTool financeTool = new FinanceTool();
+				Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+				namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
+				Client client = (Client) namedQuery.uniqueResult();
+				String language = getlocale().getLanguage();
+				HashMap<String, String> keyAndValues = financeTool
+						.getKeyAndValues(client.getID(), language);
+				
+				request.setAttribute("messages", keyAndValues);
 				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
 				request.setAttribute(USER_NAME, user.getClient().getFullName());
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
@@ -105,6 +120,10 @@ public class OpenCompanyServlet extends BaseServlet {
 			// Session is there, so show the main page
 
 		}
+	}
+
+	private Locale getlocale() {
+		return ServerLocal.get();
 	}
 
 	/**
