@@ -263,7 +263,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			}
 			Set<TAXCode> serverTaxCodes = context.getCompany().getTaxCodes();
 			for (TAXCode vatCode : serverTaxCodes) {
-				if (vatCode.getName().equals(string)) {
+				if (vatCode.getName().toLowerCase()
+						.equals(string.toLowerCase())) {
 					taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
 							vatCode.getID(), AccounterCoreType.TAX_CODE,
 							getCompanyId());

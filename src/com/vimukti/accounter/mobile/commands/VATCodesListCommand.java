@@ -14,8 +14,6 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class VATCodesListCommand extends NewAbstractCommand {
 
-
-
 	private static final String CURRENT_VIEW = "currentView";
 
 	@Override
@@ -26,7 +24,6 @@ public class VATCodesListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		
 		list.add(new ActionRequirement(CURRENT_VIEW, null) {
 
 			@Override
@@ -37,10 +34,9 @@ public class VATCodesListCommand extends NewAbstractCommand {
 				return list;
 			}
 		});
-		
-		
-		
-		list.add(new ShowListRequirement<TAXCode>("vatCodesList", "Please Select Vat Code", 5) {
+
+		list.add(new ShowListRequirement<TAXCode>("vatCodesList",
+				"Please Select Vat Code", 5) {
 			@Override
 			protected Record createRecord(TAXCode value) {
 				Record record = new Record(value);
@@ -64,21 +60,21 @@ public class VATCodesListCommand extends NewAbstractCommand {
 				Set<TAXCode> completeList = getVatCodes(context);
 				List<TAXCode> result = new ArrayList<TAXCode>();
 
-				String type = VATCodesListCommand.this.get(CURRENT_VIEW).getValue();
-				
-			
+				String type = VATCodesListCommand.this.get(CURRENT_VIEW)
+						.getValue();
+
 				for (TAXCode taxCode : completeList) {
-					
+
 					if (type.equals("Active")) {
 						if (taxCode.isActive())
-								
+
 							result.add(taxCode);
 					}
 					if (type.equals("In-Active")) {
 						if (!taxCode.isActive())
 							result.add(taxCode);
 					}
-					
+
 				}
 				return result;
 			}
@@ -95,11 +91,11 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(TAXCode value) {
-				return null;
+				return "Update TAX Code " + value.getName();
 			}
 
 		});
-		
+
 		list.add(new ActionRequirement(CURRENT_VIEW, null) {
 			@Override
 			protected List<String> getList() {
@@ -137,7 +133,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 	private Set<TAXCode> getVatCodes(Context context) {
 		return context.getCompany().getTaxCodes();
-		
+
 	}
 
 }
