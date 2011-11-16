@@ -1,14 +1,30 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
 	public LanguageCombo(String title) {
 		super(title, false, 1);
-		initCombo(CoreUtils.getLanguages());
+		Accounter.createTranslateService().getLanguages(
+				new AsyncCallback<List<ClientLanguage>>() {
+
+					@Override
+					public void onSuccess(List<ClientLanguage> result) {
+						initCombo(result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						System.out.println("");
+
+					}
+				});
+
 	}
 
 	@Override
