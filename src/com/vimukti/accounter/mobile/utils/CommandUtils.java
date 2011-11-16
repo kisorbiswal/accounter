@@ -21,6 +21,7 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingTerms;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
@@ -55,9 +56,17 @@ public class CommandUtils {
 	public static ClientPayee getPayeeByName(Company company, String vendorName) {
 		Set<Payee> vendors = company.getPayees();
 		for (Payee vendor : vendors) {
-			if (vendor.getName().equals(vendorName)) {
-				return (ClientPayee) getClientObjectById(vendor.getID(),
-						AccounterCoreType.PAYEE, company.getId());
+			if (vendor.getName().toLowerCase().equals(vendorName)) {
+				if (vendor instanceof Vendor) {
+					return (ClientPayee) getClientObjectById(vendor.getID(),
+							AccounterCoreType.VENDOR, company.getId());
+				} else if (vendor instanceof Customer) {
+					return (ClientPayee) getClientObjectById(vendor.getID(),
+							AccounterCoreType.CUSTOMER, company.getId());
+				} else if (vendor instanceof TAXAgency) {
+					return (ClientPayee) getClientObjectById(vendor.getID(),
+							AccounterCoreType.TAXAGENCY, company.getId());
+				}
 			}
 		}
 		return null;

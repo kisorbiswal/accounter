@@ -41,7 +41,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(PayeeList value) {
-				return null;
+				return "update vendor " + value.getPayeeName();
 			}
 
 			@Override

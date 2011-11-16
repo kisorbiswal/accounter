@@ -525,7 +525,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 				return "vendors";
 			}
 			ClientPayee vendorByName = CommandUtils.getPayeeByName(
-					context.getCompany(), string);
+					context.getCompany(), string.toLowerCase());
 			if (vendorByName == null) {
 				long numberFromString = getNumberFromString(string);
 				if (numberFromString != 0) {
