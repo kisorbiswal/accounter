@@ -87,6 +87,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 	protected ClientVendor getQuickAddData(String text) {
 		ClientVendor clientVendor = new ClientVendor();
 		clientVendor.setName(text);
+		clientVendor.setCurrency(getCompany().getPrimaryCurrency().getID());
 		clientVendor.setBalanceAsOf(new ClientFinanceDate().getDate());
 		return clientVendor;
 	}

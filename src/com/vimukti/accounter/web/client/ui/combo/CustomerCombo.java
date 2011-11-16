@@ -92,6 +92,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	protected ClientCustomer getQuickAddData(String text) {
 		ClientCustomer clientCustomer = new ClientCustomer();
 		clientCustomer.setName(text);
+		clientCustomer.setCurrency(getCompany().getPrimaryCurrency().getID());
 		clientCustomer.setBalanceAsOf(new ClientFinanceDate().getDate());
 		return clientCustomer;
 	}
