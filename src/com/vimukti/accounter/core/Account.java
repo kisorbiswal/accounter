@@ -821,9 +821,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			} else {
 				this.isIncrease = false;
 			}
-			if (this.type == Account.TYPE_INVENTORY_ASSET) {
-				this.isOpeningBalanceEditable = false;
-			}
+			// if (this.type == Account.TYPE_INVENTORY_ASSET) {
+			// this.isOpeningBalanceEditable = false;
+			// }
 
 			switch (type) {
 
