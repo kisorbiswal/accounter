@@ -68,7 +68,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private AccounterConstants companyConstants = Accounter.constants();
 	AccounterConstants accounterConstants = Accounter.constants();
 
-	List<ClientTransactionPayTAX> records;
+	List<ClientTransactionPayTAX> records = new ArrayList<ClientTransactionPayTAX>();
 
 	public PayTAXView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
@@ -144,8 +144,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			}
 		});
 
-		TAXAgencyCombo taxAgencyCombo = new TAXAgencyCombo(
-				companyConstants.taxAgency(), false);
+		taxAgencyCombo = new TAXAgencyCombo(companyConstants.taxAgency(), false);
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
@@ -332,14 +331,16 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		grid.removeAllRecords();
 		List<ClientTransactionPayTAX> filterRecords = new ArrayList<ClientTransactionPayTAX>();
 		String selectedagency = selectedVATAgency.getName();
-		for (ClientTransactionPayTAX payVAT : records) {
-			String taxAgencyname = getCompany().getTaxAgency(
-					payVAT.getTaxAgency()).getName();
-			if (taxAgencyname.equals(selectedagency))
-				filterRecords.add(payVAT);
-		}
+		if (records != null) {
+			for (ClientTransactionPayTAX payVAT : records) {
+				String taxAgencyname = getCompany().getTaxAgency(
+						payVAT.getTaxAgency()).getName();
+				if (taxAgencyname.equals(selectedagency))
+					filterRecords.add(payVAT);
+			}
 
-		grid.setRecords(filterRecords);
+			grid.setRecords(filterRecords);
+		}
 	}
 
 	// initializes the grid.
@@ -400,6 +401,9 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		if (selectedVATAgency != null)
 			taxAgencyCombo.setComboItem(selectedVATAgency);
 
+		if (isInViewMode()) {
+			taxAgencyCombo.setDisabled(true);
+		}
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
@@ -443,7 +447,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	private void fillGrid() {
-		grid.addLoadingImagePanel();
+		// grid.addLoadingImagePanel();
 		rpcUtilService
 				.getPayVATEntries(new AccounterAsyncCallback<ArrayList<ClientPayTAXEntries>>() {
 
@@ -681,7 +685,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		super.onEdit();
 		paymentMethodCombo.setDisabled(false);
 		billsDue.setDisabled(false);
-
 		payFromAccCombo.setDisabled(false);
 		grid.setCanEdit(true);
 		grid.setDisabled(false);
