@@ -149,19 +149,20 @@ public class TranslationUploadServlet extends BaseServlet {
 				// Check if Key Exists
 				if (oldMessage != null) {// YES
 					// Check if Local Messages exist to old key
-					Set<Key> keys = new HashSet<Key>();
-					Iterator<Key> iterator = oldMessage.getKeys().iterator();
-					while (iterator.hasNext()) {
-						Key next = iterator.next();
-						if (next.getKey().equals(key.getKey())) {
-							keys.add(next);
-						}
-					}
-					value.setKeys(keys);
 					if (!oldMessage.getLocalMessages().isEmpty()) {// YES
 						// Rename old key to a random key
 						// and mark in use =false
 						// insert new message
+						Set<Key> keys = new HashSet<Key>();
+						Iterator<Key> iterator = oldMessage.getKeys()
+								.iterator();
+						while (iterator.hasNext()) {
+							Key next = iterator.next();
+							if (next.getKey().equals(key.getKey())) {
+								keys.add(next);
+							}
+						}
+						value.setKeys(keys);
 						oldMessage.setNotUsed(true);
 
 					} else {// NO
@@ -191,11 +192,13 @@ public class TranslationUploadServlet extends BaseServlet {
 		oldMessages.addAll(newMessages.values());
 
 		FinanceTool financeTool = new FinanceTool();
-		for (Message message : oldMessages) {
-			financeTool.createMessage(message);
-		}
+
 		for (Message message : messagesToDelete) {
 			financeTool.deleteMessage(message);
+		}
+
+		for (Message message : oldMessages) {
+			financeTool.createMessage(message);
 		}
 
 	}
