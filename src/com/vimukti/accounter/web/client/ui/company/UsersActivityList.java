@@ -151,7 +151,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		this.addColumn(nameColumn, Accounter.constants().name());
 		this.addColumn(transactionDateColumn, Accounter.constants().date());
 		this.addColumn(amountColumn, Accounter.constants().amount());
-		this.setColumnWidth(dateColumn, "250px");
+		this.setColumnWidth(dateColumn, "170px");
+		this.setColumnWidth(userNameColumn, "160px");
 		this.setColumnWidth(activity, "200px");
 
 	}
