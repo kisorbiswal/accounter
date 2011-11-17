@@ -49,8 +49,6 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		optionsCombo.setSelected(constants.untranslated());
 
 		languageCombo = new LanguageCombo(constants.languages());
-		ClientLanguage clientLanguage = languageCombo.getComboItems().get(0);
-		languageCombo.setComboItem(clientLanguage);
 		languageCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientLanguage>() {
 
