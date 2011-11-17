@@ -384,6 +384,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				paybills, context);
 		for (ClientTransactionPayBill p : transactionPayBills) {
 			p.setAmountDue(p.getAmountDue());
+			p.setPayment(p.getPayment());
 			p.setPayBill(paybill);
 		}
 
@@ -426,6 +427,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 					.getDueDate().getDate() : 0);
 
 			record.setOriginalAmount(curntRec.getOriginalAmount());
+			record.setPayment(curntRec.getPayment());
 
 			// record.setPayment(curntRec.getPayment());
 			Payee vendor = get(VENDOR).getValue();
