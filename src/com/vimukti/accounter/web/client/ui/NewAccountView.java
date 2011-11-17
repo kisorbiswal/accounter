@@ -198,7 +198,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						selectedId = (String) accTypeSelect.getSelectedValue();
+						selectedId = accTypeSelect.getSelectedValue();
 						accounttype_selected();
 						int subBaseType = UIUtils
 								.getAccountSubBaseType(getAccountType(selectedId));
@@ -245,6 +245,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accNameText.setDisabled(isInViewMode());
 		accNameText.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				// Converts the first letter of Account Name to Upper case
 				String name = accNameText.getValue().toString();
@@ -383,6 +384,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					.subCategoryof());
 			subAccSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+						@Override
 						public void selectedComboBoxItem(
 								ClientAccount selectItem) {
 							selectedSubAccount = selectItem;
@@ -721,6 +723,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			bankNameSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBank>() {
 
+						@Override
 						public void selectedComboBoxItem(ClientBank selectItem) {
 							if (selectItem != null) {
 								selectedBank = selectItem;
@@ -774,7 +777,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 						}
 					});
-			typeSelect.setRequired(true);
+			typeSelect.setRequired(false);
 
 			limitText = new AmountField(Accounter.constants().creditLimit(),
 					this, getBaseCurrency());
@@ -783,6 +786,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
 			limitText.addBlurHandler(new BlurHandler() {
 
+				@Override
 				public void onBlur(BlurEvent event) {
 					Double limit = 0D;
 					try {
@@ -820,8 +824,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			creditCardForm = UIUtils.form(Accounter.messages()
 					.creditCardAccountInformation((Global.get().Account())));
 			creditCardForm.setDisabled(isInViewMode());
-			creditCardForm.setFields(getBankNameSelectItem(), typeSelect,
-					limitText, cardNumText);
+			creditCardForm.setFields(limitText, cardNumText);
 			creditCardForm.setWidth("100%");
 			// creditCardForm.setAutoHeight();
 		} else {
@@ -1019,7 +1022,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// this.errorOccured = true;
 		String exceptionMessage = exception.getMessage();
 		// addError(this, exceptionMessage);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -1141,7 +1144,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		data.setIsActive(statusBox.getValue() != null ? (Boolean) statusBox
 				.getValue() : Boolean.FALSE);
 		if (cashAccountCheck != null)
-			data.setConsiderAsCashAccount((Boolean) cashAccountCheck.getValue());
+			data.setConsiderAsCashAccount(cashAccountCheck.getValue());
 
 		if (cashFlowCatSelect.getValue() != null)
 			data.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
@@ -1175,7 +1178,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			data.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
-			// data.setBank(Utility.getID(selectedBank));
 			if (limitText.getValue() != null)
 				data.setCreditLimit(getCreditLimit());
 			if (cardNumText.getValue() != null)
@@ -1419,6 +1421,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
