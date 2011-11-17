@@ -686,10 +686,26 @@ public class ItemView extends BaseView<ClientItem> {
 			if (selectAccount != null)
 				data.setIncomeAccount(selectAccount.getID());
 			data.setCommissionItem(getBooleanValue(comCheck));
+		} else {
+			if (salesDescArea.getValue() != null)
+				data.setSalesDescription(salesDescArea.getValue().toString());
+			data.setSalesPrice(salesPriceText.getAmount());
+			if (selectAccount != null)
+				data.setIncomeAccount(selectAccount.getID());
+			data.setCommissionItem(getBooleanValue(comCheck));
 		}
 
 		if (getBooleanValue(ibuyCheck)) {
 
+			data.setPurchaseDescription(getStringValue(purchaseDescArea));
+			data.setPurchasePrice(purchasePriceTxt.getAmount());
+			if (selectVendor != null)
+				data.setPreferredVendor(selectVendor.getID());
+			if (selectExpAccount != null)
+				data.setExpenseAccount(selectExpAccount.getID());
+
+			data.setVendorItemNumber(vendItemNumText.getValue().toString());
+		} else {
 			data.setPurchaseDescription(getStringValue(purchaseDescArea));
 			data.setPurchasePrice(purchasePriceTxt.getAmount());
 			if (selectVendor != null)
