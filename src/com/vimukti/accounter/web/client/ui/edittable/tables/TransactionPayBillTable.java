@@ -950,7 +950,7 @@ public abstract class TransactionPayBillTable extends
 
 	}
 
-	private void resetValues() {
+	public void resetValues() {
 		/* Revert all credits to its original state */
 		if (updatedCustomerCreditsAndPayments == null) {
 			return;
@@ -976,6 +976,7 @@ public abstract class TransactionPayBillTable extends
 		resetTotlas();
 		setCreditsAndPaymentsDialiog(null);
 		cashDiscountDialog = null;
+		calculateUnusedCredits();
 	}
 
 	protected abstract void resetTotlas();
