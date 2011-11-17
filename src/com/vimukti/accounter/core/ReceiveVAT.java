@@ -260,10 +260,10 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		if (this.isVoid) {
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
-		}
+		// if (this.isVoid) {
+		// throw new AccounterException(
+		// AccounterException.ERROR_NO_SUCH_OBJECT);
+		// }
 		return super.canEdit(clientObject);
 	}
 }
