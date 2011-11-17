@@ -90,8 +90,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				vatItemComboForSales.setSelected("");
 
 			if (!vat.isTaxable()) {
-				// vatItemComboForPurchases.setValue("");
-				// vatItemComboForSales.setValue("");
+				vatItemComboForPurchases.setValue("");
+				vatItemComboForSales.setValue("");
 				vatItemComboForPurchases.setDisabled(true);
 				vatItemComboForSales.setDisabled(true);
 			}
@@ -168,8 +168,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				});
 		vatNameForm = new DynamicForm();
 		vatNameForm.addStyleName("fields-panel");
-//		vatNameForm.setWidth("80%");
-//		vatNameForm.getCellFormatter().setWidth(0, 0, "225px");
+		// vatNameForm.setWidth("80%");
+		// vatNameForm.getCellFormatter().setWidth(0, 0, "225px");
 		vatNameForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		vatNameForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		if (getPreferences().isTrackPaidTax()) {
@@ -235,10 +235,15 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					isComboDisabled = false;
 					vatItemComboForPurchases.setDisabled(false);
 					vatItemComboForSales.setDisabled(false);
+					vatItemComboForSales.setSelected(Accounter.getCompany()
+							.getTaxItem(vat.getTAXItemGrpForSales()).getName());
+					vatItemComboForPurchases.setSelected(Accounter.getCompany()
+							.getTaxItem(vat.getTAXItemGrpForPurchases())
+							.getName());
 				} else {
 					isComboDisabled = true;
-					// vatItemComboForSales.setValue("");
-					// vatItemComboForPurchases.setValue("");
+					vatItemComboForSales.setValue("");
+					vatItemComboForPurchases.setValue("");
 					vatItemComboForSales.setDisabled(true);
 					vatItemComboForPurchases.setDisabled(true);
 				}
@@ -266,7 +271,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
 		updateVATCode();
-		if (exceptionMessage!=null && exceptionMessage.contains("name")) {
+		if (exceptionMessage != null && exceptionMessage.contains("name")) {
 			data.setName(vatCode);
 
 		}
@@ -300,15 +305,17 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		data.setActive((Boolean) isActive.getValue());
 		if (taxableGroupRadio.getValue() != null) {
 			if (taxableGroupRadio.getValue().toString()
-					.equalsIgnoreCase("Taxable"))
+					.equalsIgnoreCase("Taxable")) {
 				data.setTaxable(true);
-			else
+				data.setTAXItemGrpForPurchases(selectedVATPurchaseAcc);
+				data.setTAXItemGrpForSales(selectedVATSAlesAcc);
+			} else {
 				data.setTaxable(false);
+				// data.setTAXItemGrpForPurchases(0);
+				// data.setTAXItemGrpForSales(0);
+			}
 		} else
 			data.setTaxable(false);
-
-		data.setTAXItemGrpForPurchases(selectedVATPurchaseAcc);
-		data.setTAXItemGrpForSales(selectedVATSAlesAcc);
 
 	}
 
@@ -341,8 +348,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		String taxbl = taxableGroupRadio.getValue().toString();
 		taxableGroupRadio.setValue(taxbl);
 		if (taxbl.equalsIgnoreCase(Accounter.constants().taxable())) {
-			if(vatItemComboForSales.getSelectedValue() == null &&vatItemComboForPurchases.getSelectedValue() ==null){
-				result.addError(vatItemComboForSales, Accounter.constants().enterSalesORpurchaseItem());
+			if (vatItemComboForSales.getSelectedValue() == null
+					&& vatItemComboForPurchases.getSelectedValue() == null) {
+				result.addError(vatItemComboForSales, Accounter.constants()
+						.enterSalesORpurchaseItem());
 			}
 		}
 
@@ -358,9 +367,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		if (validationResult != null) {
 			result.addError(vatItemComboForPurchases, validationResult);
 		}
-		
-		
-		
+
 		return result;
 	}
 
