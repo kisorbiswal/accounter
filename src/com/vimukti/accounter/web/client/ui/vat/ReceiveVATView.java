@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -23,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -32,12 +30,10 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionReceiveVATGrid;
@@ -79,6 +75,7 @@ public class ReceiveVATView extends
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
+	List<ClientTransactionReceiveVAT> records;
 
 	public ReceiveVATView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
@@ -156,22 +153,18 @@ public class ReceiveVATView extends
 			}
 		});
 
-		// vatAgencyCombo = new VATAgencyCombo("Filter By "
-		// + companyConstants.vatAgency());
-		// vatAgencyCombo.setDisabled(isEdit);
-		// vatAgencyCombo
-		// .addSelectionChangeHandler(new
-		// IAccounterComboSelectionChangeHandler<ClientVATAgency>() {
-		//
-		// public void selectedComboBoxItem(ClientVATAgency selectItem) {
-		//
-		// selectedVATAgency = selectItem;
-		// if (selectedVATAgency != null)
-		// filterlistbyVATAgency(selectedVATAgency);
-		//
-		// }
-		//
-		// });
+		vatAgencyCombo = new TAXAgencyCombo(companyConstants.taxAgency(), false);
+		vatAgencyCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientTAXAgency selectItem) {
+						// grid.setRecords(records);
+						selectedVATAgency = selectItem;
+						filterlistbyVATAgency(selectItem);
+
+					}
+				});
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
@@ -185,7 +178,8 @@ public class ReceiveVATView extends
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
-		mainform.setFields(depositInAccCombo, paymentMethodCombo, billsDue);
+		mainform.setFields(depositInAccCombo, paymentMethodCombo, billsDue,
+				vatAgencyCombo);
 		// mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
@@ -297,9 +291,10 @@ public class ReceiveVATView extends
 	}
 
 	protected void filterlistbyVATAgency(ClientTAXAgency selectedVATAgency) {
+		grid.removeAllRecords();
 		List<ClientTransactionReceiveVAT> filterRecords = new ArrayList<ClientTransactionReceiveVAT>();
 		String selectedagency = selectedVATAgency.getName();
-		for (ClientTransactionReceiveVAT receiveVAT : grid.getRecords()) {
+		for (ClientTransactionReceiveVAT receiveVAT : records) {
 			String taxAgencyname = getCompany().getTaxAgency(
 					receiveVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
@@ -427,7 +422,7 @@ public class ReceiveVATView extends
 	// fills the list grid with data.
 	protected void loadData(List<ClientReceiveVATEntries> result) {
 
-		List<ClientTransactionReceiveVAT> records = new ArrayList<ClientTransactionReceiveVAT>();
+		records = new ArrayList<ClientTransactionReceiveVAT>();
 		for (ClientReceiveVATEntries entry : result) {
 			ClientTransactionReceiveVAT clientEntry = new ClientTransactionReceiveVAT();
 
@@ -438,13 +433,13 @@ public class ReceiveVATView extends
 			double balance = entry.getBalance();
 			// clientEntry
 			// .setTaxDue(total - balance > 0.0 ? total - balance : 0.0);
-			clientEntry.setTaxDue(balance);
+			// clientEntry.setTaxDue(balance);
 
 			records.add(clientEntry);
 		}
 		// setFilterByDateList(records);
 		// if (selectedTaxAgency == null)
-		grid.setRecords(records);
+
 		// else
 		// filterlistbyTaxAgency(selectedTaxAgency);
 
@@ -619,60 +614,7 @@ public class ReceiveVATView extends
 
 	public void onEdit() {
 
-		if (transaction.canEdit) {
-			Accounter.showWarning(AccounterWarningType.TAXREFUND_EDITING,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onYesClick() {
-							voidTransaction();
-							return true;
-						}
-
-						private void voidTransaction() {
-							AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
-
-								@Override
-								public void onException(
-										AccounterException caught) {
-									Accounter.showError(Accounter.constants()
-											.failedtovoidReceiveVAT());
-
-								}
-
-								@Override
-								public void onResultSuccess(Boolean result) {
-									if (result) {
-										enableFormItems();
-									} else
-
-										onFailure(new Exception());
-								}
-
-							};
-							if (isInViewMode()) {
-								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(transaction
-												.getType());
-								rpcDoSerivce.voidTransaction(type,
-										transaction.id, callback);
-							}
-
-						}
-
-						@Override
-						public boolean onNoClick() {
-
-							return true;
-						}
-
-						@Override
-						public boolean onCancelClick() {
-
-							return true;
-						}
-					});
-		}
+		enableFormItems();
 
 	}
 
