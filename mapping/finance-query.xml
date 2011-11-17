@@ -3468,6 +3468,10 @@
 		on
 		T.ID=I.ID
 		left outer join
+		ESTIMATE E
+		on
+		T.ID=E.ID
+		left outer join
 		CASH_PURCHASE CP
 		on
 		T.ID=CP.ID
@@ -3522,8 +3526,8 @@
 		ACCOUNT A
 		on
 		A.ID = TI.ACCOUNT_ID
-		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null order by T.ID
+		where T.IS_VOID=false and (E.ID is null or E.USED_INVOICE is not null) and (TI.ITEM_ID is not null or TI.ACCOUNT_ID is
+		not null) order by T.ID
 
 
 	</sql-query>
