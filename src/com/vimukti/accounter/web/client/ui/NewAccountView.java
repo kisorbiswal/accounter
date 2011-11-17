@@ -1039,24 +1039,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	public void saveSuccess(IAccounterCore result) {
-		if (result == null) {
+		if (result != null) {
 			super.saveSuccess(result);
-			return;
+		} else {
+			saveFailed(new AccounterException());
 		}
-		// if (takenAccount == null)
-		// Accounter.showInformation("New account with name "
-		// + result.getName() + " is Created!");
-		// else
-		// Accounter.showInformation(result.getName()
-		// + " is updated successfully");
-
-		// if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD)
-		// {
-		if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			ActionFactory.getNewVendorAction().run(null, false);
-		}
-
-		super.saveSuccess(result);
 
 	}
 
@@ -1217,7 +1204,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		data.updateBaseTypes();
 		if (data.isAllowCurrencyChange() && selectCurrency != null) {
-			((ClientBankAccount) data).setCurrency(selectCurrency.getID());
+			data.setCurrency(selectCurrency.getID());
 		}
 	}
 
