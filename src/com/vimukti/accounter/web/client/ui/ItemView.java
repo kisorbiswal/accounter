@@ -419,7 +419,7 @@ public class ItemView extends BaseView<ClientItem> {
 				isellCheck.setValue(isGeneratedFromCustomer);
 				disablePurchaseFormItems(isGeneratedFromCustomer);
 			} else {
-				ibuyCheck.setValue(isGeneratedFromCustomer);
+				ibuyCheck.setValue(!isGeneratedFromCustomer);
 				disableSalesFormItems(isGeneratedFromCustomer);
 			}
 		}
