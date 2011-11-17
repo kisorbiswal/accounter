@@ -49,6 +49,8 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 
 	int version;
 
+	FinanceDate filedDate;
+
 	transient private boolean isOnSaveProccessed;
 
 	/**
@@ -225,6 +227,14 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 
 		return true;
+	}
+
+	public FinanceDate getFiledDate() {
+		return filedDate;
+	}
+
+	public void setFiledDate(FinanceDate filedDate) {
+		this.filedDate = filedDate;
 	}
 
 }
