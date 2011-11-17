@@ -103,14 +103,20 @@ public class UserManager extends Manager {
 			User user = (User) session.get(User.class, clientUser.getID());
 
 			String userID = updateContext.getUserEmail();
+			
+			Client updateClient = getClient(clientUser.getEmail());
+			updateClient.setFirstName(clientUser.getFirstName());
+			updateClient.setLastName(clientUser.getLastName());
+			updateClient.setFullName(clientUser.getFullName());
 
 			Company company = getCompany(updateContext.getCompanyId());
 			User user1 = company.getUserByUserEmail(userID);
 			new ServerConvertUtil().toServerObject(user,
 					(IAccounterCore) clientUser, session);
-			canEdit(user, data);
 
+			canEdit(user, data);
 			session.flush();
+			session.saveOrUpdate(updateClient);
 			session.saveOrUpdate(user);
 			Activity userUpdateActivity = new Activity(company, user1,
 					ActivityType.EDIT, user);
