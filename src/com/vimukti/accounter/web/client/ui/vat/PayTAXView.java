@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -23,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -32,12 +30,10 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayTAXGrid;
@@ -71,6 +67,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
 	AccounterConstants accounterConstants = Accounter.constants();
+
+	List<ClientTransactionPayTAX> records;
 
 	public PayTAXView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
@@ -146,22 +144,18 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			}
 		});
 
-		// vatAgencyCombo = new VATAgencyCombo("Filter By "
-		// + companyConstants.vatAgency());
-		// vatAgencyCombo.setDisabled(isEdit);
-		// vatAgencyCombo
-		// .addSelectionChangeHandler(new
-		// IAccounterComboSelectionChangeHandler<ClientVATAgency>() {
-		//
-		// public void selectedComboBoxItem(ClientVATAgency selectItem) {
-		//
-		// selectedVATAgency = selectItem;
-		// if (selectedVATAgency != null)
-		// filterlistbyVATAgency(selectedVATAgency);
-		//
-		// }
-		//
-		// });
+		TAXAgencyCombo taxAgencyCombo = new TAXAgencyCombo(
+				companyConstants.taxAgency(), false);
+		taxAgencyCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientTAXAgency selectItem) {
+						selectedVATAgency = selectItem;
+						filterlistbyVATAgency(selectItem);
+
+					}
+				});
 
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
@@ -175,7 +169,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
-		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue);
+		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue,
+				taxAgencyCombo);
 		// mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
@@ -333,14 +328,17 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	protected void filterlistbyVATAgency(ClientTAXAgency selectedVATAgency) {
+
+		grid.removeAllRecords();
 		List<ClientTransactionPayTAX> filterRecords = new ArrayList<ClientTransactionPayTAX>();
 		String selectedagency = selectedVATAgency.getName();
-		for (ClientTransactionPayTAX payVAT : grid.getRecords()) {
+		for (ClientTransactionPayTAX payVAT : records) {
 			String taxAgencyname = getCompany().getTaxAgency(
 					payVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
 				filterRecords.add(payVAT);
 		}
+
 		grid.setRecords(filterRecords);
 	}
 
@@ -349,7 +347,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TransactionPayTAXGrid(!isInViewMode(), true);
+		grid = new TransactionPayTAXGrid(true, true);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
@@ -486,7 +484,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	// fills the list grid with data.
 	protected void loadData(List<ClientPayTAXEntries> result) {
 
-		List<ClientTransactionPayTAX> records = new ArrayList<ClientTransactionPayTAX>();
+		records = new ArrayList<ClientTransactionPayTAX>();
 		for (ClientPayTAXEntries entry : result) {
 			ClientTransactionPayTAX clientEntry = new ClientTransactionPayTAX();
 
@@ -502,7 +500,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		// setFilterByDateList(records);
 		// if (selectedTaxAgency == null)
-		grid.setRecords(records);
+		// grid.setRecords(records);
+
 		// else
 		// filterlistbyTaxAgency(selectedTaxAgency);
 
@@ -679,61 +678,13 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	public void onEdit() {
+		super.onEdit();
+		paymentMethodCombo.setDisabled(false);
+		billsDue.setDisabled(false);
 
-		if (transaction.canEdit) {
-			Accounter.showWarning(AccounterWarningType.PAYTAX_EDITING,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onYesClick() {
-							voidTransaction();
-							return true;
-						}
-
-						private void voidTransaction() {
-							AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
-
-								@Override
-								public void onException(
-										AccounterException caught) {
-									Accounter.showError(Accounter.constants()
-											.failedtovoidPayVAT());
-
-								}
-
-								@Override
-								public void onResultSuccess(Boolean result) {
-									if (result) {
-										enableFormItems();
-									} else
-
-										onFailure(new Exception());
-								}
-
-							};
-							if (transaction != null) {
-								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(transaction
-												.getType());
-								rpcDoSerivce.voidTransaction(type,
-										transaction.id, callback);
-							}
-
-						}
-
-						@Override
-						public boolean onNoClick() {
-
-							return true;
-						}
-
-						@Override
-						public boolean onCancelClick() {
-
-							return true;
-						}
-					});
-		}
+		payFromAccCombo.setDisabled(false);
+		grid.setCanEdit(true);
+		grid.setDisabled(false);
 
 	}
 
