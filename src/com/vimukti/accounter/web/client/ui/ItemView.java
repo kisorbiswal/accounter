@@ -39,7 +39,6 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -991,24 +990,6 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 		}
 
-		if (selectAccount != null) {
-			if (isellCheck.isChecked()) {
-				if (!AccounterValidator.isValidIncomeAccount(this,
-						selectAccount)) {
-					result.addWarning(accountCombo,
-							AccounterWarningType.different_IncomeAccountType);
-				}
-			}
-		}
-		if (selectExpAccount != null) {
-			if (ibuyCheck.isChecked()) {
-				if (!AccounterValidator
-						.validate_ExpenseAccount(selectExpAccount)) {
-					result.addWarning(expAccCombo,
-							AccounterWarningType.different_ExpenseAccountType);
-				}
-			}
-		}
 		return result;
 	}
 
