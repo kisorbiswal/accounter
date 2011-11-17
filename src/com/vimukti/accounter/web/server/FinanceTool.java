@@ -121,6 +121,7 @@ import com.vimukti.accounter.web.server.managers.SalesManager;
 import com.vimukti.accounter.web.server.managers.TaxManager;
 import com.vimukti.accounter.web.server.managers.UserManager;
 import com.vimukti.accounter.web.server.managers.VendorManager;
+import com.vimukti.accounter.web.server.translate.Key;
 import com.vimukti.accounter.web.server.translate.Language;
 import com.vimukti.accounter.web.server.translate.LocalMessage;
 import com.vimukti.accounter.web.server.translate.Message;
@@ -2229,6 +2230,19 @@ public class FinanceTool {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
+
+			if (message.getId() == 0) {
+				Query messageQuery = session.getNamedQuery("getMessageByValue")
+						.setParameter("value", message.getValue());
+				Message oldMessage = (Message) messageQuery.uniqueResult();
+				if (oldMessage != null) {
+					Set<Key> keys = oldMessage.getKeys();
+					keys.addAll(message.getKeys());
+					oldMessage.setKeys(keys);
+					message = oldMessage;
+				}
+			}
+
 			org.hibernate.Transaction transaction = session.beginTransaction();
 			session.saveOrUpdate(message);
 			transaction.commit();
