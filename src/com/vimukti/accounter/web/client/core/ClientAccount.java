@@ -103,6 +103,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	boolean isConsiderAsCashAccount;
 
 	String comment;
+	
 
 	// long bank;
 
@@ -137,6 +138,10 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	int boxNumber;
 
 	private long currency;
+	
+	private String paypalEmail;
+	
+	private String paypalType;
 
 	/**
 	 * Used in OpeningBalance Updations
@@ -712,5 +717,21 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static boolean isAllowCurrencyChange(int accountType) {
 		return (accountType == TYPE_BANK || accountType == TYPE_PAYPAL
 				|| accountType == TYPE_CREDIT_CARD || accountType == TYPE_CASH);
+	}
+
+	public void setPaypalEmail(String paypalEmail) {
+		this.paypalEmail = paypalEmail;
+	}
+
+	public String getPaypalEmail() {
+		return paypalEmail;
+	}
+
+	public void setPaypalType(String paypalType) {
+		this.paypalType = paypalType;
+	}
+
+	public String getPaypalType() {
+		return paypalType;
 	}
 }
