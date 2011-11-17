@@ -26,7 +26,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="key" type="text" column="KEY"></property>
+		<property name="key" column="KEY"></property>
 	</class>
 
 	<class name="Message" table="MESSAGE">
