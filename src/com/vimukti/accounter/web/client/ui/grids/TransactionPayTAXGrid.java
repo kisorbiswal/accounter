@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
@@ -67,8 +66,7 @@ public class TransactionPayTAXGrid extends
 		try {
 
 			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString())
-					+ "");
+					.getReformatedAmount(value.toString()) + "");
 			editingRecord.setAmountToPay(payment);
 			updateData(editingRecord);
 
@@ -94,7 +92,7 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.taxAgency(),
+		return new String[] { companyConstants.taxFiledDate(),
 				companyConstants.taxDue(), companyConstants.amountToPay() };
 	}
 
@@ -102,9 +100,8 @@ public class TransactionPayTAXGrid extends
 	protected Object getColumnValue(ClientTransactionPayTAX payVAT, int index) {
 		switch (index) {
 		case 0:
-			ClientTAXAgency taxAgency = Accounter.getCompany().getTaxAgency(
-					payVAT.getTaxAgency());
-			return taxAgency != null ? taxAgency.getName() : "";
+			return payVAT.getFiledDate() != null ? payVAT.getFiledDate()
+					.toString() : "";
 		case 1:
 			return DataUtils.getAmountAsString(payVAT.getTaxDue());
 
