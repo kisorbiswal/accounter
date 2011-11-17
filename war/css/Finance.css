@@ -1663,3 +1663,6 @@ input.date-field-textbox{
 	vertical-align: middle !important;
 	width: 1%;	
 }
+.user_activity_log tr td,.user_activity_log tr th{
+   padding: 2px;	
+}
