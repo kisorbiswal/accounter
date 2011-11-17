@@ -5,10 +5,11 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.translation.TranslationView;
 
 public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
-	public LanguageCombo(String title) {
+	public LanguageCombo(String title, final TranslationView view) {
 		super(title, false, 1);
 		Accounter.createTranslateService().getLanguages(
 				new AsyncCallback<List<ClientLanguage>>() {
@@ -16,6 +17,8 @@ public class LanguageCombo extends CustomCombo<ClientLanguage> {
 					@Override
 					public void onSuccess(List<ClientLanguage> result) {
 						initCombo(result);
+						setComboItem(result.get(0));
+						view.updateListData();
 					}
 
 					@Override

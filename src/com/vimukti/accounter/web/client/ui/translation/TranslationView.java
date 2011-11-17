@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.LanguageCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -48,7 +47,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		}
 		optionsCombo.setSelected(constants.untranslated());
 
-		languageCombo = new LanguageCombo(constants.languages());
+		languageCombo = new LanguageCombo(constants.languages(), this);
 		languageCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientLanguage>() {
 
