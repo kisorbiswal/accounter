@@ -52,18 +52,16 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private DynamicForm balForm;
 	protected ClientAccount selectedPayFromAccount;
 	protected double initialEndingBalance;
-	protected ClientTAXAgency selectedVATAgency;
+	protected ClientTAXAgency selectedTAXAgency;
 	private VerticalPanel gridLayout;
 	private TransactionPayTAXGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
 	protected List<ClientPayTAXEntries> entries;
-	private ClientTAXAgency selectedTaxAgency;
 	private double endingBalance;
 	private ArrayList<ClientPayTAXEntries> filterList;
 	private ArrayList<ClientPayTAXEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
-	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
 	AccounterConstants accounterConstants = Accounter.constants();
@@ -150,7 +148,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 					@Override
 					public void selectedComboBoxItem(ClientTAXAgency selectItem) {
-						selectedVATAgency = selectItem;
+						selectedTAXAgency = selectItem;
 						filterlistbyVATAgency(selectItem);
 
 					}
@@ -396,10 +394,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				transaction.getPayFrom());
 
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
-		selectedVATAgency = getCompany().getTaxAgency(
+		selectedTAXAgency = getCompany().getTaxAgency(
 				transaction.getTaxAgency());
-		if (selectedVATAgency != null)
-			taxAgencyCombo.setComboItem(selectedVATAgency);
+		if (selectedTAXAgency != null)
+			taxAgencyCombo.setComboItem(selectedTAXAgency);
 
 		if (isInViewMode()) {
 			taxAgencyCombo.setDisabled(true);
@@ -426,6 +424,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			if (record != null) {
 				grid.addData(record);
 				grid.selectRow(count);
+				records.add(record);
 				count++;
 			}
 		}
@@ -499,7 +498,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			// clientEntry
 			// .setTaxDue(total - balance > 0.0 ? total - balance : 0.0);
 			clientEntry.setTaxDue(balance);
-
+			clientEntry.setFiledDate(entry.getTaxReturnDate());
 			records.add(clientEntry);
 		}
 		// setFilterByDateList(records);
@@ -597,8 +596,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		if (billsDue.getValue() != null) {
 			transaction.setBillsDueOnOrBefore((billsDue.getValue()).getDate());
 		}
-		if (selectedTaxAgency != null) {
-			transaction.setTaxAgency(selectedTaxAgency.getID());
+		if (selectedTAXAgency != null) {
+			transaction.setTaxAgency(selectedTAXAgency.getID());
 		}
 		transaction.setTotal(totalAmount);
 		transaction.setEndingBalance(endingBalance);
@@ -700,7 +699,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		payFromAccCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
-		fillGrid();
+		// fillGrid();
 		transaction = null;
 
 	}

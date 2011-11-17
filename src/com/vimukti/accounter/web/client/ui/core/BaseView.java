@@ -61,8 +61,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		buttonBar.setStyleName("button_bar");
 
 		super.add(buttonBar);
-		if (data != null)
+		if (data != null && mode != EditMode.CREATE) {
 			super.add(createHistoryView());
+		}
 	}
 
 	protected VerticalPanel createHistoryView() {
@@ -174,7 +175,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			buttonBar.setDisabled(disable);
 		}
 	}
-	
+
 	protected ClientCurrency getBaseCurrency() {
 		return getCompany().getPrimaryCurrency();
 	}

@@ -95,6 +95,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		}
 		payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
 		payTAXEntry.setVatReturn(taxReturn.getID());
+		payTAXEntry.setFiledDate(taxReturn.getDate());
 		payTaxEntriesList.add(payTAXEntry);
 
 		ClientPayTAX clientPayTAX = new ClientPayTAX();

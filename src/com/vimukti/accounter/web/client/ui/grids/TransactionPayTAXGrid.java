@@ -93,7 +93,7 @@ public class TransactionPayTAXGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] { companyConstants.taxFiledDate(),
-				companyConstants.taxDue(), companyConstants.amountToPay() };
+				companyConstants.taxDue(), companyConstants.payment() };
 	}
 
 	@Override
@@ -172,7 +172,6 @@ public class TransactionPayTAXGrid extends
 	protected void onSelectionChanged(ClientTransactionPayTAX obj, int row,
 			boolean isChecked) {
 		super.onSelectionChanged(obj, row, isChecked);
-		obj.setAmountToPay(obj.getTaxDue());
 		double toBeSetAmount = 0.0;
 		for (ClientTransactionPayTAX rec : this.getSelectedRecords()) {
 			toBeSetAmount += rec.getAmountToPay();

@@ -1418,7 +1418,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					.getTaxAgency().getID() : null);
 			clientEntry.setBalance(entry.getBalance());
 			clientEntry.setAmount(entry.getAmount());
-
+			clientEntry.setTaxReturnDate(entry.getTaxReturnDate()
+					.toClientFinanceDate());
 			clientEntries.add(clientEntry);
 		}
 		return clientEntries;

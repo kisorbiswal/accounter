@@ -272,8 +272,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-		this.taxAgency.updateVATAgencyAccount(s, transaction,
-				transaction.getTransactionCategory(), -this.vatAmount);
+		this.taxAgency.updateBalance(s, transaction, -this.vatAmount);
 		return false;
 	}
 
@@ -284,8 +283,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session s) throws CallbackException {
-		this.taxAgency.updateVATAgencyAccount(s, transaction,
-				transaction.getTransactionCategory(), this.vatAmount);
+		this.taxAgency.updateBalance(s, transaction, this.vatAmount);
 		return false;
 	}
 

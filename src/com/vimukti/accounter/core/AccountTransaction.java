@@ -166,4 +166,20 @@ public class AccountTransaction extends CreatableObject implements
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	/**
+	 * @param amount
+	 *            the amount to set
+	 */
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	/**
+	 * @param transaction
+	 *            the transaction to set
+	 */
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
+	}
 }

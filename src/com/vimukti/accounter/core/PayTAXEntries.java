@@ -39,6 +39,8 @@ public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 
 	transient private boolean isOnSaveProccessed;
 
+	private FinanceDate taxReturnDate;
+
 	public PayTAXEntries() {
 	}
 
@@ -59,6 +61,7 @@ public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 		this.balance = v.getBalance();
 		this.transaction = v;
 		this.taxAgency = v.getTaxAgency();
+		this.taxReturnDate = v.getDate();
 	}
 
 	public Transaction getTransaction() {
@@ -178,5 +181,20 @@ public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @return the taxReturnDate
+	 */
+	public FinanceDate getTaxReturnDate() {
+		return taxReturnDate;
+	}
+
+	/**
+	 * @param taxReturnDate
+	 *            the taxReturnDate to set
+	 */
+	public void setTaxReturnDate(FinanceDate taxReturnDate) {
+		this.taxReturnDate = taxReturnDate;
 	}
 }

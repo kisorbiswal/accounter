@@ -112,7 +112,7 @@
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionPayTAX" cascade="save-update" lazy="false">
+			<list name="transactionPayTAX" cascade="save-update,delete-orphan" lazy="false">
 				<key column="PAY_VAT_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayTAX" />
@@ -1266,8 +1266,8 @@
 		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
 			column="VAT_RETURN_ID">
 		</many-to-one>
-		<many-to-one name="payVAT" class="PayTAX" lazy="false"
-			column="PAY_VAT_ID">
+		<many-to-one name="payTAX" class="PayTAX" lazy="false"
+			column="PAY_TAX_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 	</class>

@@ -75,7 +75,7 @@ public class ReceiveVATView extends
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
-	List<ClientTransactionReceiveVAT> records;
+	List<ClientTransactionReceiveVAT> records = new ArrayList<ClientTransactionReceiveVAT>();
 
 	public ReceiveVATView() {
 		super(ClientTransaction.TYPE_PAY_TAX);

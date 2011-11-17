@@ -43,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  * 
  */
-@SuppressWarnings( { "serial", "unchecked" })
+@SuppressWarnings({ "serial", "unchecked" })
 public class Account extends CreatableObject implements IAccounterServerCore,
 		INamedObject {
 
@@ -924,10 +924,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 						this.flow = "1";
 					}
 				} else {
-					List l = session.getNamedQuery(
-							"getCount.from.Account.and.parent").setLong(
-							"parentId", this.parent.getID()).setEntity(
-							"company", getCompany()).list();
+					List l = session
+							.getNamedQuery("getCount.from.Account.and.parent")
+							.setLong("parentId", this.parent.getID())
+							.setEntity("company", getCompany()).list();
 					if (l != null) {
 						long count = (Long) l.get(0);
 						count++;
@@ -948,7 +948,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	}
 
-	private void updateTotalBalance(double amount, double currencyFactor) {
+	public void updateTotalBalance(double amount, double currencyFactor) {
 		System.out.println(this.getName());
 
 		String tempStr = " Total Balance of " + this.getName()
@@ -1082,17 +1082,18 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				this.oldParent.updateTotalBalance(-1 * this.totalBalance, 1);
 				session.update(this.oldParent);
 
-				int i = Integer.parseInt(oldFlow
-						.substring(oldFlow.length() - 1));
+				int i = Integer
+						.parseInt(oldFlow.substring(oldFlow.length() - 1));
 
 				// Query query1 =
 				// session.getNamedQuery("getAccountDetails").setParameter("parentId",
 				// this.oldParent.getID()).setParameter("flow", oldFlow);
 
-				Query query1 = session.getNamedQuery(
-						"getFlowList.form.Account.byId").setParameter(
-						"parentId", this.oldParent.getID()).setParameter(
-						"flow", oldFlow).setEntity("company", getCompany());
+				Query query1 = session
+						.getNamedQuery("getFlowList.form.Account.byId")
+						.setParameter("parentId", this.oldParent.getID())
+						.setParameter("flow", oldFlow)
+						.setEntity("company", getCompany());
 				List<Account> l2 = query1.list();
 
 				// List<Account> l2 = session
@@ -1249,9 +1250,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// throw new InvalidOperationException(
 		// "Account Name already existed Enter Unique name for Account");
 
-		Query query = session.getNamedQuery("getAccounts").setString("name",
-				this.name).setString("number", this.number).setLong("id",
-				this.id)
+		Query query = session.getNamedQuery("getAccounts")
+				.setString("name", this.name).setString("number", this.number)
+				.setLong("id", this.id)
 				.setParameter("companyId", account.getCompany().getID());
 
 		List list = query.list();
@@ -1308,14 +1309,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	}
 
 	/**
-	 * @param amount
-	 *            the currenctBalanceInAccountCurrency to set
-	 */
-	public void setTotalBalanceInAccountCurrency(double amount) {
-		this.totalBalanceInAccountCurrency = amount;
-	}
-
-	/**
 	 * @return the currencyFactor
 	 */
 	public double getCurrencyFactor() {
@@ -1328,6 +1321,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 */
 	public void setCurrencyFactor(double currencyFactor) {
 		this.currencyFactor = currencyFactor;
+	}
+
+	public void setCurrenctBalance(double amount) {
+		this.currentBalance += amount;
 	}
 
 	public void setPaypalEmail(String paypalEmail) {
