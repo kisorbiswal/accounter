@@ -60,7 +60,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 
 public class PurchaseOrderView extends
 		AbstractVendorTransactionView<ClientPurchaseOrder> {
@@ -92,12 +91,12 @@ public class PurchaseOrderView extends
 	private TextItem purchaseOrderText;
 	private HTML lab1;
 	private List<String> listOfTypes;
-	private String OPEN = Accounter.constants().open();
-	private String COMPLETED = Accounter.constants().completed();
-	private String CANCELLED = Accounter.constants().cancelled();
+	private final String OPEN = Accounter.constants().open();
+	private final String COMPLETED = Accounter.constants().completed();
+	private final String CANCELLED = Accounter.constants().cancelled();
 	private DateField despatchDateItem;
 	AccounterConstants accounterConstants = Accounter.constants();
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
@@ -231,7 +230,7 @@ public class PurchaseOrderView extends
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
 			balanceDueNonEditableText = new AmountField(
-					accounterConstants.balanceDue(), this,getBaseCurrency());
+					accounterConstants.balanceDue(), this, getBaseCurrency());
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -613,6 +612,7 @@ public class PurchaseOrderView extends
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientPaymentTerms selectItem) {
 						if (selectItem != null) {
@@ -637,6 +637,7 @@ public class PurchaseOrderView extends
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientShippingTerms selectItem) {
 						if (selectItem != null)
@@ -660,6 +661,7 @@ public class PurchaseOrderView extends
 		shippingMethodsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientShippingMethod selectItem) {
 						if (selectItem != null)
@@ -684,6 +686,7 @@ public class PurchaseOrderView extends
 		shipToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAddress selectItem) {
 						shipToAddressSelected(selectItem);
 					}
@@ -707,6 +710,7 @@ public class PurchaseOrderView extends
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAddress selectItem) {
 
 						if (selectItem != null)
@@ -794,6 +798,9 @@ public class PurchaseOrderView extends
 				shipToAddress.businessSelect.setValue(shippingAddress
 						.getAddressTypes().get(shippingAddress.getType()));
 				shipToAddress.setAddres(shippingAddress);
+				ClientAddress add = new ClientAddress();
+				shipToAddress.businessSelect.setValue(add.getAddressTypes()
+						.get(1));
 			}
 			shipToAddress.businessSelect.setDisabled(true);
 
@@ -875,7 +882,7 @@ public class PurchaseOrderView extends
 	private void initDeliveryDate() {
 
 		if (isInViewMode()) {
-			ClientPurchaseOrder purchaseOrder = (ClientPurchaseOrder) transaction;
+			ClientPurchaseOrder purchaseOrder = transaction;
 			deliveryDateItem.setEnteredDate(new ClientFinanceDate(purchaseOrder
 					.getDeliveryDate()));
 
@@ -1024,7 +1031,7 @@ public class PurchaseOrderView extends
 
 		super.saveAndUpdateView();
 
-		saveOrUpdate((ClientPurchaseOrder) transaction);
+		saveOrUpdate(transaction);
 
 		// if (isTrackTax()) {
 		// netAmount.setAmount(transaction.getNetAmount());
@@ -1035,6 +1042,7 @@ public class PurchaseOrderView extends
 
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (getVendor() != null) {
@@ -1088,8 +1096,7 @@ public class PurchaseOrderView extends
 
 		if (isTrackTax()) {
 			if (vatinclusiveCheck != null)
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
+				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 
 		}
 		if (currency != null)
@@ -1150,8 +1157,7 @@ public class PurchaseOrderView extends
 		vendorCombo.setComboItem(vendor);
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrency(getCompany()
-					.getCurrency(vendor.getCurrency()));
+			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
@@ -1208,6 +1214,7 @@ public class PurchaseOrderView extends
 		despatchDateItem.setEnteredDate(new ClientFinanceDate(date));
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1236,6 +1243,7 @@ public class PurchaseOrderView extends
 
 	}
 
+	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		// Validations
@@ -1303,6 +1311,7 @@ public class PurchaseOrderView extends
 		return result;
 	}
 
+	@Override
 	public void onEdit() {
 		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)
 			Accounter.showError("Completed purchase order can't be edited");
