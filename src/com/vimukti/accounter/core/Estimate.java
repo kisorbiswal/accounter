@@ -421,11 +421,12 @@ public class Estimate extends Transaction {
 	 *            the usedTransaction to set
 	 */
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
-		if (this.usedInvoice == null) {
+		if (this.usedInvoice == null && usedTransaction != null) {
 			this.usedInvoice = usedTransaction;
 			for (TransactionItem item : transactionItems) {
 				item.doCreateEffect(session);
 			}
+			status=STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
 			List<TransactionItem> newItems = new ArrayList<TransactionItem>();
@@ -437,7 +438,9 @@ public class Estimate extends Transaction {
 				e.printStackTrace();
 			}
 			transactionItems.clear();
+			this.taxRateCalculationEntriesList.clear();
 			transactionItems.addAll(newItems);
+			status=STATUS_OPEN;
 		}
 	}
 

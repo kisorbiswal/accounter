@@ -769,6 +769,9 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void setTranReceivePayments(
 			List<ClientTransactionReceivePayment> recievePayments) {
+		for(ClientTransactionReceivePayment payment:recievePayments){
+			payment.setID(0);
+		}
 		this.tranReceivePayments = recievePayments;
 	}
 

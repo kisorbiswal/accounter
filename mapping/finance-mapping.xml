@@ -56,7 +56,7 @@
 		<!-- <array name="monthViceAmounts" table="ACCOUNT_AMOUNTS" cascade="all"> 
 			<key column="ACCOUNT_ID"></key> <list-index column="IDX" /> <element column="MONTH_VICE_AMOUNT" 
 			type="double"></element> </array> -->
-		<map name="monthViceAmounts" lazy="false" table="ACCOUNT_AMOUNTS"
+		<map name="monthViceAmounts" table="ACCOUNT_AMOUNTS"
 			cascade="save-update,delete">
 			<key column="ACCOUNT_ID"></key>
 			<index column="month" type="int"></index>
@@ -893,21 +893,7 @@
 				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
 			</composite-element>
 		</set>
-		<!-- <set name="phoneNumbers" table="PAYEE_PHONE" lazy="false" cascade="save-update"> 
-			<key column="PAYEE_ID" not-null="true" /> <composite-element class="Phone"> 
-			<property name="type" column="TYPE" not-null="true"></property> <property 
-			name="number" column="NUMBER" not-null="true"></property> <property name="isSelected" 
-			column="IS_SELECTED" not-null="true"></property> </composite-element> </set> -->
-		<!-- <set name="faxNumbers" table="PAYEE_FAX" lazy="false" cascade="save-update"> 
-			<key column="PAYEE_ID" not-null="true" /> <composite-element class="Fax"> 
-			<property name="type" column="TYPE" not-null="true"></property> <property 
-			name="number" column="NUMBER" not-null="true"></property> <property name="isSelected" 
-			column="IS_SELECTED" not-null="true"></property> </composite-element> </set> -->
-		<!-- <set name="emails" table="PAYEE_EMAIL" lazy="false" cascade="save-update"> 
-			<key column="PAYEE_ID" not-null="true" /> <composite-element class="Email"> 
-			<property name="type" column="TYPE" not-null="true"></property> <property 
-			name="email" column="EMAIL" not-null="true"></property> <property name="isSelected" 
-			column="IS_SELECTED" not-null="true"></property> </composite-element> </set> -->
+
 		<set name="contacts" table="PAYEE_CONTACT" lazy="false" cascade="save-update">
 			<key column="PAYEE_ID" not-null="true" />
 			<composite-element class="Contact">
@@ -1190,8 +1176,8 @@
 		<property name="vatAmount" column="VAT_AMOUNT"></property>
 		<property name="lineTotal" column="LINE_TOTAL"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="transactionItem" class="TransactionItem"
-			column="TRANSACTION_ITEM_ID">
+		<many-to-one name="transaction" class="Transaction"
+			column="TRANSACTION_ID">
 		</many-to-one>
 		<many-to-one name="taxItem" class="TAXItem" column="TAX_ITEM_ID">
 		</many-to-one>

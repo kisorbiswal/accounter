@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -45,9 +43,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * @param vatItem
 	 *            the vatItem to set
 	 */
-	// public void setVatItem(TAXItem vatItem) {
-	// this.vatItem = vatItem;
-	// }
 
 	/**
 	 * The type field is used to differ the Item, comment, salestax, account
@@ -143,18 +138,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	double VATfraction;
 
 	/**
-	 * Every TransactionItem consists of a set of {@link TaxRateCalculation} for
-	 * the purpose
-	 */
-
-	@ReffereredObject
-	ItemBackUp itemBackUp;
-	/**
 	 * Every TransactionItem in UK consists of a set of
 	 * {@link TAXRateCalculation} for the purpose
 	 */
-	@ReffereredObject
-	private Set<TAXRateCalculation> taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
 
 	/**
 	 * For the purpose of SalesOrder. To know how much amount of this
@@ -162,18 +148,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 */
 	@ReffereredObject
 	TransactionItem referringTransactionItem;
-
-	/**
-	 * This is to specify whether this Transaction Item has become void or not.
-	 * 
-	 */
-	boolean isVoid;
-
-	/**
-	 * This field is used internally for the logical functionality to know that
-	 * the transaction is voided before or not.
-	 */
-	boolean isVoidBefore;
 
 	/**
 	 * This amount is used for storing the amount that by which amount the
@@ -342,14 +316,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.transaction = transaction;
 	}
 
-	public boolean isVoid() {
-		return isVoid;
-	}
-
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	@Override
 	public String toString() {
 		try {
@@ -403,7 +369,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			}
 		}
 
-		deleteCreatedEntries(session);
 		//
 		// if (this.isTaxable
 		// && taxGroup != null
@@ -430,7 +395,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
 
-		this.isVoidBefore = isVoid;
 	}
 
 	@Override
@@ -441,52 +405,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 		this.setOnSaveProccessed(true);
 
-		initVRCids();
-
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
 
 		doCreateEffect(session);
 		return false;
-	}
-
-	private void initVRCids() {
-		if (this.getTaxRateCalculationEntriesList() == null
-				|| this.getTaxRateCalculationEntriesList().isEmpty())
-			return;
-
-		TAXRateCalculation vrc1 = null, vrc2 = null;
-
-		/*
-		 * In synchronization, we will get vatRateCalculationEntriesList from
-		 * desktop client which the transactionItem is null. Here we have to
-		 * take the id and remove that entry from vatRateCalculationEntriesList,
-		 * if and only if the transaction is going to void otherwise we have to
-		 * remove all entries from the list.
-		 */
-		for (TAXRateCalculation vrc : this.getTaxRateCalculationEntriesList()) {
-			if (this.isVoid && vrc.transactionItem == null) {
-				// vrcids.add(vrc.getID());
-
-				if (vrc1 == null)
-					vrc1 = vrc;
-				else
-					vrc2 = vrc;
-
-			}
-			// else if (!this.isVoid)
-			// vrcids.add(vrc.getID());
-		}
-
-		if (vrc1 != null)
-			this.getTaxRateCalculationEntriesList().remove(vrc1);
-		if (vrc2 != null)
-			this.getTaxRateCalculationEntriesList().remove(vrc2);
-
-		if (!this.isVoid())
-			this.getTaxRateCalculationEntriesList().clear();
-
 	}
 
 	public void doCreateEffect(Session session) {
@@ -513,10 +437,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					effectingAccount.onUpdate(session);
 				}
 
-				if ((getCompany().getPreferences().isTrackTax())
-						&& this.isTaxable)
-					Company.setTAXRateCalculation(this, session);
-
+				if (this.isTaxable) {
+					transaction.setTAXRateCalculation(this);
+				}
 				if (this.type == TYPE_ITEM
 						&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
 					this.updateWareHouse(false);
@@ -577,24 +500,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		session.saveOrUpdate(wareHouse);
 	}
 
-	private Company getCompany() {
-		return transaction.getCompany();
-	}
-
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		initVRCids();
-
-		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
-				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
-			return false;
-
-		if (this.isBecameVoid()) {
-
-			doReverseEffect(session);
-		}
-		// ChangeTracker.put(this);
 		return false;
 	}
 
@@ -621,9 +529,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 			}
 
-			if (this.isTaxable)
-				Company.setTAXRateCalculation(this, session);
-
+			if (this.isTaxable) {
+				transaction.setTAXRateCalculation(this);
+			}
 			if (this.type == TYPE_ITEM
 					&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
 				this.updateWareHouse(true);
@@ -663,10 +571,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		return this.transaction.isPositiveTransaction();
 	}
 
-	protected boolean isBecameVoid() {
-		return isVoid && !this.isVoidBefore;
-	}
-
 	/**
 	 * This is called in the Transaction class so as to effect the account
 	 * involved which plays the vital role in the current transaction. For
@@ -683,60 +587,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			return this.account;
 
 		case TYPE_ITEM:
-			// ItemBackUp itemBackUp = getItemBackUp(itemBackUpList, this.item);
 
-			if (this.isVoid) {
-				if (this.transaction.isDebitTransaction()) {
-					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-						return this.itemBackUp.getIncomeAccount();
-					}
-					// else if (this.transaction.getType() ==
-					// Transaction.TYPE_WRITE_CHECK
-					// && ((WriteCheck) this.transaction).getCustomer() != null)
-					// {
-					//
-					// return this.itemBackUp.getIncomeAccount();
-					//
-					// }
-					else {
-
-						return this.itemBackUp.getExpenseAccount();
-					}
-
-				} else {
-					if (this.transaction.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
-						return this.itemBackUp.getExpenseAccount();
-					} else {
-						return this.itemBackUp.getIncomeAccount();
-					}
-
-				}
+			if (this.transaction.getTransactionCategory()==Transaction.CATEGORY_VENDOR) {
+				return this.item.getExpenseAccount();
 			} else {
-				if (this.transaction.isDebitTransaction()) {
-					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-						return this.item.getIncomeAccount();
-					}
-					// else if (this.transaction.getType() ==
-					// Transaction.TYPE_WRITE_CHECK
-					// && ((WriteCheck) this.transaction).getCustomer() != null)
-					// {
-					//
-					// return this.item.getIncomeAccount();
-					//
-					// }
-					else {
-
-						return this.item.getExpenseAccount();
-					}
-
-				} else {
-					if (this.transaction.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
-						return this.item.getExpenseAccount();
-					} else {
-						return this.item.getIncomeAccount();
-					}
-
-				}
+				return this.item.getIncomeAccount();
 			}
 		}
 		return null;
@@ -770,10 +625,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.account = account;
 	}
 
-	// public void setTaxItem(TAXItem taxItem) {
-	// this.taxItem = taxItem;
-	// }
-
 	public boolean isTaxable() {
 		return isTaxable;
 	}
@@ -788,17 +639,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public void setItem(Item item) {
 		this.item = item;
-	}
-
-	public void deleteCreatedEntries(Session session) {
-
-		// if (this.itemBackUpList != null) {
-		// this.itemBackUpList.clear();
-		// }
-
-		if (this.getTaxRateCalculationEntriesList() != null) {
-			this.getTaxRateCalculationEntriesList().clear();
-		}
 	}
 
 	/**
@@ -833,7 +673,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	protected TransactionItem clone() throws CloneNotSupportedException {
 		TransactionItem item = (TransactionItem) super.clone();
 		item.setId(0);
-		item.taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
 		return item;
 	}
 
@@ -893,15 +732,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
 		this.isOnSaveProccessed = isOnSaveProccessed;
-	}
-
-	public Set<TAXRateCalculation> getTaxRateCalculationEntriesList() {
-		return taxRateCalculationEntriesList;
-	}
-
-	public void setTaxRateCalculationEntriesList(
-			Set<TAXRateCalculation> taxRateCalculationEntriesList) {
-		this.taxRateCalculationEntriesList = taxRateCalculationEntriesList;
 	}
 
 	public Warehouse getWareHouse() {

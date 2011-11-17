@@ -478,7 +478,7 @@ public class Invoice extends Transaction implements Lifecycle {
 													.getID());
 							double amount = 0d;
 
-							if (!isCreated)
+							if (!isCreated) {
 								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 									if (DecimalUtil
 											.isLessThan(
@@ -496,7 +496,7 @@ public class Invoice extends Transaction implements Lifecycle {
 								} else
 									referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
-							else {
+							} else {
 								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 									if (DecimalUtil
 											.isLessThan(
@@ -556,13 +556,6 @@ public class Invoice extends Transaction implements Lifecycle {
 					if (DecimalUtil.isLessThan(usdAmount, estimate.netAmount))
 						isPartiallyInvoiced = true;
 				}
-				// if (isPartiallyInvoiced) {
-				// estimate.status = Estimate.STATUS_OPEN;
-				// } else {
-				estimate.status = isCreated ? Estimate.STATUS_ACCECPTED
-						: Estimate.STATUS_OPEN;
-
-				// }
 				if (isCreated) {
 					estimate.setUsedInvoice(invoice, session);
 				}
@@ -913,42 +906,6 @@ public class Invoice extends Transaction implements Lifecycle {
 					this.customer.updateBalance(session, this, -this.total);
 				}
 			}
-
-			// if (this.salesOrders != null || invoice.salesOrders != null)
-			// if (this.salesOrders == null && invoice.salesOrders != null) {
-			// modifySalesOrder(invoice, false);
-			// } else if (this.salesOrders != null
-			// && invoice.salesOrders == null) {
-			// modifySalesOrder(this, true);
-			// } else if (isInvoiceContainsSalesOrders(this.salesOrders,
-			// invoice.salesOrders)) {
-			// modifySalesOrder(invoice, false);
-			// modifySalesOrder(this, true);
-			// } else {
-			// for (TransactionItem transactionItem : invoice.transactionItems)
-			// {
-			// if (transactionItem.referringTransactionItem != null
-			// && DecimalUtil
-			// .isGreaterThan(
-			// transactionItem.referringTransactionItem.usedamt,
-			// 0)) {
-			// transactionItem.referringTransactionItem.usedamt -=
-			// transactionItem.lineTotal;
-			// }
-			// }
-			// modifySalesOrder(this, true);
-			//
-			// }
-			// if (this.estimates != null || invoice.estimates != null)
-			// if (this.estimates == null && invoice.estimates != null) {
-			// modifyEstimate(invoice, false);
-			// } else if (this.estimates != null && invoice.estimates == null) {
-			// modifyEstimate(this, true);
-			// } else if (isInvoiceContainsEstimates(this.estimates,
-			// invoice.estimates)) {
-			// modifyEstimate(invoice, false);
-			// modifyEstimate(this, true);
-			// }
 			this.updateTransactionReceivepayments();
 			doUpdateEffectEstiamtes(this, invoice, session);
 			doUpdateEffectSalesOrder(this, invoice, session);
