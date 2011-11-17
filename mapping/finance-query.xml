@@ -3492,7 +3492,7 @@
 		on C.ID =
 		CS.CUSTOMER_ID or
 		C.ID = CCM.CUSTOMER_ID or C.ID =
-		I.CUSTOMER_ID
+		I.CUSTOMER_ID OR C.ID = E.CUSTOMER_ID
 		left
 		outer join
 		VENDOR V
