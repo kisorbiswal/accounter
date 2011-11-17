@@ -458,7 +458,8 @@ public class NewVendorPaymentView extends
 				transaction.setPayFrom(payFromAccount);
 			if (getPreferences().isTDSEnabled()
 					&& getVendor().isTdsApplicable()) {
-				transaction.setTotal(totalAmount.getAmount());
+				transaction.setTotal(getAmountInBaseCurrency(totalAmount
+						.getAmount()));
 				ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
 				if (selectedValue != null) {
 					transaction.setTdsTaxItem(selectedValue);
@@ -466,7 +467,8 @@ public class NewVendorPaymentView extends
 				transaction.setTdsTotal(tdsAmount.getAmount());
 				transaction.setAmountIncludeTDS(amountIncludeTds.getValue());
 			} else {
-				transaction.setTotal(amountText.getAmount());
+				transaction.setTotal(getAmountInBaseCurrency(totalAmount
+						.getAmount()));
 			}
 
 			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
