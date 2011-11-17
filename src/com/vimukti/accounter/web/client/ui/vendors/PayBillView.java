@@ -67,7 +67,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected List<PayBillTransactionList> filterList;
 	protected List<PayBillTransactionList> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
-	private DynamicForm payForm, filterForm;
+	private DynamicForm payForm, filterForm, textForm;
 	private int size;
 	// public double transactionTotal = 0.0d;
 	public double totalAmountDue = 0.0d;
@@ -499,13 +499,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				if (paybillTransactionList != null) {
+				if (paybillTransactionList != null
+						&& !dueDateOnOrBefore.equals(date)) {
 					// if (event.getSource() != null) {
 					// dueDateOnOrBefore = ((DateField) event.getSource())
 					// .getValue();
 					dueDateOnOrBefore = dueDate.getValue();
 					clearGrid();
 					filterGrid();
+					grid.resetValues();
 					// }
 				}
 
@@ -617,22 +619,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				.get().Vendor()));
 		amountToVendor.setDisabled(true);
 
-		DynamicForm textForm = new DynamicForm();
-		textForm.setNumCols(2);
-		textForm.setStyleName("unused-payments");
-		if (!isInViewMode()) {
-			textForm.setFields(unUsedCreditsText, amountToVendor,
-					tdsPayableAmount, amountLableBase);
-		} else {
-			textForm.setFields(amountToVendor, tdsPayableAmount,
-					amountLableBase);
-		}
-		if (isMultiCurrencyEnabled())
-			textForm.setFields(amountLabelForeign);
-		if (!getPreferences().isTDSEnabled()) {
-			amountToVendor.setVisible(false);
-			tdsPayableAmount.setVisible(false);
-		}
+		textForm = new DynamicForm();
+
+		addTextFormFields();
 
 		HorizontalPanel bottompanel = new HorizontalPanel();
 		bottompanel.setWidth("100%");
@@ -693,12 +682,27 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		listforms.add(textForm);
 		setTabindexes();
 
+	}
+
+	private void addTextFormFields() {
+		textForm.setNumCols(2);
+		textForm.setStyleName("unused-payments");
+		if (!isInViewMode()) {
+			textForm.setFields(unUsedCreditsText, amountToVendor,
+					tdsPayableAmount, amountLableBase);
+		} else {
+			textForm.setFields(amountToVendor, tdsPayableAmount,
+					amountLableBase);
+		}
 		if (isMultiCurrencyEnabled()) {
-			if (!isInViewMode()) {
-				amountLabelForeign.hide();
+			if (isInViewMode()) {
+				textForm.setFields(amountLabelForeign);
 			}
 		}
-
+		if (!getPreferences().isTDSEnabled()) {
+			amountToVendor.setVisible(false);
+			tdsPayableAmount.setVisible(false);
+		}
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
@@ -1202,6 +1206,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction = new ClientPayBill();
 		data = transaction;
 		tdsCombo.setDisabled(isInViewMode());
+		textForm.clear();
+		addTextFormFields();
+		grid.initCreditsAndPayments(this.getVendor());
 	}
 
 	@Override
