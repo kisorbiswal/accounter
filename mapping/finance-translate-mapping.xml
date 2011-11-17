@@ -12,7 +12,7 @@
 			not-null="true"></many-to-one>
 		<many-to-one name="lang" column="LANGUAGE" class="Language"
 			not-null="true"></many-to-one>
-		<property name="value" column="VALUE"></property>
+		<property name="value" type="text" column="VALUE"></property>
 		<property name="ups" column="UPS" type="int"></property>
 		<property name="downs" column="DOWNS" type="int"></property>
 		<property name="isApproved" column="IS_APPROVED"></property>
@@ -26,14 +26,14 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="key" column="KEY"></property>
+		<property name="key" type="text" column="KEY"></property>
 	</class>
 
 	<class name="Message" table="MESSAGE">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="value" unique="true" column="VALUE"></property>
+		<property name="value" type="text" unique="true" column="VALUE"></property>
 		<property name="isNotUsed" column="IS_NOT_USED"></property>
 		<set name="localMessages" lazy="false" inverse="true">
 			<key column="MESSAGE_ID" />
@@ -66,6 +66,12 @@
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.web.server.translate.Message m where
 		m.id=:id
+	</query>
+
+	<query name="getMessageByValue">
+		<query-param name="value" type="string" />
+		from com.vimukti.accounter.web.server.translate.Message m where
+		m.value=:value
 	</query>
 
 	<query name="getLocalMessageById">
@@ -193,8 +199,10 @@
 		END) AS VALUE
 		FROM KEY K LEFT JOIN KEY_MESSAGES KM ON KM.KEY_ID = K.ID
 		LEFT JOIN MESSAGE M ON M.ID=KM.MESSAGE_ID
-		LEFT JOIN LOCAL_MESSAGE LM ON LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
-		AND (LM.IS_APPROVED OR LM.CLIENT=:clientId) ORDER BY K.KEY,LM.IS_APPROVED DESC ;
+		LEFT JOIN LOCAL_MESSAGE LM ON
+		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
+		AND (LM.IS_APPROVED OR
+		LM.CLIENT=:clientId) ORDER BY K.KEY,LM.IS_APPROVED DESC ;
 	</sql-query>
 
 </hibernate-mapping>
