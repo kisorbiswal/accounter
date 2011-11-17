@@ -82,21 +82,20 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	@Override
 	public void onSave(boolean reopen) {
 
-		List<ClientTAXReturn> selectedRecords = grid.getSelectedRecords();
+		ClientTAXReturn taxReturn = grid.getSelection();
 
 		List<ClientTransactionPayTAX> payTaxEntriesList = new ArrayList<ClientTransactionPayTAX>();
 		ClientTransactionPayTAX payTAXEntry = null;
-		for (ClientTAXReturn taxReturn : selectedRecords) {
-			payTAXEntry = new ClientTransactionPayTAX();
-			if (taxReturn.getBalance() >= 0) {
-				payTAXEntry.setTaxDue(taxReturn.getBalance());
-			} else {
-				payTAXEntry.setAmountToPay(taxReturn.getBalance());
-			}
-			payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
-			payTAXEntry.setVatReturn(taxReturn.getID());
-			payTaxEntriesList.add(payTAXEntry);
+
+		payTAXEntry = new ClientTransactionPayTAX();
+		if (taxReturn.getBalance() >= 0) {
+			payTAXEntry.setTaxDue(taxReturn.getBalance());
+		} else {
+			payTAXEntry.setAmountToPay(taxReturn.getBalance());
 		}
+		payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
+		payTAXEntry.setVatReturn(taxReturn.getID());
+		payTaxEntriesList.add(payTAXEntry);
 
 		ClientPayTAX clientPayTAX = new ClientPayTAX();
 		clientPayTAX.setTransactionPayTax(payTaxEntriesList);
@@ -118,7 +117,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TAXHistoryGrid(true);
+		grid = new TAXHistoryGrid(false);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
