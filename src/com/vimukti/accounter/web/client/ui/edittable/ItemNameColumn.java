@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -54,8 +55,16 @@ public abstract class ItemNameColumn extends
 
 			if (getPreferences().isTrackTax()
 					&& getPreferences().isTaxPerDetailLine()) {
-				row.setTaxCode(newValue.getTaxCode() != 0 ? newValue
-						.getTaxCode() : row.getTaxCode());
+				ClientTAXCode taxCode = Accounter.getCompany().getTAXCode(
+						newValue.getTaxCode());
+				if (taxCode != null) {
+					if (isSales() && taxCode.getTAXItemGrpForSales() != 0) {
+						row.setTaxCode(taxCode.getID());
+					} else if (!isSales()
+							&& taxCode.getTAXItemGrpForPurchases() != 0) {
+						row.setTaxCode(taxCode.getID());
+					}
+				}
 			}
 		}
 	}
