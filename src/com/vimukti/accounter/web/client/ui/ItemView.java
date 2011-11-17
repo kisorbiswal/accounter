@@ -90,8 +90,8 @@ public class ItemView extends BaseView<ClientItem> {
 	protected ClientItemGroup selectItemGroup;
 	protected ClientVendor selectVendor;
 	protected ClientTAXCode selectTaxCode;
-	private ClientCompany company;
-	private boolean isGeneratedFromCustomer;
+	private final ClientCompany company;
+	private final boolean isGeneratedFromCustomer;
 	private ArrayList<DynamicForm> listforms;
 	String name;
 	private String itemName;
@@ -225,7 +225,7 @@ public class ItemView extends BaseView<ClientItem> {
 				.replace(Accounter.constants().comments(),
 						Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
 		salesPriceText.setDisabled(isInViewMode());
@@ -242,6 +242,7 @@ public class ItemView extends BaseView<ClientItem> {
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectAccount = selectItem;
 						if (selectAccount != null
@@ -270,7 +271,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesInfoForm.setWidth("98%");
 
 		stdCostText = new AmountField(Accounter.constants().standardCost(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
 		stdCostText.setDisabled(isInViewMode());
@@ -292,14 +293,15 @@ public class ItemView extends BaseView<ClientItem> {
 		// itemGroupCombo.setWidth(100);
 		itemGroupCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItemGroup>() {
+					@Override
 					public void selectedComboBoxItem(ClientItemGroup selectItem) {
 						selectItemGroup = selectItem;
 					}
 				});
-		taxCode = new TAXCodeCombo(Accounter.constants().vatCode(),
+		taxCode = new TAXCodeCombo(Accounter.constants().taxCode(),
 				isGeneratedFromCustomer);
 		taxCode.setHelpInformation(true);
-		taxCode.setRequired(true);
+		taxCode.setRequired(false);
 		taxCode.setDisabled(isInViewMode());
 		// if (!FinanceApplication.getCompany().getpreferences()
 		// .getDoYouPaySalesTax()) {
@@ -307,6 +309,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// }
 
 		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+			@Override
 			public void selectedComboBoxItem(ClientTAXCode selectItem) {
 				selectTaxCode = selectItem;
 			}
@@ -322,7 +325,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseDescArea.setDisabled(isInViewMode());
 
 		purchasePriceTxt = new AmountField(Accounter.constants()
-				.purchasePrice(), this,getBaseCurrency());
+				.purchasePrice(), this, getBaseCurrency());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setDisabled(isInViewMode());
@@ -337,6 +340,7 @@ public class ItemView extends BaseView<ClientItem> {
 		expAccCombo.setDisabled(isInViewMode());
 		expAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectExpAccount = selectItem;
 						if (selectExpAccount != null
@@ -361,6 +365,7 @@ public class ItemView extends BaseView<ClientItem> {
 		prefVendorCombo.setDisabled(isInViewMode());
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectVendor = selectItem;
 					}
@@ -615,7 +620,7 @@ public class ItemView extends BaseView<ClientItem> {
 		wareHouse = new WarehouseCombo(Accounter.constants().wareHouse());
 
 		openingBalTxt = new AmountField(Accounter.constants().openingBalance(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		openingBalTxt.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
 		// if (getPreferences().iswareHouseEnabled()) {
@@ -666,7 +671,7 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setItemGroup(selectItemGroup.getID());
 		data.setStandardCost(stdCostText.getAmount());
 
-		data.setUPCorSKU((String) skuText.getValue());
+		data.setUPCorSKU(skuText.getValue());
 
 		if ((type == ClientItem.TYPE_NON_INVENTORY_PART || type == ClientItem.TYPE_INVENTORY_PART)
 				&& weightText.getNumber() != null)
@@ -727,7 +732,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// Accounter.constants()
 		// .duplicationofProductnamearenotallowed3dots() : Accounter
 		// .constants().duplicationofServicenamearenotallowed3dots());
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -1007,6 +1012,7 @@ public class ItemView extends BaseView<ClientItem> {
 		return result;
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
