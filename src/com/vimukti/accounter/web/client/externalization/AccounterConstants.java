@@ -3760,5 +3760,7 @@ public interface AccounterConstants extends Constants {
 
 	public String taxList();
 
+	public String addNewCredit();
+
 	public String taxFiledDate();
 }

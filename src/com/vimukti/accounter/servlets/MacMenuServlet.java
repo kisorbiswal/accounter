@@ -662,6 +662,8 @@ public class MacMenuServlet extends BaseServlet {
 			if (preferences.isDelayedchargesEnabled()) {
 				subMenu(customerListValue, iGlobal.constants().Charges(),
 						"company/accounter#charges");
+				subMenu(customerListValue, iGlobal.constants().credits(),
+						"company/accounter#credits");
 			}
 
 			subMenu(customerListValue, iGlobal.constants().invoices(),

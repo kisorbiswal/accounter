@@ -68,8 +68,10 @@ public class QuotesAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		if (type != ClientEstimate.QUOTES) {
+		if (type == ClientEstimate.CHARGES) {
 			return "charges";
+		} else if (type == ClientEstimate.CREDITS) {
+			return "credits";
 		}
 		return "quotes";
 	}

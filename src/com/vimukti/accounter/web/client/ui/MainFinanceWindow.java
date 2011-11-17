@@ -103,7 +103,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	private native boolean isTouch() /*-{
-    	return $wnd.isTouch;
+		return $wnd.isTouch;
 	}-*/;
 
 	public HelpItem getHelpItem() {
@@ -430,6 +430,11 @@ public class MainFinanceWindow extends VerticalPanel {
 						ClientEstimate.CHARGES).getHistoryToken(),
 				ActionFactory.getQuotesAction(Accounter.constants().Charges(),
 						ClientEstimate.CHARGES));
+		actions.put(
+				ActionFactory.getQuotesAction(Accounter.constants().credits(),
+						ClientEstimate.CREDITS).getHistoryToken(),
+				ActionFactory.getQuotesAction(Accounter.constants().credits(),
+						ClientEstimate.CREDITS));
 		actions.put(ActionFactory.getInvoicesAction(null).getHistoryToken(),
 				ActionFactory.getInvoicesAction(null));
 		actions.put(

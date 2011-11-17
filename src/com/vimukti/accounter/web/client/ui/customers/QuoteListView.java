@@ -51,10 +51,14 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 				&& Accounter.getUser().canDoInvoiceTransactions())
 			return ActionFactory.getNewQuoteAction(type, Accounter.constants()
 					.newQuote());
-		else if ((type == ClientEstimate.CHARGES && getPreferences()
-				.isDelayedchargesEnabled())) {
-			return ActionFactory.getNewQuoteAction(type, Accounter.constants()
-					.newCharge());
+		else if (getPreferences().isDelayedchargesEnabled()) {
+			if (type == ClientEstimate.CHARGES) {
+				return ActionFactory.getNewQuoteAction(type, Accounter
+						.constants().newCharge());
+			} else if (type == ClientEstimate.CREDITS) {
+				return ActionFactory.getNewQuoteAction(type, Accounter
+						.constants().newCredit());
+			}
 		}
 		return null;
 	}
@@ -64,9 +68,12 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		if (type == ClientEstimate.QUOTES
 				&& Accounter.getUser().canDoInvoiceTransactions())
 			return customerConstants.addaNewQuote();
-		else if (type == ClientEstimate.CHARGES
-				&& getPreferences().isDelayedchargesEnabled()) {
-			return customerConstants.addNewCharge();
+		else if (getPreferences().isDelayedchargesEnabled()) {
+			if (type == ClientEstimate.CHARGES) {
+				return customerConstants.addNewCharge();
+			} else if (type == ClientEstimate.CREDITS) {
+				return customerConstants.addNewCredit();
+			}
 		}
 		return "";
 	}
@@ -75,6 +82,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	protected String getListViewHeading() {
 		if (type == ClientEstimate.CHARGES) {
 			return Accounter.constants().chargesList();
+		} else if (type == ClientEstimate.CREDITS) {
+			return customerConstants.creditsList();
 		}
 		return Accounter.constants().quotesList();
 	}

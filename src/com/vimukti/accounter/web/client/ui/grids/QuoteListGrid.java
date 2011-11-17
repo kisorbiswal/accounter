@@ -90,8 +90,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getDeliveryDate()));
 			case 7:
-				return DataUtils.amountAsStringWithCurrency(estimate.getTotal(), getCompany()
-						.getPrimaryCurrency());
+				return DataUtils.amountAsStringWithCurrency(
+						estimate.getTotal(), getCompany().getPrimaryCurrency());
 			case 8:
 
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
@@ -166,14 +166,21 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			int estimateType = obj.getEstimateType();
-			if (estimateType == ClientEstimate.QUOTES)
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						Accounter.constants().newQuote()).run(obj, false);
-			if (estimateType == ClientEstimate.CHARGES)
+		int estimateType = obj.getEstimateType();
+		if (Accounter.getUser().canDoInvoiceTransactions()
+				&& estimateType == ClientEstimate.QUOTES) {
+			ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
+					Accounter.constants().newQuote()).run(obj, false);
+		}
+
+		if (getPreferences().isDelayedchargesEnabled()) {
+			if (estimateType == ClientEstimate.CHARGES) {
 				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
 						Accounter.constants().newCharge()).run(obj, false);
+			} else if (estimateType == ClientEstimate.CREDITS) {
+				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
+						Accounter.constants().newCredit()).run(obj, false);
+			}
 		}
 	}
 
@@ -396,8 +403,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				break;
 
 			case 3:
-				return DataUtils.amountAsStringWithCurrency(estimate.getTotal(), getCompany()
-						.getPrimaryCurrency());
+				return DataUtils.amountAsStringWithCurrency(
+						estimate.getTotal(), getCompany().getPrimaryCurrency());
 			case 4:
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					return Accounter.getFinanceImages().beforereject();
