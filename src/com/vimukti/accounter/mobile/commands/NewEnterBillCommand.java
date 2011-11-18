@@ -279,7 +279,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				true, true, false) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -291,6 +291,11 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return false;
 			}
 
 		});

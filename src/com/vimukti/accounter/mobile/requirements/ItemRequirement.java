@@ -3,14 +3,18 @@ package com.vimukti.accounter.mobile.requirements;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.UserCommand;
 
 public abstract class ItemRequirement extends ListRequirement<Item> {
 
+	private boolean isSales;
+
 	public ItemRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<Item> listner) {
+			ChangeListner<Item> listner, boolean isSales) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
+		this.isSales = isSales;
 	}
 
 	@Override
@@ -38,7 +42,15 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().item()));
+		if (isSales) {
+			list.add(new UserCommand("Create New Service Item", "sell"));
+			list.add(new UserCommand("Create New NonInventory Item", "sell"));
+			list.add(new UserCommand("Create New Inventory Item", "sell"));
+		} else {
+			list.add(new UserCommand("Create New Service Item", "buy"));
+			list.add(new UserCommand("Create New NonInventory Item", "buy"));
+			list.add(new UserCommand("Create New Inventory Item", "buy"));
+		}
 	}
 
 	@Override

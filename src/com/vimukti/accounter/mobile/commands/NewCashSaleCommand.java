@@ -126,7 +126,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				true, true, true) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -138,6 +138,11 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return true;
 			}
 
 		});

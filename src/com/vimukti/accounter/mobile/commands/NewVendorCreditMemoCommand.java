@@ -71,7 +71,6 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -143,7 +142,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
+									.equals(context.getPreferences()
+											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}
@@ -187,7 +187,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getConstants().items(),
-				true, true, false) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -199,6 +199,11 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return false;
 			}
 
 		});

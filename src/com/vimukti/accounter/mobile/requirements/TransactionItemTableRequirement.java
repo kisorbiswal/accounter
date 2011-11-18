@@ -27,21 +27,21 @@ public abstract class TransactionItemTableRequirement extends
 	private static final String TAXCODE = "TaxCode";
 	private static final String TAX = "Tax";
 	private static final String DESCRIPTION = "Description";
-	private boolean isSales;
 
 	public TransactionItemTableRequirement(String requirementName,
 			String enterString, String recordName, boolean isOptional,
-			boolean isAllowFromContext, boolean isSales) {
+			boolean isAllowFromContext) {
 		super(requirementName, enterString, recordName, true, isOptional,
 				isAllowFromContext);
-		this.isSales = isSales;
 	}
+
+	public abstract boolean isSales();
 
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new ItemRequirement(ITEM,
 				"Please Select an Item for Transaction", "Item", false, true,
-				null) {
+				null, isSales()) {
 
 			@Override
 			protected List<Item> getLists(Context context) {
@@ -153,7 +153,7 @@ public abstract class TransactionItemTableRequirement extends
 		get(ITEM).setValue(item);
 		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
 		if (item != null) {
-			if (isSales) {
+			if (isSales()) {
 				get(UNITPTICE).setValue(item.getSalesPrice());
 			} else {
 				get(UNITPTICE).setValue(item.getPurchasePrice());
