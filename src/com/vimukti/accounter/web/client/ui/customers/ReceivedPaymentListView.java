@@ -25,9 +25,11 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	private List<ReceivePaymentsList> listOfRecievePayments;
 
 	private static String ALL = Accounter.constants().all();
-	private static String OPEN = Accounter.constants().open();
-	private static String FULLY_APPLIED = Accounter.constants().fullyApplied();
+	// private static String OPEN = Accounter.constants().open();
+	// private static String FULLY_APPLIED =
+	// Accounter.constants().fullyApplied();
 	private static String VOIDED = Accounter.constants().voided();
+	private static String PAID = Accounter.constants().paid();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_UNAPPLIED = 0;
@@ -85,15 +87,16 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(ALL);
-		listOfTypes.add(OPEN);
-		listOfTypes.add(FULLY_APPLIED);
+		listOfTypes.add(PAID);
+		// listOfTypes.add(OPEN);
+		// listOfTypes.add(FULLY_APPLIED);
 		listOfTypes.add(VOIDED);
 		viewSelect.initCombo(listOfTypes);
 		// ,DELETED
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("150px");
 
-		viewSelect.setComboItem(OPEN);
+		viewSelect.setComboItem(PAID);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -114,32 +117,32 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 		grid.removeAllRecords();
 		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
-			if (text.equals(OPEN)) {
-				if ((recievePayment.getStatus() == STATUS_UNAPPLIED || recievePayment
-						.getStatus() == STATUS_PARTIALLY_APPLIED)
-						&& (!recievePayment.isVoided()))
-					grid.addData(recievePayment);
-
-				continue;
-			}
-			if (text.equals(FULLY_APPLIED)) {
-				if (recievePayment.getStatus() == STATUS_APPLIED
-						&& !recievePayment.isVoided())
-					grid.addData(recievePayment);
-
-				continue;
-			}
-			if (text.equals(VOIDED)) {
-				if (recievePayment.isVoided() && !recievePayment.isDeleted())
-					grid.addData(recievePayment);
-				continue;
-			}
-			// if(text.equals(DELETED)){
-			// if (recievePayment.isDeleted() == true)
+			// if (text.equals(OPEN)) {
+			// if ((recievePayment.getStatus() == STATUS_UNAPPLIED ||
+			// recievePayment
+			// .getStatus() == STATUS_PARTIALLY_APPLIED)
+			// && (!recievePayment.isVoided()))
 			// grid.addData(recievePayment);
+			//
 			// continue;
 			// }
-			if (text.equals(ALL)) {
+			// if (text.equals(FULLY_APPLIED)) {
+			// if (recievePayment.getStatus() == STATUS_APPLIED
+			// && !recievePayment.isVoided())
+			// grid.addData(recievePayment);
+			//
+			// continue;
+			// }
+			if (text.equals(PAID)) {
+				if (!recievePayment.isVoided()) {
+					grid.addData(recievePayment);
+				}
+			} else if (text.equals(VOIDED)) {
+				if (recievePayment.isVoided() && !recievePayment.isDeleted()) {
+					grid.addData(recievePayment);
+				}
+				continue;
+			} else if (text.equals(ALL)) {
 				grid.addData(recievePayment);
 			}
 		}
