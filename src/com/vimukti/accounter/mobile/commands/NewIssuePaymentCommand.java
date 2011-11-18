@@ -55,8 +55,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().check() };
+				String payVatMethodArray[] = new String[] { getConstants()
+						.check() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
@@ -132,7 +132,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 						@Override
 						public boolean filter(Account e) {
 							if (e.getType() == Account.TYPE_BANK
-									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+									|| e.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
 								return true;
 							}
 							return false;
@@ -158,7 +158,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				getConstants().checkNo()), getConstants().checkNo(), true, true));
 		list.add(new IssuePaymentTableRequirement(PAYMENTS_TO_ISSUED,
 				getMessages().selectTypeOfThis(getConstants().payment()),
-				"payments list", true, true) {
+				"payments list", false, true) {
 
 			@Override
 			protected Account getAccount() {
