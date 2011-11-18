@@ -3,6 +3,215 @@
 	<include>reportpattern.xml</include>
 
 	<pattern>
+		<input>Menu</input>
+		<output>
+			<command>Company</command>
+			<command>Tax</command>
+			<command>Customer</command>
+			<command>Vendor</command>
+			<command>Banking</command>
+			<command>Sales</command>
+			<command>Purchases</command>
+			<command>Reports</command>
+			<command>Settings</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Company</input>
+		<output>
+			<command>New Journal Entry</command>
+			<command>New Account</command>
+			<command>Company Preferences</command>
+			<command>Item Tax</command>
+			<command>Manage Support List</command>
+			<command>Company Lists</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Item Tax</input>
+		<output>
+			<command>Manage Sales Tax Groups</command>
+			<command>Manage Sales Tax Items</command>
+			<command>Pay Tax</command>
+			<command>Tax Adjustments</command>
+			<command>New Tax Agency</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Manage Support Lists</input>
+		<output>
+			<command>Customer Group List</command>
+			<command>Vendor Group List</command>
+			<command>Payment Term list</command>
+			<command>Shipping Method List</command>
+			<command>Shipping Term List</command>
+			<command>Item Group List</command>
+			<command>Credit Rating List</command>
+			<command>Currency List</command>
+			<command>Location List</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>CompanyLists</input>
+		<output>
+			<command>Accounts List</command>
+			<command>Journal Entries</command>
+			<command>Items</command>
+			<command>Customers</command>
+			<command>Vendors</command>
+			<command>Payments</command>
+			<command>Sales Persons</command>
+			<command>User's Activity Log</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Tax</input>
+		<output>
+			<command>Tax New</command>
+			<command>Tax Adjustment</command>
+			<command>File Tax</command>
+			<command>Pay Tax</command>
+			<command>Tax Refund</command>
+			<command>Tax History</command>
+			<command>Tax List</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Tax New</input>
+		<output>
+			<command>New Tax Item</command>
+			<command>New Tax Code</command>
+			<command>New Tax Agency</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Tax List</input>
+		<output>
+			<command>Tax Items List</command>
+			<command>Tax Codes List</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Customer</input>
+		<output>
+			<command>Customer New</command>
+			<command>Cusotmer Prepayment</command>
+			<command>Receive Payment</command>
+			<command>Customer Refund</command>
+			<command>Customer Lists</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Customer New</input>
+		<output>
+			<command>New Customer </command>
+			<command>New Item</command>
+			<command>New Quote</command>
+			<command>New Credit</command>
+			<command>New Charge</command>
+			<command>New Invoice</command>
+			<command>New Cash sale</command>
+			<command>New Credit Note</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Customers Lists</input>
+		<output>
+			<command>Customers </command>
+			<command>Items</command>
+			<command>Quotes</command>
+			<command>Credits</command>
+			<command>Charges</command>
+			<command>Invoices</command>
+			<command>Received Payments</command>
+			<command>Customer Refunds</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Vendor</input>
+		<output>
+			<command>Vendor New</command>
+			<command>Enter Bill</command>
+			<command>Pay Bill</command>
+			<command>Issue Payment</command>
+			<command>Vendor Prepayment</command>
+			<command>Record Expenses</command>
+			<command>Vendor Lists</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Vendor New</input>
+		<output>
+			<command>New Vendor </command>
+			<command>New Item</command>
+			<command>New Cash Purchase</command>
+			<command>Vendor Credit</command>
+			<command>New Check</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Vendor Lists</input>
+		<output>
+			<command>Vendors</command>
+			<command>Items</command>
+			<command>Bills and Expenses</command>
+			<command>Vendor Payment</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Banking</input>
+		<output>
+			<command>New Account</command>
+			<command>Write Check</command>
+			<command>Deposit / Transfer Funds</command>
+			<command>Pay Bill</command>
+			<command>New Credit Card Charge</command>
+			<command>Reconciliations History </command>
+			<command>Banking List</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Banking List</input>
+		<output>
+			<command>Payments</command>
+			<command>Bank Accounts</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Sales</input>
+		<output>
+			<command>New Sales Order</command>
+			<command>Sales Order List</command>
+			<command>Sales Order Report</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Purchases</input>
+		<output>
+			<command>Purchase Order</command>
+			<command>Purchase Order List</command>
+			<command>Purchase Order Report</command>
+		</output>
+	</pattern>
+
+	<pattern>
 		<input>Invoice</input>
 		<input>Invoices</input>
 		<output>
@@ -89,16 +298,6 @@
 			<command>New Sales Order</command>
 			<command>Sales Person</command>
 			<command>Sales Order List</command>
-		</output>
-	</pattern>
-
-	<pattern>
-		<input>Purchase</input>
-		<input>Purchases</input>
-		<output>
-			<text>Purchase Description</text>
-			<command>New Purchase Order</command>
-			<command>Purchase Order List</command>
 		</output>
 	</pattern>
 
