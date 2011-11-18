@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.translation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
@@ -92,10 +91,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		}
 
 		notePanel = new FlowPanel();
-		Label note = new Label(messages.noteColon());
 		Label noteLabel = new Label(messages.translateNote());
-		notePanel.add(note);
-		note.getElement().getStyle().setFloat(Float.LEFT);
 		notePanel.add(noteLabel);
 		notePanel.addStyleName("translation_note");
 		noteLabel.addStyleName("translation_note_label");

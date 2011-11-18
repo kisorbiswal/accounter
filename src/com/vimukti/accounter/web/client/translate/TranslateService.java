@@ -12,7 +12,7 @@ public interface TranslateService extends RemoteService {
 
 	// ClientMessage getNext(String lang, int lastMessageId);
 
-	boolean addTranslation(long id, String lang, String value);
+	ClientLocalMessage addTranslation(long id, String lang, String value);
 
 	boolean vote(long localMessageId);
 

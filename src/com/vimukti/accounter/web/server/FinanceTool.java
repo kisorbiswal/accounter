@@ -2557,15 +2557,15 @@ public class FinanceTool {
 		}
 	}
 
-	public boolean addTranslation(String userEmail, long id, String lang,
-			String value) {
+	public ClientLocalMessage addTranslation(String userEmail, long id,
+			String lang, String value) {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
 
 			Client client = getUserManager().getClient(userEmail);
 			if (client == null) {
-				return false;
+				return null;
 			}
 
 			Query namedQuery = session.getNamedQuery("getLocalMessageByClient")
@@ -2590,7 +2590,7 @@ public class FinanceTool {
 			for (LocalMessage localMessage : localMessages2) {
 				if (localMessage.getCreatedBy().equals(client)
 						&& localMessage.getLang().equals(lang)) {
-					return false;
+					return null;
 				}
 			}
 
@@ -2619,10 +2619,13 @@ public class FinanceTool {
 			session.saveOrUpdate(message);
 			mesgTransaction.commit();
 
-			return true;
+			ClientLocalMessage clientLocalMessage = new ClientConvertUtil()
+					.toClientObject(localMessage, ClientLocalMessage.class);
+
+			return clientLocalMessage;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		} finally {
 			if (session != null) {
 				session.close();

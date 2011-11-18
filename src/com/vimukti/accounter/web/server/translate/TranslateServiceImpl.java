@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
+import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateService;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -49,10 +50,10 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	// }
 
 	@Override
-	public boolean addTranslation(long id, String lang, String value) {
+	public ClientLocalMessage addTranslation(long id, String lang, String value) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
-			return false;
+			return null;
 		}
 		return new FinanceTool().addTranslation(userEmail, id, lang, value);
 	}
