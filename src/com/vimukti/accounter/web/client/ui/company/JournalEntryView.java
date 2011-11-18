@@ -34,8 +34,8 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -69,7 +69,7 @@ public class JournalEntryView extends
 	private AddButton addButton;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
@@ -103,8 +103,9 @@ public class JournalEntryView extends
 		for (ClientTransactionItem entry : allEntries) {
 			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
 				if (entry.getLineTotal() == 0) {
-					result.addError(this, Accounter.messages()
-							.valueCannotBe0orlessthan0(
+					result.addError(
+							this,
+							Accounter.messages().valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				}
 			}
@@ -123,8 +124,8 @@ public class JournalEntryView extends
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
@@ -163,7 +164,7 @@ public class JournalEntryView extends
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -203,6 +204,7 @@ public class JournalEntryView extends
 		return grid.getAllRows();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (isInViewMode()) {
@@ -223,8 +225,8 @@ public class JournalEntryView extends
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(transaction);
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
-				.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
+				grid.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -486,6 +488,7 @@ public class JournalEntryView extends
 		return new JournalEntryView();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -557,11 +560,6 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	public boolean canEdit() {
-		return true;
-	}
-
-	@Override
 	public void updateAmountsFromGUI() {
 	}
 
@@ -625,9 +623,11 @@ public class JournalEntryView extends
 	protected void editPayee() {
 		AccounterAsyncCallback<ClientPayee> callback = new AccounterAsyncCallback<ClientPayee>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 			}
 
+			@Override
 			public void onResultSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientCustomer) {
