@@ -131,21 +131,24 @@
 	<sql-query name="getMessagesByLimit">
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
-		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M LIMIT :limt OFFSET :fm
+		<query-param name="lang" type="string" />
+		SELECT * FROM MESSAGE M ORDER BY ( SELECT COUNT(*) FROM LOCAL_MESSAGE
+		LM WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang) ASC ,
+		(SELECT
+		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC ,
+		(SELECT COUNT(*) FROM LOCAL_MESSAGE LM WHERE
+		LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang AND LM.IS_APPROVED=TRUE )=1
+		ASC ,M.VALUE LIMIT :limt OFFSET :fm
 	</sql-query>
 
 	<sql-query name="getUntranslatedMessages">
 		<query-param name="lang" type="string" />
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
-		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M WHERE(SELECT COUNT(*) FROM
-		LOCAL_MESSAGE
-		LM
-		WHERE
-		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0
-		LIMIT :limt OFFSET
+		SELECT * FROM MESSAGE M WHERE(SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 LIMIT :limt OFFSET
 		:fm
 	</sql-query>
 
@@ -154,14 +157,20 @@
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		<query-param name="clientId" type="long" />
-		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
-		LOCAL_MESSAGE
-		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
+		SELECT * FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
+		LM.CLIENT=:clientId)=1
+		ORDER BY (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE
+		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang) ASC ,(SELECT MAX(VOTES)
+		FROM
+		LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)
+		ASC
+		,(SELECT COUNT(*) FROM LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID
 		AND
-		LM.CLIENT=:clientId)=1 LIMIT
-		:limt OFFSET :fm
+		LM.LANGUAGE=:lang AND LM.IS_APPROVED=TRUE )=1 ASC ,M.VALUE LIMIT
+		:limt
+		OFFSET :fm
 	</sql-query>
 
 	<sql-query name="getApprovedMessages">
@@ -169,12 +178,12 @@
 		<query-param name="limt" type="int" />
 		<query-param name="lang" type="string" />
 		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
-		LOCAL_MESSAGE
-		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
-		AND
-		LM.IS_APPROVED=TRUE)=0 LIMIT
+		SELECT * FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
+		LM.IS_APPROVED=TRUE)=0 ORDER BY (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang) ASC ,(SELECT
+		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC , M.VALUE LIMIT
 		:limt OFFSET :fm
 	</sql-query>
 
@@ -192,8 +201,9 @@
 
 	<query name="getLocalMessagesByMessageId">
 		<query-param name="messageId" type="long" />
+		<query-param name="lang" type="string" />
 		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
-		lm.message.id=:messageId
+		lm.message.id=:messageId and lm.lang.code=:lang
 	</query>
 
 	<sql-query name="getKeyAndValues">
