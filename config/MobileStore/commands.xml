@@ -113,7 +113,6 @@
 
 	<command clazz="ExpenseReportCommand" name="Expense Report">
 		<alias>Expense Report</alias>
-		<alias>E</alias>
 		<alias>E report</alias>
 	</command>
 
@@ -599,7 +598,7 @@
 		<alias>Reconcilation History</alias>
 	</command>
 
-	<command clazz="NewVendorPrepaymentCommand" name="Vendor Prepayment">
+	<command clazz="NewVendorPrepaymentCommand" name="New VendorPrepayment">
 		<alias>Vendor Prepayment</alias>
 		<alias>Add Vendor Prepayment</alias>
 		<alias>Create Vendor Prepayment</alias>
