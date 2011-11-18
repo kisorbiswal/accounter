@@ -6,6 +6,43 @@ import java.util.List;
 public class Result {
 	List<Object> resultParts = new ArrayList<Object>();
 	private String cookie;
+	private int inputType;
+	private String title;
+	private boolean hideCancel;
+	private boolean showBack;
+
+	public int getInputType() {
+		return inputType;
+	}
+
+	public void setInputType(int inputType) {
+		this.inputType = inputType;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public boolean isHideCancel() {
+		return hideCancel;
+	}
+
+	public void setHideCancel(boolean hideCancel) {
+		this.hideCancel = hideCancel;
+	}
+
+	public boolean isShowBack() {
+		return showBack;
+	}
+
+	public void setShowBack(boolean showBack) {
+		this.showBack = showBack;
+	}
+
 	private String nextCommand;
 
 	/**
