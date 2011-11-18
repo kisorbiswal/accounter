@@ -107,24 +107,33 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 						.getClientObjectById(TAXCodeID,
 								AccounterCoreType.TAX_CODE, getCompanyId());
 
-				// if (!taxCode.getName().equals("EGS")
-				// && !taxCode.getName().equals("EGZ")
-				// && !taxCode.getName().equals("RC")) {
-				ClientTAXItemGroup vatItemGroup = (ClientTAXItemGroup) CommandUtils
-						.getClientObjectById(
-								isSales ? taxCode.getTAXItemGrpForSales()
-										: taxCode.getTAXItemGrpForPurchases(),
-								AccounterCoreType.TAX_ITEM_GROUP,
-								getCompanyId());
-				if (vatItemGroup != null) {
-					if (vatItemGroup instanceof ClientTAXItem) {
+				if (!taxCode.getName().equals("EGS")
+						&& !taxCode.getName().equals("EGZ")
+						&& !taxCode.getName().equals("RC")) {
+					ClientTAXItemGroup vatItemGroup = (ClientTAXItem) CommandUtils
+							.getClientObjectById(
+									isSales ? taxCode.getTAXItemGrpForSales()
+											: taxCode
+													.getTAXItemGrpForPurchases(),
+									AccounterCoreType.TAXITEM, getCompanyId());
+					if (vatItemGroup != null) {
 						vatRate = ((ClientTAXItem) vatItemGroup).getTaxRate();
-					} else if (vatItemGroup instanceof ClientTAXGroup) {
-						vatRate = ((ClientTAXGroup) vatItemGroup)
-								.getGroupRate();
+					}
+					if (vatItemGroup == null) {
+						vatItemGroup = (ClientTAXItem) CommandUtils
+								.getClientObjectById(
+										isSales ? taxCode
+												.getTAXItemGrpForSales()
+												: taxCode
+														.getTAXItemGrpForPurchases(),
+										AccounterCoreType.TAX_ITEM_GROUP,
+										getCompanyId());
+						if (vatItemGroup != null) {
+							vatRate = ((ClientTAXGroup) vatItemGroup)
+									.getGroupRate();
+						}
 					}
 				}
-				// }
 
 			}
 		} catch (Exception e) {
