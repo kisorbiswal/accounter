@@ -559,7 +559,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 		get(VENDOR_SINCE).setValue(
 				new ClientFinanceDate(vendor.getPayeeSince()));
 		get(BALANCE).setValue(vendor.getBalance());
-		get(BALANCE).setEditable(false);
+		// get(BALANCE).setEditable(false);
 		get(BALANCE_AS_OF).setValue(
 				new ClientFinanceDate(vendor.getBalanceAsOf()));
 		Set<ClientAddress> address = vendor.getAddress();
