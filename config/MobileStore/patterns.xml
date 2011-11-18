@@ -56,7 +56,7 @@
 	</pattern>
 
 	<pattern>
-		<input>CompanyLists</input>
+		<input>Company Lists</input>
 		<output>
 			<command>Accounts List</command>
 			<command>Journal Entries</command>
