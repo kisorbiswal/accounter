@@ -109,8 +109,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getConstants().taxGroup());
-				list.add(getConstants().taxItem());
+				list.add("Create VAT Item");
+				list.add("New Tax Group");
 			}
 
 			@Override
@@ -171,8 +171,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getConstants().taxGroup());
-				list.add(getConstants().taxItem());
+				list.add("Create VAT Item");
+				list.add("New Tax Group");
 			}
 
 			@Override
