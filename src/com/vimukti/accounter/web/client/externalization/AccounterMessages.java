@@ -647,4 +647,14 @@ public interface AccounterMessages extends Messages {
 	public String range(int start, int last);
 
 	public String languageName(String languageTooltip, String languageName);
+
+	public String untranslated();
+
+	public String myTranslations();
+
+	public String all();
+
+	public String pleaseEnterTheWordsAsItis();
+
+	public String unConfirmed();
 }
