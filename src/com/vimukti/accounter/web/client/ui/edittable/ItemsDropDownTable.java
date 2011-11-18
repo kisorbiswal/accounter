@@ -82,6 +82,7 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 			}
 		});
+		action.setType(getItemType());
 		action.setItemText(text);
 		action.run(null, true);
 	}
