@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import com.mattbertolini.hermes.Hermes;
 import com.vimukti.accounter.web.client.AbstractGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
 
 public class ServerGlobal extends AbstractGlobal {
 
@@ -20,7 +20,7 @@ public class ServerGlobal extends AbstractGlobal {
 
 	private AccounterMessages createAccounterMessages(Locale locale)
 			throws IOException {
-		AccounterMessages messages = Hermes.get(AccounterMessages.class,
+		AccounterMessages messages = ServerSideMessages.get(AccounterMessages.class,
 				locale.getLanguage());
 		return messages;
 	}
