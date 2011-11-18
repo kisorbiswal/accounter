@@ -152,6 +152,14 @@
 	</pattern>
 
 	<pattern>
+		<input>Record Expenses</input>
+		<output>
+			<command>Cash Expense</command>
+			<command>Credit Card Expense</command>
+		</output>
+	</pattern>
+
+	<pattern>
 		<input>Vendor New</input>
 		<output>
 			<command>New Vendor </command>
