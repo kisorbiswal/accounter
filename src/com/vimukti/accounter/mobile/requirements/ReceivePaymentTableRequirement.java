@@ -12,7 +12,8 @@ public abstract class ReceivePaymentTableRequirement extends
 
 	private static final String INVOICE_NO = "invoiceNo";
 	private static final String INVOICE_AMOUNT = "invoiceAmount";
-	private static final String PAYMENT = "payment";
+	private static final String PAYMENT = "receivePayment";
+	private static final String AMOUNT_DUE = "amountDue";
 
 	public ReceivePaymentTableRequirement(String requirementName,
 			String enterString, String recordName) {
@@ -37,18 +38,21 @@ public abstract class ReceivePaymentTableRequirement extends
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
 
-		AmountRequirement amount = new AmountRequirement(PAYMENT, getMessages()
-				.pleaseEnter(getConstants().amount()), getConstants().amount(),
-				true, true);
+		AmountRequirement amount = new AmountRequirement(AMOUNT_DUE,
+				getMessages().pleaseEnter(getConstants().amountDue()),
+				getConstants().amountDue(), true, true);
+		AmountRequirement receivePayment = new AmountRequirement(PAYMENT,
+				getMessages().pleaseEnter(getConstants().receivedPayment()),
+				getConstants().receivedPayment(), true, true);
 		list.add(amount);
+		list.add(receivePayment);
 	}
 
 	@Override
 	protected void getRequirementsValues(ClientTransactionReceivePayment obj) {
-		Double payment = get(PAYMENT).getValue();
-		Double originalAmt = get(INVOICE_AMOUNT).getValue();
-		Double due = originalAmt - payment;
-		obj.setPayment(payment);
+		Double amount = get(PAYMENT).getValue();
+		Double due = obj.getAmountDue() - amount;
+		obj.setPayment(amount);
 		obj.setAmountDue(due);
 	}
 
@@ -58,7 +62,8 @@ public abstract class ReceivePaymentTableRequirement extends
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate(obj.getDueDate()));
 		get(INVOICE_NO).setDefaultValue(obj.getNumber());
 		get(INVOICE_AMOUNT).setDefaultValue(obj.getInvoiceAmount());
-		get(PAYMENT).setDefaultValue(obj.getInvoiceAmount());
+		get(AMOUNT_DUE).setDefaultValue(obj.getAmountDue());
+		get(PAYMENT).setDefaultValue(obj.getAmountDue());
 
 	}
 
