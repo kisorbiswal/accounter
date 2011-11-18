@@ -10,8 +10,8 @@
 		</id>
 		<many-to-one name="message" column="MESSAGE_ID" class="Message"
 			not-null="true"></many-to-one>
-		<many-to-one name="lang" column="LANGUAGE" class="Language"
-			not-null="true"></many-to-one>
+		<many-to-one name="lang" column="LANGUAGE" lazy="false"
+			class="Language" not-null="true"></many-to-one>
 		<property name="value" type="text" column="VALUE"></property>
 		<property name="votes" column="VOTES" type="int"></property>
 		<property name="isApproved" column="IS_APPROVED"></property>
@@ -148,7 +148,8 @@
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		SELECT * FROM MESSAGE M WHERE(SELECT COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 ORDER BY M.VALUE LIMIT :limt OFFSET
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 ORDER BY M.VALUE
+		LIMIT :limt OFFSET
 		:fm
 	</sql-query>
 
@@ -177,7 +178,6 @@
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		<query-param name="lang" type="string" />
-		<return-scalar column="ID" type="long" />
 		SELECT * FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
 		LM.IS_APPROVED=TRUE)=0 ORDER BY (SELECT COUNT(*) FROM LOCAL_MESSAGE LM

@@ -2360,6 +2360,8 @@ public class FinanceTool {
 
 		Session session = null;
 		try {
+			session = HibernateUtil.openSession();
+
 			Query approvedMessagesQuery = session
 					.getNamedQuery("getApprovedMessages")
 					.setParameter("lang", lang).setInteger("limt", limit)
