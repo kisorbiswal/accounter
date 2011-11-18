@@ -119,7 +119,7 @@
 			<command>New Credit</command>
 			<command>New Charge</command>
 			<command>New Invoice</command>
-			<command>New Cash sale</command>
+			<command>New Cash Sale</command>
 			<command>New Credit Note</command>
 		</output>
 	</pattern>
