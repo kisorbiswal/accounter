@@ -63,7 +63,7 @@ public class LocalMessagePanel extends HorizontalPanel {
 		votesPanel = new HorizontalPanel();
 		upVotesPanel = new VerticalPanel();
 		upVotesLengthLabel = new Label(String.valueOf(clientLocalMessage
-				.getUps()));
+				.getVotes()));
 		upImage = new ImageButton(Accounter.getFinanceImages().upArrow());
 		upImage.addStyleName("image_button");
 
@@ -71,7 +71,7 @@ public class LocalMessagePanel extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				voteLocalMessage(true);
+				voteLocalMessage();
 			}
 		});
 
@@ -130,24 +130,21 @@ public class LocalMessagePanel extends HorizontalPanel {
 				});
 	}
 
-	protected void voteLocalMessage(boolean isUp) {
-		async.vote(clientLocalMessage.getId(), isUp,
-				new AsyncCallback<Boolean>() {
+	protected void voteLocalMessage() {
+		async.vote(clientLocalMessage.getId(), new AsyncCallback<Boolean>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						Accounter
-								.showError(Accounter.messages()
-										.unableToVoteThisTranslation(
-												caught.toString()));
-					}
+			@Override
+			public void onFailure(Throwable caught) {
+				Accounter.showError(Accounter.messages()
+						.unableToVoteThisTranslation(caught.toString()));
+			}
 
-					@Override
-					public void onSuccess(Boolean result) {
-						view.refreshPager();
-						view.updateListData();
-					}
-				});
+			@Override
+			public void onSuccess(Boolean result) {
+				view.refreshPager();
+				view.updateListData();
+			}
+		});
 	}
 
 }
