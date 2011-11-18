@@ -72,20 +72,31 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 
 			if (type == 0)
 				continue;
+			// totaldiscount += record.getDiscount();
 
 			Double lineTotalAmt = record.getLineTotal();
 			lineTotal += lineTotalAmt;
 
 			if (record != null && record.isTaxable()) {
+				// ClientTAXItem taxItem = getCompany().getTAXItem(
+				// citem.getTaxCode());
+				// if (taxItem != null) {
+				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+				// }
+				// taxableLineTotal += lineTotalAmt;
+
 				double taxAmount = getVATAmount(context, isAmountsIncludeVAT,
 						record.getTaxCode(), record, isSales);
-
 				if (isAmountsIncludeVAT) {
 					lineTotal -= taxAmount;
 				}
-				record.setVATfraction((lineTotalAmt / 100) * taxAmount);
+				record.setVATfraction(taxAmount);
 				totalTax += record.getVATfraction();
+
 			}
+
+			// super.update(record);
+			// totalVat += citem.getVATfraction();
 		}
 
 		double[] result = new double[2];
