@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
  * @author Sai Prasad N
  * 
  */
+
 public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	private static final String VOUCHER = "Voucher";
