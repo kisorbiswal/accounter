@@ -81,7 +81,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		get(AMOUNT).setValue(prePayment.getTotal());
 		get(PAYMENT_METHOD).setValue(prePayment.getPaymentMethod());
 		get(CHEQUE_NO).setValue(prePayment.getCheckNumber());
-		get(TO_BE_PRINTED).setValue(prePayment.isToBePrinted());
+		// get(TO_BE_PRINTED).setValue(prePayment.isToBePrinted());
 		get(MEMO).setValue(prePayment.getMemo());
 		get(CURRENCY_FACTOR).setValue(prePayment.getCurrencyFactor());
 	}
@@ -283,18 +283,18 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
 				getConstants().amount()), getConstants().amount(), false, true));
 
-		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
-
-			@Override
-			protected String getTrueString() {
-				return getConstants().toBePrinted();
-			}
-
-			@Override
-			protected String getFalseString() {
-				return "Not Printed ";
-			}
-		});
+		// list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
+		//
+		// @Override
+		// protected String getTrueString() {
+		// return getConstants().toBePrinted();
+		// }
+		//
+		// @Override
+		// protected String getFalseString() {
+		// return "Not Printed ";
+		// }
+		// });
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
 				getConstants().currency()), getConstants().currency(), true,
 				true, null) {
@@ -310,11 +310,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if ((Boolean) get(TO_BE_PRINTED).getValue()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-
+				return super.run(context, makeResult, list, actions);
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
@@ -338,8 +334,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		prePayment.setPaymentMethod(paymentMethod);
 		String checkNum = get(CHEQUE_NO).getValue();
 		prePayment.setCheckNumber(checkNum);
-		Boolean tobePrinted = get(TO_BE_PRINTED).getValue();
-		prePayment.setToBePrinted(tobePrinted);
+		// Boolean tobePrinted = get(TO_BE_PRINTED).getValue();
+		// prePayment.setToBePrinted(tobePrinted);
 		String memo = get(MEMO).getValue();
 
 		if (context.getPreferences().isEnableMultiCurrency()) {
