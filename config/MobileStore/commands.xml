@@ -529,6 +529,7 @@
 		<alias>Edit Customer Prepayment</alias>
 		<alias>Update Customer Prepayment</alias>
 		<alias>Modify Customer Prepayment</alias>
+		<alias>Cusotmer Prepayment</alias>
 	</command>
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
