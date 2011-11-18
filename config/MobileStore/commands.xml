@@ -735,7 +735,7 @@
 	</command>
 
 	<command clazz="CustomerRefundsListCommand" name="Customer Refunds List">
-		<alias>Customer Refunds</alias>
+		<alias>Customer Refund</alias>
 	</command>
 	<command clazz="NewMeasurementCommand" name="Measurement">
 		<alias>New Measurement</alias>
