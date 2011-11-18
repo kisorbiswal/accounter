@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.translate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -25,6 +26,14 @@ public interface TranslateServiceAsync {
 
 	public void getLanguages(AsyncCallback<List<ClientLanguage>> callback);
 
+	public void getLocalLanguage(AsyncCallback<ClientLanguage> callback);
+
+	void validateUserValue(ClientMessage clientMessage, String data,
+			AsyncCallback<Boolean> callback);
+
+	void getServerMatchList(AsyncCallback<Set<String>> callback);
+	
 	public void canApprove(String lang, AsyncCallback<Boolean> callback);
+
 
 }

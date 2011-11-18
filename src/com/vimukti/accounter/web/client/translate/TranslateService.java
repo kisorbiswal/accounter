@@ -2,10 +2,12 @@ package com.vimukti.accounter.web.client.translate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
 public interface TranslateService extends RemoteService {
+
 	// ArrayList<Status> getStatus();
 
 	// ClientMessage getNext(String lang, int lastMessageId);
@@ -20,6 +22,12 @@ public interface TranslateService extends RemoteService {
 	boolean setApprove(long localMessageId, boolean isApprove);
 
 	List<ClientLanguage> getLanguages();
+
+	ClientLanguage getLocalLanguage();
+
+	public boolean validateUserValue(ClientMessage clientMessage, String data);
+	
+	public Set<String> getServerMatchList();
 
 	boolean canApprove(String lang);
 }
