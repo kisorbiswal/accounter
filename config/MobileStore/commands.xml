@@ -409,22 +409,21 @@
 		<alias>Create Cash Sale</alias>
 	</command>
 
-	<command clazz="NewCreditCardChargeCommand" name="New CreditcardCharge">
-		<alias>Credit Card Charge</alias>
-		<alias>Create Credit Card Charge</alias>
-		<alias>Add Credit Card Charge</alias>
-		<alias>Create Credit Card Charge</alias>
-		<alias>Edit Credit Card Charge</alias>
-		<alias>Update Credit Card Charge</alias>
-	</command>
+	<!-- <command clazz="NewCreditCardChargeCommand" name="New CreditcardCharge"> 
+		<alias>Credit Card Charge</alias> <alias>Create Credit Card Charge</alias> 
+		<alias>Add Credit Card Charge</alias> <alias>Create Credit Card Charge</alias> 
+		<alias>Edit Credit Card Charge</alias> <alias>Update Credit Card Charge</alias> 
+		</command> -->
 
 	<command clazz="NewCreditCardExpenseCommand" name="New CreditCardExpense">
+		<alias>New CreditCard Expense</alias>
 		<alias>Credit Card Expense</alias>
 		<alias>Add Credit Card Expense</alias>
 		<alias>Edit Credit Card Expense</alias>
 		<alias>Modify Credit Card Expense</alias>
 		<alias>Update Credit Card Expense</alias>
 		<alias>Create Credit Card Expense</alias>
+		<alias>CreditCardExpense</alias>
 	</command>
 
 	<command clazz="NewCustomerCreditMemoCommand" name="New CustomerCreditMemo">
@@ -436,11 +435,13 @@
 		<alias>CustomerCredit</alias>
 		<alias>Create Customer Credit</alias>
 	</command>
-	<command clazz="NewCashExpenseCommand" name="New Cash Expense">
+	<command clazz="NewCashExpenseCommand" name="New CashExpense">
 		<alias>Add Cash Expense</alias>
 		<alias>Edit Cash Expense</alias>
 		<alias>Update Cash Expense</alias>
 		<alias>Modify Cash Expense</alias>
+		<alias>Create Cash Expense</alias>
+		<alias>CashExpense</alias>
 	</command>
 
 	<command clazz="NewMakeDepositCommand" name="New MakeDeposit">
@@ -711,6 +712,7 @@
 		<alias>Update Write Check</alias>
 		<alias>Modify Write Check</alias>
 		<alias>Edit Write Check</alias>
+		<alias>WriteCheck</alias>
 	</command>
 
 	<command clazz="NewItemGroupCommand" name="ItemGroup">

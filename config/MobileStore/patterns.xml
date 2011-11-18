@@ -302,8 +302,8 @@
 	<pattern>
 		<input>Expense</input>
 		<output>
-			<command>Create Cash Expense</command>
-			<command>Create Credit Card Expense</command>
+			<command>New CashExpense</command>
+			<command>New CreditCard Expense</command>
 		</output>
 	</pattern>
 
