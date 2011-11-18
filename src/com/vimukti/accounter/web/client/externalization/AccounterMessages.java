@@ -652,7 +652,7 @@ public interface AccounterMessages extends Messages {
 
 	public String myTranslations();
 
-	public String all();
+	public String all2();
 
 	public String pleaseEnterTheWordsAsItis();
 
