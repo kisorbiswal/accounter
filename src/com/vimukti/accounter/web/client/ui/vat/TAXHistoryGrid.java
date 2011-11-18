@@ -70,7 +70,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		return new String[] { companyConstants.taxAgency(),
 				companyConstants.periodStartDate(),
 				companyConstants.periodEndDate(),
-				companyConstants.vatFileDate(), companyConstants.taxDue(),
+				companyConstants.taxFiledDate(), companyConstants.taxDue(),
 				companyConstants.totalPaymentMade(), companyConstants.report() };
 	}
 

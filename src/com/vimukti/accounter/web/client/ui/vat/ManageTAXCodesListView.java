@@ -41,7 +41,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().vatCodeList();
+		return Accounter.constants().taxCodesList();
 	}
 
 	@Override
