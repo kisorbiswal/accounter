@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
@@ -570,7 +569,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(CUSTOMER_SINCEDATE).setValue(
 				new ClientFinanceDate(customer.getPayeeSince()));
 		get(BALANCE).setValue(customer.getBalance());
-		get(BALANCE).setEditable(false);
+		// get(BALANCE).setEditable(false);
 		get(BALANCE_ASOF_DATE).setValue(
 				new ClientFinanceDate(customer.getBalanceAsOf()));
 		Set<ClientAddress> address = customer.getAddress();
