@@ -284,6 +284,7 @@
 		<alias>Edit Non Inventory Item</alias>
 		<alias>Modify Non Inventory Item</alias>
 		<alias>Update Non Inventory Item</alias>
+		<alias>Create New NonInventory Item</alias>
 	</command>
 
 	<command clazz="NewInventoryItemCommand" name="New Inventory Item">
@@ -292,6 +293,7 @@
 		<alias>Edit Inventory Item</alias>
 		<alias>Modify Inventory Item</alias>
 		<alias>Update Inventory Item</alias>
+		<alias>Create New Inventory Item</alias>
 	</command>
 
 	<command clazz="ItemsCommand" name="Items List">
