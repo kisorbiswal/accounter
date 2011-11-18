@@ -131,13 +131,13 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 						vatRate = ((ClientTAXItem) vatItemGroup).getTaxRate();
 					}
 					if (vatItemGroup == null) {
-						vatItemGroup = (ClientTAXItem) CommandUtils
+						vatItemGroup = (ClientTAXGroup) CommandUtils
 								.getClientObjectById(
 										isSales ? taxCode
 												.getTAXItemGrpForSales()
 												: taxCode
 														.getTAXItemGrpForPurchases(),
-										AccounterCoreType.TAX_ITEM_GROUP,
+										AccounterCoreType.TAX_GROUP,
 										getCompanyId());
 						if (vatItemGroup != null) {
 							vatRate = ((ClientTAXGroup) vatItemGroup)
