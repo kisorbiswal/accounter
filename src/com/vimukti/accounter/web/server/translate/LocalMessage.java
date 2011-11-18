@@ -20,9 +20,7 @@ public class LocalMessage implements Serializable {
 
 	String value;
 
-	int ups;
-
-	int downs;
+	int votes;
 
 	boolean isApproved;
 
@@ -63,19 +61,11 @@ public class LocalMessage implements Serializable {
 	}
 
 	public int getUps() {
-		return ups;
+		return votes;
 	}
 
 	public void setUps(int ups) {
-		this.ups = ups;
-	}
-
-	public int getDowns() {
-		return downs;
-	}
-
-	public void setDowns(int downs) {
-		this.downs = downs;
+		this.votes = ups;
 	}
 
 	public boolean isApproved() {

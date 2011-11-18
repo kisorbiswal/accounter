@@ -52,12 +52,12 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public boolean vote(long localMessageId, boolean up) {
+	public boolean vote(long localMessageId) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
 			return false;
 		}
-		return new FinanceTool().addVote(localMessageId, up, userEmail);
+		return new FinanceTool().addVote(localMessageId, userEmail);
 	}
 
 	@Override
@@ -86,5 +86,14 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 
 	public List<ClientLanguage> getLanguages() {
 		return new FinanceTool().getLanguages();
+	}
+
+	@Override
+	public boolean canApprove(String lang) {
+		String userEmail = getUserEmail();
+		if (userEmail == null) {
+			return false;
+		}
+		return new FinanceTool().canApprove(userEmail, lang);
 	}
 }

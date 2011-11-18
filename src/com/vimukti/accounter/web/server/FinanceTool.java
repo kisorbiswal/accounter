@@ -2408,8 +2408,7 @@ public class FinanceTool {
 					clientLocalMessage.setApproved(localMessage.isApproved());
 					clientLocalMessage.setCreateBy(localMessage.getCreatedBy()
 							.getFirstName());
-					clientLocalMessage.setUps(localMessage.getUps());
-					clientLocalMessage.setDowns(localMessage.getDowns());
+					clientLocalMessage.setVotes(localMessage.getUps());
 					clientLocalMessages.add(clientLocalMessage);
 				}
 				clientMessage.setLocalMessages(clientLocalMessages);
@@ -2426,7 +2425,7 @@ public class FinanceTool {
 		}
 	}
 
-	public boolean addVote(long localMessageId, boolean up, String userEmail) {
+	public boolean addVote(long localMessageId, String userEmail) {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
@@ -2452,33 +2451,19 @@ public class FinanceTool {
 				vote = new Vote();
 				vote.setLocalMessage(localMessage);
 				vote.setClient(client);
-				vote.setUp(up);
-				if (up) {
-					localMessage.setUps(localMessage.getUps() + 1);
-				} else {
-					localMessage.setDowns(localMessage.getDowns() + 1);
-				}
-			}
-			boolean isUp = vote.isUp();
-			if (isUp != up) {
-				vote.setUp(up);
-				if (up) {
-					localMessage.setUps(localMessage.getUps() + 1);
-					localMessage.setDowns(localMessage.getDowns() - 1);
-				} else {
-					localMessage.setDowns(localMessage.getDowns() + 1);
-					localMessage.setUps(localMessage.getUps() - 1);
-				}
+				localMessage.setUps(localMessage.getUps() + 1);
+
+				org.hibernate.Transaction voteTransaction = session
+						.beginTransaction();
+				session.saveOrUpdate(vote);
+				voteTransaction.commit();
+
+				org.hibernate.Transaction transaction = session
+						.beginTransaction();
+				session.saveOrUpdate(localMessage);
+				transaction.commit();
 			}
 
-			org.hibernate.Transaction voteTransaction = session
-					.beginTransaction();
-			session.saveOrUpdate(vote);
-			voteTransaction.commit();
-
-			org.hibernate.Transaction transaction = session.beginTransaction();
-			session.saveOrUpdate(localMessage);
-			transaction.commit();
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -2503,9 +2488,16 @@ public class FinanceTool {
 			Query namedQuery = session.getNamedQuery("getLocalMessageByClient")
 					.setParameter("clientId", client.getID())
 					.setParameter("messageId", id).setParameter("lang", lang);
-			Object uniqueResult = namedQuery.uniqueResult();
+			LocalMessage uniqueResult = (LocalMessage) namedQuery
+					.uniqueResult();
 			if (uniqueResult != null) {
-				return false;
+
+				Query deleteVotesQuery = session.getNamedQuery(
+						"deleteVotesByLocalMessage").setParameter("id",
+						uniqueResult.getId());
+				Query deleteQuery = session.getNamedQuery("deleteLocalMessage")
+						.setParameter("id", uniqueResult.getId());
+
 			}
 
 			Query messageQuery = session.getNamedQuery("getMessageById")
@@ -2533,6 +2525,8 @@ public class FinanceTool {
 			org.hibernate.Transaction transaction = session.beginTransaction();
 			session.saveOrUpdate(localMessage);
 			transaction.commit();
+
+			addVote(localMessage.getId(), userEmail);
 
 			org.hibernate.Transaction mesgTransaction = session
 					.beginTransaction();
@@ -2771,6 +2765,27 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean canApprove(String userEmail, String lang) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Client client = getUserManager().getClient(userEmail);
+			for (Language language : client.getLanguages()) {
+				if (language.getLanguageCode().equals(lang)) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		} finally {
 			if (session != null) {
 				session.close();

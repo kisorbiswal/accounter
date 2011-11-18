@@ -112,7 +112,7 @@ public class MessagePanel extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				Accounter.createTranslateService().vote(
-						clientLocalMessage.getId(), true,
+						clientLocalMessage.getId(),
 						new AsyncCallback<Boolean>() {
 
 							@Override
@@ -136,7 +136,7 @@ public class MessagePanel extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				Accounter.createTranslateService().vote(
-						clientLocalMessage.getId(), false,
+						clientLocalMessage.getId(),
 						new AsyncCallback<Boolean>() {
 
 							@Override
@@ -161,11 +161,25 @@ public class MessagePanel extends VerticalPanel {
 				.getFinanceImages().greenTick());
 		final FlowPanel approvePanel = new FlowPanel();
 
-		if (clientLocalMessage.isApproved()) {
-			approvePanel.add(approveImageButton);
-		} else {
-			approvePanel.add(non_approveImageButton);
-		}
+		Accounter.createTranslateService().canApprove(language,
+				new AsyncCallback<Boolean>() {
+
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result) {
+							if (clientLocalMessage.isApproved()) {
+								approvePanel.add(approveImageButton);
+							} else {
+								approvePanel.add(non_approveImageButton);
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
 
 		non_approveImageButton.addClickHandler(new ClickHandler() {
 
@@ -194,9 +208,11 @@ public class MessagePanel extends VerticalPanel {
 		});
 
 		Label upVotesLengthLabel = new Label(String.valueOf(clientLocalMessage
-				.getUps()));
-		Label downVotesLenghtLabel = new Label(
-				String.valueOf(clientLocalMessage.getDowns()));
+				.getVotes()));
+		Label downVotesLenghtLabel = new Label(String.valueOf(1/*
+																 * clientLocalMessage
+																 * .getDowns()
+																 */));
 
 		upVotesPanel.add(upImage);
 		upVotesPanel.add(upVotesLengthLabel);
