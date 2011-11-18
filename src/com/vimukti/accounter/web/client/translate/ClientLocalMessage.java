@@ -17,8 +17,6 @@ public class ClientLocalMessage implements Serializable {
 	int votes;
 
 	boolean isApproved;
-	
-	private ClientMessage message;
 
 	public long getId() {
 		return id;
@@ -58,13 +56,5 @@ public class ClientLocalMessage implements Serializable {
 
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
-	}
-
-	public void setMessage(ClientMessage message) {
-		this.message = message;
-	}
-
-	public ClientMessage getMessage() {
-		return message;
 	}
 }
