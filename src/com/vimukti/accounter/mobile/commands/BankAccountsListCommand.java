@@ -97,7 +97,8 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Account value) {
-				return "update bank account " + value.getNumber();
+
+				return "update account #" + value.getNumber();
 			}
 
 		});
