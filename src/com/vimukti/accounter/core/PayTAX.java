@@ -224,10 +224,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 				payFrom.updateCurrentBalance(this, total, this.currencyFactor);
 				session.saveOrUpdate(payFrom);
 			}
-			PayTAX payTAX = (PayTAX) session.get(PayTAX.class,
-					oldPayTAX.getID());
-			payTAX.transactionPayTAX.clear();
-			session.saveOrUpdate(payTAX);
+			oldPayTAX.transactionPayTAX.clear();
 			for (TransactionPayTAX tpt : this.transactionPayTAX) {
 				tpt.setPayTAX(this);
 			}
