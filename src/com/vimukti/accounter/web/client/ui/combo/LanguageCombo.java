@@ -9,21 +9,47 @@ import com.vimukti.accounter.web.client.ui.translation.TranslationView;
 
 public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
+	private TranslationView view;
+
 	public LanguageCombo(String title, final TranslationView view) {
 		super(title, false, 1);
+		this.view = view;
+		initComboData();
+
+	}
+
+	private void initComboData() {
 		Accounter.createTranslateService().getLanguages(
 				new AsyncCallback<List<ClientLanguage>>() {
 
 					@Override
 					public void onSuccess(List<ClientLanguage> result) {
 						initCombo(result);
-						setComboItem(result.get(0));
-						view.updateListData();
+						setLanguage(result);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
 						System.out.println("");
+
+					}
+				});
+
+	}
+
+	protected void setLanguage(List<ClientLanguage> result) {
+		Accounter.createTranslateService().getLocalLanguage(
+				new AsyncCallback<ClientLanguage>() {
+
+					@Override
+					public void onSuccess(ClientLanguage result) {
+						setComboItem(result);
+						view.languageSelected(result);
+						view.updateListData();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
 
 					}
 				});
