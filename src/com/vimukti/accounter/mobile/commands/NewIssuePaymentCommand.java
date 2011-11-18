@@ -143,8 +143,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				}
 				return filteredList;
 			}
-
-			@Override
+	
+				@Override
 			protected String getEmptyString() {
 				return "No bank acounts available";
 			}
