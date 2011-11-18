@@ -657,4 +657,10 @@ public interface AccounterMessages extends Messages {
 	public String pleaseEnterTheWordsAsItis();
 
 	public String unConfirmed();
+
+	public String languages();
+
+	public String show();
+
+	public String translateNote();
 }
