@@ -143,6 +143,10 @@ public class CommandProcessor {
 		PatternResult patternResult = new PatternResult();
 		patternResult.setNextCommand(result.getNextCommand());
 		patternResult.setCookie(result.getCookie());
+		patternResult.setHideCancel(result.isHideCancel());
+		patternResult.setShowBack(result.isShowBack());
+		patternResult.setInputType(result.getInputType());
+		patternResult.setTitle(result.getTitle());
 		boolean isCommandList = false;
 		for (Object obj : result.resultParts) {
 			if (obj instanceof String) {
