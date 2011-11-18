@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -141,7 +141,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 		for (PayeeList payee : listOfPayees) {
 			if (isActive) {
 				if (payee.isActive() == true) {
-					if (payee.getType() == Payee.TYPE_TAX_AGENCY
+					if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY
 							&& !(getCompany().getPreferences().isTrackTax())) {
 						continue;
 					}
