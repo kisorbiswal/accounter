@@ -49,4 +49,7 @@ public abstract class MobileChannelContext {
 	}
 
 	public abstract void send(String string);
+
+	public abstract void changeNetworkId(String networkId);
+
 }
