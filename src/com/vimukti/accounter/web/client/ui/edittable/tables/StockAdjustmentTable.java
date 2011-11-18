@@ -32,6 +32,7 @@ public abstract class StockAdjustmentTable extends
 						return false;
 					}
 				});
+		itemTable.setItemType(ClientItem.TYPE_INVENTORY_PART);
 
 		this.addColumn(new ComboColumn<ClientStockAdjustmentItem, ClientItem>() {
 
