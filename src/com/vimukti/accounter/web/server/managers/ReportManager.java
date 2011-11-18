@@ -94,7 +94,8 @@ public class ReportManager extends Manager {
 				.setParameter("start", start).setParameter("end", end)).list();
 
 		double netIncome = 0.0;
-		netIncome = getNetIncome(startDate, endDate, "getNetIncome", companyId);
+		netIncome = getNetIncome(startDate.getDate(), endDate.getDate(),
+				"getNetIncome", companyId);
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -491,15 +492,15 @@ public class ReportManager extends Manager {
 
 	}
 
-	private double getNetIncome(FinanceDate startDate, FinanceDate endDate,
-			String query, long companyId) {
+	private double getNetIncome(long startDate, long endDate, String query,
+			long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query q = session.getNamedQuery(query)
 				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate);
 
 		List l1 = q.list();
 		double netIncome = 0.0;
@@ -606,12 +607,10 @@ public class ReportManager extends Manager {
 
 		List l = ((Query) session.getNamedQuery("getBalanceSheet")
 				.setParameter("companyId", companyId)
-
-				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
 		double netIncome = 0.0;
-		netIncome = getNetIncome(startDate, endDate,
+		netIncome = getNetIncome(0, endDate.getDate(),
 				"getNetIncome_Closing_postings_Included", companyId);
 
 		Object[] object = null;
