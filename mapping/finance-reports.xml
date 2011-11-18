@@ -794,7 +794,6 @@
 	<!-- Query for Balance Sheet, Profit & Loss and Cash Flow Statement Reports -->
 	<sql-query name="getBalanceSheet">
 		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
 		A.ID,
@@ -812,7 +811,7 @@
 		WHERE AT1.ACCOUNT_ID=A.ID
 		AND AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND
-		T1.T_DATE BETWEEN :startDate AND :endDate AND T1.STATUS != 3 AND
+		T1.T_DATE &lt;=:endDate AND T1.STATUS != 3 AND
 		AT1.COMPANY_ID=:companyId)=0
 		THEN 0
 		ELSE (SELECT SUM(AT.AMOUNT) FROM
@@ -825,7 +824,7 @@
 		AND
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE
-		BETWEEN :startDate AND
+		&lt;=
 		:endDate AND T.STATUS != 3 AND
 		AT.COMPANY_ID=:companyId
 		GROUP BY AT.ACCOUNT_ID)
