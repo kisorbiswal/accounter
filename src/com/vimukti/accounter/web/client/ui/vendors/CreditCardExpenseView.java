@@ -83,7 +83,7 @@ public class CreditCardExpenseView extends
 
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
-	protected TextAreaItem billToAreaItem;
+	// protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
 
 	private boolean locationTrackingEnabled;
@@ -276,9 +276,9 @@ public class CreditCardExpenseView extends
 		// contactNameSelect.setWidth(100);
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
-		billToAreaItem.setWidth(100);
-		billToAreaItem.setDisabled(true);
+		// billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
+		// billToAreaItem.setWidth(100);
+		// billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
@@ -289,8 +289,8 @@ public class CreditCardExpenseView extends
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
-				billToAreaItem);
+		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect
+		/* billToAreaItem */);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
@@ -467,10 +467,10 @@ public class CreditCardExpenseView extends
 		if (isTrackTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalBaseCurrencyText);
-			
+
 			if (isMultiCurrencyEnabled())
 				totalForm.setFields(transactionTotalTransactionCurrencyText);
-			
+
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -490,10 +490,10 @@ public class CreditCardExpenseView extends
 
 		} else {
 			totForm.setFields(transactionTotalBaseCurrencyText);
-			
+
 			if (isMultiCurrencyEnabled())
 				totForm.setFields(transactionTotalTransactionCurrencyText);
-			
+
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
@@ -605,7 +605,7 @@ public class CreditCardExpenseView extends
 				}
 			}
 		}
-		
+
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
@@ -1052,21 +1052,19 @@ public class CreditCardExpenseView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getPreferences().isTrackPaidTax()) {
-			transactionTotalBaseCurrencyText
-					.setAmount(grandTotal);
-			
+			transactionTotalBaseCurrencyText.setAmount(grandTotal);
+
 			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
 			transactionTotalTransactionCurrencyText
-			.setAmount(getAmountInTransactionCurrency(grandTotal));
-			
+					.setAmount(getAmountInTransactionCurrency(grandTotal));
+
 		} else {
-			transactionTotalBaseCurrencyText
-					.setAmount(grandTotal);
+			transactionTotalBaseCurrencyText.setAmount(grandTotal);
 			transactionTotalTransactionCurrencyText
-			.setAmount(getAmountInTransactionCurrency(grandTotal));
+					.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 
 	}
@@ -1170,8 +1168,8 @@ public class CreditCardExpenseView extends
 			transactionTotalTransactionCurrencyText.hide();
 		} else {
 			transactionTotalTransactionCurrencyText.show();
-			transactionTotalTransactionCurrencyText.setTitle(Accounter.messages()
-					.currencyTotal(
+			transactionTotalTransactionCurrencyText.setTitle(Accounter
+					.messages().currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
 		}
