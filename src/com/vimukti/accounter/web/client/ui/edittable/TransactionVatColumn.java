@@ -27,7 +27,7 @@ public class TransactionVatColumn extends TransactionAmountColumn {
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().tax();
+		return Accounter.messages().tax();
 	}
 
 	@Override

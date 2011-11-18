@@ -21,7 +21,7 @@ public class TAXItemExceptionDetailReport extends Action {
 
 	public TAXItemExceptionDetailReport(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	@Override

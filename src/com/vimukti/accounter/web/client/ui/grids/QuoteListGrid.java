@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -60,7 +60,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			String salesPerson = clientSalesPerson != null ? clientSalesPerson
 					.getFirstName() : "";
 			if (salesPerson == null)
-				salesPerson = Accounter.constants().unavailabel();
+				salesPerson = Accounter.messages().unavailabel();
 
 			switch (col) {
 			case 0:
@@ -90,8 +90,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getDeliveryDate()));
 			case 7:
-				return DataUtils.amountAsStringWithCurrency(estimate.getTotal(), getCompany()
-						.getPrimaryCurrency());
+				return DataUtils.amountAsStringWithCurrency(
+						estimate.getTotal(), getCompany().getPrimaryCurrency());
 			case 8:
 
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
@@ -123,22 +123,19 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = Accounter.constants();
+		messages = Accounter.messages();
 		if (type == ClientEstimate.QUOTES) {
-			return new String[] { customerConstants.date(),
-					customerConstants.no(),
+			return new String[] { messages.date(), messages.no(),
 					Accounter.messages().payeeName(Global.get().Customer()),
-					customerConstants.phone(), customerConstants.salesPerson(),
-					customerConstants.expirationDate(),
-					customerConstants.deliveryDate(),
-					customerConstants.totalPrice(), customerConstants.reject()
+					messages.phone(), messages.salesPerson(),
+					messages.expirationDate(), messages.deliveryDate(),
+					messages.totalPrice(), messages.reject()
 			// , ""
 			};
 		} else {
-			return new String[] { customerConstants.date(),
-					customerConstants.no(),
+			return new String[] { messages.date(), messages.no(),
 					Accounter.messages().payeeName(Global.get().Customer()),
-					customerConstants.totalPrice(), customerConstants.reject() };
+					messages.totalPrice(), messages.reject() };
 		}
 	}
 
@@ -166,14 +163,22 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			int estimateType = obj.getEstimateType();
-			if (estimateType == ClientEstimate.QUOTES)
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						Accounter.constants().newQuote()).run(obj, false);
-			if (estimateType == ClientEstimate.CHARGES)
+
+		int estimateType = obj.getEstimateType();
+		if (Accounter.getUser().canDoInvoiceTransactions()
+				&& estimateType == ClientEstimate.QUOTES) {
+			ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
+					messages.newQuote()).run(obj, false);
+		}
+
+		if (getPreferences().isDelayedchargesEnabled()) {
+			if (estimateType == ClientEstimate.CHARGES) {
 				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						Accounter.constants().newCharge()).run(obj, false);
+						Accounter.messages().newCharge()).run(obj, false);
+			} else if (estimateType == ClientEstimate.CREDITS) {
+				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
+						messages.newCredit()).run(obj, false);
+			}
 		}
 	}
 
@@ -196,7 +201,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private void showWarningDialog(final ClientEstimate obj, final int col) {
 		String msg = null;
 		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
-			msg = Accounter.constants().doyouwanttorejecttheEstimate();
+			msg = Accounter.messages().doyouwanttorejecttheEstimate();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -294,17 +299,17 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			return salesPerson1.compareTo(salesPerson2);
 
 		case 5:
-			ClientFinanceDate expiration1 = new ClientFinanceDate(
-					obj1.getExpirationDate());
-			ClientFinanceDate expiration2 = new ClientFinanceDate(
-					obj2.getExpirationDate());
+			ClientFinanceDate expiration1 = new ClientFinanceDate(obj1
+					.getExpirationDate());
+			ClientFinanceDate expiration2 = new ClientFinanceDate(obj2
+					.getExpirationDate());
 			return expiration1.compareTo(expiration2);
 
 		case 6:
-			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(
-					obj1.getDeliveryDate());
-			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(
-					obj2.getDeliveryDate());
+			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(obj1
+					.getDeliveryDate());
+			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(obj2
+					.getDeliveryDate());
 			return deliveryDate1.compareTo(deliveryDate2);
 
 		case 7:
@@ -396,8 +401,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				break;
 
 			case 3:
-				return DataUtils.amountAsStringWithCurrency(estimate.getTotal(), getCompany()
-						.getPrimaryCurrency());
+				return DataUtils.amountAsStringWithCurrency(
+						estimate.getTotal(), getCompany().getPrimaryCurrency());
 			case 4:
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					return Accounter.getFinanceImages().beforereject();

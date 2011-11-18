@@ -34,8 +34,8 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -67,9 +67,7 @@ public class JournalEntryView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private AddButton addButton;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
-			.constants();
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
@@ -103,16 +101,17 @@ public class JournalEntryView extends
 		for (ClientTransactionItem entry : allEntries) {
 			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
 				if (entry.getLineTotal() == 0) {
-					result.addError(this, Accounter.messages()
-							.valueCannotBe0orlessthan0(
-									Accounter.constants().amount()));
+					result.addError(
+							this,
+							Accounter.messages().valueCannotBe0orlessthan0(
+									Accounter.messages().amount()));
 				}
 			}
 
 		}
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {
-			result.addError(memoText, Accounter.constants()
+			result.addError(memoText, Accounter.messages()
 					.memoCannotExceedsmorethan255Characters());
 
 		}
@@ -123,8 +122,7 @@ public class JournalEntryView extends
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
@@ -132,7 +130,7 @@ public class JournalEntryView extends
 		// } else
 		result.add(grid.validateGrid());
 		if (!grid.isValidTotal()) {
-			result.addError(grid, Accounter.constants().totalMustBeSame());
+			result.addError(grid, Accounter.messages().totalMustBeSame());
 		}
 		return result;
 
@@ -163,7 +161,7 @@ public class JournalEntryView extends
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -187,7 +185,7 @@ public class JournalEntryView extends
 			// callback.onSuccess(result);
 			// }
 		} else {
-			saveFailed(new AccounterException(Accounter.constants().imfailed()));
+			saveFailed(new AccounterException(Accounter.messages().imfailed()));
 		}
 
 	}
@@ -203,6 +201,7 @@ public class JournalEntryView extends
 		return grid.getAllRows();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (isInViewMode()) {
@@ -223,8 +222,8 @@ public class JournalEntryView extends
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(transaction);
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
-				.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
+				grid.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -237,7 +236,7 @@ public class JournalEntryView extends
 			// BaseView.errordata.setHTML("i am here");
 			// BaseView.commentPanel.setVisible(true);
 			// AbstractBaseView.errorOccured = true;
-			addError(this, Accounter.constants().iamHere());
+			addError(this, Accounter.messages().iamHere());
 
 		} else
 			journalEntry.setMemo(memoText.getValue() != null ? memoText
@@ -256,12 +255,12 @@ public class JournalEntryView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		lab1 = new Label(Accounter.constants().journalEntry());
+		lab1 = new Label(Accounter.messages().journalEntry());
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.constants().labelTitle());
+		lab1.addStyleName(Accounter.messages().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
-		jourNoText = new TextItem(Accounter.constants().no());
+		jourNoText = new TextItem(Accounter.messages().no());
 		jourNoText.setToolTip(Accounter.messages().giveNoTo(
 				this.getAction().getViewName()));
 		jourNoText.setHelpInformation(true);
@@ -279,7 +278,7 @@ public class JournalEntryView extends
 			}
 		});
 
-		memoText = new TextAreaItem(Accounter.constants().memo());
+		memoText = new TextAreaItem(Accounter.messages().memo());
 		memoText.setMemo(true, this);
 		memoText.setHelpInformation(true);
 
@@ -332,8 +331,7 @@ public class JournalEntryView extends
 		memoForm.setFields(memoText);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		deditTotalText = new AmountLabel(Accounter.constants()
-				.debitTotalColon());
+		deditTotalText = new AmountLabel(Accounter.messages().debitTotalColon());
 		deditTotalText.setWidth("180px");
 		((Label) deditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -341,7 +339,7 @@ public class JournalEntryView extends
 				+ "0.00");
 		deditTotalText.setDisabled(true);
 
-		creditTotalText = new AmountLabel(Accounter.constants()
+		creditTotalText = new AmountLabel(Accounter.messages()
 				.creditTotalColon());
 		creditTotalText.setWidth("180px");
 		((Label) creditTotalText.getMainWidget())
@@ -437,7 +435,7 @@ public class JournalEntryView extends
 
 						@Override
 						public void onException(AccounterException caught) {
-							Accounter.showError(Accounter.constants()
+							Accounter.showError(Accounter.messages()
 									.failedToGetTransactionNumber());
 						}
 
@@ -486,6 +484,7 @@ public class JournalEntryView extends
 		return new JournalEntryView();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -548,17 +547,12 @@ public class JournalEntryView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().journalEntry();
+		return Accounter.messages().journalEntry();
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
 
-	}
-
-	@Override
-	public boolean canEdit() {
-		return true;
 	}
 
 	@Override
@@ -575,7 +569,7 @@ public class JournalEntryView extends
 				@Override
 				public void onFailure(Throwable caught) {
 					if (caught instanceof InvocationException) {
-						Accounter.showMessage(Accounter.constants()
+						Accounter.showMessage(Accounter.messages()
 								.sessionExpired());
 					} else {
 						int errorCode = ((AccounterException) caught)
@@ -625,9 +619,11 @@ public class JournalEntryView extends
 	protected void editPayee() {
 		AccounterAsyncCallback<ClientPayee> callback = new AccounterAsyncCallback<ClientPayee>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 			}
 
+			@Override
 			public void onResultSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientCustomer) {

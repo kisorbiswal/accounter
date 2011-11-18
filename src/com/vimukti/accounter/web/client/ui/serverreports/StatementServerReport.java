@@ -54,9 +54,9 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().date(), getConstants().type(),
-				getConstants().noDot(), getConstants().ageing(),
-				getConstants().amount() };
+		return new String[] { getMessages().date(), getMessages().type(),
+				getMessages().noDot(), getMessages().ageing(),
+				getMessages().amount() };
 	}
 
 	@Override
@@ -145,16 +145,16 @@ public class StatementServerReport extends
 	}
 
 	private boolean addOneTothirty(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getConstants().days30())) {
-			addTypeSection(getConstants().days30(), "");
+		if (!sectiontypes.contains(getMessages().days30())) {
+			addTypeSection(getMessages().days30(), "");
 			return false;
 		}
 		return true;
 	}
 
 	private boolean addThirtyToSixty(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getConstants().daysFromzeroto60())) {
-			addTypeSection(getConstants().daysFromzeroto60(), "");
+		if (!sectiontypes.contains(getMessages().daysFromzeroto60())) {
+			addTypeSection(getMessages().daysFromzeroto60(), "");
 			return false;
 		}
 		return true;
@@ -162,8 +162,8 @@ public class StatementServerReport extends
 	}
 
 	private boolean addSixtyTo90(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getConstants().daysFromzeroto90())) {
-			addTypeSection(getConstants().daysFromzeroto90(), "");
+		if (!sectiontypes.contains(getMessages().daysFromzeroto90())) {
+			addTypeSection(getMessages().daysFromzeroto90(), "");
 			return false;
 		}
 		return true;
@@ -171,8 +171,8 @@ public class StatementServerReport extends
 	}
 
 	private boolean addGreaterThan90(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getConstants().older())) {
-			addTypeSection(getConstants().older(), "");
+		if (!sectiontypes.contains(getMessages().older())) {
+			addTypeSection(getMessages().older(), "");
 			return false;
 		}
 		return true;
@@ -180,8 +180,8 @@ public class StatementServerReport extends
 	}
 
 	private boolean addTotalBalance(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getConstants().totalBalance())) {
-			addTypeSection(getConstants().totalBalance(), "");
+		if (!sectiontypes.contains(getMessages().totalBalance())) {
+			addTypeSection(getMessages().totalBalance(), "");
 			return false;
 		}
 		return true;
@@ -195,7 +195,7 @@ public class StatementServerReport extends
 	public void addTypeSection(String title, String bottomTitle) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { title }, new String[] { "", "", "",
-					getConstants().total() }, new int[] { 4 });
+					getMessages().total() }, new int[] { 4 });
 			types.add(title);
 			sectiontypes.add(title);
 		}
@@ -252,9 +252,9 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().date(), getConstants().type(),
-				getConstants().noDot(), getConstants().ageing(),
-				getConstants().amount() };
+		return new String[] { getMessages().date(), getMessages().type(),
+				getMessages().noDot(), getMessages().ageing(),
+				getMessages().amount() };
 	}
 
 }

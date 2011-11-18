@@ -20,7 +20,7 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newShippingTerms();
+		return messages.shippingTerms();
 	}
 
 	@Override

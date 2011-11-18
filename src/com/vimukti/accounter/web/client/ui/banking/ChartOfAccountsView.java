@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
@@ -9,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -27,7 +27,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	SelectCombo viewSelect;
 	Label addAccLabel, hierLabel, lab1;
 
-	AccounterConstants bankingConstants = Accounter.constants();
 	protected List<ClientAccount> allAccounts;
 	private ClientAccount toBeDelete;
 	private List<ClientAccount> listOfAccounts;
@@ -93,7 +92,14 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void initListCallback() {
+		super.initListCallback();
+		Accounter.createHomeService().getAccounts(typeOfAccount, this);
+	}
 
+	@Override
+	public void onSuccess(ArrayList<ClientAccount> result) {
+		listOfAccounts = result;
+		filterList(true);
 	}
 
 	@Override
@@ -107,11 +113,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		grid = new ChartOfAccountsListGrid(false);
 		grid.init();
 		// grid.setHeight("200");
-		if (typeOfAccount == 0)
-			listOfAccounts = getCompany().getAccounts();
-		else
-			listOfAccounts = getCompany().getAccounts(typeOfAccount);
-		filterList(true);
 	}
 
 	@Override

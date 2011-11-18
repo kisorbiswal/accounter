@@ -39,7 +39,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -138,8 +137,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	protected boolean isClose;
 	private boolean wait;
-
-	AccounterConstants customerConstants = Accounter.constants();
 
 	private ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
@@ -245,8 +242,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		tabSet.add(getGeneralTab(), customerConstants.general());
-		tabSet.add(getDetailsTab(), customerConstants.details());
+		tabSet.add(getGeneralTab(), messages.general());
+		tabSet.add(getDetailsTab(), messages.details());
 
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
@@ -380,7 +377,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		gridView.validate(result);
 
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
-			result.addError(balanceDate, Accounter.constants().priorasOfDate());
+			result.addError(balanceDate, Accounter.messages().priorasOfDate());
 		}
 		data.setName(custNameText.getValue().toString());
 
@@ -599,7 +596,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custNoText.setWidth(100);
 		custNoText.setDisabled(isInViewMode());
 
-		fileAsText = new TextItem(customerConstants.fileAs());
+		fileAsText = new TextItem(messages.fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 		fileAsText.setDisabled(isInViewMode());
@@ -634,7 +631,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		balanceForm = new DynamicForm();
 
-		statusCheck = new CheckboxItem(customerConstants.active());
+		statusCheck = new CheckboxItem(messages.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
@@ -644,16 +641,16 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerSinceDate.setDisabled(isInViewMode());
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		openingBalText = new AmountField(customerConstants.openingBalance(),
+		openingBalText = new AmountField(messages.openingBalance(),
 				this, getBaseCurrency());
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
-		balanceText = new AmountField(customerConstants.balance(), this,
+		balanceText = new AmountField(messages.balance(), this,
 				getBaseCurrency());
 		balanceText.setHelpInformation(true);
 		balanceText.setDisabled(true);
-		balanceDate = new DateField(customerConstants.balanceAsOf());
+		balanceDate = new DateField(messages.balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		todaydate.setDay(todaydate.getDay());
@@ -697,7 +694,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		currencyCombo.setDisabled(isInViewMode());
 		accInfoForm.setFields(statusCheck, customerSinceDate);
 		balanceForm.setFields(openingBalText, balanceDate, balanceText);
-		Label l1 = new Label(Accounter.constants().contacts());
+		Label l1 = new Label(Accounter.messages().contacts());
 		addButton = new AddButton(this);
 
 		addButton.addClickHandler(new ClickHandler() {
@@ -747,7 +744,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panel.add(hPanel);
 		memoArea = new TextAreaItem();
 		// memoArea.setWidth("400px");
-		memoArea.setTitle(customerConstants.memo());
+		memoArea.setTitle(messages.memo());
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
 		// Button addLinksButt = new Button("AddLinks");
@@ -870,7 +867,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private HorizontalPanel getDetailsTab() {
 
 		salesPersonSelect = new SalesPersonCombo(
-				customerConstants.salesPerson());
+				messages.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -887,7 +884,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// salesForm.setFields(salesPersonSelect);
 		// salesForm.setWidth("100%");
 
-		creditLimitText = new AmountField(customerConstants.creditLimit(),
+		creditLimitText = new AmountField(messages.creditLimit(),
 				this, getBaseCurrency());
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
@@ -907,7 +904,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// });
 
 		creditRatingSelect = new CreditRatingCombo(
-				customerConstants.creditRating());
+				messages.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -922,22 +919,22 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		bankAccountSelect = new TextItem(Accounter.messages().bankAccountNo(
 				Global.get().Account()));
 		bankAccountSelect.setHelpInformation(true);
-		bankNameSelect = new TextItem(customerConstants.bankName());
+		bankNameSelect = new TextItem(messages.bankName());
 		bankNameSelect.setHelpInformation(true);
-		bankBranchSelect = new TextItem(customerConstants.bankBranch());
+		bankBranchSelect = new TextItem(messages.bankBranch());
 		bankBranchSelect.setHelpInformation(true);
 		panNumberText = new TextItem(Accounter.messages().panNumber(
 				Global.get().Account()));
 		panNumberText.setHelpInformation(true);
-		cstNumberText = new TextItem(customerConstants.cstNumber());
+		cstNumberText = new TextItem(messages.cstNumber());
 		cstNumberText.setHelpInformation(true);
 		serviceTaxRegistrationNo = new TextItem(
-				customerConstants.serviceTaxRegistrationNumber());
+				messages.serviceTaxRegistrationNumber());
 		serviceTaxRegistrationNo.setHelpInformation(true);
-		tinNumberText = new TextItem(customerConstants.tinNumber());
+		tinNumberText = new TextItem(messages.tinNumber());
 		tinNumberText.setHelpInformation(true);
 
-		DynamicForm financeDitailsForm = UIUtils.form(customerConstants
+		DynamicForm financeDitailsForm = UIUtils.form(messages
 				.financialDetails());
 
 		financeDitailsForm.setFields(salesPersonSelect, creditRatingSelect,
@@ -959,7 +956,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		financeDitailsForm.setWidth("100%");
 
 		shipMethSelect = new ShippingMethodsCombo(
-				customerConstants.preferredShippingMethod());
+				messages.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -985,7 +982,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					}
 				});
 		selectPaymentMethodFromDetialsTab = payMethSelect.getSelectedValue();
-		payTermsSelect = new PaymentTermsCombo(customerConstants.paymentTerms());
+		payTermsSelect = new PaymentTermsCombo(messages.paymentTerms());
 		payTermsSelect.setHelpInformation(true);
 		payTermsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -1012,10 +1009,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		vatregno = new TextItem(Accounter.constants().taxRegNo());
+		vatregno = new TextItem(Accounter.messages().taxRegNo());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
-		custTaxCode = new TAXCodeCombo(constants.taxCode(), true);
+		custTaxCode = new TAXCodeCombo(messages.taxCode(), true);
 		custTaxCode.setHelpInformation(true);
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -1026,7 +1023,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		DynamicForm termsForm = UIUtils.form(customerConstants.terms());
+		DynamicForm termsForm = UIUtils.form(messages.terms());
 
 		termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
 
@@ -1112,7 +1109,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// if (takenCustomer == null)
 		// initFiscalYear();
 		if (data == null) {
-			setData(new ClientCustomer());
+			setData(new ClientCustomer(getCompany().getPrimaryCurrency()
+					.getID()));
 		}
 		// initTaxAgenciesList();
 		initMainValues();
@@ -1384,7 +1382,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().customer();
+		return Accounter.messages().customer();
 	}
 
 	protected CurrencyComboWidget createCurrencyComboWidget() {

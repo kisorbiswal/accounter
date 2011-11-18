@@ -169,7 +169,7 @@ public class ReportsGenerator {
 
 		ReportGridTemplate<?> gridTemplate = getReportGridTemplate(financeTool,
 				generationType);
-		return gridTemplate.getBody(Global.get().constants());
+		return gridTemplate.getBody(Global.get().messages());
 	}
 
 	public ReportGridTemplate<?> getReportGridTemplate(

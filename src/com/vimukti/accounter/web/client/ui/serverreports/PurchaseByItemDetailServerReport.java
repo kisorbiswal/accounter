@@ -53,15 +53,15 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().item(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				getConstants().quantity(), getConstants().unitPrice(),
-				getConstants().discount(), getConstants().amount() };
+		return new String[] { getMessages().item(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
+				getMessages().quantity(), getMessages().unitPrice(),
+				getMessages().discount(), getMessages().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().purchaseByItemDetail();
+		return getMessages().purchaseByItemDetail();
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class PurchaseByItemDetailServerReport extends
 		if (sectionDepth == 0) {
 			this.sectionName = record.getItemName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "", "", getConstants().total() }, new int[] { 7 });
+					"", "", "", getMessages().total() }, new int[] { 7 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getItemName())) {
@@ -240,10 +240,10 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().item(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				getConstants().quantity(), getConstants().unitPrice(),
-				getConstants().discount(), getConstants().amount() };
+		return new String[] { getMessages().item(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
+				getMessages().quantity(), getMessages().unitPrice(),
+				getMessages().discount(), getMessages().amount() };
 	}
 
 }

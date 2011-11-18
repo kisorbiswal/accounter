@@ -42,13 +42,13 @@ public class DataUtils {
 
 	public static Validator emailValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.constants().emailFormatExpr());
+		validator.setExpression(Accounter.messages().emailFormatExpr());
 		return validator;
 	}
 
 	public static Validator webValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.constants().webFormatExpr());
+		validator.setExpression(Accounter.messages().webFormatExpr());
 		return validator;
 	}
 

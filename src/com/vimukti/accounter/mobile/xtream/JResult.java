@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public class JResult {
 	List<Object> resultParts = new ArrayList<Object>();
+	public String cookie;
 
 	public void addAll(List<Object> resultParts) {
 		int commandIndex = 97;
@@ -16,9 +17,12 @@ public class JResult {
 			if (object instanceof String) {
 				this.resultParts.add(object);
 			} else if (object instanceof ResultList) {
+				ResultList res = (ResultList) object;
+				if (res.isEmpty()) {
+					continue;
+				}
 				JResultList jResultList = new JResultList();
-				resultIndex = jResultList.addAll((ResultList) object,
-						resultIndex);
+				resultIndex = jResultList.addAll(res, resultIndex);
 				this.resultParts.add(jResultList);
 			} else if (object instanceof CommandList) {
 				JCommandList jResultList = new JCommandList();

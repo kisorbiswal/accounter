@@ -28,11 +28,11 @@ public abstract class PayeeRequirement extends ListRequirement<Payee> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().payee()));
+		list.add(getMessages().create(getMessages().payee()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().payee());
+		return getMessages().pleaseSelect(getMessages().payee());
 	}
 }

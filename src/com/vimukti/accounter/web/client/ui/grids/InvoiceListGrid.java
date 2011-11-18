@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -11,17 +10,15 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
-	public static AccounterErrors accounterErrors = (AccounterErrors) GWT
-			.create(AccounterErrors.class);
+
 	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public InvoiceListGrid() {
@@ -93,13 +90,13 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = Accounter.constants();
-		return new String[] { " ", customerConstants.type(),
-				customerConstants.date(), customerConstants.no(),
+		messages = Accounter.messages();
+		return new String[] { " ", messages.type(),
+				messages.date(), messages.no(),
 				Global.get().messages().payeeName(Global.get().Customer()),
-				customerConstants.dueDate(), customerConstants.netPrice(),
-				customerConstants.totalPrice(), customerConstants.balance(),
-				customerConstants.voided()
+				messages.dueDate(), messages.netPrice(),
+				messages.totalPrice(), messages.balance(),
+				messages.voided()
 		// , ""
 		};
 	}
@@ -118,7 +115,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 			if (obj.getType() == ClientTransaction.TYPE_INVOICE
 					&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
 							.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
-				Accounter.showError(accounterErrors.billPaidSoYouCantVoid());
+				Accounter.showError(messages.billPaidSoYouCantVoid());
 			} else
 				showWarningDialog(obj, col);
 		}
@@ -144,7 +141,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
 		if (!obj.isVoided() && col == 9) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";

@@ -22,12 +22,12 @@ public abstract class TaxCodeRequirement extends ListRequirement<TAXCode> {
 
 	@Override
 	protected String getSetMessage() {
-		return getMessages().hasSelected(getConstants().taxCode());
+		return getMessages().hasSelected(getMessages().taxCode());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().thereAreNo(getConstants().taxCode());
+		return getMessages().thereAreNo(getMessages().taxCode());
 	}
 
 	@Override
@@ -37,12 +37,12 @@ public abstract class TaxCodeRequirement extends ListRequirement<TAXCode> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().taxCode()));
+		list.add(getMessages().create(getMessages().taxCode()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().taxCode());
+		return getMessages().pleaseSelect(getMessages().taxCode());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
-package com.vimukti.accounter.core;
+package com.vimukti.accounter.web.server.translate;
 
+import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Language implements IAccounterServerCore {
@@ -7,35 +8,35 @@ public class Language implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String langugeName;
-	private String languageTooltip;
-	private String languageCode;
+	private String name;
+	private String tooltip;
+	private String code;
 
 	public Language() {
 	}
 
 	public void setLangugeName(String langugeName) {
-		this.langugeName = langugeName;
+		this.name = langugeName;
 	}
 
 	public String getLangugeName() {
-		return langugeName;
+		return name;
 	}
 
 	public void setLanguageTooltip(String languageTooltip) {
-		this.languageTooltip = languageTooltip;
+		this.tooltip = languageTooltip;
 	}
 
 	public String getLanguageTooltip() {
-		return languageTooltip;
+		return tooltip;
 	}
 
 	public void setLanguageCode(String languageCode) {
-		this.languageCode = languageCode;
+		this.code = languageCode;
 	}
 
 	public String getLanguageCode() {
-		return languageCode;
+		return code;
 	}
 
 	@Override

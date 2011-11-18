@@ -57,23 +57,23 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.selectFirstMonthOfFiscalYear());
+		headerLabel.setText(accounterMessages.selectFirstMonthOfFiscalYear());
 
-		fiscalStarts.setText(accounterConstants.myFiscalYearsStartsIn());
-		monthNames = new String[] { accounterConstants.january(),
-				accounterConstants.february(), accounterConstants.march(),
-				accounterConstants.april(), accounterConstants.may(),
-				accounterConstants.june(), accounterConstants.july(),
-				accounterConstants.august(), accounterConstants.september(),
-				accounterConstants.october(), accounterConstants.november(),
-				accounterConstants.december() };
+		fiscalStarts.setText(accounterMessages.myFiscalYearsStartsIn());
+		monthNames = new String[] { accounterMessages.january(),
+				accounterMessages.february(), accounterMessages.march(),
+				accounterMessages.april(), accounterMessages.may(),
+				accounterMessages.june(), accounterMessages.july(),
+				accounterMessages.august(), accounterMessages.september(),
+				accounterMessages.october(), accounterMessages.november(),
+				accounterMessages.december() };
 		monthsList = new ArrayList<String>();
 		// fiscalStartsList = null;
 		for (int i = 0; i < monthNames.length; i++) {
 			monthsList.add(monthNames[i]);
 			fiscalStartsList.addItem(monthNames[i]);
 		}
-		fiscalInfo.setHTML(accounterConstants.fiscalYearsaemasTaxyear());
+		fiscalInfo.setHTML(accounterMessages.fiscalYearsaemasTaxyear());
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (fiscalStartsList.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants
+			Accounter.showError(accounterMessages
 					.selectFirstMonthOfFiscalYear());
 			return false;
 		} else {
@@ -108,7 +108,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.setFiscalYear();
+		return accounterMessages.setFiscalYear();
 	}
 
 }

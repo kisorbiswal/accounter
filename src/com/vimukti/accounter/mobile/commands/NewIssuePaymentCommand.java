@@ -12,12 +12,11 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.IssuePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
-import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
@@ -51,14 +50,15 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected List<String> getLists(Context context) {
-				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().check() };
+
+				String payVatMethodArray[] = new String[] { getMessages()
+						.check() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
@@ -70,7 +70,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -90,7 +90,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -107,7 +107,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
+									.equals(context.getPreferences()
+											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}
@@ -116,15 +117,10 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AccountRequirement(ACCOUNT, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false,
-				new ChangeListner<Account>() {
-
-					@Override
-					public void onSelection(Account value) {
-						resetIssuedPayments(value);
-					}
-				}) {
+				.pleaseSelectPayFromAccount(
+						getMessages().bankAccount(Global.get().Account())),
+				getMessages().bankAccount(Global.get().Account()), false,
+				false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -140,7 +136,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 						@Override
 						public boolean filter(Account e) {
 							if (e.getType() == Account.TYPE_BANK
-									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+									|| e.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
 								return true;
 							}
 							return false;
@@ -163,20 +159,18 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().checkNo()), getConstants().checkNo(), true, true));
+				getMessages().checkNo()), getMessages().checkNo(), true, true));
 		list.add(new IssuePaymentTableRequirement(PAYMENTS_TO_ISSUED,
-				"Please Select Payment", "payments list") {
+				getMessages().selectTypeOfThis(getMessages().payment()),
+				"payments list", false, true) {
 
 			@Override
-			protected List<ClientTransactionIssuePayment> getList() {
-				return getclientTransactionIssuePayments();
+			protected Account getAccount() {
+				return (Account) NewIssuePaymentCommand.this.get(ACCOUNT)
+						.getValue();
 			}
-		});
-	}
 
-	protected void resetIssuedPayments(Account value) {
-		get(PAYMENTS_TO_ISSUED).setValue(
-				new ArrayList<ClientTransactionIssuePayment>());
+		});
 	}
 
 	private String getNextCheckNumber(Context context) {
@@ -205,46 +199,11 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		return nextTransactionNumber;
 	}
 
-	private List<ClientTransactionIssuePayment> getclientTransactionIssuePayments() {
-		Account account = get(ACCOUNT).getValue();
-		return getchecks(account.getCompany().getId(), account.getID());
-	}
-
-	protected ArrayList<ClientTransactionIssuePayment> getchecks(
-			long companyId, long accountId) {
-		ArrayList<IssuePaymentTransactionsList> checks;
-		ArrayList<ClientTransactionIssuePayment> issuepayments = new ArrayList<ClientTransactionIssuePayment>();
-		try {
-			checks = new FinanceTool().getVendorManager().getChecks(accountId,
-					companyId);
-
-			for (IssuePaymentTransactionsList entry : checks) {
-				ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
-				if (entry.getDate() != null)
-					record.setDate(entry.getDate().getDate());
-				if (entry.getNumber() != null)
-					record.setNumber(entry.getNumber());
-				record.setName(entry.getName() != null ? entry.getName() : "");
-				record.setMemo(entry.getMemo() != null ? entry.getMemo() : "");
-				if (entry.getAmount() != null)
-					record.setAmount(entry.getAmount());
-				if (entry.getPaymentMethod() != null)
-					record.setPaymentMethod(entry.getPaymentMethod());
-				record.setRecordType(entry.getType());
-				if (record.getRecordType() == ClientTransaction.TYPE_WRITE_CHECK)
-					record.setWriteCheck(entry.getTransactionId());
-				else if (record.getRecordType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS)
-					record.setCustomerRefund(entry.getTransactionId());
-				record.setID(entry.getTransactionId());
-				issuepayments.add(record);
-			}
-
-		} catch (DAOException e) {
-			e.printStackTrace();
-			issuepayments = new ArrayList<ClientTransactionIssuePayment>();
-		}
-		return issuepayments;
-	}
+	// private List<TransactionIssuePayment> getclientTransactionIssuePayments()
+	// {
+	// Account account = get(ACCOUNT).getValue();
+	// return getchecks(account.getCompany().getId(), account.getID());
+	// }
 
 	private void completeProcess(Context context) {
 		ClientIssuePayment issuePayment = new ClientIssuePayment();
@@ -277,59 +236,20 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		create(issuePayment, context);
 	}
 
-	private void setTransactionTotal(ClientIssuePayment issuePayment) {
-		double total = 0.0;
-		for (ClientTransactionIssuePayment rec : issuePayment
-				.getTransactionIssuePayment()) {
-			total += rec.getAmount();
-			rec.setTransaction(issuePayment);
-		}
-		issuePayment.setTotal(total);
-
-	}
-
-	@Override
-	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return "Creating Issue Payment... ";
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().issuePayment());
-	}
-
-	@Override
-	protected void setDefaultValues(Context context) {
-		get(CHEQUE_NO).setValue(getNextCheckNumber(context));
-		get(CURRENCY).setDefaultValue(null);
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().issuePayment());
-	}
-
-	@Override
-	protected Result onCompleteProcess(Context context) {
-		completeProcess(context);
-		return null;
-	}
-
+	/**
+	 * 
+	 * @param issuePayment
+	 * @return
+	 */
 	private List<ClientTransactionIssuePayment> getTransactionIssuePayments(
 			ClientIssuePayment issuePayment) {
 		List<ClientTransactionIssuePayment> transactionIssuePaymentsList = new ArrayList<ClientTransactionIssuePayment>();
 
 		ClientTransactionIssuePayment entry;
-		ArrayList<ClientTransactionIssuePayment> issuepayments = get(
+		ArrayList<IssuePaymentTransactionsList> issuepayments = get(
 				PAYMENTS_TO_ISSUED).getValue();
-		for (ClientTransactionIssuePayment record : issuepayments) {
+		List<ClientTransactionIssuePayment> setValuesToRecords = setValuesToRecord(issuepayments);
+		for (ClientTransactionIssuePayment record : setValuesToRecords) {
 			entry = new ClientTransactionIssuePayment();
 			if (record.getDate() != 0)
 				entry.setDate(record.getDate());
@@ -393,4 +313,187 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		return transactionIssuePaymentsList;
 
 	}
+
+	private List<ClientTransactionIssuePayment> setValuesToRecord(
+
+	List<IssuePaymentTransactionsList> entries) {
+		List<ClientTransactionIssuePayment> clientTransactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
+		for (IssuePaymentTransactionsList entry : entries) {
+			ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
+			if (entry.getDate() != null)
+				record.setDate(entry.getDate().getDate());
+			if (entry.getNumber() != null)
+				record.setNumber(entry.getNumber());
+			record.setName(entry.getName() != null ? entry.getName() : "");
+			record.setMemo(entry.getMemo() != null ? entry.getMemo() : "");
+			if (entry.getAmount() != null)
+				record.setAmount(entry.getAmount());
+			if (entry.getPaymentMethod() != null)
+				record.setPaymentMethod(entry.getPaymentMethod());
+			record.setRecordType(entry.getType());
+
+			switch (entry.getType()) {
+			case ClientTransaction.TYPE_WRITE_CHECK:
+				record.setWriteCheck(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
+				break;
+			case ClientTransaction.TYPE_CASH_PURCHASE:
+			case ClientTransaction.TYPE_CASH_EXPENSE:
+			case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+				record.setCashPurchase(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+				record.setCustomerRefund(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+				break;
+			case ClientTransaction.TYPE_PAY_TAX:
+				record.setPaySalesTax(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_PAY_TAX);
+				break;
+			case ClientTransaction.TYPE_PAY_BILL:
+				record.setPayBill(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+				break;
+			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+				record.setCreditCardCharge(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+				break;
+			case ClientTransaction.TYPE_RECEIVE_TAX:
+				record.setReceiveVAT(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+				record.setCustomerPrepayment(entry.getTransactionId());
+				record
+						.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				break;
+
+			}
+			clientTransactionIssuePayments.add(record);
+		}
+		return clientTransactionIssuePayments;
+
+		// record.setID(entry.getTransactionId());
+
+	}
+
+	private void setTransactionTotal(ClientIssuePayment issuePayment) {
+		double total = 0.0;
+		for (ClientTransactionIssuePayment rec : issuePayment
+				.getTransactionIssuePayment()) {
+			total += rec.getAmount();
+			rec.setTransaction(issuePayment);
+		}
+		issuePayment.setTotal(total);
+
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return "Creating Issue Payment... ";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getMessages().issuePayment());
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(CHEQUE_NO).setValue(getNextCheckNumber(context));
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getMessages().issuePayment());
+	}
+
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		completeProcess(context);
+		return null;
+	}
+
+	// private List<ClientTransactionIssuePayment> getTransactionIssuePayments(
+	// ClientIssuePayment issuePayment) {
+	// List<ClientTransactionIssuePayment> transactionIssuePaymentsList = new
+	// ArrayList<ClientTransactionIssuePayment>();
+	//
+	// ClientTransactionIssuePayment entry;
+	// ArrayList<IssuePaymentTransactionsList> issuepayments = get(
+	// PAYMENTS_TO_ISSUED).getValue();
+	// for (IssuePaymentTransactionsList record : issuepayments) {
+	// entry = new ClientTransactionIssuePayment();
+	//
+	// entry.setDate(record.getDate().getDate());
+	// if (record.getNumber() != null)
+	// entry.setNumber(record.getNumber());
+	//
+	// if (record.getName() != null)
+	// entry.setName(record.getName());
+	//
+	// entry.setAmount(record.getAmount());
+	// entry.setMemo(record.getMemo());
+	//
+	// if (record.getPaymentMethod() != null) {
+	// entry.setPaymentMethod(record.getPaymentMethod());
+	// }
+	//
+	// switch (record.getType()) {
+	// case ClientTransaction.TYPE_WRITE_CHECK:
+	// entry.setWriteCheck(record.getType());
+	// entry.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
+	// break;
+	// case ClientTransaction.TYPE_CASH_PURCHASE:
+	// case ClientTransaction.TYPE_CASH_EXPENSE:
+	// case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+	// entry.setCashPurchase(record.getTransactionId());
+	// entry.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
+	// break;
+	// case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+	// entry.setCustomerRefund(record.getTransactionId());
+	// entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+	// break;
+	// case ClientTransaction.TYPE_PAY_TAX:
+	// entry.setPaySalesTax(record.getType());
+	// entry.setRecordType(ClientTransaction.TYPE_PAY_TAX);
+	// break;
+	// case ClientTransaction.TYPE_PAY_BILL:
+	// entry.setPayBill(record.getType());
+	// entry.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+	// break;
+	// case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+	// case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+	// entry.setCreditCardCharge(record.getType());
+	// entry.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+	// break;
+	// case ClientTransaction.TYPE_RECEIVE_TAX:
+	// entry.setReceiveVAT(record.getType());
+	// entry.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
+	// break;
+	// case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+	// entry.setCustomerPrepayment(record.getType());
+	// entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+	// break;
+	//
+	// }
+	//
+	// entry.setTransaction(issuePayment);
+	//
+	// transactionIssuePaymentsList.add(entry);
+	//
+	// }
+	// return transactionIssuePaymentsList;
+	//
+	// }
+
 }

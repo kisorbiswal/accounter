@@ -50,7 +50,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 		if (customerId == 0) {
 			Accounter
-					.showError(Accounter.constants().pleaseSelectAnyCustomer());
+					.showError(Accounter.messages().pleaseSelectAnyCustomer());
 		} else {
 			UIUtils.generateReportPDF(
 					Integer.parseInt(String.valueOf(startDate.getDate())),
@@ -62,7 +62,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void exportToCsv() {
 		if (customerId == 0) {
 			Accounter
-					.showError(Accounter.constants().pleaseSelectAnyCustomer());
+					.showError(Accounter.messages().pleaseSelectAnyCustomer());
 		} else {
 			UIUtils.exportReport(
 					Integer.parseInt(String.valueOf(startDate.getDate())),
@@ -177,6 +177,6 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return Accounter.messages().all();
 	}
 }

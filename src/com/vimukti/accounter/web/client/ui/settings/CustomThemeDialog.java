@@ -21,7 +21,7 @@ public class CustomThemeDialog extends BaseDialog {
 
 	private void createControls() {
 		subTable = new FlexTable();
-		titleHTML = new HTML(Accounter.constants().yourTitle());
+		titleHTML = new HTML(Accounter.messages().yourTitle());
 		titleBox = new TextBox();
 		subTable.setWidget(0, 0, titleHTML);
 		subTable.setWidget(1, 0, titleBox);

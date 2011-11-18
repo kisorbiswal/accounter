@@ -17,6 +17,7 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
@@ -39,12 +40,14 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false, null) {
+				.pleaseSelectPayFromAccount(
+						getMessages().bankAccount(Global.get().Account())),
+				getMessages().bankAccount(Global.get().Account()), false,
+				false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -71,7 +74,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().bankAccounts());
+						getMessages().bankAccount(Global.get().Account()));
 			}
 
 			@Override
@@ -82,7 +85,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -102,7 +105,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -130,19 +133,18 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getConstants().paymentMethod()),
-				getConstants().paymentMethod(), false, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -153,22 +155,22 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 
 		list.add(new DateRequirement(VAT_RETURN_END_DATE, getMessages()
-				.pleaseEnter(getConstants().filterBy()), getConstants()
+				.pleaseEnter(getMessages().filterBy()), getMessages()
 				.filterBy(), true, true));
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new PayVatTableRequirement(BILLS_TO_PAY, getMessages()
-				.pleaseSelect(getConstants().billsToPay()), getConstants()
+				.pleaseSelect(getMessages().billsToPay()), getMessages()
 				.billsToPay()) {
 
 			@Override
@@ -244,12 +246,12 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().payVAT());
+		return getMessages().creating(getMessages().payVAT());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().payVAT());
+		return getMessages().readyToCreate(getMessages().payVAT());
 	}
 
 	@Override
@@ -262,7 +264,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().payVAT());
+		return getMessages().createSuccessfully(getMessages().payVAT());
 	}
 
 	// private Record createTransactionPayVatRecord(TransactionPayTAX

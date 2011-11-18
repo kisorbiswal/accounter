@@ -288,7 +288,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public String getVendorNumber();
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo);
+			long accountId);
 
 	boolean changePassWord(String emailID, String oldPassword,
 			String newPassword);
@@ -347,5 +347,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
+			throws AccounterException;
+
+	ArrayList<ClientAccount> getAccounts(int typeOfAccount)
 			throws AccounterException;
 }

@@ -61,19 +61,19 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		label = new Label();
 		label.removeStyleName("gwt-style");
 		label.setWidth("100%");
-		label.addStyleName(Accounter.constants().labelTitle());
-		label.setText(Accounter.constants().tdsVendorsList());
-		this.fromDate = new DateItem(Accounter.constants().from());
+		label.addStyleName(Accounter.messages().labelTitle());
+		label.setText(Accounter.messages().tdsVendorsList());
+		this.fromDate = new DateItem(Accounter.messages().from());
 		this.fromDate.setHelpInformation(true);
 
-		this.toDate = new DateItem(Accounter.constants().to());
+		this.toDate = new DateItem(Accounter.messages().to());
 		this.toDate.setHelpInformation(true);
 		this.toDate.setEnteredDate(new ClientFinanceDate());
 
 		this.fromDate.setEnteredDate(new ClientFinanceDate());
 		this.vendorCombo = new VendorCombo(Global.get().messages().payeeName(
 				Global.get().Vendor()), true);
-		vendorCombo.setValue(new String((Accounter.constants().all())));
+		vendorCombo.setValue(new String((Accounter.messages().all())));
 
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -86,7 +86,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 				});
 
-		this.updateButton = new Button(Accounter.constants().update());
+		this.updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -102,7 +102,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		grid.setWidth("100%");
 		DynamicForm topForm = new DynamicForm();
 		topForm.setIsGroup(true);
-		topForm.setGroupTitle(Accounter.constants().top());
+		topForm.setGroupTitle(Accounter.messages().top());
 		topForm.setNumCols(6);
 		topForm.setItems(fromDate, toDate);
 		// topForm.setWidth("100%");

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -55,13 +55,13 @@ public class ReportSectionView extends BaseHomeView {
 		mainLayout.add(reportLabel);
 
 		DynamicForm companyAndFinancialForm = UIUtils.form(Accounter
-				.constants().companyAndFinancial());
+				.messages().companyAndFinancial());
 		companyAndFinancialForm.setWidth("50%");
 		companyAndFinancialForm.setHeight("40%");
 		companyAndFinancialForm.setNumCols(1);
 
 		LinkItem profitAndLossLink = new LinkItem();
-		profitAndLossLink.setLinkTitle(Accounter.constants().profitAndLoss());
+		profitAndLossLink.setLinkTitle(Accounter.messages().profitAndLoss());
 		profitAndLossLink.setShowTitle(false);
 		profitAndLossLink.addClickHandler(new ClickHandler() {
 
@@ -73,7 +73,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem balanceSheetLink = new LinkItem();
-		balanceSheetLink.setLinkTitle(Accounter.constants().balanceSheet());
+		balanceSheetLink.setLinkTitle(Accounter.messages().balanceSheet());
 		balanceSheetLink.setShowTitle(false);
 		balanceSheetLink.addClickHandler(new ClickHandler() {
 
@@ -85,7 +85,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem cashFlowLink = new LinkItem();
-		cashFlowLink.setLinkTitle(Accounter.constants().cashFlowStatement());
+		cashFlowLink.setLinkTitle(Accounter.messages().cashFlowStatement());
 		cashFlowLink.setShowTitle(false);
 		cashFlowLink.addClickHandler(new ClickHandler() {
 
@@ -98,7 +98,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem trailBalanceLink = new LinkItem();
-		trailBalanceLink.setLinkTitle(Accounter.constants().trialBalance());
+		trailBalanceLink.setLinkTitle(Accounter.messages().trialBalance());
 		trailBalanceLink.setShowTitle(false);
 		trailBalanceLink.addClickHandler(new ClickHandler() {
 
@@ -131,7 +131,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		// Form for Sales type reports
 
-		DynamicForm salesForm = UIUtils.form(Accounter.constants().sales());
+		DynamicForm salesForm = UIUtils.form(Accounter.messages().sales());
 		salesForm.setWidth("50%");
 		salesForm.setHeight("40%");
 		salesForm.setNumCols(1);
@@ -165,7 +165,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem salesByItemSummaryLink = new LinkItem();
-		salesByItemSummaryLink.setLinkTitle(Accounter.constants()
+		salesByItemSummaryLink.setLinkTitle(Accounter.messages()
 				.salesByItemSummary());
 		salesByItemSummaryLink.setShowTitle(false);
 		salesByItemSummaryLink.addClickHandler(new ClickHandler() {
@@ -179,7 +179,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem salesByItemDetailLink = new LinkItem();
-		salesByItemDetailLink.setLinkTitle(Accounter.constants()
+		salesByItemDetailLink.setLinkTitle(Accounter.messages()
 				.salesByItemDetail());
 		salesByItemDetailLink.setShowTitle(false);
 		salesByItemDetailLink.addClickHandler(new ClickHandler() {
@@ -200,7 +200,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		// Form for purchase type reports
 
-		DynamicForm purchaseForm = UIUtils.form(Accounter.constants()
+		DynamicForm purchaseForm = UIUtils.form(Accounter.messages()
 				.purchase());
 		purchaseForm.setWidth("50%");
 		purchaseForm.setHeight("40%");
@@ -235,7 +235,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem purchaseByProductSummaryLink = new LinkItem();
-		purchaseByProductSummaryLink.setLinkTitle(Accounter.constants()
+		purchaseByProductSummaryLink.setLinkTitle(Accounter.messages()
 				.purchaseByProductSummary());
 		purchaseByProductSummaryLink.setShowTitle(false);
 		purchaseByProductSummaryLink.addClickHandler(new ClickHandler() {
@@ -249,7 +249,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem purchaseByProductDetailLink = new LinkItem();
-		purchaseByProductDetailLink.setLinkTitle(Accounter.constants()
+		purchaseByProductDetailLink.setLinkTitle(Accounter.messages()
 				.purchaseByProductDetail());
 		purchaseByProductDetailLink.setShowTitle(false);
 		purchaseByProductDetailLink.addClickHandler(new ClickHandler() {
@@ -269,7 +269,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		// Form for Other type reports
 
-		DynamicForm otherForm = UIUtils.form(Accounter.constants().other());
+		DynamicForm otherForm = UIUtils.form(Accounter.messages().other());
 		otherForm.setWidth("50%");
 		otherForm.setHeight("40%");
 		otherForm.setNumCols(1);
@@ -289,7 +289,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem arAgingLink = new LinkItem();
-		arAgingLink.setLinkTitle(Accounter.constants().arAgeing());
+		arAgingLink.setLinkTitle(Accounter.messages().arAgeing());
 		arAgingLink.setShowTitle(false);
 		arAgingLink.addClickHandler(new ClickHandler() {
 
@@ -301,7 +301,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem apAgingLink = new LinkItem();
-		apAgingLink.setLinkTitle(Accounter.constants().apAging());
+		apAgingLink.setLinkTitle(Accounter.messages().apAging());
 		apAgingLink.setShowTitle(false);
 		apAgingLink.addClickHandler(new ClickHandler() {
 

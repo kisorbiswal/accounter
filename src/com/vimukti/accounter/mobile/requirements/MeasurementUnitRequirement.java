@@ -25,11 +25,11 @@ public abstract class MeasurementUnitRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new StringRequirement(UNIT_TYPE, getMessages().pleaseEnter(
-				getConstants().unitName()), getConstants().unitName(), false,
+				getMessages().unitName()), getMessages().unitName(), false,
 				true));
 
 		list.add(new AmountRequirement(UNIT_FACTOR, getMessages().pleaseEnter(
-				getConstants().factor()), getConstants().factor(), true, true));
+				getMessages().factor()), getMessages().factor(), true, true));
 
 		list.add(new BooleanRequirement(IS_DEFAULT, true) {
 
@@ -47,7 +47,7 @@ public abstract class MeasurementUnitRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().units());
+		return getMessages().youDontHaveAny(getMessages().units());
 	}
 
 	@Override
@@ -75,11 +75,11 @@ public abstract class MeasurementUnitRequirement extends
 	@Override
 	protected Record createFullRecord(Unit t) {
 		Record record = new Record(t);
-		record.add("", getConstants().unitName());
+		record.add("", getMessages().unitName());
 		record.add("", t.getType());
-		record.add("", getConstants().factor());
+		record.add("", getMessages().factor());
 		record.add("", t.getFactor());
-		record.add("", getConstants().isDefault());
+		record.add("", getMessages().isDefault());
 		record.add("", t.isDefault());
 		return record;
 	}
@@ -93,7 +93,7 @@ public abstract class MeasurementUnitRequirement extends
 	protected String getAddMoreString() {
 		List<Unit> values = getValue();
 		return values.isEmpty() ? "Add Units" : getMessages().addMore(
-				getConstants().units());
+				getMessages().units());
 	}
 
 }

@@ -14,8 +14,10 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
@@ -35,6 +37,8 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -510,7 +514,7 @@ public class CompanyManager extends Manager {
 		}
 
 		// }
-		Utility.updateCurrentFiscalYear();
+		Utility.updateCurrentFiscalYear(getCompany(companyId));
 		transaction.commit();
 
 	}
@@ -739,5 +743,31 @@ public class CompanyManager extends Manager {
 			}
 		}
 		return employees;
+	}
+
+	public ArrayList<ClientAccount> getAccounts(int type, Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<Account> list;
+		if (type != 0) {
+			list = session.getNamedQuery("getAccountsOfType")
+					.setLong("companyId", companyId).setInteger("type", type)
+					.list();
+		} else {
+			list = new ArrayList<Account>(getCompany(companyId).getAccounts());
+		}
+		ArrayList<ClientAccount> result = new ArrayList<ClientAccount>();
+		for (Account a : list) {
+			ClientAccount account;
+			if (a instanceof BankAccount) {
+				account = new ClientConvertUtil().toClientObject(a,
+						ClientBankAccount.class);
+			} else {
+				account = new ClientConvertUtil().toClientObject(a,
+						ClientAccount.class);
+			}
+			result.add(account);
+		}
+		return result;
 	}
 }

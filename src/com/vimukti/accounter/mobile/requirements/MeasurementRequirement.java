@@ -19,31 +19,31 @@ public abstract class MeasurementRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getConstants().noRecordsToShow();
+		return getMessages().noRecordsToShow();
 	}
 
 	@Override
 	protected Record createRecord(ClientMeasurement value) {
 		Record record = new Record(value);
-		record.add(getConstants().name(), value.getName());
-		record.add(getConstants().description(), value.getDesctiption());
+		record.add(getMessages().name(), value.getName());
+		record.add(getMessages().description(), value.getDesctiption());
 		return record;
 	}
 
 	@Override
 	protected String getDisplayValue(ClientMeasurement value) {
-		return getConstants().measurementName();
+		return getMessages().measurementName();
 	}
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().measurement()));
+		list.add(getMessages().create(getMessages().measurement()));
 
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().measurement());
+		return getMessages().pleaseSelect(getMessages().measurement());
 	}
 
 	@Override

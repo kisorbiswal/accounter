@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -1394,13 +1393,10 @@ public class Utility {
 		return valueTobesend;
 	}
 
-	public static void updateCurrentFiscalYear() {
+	public static void updateCurrentFiscalYear(Company company) {
 		Session session = HibernateUtil.getCurrentSession();
-		Criteria criteria = session.createCriteria(FiscalYear.class);
-
-		List<FiscalYear> listofiscalyrs = criteria.list();
-
-		Iterator<FiscalYear> iterator = listofiscalyrs.iterator();
+		List list = session.getNamedQuery("getFiscalYears.of.company").setEntity("company", company).list();
+		Iterator<FiscalYear> iterator = list.iterator();
 
 		boolean isCurrentOne = false;
 

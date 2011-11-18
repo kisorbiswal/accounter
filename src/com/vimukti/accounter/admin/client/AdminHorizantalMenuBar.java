@@ -16,7 +16,7 @@ public class AdminHorizantalMenuBar extends HorizontalPanel {
 		add(menuBar);
 		setStyleName("MENU_BAR_BG");
 		AccounterDOM.addStyleToparent(menuBar.getElement(), Accounter
-				.constants().menuBarParent());
+				.messages().menuBarParent());
 
 	}
 

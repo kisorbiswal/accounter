@@ -40,7 +40,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
+		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.messages()
 				.selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
@@ -130,7 +130,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 		if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-			brandingThemeTypeCombo.setSelected(Accounter.constants()
+			brandingThemeTypeCombo.setSelected(Accounter.messages()
 					.standardTheme());
 		}
 		print();

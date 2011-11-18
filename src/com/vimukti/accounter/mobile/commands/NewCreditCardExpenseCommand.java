@@ -28,7 +28,9 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -41,10 +43,10 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 	private static final String DELIVERY_DATE = "deliveryDate";
+	ClientCreditCardCharge creditCardCharge;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -71,7 +73,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -91,7 +93,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -119,7 +121,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true, false) {
 
 			@Override
@@ -173,13 +175,13 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
-				getConstants().contactName()), getConstants().contacts(), true,
+				getMessages().contactName()), getMessages().contacts(), true,
 				true, null) {
 
 			@Override
@@ -195,27 +197,27 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phone(), true,
-				true));
+		list
+				.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+						getMessages().phoneNumber()), getMessages().phone(),
+						true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getConstants().paymentMethod()),
-				getConstants().paymentMethod(), true, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -226,16 +228,18 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false, null) {
+				.pleaseSelectPayFromAccount(
+						getMessages().bankAccount(Global.get().Account())),
+				getMessages().bankAccount(Global.get().Account()), false,
+				false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -271,12 +275,12 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
-				getConstants().deliveryDate()), getConstants().deliveryDate(),
+				getMessages().deliveryDate()), getMessages().deliveryDate(),
 				true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, new ChangeListner<TAXCode>() {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				new ChangeListner<TAXCode>() {
 
 					@Override
 					public void onSelection(TAXCode value) {
@@ -320,240 +324,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 	}
 
-	// @Override
-	// public Result run(Context context) {
-	// setDefaultValues();
-	// String process = (String) context.getAttribute(PROCESS_ATTR);
-	// Result result = context.makeResult();
-	// if (process != null) {
-	// if (process.equals(ADDRESS_PROCESS)) {
-	// result = addressProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// } else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-	// result = transactionItemProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// } else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
-	// result = transactionAccountProcess(context);
-	// if (result != null) {
-	// return result;
-	// }
-	// }
-	// }
-	// Result makeResult = context.makeResult();
-	// makeResult.add(getMessages().readyToCreate(
-	// getConstants().creditCardExpense()));
-	// ResultList list = new ResultList("values");
-	// makeResult.add(list);
-	// ResultList actions = new ResultList(ACTIONS);
-	// setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-	// result = createSupplierRequirement(context, list, SUPPLIER,
-	// getMessages().vendorName(Global.get().Vendor()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = itemsAndAccountsRequirement(context, makeResult, actions,
-	// new ListFilter<Account>() {
-	//
-	// @Override
-	// public boolean filter(Account account) {
-	// if (account.getType() != Account.TYPE_CASH
-	// && account.getType() != Account.TYPE_BANK
-	// && account.getType() != Account.TYPE_INVENTORY_ASSET
-	// && account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-	// && account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-	// && account.getType() != Account.TYPE_INCOME
-	// && account.getType() != Account.TYPE_OTHER_INCOME
-	// && account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-	// && account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-	// && account.getType() != Account.TYPE_OTHER_ASSET
-	// && account.getType() != Account.TYPE_EQUITY
-	// && account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
-	// return true;
-	// } else {
-	// return false;
-	// }
-	// }
-	// }, false);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = accountRequirement(context, list, "payFrom", getConstants()
-	// .bankAccounts(), new ListFilter<Account>() {
-	//
-	// @Override
-	// public boolean filter(Account account) {
-	// return account.getIsActive()
-	// && Arrays.asList(Account.TYPE_BANK,
-	// Account.TYPE_OTHER_CURRENT_ASSET)
-	// .contains(account.getType());
-	// }
-	// });
-	// if (result != null) {
-	// return result;
-	// }
-	// makeResult.add(actions);
-	// ClientCompanyPreferences preferences = getClientCompany()
-	// .getPreferences();
-	// if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-	// result = taxCodeRequirement(context, list);
-	// if (result != null) {
-	// return result;
-	// }
-	// }
-	//
-	// result = createOptionalResult(context, list, actions, makeResult);
-	// if (result != null) {
-	// return result;
-	// }
-	// completeProcess(context);
-	//
-	// return closeCommand();
-	// }
-
-	// private void setDefaultValues() {
-	// get(DATE).setDefaultValue(new ClientFinanceDate());
-	// get(NUMBER).setDefaultValue(getNextTransactionNumber());
-	// get(PHONE).setDefaultValue(" ");
-	// Contact contact = new Contact();
-	// contact.setName(null);
-	// get(CONTACT).setDefaultValue(contact);
-	// get(MEMO).setDefaultValue(" ");
-	// get("deliveryDate").setDefaultValue(new ClientFinanceDate());
-	// get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
-	// }
-	//
-	// private void completeProcess(Context context) {
-	//
-	// ClientCreditCardCharge creditCardCharge = new ClientCreditCardCharge();
-	//
-	// ClientVendor supplier = get(SUPPLIER).getValue();
-	// creditCardCharge.setVendor(supplier.getID());
-	//
-	// Contact contact = get(CONTACT).getValue();
-	// creditCardCharge.setContact(contact);
-	//
-	// ClientFinanceDate date = get(DATE).getValue();
-	// creditCardCharge.setDate(date.getDate());
-	//
-	// creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-	//
-	// String number = get(NUMBER).getValue();
-	// creditCardCharge.setNumber(number);
-	//
-	// String paymentMethod = get(PAYMENT_METHOD).getValue();
-	// creditCardCharge.setPaymentMethod(paymentMethod);
-	//
-	// String phone = get(PHONE).getValue();
-	// creditCardCharge.setPhone(phone);
-	//
-	// Account account = get("payFrom").getValue();
-	// creditCardCharge.setPayFrom(account.getID());
-	//
-	// ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
-	// creditCardCharge.setDeliveryDate(deliveryDate.getDate());
-	//
-	// List<ClientTransactionItem> items = get(ITEMS).getValue();
-	// List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
-	// items.addAll(accounts);
-	// creditCardCharge.setTransactionItems(items);
-	// ClientCompanyPreferences preferences = getClientCompany()
-	// .getPreferences();
-	// if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-	// ClientTAXCode taxCode = get(TAXCODE).getValue();
-	// for (ClientTransactionItem item : items) {
-	// item.setTaxCode(taxCode.getID());
-	// }
-	// }
-	// String memo = get(MEMO).getValue();
-	// creditCardCharge.setMemo(memo);
-	// updateTotals(creditCardCharge, false);
-	// create(creditCardCharge, context);
-	// }
-
-	// private Result createOptionalResult(Context context, ResultList list,
-	// ResultList actions, Result makeResult) {
-	//
-	// if (context.getAttribute(INPUT_ATTR) == null) {
-	// context.setAttribute(INPUT_ATTR, "optional");
-	// }
-	//
-	// Object selection = context.getSelection(ACTIONS);
-	// if (selection != null) {
-	// ActionNames actionName = (ActionNames) selection;
-	// switch (actionName) {
-	// case FINISH:
-	// context.removeAttribute(INPUT_ATTR);
-	// markDone();
-	// return null;
-	// default:
-	// break;
-	// }
-	// }
-	//
-	// selection = context.getSelection("values");
-	// Result result = dateOptionalRequirement(context, list, DATE,
-	// getConstants().creditDate(),
-	// getMessages().pleaseEnter(getConstants().creditDate()),
-	// selection);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = numberOptionalRequirement(
-	// context,
-	// list,
-	// selection,
-	// NUMBER,
-	// getConstants().creditCardExpense() + " "
-	// + getConstants().number(),
-	// getMessages().pleaseEnter(
-	// getConstants().creditCardExpense() + " "
-	// + getConstants().number()));
-	// if (result != null) {
-	// return result;
-	// }
-	// Requirement vendorReq = get(SUPPLIER);
-	// ClientVendor vendor = vendorReq.getValue();
-	// result = contactRequirement(context, list, selection, vendor);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = numberOptionalRequirement(context, list, selection, PHONE,
-	// getConstants().phoneNumber(),
-	// getMessages().pleaseEnter(getConstants().phoneNumber()));
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = dateOptionalRequirement(context, list, "deliveryDate",
-	// getConstants().deliveryDate(),
-	// getMessages().pleaseEnter(getConstants().deliveryDate()),
-	// selection);
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// result = stringOptionalRequirement(context, list, selection, MEMO,
-	// getConstants().memo(), getConstants().addMemo());
-	// if (result != null) {
-	// return result;
-	// }
-	//
-	// Record finish = new Record(ActionNames.FINISH);
-	// finish.add("",
-	// getMessages()
-	// .finishToCreate(getConstants().creditCardExpense()));
-	// actions.add(finish);
-	// return makeResult;
-	// }
-
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
@@ -562,8 +332,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-		ClientCreditCardCharge creditCardCharge = new ClientCreditCardCharge();
-
 		Vendor supplier = get(VENDOR).getValue();
 		creditCardCharge.setVendor(supplier.getID());
 
@@ -640,18 +408,79 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		String string = context.getString();
+		if (isUpdate) {
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Credit Expense to update.");
+				return "Expenses List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientCreditCardCharge transactionByNum = (ClientCreditCardCharge) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CREDITCARDCHARGE);
+			if (transactionByNum == null) {
+				addFirstMessage(context, "Select a Credit Expense to update.");
+				return "Expenses List " + string;
+			}
+			creditCardCharge = transactionByNum;
+			setValues();
+		} else {
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			creditCardCharge = new ClientCreditCardCharge();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> transactionItemsList = creditCardCharge
+				.getTransactionItems();
+		for (ClientTransactionItem clientTransactionItem : transactionItemsList) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ACCOUNTS).setValue(accounts);
+		get(ITEMS).setValue(items);
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(creditCardCharge.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(CONTACT).setValue(toServerContact(creditCardCharge.getContact()));
+		get(DATE).setValue(creditCardCharge.getDate());
+		get(NUMBER).setValue(creditCardCharge.getNumber());
+		get(PAYMENT_METHOD).setValue(creditCardCharge.getPaymentMethod());
+		get(PHONE).setValue(creditCardCharge.getPhone());
+		get("payFrom").setValue(
+				CommandUtils.getServerObjectById(creditCardCharge.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get("deliveryDate").setValue(
+				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
+		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());
+		get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor());
+		get(MEMO).setValue(creditCardCharge.getMemo());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().creditCardExpense());
+		return creditCardCharge.getID() == 0 ? getMessages().creating(
+				getMessages().creditCardExpense())
+				: "Update Credit Card Expense command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().creditCardExpense());
+		return creditCardCharge.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().creditCardExpense())
+				: "Credit card expense is ready to update with following details";
 	}
 
 	@Override
@@ -664,7 +493,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get(CONTACT).setDefaultValue(contact);
 		get(MEMO).setDefaultValue(" ");
 		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
-		get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
+		get(PAYMENT_METHOD).setDefaultValue(getMessages().creditCard());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
@@ -672,8 +501,10 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(
-				getConstants().creditCardExpense());
+		return creditCardCharge.getID() == 0 ? getMessages()
+				.createSuccessfully(getMessages().creditCardExpense())
+				: getMessages().updateSuccessfully(
+						getMessages().creditCardExpense());
 	}
 
 	@Override

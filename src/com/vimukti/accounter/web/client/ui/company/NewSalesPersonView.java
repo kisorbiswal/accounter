@@ -72,8 +72,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private EmailForm emailForm;
 	protected String gender;
 	private List<String> listOfgenders;
-	private String[] genderTypes = { Accounter.constants().unspecified(),
-			Accounter.constants().male(), Accounter.constants().female() };
+	private String[] genderTypes = { Accounter.messages().unspecified(),
+			Accounter.messages().male(), Accounter.messages().female() };
 	private List<ClientAccount> listOfAccounts;
 
 	private ArrayList<DynamicForm> listforms;
@@ -91,12 +91,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		employeeNameText = new TextItem(Accounter.constants().salesPersonName());
+		employeeNameText = new TextItem(Accounter.messages().salesPersonName());
 //		employeeNameText.setWidth("200px");
 		employeeNameText.setRequired(true);
 		employeeNameText.setDisabled(isInViewMode());
 
-		fileAsText = new TextItem(Accounter.constants().fileAs());
+		fileAsText = new TextItem(Accounter.messages().fileAs());
 //		fileAsText.setWidth("200px");
 		fileAsText.setDisabled(isInViewMode());
 		employeeNameText.addChangeHandler(new ChangeHandler() {
@@ -110,11 +110,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		});
 
-		jobTitleText = new TextItem(Accounter.constants().jobTitle());
+		jobTitleText = new TextItem(Accounter.messages().jobTitle());
 //		jobTitleText.setWidth("200px");
 		jobTitleText.setDisabled(isInViewMode());
 
-		salesPersonForm = UIUtils.form(Accounter.constants().salesPerson());
+		salesPersonForm = UIUtils.form(Accounter.messages().salesPerson());
 		//salesPersonForm.setWidth("80%");
 		salesPersonForm.setFields(employeeNameText, fileAsText, jobTitleText);
 //		salesPersonForm.getCellFormatter().setWidth(0, 0, "200px");
@@ -143,7 +143,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		memoArea = new TextAreaItem();
 		memoArea.setMemo(true, this);
 		memoArea.setWidth(100);
-		memoArea.setTitle(Accounter.constants().memo());
+		memoArea.setTitle(Accounter.messages().memo());
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
 		memoArea.setDisabled(isInViewMode());
@@ -153,14 +153,14 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// memoForm.getCellFormatter().getElement(0, 1).getStyle().setWidth(239,
 		// Unit.PX);
 //		memoForm.getCellFormatter().setWidth(0, 0, "200");
-		salesPersonInfoForm = UIUtils.form(Accounter.constants()
+		salesPersonInfoForm = UIUtils.form(Accounter.messages()
 				.salesPersonInformation());
 		salesPersonInfoForm.setStyleName("align-form");
 //		salesPersonInfoForm.setWidth("100%");
-		statusCheck = new CheckboxItem(Accounter.constants().active());
+		statusCheck = new CheckboxItem(Accounter.messages().active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
-		genderSelect = new SelectCombo(Accounter.constants().gender());
+		genderSelect = new SelectCombo(Accounter.messages().gender());
 		genderSelect.setDisabled(isInViewMode());
 		// genderSelect.setWidth(45);
 		listOfgenders = new ArrayList<String>();
@@ -177,7 +177,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					}
 				});
 
-		dateOfBirth = new DateField(Accounter.constants().dateofBirth());
+		dateOfBirth = new DateField(Accounter.messages().dateofBirth());
 		dateOfBirth.setToolTip(Accounter.messages().selectDateOfBirth(
 				this.getAction().getViewName()));
 		dateOfBirth.setDisabled(isInViewMode());
@@ -192,7 +192,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					addError(dateOfBirth, Accounter.constants()
+					addError(dateOfBirth, Accounter.messages()
 							.dateofBirthshouldshowmorethan18years());
 				} else {
 					clearError(dateOfBirth);
@@ -200,20 +200,20 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		});
 
-		dateOfHire = new DateField(Accounter.constants().dateofHire());
+		dateOfHire = new DateField(Accounter.messages().dateofHire());
 		dateOfHire.setToolTip(Accounter.messages().selectDateOfHire(
 				this.getAction().getViewName()));
 		dateOfHire.setDisabled(isInViewMode());
 		dateOfHire.setEnteredDate(new ClientFinanceDate());
 		// dateOfHire.setUseTextField(true);
 
-		dateOfLastReview = new DateField(Accounter.constants()
+		dateOfLastReview = new DateField(Accounter.messages()
 				.dateofLastReview());
 		dateOfLastReview.setDisabled(isInViewMode());
 		dateOfLastReview.setEnteredDate(new ClientFinanceDate());
 		// dateOfLastReview.setUseTextField(true);
 
-		dateOfRelease = new DateField(Accounter.constants().dateofRelease());
+		dateOfRelease = new DateField(Accounter.messages().dateofRelease());
 		dateOfRelease.setDisabled(isInViewMode());
 		// dateOfRelease.setUseTextField(true);
 
@@ -224,7 +224,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		// XXX
 		addrsForm = new DynamicForm();
-		addrArea = new TextAreaItem(Accounter.constants().address());
+		addrArea = new TextAreaItem(Accounter.messages().address());
 //		addrArea.setWidth("200px");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
@@ -401,7 +401,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				.getSalesPersonByName(name);
 		if (!(isInViewMode() ? (data.getName().equalsIgnoreCase(name) ? true
 				: clientSalesPerson == null) : true)) {
-			result.addError(employeeNameText, Accounter.constants()
+			result.addError(employeeNameText, Accounter.messages()
 					.alreadyExist());
 			return result;
 		}
@@ -410,11 +410,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
 			if (dateOfBirth.getValue().getDateAsObject().after(
 					new ClientFinanceDate().getDateAsObject())) {
-				result.addError(dateOfBirth, Accounter.constants()
+				result.addError(dateOfBirth, Accounter.messages()
 						.invalidDateOfBirth());
 			} else if ((new ClientFinanceDate(mustdate).before(dateOfBirth
 					.getEnteredDate()))) {
-				result.addError(dateOfBirth, Accounter.constants()
+				result.addError(dateOfBirth, Accounter.messages()
 						.dateofBirthshouldshowmorethan18years()
 						+ ". Because Sales Person should have 18 years");
 			}
@@ -467,7 +467,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			super.saveSuccess(result);
 
 		} else
-			saveFailed(new AccounterException(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.messages().failed()));
 
 	}
 
@@ -669,7 +669,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().newSalesPerson();
+		return Accounter.messages().newSalesPerson();
 	}
 
 	private void setAddresses(Set<ClientAddress> addresses) {

@@ -31,7 +31,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNewItem();
+		return messages.item();
 	}
 
 	@Override

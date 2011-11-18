@@ -72,7 +72,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.managingBills());
+		headerLabel.setText(accounterMessages.managingBills());
 
 		// trackOfBillsText.setHTML(accounterConstants.doyouwantTrackTime());
 		// trackOfBillsList.setHTML(accounterMessages.trackTimeList());
@@ -80,13 +80,13 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 				+ "</li><li>" + accounterMessages.managingList2() + "</li><li>"
 				+ accounterMessages.managingList3() + "</li></ui>");
 		// trackTimeText.setHTML(accounterConstants.doyouwantTrackBills());
-		managingYes.setText(accounterConstants.yes());
+		managingYes.setText(accounterMessages.yes());
 		// trackingTimeYes.setText(accounterConstants.yes());
-		managingNo.setText(accounterConstants.no());
+		managingNo.setText(accounterMessages.no());
 		// trackingNo.setText(accounterConstants.no());
 		// trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
 		managingInfo.setHTML(accounterMessages
-				.billstrackingdescription(accounterConstants.Accounts()));
+				.billstrackingdescription(accounterMessages.Accounts()));
 		// track_time_head.setText(accounterMessages.trackingtimehead());
 
 	}
@@ -126,10 +126,10 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		if ((!(managingYes.getValue() || managingNo.getValue()))
 		/* && (!(trackingTimeYes.getValue() || trackingNo.getValue()) */) {
 			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.details()));
+					.pleaseEnter(accounterMessages.details()));
 			return false;
 		} else if (!(managingYes.getValue() || managingNo.getValue())) {
-			Accounter.showMessage(accounterConstants.managingBills());
+			Accounter.showMessage(accounterMessages.managingBills());
 			return false;
 			/*
 			 * } else if (!(trackingTimeYes.getValue() ||
@@ -144,6 +144,6 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.setBillTracking();
+		return accounterMessages.setBillTracking();
 	}
 }

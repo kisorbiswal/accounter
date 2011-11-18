@@ -25,29 +25,29 @@ public abstract class PayVatTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		NameRequirement vatAgency = new NameRequirement(TAX_AGENCY, "",
-				getConstants().taxAgency(), true, true);
+				getMessages().taxAgency(), true, true);
 		vatAgency.setEditable(false);
 		list.add(vatAgency);
 
 		NameRequirement taxItem = new NameRequirement(TAX_ITEM, "",
-				getConstants().taxItem(), true, true);
+				getMessages().taxItem(), true, true);
 		taxItem.setEditable(false);
 		list.add(taxItem);
 
 		AmountRequirement taxDue = new AmountRequirement(TAX_DUE, "",
-				getConstants().taxDue(), true, true);
+				getMessages().taxDue(), true, true);
 		taxDue.setEditable(false);
 		list.add(taxDue);
 
 		AmountRequirement amountPay = new AmountRequirement(AMOUNT,
-				getMessages().pleaseEnter(getConstants().amountToPay()),
-				getConstants().amountToPay(), false, true);
+				getMessages().pleaseEnter(getMessages().amountToPay()),
+				getMessages().amountToPay(), false, true);
 		list.add(amountPay);
 
 	}
 
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().billsToPay());
+		return getMessages().youDontHaveAny(getMessages().billsToPay());
 	}
 
 	@Override
@@ -78,11 +78,11 @@ public abstract class PayVatTableRequirement extends
 						AccounterCoreType.TAXAGENCY, getCompanyId());
 
 		Record record = new Record(t);
-		record.add("", getConstants().vatAgency());
+		record.add("", getMessages().vatAgency());
 		record.add("", taxAgency.getName());
-		record.add("", getConstants().taxDue());
+		record.add("", getMessages().taxDue());
 		record.add("", t.getTaxDue());
-		record.add("", getConstants().amountToPay());
+		record.add("", getMessages().amountToPay());
 		record.add("", t.getAmountToPay());
 		return record;
 	}
@@ -94,7 +94,7 @@ public abstract class PayVatTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().billsToPay());
+		return getMessages().addMore(getMessages().billsToPay());
 	}
 
 }

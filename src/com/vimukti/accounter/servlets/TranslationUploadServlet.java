@@ -7,15 +7,20 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.web.server.FinanceTool;
-import com.vimukti.accounter.web.server.translate.LocalMessage;
+import com.vimukti.accounter.web.server.translate.Key;
 import com.vimukti.accounter.web.server.translate.Message;
 
 public class TranslationUploadServlet extends BaseServlet {
@@ -77,18 +82,26 @@ public class TranslationUploadServlet extends BaseServlet {
 		fileOut.close();
 
 		oldMessages = new FinanceTool().getAllMessages();
-		List<Message> newMessages = new ArrayList<Message>();
+		Map<Key, Message> newMessages = new HashMap<Key, Message>();
 
 		BufferedReader br = new BufferedReader(new FileReader(ff));
 		String line = null;
 		while ((line = br.readLine()) != null) {
-			Message message = new Message();
 			String[] split = line.split("=");
-			String key = split[0];
+			String keyValue = split[0];
 			String value = split[1];
-			message.setKey(key);
+
+			Key key = new Key();
+			key.setKey(keyValue);
+
+			Message message = new Message();
 			message.setValue(value);
-			newMessages.add(message);
+
+			Set<Key> keys = new HashSet<Key>();
+			keys.add(key);
+			message.setKeys(keys);
+
+			newMessages.put(key, message);
 		}
 
 		checkMessages(newMessages);
@@ -97,30 +110,39 @@ public class TranslationUploadServlet extends BaseServlet {
 
 	}
 
-	private void checkMessages(List<Message> newMessages) {
-		List<Message> messagesToRemove = new ArrayList<Message>();
+	private void checkMessages(Map<Key, Message> newMessages) {
+		Map<Key, Message> messagesToRemove = new HashMap<Key, Message>();
+		List<Message> messagesToDelete = new ArrayList<Message>();
 		// Key: Value
-		for (Message message : newMessages) {
-			String key = message.getKey();
-			String value = message.getValue();
+		for (Entry<Key, Message> entry : newMessages.entrySet()) {
+			Key key = entry.getKey();
+			Message value = entry.getValue();
 
-			Message oldMessage = getMessageByValue(value);
+			Message oldMessage = getMessageByValue(value.getValue());
 			// Check if Value Exists
 			if (oldMessage != null) {// Yes
 				// Check If Key Same
-				if (oldMessage.getKey().equals(key)) {// YES
+				boolean keySame = false;
+				Iterator<Key> iterator = oldMessage.getKeys().iterator();
+				while (iterator.hasNext()) {
+					Key next = iterator.next();
+					if (next.getKey().equals(key.getKey())) {
+						keySame = true;
+					}
+				}
+				if (keySame) {// YES
 					// Mark In Use =TRUE
-					oldMessage.setNotUsed(false);
-					messagesToRemove.add(message);
+					messagesToRemove.put(key, value);
 				} else {// NO
 					// Copy All Local Messages from old message to this message
 					// and save
-					Set<LocalMessage> localMessages = oldMessage
-							.getLocalMessages();
-					for (LocalMessage localMessage : localMessages) {
-						localMessage.setMessage(message);
-					}
-					message.setLocalMessages(localMessages);
+					// Set<LocalMessage> localMessages = oldMessage
+					// .getLocalMessages();
+					// value.setLocalMessages(localMessages);
+					Set<Key> keys = oldMessage.getKeys();
+					keys.add(key);
+					oldMessage.setKeys(keys);
+					messagesToRemove.put(key, value);
 				}
 			} else {// NO
 				oldMessage = getMessageByKey(key);
@@ -131,44 +153,64 @@ public class TranslationUploadServlet extends BaseServlet {
 						// Rename old key to a random key
 						// and mark in use =false
 						// insert new message
-						oldMessage.setKey(key + value);
+						Set<Key> keys = new HashSet<Key>();
+						Iterator<Key> iterator = oldMessage.getKeys()
+								.iterator();
+						while (iterator.hasNext()) {
+							Key next = iterator.next();
+							if (next.getKey().equals(key.getKey())) {
+								keys.add(next);
+							}
+						}
+						value.setKeys(keys);
 						oldMessage.setNotUsed(true);
 
 					} else {// NO
 						// Delete old one and insert new one
 						oldMessages.remove(oldMessage);
+						messagesToDelete.add(oldMessage);
 					}
+
 				} else {// NO
 					// Just insert the new message
 				}
 			}
 		}
 
-		for (Message message : messagesToRemove) {
-			if (newMessages.contains(message)) {
-				newMessages.remove(message);
+		for (Entry<Key, Message> entry : messagesToRemove.entrySet()) {
+			if (newMessages.containsValue(entry.getValue())) {
+				newMessages.remove(entry.getKey());
 			}
 		}
 
 		for (Message message : oldMessages) {
-			if (!newMessages.contains(message)) {
+			if (!newMessages.containsValue(message)) {
 				message.setNotUsed(true);
 			}
 		}
 
-		oldMessages.addAll(newMessages);
+		oldMessages.addAll(newMessages.values());
 
 		FinanceTool financeTool = new FinanceTool();
+
+		for (Message message : messagesToDelete) {
+			financeTool.deleteMessage(message);
+		}
+
 		for (Message message : oldMessages) {
 			financeTool.createMessage(message);
 		}
 
 	}
 
-	private Message getMessageByKey(String key) {
+	private Message getMessageByKey(Key key) {
 		for (Message message : oldMessages) {
-			if (message.getKey().equals(key)) {
-				return message;
+			Iterator<Key> iterator = message.getKeys().iterator();
+			while (iterator.hasNext()) {
+				Key next = iterator.next();
+				if (next.getKey().equals(key.getKey())) {
+					return message;
+				}
 			}
 		}
 		return null;

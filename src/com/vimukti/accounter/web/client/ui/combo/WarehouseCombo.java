@@ -20,7 +20,7 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNewWareHouse();
+		return messages.wareHouse();
 	}
 
 	@Override

@@ -19,20 +19,20 @@ public abstract class TaxItemsTableRequirement extends
 
 	@Override
 	protected void addRequirement(List<Requirement> list) {
-		NameRequirement name = new NameRequirement(NAME, "", getConstants()
+		NameRequirement name = new NameRequirement(NAME, "", getMessages()
 				.name(), true, true);
 		name.setEditable(false);
 		list.add(name);
 
 		AmountRequirement taxRate = new AmountRequirement(TAX_RATE, "",
-				getConstants().taxRate(), true, true);
+				getMessages().taxRate(), true, true);
 		taxRate.setEditable(false);
 		list.add(taxRate);
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().taxItem());
+		return getMessages().youDontHaveAny(getMessages().taxItem());
 	}
 
 	@Override
@@ -56,9 +56,9 @@ public abstract class TaxItemsTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTAXItem t) {
 		Record record = new Record(t);
-		record.add("", getConstants().name());
+		record.add("", getMessages().name());
 		record.add("", t.getName());
-		record.add("", getConstants().taxRate());
+		record.add("", getMessages().taxRate());
 		record.add("", t.getTaxRate());
 		return record;
 	}
@@ -70,7 +70,7 @@ public abstract class TaxItemsTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().taxItem());
+		return getMessages().addMore(getMessages().taxItem());
 	}
 
 }

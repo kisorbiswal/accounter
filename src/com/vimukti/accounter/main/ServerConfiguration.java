@@ -48,7 +48,7 @@ public class ServerConfiguration {
 		return mainServerDomain;
 	}
 
-	static void init(String config) {
+	public static void init(String config) {
 		PropertyParser prop = new PropertyParser();
 		try {
 			prop.loadFile(config == null ? "config/config.ini" : config);

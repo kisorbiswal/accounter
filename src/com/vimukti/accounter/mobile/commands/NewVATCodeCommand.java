@@ -39,21 +39,21 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new StringRequirement(TAX_CODE, getMessages().pleaseEnter(
-				getConstants().taxCode()), "Tax code", false, true));
+				getMessages().taxCode()), "Tax code", false, true));
 
 		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
-				getConstants().taxCode()), "Descripiton", true, true));
+				getMessages().taxCode()), "Descripiton", true, true));
 
 		list.add(new BooleanRequirement(IS_TAXABLE, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().taxable();
+				return getMessages().taxable();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().taxExempt();
+				return getMessages().taxExempt();
 			}
 		});
 
@@ -61,17 +61,17 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().active();
+				return getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().inActive();
+				return getMessages().inActive();
 			}
 		});
 
 		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_SALES,
-				getMessages().pleaseSelect(getConstants().taxItemForSales()),
+				getMessages().pleaseSelect(getMessages().taxItemForSales()),
 				"Vat item or Group for Sales", true, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -109,14 +109,14 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getConstants().taxGroup());
-				list.add(getConstants().taxItem());
+				list.add(getMessages().taxGroup());
+				list.add(getMessages().taxItem());
 			}
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().taxItemForSales());
+						getMessages().taxItemForSales());
 			}
 
 			@Override
@@ -132,7 +132,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_PURCHASE,
 				getMessages()
-						.pleaseSelect(getConstants().taxItemForPurchases()),
+						.pleaseSelect(getMessages().taxItemForPurchases()),
 				"Vat item or Group for Purchases", false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -171,14 +171,14 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getConstants().taxGroup());
-				list.add(getConstants().taxItem());
+				list.add(getMessages().taxGroup());
+				list.add(getMessages().taxItem());
 			}
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().taxItemForPurchases());
+						getMessages().taxItemForPurchases());
 			}
 
 			@Override
@@ -258,17 +258,20 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a VAT Code to update.");
 				return "VAT Codes List";
 			}
 			Set<TAXCode> serverTaxCodes = context.getCompany().getTaxCodes();
 			for (TAXCode vatCode : serverTaxCodes) {
-				if (vatCode.getName().equals(string)) {
+				if (vatCode.getName().toLowerCase()
+						.equals(string.toLowerCase())) {
 					taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
 							vatCode.getID(), AccounterCoreType.TAX_CODE,
 							getCompanyId());
 				}
 			}
 			if (taxCode == null) {
+				addFirstMessage(context, "Select a VAT Code to update.");
 				return "VAT Codes List " + string;
 			}
 			get(TAX_CODE).setValue(taxCode.getName());

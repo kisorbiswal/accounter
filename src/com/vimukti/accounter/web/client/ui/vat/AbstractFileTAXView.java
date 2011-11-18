@@ -63,10 +63,11 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	}
 
 	private void createControls() {
-		Label infolabel = new Label(Accounter.constants().fileTAX());
+		Label infolabel = new Label(messages.fileTAX());
 		infolabel.removeStyleName("gwt-Label");
-		infolabel.addStyleName(Accounter.constants().labelTitle());
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().vatAgency());
+		infolabel.addStyleName(messages.labelTitle());
+		taxAgencyCombo = new TAXAgencyCombo(messages.vatAgency());
+
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo.setRequired(true);
 
@@ -80,11 +81,11 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 					}
 				});
 		// taxAgencyCombo.setWidth("200px");
-		fromDate = new DateItem(Accounter.constants().from());
+		fromDate = new DateItem(messages.from());
 		fromDate.setHelpInformation(true);
 		fromDate.setWidth(100);
 
-		toDate = new DateItem(Accounter.constants().to());
+		toDate = new DateItem(messages.to());
 		toDate.setHelpInformation(true);
 		toDate.setWidth(100);
 
@@ -131,7 +132,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		toDate.setValue(new Date());
 		listforms = new ArrayList<DynamicForm>();
 
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -142,7 +143,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 		DynamicForm topForm = new DynamicForm();
 		topForm.setIsGroup(true);
-		topForm.setGroupTitle(Accounter.constants().top());
+		topForm.setGroupTitle(messages.top());
 		topForm.setNumCols(6);
 		topForm.setFields(taxAgencyCombo, fromDate, toDate);
 		topForm.setWidth("100%");
@@ -150,13 +151,13 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		ListGrid grid = getGrid();
 
 		HTML beforeLabel = new HTML("<string>"
-				+ Accounter.constants().beforeYouFile());
+				+ messages.beforeYouFile());
 
 		HTML adjustLabel = new HTML("<strong>"
-				+ Accounter.constants().doYouNeedToMakeAnAdjustment()
-				+ " </strong><br>" + Accounter.constants().useAdjustButton());
+				+ messages.doYouNeedToMakeAnAdjustment()
+				+ " </strong><br>" + messages.useAdjustButton());
 
-		adjustButton = new Button(Accounter.constants().adjustTAXReturn());
+		adjustButton = new Button(messages.adjustTAXReturn());
 		adjustButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -187,7 +188,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 		printLabel1.addStyleName("bold_HTML");
 
-		printButton = new Button(Accounter.constants().printTAXReturn());
+		printButton = new Button(messages.printTAXReturn());
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -197,7 +198,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 						&& toDate.getEnteredDate() != null)
 					printTaxReturn();
 				else
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(messages
 							.pleaseselectvaliddateranges());
 
 			}
@@ -278,8 +279,8 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		}
 		if (lastVATReturn != null) {
 			if (lastVATReturn.getPeriodEndDate() != 0) {
-				ClientFinanceDate date = new ClientFinanceDate(
-						lastVATReturn.getPeriodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(lastVATReturn
+						.getPeriodEndDate());
 				int day = date.getDay();
 				date.setDay(day + 1);
 				fromDate.setDatethanFireEvent(date);
@@ -341,12 +342,14 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 									.getDateAsObject();
 							date.setDate(date.getDate() + 1);
 
-							fromDate.setDatethanFireEvent(new ClientFinanceDate(
-									date));
+							fromDate
+									.setDatethanFireEvent(new ClientFinanceDate(
+											date));
 							fromDate.setDisabled(true);
 						} else {
-							fromDate.setDatethanFireEvent(new ClientFinanceDate(
-									DateUtil.getCurrentMonthFirstDate()));
+							fromDate
+									.setDatethanFireEvent(new ClientFinanceDate(
+											DateUtil.getCurrentMonthFirstDate()));
 						}
 						reloadGrid();
 					}
@@ -362,7 +365,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		}
 		buttonBar.add(cancelButton);
 
-		this.saveAndCloseButton.setText(Accounter.constants().fileVATReturn());
+		this.saveAndCloseButton.setText(messages.fileVATReturn());
 	}
 
 	@Override
@@ -374,10 +377,10 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 		if (this.selectedTaxAgency == null && this.isInViewMode()) {
 			taxAgencyCombo.addStyleName("highlightedFormItem");
-			result.addError(selectedTaxAgency, Accounter.constants()
+			result.addError(selectedTaxAgency, messages
 					.pleaseSelectValidVATAgency());
 		} else {
-			result.addWarning(selectedTaxAgency, Accounter.constants()
+			result.addWarning(selectedTaxAgency, messages
 					.sureToSaveFileVAT());
 			// AccounterValidator.validate_FileVat(this);
 		}
@@ -385,11 +388,12 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 			// taxAgencyCombo.addStyleName("highlightedFormItem");
 			// fromDate.addStyleName("highlightedFormItem");
 			// toDate.addStyleName("highlightedFormItem");
-			result.addError(this, Accounter.constants()
-					.updateGridBeforeSaving());
+			result
+					.addError(this, messages
+							.updateGridBeforeSaving());
 		}
 		if (getGrid().getRecords().isEmpty()) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, messages
 					.thereIsNoTrasationsToFile());
 		}
 		return result;

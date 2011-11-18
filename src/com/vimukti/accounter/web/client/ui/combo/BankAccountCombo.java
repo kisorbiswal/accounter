@@ -22,7 +22,7 @@ public class BankAccountCombo extends AccountCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNew(Global.get().Account());
+		return Global.get().Account();
 	}
 
 	@Override

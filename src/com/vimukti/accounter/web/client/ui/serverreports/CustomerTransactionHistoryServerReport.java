@@ -36,8 +36,8 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { Global.get().customer(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
+		return new String[] { Global.get().customer(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
 				// ".invoicedAmount(),
 				// ".paidAmount(),
 				// ".paymentTerms(),
@@ -45,7 +45,7 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				Global.get().account(), getConstants().amount() };
+				Global.get().account(), getMessages().amount() };
 
 	}
 
@@ -220,9 +220,9 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 
-		return new String[] { Global.get().customer(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				Global.get().account(), getConstants().amount() };
+		return new String[] { Global.get().customer(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
+				Global.get().account(), getMessages().amount() };
 
 	}
 

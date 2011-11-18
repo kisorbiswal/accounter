@@ -138,7 +138,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
+		setMenuItems(button, Global.get().Accounts(), Accounter.messages()
 				.productOrServiceItem());
 	}
 
@@ -202,7 +202,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants()
+		AmountField amountItem = new AmountField(Accounter.messages()
 				.salesTax(), this, currency);
 		amountItem.setDisabled(true);
 
@@ -212,7 +212,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
+		AmountLabel amountItem = new AmountLabel(Accounter.messages().tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -221,7 +221,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants()
+		AmountLabel amountLabel = new AmountLabel(Accounter.messages()
 				.salesTax());
 
 		return amountLabel;
@@ -276,7 +276,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.constants().tax(), false);
+		taxCodeCombo = new TAXCodeCombo(Accounter.messages().tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 		taxCodeCombo.addStyleName("tax_combo");
@@ -356,7 +356,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
+		ContactCombo contactCombo = new ContactCombo(Accounter.messages()
 				.contactName(), true);
 		contactCombo.setHelpInformation(true);
 		contactCombo.setDisabled(true);
@@ -408,7 +408,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+		AddressCombo addressCombo = new AddressCombo(Accounter.messages()
 				.billTo(), false);
 		addressCombo.setDefaultToFirstOption(false);
 		addressCombo.setHelpInformation(true);
@@ -562,7 +562,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		final TextItem checkNo = new TextItem(title);
 		checkNo.setToolTip(Accounter.messages()
 				.giveNoTo(this.getAction().getViewName())
-				.replace(Accounter.constants().no(), title));
+				.replace(Accounter.messages().no(), title));
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -582,7 +582,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(Accounter.constants()
+		final DateField dateItem = new DateField(Accounter.messages()
 				.deliveryDate());
 		dateItem.setHelpInformation(true);
 		// dateItem.setTitle("Delivery Date");
@@ -648,7 +648,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					.getTAXCode() > 0 ? getVendor().getTAXCode()
 					: defaultTaxCode) : defaultTaxCode);
 		} else if (menuItem
-				.equals(Accounter.constants().productOrServiceItem())) {
+				.equals(Accounter.messages().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
 					.getTAXCode() > 0 ? getVendor().getTAXCode()
@@ -776,13 +776,13 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 						&& this.transactionDate.before(taxAgency
 								.getLastTAXReturnDate())) {
 					result.addWarning(this.transactionDate, Accounter
-							.constants().taxExceptionMesg());
+							.messages().taxExceptionMesg());
 				}
 			}
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, Accounter.constants()
+					result.addError(taxCodeSelect, Accounter.messages()
 							.enterTaxCode());
 				}
 

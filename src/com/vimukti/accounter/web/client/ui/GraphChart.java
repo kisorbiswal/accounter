@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.LegendPosition;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.visualizations.corechart.AxisOptions;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
@@ -168,15 +168,15 @@ public class GraphChart {
 		DataTable data = DataTable.create();
 
 		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
-			data.addColumn(ColumnType.STRING, Accounter.constants().date());
+			data.addColumn(ColumnType.STRING, Accounter.messages().date());
 			data.addColumn(ColumnType.NUMBER);
 
 		} else if (chartType == ACCOUNTS_RECEIVABLE_CHART_TYPE) {
-			data.addColumn(ColumnType.STRING, Accounter.constants().date());
-			data.addColumn(ColumnType.NUMBER, Accounter.constants().revenue());
+			data.addColumn(ColumnType.STRING, Accounter.messages().date());
+			data.addColumn(ColumnType.NUMBER, Accounter.messages().revenue());
 		} else {
-			data.addColumn(ColumnType.STRING, Accounter.constants().date());
-			data.addColumn(ColumnType.NUMBER, Accounter.constants().balance());
+			data.addColumn(ColumnType.STRING, Accounter.messages().date());
+			data.addColumn(ColumnType.NUMBER, Accounter.messages().balance());
 		}
 
 		if (chartType == BANK_ACCOUNT_CHART_TYPE) {
@@ -270,34 +270,34 @@ public class GraphChart {
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return Accounter.constants().jan();
+			return Accounter.messages().jan();
 		case 1:
-			return Accounter.constants().feb();
+			return Accounter.messages().feb();
 		case 2:
-			return Accounter.constants().mar();
+			return Accounter.messages().mar();
 		case 3:
-			return Accounter.constants().apr();
+			return Accounter.messages().apr();
 		case 4:
-			return Accounter.constants().may();
+			return Accounter.messages().may();
 		case 5:
-			return Accounter.constants().jun();
+			return Accounter.messages().jun();
 		case 6:
-			return Accounter.constants().jul();
+			return Accounter.messages().jul();
 		case 7:
 		case -5:
-			return Accounter.constants().aug();
+			return Accounter.messages().aug();
 		case 8:
 		case -4:
-			return Accounter.constants().sept();
+			return Accounter.messages().sept();
 		case 9:
 		case -3:
-			return Accounter.constants().oct();
+			return Accounter.messages().oct();
 		case 10:
 		case -2:
-			return Accounter.constants().nov();
+			return Accounter.messages().nov();
 		case 11:
 		case -1:
-			return Accounter.constants().dec();
+			return Accounter.messages().dec();
 
 		}
 		return "";

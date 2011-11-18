@@ -29,6 +29,8 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -44,15 +46,20 @@ import com.vimukti.accounter.web.client.core.ListFilter;
  * 
  */
 public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand {
+	ClientCustomerCreditMemo creditMemo;
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getConstants().CustomerCreditNote());
+	return creditMemo.getID() == 0 ? getMessages().create(
+				getMessages().CustomerCreditNote())
+				: "Update Customer Credit Note Command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().CustomerCreditNote());
+		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().CustomerCreditNote())
+				: "Customer credit note is ready to update with following details";
 	}
 
 	@Override
@@ -72,13 +79,13 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(
-				getConstants().CustomerCreditNote());
+		return creditMemo.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().CustomerCreditNote()) : getMessages()
+				.updateSuccessfully(getMessages().CustomerCreditNote());
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -103,7 +110,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -123,7 +130,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -151,13 +158,13 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().creditNoteNo()), getConstants().creditNoteNo(),
+				getMessages().creditNoteNo()), getMessages().creditNoteNo(),
 				true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), true,
+				"please select accountItems", getMessages().Account(), true,
 				true) {
 
 			@Override
@@ -182,7 +189,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true, true) {
 
 			@Override
@@ -215,7 +222,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 
 			@Override
@@ -263,13 +270,13 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().reasonForIssue()), getConstants()
+				getMessages().reasonForIssue()), getMessages()
 				.reasonForIssue(), true, true));
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, new ChangeListner<Currency>() {
 
 					@Override
@@ -294,8 +301,6 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-
-		ClientCustomerCreditMemo creditMemo = new ClientCustomerCreditMemo();
 
 		ClientFinanceDate date = get(DATE).getValue();
 		creditMemo.setDate(date.getDate());
@@ -346,8 +351,62 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context,
+						"Select a Customer credit note to update.");
+				return "Invoices List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CUSTOMERCREDITMEMO);
+			if (invoiceByNum == null) {
+				addFirstMessage(context,
+						"Select a Customer credit note to update.");
+				return "Invoices List " + string;
+			}
+			creditMemo = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			creditMemo = new ClientCustomerCreditMemo();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
+		List<ClientTransactionItem> transactionItems = creditMemo
+				.getTransactionItems();
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				accounts.add(clientTransactionItem);
+			} else {
+				items.add(clientTransactionItem);
+			}
+		}
+		get(ITEMS).setValue(items);
+		get(ACCOUNTS).setValue(accounts);
+		get(DATE).setValue(creditMemo.getDate());
+		get(NUMBER).setValue(creditMemo.getNumber());
+		get(CONTACT).setValue(toServerContact(creditMemo.getContact()));
+		get(BILL_TO).setValue(creditMemo.getBillingAddress());
+		get(IS_VAT_INCLUSIVE).setValue(creditMemo.isAmountsIncludeVAT());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(creditMemo.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(CURRENCY_FACTOR).setValue(creditMemo.getCurrencyFactor());
+		get(MEMO).setValue(creditMemo.getMemo());
 	}
 
 	@Override

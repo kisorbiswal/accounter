@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientLanguage;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
 
 /**
  * @author Prasanna Kumar G
@@ -125,19 +125,18 @@ public class CoreUtils {
 			"Italy", "Jamaica", "Jan Mayen", "Japan", "Jordan", "Kazakhstan",
 			"Kenya", "Kiribati", "Korea, North", "Korea, South", "Kuwait",
 			"Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia",
-			"Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao",
-			"Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives",
-			"Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania",
-			"Mauritius", "Mayotte", "Mexico",
-			"Micronesia, Federated States of", "Moldova", "Monaco", "Mongolia",
-			"Montserrat", "Morocco", "Mozambique", "Namibia", "Nauru", "Nepal",
-			"Netherlands", "Netherlands Antilles", "New Caledonia",
-			"New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue",
-			"Norfolk Island", "Northern Mariana Islands", "Norway", "Oman",
-			"Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay",
-			"Peru", "Philippines", "Pitcairn Islands", "Poland", "Portugal",
-			"Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda",
-			"Saint Helena", "Saint Kitts and Nevis", "Saint Lucia",
+			"Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia",
+			"Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta",
+			"Marshall Islands", "Martinique", "Mauritania", "Mauritius",
+			"Mayotte", "Mexico", "Micronesia, Federated States of", "Moldova",
+			"Monaco", "Mongolia", "Montserrat", "Morocco", "Mozambique",
+			"Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles",
+			"New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria",
+			"Niue", "Norfolk Island", "Northern Mariana Islands", "Norway",
+			"Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea",
+			"Paraguay", "Peru", "Philippines", "Pitcairn Islands", "Poland",
+			"Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia",
+			"Rwanda", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia",
 			"Saint Pierre and Miquelon", "Saint Vincent and the Grenadines",
 			"Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia",
 			"Senegal", "Serbia and Montenegro", "Seychelles", "Sierra Leone",
@@ -1251,8 +1250,9 @@ public class CoreUtils {
 					"Esch-sur-Alzette", "Grevenmacher", "Luxemburg", "Mersch",
 					"Redange", "Remich", "Vianden", "Wiltz" }
 			// MACAU
-			,
-			{ "Macau" }
+			/*
+			 * , { "Macau" }
+			 */
 			// MACEDONIA
 			,
 			{ "Berovo", "Bitola", "Brod", "Debar", "Delcevo", "Demir Hisar",
@@ -1962,10 +1962,13 @@ public class CoreUtils {
 			new ClientCurrency("Zimbabwean Dollar", "ZWD", "Z$"),
 			new ClientCurrency("DanishKrone", "DKK", "Kr"),
 			new ClientCurrency("Euro", "EUR", "€"),
-			new ClientCurrency("Puerto Rico", "USD", "$"),
 			new ClientCurrency("Cyprus Pound", "CYP", "£"),
 			new ClientCurrency("Ecuadorian sucre", "ECS", "S/."),
-			new ClientCurrency("French Polynesia", "XPF", "FF") };
+			new ClientCurrency("French Polynesia", "XPF", "FF"),
+			new ClientCurrency("Swedish Krona", "SEK", "kr"),
+			new ClientCurrency("Czech koruna", "CZK", "Kč"),
+			new ClientCurrency("West African CFA franc", "XOF", "Kč"),
+			new ClientCurrency("Macanese pataca", "MOP", "MOP$") };
 
 	/*
 	 * private static String[] currencyNames = new String[] {
@@ -2077,7 +2080,16 @@ public class CoreUtils {
 		List<ClientCurrency> returnedList = new ArrayList<ClientCurrency>();
 		returnedList.addAll(existCurrencies);
 		for (int i = 0; i < currencies.length; i++) {
-			if (!existCurrencies.contains(currencies[i])) {
+			boolean isExists = false;
+			ClientCurrency clientCurrency = currencies[i];
+			for (ClientCurrency currency : existCurrencies) {
+				if (clientCurrency.getFormalName().endsWith(
+						currency.getFormalName())) {
+					isExists = true;
+					break;
+				}
+			}
+			if (!isExists) {
 				returnedList.add(currencies[i]);
 			}
 		}

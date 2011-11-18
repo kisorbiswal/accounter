@@ -33,9 +33,9 @@ public class AmountsDueToVendorServerReport extends
 		return new String[] {
 
 		Accounter.messages().payeeName(Global.get().Vendor()),
-				getConstants().active(), getConstants().city(),
-				getConstants().state(), getConstants().zipCode(),
-				getConstants().phone(), getConstants().balance() };
+				getMessages().active(), getMessages().city(),
+				getMessages().state(), getMessages().zipCode(),
+				getMessages().phone(), getMessages().balance() };
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class AmountsDueToVendorServerReport extends
 		case 0:
 			return record.getName();
 		case 1:
-			return record.getIsActive() ? getConstants().yes() : getConstants()
+			return record.getIsActive() ? getMessages().yes() : getMessages()
 					.no();
 		case 2:
 			return record.getCity();
@@ -87,7 +87,7 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public void processRecord(AmountsDueToVendor record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 6 });
+			addSection("", getMessages().total(), new int[] { 6 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -109,9 +109,9 @@ public class AmountsDueToVendorServerReport extends
 	public String[] getDynamicHeaders() {
 		return new String[] {
 				Accounter.messages().payeeName(Global.get().Vendor()),
-				getConstants().active(), getConstants().city(),
-				getConstants().state(), getConstants().zipCode(),
-				getConstants().phone(), getConstants().balance() };
+				getMessages().active(), getMessages().city(),
+				getMessages().state(), getMessages().zipCode(),
+				getMessages().phone(), getMessages().balance() };
 	}
 
 }

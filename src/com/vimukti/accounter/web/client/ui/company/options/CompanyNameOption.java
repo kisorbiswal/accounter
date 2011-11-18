@@ -56,9 +56,9 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		legalNameLabel.setText(Accounter.constants().legalName());
-		companyNameLabel.setText(Accounter.constants().companyName());
-		isShowLegalName.setText(constants.registeredAddressComment());
+		legalNameLabel.setText(Accounter.messages().legalName());
+		companyNameLabel.setText(Accounter.messages().companyName());
+		isShowLegalName.setText(messages.registeredAddressComment());
 	}
 
 	public void initData() {
@@ -77,12 +77,12 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().name();
+		return Accounter.messages().name();
 	}
 
 	@Override
 	public String getAnchor() {
-		return Accounter.constants().name();
+		return Accounter.messages().name();
 	}
 
 	@UiHandler("isShowLegalName")

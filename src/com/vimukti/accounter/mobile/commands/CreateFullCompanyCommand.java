@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 
@@ -36,7 +35,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	public String getWelcomeMessage() {
-		return getMessages().creating(getConstants().fullCompanySetup());
+		return getMessages().creating(getMessages().fullCompanySetup());
 	}
 
 	@Override
@@ -48,30 +47,30 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	protected void addRequirements(List<Requirement> list) {
 		// First page
 		list.add(new NameRequirement(COMPANY_NAME, getMessages().pleaseEnter(
-				getConstants().companyName()), getConstants().companyName(),
+				getMessages().companyName()), getMessages().companyName(),
 				false, true));
 
 		list.add(new NameRequirement(LEGAL_NAME, getMessages().pleaseEnter(
-				getConstants().legalName()), getConstants().legalName(), true,
+				getMessages().legalName()), getMessages().legalName(), true,
 				true));
 
 		list.add(new NameRequirement(TAX_ID, getMessages().pleaseEnter(
-				getConstants().taxId()), getConstants().taxId(), true, true));
+				getMessages().taxId()), getMessages().taxId(), true, true));
 
 		list.add(new CountryRequirement(COUNTRY, true, true, null));
 
 		list.add(new StringListRequirement(STATE, getMessages().pleaseEnter(
-				getConstants().state()), getConstants().state(), true, true,
+				getMessages().state()), getMessages().state(), true, true,
 				null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().state());
+				return getMessages().hasSelected(getMessages().state());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().state());
+				return getMessages().pleaseSelect(getMessages().state());
 			}
 
 			@Override
@@ -86,38 +85,38 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
-				getConstants().address1()), getConstants().address1(), true,
+				getMessages().address1()), getMessages().address1(), true,
 				true));
 
 		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
-				getConstants().address2()), getConstants().address2(), true,
+				getMessages().address2()), getMessages().address2(), true,
 				true));
 
 		list.add(new NameRequirement(CITY, getMessages().pleaseEnter(
-				getConstants().city()), getConstants().city(), true, true));
+				getMessages().city()), getMessages().city(), true, true));
 
 		list.add(new NameRequirement(ZIPCODE, getMessages().pleaseEnter(
-				getConstants().zipCode()), getConstants().zipCode(), true, true));
+				getMessages().zipCode()), getMessages().zipCode(), true, true));
 
 		list.add(new NameRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phone()), getConstants().phone(), true, true));
+				getMessages().phone()), getMessages().phone(), true, true));
 
 		list.add(new NameRequirement(FAX, getMessages().pleaseEnter(
-				getConstants().fax()), getConstants().fax(), true, true));
+				getMessages().fax()), getMessages().fax(), true, true));
 
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true, true));
+				getMessages().email()), getMessages().email(), true, true));
 
 		list.add(new NameRequirement(WEB_SITE, getMessages().pleaseEnter(
-				getConstants().webSite()), getConstants().webSite(), true, true));
+				getMessages().webSite()), getMessages().webSite(), true, true));
 
 		list.add(new StringListRequirement(TIME_ZONE, getMessages()
-				.pleaseSelect(getConstants().timezone()), getConstants()
+				.pleaseSelect(getMessages().timezone()), getMessages()
 				.timezone(), true, true, null) {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().timezone());
+				return getMessages().pleaseSelect(getMessages().timezone());
 			}
 
 			@Override
@@ -127,7 +126,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().timezone());
+				return getMessages().hasSelected(getMessages().timezone());
 			}
 
 			@Override
@@ -138,7 +137,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		// Second Page
 		list.add(new StringListRequirement(INDUSTRY, getMessages().pleaseEnter(
-				getConstants().industry()), getConstants().industry(), false,
+				getMessages().industry()), getMessages().industry(), false,
 				true, new ChangeListner<String>() {
 
 					@Override
@@ -148,7 +147,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				}) {
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().industry());
+				return getMessages().pleaseSelect(getMessages().industry());
 			}
 
 			@Override
@@ -158,7 +157,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().industry());
+				return getMessages().hasSelected(getMessages().industry());
 			}
 
 			@Override
@@ -169,12 +168,12 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new StringListRequirement(ORGANIZATION_REFER, getMessages()
-				.pleaseEnter(getConstants().organisation()), getConstants()
+				.pleaseEnter(getMessages().organisation()), getMessages()
 				.organisation(), true, true, null) {
 
 			@Override
 			protected String getSelectString() {
-				return getConstants().howisYourCompanyOrganized();
+				return getMessages().howisYourCompanyOrganized();
 			}
 
 			@Override
@@ -185,7 +184,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getConstants().companyOrganization());
+						getMessages().companyOrganization());
 			}
 
 			@Override
@@ -197,14 +196,14 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY, getMessages()
 				.pleaseEnter(
-						getMessages().terminology(getConstants().customer())),
-				getMessages().terminology(getConstants().customer()), true,
+						getMessages().payeeTerminology(getMessages().customer())),
+				getMessages().payeeTerminology(getMessages().customer()), true,
 				true, null) {
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getMessages().terminology(getConstants().customer()));
+						getMessages().payeeTerminology(getMessages().customer()));
 			}
 
 			@Override
@@ -215,7 +214,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().terminology(getConstants().Customer()));
+						getMessages().payeeTerminology(getMessages().Customer()));
 			}
 
 			@Override
@@ -226,14 +225,14 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		list.add(new StringListRequirement(SUPPLIER_TERMINOLOGY,
 				getMessages().pleaseEnter(
-						getMessages().terminology(getConstants().vendor())),
-				getMessages().terminology(getConstants().vendor()), true, true,
+						getMessages().payeeTerminology(getMessages().vendor())),
+				getMessages().payeeTerminology(getMessages().vendor()), true, true,
 				null) {
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getMessages().terminology(getConstants().Vendor()));
+						getMessages().payeeTerminology(getMessages().Vendor()));
 			}
 
 			@Override
@@ -244,7 +243,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().terminology(getConstants().Vendor()));
+						getMessages().payeeTerminology(getMessages().Vendor()));
 			}
 
 			@Override
@@ -254,13 +253,13 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
-				.terminology(getConstants().Account()), getConstants()
+				.payeeTerminology(getMessages().Account()), getMessages()
 				.Account(), true, true, null) {
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getMessages().terminology(getConstants().Account()));
+						getMessages().payeeTerminology(getMessages().Account()));
 			}
 
 			@Override
@@ -271,7 +270,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().terminology(getConstants().Account()));
+						getMessages().payeeTerminology(getMessages().Account()));
 			}
 
 			@Override
@@ -281,13 +280,13 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new StringListRequirement(SERVICE_PRODUCTS_BOTH,
-				getConstants().productAndService(), getConstants()
+				getMessages().productAndService(), getMessages()
 						.productAndService(), true, true, null) {
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().productAndService());
+						getMessages().productAndService());
 			}
 
 			@Override
@@ -298,7 +297,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getConstants().productAndServices());
+						getMessages().productAndServices());
 			}
 
 			@Override
@@ -311,12 +310,12 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().trackTaxEnabled();
+				return getMessages().trackTaxEnabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().trackTaxDisabled();
+				return getMessages().trackTaxDisabled();
 			}
 		});
 
@@ -333,12 +332,12 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().onepertransaction();
+				return getMessages().onepertransaction();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().oneperdetailline();
+				return getMessages().oneperdetailline();
 			}
 		});
 
@@ -355,12 +354,12 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().trackingTaxPaidEnabled();
+				return getMessages().trackingTaxPaidEnabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().trackingTaxPaidDisabled();
+				return getMessages().trackingTaxPaidDisabled();
 			}
 		});
 
@@ -368,17 +367,17 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().wanttoCreateEstimates();
+				return getMessages().wanttoCreateEstimates();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().dontWantToCreateEstimates();
+				return getMessages().dontWantToCreateEstimates();
 			}
 		});
 
 		list.add(new ClientCurrencyRequirement(SELECT_CURRENCY, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), true, true, null) {
 
 			@Override
@@ -392,22 +391,22 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().manageBillsYouOwe();
+				return getMessages().manageBillsYouOwe();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().dontManageBillsYouOwe();
+				return getMessages().dontManageBillsYouOwe();
 			}
 		});
 
 		list.add(new StringListRequirement(FISCAL_YEAR, getMessages()
-				.pleaseSelect(getConstants().fiscalYear()), getConstants()
+				.pleaseSelect(getMessages().fiscalYear()), getMessages()
 				.fiscalYear(), true, true, null) {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().fiscalYear());
+				return getMessages().pleaseSelect(getMessages().fiscalYear());
 			}
 
 			@Override
@@ -417,7 +416,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().fiscalYear());
+				return getMessages().hasSelected(getMessages().fiscalYear());
 			}
 
 			@Override
@@ -427,7 +426,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new TemplateAccountRequirement(ACCOUNTS, getMessages()
-				.pleaseSelect(getConstants().account()), getConstants()
+				.pleaseSelect(getMessages().account()), getMessages()
 				.account(), true, true) {
 
 			@Override
@@ -440,19 +439,15 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	private List<String> getServiceProductBothList() {
 		ArrayList<String> arrayList = new ArrayList<String>();
-		arrayList.add(getConstants().servicesOnly());
-		arrayList.add(getConstants().productsOnly());
-		arrayList.add(getConstants().bothServicesandProducts());
+		arrayList.add(getMessages().servicesOnly());
+		arrayList.add(getMessages().productsOnly());
+		arrayList.add(getMessages().bothServicesandProducts());
 		return arrayList;
-	}
-
-	private List<ClientCurrency> getCurrenciesList() {
-		return CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().company());
+		return getMessages().readyToCreate(getMessages().company());
 	}
 
 	@Override
@@ -471,7 +466,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				getServiceProductBothList().get(0));
 		get(ONE_PER_TRANSACTION).setDefaultValue(true);
 		get(SELECT_CURRENCY).setDefaultValue(getCurrenciesList().get(0));
-		get(FISCAL_YEAR).setDefaultValue(getConstants().april());
+		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
 	}
 
 	@Override
@@ -563,7 +558,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 						.getClient());
 		if (company == null) {
 			return new Result(getMessages().ProblemWhileCreating(
-					getConstants().company()));
+					getMessages().company()));
 		}
 		return null;
 	}
@@ -582,7 +577,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().company());
+		return getMessages().createSuccessfully(getMessages().company());
 	}
 
 	@Override

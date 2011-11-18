@@ -142,7 +142,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().name() };
+		return new String[] { Accounter.messages().name() };
 	}
 
 	@Override
@@ -160,7 +160,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			if (vendorGroup != null) {
 				if (!(vendorGroup.getName().equalsIgnoreCase(vendorName) ? true
 						: vendorByName == null)) {
-					result.addError(this, Accounter.constants().alreadyExist());
+					result.addError(this, Accounter.messages().alreadyExist());
 				}
 			} else {
 				if (vendorByName != null) {

@@ -95,28 +95,28 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.whatDoYouSell());
+		headerLabel.setText(accounterMessages.whatDoYouSell());
 
-		servicesOnly.setText(accounterConstants.services_labelonly());
-		servicesOnlyText.setText(accounterConstants.servicesOnly());
-		productsOnly.setText(accounterConstants.products_labelonly());
-		productsOnlyText.setText(accounterConstants.productsOnly());
-		both.setText(accounterConstants.bothservicesandProduct_labelonly());
-		bothText.setText(accounterConstants.bothServicesandProducts());
+		servicesOnly.setText(accounterMessages.services_labelonly());
+		servicesOnlyText.setText(accounterMessages.servicesOnly());
+		productsOnly.setText(accounterMessages.products_labelonly());
+		productsOnlyText.setText(accounterMessages.productsOnly());
+		both.setText(accounterMessages.bothservicesandProduct_labelonly());
+		bothText.setText(accounterMessages.bothServicesandProducts());
 
-		trackCheckbox.setText(accounterConstants.chargeOrTrackTax());
-		trackLabel.setText(accounterConstants.descChrageTrackTax());
-		taxItemTransactionLabel.setText(accounterConstants
+		trackCheckbox.setText(accounterMessages.chargeOrTrackTax());
+		trackLabel.setText(accounterMessages.descChrageTrackTax());
+		taxItemTransactionLabel.setText(accounterMessages
 				.taxtItemTransaction());
-		onepeTransactionRadioButton.setText(accounterConstants
+		onepeTransactionRadioButton.setText(accounterMessages
 				.onepertransaction());
-		oneperTransactionLabel.setText(accounterConstants.oneperDescription());
-		oneperdetaillineRadioButton.setText(accounterConstants
+		oneperTransactionLabel.setText(accounterMessages.oneperDescription());
+		oneperdetaillineRadioButton.setText(accounterMessages
 				.oneperdetailline());
-		oneperdetaillineLabel.setText(accounterConstants
+		oneperdetaillineLabel.setText(accounterMessages
 				.oneperDetailDescription());
-		enableTaxCheckbox.setText(accounterConstants.enableTracking());
-		enableTaxLabel.setText(accounterConstants.enableTrackingDescription());
+		enableTaxCheckbox.setText(accounterMessages.enableTracking());
+		enableTaxLabel.setText(accounterMessages.enableTrackingDescription());
 		trackCheckbox.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -125,11 +125,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 			}
 		});
-		inventoryCheckBox.setText(accounterConstants.enableInventoryTracking());
-		inventoryCommentLabel.setText(accounterConstants
+		inventoryCheckBox.setText(accounterMessages.enableInventoryTracking());
+		inventoryCommentLabel.setText(accounterMessages
 				.inventoryTrackingComment());
-		warehousesCheckBox.setText(accounterConstants.haveMultipleWarehouses());
-		wareHouseCommentLabel.setText(accounterConstants
+		warehousesCheckBox.setText(accounterMessages.haveMultipleWarehouses());
+		wareHouseCommentLabel.setText(accounterMessages
 				.multipleWarehousesComment());
 
 		servicesOnly.addClickHandler(new ClickHandler() {
@@ -233,7 +233,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		 * .pleaseEnter(accounterConstants.details())); return false; } else
 		 */if (!(servicesOnly.getValue() || productsOnly.getValue() || both
 				.getValue())) {
-			Accounter.showMessage(accounterConstants.whatDoYouSell());
+			Accounter.showMessage(accounterMessages.whatDoYouSell());
 			return false;
 		} else {
 			return true;
@@ -242,7 +242,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.whatDoYouSell();
+		return accounterMessages.whatDoYouSell();
 	}
 
 }

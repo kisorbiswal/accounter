@@ -63,7 +63,7 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 
 	@Override
 	public String getTitle() {
-		return getConstants().ecSalesList();
+		return getMessages().ecSalesList();
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 	@Override
 	public void processRecord(ECSalesList record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 1 });
+			addSection("", getMessages().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 

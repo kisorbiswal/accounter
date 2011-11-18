@@ -270,6 +270,8 @@ public class CreditCardCharge extends Transaction {
 
 		} else if (!this.equals(creditCardCharge)) {
 
+			this.cleanTransactionitems(this);
+			
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {

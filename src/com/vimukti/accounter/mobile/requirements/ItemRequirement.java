@@ -15,7 +15,7 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().items());
+		return getMessages().youDontHaveAny(getMessages().items());
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().item()));
+		list.add(getMessages().create(getMessages().item()));
 	}
 
 	@Override

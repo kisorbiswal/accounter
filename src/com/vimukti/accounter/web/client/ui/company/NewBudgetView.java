@@ -113,12 +113,12 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.constants().labelTitle());
-		lab1.setText(Accounter.constants().newBudget());
+		lab1.addStyleName(Accounter.messages().labelTitle());
+		lab1.setText(Accounter.messages().newBudget());
 
 		// hierarchy = new String("");
 
-		budgetStartWithSelect = new SelectCombo(Global.get().constants()
+		budgetStartWithSelect = new SelectCombo(Global.get().messages()
 				.budgetStartWith());
 		budgetStartWithSelect.setHelpInformation(true);
 		budgetStartWithSelect.initCombo(getStartWithList());
@@ -148,7 +148,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 					}
 				});
 
-		budgetSubdevideBy = new SelectCombo(Global.get().constants()
+		budgetSubdevideBy = new SelectCombo(Global.get().messages()
 				.budgetSubdivide());
 		budgetSubdevideBy.setHelpInformation(true);
 		budgetSubdevideBy.initCombo(getSubdevideList());
@@ -161,7 +161,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 					}
 				});
 
-		selectFinancialYear = new SelectCombo(Global.get().constants()
+		selectFinancialYear = new SelectCombo(Global.get().messages()
 				.budgetFinancialYear());
 		selectFinancialYear.setHelpInformation(true);
 		selectFinancialYear.initCombo(getFiscalYearList());
@@ -176,7 +176,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 				});
 
 		budgetNameText = new TextItem(Accounter.messages().payeeName(
-				Accounter.constants().budget()));
+				Accounter.messages().budget()));
 		budgetNameText.setToolTip(Accounter.messages()
 				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
 		budgetNameText.setHelpInformation(true);
@@ -352,7 +352,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	@Override
 	protected String getViewTitle() {
-		return Global.get().constants().budget();
+		return Global.get().messages().budget();
 
 	}
 
@@ -436,7 +436,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 				for (ClientBudget budget : budgetList) {
 					if (budgetName.equals(budget.getBudgetName())) {
-						result.addError(name, Accounter.constants()
+						result.addError(name, Accounter.messages()
 								.alreadyExist());
 						break;
 					}

@@ -532,13 +532,10 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			this.totalCashDiscount = 0.0;
 			this.totalWriteOff = 0.0;
 			this.totalAppliedCredits = 0.0;
-			for (TransactionReceivePayment transactionReceivePayment : this.transactionReceivePayment) {
-				transactionReceivePayment.setIsVoid(Boolean.TRUE);
-				session.update(transactionReceivePayment);
-				if (transactionReceivePayment instanceof Lifecycle) {
-					Lifecycle lifeCycle = (Lifecycle) transactionReceivePayment;
-					lifeCycle.onUpdate(session);
-				}
+			for (TransactionReceivePayment trp : this.transactionReceivePayment) {
+				trp.setIsVoid(Boolean.TRUE);
+				session.update(trp);
+				trp.onUpdate(session);
 			}
 
 			if (this.status != Transaction.STATUS_DELETED)

@@ -14,8 +14,6 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class VATCodesListCommand extends NewAbstractCommand {
 
-
-
 	private static final String CURRENT_VIEW = "currentView";
 
 	@Override
@@ -26,21 +24,19 @@ public class VATCodesListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		
 		list.add(new ActionRequirement(CURRENT_VIEW, null) {
 
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
-		
-		
-		
-		list.add(new ShowListRequirement<TAXCode>("vatCodesList", "Please Select Vat Code", 5) {
+
+		list.add(new ShowListRequirement<TAXCode>("vatCodesList",
+				"Please Select Vat Code", 5) {
 			@Override
 			protected Record createRecord(TAXCode value) {
 				Record record = new Record(value);
@@ -51,7 +47,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().vatCode()));
+				list.add(getMessages().create(getMessages().vatCode()));
 			}
 
 			@Override
@@ -64,48 +60,48 @@ public class VATCodesListCommand extends NewAbstractCommand {
 				Set<TAXCode> completeList = getVatCodes(context);
 				List<TAXCode> result = new ArrayList<TAXCode>();
 
-				String type = VATCodesListCommand.this.get(CURRENT_VIEW).getValue();
-				
-			
+				String type = VATCodesListCommand.this.get(CURRENT_VIEW)
+						.getValue();
+
 				for (TAXCode taxCode : completeList) {
-					
+
 					if (type.equals("Active")) {
 						if (taxCode.isActive())
-								
+
 							result.add(taxCode);
 					}
 					if (type.equals("In-Active")) {
 						if (!taxCode.isActive())
 							result.add(taxCode);
 					}
-					
+
 				}
 				return result;
 			}
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().vatCodeList();
+				return getMessages().vatCodeList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
 			protected String onSelection(TAXCode value) {
-				return null;
+				return "Update TAX Code " + value.getName();
 			}
 
 		});
-		
+
 		list.add(new ActionRequirement(CURRENT_VIEW, null) {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -127,7 +123,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue(getConstants().active());
+		get(CURRENT_VIEW).setDefaultValue(getMessages().active());
 	}
 
 	@Override
@@ -137,7 +133,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 	private Set<TAXCode> getVatCodes(Context context) {
 		return context.getCompany().getTaxCodes();
-		
+
 	}
 
 }

@@ -1,14 +1,47 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import com.vimukti.accounter.web.client.core.ClientLanguage;
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.translation.TranslationView;
 
 public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
-	public LanguageCombo(String title) {
+	public LanguageCombo(String title, final TranslationView view) {
 		super(title, false, 1);
-		initCombo(CoreUtils.getLanguages());
+		Accounter.createTranslateService().getLanguages(
+				new AsyncCallback<List<ClientLanguage>>() {
+
+					@Override
+					public void onSuccess(List<ClientLanguage> result) {
+						initCombo(result);
+						Accounter.createTranslateService().getLocalLanguage(
+								new AsyncCallback<ClientLanguage>() {
+
+									@Override
+									public void onSuccess(ClientLanguage result) {
+										setComboItem(result);
+										view.languageSelected(result);
+										view.updateListData();
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+
+									}
+								});
+
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						System.out.println("");
+
+					}
+				});
+
 	}
 
 	@Override

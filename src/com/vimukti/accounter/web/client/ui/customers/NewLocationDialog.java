@@ -110,11 +110,11 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		companyAdressTextArea = new TextAreaItem();
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		preferences = Accounter.getCompany().getPreferences();
-		titleTextBox = new TextItem(Global.get().constants().title());
-		companyNameTextBox = new TextItem(Global.get().constants()
+		titleTextBox = new TextItem(Global.get().messages().title());
+		companyNameTextBox = new TextItem(Global.get().messages()
 				.companyName());
-		email = new TextItem(Global.get().constants().emailId());
-		phone = new TextItem(Global.get().constants().phone());
+		email = new TextItem(Global.get().messages().emailId());
+		phone = new TextItem(Global.get().messages().phone());
 	}
 
 	private void createControls() {
@@ -131,7 +131,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 			allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 			companyAdressTextArea.setHelpInformation(true);
 			companyAdressTextArea.setWidth(100);
-			companyAdressTextArea.setTitle(Accounter.constants().address());
+			companyAdressTextArea.setTitle(Accounter.messages().address());
 			companyAdressTextArea.setHelpInformation(true);
 			companyAdressTextArea.addClickHandler(new ClickHandler() {
 
@@ -150,15 +150,15 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 			if (this.clientLocation != null) {
 				locationName.setValue(clientLocation.getName());
 			}
-			final CheckBox titleCheckBox = new CheckBox(Accounter.constants()
+			final CheckBox titleCheckBox = new CheckBox(Accounter.messages()
 					.useDifferentTitle());
 			final CheckBox companyNameCheckBox = new CheckBox(Accounter
-					.constants().useDifferentComapanyName());
-			final CheckBox addressCheckBox = new CheckBox(Accounter.constants()
+					.messages().useDifferentComapanyName());
+			final CheckBox addressCheckBox = new CheckBox(Accounter.messages()
 					.useDifferentAddrerss());
-			final CheckBox emailCheckBox = new CheckBox(Accounter.constants()
+			final CheckBox emailCheckBox = new CheckBox(Accounter.messages()
 					.useDifferentEmail());
-			final CheckBox phoneCheckBox = new CheckBox(Accounter.constants()
+			final CheckBox phoneCheckBox = new CheckBox(Accounter.messages()
 					.useDifferentPhoneNumber());
 			addDynamicForm.setItems(titleTextBox);
 			addComapnyNameForm.setItems(companyNameTextBox);

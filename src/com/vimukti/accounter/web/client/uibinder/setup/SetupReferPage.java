@@ -63,26 +63,26 @@ public class SetupReferPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.terminology());
+		headerLabel.setText(accounterMessages.terminology());
 		// adding Items to customer list box
-		customerListBox.addItem(accounterConstants.Customer());
-		customerListBox.addItem(accounterConstants.Client());
-		customerListBox.addItem(accounterConstants.Tenant());
-		customerListBox.addItem(accounterConstants.Donar());
-		customerListBox.addItem(accounterConstants.Guest());
-		customerListBox.addItem(accounterConstants.Member());
-		customerListBox.addItem(accounterConstants.Patient());
+		customerListBox.addItem(accounterMessages.Customer());
+		customerListBox.addItem(accounterMessages.Client());
+		customerListBox.addItem(accounterMessages.Tenant());
+		customerListBox.addItem(accounterMessages.Donar());
+		customerListBox.addItem(accounterMessages.Guest());
+		customerListBox.addItem(accounterMessages.Member());
+		customerListBox.addItem(accounterMessages.Patient());
 
-		vendorListBox.addItem(accounterConstants.Vendor());
-		vendorListBox.addItem(accounterConstants.Supplier());
+		vendorListBox.addItem(accounterMessages.Vendor());
+		vendorListBox.addItem(accounterMessages.Supplier());
 
-		accountListBox.addItem(accounterConstants.Account());
-		accountListBox.addItem(accounterConstants.Ledger());
-		accountListBox.addItem(accounterConstants.Category());
+		accountListBox.addItem(accounterMessages.Account());
+		accountListBox.addItem(accounterMessages.Ledger());
+		accountListBox.addItem(accounterMessages.Category());
 
-		customerLabel.setText(accounterConstants.Customer());
-		vendorsLabel.setText(accounterConstants.Vendor());
-		accountLabel.setText(accounterConstants.Account());
+		customerLabel.setText(accounterMessages.Customer());
+		vendorsLabel.setText(accounterMessages.Vendor());
+		accountLabel.setText(accounterMessages.Account());
 
 		customerCommentLabel.setText(Accounter.messages()
 				.howDoYouReferYourCustoemrs());
@@ -119,26 +119,26 @@ public class SetupReferPage extends AbstractSetupPage {
 		if (customerListBox.getSelectedIndex() == -1
 				&& vendorListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+			Accounter.showError(accounterMessages.howDoYouRefer() + " "
 					+ Accounter.messages().payees(Global.get().customer())
 					+ " " + Global.get().vendor() + " "
 					+ Global.get().Accounts() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& vendorListBox.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+			Accounter.showError(accounterMessages.howDoYouRefer() + " "
 					+ Accounter.messages().payees(Global.get().customer())
 					+ " " + Global.get().vendor() + "?");
 			return false;
 		} else if (vendorListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+			Accounter.showError(accounterMessages.howDoYouRefer() + " "
 					+ Global.get().vendor() + " " + Global.get().Accounts()
 					+ "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+			Accounter.showError(accounterMessages.howDoYouRefer() + " "
 					+ Accounter.messages().payees(Global.get().customer())
 					+ " " + Global.get().Accounts());
 			return false;
@@ -161,7 +161,7 @@ public class SetupReferPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.terminology();
+		return accounterMessages.terminology();
 	}
 
 }

@@ -75,7 +75,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 			ClientAccounterClass clientAccounterClass) {
 		this.clientAccounterClass = clientAccounterClass;
 		createClassDialog = new CreateClassDialog(this.clientAccounterClass,
-				Accounter.constants().createClass(), "");
+				Accounter.messages().createClass(), "");
 		createClassDialog
 				.addSuccessCallback(new ValueCallBack<ClientAccounterClass>() {
 
@@ -91,7 +91,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().accounterClass() };
+		return new String[] { Accounter.messages().accounterClass() };
 	}
 
 	@Override

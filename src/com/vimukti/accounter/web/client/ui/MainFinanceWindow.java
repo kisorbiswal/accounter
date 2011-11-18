@@ -81,12 +81,12 @@ public class MainFinanceWindow extends VerticalPanel {
 		add(menubar);
 
 		add(viewManager);
-		Label help = new Label(Accounter.constants().helpLinks());
+		Label help = new Label(Accounter.messages().helpLinks());
 		help.addStyleName("down-panel");
 		if (item == null) {
 			item = new HelpItem();
 		}
-		addStyleName(Accounter.constants().financeWindow());
+		addStyleName(Accounter.messages().financeWindow());
 
 		if (UIUtils.isMSIEBrowser()) {
 			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
@@ -103,7 +103,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	private native boolean isTouch() /*-{
-    	return $wnd.isTouch;
+		return $wnd.isTouch;
 	}-*/;
 
 	public HelpItem getHelpItem() {
@@ -271,7 +271,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.unableToshowtheview());
 					}
 
@@ -387,19 +387,19 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(
 				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						Accounter.constants().newQuote()).getHistoryToken(),
+						Accounter.messages().newQuote()).getHistoryToken(),
 				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						Accounter.constants().newQuote()));
+						Accounter.messages().newQuote()));
 		actions.put(
 				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						Accounter.constants().newCharge()).getHistoryToken(),
+						Accounter.messages().newCharge()).getHistoryToken(),
 				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						Accounter.constants().newCharge()));
+						Accounter.messages().newCharge()));
 		actions.put(
 				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
-						Accounter.constants().newCredit()).getHistoryToken(),
+						Accounter.messages().newCredit()).getHistoryToken(),
 				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
-						Accounter.constants().newCredit()));
+						Accounter.messages().newCredit()));
 
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
@@ -421,15 +421,20 @@ public class MainFinanceWindow extends VerticalPanel {
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
 		actions.put(
-				ActionFactory.getQuotesAction(Accounter.constants().quotes(),
+				ActionFactory.getQuotesAction(Accounter.messages().quotes(),
 						ClientEstimate.QUOTES).getHistoryToken(), ActionFactory
-						.getQuotesAction(Accounter.constants().quotes(),
+						.getQuotesAction(Accounter.messages().quotes(),
 								ClientEstimate.QUOTES));
 		actions.put(
-				ActionFactory.getQuotesAction(Accounter.constants().Charges(),
+				ActionFactory.getQuotesAction(Accounter.messages().Charges(),
 						ClientEstimate.CHARGES).getHistoryToken(),
-				ActionFactory.getQuotesAction(Accounter.constants().Charges(),
+				ActionFactory.getQuotesAction(Accounter.messages().Charges(),
 						ClientEstimate.CHARGES));
+		actions.put(
+				ActionFactory.getQuotesAction(Accounter.messages().credits(),
+						ClientEstimate.CREDITS).getHistoryToken(),
+				ActionFactory.getQuotesAction(Accounter.messages().credits(),
+						ClientEstimate.CREDITS));
 		actions.put(ActionFactory.getInvoicesAction(null).getHistoryToken(),
 				ActionFactory.getInvoicesAction(null));
 		actions.put(
@@ -606,11 +611,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put("bankAccounts",
 				ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
 		actions.put("cashExpenses",
-				ActionFactory.getExpensesAction(Accounter.constants().cash()));
+				ActionFactory.getExpensesAction(Accounter.messages().cash()));
 		actions.put("creditCardExpenses", ActionFactory
-				.getExpensesAction(Accounter.constants().creditCard()));
+				.getExpensesAction(Accounter.messages().creditCard()));
 		actions.put("employeeExpenses", ActionFactory
-				.getExpensesAction(Accounter.constants().employee()));
+				.getExpensesAction(Accounter.messages().employee()));
 		actions.put(ActionFactory.getAccountRegisterAction().getHistoryToken(),
 				ActionFactory.getAccountRegisterAction());
 		actions.put("overDueInvoices",

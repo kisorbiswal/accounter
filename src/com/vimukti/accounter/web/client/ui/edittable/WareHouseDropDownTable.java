@@ -24,7 +24,7 @@ public class WareHouseDropDownTable extends
 	@Override
 	protected ClientWarehouse getAddNewRow() {
 		ClientWarehouse wareHouse = new ClientWarehouse();
-		wareHouse.setName(Accounter.constants().addNewWareHouse());
+		wareHouse.setName(Accounter.messages().addNewWareHouse());
 		return wareHouse;
 	}
 

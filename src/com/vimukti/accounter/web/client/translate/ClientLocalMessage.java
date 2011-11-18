@@ -8,23 +8,23 @@ public class ClientLocalMessage implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int id;
+	long id;
 
 	String value;
 
 	String createBy;
 
-	int ups;
-
-	int downs;
+	int votes;
 
 	boolean isApproved;
+	
+	private ClientMessage message;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -44,20 +44,12 @@ public class ClientLocalMessage implements Serializable {
 		this.createBy = createBy;
 	}
 
-	public int getUps() {
-		return ups;
+	public int getVotes() {
+		return votes;
 	}
 
-	public void setUps(int ups) {
-		this.ups = ups;
-	}
-
-	public int getDowns() {
-		return downs;
-	}
-
-	public void setDowns(int downs) {
-		this.downs = downs;
+	public void setVotes(int ups) {
+		this.votes = ups;
 	}
 
 	public boolean isApproved() {
@@ -66,5 +58,13 @@ public class ClientLocalMessage implements Serializable {
 
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
+	}
+
+	public void setMessage(ClientMessage message) {
+		this.message = message;
+	}
+
+	public ClientMessage getMessage() {
+		return message;
 	}
 }

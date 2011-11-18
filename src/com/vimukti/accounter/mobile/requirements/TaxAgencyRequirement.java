@@ -27,12 +27,12 @@ public abstract class TaxAgencyRequirement extends ListRequirement<TAXAgency> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().taxAgency()));
+		list.add(getMessages().create(getMessages().taxAgency()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().taxAgency());
+		return getMessages().pleaseSelect(getMessages().taxAgency());
 	}
 
 }

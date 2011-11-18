@@ -20,7 +20,7 @@
 		<property name="number" column="NUMBER"></property>
 		<property name="isVoid" column="IS_VOID"></property>
 		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo" type="text" column="MEMO"></property>
 		<property name="reference" column="REFERENCE"></property>
 		<property name="subTotal" column="SUB_TOTAL"></property>
 		<property name="totalTaxableAmount" column="TOTAL_TAXABLE_AMOUNT"></property>
@@ -84,6 +84,11 @@
 			<one-to-many class="TransactionLog" />
 		</list>
 
+		<set name="taxRateCalculationEntriesList" inverse="true"
+			cascade="all-delete-orphan" lazy="false">
+			<key column="TRANSACTION_ID"></key>
+			<one-to-many class="TAXRateCalculation" />
+		</set>
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
 		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
@@ -107,7 +112,7 @@
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionPayTAX" cascade="save-update" lazy="false">
+			<list name="transactionPayTAX" cascade="save-update,delete-orphan" lazy="false">
 				<key column="PAY_VAT_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayTAX" />
@@ -536,6 +541,9 @@
 			<key column="ID" />
 			<many-to-one name="depositIn" class="Account" lazy="false"
 				cascade="save-update" column="DEPOSIT_IN_ID">
+			</many-to-one>
+			<many-to-one name="depositFrom" class="Account" lazy="false"
+				cascade="save-update" column="DEPOSIT_FROM_ID">
 			</many-to-one>
 			<many-to-one name="cashBackAccount" class="Account" lazy="false"
 				cascade="save-update" column="CASH_BACK_ACCOUNT_ID">
@@ -1033,18 +1041,13 @@
 		<!-- <set name="taxRateCalculationEntriesList" inverse="true" cascade="all-delete-orphan" 
 			lazy="false"> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
 			/> </set> -->
-		<set name="taxRateCalculationEntriesList" inverse="true"
-			cascade="all-delete-orphan" lazy="false">
-			<key column="TRANSACTION_ITEM_ID"></key>
-			<one-to-many class="TAXRateCalculation" />
-		</set>
+
 		<property name="VATfraction" column="VAT_FRACTION"></property>
 		<property name="usedamt" column="INVOICED"></property>
 		<property name="backOrder" column="BACK_ORDER"></property>
 		<many-to-one name="referringTransactionItem" class="TransactionItem"
 			lazy="false" column="REFERRING_TRANSACTION_ITEM_ID">
 		</many-to-one>
-		<property name="isVoid" column="IS_VOID"></property>
 		<many-to-one name="accounterClass" class="AccounterClass"
 			column="TRANS_ITEM_ACCOUNTER_CLASS" lazy='false'>
 		</many-to-one>
@@ -1053,7 +1056,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo"  type="text" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
 		<property name="balanceInPayeeCurrency" column="BALANCE_IN_PAYYE_CURRENCY"></property>
@@ -1077,7 +1080,7 @@
 		</id>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo"  type="text" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
 		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
 			lazy="false" cascade="save-update" column="TRANSACTION_RECEIVE_PAYMENT_ID">
@@ -1244,7 +1247,7 @@
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
 		<property name="name" column="NAME"></property>
-		<property name="memo" column="MEMO"></property>
+		<property name="memo"  type="text" column="MEMO"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
@@ -1263,8 +1266,8 @@
 		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
 			column="VAT_RETURN_ID">
 		</many-to-one>
-		<many-to-one name="payVAT" class="PayTAX" lazy="false"
-			column="PAY_VAT_ID">
+		<many-to-one name="payTAX" class="PayTAX" lazy="false"
+			column="PAY_TAX_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 	</class>

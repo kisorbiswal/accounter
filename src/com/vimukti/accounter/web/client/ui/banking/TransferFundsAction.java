@@ -12,13 +12,13 @@ public class TransferFundsAction extends Action {
 
 	public TransferFundsAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().banking();
+		this.catagory = Accounter.messages().banking();
 	}
 
 	public TransferFundsAction(String text, ClientTransferFund transferFund,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Accounter.constants().banking();
+		this.catagory = Accounter.messages().banking();
 	}
 
 	@Override

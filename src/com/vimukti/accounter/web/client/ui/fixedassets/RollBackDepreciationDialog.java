@@ -28,7 +28,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private ListBox dateBox;
 
 	public RollBackDepreciationDialog() {
-		super(Accounter.constants().rollBackDepreciation(), "");
+		super(Accounter.messages().rollBackDepreciation(), "");
 		getLastDepreciationDate();
 		// getAllDepreciationDates();
 		Timer timer = new Timer() {
@@ -51,12 +51,12 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		if (lastDepreciationDate != null) {
 			String lastDepreciationDateString = UIUtils
 					.getDateByCompanyType(lastDepreciationDate);
-			Label introLabel = new Label(Accounter.constants()
+			Label introLabel = new Label(Accounter.messages()
 					.lastDepreciation()
 					+ "  " + lastDepreciationDateString);
 			contentPanel.add(introLabel);
 		}
-		HTML prefixText = new HTML(Accounter.constants()
+		HTML prefixText = new HTML(Accounter.messages()
 				.rollbackDepreciationTo());
 
 		dateBox = new ListBox();
@@ -155,7 +155,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void rollBackDepreciation() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
 		ClientFinanceDate date = UIUtils.stringToDate(dateString, (Accounter
-				.constants().ddMMyyyy()));
+				.messages().ddMMyyyy()));
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 

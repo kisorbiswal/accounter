@@ -22,6 +22,11 @@ public class ClientBankAccount extends ClientAccount {
 		this.type = TYPE_BANK;
 	}
 
+	public ClientBankAccount(long currency) {
+		super(currency);
+		this.type = TYPE_BANK;
+	}
+
 	public long getBank() {
 		return bank;
 	}
@@ -54,8 +59,9 @@ public class ClientBankAccount extends ClientAccount {
 		this.lastReconcilationDate = lastReconcilationDate;
 	}
 
+	@Override
 	public ClientBankAccount clone() {
-		ClientBankAccount clientBankAccount = (ClientBankAccount) this.clone();
+		ClientBankAccount clientBankAccount = this.clone();
 		return clientBankAccount;
 
 	}

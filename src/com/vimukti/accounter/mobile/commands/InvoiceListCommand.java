@@ -53,10 +53,10 @@ public class InvoiceListCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 
-		get(VIEW_BY).setDefaultValue(getConstants().open());
+		get(VIEW_BY).setDefaultValue(getMessages().open());
 		get(FROM_DATE).setDefaultValue(new ClientFinanceDate());
 		get(TO_DATE).setDefaultValue(new ClientFinanceDate());
-		get(DATE_RANGE).setDefaultValue(getConstants().all());
+		get(DATE_RANGE).setDefaultValue(getMessages().all());
 
 	}
 
@@ -80,10 +80,10 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().open());
-				list.add(getConstants().overDue());
-				list.add(getConstants().voided());
-				list.add(getConstants().all());
+				list.add(getMessages().open());
+				list.add(getMessages().overDue());
+				list.add(getMessages().voided());
+				list.add(getMessages().all());
 				return list;
 			}
 		});
@@ -92,45 +92,44 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().all());
-				list.add(getConstants().thisWeek());
-				list.add(getConstants().thisMonth());
-				list.add(getConstants().lastWeek());
-				list.add(getConstants().lastMonth());
-				list.add(getConstants().thisFinancialYear());
-				list.add(getConstants().lastFinancialYear());
-				list.add(getConstants().thisFinancialQuarter());
+				list.add(getMessages().all());
+				list.add(getMessages().thisWeek());
+				list.add(getMessages().thisMonth());
+				list.add(getMessages().lastWeek());
+				list.add(getMessages().lastMonth());
+				list.add(getMessages().thisFinancialYear());
+				list.add(getMessages().lastFinancialYear());
+				list.add(getMessages().thisFinancialQuarter());
 				return list;
 			}
 		});
 
 		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getConstants().fromDate()), getConstants().fromDate(), true,
+				getMessages().fromDate()), getMessages().fromDate(), true,
 				true));
 
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
-				getConstants().toDate()), getConstants().toDate(), true, true));
+				getMessages().toDate()), getMessages().toDate(), true, true));
 
 		list.add(new ShowListRequirement<InvoicesList>("Invoices",
 				"Please select", 5) {
 
 			@Override
 			protected String onSelection(InvoicesList value) {
-				// TODO Auto-generated method stub
-				return null;
+				return "update invoice #" + value.getNumber();
 			}
 
 			@Override
 			protected String getShowMessage() {
 
-				return getConstants().invoices();
+				return getMessages().invoices();
 			}
 
 			@Override
 			protected String getEmptyString() {
 
 				return getMessages().youDontHaveAny(
-						getConstants().invoiceList());
+						getMessages().invoiceList());
 
 			}
 
@@ -183,7 +182,7 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			List<InvoicesList> list = new ArrayList<InvoicesList>(
 					invoices.size());
 			for (InvoicesList invoice : invoices) {
-				if (viewType.equals(getConstants().open())) {
+				if (viewType.equals(getMessages().open())) {
 					if (invoice.getBalance() != null
 							&& DecimalUtil.isGreaterThan(invoice.getBalance(),
 									0)
@@ -193,7 +192,7 @@ public class InvoiceListCommand extends NewAbstractCommand {
 						list.add(invoice);
 					}
 
-				} else if (viewType.equals(getConstants().overDue())) {
+				} else if (viewType.equals(getMessages().overDue())) {
 					if (invoice.getBalance() != null
 							&& DecimalUtil.isGreaterThan(invoice.getBalance(),
 									0)
@@ -203,11 +202,11 @@ public class InvoiceListCommand extends NewAbstractCommand {
 							&& !invoice.isVoided()) {
 						list.add(invoice);
 					}
-				} else if (viewType.equals(getConstants().voided())) {
+				} else if (viewType.equals(getMessages().voided())) {
 					if (invoice.isVoided()) {
 						list.add(invoice);
 					}
-				} else if (viewType.equals(getConstants().all())) {
+				} else if (viewType.equals(getMessages().all())) {
 					list.add(invoice);
 				}
 			}

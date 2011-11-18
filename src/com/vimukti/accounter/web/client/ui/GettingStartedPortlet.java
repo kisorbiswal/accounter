@@ -36,12 +36,12 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				Global.get().Account()));
 		accountPayable = getAnchor(Accounter.messages().accountPayable(
 				Global.get().Account()));
-		banking = getAnchor(Accounter.constants().bankingTransactions());
-		expences = getAnchor(Accounter.constants().expenseClaims());
+		banking = getAnchor(Accounter.messages().bankingTransactions());
+		expences = getAnchor(Accounter.messages().expenseClaims());
 		customer = getAnchor(Accounter.messages().payees(
 				Global.get().Customer()));
 		vendor = getAnchor(Accounter.messages().payees(Global.get().Vendor()));
-		inviteUser = getAnchor(Accounter.constants().inviteOtherUser());
+		inviteUser = getAnchor(Accounter.messages().inviteOtherUser());
 		createBankAcc = getAnchor(Accounter.messages()
 				.createanyadditionalbankaccounts(Global.get().Accounts()));
 		accounts = getAnchor(Global.get().Accounts());
@@ -148,7 +148,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.constants().hideGettingStarted();
+		return Accounter.messages().hideGettingStarted();
 	}
 
 	@Override
@@ -180,11 +180,11 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 						Global.get().Account()))) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getEnterBillsAction().run(null, true);
-				} else if (title.equals(Accounter.constants()
+				} else if (title.equals(Accounter.messages()
 						.bankingTransactions()))
 					ActionFactory.getChartOfAccountsAction(
 							ClientAccount.TYPE_BANK).run(null, true);
-				else if (title.equals(Accounter.constants().expenseClaims())) {
+				else if (title.equals(Accounter.messages().expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getExpensesAction(null).run(null, true);
 				} else if (title.equals(Accounter.messages().payees(
@@ -193,7 +193,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				else if (title.equals(Accounter.messages().payees(
 						Global.get().Vendor())))
 					ActionFactory.getNewVendorAction().run(null, true);
-				else if (title.equals(Accounter.constants().inviteOtherUser())) {
+				else if (title.equals(Accounter.messages().inviteOtherUser())) {
 					if (Accounter.getUser().isCanDoUserManagement())
 						ActionFactory.getInviteUserAction().run(null, true);
 				} else if (title.equals(Accounter.messages()

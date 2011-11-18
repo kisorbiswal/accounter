@@ -52,7 +52,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new NameRequirement(SALES_PERSON_NAME, getMessages()
-				.pleaseEnter(getConstants().salesPersonName()), getConstants()
+				.pleaseEnter(getMessages().salesPersonName()), getMessages()
 				.salesPersonName(), false, true) {
 
 			@Override
@@ -63,26 +63,26 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NameRequirement(FILE_AS, getMessages().pleaseEnter(
-				getConstants().fileAs() + " " + getConstants().name()),
-				getConstants().fileAs(), true, true));
+				getMessages().fileAs() + " " + getMessages().name()),
+				getMessages().fileAs(), true, true));
 
 		list.add(new NameRequirement(JOB_TITLE, getMessages().pleaseEnter(
-				getConstants().jobTitle()), getConstants().jobTitle(), true,
+				getMessages().jobTitle()), getMessages().jobTitle(), true,
 				true));
 
 		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
-				getConstants().address()), getConstants().address(), true, true));
+				getMessages().address()), getMessages().address(), true, true));
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phoneNumber(),
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
-				getConstants().fax()), getConstants().fax(), true, true));
+				getMessages().fax()), getMessages().fax(), true, true));
 
 		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
 				.pleaseSelect(
-						getConstants().expense() + " "
-								+ getConstants().account()), getConstants()
-				.expense() + " " + getConstants().account(), true, false,
+						getMessages().expense() + " "
+								+ getMessages().account()), getMessages()
+				.expense() + " " + getMessages().account(), true, false,
 				new ChangeListner<Account>() {
 
 					@Override
@@ -129,30 +129,30 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 			}
 		});
 		list.add(new EmailRequirement(E_MAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true, true));
+				getMessages().email()), getMessages().email(), true, true));
 		list.add(new NameRequirement(WEB_PAGE_ADDRESS, getMessages()
-				.pleaseEnter(getConstants().webPageAddress()), getConstants()
+				.pleaseEnter(getMessages().webPageAddress()), getMessages()
 				.webPageAddress(), true, true));
 		list.add(new BooleanRequirement(ACTIVE, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().active();
+				return getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().inActive();
+				return getMessages().inActive();
 			}
 		});
 
 		list.add(new StringListRequirement(GENDER, getMessages().pleaseEnter(
-				getConstants().gender()), getConstants().gender(), true, true,
+				getMessages().gender()), getMessages().gender(), true, true,
 				null) {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().gender());
+				return getMessages().pleaseSelect(getMessages().gender());
 			}
 
 			@Override
@@ -162,7 +162,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().gender());
+				return getMessages().hasSelected(getMessages().gender());
 			}
 
 			@Override
@@ -172,19 +172,19 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		});
 
 		list.add(new DateRequirement(DO_BIRTH, getMessages().pleaseEnter(
-				getConstants().dateofBirth()), getConstants().dateofBirth(),
+				getMessages().dateofBirth()), getMessages().dateofBirth(),
 				true, true));
 		list.add(new DateRequirement(DO_HIRE, getMessages().pleaseEnter(
-				getConstants().dateofHire()), getConstants().dateofHire(),
+				getMessages().dateofHire()), getMessages().dateofHire(),
 				true, true));
 		list.add(new DateRequirement(DO_LASTREVIEW, getMessages().pleaseEnter(
-				getConstants().dateofLastReview()), getConstants()
+				getMessages().dateofLastReview()), getMessages()
 				.dateofLastReview(), true, true));
 		list.add(new DateRequirement(DO_RELEASE, getMessages().pleaseEnter(
-				getConstants().dateofRelease()),
-				getConstants().dateofRelease(), true, true));
+				getMessages().dateofRelease()),
+				getMessages().dateofRelease(), true, true));
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 
@@ -233,7 +233,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
 			if ((new ClientFinanceDate(mustdate).before(do_birth))) {
 				Result result = new Result();
-				result.add(getConstants()
+				result.add(getMessages()
 						.dateofBirthshouldshowmorethan18years()
 						+ ". Because Sales Person should have 18 years");
 				return result;
@@ -255,18 +255,18 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 	private List<String> getGenders() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(getConstants().unspecified());
-		list.add(getConstants().male());
-		list.add(getConstants().female());
+		list.add(getMessages().unspecified());
+		list.add(getMessages().male());
+		list.add(getMessages().female());
 		return list;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		if (salesPerson.getID() == 0) {
-			return getMessages().readyToCreate(getConstants().salesPerson());
+			return getMessages().readyToCreate(getMessages().salesPerson());
 		} else {
-			return getMessages().readyToUpdate(getConstants().salesPerson());
+			return getMessages().readyToUpdate(getMessages().salesPerson());
 		}
 	}
 
@@ -274,19 +274,19 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 	public String getSuccessMessage() {
 		if (salesPerson.getID() == 0) {
 			return getMessages().createSuccessfully(
-					getConstants().salesPerson());
+					getMessages().salesPerson());
 		} else {
 			return getMessages().updateSuccessfully(
-					getConstants().salesPerson());
+					getMessages().salesPerson());
 		}
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
 		if (salesPerson.getID() == 0) {
-			return getMessages().creating(getConstants().salesPerson());
+			return getMessages().creating(getMessages().salesPerson());
 		} else {
-			return "Updateing" + getConstants().salesPerson() + " "
+			return "Updateing" + getMessages().salesPerson() + " "
 					+ salesPerson.getDisplayName();
 		}
 	}
@@ -296,16 +296,14 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Sales Person to update.");
 				return "Sales Person List";
 			}
 			ClientSalesPerson salesPersonByName = CommandUtils
 					.getSalesPersonByName(context.getCompany(), string);
 			if (salesPersonByName == null) {
-				salesPersonByName = CommandUtils.getSalesPersonByNumber(
-						context.getCompany(), getNumberFromString(string));
-				if (salesPersonByName == null) {
-					return "Sales Person List " + string;
-				}
+				addFirstMessage(context, "Select a Sales Person to update.");
+				return "Sales Person List " + string.trim();
 			}
 			salesPerson = salesPersonByName;
 			setValues();
@@ -357,7 +355,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		get(EXPENSE_ACCOUNT).setDefaultValue(null);
 		get(E_MAIL).setDefaultValue("");
 		get(WEB_PAGE_ADDRESS).setDefaultValue("");
-		get(GENDER).setDefaultValue(getConstants().unspecified());
+		get(GENDER).setDefaultValue(getMessages().unspecified());
 		get(DO_BIRTH).setDefaultValue(new ClientFinanceDate());
 		get(DO_HIRE).setDefaultValue(new ClientFinanceDate());
 		get(DO_LASTREVIEW).setDefaultValue(new ClientFinanceDate());

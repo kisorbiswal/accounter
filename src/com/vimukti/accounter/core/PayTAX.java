@@ -8,7 +8,9 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * It corresponds to paying the VAT to VATAgency. It includes payFrom account,
@@ -175,7 +177,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			return true;
 		this.isOnSaveProccessed = true;
 		for (TransactionPayTAX t : transactionPayTAX) {
-			t.setPayVAT(this);
+			t.setPayTAX(this);
 		}
 		if (this.id == 0) {
 			super.onSave(session);
@@ -197,23 +199,50 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 		super.onUpdate(session);
 		if (isBecameVoid()) {
-
-			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			if (this.transactionPayTAX != null) {
-				for (TransactionPayTAX ti : this.transactionPayTAX) {
-					if (ti instanceof Lifecycle) {
-						Lifecycle lifeCycle = (Lifecycle) ti;
-						lifeCycle.onUpdate(session);
-					}
-				}
-			}
+			doVoidEffect(session);
 		}
 		return false;
 	}
 
 	@Override
-	public Account getEffectingAccount() {
+	public void onEdit(Transaction clonedObject) {
+		PayTAX oldPayTAX = (PayTAX) clonedObject;
+		Session session = HibernateUtil.getCurrentSession();
+		if (this.isVoid && !oldPayTAX.isVoid) {
+			doVoidEffect(session);
+		} else {
+			if ((payFrom.id != oldPayTAX.payFrom.id)
+					|| !DecimalUtil.isEquals(this.total, oldPayTAX.total)) {
+				Account account = (Account) session.get(Account.class,
+						payFrom.id);
+				if (account != null) {
+					account.updateCurrentBalance(this, -oldPayTAX.getTotal(),
+							oldPayTAX.getCurrencyFactor());
+					session.update(account);
+				}
 
+				payFrom.updateCurrentBalance(this, total, this.currencyFactor);
+				session.saveOrUpdate(payFrom);
+			}
+			oldPayTAX.transactionPayTAX.clear();
+			for (TransactionPayTAX tpt : this.transactionPayTAX) {
+				tpt.setPayTAX(this);
+			}
+		}
+	}
+
+	private void doVoidEffect(Session session) {
+		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		payFrom.updateCurrentBalance(this, -total, this.currencyFactor);
+		session.saveOrUpdate(payFrom);
+		session.saveOrUpdate(payFrom);
+		if (this.transactionPayTAX != null) {
+			transactionPayTAX.clear();
+		}
+	}
+
+	@Override
+	public Account getEffectingAccount() {
 		return this.payFrom;
 	}
 
@@ -251,11 +280,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	public String toString() {
 
 		return AccounterServerConstants.TYPE_PAY_VAT;
-	}
-
-	@Override
-	public void onEdit(Transaction clonedObject) {
-
 	}
 
 	@Override

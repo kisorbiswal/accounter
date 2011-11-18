@@ -39,7 +39,7 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().qty();
+		return Accounter.messages().qty();
 	}
 
 	@Override

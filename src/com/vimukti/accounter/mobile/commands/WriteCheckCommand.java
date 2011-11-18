@@ -16,7 +16,6 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
-import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -28,7 +27,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -52,12 +50,12 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new PayeeRequirement(PAYEE, getMessages().pleaseEnterName(
-				getConstants().payee()), getConstants().payee(), false, true,
+				getMessages().payee()), getMessages().payee(), false, true,
 				null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payee());
+				return getMessages().hasSelected(getMessages().payee());
 			}
 
 			@Override
@@ -67,7 +65,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().payee());
+				return getMessages().youDontHaveAny(getMessages().payee());
 			}
 
 			@Override
@@ -76,60 +74,64 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
-				true, null) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isEnableMultiCurrency()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
-			}
-		});
-
-		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
-				.currency(), true, true) {
-			@Override
-			protected String getDisplayValue(Double value) {
-				ClientCurrency primaryCurrency = getPreferences()
-						.getPrimaryCurrency();
-				Currency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency.getFormalName();
-			}
-
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (get(CURRENCY).getValue() != null) {
-					if (getPreferences().isEnableMultiCurrency()
-							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getPreferences()
-											.getPrimaryCurrency())) {
-						return super.run(context, makeResult, list, actions);
-					}
-				}
-				return null;
-			}
-		});
+		// list.add(new CurrencyRequirement(CURRENCY,
+		// getMessages().pleaseSelect(
+		// getMessages().currency()), getMessages().currency(), true,
+		// true, null) {
+		// @Override
+		// public Result run(Context context, Result makeResult,
+		// ResultList list, ResultList actions) {
+		// if (getPreferences().isEnableMultiCurrency()) {
+		// return super.run(context, makeResult, list, actions);
+		// } else {
+		// return null;
+		// }
+		// }
+		//
+		// @Override
+		// protected List<Currency> getLists(Context context) {
+		// return new ArrayList<Currency>(context.getCompany()
+		// .getCurrencies());
+		// }
+		// });
+		//
+		// list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		// .pleaseSelect(getMessages().currency()), getMessages()
+		// .currency(), true, true) {
+		// @Override
+		// protected String getDisplayValue(Double value) {
+		// ClientCurrency primaryCurrency = getPreferences()
+		// .getPrimaryCurrency();
+		// Currency selc = get(CURRENCY).getValue();
+		// return "1 " + selc.getFormalName() + " = " + value + " "
+		// + primaryCurrency.getFormalName();
+		// }
+		//
+		// @Override
+		// public Result run(Context context, Result makeResult,
+		// ResultList list, ResultList actions) {
+		// if (get(CURRENCY).getValue() != null) {
+		// if (getPreferences().isEnableMultiCurrency()
+		// && !((Currency) get(CURRENCY).getValue())
+		// .equals(getPreferences()
+		// .getPrimaryCurrency())) {
+		// return super.run(context, makeResult, list, actions);
+		// }
+		// }
+		// return null;
+		// }
+		// });
 
 		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()
-				.pleaseEnterNameOrNumber(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, true, null) {
+				.pleaseEnterNameOrNumber(
+						getMessages().bankAccount(Global.get().Account())),
+				getMessages().bankAccount(Global.get().Account()), false, true,
+				null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().bankAccount());
+				return getMessages().hasSelected(
+						getMessages().bankAccount(Global.get().Account()));
 			}
 
 			@Override
@@ -155,7 +157,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().bankAccount());
+						getMessages().bankAccount(Global.get().Account()));
 			}
 
 			@Override
@@ -203,20 +205,20 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), true, true));
+				getMessages().amount()), getMessages().amount(), true, true));
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			protected List<TAXCode> getLists(Context context) {
@@ -254,12 +256,13 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		Payee payee = (Payee) get(PAYEE).getValue();
+
 		if (payee != null) {
 			// In Edit mode If payee was changed to customer to vendor or
 			// anything else
@@ -295,6 +298,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 		Account bankAccount = get(BANK_ACCOUNT).getValue();
 		writeCheck.setBankAccount(bankAccount.getID());
+		writeCheck.setToBePrinted(true);
 
 		ClientFinanceDate date = get(DATE).getValue();
 		writeCheck.setDate(date.getDate());
@@ -306,6 +310,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		writeCheck.setAmount(amount);
 
 		writeCheck.setType(ClientTransaction.TYPE_WRITE_CHECK);
+		writeCheck.setPaymentMethod("Check");
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
@@ -317,22 +322,26 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-
-		if (preferences.isEnableMultiCurrency()) {
-			Currency currency = get(CURRENCY).getValue();
-			if (currency != null) {
-				writeCheck.setCurrency(currency.getID());
-			}
-
-			double factor = get(CURRENCY_FACTOR).getValue();
-			writeCheck.setCurrencyFactor(factor);
-		}
+		Currency primaryCurrency = context.getCompany().getPrimaryCurrency();
+		writeCheck.setCurrency(primaryCurrency.getID());
+		// if (preferences.isEnableMultiCurrency()) {
+		// Currency currency = get(CURRENCY).getValue();
+		// if (currency != null) {
+		// writeCheck.setCurrency(currency.getID());
+		// }
+		//
+		// double factor = get(CURRENCY_FACTOR).getValue();
+		// writeCheck.setCurrencyFactor(factor);
+		// }
 
 		writeCheck.setTransactionItems(accounts);
 		updateTotals(context, writeCheck, false);
 		if (amount < writeCheck.getTotal()) {
 			amount = writeCheck.getTotal();
+			writeCheck.setTotal(amount);
 			writeCheck.setAmount(amount);
+			writeCheck.setInWords(amount.toString());
+
 		}
 		String memo = get(MEMO).getValue();
 		writeCheck.setMemo(memo);
@@ -346,12 +355,18 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Write Check to update.");
 				return "Invoices List";
 			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			ClientWriteCheck invoiceByNum = (ClientWriteCheck) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(),
-							getNumberFromString(string));
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.WRITECHECK);
 			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select a Write Check to update.");
 				return "Invoices List " + string;
 			}
 			writeCheck = invoiceByNum;
@@ -396,13 +411,13 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return writeCheck.getID() == 0 ? getMessages().creating(
-				getConstants().writeCheck()) : "Updating write check";
+				getMessages().writeCheck()) : "Updating write check";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return writeCheck.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().writeCheck())
+				getMessages().writeCheck())
 				: "Write check is ready to update with following details";
 	}
 
@@ -413,15 +428,15 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		get(CURRENCY).setDefaultValue(null);
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		// get(CURRENCY).setDefaultValue(null);
+		// get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	@Override
 	public String getSuccessMessage() {
 		return writeCheck.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().writeCheck()) : getMessages()
-				.updateSuccessfully(getConstants().writeCheck());
+				getMessages().writeCheck()) : getMessages().updateSuccessfully(
+				getMessages().writeCheck());
 	}
 
 }

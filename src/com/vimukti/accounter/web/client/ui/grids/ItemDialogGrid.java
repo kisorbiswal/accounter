@@ -29,7 +29,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 	public void createControls() {
 		boolean isAddNewRequired = false;
 		productItemCombo = new ProductCombo(
-				Accounter.constants().productItem(), 1, isAddNewRequired);
+				Accounter.messages().productItem(), 1, isAddNewRequired);
 		productItemCombo.setGrid(this);
 		productItemCombo.setRequired(true);
 		IAccounterComboSelectionChangeHandler<ClientItem> changeHandler = new IAccounterComboSelectionChangeHandler<ClientItem>() {
@@ -149,8 +149,8 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().itemName(),
-				Accounter.constants().price() };
+		return new String[] { Accounter.messages().itemName(),
+				Accounter.messages().price() };
 	}
 
 }

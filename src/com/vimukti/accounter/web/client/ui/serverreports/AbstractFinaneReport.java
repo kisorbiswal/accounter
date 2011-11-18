@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -33,8 +32,8 @@ public abstract class AbstractFinaneReport<R> extends
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
 
-	public AccounterConstants constants;
 	public AccounterMessages messages;
+	
 	protected List<Integer> columnstoHide = new ArrayList<Integer>();
 
 	ReportGridTemplate<R> grid;
@@ -73,7 +72,7 @@ public abstract class AbstractFinaneReport<R> extends
 	public AbstractFinaneReport() {
 
 		this.preferences = Global.get().preferences();
-		this.constants = Global.get().constants();
+		this.messages = Global.get().messages();
 		this.messages = Global.get().messages();
 
 	}
@@ -322,7 +321,7 @@ public abstract class AbstractFinaneReport<R> extends
 	}
 
 	public String getDefaultDateRange() {
-		return constants.financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	public int getColumnWidth(int index) {
@@ -671,13 +670,6 @@ public abstract class AbstractFinaneReport<R> extends
 
 	public ClientCompanyPreferences getPreferences() {
 		return preferences;
-	}
-
-	// public void setPreferences(ClientCompanyPreferences preferences) {
-	// this.preferences = preferences;
-	// }
-	public AccounterConstants getConstants() {
-		return Global.get().constants();
 	}
 
 	public AccounterMessages getMessages() {

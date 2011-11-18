@@ -82,26 +82,26 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.howIsYourCompanyOrganized());
+		headerLabel.setText(accounterMessages.howIsYourCompanyOrganized());
 
 		organizeText.setText(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(accounterConstants.Accounts()));
-		propriterShip.setText(accounterConstants.soleProprietorship());
-		partnership.setText(accounterConstants.partnershipOrLLP());
-		lLC.setText(accounterConstants.LLC());
-		corporation.setText(accounterConstants.corporation());
-		sCorporation.setText(accounterConstants.sCorporation());
-		nonProfit.setText(accounterConstants.nonProfit());
-		other.setText(accounterConstants.otherNone());
+				.howIsYourCompanyOrganizedDesc(accounterMessages.Accounts()));
+		propriterShip.setText(accounterMessages.soleProprietorship());
+		partnership.setText(accounterMessages.partnershipOrLLP());
+		lLC.setText(accounterMessages.LLC());
+		corporation.setText(accounterMessages.corporation());
+		sCorporation.setText(accounterMessages.sCorporation());
+		nonProfit.setText(accounterMessages.nonProfit());
+		other.setText(accounterMessages.otherNone());
 
 		organizeText.setText(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(accounterConstants.Accounts()));
-		uninCorporated.setText(accounterConstants.soleProprietorshipDesc());
-		morePartners.setText(accounterConstants.partnershipOrLLPDesc());
-		lLCText.setText(accounterConstants.LLCDesc());
-		corporationText.setText(accounterConstants.sCorporationDesc());
-		sCorporationText.setText(accounterConstants.corporationDesc());
-		nonProfitText.setText(accounterConstants.nonProfitDesc());
+				.howIsYourCompanyOrganizedDesc(accounterMessages.Accounts()));
+		uninCorporated.setText(accounterMessages.soleProprietorshipDesc());
+		morePartners.setText(accounterMessages.partnershipOrLLPDesc());
+		lLCText.setText(accounterMessages.LLCDesc());
+		corporationText.setText(accounterMessages.sCorporationDesc());
+		sCorporationText.setText(accounterMessages.corporationDesc());
+		nonProfitText.setText(accounterMessages.nonProfitDesc());
 
 		organizeText.addStyleName("organisation_comment");
 		uninCorporated.addStyleName("organisation_comment");
@@ -130,8 +130,8 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 		lLCCombo.addStyleName("organisation_combo");
 
-		lLCCombo.addItem(accounterConstants.llcSingleMemberForm());
-		lLCCombo.addItem(accounterConstants.llcMultiMemberForm());
+		lLCCombo.addItem(accounterMessages.llcSingleMemberForm());
+		lLCCombo.addItem(accounterMessages.llcMultiMemberForm());
 		lLCCombo.setEnabled(false);
 		lLC.addClickHandler(new ClickHandler() {
 
@@ -233,7 +233,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.companyOrganization();
+		return accounterMessages.companyOrganization();
 	}
 
 }

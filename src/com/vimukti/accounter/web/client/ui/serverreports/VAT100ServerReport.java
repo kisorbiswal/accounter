@@ -53,7 +53,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getTitle() {
-		return getConstants().vat100();
+		return getMessages().vat100();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().financialYearToDate();
+		return getMessages().financialYearToDate();
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			// getConstants().box5NetVATToPayOrReclaimIfNegative(),
 			// new int[] {});
 			row = 0;
-			this.sectionName = getConstants().vatDue();
+			this.sectionName = getMessages().vatDue();
 			addSection(this.sectionName, "", new int[] {});
 
 			// } else if (this.row < 4) {
@@ -121,10 +121,10 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			@Override
 			public void OnSectionEnd(Section section) {
 
-				if (section.footer.equals(getConstants().box3TotalVATDue())) {
+				if (section.footer.equals(getMessages().box3TotalVATDue())) {
 					box3amount = Double.valueOf(section.data[1].toString());
 				}
-				if (section.footer.equals(getConstants()
+				if (section.footer.equals(getMessages()
 						.box5NetVATToPayOrReclaimIfNegative())) {
 					section.data[1] = box3amount - box4amount;
 					sectionDepth = 1;

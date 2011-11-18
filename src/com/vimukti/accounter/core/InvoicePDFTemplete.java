@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * this class is used to generate Invoice report in PDF format

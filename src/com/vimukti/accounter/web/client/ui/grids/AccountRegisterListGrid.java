@@ -9,9 +9,9 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -40,25 +40,25 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	@Override
 	protected String[] getColumns() {
 		if (accountType == ClientAccount.TYPE_BANK)
-			return new String[] { Accounter.constants().date(),
-					Accounter.constants().type(),
-					(Accounter.constants().checkNo() + "."),
-					Accounter.constants().payTo(),
-					Accounter.constants().memo(), Global.get().account(),
-					Accounter.constants().payment(),
-					Accounter.constants().deposit(),
-					Accounter.constants().currentBalance(),
-					Accounter.constants().voided() };
+			return new String[] { Accounter.messages().date(),
+					Accounter.messages().type(),
+					(Accounter.messages().checkNo() + "."),
+					Accounter.messages().payTo(),
+					Accounter.messages().memo(), Global.get().account(),
+					Accounter.messages().payment(),
+					Accounter.messages().deposit(),
+					Accounter.messages().currentBalance(),
+					Accounter.messages().voided() };
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
-			return new String[] { Accounter.constants().date(),
-					Accounter.constants().type(),
-					Accounter.constants().docNo(),
-					Accounter.constants().payTo(),
-					Accounter.constants().memo(), Global.get().account(),
-					Accounter.constants().charge(),
-					Accounter.constants().payment(),
-					Accounter.constants().currentBalance(),
-					Accounter.constants().voided() };
+			return new String[] { Accounter.messages().date(),
+					Accounter.messages().type(),
+					Accounter.messages().docNo(),
+					Accounter.messages().payTo(),
+					Accounter.messages().memo(), Global.get().account(),
+					Accounter.messages().charge(),
+					Accounter.messages().payment(),
+					Accounter.messages().currentBalance(),
+					Accounter.messages().voided() };
 		return new String[0];
 	}
 
@@ -189,7 +189,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(Accounter.constants()
+		Accounter.showWarning(Accounter.messages()
 				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 

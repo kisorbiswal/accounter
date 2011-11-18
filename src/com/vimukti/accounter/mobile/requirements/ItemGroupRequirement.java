@@ -15,7 +15,7 @@ public abstract class ItemGroupRequirement extends ListRequirement<ItemGroup> {
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().itemGroup());
+		return getMessages().youDontHaveAny(getMessages().itemGroup());
 	}
 
 	@Override
@@ -32,12 +32,12 @@ public abstract class ItemGroupRequirement extends ListRequirement<ItemGroup> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().itemGroup()));
+		list.add(getMessages().create(getMessages().itemGroup()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().itemGroup());
+		return getMessages().pleaseSelect(getMessages().itemGroup());
 	}
 
 }

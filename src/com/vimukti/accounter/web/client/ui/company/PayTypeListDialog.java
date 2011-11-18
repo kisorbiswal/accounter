@@ -28,12 +28,12 @@ public class PayTypeListDialog extends GroupDialog<ClientCustomer> {
 
 		final String description;
 
-		title = Accounter.constants().addOrEditPayType();
-		description = Accounter.constants().toAddPayType();
+		title = Accounter.messages().addOrEditPayType();
+		description = Accounter.messages().toAddPayType();
 		DialogGrid grid = getGrid();
-		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.constants()
+		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.messages()
 				.active());
-		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.constants()
+		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.messages()
 				.description());
 
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {

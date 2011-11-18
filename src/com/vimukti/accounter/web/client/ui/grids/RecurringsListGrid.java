@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -100,10 +99,9 @@ public class RecurringsListGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		final AccounterConstants CONST = Accounter.constants();
-		return new String[] { CONST.name(), CONST.transactionType(),
-				CONST.frequency(), CONST.prevScheduleOn(),
-				CONST.nextScheduleOn(), CONST.occurrencesCompleted(),
-				CONST.transactionAmount(), "" };
+		return new String[] { messages.name(), messages.transactionType(),
+				messages.frequency(), messages.prevScheduleOn(),
+				messages.nextScheduleOn(), messages.occurrencesCompleted(),
+				messages.transactionAmount(), "" };
 	}
 }

@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -38,7 +38,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 
 	public AssignAccountsTo1099Dialog(String title, String desc) {
 		super(title, desc);
-		AccounterConstants c = Accounter.constants();
+		AccounterMessages c = Accounter.messages();
 		strings = new String[] { c.box1Label(), c.box2Label(), c.box3Label(),
 				c.box4Label(), c.box5Label(), c.box6Label(), c.box7Label(),
 				c.box8Label(), c.box9Label(), c.box10Label(), c.box13Label(),
@@ -76,8 +76,8 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		flexTable = new FlexTable();
 		flexTable.insertRow(rowCount);
 		flexTable
-				.setWidget(rowCount, 0, new Label(Accounter.constants().use()));
-		flexTable.setWidget(rowCount, 1, new Label(Accounter.constants()
+				.setWidget(rowCount, 0, new Label(Accounter.messages().use()));
+		flexTable.setWidget(rowCount, 1, new Label(Accounter.messages()
 				.get1099Information()));
 		flexTable.setWidget(rowCount, 2, new Label(Global.get().Account()));
 		rowCount++;
@@ -122,7 +122,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 					}
 				});
 
-		anchor = new Anchor(Accounter.constants().selectMultiple());
+		anchor = new Anchor(Accounter.messages().selectMultiple());
 
 		checkBox.addClickHandler(new ClickHandler() {
 

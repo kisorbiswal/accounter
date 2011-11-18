@@ -82,7 +82,7 @@ public class CustomerCreditMemoView extends
 
 		Label lab1 = new Label(Accounter.messages().customerCreditNote(
 				Global.get().Customer()));
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -98,7 +98,7 @@ public class CustomerCreditMemoView extends
 								if (newDate != null)
 									setTransactionDate(newDate);
 							} catch (Exception e) {
-								Accounter.showError(Accounter.constants()
+								Accounter.showError(Accounter.messages()
 										.invalidTransactionDate());
 								setTransactionDate(new ClientFinanceDate());
 								transactionDateItem
@@ -111,7 +111,7 @@ public class CustomerCreditMemoView extends
 				});
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.constants().creditNo());
+		transactionNumber.setTitle(Accounter.messages().creditNo());
 		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
@@ -135,7 +135,7 @@ public class CustomerCreditMemoView extends
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.constants().billTo());
+		billToTextArea.setTitle(Accounter.messages().billTo());
 		billToTextArea.setDisabled(true);
 
 		custForm = UIUtils.form(Global.get().customer());
@@ -146,15 +146,15 @@ public class CustomerCreditMemoView extends
 		// custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
-		phoneSelect = new TextItem(customerConstants.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
 		salesPersonCombo = createSalesPersonComboItem();
 
-		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
+		DynamicForm phoneForm = UIUtils.form(messages.phoneNumber());
 		// phoneForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			phoneForm.setFields(locationCombo);
@@ -167,7 +167,7 @@ public class CustomerCreditMemoView extends
 		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setTitle(Accounter.constants().reasonForIssue());
+		memoTextAreaItem.setTitle(Accounter.messages().reasonForIssue());
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
@@ -721,7 +721,7 @@ public class CustomerCreditMemoView extends
 				&& taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
 				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						Accounter.constants().none()))
+						Accounter.messages().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		// if (this.priceLevel != null && priceLevelSelect != null)

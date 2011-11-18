@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyListCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -16,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  */
 public class NewCurrencyListDialog extends BaseDialog {
 
-	private AccounterConstants constants = Global.get().constants();
 	private ClientCurrency clientCurrency;
 	private CurrencyListCombo listCombo;
 	private CurrencyGroupListDialog parent;
@@ -34,7 +31,7 @@ public class NewCurrencyListDialog extends BaseDialog {
 		VerticalPanel panel = new VerticalPanel();
 		DynamicForm form = new DynamicForm();
 
-		listCombo = new CurrencyListCombo(constants.addCurrency());
+		listCombo = new CurrencyListCombo(messages.addCurrency());
 		if (clientCurrency != null) {
 			listCombo.setComboItem(clientCurrency);
 		} else {
@@ -53,7 +50,7 @@ public class NewCurrencyListDialog extends BaseDialog {
 		form.setFields(listCombo);
 		panel.add(form);
 
-		okbtn.setText(constants.addCurrency());
+		okbtn.setText(messages.addCurrency());
 		okbtn.setWidth("150px");
 
 		setBodyLayout(panel);
@@ -65,7 +62,7 @@ public class NewCurrencyListDialog extends BaseDialog {
 
 		ValidationResult result = new ValidationResult();
 		if (clientCurrency == null) {
-			result.addError(this, Accounter.constants().selectcurrency());
+			result.addError(this, Accounter.messages().selectcurrency());
 
 		} else {
 			String value = clientCurrency.getName();
@@ -74,7 +71,7 @@ public class NewCurrencyListDialog extends BaseDialog {
 				if(currency.getName()!=null)
 				if (currency.getName().equalsIgnoreCase(value)
 						&& currency.getID() != clientCurrency.getID()) {
-					result.addError(this, Accounter.constants()
+					result.addError(this, Accounter.messages()
 							.CurrencyAlreadyExists());
 				}
 			}

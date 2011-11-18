@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -25,7 +24,6 @@ public class CreditsandPaymentsGrid extends
 
 	private CustomerCreditsAndPaymentsDialiog dialog;
 	private boolean isCanEdit;
-	private AccounterConstants customerConstants = Accounter.constants();
 	List<Integer> selectedValues = new ArrayList<Integer>();
 	private List<ClientCreditsAndPayments> actualRecords, copyRecords;
 	private int columns[] = { ListGrid.COLUMN_TYPE_TEXT,
@@ -165,9 +163,9 @@ public class CreditsandPaymentsGrid extends
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { customerConstants.date(),
-				customerConstants.memo(), customerConstants.creditAmount(),
-				customerConstants.balance(), customerConstants.amountToUse() };
+		return new String[] { messages.date(),
+				messages.memo(), messages.creditAmount(),
+				messages.balance(), messages.amountToUse() };
 	}
 
 	@Override
@@ -195,13 +193,13 @@ public class CreditsandPaymentsGrid extends
 					// || balance != 0 ? ((amtTouse
 					// .compareTo(item.getActualAmt()) > 0) ? true : false)
 					// : false) {
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.receivedPaymentAppliedCreditsAmount());
 					setText(indexOf(item), 4,
 							DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
 				} else {
 					if (DecimalUtil.isLessThan(balance, 0)) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.receivedPaymentAppliedCreditsAmount());
 						setText(indexOf(item), 4,
 								DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
@@ -214,7 +212,7 @@ public class CreditsandPaymentsGrid extends
 
 						updateAmountValues();
 						if (!newdialog.validTotalAmountUse()) {
-							Accounter.showError(Accounter.constants()
+							Accounter.showError(Accounter.messages()
 									.amountToUseMustLessthanTotal());
 							editingRecord.setAmtTouse(prevAmtToUse);
 							editingRecord.setBalance(prevBalance);
@@ -225,7 +223,7 @@ public class CreditsandPaymentsGrid extends
 
 				}
 			} catch (Exception e) {
-				Accounter.showError(Accounter.constants().invalidAmount());
+				Accounter.showError(Accounter.messages().invalidAmount());
 			}
 
 			break;
@@ -346,7 +344,7 @@ public class CreditsandPaymentsGrid extends
 		ValidationResult result = new ValidationResult();
 		if (this.getRecords().size() > 0
 				&& this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants().selectTransaction());
+			result.addError(this, Accounter.messages().selectTransaction());
 		}
 		return result;
 	}

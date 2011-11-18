@@ -6,14 +6,12 @@ import java.util.Set;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class ContactGrid extends ListGrid<ClientContact> {
-	AccounterConstants companyConstants;
+	
 	boolean isEditMode;
-
 	public ContactGrid() {
 		super(false);
 	}
@@ -97,10 +95,10 @@ public class ContactGrid extends ListGrid<ClientContact> {
 
 	@Override
 	protected String[] getColumns() {
-		companyConstants = Accounter.constants();
-		return new String[] { companyConstants.primary(),
-				companyConstants.contactName(), companyConstants.title(),
-				companyConstants.businessPhone(), companyConstants.email(), " " };
+		messages = Accounter.messages();
+		return new String[] { messages.primary(), messages.contactName(),
+				messages.title(), messages.businessPhone(), messages.email(),
+				" " };
 	}
 
 	@Override
@@ -199,7 +197,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 
 	private String getValidMail(String email) {
 		if (!UIUtils.isValidEmail(email)) {
-			Accounter.showError(Accounter.constants().invalidEmail());
+			Accounter.showError(Accounter.messages().invalidEmail());
 			return "";
 		} else
 			return email;
@@ -212,7 +210,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 			return String.valueOf(phone);
 		} catch (Exception e) {
 			if (valueString.length() != 0) {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.invalidBusinessPhoneVal());
 				return "";
 			}

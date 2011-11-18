@@ -19,7 +19,7 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newSalesPerson();
+		return messages.salesPerson();
 	}
 
 	@Override

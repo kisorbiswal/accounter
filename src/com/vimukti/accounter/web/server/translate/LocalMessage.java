@@ -12,17 +12,15 @@ public class LocalMessage implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int id;
+	long id;
 
 	Message message;
 
-	String lang;
+	Language lang;
 
 	String value;
 
-	int ups;
-
-	int downs;
+	int votes;
 
 	boolean isApproved;
 
@@ -30,27 +28,27 @@ public class LocalMessage implements Serializable {
 
 	Date createdDate;
 
-	public int getId() {
+	public long getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Message getMessage() {
-		return message;
 	}
 
 	public void setMessage(Message message) {
 		this.message = message;
 	}
 
-	public String getLang() {
+	public Message getMessage() {
+		return message;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Language getLang() {
 		return lang;
 	}
 
-	public void setLang(String lang) {
+	public void setLang(Language lang) {
 		this.lang = lang;
 	}
 
@@ -63,19 +61,11 @@ public class LocalMessage implements Serializable {
 	}
 
 	public int getUps() {
-		return ups;
+		return votes;
 	}
 
 	public void setUps(int ups) {
-		this.ups = ups;
-	}
-
-	public int getDowns() {
-		return downs;
-	}
-
-	public void setDowns(int downs) {
-		this.downs = downs;
+		this.votes = ups;
 	}
 
 	public boolean isApproved() {

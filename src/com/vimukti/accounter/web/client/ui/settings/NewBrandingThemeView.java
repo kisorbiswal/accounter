@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -66,7 +65,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private Label measureLabel;
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
-	private AccounterConstants messages = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 	private AccounterMessages accounterMessages = Accounter.messages();
 	private DynamicForm nameForm;
 	private ArrayList<String> templatesList;
@@ -143,8 +142,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private void createControls() {
 		tabSet = new DecoratedTabPanel();
 
-		tabSet.add(getGeneralLayout(), Accounter.constants().general());
-		tabSet.add(getTemplateLayout(), Accounter.constants().templates());
+		tabSet.add(getGeneralLayout(), Accounter.messages().general());
+		tabSet.add(getTemplateLayout(), Accounter.messages().templates());
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
 
@@ -157,8 +156,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private VerticalPanel getGeneralLayout() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML titleHtml = new HTML(Accounter.constants().newBrandTheme());
-		titleHtml.setStyleName(Accounter.constants().labelTitle());
+		HTML titleHtml = new HTML(Accounter.messages().newBrandTheme());
+		titleHtml.setStyleName(Accounter.messages().labelTitle());
 
 		mainLayoutPanel = new HorizontalPanel();
 		check_radioPanel = new HorizontalPanel();

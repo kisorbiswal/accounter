@@ -16,7 +16,7 @@ public abstract class SalesPersonRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().salesPerson());
+		return getMessages().youDontHaveAny(getMessages().salesPerson());
 	}
 
 	@Override
@@ -33,12 +33,12 @@ public abstract class SalesPersonRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().salesPerson()));
+		list.add(getMessages().create(getMessages().salesPerson()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().salesPerson());
+		return getMessages().pleaseSelect(getMessages().salesPerson());
 	}
 
 }

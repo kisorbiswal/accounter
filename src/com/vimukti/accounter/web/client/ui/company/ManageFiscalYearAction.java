@@ -13,7 +13,7 @@ public class ManageFiscalYearAction extends Action {
 	@Override
 	public void run() {
 		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(Accounter
-				.constants().manageFiscalYear(), "");
+				.messages().manageFiscalYear(), "");
 		dialog.show();
 	}
 

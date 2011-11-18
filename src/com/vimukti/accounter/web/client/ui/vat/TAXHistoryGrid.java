@@ -30,9 +30,9 @@ import com.vimukti.accounter.web.client.util.ICountryPreferences;
  */
 public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
-	private int[] columns = { ListGrid.COLUMN_TYPE_DATE,
+	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_DATE,
-			ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+			ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_LINK };
 	private TaxHistoryView taxHistoryView;
 	private ClientCurrency currency = getCompany().getPrimaryCurrency();
@@ -67,10 +67,11 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.periodStartDate(),
-				companyConstants.periodEndDate(),
-				companyConstants.vatFileDate(), companyConstants.taxDue(),
-				companyConstants.totalPaymentMade(), companyConstants.report() };
+
+		return new String[] { messages.taxAgency(), messages.periodStartDate(),
+				messages.periodEndDate(), messages.taxFiledDate(),
+				messages.taxDue(), messages.totalPaymentMade(),
+				messages.report() };
 	}
 
 	@SuppressWarnings("unchecked")
@@ -97,8 +98,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
 				taxEntries = clientTAXReturn.getTaxReturnEntries();
-				details = getExceptionDetailData(taxEntries,
-						clientTAXReturn.getPeriodStartDate());
+				details = getExceptionDetailData(taxEntries, clientTAXReturn
+						.getPeriodStartDate());
 
 				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = ActionFactory
 						.getTaxItemExceptionDetailReportAction();
@@ -139,17 +140,21 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		switch (index) {
 
 		case 0:
-			return new ClientFinanceDate(obj.getPeriodStartDate()).toString();
+			return getCompany().getTaxAgency(obj.getTaxAgency()).getName();
 		case 1:
-			return new ClientFinanceDate(obj.getPeriodEndDate());
+			return new ClientFinanceDate(obj.getPeriodStartDate()).toString();
 		case 2:
-			return new ClientFinanceDate(obj.getTransactionDate());
+			return new ClientFinanceDate(obj.getPeriodEndDate());
 		case 3:
-			return DataUtils.amountAsStringWithCurrency((obj.getBalance()), currency);
+			return new ClientFinanceDate(obj.getTransactionDate());
 		case 4:
-			return DataUtils.amountAsStringWithCurrency((obj.getTotal() - obj.getBalance()), currency);
+			return DataUtils.amountAsStringWithCurrency((obj.getBalance()),
+					currency);
 		case 5:
-			return companyConstants.exceptionDetails();
+			return DataUtils.amountAsStringWithCurrency((obj.getTotal() - obj
+					.getBalance()), currency);
+		case 6:
+			return messages.exceptionDetails();
 		default:
 			break;
 		}

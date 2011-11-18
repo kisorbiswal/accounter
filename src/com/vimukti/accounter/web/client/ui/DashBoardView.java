@@ -64,16 +64,16 @@ public class DashBoardView extends BaseHomeView {
 		//
 		// getAddableWidgets(widgetOnSectionPage);
 
-		gettingStartedPortlet = new GettingStartedPortlet(Accounter.constants()
+		gettingStartedPortlet = new GettingStartedPortlet(Accounter.messages()
 				.gettingStartedusingAccounter());
 
-		bankingPortlet = new BankingPortlet(Accounter.messages().bankAccounts(
+		bankingPortlet = new BankingPortlet(Accounter.messages().bankAccount(
 				Global.get().Accounts()));
-		moneyComingPortlet = new MoneyComingPortlet(Accounter.constants()
+		moneyComingPortlet = new MoneyComingPortlet(Accounter.messages()
 				.moneyComingIn());
-		moneyGoingPortlet = new MoneyGoingPortlet(Accounter.constants()
+		moneyGoingPortlet = new MoneyGoingPortlet(Accounter.messages()
 				.moneyGoingOut());
-		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter.constants()
+		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter.messages()
 				.expenseClaims());
 		FlexTable fTable = new FlexTable();
 

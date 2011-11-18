@@ -25,19 +25,19 @@ public class NewItemAction extends Action<ClientItem> {
 
 	public NewItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	public NewItemAction(String text, boolean forCustomer) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 		this.forCustomer = forCustomer;
 	}
 
 	public NewItemAction(String text, ClientItem item,
 			AccounterAsyncCallback<Object> callback, boolean forCustomer) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 		this.forCustomer = forCustomer;
 		// this.baseView = baseView;
 	}

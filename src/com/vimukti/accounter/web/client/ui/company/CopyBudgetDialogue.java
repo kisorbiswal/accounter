@@ -36,15 +36,15 @@ public class CopyBudgetDialogue extends BaseDialog {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		setWidth("400px");
 
-		selectBudget = new SelectCombo(Accounter.constants().copy()
-				+ " from existing " + Accounter.constants().budget() + " :");
+		selectBudget = new SelectCombo(Accounter.messages().copy()
+				+ " from existing " + Accounter.messages().budget() + " :");
 		selectBudget.setHelpInformation(true);
 
 		for (ClientBudget budget : budgetList) {
 			selectBudget.addComboItem(budget.getBudgetName());
 		}
 		if (budgetList.size() < 1) {
-			selectBudget.addComboItem(Accounter.constants().emptyValue());
+			selectBudget.addComboItem(Accounter.messages().emptyValue());
 		}
 
 		selectBudget

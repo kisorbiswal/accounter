@@ -19,7 +19,7 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return constants.financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	@Override
@@ -68,16 +68,16 @@ public class TrialBalanceServerReport extends
 		if (getPreferences().getUseAccountNumbers() == true) {
 			return new String[] { messages.payeeName(Global.get().Account()),
 					messages.payeeNumber(Global.get().Account()),
-					constants.debit(), constants.credit() };
+					messages.debit(), messages.credit() };
 		} else {
 			return new String[] { messages.payeeName(Global.get().Account()),
-					"", constants.debit(), constants.credit() };
+					"", messages.debit(), messages.credit() };
 		}
 	}
 
 	@Override
 	public String getTitle() {
-		return constants.trialBalance();
+		return messages.trialBalance();
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class TrialBalanceServerReport extends
 	public void processRecord(TrialBalance record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "",
-					constants.total() }, new int[] { 2, 3 });
+					messages.total() }, new int[] { 2, 3 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -190,10 +190,10 @@ public class TrialBalanceServerReport extends
 		if (getPreferences().getUseAccountNumbers() == true) {
 			return new String[] { messages.payeeName(Global.get().Account()),
 					messages.payeeNumber(Global.get().Account()),
-					constants.debit(), constants.credit() };
+					messages.debit(), messages.credit() };
 		} else {
 			return new String[] { messages.payeeName(Global.get().Account()),
-					"", constants.debit(), constants.credit() };
+					"", messages.debit(), messages.credit() };
 		}
 	}
 

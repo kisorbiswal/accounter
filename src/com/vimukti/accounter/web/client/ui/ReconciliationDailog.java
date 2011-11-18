@@ -78,8 +78,8 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 			bankAccountsField.addItem(account.getName());
 		}
 
-		startDate = new DateField(constants.startDate());
-		endDate = new DateField(constants.endDate());
+		startDate = new DateField(messages.startDate());
+		endDate = new DateField(messages.endDate());
 		// set the month start date and end date
 		// Calendar calendar = Calendar.getInstance();
 		// ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
@@ -89,7 +89,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		// .getActualMaximum(Calendar.DAY_OF_MONTH));
 		endDate.setValue(new ClientFinanceDate());
 
-		closingBalance = new AmountField(constants.ClosingBalance(), this,getBaseCurrency()) {
+		closingBalance = new AmountField(messages.ClosingBalance(), this,getBaseCurrency()) {
 			@Override
 			protected BlurHandler getBlurHandler() {
 				return new BlurHandler() {
@@ -141,7 +141,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		mainpanel.add(form);
 		setBodyLayout(mainpanel);
 		okbtn.setWidth("130px");
-		okbtn.setText(constants.startReconciliation());
+		okbtn.setText(messages.startReconciliation());
 
 	}
 
@@ -179,7 +179,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		ClientFinanceDate sDate = startDate.getDate();
 		ClientFinanceDate eDate = endDate.getDate();
 		if (eDate.before(sDate)) {
-			result.addError(endDate, constants.validateEndAndStartDate());
+			result.addError(endDate, messages.validateEndAndStartDate());
 		}
 		if (bankAccountsField.getSelectedIndex() < 0) {
 			result.addError(bankAccountsField, "BankAccount");

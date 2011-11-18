@@ -53,7 +53,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
@@ -194,7 +193,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 		// Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+				Accounter.messages().productOrServiceItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -309,7 +308,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// setTitle(UIUtils.title(customerConstants.quote()));
 		Label lab1 = new Label(title);
 		// + "(" + getTransactionStatus() + ")");
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
@@ -353,7 +352,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.constants().billTo());
+		billToTextArea.setTitle(Accounter.messages().billTo());
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
@@ -383,8 +382,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction != null)
 			shipToAddress.setDisabled(true);
 
-		phoneSelect = new TextItem(customerConstants.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -403,7 +402,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
 
-		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
+		DynamicForm phoneForm = UIUtils.form(messages.phoneNumber());
 		// phoneForm.setWidth("100%");
 		phoneForm.setNumCols(2);
 		phoneForm.setCellSpacing(3);
@@ -411,7 +410,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		payTermsSelect = createPaymentTermsSelectItem();
 
-		quoteExpiryDate = new DateField(customerConstants.expirationDate());
+		quoteExpiryDate = new DateField(messages.expirationDate());
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
 		// formItems.add(quoteExpiryDate);
@@ -448,7 +447,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			classListCombo.setDisabled(isInViewMode());
 		}
 
-		Label lab2 = new Label(customerConstants.productAndService());
+		Label lab2 = new Label(messages.productAndService());
 
 		HorizontalPanel buttLabHLay = new HorizontalPanel();
 		buttLabHLay.add(lab2);
@@ -898,12 +897,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
-			result.addError(this.quoteExpiryDate, Accounter.constants().the()
+			result.addError(this.quoteExpiryDate, Accounter.messages().the()
 					+ " "
-					+ customerConstants.expirationDate()
+					+ messages.expirationDate()
 					+ " "
 					+ " "
-					+ Accounter.constants()
+					+ Accounter.messages()
 							.cannotbeearlierthantransactiondate());
 		}
 		result.add(customerTransactionTable.validateGrid());
@@ -965,10 +964,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			@Override
 			public void onFailure(Throwable caught) {
 				if (transaction.getStatus() == QuoteListView.STATUS_ACCECPTED) {
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.thisQuoteAlreadyAccepted());
 				} else if (caught instanceof InvocationException) {
-					Accounter.showMessage(Accounter.constants()
+					Accounter.showMessage(Accounter.messages()
 							.sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
@@ -1049,7 +1048,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().quote();
+		return Accounter.messages().quote();
 	}
 
 	@Override

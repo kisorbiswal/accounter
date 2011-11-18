@@ -26,7 +26,7 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newServiceItem();
+		return messages.serviceItem();
 	}
 
 	@Override

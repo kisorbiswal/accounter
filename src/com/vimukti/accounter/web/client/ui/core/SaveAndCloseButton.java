@@ -32,7 +32,7 @@ public class SaveAndCloseButton extends ImageButton {
 	 */
 	public SaveAndCloseButton(AbstractBaseView<?> baseView) {
 
-		super(Accounter.constants().saveAndClose(), Accounter
+		super(Accounter.messages().saveAndClose(), Accounter
 				.getFinanceImages().saveAndClose());
 		this.view = baseView;
 		this.addStyleName("saveAndClose-Btn");

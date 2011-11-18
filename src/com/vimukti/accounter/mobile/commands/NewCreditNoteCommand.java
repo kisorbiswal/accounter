@@ -68,7 +68,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -88,7 +88,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -114,10 +114,10 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement("CreditNumber", getMessages()
-				.pleaseEnter(getConstants().creditNo()), getConstants()
+				.pleaseEnter(getMessages().creditNo()), getMessages()
 				.creditNo(), true, true));
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
 				"Contact", true, true, null) {
@@ -136,7 +136,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
@@ -165,7 +165,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true, true) {
 
 			@Override
@@ -182,7 +182,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 
 			@Override
@@ -230,7 +230,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 
@@ -239,12 +239,18 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Credit Note to update.");
 				return "Invoices List";
 			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(),
-							getNumberFromString(string));
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CUSTOMERCREDITMEMO);
 			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select a Credit Note to update.");
 				return "Invoices List " + string;
 			}
 			creditMemo = invoiceByNum;

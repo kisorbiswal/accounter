@@ -51,11 +51,11 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 	public void createControls() {
 		accountHeaderLabel.setText(messages.useTerminologyFor(Global.get()
 				.account()));
-		accountdescriptionLabel.setText(constants.accountDescription());
+		accountdescriptionLabel.setText(messages.accountDescription());
 		accountdescriptionLabel.setStyleName("organisation_comment");
-		acountRadioButton.setText(constants.account());
-		leagandRadioButton.setText(constants.Ledger());
-		catgeroyRadioButton.setText(constants.Category());
+		acountRadioButton.setText(messages.account());
+		leagandRadioButton.setText(messages.Ledger());
+		catgeroyRadioButton.setText(messages.Category());
 
 	}
 

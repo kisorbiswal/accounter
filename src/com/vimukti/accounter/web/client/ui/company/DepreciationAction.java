@@ -12,13 +12,13 @@ public class DepreciationAction extends Action {
 
 	public DepreciationAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	public DepreciationAction(String text, Object editableObject,
 			AccounterAsyncCallback<Object> callbackObject) {
 		super(text);
-		this.catagory = Accounter.constants().fixedAssets();
+		this.catagory = Accounter.messages().fixedAssets();
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public class QuickAddDialog extends CustomDialog {
 		Label nameLabel = new Label();
 		textBox = new TextBoxItem();
 
-		nameLabel.setText(Accounter.constants().name());
+		nameLabel.setText(Accounter.messages().name());
 		horizontalPanel.getElement().getStyle().setMargin(5, Unit.PX);
 		horizontalPanel.setSpacing(6);
 

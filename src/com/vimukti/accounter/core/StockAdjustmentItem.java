@@ -15,7 +15,6 @@ public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Company company;
 	private long id;
 	// Price value at the time of transaction
 	private double adjustmentPriceValue;
@@ -26,10 +25,8 @@ public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 	// qtyBeforeTransaction is for further information, like report generation.
 	private Quantity qtyBeforeTransaction;
 
-	private StockAdjustment adjustment;
-
 	// private AdjustmentReason reason;
-	// private Warehouse warehouse;
+	private Warehouse wareHouse;
 
 	public StockAdjustmentItem() {
 
@@ -129,22 +126,14 @@ public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
 	@Override
 	public boolean onSave(Session s) throws CallbackException {
 		double value = (getAdjustmentQty().getValue() * getAdjustmentQty()
 				.getUnit().getFactor())
 				/ getItem().getMeasurement().getDefaultUnit().getFactor();
-		adjustment.getWareHouse().updateItemStatus(getItem(), value, false);
-		s.saveOrUpdate(adjustment.getWareHouse());
-		ChangeTracker.put(adjustment.getWareHouse());
+		wareHouse.updateItemStatus(getItem(), value, false);
+		s.saveOrUpdate(wareHouse);
+		ChangeTracker.put(wareHouse);
 		return false;
 	}
 
@@ -159,9 +148,9 @@ public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 		double value = (getAdjustmentQty().getValue() * getAdjustmentQty()
 				.getUnit().getFactor())
 				/ getItem().getMeasurement().getDefaultUnit().getFactor();
-		adjustment.getWareHouse().updateItemStatus(getItem(), value, true);
-		s.saveOrUpdate(adjustment.getWareHouse());
-		ChangeTracker.put(adjustment.getWareHouse());
+		wareHouse.updateItemStatus(getItem(), value, true);
+		s.saveOrUpdate(wareHouse);
+		ChangeTracker.put(wareHouse);
 		return false;
 	}
 
@@ -171,11 +160,11 @@ public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public StockAdjustment getAdjustment() {
-		return adjustment;
+	public Warehouse getWarehouse() {
+		return wareHouse;
 	}
 
-	public void setAdjustment(StockAdjustment adjustment) {
-		this.adjustment = adjustment;
+	public void setWarehouse(Warehouse warehouse) {
+		this.wareHouse = warehouse;
 	}
 }

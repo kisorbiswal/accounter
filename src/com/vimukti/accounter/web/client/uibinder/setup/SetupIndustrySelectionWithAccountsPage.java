@@ -99,7 +99,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		selectIndustryhead.setText(accounterMessages.getindustryhead());
-		headerLabel.setText(accounterConstants.selectYourIndustry());
+		headerLabel.setText(accounterMessages.selectYourIndustry());
 
 		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML1()
 				+ "<br/>" + accounterMessages.selectIndustryInfoHTML2() + "<a>"
@@ -107,7 +107,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 				+ accounterMessages.selectIndustryInfoHTML3() + "<br/><a>"
 				+ accounterMessages.selectIndustryInfoAchor2() + "</a>"
 				+ accounterMessages.selectIndustryInfoHTML4());
-		industryList.setName(accounterConstants.industry());
+		industryList.setName(accounterMessages.industry());
 
 		industryList.addChangeHandler(new ChangeHandler() {
 
@@ -123,7 +123,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		});
 		industryList.setVisibleItemCount(15);
 
-		accountsLabel.setHTML("<b>" + accounterConstants.Accounts() + "</b>");
+		accountsLabel.setHTML("<b>" + accounterMessages.Accounts() + "</b>");
 
 		// accountsList
 		// .setName(accounterMessages.accounts(Global.get().Account()));
@@ -169,7 +169,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (industryList.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.selectYourIndustry());
+			Accounter.showError(accounterMessages.selectYourIndustry());
 			return false;
 		} else {
 			return true;
@@ -178,7 +178,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.selectIndustryType();
+		return accounterMessages.selectIndustryType();
 	}
 
 }

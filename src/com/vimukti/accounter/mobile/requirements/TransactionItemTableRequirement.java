@@ -103,12 +103,12 @@ public abstract class TransactionItemTableRequirement extends
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().taxable();
+				return getMessages().taxable();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().taxExempt();
+				return getMessages().taxExempt();
 			}
 		});
 
@@ -168,6 +168,7 @@ public abstract class TransactionItemTableRequirement extends
 			get(TAXCODE).setDefaultValue(
 					CommandUtils.getServerObjectById(obj.getTaxCode(),
 							AccounterCoreType.TAX_CODE));
+			get(TAX).setDefaultValue(false);
 		} else {
 			get(TAX).setDefaultValue(obj.isTaxable());
 		}
@@ -200,9 +201,9 @@ public abstract class TransactionItemTableRequirement extends
 							getCompanyId()))).getDisplayName());
 		} else {
 			if (t.isTaxable()) {
-				record.add("", getConstants().taxable());
+				record.add("", getMessages().taxable());
 			} else {
-				record.add("", getConstants().taxExempt());
+				record.add("", getMessages().taxExempt());
 			}
 		}
 		record.add("", t.getDescription());
@@ -222,6 +223,6 @@ public abstract class TransactionItemTableRequirement extends
 	protected String getAddMoreString() {
 		List<ClientTransactionItem> items = getValue();
 		return items.isEmpty() ? "Add Items" : getMessages().addMore(
-				getConstants().items());
+				getMessages().items());
 	}
 }

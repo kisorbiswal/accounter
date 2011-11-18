@@ -31,11 +31,21 @@ public class ClientTransactionPayTAX implements IAccounterCore {
 
 	int version;
 
+	ClientFinanceDate filedDate;
+
 	/**
 	 * @return the id
 	 */
 	public long getID() {
 		return id;
+	}
+
+	public ClientFinanceDate getFiledDate() {
+		return filedDate;
+	}
+
+	public void setFiledDate(ClientFinanceDate filedDate) {
+		this.filedDate = filedDate;
 	}
 
 	/**

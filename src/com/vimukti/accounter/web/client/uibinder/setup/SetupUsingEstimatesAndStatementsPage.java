@@ -48,10 +48,10 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants
+		headerLabel.setText(accounterMessages
 				.wanttoCreateEstimatesInAccounter());
-		estimatesYes.setText(accounterConstants.yes());
-		estimatesNo.setText(accounterConstants.no());
+		estimatesYes.setText(accounterMessages.yes());
+		estimatesNo.setText(accounterMessages.no());
 		preferences.setDoyouwantEstimates(true);
 		/*
 		 * billingStatements.setHTML(accounterMessages.statementDescription());
@@ -90,11 +90,11 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		if ((!(estimatesYes.getValue() || estimatesNo.getValue()))
 		/* && (!(statementYes.getValue() || statementsNo.getValue())) */) {
 			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.details()));
+					.pleaseEnter(accounterMessages.details()));
 			return false;
 		} else if (!(estimatesYes.getValue() || estimatesNo.getValue())) {
 			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants
+					.pleaseEnter(accounterMessages
 							.wanttoCreateEstimatesInAccounter()));
 			return false;
 		}/*
@@ -108,6 +108,6 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.setEstimatesAndStatements();
+		return accounterMessages.setEstimatesAndStatements();
 	}
 }

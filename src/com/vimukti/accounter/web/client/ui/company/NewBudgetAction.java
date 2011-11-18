@@ -18,14 +18,14 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 	public NewBudgetAction(String text) {
 		super(text);
-		this.catagory = Global.get().constants().budget();
-		super.setToolTip(Global.get().constants().budget());
+		this.catagory = Global.get().messages().budget();
+		super.setToolTip(Global.get().messages().budget());
 	}
 
 	public NewBudgetAction(String text, ClientBudget budget,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().constants().budget();
+		this.catagory = Global.get().messages().budget();
 	}
 
 	public void run() {

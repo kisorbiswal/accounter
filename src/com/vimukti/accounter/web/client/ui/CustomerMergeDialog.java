@@ -40,7 +40,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	public CustomerMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.constants().merge());
+		okbtn.setText(Accounter.messages().merge());
 		createControls();
 		center();
 		clientCustomer1 = null;
@@ -72,19 +72,19 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		customerIDTextItem1.setHelpInformation(true);
 		customerIDTextItem1.setDisabled(true);
 
-		status = new CheckboxItem(Accounter.constants().active());
+		status = new CheckboxItem(Accounter.messages().active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem(Accounter.constants().active());
+		status1 = new CheckboxItem(Accounter.messages().active());
 		status1.setValue(false);
 
-		balanceTextItem = new TextItem(Accounter.constants().balance());
+		balanceTextItem = new TextItem(Accounter.messages().balance());
 		balanceTextItem.setHelpInformation(true);
 		balanceTextItem.setDisabled(true);
 
-		balanceTextItem1 = new TextItem(Accounter.constants().balance());
+		balanceTextItem1 = new TextItem(Accounter.messages().balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem1.setDisabled(true);
 

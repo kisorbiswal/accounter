@@ -52,7 +52,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			public IsWidget getHeader() {
-				Label columnHeader = new Label(Accounter.constants().primary());
+				Label columnHeader = new Label(Accounter.messages().primary());
 				return columnHeader;
 			}
 
@@ -83,7 +83,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().contactName();
+				return Accounter.messages().contactName();
 			}
 		});
 
@@ -106,7 +106,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().title();
+				return Accounter.messages().title();
 			}
 		});
 
@@ -119,7 +119,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 				if (UIUtils.isValidPhone(value))
 					row.setBusinessPhone(value);
 				else {
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.invalidBusinessPhoneVal());
 					row.setBusinessPhone("");
 				}
@@ -137,7 +137,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().businessPhone();
+				return Accounter.messages().businessPhone();
 			}
 
 			@Override
@@ -170,7 +170,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 				if (UIUtils.isValidEmail(value))
 					row.setEmail(value);
 				else {
-					Accounter.showError(Accounter.constants().invalidEmail());
+					Accounter.showError(Accounter.messages().invalidEmail());
 					row.setEmail("");
 				}
 			}
@@ -187,7 +187,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().email();
+				return Accounter.messages().email();
 			}
 
 			@Override
@@ -278,7 +278,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 									.getBusinessPhone()
 									.equals(getAllRows().get(j)
 											.getBusinessPhone()))
-						result.addError(this, Accounter.constants()
+						result.addError(this, Accounter.messages()
 								.youHaveEnteredduplicateContacts());
 				}
 			}

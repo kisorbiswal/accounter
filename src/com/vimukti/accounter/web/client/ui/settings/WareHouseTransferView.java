@@ -35,7 +35,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().wareHouseTransfer();
+		return Accounter.messages().wareHouseTransfer();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 	private void createControls() {
 		listForms = new ArrayList<DynamicForm>();
 		mainPanel = new VerticalPanel();
-		fromCombo = new WarehouseCombo(Accounter.constants().from());
+		fromCombo = new WarehouseCombo(Accounter.messages().from());
 		fromCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientWarehouse>() {
 
@@ -63,11 +63,11 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 				});
 		fromCombo.setRequired(true);
 		fromCombo.setDisabled(isInViewMode());
-		toCombo = new WarehouseCombo(Accounter.constants().to());
+		toCombo = new WarehouseCombo(Accounter.messages().to());
 		toCombo.setDisabled(isInViewMode());
 		toCombo.setRequired(true);
 		commentArea = new TextAreaItem();
-		commentArea.setTitle(Accounter.constants().comment());
+		commentArea.setTitle(Accounter.messages().comment());
 		commentArea.setDisabled(isInViewMode());
 		form = new DynamicForm();
 		form.setNumCols(2);
@@ -244,7 +244,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		if (fromCombo.getSelectedValue().getID() == toCombo.getSelectedValue()
 				.getID()) {
 			result.addError(form,
-					constants.pleaseSelectDiffWarehousesToTransfer());
+					messages.pleaseSelectDiffWarehousesToTransfer());
 		}
 		return result;
 	}

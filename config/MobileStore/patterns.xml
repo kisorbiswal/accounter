@@ -19,7 +19,7 @@
 		<output>
 			<command>Bank Accounts</command>
 			<command>Create Bank Account</command>
-			<command>Deposits / Transfer Funds</command>
+			<command>Deposits and Transfer Funds</command>
 		</output>
 	</pattern>
 
@@ -138,18 +138,20 @@
 		<input>Product and Service Items</input>
 		<output>
 			<command>Create New Service Item</command>
-			<command>Create New Product Item</command>
+			<command>Create New NonInventory Item</command>
+			<command>Create New Inventory Item</command>
 			<command>List of All Items</command>
 		</output>
 	</pattern>
 
 	<pattern>
-		<input>AddItem</input>
+		<input>Add Item</input>
 		<input>New Item</input>
 		<input>Create Item</input>
 		<output>
 			<command>Create New Service Item</command>
-			<command>Create New Product Item</command>
+			<command>Create New NonInventory Item</command>
+			<command>Create New Inventory Item</command>
 			<command>List of All Items</command>
 		</output>
 	</pattern>
@@ -302,8 +304,8 @@
 	<pattern>
 		<input>Expense</input>
 		<output>
-			<command>Create Cash Expense</command>
-			<command>Create Credit Card Expense</command>
+			<command>New CashExpense</command>
+			<command>New CreditCard Expense</command>
 		</output>
 	</pattern>
 

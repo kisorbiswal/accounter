@@ -135,7 +135,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 */
 		if (selectedOption != null
 				&& selectedOption
-						.equalsIgnoreCase(Accounter.constants().edit())
+						.equalsIgnoreCase(Accounter.messages().edit())
 				&& isInViewMode() && data.getAssetAccount() != 0
 				&& accumltdAccVPanel != null
 				&& mainVPanel.getWidgetIndex(accumltdAccVPanel) == -1) {
@@ -168,23 +168,23 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label labl = new Label(Accounter.constants().newAsset());
-		labl.setStyleName(Accounter.constants().requiredField());
+		Label labl = new Label(Accounter.messages().newAsset());
+		labl.setStyleName(Accounter.messages().requiredField());
 		if (getData() != null) {
 			switch (data.getStatus()) {
 			case 0:
 			case ClientFixedAsset.STATUS_PENDING:
-				labl.setText(Accounter.constants().pendingAsset());
+				labl.setText(Accounter.messages().pendingAsset());
 				break;
 			case ClientFixedAsset.STATUS_REGISTERED:
-				labl.setText(Accounter.constants().registeredAsset());
+				labl.setText(Accounter.messages().registeredAsset());
 				break;
 			case ClientFixedAsset.STATUS_SOLD_OR_DISPOSED:
-				labl.setText(Accounter.constants().assetSold());
+				labl.setText(Accounter.messages().assetSold());
 			}
 		} else {
 			setData(new ClientFixedAsset());
-			labl.setText(Accounter.constants().newAsset());
+			labl.setText(Accounter.messages().newAsset());
 		}
 
 		HorizontalPanel lablHPanel = new HorizontalPanel();
@@ -192,11 +192,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		lablHPanel.setWidth("88%");
 		lablHPanel.add(labl);
 
-		itemTxt = new TextItem(Accounter.constants().newItem());
+		itemTxt = new TextItem(Accounter.messages().newItem());
 		itemTxt.setWidth("323px");
 		itemTxt.setRequired(true);
 
-		assetNumberTxt = new TextItem(Accounter.constants().assetNumber());
+		assetNumberTxt = new TextItem(Accounter.messages().assetNumber());
 		assetNumberTxt.setWidth("323px");
 		assetNumberTxt.setRequired(true);
 		// assetNumberTxt.addChangeHandler(new ChangeHandler() {
@@ -227,7 +227,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						accountCombo.getMainWidget().removeStyleName(
-								Accounter.constants().highlightedFormItem());
+								Accounter.messages().highlightedFormItem());
 						if (accountCombo.getSelectedValue() != null) {
 							selectedAssetAccount = accountCombo
 									.getSelectedValue();
@@ -253,7 +253,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						}
 					}
 				});
-		purchaseDateTxt = new DateField(Accounter.constants().purchaseDate());
+		purchaseDateTxt = new DateField(Accounter.messages().purchaseDate());
 		purchaseDateTxt.setDatethanFireEvent(new ClientFinanceDate());
 		purchaseDateTxt.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -263,7 +263,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			}
 		});
 
-		purchasePriceTxt = new AmountField(Accounter.constants()
+		purchasePriceTxt = new AmountField(Accounter.messages()
 				.purchasePrice(), this,getBaseCurrency());
 		purchasePriceTxt.setWidth(90);
 		purchasePriceTxt.addBlurHandler(new BlurHandler() {
@@ -275,12 +275,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			}
 		});
 
-		descrptionLabel = new Label(Accounter.constants().description());
+		descrptionLabel = new Label(Accounter.messages().description());
 		descriptionTxtArea = new TextAreaItem();
 		descriptionTxtArea.setToolTip(Accounter.messages()
 				.writeCommentsForThis(this.getAction().getViewName()).replace(
-						Accounter.constants().comments(),
-						Accounter.constants().description()));
+						Accounter.messages().comments(),
+						Accounter.messages().description()));
 		descriptionTxtArea.setWidth(98);
 
 		itmNameForm = new DynamicForm();
@@ -313,7 +313,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		emptyPanel.setWidth("10%");
 		itemHPanel.add(emptyPanel);
 		AccounterDOM.setAttribute(emptyPanel.getElement(), Accounter
-				.constants().width(), "10%");
+				.messages().width(), "10%");
 		itemHPanel.add(purchaseInfoVPanel);
 
 		VerticalPanel itmInfoVPanel = new VerticalPanel();
@@ -328,9 +328,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		descriptionVPanel.add(descrptionLabel);
 		descriptionVPanel.add(descriptionForm);
 
-		assetType = new TextItem(Accounter.constants().assetType());
+		assetType = new TextItem(Accounter.messages().assetType());
 
-		depreciationRate = new PercentageField(this, Accounter.constants()
+		depreciationRate = new PercentageField(this, Accounter.messages()
 				.depreciationRate());
 		depreciationRate.addBlurHandler(new BlurHandler() {
 
@@ -381,7 +381,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// }
 		// });
 
-		depreciationMethod = new DepreciationMethodCombo(Accounter.constants()
+		depreciationMethod = new DepreciationMethodCombo(Accounter.messages()
 				.depreciationMethod());
 		depreciationMethod.addChangeHandler(new ChangeHandler() {
 
@@ -416,50 +416,50 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		mainVPanel = new VerticalPanel();
 		mainVPanel.setSize("100%", "");
 		if (isInViewMode()) {
-			assetOptions = new SelectItem(Accounter.constants().assetOptions());
+			assetOptions = new SelectItem(Accounter.messages().assetOptions());
 			if (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
-				assetOptions.setValueMap("", Accounter.constants().edit(),
-						Accounter.constants().sell(), Accounter.constants()
-								.dispose(), Accounter.constants().addNote(),
-						Accounter.constants().showHistory());
+				assetOptions.setValueMap("", Accounter.messages().edit(),
+						Accounter.messages().sell(), Accounter.messages()
+								.dispose(), Accounter.messages().addNote(),
+						Accounter.messages().showHistory());
 			} else if (data.getStatus() == ClientFixedAsset.STATUS_PENDING) {
-				assetOptions.setValueMap("", Accounter.constants().edit(),
-						Accounter.constants().addNote(), Accounter.constants()
+				assetOptions.setValueMap("", Accounter.messages().edit(),
+						Accounter.messages().addNote(), Accounter.messages()
 								.showHistory());
 			} else {
-				assetOptions.setValueMap("", Accounter.constants().addNote(),
-						Accounter.constants().showHistory());
+				assetOptions.setValueMap("", Accounter.messages().addNote(),
+						Accounter.messages().showHistory());
 			}
 			assetOptions.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
 					selectedOption = assetOptions.getValue().toString();
-					if (selectedOption.equalsIgnoreCase(Accounter.constants()
+					if (selectedOption.equalsIgnoreCase(Accounter.messages()
 							.sell())) {
 						Action action = ActionFactory
 								.getSellingRegisteredItemAction();
-						action.catagory = Accounter.constants()
+						action.catagory = Accounter.messages()
 								.fixedAssetsNewFixedAsset();
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.constants().dispose())) {
+							.messages().dispose())) {
 						Action action = ActionFactory
 								.getDiposingRegisteredItemAction();
-						action.catagory = Accounter.constants()
+						action.catagory = Accounter.messages()
 								.fixedAssetsNewFixedAsset();
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.constants().showHistory())) {
+							.messages().showHistory())) {
 						Action action = ActionFactory.getHistoryListAction();
-						action.catagory = Accounter.constants()
+						action.catagory = Accounter.messages()
 								.fixedAssetsNewFixedAsset();
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.constants().addNote())) {
+							.messages().addNote())) {
 						openNoteDialog();
 					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.constants().edit())) {
+							.messages().edit())) {
 						disableFields(false);
 					} else {
 						disableFields(true);
@@ -518,10 +518,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						.getPurchaseDate()));
 			}
 			Label bookValueLbl = new Label();
-			bookValueLbl.setText(Accounter.constants().bookValue()
+			bookValueLbl.setText(Accounter.messages().bookValue()
 					+ data.getBookValue());
 			Label accumDepLbl = new Label();
-			accumDepLbl.setText(Accounter.constants().accumulatedDepreciation()
+			accumDepLbl.setText(Accounter.messages().accumulatedDepreciation()
 					+ data.getAccumulatedDepreciationAmount());
 			// XXX THIS CLASS IS NOT USED.
 			// -- need to check weder dis field is required or not
@@ -582,7 +582,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	 * clicking "save"
 	 */
 	private void openNoteDialog() {
-		noteDialog = new NoteDialog(Accounter.constants().addNote(), "");
+		noteDialog = new NoteDialog(Accounter.messages().addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -714,15 +714,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (!enteredDate.equals(getDepreciationStartDate())
 					&& enteredDate.before(getDepreciationStartDate())) {
 				isAssetAccumulated = true;
-				infoLabel1 = new Label(Accounter.constants()
+				infoLabel1 = new Label(Accounter.messages()
 						.purchaseDatePriorToFixedAssetsStartDate()
 						+ UIUtils
 								.getDateStringByDate(getDepreciationStartDate()
 										.toString())
-						+ Accounter.constants().openBraseSoPleaseSelect());
+						+ Accounter.messages().openBraseSoPleaseSelect());
 				infoLabel1.setStyleName("requiredField");
 				accmulatdDepreciationTxt = new AmountField(Accounter
-						.constants().accumulatedDepreciationTo()
+						.messages().accumulatedDepreciationTo()
 						+ " "
 						+ UIUtils.getDateStringByDate(enteredDate.toString()),
 						this,getBaseCurrency());
@@ -840,7 +840,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			// .IsUpdatedSuccessfully());
 			super.saveSuccess(result);
 		} else
-			saveFailed(new AccounterException(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.messages().failed()));
 
 	}
 
@@ -958,7 +958,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		ClientFixedAsset fixedAssetByName = getCompany().getFixedAssetByName(
 				itemTxt.getValue().toString());
 		if (fixedAssetByName != null) {
-			result.addError(itemTxt, Accounter.constants().alreadyExist());
+			result.addError(itemTxt, Accounter.messages().alreadyExist());
 			return result;
 		}
 		// if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
@@ -1093,7 +1093,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().newFixedAsset();
+		return Accounter.messages().newFixedAsset();
 	}
 
 	@Override
@@ -1102,7 +1102,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		buttonBar.add(this.saveAndCloseButton,
 				HasHorizontalAlignment.ALIGN_LEFT);
 
-		registerButton = new ImageButton(Accounter.constants().register(),
+		registerButton = new ImageButton(Accounter.messages().register(),
 				Accounter.getFinanceImages().register());
 		registerButton.addClickHandler(new ClickHandler() {
 

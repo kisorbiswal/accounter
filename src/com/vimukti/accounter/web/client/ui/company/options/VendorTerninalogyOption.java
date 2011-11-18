@@ -51,12 +51,12 @@ public class VendorTerninalogyOption extends AbstractPreferenceOption {
 	public void createControls() {
 		vendorsHeaderLabel.setText(messages.useTerminologyFor(Global.get()
 				.Vendor()));
-		vendorsDescriptionLabel.setText(constants.vendorDescription());
+		vendorsDescriptionLabel.setText(messages.vendorDescription());
 		vendorsDescriptionLabel.setStyleName("organisation_comment");
-		vendorRadioButton.setName(constants.Vendor());
-		vendorRadioButton.setHTML(constants.Vendor());
-		supplierRadioButton.setName(constants.Vendor());
-		supplierRadioButton.setHTML(constants.Supplier());
+		vendorRadioButton.setName(messages.Vendor());
+		vendorRadioButton.setHTML(messages.Vendor());
+		supplierRadioButton.setName(messages.Vendor());
+		supplierRadioButton.setHTML(messages.Supplier());
 	}
 
 	@Override

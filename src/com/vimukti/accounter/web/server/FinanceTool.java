@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.NotSerializableException;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -43,6 +43,7 @@ import com.vimukti.accounter.core.CloneUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.FinanceDate;
@@ -81,6 +82,7 @@ import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -104,9 +106,9 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
-import com.vimukti.accounter.web.client.translate.Status;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
 import com.vimukti.accounter.web.server.managers.DashboardManager;
@@ -119,6 +121,8 @@ import com.vimukti.accounter.web.server.managers.SalesManager;
 import com.vimukti.accounter.web.server.managers.TaxManager;
 import com.vimukti.accounter.web.server.managers.UserManager;
 import com.vimukti.accounter.web.server.managers.VendorManager;
+import com.vimukti.accounter.web.server.translate.Key;
+import com.vimukti.accounter.web.server.translate.Language;
 import com.vimukti.accounter.web.server.translate.LocalMessage;
 import com.vimukti.accounter.web.server.translate.Message;
 import com.vimukti.accounter.web.server.translate.Vote;
@@ -2197,18 +2201,22 @@ public class FinanceTool {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
+
+			if (message.getId() == 0) {
+				Query messageQuery = session.getNamedQuery("getMessageByValue")
+						.setParameter("value", message.getValue());
+				Message oldMessage = (Message) messageQuery.uniqueResult();
+				if (oldMessage != null) {
+					Set<Key> keys = oldMessage.getKeys();
+					keys.addAll(message.getKeys());
+					oldMessage.setKeys(keys);
+					message = oldMessage;
+				}
+			}
+
 			org.hibernate.Transaction transaction = session.beginTransaction();
 			session.saveOrUpdate(message);
 			transaction.commit();
-
-			Set<LocalMessage> localMessages = message.getLocalMessages();
-			for (LocalMessage localMessage : localMessages) {
-				localMessage.setMessage(message);
-				org.hibernate.Transaction localMessageTransaction = session
-						.beginTransaction();
-				session.saveOrUpdate(localMessage);
-				localMessageTransaction.commit();
-			}
 
 			return true;
 		} catch (Exception e) {
@@ -2263,7 +2271,7 @@ public class FinanceTool {
 				List list2 = query.list();
 				Iterator iterator1 = list2.iterator();
 				while (iterator1.hasNext()) {
-					int messageId = (Integer) iterator1.next();
+					long messageId = (Long) iterator1.next();
 					Query messageQuery = session
 							.getNamedQuery("getMessageById").setParameter("id",
 									messageId);
@@ -2279,7 +2287,7 @@ public class FinanceTool {
 				List list = messageIdsQuery.list();
 				Iterator iterator = list.iterator();
 				while (iterator.hasNext()) {
-					int messageId = (Integer) iterator.next();
+					long messageId = (Long) iterator.next();
 					Query messageQuery = session
 							.getNamedQuery("getMessageById").setParameter("id",
 									messageId);
@@ -2296,7 +2304,7 @@ public class FinanceTool {
 				List queryList = myTranslationsQuery.list();
 				Iterator i = queryList.iterator();
 				while (i.hasNext()) {
-					int messageId = (Integer) i.next();
+					long messageId = (Long) i.next();
 					Query messageQuery = session
 							.getNamedQuery("getMessageById").setParameter("id",
 									messageId);
@@ -2320,19 +2328,23 @@ public class FinanceTool {
 
 				Iterator iter = approvedMessagesQuery.list().iterator();
 				while (iter.hasNext()) {
-					int messageId = (Integer) iter.next();
+					long messageId = (Long) iter.next();
 					Query messageQuery = session
 							.getNamedQuery("getMessageById").setParameter("id",
 									messageId);
 					Message message = (Message) messageQuery.uniqueResult();
 					Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
 					for (LocalMessage localMessage : message.getLocalMessages()) {
-						if (!localMessage.isApproved()) {
+						if (!localMessage.isApproved()
+								&& localMessage.getLang().getLanguageCode()
+										.equals(lang)) {
 							localMessages.add(localMessage);
 						}
 					}
-					message.setLocalMessages(localMessages);
-					messages.add(message);
+					if (!localMessages.isEmpty()) {
+						message.setLocalMessages(localMessages);
+						messages.add(message);
+					}
 				}
 				break;
 
@@ -2347,7 +2359,7 @@ public class FinanceTool {
 				Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
 
 				for (LocalMessage localMessage : message.getLocalMessages()) {
-					if (localMessage.getLang().equals(lang)) {
+					if (localMessage.getLang().getLanguageCode().equals(lang)) {
 						localMessages.add(localMessage);
 					}
 				}
@@ -2355,7 +2367,6 @@ public class FinanceTool {
 
 				ClientMessage clientMessage = new ClientMessage();
 				clientMessage.setId(message.getId());
-				clientMessage.setKey(message.getKey());
 				clientMessage.setValue(message.getValue());
 				ArrayList<ClientLocalMessage> clientLocalMessages = new ArrayList<ClientLocalMessage>();
 				for (LocalMessage localMessage : localMessages) {
@@ -2365,8 +2376,7 @@ public class FinanceTool {
 					clientLocalMessage.setApproved(localMessage.isApproved());
 					clientLocalMessage.setCreateBy(localMessage.getCreatedBy()
 							.getFirstName());
-					clientLocalMessage.setUps(localMessage.getUps());
-					clientLocalMessage.setDowns(localMessage.getDowns());
+					clientLocalMessage.setVotes(localMessage.getUps());
 					clientLocalMessages.add(clientLocalMessage);
 				}
 				clientMessage.setLocalMessages(clientLocalMessages);
@@ -2383,7 +2393,7 @@ public class FinanceTool {
 		}
 	}
 
-	public boolean addVote(int localMessageId, boolean up, String userEmail) {
+	public boolean addVote(long localMessageId, String userEmail) {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
@@ -2409,33 +2419,19 @@ public class FinanceTool {
 				vote = new Vote();
 				vote.setLocalMessage(localMessage);
 				vote.setClient(client);
-				vote.setUp(up);
-				if (up) {
-					localMessage.setUps(localMessage.getUps() + 1);
-				} else {
-					localMessage.setDowns(localMessage.getDowns() + 1);
-				}
-			}
-			boolean isUp = vote.isUp();
-			if (isUp != up) {
-				vote.setUp(up);
-				if (up) {
-					localMessage.setUps(localMessage.getUps() + 1);
-					localMessage.setDowns(localMessage.getDowns() - 1);
-				} else {
-					localMessage.setDowns(localMessage.getDowns() + 1);
-					localMessage.setUps(localMessage.getUps() - 1);
-				}
+				localMessage.setUps(localMessage.getUps() + 1);
+
+				org.hibernate.Transaction voteTransaction = session
+						.beginTransaction();
+				session.saveOrUpdate(vote);
+				voteTransaction.commit();
+
+				org.hibernate.Transaction transaction = session
+						.beginTransaction();
+				session.saveOrUpdate(localMessage);
+				transaction.commit();
 			}
 
-			org.hibernate.Transaction voteTransaction = session
-					.beginTransaction();
-			session.saveOrUpdate(vote);
-			voteTransaction.commit();
-
-			org.hibernate.Transaction transaction = session.beginTransaction();
-			session.saveOrUpdate(localMessage);
-			transaction.commit();
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -2446,7 +2442,7 @@ public class FinanceTool {
 		}
 	}
 
-	public boolean addTranslation(String userEmail, int id, String lang,
+	public boolean addTranslation(String userEmail, long id, String lang,
 			String value) {
 		Session session = null;
 		try {
@@ -2460,18 +2456,36 @@ public class FinanceTool {
 			Query namedQuery = session.getNamedQuery("getLocalMessageByClient")
 					.setParameter("clientId", client.getID()).setParameter(
 							"messageId", id).setParameter("lang", lang);
-			Object uniqueResult = namedQuery.uniqueResult();
+			LocalMessage uniqueResult = (LocalMessage) namedQuery
+					.uniqueResult();
 			if (uniqueResult != null) {
-				return false;
+
+				Query deleteVotesQuery = session.getNamedQuery(
+						"deleteVotesByLocalMessage").setParameter("id",
+						uniqueResult.getId());
+				Query deleteQuery = session.getNamedQuery("deleteLocalMessage")
+						.setParameter("id", uniqueResult.getId());
+
 			}
 
 			Query messageQuery = session.getNamedQuery("getMessageById")
 					.setParameter("id", id);
 			Message message = (Message) messageQuery.uniqueResult();
+			Set<LocalMessage> localMessages2 = message.getLocalMessages();
+			for (LocalMessage localMessage : localMessages2) {
+				if (localMessage.getCreatedBy().equals(client)
+						&& localMessage.getLang().equals(lang)) {
+					return false;
+				}
+			}
+
+			Query languageQuery = session.getNamedQuery("getLanguageById")
+					.setParameter("code", lang);
+			Language language = (Language) languageQuery.uniqueResult();
 
 			LocalMessage localMessage = new LocalMessage();
 			localMessage.setMessage(message);
-			localMessage.setLang(lang);
+			localMessage.setLang(language);
 			localMessage.setValue(value);
 			localMessage.setCreatedDate(new Date(System.currentTimeMillis()));
 			localMessage.setCreatedBy(client);
@@ -2480,8 +2494,19 @@ public class FinanceTool {
 			session.saveOrUpdate(localMessage);
 			transaction.commit();
 
+			addVote(localMessage.getId(), userEmail);
+
+			org.hibernate.Transaction mesgTransaction = session
+					.beginTransaction();
+			Set<LocalMessage> localMessages = message.getLocalMessages();
+			localMessages.add(localMessage);
+			message.setLocalMessages(localMessages);
+			session.saveOrUpdate(message);
+			mesgTransaction.commit();
+
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		} finally {
 			if (session != null) {
@@ -2490,59 +2515,51 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Status> getTranslationStatus() {
-		Session session = null;
-		try {
-			session = HibernateUtil.openSession();
-
-			ArrayList<Status> list = new ArrayList<Status>();
-
-			List<String> languages = getLanguages();
-
-			Query noOfMessagesQuery = session.getNamedQuery("getNoOfMessages");
-			BigInteger noOfMessages = (BigInteger) noOfMessagesQuery
-					.uniqueResult();
-
-			for (String language : languages) {
-
-				Query noOfTranslatedMessagesQuery = session.getNamedQuery(
-						"getNoOfMessagesTranslatedByLang").setParameter("lang",
-						language);
-				BigInteger translatedMessages = (BigInteger) noOfTranslatedMessagesQuery
-						.uniqueResult();
-
-				Query noOfApprovedMessagesQuery = session.getNamedQuery(
-						"getNoOfMessagesApprovedByLang").setParameter("lang",
-						language);
-				BigInteger approvedMessages = (BigInteger) noOfApprovedMessagesQuery
-						.uniqueResult();
-
-				Status status = new Status();
-				status.setTotal(noOfMessages.intValue());
-				status.setLang(language);
-				status.setTranslated(translatedMessages.intValue());
-				status.setApproved(approvedMessages.intValue());
-
-				list.add(status);
-			}
-			return list;
-		} catch (Exception e) {
-			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-
-	}
-
-	private List<String> getLanguages() {
-		ArrayList<String> languages = new ArrayList<String>();
-		languages.add("eng");
-		languages.add("hindi");
-		languages.add("tel");
-		return languages;
-	}
+	// public ArrayList<Status> getTranslationStatus() {
+	// Session session = null;
+	// try {
+	// session = HibernateUtil.openSession();
+	//
+	// ArrayList<Status> list = new ArrayList<Status>();
+	//
+	// List<String> languages = getLanguages();
+	//
+	// Query noOfMessagesQuery = session.getNamedQuery("getNoOfMessages");
+	// BigInteger noOfMessages = (BigInteger) noOfMessagesQuery
+	// .uniqueResult();
+	//
+	// for (String language : languages) {
+	//
+	// Query noOfTranslatedMessagesQuery = session.getNamedQuery(
+	// "getNoOfMessagesTranslatedByLang").setParameter("lang",
+	// language);
+	// BigInteger translatedMessages = (BigInteger) noOfTranslatedMessagesQuery
+	// .uniqueResult();
+	//
+	// Query noOfApprovedMessagesQuery = session.getNamedQuery(
+	// "getNoOfMessagesApprovedByLang").setParameter("lang",
+	// language);
+	// BigInteger approvedMessages = (BigInteger) noOfApprovedMessagesQuery
+	// .uniqueResult();
+	//
+	// Status status = new Status();
+	// status.setTotal(noOfMessages.intValue());
+	// status.setLang(language);
+	// status.setTranslated(translatedMessages.intValue());
+	// status.setApproved(approvedMessages.intValue());
+	//
+	// list.add(status);
+	// }
+	// return list;
+	// } catch (Exception e) {
+	// return null;
+	// } finally {
+	// if (session != null) {
+	// session.close();
+	// }
+	// }
+	//
+	// }
 
 	public List<Message> getAllMessages() {
 		Session session = null;
@@ -2562,34 +2579,185 @@ public class FinanceTool {
 			}
 		}
 	}
-	
-	public boolean setApprove(int id, boolean isApproved) {
-		  Session session = null;
-		  try {
-		   session = HibernateUtil.openSession();
 
-		   Query query = session.getNamedQuery("getLocalMessageById")
-		     .setParameter("id", id);
-		   LocalMessage localMessage = (LocalMessage) query.uniqueResult();
+	public boolean setApprove(long id, boolean isApproved) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
 
-		   if (localMessage == null) {
-		    return false;
-		   }
+			Query query = session.getNamedQuery("getLocalMessageById")
+					.setParameter("id", id);
+			LocalMessage localMessage = (LocalMessage) query.uniqueResult();
 
-		   localMessage.setApproved(isApproved);
+			if (localMessage == null) {
+				return false;
+			}
 
-		   org.hibernate.Transaction transaction = session.beginTransaction();
-		   session.saveOrUpdate(localMessage);
-		   transaction.commit();
+			Query messagesQuery = session.getNamedQuery(
+					"getLocalMessagesByMessageId").setParameter("messageId",
+					localMessage.getMessage().getId());
+			List<LocalMessage> list = messagesQuery.list();
 
-		   return true;
-		  } catch (Exception e) {
-		   e.printStackTrace();
-		   return false;
-		  } finally {
-		   if (session != null) {
-		    session.close();
-		   }
-		  }
-		 }
+			for (LocalMessage locMessage : list) {
+				if (locMessage.isApproved()) {
+					locMessage.setApproved(false);
+					org.hibernate.Transaction transaction = session
+							.beginTransaction();
+					session.saveOrUpdate(locMessage);
+					transaction.commit();
+				}
+			}
+
+			localMessage.setApproved(isApproved);
+
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			session.saveOrUpdate(localMessage);
+			transaction.commit();
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean deleteMessage(Message message) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			session.delete(message);
+			transaction.commit();
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private long updatePrimaryCurrency(long companyId, ClientCurrency currency)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Currency existingCurrency = company.getCurrency(currency
+				.getFormalName());
+		if (existingCurrency == null) {
+			existingCurrency = new Currency();
+			existingCurrency = new ServerConvertUtil().toServerObject(
+					existingCurrency, currency, session);
+			existingCurrency.setCompany(company);
+			session.save(existingCurrency);
+		}
+		company.getPreferences().setPrimaryCurrency(existingCurrency);
+		Query query = session
+				.getNamedQuery("update.primay.currency.in.company")
+				.setParameter("companyId", companyId).setParameter(
+						"currencyId", existingCurrency.getID());
+		query.executeUpdate();
+		return existingCurrency.getID();
+	}
+
+	/**
+	 * Return all local messages of given language for the given client. All
+	 * Values must be single quote escaped for Javascript
+	 * 
+	 * ex: that's => that\'s
+	 * 
+	 * @param clientId
+	 * @param langCode
+	 * @return
+	 */
+	public HashMap<String, String> getKeyAndValues(long clientId,
+			String langCode) {
+		// Replace("'", "\\'")
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getKeyAndValues")
+					.setParameter("clientId", clientId).setParameter("lang",
+							langCode);
+			List list = query.list();
+
+			HashMap<String, String> result = new HashMap<String, String>();
+
+			Iterator iterator = list.iterator();
+			while (iterator.hasNext()) {
+				Object[] next = (Object[]) iterator.next();
+				String key = (String) next[0];
+				String value = (String) next[1];
+				if (result.containsKey(key)) {
+					continue;
+				}
+				value.replace("'", "\\'");
+				result.put(key, value);
+			}
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+	}
+
+	public List<ClientLanguage> getLanguages() {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getLanguages");
+			List<Language> list = query.list();
+
+			ArrayList<ClientLanguage> result = new ArrayList<ClientLanguage>();
+
+			for (Language language : list) {
+				ClientLanguage clientLanguage = new ClientLanguage(language
+						.getLanguageTooltip(), language.getLangugeName(),
+						language.getLanguageCode());
+				result.add(clientLanguage);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean canApprove(String userEmail, String lang) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Client client = getUserManager().getClient(userEmail);
+			for (Language language : client.getLanguages()) {
+				if (language.getLanguageCode().equals(lang)) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 }

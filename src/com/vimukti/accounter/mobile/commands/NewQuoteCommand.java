@@ -72,7 +72,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -92,7 +92,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -119,7 +119,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				false, true, true) {
 
 			@Override
@@ -137,13 +137,13 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
-				.pleaseEnterName(getConstants().paymentTerm()), getConstants()
+				.pleaseEnterName(getMessages().paymentTerm()), getMessages()
 				.paymentTerm(), true, true, null) {
 
 			@Override
@@ -154,7 +154,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
-				getConstants().contactName()), getConstants().contacts(), true,
+				getMessages().contactName()), getMessages().contacts(), true,
 				true, null) {
 
 			@Override
@@ -170,25 +170,25 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phone(), true,
+				getMessages().phoneNumber()), getMessages().phone(), true,
 				true));
 
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
-				getConstants().deliveryDate()), getConstants().deliveryDate(),
+				getMessages().deliveryDate()), getMessages().deliveryDate(),
 				true, true));
 
 		list.add(new DateRequirement(EXPIRATION_DATE, getMessages()
-				.pleaseEnter(getConstants().expirationDate()), getConstants()
+				.pleaseEnter(getMessages().expirationDate()), getMessages()
 				.expirationDate(), true, false));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 
 			@Override
@@ -241,7 +241,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		Customer customer = get(CUSTOMER).getValue();
 		estimate.setCustomer(customer.getID());
-		estimate.setType(ClientEstimate.TYPE_ESTIMATE);
+		estimate.setEstimateType(ClientEstimate.QUOTES);
 
 		ClientFinanceDate date = get(DATE).getValue();
 		estimate.setDate(date.getDate());
@@ -281,8 +281,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		}
 
 		estimate.setTransactionItems(items);
-		double taxTotal = updateTotals(context, estimate, true);
-		estimate.setTaxTotal(taxTotal);
+
 		PaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		estimate.setPaymentTerm(paymentTerm.getID());
 
@@ -293,9 +292,11 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		estimate.setDeliveryDate(deliveryDate.getDate());
 		ClientFinanceDate expiryDdate = get(EXPIRATION_DATE).getValue();
 		estimate.setExpirationDate(expiryDdate.getDate());
-
+		estimate.setCurrencyFactor(1);
 		String memo = get(MEMO).getValue();
 		estimate.setMemo(memo);
+		double taxTotal = updateTotals(context, estimate, true);
+		estimate.setTaxTotal(taxTotal);
 		create(estimate, context);
 
 		return null;
@@ -304,13 +305,13 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return estimate.getID() == 0 ? getMessages().creating(
-				getConstants().quote()) : "Quote updating..";
+				getMessages().quote()) : "Quote updating..";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return estimate.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().quote())
+				getMessages().quote())
 				: "Quote is ready to update with following details";
 	}
 
@@ -343,8 +344,8 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return estimate.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().quote()) : getMessages().updateSuccessfully(
-				getConstants().quote());
+				getMessages().quote()) : getMessages().updateSuccessfully(
+				getMessages().quote());
 	}
 
 	@Override
@@ -364,12 +365,18 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Quote to update.");
 				return "Quotes List";
 			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			ClientEstimate estimateByNum = (ClientEstimate) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(),
-							getNumberFromString(string));
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.ESTIMATE);
 			if (estimateByNum == null) {
+				addFirstMessage(context, "Select a Quote to update.");
 				return "Quotes List " + string;
 			}
 			estimate = estimateByNum;
@@ -393,13 +400,13 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 						AccounterCoreType.CUSTOMER));
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(estimate.getDeliveryDate()));
-		get(EXPIRATION_DATE).setValue(estimate.getExpirationDate());
+		get(EXPIRATION_DATE).setValue(
+				new ClientFinanceDate(estimate.getExpirationDate()));
 		get(CONTACT).setValue(toServerContact(estimate.getContact()));
 		get(BILL_TO).setValue(estimate.getAddress());
 		get(PAYMENT_TERMS).setValue(
 				CommandUtils.getServerObjectById(estimate.getPaymentTerm(),
 						AccounterCoreType.PAYMENT_TERM));
-		get(ORDER_NO).setValue(estimate.getNumber());
 		get(MEMO).setValue(estimate.getMemo());
 		get(CURRENCY_FACTOR).setValue(estimate.getCurrencyFactor());
 		get(IS_VAT_INCLUSIVE).setValue(estimate.isAmountsIncludeVAT());

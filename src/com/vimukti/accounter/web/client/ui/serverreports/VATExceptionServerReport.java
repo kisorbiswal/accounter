@@ -143,10 +143,10 @@ public class VATExceptionServerReport extends AbstractFinaneReport<VATDetail> {
 	 */
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().noDot(), getConstants().vatRate(),
-				getConstants().filedAmount(), getConstants().currentAmount(),
-				getConstants().amountDifference() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().noDot(), getMessages().vatRate(),
+				getMessages().filedAmount(), getMessages().currentAmount(),
+				getMessages().amountDifference() };
 	}
 
 	/*
@@ -155,7 +155,7 @@ public class VATExceptionServerReport extends AbstractFinaneReport<VATDetail> {
 	 */
 	@Override
 	public String getTitle() {
-		return getConstants().vatDetail();
+		return getMessages().vatDetail();
 	}
 
 	@Override
@@ -177,10 +177,10 @@ public class VATExceptionServerReport extends AbstractFinaneReport<VATDetail> {
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().noDot(), getConstants().vatRate(),
-				getConstants().filedAmount(), getConstants().currentAmount(),
-				getConstants().amountDifference() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().noDot(), getMessages().vatRate(),
+				getMessages().filedAmount(), getMessages().currentAmount(),
+				getMessages().amountDifference() };
 	}
 
 }

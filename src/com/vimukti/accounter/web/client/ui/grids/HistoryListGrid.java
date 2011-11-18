@@ -51,7 +51,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 					|| asset.getActionType()
 							.equalsIgnoreCase(
 									ClientFixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED)) {
-				return Accounter.constants().viewDisposalJournal();
+				return Accounter.messages().viewDisposalJournal();
 			} else {
 				return asset.getDetails() != null ? asset.getDetails() : "";
 			}
@@ -79,7 +79,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 						@Override
 						public void onException(AccounterException caught) {
-							Accounter.showError(Accounter.constants()
+							Accounter.showError(Accounter.messages()
 									.failedGetJournalEntries());
 						}
 
@@ -99,9 +99,9 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().changes(),
-				Accounter.constants().date(), Accounter.constants().user(),
-				Accounter.constants().details() };
+		return new String[] { Accounter.messages().changes(),
+				Accounter.messages().date(), Accounter.messages().user(),
+				Accounter.messages().details() };
 	}
 
 	@Override

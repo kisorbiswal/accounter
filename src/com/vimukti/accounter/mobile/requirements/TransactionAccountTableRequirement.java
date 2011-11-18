@@ -38,7 +38,7 @@ public class TransactionAccountTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
-				getConstants().account()), getConstants().account(), false,
+				getMessages().account()), getMessages().account(), false,
 				true, null) {
 
 			@Override
@@ -53,19 +53,19 @@ public class TransactionAccountTableRequirement extends
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 		});
 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), false, true));
+				getMessages().amount()), getMessages().amount(), false, true));
 
 		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
-				getConstants().discount()), getConstants().discount(), true,
+				getMessages().discount()), getMessages().discount(), true,
 				true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -99,12 +99,12 @@ public class TransactionAccountTableRequirement extends
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().taxable();
+				return getMessages().taxable();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().taxExempt();
+				return getMessages().taxExempt();
 			}
 
 			@Override
@@ -119,7 +119,7 @@ public class TransactionAccountTableRequirement extends
 		});
 
 		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
-				getConstants().description()), getConstants().description(),
+				getMessages().description()), getMessages().description(),
 				true, true));
 	}
 
@@ -166,6 +166,7 @@ public class TransactionAccountTableRequirement extends
 			get(TAXCODE).setDefaultValue(
 					CommandUtils.getServerObjectById(obj.getTaxCode(),
 							AccounterCoreType.TAX_CODE));
+			get(TAX).setDefaultValue(false);
 		} else {
 			get(TAX).setDefaultValue(obj.isTaxable());
 		}
@@ -198,9 +199,9 @@ public class TransactionAccountTableRequirement extends
 			record.add("", taxCode == null ? "" : taxCode.getDisplayName());
 		} else {
 			if (t.isTaxable()) {
-				record.add("", getConstants().taxable());
+				record.add("", getMessages().taxable());
 			} else {
-				record.add("", getConstants().taxExempt());
+				record.add("", getMessages().taxExempt());
 			}
 		}
 		record.add("", t.getDiscount());
@@ -222,7 +223,7 @@ public class TransactionAccountTableRequirement extends
 	protected String getAddMoreString() {
 		List<ClientTransactionItem> items = getValue();
 		return items.isEmpty() ? "Add Account Items" : getMessages().addMore(
-				getConstants().Accounts());
+				getMessages().Accounts());
 	}
 
 }

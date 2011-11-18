@@ -33,7 +33,7 @@ public class ChangePasswordAction extends Action {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		view = new ChangePasswordDialog(Accounter.constants().changePassword(),
+		view = new ChangePasswordDialog(Accounter.messages().changePassword(),
 				null);
 		view.show();
 		view.center();

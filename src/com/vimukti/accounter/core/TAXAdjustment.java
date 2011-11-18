@@ -203,7 +203,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public String toString() {
-		return Global.get().constants().taxAdjustment();
+		return Global.get().messages().taxAdjustment();
 	}
 
 	@Override

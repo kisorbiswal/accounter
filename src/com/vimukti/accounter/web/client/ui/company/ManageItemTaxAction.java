@@ -10,7 +10,7 @@ public class ManageItemTaxAction extends Action {
 
 	public ManageItemTaxAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	// @Override

@@ -14,8 +14,6 @@ public class Vote implements Serializable {
 
 	LocalMessage localMessage;
 
-	boolean isUp;
-
 	Client client;
 
 	public int getId() {
@@ -32,14 +30,6 @@ public class Vote implements Serializable {
 
 	public void setLocalMessage(LocalMessage localMessage) {
 		this.localMessage = localMessage;
-	}
-
-	public boolean isUp() {
-		return isUp;
-	}
-
-	public void setUp(boolean isUp) {
-		this.isUp = isUp;
 	}
 
 	public Client getClient() {

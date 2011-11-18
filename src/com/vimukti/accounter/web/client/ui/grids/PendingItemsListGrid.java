@@ -52,12 +52,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().item(),
-				Accounter.constants().assetNumber(), Global.get().account(),
-				Accounter.constants().purchaseDate(),
-				Accounter.constants().purchasePrice(),
-				Accounter.constants().showHistory(),
-				Accounter.constants().addNote(), "" };
+		return new String[] { Accounter.messages().item(),
+				Accounter.messages().assetNumber(), Global.get().account(),
+				Accounter.messages().purchaseDate(),
+				Accounter.messages().purchasePrice(),
+				Accounter.messages().showHistory(),
+				Accounter.messages().addNote(), "" };
 	}
 
 	/*
@@ -84,9 +84,9 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return DataUtils.amountAsStringWithCurrency(asset.getPurchasePrice(), getCompany()
 					.getPrimaryCurrency());
 		case 5:
-			return Accounter.constants().showHistory();
+			return Accounter.messages().showHistory();
 		case 6:
-			return Accounter.constants().addNote();
+			return Accounter.messages().addNote();
 		case 7:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -133,12 +133,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.constants().fixedAssetsPendingItemsList();
+		action.catagory = Accounter.messages().fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.constants().addNote(), "");
+		noteDialog = new NoteDialog(Accounter.messages().addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -226,7 +226,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	protected void validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		throw new InvalidEntryException(Accounter.constants()
+		throw new InvalidEntryException(Accounter.messages()
 				.pleaseenterthenote());
 
 	}

@@ -59,7 +59,7 @@ public class ConversionBalancesView extends BaseView {
 
 	public void addNewTab(String endingDate, String year) {
 		createControls();
-		tabPanel.add(getBodyControls(), Accounter.constants().january01()
+		tabPanel.add(getBodyControls(), Accounter.messages().january01()
 				+ year + " _ " + endingDate);
 	}
 
@@ -114,7 +114,7 @@ public class ConversionBalancesView extends BaseView {
 
 		headerButtonPanel = new HorizontalPanel();
 		// grid=new
-		superHeaderHtml = new HTML(Accounter.constants().generalSettingsLabel());
+		superHeaderHtml = new HTML(Accounter.messages().generalSettingsLabel());
 		superHeaderHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -137,7 +137,7 @@ public class ConversionBalancesView extends BaseView {
 
 		addComparativeBalancesButton = new Button(messages
 				.addComparativeButton());
-		conversionDateButton = new Button(messages.conversionDateButton());
+		conversionDateButton = new Button(messages.conversionDate());
 		conversionDateButton.addStyleName("company-settings-html");
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
@@ -150,19 +150,19 @@ public class ConversionBalancesView extends BaseView {
 		tabBodyPanel = new VerticalPanel();
 		addNewButtonPanel = new HorizontalPanel();
 		footerButtonPanel = new HorizontalPanel();
-		addNewButton = new Button(constants.addNew());
-		saveButton = new Button(Accounter.constants().save());
-		cancelButton = new Button(Accounter.constants().cancel());
+		addNewButton = new Button(messages.addNewLine());
+		saveButton = new Button(Accounter.messages().save());
+		cancelButton = new Button(Accounter.messages().cancel());
 		footerPanel = new VerticalPanel();
 		debit_creditForm = new DynamicForm();
-		debitLabel = new AmountLabel(Accounter.constants().totalDebits());
-		creditLabel = new AmountLabel(Accounter.constants().totalCredits());
-		adjustmentLabel = new AmountLabel(Accounter.constants().adjustments());
+		debitLabel = new AmountLabel(Accounter.messages().totalDebits());
+		creditLabel = new AmountLabel(Accounter.messages().totalCredits());
+		adjustmentLabel = new AmountLabel(Accounter.messages().adjustments());
 		tabFlexTable = new FlexTable();
 		account = new Label(Accounter.messages().conversionAccount(
 				Global.get().Account()));
-		credit = new Label(Accounter.constants().credit());
-		debit = new Label(Accounter.constants().debit());
+		credit = new Label(Accounter.messages().credit());
+		debit = new Label(Accounter.messages().debit());
 
 		tabFlexTable.setWidget(0, 0, account);
 		tabFlexTable.setWidget(0, 1, credit);
@@ -171,7 +171,7 @@ public class ConversionBalancesView extends BaseView {
 		adjustmentLabel.setAmount(debitLabel.getAmount()
 				- creditLabel.getAmount());
 		removeZeroBalance = new LabelItem();
-		removeZeroBalance.setValue(Accounter.constants().removeZeroBalances());
+		removeZeroBalance.setValue(Accounter.messages().removeZeroBalances());
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
 		removeZeroBalance.setDisabled(isInViewMode());
@@ -230,7 +230,7 @@ public class ConversionBalancesView extends BaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().conversionBalance();
+		return Accounter.messages().conversionBalance();
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public class ApproveButton extends ImageButton {
 	private AbstractTransactionBaseView<?> view;
 
 	public ApproveButton(AbstractTransactionBaseView<?> baseView) {
-		super(Accounter.constants().approve(), Accounter.getFinanceImages()
+		super(Accounter.messages().approve(), Accounter.getFinanceImages()
 				.saveAndClose());
 		this.view = baseView;
 		this.addStyleName("saveAndClose-Btn");

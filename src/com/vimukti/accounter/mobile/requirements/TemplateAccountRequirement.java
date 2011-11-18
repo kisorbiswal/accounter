@@ -71,7 +71,7 @@ public abstract class TemplateAccountRequirement extends
 						"",
 						values.size()
 								+ getMessages().hasSelected(
-										getConstants().Account()));
+										getMessages().Account()));
 				list.add(record);
 				return null;
 			}
@@ -108,7 +108,7 @@ public abstract class TemplateAccountRequirement extends
 		record.add(
 				"",
 				values.size()
-						+ getMessages().hasSelected(getConstants().Account()));
+						+ getMessages().hasSelected(getMessages().Account()));
 		list.add(record);
 
 		if (valuesSelection == "accountsNumber") {
@@ -120,7 +120,7 @@ public abstract class TemplateAccountRequirement extends
 
 	private Result showSlectedAccounts() {
 		Result result = new Result();
-		result.add(getConstants().Accounts());
+		result.add(getMessages().Accounts());
 		ResultList actions = new ResultList(ACTIONS);
 		ResultList itemsList = new ResultList(ACCOUNTS_LIST);
 		List<TemplateAccount> values = getValue();
@@ -131,16 +131,16 @@ public abstract class TemplateAccountRequirement extends
 		}
 		result.add(itemsList);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
-		moreItems.add("", getMessages().addMore(getConstants().Accounts()));
+		moreItems.add("", getMessages().addMore(getMessages().Accounts()));
 		actions.add(moreItems);
 		Record setDefault = new Record(ActionNames.SET_DEFAULT);
-		setDefault.add("", getMessages().setDefault(getConstants().Accounts()));
+		setDefault.add("", getMessages().setDefault(getMessages().Accounts()));
 		actions.add(setDefault);
 		Record close = new Record(ActionNames.CLOSE);
-		close.add("", getConstants().close());
+		close.add("", getMessages().close());
 		actions.add(close);
 		result.add(actions);
-		result.add(getMessages().selectToDelete(getConstants().Accounts()));
+		result.add(getMessages().selectToDelete(getMessages().Accounts()));
 		return result;
 	}
 
@@ -159,7 +159,7 @@ public abstract class TemplateAccountRequirement extends
 				result.add(getEnterString());
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
-				record.add("", getConstants().showAll());
+				record.add("", getMessages().showAll());
 				actions.add(record);
 				result.add(actions);
 				return result;
@@ -173,7 +173,7 @@ public abstract class TemplateAccountRequirement extends
 		if (selection == ActionNames.ALL) {
 			lists = getLists(context);
 			if (lists.size() != 0) {
-				result.add(getConstants().allRecords());
+				result.add(getMessages().allRecords());
 			}
 			name = null;
 		} else if (selection == null) {
@@ -270,13 +270,13 @@ public abstract class TemplateAccountRequirement extends
 
 		if (records.size() > index) {
 			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
-			inActiveRec.add("", getConstants().nextPage());
+			inActiveRec.add("", getMessages().nextPage());
 			actions.add(inActiveRec);
 		}
 
 		if (index > recordsToShow) {
 			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
-			inActiveRec.add("", getConstants().prevPage());
+			inActiveRec.add("", getMessages().prevPage());
 			actions.add(inActiveRec);
 		}
 		return result;
@@ -316,7 +316,7 @@ public abstract class TemplateAccountRequirement extends
 	}
 
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().Account());
+		return getMessages().youDontHaveAny(getMessages().Account());
 	}
 
 	@Override
@@ -348,7 +348,7 @@ public abstract class TemplateAccountRequirement extends
 	 * @return
 	 */
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().account());
+		return getMessages().pleaseSelect(getMessages().account());
 	}
 
 	/**

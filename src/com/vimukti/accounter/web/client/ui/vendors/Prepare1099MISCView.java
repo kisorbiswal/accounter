@@ -35,7 +35,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -78,13 +78,13 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	@Override
 	public void init() {
-		AccounterConstants c = Accounter.constants();
-		boxes = new String[] { c.box1() + "\n(600.00)", c.box2() + "\n(10.00)",
-				c.box3() + "\n(600.00)", c.box4() + "\n(0.00)",
-				c.box5() + "\n(0.00)", c.box6() + "\n(600.00)",
-				c.box7() + "\n(600.00)", c.box8() + "\n(10.00)",
-				c.box9() + "\n(5000.00)", c.box10() + "\n(600.00)",
-				c.box13() + "\n(0.00)", c.box14() + "\n(0.00)" };
+		AccounterMessages messages = Accounter.messages();
+		boxes = new String[] { messages.box1() + "\n(600.00)", messages.box2() + "\n(10.00)",
+				messages.box3() + "\n(600.00)", messages.box4() + "\n(0.00)",
+				messages.box5() + "\n(0.00)", messages.box6() + "\n(600.00)",
+				messages.box7() + "\n(600.00)", messages.box8() + "\n(10.00)",
+				messages.box9() + "\n(5000.00)", messages.box10() + "\n(600.00)",
+				messages.box13() + "\n(0.00)", messages.box14() + "\n(0.00)" };
 
 		this.createControl();
 
@@ -223,13 +223,13 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					}
 				});
 
-		cellTable.addColumn(checkBoxColumn, Accounter.constants().select());
+		cellTable.addColumn(checkBoxColumn, Accounter.messages().select());
 		cellTable.addColumn(informationColumn, Accounter.messages()
 				.payeeInformation(Global.get().Vendor()));
 		addBoxColumnsToCellTable(cellTable);
-		cellTable.addColumn(total1099PaymentsColumn, Accounter.constants()
+		cellTable.addColumn(total1099PaymentsColumn, Accounter.messages()
 				.total1099Payments());
-		cellTable.addColumn(totalAllPaymentsColumn, Accounter.constants()
+		cellTable.addColumn(totalAllPaymentsColumn, Accounter.messages()
 				.totalAllPayments());
 
 		return cellTable;
@@ -412,10 +412,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	}
 
 	private VerticalPanel getPreview1099() {
-		Label label = new Label(Accounter.constants().preview1099Informaion());
+		Label label = new Label(Accounter.messages().preview1099Informaion());
 
 		companyAddressPanel = new VerticalPanel();
-		companyInfoText = new Label(Accounter.constants().companyInformation());
+		companyInfoText = new Label(Accounter.messages().companyInformation());
 		final ClientAddress address = getCompany().getRegisteredAddress();
 		if (address != null) {
 			SafeHtml safeHtml = new SafeHtml() {
@@ -431,7 +431,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		}
 
 		einNumPanel = new VerticalPanel();
-		einInfoText = new Label(Accounter.constants().ein());
+		einInfoText = new Label(Accounter.messages().ein());
 		String ein = getCompany().getEin();
 		if (ein != null) {
 			einInfoHtml = new HTML(ein);
@@ -448,11 +448,11 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		amountPanel.addStyleName("boldtext");
 
 		amountForm = new DynamicForm();
-		noOf1099FormsLabel = new Label(Accounter.constants()
+		noOf1099FormsLabel = new Label(Accounter.messages()
 				.totalNoOf1099Forms()
 				+ totalNoOf1099Forms);
 
-		total1099AmountLabel = new AmountLabel(Accounter.constants()
+		total1099AmountLabel = new AmountLabel(Accounter.messages()
 				.totalAll1099Payments());
 		total1099AmountLabel.setAmount(totalAll1099Payments);
 
@@ -469,7 +469,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		arrayList.add(Accounter.messages()
 				.non1099Vendors(Global.get().Vendor()));
 
-		selectComboItem = new SelectCombo(Accounter.constants().show());
+		selectComboItem = new SelectCombo(Accounter.messages().show());
 		selectComboItem.initCombo(arrayList);
 		selectComboItem.setSelected(arrayList.get(0));
 		selectComboItem
@@ -545,7 +545,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				totalAll1099Payments += client1099Form.getTotal1099Payments();
 			}
 		}
-		noOf1099FormsLabel.setText(Accounter.constants().totalNoOf1099Forms()
+		noOf1099FormsLabel.setText(Accounter.messages().totalNoOf1099Forms()
 				+ totalNoOf1099Forms);
 		total1099AmountLabel.setAmount(totalAll1099Payments);
 	}
@@ -553,7 +553,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	private DisclosurePanel getPrintSetUp() {
 
 		DisclosurePanel disclosurePanel = new DisclosurePanel(Accounter
-				.constants().printAlignmentAndSetup());
+				.messages().printAlignmentAndSetup());
 
 		Button printSample = new Button("Print Sample");
 		printSample.addClickHandler(new ClickHandler() {
@@ -617,10 +617,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private HorizontalPanel getEndButtons() {
 
-		Button print1099 = new Button(Accounter.constants().printOn1099Form());
-		Button printInfo = new Button(Accounter.constants()
+		Button print1099 = new Button(Accounter.messages().printOn1099Form());
+		Button printInfo = new Button(Accounter.messages()
 				.printOnInformationSheet());
-		Button cancel = new Button(Accounter.constants().cancel());
+		Button cancel = new Button(Accounter.messages().cancel());
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.addStyleName("prepare1099form");

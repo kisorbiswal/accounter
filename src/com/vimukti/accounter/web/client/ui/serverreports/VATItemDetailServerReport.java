@@ -51,10 +51,10 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().number(), getConstants().name(),
-				getConstants().memo(), getConstants().amount(),
-				getConstants().salesPrice() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().number(), getMessages().name(),
+				getMessages().memo(), getMessages().amount(),
+				getMessages().salesPrice() };
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().vatItemDetail();
+		return getMessages().vatItemDetail();
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class VATItemDetailServerReport extends
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();
 			this.name = record.getName();
-			addSection(sectionName, getConstants().total(), new int[] { 5 });
+			addSection(sectionName, getMessages().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!name.equals(record.getName())) {
@@ -204,10 +204,10 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().number(), getConstants().name(),
-				getConstants().memo(), getConstants().amount(),
-				getConstants().salesPrice() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().number(), getMessages().name(),
+				getMessages().memo(), getMessages().amount(),
+				getMessages().salesPrice() };
 	}
 
 }

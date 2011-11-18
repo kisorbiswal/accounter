@@ -25,6 +25,13 @@
 			<key column="CLIENT_ID"></key>
 			<one-to-many class="User" />
 		</set>
+		<set name="languages" table="CLIENT_LANGUAGES" lazy="false"
+			cascade="all">
+			<key column="CLIENT_ID"></key>
+			<many-to-many column="LANGUAGE_CODE"
+				class="com.vimukti.accounter.web.server.translate.Language" />
+		</set>
+
 	</class>
 
 	<class name="Activation" table="ACTIVATION">
@@ -93,5 +100,10 @@
 		<property name="emailId" column="EMAILID"></property>
 		<property name="tocken" column="TOCKEN"></property>
 	</class>
-
+	<class name="MobileCookie" table="MOBILE_COOKIE">
+		<id name="cookie" column="COOKIE"></id>
+		<many-to-one name="client" class="com.vimukti.accounter.core.Client"
+			lazy="false" column="CLIENT">
+		</many-to-one>
+	</class>
 </hibernate-mapping>

@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public class BankAccountsListCommand extends NewAbstractCommand {
@@ -32,8 +33,8 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -85,7 +86,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().bankAccounts();
+				return getMessages().bankAccount(Global.get().Account());
 			}
 
 			@Override
@@ -106,8 +107,8 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -141,7 +142,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_TYPE).setDefaultValue(getConstants().active());
+		get(VIEW_TYPE).setDefaultValue(getMessages().active());
 
 	}
 

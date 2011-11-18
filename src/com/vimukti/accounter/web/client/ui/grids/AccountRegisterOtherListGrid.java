@@ -12,8 +12,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterOthersView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -90,13 +90,13 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().date(),
-				Accounter.constants().type(), Accounter.constants().docNo(),
-				Accounter.constants().increase(),
-				Accounter.constants().reduce(), Global.get().account(),
-				Accounter.constants().memo(),
-				Accounter.constants().currentBalance(),
-				Accounter.constants().isVoided() };
+		return new String[] { Accounter.messages().date(),
+				Accounter.messages().type(), Accounter.messages().docNo(),
+				Accounter.messages().increase(),
+				Accounter.messages().reduce(), Global.get().account(),
+				Accounter.messages().memo(),
+				Accounter.messages().currentBalance(),
+				Accounter.messages().isVoided() };
 	}
 
 	@Override
@@ -202,7 +202,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(Accounter.constants()
+		Accounter.showWarning(Accounter.messages()
 				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 

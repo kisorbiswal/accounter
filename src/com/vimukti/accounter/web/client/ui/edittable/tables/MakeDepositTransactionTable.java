@@ -44,7 +44,7 @@ public abstract class MakeDepositTransactionTable extends
 			protected String getValue(ClientTransactionMakeDeposit row) {
 				switch (row.getType()) {
 				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-					return Accounter.constants().transfer();
+					return Accounter.messages().transfer();
 				case ClientTransactionMakeDeposit.TYPE_VENDOR:
 					return Global.get().vendor();
 				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
@@ -72,7 +72,7 @@ public abstract class MakeDepositTransactionTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().receivedFrom();
+				return Accounter.messages().receivedFrom();
 			}
 		});
 
@@ -193,7 +193,7 @@ public abstract class MakeDepositTransactionTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().reference();
+				return Accounter.messages().reference();
 			}
 		});
 
@@ -202,7 +202,7 @@ public abstract class MakeDepositTransactionTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().amount();
+				return Accounter.messages().amount();
 			}
 
 			@Override
@@ -257,13 +257,13 @@ public abstract class MakeDepositTransactionTable extends
 			}
 
 			if (record.getAccount() == depositInId) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.depositAndAccountFromShouldNotBeSame());
 			}
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			// FIXME
-			result.addError("GridTotalLineTotal", Accounter.constants()
+			result.addError("GridTotalLineTotal", Accounter.messages()
 					.invalidTransactionAmount());
 		}
 		return result;
@@ -278,7 +278,7 @@ public abstract class MakeDepositTransactionTable extends
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
 			return Global.get().customer();
 		default:
-			return Accounter.constants().type();
+			return Accounter.messages().type();
 		}
 	}
 

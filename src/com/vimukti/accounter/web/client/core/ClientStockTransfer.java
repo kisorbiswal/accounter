@@ -78,7 +78,7 @@ public class ClientStockTransfer implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Accounter.constants().wareHouseTransfer();
+		return Accounter.messages().wareHouseTransfer();
 	}
 
 	@Override

@@ -63,11 +63,11 @@ public class SalesOpenOrderServerReport extends
 	@Override
 	public String[] getColunms() {
 		// if (isSales)
-		return new String[] { getConstants().orderDate(),
-				getConstants().customer(),
+		return new String[] { getMessages().orderDate(),
+				getMessages().customer(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				getConstants().amount() };
+				getMessages().amount() };
 
 		// else
 		// return new String[] {
@@ -78,7 +78,7 @@ public class SalesOpenOrderServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().salesOrderReport();
+		return getMessages().salesOrderReport();
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class SalesOpenOrderServerReport extends
 		if (sectionDepth == 0) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, getConstants().total(), new int[] { col });
+			addSection(sectionName, getMessages().total(), new int[] { col });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (sectionName != null
@@ -254,11 +254,11 @@ public class SalesOpenOrderServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().orderDate(),
-				getConstants().customer(),
+		return new String[] { getMessages().orderDate(),
+				getMessages().customer(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				getConstants().amount() };
+				getMessages().amount() };
 	}
 
 }

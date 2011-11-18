@@ -39,7 +39,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_BY).setDefaultValue(getConstants().open());
+		get(VIEW_BY).setDefaultValue(getMessages().open());
 
 	}
 
@@ -62,34 +62,33 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().all());
-				list.add(getConstants().open());
-				list.add(getConstants().fullyApplied());
-				list.add(getConstants().voided());
+				list.add(getMessages().all());
+				list.add(getMessages().open());
+				list.add(getMessages().fullyApplied());
+				list.add(getMessages().voided());
 
 				return list;
 			}
 		});
 
-		list.add(new ShowListRequirement<ReceivePaymentsList>(getConstants()
+		list.add(new ShowListRequirement<ReceivePaymentsList>(getMessages()
 				.receivedPayments(), "", NO_OF_RECORDS_TO_SHOW) {
 
 			@Override
 			protected String onSelection(ReceivePaymentsList value) {
-				// TODO Auto-generated method stub
-				return null;
+				return "Update Customer Prepayment " + value.getNumber();
 			}
 
 			@Override
 			protected String getShowMessage() {
 
-				return getConstants().receivedPayments();
+				return getMessages().receivedPayments();
 			}
 
 			@Override
 			protected String getEmptyString() {
 
-				return "No" + getConstants().receivedPayments();
+				return "No" + getMessages().receivedPayments();
 			}
 
 			@Override
@@ -137,26 +136,26 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 							context.getCompany().getID());
 			if (receivePaymentsLists != null) {
 				for (ReceivePaymentsList recievePayment : receivePaymentsLists) {
-					if (currentView.equals(getConstants().open())) {
+					if (currentView.equals(getMessages().open())) {
 						if ((recievePayment.getStatus() == STATUS_UNAPPLIED || recievePayment
 								.getStatus() == STATUS_PARTIALLY_APPLIED)
 								&& (!recievePayment.isVoided()))
 							result.add(recievePayment);
 						continue;
 					}
-					if (currentView.equals(getConstants().fullyApplied())) {
+					if (currentView.equals(getMessages().fullyApplied())) {
 						if (recievePayment.getStatus() == STATUS_APPLIED
 								&& !recievePayment.isVoided())
 							result.add(recievePayment);
 						continue;
 					}
-					if (currentView.equals(getConstants().voided())) {
+					if (currentView.equals(getMessages().voided())) {
 						if (recievePayment.isVoided()
 								&& !recievePayment.isDeleted())
 							result.add(recievePayment);
 						continue;
 					}
-					if (currentView.equals(getConstants().all())) {
+					if (currentView.equals(getMessages().all())) {
 						result.add(recievePayment);
 					}
 				}

@@ -19,7 +19,7 @@ public class CustomersAction extends Action {
 
 	public CustomersAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

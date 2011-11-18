@@ -29,7 +29,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 				Global.get().Account()));
 		// accTypeText.setWidth("*");
 		accTypeText.setDisabled(true);
-		accTypeText.setValue(Accounter.constants().creditCardOrLineOfCredit());
+		accTypeText.setValue(Accounter.messages().creditCardOrLineOfCredit());
 
 		TextItem numText = new TextItem(Accounter.messages().payeeNumber(
 				Global.get().Account()));
@@ -38,17 +38,17 @@ public class CreditCardAccountView extends AbstractBaseView {
 				Global.get().Account()));
 		// accNameText.setWidth("*");
 		accNameText.setRequired(true);
-		CheckboxItem activeCheck = new CheckboxItem(Accounter.constants()
+		CheckboxItem activeCheck = new CheckboxItem(Accounter.messages()
 				.active());
 		SelectItem cashFlowSelect = new SelectItem(Accounter.messages()
 				.cashFlowCategory(Global.get().Account()));
 
 		// cashFlowSelect.setWidth("*");
-		cashFlowSelect.setValue(Accounter.constants().operating());
-		AmountField opBalText = new AmountField(Accounter.constants()
+		cashFlowSelect.setValue(Accounter.messages().operating());
+		AmountField opBalText = new AmountField(Accounter.messages()
 				.openingBalance(), this,getBaseCurrency());
 		// opBalText.setWidth("*");
-		DateItem asofDate = UIUtils.date(Accounter.constants().asOf(), this);
+		DateItem asofDate = UIUtils.date(Accounter.messages().asOf(), this);
 		// asofDate.setWidth("*");
 
 		DynamicForm chartForm = UIUtils.form(Accounter.messages()
@@ -60,7 +60,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 		CheckboxItem basisCheck = new CheckboxItem(Accounter.messages()
 				.thisIsConsideredACashAccount(Global.get().account()));
 
-		DynamicForm basisForm = UIUtils.form(Accounter.constants()
+		DynamicForm basisForm = UIUtils.form(Accounter.messages()
 				.cashBasisAccounting());
 		basisForm.setFields(basisCheck);
 
@@ -69,7 +69,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 		commentsArea.setShowTitle(false);
 		commentsArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
-		DynamicForm commentsForm = UIUtils.form(Accounter.constants()
+		DynamicForm commentsForm = UIUtils.form(Accounter.messages()
 				.comments());
 		commentsForm.setFields(commentsArea);
 
@@ -79,12 +79,12 @@ public class CreditCardAccountView extends AbstractBaseView {
 		leftVLay.add(basisForm);
 		leftVLay.add(commentsForm);
 
-		TextItem bankName = new TextItem(Accounter.constants().bankName());
+		TextItem bankName = new TextItem(Accounter.messages().bankName());
 		// bankName.setWidth("*");
-		AmountField limitText = new AmountField(Accounter.constants().amount(),
+		AmountField limitText = new AmountField(Accounter.messages().amount(),
 				this,getBaseCurrency());
 		// limitText.setWidth("*");
-		IntegerField cardNumText = new IntegerField(this, Accounter.constants()
+		IntegerField cardNumText = new IntegerField(this, Accounter.messages()
 				.cardOrLoadNumber());
 		// cardNumText.setWidth("*");
 
@@ -99,11 +99,11 @@ public class CreditCardAccountView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(creditForm);
 
-		Button saveCloseButt = new Button(Accounter.constants().saveAndClose());
+		Button saveCloseButt = new Button(Accounter.messages().saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		Button saveNewButt = new Button(Accounter.constants().saveAndNew());
+		Button saveNewButt = new Button(Accounter.messages().saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 
@@ -178,7 +178,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().titleToGoHere();
+		return Accounter.messages().titleToGoHere();
 	}
 
 }

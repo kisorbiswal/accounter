@@ -418,46 +418,37 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			// .setEntity("transaction", this.receivePayment)
 			// .executeUpdate();
 			// this.receivePayment.taxRateCalculationEntriesList.clear();
+			if (this.discountAccount != null
+					&& DecimalUtil.isGreaterThan(this.cashDiscount, 0D)) {
 
-			if (this.getDiscountAccount() != null
-					&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
+				// update the corresponding payee with discount amount
+				this.receivePayment.getCustomer().updateBalance(session,
+						this.receivePayment, -this.cashDiscount);
 
-				Account account = getDiscountAccount().getCompany()
-						.getAccountsReceivableAccount();
-				account.updateCurrentBalance(this.getReceivePayment(),
-						-this.getCashDiscount(), receivePayment.currencyFactor);
-				session.saveOrUpdate(account);
-				this.getDiscountAccount().updateCurrentBalance(
-						this.getReceivePayment(), -this.getCashDiscount(),
-						receivePayment.currencyFactor);
-
-				session.saveOrUpdate(this.getDiscountAccount());
-
-				this.getReceivePayment()
-						.getCustomer()
-						.updateBalance(session, this.getReceivePayment(),
-								-this.getCashDiscount());
-
+				// updating the corresponding discount account current balance
+				// with
+				// discount amount
+				this.discountAccount.updateCurrentBalance(this.receivePayment,
+						this.cashDiscount, receivePayment.currencyFactor);
+				this.discountAccount.onUpdate(session);
 			}
-			if (this.getWriteOffAccount() != null
-					&& DecimalUtil.isGreaterThan(this.getWriteOff(), 0.0)) {
 
-				Account account = getWriteOffAccount().getCompany()
-						.getAccountsReceivableAccount();
-				account.updateCurrentBalance(this.getReceivePayment(),
-						-this.getWriteOff(), receivePayment.currencyFactor);
-				session.saveOrUpdate(account);
-				this.getWriteOffAccount().updateCurrentBalance(
-						this.getReceivePayment(), -this.getWriteOff(),
-						receivePayment.currencyFactor);
+			if (this.writeOffAccount != null
+					&& DecimalUtil.isGreaterThan(this.writeOff, 0D)) {
 
-				session.saveOrUpdate(getWriteOffAccount());
-				this.getReceivePayment()
-						.getCustomer()
-						.updateBalance(session, this.getReceivePayment(),
-								-this.getWriteOff());
+				// update the corresponding payee with write off amount
+				this.receivePayment.getCustomer().updateBalance(session,
+						this.receivePayment, -this.writeOff);
 
+				// updating the corresponding write off account current balance
+				// with
+				// write off amount
+				this.writeOffAccount.updateCurrentBalance(this.receivePayment,
+						this.writeOff, receivePayment.currencyFactor);
+				this.writeOffAccount.onUpdate(session);
 			}
+
+		
 			session.saveOrUpdate(this.getReceivePayment().getCustomer());
 
 			double amount = (getCashDiscount()) + (getWriteOff())

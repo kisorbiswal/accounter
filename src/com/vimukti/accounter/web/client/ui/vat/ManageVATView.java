@@ -38,33 +38,33 @@ public class ManageVATView extends AbstractBaseView {
 
 	private void createControls() {
 
-		Label stLabel = new Label(Accounter.constants()
+		Label stLabel = new Label(Accounter.messages()
 				.thisWndHelpYoyManageVATTasks());
-		Label vatLabel = new Label(Accounter.constants().fileVATReturnNow());
+		Label vatLabel = new Label(Accounter.messages().fileVATReturnNow());
 
-		CaptionPanel capAssignPanel = new CaptionPanel(Accounter.constants()
+		CaptionPanel capAssignPanel = new CaptionPanel(Accounter.messages()
 				.getStarted());
-		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter.constants()
+		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter.messages()
 				.payVATOwing());
-		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.constants()
+		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.messages()
 				.relatedTask());
 
-		vatButton = new Button(Accounter.constants().fileVATReturn());
-		Button closeButton = new Button(Accounter.constants()
+		vatButton = new Button(Accounter.messages().fileVATReturn());
+		Button closeButton = new Button(Accounter.messages()
 				.close());
-		Button helpButton = new Button(Accounter.constants()
+		Button helpButton = new Button(Accounter.messages()
 				.help());
 
 		final Image icon = new Image();
 		icon.setResource(Accounter.getFinanceImages().justifyLeft());
 
-		Hyperlink assignlink = new Hyperlink(Accounter.constants()
+		Hyperlink assignlink = new Hyperlink(Accounter.messages()
 				.assignVatCodesToItems(), "foo");
 		Hyperlink viewLink = new Hyperlink(
-				Accounter.constants().viewVATItems(), "link1");
-		Hyperlink openLink = new Hyperlink(Accounter.constants()
+				Accounter.messages().viewVATItems(), "link1");
+		Hyperlink openLink = new Hyperlink(Accounter.messages()
 				.openVATCodeList(), "link2");
-		Hyperlink adjLink = new Hyperlink(Accounter.constants().adjustVATDue(),
+		Hyperlink adjLink = new Hyperlink(Accounter.messages().adjustVATDue(),
 				"link3");
 
 		VerticalPanel vPanel = new VerticalPanel();
@@ -148,7 +148,7 @@ public class ManageVATView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().manageVatCodes();
+		return Accounter.messages().manageVatCodes();
 	}
 
 }

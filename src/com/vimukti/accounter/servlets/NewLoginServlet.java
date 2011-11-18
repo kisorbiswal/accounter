@@ -19,13 +19,11 @@ import org.hibernate.Transaction;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
-import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.News;
 import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 
 public class NewLoginServlet extends BaseServlet {

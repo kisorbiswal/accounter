@@ -95,6 +95,10 @@ public class MobileMessageHandler extends Thread {
 				for (int i = resultParts.size(); i > 0; i--) {
 					result.resultParts.add(0, resultParts.get(i - 1));
 				}
+				String cookie = oldResult.getCookie();
+				if (result.getCookie() == null) {
+					result.setCookie(cookie);
+				}
 			}
 			boolean hasNextCommand = true;
 			if (command != null && command.isDone()) {

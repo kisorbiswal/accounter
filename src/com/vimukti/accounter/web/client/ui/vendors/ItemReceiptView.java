@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -59,7 +59,7 @@ public class ItemReceiptView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientPurchaseOrder> selectedPurchaseOrders;
-	AccounterConstants accounterConstants = Accounter.constants();
+	AccounterMessages accounterConstants = Accounter.messages();
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
@@ -73,7 +73,7 @@ public class ItemReceiptView extends
 	protected void createControls() {
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
-		HTML lab1 = new HTML(Accounter.constants().itemReceipt());
+		HTML lab1 = new HTML(Accounter.messages().itemReceipt());
 
 		listforms = new ArrayList<DynamicForm>();
 
@@ -110,7 +110,7 @@ public class ItemReceiptView extends
 				.Vendor()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
-		purchaseLabel.setLinkTitle(Accounter.constants().purchaseOrders());
+		purchaseLabel.setLinkTitle(Accounter.messages().purchaseOrders());
 		purchaseLabel.setShowTitle(false);
 		purchaseLabel.setDisabled(isInViewMode());
 		purchaseLabel.addClickHandler(new ClickHandler() {
@@ -129,8 +129,8 @@ public class ItemReceiptView extends
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		phoneSelect = new TextItem(Accounter.constants().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(Accounter.messages().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -170,7 +170,7 @@ public class ItemReceiptView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		HTML lab2 = new HTML("<strong>"
-				+ Accounter.constants().itemsAndExpenses() + "</strong>");
+				+ Accounter.messages().itemsAndExpenses() + "</strong>");
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
 
@@ -262,7 +262,7 @@ public class ItemReceiptView extends
 //		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 
-		transactionTotalItem = new AmountField(Accounter.constants().total(),
+		transactionTotalItem = new AmountField(Accounter.messages().total(),
 				this,getBaseCurrency());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
@@ -354,7 +354,7 @@ public class ItemReceiptView extends
 	private PaymentTermsCombo createPaymentTermsSelectItem() {
 
 		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
-				.constants().paymentTerms());
+				.messages().paymentTerms());
 
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -701,12 +701,12 @@ public class ItemReceiptView extends
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
-			result.addError(deliveryDateItem, Accounter.constants().the()
+			result.addError(deliveryDateItem, Accounter.messages().the()
 					+ " "
-					+ Accounter.constants().deliveryDate()
+					+ Accounter.messages().deliveryDate()
 					+ " "
 					+ " "
-					+ Accounter.constants()
+					+ Accounter.messages()
 							.cannotbeearlierthantransactiondate());
 
 		}
@@ -775,7 +775,7 @@ public class ItemReceiptView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().itemReciepts();
+		return Accounter.messages().itemReciepts();
 	}
 
 	@Override

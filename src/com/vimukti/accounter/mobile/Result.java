@@ -5,12 +5,21 @@ import java.util.List;
 
 public class Result {
 	List<Object> resultParts = new ArrayList<Object>();
+	private String cookie;
 	private String nextCommand;
 
 	/**
 	 * Creates new Instance
 	 */
 	public Result() {
+	}
+
+	public String getCookie() {
+		return cookie;
+	}
+
+	public void setCookie(String cookie) {
+		this.cookie = cookie;
 	}
 
 	/**

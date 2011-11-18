@@ -347,7 +347,7 @@ public abstract class FormItem<T> {
 		}
 	}
 
-	public String helpMessage = Accounter.constants().help();
+	public String helpMessage = Accounter.messages().help();
 	public PopupPanel popupPanel;
 
 	public void displayHelpMessage(MouseUpEvent event) {

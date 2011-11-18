@@ -372,7 +372,7 @@ public class PayBill extends Transaction {
 
 			if (getCompany().getPreferences().isTDSEnabled()
 					&& this.getVendor().isTdsApplicable()) {
-				// Update TDS Account if Company is INDIA
+				// Update TDS Account if TDSEnabled
 				if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
 					TAXItem taxItem = this.getTdsTaxItem();
 					if (taxItem != null) {

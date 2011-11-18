@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -22,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
 public class CustomerListView extends BaseListView<PayeeList> {
 
-	AccounterConstants customerConstants;
 	private List<PayeeList> listOfCustomers;
 
 	public CustomerListView() {
@@ -40,7 +38,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void init() {
-		customerConstants = Accounter.constants();
+		messages = Accounter.messages();
 		super.init();
 
 	}

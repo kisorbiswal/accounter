@@ -67,7 +67,7 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 				break;
 			}
 		}
-		timeZoneLabel.setText(constants.timezone());
+		timeZoneLabel.setText(messages.timezone());
 
 	}
 
@@ -79,12 +79,12 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 	@Override
 	public String getTitle() {
-		return constants.timezone();
+		return messages.timezone();
 	}
 
 	@Override

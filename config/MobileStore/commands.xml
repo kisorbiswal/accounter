@@ -272,17 +272,28 @@
 	<command clazz="NewServiceItemCommand" name="New Service Item">
 		<alias>Add Service Item</alias>
 		<alias>Create Service Item</alias>
+		<alias>Update Service Item</alias>
+		<alias>Modify Service Item</alias>
 		<alias>Create New Service Item</alias>
+		<alias>Edit Service Item</alias>
 	</command>
 
 	<command clazz="NewNonInventoryItemCommand" name="New Non Inventory Item">
 		<alias>Non Inventory Item</alias>
 		<alias>Create Non Inventory Item</alias>
+		<alias>Edit Non Inventory Item</alias>
+		<alias>Modify Non Inventory Item</alias>
+		<alias>Update Non Inventory Item</alias>
+		<alias>Create New NonInventory Item</alias>
 	</command>
 
 	<command clazz="NewInventoryItemCommand" name="New Inventory Item">
 		<alias>Inventory Item</alias>
 		<alias>Create Inventory Item</alias>
+		<alias>Edit Inventory Item</alias>
+		<alias>Modify Inventory Item</alias>
+		<alias>Update Inventory Item</alias>
+		<alias>Create New Inventory Item</alias>
 	</command>
 
 	<command clazz="ItemsCommand" name="Items List">
@@ -295,6 +306,9 @@
 
 	<command clazz="NewFiscalYearCommand" name="New FiscalYear">
 		<alias>Create Fiscal Year</alias>
+		<alias>Edit Fiscal Year</alias>
+		<alias>Update Fiscal Year</alias>
+		<alias>Modify Fiscal Year</alias>
 		<alias>Add Fiscal Year</alias>
 	</command>
 
@@ -318,7 +332,6 @@
 
 	<command clazz="NewPayBillCommand" name="Pay Bill">
 		<alias>BillPay</alias>
-		<alias>Payments</alias>
 		<alias>Create Pay Bill</alias>
 	</command>
 
@@ -343,6 +356,9 @@
 		<alias>Add VAT Agency</alias>
 		<alias>Add TAX Agency</alias>
 		<alias>Create TAX Agency</alias>
+		<alias>Edit TAX Agency</alias>
+		<alias>Update TAX Agency</alias>
+		<alias>Modify TAX Agency</alias>
 		<alias>New TAX Agency</alias>
 	</command>
 
@@ -378,7 +394,13 @@
 
 	<command clazz="NewCashPurchaseCommand" name="New CashPurchase">
 		<alias>Vendor Cash Purchase</alias>
-		<alias>Cash Purchase</alias>
+		<alias>New Cash Purchase</alias>
+		<alias>Edit Cash Purchase</alias>
+		<alias>Edit Vendor Cash Purchase</alias>
+		<alias>Update Cash Purchase</alias>
+		<alias>Update Vendor Cash Purchase</alias>
+		<alias>Modify Cash Purchase</alias>
+		<alias>Modify Vendor Cash Purchase</alias>
 	</command>
 
 	<command clazz="NewCashSaleCommand" name="New CashSale">
@@ -389,30 +411,42 @@
 		<alias>Create Cash Sale</alias>
 	</command>
 
-	<command clazz="NewCreditCardChargeCommond" name="New CreditcardCharge">
-		<alias>Credit Card Charge</alias>
-		<alias>Create Credit Card Charge</alias>
-		<alias>Add Credit Card Charge</alias>
-	</command>
+	<!-- <command clazz="NewCreditCardChargeCommand" name="New CreditcardCharge"> 
+		<alias>Credit Card Charge</alias> <alias>Create Credit Card Charge</alias> 
+		<alias>Add Credit Card Charge</alias> <alias>Create Credit Card Charge</alias> 
+		<alias>Edit Credit Card Charge</alias> <alias>Update Credit Card Charge</alias> 
+		</command> -->
 
 	<command clazz="NewCreditCardExpenseCommand" name="New CreditCardExpense">
+		<alias>New CreditCard Expense</alias>
 		<alias>Credit Card Expense</alias>
 		<alias>Add Credit Card Expense</alias>
+		<alias>Edit Credit Card Expense</alias>
+		<alias>Modify Credit Card Expense</alias>
+		<alias>Update Credit Card Expense</alias>
 		<alias>Create Credit Card Expense</alias>
+		<alias>CreditCardExpense</alias>
 	</command>
 
 	<command clazz="NewCustomerCreditMemoCommand" name="New CustomerCreditMemo">
 		<alias>Create Customer Credit Memo</alias>
 		<alias>Add Customer Credit Memo</alias>
+		<alias>Edit Customer Credit Memo</alias>
+		<alias>Update Customer Credit Memo</alias>
+		<alias>Modify Customer Credit Memo</alias>
 		<alias>CustomerCredit</alias>
 		<alias>Create Customer Credit</alias>
 	</command>
 	<command clazz="NewCashExpenseCommand" name="New CashExpense">
-		<alias>Cash Expense</alias>
+		<alias>Add Cash Expense</alias>
+		<alias>Edit Cash Expense</alias>
+		<alias>Update Cash Expense</alias>
+		<alias>Modify Cash Expense</alias>
 		<alias>Create Cash Expense</alias>
+		<alias>CashExpense</alias>
 	</command>
 
-	<command clazz="NewMakeDepositCommond" name="New MakeDeposit">
+	<command clazz="NewMakeDepositCommand" name="New MakeDeposit">
 		<alias>Make Deposit</alias>
 		<alias>Add Make Deposit</alias>
 		<alias>New Transfer Funds</alias>
@@ -420,11 +454,15 @@
 		<alias>Deposits And TransferFunds</alias>
 		<alias>New Deposits And TransferFunds</alias>
 		<alias>Deposits / Transfer Fund</alias>
+		<alias>Deposits and Transfer Funds</alias>
 	</command>
 
-	<command clazz="NewLocationCommond" name="New Location">
+	<command clazz="NewLocationCommand" name="New Location">
 		<alias>Location</alias>
 		<alias>Create Location</alias>
+		<alias>Update Location</alias>
+		<alias>Edit Location</alias>
+		<alias>Modify Location</alias>
 	</command>
 
 	<command clazz="NewIssuePaymentCommand" name="New IssuePayment">
@@ -442,7 +480,7 @@
 		<alias>Vedor Credit</alias>
 	</command>
 
-	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
+	<command clazz="NewShippingMethodCommand" name="New Shipping Method">
 		<alias>Shipping Method</alias>
 		<alias>Create ShippingMethods</alias>
 		<alias>Create Shipping Method</alias>
@@ -488,7 +526,9 @@
 		<alias>Create Customer Payment</alias>
 		<alias>Add Customer Prepayment</alias>
 		<alias>Create CustomerPrepayment</alias>
-
+		<alias>Edit Customer Prepayment</alias>
+		<alias>Update Customer Prepayment</alias>
+		<alias>Modify Customer Prepayment</alias>
 	</command>
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
@@ -497,6 +537,9 @@
 		<alias>Create Receive Payment</alias>
 		<alias>Add ReceivePayment</alias>
 		<alias>Create Receive Payment</alias>
+		<alias>Update Receive Payment</alias>
+		<alias>Edit Receive Payment</alias>
+		<alias>Modify Receive Payment</alias>
 		<alias>Add receive payment</alias>
 	</command>
 
@@ -509,12 +552,18 @@
 		<alias>Modify Estimate</alias>
 		<alias>Update Estimate</alias>
 		<alias>Create Estimate</alias>
+		<alias>Modify Quote</alias>
+		<alias>Update Quote</alias>
+		<alias>Edit Quote</alias>
 		<alias>New Estimate</alias>
 	</command>
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
 		<alias>Create Customer Refund</alias>
 		<alias>Add Customer Refund</alias>
+		<alias>Edit Customer Refund</alias>
+		<alias>Update Customer Refund</alias>
+		<alias>Modify Customer Refund</alias>
 	</command>
 
 	<command clazz="NewBankAccountCommand" name="New BankAccount">
@@ -523,6 +572,7 @@
 		<alias>Edit BankAccount</alias>
 		<alias>Update BankAccount</alias>
 		<alias>Modify BankAccount</alias>
+		<alias>Create New Bank Account</alias>
 	</command>
 
 	<command clazz="AccountRegisterCommand" name="AccountRegister">
@@ -534,7 +584,11 @@
 	</command>
 
 	<command clazz="NewClassCommand" name="New Class">
-		<alias>Class</alias>
+		<alias>Create Class</alias>
+		<alias>Edit Class</alias>
+		<alias>Update Class</alias>
+		<alias>Modify Class</alias>
+		<alias>Add Class</alias>
 	</command>
 
 	<command clazz="BankAccountReconcilationHistoryCommand" name="ReconcilationHistory">
@@ -542,10 +596,12 @@
 	</command>
 
 	<command clazz="NewVendorPrepaymentCommand" name="Vendor Prepayment">
-		<alias>Prepayment</alias>
 		<alias>Vendor Prepayment</alias>
 		<alias>Add Vendor Prepayment</alias>
 		<alias>Create Vendor Prepayment</alias>
+		<alias>Update Vendor Prepayment</alias>
+		<alias>Modify Vendor Prepayment</alias>
+		<alias>Edit Vendor Prepayment</alias>
 		<alias>New Vendor Prepayment</alias>
 	</command>
 
@@ -658,6 +714,7 @@
 		<alias>Update Write Check</alias>
 		<alias>Modify Write Check</alias>
 		<alias>Edit Write Check</alias>
+		<alias>WriteCheck</alias>
 	</command>
 
 	<command clazz="NewItemGroupCommand" name="ItemGroup">
@@ -683,6 +740,9 @@
 	<command clazz="NewMeasurementCommand" name="Measurement">
 		<alias>New Measurement</alias>
 		<alias>Create Measurement</alias>
+		<alias>Edit Measurement</alias>
+		<alias>Update Measurement</alias>
+		<alias>Modify Measurement</alias>
 	</command>
 
 	<command clazz="VATCodesListCommand" name="TAX Codes List">
@@ -733,6 +793,9 @@
 	<command clazz="NewProductItemCommand" name="Product Item">
 		<alias>Create New Product Item</alias>
 		<alias>Create Product Item</alias>
+		<alias>Update Product Item</alias>
+		<alias>Modify Product Item</alias>
+		<alias>Edit Product Item</alias>
 	</command>
 	<command clazz="NewCustomerGroupCommand" name="CustomerGroup">
 		<alias>Create Customer Group</alias>

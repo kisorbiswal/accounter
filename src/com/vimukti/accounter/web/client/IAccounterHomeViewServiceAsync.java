@@ -328,7 +328,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getReceiveVATEntries(
 			AsyncCallback<ArrayList<ClientReceiveVATEntries>> callback);
 
-	public void getGraphPointsforAccount(int chartType, long accountNo,
+	public void getGraphPointsforAccount(int chartType, long accountId,
 			AsyncCallback<ArrayList<Double>> callBack);
 
 	public void getEmployeeExpensesByStatus(String userName, int status,
@@ -382,5 +382,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getItemStatuses(long wareHouse,
 			AsyncCallback<ArrayList<ClientItemStatus>> callback);
+
+	public void getAccounts(int typeOfAccount,
+			AsyncCallback<ArrayList<ClientAccount>> callBack);
 
 }

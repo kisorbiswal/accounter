@@ -130,7 +130,7 @@ public class CountryPreferenceFactory {
 	public static final String LIECHTENSTEIN = "Liechtenstein";
 	public static final String LITHUANIA = "Lithuania";
 	public static final String LUXEMBOURG = "Luxembourg";
-	public static final String MACAO = "Macao";
+	public static final String MACAU = "Macau";
 	public static final String MACEDONIA = "Macedonia";
 	public static final String MADAGASCAR = "Madagascar";
 	public static final String MALAWI = "Malawi";
@@ -622,9 +622,6 @@ public class CountryPreferenceFactory {
 		if (countryCode.equals(LUXEMBOURG)) {
 			return new Luxembourg();
 		}
-		if (countryCode.equals(MACAO)) {
-			return new Macao();
-		}
 		if (countryCode.equals(MACEDONIA)) {
 			return new Macedonia();
 		}
@@ -703,6 +700,27 @@ public class CountryPreferenceFactory {
 		if (countryCode.equals(ZIMBABWE)) {
 			return new Zimbabwe();
 		}
+		if (countryCode.equals(SAUDI_ARABIA)) {
+			return new SaudiArabia();
+		}
+		if (countryCode.equals(PAKISTAN)) {
+			return new Pakistan();
+		}
+		if (countryCode.equals(SWEDEN)) {
+			return new Sweden();
+		}
+		if (countryCode.equals(MOZAMBIQUE)) {
+			return new Mozambique();
+		}
+		if (countryCode.equals(PERU)) {
+			return new Peru();
+		}
+		if (countryCode.equals(SWITZERLAND)) {
+			return new Switzerland();
+		}
+		if (countryCode.equals(MACAU)) {
+			return new Macau();
+		}
 		return new OtherCountry();
 	}
 
@@ -734,7 +752,7 @@ public class CountryPreferenceFactory {
 			ISLE_OF_MAN, ISRAEL, ITALY, JAMAICA, JAN_MAYEN, JAPAN, JORDAN,
 			KAZAKHSTAN, KENYA, KIRIBATI, KOREA_NORTH, KOREA_SOUTH, KUWAIT,
 			KYRGYZSTAN, LAOS, LATVIA, LEBANON, LESOTHO, LIBERIA, LIBYA,
-			LIECHTENSTEIN, LITHUANIA, LUXEMBOURG, MACAO, MACEDONIA, MADAGASCAR,
+			LIECHTENSTEIN, LITHUANIA, LUXEMBOURG, MACAU, MACEDONIA, MADAGASCAR,
 			MALAWI, MALAYSIA, MALDIVES, MALI, MALTA, MARSHALL_ISLANDS,
 			MARTINIQUE, MAURITANIA, MAURITIUS, MAYOTTE, MEXICO,
 			MICRONESIA_FEDERATED, MOLDOVA, MONACO, MONGOLIA, MONTSERRAT,

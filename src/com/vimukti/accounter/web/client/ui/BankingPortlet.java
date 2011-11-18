@@ -45,7 +45,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.constants().gotoBanking();
+		return Accounter.messages().gotoBanking();
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class BankingPortlet extends DashBoardPortlet {
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
-				accountLabel.addStyleName(Accounter.constants().labelBanking());
+				accountLabel.addStyleName(Accounter.messages().labelBanking());
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
 
 					@Override
@@ -208,7 +208,7 @@ public class BankingPortlet extends DashBoardPortlet {
 				try {
 					Accounter.createHomeService().getGraphPointsforAccount(
 							GraphChart.BANK_ACCOUNT_CHART_TYPE,
-							Long.valueOf(account.getNumber()), callBack);
+							account.getID(), callBack);
 					i++;
 				} catch (Exception e) {
 					System.err.println(e);

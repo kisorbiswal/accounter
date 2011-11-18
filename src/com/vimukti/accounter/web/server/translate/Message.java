@@ -9,32 +9,22 @@ public class Message implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int id;
-
-	String key;
+	long id;
 
 	String value;
 
-	int version;
-
-	boolean isNotUsed;
-
 	Set<LocalMessage> localMessages;
 
-	public int getId() {
+	Set<Key> keys;
+	
+	boolean isNotUsed;
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
 	}
 
 	public String getValue() {
@@ -45,14 +35,6 @@ public class Message implements Serializable {
 		this.value = value;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
 	public Set<LocalMessage> getLocalMessages() {
 		return localMessages;
 	}
@@ -61,6 +43,14 @@ public class Message implements Serializable {
 		this.localMessages = localMessages;
 	}
 
+	public Set<Key> getKeys() {
+		return keys;
+	}
+
+	public void setKeys(Set<Key> keys) {
+		this.keys = keys;
+	}
+	
 	public boolean isNotUsed() {
 		return isNotUsed;
 	}

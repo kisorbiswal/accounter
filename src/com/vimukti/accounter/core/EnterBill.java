@@ -309,7 +309,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			this.itemReceipt.balanceDue = 0.0;
 
 			this.itemReceipt.voidTransactionItems();
-			deleteCreatedEntries(session, this.itemReceipt);
+			deleteCreatedEntries(this.itemReceipt);
 		}
 		if (getCompany().getPreferences()
 				.isProductandSerivesTrackingByCustomerEnabled()
@@ -714,10 +714,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				&& enterBill.itemReceipt.purchaseOrder != null) {
 			for (TransactionItem transactionItem : enterBill.itemReceipt.transactionItems) {
 				TransactionItem referringTransactionItem = transactionItem.referringTransactionItem;
-				if (referringTransactionItem != null
-						&& !referringTransactionItem.isVoid()) {
-					referringTransactionItem.usedamt -= transactionItem.lineTotal;
-				}
+//				if (referringTransactionItem != null
+//						&& !referringTransactionItem.isVoid()) {
+//					referringTransactionItem.usedamt -= transactionItem.lineTotal;
+//				}
 				session.saveOrUpdate(transactionItem);
 
 			}
@@ -1012,7 +1012,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				newTransactionItem.setId(0);
 				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
 				newTransactionItem.setOnSaveProccessed(false);
-				newTransactionItem.setTaxRateCalculationEntriesList(null);
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {

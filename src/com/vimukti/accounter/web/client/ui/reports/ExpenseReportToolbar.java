@@ -37,29 +37,29 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		String[] statusArray;
 		if (ClientCompanyPreferences.get().isHaveEpmloyees()
 				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
-			statusArray = new String[] { Accounter.constants().allExpenses(),
-					Accounter.constants().cash(),
-					Accounter.constants().creditCard(),
-					Accounter.constants().employee() };
+			statusArray = new String[] { Accounter.messages().allExpenses(),
+					Accounter.messages().cash(),
+					Accounter.messages().creditCard(),
+					Accounter.messages().employee() };
 		} else {
-			statusArray = new String[] { Accounter.constants().allExpenses(),
-					Accounter.constants().cash(),
-					Accounter.constants().creditCard() };
+			statusArray = new String[] { Accounter.messages().allExpenses(),
+					Accounter.messages().cash(),
+					Accounter.messages().creditCard() };
 		}
 
-		String[] dateRangeArray = { Accounter.constants().all(),
-				Accounter.constants().thisWeek(),
-				Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(),
-				Accounter.constants().lastMonth(),
-				Accounter.constants().thisFinancialYear(),
-				Accounter.constants().lastFinancialYear(),
-				Accounter.constants().thisFinancialQuarter(),
-				Accounter.constants().lastFinancialQuarter(),
-				Accounter.constants().financialYearToDate(),
-				Accounter.constants().custom() };
+		String[] dateRangeArray = { Accounter.messages().all(),
+				Accounter.messages().thisWeek(),
+				Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(),
+				Accounter.messages().lastMonth(),
+				Accounter.messages().thisFinancialYear(),
+				Accounter.messages().lastFinancialYear(),
+				Accounter.messages().thisFinancialQuarter(),
+				Accounter.messages().lastFinancialQuarter(),
+				Accounter.messages().financialYearToDate(),
+				Accounter.messages().custom() };
 
-		expenseCombo = new SelectCombo(Accounter.constants().expenseRealtedTo());
+		expenseCombo = new SelectCombo(Accounter.messages().expenseRealtedTo());
 		expenseCombo.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (int i = 0; i < statusArray.length; i++) {
@@ -73,7 +73,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem.toString().equals(
-								Accounter.constants().allExpenses())) {
+								Accounter.messages().allExpenses())) {
 							/*
 							 * status 0 used to get all expenses like Cash,
 							 * Credit Card
@@ -81,13 +81,13 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 							status = 0;
 						} else if (selectItem.toString().equals(
-								Accounter.constants().cash())) {
+								Accounter.messages().cash())) {
 							status = ClientTransaction.TYPE_CASH_EXPENSE;
 						} else if (selectItem.toString().equals(
-								Accounter.constants().creditCard())) {
+								Accounter.messages().creditCard())) {
 							status = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
 						} else if (selectItem.toString().equals(
-								Accounter.constants().employee())) {
+								Accounter.messages().employee())) {
 							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
 						}
 
@@ -99,7 +99,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 					}
 				});
 
-		dateRangeCombo = new SelectCombo(Accounter.constants().dateRange());
+		dateRangeCombo = new SelectCombo(Accounter.messages().dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -108,7 +108,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
 		dateRangeCombo
-				.setComboItem(Accounter.constants().financialYearToDate());
+				.setComboItem(Accounter.messages().financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -123,7 +123,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -136,7 +136,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -145,7 +145,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -155,9 +155,9 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeCombo.setDefaultValue(Accounter.constants().custom());
-				dateRangeCombo.setComboItem(Accounter.constants().custom());
-				setSelectedDateRange(Accounter.constants().custom());
+				dateRangeCombo.setDefaultValue(Accounter.messages().custom());
+				dateRangeCombo.setComboItem(Accounter.messages().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 
 			}
 		});
@@ -166,7 +166,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter.constants().print());
+		Button printButton = new Button(Accounter.messages().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {

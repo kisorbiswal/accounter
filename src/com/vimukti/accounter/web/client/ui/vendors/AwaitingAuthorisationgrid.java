@@ -57,19 +57,19 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 	private String getstatus(int status) {
 		switch (status) {
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE:
-			return Accounter.constants().draft();
+			return Accounter.messages().draft();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE:
-			return Accounter.constants().delete();
+			return Accounter.messages().delete();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL:
-			return Accounter.constants().submitForApproval();
+			return Accounter.messages().submitForApproval();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED:
-			return Accounter.constants().approved();
+			return Accounter.messages().approved();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED:
-			return Accounter.constants().decline();
+			return Accounter.messages().decline();
 		default:
 			break;
 		}
-		return Accounter.constants().draft();
+		return Accounter.messages().draft();
 	}
 
 	@Override
@@ -87,10 +87,10 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().status(),
-				Accounter.constants().paidTo(),
-				Accounter.constants().receiptDate(),
-				Accounter.constants().total() };
+		return new String[] { Accounter.messages().status(),
+				Accounter.messages().paidTo(),
+				Accounter.messages().receiptDate(),
+				Accounter.messages().total() };
 	}
 
 

@@ -125,7 +125,7 @@ public class Utility implements IsSerializable, Serializable {
 			break;
 		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
-			transactionName = Accounter.constants().taxAdjustment();
+			transactionName = Accounter.messages().taxAdjustment();
 			break;
 		}
 		return transactionName;
@@ -135,7 +135,7 @@ public class Utility implements IsSerializable, Serializable {
 		String itemTypeName = null;
 		switch (itemType) {
 		case ClientTransactionItem.TYPE_ITEM:
-			itemTypeName = Accounter.constants().productOrServiceItem();
+			itemTypeName = Accounter.messages().productOrServiceItem();
 			break;
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			itemTypeName = Global.get().Account();

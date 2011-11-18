@@ -7,8 +7,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -43,15 +43,15 @@ public class UsersActivityListView extends BaseView {
 	private void createControls() {
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
-		titleItem = new Label(Accounter.constants().usersActivityLogTitle());
-		titleItem.setStyleName(Accounter.constants().labelTitle());
+		titleItem = new Label(Accounter.messages().usersActivityLogTitle());
+		titleItem.setStyleName(Accounter.messages().labelTitle());
 
-		fromdate = new DateField(Accounter.constants().fromDate());
-		toDate = new DateField(Accounter.constants().endDate());
+		fromdate = new DateField(Accounter.messages().fromDate());
+		toDate = new DateField(Accounter.messages().endDate());
 		fromdate.setEnteredDate(new ClientFinanceDate());
 		toDate.setEnteredDate(new ClientFinanceDate());
 
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override

@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -47,18 +47,19 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
-	AccounterConstants companyConstants = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 
-	private final String ATTR_PRIMARY = Accounter.constants().primary();
-	private final String ATTR_CONTACT_NAME = Accounter.constants()
+	private final String ATTR_PRIMARY = Accounter.messages().primary();
+	private final String ATTR_CONTACT_NAME = Accounter.messages()
 			.contactName();
-	private final String ATTR_TITLE = Accounter.constants().title();
-	private final String ATTR_BUSINESS_PHONE = Accounter.constants()
+	private final String ATTR_TITLE = Accounter.messages().title();
+	private final String ATTR_BUSINESS_PHONE = Accounter.messages()
 			.businessPhone();
-	private final String ATTR_EMAIL = Accounter.constants().email();
+	private final String ATTR_EMAIL = Accounter.messages().email();
 
 	TextItem taxAgencyText, fileAsText;
 
@@ -176,7 +177,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
+			result
+					.addError(taxAgencyText,messages
+							.alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -279,17 +282,17 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private VerticalPanel getTopLayout() {
 		Label lab;
-		lab = new Label(Accounter.constants().taxAgency());
-		taxAgencyText = new TextItem(Accounter.constants().taxAgency());
+		lab = new Label(Accounter.messages().taxAgency());
+		taxAgencyText = new TextItem(Accounter.messages().taxAgency());
 		taxAgencyText.setHelpInformation(true);
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.constants().labelTitle());
+		lab.addStyleName(Accounter.messages().labelTitle());
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
 		taxAgencyText.setDisabled(isInViewMode());
 
-		fileAsText = new TextItem(companyConstants.fileAs());
+		fileAsText = new TextItem(messages.fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 		fileAsText.setDisabled(isInViewMode());
@@ -305,21 +308,21 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			}
 		});
 
-		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
-//		taxAgencyForm.setWidth("100%");
-//		taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
+		taxAgencyForm = UIUtils.form(messages.taxAgency());
+		// taxAgencyForm.setWidth("100%");
+		// taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
 		accInfoForm = UIUtils.form(Accounter.messages().payeeInformation(
 				Global.get().Account()));
 
-		statusCheck = new CheckboxItem(companyConstants.active());
+		statusCheck = new CheckboxItem(messages.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				companyConstants.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(messages
+				.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -337,13 +340,16 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxTypeCombo = createTaxTypeSelectCombo();
 
-		vatReturnCombo = new SelectCombo(Accounter.constants().vatReturn());
+		vatReturnCombo = new SelectCombo(Accounter.messages().taxReturn());
 		vatReturnCombo.setHelpInformation(true);
-		vatReturnCombo.setRequired(true);
+		if (getCompany().getCountry().equals(
+				CountryPreferenceFactory.UNITED_KINGDOM)) {
+			vatReturnCombo.setRequired(true);
+		}
 		vatReturnCombo.setDisabled(isInViewMode());
 		vatReturnList = new ArrayList<String>();
-		vatReturnList.add(Accounter.constants().ukVAT());
-		vatReturnList.add(Accounter.constants().vat3Ireland());
+		vatReturnList.add(Accounter.messages().ukVAT());
+		vatReturnList.add(Accounter.messages().vat3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -389,35 +395,50 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo.setRequired(true);
 
-		tAXFilingFrequency = new TAXFilingFrequencyCombo(
-				constants.taxFilingFrequency());
+		tAXFilingFrequency = new TAXFilingFrequencyCombo(messages
+				.taxFilingFrequency());
 		tAXFilingFrequency.setDisabled(isInViewMode());
 		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
 		tAXFilingFrequency.setSelectedItem(0);
 
-		Label contacts = new Label(companyConstants.contacts());
+		Label contacts = new Label(messages.contacts());
 		initListGrid();
 		if (getPreferences().isTrackPaidTax()) {
-			accInfoForm.setFields(statusCheck, paymentTermsCombo, taxTypeCombo,
-					vatReturnCombo, liabilitySalesAccountCombo,
-					liabilityPurchaseAccountCombo, tAXFilingFrequency);
+			if (getCompany().getCountry().equals(
+					CountryPreferenceFactory.UNITED_KINGDOM)) {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, vatReturnCombo,
+						liabilitySalesAccountCombo,
+						liabilityPurchaseAccountCombo, tAXFilingFrequency);
+			} else {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, liabilitySalesAccountCombo,
+						liabilityPurchaseAccountCombo, tAXFilingFrequency);
+			}
 		} else {
-			accInfoForm.setFields(statusCheck, paymentTermsCombo, taxTypeCombo,
-					vatReturnCombo, liabilitySalesAccountCombo);
+			if (getCompany().getCountry().equals(
+					CountryPreferenceFactory.UNITED_KINGDOM)) {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, vatReturnCombo,
+						liabilitySalesAccountCombo);
+			} else {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, liabilitySalesAccountCombo);
+			}
 		}
 
-//		accInfoForm.setWidth("94%");
+		// accInfoForm.setWidth("94%");
 		accInfoForm.setStyleName("align-form");
 
 		memoForm = new DynamicForm();
-//		memoForm.setWidth("50%");
+		// memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setDisabled(isInViewMode());
-		memoArea.setTitle(Accounter.constants().memo());
-//		memoArea.setWidth("400px");
+		memoArea.setTitle(Accounter.messages().memo());
+		// memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
@@ -448,12 +469,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 			// Setting AddressForm
 			addrsForm = new AddressForm(data.getAddress());
-//			addrsForm.setWidth("100%");
+			// addrsForm.setWidth("100%");
 			addrsForm.setDisabled(isInViewMode());
 			// Setting Phone Fax Form
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-//			phoneFaxForm.setWidth("100%");
+			// phoneFaxForm.setWidth("100%");
 			phoneFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			phoneFaxForm.businessFaxText.setValue(data.getFaxNo());
 			phoneFaxForm.setDisabled(isInViewMode());
@@ -462,7 +483,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
 					this.getAction().getViewName());
 			emailForm.businesEmailText.setValue(data.getEmail());
-//			emailForm.setWidth("100%");
+			// emailForm.setWidth("100%");
 			emailForm.setDisabled(isInViewMode());
 
 			// Setting Status Check
@@ -506,10 +527,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
 				vatReturnCombo.setComboItem("");
 			else if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setComboItem(Accounter.constants().ukVAT());
+				vatReturnCombo.setComboItem(Accounter.messages().ukVAT());
 			else
 				vatReturnCombo
-						.setComboItem(Accounter.constants().vat3Ireland());
+						.setComboItem(Accounter.messages().vat3Ireland());
 
 			if (data.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
@@ -545,24 +566,24 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// For Creating TaxAgency
 			setData(new ClientTAXAgency());
 			addrsForm = new AddressForm(null);
-//			addrsForm.setWidth("100%");
+			// addrsForm.setWidth("100%");
 			addrsForm.setDisabled(isInViewMode());
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-//			phoneFaxForm.setWidth("100%");
+			// phoneFaxForm.setWidth("100%");
 			emailForm = new EmailForm(null, null, this, this.getAction()
 					.getViewName());
-//			emailForm.setWidth("100%");
+			// emailForm.setWidth("100%");
 		}
 
-//		phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
-//		phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
-//
-//		addrsForm.getCellFormatter().setWidth(0, 0, "50");
-//		addrsForm.getCellFormatter().setWidth(0, 1, "125");
-//
-//		emailForm.getCellFormatter().setWidth(0, 0, "235");
-//		emailForm.getCellFormatter().setWidth(0, 1, "");
+		// phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
+		// phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
+		//
+		// addrsForm.getCellFormatter().setWidth(0, 0, "50");
+		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
+		//
+		// emailForm.getCellFormatter().setWidth(0, 0, "235");
+		// emailForm.getCellFormatter().setWidth(0, 1, "");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -570,7 +591,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		leftVLay.add(accInfoForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-//		rightVLay.setWidth("100%");
+		// rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay.add(addrsForm);
 		rightVLay.add(phoneFaxForm);
@@ -623,10 +644,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private List<String> getTAXFilingFrequencies() {
 		List<String> list = new ArrayList<String>();
-		list.add(constants.monthly());
-		list.add(constants.quarterly());
-		list.add(constants.halfYearly());
-		list.add(constants.yearly());
+		list.add(messages.monthly());
+		list.add(messages.quarterly());
+		list.add(messages.halfYearly());
+		list.add(messages.yearly());
 		return list;
 	}
 
@@ -852,22 +873,22 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().taxAgency();
+		return Accounter.messages().taxAgency();
 	}
 
 	private int getTaxType(String taxType) {
 		if (taxType == null) {
 			return 0;
 		}
-		if (taxType.equals(constants.salesTax())) {
+		if (taxType.equals(messages.salesTax())) {
 			return 1;
-		} else if (taxType.equals(constants.vat())) {
+		} else if (taxType.equals(messages.vat())) {
 			return 2;
-		} else if (taxType.equals(constants.serviceTax())) {
+		} else if (taxType.equals(messages.serviceTax())) {
 			return 3;
-		} else if (taxType.equals(constants.tds())) {
+		} else if (taxType.equals(messages.tds())) {
 			return 4;
-		} else if (taxType.equals(constants.other())) {
+		} else if (taxType.equals(messages.other())) {
 			return 5;
 		} else {
 			return 0;
@@ -877,24 +898,24 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private String getTaxTypeString(int type) {
 		switch (type) {
 		case 1:
-			return constants.salesTax();
+			return messages.salesTax();
 		case 2:
-			return constants.vat();
+			return messages.vat();
 		case 3:
-			return constants.serviceTax();
+			return messages.serviceTax();
 		case 4:
-			return constants.tds();
+			return messages.tds();
 		case 5:
-			return constants.other();
+			return messages.other();
 		default:
 			return "";
 		}
 	}
 
 	private SelectCombo createTaxTypeSelectCombo() {
-		SelectCombo taxTypeCombo = new SelectCombo(constants.taxType());
-		String[] types = new String[] { constants.salesTax(), constants.vat(),
-				constants.serviceTax(), constants.tds(), constants.other() };
+		SelectCombo taxTypeCombo = new SelectCombo(messages.taxType());
+		String[] types = new String[] { messages.salesTax(), messages.vat(),
+				messages.serviceTax(), messages.tds(), messages.other() };
 		taxTypeCombo.initCombo(Arrays.asList(types));
 		taxTypeCombo.setDisabled(isInViewMode());
 		taxTypeCombo.setRequired(true);
@@ -952,15 +973,18 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			} else {
 				vatReturnCombo.initCombo(vatReturns);
 			}
-			vatReturnCombo.setRequired(true);
+			if (getCompany().getCountry().equals(
+					CountryPreferenceFactory.UNITED_KINGDOM)) {
+				vatReturnCombo.setRequired(true);
+			}
 			vatReturnCombo.setVisible(true);
 		}
 	}
 
 	private List<String> getVatReturns() {
 		List<String> vatReturns = new ArrayList<String>();
-		vatReturns.add(Accounter.constants().ukVAT());
-		vatReturns.add(Accounter.constants().vat3Ireland());
+		vatReturns.add(Accounter.messages().ukVAT());
+		vatReturns.add(Accounter.messages().vat3Ireland());
 		return vatReturns;
 	}
 }

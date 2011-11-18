@@ -224,6 +224,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a VAT Item to update.");
 				return "VAT Items List";
 			}
 			Set<TAXItem> taxItems = context.getCompany().getTaxItems();
@@ -235,6 +236,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 				}
 			}
 			if (taxItem == null) {
+				addFirstMessage(context, "Select a VAT Item to update.");
 				return "VAT Items List " + string;
 			}
 			get(TAX_ITEM_NAME).setValue(taxItem.getName());

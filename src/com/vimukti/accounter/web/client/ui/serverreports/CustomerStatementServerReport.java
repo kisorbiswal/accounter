@@ -24,10 +24,10 @@ public class CustomerStatementServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().date(), getConstants().type(),
-				getConstants().no(), getConstants().dueDate(),
-				getConstants().invoiceAmount(), getConstants().payment(),
-				getConstants().balance() };
+		return new String[] { getMessages().date(), getMessages().type(),
+				getMessages().no(), getMessages().dueDate(),
+				getMessages().invoiceAmount(), getMessages().payment(),
+				getMessages().balance() };
 	}
 
 	@Override
@@ -37,10 +37,10 @@ public class CustomerStatementServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().date(), getConstants().type(),
-				getConstants().no(), getConstants().dueDate(),
-				getConstants().invoiceAmount(), getConstants().payment(),
-				getConstants().balance() };
+		return new String[] { getMessages().date(), getMessages().type(),
+				getMessages().no(), getMessages().dueDate(),
+				getMessages().invoiceAmount(), getMessages().payment(),
+				getMessages().balance() };
 	}
 
 	@Override

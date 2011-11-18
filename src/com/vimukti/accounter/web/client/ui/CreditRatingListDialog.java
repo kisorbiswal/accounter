@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
@@ -23,7 +22,6 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	ClientCreditRating creditRating;
 	List<ClientCreditRating> creditRatings;
 	private InputDialog inputDlg;
-	AccounterConstants accounterConstants = Accounter.constants();
 
 	public CreditRatingListDialog(String title, String descript) {
 		super(title, descript);
@@ -97,8 +95,8 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	public void showAddEditGroupDialog(ClientCreditRating rec) {
 		creditRating = rec;
-		String creditRateString = Accounter.constants().creditRating();
-		inputDlg = new InputDialog(this, Accounter.constants().creditRating(),
+		String creditRateString = Accounter.messages().creditRating();
+		inputDlg = new InputDialog(this, Accounter.messages().creditRating(),
 				"", creditRateString) {
 		};
 
@@ -128,7 +126,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().name() };
+		return new String[] { Accounter.messages().name() };
 	}
 
 	@Override
@@ -145,13 +143,13 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			ClientItemGroup clientItemGroup = company.getItemGroupByName(name);
 			if (clientItemGroup != null
 					&& clientItemGroup.getID() != creditRating.getID()) {
-				result.addError(this, accounterConstants.alreadyExist());
+				result.addError(this, messages.alreadyExist());
 			}
 		} else {
 			ClientCreditRating creditRating = company
 					.getCreditRatingByName(name);
 			if (creditRating != null) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.creditRatingAlreadyExists());
 			}
 		}

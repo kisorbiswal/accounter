@@ -42,13 +42,13 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		managingBillLabelItem.setText(constants.managingBills());
+		managingBillLabelItem.setText(messages.managingBills());
 		managingBilldescritionLabel
-				.setText(constants.managingBillDescription());
+				.setText(messages.managingBillDescription());
 		managingBilldescritionLabel.setStyleName("organisation_comment");
 
-		managingBillYesRadioButton.setText(constants.yes());
-		managingBillNoRadioButton.setText(constants.no());
+		managingBillYesRadioButton.setText(messages.yes());
+		managingBillNoRadioButton.setText(messages.no());
 
 	}
 
@@ -58,7 +58,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return constants.managingBillsTitle();
+		return messages.managingBillsTitle();
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.managingBillsTitle();
+		return messages.managingBillsTitle();
 	}
 
 }

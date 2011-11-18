@@ -52,7 +52,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -107,8 +106,8 @@ public class CashSalesView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(Accounter.constants().newCashSale());
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		Label lab1 = new Label(Accounter.messages().newCashSale());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -145,14 +144,14 @@ public class CashSalesView extends
 		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 
-		phoneSelect = new TextItem(customerConstants.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
 
-		billToTextArea = new TextAreaItem(Accounter.constants().billTo());
+		billToTextArea = new TextAreaItem(Accounter.messages().billTo());
 		billToTextArea.setDisabled(true);
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
@@ -432,7 +431,7 @@ public class CashSalesView extends
 	private ShippingTermsCombo createShippingTermsCombo() {
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				Accounter.constants().shippingTerms());
+				Accounter.messages().shippingTerms());
 		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
@@ -486,7 +485,7 @@ public class CashSalesView extends
 				&& taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
 				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						Accounter.constants().none()))
+						Accounter.messages().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		if (customer.getPhoneNo() != null)
@@ -987,7 +986,7 @@ public class CashSalesView extends
 			@Override
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
-					Accounter.showMessage(Global.get().constants()
+					Accounter.showMessage(Global.get().messages()
 							.sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
@@ -1076,7 +1075,7 @@ public class CashSalesView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().cashSales();
+		return Accounter.messages().cashSales();
 	}
 
 	@Override

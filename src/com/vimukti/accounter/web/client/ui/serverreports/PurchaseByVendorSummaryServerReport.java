@@ -42,7 +42,7 @@ public class PurchaseByVendorSummaryServerReport extends
 		return new String[] { messages.payeeName(Global.get().Vendor()),
 
 		// getVendorString("Supplier Group", "Vendor Group"),
-				constants.amount() };
+				messages.amount() };
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", constants.total(), new int[] { 1 });
+			addSection("", messages.total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -155,7 +155,7 @@ public class PurchaseByVendorSummaryServerReport extends
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.payeeName(Global.get().vendor()),
 		// getVendorString("Supplier Group", "Vendor Group"),
-				constants.amount() };
+				messages.amount() };
 	}
 
 }

@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
-import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends
@@ -102,7 +101,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 98;
 				}
 
 				@Override
@@ -112,7 +111,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().dueDate();
+					return Accounter.messages().dueDate();
 				}
 			};
 			this.addColumn(dueDate);
@@ -137,12 +136,12 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public int getWidth() {
-				return 80;
+				return 65;
 			}
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().billNo();
+				return Accounter.messages().billNo();
 			}
 		};
 		this.addColumn(billNo);
@@ -153,7 +152,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 133;
 				}
 
 				@Override
@@ -163,7 +162,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().originalAmount();
+					return getColumnNameWithCurrency(Accounter.messages().originalAmount());
 				}
 
 				@Override
@@ -193,7 +192,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountDue();
+					return getColumnNameWithCurrency(Accounter.messages().amountDue());
 				}
 
 				@Override
@@ -223,7 +222,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().billAmount();
+					return Accounter.messages().billAmount();
 				}
 
 				@Override
@@ -265,7 +264,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().discountDate();
+				return Accounter.messages().discountDate();
 			}
 		});
 
@@ -283,13 +282,15 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().discount();
+				return Accounter.messages().discount();
 			}
 
 			@Override
 			protected boolean isEnable(ClientTransactionPayBill row) {
 				return selectedValues.contains(indexOf(row));
 			}
+
+			
 		});
 
 		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
@@ -306,13 +307,15 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().credits();
+				return Accounter.messages().credits();
 			}
 
 			@Override
 			protected boolean isEnable(ClientTransactionPayBill row) {
 				return selectedValues.contains(indexOf(row));
 			}
+
+			
 		});
 
 		if (canEdit) {
@@ -336,7 +339,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().payments();
+					return getColumnNameWithCurrency(Accounter.messages().payments());
 				}
 
 				@Override
@@ -382,7 +385,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().referenceNo();
+					return Accounter.messages().referenceNo();
 				}
 			});
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
@@ -401,7 +404,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountPaid();
+					return Accounter.messages().amountPaid();
 				}
 
 				@Override
@@ -731,7 +734,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.constants()
+			throw new Exception(Accounter.messages()
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -816,7 +819,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().tds();
+					return Accounter.messages().tds();
 				}
 
 				@Override
@@ -856,7 +859,7 @@ public abstract class TransactionPayBillTable extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.pleaseSelectAnyOneOfTheTransactions());
 		}
 
@@ -866,13 +869,13 @@ public abstract class TransactionPayBillTable extends
 
 			double totalValue = getTotalValue(transactionPayBill);
 			if (DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.totalPaymentNotZeroForSelectedRecords());
 			} else if (DecimalUtil
 					.isGreaterThan(totalValue, currencyProvider
 							.getAmountInBaseCurrency(transactionPayBill
 									.getAmountDue()))) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.totalPaymentNotExceedDueForSelectedRecords());
 			}
 		}
@@ -946,7 +949,7 @@ public abstract class TransactionPayBillTable extends
 
 	}
 
-	private void resetValues() {
+	public void resetValues() {
 		/* Revert all credits to its original state */
 		if (updatedCustomerCreditsAndPayments == null) {
 			return;
@@ -972,6 +975,7 @@ public abstract class TransactionPayBillTable extends
 		resetTotlas();
 		setCreditsAndPaymentsDialiog(null);
 		cashDiscountDialog = null;
+		calculateUnusedCredits();
 	}
 
 	protected abstract void resetTotlas();

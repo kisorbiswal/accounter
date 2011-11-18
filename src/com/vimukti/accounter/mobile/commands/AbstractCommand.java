@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -97,7 +96,6 @@ public abstract class AbstractCommand extends Command {
 	protected static final String PHONE = "phone";
 
 	private IGlobal global;
-	private AccounterConstants constants;
 	private AccounterMessages messages;
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
 
@@ -107,7 +105,6 @@ public abstract class AbstractCommand extends Command {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		constants = global.constants();
 		messages = global.messages();
 	}
 
@@ -433,27 +430,27 @@ public abstract class AbstractCommand extends Command {
 
 		ResultList list = new ResultList(ADDRESS);
 		Record record = new Record("Address1");
-		record.add("", getConstants().address1());
+		record.add("", getMessages().address1());
 		record.add("", oldAddress.getAddress1());
 		list.add(record);
 
 		record = new Record("Street");
-		record.add("", getConstants().streetAddress1());
+		record.add("", getMessages().streetAddress1());
 		record.add("", oldAddress.getStreet());
 		list.add(record);
 
 		record = new Record("City");
-		record.add("", getConstants().city());
+		record.add("", getMessages().city());
 		record.add("", oldAddress.getCity());
 		list.add(record);
 
 		record = new Record("State/Provinence");
-		record.add("", getConstants().stateOrProvince());
+		record.add("", getMessages().stateOrProvince());
 		record.add("", oldAddress.getStateOrProvinence());
 		list.add(record);
 
 		record = new Record("Country/Region");
-		record.add("", getConstants().countryRegion());
+		record.add("", getMessages().countryRegion());
 		record.add("", oldAddress.getCountryOrRegion());
 		list.add(record);
 
@@ -461,11 +458,11 @@ public abstract class AbstractCommand extends Command {
 		result.add(message);
 
 		result.add(list);
-		result.add(getConstants().select());
+		result.add(getMessages().select());
 
 		ResultList finish = new ResultList(ADDRESS_ACTIONS);
 		record = new Record(ActionNames.FINISH);
-		record.add("", getConstants().finish());
+		record.add("", getMessages().finish());
 		finish.add(record);
 		result.add(finish);
 		return result;
@@ -482,7 +479,7 @@ public abstract class AbstractCommand extends Command {
 				.getTaxCodes());
 
 		Result result = context.makeResult();
-		result.add(getMessages().pleaseSelect(getConstants().taxCode()));
+		result.add(getMessages().pleaseSelect(getMessages().taxCode()));
 
 		ResultList list = new ResultList(TAXCODE);
 
@@ -1153,10 +1150,10 @@ public abstract class AbstractCommand extends Command {
 
 	protected List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
-		list.add(Accounter.constants().issued());
-		list.add(Accounter.constants().notIssued());
-		list.add(Accounter.constants().Voided());
-		list.add(Accounter.constants().all());
+		list.add(Accounter.messages().issued());
+		list.add(Accounter.messages().notIssued());
+		list.add(Accounter.messages().Voided());
+		list.add(Accounter.messages().all());
 
 		return list;
 	}
@@ -1197,10 +1194,6 @@ public abstract class AbstractCommand extends Command {
 		Record isActiveRecord = new Record(reqName);
 		isActiveRecord.add("", isActive ? trueString : falseString);
 		list.add(isActiveRecord);
-	}
-
-	protected AccounterConstants getConstants() {
-		return constants;
 	}
 
 	protected AccounterMessages getMessages() {
@@ -1654,7 +1647,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record shippingTermRecord = new Record("Shipping Terms");
-		shippingTermRecord.add("Name", getConstants().shippingTerms());
+		shippingTermRecord.add("Name", getMessages().shippingTerms());
 		shippingTermRecord.add("Value", shippingTerm.getName());
 		list.add(shippingTermRecord);
 		return null;
@@ -1732,7 +1725,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record shippingTermRecord = new Record(SHIPPING_METHODS);
-		shippingTermRecord.add("", getConstants().shippingMethod());
+		shippingTermRecord.add("", getMessages().shippingMethod());
 		shippingTermRecord.add("", shippingMethods == null ? ""
 				: shippingMethods.getName());
 		list.add(shippingTermRecord);
@@ -1743,7 +1736,7 @@ public abstract class AbstractCommand extends Command {
 			ClientShippingMethod oldShippingMethods) {
 		List<ClientShippingMethod> shippingMethods = getShippingMethods();
 		Result result = context.makeResult();
-		result.add(getMessages().pleaseSelect(getConstants().shippingMethod()));
+		result.add(getMessages().pleaseSelect(getMessages().shippingMethod()));
 
 		ResultList list = new ResultList(SHIPPING_METHODS);
 		Object last = context.getLast(RequirementType.SHIPINGMETHOD);
@@ -1800,7 +1793,7 @@ public abstract class AbstractCommand extends Command {
 	public Result closeCommand() {
 		markDone();
 		Result result = new Result(getMessages().pleaseEnter(
-				getConstants().command()));
+				getMessages().command()));
 		return result;
 	}
 

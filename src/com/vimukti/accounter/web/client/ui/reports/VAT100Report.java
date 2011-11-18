@@ -20,31 +20,31 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	protected Double box4amount = 0.0D;
 
 	public VAT100Report() {
-		super(false, Accounter.constants().noRecordsToShow());
+		super(false, Accounter.messages().noRecordsToShow());
 		this.serverReport = new VAT100ServerReport(this);
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
-				.constants().thisWeek(), Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(), Accounter.constants()
+		toolbar.setDateRanageOptions(Accounter.messages().all(), Accounter
+				.messages().thisWeek(), Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(), Accounter.messages()
 						.lastMonth(),
-				Accounter.constants().thisFinancialYear(), Accounter
-						.constants().lastFinancialYear(), Accounter.constants()
-						.thisFinancialQuarter(), Accounter.constants()
-						.lastFinancialQuarter(), Accounter.constants()
-						.financialYearToDate(), Accounter.constants()
-						.lastVATQuarter(), Accounter.constants()
-						.lastVATQuarterToDate(), Accounter.constants().custom());
+				Accounter.messages().thisFinancialYear(), Accounter
+						.messages().lastFinancialYear(), Accounter.messages()
+						.thisFinancialQuarter(), Accounter.messages()
+						.lastFinancialQuarter(), Accounter.messages()
+						.financialYearToDate(), Accounter.messages()
+						.lastVATQuarter(), Accounter.messages()
+						.lastVATQuarterToDate(), Accounter.messages().custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
 		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
 				.getTaxAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equalsIgnoreCase(
-					Accounter.constants().hmCustomsExciseVAT())) {
+					Accounter.messages().hmCustomsExciseVAT())) {
 				ClientFinanceDate date = new ClientFinanceDate();
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;

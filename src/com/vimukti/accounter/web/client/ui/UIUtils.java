@@ -265,7 +265,7 @@ public class UIUtils {
 		if (company != null) {
 			compName = company.getName();
 		} else {
-			compName = Accounter.constants().nocompany();
+			compName = Accounter.messages().nocompany();
 		}
 		String appName = Accounter.getAppName();
 
@@ -285,7 +285,7 @@ public class UIUtils {
 			// SimpleDateFormat new
 			ClientFinanceDate date = new ClientFinanceDate(new Date(longFormat));
 			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dataTimeFormat());
+					.messages().dataTimeFormat());
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} catch (Exception e) {
@@ -381,7 +381,7 @@ public class UIUtils {
 	public static ClickHandler todoClick() {
 		return new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				say(Accounter.constants().notyetimplemented());
+				say(Accounter.messages().notyetimplemented());
 			}
 		};
 	}
@@ -552,7 +552,7 @@ public class UIUtils {
 
 			public void onResultSuccess(Boolean result) {
 				if (result == null || !result) {
-					onFailure(new Exception(Accounter.constants()
+					onFailure(new Exception(Accounter.messages()
 							.unKnownExceptionGotNull()));
 					return;
 				}
@@ -857,19 +857,19 @@ public class UIUtils {
 	public static SelectCombo getPaymentMethodCombo() {
 		SelectCombo selectCombo = new SelectCombo(null);
 		selectCombo.setHelpInformation(true);
-		selectCombo.setTitle(Accounter.constants().paymentMethod());
-		selectCombo.setComboItem(Accounter.constants().cash());
+		selectCombo.setTitle(Accounter.messages().paymentMethod());
+		selectCombo.setComboItem(Accounter.messages().cash());
 		List<String> listOfPaymentMethods = new ArrayList<String>();
-		listOfPaymentMethods.add(Accounter.constants().cash());
+		listOfPaymentMethods.add(Accounter.messages().cash());
 		listOfPaymentMethods.add(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
 						.check()));
-		listOfPaymentMethods.add(Accounter.constants().creditCard());
-		listOfPaymentMethods.add(Accounter.constants().directDebit());
-		listOfPaymentMethods.add(Accounter.constants().masterCard());
-		listOfPaymentMethods.add(Accounter.constants().onlineBanking());
-		listOfPaymentMethods.add(Accounter.constants().standingOrder());
-		listOfPaymentMethods.add(Accounter.constants().switchMaestro());
+		listOfPaymentMethods.add(Accounter.messages().creditCard());
+		listOfPaymentMethods.add(Accounter.messages().directDebit());
+		listOfPaymentMethods.add(Accounter.messages().masterCard());
+		listOfPaymentMethods.add(Accounter.messages().onlineBanking());
+		listOfPaymentMethods.add(Accounter.messages().standingOrder());
+		listOfPaymentMethods.add(Accounter.messages().switchMaestro());
 		selectCombo.initCombo(listOfPaymentMethods);
 
 		return selectCombo;
@@ -991,9 +991,9 @@ public class UIUtils {
 	public static int getAddressType(String type) {
 		if (type.equalsIgnoreCase("1"))
 			return ClientAddress.TYPE_BUSINESS;
-		else if (type.equalsIgnoreCase(Accounter.constants().billTo()))
+		else if (type.equalsIgnoreCase(Accounter.messages().billTo()))
 			return ClientAddress.TYPE_BILL_TO;
-		else if (type.equalsIgnoreCase(Accounter.constants().shipTo()))
+		else if (type.equalsIgnoreCase(Accounter.messages().shipTo()))
 			return ClientAddress.TYPE_SHIP_TO;
 		else if (type.equalsIgnoreCase("2"))
 			return ClientAddress.TYPE_WAREHOUSE;
@@ -1003,9 +1003,9 @@ public class UIUtils {
 			return ClientAddress.TYPE_POSTAL;
 		else if (type.equalsIgnoreCase("5"))
 			return ClientAddress.TYPE_HOME;
-		else if (type.equalsIgnoreCase(Accounter.constants().company()))
+		else if (type.equalsIgnoreCase(Accounter.messages().company()))
 			return ClientAddress.TYPE_COMPANY;
-		else if (type.equalsIgnoreCase(Accounter.constants()
+		else if (type.equalsIgnoreCase(Accounter.messages()
 				.companyregistration()))
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 
@@ -1015,9 +1015,9 @@ public class UIUtils {
 	public static String getAddressesTypes(int type) {
 		switch (type) {
 		case ClientAddress.TYPE_BILL_TO:
-			return Accounter.constants().billTo();
+			return Accounter.messages().billTo();
 		case ClientAddress.TYPE_SHIP_TO:
-			return Accounter.constants().shipTo();
+			return Accounter.messages().shipTo();
 		case ClientAddress.TYPE_BUSINESS:
 			return "1";
 		case ClientAddress.TYPE_WAREHOUSE:
@@ -1029,7 +1029,7 @@ public class UIUtils {
 		case ClientAddress.TYPE_HOME:
 			return "5";
 		default:
-			return Accounter.constants().billTo();
+			return Accounter.messages().billTo();
 
 		}
 
@@ -1038,43 +1038,43 @@ public class UIUtils {
 	public static String getPhoneTypes(int type) {
 		switch (type) {
 		case ClientPhone.BUSINESS_PHONE_NUMBER:
-			return Accounter.constants().company();
+			return Accounter.messages().company();
 		case ClientPhone.MOBILE_PHONE_NUMBER:
-			return Accounter.constants().mobile();
+			return Accounter.messages().mobile();
 		case ClientPhone.HOME_PHONE_NUMBER:
-			return Accounter.constants().home();
+			return Accounter.messages().home();
 		case ClientPhone.ASSISTANT_PHONE_NUMBER:
-			return Accounter.constants().assistant();
+			return Accounter.messages().assistant();
 		case ClientPhone.OTHER_PHONE_NUMBER:
-			return Accounter.constants().other();
+			return Accounter.messages().other();
 		default:
-			return Accounter.constants().company();
+			return Accounter.messages().company();
 		}
 	}
 
 	public static String getFaXTypes(int type) {
 		switch (type) {
 		case ClientFax.TYPE_BUSINESS:
-			return Accounter.constants().company();
+			return Accounter.messages().company();
 		case ClientFax.TYPE_HOME:
-			return Accounter.constants().home();
+			return Accounter.messages().home();
 		case ClientFax.TYPE_OTHER:
-			return Accounter.constants().other();
+			return Accounter.messages().other();
 		default:
-			return Accounter.constants().company();
+			return Accounter.messages().company();
 		}
 	}
 
 	public static int getPhoneType(String type) {
-		if (type.equalsIgnoreCase(Accounter.constants().company()))
+		if (type.equalsIgnoreCase(Accounter.messages().company()))
 			return ClientPhone.BUSINESS_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase(Accounter.constants().mobile()))
+		else if (type.equalsIgnoreCase(Accounter.messages().mobile()))
 			return ClientPhone.MOBILE_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase(Accounter.constants().home()))
+		else if (type.equalsIgnoreCase(Accounter.messages().home()))
 			return ClientPhone.HOME_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase(Accounter.constants().assistant()))
+		else if (type.equalsIgnoreCase(Accounter.messages().assistant()))
 			return ClientPhone.ASSISTANT_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase(Accounter.constants().other()))
+		else if (type.equalsIgnoreCase(Accounter.messages().other()))
 			return ClientPhone.OTHER_PHONE_NUMBER;
 		else
 			return ClientPhone.OTHER_PHONE_NUMBER;
@@ -1082,22 +1082,22 @@ public class UIUtils {
 	}
 
 	public static int getFaxType(String type) {
-		if (type.equalsIgnoreCase(Accounter.constants().company()))
+		if (type.equalsIgnoreCase(Accounter.messages().company()))
 			return ClientFax.TYPE_BUSINESS;
-		else if (type.equalsIgnoreCase(Accounter.constants().home()))
+		else if (type.equalsIgnoreCase(Accounter.messages().home()))
 			return ClientFax.TYPE_HOME;
-		else if (type.equalsIgnoreCase(Accounter.constants().other()))
+		else if (type.equalsIgnoreCase(Accounter.messages().other()))
 			return ClientFax.TYPE_OTHER;
 		else
 			return ClientFax.TYPE_OTHER;
 	}
 
 	public static int getEmailType(String type) {
-		if (type.equalsIgnoreCase(Accounter.constants().email1()))
+		if (type.equalsIgnoreCase(Accounter.messages().email1()))
 			return ClientEmail.TYPE_EMAIL_1;
-		else if (type.equalsIgnoreCase(Accounter.constants().email2()))
+		else if (type.equalsIgnoreCase(Accounter.messages().email2()))
 			return ClientEmail.TYPE_EMAIL_2;
-		else if (type.equalsIgnoreCase(Accounter.constants().email3()))
+		else if (type.equalsIgnoreCase(Accounter.messages().email3()))
 			return ClientEmail.TYPE_EMAIL_3;
 		else
 			return ClientEmail.TYPE_EMAIL_1;
@@ -1167,7 +1167,7 @@ public class UIUtils {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			return Global.get().account();
 		case ClientTransactionItem.TYPE_ITEM:
-			return Accounter.constants().item();
+			return Accounter.messages().item();
 			// case ClientTransactionItem.TYPE_SALESTAX:
 			// return Accounter.constants().taxGroup();
 		default:
@@ -1861,11 +1861,11 @@ public class UIUtils {
 		if (paymentMethod == null) {
 			return paymentMethod;
 		}
-		if (paymentMethod.equals(Accounter.constants().cheque())
-				|| paymentMethod.equals(Accounter.constants().check())) {
+		if (paymentMethod.equals(Accounter.messages().cheque())
+				|| paymentMethod.equals(Accounter.messages().check())) {
 			// if (getCompany().getAccountingType() ==
 			// ClientCompany.ACCOUNTING_TYPE_UK)
-			return Accounter.constants().cheque();
+			return Accounter.messages().cheque();
 			// else if (getCompany().getAccountingType() ==
 			// ClientCompany.ACCOUNTING_TYPE_US)
 			// return Accounter.constants().check();

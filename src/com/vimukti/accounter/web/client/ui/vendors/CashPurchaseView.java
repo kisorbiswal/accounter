@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -55,8 +56,7 @@ public class CashPurchaseView extends
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
 	private TextAreaItem billToAreaItem;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
-			.constants();
+	AccounterMessages accounterConstants = Accounter.messages();
 	private boolean locationTrackingEnabled;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
@@ -79,8 +79,8 @@ public class CashPurchaseView extends
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 
-		titlelabel = new Label(Accounter.constants().cashPurchase());
-		titlelabel.setStyleName(Accounter.constants().labelTitle());
+		titlelabel = new Label(Accounter.messages().cashPurchase());
+		titlelabel.setStyleName(Accounter.messages().labelTitle());
 		// titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -133,12 +133,12 @@ public class CashPurchaseView extends
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
 		// contactCombo.setWidth(100);
-		billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
+		billToAreaItem = new TextAreaItem(Accounter.messages().billTo());
 		billToAreaItem.setHelpInformation(true);
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
-		phoneSelect = new TextItem(Accounter.constants().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(Accounter.messages().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -155,10 +155,10 @@ public class CashPurchaseView extends
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
-		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
+		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(Accounter.constants().chequeNo());
+		checkNo = createCheckNumberItem(Accounter.messages().chequeNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -174,15 +174,15 @@ public class CashPurchaseView extends
 						paymentMethodSelected(paymentMethodCombo
 								.getSelectedValue());
 						if (paymentMethodCombo.getSelectedValue().equals(
-								Accounter.constants().check())
+								Accounter.messages().check())
 								|| paymentMethodCombo.getSelectedValue()
-										.equals(Accounter.constants().cheque())) {
+										.equals(Accounter.messages().cheque())) {
 							checkNo.setDisabled(false);
 						} else {
 							checkNo.setDisabled(true);
 						}
 
-						if (paymentMethod.equals(Accounter.constants().check())
+						if (paymentMethod.equals(Accounter.messages().check())
 								&& isInViewMode() && payFromAccount != null) {
 							ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 							checkNo.setValue(cashPurchase.getCheckNumber());
@@ -209,10 +209,10 @@ public class CashPurchaseView extends
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
 
-		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
+		Label lab2 = new Label(Accounter.messages().itemsAndExpenses());
 		// menuButton = createAddNewButton();
 
-		netAmount = new AmountLabel(Accounter.constants().netAmount());
+		netAmount = new AmountLabel(Accounter.messages().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -461,8 +461,9 @@ public class CashPurchaseView extends
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
-				&& paymentMethod.equalsIgnoreCase(Accounter.constants()
-						.cheque()) && isInViewMode()) {
+				&& paymentMethod
+						.equalsIgnoreCase(Accounter.messages().cheque())
+				&& isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
@@ -479,7 +480,7 @@ public class CashPurchaseView extends
 					public void onException(AccounterException t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter.constants().toBePrinted());
+						checkNo.setValue(Accounter.messages().toBePrinted());
 						return;
 					}
 
@@ -543,7 +544,8 @@ public class CashPurchaseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -587,12 +589,12 @@ public class CashPurchaseView extends
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
@@ -650,8 +652,7 @@ public class CashPurchaseView extends
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrency(getCompany()
-					.getCurrency(vendor.getCurrency()));
+			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
@@ -667,7 +668,7 @@ public class CashPurchaseView extends
 
 	private void setDisableStateForCheckNo(String paymentMethod) {
 
-		if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
+		if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
 			checkNo.setDisabled(false);
 		} else {
 			checkNo.setValue("");
@@ -675,7 +676,7 @@ public class CashPurchaseView extends
 
 		}
 		if (isInViewMode()) {
-			if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
+			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
 				checkNo.setDisabled(false);
 			} else {
 				checkNo.setDisabled(true);
@@ -726,7 +727,8 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID() : 0);
+						.getSelectedValue().getID()
+						: 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -786,8 +788,7 @@ public class CashPurchaseView extends
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
 		}
-		transactionTotalNonEditableText
-				.setAmount(grandTotal);
+		transactionTotalNonEditableText.setAmount(grandTotal);
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}
@@ -810,27 +811,28 @@ public class CashPurchaseView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(deliveryDateItem, Accounter.constants().the()
-					+ " "
-					+ Accounter.constants().deliveryDate()
-					+ " "
-					+ " "
-					+ Accounter.constants()
-							.cannotbeearlierthantransactiondate());
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
+			result
+					.addError(deliveryDateItem, Accounter.messages().the()
+							+ " "
+							+ Accounter.messages().deliveryDate()
+							+ " "
+							+ " "
+							+ Accounter.messages()
+									.cannotbeearlierthantransactiondate());
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -906,8 +908,8 @@ public class CashPurchaseView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
-		if (paymentMethod.equals(Accounter.constants().check())
-				|| paymentMethod.equals(Accounter.constants().cheque())) {
+		if (paymentMethod.equals(Accounter.messages().check())
+				|| paymentMethod.equals(Accounter.messages().cheque())) {
 			checkNo.setDisabled(isInViewMode());
 		} else {
 			checkNo.setDisabled(!isInViewMode());
@@ -957,7 +959,7 @@ public class CashPurchaseView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().cashPurchases();
+		return Accounter.messages().cashPurchases();
 	}
 
 	@Override

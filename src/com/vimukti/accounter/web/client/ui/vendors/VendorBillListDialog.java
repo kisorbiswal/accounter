@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -21,7 +20,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -33,8 +31,6 @@ public class VendorBillListDialog extends BaseDialog {
 	private VendorBillView view;
 	// private CustomersMessages customerConstants = GWT
 	// .create(CustomersMessages.class);
-	private AccounterConstants financeConstants = GWT
-			.create(AccounterConstants.class);
 	private DialogGrid grid;
 	private List<PurchaseOrdersAndItemReceiptsList> list;
 	public ClientVendor preVendor;
@@ -44,7 +40,7 @@ public class VendorBillListDialog extends BaseDialog {
 		this.view = view;
 		this.list = list;
 		// setTitle("");
-		setText(Accounter.constants().purchaseOrderList());
+		setText(Accounter.messages().purchaseOrderList());
 		initRPCService();
 		createControls();
 		setWidth("700px");
@@ -57,16 +53,16 @@ public class VendorBillListDialog extends BaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.constants().selectPurchaseOrder()
-				+ Accounter.constants().selectDocument());
+		Label infoLabel = new Label(Accounter.messages().selectPurchaseOrder()
+				+ Accounter.messages().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(Accounter.constants().date(), Accounter.constants()
-				.no(), Accounter.constants().type(), messages.payeeName(Global
-				.get().Vendor()), Accounter.constants().total(), Accounter
-				.constants().remainingTotal());
+		grid.addColumns(Accounter.messages().date(), Accounter.messages()
+				.no(), Accounter.messages().type(), messages.payeeName(Global
+				.get().Vendor()), Accounter.messages().total(), Accounter
+				.messages().remainingTotal());
 		grid.setCellsWidth(new Integer[] { 70, 50, 90, -1, 90, 95 });
 		grid.setView(this);
 		grid.init();
@@ -104,11 +100,11 @@ public class VendorBillListDialog extends BaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		Button helpButton = new Button(financeConstants.help());
+		Button helpButton = new Button(messages.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.constants().sorryNoHelp());
+				Accounter.showError(Accounter.messages().sorryNoHelp());
 
 			}
 
@@ -118,7 +114,7 @@ public class VendorBillListDialog extends BaseDialog {
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
 
-		Button okButton = new Button(financeConstants.ok());
+		Button okButton = new Button(messages.ok());
 		okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
 
@@ -144,7 +140,7 @@ public class VendorBillListDialog extends BaseDialog {
 		});
 		okButtonLayout.add(okButton);
 
-		Button cancelButton = new Button(financeConstants.cancel());
+		Button cancelButton = new Button(messages.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -187,7 +183,7 @@ public class VendorBillListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.errorLoadingItemReceipt());
 			}
 
@@ -209,7 +205,7 @@ public class VendorBillListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.errorLoadingPurchaseOrder());
 			}
 
@@ -236,7 +232,7 @@ public class VendorBillListDialog extends BaseDialog {
 				grid.addData(rec);
 			}
 		} else
-			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 	}
 
 	public Object getGridColumnValue(IAccounterCore obj, int index) {

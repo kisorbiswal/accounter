@@ -41,8 +41,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
@@ -86,8 +84,6 @@ public class Accounter implements EntryPoint {
 	private static IAccounterReportServiceAsync reportService;
 
 	private static AccounterMessages messages;
-	private static AccounterConstants constants;
-	private static AccounterComboMessges comboMessages;
 	private static FinanceImages financeImages;
 	private static FinanceMenuImages financeMenuImages;
 
@@ -102,7 +98,7 @@ public class Accounter implements EntryPoint {
 
 		final AccounterAsyncCallback<ClientCompany> getCompanyCallback = new AccounterAsyncCallback<ClientCompany>() {
 			public void onException(AccounterException caught) {
-				showError(constants.unableToLoadCompany());
+				showError(messages.unableToLoadCompany());
 				// //UIUtils.log(caught.toString());
 				caught.printStackTrace();
 			}
@@ -189,8 +185,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	private native static void reloadMacMenu() /*-{
-		$wnd.MacReload();
-	}-*/;
+												$wnd.MacReload();
+												}-*/;
 
 	public static MainFinanceWindow getMainFinanceWindow() {
 		return mainWindow;
@@ -269,7 +265,7 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static String getAppName() {
-		return Accounter.constants().accounter();
+		return Accounter.messages().accounter();
 	}
 
 	public static AccounterMessages messages() {
@@ -277,30 +273,6 @@ public class Accounter implements EntryPoint {
 			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
 		}
 		return messages;
-	}
-
-	public static AccounterConstants constants() {
-		if (constants == null) {
-			constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
-		}
-		return constants;
-	}
-
-	public static AccounterComboMessges comboMessages() {
-		if (comboMessages == null) {
-			comboMessages = (AccounterComboMessges) GWT
-					.create(AccounterComboMessges.class);
-		}
-		return comboMessages;
-	}
-
-	public static AccounterConstants getFinanceConstants() {
-		if (constants == null) {
-			constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
-		}
-		return constants;
 	}
 
 	public static FinanceImages getFinanceImages() {
@@ -360,15 +332,15 @@ public class Accounter implements EntryPoint {
 	}
 
 	private static native void removeLoadingImage() /*-{
-		var parent = $wnd.document.getElementById('loadingWrapper');
-		var footer = $wnd.document.getElementById('mainFooter');
-		//		var feedbackimg = $wnd.document.getElementById('contact');
-		//		feedbackimg.style.visibility = 'visible';
-		//var header = $wnd.document.getElementById('mainHeader');
-		parent.style.visibility = 'hidden';
-		footer.style.visibility = 'visible';
-		//header.style.visibility = 'visible';
-	}-*/;
+													var parent = $wnd.document.getElementById('loadingWrapper');
+													var footer = $wnd.document.getElementById('mainFooter');
+													//		var feedbackimg = $wnd.document.getElementById('contact');
+													//		feedbackimg.style.visibility = 'visible';
+													//var header = $wnd.document.getElementById('mainHeader');
+													parent.style.visibility = 'hidden';
+													footer.style.visibility = 'visible';
+													//header.style.visibility = 'visible';
+													}-*/;
 
 	/**
 	 * 
@@ -413,7 +385,7 @@ public class Accounter implements EntryPoint {
 		data.getElement().getStyle().setMargin(10, Unit.PX);
 		data.getElement().getStyle().setFontSize(14, Unit.PX);
 		vPanel.add(data);
-		Button loginBtn = new Button(constants().logIn());
+		Button loginBtn = new Button(messages().logIn());
 		loginBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -636,4 +608,5 @@ public class Accounter implements EntryPoint {
 		Accounter.createCRUDService().get1099InformationByVendor(vendorId,
 				myCallback);
 	}
+
 }

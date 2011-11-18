@@ -48,13 +48,13 @@ public class CompanyPhoneNumberOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		companyPhoneNumberLabel.setText(Accounter.constants().phoneNumber());
+		companyPhoneNumberLabel.setText(Accounter.messages().phoneNumber());
 
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().phoneNumber();
+		return Accounter.messages().phoneNumber();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class CompanyPhoneNumberOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return Accounter.constants().phoneNumber();
+		return Accounter.messages().phoneNumber();
 	}
 
 }

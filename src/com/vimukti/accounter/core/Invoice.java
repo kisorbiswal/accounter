@@ -478,7 +478,7 @@ public class Invoice extends Transaction implements Lifecycle {
 													.getID());
 							double amount = 0d;
 
-							if (!isCreated)
+							if (!isCreated) {
 								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 									if (DecimalUtil
 											.isLessThan(
@@ -496,7 +496,7 @@ public class Invoice extends Transaction implements Lifecycle {
 								} else
 									referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
-							else {
+							} else {
 								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 									if (DecimalUtil
 											.isLessThan(
@@ -556,13 +556,6 @@ public class Invoice extends Transaction implements Lifecycle {
 					if (DecimalUtil.isLessThan(usdAmount, estimate.netAmount))
 						isPartiallyInvoiced = true;
 				}
-				// if (isPartiallyInvoiced) {
-				// estimate.status = Estimate.STATUS_OPEN;
-				// } else {
-				estimate.status = isCreated ? Estimate.STATUS_ACCECPTED
-						: Estimate.STATUS_OPEN;
-
-				// }
 				if (isCreated) {
 					estimate.setUsedInvoice(invoice, session);
 				}
@@ -643,12 +636,15 @@ public class Invoice extends Transaction implements Lifecycle {
 		invoice.payments = invoice.total;
 		invoice.balanceDue = 0.0;
 
-		modifyEstimate(invoice, false);
+		for (Estimate estimate : invoice.getEstimates()) {
+			estimate.setUsedInvoice(null, session);
+			session.saveOrUpdate(estimate);
+		}
 
-		modifySalesOrder(invoice, false);
-		// if (invoice.salesOrder != null) {
-		// invoice.salesOrder.status = Transaction.STATUS_CANCELLED;
-		// }
+		for (SalesOrder salesOrder : invoice.getSalesOrders()) {
+			salesOrder.setUsedInvoice(null, session);
+			session.saveOrUpdate(salesOrder);
+		}
 
 	}
 
@@ -910,50 +906,46 @@ public class Invoice extends Transaction implements Lifecycle {
 					this.customer.updateBalance(session, this, -this.total);
 				}
 			}
-
-			// if (this.salesOrders != null || invoice.salesOrders != null)
-			// if (this.salesOrders == null && invoice.salesOrders != null) {
-			// modifySalesOrder(invoice, false);
-			// } else if (this.salesOrders != null
-			// && invoice.salesOrders == null) {
-			// modifySalesOrder(this, true);
-			// } else if (isInvoiceContainsSalesOrders(this.salesOrders,
-			// invoice.salesOrders)) {
-			// modifySalesOrder(invoice, false);
-			// modifySalesOrder(this, true);
-			// } else {
-			// for (TransactionItem transactionItem : invoice.transactionItems)
-			// {
-			// if (transactionItem.referringTransactionItem != null
-			// && DecimalUtil
-			// .isGreaterThan(
-			// transactionItem.referringTransactionItem.usedamt,
-			// 0)) {
-			// transactionItem.referringTransactionItem.usedamt -=
-			// transactionItem.lineTotal;
-			// }
-			// }
-			// modifySalesOrder(this, true);
-			//
-			// }
-			// if (this.estimates != null || invoice.estimates != null)
-			// if (this.estimates == null && invoice.estimates != null) {
-			// modifyEstimate(invoice, false);
-			// } else if (this.estimates != null && invoice.estimates == null) {
-			// modifyEstimate(this, true);
-			// } else if (isInvoiceContainsEstimates(this.estimates,
-			// invoice.estimates)) {
-			// modifyEstimate(invoice, false);
-			// modifyEstimate(this, true);
-			// }
 			this.updateTransactionReceivepayments();
+			doUpdateEffectEstiamtes(this, invoice, session);
+			doUpdateEffectSalesOrder(this, invoice, session);
 		}
-		// modifySalesOrder(invoice, false);
-		// modifySalesOrder(this, true);
-		// modifyEstimate(invoice, false);
-		// modifyEstimate(this, true);
-		doUpdateEffectEstiamtes(this, invoice, session);
+
 		super.onEdit(invoice);
+
+	}
+
+	private void doUpdateEffectSalesOrder(Invoice newInvoice,
+			Invoice oldInvoice, Session session) {
+
+		List<SalesOrder> salesOrdersExistsInOldInvoice = new ArrayList<SalesOrder>();
+		for (SalesOrder oldEstiamte : oldInvoice.getSalesOrders()) {
+			SalesOrder salesOrder = null;
+			for (SalesOrder newSalesOrder : newInvoice.getSalesOrders()) {
+				if (oldEstiamte.getID() == newSalesOrder.getID()) {
+					salesOrder = newSalesOrder;
+					salesOrdersExistsInOldInvoice.add(newSalesOrder);
+					break;
+				}
+			}
+			if (salesOrder != null) {
+				salesOrder.setUsedInvoice(newInvoice, session);
+			} else {
+				salesOrder = (SalesOrder) session.get(SalesOrder.class,
+						oldEstiamte.id);
+				salesOrder.setUsedInvoice(null, session);
+			}
+			if (salesOrder != null) {
+				session.saveOrUpdate(salesOrder);
+			}
+		}
+
+		for (SalesOrder salesOrder : newInvoice.getSalesOrders()) {
+			if (!salesOrdersExistsInOldInvoice.contains(salesOrder)) {
+				salesOrder.setUsedInvoice(newInvoice, session);
+				session.saveOrUpdate(salesOrder);
+			}
+		}
 
 	}
 

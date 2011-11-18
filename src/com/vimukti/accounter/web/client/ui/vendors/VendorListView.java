@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -36,7 +37,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public void deleteFailed(AccounterException caught) {
 		super.deleteFailed(caught);
 
-		AccounterException accounterException = (AccounterException) caught;
+		AccounterException accounterException = caught;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -99,7 +100,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(Accounter.constants().totalOutStandingBalance()
+		totalLabel.setText(Accounter.messages().totalOutStandingBalance()
 
 		+ DataUtils.getAmountAsString(total) + "");
 	}
@@ -139,8 +140,13 @@ public class VendorListView extends BaseListView<PayeeList> {
 		grid.setTotal();
 		for (PayeeList payee : listOfPayees) {
 			if (isActive) {
-				if (payee.isActive() == true)
+				if (payee.isActive() == true) {
+					if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY
+							&& !(getCompany().getPreferences().isTrackTax())) {
+						continue;
+					}
 					grid.addData(payee);
+				}
 
 			} else if (payee.isActive() == false) {
 				grid.addData(payee);

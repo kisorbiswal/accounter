@@ -11,7 +11,7 @@ public class ItemGroupCombo extends CustomCombo<ClientItemGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newItemGroup();
+		return messages.itemGroup();
 	}
 
 	@Override

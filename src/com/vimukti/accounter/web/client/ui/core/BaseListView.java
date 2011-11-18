@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BudgetListView;
@@ -50,7 +51,7 @@ import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<ArrayList<T>> {
 	protected List<String> listOfTypes;
-
+	protected AccounterMessages messages = Accounter.messages();
 	protected BaseListGrid grid;
 
 	public BaseListGrid getGrid() {
@@ -131,7 +132,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 		if (this instanceof BudgetListView) {
 			if (viewSelect == null) {
-				viewSelect = new SelectCombo(Accounter.constants()
+				viewSelect = new SelectCombo(Accounter.messages()
 						.currentBudget());
 				viewSelect.setHelpInformation(true);
 				viewSelect.setWidth("150px");
@@ -151,15 +152,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		} else if (!(this instanceof QuoteListView)) {
 			if (viewSelect == null) {
-				viewSelect = new SelectCombo(Accounter.constants()
-						.currentView());
+				viewSelect = new SelectCombo(Accounter.messages().currentView());
 				viewSelect.setHelpInformation(true);
 				// viewSelect.setWidth("150px");
 				List<String> typeList = new ArrayList<String>();
-				typeList.add(Accounter.constants().active());
-				typeList.add(Accounter.constants().inActive());
+				typeList.add(Accounter.messages().active());
+				typeList.add(Accounter.messages().inActive());
 				viewSelect.initCombo(typeList);
-				viewSelect.setComboItem(Accounter.constants().active());
+				viewSelect.setComboItem(Accounter.messages().active());
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -167,8 +167,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							public void selectedComboBoxItem(String selectItem) {
 								if (viewSelect.getSelectedValue() != null) {
 									if (viewSelect.getSelectedValue()
-											.toString()
-											.equalsIgnoreCase("Active"))
+											.toString().equalsIgnoreCase(
+													"Active"))
 										filterList(true);
 									else
 										filterList(false);
@@ -182,14 +182,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		dateRangeSelector = getDateRangeSelectItem();
 
 		if (dateRangeSelector == null) {
-			dateRangeSelector = new SelectCombo(Accounter.constants().date());
+			dateRangeSelector = new SelectCombo(Accounter.messages().date());
 			dateRangeSelector.setHelpInformation(true);
 			dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
-			typeList.add(Accounter.constants().active());
-			typeList.add(Accounter.constants().inActive());
+			typeList.add(Accounter.messages().active());
+			typeList.add(Accounter.messages().inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(Accounter.constants().active());
+			dateRangeSelector.setDefaultValue(Accounter.messages().active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -204,12 +204,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getCurrentFiscalYearEndDate());
 		// .getLastandOpenedFiscalYearEndDate());
@@ -217,17 +217,17 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				dateRangeSelector.setComboItem(constants.custom());
+				dateRangeSelector.setComboItem(messages.custom());
 			}
 		});
 		toItem.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				dateRangeSelector.setComboItem(constants.custom());
+				dateRangeSelector.setComboItem(messages.custom());
 			}
 		});
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -238,7 +238,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
-		prepare1099MiscForms = new Button(Accounter.constants()
+		prepare1099MiscForms = new Button(Accounter.messages()
 				.prepare1099MiscForms());
 		prepare1099MiscForms.addClickHandler(new ClickHandler() {
 
@@ -249,7 +249,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
-		budgetDetails = new Button(Accounter.constants().details());
+		budgetDetails = new Button(Accounter.messages().details());
 		budgetDetails.setWidth("10");
 		budgetDetails.addClickHandler(new ClickHandler() {
 
@@ -311,7 +311,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlayTop.add(addNewLabel);
 			if (getAddNewLabelString().length() != 0) {
 				hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
-						.length() + "px");
+						.length()
+						+ "px");
 			}
 		}
 		if (isViewSelectRequired)
@@ -475,10 +476,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	@Override
 	public void onFailure(Throwable exception) {
 		if (exception instanceof AccounterException) {
-			Accounter.showError(Accounter.constants().failedRequest());
+			Accounter.showError(Accounter.messages().failedRequest());
 			return;
 		}
-		Accounter.showMessage(Accounter.constants().sessionExpired());
+		Accounter.showMessage(Accounter.messages().sessionExpired());
 	}
 
 	@Override

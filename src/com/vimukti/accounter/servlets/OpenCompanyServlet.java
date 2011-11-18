@@ -1,6 +1,8 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,15 +15,19 @@ import net.zschech.gwt.comet.server.CometSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class OpenCompanyServlet extends BaseServlet {
 
@@ -51,7 +57,16 @@ public class OpenCompanyServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 
 		if (emailID != null) {
+			Session session = HibernateUtil.openSession();
+			FinanceTool financeTool = new FinanceTool();
+			Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+			namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
+			Client client = (Client) namedQuery.uniqueResult();
+			String language = getlocale().getISO3Language();
+			HashMap<String, String> keyAndValues = financeTool.getKeyAndValues(
+					client.getID(), language);
 
+			request.setAttribute("messages", keyAndValues);
 			Long serverCompanyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
 			String create = (String) request.getSession().getAttribute(CREATE);
@@ -68,13 +83,12 @@ public class OpenCompanyServlet extends BaseServlet {
 			}
 			initComet(request.getSession(), serverCompanyID, emailID);
 
-			Session session = HibernateUtil.openSession();
 			try {
 				Transaction transaction = session.beginTransaction();
 				Company company = getCompany(request);
 				User user = (User) session.getNamedQuery("user.by.emailid")
-						.setParameter("company", company)
-						.setParameter("emailID", emailID).uniqueResult();
+						.setParameter("company", company).setParameter(
+								"emailID", emailID).uniqueResult();
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
 					return;
@@ -105,6 +119,10 @@ public class OpenCompanyServlet extends BaseServlet {
 			// Session is there, so show the main page
 
 		}
+	}
+
+	private Locale getlocale() {
+		return ServerLocal.get();
 	}
 
 	/**

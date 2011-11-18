@@ -3,13 +3,10 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
 
 public class CurrencyCombo extends CustomCombo<ClientCurrency> {
-	private AccounterConstants constants = Global.get().constants();
 
 	public CurrencyCombo(String title) {
 		super(title);
@@ -17,8 +14,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 				getCompany().getCurrencies());
 		initCombo(currency);
 		if (!currency.isEmpty()) {
-			setSelected(getCompany().getPrimaryCurrency()
-					.getFormalName());
+			setSelected(getCompany().getPrimaryCurrency().getFormalName());
 		}
 	}
 
@@ -50,15 +46,14 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-
-		return comboMessages.newCurrency();
+		return messages.currency();
 	}
 
 	@Override
 	public void onAddNew() {
 
 		CurrencyGroupListDialog groupListDialog = new CurrencyGroupListDialog(
-				constants.manageCurrency(), constants.toAddCurrencyGroup());
+				messages.manageCurrency(), messages.toAddCurrencyGroup());
 
 		groupListDialog.hide();
 		groupListDialog.addCallBack(createAddNewCallBack());

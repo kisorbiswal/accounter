@@ -57,7 +57,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 				total += item.getSalesPrice();
 		}
 		if (totalLabel != null) {
-			totalLabel.setText(Accounter.constants().totalSalesPrice() + " = "
+			totalLabel.setText(Accounter.messages().totalSalesPrice() + " = "
 					+ DataUtils.getAmountAsString(total));
 		}
 	}
@@ -76,14 +76,14 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().addaNewInventoryItem();
+			return Accounter.messages().addaNewInventoryItem();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().productList();
+		return Accounter.messages().productList();
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	}
 
 	public void setCatageoryType(String catagory) {
-		this.catageory = constants.inventory();
+		this.catageory = messages.inventory();
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().items();
+		return Accounter.messages().items();
 	}
 
 }

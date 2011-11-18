@@ -34,9 +34,9 @@ public class WarehouseTransferListGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().fromWarehouse(),
-				Accounter.constants().toWarehouse(),
-				Accounter.constants().itemStatus(), "" };
+		return new String[] { Accounter.messages().fromWarehouse(),
+				Accounter.messages().toWarehouse(),
+				Accounter.messages().itemStatus(), "" };
 	}
 
 	@Override

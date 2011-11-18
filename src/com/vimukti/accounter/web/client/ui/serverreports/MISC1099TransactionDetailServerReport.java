@@ -25,10 +25,10 @@ public class MISC1099TransactionDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().name(), getConstants().date(),
-				getConstants().type(), getConstants().num(),
-				getConstants().memo(), getConstants().box1099(),
-				getConstants().Account(), getConstants().amount() };
+		return new String[] { getMessages().name(), getMessages().date(),
+				getMessages().type(), getMessages().num(),
+				getMessages().memo(), getMessages().box1099(),
+				getMessages().Account(), getMessages().amount() };
 	}
 
 	@Override
@@ -39,10 +39,10 @@ public class MISC1099TransactionDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().name(), getConstants().date(),
-				getConstants().type(), getConstants().num(),
-				getConstants().memo(), getConstants().box1099(),
-				getConstants().Account(), getConstants().amount() };
+		return new String[] { getMessages().name(), getMessages().date(),
+				getMessages().type(), getMessages().num(),
+				getMessages().memo(), getMessages().box1099(),
+				getMessages().Account(), getMessages().amount() };
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class MISC1099TransactionDetailServerReport extends
 			}
 		} else if (sectionDepth == 2) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					constants.total() }, new int[] { 7 });
+					messages.total() }, new int[] { 7 });
 		}
 
 		// Go on recursive calling if we reached this place
@@ -97,7 +97,7 @@ public class MISC1099TransactionDetailServerReport extends
 			int box1099 = record.getBox1099();
 			String box = "";
 			if (box1099 > 0) {
-				box = Accounter.constants().box() + box1099;
+				box = Accounter.messages().box() + box1099;
 			}
 			return box;
 

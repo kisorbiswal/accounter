@@ -624,7 +624,7 @@
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.TAXRateCalculation vr
 		where
-		vr.taxItem.company=:company and vr.transactionItem.transaction.id=:id
+		vr.taxItem.company=:company and vr.transaction.id=:id
 		and
 		vr.taxReturn is not null
 	</query>
@@ -723,8 +723,7 @@
 		vr.transactionDate between :fromDate and
 		:toDate
 		group by
-		vr.id,vr.transactionItem,vr.taxItem order by
-		vr.transactionItem,vr.taxItem
+		vr.id,vr.taxItem order by vr.taxItem
 	</query>
 
 	<query name="getTaxrateCalc.by.TaxAgencyandItem.and.Dates">
@@ -735,8 +734,7 @@
 		vr.taxItem
 		is not null and vr.taxItem.company=:company and vr.transactionDate
 		between :fromDate and :toDate group by
-		vr.id,vr.transactionItem,vr.taxItem order by
-		vr.transactionItem,vr.taxItem
+		vr.id,vr.taxItem order by vr.taxItem
 	</query>
 
 	<query name="getTaxadjustment.by.allDetails.withOrder">
@@ -976,8 +974,7 @@
 		not null and v.taxItem.company=:company and v.transactionDate between
 		:startDate
 		and :endDate group
-		by v.id,
-		v.transactionItem order by v.transactionItem
+		by v.id
 	</query>
 
 	<query name="getTAXRateCalculation.by.check.taxItemandDates">
@@ -986,8 +983,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
 		is not null and v.taxItem.company=:company and v.transactionDate
-		between :startDate and :endDate group by v.id,
-		v.transactionItem
+		between :startDate and :endDate group by v.id
 	</query>
 
 	<query name="getCashPurchase.by.employeeNmae.expenseStatusandtype">
@@ -1072,8 +1068,8 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation vr
 		where
-		vr.transactionItem.transaction.id=:id and vr.taxReturn is not null and
-		vr.transactionItem.transaction.company=:company
+		vr.transaction.id=:id and vr.taxReturn is not null and
+		vr.transaction.company=:company
 	</query>
 
 	<query name="getVATReturn.by.check.BalanceGraterThanzero">
@@ -1123,9 +1119,7 @@
 		where v.taxItem is
 		not null and v.transactionDate between :startDate
 		and :endDate and
-		v.taxItem.company=:company group by
-		v.id, v.transactionItem order by
-		v.transactionItem
+		v.taxItem.company=:company group by v.id
 	</query>
 
 	<query name="getItem.by.checkisISellThisItemisTrue">
@@ -1160,7 +1154,6 @@
 		=:id and tmd.depositedTransaction.company=:company
 	</query>
 
-
 	<query name="getTransactionMakeDeposit.by.checking.isDepositedandisVoid">
 		<query-param name="company" type="Company" />
 		from
@@ -1177,8 +1170,8 @@
 		pst where
 		pst.taxAgency.salesLiabilityAccount.name != 'Un Deposited
 		Funds' and
-		pst.transactionItem.transaction != null and pst.taxDue != 0 and
-		pst.transactionItem.transaction.company=:company
+		pst.transaction != null and pst.taxDue != 0 and
+		pst.transaction.company=:company
 		order by
 		pst.taxAgency.id, pst.taxItem.id
 	</query>
@@ -1193,9 +1186,9 @@
 		pst.taxAgency.id=:taxAgency and
 		pst.taxAgency.salesLiabilityAccount.name != 'Un Deposited
 		Funds' and
-		pst.transactionItem.transaction != null and pst.taxDue != 0 and
-		pst.transactionItem.transaction.company=:company and
-		pst.transactionItem.transaction.transactionDate between :startDate and
+		pst.transaction != null and pst.taxDue != 0 and
+		pst.transaction.company=:company and
+		pst.transaction.transactionDate between :startDate and
 		:endDate
 		order by pst.taxItem.id
 	</query>
@@ -1248,26 +1241,26 @@
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
 		<query-param name="taxAgency" type="long" />
-		select sum(v.vatAmount), sum(v.lineTotal), max(v.transactionItem),
+		select sum(v.vatAmount), sum(v.lineTotal), max(v.transaction),
 		v.taxItem, v.isVATGroupEntry from com.vimukti.accounter.core.TAXRateCalculation v
 		where v.taxItem is not null and v.transactionDate between :startDate
 		and :endDate and v.taxItem.company=:company and
 		v.taxItem.taxAgency.id=:taxAgency group by v.taxItem,
-		v.transactionItem.transaction, v.isVATGroupEntry order by v.taxItem
+		v.transaction, v.isVATGroupEntry order by v.taxItem
 
 	</query>
 
 	<query name="getTAXRateCalculation.by.dates.and.taxAgency.of.taxException">
 		<query-param name="company" type="Company" />
 		<query-param name="taxAgency" type="long" />
-		select sum(v.vatAmount), sum(v.lineTotal), max(v.transactionItem),
+		select sum(v.vatAmount), sum(v.lineTotal), max(v.transaction),
 		v.taxItem, v.isVATGroupEntry from com.vimukti.accounter.core.TAXRateCalculation v
 		where v.taxItem is not null and v.transactionDate &lt; (select
 		max(transactionDate) from com.vimukti.accounter.core.TAXReturn
 		a where a.taxAgency.id=:taxAgency and a.company=:company) and
 		v.taxItem.company=:company and v.taxItem.taxAgency.id=:taxAgency and
 		taxReturn is null group
-		by v.taxItem, v.transactionItem.transaction,v.isVATGroupEntry
+		by v.taxItem, v.transaction,v.isVATGroupEntry
 		order by v.taxItem
 	</query>
 
@@ -1301,9 +1294,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
-		and :endDate and v.taxItem.company =:company group by v.id,
-		v.transactionItem order by
-		v.transactionItem
+		and :endDate and v.taxItem.company =:company
 	</query>
 
 
@@ -1502,20 +1493,20 @@
 		<query-param name="id" type="long" />
 		<query-param name="salesTaxRate" type="double" />
 		<query-param name="companyId" type="long" />
-		UPDATE TAX_CODE TC SET TC.SALES_TAX_RATE =:salesTaxRate
+		UPDATE TAX_CODE SET SALES_TAX_RATE =:salesTaxRate
 		WHERE
-		TC.COMPANY_ID=:companyId AND
-		TC.TAXITEMGROUP_SALES =:id
+		COMPANY_ID=:companyId AND
+		TAXITEMGROUP_SALES =:id
 	</sql-query>
 
 	<sql-query name="updateTaxCodePurchaseTaxRate">
 		<query-param name="id" type="long" />
 		<query-param name="purchaseTaxRate" type="double" />
 		<query-param name="companyId" type="long" />
-		UPDATE TAX_CODE TC SET TC.PURCHASE_TAX_RATE =:purchaseTaxRate
+		UPDATE TAX_CODE SET PURCHASE_TAX_RATE =:purchaseTaxRate
 		WHERE
-		TC.COMPANY_ID=:companyId AND
-		TC.TAXITEMGROUP_PURCHASES =:id
+		COMPANY_ID=:companyId AND
+		TAXITEMGROUP_PURCHASES =:id
 	</sql-query>
 
 	<sql-query name="getEmailIdFromClient">
@@ -1605,6 +1596,17 @@
 	<query name="getStockAdjustmentsList">
 		<query-param name="companyId" type="long"/>
 		from com.vimukti.accounter.core.StockAdjustment st where st.company.id=:companyId
+	</query>
+	
+	<query name="getAccountsOfType">
+		<query-param name="companyId" type="long"/>
+		<query-param name="type" type="int"/>
+		from com.vimukti.accounter.core.Account a where a.type=:type and a.company.id =:companyId
+	</query>
+	
+	<query name="getFiscalYears.of.company">
+		<query-param name="company" type="Company"/>
+		from com.vimukti.accounter.core.FiscalYear f where f.company=:company
 	</query>
 
 </hibernate-mapping>

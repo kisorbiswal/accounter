@@ -207,28 +207,33 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 		account = CommandUtils.getAccountByName(context.getCompany(), string);
 		if (account == null) {
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
 			account = CommandUtils.getAccountByNumber(context.getCompany(),
-					getNumberFromString(string));
+					string);
 		}
 		if (account == null) {
 			addFirstMessage(context, "Select an account to update.");
-			return "Accounts " + string.trim() + ",update";
+			return "Accounts " + string.trim();
 		}
 
 		get(ACCOUNT_TYPE)
 				.setValue(getAccountTypes().get(account.getType() - 1));
-
+		get(ACCOUNT_TYPE).setEditable(false);
 		get(ACCOUNT_NAME).setValue(account.getName());
-		get(ACCOUNT_NAME).setEditable(false);
 
 		get(ACCOUNT_NUMBER).setValue(account.getNumber());
-		get(ACCOUNT_NUMBER).setEditable(false);
 
 		get(OPENINGBALANCE).setValue(account.getOpeningBalance());
+		get(OPENINGBALANCE).setEditable(false);
 		get(ACTIVE).setValue(account.getIsActive());
 		get(CONSIDER_AS_CASH_ACCOUNT).setValue(
 				account.isConsiderAsCashAccount());
+		get(CONSIDER_AS_CASH_ACCOUNT).setEditable(false);
 		get(ASOF).setValue(new ClientFinanceDate(account.getAsOf()));
+		get(ASOF).setEditable(false);
 		get(COMMENTS).setValue(account.getComment());
 		return null;
 	}

@@ -21,7 +21,7 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(ITEMGROUP_NAME, getMessages().pleaseEnter(
-				getConstants().itemGroup()), getConstants().itemGroup(), false,
+				getMessages().itemGroup()), getMessages().itemGroup(), false,
 				true));
 	}
 

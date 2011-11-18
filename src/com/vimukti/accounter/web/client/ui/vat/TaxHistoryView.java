@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -43,9 +44,9 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		Label label = new Label();
 		label.removeStyleName("gwt-style");
 		label.setWidth("100%");
-		label.addStyleName(Accounter.constants().labelTitle());
-		label.setText(Accounter.constants().taxHistory());
-		this.optionsCombo = new SelectCombo("Vat Filngs");
+		label.addStyleName(Accounter.messages().labelTitle());
+		label.setText(Accounter.messages().taxHistory());
+		this.optionsCombo = new SelectCombo(messages.taxFillings());
 		optionsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -75,29 +76,39 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		this.add(mainPanel);
 		saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(true);
-		saveAndNewButton.setText(Accounter.constants().payTax());
+		saveAndNewButton.setText(Accounter.messages().payTax());
 	}
 
 	@Override
 	public void onSave(boolean reopen) {
-		ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();
 
-		ClientTAXReturn selection = grid.getSelection();
+		ClientTAXReturn taxReturn = grid.getSelection();
+
+		List<ClientTransactionPayTAX> payTaxEntriesList = new ArrayList<ClientTransactionPayTAX>();
+		ClientTransactionPayTAX payTAXEntry = null;
+
+		payTAXEntry = new ClientTransactionPayTAX();
+		if (taxReturn.getBalance() >= 0) {
+			payTAXEntry.setTaxDue(taxReturn.getBalance());
+		} else {
+			payTAXEntry.setAmountToPay(taxReturn.getBalance());
+		}
+		payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
+		payTAXEntry.setVatReturn(taxReturn.getID());
+		payTAXEntry.setFiledDate(taxReturn.getDate());
+		payTaxEntriesList.add(payTAXEntry);
+
 		ClientPayTAX clientPayTAX = new ClientPayTAX();
-		clientTransactionPayTAX.setTaxAgency(selection.getTaxAgency());
-		clientTransactionPayTAX.setTaxDue(selection.getBalance());
-		List<ClientTransactionPayTAX> data = new ArrayList<ClientTransactionPayTAX>();
-		data.add(clientTransactionPayTAX);
-		clientPayTAX.setTransactionPayTax(data);
-		// TODO
-		// ActionFactory.getpayTAXAction().run(clientPayTAX, true);
+		clientPayTAX.setTransactionPayTax(payTaxEntriesList);
+
+		ActionFactory.getpayTAXAction().run(clientPayTAX, true);
 	}
 
 	private void initComboItems() {
 		List<String> options = new ArrayList<String>();
-		options.add(new String(Accounter.constants().all()));
-		options.add(new String(Accounter.constants().paid()));
-		options.add(new String(Accounter.constants().unPaid()));
+		options.add(new String(Accounter.messages().all()));
+		options.add(new String(Accounter.messages().paid()));
+		options.add(new String(Accounter.messages().unPaid()));
 		optionsCombo.initCombo(options);
 		optionsCombo.setSelectedItem(0);
 
@@ -107,7 +118,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TAXHistoryGrid(true);
+		grid = new TAXHistoryGrid(false);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
@@ -148,13 +159,13 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	private void filterList(String selectItem) {
 		grid.showLoadingImage();
 		grid.removeAllRecords();
-		if (selectItem.equals(constants.paid())) {
+		if (selectItem.equals(messages.paid())) {
 			for (ClientTAXReturn a : clientAbstractTAXReturns) {
-				if (a.getBalance() == 0) {
+				if (a.getBalance() <= 0) {
 					this.grid.addData(a);
 				}
 			}
-		} else if (selectItem.equals(constants.unPaid())) {
+		} else if (selectItem.equals(messages.unPaid())) {
 			for (ClientTAXReturn a : clientAbstractTAXReturns) {
 				if (a.getBalance() > 0) {
 					this.grid.addData(a);
@@ -167,13 +178,13 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		}
 		grid.removeLoadingImage();
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(constants.noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return constants.taxHistory();
+		return messages.taxHistory();
 	}
 
 	@Override

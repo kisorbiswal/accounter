@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -35,7 +34,6 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	private Portlet[] portlet;
 
 	private WidgetCreator creator;
-	private AccounterConstants customerConstants = Accounter.constants();
 	private String[] secondColumn;
 
 	private String[] firstColumn;
@@ -65,7 +63,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(customerConstants.addWidget());
+		addWidgetLink.setLinkTitle(messages.addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
 
@@ -224,10 +222,10 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
 				Accounter.messages().newPayee(Global.get().Customer()),
-				Accounter.constants().salesItem(),
-				Accounter.constants().paymentReceived(),
-				Accounter.constants().cashSales(),
-				Accounter.constants().creditAndRefunds() };
+				Accounter.messages().salesItem(),
+				Accounter.messages().paymentReceived(),
+				Accounter.messages().cashSales(),
+				Accounter.messages().creditAndRefunds() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {

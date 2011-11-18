@@ -55,16 +55,16 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", getConstants().taxRate(),
-				getConstants().date(), getConstants().no(),
-				getConstants().name(), getConstants().memo(),
-				getConstants().salesTax(), getConstants().taxableAmount() };
+		return new String[] { "", getMessages().taxRate(),
+				getMessages().date(), getMessages().no(),
+				getMessages().name(), getMessages().memo(),
+				getMessages().salesTax(), getMessages().taxableAmount() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().transactionDetailByTaxCode();
+		return getMessages().transactionDetailByTaxCode();
 	}
 
 	@Override
@@ -150,10 +150,10 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", getConstants().taxRate(),
-				getConstants().date(), getConstants().no(),
-				getConstants().name(), getConstants().memo(),
-				getConstants().salesTax(), getConstants().taxableAmount() };
+		return new String[] { "", getMessages().taxRate(),
+				getMessages().date(), getMessages().no(),
+				getMessages().name(), getMessages().memo(),
+				getMessages().salesTax(), getMessages().taxableAmount() };
 	}
 
 }

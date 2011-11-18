@@ -42,7 +42,7 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return "--- Add New ---";
+		return Global.get().Location();
 	}
 
 	@Override

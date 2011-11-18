@@ -15,7 +15,7 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
 		list.add(new NumberRequirement(WEIGHT, getMessages().pleaseEnter(
-				getConstants().weight()), getConstants().weight(), true, true));
+				getMessages().weight()), getMessages().weight(), true, true));
 	}
 
 	@Override
@@ -25,7 +25,8 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating Product Item";
+		return getItem().getID() == 0 ? "Creating Product Item"
+				: "Updating Product Item";
 	}
 
 }

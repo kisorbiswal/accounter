@@ -37,7 +37,7 @@ public class TransactionTotalColumn extends AmountColumn<ClientTransactionItem> 
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().total();
+		return Accounter.messages().total();
 	}
 
 	@Override

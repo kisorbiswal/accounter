@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -32,8 +31,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -49,9 +46,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CustomerPrePaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
-	AccounterConstants accounterConstants = GWT
-			.create(AccounterConstants.class);
-	AccounterMessages accounterMessages = GWT.create(AccounterMessages.class);
 
 	// private CheckboxItem printCheck;
 	private AmountField amountText, bankBalText, customerBalText;
@@ -61,7 +55,7 @@ public class CustomerPrePaymentView extends
 	Double toBeSetCustomerBalance;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
-			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
+			.getpaymentMethodCheckBy_CompanyType(Accounter.messages().check());
 
 	private ArrayList<DynamicForm> listforms;
 	protected String checkNumber = null;
@@ -98,15 +92,15 @@ public class CustomerPrePaymentView extends
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+					messages.invalidateDate());
 		}
 
 		result.add(payForm.validate());
 
 		if (!AccounterValidator.isPositiveAmount(amountText.getAmount())) {
 			amountText.textBox.addStyleName("highlightedFormItem");
-			result.addError(amountText, accounterMessages
-					.valueCannotBe0orlessthan0(accounterConstants.amount()));
+			result.addError(amountText, messages
+					.valueCannotBe0orlessthan0(messages.amount()));
 		}
 		ClientAccount bankAccount = depositInCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
@@ -117,7 +111,7 @@ public class CustomerPrePaymentView extends
 			if (bankCurrency != getBaseCurrency()
 					&& bankCurrency != customerCurrency) {
 				result.addError(depositInCombo,
-						accounterConstants.selectProperBankAccount());
+						messages.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -134,7 +128,7 @@ public class CustomerPrePaymentView extends
 		this.addressListOfCustomer = null;
 		this.depositInAccount = null;
 		this.paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
 						.check());
 		amountText.setAmount(getAmountInTransactionCurrency(0D));
 		// endBalText.setAmount(getAmountInTransactionCurrency(0D));
@@ -341,7 +335,7 @@ public class CustomerPrePaymentView extends
 				new AccounterAsyncCallback<Long>() {
 
 					public void onException(AccounterException t) {
-						checkNo.setValue(Accounter.constants().toBePrinted());
+						checkNo.setValue(Accounter.messages().toBePrinted());
 						return;
 					}
 
@@ -373,7 +367,7 @@ public class CustomerPrePaymentView extends
 	protected void createControls() {
 		Label lab1 = new Label(Accounter.messages().payeePrePayment(
 				Global.get().Customer()));
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -402,11 +396,11 @@ public class CustomerPrePaymentView extends
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
 				.Customer()));
 
-		billToCombo = createBillToComboItem(customerConstants.address());
+		billToCombo = createBillToComboItem(messages.address());
 		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
-		bankBalText = new AmountField(customerConstants.bankBalance(), this,
+		bankBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency());
 		bankBalText.setHelpInformation(true);
 		bankBalText.setWidth(100);
@@ -428,7 +422,7 @@ public class CustomerPrePaymentView extends
 		depositInCombo = createDepositInComboItem(bankBalText);
 		depositInCombo.setPopupWidth("500px");
 
-		amountText = new AmountField(customerConstants.amount(), this,
+		amountText = new AmountField(messages.amount(), this,
 				getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
@@ -437,7 +431,7 @@ public class CustomerPrePaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
 						.check()));
 		// printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		// printCheck.setValue(true);
@@ -480,7 +474,7 @@ public class CustomerPrePaymentView extends
 		});
 		checkNo.setDisabled(isInViewMode());
 		currencyWidget = createCurrencyFactorWidget();
-		payForm = UIUtils.form(customerConstants.payment());
+		payForm = UIUtils.form(messages.payment());
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -544,7 +538,7 @@ public class CustomerPrePaymentView extends
 	}
 
 	private AddressCombo createBillToComboItem(String address) {
-		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+		AddressCombo addressCombo = new AddressCombo(Accounter.messages()
 				.address(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
@@ -569,7 +563,7 @@ public class CustomerPrePaymentView extends
 	private TextItem createCheckNumberItm() {
 		TextItem checkNoTextItem = new TextItem(
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().checkNo()));
+						.messages().checkNo()));
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}
@@ -601,7 +595,7 @@ public class CustomerPrePaymentView extends
 					Double amount = DataUtils.getAmountStringAsDouble(value
 							.toString());
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.noNegativeAmounts());
 						amountText
 								.setAmount(getAmountInTransactionCurrency(0.00D));

@@ -47,7 +47,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().email();
+		return Accounter.messages().email();
 	}
 
 	@Override
@@ -60,15 +60,15 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return Accounter.constants().email();
+		return Accounter.messages().email();
 	}
 
 	@Override
 	public void createControls() {
-		emailIDDescriptionLabel.setText(constants.emailIdDescription());
+		emailIDDescriptionLabel.setText(messages.emailIdDescription());
 		emailIDDescriptionLabel.setStyleName("organisation_comment");
 
-		companyEmailHeaderLabel.setText(Accounter.constants().emailId());
+		companyEmailHeaderLabel.setText(Accounter.messages().emailId());
 		companyEmailTextBox.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -77,7 +77,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 				if (email != null && !email.isEmpty()
 						&& !UIUtils.isValidEmail(email)) {
 					companyEmailTextBox.setText("");
-					Accounter.showError(Accounter.constants().invalidEmail());
+					Accounter.showError(Accounter.messages().invalidEmail());
 				}
 			}
 		});

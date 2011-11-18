@@ -39,7 +39,7 @@ public class ReportsRPC {
 		AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
 			public void onException(AccounterException caught) {
-				Accounter.showMessage(Accounter.constants().sessionExpired());
+				Accounter.showMessage(Accounter.messages().sessionExpired());
 			}
 
 			public void onResultSuccess(T result) {
@@ -119,7 +119,7 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
 			initCallBack(new ClientEstimate(), ActionFactory.getNewQuoteAction(
-					0, Accounter.constants().newQuote()), transactionId);
+					0, Accounter.messages().newQuote()), transactionId);
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
 			initCallBack(new ClientIssuePayment(),

@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.requirements;
 import java.io.IOException;
 import java.util.List;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -11,7 +12,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class AbstractRequirement<T> extends Requirement {
@@ -21,9 +21,9 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public static final String FIRST_MESSAGE = "firstMessage";
 
 	private IGlobal global;
-	private AccounterConstants constants;
 	private AccounterMessages messages;
 	private ClientCompanyPreferences preferences;
+	private Company company;
 	private long companyId;
 
 	public AbstractRequirement(String requirementName, String enterString,
@@ -35,7 +35,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		constants = global.constants();
 		messages = global.messages();
 	}
 
@@ -54,6 +53,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		preferences = context.getPreferences();
 		companyId = context.getCompany() == null ? 0 : context.getCompany()
 				.getId();
+		setCompany(context.getCompany());
 		return run(context, makeResult, list, actions);
 	}
 
@@ -74,10 +74,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		return result;
 	}
 
-	protected AccounterConstants getConstants() {
-		return constants;
-	}
-
 	protected AccounterMessages getMessages() {
 		return messages;
 	}
@@ -95,5 +91,13 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		}
 		string = string.substring(1);
 		return Long.parseLong(string);
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }

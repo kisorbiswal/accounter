@@ -33,7 +33,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	private void createControls() {
 
 		this.bankAccountsCombo = new BankAccountCombo(
-				constants.selectBankAccount());
+				messages.selectBankAccount());
 		this.bankAccountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 

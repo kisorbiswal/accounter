@@ -32,6 +32,8 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	int status;
 
 	boolean isVoided;
+	
+	private long currency;
 
 	public boolean isDeleted() {
 		return this.status == ClientTransaction.STATUS_DELETED;
@@ -164,6 +166,14 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }

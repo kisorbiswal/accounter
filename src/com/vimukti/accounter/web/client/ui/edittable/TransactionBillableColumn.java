@@ -26,7 +26,7 @@ public class TransactionBillableColumn extends
 
 	@Override
 	public IsWidget getHeader() {
-		return new Label(Accounter.constants().isBillable());
+		return new Label(Accounter.messages().isBillable());
 	}
 
 }

@@ -34,7 +34,7 @@ public class CashFlowStatementServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().financialYearToDate();
+		return getMessages().financialYearToDate();
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class CashFlowStatementServerReport extends
 	@Override
 	public String getTitle() {
 		// return FinanceApplication.constants().profitAndLoss();
-		return getConstants().cashFlowReport();
+		return getMessages().cashFlowReport();
 	}
 
 	@Override
@@ -102,9 +102,9 @@ public class CashFlowStatementServerReport extends
 	@Override
 	public void processRecord(TrialBalance record) {
 		if (sectionDepth == 0) {
-			addTypeSection(" ", getConstants().cashAtEndOfPeriod());
+			addTypeSection(" ", getMessages().cashAtEndOfPeriod());
 		}
-		if (record.getAccountName().equals(getConstants().netIncome())) {
+		if (record.getAccountName().equals(getMessages().netIncome())) {
 			addOperatingTypes(record);
 			this.netIncome = record.getAmount();
 			return;
@@ -146,21 +146,21 @@ public class CashFlowStatementServerReport extends
 				// section.data[1] = netIncome
 				// + +Double.valueOf(section.data[1].toString());
 				// }
-				if (section.title == getConstants().operatingActivities()) {
+				if (section.title == getMessages().operatingActivities()) {
 					totaloperating = Double.valueOf(section.data[1].toString());
 				}
-				if (section.title == getConstants().investingActivities()) {
+				if (section.title == getMessages().investingActivities()) {
 					totalInvesting = Double.valueOf(section.data[1].toString());
 				}
-				if (section.title == getConstants().financingActivities()) {
+				if (section.title == getMessages().financingActivities()) {
 					totalFinaning = Double.valueOf(section.data[1].toString());
 				}
-				if (section.footer == getConstants().cashAtEndOfPeriod()) {
+				if (section.footer == getMessages().cashAtEndOfPeriod()) {
 					CashFlowStatementServerReport.this.grid
 							.addRow(null,
 									1,
 									new Object[] {
-											getConstants()
+											getMessages()
 													.netCashChangeForThePeriod(),
 											(totalFinaning + totaloperating + totalInvesting) },
 									true, true, true);
@@ -203,34 +203,34 @@ public class CashFlowStatementServerReport extends
 	}
 
 	public void addOperatingTypes(TrialBalance record) {
-		if (!sectiontypes.contains(getConstants().operatingActivities())) {
+		if (!sectiontypes.contains(getMessages().operatingActivities())) {
 			closeAllSection();
-			addTypeSection(getConstants().operatingActivities(), getConstants()
+			addTypeSection(getMessages().operatingActivities(), getMessages()
 					.netCashProvidedByOperatingActivities());
 		}
-		if (record.getAccountName().equals(getConstants().netIncome()))
+		if (record.getAccountName().equals(getMessages().netIncome()))
 			return;
-		if (!sectiontypes.contains(getConstants()
+		if (!sectiontypes.contains(getMessages()
 				.adjustmentsToReconcileNetIncomeToNetCash())) {
-			addTypeSection(getConstants()
-					.adjustmentsToReconcileNetIncomeToNetCash(), getConstants()
+			addTypeSection(getMessages()
+					.adjustmentsToReconcileNetIncomeToNetCash(), getMessages()
 					.endOfARNINC());
 		}
 
 	}
 
 	public void addInvestingTypes(TrialBalance record) {
-		if (!sectiontypes.contains(getConstants().investingActivities())) {
+		if (!sectiontypes.contains(getMessages().investingActivities())) {
 			closeAllSection();
-			addTypeSection(getConstants().investingActivities(), getConstants()
+			addTypeSection(getMessages().investingActivities(), getMessages()
 					.netCashProvidedByinvestingActivities());
 		}
 	}
 
 	public void addFinancingTypes(TrialBalance record) {
-		if (!sectiontypes.contains(getConstants().financingActivities())) {
+		if (!sectiontypes.contains(getMessages().financingActivities())) {
 			closeAllSection();
-			addTypeSection(getConstants().financingActivities(), getConstants()
+			addTypeSection(getMessages().financingActivities(), getMessages()
 					.netCashProvidedByfinancingActivities());
 		}
 	}
@@ -250,7 +250,7 @@ public class CashFlowStatementServerReport extends
 			curentParent = record.getAccountName();
 			addSection(
 					record.getAccountNumber() + "-" + record.getAccountName(),
-					getConstants().total() + record.getAccountName(),
+					getMessages().total() + record.getAccountName(),
 					new int[] { 1 });
 			return true;
 		}

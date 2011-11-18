@@ -143,7 +143,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().memo();
+				return Accounter.messages().memo();
 			}
 
 			@Override
@@ -173,7 +173,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().debit();
+				return Accounter.messages().debit();
 			}
 
 			@Override
@@ -203,7 +203,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().credit();
+				return Accounter.messages().credit();
 			}
 
 			@Override
@@ -223,7 +223,7 @@ public abstract class TransactionJournalEntryTable extends
 			result.addError(
 					this,
 					Accounter.messages().thereisNoRecordsTosave(
-							Accounter.constants().journalEntry()));
+							Accounter.messages().journalEntry()));
 		}
 		// Validates account name
 		List<ClientTransactionItem> entrylist = this.getAllRows();
@@ -232,7 +232,7 @@ public abstract class TransactionJournalEntryTable extends
 			for (ClientTransactionItem entry2 : entrylist) {
 				long accountId2 = entry2.getAccount();
 				if (!entry.equals(entry2) && accountId == accountId2) {
-					result.addError(this, Accounter.constants()
+					result.addError(this, Accounter.messages()
 							.shouldntSelectSameAccountInMultipleEntries());
 				}
 			}

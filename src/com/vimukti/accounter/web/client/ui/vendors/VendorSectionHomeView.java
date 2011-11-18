@@ -59,7 +59,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(Accounter.constants().addWidget());
+		addWidgetLink.setLinkTitle(Accounter.messages().addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
 
@@ -210,9 +210,9 @@ public class VendorSectionHomeView extends BaseHomeView {
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
 				Accounter.messages().newPayee(Global.get().Vendor()),
-				Accounter.constants().itemPurchase(),
-				Accounter.constants().billPaid(),
-				Accounter.constants().cashPurchase() };
+				Accounter.messages().itemPurchase(),
+				Accounter.messages().billPaid(),
+				Accounter.messages().cashPurchase() };
 
 		boolean isAvailable = false;
 

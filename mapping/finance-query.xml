@@ -564,6 +564,7 @@
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CURRENCY" type="long" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -583,7 +584,9 @@
 		ELSE
 		CP.CHECK_NUMBER
 		END AS
-		CHECK_NUMBER
+		CHECK_NUMBER,
+		T.CURRENCY AS CURRENCY
+		
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
@@ -1762,7 +1765,7 @@
 		WHERE I.BALANCE_DUE > 0.0 and
 		I.DUE_DATE &lt;= CURRENT_DATE AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID
-		DESC LIMIT 0, 10
+		DESC LIMIT 10
 	</sql-query>
 
 	<sql-query name="getLatestInvoices">
@@ -1847,8 +1850,7 @@
 		PAYEE P
 		on P.ID = C.ID
 		where T.T_TYPE in(1,4,8,15) AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0,
-		10
+		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Vendor Payments of Latest 10 -->
@@ -1907,7 +1909,7 @@
 		on P.ID = V.ID
 		OR P.ID = TA.ID
 		WHERE T.T_TYPE in(11,15) AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0,10
+		ORDER BY T.ID DESC LIMIT 10
 
 	</sql-query>
 
@@ -1971,7 +1973,7 @@
 		CP.VENDOR_ID OR WC.VENDOR_ID
 		LEFT OUTER JOIN PAYEE P ON P.ID = V.ID
 		WHERE T.T_TYPE in (2,4,6,14,15) AND T.COMPANY_ID=:companyId ORDER BY
-		T.ID DESC LIMIT 0,10
+		T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Payments of Latest 10 -->
@@ -2042,7 +2044,7 @@
 		on P.ID = C.ID OR P.ID = V.ID
 		WHERE
 		T.T_TYPE in (2,3,5,11,15) AND T.COMPANY_ID=:companyId ORDER BY T.ID
-		DESC LIMIT 0,10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Cash Purchases of Latest 10 -->
@@ -2086,7 +2088,7 @@
 		CASH_PURCHASE CP
 		JOIN TRANSACTION T ON CP.ID = T.ID AND T.COMPANY_ID=:companyId ORDER
 		BY CP.ID
-		DESC LIMIT 0,10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Cash Sales of Latest 10 -->
@@ -2108,7 +2110,7 @@
 		T.COMPANY_ID=:companyId
 		ORDER BY T.ID
 		DESC
-		LIMIT 0,10
+		LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Checks of Latest 10 -->
@@ -2142,7 +2144,7 @@
 		WC.ID = T.ID AND
 		T.COMPANY_ID=:companyId
 		ORDER
-		BY T.ID DESC LIMIT 0,10
+		BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Customer Refunds of Latest 10 -->
@@ -2168,7 +2170,7 @@
 		ON
 		CR.ID = T.ID
 		AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0, 10
+		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Customers of Latest 10 -->
@@ -2187,7 +2189,7 @@
 		PAYEE P ON
 		P.ID = C.ID AND
 		P.COMPANY_ID=:companyId
-		ORDER BY C.ID DESC LIMIT 0, 10
+		ORDER BY C.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Deposits of Latest 10 -->
@@ -2217,7 +2219,7 @@
 		MD JOIN TRANSACTION T ON MD.ID =
 		T.ID AND T.COMPANY_ID=:companyId ORDER
 		BY T.ID
-		DESC LIMIT 0, 10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the TransferFunds of Latest 10 -->
@@ -2242,7 +2244,7 @@
 		ON TF.ID =
 		T.ID
 		AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT 0, 10
+		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Items of Latest 10 -->
@@ -2261,7 +2263,7 @@
 		FROM ITEM I WHERE
 		I.COMPANY_ID=:companyId
 		ORDER BY I.ID
-		DESC LIMIT 0, 10
+		DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Sales Items of Latest 10 -->
@@ -2280,7 +2282,7 @@
 		FROM ITEM I
 		WHERE
 		I.IS_SELL_ITEM = TRUE AND I.COMPANY_ID=:companyId ORDER BY I.ID DESC
-		LIMIT 0, 10
+		LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Purchase Items of Latest 10 -->
@@ -2299,7 +2301,7 @@
 		FROM ITEM I
 		WHERE
 		I.IS_BUY_ITEM = TRUE AND I.COMPANY_ID=:companyId ORDER BY I.ID DESC
-		LIMIT 0, 10
+		LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Vendors of Latest 10 -->
@@ -2315,7 +2317,7 @@
 		P.P_DATE AS
 		PAYEE_DATE,P.ID AS PAYEE_ID FROM VENDOR V LEFT JOIN
 		PAYEE P ON P.ID =
-		V.ID AND P.COMPANY_ID=:companyId ORDER BY V.ID DESC LIMIT 0, 10
+		V.ID AND P.COMPANY_ID=:companyId ORDER BY V.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Quotes of Latest 10 -->
@@ -2338,7 +2340,7 @@
 		JOIN
 		CUSTOMER C ON C.ID = E1.CUSTOMER_ID
 		ORDER BY
-		T.ID DESC LIMIT 0,10
+		T.ID DESC LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Checks of Latest 10 -->
@@ -2591,20 +2593,6 @@
 		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
-	<!-- <sql-query name="canDeleteTaxAgency"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="TAX_CODE_ID" type="long" /> <return-scalar column="TAX_RATE_CALCULATION_ID" 
-		type="long" /> <return-scalar column="PAY_SALES_TAX_ID" type="long" /> <return-scalar 
-		column="WRITE_CHECK_ID" type="long" /> <return-scalar column="TRANSACTION_PAYSALESTAX_ID" 
-		type="long" /> <return-scalar column="PAYSALESTAXENTRIES_ID" type="long" 
-		/> SELECT TC.ID AS TAX_CODE_ID, TRC.ID AS TAX_RATE_CALCULATION_ID, PST.ID 
-		AS PAY_SALES_TAX_ID, WC.ID AS WRITE_CHECK_ID, TPS.ID AS TRANSACTION_PAYSALESTAX_ID, 
-		PSE.ID AS PAYSALESTAXENTRIES_ID FROM TAXAGENCY TA LEFT OUTER JOIN TAXCODE 
-		TC ON TA.ID= TC.TAXAGENCY_ID LEFT OUTER JOIN TAX_RATE_CALCULATION TRC ON 
-		TA.ID = TRC.TAXAGENCY_ID LEFT OUTER JOIN PAY_SALES_TAX PST ON TA.ID = PST.TAX_AGENCY_ID 
-		LEFT OUTER JOIN WRITE_CHECKS WC ON TA.ID = WC.TAX_AGENCY_ID LEFT OUTER JOIN 
-		TRANSACTION_PAY_SALES_TAX TPS ON TA.ID = TPS.TAX_AGENCY_ID LEFT OUTER JOIN 
-		PAY_SALES_TAX_ENTRIES PSE ON TC.ID = PSE.TAXCODE_ID LEFT OUTER JOIN VAT_RETURN 
-		VR ON TA.ID = VAT_AGENCY WHERE TA.ID=:inputId LIMIT 1 </sql-query> -->
 
 	<sql-query name="canDeleteAccount">
 		<query-param name="inputId" type="long" />
@@ -2867,35 +2855,7 @@
 		:inputId AND I.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
-	<!-- <sql-query name="canDeleteTAXItem"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="TAXGROUP_ID" type="long" /> <return-scalar column="TAX_RATE_CALCULATION_ID" 
-		type="long" /> SELECT TG.ID AS TAXGROUP_ID, TRC.ID AS TAX_RATE_CALCULATION_ID 
-		FROM TAX_ITEM TI LEFT OUTER JOIN TAX_GROUP_TAX_ITEM TGTI ON TGTI.TAX_ITEM_ID 
-		= TI.ID LEFT OUTER JOIN TAX_GROUP TG ON TG.ID = TGTI.TAX_GROUP_ID LEFT OUTER 
-		JOIN TAX_RATE_CALCULATION TRC ON TRC.TAX_ITEM_ID = TI.ID WHERE TI.ID =:inputId 
-		LIMIT 1 </sql-query> -->
 
-	<!-- <sql-query name="canDeleteTaxCode"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="TAXGROUP_ID" type="long" /> <return-scalar column="TAX_RATE_CALCULATION_ID" 
-		type="long" /> <return-scalar column="ENTRY_ID" type="long" /> <return-scalar 
-		column="TRANSACTION_ITEM_ID" type="long" /> <return-scalar column="TRANSACTION_PAY_SALES_TAX_ID" 
-		type="long" /> <return-scalar column="PAY_SALES_TAX_ENTRIES_ID" type="long" 
-		/> SELECT TG.ID AS TAXGROUP_ID, TRC.ID AS TAX_RATE_CALCULATION_ID, E.ID AS 
-		ENTRY_ID, TI.ID AS TRANSACTION_ITEM_ID, TPS.ID AS TRANSACTION_PAY_SALES_TAX_ID, 
-		PSTE.ID AS PAY_SALES_TAX_ENTRIES_ID FROM TAXCODE TC LEFT OUTER JOIN TAXGROUP_TAXCODE 
-		TT ON TC.ID = TT.TAXCODE_ID LEFT OUTER JOIN TAXGROUP TG ON TG.ID= TT.TAXGROUP_ID 
-		LEFT OUTER JOIN TAX_RATE_CALCULATION TRC ON TC.ID = TRC.TAX_CODE_ID LEFT 
-		OUTER JOIN ENTRY E ON TC.ID= E.TAXCODE_ID LEFT OUTER JOIN TRANSACTION_ITEM 
-		TI ON TC.ID = TI.TAXCODE_ID LEFT OUTER JOIN TRANSACTION_PAY_SALES_TAX TPS 
-		ON TC.ID= TPS.TAX_CODE_ID LEFT OUTER JOIN PAY_SALES_TAX_ENTRIES PSTE ON TC.ID= 
-		PSTE.TAXCODE_ID WHERE TC.ID=:inputId LIMIT 1 </sql-query> -->
-
-	<!-- <sql-query name="canDeleteTAXGroup"> <query-param name="inputId" type="long" 
-		/> <return-scalar column="CUSTOMER_ID" type="long" /> <return-scalar column="TRANSACTION_ITEM_ID" 
-		type="long" /> SELECT C.ID AS CUSTOMER_ID, TI.ID AS TRANSACTION_ITEM_ID FROM 
-		TAX_GROUP TG LEFT OUTER JOIN CUSTOMER C ON TG.ID = C.TAX_GROUP_ID LEFT OUTER 
-		JOIN TRANSACTION_ITEM TI ON TG.ID = TI.TAXGROUP_ID WHERE TG.ID =:inputId 
-		LIMIT 1 </sql-query> -->
 
 	<sql-query name="canDeleteCustomerGroup">
 		<query-param name="inputId" type="long" />
@@ -3508,6 +3468,10 @@
 		on
 		T.ID=I.ID
 		left outer join
+		ESTIMATE E
+		on
+		T.ID=E.ID
+		left outer join
 		CASH_PURCHASE CP
 		on
 		T.ID=CP.ID
@@ -3528,7 +3492,7 @@
 		on C.ID =
 		CS.CUSTOMER_ID or
 		C.ID = CCM.CUSTOMER_ID or C.ID =
-		I.CUSTOMER_ID
+		I.CUSTOMER_ID OR C.ID = E.CUSTOMER_ID
 		left
 		outer join
 		VENDOR V
@@ -3562,8 +3526,8 @@
 		ACCOUNT A
 		on
 		A.ID = TI.ACCOUNT_ID
-		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null order by T.ID
+		where T.IS_VOID=false and (E.ID is null or E.USED_INVOICE is not null) and (TI.ITEM_ID is not null or TI.ACCOUNT_ID is
+		not null) order by T.ID
 
 
 	</sql-query>
@@ -5093,13 +5057,10 @@
 
 		FROM TRANSACTION
 		T
-		LEFT OUTER JOIN
-		TRANSACTION_ITEM TRI
-		ON T.ID = TRI.TRANSACTION_ID
 		LEFT
 		OUTER JOIN
 		TAX_RATE_CALCULATION VRC
-		ON TRI.ID = VRC.TRANSACTION_ITEM_ID
+		ON T.ID = VRC.TRANSACTION_ID
 
 		LEFT OUTER JOIN
 		TAX_ITEM TI
@@ -5142,8 +5103,7 @@
 		:startDate AND :endDate
 
 		GROUP
-		BY VRC.TRANSACTION_ITEM_ID,
-		VRC.TAX_ITEM_ID, T.ID, T.T_TYPE, T.T_DATE,
+		BY VRC.TAX_ITEM_ID, T.ID, T.T_TYPE, T.T_DATE,
 		T.NUMBER, P.NAME, TIG.DESCRIPTION
 
 	</sql-query>
@@ -5167,7 +5127,6 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_MEMO" type="string" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 
 		SELECT SUM(V.VAT_AMOUNT) AS VAT_AMOUNT,
 		P.NAME AS CUSTOMER_NAME,
@@ -5182,16 +5141,13 @@
 		LINE_TOTAL,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.MEMO AS TRANSACTION_MEMO,
-		TI.LINE_TOTAL AS SALES_PRICE,
-		TI.ID AS TRANSACTION_ITEM_ID
+		TI.LINE_TOTAL AS SALES_PRICE
 
 		FROM
 		TAX_RATE_CALCULATION V
 
-		LEFT OUTER JOIN TRANSACTION_ITEM TI ON
-		V.TRANSACTION_ITEM_ID = TI.ID
 		LEFT OUTER JOIN TRANSACTION T ON T.ID =
-		TI.TRANSACTION_ID
+		V.TRANSACTION_ID
 		LEFT OUTER JOIN TAX_ITEM VI ON V.TAX_ITEM_ID = VI.ID
 		LEFT OUTER JOIN TAX_ITEM_GROUPS VIG ON VI.ID = VIG.ID
 
@@ -5215,8 +5171,7 @@
 		T.T_DATE
 		BETWEEN :startDate AND :endDate
 
-		GROUP BY V.TRANSACTION_ITEM_ID ,
-		V.TAX_ITEM_ID
+		GROUP BY V.TAX_ITEM_ID
 		ORDER BY TI.ID
 
 	</sql-query>
@@ -5590,7 +5545,7 @@
 
 	<sql-query name="getPointsForBankAccount">
 		<query-param name="companyId" type="long" />
-		<query-param name="accountNo" type="long" />
+		<query-param name="accountId" type="long" />
 		<query-param name="previousThreeDaysBackDateCal" type="long" />
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
 		<query-param name="previousOneDayBackDateCal" type="long" />
@@ -5689,7 +5644,7 @@
 		FROM
 		ACCOUNT A
 		WHERE
-		A.A_NUMBER =:accountNo AND
+		A.ID =:accountId AND
 		A.COMPANY_ID =:companyId
 
 	</sql-query>
@@ -5785,7 +5740,7 @@
 
 		WHERE
 		BT.ID
-		=:inputId AND BT.COMPANY_ID=:companyId LIMIT 1,2
+		=:inputId AND BT.COMPANY_ID=:companyId LIMIT 2 OFFSET 1
 
 		<!-- <return-scalar column="INVOICE_ID" type="long" /> <return-scalar column="CUSTOMER_CREDIT_MEMO_ID" 
 			type="long" /> SELECT BT.ID AS BRANDING_THEME_ID, I.ID AS INVOICE_ID, CCM.ID 
@@ -6046,7 +6001,7 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 
-		SELECT AT.ID,AT.TRANSACTION_ID, SUM(AT.AMOUNT) AS AMOUNT
+		SELECT AT.TRANSACTION_ID, SUM(AT.AMOUNT) AS AMOUNT
 		FROM
 
 		ACCOUNT_TRANSACTION AT
@@ -6111,10 +6066,8 @@
 
 		FROM
 		TAX_RATE_CALCULATION TRC
-		LEFT JOIN TRANSACTION_ITEM TI ON
-		TI.ID=TRC.TRANSACTION_ITEM_ID
 		LEFT JOIN TRANSACTION T ON
-		TI.TRANSACTION_ID=T.ID
+		TRC.TRANSACTION_ID=T.ID
 		LEFT JOIN TAX_ITEM
 		TAXI ON
 		TRC.TAX_ITEM_ID=TAXI.ID
@@ -6163,10 +6116,8 @@
 
 		FROM
 		TAX_RATE_CALCULATION TRC
-		LEFT JOIN TRANSACTION_ITEM TI ON
-		TI.ID=TRC.TRANSACTION_ITEM_ID
 		LEFT JOIN TRANSACTION T ON
-		TI.TRANSACTION_ID=T.ID
+		TRC.TRANSACTION_ID=T.ID
 		LEFT JOIN TAX_ITEM TAXI ON
 		TRC.TAX_ITEM_ID=TAXI.ID
 
@@ -6218,10 +6169,8 @@
 
 		FROM
 		TAX_RATE_CALCULATION TRC
-		LEFT
-		JOIN TRANSACTION_ITEM TI ON TI.ID=TRC.TRANSACTION_ITEM_ID
 		LEFT JOIN
-		TRANSACTION T ON TI.TRANSACTION_ID=T.ID
+		TRANSACTION T ON TRC.TRANSACTION_ID=T.ID
 		LEFT JOIN TAX_ITEM
 		TAXI ON
 		TRC.TAX_ITEM_ID=TAXI.ID
@@ -6271,10 +6220,8 @@
 
 		FROM
 		TAX_RATE_CALCULATION TRC
-		LEFT JOIN TRANSACTION_ITEM TI ON
-		TI.ID=TRC.TRANSACTION_ITEM_ID
 		LEFT JOIN TRANSACTION T ON
-		TI.TRANSACTION_ID=T.ID
+		TRC.TRANSACTION_ID=T.ID
 		LEFT JOIN TAX_ITEM TAXI ON
 		TRC.TAX_ITEM_ID=TAXI.ID
 
@@ -6389,8 +6336,15 @@
 
 		WHERE T.COMPANY_ID=:companyId AND
 		TI.TAX_AGENCY=:taxAgency
-		GROUP BY T.ID,TI.ID;
+		GROUP BY T.ID,TI.ID,TIG.ID;
 
+	</sql-query>
+	
+	<sql-query name="update.primay.currency.in.company">
+		<query-param name="companyId" type="long" />
+		<query-param name="currencyId" type="long" />
+		UPDATE TRANSACTION SET CURRENCY=:currencyId WHERE COMPANY_ID=:companyId;
+		UPDATE ACCOUNT SET ACCOUNT_CURRENCY=:currencyId WHERE COMPANY_ID=:companyId;
 	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

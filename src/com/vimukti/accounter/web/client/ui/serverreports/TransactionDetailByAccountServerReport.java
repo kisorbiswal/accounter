@@ -65,7 +65,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return constants.financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	@Override
@@ -77,8 +77,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", constants.name(), constants.date(), " ",
-				constants.number(), constants.amount(), constants.balance() };
+		return new String[] { "", messages.name(), messages.date(), " ",
+				messages.number(), messages.amount(), messages.balance() };
 	}
 
 	@Override
@@ -199,8 +199,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", constants.name(), constants.date(), " ",
-				constants.number(), constants.amount(), constants.balance() };
+		return new String[] { "", messages.name(), messages.date(), " ",
+				messages.number(), messages.amount(), messages.balance() };
 	}
 
 }

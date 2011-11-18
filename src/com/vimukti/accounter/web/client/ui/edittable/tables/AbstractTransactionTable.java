@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 public abstract class AbstractTransactionTable extends
 		EditTable<ClientTransactionItem> {
 
-	AccounterConstants constants = Accounter.constants();
+	AccounterMessages messages = Accounter.messages();
 
 	double lineTotal;
 	double taxableLineTotal;
@@ -210,37 +210,38 @@ public abstract class AbstractTransactionTable extends
 				continue;
 			}
 			if (transactionItem.getAccountable() == null) {
-				result.addError(
-						"GridItem-" + transactionItem.getType(),
-						Accounter.messages().pleaseSelect(
-								Utility.getItemType(transactionItem.getType())));
+				result
+						.addError("GridItem-" + transactionItem.getType(),
+								Accounter.messages().pleaseSelect(
+										Utility.getItemType(transactionItem
+												.getType())));
 			}
 			if (enableTax && showTaxCode) {
 				if (transactionItem.getTaxCode() == 0) {
-					result.addError(
-							"GridItemUK-" + transactionItem.getAccount(),
-							Accounter.messages().pleaseSelect(
-									Accounter.constants().taxCode()));
+					result.addError("GridItemUK-"
+							+ transactionItem.getAccount(), Accounter
+							.messages().pleaseSelect(
+									Accounter.messages().taxCode()));
 				}
 
 			}
 
 			if (transactionItem.isBillable()) {
 				if (transactionItem.getCustomer() == 0) {
-					result.addError("Customer",
-							constants.mustSelectCustomerForBillable());
+					result.addError("Customer", messages
+							.mustSelectCustomerForBillable());
 				} else if (transactionItem.getItem() > 0) {
 					ClientItem item = getCompany().getItem(
 							transactionItem.getItem());
 					if (!item.isIBuyThisItem || !item.isISellThisItem) {
-						result.addError("Item", constants
+						result.addError("Item", messages
 								.onlySellableItemsCanBeMarkedAsBillable());
 					}
 				}
 			}
 		}
 		if (DecimalUtil.isLessThan(lineTotal, 0.0)) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.invalidTransactionAmount());
 		}
 		return result;

@@ -27,7 +27,7 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNewMeasurement();
+		return messages.measurement();
 	}
 
 	@Override

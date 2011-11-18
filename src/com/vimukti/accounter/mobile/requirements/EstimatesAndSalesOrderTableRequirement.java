@@ -16,11 +16,9 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 		AbstractTableRequirement<EstimatesAndSalesOrdersList> {
 
 	public EstimatesAndSalesOrderTableRequirement(String requirementName,
-			String enterString, String recordName, boolean isOptional,
-			boolean isAllowFromContext) {
-		super(requirementName, enterString, recordName, false, isOptional,
-				isAllowFromContext);
-		setDefaultValue(new ArrayList<EstimatesAndSalesOrdersList>());
+			String enterString, String recordName) {
+		super(requirementName, enterString, recordName, false, true, true);
+		// setDefaultValue(new ArrayList<EstimatesAndSalesOrdersList>());
 	}
 
 	@Override
@@ -30,7 +28,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().thereAreNo(getConstants().estimate());
+		return getMessages().thereAreNo(getMessages().estimate());
 	}
 
 	@Override
@@ -50,7 +48,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 
 	@Override
 	protected void addCreateCommands(CommandList commandList) {
-		commandList.add("create new quote");
+
 	}
 
 	@Override
@@ -62,9 +60,9 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 	protected Record createFullRecord(EstimatesAndSalesOrdersList value) {
 		Record rec = new Record(value);
 		if (value.getType() == ClientTransaction.TYPE_ESTIMATE)
-			rec.add("", getConstants().quote());
+			rec.add("", getMessages().quote());
 		else
-			rec.add("", getConstants().salesOrder());
+			rec.add("", getMessages().salesOrder());
 
 		rec.add("", value.getTotal());
 

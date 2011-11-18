@@ -115,7 +115,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 			// colArray[index] = Accounter.constants().dec();
 			// break;
 			case 1:
-				colArray[index] = Accounter.constants().total();
+				colArray[index] = Accounter.messages().total();
 				break;
 			default:
 				break;

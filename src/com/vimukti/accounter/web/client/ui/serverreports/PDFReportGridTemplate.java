@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport.Alignment;
@@ -235,7 +235,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	}
 
 	@Override
-	public String getBody(AccounterConstants accounterConstants) {
+	public String getBody(AccounterMessages accounterConstants) {
 
 		if (body == null || body.toString().isEmpty()) {
 			body = new StringBuffer(

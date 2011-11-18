@@ -12,7 +12,7 @@ public class PaySalesTaxAction extends Action {
 
 	public PaySalesTaxAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	@Override

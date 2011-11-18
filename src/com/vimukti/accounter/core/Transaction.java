@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -113,6 +112,9 @@ public abstract class Transaction extends CreatableObject implements
 	 * Many transaction consists of List of {@link TransactionItem}s
 	 */
 	List<TransactionItem> transactionItems;
+
+	@ReffereredObject
+	protected Set<TAXRateCalculation> taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
 
 	/**
 	 * Some of the transactions are able to create a {@link CreditsAndPayments}.
@@ -929,7 +931,7 @@ public abstract class Transaction extends CreatableObject implements
 	 * @param session
 	 */
 
-	protected void deleteCreatedEntries(Session session, Transaction transaction) {
+	protected void deleteCreatedEntries(Transaction transaction) {
 		if (transaction.accountTransactionEntriesList != null) {
 			transaction.accountTransactionEntriesList.clear();
 		}
@@ -986,25 +988,91 @@ public abstract class Transaction extends CreatableObject implements
 
 			this.voidCreditsAndPayments(this);
 			voidTransactionItems();
-			deleteCreatedEntries(session, clonedObject);
+			deleteCreatedEntries(clonedObject);
 			addVoidHistory();
 		} else if (this.isDeleted && !clonedObject.isDeleted() && this.isVoid) {
 			this.setStatus(STATUS_DELETED);
 		} else if (this.transactionItems != null
 				&& !this.transactionItems.equals(clonedObject.transactionItems)) {
 			updateTranasactionItems(clonedObject);
+			deleteCreatedEntries(clonedObject);
 			clonedObject.transactionItems.clear();
+			
 			addUpdateHistory();
 		}
 
 	}
 
 	protected void voidTransactionItems() {
-		if (this.transactionItems != null)
+		if (this.transactionItems != null){
 			for (TransactionItem ti : this.transactionItems) {
-				ti.setVoid(true);
 				ti.doReverseEffect(HibernateUtil.getCurrentSession());
 			}
+		}
+	}
+
+	/**
+	 * Creates an entry in the VATRateCalculation entry for a transactionItem in
+	 * the UK company. This makes us to track all the VAT related amount to pay
+	 * while making the PayVAT.
+	 * 
+	 * @param transactionItem
+	 * @param session
+	 * @return boolean
+	 * 
+	 */
+	public boolean setTAXRateCalculation(TransactionItem transactionItem) {
+
+		if(isBecameVoid()){
+			this.taxRateCalculationEntriesList.clear();
+			return false;
+		}
+		if (transactionItem.getTaxCode() == null) {
+			return false;
+		}
+
+		TAXCode code = transactionItem.getTaxCode();
+		TAXItemGroup taxItemGroup = null;
+
+		if (getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
+			taxItemGroup = code.getTAXItemGrpForSales();
+		} else if (transactionItem.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
+			taxItemGroup = code.getTAXItemGrpForPurchases();
+		}
+		if (taxItemGroup == null) {
+			return false;
+		}
+
+		if (taxItemGroup instanceof TAXItem) {
+			TAXItem vatItem = ((TAXItem) taxItemGroup);
+			setVatItemVRC(vatItem, transactionItem, false);
+		} else {
+			TAXGroup vatGroup = (TAXGroup) taxItemGroup;
+			for (TAXItem taxItem : vatGroup.getTAXItems()) {
+				setVatItemVRC(taxItem, transactionItem, true);
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Set the VATItem entry in the VATRateCalculation. This is used to differ
+	 * this entry from the VATGroup type entry.
+	 * 
+	 * @param vatItem
+	 * @param transactionItem
+	 * @param session
+	 */
+	private void setVatItemVRC(TAXItem vatItem,
+			TransactionItem transactionItem, boolean isGroup) {
+
+		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this,
+				transactionItem.getLineTotal());
+
+		vc.setVATGroupEntry(isGroup);
+
+		getTaxRateCalculationEntriesList().add(vc);
 
 	}
 
@@ -1016,12 +1084,7 @@ public abstract class Transaction extends CreatableObject implements
 	 * @param coreObject
 	 */
 	public void cleanTransactionitems(Transaction coreObject) {
-		if (coreObject.getTransactionItems() != null) {
-			for (TransactionItem item : coreObject.getTransactionItems()) {
-				// item.itemBackUpList.clear();
-				item.getTaxRateCalculationEntriesList().clear();
-			}
-		}
+		getTaxRateCalculationEntriesList().clear();
 	}
 
 	private void updateTranasactionItems(Transaction transaction) {
@@ -1113,17 +1176,7 @@ public abstract class Transaction extends CreatableObject implements
 			// "This Transaction  is already voided or Deleted, can't Modify");
 		}
 
-		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = (Transaction) clientObject;
-		Query query2 = session.getNamedQuery(
-				"getTaxrate.by.TransactioId.and.Vatreturn").setEntity(
-				"company", transaction.getCompany());
-		query2.setParameter("id", this.getID());
-		List list = query2.list();
-		// if (list != null && list.size() > 0)
-		// throw new AccounterException(
-		// AccounterException.ERROR_NO_SUCH_OBJECT);
-		// "File VAT already done in  this transaction date duration, can't Modify");
 		checkForReconciliation(transaction);
 		return true;
 	}
@@ -1315,5 +1368,14 @@ public abstract class Transaction extends CreatableObject implements
 	public void setWareHouseAllocations(
 			List<WareHouseAllocation> wareHouseAllocations) {
 		this.wareHouseAllocations = wareHouseAllocations;
+	}
+
+	public Set<TAXRateCalculation> getTaxRateCalculationEntriesList() {
+		return taxRateCalculationEntriesList;
+	}
+
+	public void setTaxRateCalculationEntriesList(
+			Set<TAXRateCalculation> taxRateCalculationEntriesList) {
+		this.taxRateCalculationEntriesList = taxRateCalculationEntriesList;
 	}
 }

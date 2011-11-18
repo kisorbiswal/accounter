@@ -10,12 +10,12 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 
 public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 	private AsyncDataProvider<ClientTransactionLog> listDataProvider;
-	private AccounterConstants constants = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 	private long transctionId;
 	private AbstractTransactionBaseView<ClientTransaction> baseView;
 
@@ -112,10 +112,10 @@ public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 			}
 		};
 
-		this.addColumn(changesColumn, constants.changes());
-		this.addColumn(dateColumn, constants.date());
-		this.addColumn(userNameColumn, constants.userName());
-		this.addColumn(detailsColumn, constants.details());
+		this.addColumn(changesColumn, messages.changes());
+		this.addColumn(dateColumn, messages.date());
+		this.addColumn(userNameColumn, messages.userName());
+		this.addColumn(detailsColumn, messages.details());
 
 		this.setColumnWidth(changesColumn, "80px");
 		this.setColumnWidth(dateColumn, "275px");
@@ -126,13 +126,13 @@ public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 	public String getActivityType(int activityType) {
 		switch (activityType) {
 		case ClientTransactionLog.TYPE_CREATE:
-			return constants.created();
+			return messages.created();
 		case ClientTransactionLog.TYPE_EDIT:
-			return constants.edited();
+			return messages.edited();
 		case ClientTransactionLog.TYPE_VOID:
-			return constants.voided();
+			return messages.voided();
 		case ClientTransactionLog.TYPE_NOTE:
-			return constants.note();
+			return messages.note();
 		default:
 			return "";
 		}

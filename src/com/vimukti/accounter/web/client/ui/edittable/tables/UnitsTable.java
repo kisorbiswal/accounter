@@ -29,7 +29,7 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			public IsWidget getHeader() {
-				Label columnHeader = new Label(Accounter.constants()
+				Label columnHeader = new Label(Accounter.messages()
 						.defaultWare());
 				return columnHeader;
 			}
@@ -55,7 +55,7 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().unitName();
+				return Accounter.messages().unitName();
 			}
 		});
 		this.addColumn(new TextEditColumn<ClientUnit>() {
@@ -77,7 +77,7 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().factor();
+				return Accounter.messages().factor();
 			}
 
 		});
@@ -115,19 +115,19 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 		ValidationResult result = new ValidationResult();
 		ClientUnit defaultUnit = getDefaultUnit();
 		if (getRecords() == null || getRecords().isEmpty()) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.pleaseEnterAtleastOneUnit());
 		} else if (defaultUnit == null) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.pleaseSelectDefaultUnit());
 		} else if (defaultUnit.getFactor() == 0) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.factorForDefaultUnitShouldNotbeZero());
 		} else {
 			for (ClientUnit unit : getRecords()) {
 				if (unit.getName() == null || unit.getName().isEmpty()) {
 					result.addError(this, Accounter.messages().pleaseEnter(
-							Accounter.constants().unitName()));
+							Accounter.messages().unitName()));
 					break;
 				}
 			}

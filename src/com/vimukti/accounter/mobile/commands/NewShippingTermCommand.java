@@ -34,12 +34,14 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Shipping Term to update.");
 				return "Shipping Terms";
 			}
 			ClientShippingTerms shippingTermsByName = CommandUtils
 					.getshippingTermsByNameByName(context.getCompany(), string);
 			if (shippingTermsByName == null) {
-				return "Shipping Terms " + string;
+				addFirstMessage(context, "Select a Shipping Term to update.");
+				return "Shipping Terms " + string.trim();
 			}
 			shippingTerms = shippingTermsByName;
 			get(SHIPPING_TERMNAME).setValue(shippingTerms.getName());

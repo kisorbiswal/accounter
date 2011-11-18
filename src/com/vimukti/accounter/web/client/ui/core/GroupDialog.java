@@ -80,13 +80,13 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		buttonsLayout.setWidth("100px");
 		buttonsLayout.setSpacing(5);
 
-		button1 = new Button(constants.add());
+		button1 = new Button(messages.add());
 		button1.setTitle(Accounter.messages().clickThisTo(
-				Accounter.constants().addnew()
+				Accounter.messages().addNewLine()
 						+ " "
 						+ this.getText().replace(
-								Accounter.constants().manage(), ""),
-				Accounter.constants().dialog()));
+								Accounter.messages().manage(), ""),
+				Accounter.messages().dialog()));
 		button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -98,12 +98,12 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 			}
 		});
 
-		button2 = new Button(constants.edit());
+		button2 = new Button(messages.edit());
 		button2.setEnabled(false);
 		button2.setWidth("80px");
 		button2.setTitle(Accounter.messages().clickThisTo(
-				Accounter.constants().edit(),
-				this.getText().replace(Accounter.constants().manage(), "")));
+				Accounter.messages().edit(),
+				this.getText().replace(Accounter.messages().manage(), "")));
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -112,12 +112,12 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 			}
 		});
 
-		button3 = new Button(this.constants.remove());
+		button3 = new Button(this.messages.remove());
 		button3.setEnabled(false);
 		button3.setWidth("80px");
 		button2.setTitle(Accounter.messages().clickThisTo(
-				Accounter.constants().delete(),
-				this.getText().replace(Accounter.constants().manage(), "")));
+				Accounter.messages().delete(),
+				this.getText().replace(Accounter.messages().manage(), "")));
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -131,7 +131,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
-		cancelBtn.setText(constants.close());
+		cancelBtn.setText(messages.close());
 		// button2.enabledButton();
 		// button3.enabledButton();
 		button1.setFocus(true);
@@ -141,7 +141,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		buttonsLayout.getElement().getParentElement().setAttribute("width",
 				"25%");
 		setBodyLayout(bodyLayout);
-		cancelBtn.setTitle(this.constants.close());
+		cancelBtn.setTitle(this.messages.close());
 		dialogHandler = new InputDialogHandler() {
 
 			public void onCancel() {
@@ -359,7 +359,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 
 	@Override
 	public String toString() {
-		return Accounter.constants().classNameis() + this.getText();
+		return Accounter.messages().classNameis() + this.getText();
 	}
 
 	public void addCallBack(AccounterAsyncCallback<T> callback) {

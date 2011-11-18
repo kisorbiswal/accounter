@@ -76,12 +76,12 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().salesOrderList();
+				return getMessages().salesOrderList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override

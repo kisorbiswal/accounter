@@ -40,7 +40,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.constants().addNewBrandingTheme();
+		return messages.brandingTheme();
 	}
 
 	@Override

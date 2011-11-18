@@ -125,25 +125,25 @@ public class CashExpenseView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, constants.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(deliveryDateItem, Accounter.constants().the()
+			result.addError(deliveryDateItem, Accounter.messages().the()
 					+ " "
-					+ Accounter.constants().deliveryDate()
+					+ Accounter.messages().deliveryDate()
 					+ " "
 					+ " "
-					+ Accounter.constants()
+					+ Accounter.messages()
 							.cannotbeearlierthantransactiondate());
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
 			result.addError(vendorAccountTransactionTable,
-					constants.blankTransaction());
+					messages.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -154,7 +154,7 @@ public class CashExpenseView extends
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (!bankCurrency.equals(getBaseCurrency())
 					&& bankCurrency.equals(currency)) {
-				result.addError(payFromCombo, Accounter.constants()
+				result.addError(payFromCombo, Accounter.messages()
 						.selectProperBankAccount());
 			}
 		}
@@ -187,7 +187,7 @@ public class CashExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
+		setMenuItems(button, Global.get().Accounts(), Accounter.messages()
 				.productOrServiceItem());
 	}
 
@@ -199,7 +199,7 @@ public class CashExpenseView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().cashExpense();
+		return Accounter.messages().cashExpense();
 	}
 
 	private void settabIndexes() {
@@ -221,8 +221,8 @@ public class CashExpenseView extends
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 
-		titlelabel = new Label(Accounter.constants().cashExpense());
-		titlelabel.setStyleName(Accounter.constants().labelTitle());
+		titlelabel = new Label(Accounter.messages().cashExpense());
+		titlelabel.setStyleName(Accounter.messages().labelTitle());
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -278,9 +278,9 @@ public class CashExpenseView extends
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
-		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
+		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(Accounter.constants().chequeNo());
+		checkNo = createCheckNumberItem(Accounter.messages().chequeNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -295,28 +295,28 @@ public class CashExpenseView extends
 						paymentMethodSelected(paymentMethodCombo
 								.getSelectedValue());
 						if (paymentMethodCombo.getSelectedValue().equals(
-								Accounter.constants().check())
+								Accounter.messages().check())
 								|| paymentMethodCombo.getSelectedValue()
-										.equals(Accounter.constants().cheque())) {
+										.equals(Accounter.messages().cheque())) {
 							checkNo.setDisabled(false);
 						} else {
 							checkNo.setDisabled(true);
 						}
 
-						if (paymentMethod.equals(Accounter.constants().check())
+						if (paymentMethod.equals(Accounter.messages().check())
 								&& isInViewMode() && payFromAccount != null) {
 							ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 							checkNo.setValue(cashPurchase.getCheckNumber());
 						}
 					}
 				});
-		String listString[] = new String[] { Accounter.constants().cash(),
-				Accounter.constants().creditCard(),
-				Accounter.constants().directDebit(),
-				Accounter.constants().masterCard(),
-				Accounter.constants().onlineBanking(),
-				Accounter.constants().standingOrder(),
-				Accounter.constants().switchMaestro() };
+		String listString[] = new String[] { Accounter.messages().cash(),
+				Accounter.messages().creditCard(),
+				Accounter.messages().directDebit(),
+				Accounter.messages().masterCard(),
+				Accounter.messages().onlineBanking(),
+				Accounter.messages().standingOrder(),
+				Accounter.messages().switchMaestro() };
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
@@ -331,7 +331,7 @@ public class CashExpenseView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		netAmount = new AmountLabel(Accounter.constants().netAmount());
+		netAmount = new AmountLabel(Accounter.messages().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -554,7 +554,7 @@ public class CashExpenseView extends
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
-				&& paymentMethod.equalsIgnoreCase(Accounter.constants()
+				&& paymentMethod.equalsIgnoreCase(Accounter.messages()
 						.cheque()) && isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
@@ -571,7 +571,7 @@ public class CashExpenseView extends
 					public void onException(AccounterException t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter.constants().toBePrinted());
+						checkNo.setValue(Accounter.messages().toBePrinted());
 						return;
 					}
 
@@ -814,8 +814,8 @@ public class CashExpenseView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
-		if (paymentMethod.equals(Accounter.constants().check())
-				|| paymentMethod.equals(Accounter.constants().cheque())) {
+		if (paymentMethod.equals(Accounter.messages().check())
+				|| paymentMethod.equals(Accounter.messages().cheque())) {
 			checkNo.setDisabled(isInViewMode());
 		} else {
 			checkNo.setDisabled(!isInViewMode());

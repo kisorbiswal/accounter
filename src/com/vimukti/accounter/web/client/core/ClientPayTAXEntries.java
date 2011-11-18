@@ -19,6 +19,8 @@ public class ClientPayTAXEntries implements IAccounterCore {
 
 	private int version;
 
+	private ClientFinanceDate taxReturnDate;
+
 	public long getVatAgency() {
 		return vatAgency;
 	}
@@ -96,7 +98,22 @@ public class ClientPayTAXEntries implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	/**
+	 * @return the taxReturnDate
+	 */
+	public ClientFinanceDate getTaxReturnDate() {
+		return taxReturnDate;
+	}
+
+	/**
+	 * @param taxReturnDate
+	 *            the taxReturnDate to set
+	 */
+	public void setTaxReturnDate(ClientFinanceDate taxReturnDate) {
+		this.taxReturnDate = taxReturnDate;
 	}
 
 }

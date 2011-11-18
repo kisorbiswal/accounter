@@ -77,14 +77,14 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Accounter.constants().active();
+				colArray[index] = Accounter.messages().active();
 				break;
 			case 1:
 				colArray[index] = Accounter.messages().payeeName(
 						Global.get().Customer());
 				break;
 			case 2:
-				colArray[index] = Accounter.constants().currentMonth();
+				colArray[index] = Accounter.messages().currentMonth();
 				colsMap.put(2, getCurrentMonth());
 				break;
 			case 3:
@@ -108,10 +108,10 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				colsMap.put(6, getCurrentMonth() - 5);
 				break;
 			case 8:
-				colArray[index] = Accounter.constants().yearToDate();
+				colArray[index] = Accounter.messages().yearToDate();
 				break;
 			case 9:
-				colArray[index] = Accounter.constants().balance();
+				colArray[index] = Accounter.messages().balance();
 				break;
 			case 10:
 				colArray[index] = "";
@@ -131,34 +131,34 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 1:
-			return Accounter.constants().jan();
+			return Accounter.messages().jan();
 		case 2:
-			return Accounter.constants().feb();
+			return Accounter.messages().feb();
 		case 3:
-			return Accounter.constants().mar();
+			return Accounter.messages().mar();
 		case 4:
-			return Accounter.constants().apr();
+			return Accounter.messages().apr();
 		case 5:
-			return Accounter.constants().may();
+			return Accounter.messages().may();
 		case 6:
-			return Accounter.constants().jun();
+			return Accounter.messages().jun();
 		case 7:
-			return Accounter.constants().jul();
+			return Accounter.messages().jul();
 		case 8:
 		case -4:
-			return Accounter.constants().aug();
+			return Accounter.messages().aug();
 		case 9:
 		case -3:
-			return Accounter.constants().sept();
+			return Accounter.messages().sept();
 		case 10:
 		case -2:
-			return Accounter.constants().oct();
+			return Accounter.messages().oct();
 		case 11:
 		case -1:
-			return Accounter.constants().nov();
+			return Accounter.messages().nov();
 		case 12:
 		case 0:
-			return Accounter.constants().dec();
+			return Accounter.messages().dec();
 
 		}
 		return "";
@@ -394,8 +394,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	public void deleteFailed(AccounterException caught) {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrorMessages
-					.vendorInUse(Global.get().Customer()));
+			Accounter.showError(AccounterExceptions.accounterMessages
+					.payeeInUse(Global.get().Customer()));
 			return;
 		}
 		super.deleteFailed(caught);

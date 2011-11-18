@@ -50,7 +50,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	private String vatName;
 
 	private ArrayList<DynamicForm> listforms;
-	final DynamicForm form1 = UIUtils.form(Accounter.constants().type());
+	final DynamicForm form1 = UIUtils.form(Accounter.messages().type());
 
 	public NewVATItemView() {
 		super();
@@ -59,39 +59,39 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	private void createControls() {
 		Label infolabel1 = null;
 
-		infolabel1 = new Label(Accounter.constants().taxItem());
+		infolabel1 = new Label(Accounter.messages().taxItem());
 
-		infolabel1.setStyleName(Accounter.constants().labelTitle());
+		infolabel1.setStyleName(Accounter.messages().labelTitle());
 		// infolabel1.setHeight("50px");
 
 		listforms = new ArrayList<DynamicForm>();
 
-		vatItemNameText = new TextItem(Accounter.constants().taxItemName());
+		vatItemNameText = new TextItem(Accounter.messages().taxItemName());
 		vatItemNameText.setHelpInformation(true);
 		// vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
 		vatItemNameText.setDisabled(isInViewMode());
 
-		descriptionText = new TextAreaItem(Accounter.constants().description());
+		descriptionText = new TextAreaItem(Accounter.messages().description());
 		descriptionText.setHelpInformation(true);
 		// descriptionText.setWidth(80);
 		descriptionText.setDisabled(isInViewMode());
 
-		vatRateText = new AmountField(Accounter.constants().taxAmount(), this,
+		vatRateText = new AmountField(Accounter.messages().taxAmount(), this,
 				getBaseCurrency());
 		vatRateText.setHelpInformation(true);
 		// vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
 		vatRateText.setDisabled(isInViewMode());
 
-		vatRateTextPerT = new PercentageField(this, Accounter.constants()
+		vatRateTextPerT = new PercentageField(this, Accounter.messages()
 				.taxRateP());
 		vatRateTextPerT.setHelpInformation(true);
 		// vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
 		vatRateTextPerT.setDisabled(isInViewMode());
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants().taxAgency());
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.messages().taxAgency());
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo.setDisabled(isInViewMode());
 		vatAgencyCombo
@@ -109,7 +109,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// Label label = new Label(
 		// "Assign This item to box of VAT agency's VAT Return");
 
-		vatReturnBoxCombo = new VatReturnBoxCombo(Accounter.constants()
+		vatReturnBoxCombo = new VatReturnBoxCombo(Accounter.messages()
 				.vatReturnBox());
 		vatReturnBoxCombo.setHelpInformation(true);
 		vatReturnBoxCombo.setRequired(true);
@@ -126,7 +126,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				});
 		// vatReturnBoxCombo.setWidth(80);
 
-		statusCheck = new CheckboxItem(Accounter.constants().itemIsActive());
+		statusCheck = new CheckboxItem(Accounter.messages().itemIsActive());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
@@ -207,7 +207,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		if (isInViewMode()) {
 			if (taxItemByName != null) {
-				result.addError(vatItemNameText, Accounter.constants()
+				result.addError(vatItemNameText, Accounter.messages()
 						.alreadyExist());
 				return result;
 			}
@@ -358,7 +358,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().newTaxItem();
+		return Accounter.messages().newTaxItem();
 	}
 
 	@Override

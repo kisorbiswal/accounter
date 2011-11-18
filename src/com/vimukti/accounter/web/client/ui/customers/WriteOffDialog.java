@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -33,7 +32,6 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	private Double writeOffAmount;
 
 	private ClientTransactionReceivePayment record;
-	private static AccounterConstants customerConstants = Accounter.constants();
 	public DynamicForm form;
 	private boolean canEdit;
 	OtherAccountsCombo discAccSelect;
@@ -55,7 +53,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	public WriteOffDialog(List<ClientAccount> allAccounts,
 			ClientTransactionReceivePayment record, boolean canEdit,
 			ClientAccount clientAccount, ICurrencyProvider currencyProvider) {
-		super(customerConstants.writeOff(), Accounter.constants()
+		super(messages.writeOff(), Accounter.messages()
 				.writeOffPleaseAddDetails());
 		this.currencyProvider = currencyProvider;
 		this.record = record;
@@ -70,7 +68,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public WriteOffDialog() {
-		super(customerConstants.cashDiscount(), Accounter.constants()
+		super(messages.cashDiscount(), Accounter.messages()
 				.writeOffPleaseAddDetails());
 
 		createControls();
@@ -95,7 +93,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		if (getSelectedWriteOffAccount() != null)
 			discAccSelect.setComboItem(getSelectedWriteOffAccount());
 
-		discAmtText = new AmountField(customerConstants.writeOffAmount(), this,getBaseCurrency());
+		discAmtText = new AmountField(messages.writeOffAmount(), this,getBaseCurrency());
 		discAmtText.setDisabled(!canEdit);
 		setCashDiscountValue(writeOffAmount);
 
@@ -115,7 +113,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 
 			// okbtn.hide();
 			okbtn.setVisible(false);
-			cancelBtn.setTitle(customerConstants.close());
+			cancelBtn.setTitle(messages.close());
 
 		}
 

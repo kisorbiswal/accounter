@@ -57,12 +57,12 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getConstants().salesOrder());
+		return getMessages().create(getMessages().salesOrder());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().salesOrder());
+		return getMessages().readyToCreate(getMessages().salesOrder());
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 		}
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
-		get(STATUS).setDefaultValue(getConstants().open());
+		get(STATUS).setDefaultValue(getMessages().open());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 
 		get(CURRENCY).setDefaultValue(null);
@@ -89,7 +89,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().salesOrder());
+		return getMessages().createSuccessfully(getMessages().salesOrder());
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -137,7 +137,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -165,7 +165,7 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				false, true, true) {
 
 			@Override
@@ -183,14 +183,14 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, true));
+				getMessages().number()), getMessages().number(), true, true));
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
-				.pleaseSelect(getConstants().paymentTerm()), getConstants()
+				.pleaseSelect(getMessages().paymentTerm()), getMessages()
 				.paymentTerm(), true, true, null) {
 
 			@Override
@@ -216,16 +216,16 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
-				getConstants().orderNo()), getConstants().orderNo(), true, true));
+				getMessages().orderNo()), getMessages().orderNo(), true, true));
 
 		list.add(new NumberRequirement(
 				CUSTOMER_ORDER_NO,
 				getMessages().pleaseEnter(
-						Global.get().Customer() + getConstants().orderNumber()),
-				Global.get().Customer() + getConstants().orderNumber(), true,
+						Global.get().Customer() + getMessages().orderNumber()),
+				Global.get().Customer() + getMessages().orderNumber(), true,
 				true));
 		list.add(new EstimateRequirement(ESTIMATE, getMessages().pleaseSelect(
-				getConstants().quote()), getConstants().quote(), true, true,
+				getMessages().quote()), getMessages().quote(), true, true,
 				null) {
 
 			@Override
@@ -247,16 +247,16 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-				getConstants().dueDate()), getConstants().dueDate(), true, true));
+				getMessages().dueDate()), getMessages().dueDate(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phoneNumber(),
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 
 			@Override
@@ -266,41 +266,41 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 		list.add(new StringListRequirement(STATUS, getMessages().pleaseSelect(
-				getConstants().status()), getConstants().status(), true, true,
+				getMessages().status()), getMessages().status(), true, true,
 				null) {
 
 			@Override
 			protected String getSetMessage() {
 
-				return getMessages().hasSelected(getConstants().status());
+				return getMessages().hasSelected(getMessages().status());
 			}
 
 			@Override
 			protected String getSelectString() {
 
-				return getMessages().pleaseSelect(getConstants().status());
+				return getMessages().pleaseSelect(getMessages().status());
 			}
 
 			@Override
 			protected List<String> getLists(Context context) {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().open());
-				list.add(getConstants().completed());
-				list.add(getConstants().cancelled());
+				list.add(getMessages().open());
+				list.add(getMessages().completed());
+				list.add(getMessages().cancelled());
 				return list;
 			}
 
 			@Override
 			protected String getEmptyString() {
 
-				return getMessages().youDontHaveAny(getConstants().status());
+				return getMessages().youDontHaveAny(getMessages().status());
 			}
 		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 
 			@Override
@@ -358,11 +358,11 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		newSalesOrder.setType(ClientTransaction.TYPE_SALES_ORDER);
 		newSalesOrder.setPhone((String) get(PHONE).getValue());
 		int statusNumber = 0;
-		if (get(STATUS).getValue().equals(getConstants().open())) {
+		if (get(STATUS).getValue().equals(getMessages().open())) {
 			statusNumber = ClientTransaction.STATUS_OPEN;
-		} else if (get(STATUS).getValue().equals(getConstants().completed())) {
+		} else if (get(STATUS).getValue().equals(getMessages().completed())) {
 			statusNumber = ClientTransaction.STATUS_COMPLETED;
-		} else if (get(STATUS).getValue().equals(getConstants().cancelled())) {
+		} else if (get(STATUS).getValue().equals(getMessages().cancelled())) {
 			statusNumber = ClientTransaction.STATUS_CANCELLED;
 		}
 

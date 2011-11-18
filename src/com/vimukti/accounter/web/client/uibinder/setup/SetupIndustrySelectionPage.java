@@ -59,7 +59,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.selectYourIndustry());
+		headerLabel.setText(accounterMessages.selectYourIndustry());
 
 		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML1()
 				+ "<br/>" + accounterMessages.selectIndustryInfoHTML2() + "<a>"
@@ -67,9 +67,9 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 				+ accounterMessages.selectIndustryInfoHTML3() + "<br/><a>"
 				+ accounterMessages.selectIndustryInfoAchor2() + "</a>"
 				+ accounterMessages.selectIndustryInfoHTML4());
-		industryList.setName(accounterConstants.industry());
+		industryList.setName(accounterMessages.industry());
 		selectIndustry.setText(accounterMessages.selectIndustry());
-		industryList.setName(accounterConstants.industry());
+		industryList.setName(accounterMessages.industry());
 
 		industryList.setVisibleItemCount(15);
 
@@ -111,7 +111,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (industryList.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.selectYourIndustry());
+			Accounter.showError(accounterMessages.selectYourIndustry());
 			return false;
 		} else {
 			return true;
@@ -120,6 +120,6 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.selectIndustryType();
+		return accounterMessages.selectIndustryType();
 	}
 }

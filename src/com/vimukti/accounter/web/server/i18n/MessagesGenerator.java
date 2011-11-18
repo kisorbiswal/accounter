@@ -27,31 +27,41 @@ public class MessagesGenerator extends Generator {
 
 			SourceWriter src = getSourceWriter(classType, context, logger);
 
-			src.println("private static Dictionary cache;");
+			if (src != null) {
+				src.println("private static Dictionary cache;");
 
-			src.println(classType.getSimpleSourceName()
-					+ "Generated() {if (cache == null) {cache = Dictionary.getDictionary(\""
-					+ classType.getSimpleSourceName() + "\");}}");
-			src.println("private String value(String key, String... values) {"
-					+ "String string = cache.get(key);"
-					+ "int i = 0;for (String value : values) "
-					+ "{string = string.replace(\"{\" + i + \"}\", value);}"
-					+ "return string;}");
-			for (JMethod method : classType.getMethods()) {
-				src.println("@Override");
-				src.println(method.getReadableDeclaration(false, true, true,
-						true, true) + '{');
-				JParameter[] parameters = method.getParameters();
-				src.print("return value(\"" + method.getName() + "\"");
-				for (JParameter parameter : parameters) {
-					src.print(", String.valueOf(" + parameter.getName() + ")");
+				src
+						.println(classType.getSimpleSourceName()
+								+ "Generated() {if (cache == null) {cache = Dictionary.getDictionary(\""
+								+ classType.getSimpleSourceName() + "\");}}");
+				src
+						.println("private String value(String key, HashMap<String,String> values) {"
+								+ "String string = cache.get(key);"
+								+ "for (String name : values.keySet()) "
+								+ "{String value=values.get(name); string = string.replace(\"{\" + name + \"}\", value);}"
+								+ "return string;}");
+				for (JMethod method : classType.getMethods()) {
+					src.println("@Override");
+					src
+							.println(method.getReadableDeclaration(false, true,
+									true, true, true)
+									+ "{HashMap<String,String> map=new HashMap<String,String>();");
+					JParameter[] parameters = method.getParameters();
+
+					for (JParameter parameter : parameters) {
+						src.print("map.put(\"" + parameter.getName()
+								+ "\", String.valueOf(" + parameter.getName()
+								+ "));");
+					}
+					src
+							.print("return value(\"" + method.getName()
+									+ "\",map);");
+					src.println("}");
 				}
-				src.print(");");
-				src.println("}");
-			}
 
-			src.commit(logger);
-			System.out.println(typeName + " Generated");
+				src.commit(logger);
+			}
+//			System.out.println(typeName + " Generated");
 			return className;
 		} catch (NotFoundException e) {
 			e.printStackTrace();
@@ -71,6 +81,7 @@ public class MessagesGenerator extends Generator {
 		// Need to add whatever imports your generated class needs.
 		composer.addImport(classType.getQualifiedSourceName());
 		composer.addImport("com.google.gwt.i18n.client.Dictionary");
+		composer.addImport("java.util.HashMap");
 
 		PrintWriter printWriter = context.tryCreate(logger, packageName,
 				simpleName);

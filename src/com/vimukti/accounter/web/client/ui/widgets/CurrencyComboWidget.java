@@ -24,7 +24,7 @@ public class CurrencyComboWidget extends DynamicForm {
 		this.currencies = currencies;
 		this.baseCurrency = baseCurrency;
 
-		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
+		currencyCombo = new CurrencyCombo(Accounter.messages().currency());
 		currencyCombo.initCombo(currencies);
 
 		if (baseCurrency != null) {

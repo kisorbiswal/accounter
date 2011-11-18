@@ -1601,7 +1601,6 @@ input.date-field-textbox{
 }
 .value_lable{
 	font-size: 15px;
-    font-weight: bold;
 }
 .local_message_panel{
 	padding: 5px;
@@ -1609,12 +1608,11 @@ input.date-field-textbox{
 }
 .add_new_message_box{
 	  height: 30px !important;
-   	  width: 500px !important;
+   	  width: 98% !important;
    	  border: 1px solid #AAAAAA;
    	  border-radius:3px 3px 3px 3px;
 }
 .message_label{
-	font-weight: bold;
 	width: 100%;
 }
 .votes_panel{
@@ -1630,12 +1628,12 @@ input.date-field-textbox{
 .message_panel{
  	background: none repeat scroll 0 0 #F0F0F0;
     border: 1px solid gray;
-    margin: 12px;
+    margin: 4px;
     padding: 10px;
     width: 97%;
 }
 .message-panel-parent{
-	width: 100%;
+	width: 102%;
 }
 .up_label, .down_label{
 	font-size: 17px;
@@ -1662,4 +1660,16 @@ input.date-field-textbox{
 .approve-img {
 	vertical-align: middle !important;
 	width: 1%;	
+}
+.user_activity_log tr td,.user_activity_log tr th{
+   padding: 2px;	
+}
+.translation_note{
+	margin:10px;
+	padding: 5px;
+	background-color: white;
+	border: 1px solid gray;
+}
+.translation_note_label {
+	color: red;
 }

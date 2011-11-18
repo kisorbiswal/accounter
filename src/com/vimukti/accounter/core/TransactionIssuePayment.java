@@ -312,6 +312,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
+		IssuePayment issuePayment = (IssuePayment) this.transaction;
 
 		if (this.id == 0l) {
 
@@ -327,12 +328,15 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of Customer Refund as Issued
 				this.customerRefund
 						.setStatus(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.customerRefund.setCheckNumber(issuePayment
+						.getCheckNumber());
 				session.saveOrUpdate(this.customerRefund);
 			} else if (this.getPayBill() != null) {
 
 				// Update the Status of Customer Refund as Issued
 				this.getPayBill().setStatus(
 						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.getPayBill().setCheckNumber(issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.getPayBill());
 			} else if (this.getPaySalesTax() != null) {
 
@@ -351,6 +355,8 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of Customer Refund as Issued
 				this.getCashPurchase().setStatus(
 						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.getCashPurchase().setCheckNumber(
+						issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.getCashPurchase());
 
 			} else if (this.getPayVAT() != null) {
@@ -371,6 +377,8 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of CustomerPrepayment as Issued
 				this.getCustomerPrepayment().setStatus(
 						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.getCustomerPrepayment().setCheckNumber(
+						issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.getCustomerPrepayment());
 			}
 

@@ -31,18 +31,18 @@ public class SalesByLocationDetailsServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", Global.get().constants().date(),
-				Global.get().constants().type(),
-				Global.get().constants().number(), Global.get().Account(),
-				Global.get().constants().prouductOrService(),
-				Global.get().constants().amount(),
-				Global.get().constants().balance() };
+		return new String[] { "", Global.get().messages().date(),
+				Global.get().messages().type(),
+				Global.get().messages().number(), Global.get().Account(),
+				Global.get().messages().prouductOrService(),
+				Global.get().messages().amount(),
+				Global.get().messages().balance() };
 	}
 
 	@Override
 	public String getTitle() {
 		if (!isLocation) {
-			return Accounter.constants().salesByClassDetails();
+			return Accounter.messages().salesByClassDetails();
 		}
 		return Accounter.messages().getSalesByLocationDetails(
 				Global.get().Location());
@@ -50,12 +50,12 @@ public class SalesByLocationDetailsServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Global.get().constants().date(),
-				Global.get().constants().type(),
-				Global.get().constants().number(), Global.get().Account(),
-				Global.get().constants().prouductOrService(),
-				Global.get().constants().amount(),
-				Global.get().constants().balance() };
+		return new String[] { "", Global.get().messages().date(),
+				Global.get().messages().type(),
+				Global.get().messages().number(), Global.get().Account(),
+				Global.get().messages().prouductOrService(),
+				Global.get().messages().amount(),
+				Global.get().messages().balance() };
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class SalesByLocationDetailsServerReport extends
 			}
 		} else if (sectionDepth == 2) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					constants.total() }, new int[] { 6 });
+					messages.total() }, new int[] { 6 });
 		}
 
 		// Go on recursive calling if we reached this place
@@ -106,7 +106,7 @@ public class SalesByLocationDetailsServerReport extends
 	}
 
 	private String getRecordSectionName(SalesByLocationDetails record) {
-		return record.getLocationName() == null ? getConstants().notSpecified()
+		return record.getLocationName() == null ? getMessages().notSpecified()
 				: record.getLocationName();
 
 	}

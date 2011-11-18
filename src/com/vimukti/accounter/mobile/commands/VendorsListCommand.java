@@ -30,8 +30,8 @@ public class VendorsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -41,7 +41,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(PayeeList value) {
-				return null;
+				return "update vendor " + value.getPayeeName();
 			}
 
 			@Override
@@ -51,7 +51,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -96,8 +96,8 @@ public class VendorsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});

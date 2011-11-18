@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private ScrollPanel pageDetailsPane;
-	private AccounterConstants constants = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 	private List<PreferencePage> preferencePages;
 	private List<HTML> optionLinks = new ArrayList<HTML>();
 
@@ -94,7 +94,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getAgningDetailsPage() {
 		PreferencePage agningDetailsPage = new PreferencePage(
-				constants.productAndServices());
+				messages.productAndServices());
 		AgeingAndSellingDetailsOption ageingAndSellingDetailsOption = new AgeingAndSellingDetailsOption();
 		ProductAndServicesOption productAndServicesOption = new ProductAndServicesOption();
 		BillableExpenseTrackingByCustomer billableExpenseTrackingByCustomer = new BillableExpenseTrackingByCustomer();
@@ -108,7 +108,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getCustomerAndVendorPage() {
 		PreferencePage customerAndVendorPage = new PreferencePage(
-				constants.vendorAndPurchases());
+				messages.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
 		TrackEstimatesOption estimatesOption = new TrackEstimatesOption();
@@ -125,14 +125,14 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getProductAndServicePage() {
 		PreferencePage productAndServicePage = new PreferencePage(
-				constants.productAndServices());
+				messages.productAndServices());
 
 		return productAndServicePage;
 	}
 
 	private PreferencePage getCatogiriesInfoPage() {
 		PreferencePage catogiriesInfoPage = new PreferencePage(Accounter
-				.constants().Categories());
+				.messages().Categories());
 		LocationTrackingOption locationTrackingOption = new LocationTrackingOption();
 		ClassTrackingOption classTrackingPage = new ClassTrackingOption();
 		catogiriesInfoPage.addPreferenceOption(locationTrackingOption);
@@ -142,7 +142,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getCompanyInfoPage() {
 		PreferencePage companyInfoPage = new PreferencePage(Accounter
-				.constants().company());
+				.messages().company());
 
 		// OrganisationTypeOption formOption = new OrganisationTypeOption();
 		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
@@ -168,7 +168,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getCompanyContactInfoPage() {
 		PreferencePage companyContactInfoPage = new PreferencePage(Accounter
-				.constants().comapnyInfo());
+				.messages().comapnyInfo());
 		CompanyNameOption name = new CompanyNameOption();
 		CompanyAddressOption address = new CompanyAddressOption();
 		CompanyEmailOption email = new CompanyEmailOption();
@@ -186,7 +186,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getTerminoligies() {
 		PreferencePage teriminalogyPreferencePage = new PreferencePage(
-				constants.accounterTerminologies());
+				messages.accounterTerminologies());
 		CustomerTerminologyOption productAndServicesOption = new CustomerTerminologyOption();
 		VendorTerninalogyOption terminalogyOption = new VendorTerninalogyOption();
 		AccountTerminalogyOption accountTerminalogyOption = new AccountTerminalogyOption();
@@ -240,8 +240,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.cancelButton = new CancelButton(this);
-		saveAndCloseButton.setText(constants.update());
-		cancelButton.setText(constants.close());
+		saveAndCloseButton.setText(messages.update());
+		cancelButton.setText(messages.close());
 		buttonBar.add(saveAndCloseButton);
 		buttonBar.add(cancelButton);
 		saveAndCloseButton.addClickHandler(new ClickHandler() {

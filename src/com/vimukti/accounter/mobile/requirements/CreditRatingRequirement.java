@@ -16,7 +16,7 @@ public abstract class CreditRatingRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().creditRating());
+		return getMessages().youDontHaveAny(getMessages().creditRating());
 	}
 
 	@Override
@@ -33,12 +33,12 @@ public abstract class CreditRatingRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().creditRating()));
+		list.add(getMessages().create(getMessages().creditRating()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().creditRating());
+		return getMessages().pleaseSelect(getMessages().creditRating());
 	}
 
 }

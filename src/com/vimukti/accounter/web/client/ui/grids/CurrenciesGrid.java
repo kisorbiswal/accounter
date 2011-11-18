@@ -100,8 +100,8 @@ public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().currencyCode(),
-				Accounter.constants().currencyName() };
+		return new String[] { Accounter.messages().currencyCode(),
+				Accounter.messages().currencyName() };
 	}
 
 	@Override

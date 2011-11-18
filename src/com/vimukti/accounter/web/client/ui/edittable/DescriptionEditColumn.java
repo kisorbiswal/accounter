@@ -18,7 +18,7 @@ public class DescriptionEditColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().description();
+		return Accounter.messages().description();
 	}
 
 	@Override

@@ -113,7 +113,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AmountField createBalanceText(ClientCurrency currency) {
 
-		AmountField balText = new AmountField(Accounter.constants().balance(),
+		AmountField balText = new AmountField(Accounter.messages().balance(),
 				this, currency);
 		// balText.setWidth("*");
 
@@ -125,7 +125,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
+		setMenuItems(button, Global.get().Accounts(), Accounter.messages()
 				.productOrServiceItem());
 		// FinanceApplication.constants().comment());
 
@@ -133,7 +133,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AmountField createAmountText(ClientCurrency currency) {
 
-		AmountField amtText = new AmountField(Accounter.constants().amount(),
+		AmountField amtText = new AmountField(Accounter.messages().amount(),
 				this, currency);
 		// amtText.setWidth("*");
 
@@ -149,7 +149,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants().tax(),
+		AmountField amountItem = new AmountField(Accounter.messages().tax(),
 				this, currency);
 		amountItem.setDisabled(true);
 
@@ -159,7 +159,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
+		AmountLabel amountItem = new AmountLabel(Accounter.messages().tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -173,7 +173,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public PayFromAccountsCombo createPayFromselectItem() {
 		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(Accounter
-				.constants().paymentFrom());
+				.messages().paymentFrom());
 		payFrmSelect.setHelpInformation(true);
 		payFrmSelect.setRequired(true);
 		// payFrmSelect.setWidth("*");
@@ -199,7 +199,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+		AddressCombo addressCombo = new AddressCombo(Accounter.messages()
 				.billTo(), false);
 
 		addressCombo.setHelpInformation(true);
@@ -279,7 +279,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.messages()
 				.tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
@@ -306,7 +306,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected AmountField createTransactionTotalNonEditableItem(
 			ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants().total(),
+		AmountField amountItem = new AmountField(Accounter.messages().total(),
 				this, currency);
 		amountItem.setDisabled(true);
 
@@ -355,7 +355,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			transactionItem.setTaxCode(getPreferences().getDefaultTaxCode());
 
 		} else if (menuItem
-				.equals(Accounter.constants().productOrServiceItem())) {
+				.equals(Accounter.messages().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getPreferences().isTrackTax()) {
 				transactionItem

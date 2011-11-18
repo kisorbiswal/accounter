@@ -35,6 +35,6 @@ public class WareHouseColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().wareHouse();
+		return Accounter.messages().wareHouse();
 	}
 }

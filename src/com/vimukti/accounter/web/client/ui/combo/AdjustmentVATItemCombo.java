@@ -104,7 +104,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newVATItem();
+		return messages.taxItem();
 	}
 
 	/*

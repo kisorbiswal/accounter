@@ -40,7 +40,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
-		super(Accounter.constants().cashDiscount(), Accounter.constants()
+		super(Accounter.messages().cashDiscount(), Accounter.messages()
 				.cashDiscountPleaseAddDetails());
 		this.callback = callback;
 		this.allAccounts = allAccounts;
@@ -50,14 +50,14 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public CashDiscountDialog() {
-		super(Accounter.constants().cashDiscount(), Accounter.constants()
+		super(Accounter.messages().cashDiscount(), Accounter.messages()
 				.cashDiscountPleaseAddDetails());
 		createControls();
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
 			ClientAccount account, ICurrencyProvider currencyProvider) {
-		super(Accounter.constants().cashDiscount(), Accounter.constants()
+		super(Accounter.messages().cashDiscount(), Accounter.messages()
 				.cashDiscountPleaseAddDetails());
 		this.currencyProvider = currencyProvider;
 		this.cashDiscountValue = currencyProvider.getAmountInBaseCurrency(discountValue);
@@ -105,7 +105,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 				});
 		discAccSelect.setRequired(true);
 
-		discAmtText = new AmountField(Accounter.constants().discountAmount(),
+		discAmtText = new AmountField(Accounter.messages().discountAmount(),
 				this,getBaseCurrency());
 		discAmtText.setAmount(currencyProvider
 				.getAmountInTransactionCurrency(cashDiscountValue));

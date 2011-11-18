@@ -33,7 +33,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
@@ -54,7 +54,6 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransac
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CreditCardExpenseView extends
@@ -64,7 +63,7 @@ public class CreditCardExpenseView extends
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
 	AmountField totText;
-	AccounterConstants accounterConstants = Accounter.constants();
+	AccounterMessages accounterConstants = Accounter.messages();
 	List<String> idPhoneNumberForContacts = new ArrayList<String>();
 	List<String> idNamesForContacts = new ArrayList<String>();
 
@@ -83,7 +82,7 @@ public class CreditCardExpenseView extends
 
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
-	protected TextAreaItem billToAreaItem;
+	// protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
 
 	private boolean locationTrackingEnabled;
@@ -177,15 +176,15 @@ public class CreditCardExpenseView extends
 				});
 
 		String listString[] = new String[] {
-				Accounter.constants().cash(),
+				Accounter.messages().cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()),
-				Accounter.constants().creditCard(),
-				Accounter.constants().directDebit(),
-				Accounter.constants().masterCard(),
-				Accounter.constants().onlineBanking(),
-				Accounter.constants().standingOrder(),
-				Accounter.constants().switchMaestro() };
+						.messages().check()),
+				Accounter.messages().creditCard(),
+				Accounter.messages().directDebit(),
+				Accounter.messages().masterCard(),
+				Accounter.messages().onlineBanking(),
+				Accounter.messages().standingOrder(),
+				Accounter.messages().switchMaestro() };
 
 		if (isInViewMode()) {
 			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transaction;
@@ -202,9 +201,9 @@ public class CreditCardExpenseView extends
 		// verticalPanel.add(vendorForm);
 		// verticalPanel.setSpacing(10);
 
-		titlelabel = new Label(Accounter.constants().creditCardCharge());
+		titlelabel = new Label(Accounter.messages().creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(Accounter.constants().labelTitle());
+		titlelabel.addStyleName(Accounter.messages().labelTitle());
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -227,7 +226,7 @@ public class CreditCardExpenseView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		contactCombo = new ContactCombo(Accounter.constants().contact(), true);
+		contactCombo = new ContactCombo(Accounter.messages().contact(), true);
 		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
@@ -276,29 +275,30 @@ public class CreditCardExpenseView extends
 		// contactNameSelect.setWidth(100);
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
-		billToAreaItem.setWidth(100);
-		billToAreaItem.setDisabled(true);
+
+		// billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
+		// billToAreaItem.setWidth(100);
+		// billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
-		phoneSelect = new TextItem(Accounter.constants().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(Accounter.messages().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(Accounter.constants().vendor());
+		vendorForm = UIUtils.form(Accounter.messages().vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
-				billToAreaItem);
+		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect
+		/* billToAreaItem */);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
-		payMethSelect = new SelectCombo(Accounter.constants().paymentMethod());
+		payMethSelect = new SelectCombo(Accounter.messages().paymentMethod());
 		payMethSelect.setRequired(true);
 		payMethSelect.setWidth(100);
 		List<String> paymentMthds = new ArrayList<String>();
-		paymentMthds.add(Accounter.constants().creditCard());
+		paymentMthds.add(Accounter.messages().creditCard());
 		payMethSelect.initCombo(paymentMthds);
 		payMethSelect.setDefaultToFirstOption(true);
 		payMethSelect.setDisabled(true);
@@ -309,24 +309,24 @@ public class CreditCardExpenseView extends
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setWidth(100);
 		payFrmSelect.setPopupWidth("510px");
-		payFrmSelect.setTitle(Accounter.constants().payFrom());
+		payFrmSelect.setTitle(Accounter.messages().payFrom());
 		payFromAccount = 0;
 		payFrmSelect.setColSpan(0);
 		// formItems.add(payFrmSelect)
-		cheqNoText = new TextItem(Accounter.constants().chequeNo());
+		cheqNoText = new TextItem(Accounter.messages().chequeNo());
 
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
 		// formItems.add(cheqNoText);
 
-		delivDate = new DateField(Accounter.constants().deliveryDate());
+		delivDate = new DateField(Accounter.messages().deliveryDate());
 		delivDate.setHelpInformation(true);
 		delivDate.setColSpan(1);
 		delivDate.setValue(new ClientFinanceDate());
 		// formItems.add(delivDate);
 
-		termsForm = UIUtils.form(Accounter.constants().terms());
+		termsForm = UIUtils.form(Accounter.messages().terms());
 		termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
@@ -339,7 +339,7 @@ public class CreditCardExpenseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		netAmount = new AmountLabel(Accounter.constants().netAmount());
+		netAmount = new AmountLabel(Accounter.messages().netAmount());
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
@@ -467,10 +467,10 @@ public class CreditCardExpenseView extends
 		if (isTrackTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalBaseCurrencyText);
-			
+
 			if (isMultiCurrencyEnabled())
 				totalForm.setFields(transactionTotalTransactionCurrencyText);
-			
+
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -490,10 +490,10 @@ public class CreditCardExpenseView extends
 
 		} else {
 			totForm.setFields(transactionTotalBaseCurrencyText);
-			
+
 			if (isMultiCurrencyEnabled())
 				totForm.setFields(transactionTotalTransactionCurrencyText);
-			
+
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
@@ -591,7 +591,7 @@ public class CreditCardExpenseView extends
 			result.addError(
 					payFrmSelect,
 					Accounter.messages().pleaseSelect(
-							Accounter.constants().payFrom()));
+							Accounter.messages().payFrom()));
 		} else {
 			ClientAccount bankAccount = payFrmSelect.getSelectedValue();
 			// check if the currency of accounts is valid or not
@@ -605,7 +605,7 @@ public class CreditCardExpenseView extends
 				}
 			}
 		}
-		
+
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
@@ -816,7 +816,7 @@ public class CreditCardExpenseView extends
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
 		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.constants().check());
+				.messages().check());
 		payFromAccount = 0;
 		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
@@ -961,8 +961,8 @@ public class CreditCardExpenseView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		// payMethSelect.setDisabled(isEdit);
-		if (paymentMethod.equals(Accounter.constants().check())
-				|| paymentMethod.equals(Accounter.constants().cheque())) {
+		if (paymentMethod.equals(Accounter.messages().check())
+				|| paymentMethod.equals(Accounter.messages().cheque())) {
 			cheqNoText.setDisabled(isInViewMode());
 		} else {
 			cheqNoText.setDisabled(!isInViewMode());
@@ -990,7 +990,7 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
+		setMenuItems(button, Global.get().Accounts(), Accounter.messages()
 				.productOrServiceItem());
 	}
 
@@ -1011,7 +1011,7 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().creditCardExpense();
+		return Accounter.messages().creditCardExpense();
 	}
 
 	@Override
@@ -1052,21 +1052,19 @@ public class CreditCardExpenseView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getPreferences().isTrackPaidTax()) {
-			transactionTotalBaseCurrencyText
-					.setAmount(grandTotal);
-			
+			transactionTotalBaseCurrencyText.setAmount(grandTotal);
+
 			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
 			transactionTotalTransactionCurrencyText
-			.setAmount(getAmountInTransactionCurrency(grandTotal));
-			
+					.setAmount(getAmountInTransactionCurrency(grandTotal));
+
 		} else {
-			transactionTotalBaseCurrencyText
-					.setAmount(grandTotal);
+			transactionTotalBaseCurrencyText.setAmount(grandTotal);
 			transactionTotalTransactionCurrencyText
-			.setAmount(getAmountInTransactionCurrency(grandTotal));
+					.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 
 	}
@@ -1170,8 +1168,8 @@ public class CreditCardExpenseView extends
 			transactionTotalTransactionCurrencyText.hide();
 		} else {
 			transactionTotalTransactionCurrencyText.show();
-			transactionTotalTransactionCurrencyText.setTitle(Accounter.messages()
-					.currencyTotal(
+			transactionTotalTransactionCurrencyText.setTitle(Accounter
+					.messages().currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
 		}

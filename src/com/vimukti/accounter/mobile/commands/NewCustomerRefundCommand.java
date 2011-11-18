@@ -25,7 +25,6 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -34,23 +33,68 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
+	ClientCustomerRefund customerRefund;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Customer Refund to update.");
+				return "Customer Refunds List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientCustomerRefund transactionByNum = (ClientCustomerRefund) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CUSTOMERREFUND);
+			if (transactionByNum == null) {
+				addFirstMessage(context, "Select a Customer Refund to update.");
+				return "Customer Refunds List " + string;
+			}
+			customerRefund = transactionByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			customerRefund = new ClientCustomerRefund();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(DATE).setValue(customerRefund.getDate());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(customerRefund.getPayTo(),
+						AccounterCoreType.CUSTOMER));
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(customerRefund.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(PAYMENT_METHOD).setValue(customerRefund.getPaymentMethod());
+		get(AMOUNT).setValue(customerRefund.getTotal());
+		get(TO_BE_PRINTED).setValue(customerRefund.getIsToBePrinted());
+		get(CHEQUE_NO).setValue(customerRefund.getCheckNumber());
+		get(CURRENCY_FACTOR).setValue(customerRefund.getCurrencyFactor());
+		get(MEMO).setValue(customerRefund.getMemo());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(
-				getMessages().customerRefund(Global.get().Customer()));
+		return customerRefund.getID() == 0 ? getMessages().create(
+				getMessages().customerRefund(Global.get().Customer()))
+				: "Update Customer Refund command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-
-		return getMessages().readyToCreate(
-				getMessages().customerRefund(Global.get().Customer()));
+		return customerRefund.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().customerRefund(Global.get().Customer()))
+				: "Customer Refund is ready to update with following details";
 	}
 
 	@Override
@@ -59,8 +103,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CUSTOMER_REFUNDS,
-						context.getCompany()));
+						ClientTransaction.TYPE_CUSTOMER_REFUNDS, context
+								.getCompany()));
 		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
@@ -68,14 +112,14 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-
-		return getMessages().createSuccessfully(
-				getMessages().customerRefund(Global.get().Customer()));
+		return customerRefund.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().customerRefund(Global.get().Customer()))
+				: getMessages().updateSuccessfully(
+						getMessages().customerRefund(Global.get().Customer()));
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -83,7 +127,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
-				getConstants().payTo()), getConstants().payTo(), false, true,
+				getMessages().payTo()), getMessages().payTo(), false, true,
 				null) {
 
 			@Override
@@ -94,7 +138,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -114,7 +158,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -142,17 +186,17 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().billNo()), getConstants().billNo(), true, true));
+				getMessages().billNo()), getMessages().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().transferTo()),
-				getConstants().transferTo(), false, false, null) {
+				.pleaseSelectPayFromAccount(getMessages().transferTo()),
+				getMessages().transferTo(), false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -178,7 +222,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().bankAccounts());
+						getMessages().bankAccount(Global.get().Account()));
 			}
 
 			@Override
@@ -187,22 +231,21 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -215,12 +258,12 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				 * paymentMethods.values());
 				 */
 				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().creditCard(),
-						getConstants().check(), getConstants().directDebit(),
-						getConstants().masterCard(),
-						getConstants().onlineBanking(),
-						getConstants().standingOrder(),
-						getConstants().switchMaestro() };
+						getMessages().cash(), getMessages().creditCard(),
+						getMessages().check(), getMessages().directDebit(),
+						getMessages().masterCard(),
+						getMessages().onlineBanking(),
+						getMessages().standingOrder(),
+						getMessages().switchMaestro() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
@@ -228,17 +271,17 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), false, true));
+				getMessages().amount()), getMessages().amount(), false, true));
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().toBePrinted();
+				return getMessages().toBePrinted();
 			}
 
 			@Override
@@ -247,7 +290,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 
 			@Override
@@ -257,7 +300,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().checkNo()), getConstants().checkNo(), true, true) {
+				getMessages().checkNo()), getMessages().checkNo(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -269,13 +312,11 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientCustomerRefund customerRefund = new ClientCustomerRefund();
 		ClientFinanceDate date = get(DATE).getValue();
 		Customer clientcustomer = get(CUSTOMER).getValue();
 		Account account = get(PAY_FROM).getValue();
@@ -320,15 +361,12 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
 			enteredBalance = 0D;
 		}
-		ClientAccount depositIn = (ClientAccount) CommandUtils
-				.getClientObjectById(refund.getPayFrom(),
-						AccounterCoreType.ACCOUNT, getCompanyId());
-//		if (depositIn.isIncrease()) {
-//			refund.setEndingBalance(depositIn.getTotalBalance()
-//					- enteredBalance);
-//		} else {
-//			refund.setEndingBalance(depositIn.getTotalBalance()
-//					+ enteredBalance);
-//		}
+			// if (depositIn.isIncrease()) {
+		// refund.setEndingBalance(depositIn.getTotalBalance()
+		// - enteredBalance);
+		// } else {
+		// refund.setEndingBalance(depositIn.getTotalBalance()
+		// + enteredBalance);
+		// }
 	}
 }

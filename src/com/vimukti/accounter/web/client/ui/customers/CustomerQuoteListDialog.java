@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -26,24 +25,23 @@ public class CustomerQuoteListDialog extends
 	public DialogGrid<EstimatesAndSalesOrdersList> grid;
 	private InvoiceView invoiceView;
 	private List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder;
-	private static AccounterConstants customerConstants = Accounter.constants();
 
 	public ClientCustomer preCustomer;
 	private ClientTAXCode taxCode;
 
 	public CustomerQuoteListDialog(InvoiceView parentView,
 			List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder) {
-		super(customerConstants.quotesList(), "");
+		super(messages.quotesList(), "");
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
 		if (getPreferences().isSalesOrderEnabled()
 				&& getPreferences().isDoyouwantEstimates()) {
-			setText(customerConstants.quoteAndSalesOrderList());
+			setText(messages.quoteAndSalesOrderList());
 		} else if (getPreferences().isDoyouwantEstimates()) {
-			setText(customerConstants.quoteList());
+			setText(messages.quoteList());
 
 		} else if (getPreferences().isSalesOrderEnabled()) {
-			setText(customerConstants.salesOrderList());
+			setText(messages.salesOrderList());
 		}
 		createControl();
 		setWidth("600px");
@@ -60,19 +58,19 @@ public class CustomerQuoteListDialog extends
 		Label infoLabel = null;
 		if (getPreferences().isSalesOrderEnabled()
 				&& getPreferences().isDoyouwantEstimates()) {
-			infoLabel = new Label(customerConstants.selectQuoteOrSalesOrder());
+			infoLabel = new Label(messages.selectQuoteOrSalesOrder());
 		} else if (getPreferences().isDoyouwantEstimates()) {
-			infoLabel = new Label(customerConstants.selectQuote());
+			infoLabel = new Label(messages.selectQuote());
 		} else if (getPreferences().isSalesOrderEnabled()) {
-			infoLabel = new Label(customerConstants.selectSalesOrder());
+			infoLabel = new Label(messages.selectSalesOrder());
 		}
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid<EstimatesAndSalesOrdersList>(true);
-		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(), Accounter.messages().payeeName(
-						Global.get().Customer()), customerConstants.total(),
-				customerConstants.remainingTotal());
+		grid.addColumns(messages.date(), messages.no(),
+				messages.type(), Accounter.messages().payeeName(
+						Global.get().Customer()), messages.total(),
+				messages.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);
 		grid.init();
@@ -106,7 +104,7 @@ public class CustomerQuoteListDialog extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(customerConstants.errorLoadingSalesOrder());
+				Accounter.showError(messages.errorLoadingSalesOrder());
 
 			}
 
@@ -126,7 +124,7 @@ public class CustomerQuoteListDialog extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(customerConstants.errorLoadingQuote());
+				Accounter.showError(messages.errorLoadingQuote());
 
 			}
 
@@ -161,9 +159,9 @@ public class CustomerQuoteListDialog extends
 				return estimate.getTransactionNumber();
 			case 2:
 				if (estimate.getType() == ClientTransaction.TYPE_ESTIMATE) {
-					return customerConstants.quote();
+					return messages.quote();
 				} else {
-					return customerConstants.salesOrder();
+					return messages.salesOrder();
 				}
 			case 3:
 				return estimate.getCustomerName();

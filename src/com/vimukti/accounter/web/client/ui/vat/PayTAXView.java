@@ -3,11 +3,11 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -20,9 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -31,12 +29,10 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayTAXGrid;
@@ -55,21 +51,19 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private DynamicForm balForm;
 	protected ClientAccount selectedPayFromAccount;
 	protected double initialEndingBalance;
-	protected ClientTAXAgency selectedVATAgency;
+	protected ClientTAXAgency selectedTAXAgency;
 	private VerticalPanel gridLayout;
 	private TransactionPayTAXGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
 	protected List<ClientPayTAXEntries> entries;
-	private ClientTAXAgency selectedTaxAgency;
 	private double endingBalance;
 	private ArrayList<ClientPayTAXEntries> filterList;
 	private ArrayList<ClientPayTAXEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
-	private DynamicForm fileterForm;
 	private TextItem transNumber;
-	private AccounterConstants companyConstants = Accounter.constants();
-	AccounterConstants accounterConstants = Accounter.constants();
+
+	List<ClientTransactionPayTAX> records = new ArrayList<ClientTransactionPayTAX>();
 
 	public PayTAXView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
@@ -78,22 +72,22 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
-
+		currencyWidget = createCurrencyFactorWidget();
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .transaction()));
 
-		Label lab = new Label(Accounter.constants().payTax());
+		Label lab = new Label(Accounter.messages().payTax());
 		lab.removeStyleName("gwt-Label");
-		lab.setStyleName(Accounter.constants().labelTitle());
+		lab.setStyleName(Accounter.messages().labelTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(Accounter.constants().no());
+		transNumber.setTitle(Accounter.messages().no());
 		transNumber.setToolTip(Accounter.messages().giveNoTo(
 				this.getAction().getViewName()));
 
-		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
+		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
 		payFromAccCombo.setHelpInformation(true);
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
@@ -103,10 +97,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedPayFromAccount = selectItem;
-						amountText.setCurrency(getCompany().getCurrency(
-								selectItem.getCurrency()));
-						endingBalanceText.setCurrency(getCompany().getCurrency(
-								selectItem.getCurrency()));
+						selectedAccount(selectItem);
+						ClientCurrency currency = getCurrency(selectItem
+								.getCurrency());
+						amountText.setCurrency(currency);
+						endingBalanceText.setCurrency(currency);
 						// initialEndingBalance = selectedPayFromAccount
 						// .getTotalBalance() != 0 ? selectedPayFromAccount
 						// .getTotalBalance()
@@ -118,6 +113,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 								: 0D;
 
 						calculateEndingBalance();
+
 					}
 
 				});
@@ -128,10 +124,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
 
-		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
+		billsDue = new DateField(messages.returnsDueOnOrBefore());
 
 		billsDue.setHelpInformation(true);
-		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
+		billsDue.setTitle(messages.returnsDueOnOrBefore());
 		billsDue.setDisabled(isInViewMode());
 
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -145,22 +141,18 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			}
 		});
 
-		// vatAgencyCombo = new VATAgencyCombo("Filter By "
-		// + companyConstants.vatAgency());
-		// vatAgencyCombo.setDisabled(isEdit);
-		// vatAgencyCombo
-		// .addSelectionChangeHandler(new
-		// IAccounterComboSelectionChangeHandler<ClientVATAgency>() {
-		//
-		// public void selectedComboBoxItem(ClientVATAgency selectItem) {
-		//
-		// selectedVATAgency = selectItem;
-		// if (selectedVATAgency != null)
-		// filterlistbyVATAgency(selectedVATAgency);
-		//
-		// }
-		//
-		// });
+
+		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency(), false);
+		taxAgencyCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientTAXAgency selectItem) {
+						selectedTAXAgency = selectItem;
+						filterlistbyVATAgency(selectItem);
+
+					}
+				});
 
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
@@ -173,28 +165,28 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
-		mainform = UIUtils.form(companyConstants.filter());
-		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue);
+		mainform = UIUtils.form(messages.filter());
+		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue,
+				taxAgencyCombo);
 		// mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(companyConstants.amount(), this,
-				getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(companyConstants.bankBalance(),
-				this, getBaseCurrency());
+		endingBalanceText = new AmountField(messages.bankBalance(), this,
+				getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
 
 		balForm = new DynamicForm();
-		balForm = UIUtils.form(companyConstants.balances());
+		balForm = UIUtils.form(messages.balances());
 		balForm.setFields(amountText, endingBalanceText);
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
@@ -205,13 +197,19 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 
 		VerticalPanel leftVLay = new VerticalPanel();
+
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
-		// leftVLay.add(fileterForm);
 
 		VerticalPanel rightVlay = new VerticalPanel();
 		rightVlay.add(balForm);
-
+		rightVlay.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
+		if (isMultiCurrencyEnabled()) {
+			rightVlay.add(currencyWidget);
+			rightVlay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
@@ -222,7 +220,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		topHLay.setCellWidth(rightVlay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
-		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
+		Label lab1 = new Label("" + messages.billsToPay() + "");
 
 		initListGrid();
 
@@ -250,6 +248,24 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	}
 
+	/**
+	 * 
+	 * @param selectItem
+	 */
+	private void selectedAccount(ClientAccount selectItem) {
+		ClientCurrency accountAccount = getCurrency(selectItem.getCurrency());
+		if (accountAccount != null && accountAccount.getID() != 0) {
+			currencyWidget.setSelectedCurrency(accountAccount);
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(currency);
+			setCurrencyFactor(1.0);
+		}
+	}
+
 	private void settabIndexes() {
 
 		payFromAccCombo.setTabIndex(1);
@@ -259,9 +275,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		transNumber.setTabIndex(5);
 		amountText.setTabIndex(6);
 		endingBalanceText.setTabIndex(7);
-		saveAndCloseButton.setTabIndex(8);
-		saveAndNewButton.setTabIndex(9);
-		cancelButton.setTabIndex(10);
+		currencyWidget.setTabIndex(8);
+		saveAndCloseButton.setTabIndex(9);
+		saveAndNewButton.setTabIndex(10);
+		cancelButton.setTabIndex(11);
 	}
 
 	protected void filterGrid() {
@@ -288,7 +305,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		loadData(filterList);
 		int size = grid.getRecords().size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 	}
 
 	private void calculateEndingBalance() {
@@ -307,15 +324,20 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	protected void filterlistbyVATAgency(ClientTAXAgency selectedVATAgency) {
+
+		grid.removeAllRecords();
 		List<ClientTransactionPayTAX> filterRecords = new ArrayList<ClientTransactionPayTAX>();
 		String selectedagency = selectedVATAgency.getName();
-		for (ClientTransactionPayTAX payVAT : grid.getRecords()) {
-			String taxAgencyname = getCompany().getTaxAgency(
-					payVAT.getTaxAgency()).getName();
-			if (taxAgencyname.equals(selectedagency))
-				filterRecords.add(payVAT);
+		if (records != null) {
+			for (ClientTransactionPayTAX payVAT : records) {
+				String taxAgencyname = getCompany().getTaxAgency(
+						payVAT.getTaxAgency()).getName();
+				if (taxAgencyname.equals(selectedagency))
+					filterRecords.add(payVAT);
+			}
+
+			grid.setRecords(filterRecords);
 		}
-		grid.setRecords(filterRecords);
 	}
 
 	// initializes the grid.
@@ -323,7 +345,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TransactionPayTAXGrid(!isInViewMode(), true);
+		grid = new TransactionPayTAXGrid(true, true);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
@@ -350,15 +372,37 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			initPayFromAccounts();
 			return;
 		}
+
+		if (isMultiCurrencyEnabled()) {
+			if (transaction.getCurrency() > 0) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+			} else {
+				this.currency = getCompany().getPreferences()
+						.getPrimaryCurrency();
+			}
+			this.currencyFactor = transaction.getCurrencyFactor();
+			if (this.currency != null) {
+				currencyWidget.setSelectedCurrency(this.currency);
+			}
+			currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		initAccounterClass();
 		selectedPayFromAccount = getCompany().getAccount(
 				transaction.getPayFrom());
-		payFromAccCombo.setComboItem(selectedPayFromAccount);
-		selectedVATAgency = getCompany().getTaxAgency(
-				transaction.getTaxAgency());
-		if (selectedVATAgency != null)
-			taxAgencyCombo.setComboItem(selectedVATAgency);
 
+		payFromAccCombo.setComboItem(selectedPayFromAccount);
+		selectedTAXAgency = getCompany().getTaxAgency(
+				transaction.getTaxAgency());
+		if (selectedTAXAgency != null)
+			taxAgencyCombo.setComboItem(selectedTAXAgency);
+
+		if (isInViewMode()) {
+			taxAgencyCombo.setDisabled(true);
+			grid.setDisabled(true);
+
+		}
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
@@ -367,18 +411,25 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		endingBalanceText.setAmount(getAmountInTransactionCurrency(transaction
 				.getEndingBalance()));
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-		amountText
-				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
-		List<ClientTransactionPayTAX> list = transaction
-				.getTransactionPaySalesTax();
+		amountText.setAmount(getAmountInTransactionCurrency(transaction
+				.getTotal()));
+		if (selectedPayFromAccount != null) {
+			amountText.setCurrency(getCurrency(selectedPayFromAccount
+					.getCurrency()));
+			endingBalanceText.setCurrency(getCurrency(selectedPayFromAccount
+					.getCurrency()));
+		}
+		List<ClientTransactionPayTAX> list = transaction.getTransactionPayTax();
 		int count = 0;
 		for (ClientTransactionPayTAX record : list) {
 			if (record != null) {
 				grid.addData(record);
 				grid.selectRow(count);
+				records.add(record);
 				count++;
 			}
 		}
+
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(transaction.getTotal()), 2);
 
@@ -397,15 +448,15 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	private void fillGrid() {
-		grid.addLoadingImagePanel();
+		// grid.addLoadingImagePanel();
 		rpcUtilService
 				.getPayVATEntries(new AccounterAsyncCallback<ArrayList<ClientPayTAXEntries>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.failedtogettheTransactionPayVATList());
-						grid.addEmptyMessage(Accounter.constants()
+						grid.addEmptyMessage(Accounter.messages()
 								.noFiledTaxEntriesToPay());
 
 					}
@@ -420,7 +471,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 						entries = result;
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
-							grid.addEmptyMessage(Accounter.constants()
+							grid.addEmptyMessage(Accounter.messages()
 									.noFiledTaxEntriesToPay());
 						} else {
 
@@ -438,7 +489,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	// fills the list grid with data.
 	protected void loadData(List<ClientPayTAXEntries> result) {
 
-		List<ClientTransactionPayTAX> records = new ArrayList<ClientTransactionPayTAX>();
+		records = new ArrayList<ClientTransactionPayTAX>();
 		for (ClientPayTAXEntries entry : result) {
 			ClientTransactionPayTAX clientEntry = new ClientTransactionPayTAX();
 
@@ -449,12 +500,13 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			// clientEntry
 			// .setTaxDue(total - balance > 0.0 ? total - balance : 0.0);
 			clientEntry.setTaxDue(balance);
-
+			clientEntry.setFiledDate(entry.getTaxReturnDate());
 			records.add(clientEntry);
 		}
 		// setFilterByDateList(records);
 		// if (selectedTaxAgency == null)
-		grid.setRecords(records);
+		// grid.setRecords(records);
+
 		// else
 		// filterlistbyTaxAgency(selectedTaxAgency);
 
@@ -466,7 +518,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				new AccounterAsyncCallback<String>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.failedToGetTransactionNumber());
 					}
 
@@ -500,26 +552,25 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 		result.add(mainform.validate());
 
 		if (grid == null || grid.getRecords().isEmpty()) {
-			result.addError(grid, Accounter.constants()
+			result.addError(grid, Accounter.messages()
 					.youdonthaveanyfiledVATentriestoselect());
 		} else {
 			result.add(grid.validateGrid());
 		}
-		ClientAccount bankAccount = payFromAccCombo.getSelectedValue();
-		// check if the currency of accounts is valid or not
-		if (bankAccount != null) {
-			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
-				result.addError(payFromAccCombo, accounterConstants
-						.selectProperBankAccount());
-			}
-		}
+		// ClientAccount bankAccount = payFromAccCombo.getSelectedValue();
+		// // check if the currency of accounts is valid or not
+		// if (bankAccount != null) {
+		// ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+		// if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+		// result.addError(payFromAccCombo, accounterConstants
+		// .selectProperBankAccount());
+		// }
+		// }
 		return result;
 	}
 
@@ -543,15 +594,18 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		transaction.setPaymentMethod(paymentMethod);
 
-		if (billsDue.getValue() != null)
+		if (billsDue.getValue() != null) {
 			transaction.setBillsDueOnOrBefore((billsDue.getValue()).getDate());
-
-		if (selectedTaxAgency != null)
-			transaction.setTaxAgency(selectedTaxAgency.getID());
-
+		}
+		if (selectedTAXAgency != null) {
+			transaction.setTaxAgency(selectedTAXAgency.getID());
+		}
 		transaction.setTotal(totalAmount);
 		transaction.setEndingBalance(endingBalance);
-
+		if (currency != null) {
+			transaction.setCurrency(currency.getID());
+		}
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		transaction.setTransactionPayTax(getTransactionPayVATList());
 	}
 
@@ -628,61 +682,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	public void onEdit() {
-
-		if (transaction.canEdit) {
-			Accounter.showWarning(AccounterWarningType.PAYTAX_EDITING,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onYesClick() {
-							voidTransaction();
-							return true;
-						}
-
-						private void voidTransaction() {
-							AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
-
-								@Override
-								public void onException(
-										AccounterException caught) {
-									Accounter.showError(Accounter.constants()
-											.failedtovoidPayVAT());
-
-								}
-
-								@Override
-								public void onResultSuccess(Boolean result) {
-									if (result) {
-										enableFormItems();
-									} else
-
-										onFailure(new Exception());
-								}
-
-							};
-							if (transaction != null) {
-								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(transaction
-												.getType());
-								rpcDoSerivce.voidTransaction(type,
-										transaction.id, callback);
-							}
-
-						}
-
-						@Override
-						public boolean onNoClick() {
-
-							return true;
-						}
-
-						@Override
-						public boolean onCancelClick() {
-
-							return true;
-						}
-					});
-		}
+		super.onEdit();
+		paymentMethodCombo.setDisabled(false);
+		billsDue.setDisabled(false);
+		payFromAccCombo.setDisabled(false);
+		grid.setCanEdit(true);
+		grid.setDisabled(false);
 
 	}
 
@@ -695,7 +700,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		payFromAccCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
-		fillGrid();
+		// fillGrid();
 		transaction = null;
 
 	}
@@ -713,7 +718,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().payTax();
+		return Accounter.messages().payTax();
 	}
 
 	@Override
@@ -729,7 +734,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	@Override
 	public void updateAmountsFromGUI() {
-		// TODO Auto-generated method stub
 
 	}
 

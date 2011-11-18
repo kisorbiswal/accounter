@@ -92,22 +92,22 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		trackCheckbox.setText(constants.chargeOrTrackTax());
-		trackCheckBoxDescLabel.setText(constants.descChrageTrackTax());
+		trackCheckbox.setText(messages.chargeOrTrackTax());
+		trackCheckBoxDescLabel.setText(messages.descChrageTrackTax());
 
-		taxItemTransactionLabel.setText(constants.taxtItemTransaction());
+		taxItemTransactionLabel.setText(messages.taxtItemTransaction());
 
-		onepeTransactionRadioButton.setText(constants.onepertransaction());
-		oneperTransactionLabel.setText(constants.oneperDescription());
+		onepeTransactionRadioButton.setText(messages.onepertransaction());
+		oneperTransactionLabel.setText(messages.oneperDescription());
 
-		oneperdetaillineRadioButton.setText(constants.oneperdetailline());
-		oneperdetaillineLabel.setText(constants.oneperDetailDescription());
+		oneperdetaillineRadioButton.setText(messages.oneperdetailline());
+		oneperdetaillineLabel.setText(messages.oneperDetailDescription());
 
-		enableTaxCheckbox.setText(constants.enableTracking());
-		enableTaxLabel.setText(constants.enableTrackingDescription());
+		enableTaxCheckbox.setText(messages.enableTracking());
+		enableTaxLabel.setText(messages.enableTrackingDescription());
 
-		oneperdetaillineRadioButton.setName(constants.taxCode());
-		onepeTransactionRadioButton.setName(constants.taxCode());
+		oneperdetaillineRadioButton.setName(messages.taxCode());
+		onepeTransactionRadioButton.setName(messages.taxCode());
 
 		trackCheckBoxDescLabel.setStyleName("organisation_comment");
 		oneperTransactionLabel.setStyleName("organisation_comment");
@@ -122,20 +122,21 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 			}
 		});
-		enableTaxTdsCheckbox.setText(constants.enableTDS());
+		enableTaxTdsCheckbox.setText(messages.enableTDS());
 		enableTDSdecs.setText(messages.enbleTDSdescription());
 		enableTDSdecs.setStyleName("organisation_comment");
 		enableTaxTdsCheckbox.setVisible(getCompany().getCountryPreferences()
 				.isTDSAvailable());
 		enableTDSdecs.setVisible(getCompany().getCountryPreferences()
 				.isTDSAvailable());
-
+		enableTaxTdsCheckbox.setVisible(false);
+		enableTDSdecs.setVisible(false);
 	}
 
 	@Override
 	public String getTitle() {
 
-		return constants.customerAndvendorSettings();
+		return messages.customerAndvendorSettings();
 	}
 
 	@Override
@@ -144,15 +145,15 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		getCompanyPreferences().setTaxPerDetailLine(
 				oneperdetaillineRadioButton.getValue());
 		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
-		if (getCompany().getCountryPreferences().isTDSAvailable()) {
-			getCompanyPreferences().setTDSEnabled(
-					enableTaxTdsCheckbox.getValue());
-		}
+		// if (getCompany().getCountryPreferences().isTDSAvailable()) {
+		// getCompanyPreferences().setTDSEnabled(
+		// enableTaxTdsCheckbox.getValue());
+		// }
 	}
 
 	@Override
 	public String getAnchor() {
-		return constants.customerAndvendorSettings();
+		return messages.customerAndvendorSettings();
 	}
 
 }

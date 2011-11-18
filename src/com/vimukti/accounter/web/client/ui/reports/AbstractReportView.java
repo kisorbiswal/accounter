@@ -85,7 +85,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	private int fitHeight;
 
 	public AbstractReportView() {
-		emptyMsg = Accounter.constants().noRecordsToShow();
+		emptyMsg = Accounter.messages().noRecordsToShow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
@@ -103,7 +103,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			grid.removeLoadingImage();
 			return;
 		}
-		Accounter.showMessage(Global.get().constants().sessionExpired());
+		Accounter.showMessage(Global.get().messages().sessionExpired());
 	}
 
 	/**
@@ -404,7 +404,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		if (data != null) {
 			String dateRange = null;
 			dateRange = getPreviousReportDateRange(data);
-			if (dateRange.equals(Accounter.constants().custom())) {
+			if (dateRange.equals(Accounter.messages().custom())) {
 				toolbar.setStartAndEndDates(getPreviousReportStartDate(data),
 						getPreviousReportEndDate(data));
 			}

@@ -33,7 +33,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewAsset();
+		return Accounter.messages().addNewAsset();
 	}
 
 	/*
@@ -43,7 +43,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().soldAndDisposedItems();
+		return Accounter.messages().soldAndDisposedItems();
 	}
 
 	/*
@@ -105,7 +105,7 @@ public class SoldAndDisposedItemsListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().soldDisposedItems();
+		return Accounter.messages().soldDisposedItems();
 	}
 
 }

@@ -68,7 +68,7 @@ public class PriorVATReturnsServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().priorVATReturns();
+		return getMessages().priorVATReturns();
 	}
 
 	@Override
@@ -85,11 +85,11 @@ public class PriorVATReturnsServerReport extends
 			iniHandler();
 		if (this.row == -1) {
 			this.sectionName = "";
-			addSection("", getConstants()
+			addSection("", getMessages()
 					.netVATToPayOrReclaimIfNegativeBOX5(), new int[] {});
 
-			this.sectionName = getConstants().vatDue();
-			addSection(this.sectionName, getConstants()
+			this.sectionName = getMessages().vatDue();
+			addSection(this.sectionName, getMessages()
 					.totalVATDueBOX3(), new int[] { 1 });
 			row = 0;
 		} else if (this.row < 4) {

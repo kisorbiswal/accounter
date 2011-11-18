@@ -450,9 +450,9 @@ public class ClientCompany implements IAccounterCore {
 	// private List<ClientTaxItem> taxItems;
 
 	public void clientSideInit() {
-		paymentMethods.put("1", Accounter.constants().cash());
-		paymentMethods.put("2", Accounter.constants().check());
-		paymentMethods.put("3", Accounter.constants().creditCard());
+		paymentMethods.put("1", Accounter.messages().cash());
+		paymentMethods.put("2", Accounter.messages().check());
+		paymentMethods.put("3", Accounter.messages().creditCard());
 	}
 
 	public ClientCompany() {
@@ -1174,9 +1174,6 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientCurrency getCurrency(long currencyId) {
 		ClientCurrency object = Utility.getObject(this.currencies, currencyId);
-		if(object==null){
-			return getPrimaryCurrency();
-		}
 		return object;
 	}
 
@@ -1691,8 +1688,8 @@ public class ClientCompany implements IAccounterCore {
 
 				// Utility.updateClientList(account, accounts);
 
-				ClientAccount existObj = Utility.getObject(accounts, account
-						.getID());
+				ClientAccount existObj = Utility.getObject(accounts,
+						account.getID());
 				if (existObj != null) {
 					if (account.getNumber().equals(existObj.getNumber())) {
 						accounts.remove(existObj);
@@ -2409,8 +2406,8 @@ public class ClientCompany implements IAccounterCore {
 		calendar.setTime(startDate.getDateAsObject());
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
 		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
-		calendar.set(Calendar.DATE, calendar
-				.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar.set(Calendar.DATE,
+				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
 
@@ -3039,18 +3036,22 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ClientCurrency getPrimaryCurrency() {
-		return getCurrency(getPreferences().getPrimaryCurrency().id);
+		long id2 = getPreferences().getPrimaryCurrency().id;
+		if (id2 == 0) {
+			throw new RuntimeException("Primary Currency Id is Zero");
+		}
+		return getCurrency(id2);
 	}
 
 	public boolean hasOtherCountryCurrency() {
-		
-		long id=getPreferences().getPrimaryCurrency().id;
+
+		long id = getPreferences().getPrimaryCurrency().id;
 
 		// for checking in all the Active Accounts
 		ArrayList<ClientAccount> activeAccounts = getActiveAccounts();
 		for (ClientAccount account : activeAccounts) {
 			ClientCurrency currency = getCurrency(account.getCurrency());
-			if (id!=currency.id) {
+			if (id != currency.id) {
 				return true;
 			}
 		}
@@ -3059,7 +3060,7 @@ public class ClientCompany implements IAccounterCore {
 		ArrayList<ClientPayee> activePayees = getActivePayees();
 		for (ClientPayee payee : activePayees) {
 			ClientCurrency currency = getCurrency(payee.getCurrency());
-			if (id!=currency.id) {
+			if (id != currency.id) {
 				return true;
 			}
 		}

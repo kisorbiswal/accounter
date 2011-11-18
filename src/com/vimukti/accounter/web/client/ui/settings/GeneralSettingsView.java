@@ -77,7 +77,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversionHTML = new HTML(messages.conversionHTML());
 		conversationCommentHTML = new HTML(messages.conversionCommet());
 		conversationCommentHTML.addStyleName("conversion_commet");
-		invoiceBrandingHTML = new HTML(messages.invoiceBrandingHTML());
+		invoiceBrandingHTML = new HTML(messages.invoiceBranding());
 		// invoiceBrandingHTML.setWidth("145px");
 		// invoiceBrandingHTML.setStyleName("invoice-branding-html");
 		invoiceCommentHtml = new HTML(messages.invoiceComment());
@@ -287,7 +287,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().generalSettings();
+		return Accounter.messages().generalSettings();
 	}
 
 	@Override

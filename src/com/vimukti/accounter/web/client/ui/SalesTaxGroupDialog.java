@@ -115,8 +115,8 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	private void setAvailTaxItemsGridFields() {
 		availTaxItemsGrid.addColumns(new String[] {
-				Accounter.constants().name(),
-				Accounter.constants().currentRate() });
+				Accounter.messages().name(),
+				Accounter.messages().currentRate() });
 	}
 
 	public void setAvalableTCGridCellWidths() {
@@ -125,8 +125,8 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	private void setSelectedTaxItemsGridFields() {
 		selectTaxItemsGrid.addColumns(new String[] {
-				Accounter.constants().name(),
-				Accounter.constants().currentRate() });
+				Accounter.messages().name(),
+				Accounter.messages().currentRate() });
 
 	}
 
@@ -177,7 +177,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		form1 = new DynamicForm();
 		// form1.setHeight("100px");
 		taxGroupText = new TextItem();
-		taxGroupText.setTitle(Accounter.constants().selectedTaxGroupItem());
+		taxGroupText.setTitle(Accounter.messages().selectedTaxGroupItem());
 		taxGroupText.setRequired(true);
 
 		if (taxGroup != null)
@@ -191,7 +191,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		// Available Tax Codes Layout
 		// DynamicForm availForm = new DynamicForm();
 
-		addButton = new Button(Accounter.constants().add());
+		addButton = new Button(Accounter.messages().add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -213,7 +213,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 				} else {
 
-					UIUtils.say(Accounter.constants()
+					UIUtils.say(Accounter.messages()
 							.selectTaxItemFromAvailableListofTaxItems());
 					new Exception();
 				}
@@ -222,7 +222,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		});
 		addButton.setEnabled(false);
 
-		removeButton = new Button(Accounter.constants().remove());
+		removeButton = new Button(Accounter.messages().remove());
 		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -244,7 +244,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 					}
 				} else {
 
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.selectTaxItemFromSelectedListofTaxItems());
 					new Exception();
 				}
@@ -261,7 +261,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		};
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
 
-		availTaxItemsGrid.setName(Accounter.constants().available());
+		availTaxItemsGrid.setName(Accounter.messages().available());
 		setAvailTaxItemsGridFields();
 		setAvalableTCGridCellWidths();
 		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
@@ -297,7 +297,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 				return getAvailTaxItemsGridColumnValue(obj, index);
 			}
 		};
-		selectTaxItemsGrid.setName(Accounter.constants().selected());
+		selectTaxItemsGrid.setName(Accounter.messages().selected());
 		setSelectedTaxItemsGridFields();
 		setSelectedTCGridCellWidths();
 		selectTaxItemsGrid.setView(SalesTaxGroupDialog.this);
@@ -420,7 +420,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(taxGroup
 				.getName());
 		if (itemByName != null || taxGroupByName != null) {
-			Accounter.showError(Accounter.constants().alreadyExist());
+			Accounter.showError(Accounter.messages().alreadyExist());
 		} else {
 			saveOrUpdate(taxGroup);
 		}
@@ -432,7 +432,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 				groupName);
 		if (!(taxGroup.getName().equalsIgnoreCase(groupName) ? true
 				: taxGroupByName == null)) {
-			Accounter.showError(Accounter.constants().alreadyExist());
+			Accounter.showError(Accounter.messages().alreadyExist());
 		} else {
 			taxGroup.setName(groupName);
 			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));

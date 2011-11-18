@@ -12,14 +12,14 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class NewJournalEntryAction extends Action {
 
 	public NewJournalEntryAction(String text) {
-		super(Accounter.constants().newJournalEntry());
-		this.catagory = Accounter.constants().company();
+		super(Accounter.messages().newJournalEntry());
+		this.catagory = Accounter.messages().company();
 	}
 
 	public NewJournalEntryAction(String text, ClientJournalEntry journalEntry,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	@Override

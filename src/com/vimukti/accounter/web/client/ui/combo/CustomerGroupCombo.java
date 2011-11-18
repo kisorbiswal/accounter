@@ -12,7 +12,7 @@ public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newCustomerGroup(Global.get().Customer());
+		return messages.payeeGroup(Global.get().Customer());
 	}
 
 	@Override

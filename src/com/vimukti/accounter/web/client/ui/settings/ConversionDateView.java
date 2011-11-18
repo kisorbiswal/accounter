@@ -11,9 +11,10 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -21,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class ConversionDateView extends AbstractBaseView {
+public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 	private VerticalPanel mainPanel, headerPanel, bodyPanel;
 	private HTML titleHtml, superTitleHtml, bodyHtml, bodyFooterHtml,
 			bodycommentHtml;
@@ -33,7 +34,7 @@ public class ConversionDateView extends AbstractBaseView {
 	private List<String> monthList;
 	private List<String> yearList;
 	private Button saveButton, cancelButton;
-	private AccounterConstants messages = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -53,7 +54,7 @@ public class ConversionDateView extends AbstractBaseView {
 	}
 
 	private void createControls() {
-		titleHtml = new HTML(messages.conversionDateTitle());
+		titleHtml = new HTML(messages.conversionDate());
 		superTitleHtml = new HTML(messages.conversionBalanceTitle());
 
 		bodyHtml = new HTML(Accounter.messages()
@@ -67,8 +68,8 @@ public class ConversionDateView extends AbstractBaseView {
 		bodyPanel = new VerticalPanel();
 		comboForm = new DynamicForm();
 		buttonPanel = new HorizontalPanel();
-		saveButton = new Button(constants.save());
-		cancelButton = new Button(constants.cancel());
+		saveButton = new Button(messages.save());
+		cancelButton = new Button(messages.cancel());
 
 		monthArray = new String[] { messages.january(), messages.february(),
 				messages.march(), messages.april(), messages.may(),
@@ -83,7 +84,19 @@ public class ConversionDateView extends AbstractBaseView {
 			monthList.add(monthArray[i]);
 		}
 		bodyFooterHtml = new HTML();
-		final SafeHtml bodyFooter = Accounter.messages().bodyFooter();
+		final SafeHtml bodyFooter = new SafeHtml() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public String asString() {
+				// TODO Auto-generated method stub
+				return Accounter.messages().bodyFooter();
+			}
+		};
 		monthCombo.initCombo(monthList);
 		monthCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -255,7 +268,7 @@ public class ConversionDateView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().conversionDate();
+		return Accounter.messages().conversionDate();
 	}
 
 	@Override

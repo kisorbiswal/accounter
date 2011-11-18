@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
+import com.vimukti.accounter.core.MobileCookie;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Command;
@@ -53,16 +54,26 @@ public class AuthenticationCommand extends Command {
 				string = (String) context.getLast(RequirementType.STRING);
 			}
 			Object attribute = context.getAttribute("input");
-			if (attribute == null || string == null) {
-				context.setAttribute("input", "userName");
-				makeResult.add("Please Enter Username. Or press Signup");
-				CommandList commandList = new CommandList();
-				commandList.add("Signup");
-				makeResult.add(commandList);
-				return makeResult;
-			}
-
 			Client client = null;
+
+			if (attribute == null || string == null) {
+				if (string != null) {
+					MobileCookie mobileCookie = getMobileCookie(string);
+					if (mobileCookie != null) {
+						client = mobileCookie.getClient();
+						markDone();
+						attribute = "finish";
+					}
+				}
+				if (!isDone()) {
+					context.setAttribute("input", "userName");
+					makeResult.add("Please Enter Username. Or press Signup");
+					CommandList commandList = new CommandList();
+					commandList.add("Signup");
+					makeResult.add(commandList);
+					return makeResult;
+				}
+			}
 
 			if (attribute.equals("activation")) {
 				String userName = (String) context.getAttribute("userName");
@@ -105,6 +116,9 @@ public class AuthenticationCommand extends Command {
 					makeResult.add(commandList);
 					return makeResult;
 				}
+				String cookie = SecureUtils.createID(64);
+				createMobileCookie(cookie, client);
+				makeResult.setCookie(cookie);
 				markDone();
 			}
 
@@ -202,16 +216,27 @@ public class AuthenticationCommand extends Command {
 		return makeResult;
 	}
 
+	private void createMobileCookie(String cookie, Client client) {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction beginTransaction = session.beginTransaction();
+		MobileCookie mobileCookie = new MobileCookie();
+		mobileCookie.setCookie(cookie);
+		mobileCookie.setClient(client);
+		session.save(mobileCookie);
+		beginTransaction.commit();
+	}
+
+	private MobileCookie getMobileCookie(String string) {
+		Session session = HibernateUtil.getCurrentSession();
+		return (MobileCookie) session.get(MobileCookie.class, string);
+	}
+
 	private Activation getActivation(String string) {
 		Session session = HibernateUtil.getCurrentSession();
-		if (session != null) {
-			Activation val = (Activation) session
-					.getNamedQuery("get.activation.by.token")
-					.setString("token", string).uniqueResult();
-			return val;
-
-		}
-		return null;
+		Activation val = (Activation) session
+				.getNamedQuery("get.activation.by.token")
+				.setString("token", string).uniqueResult();
+		return val;
 	}
 
 	private IMUser createIMUser(int networkType, String networkId, Client client) {
@@ -276,7 +301,7 @@ public class AuthenticationCommand extends Command {
 	private Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
-		namedQuery.setParameter("emailId", emailId);
+		namedQuery.setParameter("emailId", emailId.toLowerCase());
 		Client client = (Client) namedQuery.uniqueResult();
 		return client;
 	}

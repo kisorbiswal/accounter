@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -22,7 +21,6 @@ import com.vimukti.accounter.web.server.OperationContext;
 public abstract class NewAbstractCommand extends NewCommand {
 	public static final String FIRST_MESSAGE = "firstMessage";
 	private IGlobal global;
-	private AccounterConstants constants;
 	private AccounterMessages messages;
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
 	protected static final String COUNTRY = "country";
@@ -47,13 +45,8 @@ public abstract class NewAbstractCommand extends NewCommand {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		constants = global.constants();
 		messages = global.messages();
 		super.init();
-	}
-
-	protected AccounterConstants getConstants() {
-		return constants;
 	}
 
 	protected AccounterMessages getMessages() {
@@ -78,8 +71,8 @@ public abstract class NewAbstractCommand extends NewCommand {
 
 				OperationContext opContext = new OperationContext(context
 						.getCompany().getID(), coreObject, context
-						.getIOSession().getUserEmail(),
-						String.valueOf(coreObject.getID()),
+						.getIOSession().getUserEmail(), String
+						.valueOf(coreObject.getID()),
 						serverClassFullyQualifiedName);
 
 				new FinanceTool().update(opContext);
@@ -107,14 +100,14 @@ public abstract class NewAbstractCommand extends NewCommand {
 
 	protected List<String> getPaymentMethods() {
 		List<String> listOfPaymentMethods = new ArrayList<String>();
-		listOfPaymentMethods.add(getConstants().cash());
-		listOfPaymentMethods.add(getConstants().cheque());
-		listOfPaymentMethods.add(getConstants().creditCard());
-		listOfPaymentMethods.add(getConstants().directDebit());
-		listOfPaymentMethods.add(getConstants().masterCard());
-		listOfPaymentMethods.add(getConstants().onlineBanking());
-		listOfPaymentMethods.add(getConstants().standingOrder());
-		listOfPaymentMethods.add(getConstants().switchMaestro());
+		listOfPaymentMethods.add(getMessages().cash());
+		listOfPaymentMethods.add(getMessages().cheque());
+		listOfPaymentMethods.add(getMessages().creditCard());
+		listOfPaymentMethods.add(getMessages().directDebit());
+		listOfPaymentMethods.add(getMessages().masterCard());
+		listOfPaymentMethods.add(getMessages().onlineBanking());
+		listOfPaymentMethods.add(getMessages().standingOrder());
+		listOfPaymentMethods.add(getMessages().switchMaestro());
 		return listOfPaymentMethods;
 	}
 
@@ -127,9 +120,9 @@ public abstract class NewAbstractCommand extends NewCommand {
 	public int getAddressType(String type) {
 		if (type.equalsIgnoreCase("1"))
 			return ClientAddress.TYPE_BUSINESS;
-		else if (type.equalsIgnoreCase(getConstants().billTo()))
+		else if (type.equalsIgnoreCase(getMessages().billTo()))
 			return ClientAddress.TYPE_BILL_TO;
-		else if (type.equalsIgnoreCase(getConstants().shipTo()))
+		else if (type.equalsIgnoreCase(getMessages().shipTo()))
 			return ClientAddress.TYPE_SHIP_TO;
 		else if (type.equalsIgnoreCase("2"))
 			return ClientAddress.TYPE_WAREHOUSE;
@@ -139,9 +132,9 @@ public abstract class NewAbstractCommand extends NewCommand {
 			return ClientAddress.TYPE_POSTAL;
 		else if (type.equalsIgnoreCase("5"))
 			return ClientAddress.TYPE_HOME;
-		else if (type.equalsIgnoreCase(Accounter.constants().company()))
+		else if (type.equalsIgnoreCase(Accounter.messages().company()))
 			return ClientAddress.TYPE_COMPANY;
-		else if (type.equalsIgnoreCase(Accounter.constants()
+		else if (type.equalsIgnoreCase(Accounter.messages()
 				.companyregistration()))
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 

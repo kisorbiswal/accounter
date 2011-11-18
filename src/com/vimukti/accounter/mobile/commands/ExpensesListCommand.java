@@ -44,7 +44,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue(getConstants().all());
+		get(CURRENT_VIEW).setDefaultValue(getMessages().all());
 
 	}
 
@@ -60,9 +60,9 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<BillsList>(getConstants()
+		list.add(new ShowListRequirement<BillsList>(getMessages()
 				.expensesList(), getMessages().pleaseSelect(
-				getConstants().expensesList()), 5) {
+				getMessages().expensesList()), 5) {
 
 			@Override
 			protected String onSelection(BillsList value) {
@@ -71,12 +71,12 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().expensesList();
+				return getMessages().expensesList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -110,16 +110,16 @@ public class ExpensesListCommand extends NewAbstractCommand {
 				String type = ExpensesListCommand.this.get(CURRENT_VIEW)
 						.getValue();
 				for (BillsList order : completeList) {
-					if (type.equals(getConstants().all())) {
+					if (type.equals(getMessages().all())) {
 						list.add(order);
 					}
-					if (type.equals(getConstants().cash())) {
+					if (type.equals(getMessages().cash())) {
 						list.add(order);
 					}
-					if (type.equals(getConstants().creditCard())) {
+					if (type.equals(getMessages().creditCard())) {
 						list.add(order);
 					}
-					if (type.equals(getConstants().voided())) {
+					if (type.equals(getMessages().voided())) {
 						list.add(order);
 					}
 				}
@@ -132,10 +132,10 @@ public class ExpensesListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().all());
-				list.add(getConstants().cash());
-				list.add(getConstants().creditCard());
-				list.add(getConstants().voided());
+				list.add(getMessages().all());
+				list.add(getMessages().cash());
+				list.add(getMessages().creditCard());
+				list.add(getMessages().voided());
 				return list;
 			}
 		});

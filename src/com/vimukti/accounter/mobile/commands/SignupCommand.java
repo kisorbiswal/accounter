@@ -48,11 +48,11 @@ public class SignupCommand extends NewCommand {
 		list.add(new NameRequirement(LAST_NAME, "Enter Last Name", "Last Name",
 				false, true));
 
-		list.add(new NameRequirement(EMAIL, "Enter Email", "Emial", false, true));
+		list.add(new NameRequirement(EMAIL, "Enter Email", "Email", false, true));
 
 		list.add(new NameRequirement(PASSOWRD,
-				"Enter password. This is used to login in accounter", "Emial",
-				false, true) {
+				"Enter password. This is used to login in accounter",
+				"Password", false, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -129,7 +129,7 @@ public class SignupCommand extends NewCommand {
 		client.setActive(false);
 		client.setUsers(new HashSet<User>());
 		String emailId = get(EMAIL).getValue();
-		client.setEmailId(emailId);
+		client.setEmailId(emailId.toLowerCase());
 
 		String firstName = get(FIRST_NAME).getValue();
 		client.setFirstName(firstName);

@@ -32,6 +32,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	Label currencyCommentLabel;
 
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
+	
 
 	private static CompanyCurrencyOptionUiBinder uiBinder = GWT
 			.create(CompanyCurrencyOptionUiBinder.class);
@@ -62,29 +63,30 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		primaryCurrenyLabel.setText(constants.primaryCurrency());
+		primaryCurrenyLabel.setText(messages.primaryCurrency());
 		currenciesList = CoreUtils.getCurrencies(getCompany().getCurrencies());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-		currencyCommentLabel.setText(constants.changingCurrencyComment());
+		currencyCommentLabel.setText(messages.changingCurrencyComment());
 		isEnableMultiCurrencyCheckBox
-				.setText(constants.isMultiCurrencyEnable());
+				.setText(messages.isMultiCurrencyEnable());
 
 		if (getCompany().hasOtherCountryCurrency()) {
 			isEnableMultiCurrencyCheckBox.setEnabled(false);
 		}
+		setEnable(false);
 	}
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 	@Override
 	public String getTitle() {
-		return constants.currency();
+		return messages.currency();
 	}
 
 	@Override
@@ -119,4 +121,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 				isEnableMultiCurrencyCheckBox.getValue());
 	}
 
+	public void setEnable(boolean isEnable) {
+		primaryCurrencyListBox.setEnabled(isEnable);
+	}
 }

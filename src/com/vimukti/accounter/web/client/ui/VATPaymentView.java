@@ -75,7 +75,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	protected void createControls() {
-		Label lab = new Label(Accounter.constants().vatPayment());
+		Label lab = new Label(Accounter.messages().vatPayment());
 		// lab.setAutoHeight();
 		// lab.setWrap(false);
 
@@ -97,34 +97,34 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 			dateNoForm.setFields(classListCombo);
 		}
 
-		vatAgency = new TextItem(Accounter.constants().vatAgency());
+		vatAgency = new TextItem(Accounter.messages().vatAgency());
 		// vatAgency.setWidth("*");
 		vatAgency.setDisabled(true);
 		// vatAgency.setShowDisabled(false);
 
 		addressForm = new AddressForm(null);
 		vatAgencyForm = new DynamicForm();
-		vatAgencyForm = UIUtils.form(Accounter.constants().vatAgency());
+		vatAgencyForm = UIUtils.form(Accounter.messages().vatAgency());
 		vatAgencyForm.setWidth("100%");
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.setFields(vatAgency);
 
-		amount = new AmountField(Accounter.constants().amount(), this,getBaseCurrency());
+		amount = new AmountField(Accounter.messages().amount(), this,getBaseCurrency());
 		// amount.setWidth("*");
 		amount.setRequired(true);
 		amount.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// amount.setTextAlign(Alignment.RIGHT);
 
-		vatBalance = new AmountField(Accounter.constants().vatBalance(), this,getBaseCurrency());
+		vatBalance = new AmountField(Accounter.messages().vatBalance(), this,getBaseCurrency());
 		// vatBalance.setWidth("*");
 		// vatBalance.setTextAlign(Alignment.RIGHT);
 		vatBalance.setDisabled(true);
 		// vatBalance.setShowDisabled(false);
-		memo = new TextItem(Accounter.constants().memo());
+		memo = new TextItem(Accounter.messages().memo());
 		// memo.setWidth("*");
 		// memo.setTextAlign(Alignment.LEFT);
 
-		referenceNo = new TextItem(Accounter.constants().referenceNo());
+		referenceNo = new TextItem(Accounter.messages().referenceNo());
 		// referenceNo.setWidth("*");
 		// referenceNo.setTextAlign(Alignment.RIGHT);
 
@@ -132,11 +132,11 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentInformationForm.setIsGroup(true);
 		paymentInformationForm.setWidth("100%");
 		// paymentInformationForm.setAutoHeight();
-		paymentInformationForm.setGroupTitle(Accounter.constants()
+		paymentInformationForm.setGroupTitle(Accounter.messages()
 				.paymentInformation());
 		paymentInformationForm.setFields(vatBalance, amount, memo, referenceNo);
 
-		endingBalanceText = new AmountField(Accounter.constants()
+		endingBalanceText = new AmountField(Accounter.messages()
 				.bankBalance(), this,getBaseCurrency());
 		// endingBalanceText.setWidth("*");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
@@ -145,7 +145,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		endingBalanceText.setDisabled(true);
 		// endingBalanceText.setShowDisabled(false);
 
-		payFromAccCombo = new PayFromAccountsCombo(Accounter.constants()
+		payFromAccCombo = new PayFromAccountsCombo(Accounter.messages()
 				.payFrom());
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
@@ -179,9 +179,9 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth("*");
-		paymentMethodCombo.setDefaultValue(Accounter.constants().check());
+		paymentMethodCombo.setDefaultValue(Accounter.messages().check());
 
-		toBePrinted = new CheckboxItem(Accounter.constants().toBePrinted());
+		toBePrinted = new CheckboxItem(Accounter.messages().toBePrinted());
 		// toBePrinted.setDefaultValue(true);
 		toBePrinted.addChangedHandler(new ChangeHandler() {
 
@@ -201,13 +201,13 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		});
 		// printCheck.setShowDisabled(false);
 
-		checkNoText = new TextItem(Accounter.constants().checkNo());
+		checkNoText = new TextItem(Accounter.messages().checkNo());
 		// checkNoText.setWidth("*");
 
 		paymentMethodForm = new DynamicForm();
 		paymentMethodForm.setIsGroup(true);
 		paymentMethodForm.setWidth("100%");
-		paymentMethodForm.setGroupTitle(Accounter.constants().paymentMethod());
+		paymentMethodForm.setGroupTitle(Accounter.messages().paymentMethod());
 		paymentMethodForm.setFields(paymentMethodCombo, toBePrinted,
 				checkNoText);
 
@@ -292,7 +292,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
 		super.paymentMethodSelected(paymentmethod);
-		if (paymentmethod.equalsIgnoreCase(Accounter.constants().check())) {
+		if (paymentmethod.equalsIgnoreCase(Accounter.messages().check())) {
 			toBePrinted.setDisabled(false);
 			toBePrinted.setValue(true);
 			checkNoText.setDisabled(false);
@@ -360,7 +360,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.constants().vatPayment());
+		return UIUtils.title(Accounter.messages().vatPayment());
 	}
 
 	@Override

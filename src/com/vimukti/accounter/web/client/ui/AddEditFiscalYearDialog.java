@@ -24,13 +24,13 @@ public class AddEditFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		// setWidth(400);
 
 		startDate = new DateItem();
-		startDate.setTitle(Accounter.constants().startOfFiscalYear());
+		startDate.setTitle(Accounter.messages().startOfFiscalYear());
 		// startDate.setUseTextField(true);
 		// int firstMonth =
 		// FinanceApplication.getCompany().getFirstMonthOfFiscalYear();
 
 		DateItem closeDate = new DateItem();
-		closeDate.setTitle(Accounter.constants().closeOfFiscalYear());
+		closeDate.setTitle(Accounter.messages().closeOfFiscalYear());
 		// closeDate.setUseTextField(true);
 		VerticalPanel bodyLayout = new VerticalPanel();
 		DynamicForm form = new DynamicForm();

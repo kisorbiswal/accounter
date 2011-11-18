@@ -84,7 +84,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			}
 		}, ResizeEvent.getType());
-		Button addReceivableInvoiceBtn = new Button(Accounter.constants()
+		Button addReceivableInvoiceBtn = new Button(Accounter.messages()
 				.addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
@@ -95,8 +95,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		draftLabel = getLabel(Accounter.constants().invoicesDue());
-		overDueLabel = getLabel(Accounter.constants().overDueInvoices());
+		draftLabel = getLabel(Accounter.messages().invoicesDue());
+		overDueLabel = getLabel(Accounter.messages().overDueInvoices());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		updateAmounts();
@@ -201,7 +201,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				if (title.equals(Accounter.constants().invoicesDue())) {
+				if (title.equals(Accounter.messages().invoicesDue())) {
 					ActionFactory.getInvoicesAction(null).run(null, true);
 				} else {
 					ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE)

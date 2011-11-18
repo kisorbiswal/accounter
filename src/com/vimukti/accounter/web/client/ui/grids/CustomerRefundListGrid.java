@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -67,12 +67,12 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = Accounter.constants();
-		return new String[] { customerConstants.paymentDate(),
-				customerConstants.paymentNo(), customerConstants.status(),
-				customerConstants.issueDate(), customerConstants.name(),
-				customerConstants.type(), customerConstants.paymentMethod(),
-				customerConstants.amountPaid(), customerConstants.voided()
+		messages = Accounter.messages();
+		return new String[] { messages.paymentDate(),
+				messages.paymentNo(), messages.status(),
+				messages.issueDate(), messages.name(),
+				messages.type(), messages.paymentMethod(),
+				messages.amountPaid(), messages.voided()
 		// , ""
 		};
 	}
@@ -110,7 +110,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
 		if (col == 8) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";

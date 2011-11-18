@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -52,7 +51,6 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 	private CheckboxItem transferOnlineCheck;
 	protected boolean isClose;
 	protected ClientAccount accountFrom, accountTo;
-	AccounterConstants bankingConstants = Accounter.constants();
 	ClientTransferFund transferFund;
 
 	private Double transferAmount = 0D;
@@ -60,7 +58,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 	public boolean isValidatedTransferAmount = false;
 
 	public TransferFundsDialog(Object data) {
-		super(Accounter.constants().transferFunds(), Accounter.messages()
+		super(Accounter.messages().transferFunds(), Accounter.messages()
 				.toTransferFunds(Global.get().account()));
 		createControls();
 		addAccountsNameToList();
@@ -107,13 +105,13 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		mainPanel.setSpacing(3);
 
 		// Transfer
-		transferDate = new DateField(bankingConstants.date());
+		transferDate = new DateField(messages.date());
 		transferDate.setValue(new ClientFinanceDate());
 		// transferDate.setWidth("*");
 
 		transferForm = new DynamicForm();
 		transferForm.setIsGroup(true);
-		transferForm.setGroupTitle(bankingConstants.transfer());
+		transferForm.setGroupTitle(messages.transfer());
 		// transferForm.setPadding(8);
 		transferForm.setFields(transferDate);
 
@@ -141,9 +139,9 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 
 				});
 
-		balanceFromText = new AmountField(bankingConstants.balance(), this,getBaseCurrency());
+		balanceFromText = new AmountField(messages.balance(), this,getBaseCurrency());
 		balanceFromText.setDisabled(Boolean.TRUE);
-		memoText = new TextItem(bankingConstants.memo());
+		memoText = new TextItem(messages.memo());
 
 		// transferOnlineCheck = new CheckboxItem(bankingConstants
 		// .transferFundsOnline());
@@ -152,7 +150,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		transferFromForm = new DynamicForm();
 		transferFromForm.setWidth("50%");
 		transferFromForm.setIsGroup(true);
-		transferFromForm.setGroupTitle(bankingConstants.transferFrom());
+		transferFromForm.setGroupTitle(messages.transferFrom());
 
 		transferFromForm.setFields(accountComboFrom, balanceFromText, memoText);
 
@@ -183,10 +181,10 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 					}
 
 				});
-		balanceToText = new AmountField(bankingConstants.balance(), this,getBaseCurrency());
+		balanceToText = new AmountField(messages.balance(), this,getBaseCurrency());
 		balanceToText.setDisabled(Boolean.TRUE);
 
-		amountText = new AmountField(bankingConstants.amount(), this,getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this,getBaseCurrency());
 		amountText.setRequired(true);
 		amountText.setAmount(0.00);
 		amountText.addBlurHandler(new BlurHandler() {
@@ -197,12 +195,12 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 						transferAmount = amountText.getAmount();
 						if (DecimalUtil.isLessThan(transferAmount, 0D)) {
 							transferAmount = 0D;
-							Accounter.showError(Accounter.constants()
+							Accounter.showError(Accounter.messages()
 									.amountShouldNotBeNegative());
 						}
 
 					} catch (Exception e) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.invalidAmount());
 						transferAmount = 0D;
 					} finally {
@@ -218,11 +216,11 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		// transferToForm.setWidth("*");
 		// transferToForm.setWidth("*");
 		transferToForm.setIsGroup(true);
-		transferToForm.setGroupTitle(bankingConstants.transferTo());
+		transferToForm.setGroupTitle(messages.transferTo());
 
 		transferToForm.setFields(accountComboTo, balanceToText, amountText);
-		okbtn.setTitle(Accounter.constants().transfer());
-		cancelBtn.setTitle(Accounter.constants().cancel());
+		okbtn.setTitle(Accounter.messages().transfer());
+		cancelBtn.setTitle(Accounter.messages().cancel());
 
 		HorizontalPanel hlay = new HorizontalPanel();
 		hlay.setWidth("100%");
@@ -230,7 +228,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		hlay.add(transferFromForm);
 		hlay.add(transferToForm);
 		editButton = new Button();
-		editButton.setText(Accounter.constants().edit());
+		editButton.setText(Accounter.messages().edit());
 		editButton.setVisible(false);
 
 		editButton.addClickHandler(new ClickHandler() {
@@ -263,7 +261,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		result.add(transferToForm.validate());
 
 		if (!AccounterValidator.validate_TransferFunds(accountFrom, accountTo)) {
-			result.addError(accountFrom, Accounter.constants().transferFunds());
+			result.addError(accountFrom, Accounter.messages().transferFunds());
 
 		} else if (isValidatedTransferAmount == false) {
 			if (AccounterValidator.validate_TransferFromAccount(accountFrom,

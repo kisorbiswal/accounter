@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 
-public class NewShippingMethodCommond extends NewAbstractCommand {
+public class NewShippingMethodCommand extends NewAbstractCommand {
 
 	private static final String SHIPPING_METHOD_NAME = "Shipping Mehtod";
 	private static final String DESCRIPTION = "description";
@@ -36,6 +36,7 @@ public class NewShippingMethodCommond extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Shipping Method to update.");
 				return "Shipping Methods";
 			}
 			Set<ShippingMethod> shippingMethods = context.getCompany()
@@ -49,7 +50,8 @@ public class NewShippingMethodCommond extends NewAbstractCommand {
 				}
 			}
 			if (shippingMethod == null) {
-				return "Shipping Methods " + string;
+				addFirstMessage(context, "Select a Shipping Method to update.");
+				return "Shipping Methods " + string.trim();
 			}
 			get(SHIPPING_METHOD_NAME).setValue(shippingMethod.getName());
 			get(DESCRIPTION).setValue(shippingMethod.getDescription());

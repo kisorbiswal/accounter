@@ -52,24 +52,24 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		// Creating Title for View
 		Label label = new Label();
 		label.removeStyleName("gwt-Label");
-		label.addStyleName(Accounter.constants().labelTitle());
-		label.setText(constants.Reconciliation());
+		label.addStyleName(Accounter.messages().labelTitle());
+		label.setText(messages.Reconciliation());
 
 		bankaccountLabel = new LabelItem();
 		bankaccountLabel.setTitle(messages.bankAccount(Global.get().Account()));
 		bankaccountLabel.setValue(data.getAccount().getName());
 
-		closebalanceLable = new AmountLabel(constants.ClosingBalance());
-		closebalanceLable.setTitle(constants.ClosingBalance());
+		closebalanceLable = new AmountLabel(messages.ClosingBalance());
+		closebalanceLable.setTitle(messages.ClosingBalance());
 		closebalanceLable.setAmount(data.getClosingBalance());
 
 		startdateLable = new LabelItem();
-		startdateLable.setTitle(constants.startDate());
+		startdateLable.setTitle(messages.startDate());
 		startdateLable.setValue(DateUtills.getDateAsString(data.getStartDate()
 				.getDateAsObject()));
 
 		enddateLable = new LabelItem();
-		enddateLable.setTitle(constants.endDate());
+		enddateLable.setTitle(messages.endDate());
 		enddateLable.setValue(DateUtills.getDateAsString(data.getEndDate()
 				.getDateAsObject()));
 
@@ -104,12 +104,12 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		hPanel.add(form);
 		hPanel.add(datesForm);
 		hPanel.setCellWidth(form, "40%");
-		Button changeBtn = new Button(constants.change());
+		Button changeBtn = new Button(messages.change());
 		changeBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				ReconciliationDailog dialog = new ReconciliationDailog(Global
-						.get().constants().Reconciliation(), data,
+						.get().messages().Reconciliation(), data,
 						new ValueCallBack<ClientReconciliation>() {
 
 							@Override
@@ -132,21 +132,21 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		VerticalPanel amountsPanel = new VerticalPanel();
 		amountsPanel.setWidth("100%");
 
-		openingBalance = new AmountLabel(constants.openingBalance());
+		openingBalance = new AmountLabel(messages.openingBalance());
 		openingBalance.setHelpInformation(true);
 		openingBalance.setDisabled(true);
 		openingBalance.setAmount(data.getOpeningBalance());
 
-		closingBalance = new AmountLabel(constants.ClosingBalance());
+		closingBalance = new AmountLabel(messages.ClosingBalance());
 		closingBalance.setHelpInformation(true);
 		closingBalance.setDisabled(true);
 		closingBalance.setAmount(data.getClosingBalance());
 
-		clearedAmount = new AmountLabel(constants.ClearedAmount());
+		clearedAmount = new AmountLabel(messages.ClearedAmount());
 		clearedAmount.setHelpInformation(true);
 		clearedAmount.setDisabled(true);
 
-		difference = new AmountLabel(constants.Difference());
+		difference = new AmountLabel(messages.Difference());
 		difference.setHelpInformation(true);
 		difference.setDisabled(true);
 		DynamicForm amountsForm = new DynamicForm();
@@ -245,7 +245,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 					@Override
 					public void onException(AccounterException exception) {
-						Accounter.showError(messages.unableToGet(constants
+						Accounter.showError(messages.unableToGet(messages
 								.transaction()));
 					}
 
@@ -267,7 +267,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 			@Override
 			public void onException(AccounterException exception) {
-				Accounter.showError(messages.unableToGet(constants
+				Accounter.showError(messages.unableToGet(messages
 						.openBalance()));
 			}
 
@@ -299,10 +299,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		clearAllErrors();
 		ValidationResult result = new ValidationResult();
 		if (!DecimalUtil.isEquals(difference.getAmount(), 0.00D)) {
-			result.addError(difference, constants.differenceValidate());
+			result.addError(difference, messages.differenceValidate());
 		}
 		if (clearedTransactions.isEmpty()) {
-			result.addError(clearedTransactions, constants
+			result.addError(clearedTransactions, messages
 					.thereIsNoTransactionsToReconcile());
 		}
 		return result;

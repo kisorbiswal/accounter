@@ -22,8 +22,8 @@ public class CountryRegionListDialog extends DialogBox {
 	private DialogGrid grid;
 	private Button addGroupButt, editGroupButt, remGroupButt;
 	private Button helpButt, closeButt;
-	private String[] typeRecords = { Accounter.constants().us(),
-			Accounter.constants().india() };
+	private String[] typeRecords = { Accounter.messages().us(),
+			Accounter.messages().india() };
 
 	public CountryRegionListDialog() {
 		setModal(true);
@@ -38,11 +38,11 @@ public class CountryRegionListDialog extends DialogBox {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(Accounter.constants().countryListLabel());
+		Label lab1 = new Label(Accounter.messages().countryListLabel());
 		// lab1.setAutoFit(true);
 		// lab1.setWrap(false);
 
-		Label lab2 = new Label(Accounter.constants().addCountryLabel());
+		Label lab2 = new Label(Accounter.messages().addCountryLabel());
 		// lab2.setAutoFit(true);lab2.setBackgroundColor("green");
 		lab2.setHeight("1px");
 		// lab2.setOverflow(Overflow.VISIBLE);
@@ -54,7 +54,7 @@ public class CountryRegionListDialog extends DialogBox {
 		// typeGrid.setOverflow(Overflow.SCROLL);
 		grid.setSize("100%", "100%");
 		// grid.setShowAllRecords(true);
-		grid.addColumns(new String[] { Accounter.constants().country() });
+		grid.addColumns(new String[] { Accounter.messages().country() });
 		// ListGridField nameField = new ListGridField("name",
 		// "<center><b>Country/Region</b></center>");
 		// businessTypeField.setAlign(Alignment.CENTER);
@@ -62,17 +62,17 @@ public class CountryRegionListDialog extends DialogBox {
 		// grid.setCanResizeFields(true);
 		createListGridRecords(typeRecords);
 
-		addGroupButt = new Button(Accounter.constants().add());
+		addGroupButt = new Button(Accounter.messages().add());
 		addGroupButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showAddEditGroupDialog();
 			}
 		});
-		editGroupButt = new Button(Accounter.constants().edit());
-		remGroupButt = new Button(Accounter.constants().remove());
+		editGroupButt = new Button(Accounter.messages().edit());
+		remGroupButt = new Button(Accounter.messages().remove());
 
-		helpButt = new Button(Accounter.constants().help());
-		closeButt = new Button(Accounter.constants().close());
+		helpButt = new Button(Accounter.messages().help());
+		closeButt = new Button(Accounter.messages().close());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
@@ -122,38 +122,38 @@ public class CountryRegionListDialog extends DialogBox {
 
 	private void showAddEditGroupDialog() {
 		DialogBox dlg = new DialogBox();
-		dlg.setTitle(Accounter.constants().country());
+		dlg.setTitle(Accounter.messages().country());
 		dlg.setModal(true);
 		DynamicForm form = new DynamicForm();
 		// form.setSize("100%", "*");
-		TextItem nameText = new TextItem(Accounter.constants().countryName());
+		TextItem nameText = new TextItem(Accounter.messages().countryName());
 		// nameText.setWrapTitle(false);
 		nameText.setRequired(true);
 		form.setFields(nameText);
 
-		TextItem a3Text = new TextItem(Accounter.constants().a3Code());
+		TextItem a3Text = new TextItem(Accounter.messages().a3Code());
 		a3Text.setColSpan(1);
-		TextItem a2Text = new TextItem(Accounter.constants().a2Code());
+		TextItem a2Text = new TextItem(Accounter.messages().a2Code());
 		a2Text.setColSpan(1);
-		TextItem isoText = new TextItem(Accounter.constants().isoCode());
+		TextItem isoText = new TextItem(Accounter.messages().isoCode());
 		isoText.setColSpan(3);
 
 		DynamicForm codeForm = new DynamicForm();
 		codeForm.setIsGroup(true);
-		codeForm.setGroupTitle(Accounter.constants().countryCode());
+		codeForm.setGroupTitle(Accounter.messages().countryCode());
 		// codeForm.setWrapItemTitles(false);
 		codeForm.setWidth("100%");
 		codeForm.setNumCols(4);
 		codeForm.setFields(a3Text, a2Text, isoText);
 
-		Button helpButt = new Button(Accounter.constants().help());
+		Button helpButt = new Button(Accounter.messages().help());
 		// helpButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.add(helpButt);
 		helpHLay.setWidth("50%");
-		Button okButt = new Button(Accounter.constants().ok());
+		Button okButt = new Button(Accounter.messages().ok());
 		// okButt.setAutoFit(true);
-		Button canButt = new Button(Accounter.constants().cancel());
+		Button canButt = new Button(Accounter.messages().cancel());
 		// canButt.setAutoFit(true);
 
 		HorizontalPanel buttHLay = new HorizontalPanel();

@@ -69,8 +69,8 @@ public class TransactionPayTDSGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.taxAgency(),
-				companyConstants.taxDue(), companyConstants.amountToPay() };
+		return new String[] { messages.taxAgency(),
+				messages.taxDue(), messages.amountToPay() };
 	}
 
 }

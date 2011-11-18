@@ -47,14 +47,14 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		integerRangeValidator = new IntegerRangeValidator();
 
-		payTermText = new TextItem(Accounter.constants().paymentTerm());
+		payTermText = new TextItem(Accounter.messages().paymentTerm());
 		payTermText.setHelpInformation(true);
 		payTermText.setRequired(true);
 
-		descText = new TextItem(Accounter.constants().description());
+		descText = new TextItem(Accounter.messages().description());
 		descText.setHelpInformation(true);
 
-		dayText = new IntegerField(this, Accounter.constants().dueDays());
+		dayText = new IntegerField(this, Accounter.messages().dueDays());
 		dayText.setHelpInformation(true);
 		// dayText.setWidth(20);
 		dayText.setValidators(integerRangeValidator);
@@ -204,7 +204,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (payTermText.getValue().trim() == null
 				|| payTermText.getValue().trim().length() == 0) {
-			result.addError(this, Accounter.constants().pleaseEnterPayTerm());
+			result.addError(this, Accounter.messages().pleaseEnterPayTerm());
 		}
 		return result;
 	}

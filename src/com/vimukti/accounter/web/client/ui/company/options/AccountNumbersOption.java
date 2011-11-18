@@ -27,8 +27,8 @@ public class AccountNumbersOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		accountNumbersCheckBox.setText(Accounter.constants().Accounnumbers());
-		showAccountNumbersCheckBox.setText(Accounter.constants()
+		accountNumbersCheckBox.setText(Accounter.messages().Accounnumbers());
+		showAccountNumbersCheckBox.setText(Accounter.messages()
 				.showAccounterNumbers());
 
 	}
@@ -55,7 +55,7 @@ public class AccountNumbersOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 }

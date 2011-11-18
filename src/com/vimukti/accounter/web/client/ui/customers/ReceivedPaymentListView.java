@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -20,14 +19,13 @@ import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
  * 
  */
 public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
-	AccounterConstants customerConstants = Accounter.constants();
 
 	private List<ReceivePaymentsList> listOfRecievePayments;
 
-	private static String ALL = Accounter.constants().all();
-	private static String OPEN = Accounter.constants().open();
-	private static String FULLY_APPLIED = Accounter.constants().fullyApplied();
-	private static String VOIDED = Accounter.constants().voided();
+	private static String ALL = Accounter.messages().all();
+	private static String OPEN = Accounter.messages().open();
+	private static String FULLY_APPLIED = Accounter.messages().fullyApplied();
+	private static String VOIDED = Accounter.messages().voided();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_UNAPPLIED = 0;
@@ -45,13 +43,13 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return customerConstants.addaNewPayment();
+		return messages.addaNewPayment();
 
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return customerConstants.getReceivedPaymentListViewHeading();
+		return messages.getReceivedPaymentListViewHeading();
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(Accounter.messages().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(ALL);
@@ -170,7 +168,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().recievePayments();
+		return Accounter.messages().recievePayments();
 	}
 
 }

@@ -96,9 +96,9 @@ public class SoldAndDisposedItemsListGrid extends
 					.getPrimaryCurrency());
 
 		case 6:
-			return Accounter.constants().showHistory();
+			return Accounter.messages().showHistory();
 		case 7:
-			return Accounter.constants().addNote();
+			return Accounter.messages().addNote();
 		case 8:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -141,12 +141,12 @@ public class SoldAndDisposedItemsListGrid extends
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.constants().fixedAssetsPendingItemsList();
+		action.catagory = Accounter.messages().fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.constants().addNote(), "");
+		noteDialog = new NoteDialog(Accounter.messages().addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -184,13 +184,13 @@ public class SoldAndDisposedItemsListGrid extends
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().item(),
-				Accounter.constants().assetNumber(), Global.get().account(),
-				Accounter.constants().disposalDate(),
-				Accounter.constants().disposalPrice(),
-				Accounter.constants().gainsOrLosses(),
-				Accounter.constants().showHistory(),
-				Accounter.constants().addNote(), "" };
+		return new String[] { Accounter.messages().item(),
+				Accounter.messages().assetNumber(), Global.get().account(),
+				Accounter.messages().disposalDate(),
+				Accounter.messages().disposalPrice(),
+				Accounter.messages().gainsOrLosses(),
+				Accounter.messages().showHistory(),
+				Accounter.messages().addNote(), "" };
 	}
 
 	@Override

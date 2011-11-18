@@ -13,9 +13,9 @@ import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
-	String[] keys = { Accounter.constants().grossProfit(),
-			Accounter.constants().netProfit(),
-			Accounter.messages().bankAccounts(Global.get().Accounts()) };
+	String[] keys = { Accounter.messages().grossProfit(),
+			Accounter.messages().netProfit(),
+			Accounter.messages().bankAccount(Global.get().Accounts()) };
 
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 	private Double rowTotal = 0.0;
@@ -122,7 +122,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colArray[index] = "";
 				break;
 			case 1:
-				colArray[index] = Accounter.constants().currentMonth();
+				colArray[index] = Accounter.messages().currentMonth();
 				colsMap.put(1, getKeyValue(0));
 				break;
 			case 2:
@@ -146,7 +146,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colsMap.put(6, getKeyValue(5));
 				break;
 			case 7:
-				colArray[index] = Accounter.constants().yearToDate();
+				colArray[index] = Accounter.messages().yearToDate();
 				break;
 			default:
 				break;
@@ -162,34 +162,34 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return Accounter.constants().jan();
+			return Accounter.messages().jan();
 		case 1:
-			return Accounter.constants().feb();
+			return Accounter.messages().feb();
 		case 2:
-			return Accounter.constants().mar();
+			return Accounter.messages().mar();
 		case 3:
-			return Accounter.constants().apr();
+			return Accounter.messages().apr();
 		case 4:
-			return Accounter.constants().may();
+			return Accounter.messages().may();
 		case 5:
-			return Accounter.constants().jun();
+			return Accounter.messages().jun();
 		case 6:
-			return Accounter.constants().jul();
+			return Accounter.messages().jul();
 		case 7:
 		case -5:
-			return Accounter.constants().aug();
+			return Accounter.messages().aug();
 		case 8:
 		case -4:
-			return Accounter.constants().sept();
+			return Accounter.messages().sept();
 		case 9:
 		case -3:
-			return Accounter.constants().oct();
+			return Accounter.messages().oct();
 		case 10:
 		case -2:
-			return Accounter.constants().nov();
+			return Accounter.messages().nov();
 		case 11:
 		case -1:
-			return Accounter.constants().dec();
+			return Accounter.messages().dec();
 
 		}
 		return "";

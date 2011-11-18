@@ -45,9 +45,11 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	TAXReturn taxReturn;
 
 	@ReffereredObject
-	PayTAX payVAT;
+	PayTAX payTAX;
 
 	int version;
+
+	FinanceDate filedDate;
 
 	transient private boolean isOnSaveProccessed;
 
@@ -136,28 +138,28 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the payVAT
 	 */
-	public PayTAX getPayVAT() {
-		return payVAT;
+	public PayTAX getPayTAX() {
+		return payTAX;
 	}
 
 	/**
 	 * @param payVAT
 	 *            the payVAT to set
 	 */
-	public void setPayVAT(PayTAX payVAT) {
-		this.payVAT = payVAT;
+	public void setPayTAX(PayTAX payVAT) {
+		this.payTAX = payVAT;
 	}
 
 	@Override
-	public boolean onDelete(Session s) throws CallbackException {
-
+	public boolean onDelete(Session session) throws CallbackException {
+		doVoidEffect(session);
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
 		// currently not using anywhere in the project.
-
+		filedDate = taxReturn.getDate();
 	}
 
 	@Override
@@ -171,8 +173,8 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
-			this.taxAgency.updateBalance(session, this.taxReturn, -1
-					* this.amountToPay);
+			this.taxAgency.updateBalance(session, this.taxReturn,
+					-this.amountToPay);
 
 			// At the same time we need to update the vatReturn reference in it.
 			this.taxReturn.updateBalance(-this.amountToPay);
@@ -182,8 +184,8 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 			Account account = taxReturn.getTaxAgency()
 					.getFiledLiabilityAccount();
 			if (account != null) {
-				account.updateCurrentBalance(this.payVAT, -(this.amountToPay),
-						payVAT.currencyFactor);
+				account.updateCurrentBalance(this.payTAX, -this.amountToPay,
+						payTAX.currencyFactor);
 				session.update(account);
 				account.onUpdate(session);
 			}
@@ -196,28 +198,31 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	public boolean onUpdate(Session session) throws CallbackException {
 
 		if (isBecameVoid()) {
-
-			// We need to update the corresponding VATAgency's balance with this
-			// amount to pay.
-			this.taxAgency.updateBalance(session, this.taxReturn,
-					this.amountToPay);
-
-			// At the same time we need to update the vatReturn reference in it.
-			this.taxReturn.updateBalance(this.amountToPay);
-
-			// The Accounts payable is also to be decreased as the amount to pay
-			// to VATAgency is decreased.
-			taxReturn
-					.getTaxAgency()
-					.getFiledLiabilityAccount()
-					.updateCurrentBalance(this.payVAT, this.amountToPay,
-							payVAT.currencyFactor);
+			doVoidEffect(session);
 		}
 		return false;
 	}
 
+	private void doVoidEffect(Session session) {
+		// We need to update the corresponding VATAgency's balance with this
+		// amount to pay.
+		this.taxAgency.updateBalance(session, this.taxReturn, this.amountToPay);
+
+		// At the same time we need to update the vatReturn reference in it.
+		this.taxReturn.updateBalance(this.amountToPay);
+
+		// The Accounts payable is also to be decreased as the amount to pay
+		// to VATAgency is decreased.
+		Account filedLiabilityAccount = taxReturn.getTaxAgency()
+				.getFiledLiabilityAccount();
+		if (filedLiabilityAccount != null) {
+			filedLiabilityAccount.updateCurrentBalance(this.payTAX,
+					this.amountToPay, payTAX.currencyFactor);
+		}
+	}
+
 	protected boolean isBecameVoid() {
-		return this.payVAT.isBecameVoid();
+		return this.payTAX.isBecameVoid();
 	}
 
 	@Override
@@ -225,6 +230,14 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 
 		return true;
+	}
+
+	public FinanceDate getFiledDate() {
+		return filedDate;
+	}
+
+	public void setFiledDate(FinanceDate filedDate) {
+		this.filedDate = filedDate;
 	}
 
 }

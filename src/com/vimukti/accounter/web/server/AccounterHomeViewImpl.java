@@ -1418,7 +1418,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					.getTaxAgency().getID() : null);
 			clientEntry.setBalance(entry.getBalance());
 			clientEntry.setAmount(entry.getAmount());
-
+			clientEntry.setTaxReturnDate(entry.getTaxReturnDate()
+					.toClientFinanceDate());
 			clientEntries.add(clientEntry);
 		}
 		return clientEntries;
@@ -1494,13 +1495,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo) {
+			long accountId) {
 
 		List<Double> resultList = new ArrayList<Double>();
 		try {
 
 			resultList = getFinanceTool().getDashboardManager()
-					.getGraphPointsforAccount(chartType, accountNo,
+					.getGraphPointsforAccount(chartType, accountId,
 							getCompanyId());
 
 		} catch (Exception e) {
@@ -1695,6 +1696,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		return tool.getInventoryManager().getItemStatuses(wareHouse,
+				getCompanyId());
+	}
+
+	@Override
+	public ArrayList<ClientAccount> getAccounts(int typeOfAccount)
+			throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getCompanyManager().getAccounts(typeOfAccount,
 				getCompanyId());
 	}
 

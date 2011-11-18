@@ -96,7 +96,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				result.add(getEnterString());
 				ResultList actions = new ResultList(ACTIONS);
 				Record record = new Record(ActionNames.ALL);
-				record.add("", getConstants().showAll());
+				record.add("", getMessages().showAll());
 				actions.add(record);
 				result.add(actions);
 				if (isDone()) {
@@ -119,7 +119,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		if (selection == ActionNames.ALL || name == null) {
 			lists = getLists(context);
 			if (lists.size() != 0) {
-				result.add(getConstants().allRecords());
+				result.add(getMessages().allRecords());
 			}
 			name = null;
 		} else if (selection == null) {

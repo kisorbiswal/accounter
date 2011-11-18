@@ -26,18 +26,18 @@ public abstract class CustomerContactRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new StringRequirement(CONTACT_NAME, getMessages().pleaseEnter(
-				getConstants().contactName()), getConstants().contactName(),
+				getMessages().contactName()), getMessages().contactName(),
 				true, true));
 
 		list.add(new StringRequirement(TITLE, getMessages().pleaseEnter(
-				getConstants().title()), getConstants().title(), true, true));
+				getMessages().title()), getMessages().title(), true, true));
 
 		list.add(new NumberRequirement(BUSINESS_PHONE, getMessages()
-				.pleaseEnter(getConstants().businessPhone()), getConstants()
+				.pleaseEnter(getMessages().businessPhone()), getMessages()
 				.businessPhone(), true, true));
 
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true, true));
+				getMessages().email()), getMessages().email(), true, true));
 
 		list.add(new BooleanRequirement(IS_PRIMARY, true) {
 
@@ -84,15 +84,15 @@ public abstract class CustomerContactRequirement extends
 	@Override
 	protected Record createFullRecord(ClientContact t) {
 		Record record = new Record(t);
-		record.add("", getConstants().primary());
+		record.add("", getMessages().primary());
 		record.add("", t.isPrimary());
-		record.add("", getConstants().contactName());
+		record.add("", getMessages().contactName());
 		record.add("", t.getName());
-		record.add("", getConstants().title());
+		record.add("", getMessages().title());
 		record.add("", t.getTitle());
-		record.add("", getConstants().businessPhone());
+		record.add("", getMessages().businessPhone());
 		record.add("", t.getBusinessPhone());
-		record.add("", getConstants().email());
+		record.add("", getMessages().email());
 		record.add("", t.getEmail());
 		return record;
 	}
@@ -108,11 +108,11 @@ public abstract class CustomerContactRequirement extends
 	protected String getAddMoreString() {
 		List<ClientContact> contacts = getValue();
 		return contacts.isEmpty() ? "Add Contact" : getMessages().addMore(
-				getConstants().contacts());
+				getMessages().contacts());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().contacts());
+		return getMessages().youDontHaveAny(getMessages().contacts());
 	}
 }

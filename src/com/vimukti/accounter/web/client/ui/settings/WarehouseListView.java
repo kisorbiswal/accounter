@@ -18,7 +18,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().warehouseList();
+		return Accounter.messages().warehouseList();
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().warehouseList();
+		return Accounter.messages().warehouseList();
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewWarehouse();
+		return Accounter.messages().addNewWarehouse();
 	}
 
 	@Override

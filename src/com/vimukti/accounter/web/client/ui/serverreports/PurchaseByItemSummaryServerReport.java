@@ -42,14 +42,14 @@ public class PurchaseByItemSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().item(),
-				getConstants().quantity(),
-				getConstants().amount() };
+		return new String[] { getMessages().item(),
+				getMessages().quantity(),
+				getMessages().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().purchaseByItemSummary();
+		return getMessages().purchaseByItemSummary();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class PurchaseByItemSummaryServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "",
-					getConstants().total() }, new int[] { 2 });
+					getMessages().total() }, new int[] { 2 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -159,9 +159,9 @@ public class PurchaseByItemSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().item(),
-				getConstants().quantity(),
-				getConstants().amount() };
+		return new String[] { getMessages().item(),
+				getMessages().quantity(),
+				getMessages().amount() };
 	}
 	
 }

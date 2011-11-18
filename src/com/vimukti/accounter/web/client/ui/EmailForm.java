@@ -34,10 +34,10 @@ public class EmailForm extends DynamicForm {
 		allEmails = new LinkedHashMap<Integer, ClientEmail>();
 		setEmails(emails);
 		setIsGroup(true);
-		setGroupTitle(Accounter.constants().emailAndInternet());
+		setGroupTitle(Accounter.messages().emailAndInternet());
 		setNumCols(3);
 
-		businesEmailSelect = new SelectCombo(Accounter.constants().email());
+		businesEmailSelect = new SelectCombo(Accounter.messages().email());
 		businesEmailSelect.setHelpInformation(true);
 		// businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -58,9 +58,9 @@ public class EmailForm extends DynamicForm {
 					}
 				});
 
-		businesEmailText = new EmailField(Accounter.constants().email());
+		businesEmailText = new EmailField(Accounter.messages().email());
 		businesEmailSelect.setToolTip(Accounter.messages().giveOf(
-				Accounter.constants().email(), view));
+				Accounter.messages().email(), view));
 		businesEmailText.setHelpInformation(true);
 		businesEmailText.setWidth(100);
 		businesEmailText.setShowTitle(true);
@@ -81,7 +81,7 @@ public class EmailForm extends DynamicForm {
 						// + AccounterErrorType.INVALID_EMAIL + ".");
 						// BaseView.commentPanel.setVisible(true);
 
-						errorWidget.addError(this, Accounter.constants()
+						errorWidget.addError(this, Accounter.messages()
 								.invalidEmail());
 						// Accounter.showError(Accounter.constants().invalidEmail());
 						// businesEmailText.setText("");
@@ -100,9 +100,9 @@ public class EmailForm extends DynamicForm {
 				}
 			}
 		});
-		webText = new TextItem(Accounter.constants().webPageAddress());
+		webText = new TextItem(Accounter.messages().webPageAddress());
 		webText.setToolTip(Accounter.messages().giveOf(
-				Accounter.constants().webSite(), view));
+				Accounter.messages().webSite(), view));
 		webText.setHelpInformation(true);
 		webText.setWidth(100);
 		LinkItem emptyItem = new LinkItem();

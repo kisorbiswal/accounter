@@ -58,15 +58,15 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.doyouHaveEmployees());
+		headerLabel.setText(accounterMessages.doyouHaveEmployees());
 
-		w2Employees.setText(accounterConstants.wehavW2Employes());
-		contractors.setText(accounterConstants.wehavContractors());
-		trackExpenses.setText(accounterConstants.trackEmployeeExpenses());
-		trackEmployeeYes.setText(accounterConstants.yes());
-		trackEmployeeNo.setText(accounterConstants.no());
-		trackEmployeeExpenseYes.setText(accounterConstants.yes());
-		trackEmployeeExpenseNo.setText(accounterConstants.no());
+		w2Employees.setText(accounterMessages.wehavW2Employes());
+		contractors.setText(accounterMessages.wehavContractors());
+		trackExpenses.setText(accounterMessages.trackEmployeeExpenses());
+		trackEmployeeYes.setText(accounterMessages.yes());
+		trackEmployeeNo.setText(accounterMessages.no());
+		trackEmployeeExpenseYes.setText(accounterMessages.yes());
+		trackEmployeeExpenseNo.setText(accounterMessages.no());
 
 		if (!trackEmployeeExpenseYes.getValue()) {
 			// if (trackPanel.isAttached())
@@ -141,12 +141,12 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		if (trackEmployeeYes.getValue()) {
 			if (!(w2Employees.getValue() || contractors.getValue())) {
 				Accounter.showError(accounterMessages
-						.pleaseselectvalidtransactionGrid(accounterConstants
+						.pleaseselectvalidtransactionGrid(accounterMessages
 								.employeeType()));
 				return false;
 			} else if (!(trackEmployeeExpenseYes.getValue() || trackEmployeeExpenseNo
 					.getValue())) {
-				Accounter.showError(accounterConstants.trackEmployeeExpenses());
+				Accounter.showError(accounterMessages.trackEmployeeExpenses());
 				return false;
 			} else {
 				return true;
@@ -158,6 +158,6 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.trackEmployeeExpenses();
+		return accounterMessages.trackEmployeeExpenses();
 	}
 }

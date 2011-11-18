@@ -70,17 +70,17 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 	public void createControls() {
 
-		final String[] dateRangeArray = { Accounter.constants().january(),
-				Accounter.constants().february(),
-				Accounter.constants().march(), Accounter.constants().april(),
-				Accounter.constants().may(), Accounter.constants().june(),
-				Accounter.constants().july(), Accounter.constants().august(),
-				Accounter.constants().september(),
-				Accounter.constants().october(),
-				Accounter.constants().november(),
-				Accounter.constants().december() };
+		final String[] dateRangeArray = { Accounter.messages().january(),
+				Accounter.messages().february(),
+				Accounter.messages().march(), Accounter.messages().april(),
+				Accounter.messages().may(), Accounter.messages().june(),
+				Accounter.messages().july(), Accounter.messages().august(),
+				Accounter.messages().september(),
+				Accounter.messages().october(),
+				Accounter.messages().november(),
+				Accounter.messages().december() };
 
-		budgetCombo = new SelectCombo(Accounter.constants().budget());
+		budgetCombo = new SelectCombo(Accounter.messages().budget());
 		budgetCombo.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (String str : budgetArray) {
@@ -100,7 +100,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 					}
 				});
 
-		budgetMonth = new SelectCombo(Accounter.constants().budgetMonth());
+		budgetMonth = new SelectCombo(Accounter.messages().budgetMonth());
 		budgetMonth.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -123,8 +123,8 @@ public class BudgetReportToolbar extends ReportToolbar {
 					}
 				});
 
-		budgetYear = new SelectCombo(Accounter.constants().budget() + " "
-				+ Accounter.constants().year());
+		budgetYear = new SelectCombo(Accounter.messages().budget() + " "
+				+ Accounter.messages().year());
 		budgetYear.setHelpInformation(true);
 		yearRangeList = new ArrayList<String>();
 		for (int i = 1990; i < 2030; i++) {
@@ -138,7 +138,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 
-						if (selectItem.endsWith(Accounter.constants()
+						if (selectItem.endsWith(Accounter.messages()
 								.accountVScustom())) {
 							fromItem.setDisabled(false);
 							toItem.setDisabled(false);
@@ -153,7 +153,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -166,7 +166,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -175,7 +175,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -185,7 +185,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				setSelectedDateRange(Accounter.constants().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 
 			}
 		});
@@ -194,7 +194,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter.constants().print());
+		Button printButton = new Button(Accounter.messages().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {

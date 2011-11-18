@@ -20,7 +20,7 @@ public class NewSalesperSonAction extends Action<ClientSalesPerson> {
 
 	public NewSalesperSonAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	@Override

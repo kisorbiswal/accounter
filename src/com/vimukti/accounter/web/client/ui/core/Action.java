@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -33,7 +35,7 @@ public abstract class Action<T> implements Command {
 	// // TODO Auto-generated method stub
 	//
 	// }
-
+	protected AccounterMessages messages = Global.get().messages();
 	/**
 	 * This action's text, or <code>null</code> if none.
 	 */
@@ -76,9 +78,9 @@ public abstract class Action<T> implements Command {
 
 	public String getViewModeText() {
 		String viewText = text;
-		if (viewText.contains(Accounter.constants().new1())) {
-			viewText = viewText.replace(Accounter.constants().new1(), Accounter
-					.constants().view());
+		if (viewText.contains(Accounter.messages().new1())) {
+			viewText = viewText.replace(Accounter.messages().new1(), Accounter
+					.messages().view());
 		}
 		return viewText;
 	}
@@ -231,9 +233,9 @@ public abstract class Action<T> implements Command {
 
 	public String getEditText() {
 		String editText = text;
-		if (editText.contains(Accounter.constants().new1())) {
-			editText = editText.replace(Accounter.constants().new1(), Accounter
-					.constants().edit());
+		if (editText.contains(Accounter.messages().new1())) {
+			editText = editText.replace(Accounter.messages().new1(), Accounter
+					.messages().edit());
 		}
 		return editText;
 	}

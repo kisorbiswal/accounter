@@ -261,6 +261,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	private double totalBalanceInAccountCurrency;
 
+	private String paypalEmail;
+
+	private String paypalType;
+
 	/**
 	 * Constructor of Account class
 	 */
@@ -800,8 +804,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
-		if(this.currency==null){
-			this.currency=getCompany().getPrimaryCurrency();
+		if (this.currency == null) {
+			this.currency = getCompany().getPrimaryCurrency();
 		}
 
 		try {
@@ -817,9 +821,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			} else {
 				this.isIncrease = false;
 			}
-			if (this.type == Account.TYPE_INVENTORY_ASSET) {
-				this.isOpeningBalanceEditable = false;
-			}
+			// if (this.type == Account.TYPE_INVENTORY_ASSET) {
+			// this.isOpeningBalanceEditable = false;
+			// }
 
 			switch (type) {
 
@@ -944,7 +948,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	}
 
-	private void updateTotalBalance(double amount, double currencyFactor) {
+	public void updateTotalBalance(double amount, double currencyFactor) {
 		System.out.println(this.getName());
 
 		String tempStr = " Total Balance of " + this.getName()
@@ -970,9 +974,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return;
 		}
 		amount = (isIncrease ? 1 : -1) * amount;
-		
-		if(this.getCurrency()==getCompany().getPrimaryCurrency()){
-			currencyFactor=1;
+
+		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
+			currencyFactor = 1;
 		}
 
 		log.info("Current Balance of  " + this.getName()
@@ -1197,7 +1201,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				+ this.totalBalance;
 	}
 
-
 	public void setNumber(String number) {
 		this.number = number;
 
@@ -1306,14 +1309,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	}
 
 	/**
-	 * @param amount
-	 *            the currenctBalanceInAccountCurrency to set
-	 */
-	public void setTotalBalanceInAccountCurrency(double amount) {
-		this.totalBalanceInAccountCurrency = amount;
-	}
-
-	/**
 	 * @return the currencyFactor
 	 */
 	public double getCurrencyFactor() {
@@ -1326,6 +1321,26 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 */
 	public void setCurrencyFactor(double currencyFactor) {
 		this.currencyFactor = currencyFactor;
+	}
+
+	public void setCurrenctBalance(double amount) {
+		this.currentBalance += amount;
+	}
+
+	public void setPaypalEmail(String paypalEmail) {
+		this.paypalEmail = paypalEmail;
+	}
+
+	public String getPaypalEmail() {
+		return paypalEmail;
+	}
+
+	public void setPaypalType(String paypalType) {
+		this.paypalType = paypalType;
+	}
+
+	public String getPaypalType() {
+		return paypalType;
 	}
 
 }

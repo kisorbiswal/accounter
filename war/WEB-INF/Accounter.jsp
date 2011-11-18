@@ -1,3 +1,5 @@
+<%@ page import="java.util.*" %>
+<%@page pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- The HTML 4.01 Transitional DOCTYPE declaration-->
@@ -16,6 +18,21 @@
     <script type="text/javascript" charset="utf-8">
   		var is_ssl = ("https:" == document.location.protocol);
   		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+  		
+  		var AccounterMessages={
+  		<%
+  		HashMap<String,String> messages=(HashMap<String,String>)request.getAttribute("messages");
+  		if(messages!=null){
+  		for(String key:messages.keySet()){
+  			String value=messages.get(key);
+  		%>
+  			<%= key %>: '<%= value %>',
+  		<%
+  		}
+  		}
+  		%>
+  			last: 'end'
+  		};
 	</script>
 		
     

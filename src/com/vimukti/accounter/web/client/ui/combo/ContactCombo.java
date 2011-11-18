@@ -18,7 +18,7 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return "-- Add New Contact --";
+		return messages.contact();
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -88,19 +88,19 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getConstants().paymentMethod()),
-				getConstants().paymentMethod(), false, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()),
+				getMessages().paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
 				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+						.hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 
 			@Override
@@ -111,12 +111,12 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 
 		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+				getMessages().currency()), getMessages().currency(), true,
 				true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -136,7 +136,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
+				.pleaseSelect(getMessages().currency()), getMessages()
 				.currency(), false, true) {
 			@Override
 			protected String getDisplayValue(Double value) {
@@ -164,18 +164,18 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(VAT_RETURN_END_DATE, getMessages()
-				.pleaseEnter(getConstants().returnsDueOnOrBefore()),
-				getConstants().returnsDueOnOrBefore(), true, true));
+				.pleaseEnter(getMessages().returnsDueOnOrBefore()),
+				getMessages().returnsDueOnOrBefore(), true, true));
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new Requirement(BILLS_TO_RECEIVE, false, true));
 		list.add(new ReceiveVatTableRequirement(BILLS_TO_RECEIVE, getMessages()
-				.pleaseSelect(getConstants().billsToReceive()), getConstants()
+				.pleaseSelect(getMessages().billsToReceive()), getMessages()
 				.billsToReceive()) {
 
 			@Override
@@ -272,17 +272,17 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().receiveVAT());
+		return getMessages().creating(getMessages().receiveVAT());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().receiveVAT());
+		return getMessages().readyToCreate(getMessages().receiveVAT());
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
+		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 		get(VAT_RETURN_END_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(ORDER_NO).setDefaultValue("1");
@@ -292,7 +292,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().receiveVAT());
+		return getMessages().createSuccessfully(getMessages().receiveVAT());
 	}
 
 }

@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -18,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.vat.ReceiveVATView;
 
 public class TransactionReceiveVATGrid extends
 		AbstractTransactionGrid<ClientTransactionReceiveVAT> {
-	AccounterConstants accounterConstants = Accounter.constants();
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
 	private ReceiveVATView receiveVATView;
@@ -78,7 +76,7 @@ public class TransactionReceiveVATGrid extends
 			// 2);
 
 		} catch (Exception e) {
-			Accounter.showError(accounterConstants.invalidAmount());
+			Accounter.showError(messages.invalidAmount());
 		}
 		super.editComplete(editingRecord, value, col);
 	}
@@ -90,8 +88,8 @@ public class TransactionReceiveVATGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.taxAgency(),
-				companyConstants.taxDue(), companyConstants.amountToReceive() };
+		return new String[] { messages.taxAgency(),
+				messages.taxDue(), messages.amountToReceive() };
 	}
 
 	@Override
@@ -210,7 +208,7 @@ public class TransactionReceiveVATGrid extends
 		ValidationResult result = new ValidationResult();
 		for (ClientTransactionReceiveVAT tax : getSelectedRecords()) {
 			if (!DecimalUtil.isGreaterThan(tax.getAmountToReceive(), 0.00)) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.pleaseEnterAmountToPay());
 			}
 

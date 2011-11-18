@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -445,32 +443,12 @@ public class TaxManager extends Manager {
 
 	}
 
-	public boolean hasFileVAT(TAXAgency vatAgency, FinanceDate startDate,
-			FinanceDate endDate, Company company) {
-
-		Criteria criteria = HibernateUtil.getCurrentSession().createCriteria(
-				TAXReturn.class);
-
-		List list = criteria.add(Restrictions.ge("periodEndDate", endDate))
-				.add(Restrictions.eq("company", company)).list();
-
-		if (list != null && list.size() > 0 && list.get(0) != null)
-			return true;
-
-		return false;
-	}
-
 	public ClientTAXReturn getVATReturnDetails(TAXAgency taxAgency,
 			FinanceDate fromDate, FinanceDate toDate, long companyId)
 			throws DAOException, AccounterException {
 
 		Company company = getCompany(companyId);
 
-		if (hasFileVAT(taxAgency, fromDate, toDate, company)) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT);
-			// "FileVAT is already done in this period. Choose another VAT period");
-		}
 		TAXReturn taxReturn = new TAXReturn();
 
 		// List<Box> boxes = createBoxes(vatAgency);
@@ -1182,9 +1160,9 @@ public class TaxManager extends Manager {
 					newEntry.setGrassAmount(newEntry.getTaxAmount()
 							+ newEntry.getNetAmount());
 					newEntry.setTransaction(transactionID);
-					newEntry.setTransactionType((Integer) objects[1]);
-					newEntry.setTransactionDate((Long) objects[2]);
-					newEntry.setTaxItem((Long) objects[6]);
+					newEntry.setTransactionType((Integer) objects[3]);
+					newEntry.setTransactionDate((Long) objects[4]);
+					newEntry.setTaxItem((Long) objects[5]);
 					newEntry.setTaxAgency(taxAgency);
 					newEntry.setTAXGroupEntry(false);
 					resultTAXReturnEntries.add(newEntry);
@@ -1202,7 +1180,7 @@ public class TaxManager extends Manager {
 				newEntry.setTransaction((Long) entry[0]);
 				newEntry.setTransactionType((Integer) entry[1]);
 				newEntry.setTransactionDate((Long) entry[2]);
-				newEntry.setTaxItem((Long) entry[6]);
+				newEntry.setTaxItem((Long) entry[5]);
 				newEntry.setTaxAgency(taxAgency);
 				newEntry.setTAXGroupEntry(false);
 				resultTAXReturnEntries.add(newEntry);

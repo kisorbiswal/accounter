@@ -43,22 +43,22 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	private TextItem[] getTextItems() {
 		List<TextItem> items = new ArrayList<TextItem>();
 
-		nameItem = new TextItem(Accounter.constants().name());
+		nameItem = new TextItem(Accounter.messages().name());
 		nameItem.setHelpInformation(true);
 		nameItem.setRequired(true);
 		items.add(nameItem);
 
-		titleItem = new TextItem(Accounter.constants().title());
+		titleItem = new TextItem(Accounter.messages().title());
 		titleItem.setHelpInformation(true);
 		titleItem.setRequired(false);
 		items.add(titleItem);
 
-		businessPhoneItem = new TextItem(Accounter.constants().businessPhone());
+		businessPhoneItem = new TextItem(Accounter.messages().businessPhone());
 		businessPhoneItem.setHelpInformation(true);
 		businessPhoneItem.setRequired(false);
 		items.add(businessPhoneItem);
 
-		emailItem = new EmailField(Accounter.constants().email());
+		emailItem = new EmailField(Accounter.messages().email());
 		emailItem.setHelpInformation(true);
 		emailItem.setRequired(false);
 		items.add(emailItem);
@@ -93,13 +93,13 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 		if (emailItem.getValue().length() > 0) {
 			if (!UIUtils.isValidEmail(emailItem.getValue())) {
-				result.addError(emailItem, constants.invalidEmail());
+				result.addError(emailItem, messages.invalidEmail());
 			}
 		}
 
 		if (!businessPhoneItem.getValue().isEmpty()) {
 			if (!UIUtils.isValidPhone(businessPhoneItem.getValue())) {
-				result.addError(nameItem, constants.invalidBusinessPhoneVal());
+				result.addError(nameItem, messages.invalidBusinessPhoneVal());
 				businessPhoneItem.setValue("");
 			}
 		}

@@ -59,7 +59,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
@@ -94,7 +94,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		extends BaseView<T> implements ICurrencyProvider {
-	protected AccounterConstants customerConstants = Accounter.constants();
+	protected AccounterMessages messages = Accounter.messages();
 
 	protected int transactionType;
 
@@ -320,7 +320,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
+		vatinclusiveCheck = new CheckboxItem(Accounter.messages()
 				.amountIncludesVat());
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -386,7 +386,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(Accounter.constants().date());
+		final DateField dateItem = new DateField(Accounter.messages().date());
 		dateItem.setToolTip(Accounter
 				.messages()
 				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
@@ -408,7 +408,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 						if (newDate != null)
 							setTransactionDate(newDate);
 					} catch (Exception e) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.invalidTransactionDate());
 						setTransactionDate(new ClientFinanceDate());
 						dateItem.setEnteredDate(getTransactionDate());
@@ -442,7 +442,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createTransactionNumberItem() {
 
-		final TextItem item = new TextItem(Accounter.constants().no());
+		final TextItem item = new TextItem(Accounter.messages().no());
 		item.setToolTip(Accounter.messages().giveNoTo(
 				this.getAction().getViewName()));
 		item.setHelpInformation(true);
@@ -462,7 +462,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createRefereceText() {
 
-		TextItem refText = new TextItem(Accounter.constants().reference());
+		TextItem refText = new TextItem(Accounter.messages().reference());
 		refText.setHelpInformation(true);
 		// formItems.add(refText);
 
@@ -471,7 +471,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected AmountField createNetAmountField() {
-		AmountField netAmountField = new AmountField(Accounter.constants()
+		AmountField netAmountField = new AmountField(Accounter.messages()
 				.netAmount(), this, getBaseCurrency());
 		netAmountField.setHelpInformation(true);
 		netAmountField.setDefaultValue("£0.00");
@@ -480,9 +480,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected AmountLabel createNetAmountLabel() {
-		AmountLabel netAmountLabel = new AmountLabel(Accounter.constants()
+		AmountLabel netAmountLabel = new AmountLabel(Accounter.messages()
 				.netAmount());
-		netAmountLabel.setTitle(Accounter.constants().netAmount());
+		netAmountLabel.setTitle(Accounter.messages().netAmount());
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
 	}
@@ -504,14 +504,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().total());
+		AmountLabel amountLabel = new AmountLabel(Accounter.messages().total());
 
 		return amountLabel;
 
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabelforPurchase() {
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountLabel = new AmountLabel(Accounter.messages().vat());
 
 		return amountLabel;
 	}
@@ -524,7 +524,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			memoArea.setMemo(true, this);
 		memoArea.setHelpInformation(true);
 
-		memoArea.setTitle(Accounter.constants().memo());
+		memoArea.setTitle(Accounter.messages().memo());
 		// memoArea.setRowSpan(2);
 		// memoArea.setColSpan(3);
 
@@ -598,7 +598,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	private Button createMakeRecurringButton() {
 		Button recurringButton = new Button();
-		recurringButton.setText(Accounter.constants().makeItRecurring());
+		recurringButton.setText(Accounter.messages().makeItRecurring());
 		recurringButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -717,26 +717,26 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
 		// .constants().check());
 		String payVatMethodArray[] = new String[] {
-				Accounter.constants().cash(), constants.cheque(),
-				Accounter.constants().creditCard(),
-				Accounter.constants().directDebit(),
-				Accounter.constants().masterCard(),
-				Accounter.constants().onlineBanking(),
-				Accounter.constants().standingOrder(),
-				Accounter.constants().switchMaestro() };
+				Accounter.messages().cash(), messages.cheque(),
+				Accounter.messages().creditCard(),
+				Accounter.messages().directDebit(),
+				Accounter.messages().masterCard(),
+				Accounter.messages().onlineBanking(),
+				Accounter.messages().standingOrder(),
+				Accounter.messages().switchMaestro() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
 		}
 
 		final SelectCombo paymentMethodSelect = new SelectCombo(Accounter
-				.constants().paymentMethod());
+				.messages().paymentMethod());
 		paymentMethodSelect.setHelpInformation(true);
 
 		paymentMethodSelect.setRequired(true);
 		paymentMethodSelect.initCombo(payVatMethodList);
 		paymentMethodSelect.setDefaultToFirstOption(true);
-		paymentMethod = Accounter.constants().cash();
+		paymentMethod = Accounter.messages().cash();
 
 		paymentMethodSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -860,13 +860,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			ImageResource image = null;
 			if (itm.equalsIgnoreCase(Global.get().Accounts())) {
 				image = Accounter.getFinanceMenuImages().Accounts();
-			} else if (itm.equals(Accounter.constants().productOrServiceItem())) {
+			} else if (itm.equals(Accounter.messages().productOrServiceItem())) {
 				if (sellProducts) {
 					image = Accounter.getFinanceMenuImages().items();
 				} else {
 					continue;
 				}
-			} else if (itm.equals(Accounter.constants().comment())) {
+			} else if (itm.equals(Accounter.messages().comment())) {
 				image = Accounter.getFinanceMenuImages().comments();
 			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))
 					|| (itm.equals("Service"))) {
@@ -1001,12 +1001,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					result.addError(
 							this,
 							Accounter.messages().valueCannotBe0orlessthan0(
-									Accounter.constants().amount()));
+									Accounter.messages().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
 							&& !(this instanceof WriteChequeView)
 							&& !(this instanceof InvoiceView))
-						result.addError(this, Accounter.constants()
+						result.addError(this, Accounter.messages()
 								.transactiontotalcannotbe0orlessthan0());
 				}
 			}
@@ -1025,7 +1025,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					result.addError(
 							"TransactionItem" + transactionItem.getAccount()
 									+ transactionItem.getAccount(), Accounter
-									.constants()
+									.messages()
 									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
@@ -1048,8 +1048,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 * @return
 	 */
 	protected LocationCombo createLocationCombo() {
-		LocationCombo locationCombo = new LocationCombo(Accounter.messages()
-				.location(Global.get().Location()));
+		LocationCombo locationCombo = new LocationCombo(Global.get().Location());
 		locationCombo.setHelpInformation(true);
 		locationCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientLocation>() {
@@ -1332,7 +1331,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+		AddressCombo addressCombo = new AddressCombo(Accounter.messages()
 				.billTo(), false);
 		addressCombo.setDefaultToFirstOption(false);
 		addressCombo.setHelpInformation(true);
@@ -1384,7 +1383,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createCheckNumberItem() {
 
-		final TextItem checkNo = new TextItem(Accounter.constants().chequeNo());
+		final TextItem checkNo = new TextItem(Accounter.messages().chequeNo());
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -1590,7 +1589,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected VerticalPanel createHistoryView() {
 		VerticalPanel historyNotesPanel = new VerticalPanel();
 
-		Label headerLabel = new Label(constants.historyAndNotes());
+		Label headerLabel = new Label(messages.historyAndNotes());
 		headerLabel.addStyleName("history_notes_label");
 
 		VerticalPanel lastActivityPanel = new VerticalPanel();
@@ -1609,8 +1608,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		VerticalPanel tablesPanel = new VerticalPanel();
 		FlowPanel headersPanel = new FlowPanel();
 
-		final Anchor historyLink = new Anchor(constants.showHistory());
-		Anchor addNotesLink = new Anchor(constants.addNote());
+		final Anchor historyLink = new Anchor(messages.showHistory());
+		Anchor addNotesLink = new Anchor(messages.addNote());
 		historyLink.addStyleName("history_notes_link");
 		addNotesLink.addStyleName("history_notes_link");
 
@@ -1633,9 +1632,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			public void onClick(ClickEvent event) {
 				historyPanel.setVisible(!historyPanel.isVisible());
 				if (historyPanel.isVisible())
-					historyLink.setHTML(constants.hideHistory());
+					historyLink.setHTML(messages.hideHistory());
 				else
-					historyLink.setHTML(constants.showHistory());
+					historyLink.setHTML(messages.showHistory());
 			}
 		});
 
@@ -1672,7 +1671,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private VerticalPanel getNotesPanel() {
 		VerticalPanel notesPanel = new VerticalPanel();
 
-		Label noteLabel = new Label(constants.note());
+		Label noteLabel = new Label(messages.note());
 		// text area....
 		final TextArea notesArea = new TextArea();
 		notesArea.removeStyleName("gwt-TextArea");
@@ -1683,7 +1682,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 
 		final SaveAndCloseButton saveButton = new SaveAndCloseButton(
-				constants.save());
+				messages.save());
 		CancelButton cancelButton = new CancelButton();
 
 		saveButton.addClickHandler(new ClickHandler() {
@@ -1782,7 +1781,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected void isValidCurrencyFactor(ValidationResult result) {
 		if (currencyWidget != null && !currencyWidget.isShowFactorField()) {
 			if (currencyWidget.getCurrencyFactor() == 0) {
-				result.addError(currencyWidget, Accounter.constants()
+				result.addError(currencyWidget, Accounter.messages()
 						.pleaseEntervalidCurrencyFactor());
 			}
 		}

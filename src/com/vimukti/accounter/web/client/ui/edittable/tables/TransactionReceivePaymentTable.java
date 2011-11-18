@@ -20,8 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -43,9 +41,6 @@ public abstract class TransactionReceivePaymentTable extends
 		EditTable<ClientTransactionReceivePayment> {
 	private ClientCompany company;
 	private boolean canEdit;
-
-	AccounterConstants customerConstants = Accounter.constants();
-	AccounterMessages accounterMessages = Accounter.messages();
 
 	ClientCustomer customer;
 	List<Integer> selectedValues = new ArrayList<Integer>();
@@ -117,7 +112,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().dueDate();
+					return Accounter.messages().dueDate();
 				}
 			};
 			this.addColumn(dateCoulmn);
@@ -148,7 +143,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().invoice();
+				return Accounter.messages().invoice();
 			}
 		};
 		this.addColumn(invoiceNumber);
@@ -168,7 +163,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(Accounter.constants()
+				return getColumnNameWithCurrency(Accounter.messages()
 						.invoiceAmount());
 			}
 
@@ -201,7 +196,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.constants()
+					return getColumnNameWithCurrency(Accounter.messages()
 							.amountDue());
 				}
 
@@ -243,7 +238,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().discountDate();
+				return Accounter.messages().discountDate();
 			}
 		};
 		// this.addColumn(discountDateColumn);
@@ -267,7 +262,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().cashDiscount();
+				return Accounter.messages().cashDiscount();
 			}
 
 			@Override
@@ -296,7 +291,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().writeOff();
+				return Accounter.messages().writeOff();
 			}
 
 			@Override
@@ -325,7 +320,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().appliedCredits();
+				return Accounter.messages().appliedCredits();
 			}
 
 			@Override
@@ -354,7 +349,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(Accounter.constants()
+				return getColumnNameWithCurrency(Accounter.messages()
 						.payment());
 			}
 
@@ -412,13 +407,13 @@ public abstract class TransactionReceivePaymentTable extends
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this, accounterMessages
-						.valueCannotBe0orlessthan0(customerConstants.amount()));
+				result.addError(this, messages
+						.valueCannotBe0orlessthan0(messages.amount()));
 			} else if (DecimalUtil.isGreaterThan(totalValue, currencyProvider
 					.getAmountInBaseCurrency(transactionReceivePayment
 							.getAmountDue()))
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.receivePaymentExcessDue());
 			}
 		}
@@ -724,7 +719,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.constants()
+			throw new Exception(Accounter.messages()
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -769,6 +764,9 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void setTranReceivePayments(
 			List<ClientTransactionReceivePayment> recievePayments) {
+		for(ClientTransactionReceivePayment payment:recievePayments){
+			payment.setID(0);
+		}
 		this.tranReceivePayments = recievePayments;
 	}
 
@@ -776,7 +774,7 @@ public abstract class TransactionReceivePaymentTable extends
 			ClientTransactionReceivePayment selectedObject) {
 		double totalValue = getTotalValue(selectedObject);
 		if (AccounterValidator.isValidReceive_Payment(selectedObject
-				.getAmountDue(), totalValue, Accounter.constants()
+				.getAmountDue(), totalValue, Accounter.messages()
 				.receiveAmountPayDue())) {
 			return true;
 		} else

@@ -4,7 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
  * this action class is used to display currencyGroupListDialog view
  */
 public class CurrencyGroupListAction extends Action {
-	private AccounterConstants constants = Global.get().constants();
+	private AccounterMessages messages = Global.get().messages();
 
 	public CurrencyGroupListAction(String text) {
 		super(text);
@@ -31,7 +31,7 @@ public class CurrencyGroupListAction extends Action {
 			@Override
 			public void onSuccess() {
 				CurrencyGroupListDialog groupListDialog = new CurrencyGroupListDialog(
-						constants.manageCurrency(), constants
+						messages.manageCurrency(), messages
 								.toAddCurrencyGroup());
 				groupListDialog.show();
 				groupListDialog.center();
@@ -39,7 +39,7 @@ public class CurrencyGroupListAction extends Action {
 
 			@Override
 			public void onFailure(Throwable reason) {
-				Accounter.showError(constants.unableToshowtheview());
+				Accounter.showError(messages.unableToshowtheview());
 			}
 		});
 	}

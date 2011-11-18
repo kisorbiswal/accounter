@@ -37,7 +37,7 @@ public class AccountMergeDialog extends BaseDialog implements
 	public AccountMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.constants().merge());
+		okbtn.setText(Accounter.messages().merge());
 		createControls();
 		center();
 	}
@@ -63,15 +63,15 @@ public class AccountMergeDialog extends BaseDialog implements
 				Global.get().Account()));
 		accountNumberTextItem1.setHelpInformation(true);
 
-		name = new TextItem(Accounter.constants().accountName());
+		name = new TextItem(Accounter.messages().name());
 		name.setHelpInformation(true);
-		name1 = new TextItem(Accounter.constants().accountName());
+		name1 = new TextItem(Accounter.messages().name());
 		name1.setHelpInformation(true);
 
-		balanceTextItem = new TextItem(Accounter.constants().balance());
+		balanceTextItem = new TextItem(Accounter.messages().balance());
 		balanceTextItem.setHelpInformation(true);
 
-		balanceTextItem1 = new TextItem(Accounter.constants().balance());
+		balanceTextItem1 = new TextItem(Accounter.messages().balance());
 		balanceTextItem1.setHelpInformation(true);
 
 		form.setItems(accountCombo, accountNumberTextItem, name,

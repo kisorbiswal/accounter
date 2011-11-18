@@ -57,7 +57,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().financialYearToDate();
+		return Accounter.messages().financialYearToDate();
 	}
 
 	// @Override
@@ -69,15 +69,15 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.constants().number(),
-				Accounter.constants().date(), Accounter.constants().name(),
+		return new String[] { "", Accounter.messages().number(),
+				Accounter.messages().date(), Accounter.messages().name(),
 				Accounter.messages().payeeName(Global.get().Account()),
-				Accounter.constants().amount() };
+				Accounter.messages().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().depositDetail();
+		return Accounter.messages().depositDetail();
 	}
 
 	@Override

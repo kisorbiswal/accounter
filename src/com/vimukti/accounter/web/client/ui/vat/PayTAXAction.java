@@ -11,7 +11,7 @@ public class PayTAXAction extends Action {
 
 	public PayTAXAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().tax();
+		this.catagory = Accounter.messages().tax();
 	}
 
 	@Override

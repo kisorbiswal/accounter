@@ -4,12 +4,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -23,8 +21,6 @@ public class TransactionPayTAXGrid extends
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
 	private PayTAXView payVATView;
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
-
-	AccounterConstants accounterConstants = Accounter.constants();
 
 	public TransactionPayTAXGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -82,7 +78,7 @@ public class TransactionPayTAXGrid extends
 			// 2);
 
 		} catch (Exception e) {
-			Accounter.showError(accounterConstants.invalidAmount());
+			Accounter.showError(messages.invalidAmount());
 		}
 		super.editComplete(editingRecord, value, col);
 	}
@@ -94,17 +90,16 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.taxAgency(),
-				companyConstants.taxDue(), companyConstants.amountToPay() };
+		return new String[] { messages.taxFiledDate(), messages.taxDue(),
+				messages.amountToPay() };
 	}
 
 	@Override
 	protected Object getColumnValue(ClientTransactionPayTAX payVAT, int index) {
 		switch (index) {
 		case 0:
-			ClientTAXAgency taxAgency = Accounter.getCompany().getTaxAgency(
-					payVAT.getTaxAgency());
-			return taxAgency != null ? taxAgency.getName() : "";
+			return payVAT.getFiledDate() != null ? payVAT.getFiledDate()
+					.toString() : "";
 		case 1:
 			return DataUtils.getAmountAsString(payVAT.getTaxDue());
 
@@ -175,7 +170,6 @@ public class TransactionPayTAXGrid extends
 	protected void onSelectionChanged(ClientTransactionPayTAX obj, int row,
 			boolean isChecked) {
 		super.onSelectionChanged(obj, row, isChecked);
-		obj.setAmountToPay(obj.getTaxDue());
 		double toBeSetAmount = 0.0;
 		for (ClientTransactionPayTAX rec : this.getSelectedRecords()) {
 			toBeSetAmount += rec.getAmountToPay();
@@ -200,12 +194,12 @@ public class TransactionPayTAXGrid extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.pleaseSelectAtLeastOneRecord());
 		} else {
 			for (ClientTransactionPayTAX tax : getSelectedRecords()) {
 				if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
-					result.addError(this, Accounter.constants()
+					result.addError(this, Accounter.messages()
 							.pleaseEnterAmountToPay());
 				}
 

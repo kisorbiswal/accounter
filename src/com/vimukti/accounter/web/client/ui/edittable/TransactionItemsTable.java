@@ -37,7 +37,7 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().name();
+				return Accounter.messages().name();
 			}
 
 			@Override
@@ -52,7 +52,7 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 			protected String getValue(ClientTransactionItem row) {
 				if (row.getDescription() == null
 						|| row.getDescription().isEmpty()) {
-					return Accounter.constants().nodescription();
+					return Accounter.messages().nodescription();
 				}
 				return row.getDescription();
 			}
@@ -89,7 +89,7 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().vatCode();
+				return Accounter.messages().vatCode();
 			}
 		});
 
@@ -106,7 +106,7 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().lineTotal();
+				return Accounter.messages().lineTotal();
 			}
 
 			@Override

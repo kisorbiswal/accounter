@@ -45,7 +45,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		mainPanel = new VerticalPanel();
 		listForms = new ArrayList<DynamicForm>();
 
-		wareHouseCombo = new WarehouseCombo(Accounter.constants().wareHouse());
+		wareHouseCombo = new WarehouseCombo(Accounter.messages().wareHouse());
 		wareHouseCombo.setDisabled(!getCompany().getPreferences()
 				.iswareHouseEnabled() || isInViewMode());
 		wareHouseCombo.setRequired(true);
@@ -152,7 +152,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().stockAdjustment();
+		return Accounter.messages().stockAdjustment();
 	}
 
 	@Override

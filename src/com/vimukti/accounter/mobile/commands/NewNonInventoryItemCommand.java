@@ -19,7 +19,7 @@ public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
 		list.add(new NumberRequirement(WEIGHT, getMessages().pleaseEnter(
-				getConstants().weight()), getConstants().weight(), true, true));
+				getMessages().weight()), getMessages().weight(), true, true));
 	}
 
 	@Override
@@ -29,7 +29,8 @@ public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating Non Inventory Item";
+		return getItem().getID() == 0 ? "Creating Non Inventory Item"
+				: "Updating Non Inventory Item";
 	}
 
 }

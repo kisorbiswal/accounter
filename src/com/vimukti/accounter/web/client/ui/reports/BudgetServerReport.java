@@ -136,7 +136,7 @@ public class BudgetServerReport extends AbstractFinaneReport<ClientBudgetList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getMessages().all();
 	}
 
 	@Override
@@ -165,53 +165,53 @@ public class BudgetServerReport extends AbstractFinaneReport<ClientBudgetList> {
 	public String[] getColunms() {
 
 		if (budgettype == TOOLBAR_TYPE_MONTH) {
-			return new String[] { "", getConstants().accountName(),
-					getConstants().jan(), getConstants().total() };
+			return new String[] { "", getMessages().name(),
+					getMessages().jan(), getMessages().total() };
 		} else if (budgettype == TOOLBAR_TYPE_QUATER) {
-			return new String[] { getConstants().accountName(),
-					getConstants().jan() + " - " + getConstants().mar(),
-					getConstants().apr() + " - " + getConstants().jun(),
-					getConstants().jul() + " - " + getConstants().sept(),
-					getConstants().oct() + " - " + getConstants().dec(),
-					getConstants().total() };
+			return new String[] { getMessages().name(),
+					getMessages().jan() + " - " + getMessages().mar(),
+					getMessages().apr() + " - " + getMessages().jun(),
+					getMessages().jul() + " - " + getMessages().sept(),
+					getMessages().oct() + " - " + getMessages().dec(),
+					getMessages().total() };
 		} else if (budgettype == TOOLBAR_TYPE_YEAR) {
-			return new String[] { "", getConstants().accountName(),
-					getConstants().total() };
+			return new String[] { "", getMessages().name(),
+					getMessages().total() };
 		} else {
-			return new String[] { getConstants().accountName(),
-					getConstants().jan(), getConstants().feb(),
-					getConstants().mar(), getConstants().apr(),
-					getConstants().may(), getConstants().jun(),
-					getConstants().jul(), getConstants().aug(),
-					getConstants().sept(), getConstants().oct(),
-					getConstants().nov(), getConstants().dec(),
-					getConstants().total() };
+			return new String[] { getMessages().name(),
+					getMessages().jan(), getMessages().feb(),
+					getMessages().mar(), getMessages().apr(),
+					getMessages().may(), getMessages().jun(),
+					getMessages().jul(), getMessages().aug(),
+					getMessages().sept(), getMessages().oct(),
+					getMessages().nov(), getMessages().dec(),
+					getMessages().total() };
 		}
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().expenseReport();
+		return getMessages().expenseReport();
 	}
 
 	@Override
 	public void processRecord(ClientBudgetList record) {
 
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 2 });
+			addSection("", getMessages().total(), new int[] { 2 });
 		} else if (sectionDepth == 1) {
 			if (budgettype == TOOLBAR_TYPE_MONTH) {
 
-				addSection("", getConstants().total(), new int[] { 3 });
+				addSection("", getMessages().total(), new int[] { 3 });
 			} else if (budgettype == TOOLBAR_TYPE_QUATER) {
 
-				addSection("", getConstants().total(), new int[] { 5 });
+				addSection("", getMessages().total(), new int[] { 5 });
 			} else if (budgettype == TOOLBAR_TYPE_YEAR) {
 
-				addSection("", getConstants().total(), new int[] { 2 });
+				addSection("", getMessages().total(), new int[] { 2 });
 			} else {
 
-				addSection("", getConstants().total(), new int[] { 13 });
+				addSection("", getMessages().total(), new int[] { 13 });
 			}
 
 		} else if (sectionDepth == 2) {
@@ -282,64 +282,64 @@ public class BudgetServerReport extends AbstractFinaneReport<ClientBudgetList> {
 		if (budgettype == TOOLBAR_TYPE_MONTH) {
 
 			if (monthSelected == 1)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().jan(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().jan(), getMessages().total() };
 			else if (monthSelected == 2)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().feb(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().feb(), getMessages().total() };
 			else if (monthSelected == 3)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().mar(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().mar(), getMessages().total() };
 			else if (monthSelected == 4)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().apr(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().apr(), getMessages().total() };
 			else if (monthSelected == 5)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().may(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().may(), getMessages().total() };
 			else if (monthSelected == 6)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().jun(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().jun(), getMessages().total() };
 			else if (monthSelected == 7)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().jul(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().jul(), getMessages().total() };
 			else if (monthSelected == 8)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().aug(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().aug(), getMessages().total() };
 			else if (monthSelected == 9)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().sept(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().sept(), getMessages().total() };
 			else if (monthSelected == 10)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().oct(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().oct(), getMessages().total() };
 			else if (monthSelected == 11)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().nov(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().nov(), getMessages().total() };
 			else if (monthSelected == 12)
-				return new String[] { "", getConstants().accountName(),
-						getConstants().dec(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().dec(), getMessages().total() };
 			else
-				return new String[] { "", getConstants().accountName(),
-						getConstants().jan(), getConstants().total() };
+				return new String[] { "", getMessages().name(),
+						getMessages().jan(), getMessages().total() };
 
 		} else if (budgettype == TOOLBAR_TYPE_QUATER) {
-			return new String[] { getConstants().accountName(),
-					getConstants().jan() + " - " + getConstants().mar(),
-					getConstants().apr() + " - " + getConstants().jun(),
-					getConstants().jul() + " - " + getConstants().sept(),
-					getConstants().oct() + " - " + getConstants().dec(),
-					getConstants().total() };
+			return new String[] { getMessages().name(),
+					getMessages().jan() + " - " + getMessages().mar(),
+					getMessages().apr() + " - " + getMessages().jun(),
+					getMessages().jul() + " - " + getMessages().sept(),
+					getMessages().oct() + " - " + getMessages().dec(),
+					getMessages().total() };
 		} else if (budgettype == TOOLBAR_TYPE_YEAR) {
-			return new String[] { "", getConstants().accountName(),
-					getConstants().total() };
+			return new String[] { "", getMessages().name(),
+					getMessages().total() };
 		} else {
-			return new String[] { getConstants().accountName(),
-					getConstants().jan(), getConstants().feb(),
-					getConstants().mar(), getConstants().apr(),
-					getConstants().may(), getConstants().jun(),
-					getConstants().jul(), getConstants().aug(),
-					getConstants().sept(), getConstants().oct(),
-					getConstants().nov(), getConstants().dec(),
-					getConstants().total() };
+			return new String[] { getMessages().name(),
+					getMessages().jan(), getMessages().feb(),
+					getMessages().mar(), getMessages().apr(),
+					getMessages().may(), getMessages().jun(),
+					getMessages().jul(), getMessages().aug(),
+					getMessages().sept(), getMessages().oct(),
+					getMessages().nov(), getMessages().dec(),
+					getMessages().total() };
 		}
 	}
 

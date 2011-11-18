@@ -110,7 +110,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().invoiced();
+				return Accounter.messages().invoiced();
 			}
 
 			@Override

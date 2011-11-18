@@ -45,9 +45,9 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	private final int FOOTER = 25;
 	private final int BORDER = 20;
 
-	String[] dateRangeArray = { Accounter.constants().all(),
-			Accounter.constants().today(), Accounter.constants().last30Days(),
-			Accounter.constants().last45Days() };
+	String[] dateRangeArray = { Accounter.messages().all(),
+			Accounter.messages().today(), Accounter.messages().last30Days(),
+			Accounter.messages().last45Days() };
 	private List<String> listOfDateRanges;
 
 	private ClientFinanceDate endDate;
@@ -56,13 +56,13 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		super();
 		this.takenaccount = account2;
 
-		selectedDateRange = Accounter.constants().today();
-		selectedOption = Accounter.constants().all();
+		selectedDateRange = Accounter.messages().today();
+		selectedOption = Accounter.messages().all();
 	}
 
 	protected void createControls() {
 
-		showTransactionSelect = new SelectCombo(Accounter.constants()
+		showTransactionSelect = new SelectCombo(Accounter.messages()
 				.showTransactions());
 		listOfDateRanges = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -78,7 +78,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (!showTransactionSelect.getSelectedValue().equals(
-								Accounter.constants().custom()))
+								Accounter.messages().custom()))
 							dateRangeChanged();
 
 					}
@@ -93,7 +93,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		lab1 = new Label(Accounter.messages().accountRegister(
 				Global.get().Account())
 				+ " - " + takenaccount.getName());
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
 		lableHpanel.add(lab1);
@@ -118,7 +118,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		gridLayout.add(grid);
 
 		totalLabel = new Label();
-		totalLabel.setText(Accounter.constants().totalEndingBalance()
+		totalLabel.setText(Accounter.messages().totalEndingBalance()
 				+ DataUtils.getAmountAsString(total));
 		mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
@@ -136,31 +136,31 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
 		selectedOption = showTransactionSelect.getSelectedValue();
-		if (!selectedDateRange.equals(Accounter.constants().all())
-				&& selectedOption.equals(Accounter.constants().all())) {
+		if (!selectedDateRange.equals(Accounter.messages().all())
+				&& selectedOption.equals(Accounter.messages().all())) {
 			startDate = new ClientFinanceDate(0);
 			endDate = new ClientFinanceDate(0);
-			selectedDateRange = Accounter.constants().all();
+			selectedDateRange = Accounter.messages().all();
 
-		} else if (!selectedDateRange.equals(Accounter.constants().today())
-				&& selectedOption.equals(Accounter.constants().today())) {
+		} else if (!selectedDateRange.equals(Accounter.messages().today())
+				&& selectedOption.equals(Accounter.messages().today())) {
 			startDate = todaydate;
 			endDate = todaydate;
-			selectedDateRange = Accounter.constants().today();
+			selectedDateRange = Accounter.messages().today();
 
 		} else if (!selectedDateRange
-				.equals(Accounter.constants().last30Days())
-				&& selectedOption.equals(Accounter.constants().last30Days())) {
-			selectedDateRange = Accounter.constants().last30Days();
+				.equals(Accounter.messages().last30Days())
+				&& selectedOption.equals(Accounter.messages().last30Days())) {
+			selectedDateRange = Accounter.messages().last30Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
 					.getMonth() - 1, todaydate.getDay());
 			endDate = todaydate;
 
 		} else if (!selectedDateRange
-				.equals(Accounter.constants().last45Days())
-				&& selectedOption.equals(Accounter.constants().last45Days())) {
+				.equals(Accounter.messages().last45Days())
+				&& selectedOption.equals(Accounter.messages().last45Days())) {
 
-			selectedDateRange = Accounter.constants().last45Days();
+			selectedDateRange = Accounter.messages().last45Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
 					.getMonth() - 2, todaydate.getDay() + 16);
 			endDate = todaydate;
@@ -182,10 +182,10 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 				// this.total += accRegister.getBalance();
 			}
 			if (accountRegister.size() == 0) {
-				grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+				grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 			}
 		} else {
-			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 		}
 		// grid.updateFooterValues(FinanceApplication.constants()
 		// .endingbalance(), 6);

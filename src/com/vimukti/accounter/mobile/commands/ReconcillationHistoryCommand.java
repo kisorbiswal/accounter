@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -45,24 +46,25 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().account()));
+		makeResult.add(getMessages().readyToCreate(getMessages().account()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = accountRequirement(context, list, BANKACCOUNT, getConstants()
-				.bankAccount(), new ListFilter<Account>() {
+		result = accountRequirement(context, list, BANKACCOUNT, getMessages()
+				.bankAccount(Global.get().Account()),
+				new ListFilter<Account>() {
 
-			@Override
-			public boolean filter(Account e) {
-				if (e.getType() == ClientAccount.TYPE_BANK) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		});
+					@Override
+					public boolean filter(Account e) {
+						if (e.getType() == ClientAccount.TYPE_BANK) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				});
 
 		if (result != null) {
 			return result;
@@ -80,7 +82,7 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 	private Result getReconcillationHistory(Context context) {
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("reconlist");
-		result.add(getConstants().ReconciliationsList());
+		result.add(getMessages().ReconciliationsList());
 		List<ClientReconciliation> reconciliationsByBankAccountID = null;
 		ClientAccount bankAccouont = (ClientAccount) get(BANKACCOUNT)
 				.getValue();
@@ -108,11 +110,11 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 	private Record createReconcillationRecord(ClientReconciliation recon) {
 
 		Record rec = new Record(recon);
-		rec.add("", getConstants().ReconciliationDate());
+		rec.add("", getMessages().ReconciliationDate());
 		rec.add("", recon.getReconcilationDate());
-		rec.add("", getConstants().openingBalance());
+		rec.add("", getMessages().openingBalance());
 		rec.add("", recon.getOpeningBalance());
-		rec.add("", getConstants().ClosingBalance());
+		rec.add("", getMessages().ClosingBalance());
 		rec.add("", recon.getClosingBalance());
 		return rec;
 

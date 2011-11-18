@@ -56,9 +56,9 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 			// return getPermissionType(obj.getTypeOfPublishReports());
 		case 7:
 			if (obj.isCanDoUserManagement())
-				return Accounter.constants().yes();
+				return Accounter.messages().yes();
 			else
-				return Accounter.constants().no();
+				return Accounter.messages().no();
 			// return getPermissionType(obj.getTypeOfLockDates());
 		}
 		return null;
@@ -158,7 +158,7 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.constants().name(),
+		return new String[] { "", Accounter.messages().name(),
 				RolePermissions.BANK_RECONCILATION, RolePermissions.INVOICES,
 				/* RolePermissions.EMPLOYEE_EXPENCES, */
 				RolePermissions.EDIT_SYSTEM_SETTINGS,
@@ -177,11 +177,11 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	public String getPermissionType(int type) {
 		switch (type) {
 		case 1:
-			return Accounter.constants().yes();
+			return Accounter.messages().yes();
 		case 3:
-			return Accounter.constants().no();
+			return Accounter.messages().no();
 		case 2:
-			return Accounter.constants().readOnly();
+			return Accounter.messages().readOnly();
 		default:
 			return "";
 		}
@@ -193,9 +193,9 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 		 * case 4: return Accounter.constants().draftOnly();
 		 */
 		case 3:
-			return Accounter.constants().no();
+			return Accounter.messages().no();
 		case 5:
-			return Accounter.constants().approve();
+			return Accounter.messages().approve();
 		default:
 			return "";
 		}

@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class SelectExpenseType extends DialogBox {
 	public SelectExpenseType() {
-		add(new Label(Accounter.constants().pleaseImplementMe()));
+		add(new Label(Accounter.messages().pleaseImplementMe()));
 	}
 
 }
