@@ -405,6 +405,7 @@
 
 	<command clazz="NewCashSaleCommand" name="New CashSale">
 		<alias>Add Cash Sale</alias>
+		<alias>New Cash Sale</alias>
 		<alias>Modify Cash Sale</alias>
 		<alias>Update Cash Sale</alias>
 		<alias>Edit Cash Sale</alias>
@@ -439,6 +440,7 @@
 	</command>
 	<command clazz="NewCashExpenseCommand" name="New CashExpense">
 		<alias>Add Cash Expense</alias>
+		<alias>Cash Expense</alias>
 		<alias>Edit Cash Expense</alias>
 		<alias>Update Cash Expense</alias>
 		<alias>Modify Cash Expense</alias>
