@@ -1,27 +1,27 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * this class is used to generate Invoice report in PDF format
  * 
  */
 public class InvoicePDFTemplete implements PrintTemplete {
-	private Invoice invoice;
-	private BrandingTheme brandingTheme;
-	private int maxDecimalPoints;
+	private final Invoice invoice;
+	private final BrandingTheme brandingTheme;
+	private final int maxDecimalPoints;
 	// private static final String templateFileName = "templetes" +
 	// File.separator
 	// + "InvoiceTemplete.html";
-	private Company company;
-	private String templateName;
+	private final Company company;
+	private final String templateName;
 
 	public InvoicePDFTemplete(Invoice invoice, BrandingTheme brandingTheme,
 			Company company, String templateName) {
@@ -107,8 +107,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			Currency currency = invoice.getCustomer().getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
-					t.setVariable("currency", currency.getFormalName()
-							.trim());
+					t.setVariable("currency", currency.getFormalName().trim());
 					t.addBlock("currency");
 				}
 
@@ -388,10 +387,14 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// setting the theme styles
 			t.setVariable("fontStyle", brandingTheme.getFont());
 			t.setVariable("font", brandingTheme.getFontSize());
-			t.setVariable("bottomMargin",
-					String.valueOf(brandingTheme.getBottomMargin()));
-			t.setVariable("topMargin",
-					String.valueOf(brandingTheme.getTopMargin()));
+			t.setVariable(
+					"bottomMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getBottomMargin()));
+			t.setVariable(
+					"topMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getTopMargin()));
 			t.setVariable("title", brandingTheme.getOverDueInvoiceTitle());
 			// t.setVariable("addressPadding",
 			// String.valueOf(brandingTheme.getAddressPadding()));
@@ -462,7 +465,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		String max;
 		int temp = 0;
 		for (TransactionItem item : inv.getTransactionItems()) {
-			qty = String.valueOf(item.getQuantity());
+
+			// qty = String.valueOf(item.getQuantity());
+			qty = NumberFormat.getNumberInstance().format(
+					item.getQuantity().getValue());
+
 			max = qty.substring(qty.indexOf(".") + 1);
 			if (!max.equals("0")) {
 				if (temp < max.length()) {
@@ -505,7 +512,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		String max;
 		if (maxDecimalPoint != 0) {
 			if (amount == null)
-				qty = String.valueOf(quantity);
+				qty = NumberFormat.getInstance().format(quantity);
 			else
 				qty = amount;
 			max = qty.substring(qty.indexOf(".") + 1);
@@ -515,7 +522,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 			}
 		} else {
-			qty = String.valueOf((long) quantity);
+			qty = NumberFormat.getInstance().format(quantity);
+			// qty = String.valueOf((long) quantity);
 		}
 
 		String temp = qty.contains(".") ? qty.replace(".", "-").split("-")[0]
