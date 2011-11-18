@@ -46,7 +46,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		label.setWidth("100%");
 		label.addStyleName(Accounter.constants().labelTitle());
 		label.setText(Accounter.constants().taxHistory());
-		this.optionsCombo = new SelectCombo("Vat Filngs");
+		this.optionsCombo = new SelectCombo(Accounter.constants().taxFillings());
 		optionsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
