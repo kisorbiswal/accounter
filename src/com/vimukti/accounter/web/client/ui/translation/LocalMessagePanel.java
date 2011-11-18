@@ -106,6 +106,7 @@ public class LocalMessagePanel extends HorizontalPanel {
 		});
 
 		if (canApprove) {
+			approvePanel.add(approveButton);
 			votesWithMsgPanel.add(approvePanel);
 			approvePanel.getElement().getParentElement().addClassName(
 					"approve-img");
