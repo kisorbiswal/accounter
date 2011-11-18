@@ -148,7 +148,7 @@
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		SELECT * FROM MESSAGE M WHERE(SELECT COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 LIMIT :limt OFFSET
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 ORDER BY M.VALUE LIMIT :limt OFFSET
 		:fm
 	</sql-query>
 
@@ -225,12 +225,12 @@
 
 	<sql-query name="deleteLocalMessage">
 		<query-param name="id" type="long" />
-		DELETE FROM LOCAL_MESSAGE LM WHERE LM.ID=1 ;
+		DELETE FROM LOCAL_MESSAGE LM WHERE LM.ID=:id ;
 	</sql-query>
 
 	<sql-query name="deleteVotesByLocalMessage">
 		<query-param name="id" type="long" />
-		DELETE FROM VOTE V WHERE V.LOCAL_MESSAGE_ID = 1;
+		DELETE FROM VOTE V WHERE V.LOCAL_MESSAGE_ID = :id;
 	</sql-query>
 
 </hibernate-mapping>

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.NotSerializableException;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -2368,7 +2369,7 @@ public class FinanceTool {
 			while (iter.hasNext()) {
 				Message message = new Message();
 				Object[] next = (Object[]) iter.next();
-				message.setId((Long) next[0]);
+				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
 
 				Query localMessagesQuery = session
@@ -2413,7 +2414,7 @@ public class FinanceTool {
 			while (i.hasNext()) {
 				Message message = new Message();
 				Object[] next = (Object[]) i.next();
-				message.setId((Long) next[0]);
+				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
 
 				Query localMessagesQuery = session
@@ -2453,8 +2454,9 @@ public class FinanceTool {
 			while (iterator.hasNext()) {
 				Message message = new Message();
 				Object[] next = (Object[]) iterator.next();
-				message.setId((Long) next[0]);
+				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
+				message.setLocalMessages(new HashSet<LocalMessage>());
 				messages.add(message);
 			}
 			return messages;
@@ -2483,7 +2485,7 @@ public class FinanceTool {
 				Message message = new Message();
 				Object[] next = (Object[]) iterator1.next();
 
-				message.setId((Long) next[0]);
+				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
 
 				Query localMessagesQuery = session
