@@ -53,7 +53,7 @@ public class MobileMessageHandler extends Thread {
 		try {
 			processMessage = processMessage(context.getNetworkId(),
 					context.getMessage(), context.getAdaptorType(),
-					context.getNetworkType(), null);
+					context.getNetworkType(), null, context);
 		} catch (AccounterMobileException e) {
 			e.printStackTrace();
 			processMessage = "Exception: " + e.getMessage();
@@ -67,12 +67,18 @@ public class MobileMessageHandler extends Thread {
 	}
 
 	private String processMessage(String networkId, String message,
-			AdaptorType adaptorType, int networkType, Result oldResult)
-			throws AccounterMobileException {
+			AdaptorType adaptorType, int networkType, Result oldResult,
+			MobileChannelContext context) throws AccounterMobileException {
 		Session openSession = HibernateUtil.openSession();
 		try {
 			MobileSession session = sessions.get(networkId);
-
+			if (session == null) {
+				session = sessions.get(message);
+				if (session != null) {
+					context.changeNetworkId(message);
+					return session.getLastReply();
+				}
+			}
 			if (session == null || session.isExpired()) {
 				session = new MobileSession();
 				sessions.put(networkId, session);
@@ -112,7 +118,7 @@ public class MobileMessageHandler extends Thread {
 						lastMessage.setResult(lastMessage.getLastResult());
 
 						return processMessage(networkId, null, adaptorType,
-								networkType, result);
+								networkType, result, context);
 					} else {
 						hasNextCommand = false;
 					}
@@ -123,12 +129,15 @@ public class MobileMessageHandler extends Thread {
 			if (nextCommand != null) {
 				result.setNextCommand(null);
 				return processMessage(networkId, nextCommand, adaptorType,
-						networkType, result);
+						networkType, result, context);
 			}
 			if (!hasNextCommand) {
-				result.add("Enter Command");
+				return processMessage(networkId, "menu", adaptorType,
+						networkType, result, context);
 			}
-			return adoptor.postProcess(result);
+			String postProcess = adoptor.postProcess(result);
+			session.setLastReply(postProcess);
+			return postProcess;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterMobileException(e);
