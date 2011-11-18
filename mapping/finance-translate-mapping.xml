@@ -10,8 +10,8 @@
 		</id>
 		<many-to-one name="message" column="MESSAGE_ID" class="Message"
 			not-null="true"></many-to-one>
-		<many-to-one name="lang" column="LANGUAGE" class="Language"
-			not-null="true"></many-to-one>
+		<many-to-one name="lang" column="LANGUAGE" lazy="false"
+			class="Language" not-null="true"></many-to-one>
 		<property name="value" type="text" column="VALUE"></property>
 		<property name="votes" column="VOTES" type="int"></property>
 		<property name="isApproved" column="IS_APPROVED"></property>
@@ -131,20 +131,24 @@
 	<sql-query name="getMessagesByLimit">
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
-		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M LIMIT :limt OFFSET :fm
+		<query-param name="lang" type="string" />
+		SELECT * FROM MESSAGE M ORDER BY ( SELECT COUNT(*) FROM LOCAL_MESSAGE
+		LM WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang) ASC ,
+		(SELECT
+		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC ,
+		(SELECT COUNT(*) FROM LOCAL_MESSAGE LM WHERE
+		LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang AND LM.IS_APPROVED=TRUE )=1
+		ASC ,M.VALUE LIMIT :limt OFFSET :fm
 	</sql-query>
 
 	<sql-query name="getUntranslatedMessages">
 		<query-param name="lang" type="string" />
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
-		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M WHERE(SELECT COUNT(*) FROM
-		LOCAL_MESSAGE
-		LM
-		WHERE
-		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0
+		SELECT * FROM MESSAGE M WHERE(SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 ORDER BY M.VALUE
 		LIMIT :limt OFFSET
 		:fm
 	</sql-query>
@@ -154,27 +158,32 @@
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		<query-param name="clientId" type="long" />
-		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
-		LOCAL_MESSAGE
-		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
+		SELECT * FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
+		LM.CLIENT=:clientId)=1
+		ORDER BY (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE
+		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang) ASC ,(SELECT MAX(VOTES)
+		FROM
+		LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)
+		ASC
+		,(SELECT COUNT(*) FROM LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID
 		AND
-		LM.CLIENT=:clientId)=1 LIMIT
-		:limt OFFSET :fm
+		LM.LANGUAGE=:lang AND LM.IS_APPROVED=TRUE )=1 ASC ,M.VALUE LIMIT
+		:limt
+		OFFSET :fm
 	</sql-query>
 
 	<sql-query name="getApprovedMessages">
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		<query-param name="lang" type="string" />
-		<return-scalar column="ID" type="long" />
-		SELECT M.ID FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
-		LOCAL_MESSAGE
-		LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
-		AND
-		LM.IS_APPROVED=TRUE)=0 LIMIT
+		SELECT * FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
+		LM.IS_APPROVED=TRUE)=0 ORDER BY (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang) ASC ,(SELECT
+		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC , M.VALUE LIMIT
 		:limt OFFSET :fm
 	</sql-query>
 
@@ -192,8 +201,9 @@
 
 	<query name="getLocalMessagesByMessageId">
 		<query-param name="messageId" type="long" />
+		<query-param name="lang" type="string" />
 		from com.vimukti.accounter.web.server.translate.LocalMessage lm where
-		lm.message.id=:messageId
+		lm.message.id=:messageId and lm.lang.code=:lang
 	</query>
 
 	<sql-query name="getKeyAndValues">
@@ -215,12 +225,12 @@
 
 	<sql-query name="deleteLocalMessage">
 		<query-param name="id" type="long" />
-		DELETE FROM LOCAL_MESSAGE LM WHERE LM.ID=1 ;
+		DELETE FROM LOCAL_MESSAGE LM WHERE LM.ID=:id ;
 	</sql-query>
 
 	<sql-query name="deleteVotesByLocalMessage">
 		<query-param name="id" type="long" />
-		DELETE FROM VOTE V WHERE V.LOCAL_MESSAGE_ID = 1;
+		DELETE FROM VOTE V WHERE V.LOCAL_MESSAGE_ID = :id;
 	</sql-query>
 
 </hibernate-mapping>
