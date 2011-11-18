@@ -12,7 +12,7 @@ public interface TranslateService extends RemoteService {
 
 	boolean addTranslation(long id, String lang, String value);
 
-	boolean vote(long localMessageId, boolean up);
+	boolean vote(long localMessageId);
 
 	ArrayList<ClientMessage> getMessages(String lang, int status, int from,
 			int to);
@@ -20,4 +20,6 @@ public interface TranslateService extends RemoteService {
 	boolean setApprove(long localMessageId, boolean isApprove);
 
 	List<ClientLanguage> getLanguages();
+
+	boolean canApprove(String lang);
 }

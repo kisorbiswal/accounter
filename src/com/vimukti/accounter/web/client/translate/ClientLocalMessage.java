@@ -14,9 +14,7 @@ public class ClientLocalMessage implements Serializable {
 
 	String createBy;
 
-	int ups;
-
-	int downs;
+	int votes;
 
 	boolean isApproved;
 
@@ -44,20 +42,12 @@ public class ClientLocalMessage implements Serializable {
 		this.createBy = createBy;
 	}
 
-	public int getUps() {
-		return ups;
+	public int getVotes() {
+		return votes;
 	}
 
-	public void setUps(int ups) {
-		this.ups = ups;
-	}
-
-	public int getDowns() {
-		return downs;
-	}
-
-	public void setDowns(int downs) {
-		this.downs = downs;
+	public void setVotes(int ups) {
+		this.votes = ups;
 	}
 
 	public boolean isApproved() {

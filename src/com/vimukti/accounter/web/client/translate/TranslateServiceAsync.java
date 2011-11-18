@@ -15,14 +15,16 @@ public interface TranslateServiceAsync {
 	void addTranslation(long id, String lang, String value,
 			AsyncCallback<Boolean> callback);
 
-	void vote(long localMessageId, boolean up, AsyncCallback<Boolean> callback);
+	void vote(long localMessageId, AsyncCallback<Boolean> callback);
 
 	void getMessages(String lang, int status, int from, int to,
 			AsyncCallback<ArrayList<ClientMessage>> callback);
 
 	public void setApprove(long localMessageId, boolean isApprove,
 			AsyncCallback<Boolean> callback);
-	
+
 	public void getLanguages(AsyncCallback<List<ClientLanguage>> callback);
+
+	public void canApprove(String lang, AsyncCallback<Boolean> callback);
 
 }

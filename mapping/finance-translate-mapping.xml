@@ -13,8 +13,7 @@
 		<many-to-one name="lang" column="LANGUAGE" class="Language"
 			not-null="true"></many-to-one>
 		<property name="value" type="text" column="VALUE"></property>
-		<property name="ups" column="UPS" type="int"></property>
-		<property name="downs" column="DOWNS" type="int"></property>
+		<property name="votes" column="VOTES" type="int"></property>
 		<property name="isApproved" column="IS_APPROVED"></property>
 		<many-to-one name="createdBy" class="com.vimukti.accounter.core.Client"
 			lazy="false" column="CLIENT">
@@ -51,7 +50,6 @@
 		</id>
 		<many-to-one name="localMessage" column="LOCAL_MESSAGE_ID"
 			class="LocalMessage"></many-to-one>
-		<property name="isUp" column="IS_UP"></property>
 		<many-to-one name="client" column="CLIENT_ID"
 			class="com.vimukti.accounter.core.Client"></many-to-one>
 	</class>
@@ -213,6 +211,16 @@
 		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
 		AND (LM.IS_APPROVED OR
 		LM.CLIENT=:clientId) ORDER BY K.KEY,LM.IS_APPROVED DESC ;
+	</sql-query>
+
+	<sql-query name="deleteLocalMessage">
+		<query-param name="id" type="long" />
+		DELETE FROM LOCAL_MESSAGE LM WHERE LM.ID=1 ;
+	</sql-query>
+
+	<sql-query name="deleteVotesByLocalMessage">
+		<query-param name="id" type="long" />
+		DELETE FROM VOTE V WHERE V.LOCAL_MESSAGE_ID = 1;
 	</sql-query>
 
 </hibernate-mapping>
