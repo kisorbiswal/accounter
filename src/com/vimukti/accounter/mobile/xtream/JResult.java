@@ -9,6 +9,10 @@ import com.vimukti.accounter.mobile.ResultList;
 public class JResult {
 	List<Object> resultParts = new ArrayList<Object>();
 	public String cookie;
+	public int inputType;
+	public String title;
+	public boolean hideCancel;
+	public boolean showBack;
 
 	public void addAll(List<Object> resultParts) {
 		int commandIndex = 97;
