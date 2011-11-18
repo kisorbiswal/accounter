@@ -106,8 +106,6 @@ public class CreditCardChargeView extends
 
 	}
 
-
-
 	protected void addPhonesContactsAndAddress() {
 		Set<ClientAddress> allAddress = new HashSet<ClientAddress>();
 		if (selectedVendor != null) {
@@ -232,8 +230,7 @@ public class CreditCardChargeView extends
 	protected void initMemoAndReference() {
 		if (isInViewMode()) {
 			memoTextAreaItem.setDisabled(true);
-			setMemoTextAreaItem(((ClientCreditCardCharge) transaction)
-					.getMemo());
+			setMemoTextAreaItem(transaction.getMemo());
 		}
 
 	}
@@ -299,9 +296,8 @@ public class CreditCardChargeView extends
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
-			transactionTotalTransactionCurrencyText
-					.setAmount(transaction
-							.getTotal());
+			transactionTotalTransactionCurrencyText.setAmount(transaction
+					.getTotal());
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -335,6 +331,10 @@ public class CreditCardChargeView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
+
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initpayFromAccountCombo() {
@@ -413,6 +413,7 @@ public class CreditCardChargeView extends
 		vendorNameSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
 						if (selectedVendor.getPaymentMethod() != null) {
@@ -445,7 +446,6 @@ public class CreditCardChargeView extends
 							setCurrency(clientCurrency);
 							setCurrencyFactor(1.0);
 							updateAmountsFromGUI();
-							modifyForeignCurrencyTotalWidget();
 						}
 					}
 
@@ -663,11 +663,14 @@ public class CreditCardChargeView extends
 		bottompanel.setWidth("100%");
 
 		if (isTrackTax()) {
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalBaseCurrencyText);
-			if (isMultiCurrencyEnabled())
-				totalForm.setFields(transactionTotalTransactionCurrencyText);
-
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalBaseCurrencyText,
+						transactionTotalTransactionCurrencyText);
+			} else {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalBaseCurrencyText);
+			}
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -685,9 +688,13 @@ public class CreditCardChargeView extends
 			bottompanel.add(botPanel);
 
 		} else {
-			totForm.setFields(transactionTotalBaseCurrencyText);
-			if (isMultiCurrencyEnabled())
-				totForm.setFields(transactionTotalTransactionCurrencyText);
+			if (isMultiCurrencyEnabled()) {
+				totForm.setFields(transactionTotalTransactionCurrencyText,
+						transactionTotalBaseCurrencyText);
+			} else {
+				totForm.setFields(transactionTotalBaseCurrencyText);
+			}
+
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
@@ -760,9 +767,8 @@ public class CreditCardChargeView extends
 					transaction.getPayFrom()));
 		}
 		settabIndexes();
-		
-		if(isMultiCurrencyEnabled()){
-			modifyForeignCurrencyTotalWidget();
+		if (isMultiCurrencyEnabled()) {
+			transactionTotalTransactionCurrencyText.hide();
 		}
 	}
 
@@ -771,6 +777,7 @@ public class CreditCardChargeView extends
 	//
 	// }
 
+	@Override
 	public void saveAndUpdateView() {
 
 		updateTransaction();
@@ -786,6 +793,7 @@ public class CreditCardChargeView extends
 		createAlterObject();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		// Setting Type
@@ -842,8 +850,7 @@ public class CreditCardChargeView extends
 			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
 		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 		}
 
 		// setting delivery date
@@ -863,7 +870,7 @@ public class CreditCardChargeView extends
 	}
 
 	public void createAlterObject() {
-		saveOrUpdate((ClientCreditCardCharge) transaction);
+		saveOrUpdate(transaction);
 
 	}
 
@@ -878,8 +885,7 @@ public class CreditCardChargeView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalBaseCurrencyText
-				.setAmount(grandTotal);
+		transactionTotalBaseCurrencyText.setAmount(grandTotal);
 		transactionTotalTransactionCurrencyText
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 		if (isTrackTax()) {
@@ -917,6 +923,7 @@ public class CreditCardChargeView extends
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -946,6 +953,7 @@ public class CreditCardChargeView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -1051,10 +1059,12 @@ public class CreditCardChargeView extends
 		selectedVendor.addContact(contact);
 		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				caught.printStackTrace();
 			}
 
+			@Override
 			public void onResultSuccess(Long result) {
 				contactSelected(contact);
 			}
@@ -1124,6 +1134,7 @@ public class CreditCardChargeView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
 		this.vendorItemTransactionTable.updateAmountsFromGUI();
 		this.vendorAccountTransactionTable.updateAmountsFromGUI();
 
