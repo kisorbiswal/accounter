@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
@@ -309,5 +310,9 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 		preferences.setStartOfFiscalYear(fiscalYearStartDate.getDate());
 		preferences.setEndOfFiscalYear(fiscalYearEndDate);
 		preferences.setDepreciationStartDate(currentDate.getDate());
+	}
+
+	protected List<ClientCurrency> getCurrenciesList() {
+		return CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
 	}
 }

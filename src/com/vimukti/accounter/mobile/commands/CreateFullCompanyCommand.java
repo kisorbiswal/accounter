@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 
@@ -444,10 +443,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		arrayList.add(getConstants().productsOnly());
 		arrayList.add(getConstants().bothServicesandProducts());
 		return arrayList;
-	}
-
-	private List<ClientCurrency> getCurrenciesList() {
-		return CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
 	}
 
 	@Override

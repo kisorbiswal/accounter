@@ -411,6 +411,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		preferences.setOrganizationType(getOrganizationTypes().indexOf(
 				organizationRefer));
 		setStartDateOfFiscalYear(preferences);
+		preferences.setPrimaryCurrency(getCurrenciesList().get(0));
 		AccounterCompanyInitializationServiceImpl.intializeCompany(preferences,
 				accounts, context.getIOSession().getClient());
 

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
@@ -18,7 +15,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * Selects the Company
@@ -136,13 +132,5 @@ public class SelectCompanyCommand extends Command {
 		context.selectCompany(value, client);
 		markDone();
 		return makeResult;
-	}
-
-	protected Client getClient(String emailId) {
-		Session session = HibernateUtil.getCurrentSession();
-		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
-		namedQuery.setParameter("emailId", emailId);
-		Client client = (Client) namedQuery.uniqueResult();
-		return client;
 	}
 }
