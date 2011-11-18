@@ -23,7 +23,7 @@ public class LocalMessagePanel extends HorizontalPanel {
 	private boolean canApprove;
 	private ImageButton upImage;
 	private VerticalPanel upVotesPanel;
-	private HorizontalPanel votesWithMsgPanel, votesPanel;
+	private HorizontalPanel votesPanel;
 	private Label messageLabel, upVotesLengthLabel;
 	private FlowPanel approvePanel;
 	private RadioButton approveButton;
@@ -41,20 +41,16 @@ public class LocalMessagePanel extends HorizontalPanel {
 
 	private void createControls() {
 
-		votesWithMsgPanel = new HorizontalPanel();
-
 		createApprovePanel();
 		createVotePanel();
 		createMessagePanel();
 
-		votesWithMsgPanel.add(votesPanel);
-		votesWithMsgPanel.setSpacing(4);
-		votesWithMsgPanel.setCellWidth(votesPanel, "6%");
-		votesWithMsgPanel.addStyleName("votes-message-panel");
-		votesWithMsgPanel.add(messageLabel);
-		votesWithMsgPanel.setCellVerticalAlignment(messageLabel,
-				HasAlignment.ALIGN_MIDDLE);
-		add(votesWithMsgPanel);
+		this.add(votesPanel);
+		this.setSpacing(4);
+		this.setCellWidth(votesPanel, "6%");
+		this.addStyleName("votes-message-panel");
+		this.add(messageLabel);
+		this.setCellVerticalAlignment(messageLabel, HasAlignment.ALIGN_MIDDLE);
 	}
 
 	private void createMessagePanel() {
@@ -107,7 +103,7 @@ public class LocalMessagePanel extends HorizontalPanel {
 
 		if (canApprove) {
 			approvePanel.add(approveButton);
-			votesWithMsgPanel.add(approvePanel);
+			this.add(approvePanel);
 			approvePanel.getElement().getParentElement().addClassName(
 					"approve-img");
 		}
