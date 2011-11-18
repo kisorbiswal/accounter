@@ -127,7 +127,8 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newVATItem();
+		//return comboMessages.newVATItem();
+		return comboMessages.newTaxItem();
 	}
 
 	/*
