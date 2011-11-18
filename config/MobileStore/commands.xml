@@ -564,6 +564,7 @@
 		<alias>Edit Customer Refund</alias>
 		<alias>Update Customer Refund</alias>
 		<alias>Modify Customer Refund</alias>
+		<alias>Customer Refund</alias>
 	</command>
 
 	<command clazz="NewBankAccountCommand" name="New BankAccount">
@@ -735,7 +736,7 @@
 	</command>
 
 	<command clazz="CustomerRefundsListCommand" name="Customer Refunds List">
-		<alias>Customer Refund</alias>
+		<alias>Customer Refunds</alias>
 	</command>
 	<command clazz="NewMeasurementCommand" name="Measurement">
 		<alias>New Measurement</alias>
