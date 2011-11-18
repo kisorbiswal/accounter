@@ -84,6 +84,12 @@ public class ConsoleChatServer extends Thread {
 								e.printStackTrace();
 							}
 						}
+
+						@Override
+						public void changeNetworkId(String networkId) {
+							// TODO Auto-generated method stub
+
+						}
 					};
 					handler.putMessage(context);
 				}

@@ -23,8 +23,8 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	}
 
 	@Override
-	public void messageReceived(ChannelHandlerContext ctx, final MessageEvent e)
-			throws Exception {
+	public void messageReceived(final ChannelHandlerContext ctx,
+			final MessageEvent e) throws Exception {
 		String message = (String) e.getMessage();
 		String networkId = (String) ctx.getAttachment();
 		MobileChannelContext context = new MobileChannelContext(networkId,
@@ -42,9 +42,13 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 						Charset.forName("UTF-8"));
 				channel.write(buffer);
 			}
+
+			@Override
+			public void changeNetworkId(String networkId) {
+				ctx.setAttachment(networkId);
+			}
 		};
 		messageHandler.putMessage(context);
-
 	}
 
 	@Override
@@ -56,8 +60,8 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void channelDisconnected(ChannelHandlerContext ctx,
 			ChannelStateEvent e) throws Exception {
-		String networkId = (String) ctx.getAttachment();
-		messageHandler.logout(networkId);
+		// String networkId = (String) ctx.getAttachment();
+		// messageHandler.logout(networkId);
 	}
 }
 
@@ -67,6 +71,7 @@ class MobileDecoder extends FrameDecoder {
 	protected Object decode(ChannelHandlerContext ctx, Channel arg1,
 			ChannelBuffer buff) throws Exception {
 		String string = buff.toString(Charset.forName("UTF-8"));
+		System.out.println(string);
 		buff.readerIndex(buff.writerIndex());
 		return string;
 	}

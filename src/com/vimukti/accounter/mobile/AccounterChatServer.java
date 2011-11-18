@@ -97,6 +97,12 @@ public class AccounterChatServer implements ChatManagerListener,
 						e.printStackTrace();
 					}
 				}
+
+				@Override
+				public void changeNetworkId(String networkId) {
+					// TODO Auto-generated method stub
+
+				}
 			};
 
 			messageHandler.putMessage(context);
