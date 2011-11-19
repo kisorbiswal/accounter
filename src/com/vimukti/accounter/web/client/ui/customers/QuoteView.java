@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -53,7 +54,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
@@ -84,6 +84,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private ShipToForm shipToAddress;
 	private int type;
 	private String title;
+	private SelectCombo statusCombo;
 
 	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
@@ -296,12 +297,51 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quote.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
 				.getAmount()));
 
+		String selectedValue = statusCombo.getSelectedValue();
+		quote.setStatus(getStatus(selectedValue));
+
 		transaction = quote;
 
 		super.saveAndUpdateView();
 
 		saveOrUpdate((ClientEstimate) transaction);
 
+	}
+
+	private int getStatus(String status) {
+		if (status.equals(customerConstants.open())) {
+			return ClientEstimate.STATUS_OPEN;
+		} else if (status.equals(customerConstants.accepted())) {
+			return ClientEstimate.STATUS_ACCECPTED;
+		} else if (status.equals(customerConstants.closed())) {
+			return ClientEstimate.STATUS_CLOSE;
+		} else if (status.equals(customerConstants.rejected())) {
+			return ClientEstimate.STATUS_REJECTED;
+		}
+		return -1;
+	}
+
+	private String getStatusString(int status) {
+		switch (status) {
+		case ClientEstimate.STATUS_OPEN:
+			return customerConstants.open();
+
+		case ClientEstimate.STATUS_ACCECPTED:
+			return customerConstants.accepted();
+
+		case ClientEstimate.STATUS_CLOSE:
+			return customerConstants.closed();
+
+		case ClientEstimate.STATUS_REJECTED:
+			return customerConstants.rejected();
+
+		case ClientEstimate.STATUS_APPLIED:
+			return customerConstants.closed();
+
+		default:
+			break;
+		}
+		return "";
 	}
 
 	@Override
@@ -407,6 +447,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// phoneForm.setWidth("100%");
 		phoneForm.setNumCols(2);
 		phoneForm.setCellSpacing(3);
+
+		statusCombo = new SelectCombo(customerConstants.status());
+		statusCombo.initCombo(getStatusList());
+		statusCombo.setSelectedItem(0);
+
 		salesPersonCombo = createSalesPersonComboItem();
 
 		payTermsSelect = createPaymentTermsSelectItem();
@@ -428,10 +473,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 		}
 		if (getPreferences().isSalesPersonEnabled()) {
-			phoneForm.setFields(salesPersonCombo, payTermsSelect,
+			phoneForm.setFields(statusCombo, salesPersonCombo, payTermsSelect,
 					quoteExpiryDate, deliveryDate);
 		} else {
-			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
+			phoneForm.setFields(statusCombo, payTermsSelect, quoteExpiryDate,
+					deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
 		// phoneForm.getCellFormatter().getElement(0, 0)
@@ -762,6 +808,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 			}
 
+			statusCombo.setComboItem(getStatusString(transaction.getStatus()));
+
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
@@ -796,6 +844,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			quoteExpiryDate.setDisabled(isInViewMode());
 			deliveryDate.setDisabled(isInViewMode());
 			taxCodeSelect.setDisabled(isInViewMode());
+			statusCombo.setDisabled(isInViewMode());
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -1012,8 +1061,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
-		locationCombo.setDisabled(isInViewMode());
-		classListCombo.setDisabled(isInViewMode());
+		if (locationCombo != null) {
+			locationCombo.setDisabled(isInViewMode());
+		}
+		if (classListCombo != null) {
+			classListCombo.setDisabled(isInViewMode());
+		}
+		statusCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
@@ -1125,5 +1179,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
 		}
+	}
+
+	public List<String> getStatusList() {
+		ArrayList<String> statuses = new ArrayList<String>();
+		statuses.add(customerConstants.open());
+		statuses.add(customerConstants.accepted());
+		statuses.add(customerConstants.closed());
+		statuses.add(customerConstants.rejected());
+		return statuses;
 	}
 }

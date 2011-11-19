@@ -11,7 +11,11 @@ public class ClientEstimate extends ClientTransaction {
 
 	public static final int STATUS_REJECTED = 1;
 
+	public static final int STATUS_APPLIED = 5;
+
 	public static final int STATUS_ACCECPTED = 2;
+
+	public static final int STATUS_CLOSE = 4;
 
 	public static final int QUOTES = 1;
 

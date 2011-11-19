@@ -3762,11 +3762,19 @@ public interface AccounterConstants extends Constants {
 
 	public String taxList();
 
+	public String applied();
+
 	public String taxReturn();
 
 	public String addNewCredit();
 
 	public String taxFiledDate();
+
+	public String dontWantToIncludeEstimates();
+
+	public String includeAcceptedEstimates();
+
+	public String includePendingAndAcceptedEstimates();
 
 	public String paymentIncludeTDS();
 
@@ -3777,4 +3785,6 @@ public interface AccounterConstants extends Constants {
 	public String dipositAccountAndTransferAccountShouldBeDiff();
 
 	public String taxFillings();
+
+	public String closed();
 }

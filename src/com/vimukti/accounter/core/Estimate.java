@@ -19,8 +19,14 @@ public class Estimate extends Transaction {
 	private static final long serialVersionUID = 1L;
 
 	public static final int STATUS_OPEN = 0;
+
 	public static final int STATUS_REJECTED = 1;
+
+	public static final int STATUS_APPLIED = 5;
+
 	public static final int STATUS_ACCECPTED = 2;
+
+	public static final int STATUS_CLOSE = 4;
 
 	public static final int QUOTES = 1;
 
@@ -338,22 +344,24 @@ public class Estimate extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
-			// "This Quote is Already used in SalesOrder or Invoice");
-		}
-		// else if (this.status == STATUS_REJECTED) {
-		// throw new InvalidOperationException(
-		// "You can't edit Quote, it is Rejected");
-		//
-		// }
+		if (this.id != 0) {
+			if (this.status == Transaction.STATUS_APPLIED) {
+				throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+				// "This Quote is Already used in SalesOrder or Invoice");
+			}
+			// else if (this.status == STATUS_REJECTED) {
+			// throw new InvalidOperationException(
+			// "You can't edit Quote, it is Rejected");
+			//
+			// }
 
-		/**
-		 * If Quote is already voided or deleted, we can't edit it
-		 */
-		if (((Estimate) clientObject).status == STATUS_REJECTED) {
-			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
-			// "This Quote is already  Rejected,can't  Modify");
+			/**
+			 * If Quote is already voided or deleted, we can't edit it
+			 */
+			if (((Estimate) clientObject).status == STATUS_REJECTED) {
+				throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+				// "This Quote is already  Rejected,can't  Modify");
+			}
 		}
 
 		return true;
@@ -423,10 +431,10 @@ public class Estimate extends Transaction {
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
 		if (this.usedInvoice == null && usedTransaction != null) {
 			this.usedInvoice = usedTransaction;
-			status=STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			status = STATUS_APPLIED;
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
-			status=STATUS_OPEN;
+			status = STATUS_ACCECPTED;
 		}
 	}
 
