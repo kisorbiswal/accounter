@@ -634,6 +634,7 @@
 
 	<command clazz="PurchaseOrderListCommand" name="Purchase Order List">
 		<alias>Purchase Orders</alias>
+		<alias>Purchase Order List</alias>
 	</command>
 
 	<command clazz="NewInviteAUserCommand" name="Invite User">
@@ -701,6 +702,7 @@
 
 	<command clazz="NewPurchaseOrderCommand" name="New Purchase Order">
 		<alias>New PurchaseOrder</alias>
+		<alias>Purchase Order</alias>
 		<alias>Create PurchaseOrder</alias>
 		<alias>Add PurchaseOrder</alias>
 		<alias>Create Purchase Order</alias>
