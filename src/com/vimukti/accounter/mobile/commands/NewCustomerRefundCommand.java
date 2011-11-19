@@ -107,7 +107,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 						context.getCompany()));
 		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
-
+		get(CHEQUE_NO).setDefaultValue(getConstants().toBePrinted());
 	}
 
 	@Override
@@ -306,11 +306,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if ((Boolean) get(TO_BE_PRINTED).getValue()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-
+				setEditable((Boolean) get(TO_BE_PRINTED).getValue());
+				return super.run(context, makeResult, list, actions);
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
@@ -329,10 +326,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		customerRefund.setPayFrom(account.getID());
 		customerRefund.setPaymentMethod(paymentMethod);
 		customerRefund.setIsToBePrinted(istobePrinted);
-		if (!istobePrinted) {
-			String cheqNum = get(CHEQUE_NO).getValue();
-			customerRefund.setCheckNumber(cheqNum);
-		}
+		String cheqNum = get(CHEQUE_NO).getValue();
+		customerRefund.setCheckNumber(cheqNum);
 
 		if (context.getPreferences().isEnableMultiCurrency()) {
 			Currency currency = get(CURRENCY).getValue();

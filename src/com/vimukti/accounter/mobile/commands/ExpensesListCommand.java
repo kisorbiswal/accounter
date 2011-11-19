@@ -50,7 +50,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Sucess";
+		return "Success";
 	}
 
 	@Override

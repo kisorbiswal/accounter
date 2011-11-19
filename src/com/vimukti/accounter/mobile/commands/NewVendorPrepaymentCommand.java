@@ -94,7 +94,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return paybill.getID() == 0 ? getMessages().create(
-				getMessages().payeePaymentList(Global.get().Vendor()))
+				getMessages().payeePrePayment(Global.get().Vendor()))
 				: "Update Vendor Prepayment command activated";
 	}
 
@@ -123,7 +123,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		return paybill.getID() == 0 ? getMessages().createSuccessfully(
 				getMessages().payeePrePayment(Global.get().Vendor()))
 				: getMessages().updateSuccessfully(
-						getMessages().payeePayment(Global.get().Vendor()));
+						getMessages().payeePrePayment(Global.get().Vendor()));
 	}
 
 	@Override
