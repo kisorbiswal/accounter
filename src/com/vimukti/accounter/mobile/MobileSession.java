@@ -276,4 +276,12 @@ public class MobileSession {
 	public void setLastReply(String lastReply) {
 		this.lastReply = lastReply;
 	}
+
+	public void removeAllCommands() {
+		commandStack.clear();
+	}
+
+	public boolean hasPendingCommands() {
+		return !commandStack.isEmpty();
+	}
 }
