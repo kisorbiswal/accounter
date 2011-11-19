@@ -125,7 +125,7 @@
 	</pattern>
 
 	<pattern>
-		<input>Customers Lists</input>
+		<input>Customer Lists</input>
 		<output>
 			<command>Customers </command>
 			<command>Items</command>
