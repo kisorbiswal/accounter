@@ -215,7 +215,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			tpbRecord.setPayBill(transaction);
 
 			// ClientAccount cashAcc = getCompany().getAccountByName(
-			// gridView.getAttribute(Accounter.constants().cashAccount(),
+			// gridView.getAttribute(messages.cashAccount(),
 			// gridView.indexOf(tpbRecord)));
 			// if (cashAcc != null)
 			// tpbRecord.setDiscountAccount(cashAcc.getID());
@@ -531,7 +531,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// filterForm = new DynamicForm();
 		// filterForm.setIsGroup(true);
-		// filterForm.setGroupTitle(Accounter.constants().Filter());
+		// filterForm.setGroupTitle(messages.Filter());
 		// filterForm.setFields(dueDate);
 
 		DynamicForm dateForm = new DynamicForm();

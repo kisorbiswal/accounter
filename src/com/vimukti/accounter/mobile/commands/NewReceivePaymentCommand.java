@@ -408,7 +408,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages()
-				.createSuccessfully(getMessages().receivePayment());
+		return payment.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().receivePayment()) : getMessages()
+				.updateSuccessfully(getMessages().receivePayment());
 	}
 }

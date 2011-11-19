@@ -335,7 +335,7 @@ public class ProfitAndLossServerReport extends
 			}
 
 			if (!sectiontypes.contains(getMessages().otherIncome())) {
-				// closeSection(types.indexOf(getConstants().expense()));
+				// closeSection(types.indexOf(getMessages().expense()));
 				addTypeSection(getMessages().otherIncome(), getMessages()
 						.otherIncomeTotal());
 			}

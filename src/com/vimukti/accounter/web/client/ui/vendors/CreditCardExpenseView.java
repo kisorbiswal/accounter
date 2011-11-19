@@ -63,7 +63,7 @@ public class CreditCardExpenseView extends
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
 	AmountField totText;
-	AccounterMessages accounterConstants = Accounter.messages();
+	AccounterMessages messages = Accounter.messages();
 	List<String> idPhoneNumberForContacts = new ArrayList<String>();
 	List<String> idNamesForContacts = new ArrayList<String>();
 
@@ -250,7 +250,7 @@ public class CreditCardExpenseView extends
 		// formItems.add(contactCombo);
 
 		// contactNameSelect = new
-		// SelectCombo(Accounter.constants().contactName());
+		// SelectCombo(messages.contactName());
 		// contactNameSelect.setHelpInformation(true);
 		// contactNameSelect
 		// .addSelectionChangeHandler(new
@@ -276,7 +276,7 @@ public class CreditCardExpenseView extends
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
 
-		// billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
+		// billToAreaItem = new TextAreaItem(messages.billTo());
 		// billToAreaItem.setWidth(100);
 		// billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
@@ -303,7 +303,7 @@ public class CreditCardExpenseView extends
 		payMethSelect.setDefaultToFirstOption(true);
 		payMethSelect.setDisabled(true);
 		// payMethSelect.setComboItem(UIUtils
-		// .getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+		// .getpaymentMethodCheckBy_CompanyType(messages
 		// .check()));
 
 		payFrmSelect = createPayFromselectItem();
@@ -332,7 +332,7 @@ public class CreditCardExpenseView extends
 			termsForm.setFields(locationCombo);
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "203px");
+		// messages.width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -349,7 +349,7 @@ public class CreditCardExpenseView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		// vatinclusiveCheck = new CheckboxItem(Accounter.constants()
+		// vatinclusiveCheck = new CheckboxItem(messages
 		// .amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
@@ -432,7 +432,7 @@ public class CreditCardExpenseView extends
 		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setDisabled(false);
 
-		// refText = new TextItem(Accounter.constants().reference());
+		// refText = new TextItem(messages.reference());
 		//
 		// refText.setWidth(100);
 		// refText.setDisabled(false);
@@ -577,7 +577,7 @@ public class CreditCardExpenseView extends
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+					messages.invalidateDate());
 		}
 
 		// if (vendorCombo.getSelectedValue() == null)
@@ -601,7 +601,7 @@ public class CreditCardExpenseView extends
 				if (!(bankCurrency.equals(getBaseCurrency()))
 						&& !(bankCurrency.equals(currency))) {
 					result.addError(payFrmSelect,
-							accounterConstants.selectProperBankAccount());
+							messages.selectProperBankAccount());
 				}
 			}
 		}
@@ -611,7 +611,7 @@ public class CreditCardExpenseView extends
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+							messages.enterTaxCode());
 				}
 			}
 		}
@@ -919,16 +919,16 @@ public class CreditCardExpenseView extends
 	 * 
 	 * if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 	 * result.addError(transactionDate,
-	 * accounterConstants.invalidateTransactionDate()); }
+	 * messages.invalidateTransactionDate()); }
 	 * 
 	 * if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 	 * result.addError(transactionDate,
-	 * accounterConstants.invalidateTransactionDate()); }
+	 * messages.invalidateTransactionDate()); }
 	 * 
 	 * result.add(vendorForm.validate()); result.add(termsForm.validate()); if
 	 * (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 	 * result.addError(vendorTransactionGrid,
-	 * accounterConstants.blankTransaction()); }
+	 * messages.blankTransaction()); }
 	 * result.add(vendorTransactionGrid.validateGrid()); return result; }
 	 */
 

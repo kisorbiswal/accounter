@@ -1585,7 +1585,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// if (taxAgency.getLiabilityAccount().getName()
 	// .equalsIgnoreCase(
-	// AccounterConstants.OPENING_BALANCE)) {
+	// messages.OPENING_BALANCE)) {
 	//
 	// if (list.size() > 0
 	// && clientCustomer.getBalance() > 0.0

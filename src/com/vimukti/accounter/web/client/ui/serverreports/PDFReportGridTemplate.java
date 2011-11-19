@@ -235,7 +235,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	}
 
 	@Override
-	public String getBody(AccounterMessages accounterConstants) {
+	public String getBody(AccounterMessages messages) {
 
 		if (body == null || body.toString().isEmpty()) {
 			body = new StringBuffer(

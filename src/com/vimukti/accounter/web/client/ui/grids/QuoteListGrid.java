@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -60,7 +60,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			String salesPerson = clientSalesPerson != null ? clientSalesPerson
 					.getFirstName() : "";
 			if (salesPerson == null)
-				salesPerson = Accounter.messages().unavailabel();
+				salesPerson = messages.unavailabel();
 
 			switch (col) {
 			case 0:
@@ -123,17 +123,20 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		if (type == ClientEstimate.QUOTES) {
-			return new String[] { messages.date(), messages.no(),
+			return new String[] { messages.date(),
+					messages.no(),
 					Accounter.messages().payeeName(Global.get().Customer()),
 					messages.phone(), messages.salesPerson(),
-					messages.expirationDate(), messages.deliveryDate(),
+					messages.expirationDate(),
+					messages.deliveryDate(),
 					messages.totalPrice(), messages.reject()
 			// , ""
 			};
 		} else {
-			return new String[] { messages.date(), messages.no(),
+			return new String[] { messages.date(),
+					messages.no(),
 					Accounter.messages().payeeName(Global.get().Customer()),
 					messages.totalPrice(), messages.reject() };
 		}
@@ -163,7 +166,6 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-
 		int estimateType = obj.getEstimateType();
 		if (Accounter.getUser().canDoInvoiceTransactions()
 				&& estimateType == ClientEstimate.QUOTES) {
@@ -174,7 +176,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		if (getPreferences().isDelayedchargesEnabled()) {
 			if (estimateType == ClientEstimate.CHARGES) {
 				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						Accounter.messages().newCharge()).run(obj, false);
+						messages.newCharge()).run(obj, false);
 			} else if (estimateType == ClientEstimate.CREDITS) {
 				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
 						messages.newCredit()).run(obj, false);
@@ -201,7 +203,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private void showWarningDialog(final ClientEstimate obj, final int col) {
 		String msg = null;
 		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
-			msg = Accounter.messages().doyouwanttorejecttheEstimate();
+			msg = messages.doyouwanttorejecttheEstimate();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -299,17 +301,17 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			return salesPerson1.compareTo(salesPerson2);
 
 		case 5:
-			ClientFinanceDate expiration1 = new ClientFinanceDate(obj1
-					.getExpirationDate());
-			ClientFinanceDate expiration2 = new ClientFinanceDate(obj2
-					.getExpirationDate());
+			ClientFinanceDate expiration1 = new ClientFinanceDate(
+					obj1.getExpirationDate());
+			ClientFinanceDate expiration2 = new ClientFinanceDate(
+					obj2.getExpirationDate());
 			return expiration1.compareTo(expiration2);
 
 		case 6:
-			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(obj1
-					.getDeliveryDate());
-			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(obj2
-					.getDeliveryDate());
+			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(
+					obj1.getDeliveryDate());
+			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(
+					obj2.getDeliveryDate());
 			return deliveryDate1.compareTo(deliveryDate2);
 
 		case 7:

@@ -126,7 +126,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		// validate units grid
 		// if (nameItem.getValue().toString() == null
 		// || nameItem.getValue().toString().isEmpty()) {
-		// result.addError(nameItem, Accounter.constants()
+		// result.addError(nameItem, messages
 		// .pleaseEnteraValidMeasurementName());
 		// }
 		return result;

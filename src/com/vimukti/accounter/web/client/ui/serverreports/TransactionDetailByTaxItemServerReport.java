@@ -90,7 +90,7 @@ public class TransactionDetailByTaxItemServerReport extends
 	@Override
 	public void processRecord(TransactionDetailByTaxItem record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 6, 7 });
+		// addSection("", getMessages().total(), new int[] { 6, 7 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getTaxItemName();

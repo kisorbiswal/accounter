@@ -138,7 +138,7 @@ public class ItemView extends BaseView<ClientItem> {
 	private void createControls() {
 
 		// setTitle(UIUtils.title("NEW ITEM"));
-		// setTitle(UIUtils.title(FinanceApplication.constants()
+		// setTitle(UIUtils.title(FinanceApplication.messages()
 		// .. .newServiceItem()));
 
 		listforms = new ArrayList<DynamicForm>();
@@ -149,7 +149,7 @@ public class ItemView extends BaseView<ClientItem> {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);
 
-		// nameText = new TextItem(FinanceApplication.constants()
+		// nameText = new TextItem(FinanceApplication.messages()
 		// .itemName());
 		nameText = new TextItem(this.type == TYPE_SERVICE ? Accounter
 				.messages().serviceName() : Accounter.messages()
@@ -160,7 +160,7 @@ public class ItemView extends BaseView<ClientItem> {
 		nameText.setRequired(true);
 		nameText.setDisabled(isInViewMode());
 
-		// isservice = new CheckboxItem(Accounter.constants().isService());
+		// isservice = new CheckboxItem(Accounter.messages().isService());
 		// isservice.setValue(true);
 		// isservice.setDisabled(true);
 		// isservice.setDisabled(isInViewMode());
@@ -277,13 +277,13 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostText.setValidators(floatRangeValidator);
 		// stdCostText.setValidateOnChange(true);
 
-		// stdCostForm = UIUtils.form(FinanceApplication.constants()
+		// stdCostForm = UIUtils.form(FinanceApplication.messages()
 		// .standardcost());
 		// stdCostForm.setFields(stdCostText);
 		// stdCostForm.setWidth("95%");
 		// stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
-		// .constants().itemGroup());
+		// .messages().itemGroup());
 		itemGroupCombo = new ItemGroupCombo(Accounter.messages().itemGroup());
 		itemGroupCombo.setHelpInformation(true);
 		itemGroupCombo.setDisabled(isInViewMode());
@@ -377,7 +377,7 @@ public class ItemView extends BaseView<ClientItem> {
 		vendItemNumText.setDisabled(isInViewMode());
 
 		// isellCheck = new CheckboxItem(FinanceApplication
-		// .constants().iSellThisItem());
+		// .messages().iSellThisItem());
 		isellCheck = new CheckboxItem(
 				this.type == ClientItem.TYPE_SERVICE ? Accounter.messages()
 						.isellthisservice() : Accounter.messages()
@@ -394,7 +394,7 @@ public class ItemView extends BaseView<ClientItem> {
 		});
 
 		// ibuyCheck = new
-		// CheckboxItem(FinanceApplication.constants()
+		// CheckboxItem(FinanceApplication.messages()
 		// .iBuyThisItem());
 		ibuyCheck = new CheckboxItem(
 				this.type == ClientItem.TYPE_SERVICE ? Accounter.messages()
@@ -742,9 +742,9 @@ public class ItemView extends BaseView<ClientItem> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		// addError(this, this.type != ClientItem.TYPE_SERVICE ?
-		// Accounter.constants()
+		// Accounter.messages()
 		// .duplicationofProductnamearenotallowed3dots() : Accounter
-		// .constants().duplicationofServicenamearenotallowed3dots());
+		// .messages().duplicationofServicenamearenotallowed3dots());
 		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
@@ -766,10 +766,10 @@ public class ItemView extends BaseView<ClientItem> {
 		} else {
 			// if (takenItem == null)
 			// Accounter.showInformation(FinanceApplication
-			// .constants().itemCreatedSuccessfully());
+			// .messages().itemCreatedSuccessfully());
 			// else
 			// Accounter.showInformation(FinanceApplication
-			// .constants().itemupdatedSuccessfully());
+			// .messages().itemupdatedSuccessfully());
 			NewItemAction action = (NewItemAction) this.getAction();
 			action.setType(type);
 			super.saveSuccess(result);

@@ -405,6 +405,7 @@
 
 	<command clazz="NewCashSaleCommand" name="New CashSale">
 		<alias>Add Cash Sale</alias>
+		<alias>New Cash Sale</alias>
 		<alias>Modify Cash Sale</alias>
 		<alias>Update Cash Sale</alias>
 		<alias>Edit Cash Sale</alias>
@@ -439,6 +440,7 @@
 	</command>
 	<command clazz="NewCashExpenseCommand" name="New CashExpense">
 		<alias>Add Cash Expense</alias>
+		<alias>Cash Expense</alias>
 		<alias>Edit Cash Expense</alias>
 		<alias>Update Cash Expense</alias>
 		<alias>Modify Cash Expense</alias>
@@ -529,6 +531,7 @@
 		<alias>Edit Customer Prepayment</alias>
 		<alias>Update Customer Prepayment</alias>
 		<alias>Modify Customer Prepayment</alias>
+		<alias>Cusotmer Prepayment</alias>
 	</command>
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
@@ -564,6 +567,7 @@
 		<alias>Edit Customer Refund</alias>
 		<alias>Update Customer Refund</alias>
 		<alias>Modify Customer Refund</alias>
+		<alias>Customer Refund</alias>
 	</command>
 
 	<command clazz="NewBankAccountCommand" name="New BankAccount">

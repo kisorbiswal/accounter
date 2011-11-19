@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
+import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
@@ -22,14 +23,17 @@ public class LocalMessagePanel extends HorizontalPanel {
 	private boolean canApprove;
 	private ImageButton upImage;
 	private VerticalPanel upVotesPanel;
-	private HorizontalPanel votesWithMsgPanel, votesPanel;
+	private HorizontalPanel votesPanel;
 	private Label messageLabel, upVotesLengthLabel;
 	private FlowPanel approvePanel;
 	private RadioButton approveButton;
+	private ClientMessage clientMessage;
 
 	public LocalMessagePanel(ClientLocalMessage clientLocalMessage,
-			TranslationView view, boolean canApprove) {
-		this.clientLocalMessage = new ClientLocalMessage();
+			TranslationView view, boolean canApprove,
+			ClientMessage clientMessage) {
+		this.clientLocalMessage = clientLocalMessage;
+		this.clientMessage = clientMessage;
 		this.view = view;
 		this.canApprove = canApprove;
 		createControls();
@@ -37,26 +41,21 @@ public class LocalMessagePanel extends HorizontalPanel {
 
 	private void createControls() {
 
-		votesWithMsgPanel = new HorizontalPanel();
-
 		createApprovePanel();
 		createVotePanel();
 		createMessagePanel();
 
-		votesWithMsgPanel.add(votesPanel);
-
-		votesWithMsgPanel.setSpacing(4);
-		votesWithMsgPanel.setCellWidth(votesPanel, "6%");
-		votesWithMsgPanel.addStyleName("votes-message-panel");
-
+		this.add(votesPanel);
+		this.setSpacing(4);
+		this.setCellWidth(votesPanel, "6%");
+		this.addStyleName("votes-message-panel");
+		this.add(messageLabel);
+		this.setCellVerticalAlignment(messageLabel, HasAlignment.ALIGN_MIDDLE);
 	}
 
 	private void createMessagePanel() {
 		messageLabel = new Label(clientLocalMessage.getValue());
 		messageLabel.addStyleName("message_label");
-		votesWithMsgPanel.add(messageLabel);
-		votesWithMsgPanel.setCellVerticalAlignment(messageLabel,
-				HasAlignment.ALIGN_MIDDLE);
 	}
 
 	private void createVotePanel() {
@@ -90,8 +89,7 @@ public class LocalMessagePanel extends HorizontalPanel {
 	}
 
 	private void createApprovePanel() {
-		approveButton = new RadioButton(clientLocalMessage.getMessage()
-				.getValue());
+		approveButton = new RadioButton(String.valueOf(clientMessage.getId()));
 		approvePanel = new FlowPanel();
 		approveButton.setValue(clientLocalMessage.isApproved());
 
@@ -104,7 +102,8 @@ public class LocalMessagePanel extends HorizontalPanel {
 		});
 
 		if (canApprove) {
-			votesWithMsgPanel.add(approvePanel);
+			approvePanel.add(approveButton);
+			this.add(approvePanel);
 			approvePanel.getElement().getParentElement().addClassName(
 					"approve-img");
 		}

@@ -122,7 +122,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
-				true, true, false) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -134,6 +134,11 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return false;
 			}
 
 		});
@@ -197,10 +202,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list
-				.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-						getMessages().phoneNumber()), getMessages().phone(),
-						true, true));
+		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phoneNumber()), getMessages().phone(), true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));

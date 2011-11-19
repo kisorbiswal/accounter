@@ -75,12 +75,12 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		// setHeight(450);
 		// setWidth(450);
 		// ListGridField period = new ListGridField("period",
-		// Accounter.constants()
+		// messages
 		// .period());
 		// period.setWidth(90);
 		// addField(period);
 		// ListGridField status = new ListGridField("status",
-		// Accounter.constants()
+		// messages
 		// .status());
 		// status.setWidth(130);
 		// addField(status);

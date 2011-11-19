@@ -110,7 +110,7 @@ public class PurchaseByItemDetailServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-		// "", "", getConstants().total()}, new int[] { 7 });
+		// "", "", getMessages().total()}, new int[] { 7 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getItemName();

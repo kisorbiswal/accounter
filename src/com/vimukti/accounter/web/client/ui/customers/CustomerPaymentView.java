@@ -18,7 +18,7 @@
 //import com.vimukti.accounter.web.client.ui.forms.TextItem;
 //
 //public class CustomerPaymentView extends AbstractCustomerTransactionView {
-//	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+//	CustomersMessages messages = GWT.create(CustomersMessages.class);
 //
 //	public CustomerPaymentView() {
 //		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
@@ -26,7 +26,7 @@
 //
 //	@Override
 //	protected void createControls() {
-//		setTitle(UIUtils.title(customerConstants.newCustomerPayment()));
+//		setTitle(UIUtils.title(messages.newCustomerPayment()));
 //		Label lab1 = new Label(
 //				"<div style='font-size: 20px;margin-top: 10px'>Customer Payment "
 //						+ getTransactionStatus() + "</div>");
@@ -50,28 +50,28 @@
 //		labeldateNoLayout.add(lab1);
 //		labeldateNoLayout.add(dateNoForm);
 //
-//		SelectItem recvFrmSelect = new SelectItem(customerConstants
+//		SelectItem recvFrmSelect = new SelectItem(messages
 //				.receivedFrom());
 //		recvFrmSelect.setRequired(true);
 //		// recvFrmSelect.setWidth("*");
 //		TextItem amtText = new TextItem();
-//		amtText.setTitle(customerConstants.amount());
+//		amtText.setTitle(messages.amount());
 //		// amtText.setWidth("*");
 //
-//		SelectItem payMethSelect = new SelectItem(customerConstants
+//		SelectItem payMethSelect = new SelectItem(messages
 //				.paymentMethod());
 //		payMethSelect.setRequired(true);
 //		// payMethSelect.setWidth("*");
 //
 //		TextItem refText = new TextItem();
-//		refText.setTitle(customerConstants.reference());
+//		refText.setTitle(messages.reference());
 //		// refText.setWidth("*");
 //
 //		TextItem memoText = new TextItem();
-//		memoText.setTitle(customerConstants.memo());
+//		memoText.setTitle(messages.memo());
 //		// memoText.setWidth("*");
 //
-//		DynamicForm payForm = UIUtils.form(customerConstants.payment());
+//		DynamicForm payForm = UIUtils.form(messages.payment());
 //		payForm.setWidth("50%");
 //		// payForm.setAutoHeight();
 //		payForm.setFields(recvFrmSelect, amtText, payMethSelect, refText,
@@ -79,17 +79,17 @@
 //		forms.add(payForm);
 //
 //		TextItem custBalText = new TextItem();
-//		custBalText.setTitle(customerConstants.customerBalance());
+//		custBalText.setTitle(messages.customerBalance());
 //		// custBalText.setWidth("*");
 //
-//		DynamicForm balForm = UIUtils.form(customerConstants.balances());
+//		DynamicForm balForm = UIUtils.form(messages.balances());
 //		balForm.setFields(custBalText);
 //		forms.add(balForm);
 //
-//		SelectItem depoSelect = new SelectItem(customerConstants.depositIn());
+//		SelectItem depoSelect = new SelectItem(messages.depositIn());
 //		// depoSelect.setWidth("*");
 //		depoSelect.setRequired(true);
-//		DynamicForm depoForm = UIUtils.form(customerConstants.deposit());
+//		DynamicForm depoForm = UIUtils.form(messages.deposit());
 //		depoForm.setFields(depoSelect);
 //		forms.add(depoForm);
 //
@@ -97,33 +97,33 @@
 //		grid.setSelectionAppearance(SelectionAppearance.CHECKBOX);
 //		grid.setSelectionType(SelectionStyle.SIMPLE);
 //		ListGridField dueDateField = new ListGridField("due_date",
-//				customerConstants.dueDate());
+//				messages.dueDate());
 //		ListGridField invoiceField = new ListGridField("invoice",
-//				customerConstants.invoice());
+//				messages.invoice());
 //		ListGridField invoiceAmtField = new ListGridField("invoice_amt",
-//				customerConstants.invoiceAmount());
+//				messages.invoiceAmount());
 //		ListGridField amtDueField = new ListGridField("amt_due",
-//				customerConstants.amountDue());
+//				messages.amountDue());
 //		ListGridField discDateField = new ListGridField("disc_date",
-//				customerConstants.discountDate());
+//				messages.discountDate());
 //		ListGridField cashDiscField = new ListGridField("cach_disc",
-//				customerConstants.cashDiscount());
+//				messages.cashDiscount());
 //		ListGridField writeOffField = new ListGridField("write_off",
-//				customerConstants.writeOff());
+//				messages.writeOff());
 //		ListGridField appCredField = new ListGridField("app_credit",
-//				customerConstants.appliedCredit());
-//		ListGridField payField = new ListGridField("pay", customerConstants
+//				messages.appliedCredit());
+//		ListGridField payField = new ListGridField("pay", messages
 //				.payment());
 //		grid.setFields(dueDateField, invoiceField, invoiceAmtField,
 //				amtDueField, discDateField, cashDiscField, writeOffField,
 //				appCredField, payField);
 //
 //		TextItem unusedCredText = new TextItem();
-//		unusedCredText.setTitle(customerConstants.unusedCredits());
+//		unusedCredText.setTitle(messages.unusedCredits());
 //		unusedCredText.setColSpan(1);
 //		unusedCredText.setWidth(100);
 //		TextItem unusedPayText = new TextItem();
-//		unusedPayText.setTitle(customerConstants.unusedPayments());
+//		unusedPayText.setTitle(messages.unusedPayments());
 //		unusedPayText.setColSpan(1);
 //		unusedPayText.setWidth(100);
 //		DynamicForm unusedsForm = new DynamicForm();
@@ -143,11 +143,11 @@
 //		topHLay.add(payForm);
 //		topHLay.add(rightVLay);
 //
-//		Button saveCloseButt = new Button(customerConstants.saveAndClose());
+//		Button saveCloseButt = new Button(messages.saveAndClose());
 //		// saveCloseButt.setAutoFit(true);
 //		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 //
-//		Button saveNewButt = new Button(customerConstants.saveAndNew());
+//		Button saveNewButt = new Button(messages.saveAndNew());
 //		// saveNewButt.setAutoFit(true);
 //		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 //

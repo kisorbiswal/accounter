@@ -233,7 +233,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		// if (exception instanceof InvalidOperationException) {
 		// Accounter.showError(exception.getMessage());
 		// } else
-		// Accounter.showError(Accounter.constants().updationFailed());
+		// Accounter.showError(messages.updationFailed());
 		AccounterException accounterException = (AccounterException) exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);

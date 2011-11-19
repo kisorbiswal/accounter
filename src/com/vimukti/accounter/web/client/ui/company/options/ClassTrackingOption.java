@@ -95,14 +95,14 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		classTrackingdescriptionLabel.setStyleName("organisation_comment");
 		classTrackingCheckBox.setText(Accounter.messages().classTracking());
 		classWarningCheckBox.setText(Accounter.messages().classWarning());
-		// classesOnSalesLabel.setText(Accounter.constants().classesonsales());
-		// onePerTransactionRadio.setName(Accounter.constants()
+		// classesOnSalesLabel.setText(messages.classesonsales());
+		// onePerTransactionRadio.setName(messages
 		// .classunderscoretracking());
-		// onePerTransactionRadio.setHTML(Accounter.constants()
+		// onePerTransactionRadio.setHTML(messages
 		// .onepertransaction());
-		// onePerDetailLineRadio.setName(Accounter.constants()
+		// onePerDetailLineRadio.setName(messages
 		// .classunderscoretracking());
-		// onePerDetailLineRadio.setHTML(Accounter.constants().oneperdetailline());
+		// onePerDetailLineRadio.setHTML(messages.oneperdetailline());
 
 		// classOnSalesPanel.getElement().getStyle().setPaddingLeft(15,
 		// Unit.PX);

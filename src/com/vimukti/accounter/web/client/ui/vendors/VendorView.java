@@ -186,7 +186,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		// setTitle(UIUtils.title(Accounter.constants().newVendor()));
+		// setTitle(UIUtils.title(messages.newVendor()));
 		tabSet = new DecoratedTabPanel();
 		tabSet.setSize("100%", "100%");
 
@@ -697,7 +697,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
 		vendorTDSTaxCode.setDisabled(true);
-		// panNumber=new TextItem(Accounter.constants().panNumber());
+		// panNumber=new TextItem(messages.panNumber());
 		// panNumber.setHelpInformation(true);
 		// panNumber.setWidth("100%");
 
@@ -745,7 +745,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorGrpForm.setFields(vendorGroupSelect);
 
 		// vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "44%");
+		// messages.width(), "44%");
 
 		vatRegistrationNumber = new TextItem(Accounter.messages().taxRegNo());
 		vatRegistrationNumber.setHelpInformation(true);
@@ -828,12 +828,12 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 		//
 		// addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "25px");
+		// messages.width(), "25px");
 		// addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-		// Accounter.constants().width(), "186px");
+		// messages.width(), "186px");
 		//
 		// fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "240px");
+		// messages.width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
@@ -841,11 +841,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		// 0).getStyle().setWidth(150,
 		// Unit.PX);
 		// emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "240px");
+		// messages.width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
 		// accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "150px");
+		// messages.width(), "150px");
 
 	}
 

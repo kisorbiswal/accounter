@@ -122,7 +122,7 @@ public class VendorTransactionHistoryServerReport extends
 	public void processRecord(TransactionHistory record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-		// getConstants().total() }, new int[] { 5 });
+		// getMessages().total() }, new int[] { 5 });
 		// } else
 		if (sectionDepth == 0) {
 			// First time

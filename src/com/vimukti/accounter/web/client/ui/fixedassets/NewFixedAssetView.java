@@ -850,11 +850,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// if (!isEdit)
 		// BaseView.errordata.setHTML(FinanceApplication
 		// .constants().duplicationOfAssets());
-		// addError(this, Accounter.constants().duplicationOfAssets());
+		// addError(this, messages.duplicationOfAssets());
 		// BaseView.errordata.setHTML(FinanceApplication
 		// else
 		// .constants().assetApdationFailed());
-		// addError(this, Accounter.constants().accountUpdationFailed());
+		// addError(this, messages.accountUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		AccounterException accounterException = (AccounterException) exception;
@@ -963,7 +963,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		}
 		// if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
 		// .getValue().toString())) {
-		// result.addError(itemTxt, Accounter.constants().alreadyExist());
+		// result.addError(itemTxt, messages.alreadyExist());
 		// }
 
 		// Commented due to isRegister variable removed
@@ -996,14 +996,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// }
 		// double price = purchasePriceTxt.getAmount();
 		// if (DecimalUtil.isEquals(price, 0.0)) {
-		// result.addError(purchasePriceTxt, Accounter.constants()
+		// result.addError(purchasePriceTxt, messages
 		// .purchasePricShouldNotBeZero());
 		//
 		// }
 		//
 		// if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
 		// .getEnteredDate())) {
-		// result.addError(purchaseDateTxt, Accounter.constants()
+		// result.addError(purchaseDateTxt, messages
 		// .invalidPurchaseDate());
 		// }
 		//
@@ -1013,7 +1013,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		// if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
 		// .getEnteredDate())) {
-		// result.addError(purchaseDateTxt, Accounter.constants()
+		// result.addError(purchaseDateTxt, messages
 		// .invalidPurchaseDate());
 		// }
 
@@ -1028,7 +1028,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// if (!AccounterValidator
 		// .isFixedAssetPurchaseDateWithinRange(purchaseDateTxt
 		// .getEnteredDate())) {
-		// result.addError(purchaseDateTxt, Accounter.constants()
+		// result.addError(purchaseDateTxt, messages
 		// .purchaseDatesShoudBewithInFiscalYearRange());
 		// }
 		return result;

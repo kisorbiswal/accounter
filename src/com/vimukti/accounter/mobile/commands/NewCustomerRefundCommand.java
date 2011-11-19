@@ -103,8 +103,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CUSTOMER_REFUNDS, context
-								.getCompany()));
+						ClientTransaction.TYPE_CUSTOMER_REFUNDS,
+						context.getCompany()));
 		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
@@ -361,7 +361,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
 			enteredBalance = 0D;
 		}
-			// if (depositIn.isIncrease()) {
+		// if (depositIn.isIncrease()) {
 		// refund.setEndingBalance(depositIn.getTotalBalance()
 		// - enteredBalance);
 		// } else {

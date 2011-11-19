@@ -230,7 +230,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		/*
 		 * if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
 		 * .getValue()))) { Accounter.showError(accounterMessages
-		 * .pleaseEnter(accounterConstants.details())); return false; } else
+		 * .pleaseEnter(messages.details())); return false; } else
 		 */if (!(servicesOnly.getValue() || productsOnly.getValue() || both
 				.getValue())) {
 			Accounter.showMessage(accounterMessages.whatDoYouSell());

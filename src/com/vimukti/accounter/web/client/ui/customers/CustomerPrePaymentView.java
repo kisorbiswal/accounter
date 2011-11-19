@@ -237,8 +237,8 @@ public class CustomerPrePaymentView extends
 
 			// if (transaction.getCheckNumber() != null) {
 			// if (transaction.getCheckNumber().equals(
-			// Accounter.constants().toBePrinted())) {
-			// checkNo.setValue(Accounter.constants().toBePrinted());
+			// messages.toBePrinted())) {
+			// checkNo.setValue(messages.toBePrinted());
 			// printCheck.setValue(true);
 			// } else {
 			// checkNo.setValue(transaction.getCheckNumber());
@@ -433,7 +433,7 @@ public class CustomerPrePaymentView extends
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
 						.check()));
-		// printCheck = new CheckboxItem(customerConstants.toBePrinted());
+		// printCheck = new CheckboxItem(messages.toBePrinted());
 		// printCheck.setValue(true);
 		// printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 		//
@@ -443,11 +443,11 @@ public class CustomerPrePaymentView extends
 		// if (isChecked) {
 		// if (printCheck.getValue().toString()
 		// .equalsIgnoreCase("true")) {
-		// checkNo.setValue(Accounter.constants().toBePrinted());
+		// checkNo.setValue(messages.toBePrinted());
 		// checkNo.setDisabled(true);
 		// } else {
 		// if (depositInAccount == null)
-		// checkNo.setValue(Accounter.constants()
+		// checkNo.setValue(messages
 		// .toBePrinted());
 		// else if (isInViewMode()) {
 		// checkNo.setValue(((ClientCustomerPrePayment) transaction)
@@ -462,7 +462,7 @@ public class CustomerPrePaymentView extends
 		// }
 		// });
 		checkNo = createCheckNumberItm();
-		// checkNo.setValue(Accounter.constants().toBePrinted());
+		// checkNo.setValue(messages.toBePrinted());
 		checkNo.setWidth(100);
 		// checkNo.setDisabled(true);
 		checkNo.addChangeHandler(new ChangeHandler() {
@@ -630,7 +630,7 @@ public class CustomerPrePaymentView extends
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
 			// if
-			// (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque()))
+			// (paymentMethod.equalsIgnoreCase(messages.cheque()))
 			// {
 			// //printCheck.setDisabled(false);
 			// //checkNo.setDisabled(false);
@@ -713,13 +713,13 @@ public class CustomerPrePaymentView extends
 		paymentMethodCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		// if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-		// checkNo.setValue(Accounter.constants().toBePrinted());
+		// checkNo.setValue(messages.toBePrinted());
 		// checkNo.setDisabled(true);
 		// }
 		// if (paymentMethodCombo.getSelectedValue().equalsIgnoreCase(
-		// Accounter.constants().cheque())
+		// messages.cheque())
 		// && printCheck.getValue().toString().equalsIgnoreCase("true")) {
-		// checkNo.setValue(Accounter.constants().toBePrinted());
+		// checkNo.setValue(messages.toBePrinted());
 		checkNo.setDisabled(isInViewMode());
 		// }
 		memoTextAreaItem.setDisabled(false);

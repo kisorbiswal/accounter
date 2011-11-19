@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<ArrayList<T>> {
 	protected List<String> listOfTypes;
-	protected AccounterMessages messages = Accounter.messages();
 	protected BaseListGrid grid;
 
 	public BaseListGrid getGrid() {

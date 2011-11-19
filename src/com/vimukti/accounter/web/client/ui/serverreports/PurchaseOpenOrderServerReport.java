@@ -125,7 +125,7 @@ public class PurchaseOpenOrderServerReport extends
 		// else
 		// col = 2;
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { col });
+		// addSection("", getMessages().total(), new int[] { col });
 		// } else
 		if (sectionDepth == 0) {
 			// First time

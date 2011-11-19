@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends
@@ -111,7 +112,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.messages().dueDate();
+					return messages.dueDate();
 				}
 			};
 			this.addColumn(dueDate);
@@ -141,7 +142,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().billNo();
+				return messages.billNo();
 			}
 		};
 		this.addColumn(billNo);
@@ -162,7 +163,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.messages().originalAmount());
+					return getColumnNameWithCurrency(messages.originalAmount());
 				}
 
 				@Override
@@ -192,7 +193,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.messages().amountDue());
+					return getColumnNameWithCurrency(messages.amountDue());
 				}
 
 				@Override
@@ -222,7 +223,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.messages().billAmount();
+					return messages.billAmount();
 				}
 
 				@Override
@@ -264,7 +265,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().discountDate();
+				return messages.discountDate();
 			}
 		});
 
@@ -282,7 +283,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().discount();
+				return messages.discount();
 			}
 
 			@Override
@@ -307,7 +308,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().credits();
+				return messages.credits();
 			}
 
 			@Override
@@ -339,7 +340,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.messages().payments());
+					return getColumnNameWithBaseCurrency(messages.payments());
 				}
 
 				@Override
@@ -385,7 +386,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.messages().referenceNo();
+					return messages.referenceNo();
 				}
 			});
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
@@ -404,7 +405,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.messages().amountPaid();
+					return messages.amountPaid();
 				}
 
 				@Override
@@ -734,7 +735,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.messages()
+			throw new Exception(messages
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -819,7 +820,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.messages().tds();
+					return messages.tds();
 				}
 
 				@Override
@@ -859,7 +860,7 @@ public abstract class TransactionPayBillTable extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.pleaseSelectAnyOneOfTheTransactions());
 		}
 
@@ -869,13 +870,13 @@ public abstract class TransactionPayBillTable extends
 
 			double totalValue = getTotalValue(transactionPayBill);
 			if (DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.totalPaymentNotZeroForSelectedRecords());
 			} else if (DecimalUtil
 					.isGreaterThan(totalValue, currencyProvider
 							.getAmountInBaseCurrency(transactionPayBill
 									.getAmountDue()))) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.totalPaymentNotExceedDueForSelectedRecords());
 			}
 		}

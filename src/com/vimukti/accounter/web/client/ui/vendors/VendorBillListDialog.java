@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHan
 public class VendorBillListDialog extends BaseDialog {
 
 	private VendorBillView view;
-	// private CustomersMessages customerConstants = GWT
+	// private CustomersMessages messages = GWT
 	// .create(CustomersMessages.class);
 	private DialogGrid grid;
 	private List<PurchaseOrdersAndItemReceiptsList> list;

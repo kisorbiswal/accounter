@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -51,15 +50,14 @@ import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
-	private AccounterMessages messages = Accounter.messages();
 
-	private final String ATTR_PRIMARY = Accounter.messages().primary();
-	private final String ATTR_CONTACT_NAME = Accounter.messages()
+	private final String ATTR_PRIMARY = messages.primary();
+	private final String ATTR_CONTACT_NAME = messages
 			.contactName();
-	private final String ATTR_TITLE = Accounter.messages().title();
-	private final String ATTR_BUSINESS_PHONE = Accounter.messages()
+	private final String ATTR_TITLE = messages.title();
+	private final String ATTR_BUSINESS_PHONE = messages
 			.businessPhone();
-	private final String ATTR_EMAIL = Accounter.messages().email();
+	private final String ATTR_EMAIL = messages.email();
 
 	TextItem taxAgencyText, fileAsText;
 
@@ -134,14 +132,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// if (!isEdit)
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// BaseView.errordata.setHTML(FinanceApplication.messages()
 		// .duplicationOfTaxAgencyNameAreNotAllowed());
-		// addError(this, Accounter.constants()
+		// addError(this, messages
 		// .duplicationOfTaxAgencyNameAreNotAllowed());
 		// else
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// BaseView.errordata.setHTML(FinanceApplication.messages()
 		// .failedToUpdate());
-		// addError(this, Accounter.constants().failedToUpdate());
+		// addError(this, messages.failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		AccounterException accounterException = (AccounterException) exception;
@@ -154,11 +152,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void saveSuccess(IAccounterCore result) {
 		// if (takenVATAgency == null)
 		// Accounter.showInformation(result.getName()
-		// + FinanceApplication.constants()
+		// + FinanceApplication.messages()
 		// .isCreatedSuccessfully());
 		// else
 		// Accounter.showInformation(result.getName()
-		// + FinanceApplication.constants()
+		// + FinanceApplication.messages()
 		// .isUpdatedSuccessfully());
 		super.saveSuccess(result);
 
@@ -178,7 +176,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
 			result
-					.addError(taxAgencyText,messages
+					.addError(taxAgencyText, messages
 							.alreadyExist());
 		}
 
@@ -282,11 +280,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private VerticalPanel getTopLayout() {
 		Label lab;
-		lab = new Label(Accounter.messages().taxAgency());
-		taxAgencyText = new TextItem(Accounter.messages().taxAgency());
+		lab = new Label(messages.taxAgency());
+		taxAgencyText = new TextItem(messages.taxAgency());
 		taxAgencyText.setHelpInformation(true);
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.messages().labelTitle());
+		lab.addStyleName(messages.labelTitle());
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
@@ -340,7 +338,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxTypeCombo = createTaxTypeSelectCombo();
 
-		vatReturnCombo = new SelectCombo(Accounter.messages().taxReturn());
+		vatReturnCombo = new SelectCombo(messages.taxReturn());
 		vatReturnCombo.setHelpInformation(true);
 		if (getCompany().getCountry().equals(
 				CountryPreferenceFactory.UNITED_KINGDOM)) {
@@ -348,8 +346,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		}
 		vatReturnCombo.setDisabled(isInViewMode());
 		vatReturnList = new ArrayList<String>();
-		vatReturnList.add(Accounter.messages().ukVAT());
-		vatReturnList.add(Accounter.messages().vat3Ireland());
+		vatReturnList.add(messages.ukVAT());
+		vatReturnList.add(messages.vat3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -437,7 +435,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setDisabled(isInViewMode());
-		memoArea.setTitle(Accounter.messages().memo());
+		memoArea.setTitle(messages.memo());
 		// memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
@@ -527,10 +525,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
 				vatReturnCombo.setComboItem("");
 			else if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setComboItem(Accounter.messages().ukVAT());
+				vatReturnCombo.setComboItem(messages.ukVAT());
 			else
 				vatReturnCombo
-						.setComboItem(Accounter.messages().vat3Ireland());
+						.setComboItem(messages.vat3Ireland());
 
 			if (data.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
@@ -873,7 +871,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().taxAgency();
+		return messages.taxAgency();
 	}
 
 	private int getTaxType(String taxType) {
@@ -983,8 +981,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private List<String> getVatReturns() {
 		List<String> vatReturns = new ArrayList<String>();
-		vatReturns.add(Accounter.messages().ukVAT());
-		vatReturns.add(Accounter.messages().vat3Ireland());
+		vatReturns.add(messages.ukVAT());
+		vatReturns.add(messages.vat3Ireland());
 		return vatReturns;
 	}
 }

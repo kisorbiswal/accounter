@@ -143,7 +143,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// && taxCodeSelect != null
 		// && taxCodeSelect.getValue() != ""
 		// && !taxCodeSelect.getName().equalsIgnoreCase(
-		// Accounter.constants().none()))
+		// messages.none()))
 		// taxCodeSelect.setComboItem(this.taxCode);
 		// if (this.priceLevel != null && priceLevelSelect != null)
 		// priceLevelSelect.setComboItem(this.priceLevel);
@@ -305,7 +305,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(customerConstants.quote()));
+		// setTitle(UIUtils.title(messages.quote()));
 		Label lab1 = new Label(title);
 		// + "(" + getTransactionStatus() + ")");
 		lab1.setStyleName(Accounter.messages().labelTitle());
@@ -364,7 +364,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				.setVerticalAlign(VerticalAlign.TOP);
 
 		// shipToAddress.getCellFormatter().getElement(0, 0)
-		// .setAttribute(Accounter.constants().width(), "40px");
+		// .setAttribute(messages.width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -434,7 +434,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		}
 		phoneForm.setStyleName("align-form");
 		// phoneForm.getCellFormatter().getElement(0, 0)
-		// .setAttribute(Accounter.constants().width(), "203px");
+		// .setAttribute(messages.width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -911,7 +911,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+							messages.enterTaxCode());
 				}
 
 			}

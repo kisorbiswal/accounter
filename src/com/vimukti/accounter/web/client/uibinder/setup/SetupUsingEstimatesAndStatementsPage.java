@@ -55,12 +55,12 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		preferences.setDoyouwantEstimates(true);
 		/*
 		 * billingStatements.setHTML(accounterMessages.statementDescription());
-		 * someExampleText.setText(accounterConstants.statementSomeExample());
+		 * someExampleText.setText(messages.statementSomeExample());
 		 * someExampleList.setHTML(accounterMessages.statementlist());
 		 * billingQuestion.setText(accounterMessages.statementQuestion());
-		 * statementYes.setText(accounterConstants.yes());
-		 * statementsNo.setText(accounterConstants.no());
-		 * stmt_header.setText(accounterConstants.doyouWantToUseStatements());
+		 * statementYes.setText(messages.yes());
+		 * statementsNo.setText(messages.no());
+		 * stmt_header.setText(messages.doyouWantToUseStatements());
 		 */
 	}
 
@@ -99,7 +99,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 			return false;
 		}/*
 		 * else if (!(statementYes.getValue() || statementsNo.getValue())) {
-		 * Accounter .showError(accounterMessages.pleaseEnter(accounterConstants
+		 * Accounter .showError(accounterMessages.pleaseEnter(messages
 		 * .doyouWantToUseStatements())); return false; }
 		 */else {
 			return true;

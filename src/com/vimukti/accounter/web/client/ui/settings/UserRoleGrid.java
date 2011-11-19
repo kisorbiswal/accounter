@@ -190,7 +190,7 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	public String getPermissionTypeForExpences(int type) {
 		switch (type) {
 		/*
-		 * case 4: return Accounter.constants().draftOnly();
+		 * case 4: return messages.draftOnly();
 		 */
 		case 3:
 			return Accounter.messages().no();

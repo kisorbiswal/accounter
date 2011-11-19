@@ -22,6 +22,7 @@ public class MessagePanel extends VerticalPanel {
 	private TranslationView view;
 	private TextBox addNewMessageBox;
 	private TranslateServiceAsync async = Accounter.createTranslateService();
+	private VerticalPanel mainPanel, localMessagesPanel;
 
 	private AccounterMessages messages = Accounter.messages();
 	private boolean canApprove;
@@ -36,8 +37,8 @@ public class MessagePanel extends VerticalPanel {
 	}
 
 	private void createControls() {
-		VerticalPanel mainPanel = new VerticalPanel();
-		VerticalPanel localMessagesPanel = new VerticalPanel();
+		mainPanel = new VerticalPanel();
+		localMessagesPanel = new VerticalPanel();
 
 		Label valueLabel = new Label(clientMessage.getValue());
 
@@ -53,7 +54,7 @@ public class MessagePanel extends VerticalPanel {
 				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER
 						&& addNewMessageBox.getText().trim().length() != 0) {
 					final String data = addNewMessageBox.getText();
-					addLocalMessage(data);
+					validateUserValue(data);
 				}
 			}
 
@@ -86,12 +87,17 @@ public class MessagePanel extends VerticalPanel {
 
 					@Override
 					public void onSuccess(Boolean result) {
+						if (result) {
+							addLocalMessage(data);
+						} else {
+							showValidationError();
+						}
 					}
 
 				});
 	}
 
-	void validateMessage() {
+	private void showValidationError() {
 		async.getServerMatchList(new AsyncCallback<Set<String>>() {
 
 			@Override
@@ -117,21 +123,13 @@ public class MessagePanel extends VerticalPanel {
 
 	protected void addLocalMessage(final String data) {
 		async.addTranslation(clientMessage.getId(), language, data,
-				new AsyncCallback<Boolean>() {
+				new AsyncCallback<ClientLocalMessage>() {
 
 					@Override
-					public void onSuccess(Boolean result) {
-						// if (result) {
-						// view.refreshPager();
-						// view
-						// .updateListData();
-						// } else {
-						// Accounter
-						// .showError(Accounter
-						// .messages()
-						// .oneUserCanEnterOneValueOnlyForEachMessage());
-						// }
-						// getLocalMessgePanel(clientLocalMessage)
+					public void onSuccess(ClientLocalMessage result) {
+						LocalMessagePanel localMessagePanel = new LocalMessagePanel(
+								result, view, canApprove,clientMessage);
+						localMessagesPanel.add(localMessagePanel);
 					}
 
 					@Override
@@ -144,7 +142,7 @@ public class MessagePanel extends VerticalPanel {
 	private HorizontalPanel getLocalMessgePanel(
 			final ClientLocalMessage clientLocalMessage) {
 		LocalMessagePanel localMessagePanel = new LocalMessagePanel(
-				clientLocalMessage, view, canApprove);
+				clientLocalMessage, view, canApprove,clientMessage);
 		return localMessagePanel;
 	}
 

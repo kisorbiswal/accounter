@@ -109,7 +109,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected ClientCustomer customer;
 
-	AccounterMessages accounterConstants = Global.get().messages();
+	AccounterMessages messages = Global.get().messages();
 
 	private boolean useAccountNumbers;
 
@@ -794,12 +794,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
 		// {
 		// result.addError(transactionDateItem,
-		// customerConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+					messages.invalidateDate());
 		}
 
 		if (getPreferences().isTrackTax()) {
@@ -822,7 +822,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 						&& this.transactionDate.before(taxAgency
 								.getLastTAXReturnDate())) {
 					result.addWarning(this.transactionDate,
-							accounterConstants.taxExceptionMesg());
+							messages.taxExceptionMesg());
 				}
 			}
 		}

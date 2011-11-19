@@ -77,7 +77,7 @@ public class SalesTaxLiabilityServerReport extends
 	@Override
 	public void processRecord(SalesTaxLiability record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 2, 3, 4, 5, 6 });
+		// addSection("", getMessages().total(), new int[] { 2, 3, 4, 5, 6 });
 		// } else
 		if (sectionDepth == 0) {
 			// First time

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -12,12 +11,14 @@ import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
 	private AsyncDataProvider<ClientActivity> listDataProvider;
 	private ClientFinanceDate fromDate, endDate;
+	private AccounterMessages messages = Accounter.messages();
 
 	public UsersActivityList() {
 		createControls();
@@ -89,14 +90,15 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				DateTimeFormat datefmt = DateTimeFormat.getFormat(Accounter.getCompany().getPreferences().getDateFormat());
+				DateTimeFormat datefmt = DateTimeFormat.getFormat(Accounter
+						.getCompany().getPreferences().getDateFormat());
 				String dateformat = datefmt.format(new Date(object.getTime()));
-				 DateTimeFormat timefmt = DateTimeFormat.getFormat("h:mm a");
-				 String timeFormat = timefmt.format(new Date(object.getTime()));
-				return dateformat+" "+timeFormat;
+				DateTimeFormat timefmt = DateTimeFormat.getFormat("h:mm a");
+				String timeFormat = timefmt.format(new Date(object.getTime()));
+				return dateformat + " " + timeFormat;
 			}
 		};
-	//	  dateColumn.setSortable(false);
+		// dateColumn.setSortable(false);
 
 		TextColumn<ClientActivity> userNameColumn = new TextColumn<ClientActivity>() {
 
@@ -143,12 +145,12 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				return DataUtils.getAmountAsString(object.getAmount());
 			}
 		};
-		this.addColumn(dateColumn, Accounter.messages().modifiedTime());
-		this.addColumn(userNameColumn, Accounter.messages().userName());
-		this.addColumn(activity, Accounter.messages().activity());
-		this.addColumn(nameColumn, Accounter.messages().name());
-		this.addColumn(transactionDateColumn, Accounter.messages().date());
-		this.addColumn(amountColumn, Accounter.messages().amount());
+		this.addColumn(dateColumn, messages.modifiedTime());
+		this.addColumn(userNameColumn, messages.userName());
+		this.addColumn(activity, messages.activity());
+		this.addColumn(nameColumn, messages.name());
+		this.addColumn(transactionDateColumn, messages.date());
+		this.addColumn(amountColumn, messages.amount());
 		this.setColumnWidth(dateColumn, "170px");
 		this.setColumnWidth(userNameColumn, "160px");
 		this.setColumnWidth(activity, "200px");
@@ -161,29 +163,29 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		int type = activity.getActivityType();
 		switch (type) {
 		case 0:
-			return dataType = Accounter.messages().loggedIn();
+			return dataType = messages.loggedIn();
 		case 1:
-			return dataType = Accounter.messages().loggedOut();
+			return dataType = messages.loggedOut();
 		case 2:
-			buffer.append(Accounter.messages().added());
+			buffer.append(messages.added());
 			buffer.append(" : ");
 			buffer.append(activity.getDataType() != null ? activity
 					.getDataType() : "");
 			return buffer.toString();
 		case 3:
-			buffer.append(Accounter.messages().edited());
+			buffer.append(messages.edited());
 			buffer.append(" : ");
 			buffer.append(activity.getDataType() != null ? activity
 					.getDataType() : "");
 			return buffer.toString();
 		case 4:
-			buffer.append(Accounter.messages().deleted());
+			buffer.append(messages.deleted());
 			buffer.append(" : ");
 			buffer.append(activity.getDataType() != null ? activity
 					.getDataType() : "");
 			return buffer.toString();
 		case 5:
-			return dataType = Accounter.messages().updatedPreferences();
+			return dataType = messages.updatedPreferences();
 		default:
 			break;
 		}

@@ -50,7 +50,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 	@Override
 	protected String getWelcomeMessage() {
-	return creditMemo.getID() == 0 ? getMessages().create(
+		return creditMemo.getID() == 0 ? getMessages().create(
 				getMessages().CustomerCreditNote())
 				: "Update Customer Credit Note Command is activated";
 	}
@@ -190,7 +190,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
-				true, true, true) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -202,6 +202,11 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 					}
 				}
 				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return true;
 			}
 
 		});

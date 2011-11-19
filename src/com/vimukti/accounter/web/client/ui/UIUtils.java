@@ -413,67 +413,67 @@ public class UIUtils {
 		var formate = "";
 		switch (date.getDay()) {
 		case 0:
-			formate += Accounter.constants().sun();
+			formate += messages.sun();
 			break;
 		case 1:
-			formate += Accounter.constants().mon();
+			formate += messages.mon();
 			break;
 		case 2:
-			formate += Accounter.constants().tues();
+			formate += messages.tues();
 			break;
 		case 3:
-			formate += Accounter.constants().wednes();
+			formate += messages.wednes();
 			break;
 		case 4:
-			formate += Accounter.constants().thurs();
+			formate += messages.thurs();
 			break;
 		case 5:
-			formate += Accounter.constants().fri();
+			formate += messages.fri();
 			break;
 		case 6:
-			formate += Accounter.constants().satur();
+			formate += messages.satur();
 			break;
 		default:
 			null;
 			break;
 		}
-		formate += Accounter.constants().daycomma();
+		formate += messages.daycomma();
 		switch (date.getMonth()) {
 		case 0:
-			formate += Accounter.constants().JAN();
+			formate += messages.JAN();
 			break;
 		case 1:
-			formate += Accounter.constants().FEB();
+			formate += messages.FEB();
 			break;
 		case 2:
-			formate += Accounter.constants().MAR();
+			formate += messages.MAR();
 			break;
 		case 3:
-			formate += Accounter.constants().APR();
+			formate += messages.APR();
 			break;
 		case 4:
-			formate += Accounter.constants().MAY();
+			formate += messages.MAY();
 			break;
 		case 5:
-			formate += Accounter.constants().JUN();
+			formate += messages.JUN();
 			break;
 		case 6:
-			formate += Accounter.constants().JUL();
+			formate += messages.JUL();
 			break;
 		case 7:
-			formate += Accounter.constants().AUG();
+			formate += messages.AUG();
 			break;
 		case 8:
-			formate += Accounter.constants().SEP();
+			formate += messages.SEP();
 			break;
 		case 9:
-			formate += Accounter.constants().OCT();
+			formate += messages.OCT();
 			break;
 		case 10:
-			formate += Accounter.constants().NOV();
+			formate += messages.NOV();
 			break;
 		case 11:
-			formate += Accounter.constants().DEC();
+			formate += messages.DEC();
 			break;
 		}
 		formate += " " + date.getDate() + ", " + date.getFullYear();
@@ -500,40 +500,40 @@ public class UIUtils {
 		var formate = "";
 		switch (date.getMonth()) {
 		case 0:
-			formate += Accounter.constants().JAN();
+			formate += messages.JAN();
 			break;
 		case 1:
-			formate += Accounter.constants().FEB();
+			formate += messages.FEB();
 			break;
 		case 2:
-			formate += Accounter.constants().MAR();
+			formate += messages.MAR();
 			break;
 		case 3:
-			formate += Accounter.constants().APR();
+			formate += messages.APR();
 			break;
 		case 4:
-			formate += Accounter.constants().MAY();
+			formate += messages.MAY();
 			break;
 		case 5:
-			formate += Accounter.constants().JUN();
+			formate += messages.JUN();
 			break;
 		case 6:
-			formate += Accounter.constants().JUL();
+			formate += messages.JUL();
 			break;
 		case 7:
-			formate += Accounter.constants().AUG();
+			formate += messages.AUG();
 			break;
 		case 8:
-			formate += Accounter.constants().SEP();
+			formate += messages.SEP();
 			break;
 		case 9:
-			formate += Accounter.constants().OCT();
+			formate += messages.OCT();
 			break;
 		case 10:
-			formate += Accounter.constants().NOV();
+			formate += messages.NOV();
 			break;
 		case 11:
-			formate += Accounter.constants().DEC();
+			formate += messages.DEC();
 			break;
 		formate += " " + date.getDate() + ", " + date.getFullYear();
 
@@ -1169,7 +1169,7 @@ public class UIUtils {
 		case ClientTransactionItem.TYPE_ITEM:
 			return Accounter.messages().item();
 			// case ClientTransactionItem.TYPE_SALESTAX:
-			// return Accounter.constants().taxGroup();
+			// return messages.taxGroup();
 		default:
 			break;
 		}
@@ -1868,7 +1868,7 @@ public class UIUtils {
 			return Accounter.messages().cheque();
 			// else if (getCompany().getAccountingType() ==
 			// ClientCompany.ACCOUNTING_TYPE_US)
-			// return Accounter.constants().check();
+			// return messages.check();
 		}
 
 		return paymentMethod;

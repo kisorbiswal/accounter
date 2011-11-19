@@ -75,7 +75,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	// private String getValidMail(String email) {
 	//
 	// if (!UIUtils.isValidEmail(email)) {
-	// // Accounter.showError(Accounter.constants().invalidEmail());
+	// // Accounter.showError(messages.invalidEmail());
 	// return "";
 	// } else
 	// return email;

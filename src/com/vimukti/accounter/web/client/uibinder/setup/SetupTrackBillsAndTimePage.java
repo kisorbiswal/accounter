@@ -74,17 +74,17 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterMessages.managingBills());
 
-		// trackOfBillsText.setHTML(accounterConstants.doyouwantTrackTime());
+		// trackOfBillsText.setHTML(messages.doyouwantTrackTime());
 		// trackOfBillsList.setHTML(accounterMessages.trackTimeList());
 		managingList.setHTML("<ui><li>" + accounterMessages.managingList1()
 				+ "</li><li>" + accounterMessages.managingList2() + "</li><li>"
 				+ accounterMessages.managingList3() + "</li></ui>");
-		// trackTimeText.setHTML(accounterConstants.doyouwantTrackBills());
+		// trackTimeText.setHTML(messages.doyouwantTrackBills());
 		managingYes.setText(accounterMessages.yes());
-		// trackingTimeYes.setText(accounterConstants.yes());
+		// trackingTimeYes.setText(messages.yes());
 		managingNo.setText(accounterMessages.no());
-		// trackingNo.setText(accounterConstants.no());
-		// trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
+		// trackingNo.setText(messages.no());
+		// trackingTimeDes.setHTML(messages.timetrackingdescription());
 		managingInfo.setHTML(accounterMessages
 				.billstrackingdescription(accounterMessages.Accounts()));
 		// track_time_head.setText(accounterMessages.trackingtimehead());
@@ -134,7 +134,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 			/*
 			 * } else if (!(trackingTimeYes.getValue() ||
 			 * trackingNo.getValue())) {
-			 * Accounter.showMessage(accounterConstants.doyouwantTrackBills());
+			 * Accounter.showMessage(messages.doyouwantTrackBills());
 			 * return false;
 			 */
 		} else {

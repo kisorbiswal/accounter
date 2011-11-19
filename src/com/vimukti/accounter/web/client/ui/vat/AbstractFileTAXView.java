@@ -66,8 +66,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		Label infolabel = new Label(messages.fileTAX());
 		infolabel.removeStyleName("gwt-Label");
 		infolabel.addStyleName(messages.labelTitle());
-		taxAgencyCombo = new TAXAgencyCombo(messages.vatAgency());
-
+		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo.setRequired(true);
 
@@ -279,8 +278,8 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		}
 		if (lastVATReturn != null) {
 			if (lastVATReturn.getPeriodEndDate() != 0) {
-				ClientFinanceDate date = new ClientFinanceDate(lastVATReturn
-						.getPeriodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(
+						lastVATReturn.getPeriodEndDate());
 				int day = date.getDay();
 				date.setDay(day + 1);
 				fromDate.setDatethanFireEvent(date);
@@ -342,14 +341,12 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 									.getDateAsObject();
 							date.setDate(date.getDate() + 1);
 
-							fromDate
-									.setDatethanFireEvent(new ClientFinanceDate(
-											date));
+							fromDate.setDatethanFireEvent(new ClientFinanceDate(
+									date));
 							fromDate.setDisabled(true);
 						} else {
-							fromDate
-									.setDatethanFireEvent(new ClientFinanceDate(
-											DateUtil.getCurrentMonthFirstDate()));
+							fromDate.setDatethanFireEvent(new ClientFinanceDate(
+									DateUtil.getCurrentMonthFirstDate()));
 						}
 						reloadGrid();
 					}
@@ -388,9 +385,8 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 			// taxAgencyCombo.addStyleName("highlightedFormItem");
 			// fromDate.addStyleName("highlightedFormItem");
 			// toDate.addStyleName("highlightedFormItem");
-			result
-					.addError(this, messages
-							.updateGridBeforeSaving());
+			result.addError(this, messages
+					.updateGridBeforeSaving());
 		}
 		if (getGrid().getRecords().isEmpty()) {
 			result.addError(this, messages

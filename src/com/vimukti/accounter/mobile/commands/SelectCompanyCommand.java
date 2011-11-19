@@ -15,6 +15,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 
 /**
  * Selects the Company
@@ -102,9 +103,9 @@ public class SelectCompanyCommand extends Command {
 					makeResult.add("You have only '" + company.getDisplayName()
 							+ "' company.");
 					makeResult.add("It has been selected.");
-					makeResult.add("Press 'a' to create Another Company.");
 					CommandList commandList = new CommandList();
-					commandList.add("Create Company");
+					commandList.add(new UserCommand("Create Company",
+							"Create Another Company", ""));
 					makeResult.add(commandList);
 				} else {
 					ResultList companyList = new ResultList(COMPANY);

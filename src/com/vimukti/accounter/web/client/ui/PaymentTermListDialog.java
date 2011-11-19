@@ -219,7 +219,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		return new String[] { Accounter.messages().name(),
 				Accounter.messages().description(),
 				Accounter.messages().dueDays(),
-		/* Accounter.constants().cashDiscount() */};
+		/* messages.cashDiscount() */};
 	}
 
 	@Override

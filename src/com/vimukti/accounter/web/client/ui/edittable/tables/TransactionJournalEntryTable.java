@@ -54,7 +54,7 @@ public abstract class TransactionJournalEntryTable extends
 		//
 		// @Override
 		// protected String getColumnName() {
-		// return Accounter.constants().voucherNo();
+		// return messages.voucherNo();
 		// }
 		//
 		// @Override
@@ -79,7 +79,7 @@ public abstract class TransactionJournalEntryTable extends
 		//
 		// @Override
 		// protected String getColumnName() {
-		// return Accounter.constants().date();
+		// return messages.date();
 		// }
 		//
 		// @Override

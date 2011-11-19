@@ -134,10 +134,10 @@ public class CustomerTransactionHistoryServerReport extends
 		// if (sectionDepth == 0) {
 		// if (constants != null) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "",
-		// "", constants.total() }, new int[] { 5 });
+		// "", messages.total() }, new int[] { 5 });
 		// } else {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "",
-		// "", Accounter.constants().total() }, new int[] { 5 });
+		// "", messages.total() }, new int[] { 5 });
 		// }
 		//
 		// } else

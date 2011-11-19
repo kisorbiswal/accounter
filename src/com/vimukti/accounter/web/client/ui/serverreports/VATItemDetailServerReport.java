@@ -105,7 +105,7 @@ public class VATItemDetailServerReport extends
 	public void processRecord(VATItemDetail record) {
 		// VATItemSummary itemList = (VATItemSummary) data;
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 5 });
+		// addSection("", getMessages().total(), new int[] { 5 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();

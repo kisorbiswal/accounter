@@ -24,11 +24,11 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	private int type;
 
-	private static String OPEN = Accounter.messages().open();
-	private static String REJECTED = Accounter.messages().rejected();
-	private static String ACCEPTED = Accounter.messages().accepted();
-	private static String EXPIRED = Accounter.messages().expired();
-	private static String ALL = Accounter.messages().all();
+	private static String OPEN = messages.open();
+	private static String REJECTED = messages.rejected();
+	private static String ACCEPTED = messages.accepted();
+	private static String EXPIRED = messages.expired();
+	private static String ALL = messages.all();
 	// private static String DELETED = "Deleted";
 
 	public static final int STATUS_OPEN = 0;
@@ -46,16 +46,14 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	protected Action getAddNewAction() {
 		if (type == ClientEstimate.QUOTES
 				&& Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction(type, Accounter.messages()
-					.newQuote());
-
+			return ActionFactory.getNewQuoteAction(type, messages.newQuote());
 		else if (getPreferences().isDelayedchargesEnabled()) {
 			if (type == ClientEstimate.CHARGES) {
-				return ActionFactory.getNewQuoteAction(type, messages
-						.newCharge());
+				return ActionFactory.getNewQuoteAction(type,
+						messages.newCharge());
 			} else if (type == ClientEstimate.CREDITS) {
-				return ActionFactory.getNewQuoteAction(type, messages
-						.newCredit());
+				return ActionFactory.getNewQuoteAction(type,
+						messages.newCredit());
 			}
 		}
 		return null;
@@ -66,7 +64,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		if (type == ClientEstimate.QUOTES
 				&& Accounter.getUser().canDoInvoiceTransactions())
 			return messages.addaNewQuote();
-
 		else if (getPreferences().isDelayedchargesEnabled()) {
 			if (type == ClientEstimate.CHARGES) {
 				return messages.addNewCharge();
@@ -80,11 +77,11 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	@Override
 	protected String getListViewHeading() {
 		if (type == ClientEstimate.CHARGES) {
-			return Accounter.messages().chargesList();
+			return messages.chargesList();
 		} else if (type == ClientEstimate.CREDITS) {
 			return messages.creditsList();
 		}
-		return Accounter.messages().quotesList();
+		return messages.quotesList();
 	}
 
 	@Override
@@ -115,7 +112,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
@@ -170,8 +167,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 				continue;
 			}
 			if (text.equals(EXPIRED)) {
-				ClientFinanceDate expiryDate = new ClientFinanceDate(estimate
-						.getExpirationDate());
+				ClientFinanceDate expiryDate = new ClientFinanceDate(
+						estimate.getExpirationDate());
 				if (expiryDate.before(new ClientFinanceDate()))
 					grid.addData(estimate);
 				continue;
@@ -212,6 +209,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().quotes();
+		return messages.quotes();
 	}
 }

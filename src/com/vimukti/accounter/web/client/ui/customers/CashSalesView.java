@@ -157,7 +157,7 @@ public class CashSalesView extends
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		// shipToAddress.getCellFormatter().getElement(0, 0)
-		// .setAttribute(Accounter.constants().width(), "40px");
+		// .setAttribute(messages.width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect
@@ -933,7 +933,7 @@ public class CashSalesView extends
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+							messages.enterTaxCode());
 				}
 
 			}
@@ -945,7 +945,7 @@ public class CashSalesView extends
 
 			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(depositInCombo,
-						accounterConstants.selectProperBankAccount());
+						messages.selectProperBankAccount());
 			}
 		}
 		return result;

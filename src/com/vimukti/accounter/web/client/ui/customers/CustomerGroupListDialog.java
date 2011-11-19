@@ -159,7 +159,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			// UIUtils.toStr(value)) ? true
 			// : (Utility.isObjectExist(company.getCustomerGroups()
 			// ) ? false : true))) {
-			// result.addError(this, Accounter.constants()
+			// result.addError(this, messages
 			// .customerGroupAlreadyExists());
 			// }
 		} else {

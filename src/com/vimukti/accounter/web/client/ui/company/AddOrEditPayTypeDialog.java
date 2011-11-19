@@ -56,7 +56,7 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 				.deduction());
 		type.setDefaultValue(Accounter.messages().earning());
 
-		// account = new AccountCombo(Accounter.constants().account());
+		// account = new AccountCombo(messages.account());
 
 		form1.setFields(type, account);
 

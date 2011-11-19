@@ -63,8 +63,7 @@ public class TransactionPayTAXGrid extends
 		try {
 
 			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString())
-					+ "");
+					.getReformatedAmount(value.toString()) + "");
 			editingRecord.setAmountToPay(payment);
 			updateData(editingRecord);
 
@@ -90,8 +89,8 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.taxFiledDate(), messages.taxDue(),
-				messages.amountToPay() };
+		return new String[] { messages.taxFiledDate(),
+				messages.taxDue(), messages.payment() };
 	}
 
 	@Override
@@ -194,12 +193,12 @@ public class TransactionPayTAXGrid extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.pleaseSelectAtLeastOneRecord());
 		} else {
 			for (ClientTransactionPayTAX tax : getSelectedRecords()) {
 				if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
-					result.addError(this, Accounter.messages()
+					result.addError(this, messages
 							.pleaseEnterAmountToPay());
 				}
 

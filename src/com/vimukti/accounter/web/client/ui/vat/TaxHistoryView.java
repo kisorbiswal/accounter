@@ -44,8 +44,8 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		Label label = new Label();
 		label.removeStyleName("gwt-style");
 		label.setWidth("100%");
-		label.addStyleName(Accounter.messages().labelTitle());
-		label.setText(Accounter.messages().taxHistory());
+		label.addStyleName(messages.labelTitle());
+		label.setText(messages.taxHistory());
 		this.optionsCombo = new SelectCombo(messages.taxFillings());
 		optionsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -76,7 +76,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		this.add(mainPanel);
 		saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(true);
-		saveAndNewButton.setText(Accounter.messages().payTax());
+		saveAndNewButton.setText(messages.payTax());
 	}
 
 	@Override
@@ -106,9 +106,9 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	private void initComboItems() {
 		List<String> options = new ArrayList<String>();
-		options.add(new String(Accounter.messages().all()));
-		options.add(new String(Accounter.messages().paid()));
-		options.add(new String(Accounter.messages().unPaid()));
+		options.add(new String(messages.all()));
+		options.add(new String(messages.paid()));
+		options.add(new String(messages.unPaid()));
 		optionsCombo.initCombo(options);
 		optionsCombo.setSelectedItem(0);
 

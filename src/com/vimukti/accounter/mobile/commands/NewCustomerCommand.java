@@ -203,10 +203,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list
-				.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
-						getMessages().bankName()), getMessages().bankName(),
-						true, true));
+		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
+				getMessages().bankName()), getMessages().bankName(), true, true));
 
 		list.add(new NumberRequirement(BANK_ACCOUNT_NUM,
 				getMessages().pleaseEnter(
@@ -332,23 +330,20 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list
-				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-						getMessages().payeeNumber(Global.get().Customer())),
-						getMessages().payeeNumber(Global.get().Customer()),
-						true, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if (getPreferences().isTrackTax()
-								&& context.getCompany().getCountryPreferences()
-										.isSalesTaxAvailable()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-				});
+		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+				getMessages().payeeNumber(Global.get().Customer())),
+				getMessages().payeeNumber(Global.get().Customer()), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
+								.isSalesTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getMessages().serviceTax()), getMessages()
@@ -576,7 +571,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(CUSTOMER_SINCEDATE).setValue(
 				new ClientFinanceDate(customer.getPayeeSince()));
 		get(BALANCE).setValue(customer.getBalance());
-		get(BALANCE).setEditable(false);
+		// get(BALANCE).setEditable(false);
 		get(BALANCE_ASOF_DATE).setValue(
 				new ClientFinanceDate(customer.getBalanceAsOf()));
 		Set<ClientAddress> address = customer.getAddress();

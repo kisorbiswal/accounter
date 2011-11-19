@@ -168,7 +168,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		// Accounter.showError(((InvalidOperationException) caught)
 		// .getMessage());
 		// else
-		// Accounter.showError(Accounter.constants().youcantDeleteThisUser());
+		// Accounter.showError(messages.youcantDeleteThisUser());
 		AccounterException accounterException = (AccounterException) caught;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);

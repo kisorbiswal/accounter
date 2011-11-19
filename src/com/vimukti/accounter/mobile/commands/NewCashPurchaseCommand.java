@@ -111,7 +111,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				getMessages().cashPurchase())
 				: "Update Cash Purchase command is activated";
 	}
-	
+
 	@Override
 	protected String getDetailsMessage() {
 		return cashPurchase.getID() == 0 ? getMessages().readyToCreate(
@@ -124,8 +124,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_PURCHASE, context
-								.getCompany()));
+						ClientTransaction.TYPE_CASH_PURCHASE,
+						context.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(CONTACT).setDefaultValue(null);
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
@@ -349,7 +349,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
-				true, true, false) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -361,6 +361,11 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return false;
 			}
 		});
 

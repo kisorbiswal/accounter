@@ -70,7 +70,7 @@ public abstract class FormItem<T> {
 
 	public void highlight() {
 		getMainWidget().addStyleName("highlightedFormItem");
-		// getMainWidget().setTitle(Accounter.constants().invalidValue());
+		// getMainWidget().setTitle(messages.invalidValue());
 		this.isHighlighted = true;
 
 	}

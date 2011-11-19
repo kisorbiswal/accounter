@@ -56,7 +56,7 @@ public class CashPurchaseView extends
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
 	private TextAreaItem billToAreaItem;
-	AccounterMessages accounterConstants = Accounter.messages();
+	AccounterMessages messages = Accounter.messages();
 	private boolean locationTrackingEnabled;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
@@ -204,7 +204,7 @@ public class CashPurchaseView extends
 		}
 
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "203px");
+		// messages.width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -807,11 +807,11 @@ public class CashPurchaseView extends
 
 		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
+			result.addError(transactionDate, messages
 					.invalidateDate());
 		}
 
@@ -831,7 +831,7 @@ public class CashPurchaseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, accounterConstants
+			result.addError(vendorAccountTransactionTable, messages
 					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());

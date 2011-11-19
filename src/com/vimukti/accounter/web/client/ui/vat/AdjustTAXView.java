@@ -51,7 +51,7 @@ public class AdjustTAXView extends
 	private AmountField amount;
 	private TextAreaItem memo;
 	private DynamicForm vatform;
-	AccounterMessages accounterConstants = Accounter.messages();
+	AccounterMessages messages = Accounter.messages();
 	// private ClientTAXItem clientVATItem;
 	private ClientTAXAgency clientTAXAgency;
 
@@ -336,7 +336,7 @@ public class AdjustTAXView extends
 		// .failedToApplyChanges());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		// addError(this, Accounter.constants().failedToApplyChanges());
+		// addError(this, messages.failedToApplyChanges());
 		AccounterException accounterException = (AccounterException) exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);

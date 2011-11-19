@@ -461,7 +461,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashBasisForm.setFields(cashAccountCheck);
 		cashBasisForm.setWidth("100%");
 		// cashBasisForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "200");
+		// messages.width(), "200");
 
 		commentsArea = new TextAreaItem();
 		commentsArea.setToolTip(Accounter.messages().writeCommentsForThis(
@@ -478,7 +478,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		commentsForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		// commentsForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "200");
+		// messages.width(), "200");
 		// currency = createCurrencyWidget();
 
 		mainVLay = new VerticalPanel();

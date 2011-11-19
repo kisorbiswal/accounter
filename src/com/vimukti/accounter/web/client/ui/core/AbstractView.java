@@ -19,7 +19,7 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	protected T data;
 
-	protected AccounterMessages messages = Global.get().messages();
+	protected static final AccounterMessages messages = Global.get().messages();
 
 	private ViewManager manager;
 

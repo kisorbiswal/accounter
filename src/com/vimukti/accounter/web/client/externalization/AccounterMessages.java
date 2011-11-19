@@ -4211,8 +4211,6 @@ public interface AccounterMessages extends Messages {
 
 	public String vatLine();
 
-	public String vatList();
-
 	public String vatPayment();
 
 	public String vatRate();
@@ -4415,5 +4413,9 @@ public interface AccounterMessages extends Messages {
 	public String pleaseEnterTheWordsAsItis();
 
 	public String taxFillings();
+
+	public String all2();
+	
+	public String taxList();
 
 }

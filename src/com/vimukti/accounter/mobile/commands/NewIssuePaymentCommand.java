@@ -56,7 +56,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-
 				String payVatMethodArray[] = new String[] { getMessages()
 						.check() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
@@ -366,8 +365,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				break;
 			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 				record.setCustomerPrepayment(entry.getTransactionId());
-				record
-						.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 				break;
 
 			}

@@ -20,6 +20,8 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -271,7 +273,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#vatItems");
 		subMenu(vatListValue, iGlobal.messages().taxCodesList(),
 				"company/accounter#vatCodes");
-		menu(mainValue, iGlobal.messages().vatList(), vatListValue);
+		menu(mainValue, iGlobal.messages().taxList(), vatListValue);
 
 		mainMenu(builder, iGlobal.messages().tax(), mainValue);
 	}
@@ -316,7 +318,7 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		if (preferences.isLocationTrackingEnabled()) {
 			subMenu(financialValue, iGlobal.messages().profitAndLoss() + "By"
-					+Global.get().Location(),
+					+ Global.get().Location(),
 					"company/accounter#profitAndLossByLocation");
 		}
 		if (preferences.isClassTrackingEnabled()) {
@@ -763,18 +765,18 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#shippingMethodsList");
 			subMenu(manageSupportLists, iGlobal.messages().shippingTermList(),
 					"company/accounter#shippingTermsList");
+
 			subMenu(manageSupportLists, iGlobal.messages().itemGroupList(),
 					"company/accounter#itemGroupList");
 			subMenu(manageSupportLists, iGlobal.messages().creditRatingList(),
 					"company/accounter#creditRatingList");
-			subMenu(manageSupportLists, iGlobal.messages().priceLevelList(),
+			subMenu(manageSupportLists, iGlobal.messages().currencyList(),
 					"company/accounter#currencyGroupList");
 			if (isClassTracking()) {
 				subMenu(manageSupportLists, iGlobal.messages()
 						.accounterClassList(),
 						"company/accounter#accounter-Class-List");
 			}
-
 			if (isLocationTracking()) {
 				subMenu(manageSupportLists, iGlobal.messages()
 						.locationGroupList(),

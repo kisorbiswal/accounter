@@ -436,12 +436,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// if (!isEdit)
 		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .DuplicationOfSalesPesonNotAllowed());
-		// addError(this, Accounter.constants()
+		// addError(this, messages
 		// .duplicationOfSalesPersonNotAllowed());
 		// else
 		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .salesPersonUpdationFailed());
-		// addError(this, Accounter.constants().salesPersonUpdationFailed());
+		// addError(this, messages.salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		AccounterException accounterException = (AccounterException) exception;
@@ -529,25 +529,25 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
 //		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), titlewidth + "");
+//				messages.width(), titlewidth + "");
 //		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-//				Accounter.constants().width(), listBoxWidth + "");
+//				messages.width(), listBoxWidth + "");
 //
 //		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), titlewidth + "");
+//				messages.width(), titlewidth + "");
 //		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-//				Accounter.constants().width(), listBoxWidth + "");
+//				messages.width(), listBoxWidth + "");
 //
 //		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
 //				.setWidth(titlewidth + listBoxWidth, Unit.PX);
 //		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
 //				"width", titlewidth + listBoxWidth + "");
 //		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), titlewidth + listBoxWidth + "");
+//				messages.width(), titlewidth + listBoxWidth + "");
 //		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				Accounter.constants().width(), "");
+//				messages.width(), "");
 //		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-//				Accounter.constants().width(), "");
+//				messages.width(), "");
 
 	}
 

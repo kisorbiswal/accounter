@@ -289,7 +289,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				.setVerticalAlign(VerticalAlign.TOP);
 
 		// shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "40px");
+		// messages.width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -317,7 +317,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
 		// custForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "226px");
+		// messages.width(), "226px");
 		custForm.setStyleName("align-form");
 
 		salesPersonCombo = createSalesPersonComboItem();
@@ -375,7 +375,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		termsForm.setStyleName("align-form");
 
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "200px");
+		// messages.width(), "200px");
 		// multi
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
@@ -676,7 +676,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
 		if (isInViewMode()) {
-			emailButton = new Button(accounterConstants.email());
+			emailButton = new Button(messages.email());
 			buttonBar.add(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {
@@ -1305,14 +1305,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
 				result.addError(taxCodeSelect,
-						accounterConstants.enterTaxCode());
+						messages.enterTaxCode());
 			}
 		} else if (isSelected && isTrackTax() && !isTaxPerDetailLine()
 				&& !transaction.getTransactionItems().isEmpty()) {
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
 				result.addError(taxCodeSelect,
-						accounterConstants.enterTaxCode());
+						messages.enterTaxCode());
 			}
 		}
 		return result;

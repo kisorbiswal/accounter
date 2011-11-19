@@ -67,7 +67,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 	@Override
 	public void processRecord(ExpenseList record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 2 });
+		// addSection("", getMessages().total(), new int[] { 2 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();

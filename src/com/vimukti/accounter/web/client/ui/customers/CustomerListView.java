@@ -38,7 +38,6 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void init() {
-		messages = Accounter.messages();
 		super.init();
 
 	}

@@ -168,7 +168,7 @@ public class CashFlowStatementServerReport extends
 					// .addRow(null,
 					// 1,
 					// new Object[] {
-					// getConstants()
+					// getMessages()
 					// .cashAtBeginningOfThePeriod(),
 					// cashBegigginperiod }, true, true,
 					// true);

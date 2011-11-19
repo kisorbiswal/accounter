@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
  * @author Sai Prasad N
  * 
  */
+
 public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	private static final String VOUCHER = "Voucher";
@@ -50,8 +51,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				.journalEntryDate(), false, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getMessages().journalEntryNo()),
-				getMessages().journalEntryNo(), false, true));
+				getMessages().journalEntryNo()), getMessages()
+				.journalEntryNo(), false, true));
 
 		list.add(new AbstractTableRequirement<ClientEntry>(VOUCHER,
 				getMessages().pleaseSelect(getMessages().voucherNo()),
@@ -117,10 +118,9 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					}
 				});
 
-				list
-						.add(new StringRequirement(MEMO, getMessages()
-								.pleaseEnter(getMessages().memo()),
-								getMessages().memo(), true, true));
+				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+						getMessages().memo()), getMessages().memo(), true,
+						true));
 
 			}
 
@@ -161,13 +161,12 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			protected Record createFullRecord(ClientEntry t) {
 				Record record = new Record(t);
 				record.add(Global.get().Account(),
-						((ClientAccount) CommandUtils.getClientObjectById(t
-								.getAccount(), AccounterCoreType.ACCOUNT,
+						((ClientAccount) CommandUtils.getClientObjectById(
+								t.getAccount(), AccounterCoreType.ACCOUNT,
 								getCompanyId())).getDisplayName());
-
-				record.add(getMessages().memo(), t.getMemo());
-				record.add(getMessages().debit(), t.getDebit());
 				record.add(getMessages().credit(), t.getCredit());
+				record.add(getMessages().debit(), t.getDebit());
+				record.add(getMessages().memo(), t.getMemo());
 				return record;
 			}
 
@@ -223,8 +222,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 		}
 
 		if (totalCredits == 0) {
-			makeResult
-					.add(getMessages().transactiontotalcannotbe0orlessthan0());
+			makeResult.add(getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 			return makeResult;
 		}
 

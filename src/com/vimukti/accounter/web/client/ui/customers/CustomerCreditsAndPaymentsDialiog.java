@@ -323,7 +323,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 
 	// public void validateTransaction() throws Exception {
 	// if (!grid.validateGrid()) {
-	// throw new Exception(Accounter.constants()
+	// throw new Exception(messages
 	// .selectatleastSelectRecord());
 	// }
 	// }

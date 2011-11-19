@@ -121,7 +121,7 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
-				true, true, true) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -133,6 +133,11 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return true;
 			}
 
 		});

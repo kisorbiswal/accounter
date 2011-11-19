@@ -217,7 +217,7 @@ public class NewVendorPaymentView extends
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
 
-		// currencyCombo = new CurrencyCombo(Accounter.constants().currency());
+		// currencyCombo = new CurrencyCombo(messages.currency());
 		// currencyCombo.setDisabled(isInViewMode());
 		// currencyCombo
 		// .addSelectionChangeHandler(new

@@ -60,8 +60,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_EXPENSE, context
-								.getCompany()));
+						ClientTransaction.TYPE_CASH_EXPENSE,
+						context.getCompany()));
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
 	}
@@ -168,13 +168,14 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().paymentMethod());
+				return getMessages()
+						.hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages()
-						.pleaseSelect(getMessages().paymentMethod());
+				return getMessages().pleaseSelect(
+						getMessages().paymentMethod());
 			}
 
 			@Override
@@ -204,10 +205,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(
-						getMessages().bankAccount(Global.get().Account())),
-				getMessages().bankAccount(Global.get().Account()), false,
-				false, null) {
+				.pleaseSelectPayFromAccount(getMessages().bankAccount(Global.get().Account())),
+				getMessages().bankAccount(Global.get().Account()), false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -268,7 +267,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
-				true, true, false) {
+				true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -282,10 +281,15 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				return items;
 			}
 
+			@Override
+			public boolean isSales() {
+				return false;
+			}
+
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getMessages().taxCode()), getMessages().taxCode(), false, true,
-				null) {
+				getMessages().taxCode()), getMessages().taxCode(), false,
+				true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,

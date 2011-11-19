@@ -80,7 +80,7 @@ public class ECSalesListDetailServerReport extends
 	@Override
 	public void processRecord(ECSalesListDetail record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 5 });
+		// addSection("", getMessages().total(), new int[] { 5 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();

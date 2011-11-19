@@ -130,7 +130,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		taxIDLabel.setText(accounterMessages.taxId());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK) {
-		// taxIDLabel.setText(accounterConstants.vatNo());
+		// taxIDLabel.setText(messages.vatNo());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
 		// taxIDLabel.setText(Accounter.messages().panNumber(

@@ -14,7 +14,7 @@ public interface TranslateServiceAsync {
 	// AsyncCallback<ClientMessage> callback);
 
 	void addTranslation(long id, String lang, String value,
-			AsyncCallback<Boolean> callback);
+			AsyncCallback<ClientLocalMessage> callback);
 
 	void vote(long localMessageId, AsyncCallback<Boolean> callback);
 
@@ -32,8 +32,7 @@ public interface TranslateServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	void getServerMatchList(AsyncCallback<Set<String>> callback);
-	
-	public void canApprove(String lang, AsyncCallback<Boolean> callback);
 
+	public void canApprove(String lang, AsyncCallback<Boolean> callback);
 
 }

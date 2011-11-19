@@ -245,7 +245,7 @@ public class VendorCreditMemoView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
-		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
+		// Label lab2 = new Label(messages.itemsAndExpenses());
 		// menuButton = createAddNewButton();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
@@ -339,7 +339,7 @@ public class VendorCreditMemoView extends
 		}
 
 		// vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "190px");
+		// messages.width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -548,7 +548,7 @@ public class VendorCreditMemoView extends
 		// 5. is vendor transaction grid valid?
 		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {

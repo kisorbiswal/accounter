@@ -67,11 +67,11 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	@Override
 	protected String[] getColumns() {
-
-		return new String[] { messages.taxAgency(), messages.periodStartDate(),
-				messages.periodEndDate(), messages.taxFiledDate(),
-				messages.taxDue(), messages.totalPaymentMade(),
-				messages.report() };
+		return new String[] { messages.taxAgency(),
+				messages.periodStartDate(),
+				messages.periodEndDate(),
+				messages.taxFiledDate(), messages.taxDue(),
+				messages.totalPaymentMade(), messages.report() };
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,8 +98,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
 				taxEntries = clientTAXReturn.getTaxReturnEntries();
-				details = getExceptionDetailData(taxEntries, clientTAXReturn
-						.getPeriodStartDate());
+				details = getExceptionDetailData(taxEntries,
+						clientTAXReturn.getPeriodStartDate());
 
 				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = ActionFactory
 						.getTaxItemExceptionDetailReportAction();
@@ -151,8 +151,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 			return DataUtils.amountAsStringWithCurrency((obj.getBalance()),
 					currency);
 		case 5:
-			return DataUtils.amountAsStringWithCurrency((obj.getTotal() - obj
-					.getBalance()), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					(obj.getTotal() - obj.getBalance()), currency);
 		case 6:
 			return messages.exceptionDetails();
 		default:

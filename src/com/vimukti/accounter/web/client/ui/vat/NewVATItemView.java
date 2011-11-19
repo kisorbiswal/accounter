@@ -193,7 +193,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		ClientTAXItem taxItemByName = getCompany().getTaxItemByName(name);
 
 		// if ((!isEdit && taxItemByName != null)){
-		// result.addError(vatItemNameText, Accounter.constants()
+		// result.addError(vatItemNameText, messages
 		// .alreadyExist());
 		// }
 		// if (!((!isEdit && taxItemByName != null))
@@ -201,7 +201,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// : (taxItemByName != null
 		// || taxItemByName.getID() == this.getData()
 		// .getID() ? false : true)) : true)) {
-		// result.addError(vatItemNameText, Accounter.constants()
+		// result.addError(vatItemNameText, messages
 		// .alreadyExist());
 		// }
 

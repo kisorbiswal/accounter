@@ -81,7 +81,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 				}
 			}
 		});
-		// customersEmailAddressCheckBox.setText(Accounter.constants()
+		// customersEmailAddressCheckBox.setText(messages
 		// .getCustomersEmailId());
 		// customersEmailAddressCheckBox.addClickHandler(new ClickHandler() {
 		//
@@ -92,7 +92,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 		//
 		// }
 		// });
-		// customerEmailHeaderLabel.setText(Accounter.constants().customerID());
+		// customerEmailHeaderLabel.setText(messages.customerID());
 
 	}
 

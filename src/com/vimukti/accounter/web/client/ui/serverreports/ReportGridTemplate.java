@@ -59,7 +59,7 @@ public abstract class ReportGridTemplate<R> {
 
 	public abstract String getBody();
 
-	public abstract String getBody(AccounterMessages accounterConstants);
+	public abstract String getBody(AccounterMessages messages);
 
 	public abstract void addCell(boolean bold, String cellValue, int depth,
 			boolean underline, int cellWidth, int columnType);

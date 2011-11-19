@@ -29,7 +29,7 @@ public class DashBoardView extends BaseHomeView {
 	// private String[] firstColumn;
 
 	public DashBoardView() {
-		// dashboardPreference = Accounter.constants().welcomeBankingSummary();
+		// dashboardPreference = messages.welcomeBankingSummary();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
 		 * .getDashBoardPreferences();
@@ -126,13 +126,13 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	// public void getAddableWidgets(String[] widgetOnSectionPage) {
-	// String[] totalWidget = { Accounter.constants().welcome(),
-	// Accounter.constants().bankingSummary(),
-	// Accounter.constants().profitAndLoss(),
-	// Accounter.constants().creditOverview(),
-	// Accounter.constants().debitOverview(),
-	// Accounter.constants().latestQuote(),
-	// Accounter.constants().expenses() };
+	// String[] totalWidget = { messages.welcome(),
+	// messages.bankingSummary(),
+	// messages.profitAndLoss(),
+	// messages.creditOverview(),
+	// messages.debitOverview(),
+	// messages.latestQuote(),
+	// messages.expenses() };
 	//
 	// boolean isAvailable = false;
 	//

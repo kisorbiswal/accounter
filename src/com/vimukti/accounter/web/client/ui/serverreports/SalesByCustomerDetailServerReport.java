@@ -100,7 +100,7 @@ public class SalesByCustomerDetailServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "",
-		// getConstants().total() }, new int[] { 4 });
+		// getMessages().total() }, new int[] { 4 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();

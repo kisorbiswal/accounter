@@ -30,7 +30,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	public int status;
 	private ImageButton approveButton;
 	private ImageButton submitForApprove;
-	AccounterMessages accounterConstants = Accounter
+	AccounterMessages messages = Accounter
 			.messages();
 
 	public EmployeeExpenseView() {
@@ -198,12 +198,12 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// result.add(vendorForm.validate());
 		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 		// result.addError(transactionDateItem,
-		// accounterConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 		// if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate))
 		// {
 		// result.addError(transactionDateItem,
-		// accounterConstants.invalidateDate());
+		// messages.invalidateDate());
 		// }
 		if (Accounter.getUser().canApproveExpences())
 			if (!payFromCombo.validate()) {
@@ -214,18 +214,18 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			}
 		// if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
 		// .getEnteredDate(), this.transactionDate)) {
-		// result.addError(deliveryDateItem, Accounter.constants().the()
+		// result.addError(deliveryDateItem, messages.the()
 		// + " "
-		// + Accounter.constants().deliveryDate()
+		// + messages.deliveryDate()
 		// + " "
 		// + " "
-		// + Accounter.constants()
+		// + messages
 		// .cannotbeearlierthantransactiondate());
 		//
 		// }
 		// if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 		// result.addError(vendorTransactionGrid,
-		// accounterConstants.blankTransaction());
+		// messages.blankTransaction());
 		// }
 		// result.add(vendorTransactionGrid.validateGrid());
 		return result;

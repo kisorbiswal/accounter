@@ -78,7 +78,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 		if (this.row == -1) {
 			// this.sectionName = "";
 			// addSection("",
-			// getConstants().box5NetVATToPayOrReclaimIfNegative(),
+			// getMessages().box5NetVATToPayOrReclaimIfNegative(),
 			// new int[] {});
 			row = 0;
 			this.sectionName = getMessages().vatDue();

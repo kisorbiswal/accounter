@@ -67,10 +67,11 @@ public class AuthenticationCommand extends Command {
 				}
 				if (!isDone()) {
 					context.setAttribute("input", "userName");
-					makeResult.add("Please Enter Username. Or press Signup");
+					makeResult.add("Please enter email, or Signup");
 					CommandList commandList = new CommandList();
 					commandList.add("Signup");
 					makeResult.add(commandList);
+					makeResult.setCookie(context.getNetworkId());
 					return makeResult;
 				}
 			}
@@ -116,9 +117,7 @@ public class AuthenticationCommand extends Command {
 					makeResult.add(commandList);
 					return makeResult;
 				}
-				String cookie = SecureUtils.createID(64);
-				createMobileCookie(cookie, client);
-				makeResult.setCookie(cookie);
+				createMobileCookie(context.getNetworkId(), client);
 				markDone();
 			}
 

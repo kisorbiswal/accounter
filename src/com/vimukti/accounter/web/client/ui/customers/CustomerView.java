@@ -663,7 +663,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// ClientFinanceDate custSinceDate = customerSinceDate
 		// .getDate();
 		// if (date.before(custSinceDate)) {
-		// String msg = customerConstants.msg();
+		// String msg = messages.msg();
 		// // Accounter.showError(msg);
 		// }
 		// }
@@ -672,7 +672,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		//
 		// });
 		// balanceDate.setUseTextField(true);
-		// balanceDate.setTitle(customerConstants.balanceAsOf());
+		// balanceDate.setTitle(messages.balanceAsOf());
 		// balanceDate.setEnteredDate(new Date(company.getPreferences()
 		// .getPreventPostingBeforeDate()));
 		// balanceDate.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -846,21 +846,21 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// titlewidth + "");
 		//
 		// addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-		// Accounter.constants().width(), "185px");
+		// messages.width(), "185px");
 		//
 		// fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "240px");
+		// messages.width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
 		// customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
 		// 150, Unit.PX);
 		// emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "240px");
+		// messages.width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
 		// accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "150px");
+		// messages.width(), "150px");
 
 	}
 
@@ -880,7 +880,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		// DynamicForm salesForm = UIUtils.form(customerConstants.sales());
+		// DynamicForm salesForm = UIUtils.form(messages.sales());
 		// salesForm.setFields(salesPersonSelect);
 		// salesForm.setWidth("100%");
 
@@ -890,7 +890,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setWidth(100);
 
 		// priceLevelSelect = new
-		// PriceLevelCombo(customerConstants.priceLevel());
+		// PriceLevelCombo(messages.priceLevel());
 		// priceLevelSelect.setHelpInformation(true);
 		// priceLevelSelect
 		// .addSelectionChangeHandler(new

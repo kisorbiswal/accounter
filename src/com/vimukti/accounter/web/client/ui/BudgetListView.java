@@ -95,7 +95,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	// @Override
 	// protected SelectCombo getSelectItem() {
-	// currentView = new SelectCombo(Accounter.constants().currentBudget());
+	// currentView = new SelectCombo(messages.currentBudget());
 	// currentView.setHelpInformation(true);
 	//
 	// // listOfBudgets = getCompany().getBudget();

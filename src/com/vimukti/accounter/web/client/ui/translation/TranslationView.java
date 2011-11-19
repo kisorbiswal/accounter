@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.translation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
@@ -43,7 +42,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private void createControls() {
 		optionsList = new ArrayList<String>();
 		optionsList.add(messages.untranslated());
-		optionsList.add(messages.all());
+		optionsList.add(messages.all2());
 		optionsList.add(messages.myTranslations());
 		optionsList.add(messages.unConfirmed());
 
@@ -92,10 +91,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		}
 
 		notePanel = new FlowPanel();
-		Label note = new Label(messages.noteColon());
 		Label noteLabel = new Label(messages.translateNote());
-		notePanel.add(note);
-		note.getElement().getStyle().setFloat(Float.LEFT);
 		notePanel.add(noteLabel);
 		notePanel.addStyleName("translation_note");
 		noteLabel.addStyleName("translation_note_label");
@@ -227,7 +223,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private int getStatus(String statusMessage) {
 		if (statusMessage.equals(messages.untranslated())) {
 			return ClientMessage.UNTRANSLATED;
-		} else if (statusMessage.equals(messages.all())) {
+		} else if (statusMessage.equals(messages.all2())) {
 			return ClientMessage.ALL;
 		} else if (statusMessage.equals(messages.myTranslations())) {
 			return ClientMessage.MYTRANSLATIONS;

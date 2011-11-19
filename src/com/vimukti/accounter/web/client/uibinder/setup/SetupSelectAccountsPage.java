@@ -149,8 +149,8 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 		};
 
 		table.addColumn(checkBoxColumn);
-		// table.addColumn(accountNameColumn, accounterConstants.accountName());
-		// table.addColumn(accountTypeColumn, accounterConstants.accountType());
+		// table.addColumn(accountNameColumn, messages.accountName());
+		// table.addColumn(accountTypeColumn, messages.accountType());
 
 		// this.accountsTable.add(table);
 
