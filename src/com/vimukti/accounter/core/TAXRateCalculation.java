@@ -67,22 +67,9 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 		this.purchaseLiabilityAccount = this.taxAgency
 				.getPurchaseLiabilityAccount();
 		this.salesLiabilityAccount = this.taxAgency.getSalesLiabilityAccount();
-
-		if (transacton.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO
-				|| transacton.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-			this.lineTotal = (!transaction.isBecameVoid()) ? -lineTotal
-					: lineTotal;
-		} else
-			this.lineTotal = (!transaction.isBecameVoid()) ? lineTotal
-					: -lineTotal;
-
-		double vatValue = this.getCeilValueofTAX();
-
-		this.vatAmount = transaction.isPositiveTransaction() ? vatValue
-				: -vatValue;
-		if (taxAgency.getType() == TAXAgency.TAX_TYPE_TDS) {
-			vatAmount = -1 * vatAmount;
-		}
+		
+		this.lineTotal=lineTotal;
+		this.vatAmount = this.getCeilValueofTAX();
 		this.taxDue = this.vatAmount;
 	}
 
@@ -305,7 +292,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	private double getCeilValueofTAX() {
 
-		double vatValue = Math.abs(this.lineTotal) * this.rate / 100;
+		double vatValue =this.lineTotal * this.rate / 100;
 		vatValue = Math.ceil(vatValue * 100) / 100;
 		return vatValue;
 	}

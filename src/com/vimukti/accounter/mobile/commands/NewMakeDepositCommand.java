@@ -96,14 +96,14 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_FROM, getMessages()
 				.pleaseEnterName(
-						getMessages().creditAccount(Global.get().Account())),
-				getMessages().creditAccount(Global.get().Account()), false,
+						getMessages().fromAccount(Global.get().Account())),
+				getMessages().fromAccount(Global.get().Account()), false,
 				true, null) {
 
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().creditAccount(Global.get().Account()));
+						getMessages().fromAccount(Global.get().Account()));
 			}
 
 			@Override

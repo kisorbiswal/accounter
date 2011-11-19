@@ -14,6 +14,11 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public class Reconciliation extends CreatableObject implements
 		IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** Reconciliation of Account */
 	private BankAccount account;
 

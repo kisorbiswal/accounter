@@ -1056,8 +1056,18 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	public void addTAXRateCalculation(TAXItem vatItem, double lineTotal,
 			boolean isGroup) {
+		/**
+		 * Line total will be positive for all receiving money and negative for
+		 * paying money. But for TDS line total is always positive.
+		 */
+		if (!isPositiveTransaction()
+				&& vatItem.getTaxAgency().getTaxType() != TAXAgency.TAX_TYPE_TDS) {
+			lineTotal = -lineTotal;
+		}
 
-		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this, lineTotal);
+
+		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this,
+				lineTotal);
 
 		vc.setVATGroupEntry(isGroup);
 

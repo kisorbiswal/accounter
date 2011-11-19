@@ -802,15 +802,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		}
 
-		if (currency != null && currency.getID() != 0) {
-			currencyWidget.setSelectedCurrency(currency);
-		} else {
-			currencyWidget.setSelectedCurrency(getBaseCurrency());
-		}
+		currencyWidget.setSelectedCurrency(currency);
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(currency);
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
@@ -1032,9 +1028,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null
-				&& !transaction.getTransactionItems().isEmpty())
-			customerTransactionTable.setAllRows(transaction
-					.getTransactionItems());
+				&& !transaction.getTransactionItems().isEmpty()) {
+			ArrayList<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+			for (ClientTransactionItem item : transaction.getTransactionItems()) {
+				// We should exclude those which come from quote/charge/credit
+				if (item.getReferringTransactionItem() == 0) {
+					list.add(item);
+				}
+			}
+
+			customerTransactionTable.setAllRows(list);
+		}
 	}
 
 	protected void shipToAddressSelected(ClientAddress selectItem) {

@@ -742,4 +742,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.wareHouse = wareHouse;
 	}
 
+	public void updateAsCredit() {
+		this.discount=-this.discount;
+		this.lineTotal=-this.lineTotal;
+		this.unitPrice=-this.unitPrice;
+		this.VATfraction=-this.VATfraction;
+		this.updateAmount=-this.updateAmount;
+	}
+
 }
