@@ -221,7 +221,6 @@
 
 	<pattern>
 		<input>Invoice</input>
-		<input>Invoices</input>
 		<output>
 			<text>Invoice is a Transaction</text>
 			<command>Create New Invoice</command>
