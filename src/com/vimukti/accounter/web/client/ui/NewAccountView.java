@@ -1648,13 +1648,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			creditCardForm.setDisabled(isInViewMode());
 		}
 
-		if (currencyCombo != null && data.isAllowCurrencyChange()) {
-			currencyCombo.setDisabled(isInViewMode());
-			if (!selectCurrency.equals(getCompany().getPreferences()
-					.getPrimaryCurrency())) {
-				currencyCombo.disabledFactorField(false);
-			}
-		}
+		// if (currencyCombo != null && data.isAllowCurrencyChange()) {
+		currencyCombo.setDisabled(true);
+		// if (!selectCurrency.equals(getCompany().getPreferences()
+		// .getPrimaryCurrency())) {
+		// currencyCombo.disabledFactorField(false);
+		// }
+		// }
 		if (limitText != null) {
 			limitText.setDisabled(isInViewMode());
 		}

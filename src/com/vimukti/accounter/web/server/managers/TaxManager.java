@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -22,7 +20,6 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
-import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ReceiveVATEntries;
@@ -43,6 +40,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -746,9 +744,9 @@ public class TaxManager extends Manager {
 		return new ArrayList<VATSummary>(vatSummaries);
 	}
 
-	public ArrayList<PayTAXEntries> getPayVATEntries(long companyId) {
+	public List<ClientTransactionPayTAX> getPayTAXEntries(long companyId) {
 
-		List<PayTAXEntries> payVATEntries = new Vector<PayTAXEntries>();
+		List<ClientTransactionPayTAX> payTAXEntries = new ArrayList<ClientTransactionPayTAX>();
 		Company company = getCompany(companyId);
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -757,14 +755,18 @@ public class TaxManager extends Manager {
 				"getVATReturn.by.check.BalanceGraterThanzero").setEntity(
 				"company", company);
 
-		List<TAXReturn> vatReturns = query.list();
+		List<TAXReturn> taxReturns = query.list();
 
-		for (TAXReturn v : vatReturns) {
-
-			payVATEntries.add(new PayTAXEntries(v));
+		for (TAXReturn taxReturn : taxReturns) {
+			ClientTransactionPayTAX cpt = new ClientTransactionPayTAX();
+			cpt.setTaxAgency(taxReturn.getTaxAgency().getID());
+			cpt.setTAXReturn(taxReturn.getID());
+			cpt.setFiledDate(taxReturn.getDate().toClientFinanceDate());
+			cpt.setTaxDue(taxReturn.getBalance());
+			payTAXEntries.add(cpt);
 		}
 
-		return new ArrayList<PayTAXEntries>(payVATEntries);
+		return payTAXEntries;
 
 	}
 

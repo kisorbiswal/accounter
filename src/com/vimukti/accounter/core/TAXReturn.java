@@ -171,6 +171,16 @@ public class TAXReturn extends Transaction {
 	}
 
 	protected void updateTaxLiabilityAccounts() {
+		for (TAXReturnEntry entry : taxReturnEntries) {
+			Transaction transaction = entry.getTransaction();
+			if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
+				salesTaxTotal += entry.getTaxAmount();
+			} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
+				purchaseTaxTotal += entry.getTaxAmount();
+			}
+		}
+		totalTAXAmount = salesTaxTotal + purchaseTaxTotal;
+		balance = totalTAXAmount;
 		Session session = HibernateUtil.getCurrentSession();
 		Account salesLiabilityAccount = taxAgency.getSalesLiabilityAccount();
 		if (salesLiabilityAccount != null) {
@@ -183,8 +193,8 @@ public class TAXReturn extends Transaction {
 		Account purchaseLiabilityAccount = taxAgency
 				.getPurchaseLiabilityAccount();
 		if (purchaseLiabilityAccount != null) {
-			purchaseLiabilityAccount.updateCurrentBalance(this,
-					purchaseTaxTotal, currencyFactor);
+			purchaseLiabilityAccount.updateCurrentBalance(this, -1
+					* purchaseTaxTotal, currencyFactor);
 			purchaseLiabilityAccount.onUpdate(session);
 			session.update(purchaseLiabilityAccount);
 		}

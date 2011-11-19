@@ -376,11 +376,13 @@ public class PayBill extends Transaction {
 				if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
 					TAXItem taxItem = this.getTdsTaxItem();
 					if (taxItem != null) {
-						TAXAgency taxAgency = taxItem.getTaxAgency();
-						Account account = taxAgency
-								.getPurchaseLiabilityAccount();
-						account.updateCurrentBalance(this, tdsTotal,
-								currencyFactor);
+						// TAXAgency taxAgency = taxItem.getTaxAgency();
+						// Account account = taxAgency
+						// .getPurchaseLiabilityAccount();
+						// account.updateCurrentBalance(this, tdsTotal,
+						// currencyFactor);
+						// session.update(account);
+						addTAXRateCalculation(taxItem, total, false);
 					}
 				}
 			}
@@ -694,11 +696,11 @@ public class PayBill extends Transaction {
 
 		for (TransactionPayBill transactionPayBill : this.transactionPayBill) {
 			transactionPayBill.setIsVoid(true);
-			session.update(transactionPayBill);
 			if (transactionPayBill instanceof Lifecycle) {
 				Lifecycle lifeCycle = (Lifecycle) transactionPayBill;
 				lifeCycle.onUpdate(session);
 			}
+			session.update(transactionPayBill);
 		}
 
 		double amountEffectedToAccount = total - tdsTotal;

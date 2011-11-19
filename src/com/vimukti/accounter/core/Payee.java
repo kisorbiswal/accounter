@@ -362,15 +362,6 @@ public abstract class Payee extends CreatableObject implements
 		 */
 		Account account = this.getAccount();
 
-		if (this.type == TYPE_TAX_AGENCY) {
-			TAXAgency agency = ((TAXAgency) this);
-			if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
-				account = agency.salesLiabilityAccount;
-			} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-				account = agency.purchaseLiabilityAccount;
-			}
-		}
-
 		// /**
 		// * In case of ItemReceipt instead of Updating Accounts Payable balance
 		// * we should update Pending Item Receipt Account Balance.

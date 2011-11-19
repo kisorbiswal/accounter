@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -216,24 +215,9 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	private List<ClientTransactionPayTAX> getTransactionPayVatBills() {
 
-		List<ClientTransactionPayTAX> result = new ArrayList<ClientTransactionPayTAX>();
-		ArrayList<PayTAXEntries> payVATEntries = new FinanceTool()
-				.getTaxManager().getPayVATEntries(getCompanyId());
+		return new FinanceTool().getTaxManager().getPayTAXEntries(
+				getCompanyId());
 
-		for (PayTAXEntries payTAXEntrie : payVATEntries) {
-			ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();
-			clientTransactionPayTAX.setID(payTAXEntrie.getID());
-			clientTransactionPayTAX.setTaxAgency(payTAXEntrie.getTaxAgency()
-					.getID());
-			clientTransactionPayTAX.setAmountToPay(payTAXEntrie.getAmount());
-			clientTransactionPayTAX.setTaxDue(payTAXEntrie.getAmount());
-			clientTransactionPayTAX.setVatReturn(payTAXEntrie.getTransaction()
-					.getID());
-			result.add(clientTransactionPayTAX);
-
-		}
-
-		return result;
 	}
 
 	@Override

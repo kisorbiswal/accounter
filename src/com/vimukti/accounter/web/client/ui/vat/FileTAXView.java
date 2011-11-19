@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.grids.FileTAXGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
@@ -106,29 +105,6 @@ public class FileTAXView extends AbstractFileTAXView {
 		taxReturn.setTransactionDate(new ClientFinanceDate().getDate());
 		taxReturn.setPeriodStartDate(fromDate.getDate().getDate());
 		taxReturn.setPeriodEndDate(toDate.getDate().getDate());
-		double salesTaxTotal = 0, purchaseTaxTotal = 0;
-		for (ClientTAXReturnEntry entry : grid.getRecords()) {
-
-			if (new ClientFinanceDate(entry.getTransactionDate())
-					.before(fromDate.getDate())) {
-				if (DecimalUtil.isLessThan(entry.getTaxAmount(), 0.00D)) {
-					purchaseTaxTotal -= -entry.getTaxAmount();
-				} else {
-					salesTaxTotal -= entry.getTaxAmount();
-				}
-			} else {
-				if (DecimalUtil.isLessThan(entry.getTaxAmount(), 0.00D)) {
-					purchaseTaxTotal += -entry.getTaxAmount();
-				} else {
-					salesTaxTotal += entry.getTaxAmount();
-				}
-			}
-		}
-		double totalTax = salesTaxTotal - purchaseTaxTotal;
-		taxReturn.setSalesTaxTotal(salesTaxTotal);
-		taxReturn.setPurchaseTaxTotal(purchaseTaxTotal);
-		taxReturn.setTotalTAXAmount(totalTax);
-		taxReturn.setBalance(totalTax);
 		setData(taxReturn);
 	}
 

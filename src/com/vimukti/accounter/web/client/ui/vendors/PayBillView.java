@@ -125,10 +125,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			Double totalPayment = getAmountInTransactionCurrency(toBeSetAmount);
 			Double tdsTotal = getAmountInTransactionCurrency(grid.getTDSTotal());
 
-			amountToVendor.setAmount(totalPayment);
+			amountToVendor.setAmount(totalPayment - tdsTotal);
 			tdsPayableAmount.setAmount(tdsTotal);
-			amountLabelForeign.setAmount(totalPayment + tdsTotal);
-			amountLableBase.setAmount(toBeSetAmount + grid.getTDSTotal());
+			amountLabelForeign.setAmount(totalPayment);
+			amountLableBase.setAmount(toBeSetAmount);
 
 			if (payFromAccount != null) {
 				if (isInViewMode()) {
@@ -695,9 +695,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					amountLableBase);
 		}
 		if (isMultiCurrencyEnabled()) {
-			if (isInViewMode()) {
-				textForm.setFields(amountLabelForeign);
-			}
+			textForm.setFields(amountLabelForeign);
 		}
 		if (!getPreferences().isTDSEnabled()) {
 			amountToVendor.setVisible(false);

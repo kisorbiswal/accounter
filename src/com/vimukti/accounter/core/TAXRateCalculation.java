@@ -80,6 +80,9 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 		this.vatAmount = transaction.isPositiveTransaction() ? vatValue
 				: -vatValue;
+		if (taxAgency.getType() == TAXAgency.TAX_TYPE_TDS) {
+			vatAmount = -1 * vatAmount;
+		}
 		this.taxDue = this.vatAmount;
 	}
 
@@ -272,7 +275,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-		this.taxAgency.updateBalance(s, transaction, -this.vatAmount);
+		this.taxAgency.updateTAXAgencyAccount(s, transaction, -this.vatAmount);
 		return false;
 	}
 
@@ -283,7 +286,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session s) throws CallbackException {
-		this.taxAgency.updateBalance(s, transaction, this.vatAmount);
+		this.taxAgency.updateTAXAgencyAccount(s, transaction, this.vatAmount);
 		return false;
 	}
 

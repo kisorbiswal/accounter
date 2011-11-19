@@ -211,7 +211,6 @@ public abstract class Transaction extends CreatableObject implements
 	/**
 	 * Not using now, this property has been shifted to Comapny.
 	 */
-	Set<PayTAXEntries> payVATEntriesList = new HashSet<PayTAXEntries>();
 	Set<ReceiveVATEntries> receiveVATEntriesList = new HashSet<ReceiveVATEntries>();
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
@@ -281,14 +280,6 @@ public abstract class Transaction extends CreatableObject implements
 	public void setAccountTransactionEntriesList(
 			Set<AccountTransaction> accountTransactionEntriesList) {
 		this.accountTransactionEntriesList = accountTransactionEntriesList;
-	}
-
-	public Set<PayTAXEntries> getPayVATEntriesList() {
-		return payVATEntriesList;
-	}
-
-	public void setPayVATEntriesList(Set<PayTAXEntries> payVATEntriesList) {
-		this.payVATEntriesList = payVATEntriesList;
 	}
 
 	public Set<ReceiveVATEntries> getReceiveVATEntriesList() {
@@ -935,9 +926,6 @@ public abstract class Transaction extends CreatableObject implements
 		if (transaction.accountTransactionEntriesList != null) {
 			transaction.accountTransactionEntriesList.clear();
 		}
-		if (transaction.payVATEntriesList != null) {
-			transaction.payVATEntriesList.clear();
-		}
 
 	}
 
@@ -1045,11 +1033,13 @@ public abstract class Transaction extends CreatableObject implements
 
 		if (taxItemGroup instanceof TAXItem) {
 			TAXItem vatItem = ((TAXItem) taxItemGroup);
-			setVatItemVRC(vatItem, transactionItem, false);
+			addTAXRateCalculation(vatItem, transactionItem.getLineTotal(),
+					false);
 		} else {
 			TAXGroup vatGroup = (TAXGroup) taxItemGroup;
 			for (TAXItem taxItem : vatGroup.getTAXItems()) {
-				setVatItemVRC(taxItem, transactionItem, true);
+				addTAXRateCalculation(taxItem, transactionItem.getLineTotal(),
+						true);
 			}
 		}
 
@@ -1064,11 +1054,10 @@ public abstract class Transaction extends CreatableObject implements
 	 * @param transactionItem
 	 * @param session
 	 */
-	private void setVatItemVRC(TAXItem vatItem,
-			TransactionItem transactionItem, boolean isGroup) {
+	public void addTAXRateCalculation(TAXItem vatItem, double lineTotal,
+			boolean isGroup) {
 
-		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this,
-				transactionItem.getLineTotal());
+		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this, lineTotal);
 
 		vc.setVATGroupEntry(isGroup);
 

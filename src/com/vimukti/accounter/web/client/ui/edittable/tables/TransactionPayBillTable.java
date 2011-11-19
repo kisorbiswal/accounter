@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
-import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends
@@ -163,7 +162,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.constants().originalAmount());
+					return getColumnNameWithCurrency(Accounter.constants()
+							.originalAmount());
 				}
 
 				@Override
@@ -193,7 +193,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.constants().amountDue());
+					return getColumnNameWithCurrency(Accounter.constants()
+							.amountDue());
 				}
 
 				@Override
@@ -291,7 +292,6 @@ public abstract class TransactionPayBillTable extends
 				return selectedValues.contains(indexOf(row));
 			}
 
-			
 		});
 
 		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
@@ -316,7 +316,6 @@ public abstract class TransactionPayBillTable extends
 				return selectedValues.contains(indexOf(row));
 			}
 
-			
 		});
 
 		if (canEdit) {
@@ -340,7 +339,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithBaseCurrency(Accounter.constants().payments());
+					return getColumnNameWithBaseCurrency(Accounter.constants()
+							.payments());
 				}
 
 				@Override
@@ -353,9 +353,8 @@ public abstract class TransactionPayBillTable extends
 				protected void setAmount(ClientTransactionPayBill row,
 						double value) {
 					value = currencyProvider.getAmountInBaseCurrency(value);
-					onSelectionChanged(row, true);
 					row.setPayment(value);
-					updateTotals(row, value);
+					updateValue(row);
 					adjustAmountAndEndingBalance();
 					updateFootervalues(row, canEdit);
 					update(row);
@@ -825,7 +824,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected double getAmount(ClientTransactionPayBill row) {
-					return row.getTdsAmount();
+					return currencyProvider.getAmountInTransactionCurrency(row
+							.getTdsAmount());
 				}
 
 				@Override
@@ -844,8 +844,7 @@ public abstract class TransactionPayBillTable extends
 		}
 		this.tdsCode = item;
 		for (ClientTransactionPayBill bill : getSelectedRecords()) {
-			updatesAmounts(bill);
-			update(bill);
+			updateValue(bill);
 		}
 	}
 
@@ -1177,26 +1176,10 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	private void updatesAmounts(ClientTransactionPayBill bill) {
-		double amountToPay = currencyProvider.getAmountInBaseCurrency(bill
-				.getAmountDue())
-				- bill.getAppliedCredits()
-				- bill.getCashDiscount();
-		double tdsToPay = calculateTDS(amountToPay);
-		double payment = amountToPay - tdsToPay;
-
-		bill.setPayment(payment);
+		double tdsToPay;
+		tdsToPay = calculateTDS(bill.getPayment());
 		bill.setTdsAmount(tdsToPay);
-	}
 
-	private void updateTotals(ClientTransactionPayBill bill, double payment) {
-		double amountToPay = currencyProvider.getAmountInBaseCurrency(bill
-				.getAmountDue())
-				- bill.getAppliedCredits()
-				- bill.getCashDiscount();
-		double tdsToPay = calculateTDS(amountToPay);
-		tdsToPay = (payment / (amountToPay - tdsToPay)) * tdsToPay;
-		tdsToPay = DecimalUtil.round(tdsToPay);
-		bill.setTdsAmount(tdsToPay);
 	}
 
 	public void showTDS(boolean value) {

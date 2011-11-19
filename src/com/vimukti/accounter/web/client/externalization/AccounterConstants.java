@@ -1255,7 +1255,7 @@ public interface AccounterConstants extends Constants {
 	public String factor();
 
 	public String factorForDefaultUnitShouldNotbeZero();
-	
+
 	public String factorsShouldNotbeZero();
 
 	public String failed();
@@ -3767,6 +3767,14 @@ public interface AccounterConstants extends Constants {
 	public String addNewCredit();
 
 	public String taxFiledDate();
-	
+
+	public String paymentIncludeTDS();
+
+	public String pleaseSelectTAXAgencyToPayTAX();
+
+	public String oneOfTheAccountCurrencyShouldBePrimaryCurrency();
+
+	public String dipositAccountAndTransferAccountShouldBeDiff();
+
 	public String taxFillings();
 }

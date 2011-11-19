@@ -147,13 +147,13 @@ public class TAXAgency extends Payee {
 	 * @param transactionCategory
 	 * @param amount
 	 */
-	public void updateVATAgencyAccount(Session session,
-			Transaction transaction, int transactionCategory, double amount) {
-
+	public void updateTAXAgencyAccount(Session session,
+			Transaction transaction, double amount) {
+		updateBalance(session, transaction, amount);
 		Account account = null;
-		if (transactionCategory == Transaction.CATEGORY_CUSTOMER) {
+		if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 			account = this.salesLiabilityAccount;
-		} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
+		} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
 			account = this.purchaseLiabilityAccount;
 		}
 		if (account != null) {
