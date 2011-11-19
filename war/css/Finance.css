@@ -283,7 +283,8 @@ fieldset,img {
     text-decoration: underline;
 }
 body/*,.highlightedFormItem */{
-	overflow: auto;
+	overflow-y: auto;
+    overflow-x: hidden; 
 }
 html,body,#overlay{
 	height:100%;
