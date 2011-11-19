@@ -583,7 +583,6 @@
 	</command>
 
 	<command clazz="CustomerListCommand" name="Customers">
-		<alias>Customers List</alias>
 		<alias>Customer Lists</alias>
 	</command>
 
