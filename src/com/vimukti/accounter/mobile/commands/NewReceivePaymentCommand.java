@@ -5,15 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
-import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -23,7 +20,6 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -57,53 +53,37 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
-				true, null) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isEnableMultiCurrency()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
-			}
-		});
-
-		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
-				.currency(), false, true) {
-			@Override
-			protected String getDisplayValue(Double value) {
-				ClientCurrency primaryCurrency = getPreferences()
-						.getPrimaryCurrency();
-				ClientCurrency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency.getFormalName();
-			}
-
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (get(CURRENCY).getValue() != null) {
-					if (getPreferences().isEnableMultiCurrency()
-							&& !((ClientCurrency) get(CURRENCY).getValue())
-									.equals(getPreferences()
-											.getPrimaryCurrency())) {
-						return super.run(context, makeResult, list, actions);
-					}
-				}
-				return null;
-			}
-		});
-
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); ClientCurrency selc =
+		 * get(CURRENCY).getValue(); return "1 " + selc.getFormalName() + " = "
+		 * + value + " " + primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
+		 * !((ClientCurrency) get(CURRENCY).getValue()) .equals(getPreferences()
+		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
+		 * actions); } } return null; } });
+		 */
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Account()), getMessages()
 				.depositAccount(Global.get().Account()), false, true, null) {
@@ -317,15 +297,14 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				.getValue();
 		payment.setTransactionReceivePayment(list);
 
-		if (context.getPreferences().isEnableMultiCurrency()) {
-			ClientCurrency currency = get(CURRENCY).getValue();
-			if (currency != null) {
-				payment.setCurrency(currency.getID());
-			}
-			double factor = get(CURRENCY_FACTOR).getValue();
-			payment.setCurrencyFactor(factor);
-
-		}
+		/*
+		 * if (context.getPreferences().isEnableMultiCurrency()) {
+		 * ClientCurrency currency = get(CURRENCY).getValue(); if (currency !=
+		 * null) { payment.setCurrency(currency.getID()); } double factor =
+		 * get(CURRENCY_FACTOR).getValue(); payment.setCurrencyFactor(factor);
+		 * 
+		 * }
+		 */
 		String memo = get(MEMO).getValue();
 		payment.setMemo(memo);
 
@@ -381,7 +360,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				CommandUtils.getServerObjectById(payment.getDepositIn(),
 						AccounterCoreType.ACCOUNT));
 		get(TRANSACTIONS).setValue(payment.getTransactionReceivePayment());
-		get(CURRENCY_FACTOR).setValue(payment.getCurrencyFactor());
+		/* get(CURRENCY_FACTOR).setValue(payment.getCurrencyFactor()); */
 		get(MEMO).setValue(payment.getMemo());
 		get(CHECK_NUMBER).setValue(payment.getCheckNumber());
 	}
@@ -407,8 +386,10 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(AMOUNT_RECEIVED).setDefaultValue(new Double(0));
 		get(CHECK_NUMBER).setDefaultValue("1");
-		get(CURRENCY).setDefaultValue(null);
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
 	}
 
 	@Override

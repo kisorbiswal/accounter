@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
@@ -319,8 +318,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-		Currency primaryCurrency = context.getCompany().getPrimaryCurrency();
-		writeCheck.setCurrency(primaryCurrency.getID());
+		// Currency primaryCurrency = context.getCompany().getPrimaryCurrency();
+		// writeCheck.setCurrency(primaryCurrency.getID());
 		// if (preferences.isEnableMultiCurrency()) {
 		// Currency currency = get(CURRENCY).getValue();
 		// if (currency != null) {
@@ -401,7 +400,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		get(AMOUNT).setValue(writeCheck.getNetAmount());
 		get(ACCOUNTS).setValue(writeCheck.getTransactionItems());
 		get(IS_VAT_INCLUSIVE).setValue(writeCheck.isAmountsIncludeVAT());
-		get(CURRENCY_FACTOR).setValue(writeCheck.getCurrencyFactor());
+		// get(CURRENCY_FACTOR).setValue(writeCheck.getCurrencyFactor());
 		get(MEMO).setValue(writeCheck.getMemo());
 	}
 

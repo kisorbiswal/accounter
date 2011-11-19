@@ -34,8 +34,8 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String DELIVERY_DATE = "deliveryDate";
 	protected static final String CHEQUE_NO = "chequeNo";
 	protected static final String PAYMENT_METHOD = "paymentMethod";
-	protected static final String CURRENCY = "currency";
-	protected static final String CURRENCY_FACTOR = "currencyFactor";
+	// protected static final String CURRENCY = "currency";
+	// protected static final String CURRENCY_FACTOR = "currencyFactor";
 	protected static final String PAY_FROM = "payFrom";
 	protected static final String ORDER_NO = "orderNo";
 	protected static final String ESTIMATEANDSALESORDER = "estimateAndSalesOrder";
