@@ -142,6 +142,10 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		case Transaction.TYPE_CUSTOMER_PRE_PAYMENT:
 			this.payee = ((CustomerPrePayment) transaction).getCustomer();
 			break;
+		case Transaction.TYPE_INVOICE:
+			this.payee = ((Invoice) transaction).getCustomer();
+			this.balance = -(transaction.getTotal());
+			this.creditAmount = -(transaction.getTotal());
 		}
 
 		this.balanceInPayeeCurrency = balance / transaction.getCurrencyFactor();
@@ -269,7 +273,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		for (TransactionCreditsAndPayments t : this.transactionCreditsAndPayments) {
 			t.setCreditsAndPayments(this);
 		}
-		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY) {
+		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY
+				&& this.transaction.type != Transaction.TYPE_INVOICE) {
 
 			if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
 				amount = this.transaction.subTotal - this.transaction.total;
@@ -403,7 +408,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			Transaction presentTransaction, double amount) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY) {
+		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY
+				&& this.transaction.type != Transaction.TYPE_INVOICE) {
 
 			if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
 				amount = this.transaction.subTotal - this.transaction.total;

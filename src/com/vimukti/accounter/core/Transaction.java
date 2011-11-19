@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -998,14 +997,14 @@ public abstract class Transaction extends CreatableObject implements
 			updateTranasactionItems(clonedObject);
 			deleteCreatedEntries(clonedObject);
 			clonedObject.transactionItems.clear();
-			
+
 			addUpdateHistory();
 		}
 
 	}
 
 	protected void voidTransactionItems() {
-		if (this.transactionItems != null){
+		if (this.transactionItems != null) {
 			for (TransactionItem ti : this.transactionItems) {
 				ti.doReverseEffect(HibernateUtil.getCurrentSession());
 			}
@@ -1024,7 +1023,7 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	public boolean setTAXRateCalculation(TransactionItem transactionItem) {
 
-		if(isBecameVoid()){
+		if (isBecameVoid()) {
 			this.taxRateCalculationEntriesList.clear();
 			return false;
 		}
