@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -45,10 +44,10 @@ public class DepreciationTreeGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				Global.get().account(),
-				Accounter.messages().amounttobeDepreciated(),
-				Accounter.messages().accumulatedDepreciationAccount(
-						Global.get().Account()) };
+				messages.account(),
+				messages.amounttobeDepreciated(),
+				messages.accumulatedDepreciationAccount(
+						) };
 	}
 
 	@Override

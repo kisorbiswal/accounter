@@ -99,8 +99,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AmountRequirement(SALES_PRICE, getMessages().pleaseEnter(
-				getMessages().salesPrice()), getMessages().salesPrice(),
-				true, true) {
+				getMessages().salesPrice()), getMessages().salesPrice(), true,
+				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -112,10 +112,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AccountRequirement(INCOME_ACCOUNT, getMessages()
-				.pleaseEnter(
-						getMessages().incomeAccount(Global.get().Account())),
-				getMessages().incomeAccount(Global.get().Account()), false,
-				true, null) {
+				.pleaseEnter(getMessages().incomeAccount()), getMessages()
+				.incomeAccount(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -161,7 +159,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Account());
+				return getMessages().youDontHaveAny(getMessages().Account());
 			}
 
 			@Override
@@ -310,10 +308,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
-				.pleaseEnter(
-						getMessages().expenseAccount(Global.get().Account())),
-				getMessages().expenseAccount(Global.get().Account()), false,
-				true, null) {
+				.pleaseEnter(getMessages().expenseAccount()), getMessages()
+				.expenseAccount(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -350,7 +346,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Account());
+				return getMessages().youDontHaveAny(getMessages().Account());
 			}
 
 			@Override
@@ -518,8 +514,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select an Item to update.");
 				return "Items List";
 			}
-			Item customerByName = CommandUtils.getItemByName(
-					context.getCompany(), string);
+			Item customerByName = CommandUtils.getItemByName(context
+					.getCompany(), string);
 			if (customerByName == null) {
 				addFirstMessage(context, "Select an Item to update.");
 				return "Items List " + string;

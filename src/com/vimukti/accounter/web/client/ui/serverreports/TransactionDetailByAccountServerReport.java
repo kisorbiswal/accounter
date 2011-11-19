@@ -83,8 +83,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().transactionDetailsByAccount(
-				Global.get().account());
+		return Accounter.messages().transactionDetailsByAccount();
 	}
 
 	@Override

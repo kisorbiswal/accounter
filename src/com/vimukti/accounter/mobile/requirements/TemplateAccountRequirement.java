@@ -67,11 +67,8 @@ public abstract class TemplateAccountRequirement extends
 			} else if (actionName == ActionNames.CLOSE) {
 				context.setAttribute(INPUT_ATTR, "");
 				Record record = new Record("accountsNumber");
-				record.add(
-						"",
-						values.size()
-								+ getMessages().hasSelected(
-										getMessages().Account()));
+				record.add("", values.size()
+						+ getMessages().hasSelected(getMessages().Account()));
 				list.add(record);
 				return null;
 			}
@@ -93,9 +90,9 @@ public abstract class TemplateAccountRequirement extends
 		selection = context.getSelection(ACCOUNTS_LIST);
 		if (selection != null) {
 			values.remove(selection);
-			addFirstMessage(context,
-					"'" + ((TemplateAccount) selection).getName()
-							+ "' has been removed from below list");
+			addFirstMessage(context, "'"
+					+ ((TemplateAccount) selection).getName()
+					+ "' has been removed from below list");
 			return showSlectedAccounts();
 		}
 		if (values.size() == 0
@@ -105,10 +102,8 @@ public abstract class TemplateAccountRequirement extends
 		}
 
 		Record record = new Record("accountsNumber");
-		record.add(
-				"",
-				values.size()
-						+ getMessages().hasSelected(getMessages().Account()));
+		record.add("", values.size()
+				+ getMessages().hasSelected(getMessages().Account()));
 		list.add(record);
 
 		if (valuesSelection == "accountsNumber") {
@@ -134,13 +129,13 @@ public abstract class TemplateAccountRequirement extends
 		moreItems.add("", getMessages().addMore(getMessages().Accounts()));
 		actions.add(moreItems);
 		Record setDefault = new Record(ActionNames.SET_DEFAULT);
-		setDefault.add("", getMessages().setDefault(getMessages().Accounts()));
+		setDefault.add("", getMessages().setDefault());
 		actions.add(setDefault);
 		Record close = new Record(ActionNames.CLOSE);
 		close.add("", getMessages().close());
 		actions.add(close);
 		result.add(actions);
-		result.add(getMessages().selectToDelete(getMessages().Accounts()));
+		result.add(getMessages().selectToDelete());
 		return result;
 	}
 

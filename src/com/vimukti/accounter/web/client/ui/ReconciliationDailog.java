@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
@@ -58,8 +57,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 
 		VerticalPanel mainpanel = new VerticalPanel();
 
-		bankAccountsField = new SelectCombo(messages.bankAccount(Global.get()
-				.Account()));
+		bankAccountsField = new SelectCombo(messages.bankAccount());
 
 		bankAccountsField
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -89,7 +87,8 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		// .getActualMaximum(Calendar.DAY_OF_MONTH));
 		endDate.setValue(new ClientFinanceDate());
 
-		closingBalance = new AmountField(messages.ClosingBalance(), this,getBaseCurrency()) {
+		closingBalance = new AmountField(messages.ClosingBalance(), this,
+				getBaseCurrency()) {
 			@Override
 			protected BlurHandler getBlurHandler() {
 				return new BlurHandler() {

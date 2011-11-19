@@ -18,8 +18,7 @@ class Section {
 public interface IOptionsAccordionSections {
 	AccounterMessages messages = Accounter.messages();
 	final String COMPANY = messages.company();
-	final String COMPANY_NEW_ACCOUNT = Accounter.messages().newPayee(
-			Global.get().Account());
+	final String COMPANY_NEW_ACCOUNT = Accounter.messages().newAccount();
 
 	final String CUSTOMERS = Accounter.messages().payees(
 			Global.get().Customer());
@@ -32,8 +31,7 @@ public interface IOptionsAccordionSections {
 	final String CUSTOMERS_NEW_INVOICE = messages.newInvoice();
 	final String CUSTOMER_RECEIVED_PAYMENT = messages.receivedPayment();
 	final String CUSTOMER_NEW_CASH_SALE = messages.newCashSale();
-	final String CUSTOMER_NEW_CREDITS_AND_REFUNDS = messages
-			.creditAndRefunds();
+	final String CUSTOMER_NEW_CREDITS_AND_REFUNDS = messages.creditAndRefunds();
 	final String CUSTOMER_CREDIT_CARD_PROCESSING = messages
 			.creditCardProcessing();
 	final String CUSTOMER_FIND_CUSTOMERS = Accounter.messages().payees(
@@ -67,14 +65,14 @@ public interface IOptionsAccordionSections {
 	final String BANKING = messages.banking();
 	final String BANKING_HOME = messages.bankingHome();
 	final String BANKING_NEW_BANK_ACCOUNT = Accounter.messages()
-			.newBankAccount(Global.get().Account());
+			.newBankAccount();
 	final String BANKING_WRITE_CHECKS = messages.writeChecks();
 	final String BANKING_MAKE_DEPOSIT = messages.makeDeposit();
 	final String BANKING_TRANSFER_FUNDS = messages.transferFunds();
 	final String BANKING_PAY_BILLS = messages.payBills();
 	final String BANKING_CREDITCARD_CHARGE = messages.creditCardCharge();
 	final String BANKING_FIND_CHART_OF_ACCOUNTS = Accounter.messages()
-			.chartOfAccounts(Global.get().Accounts());
+			.chartOfAccounts();
 	final String BANKING_FIND_PAYMENTS = messages.payments();
 
 	final String START_NEW_TASK = messages.startanewTask();
@@ -150,10 +148,9 @@ public interface IOptionsAccordionSections {
 	};
 	final String[] custStartLabels = {
 			Accounter.messages().newPayee(Global.get().Customer()),
-			messages.newProduct(), messages.newQuote(),
-			messages.newInvoice(), messages.receivedPayment(),
-			messages.newCashSale(), messages.newCreditsAndRefunds(),
-			messages.creditCardProcessing() };
+			messages.newProduct(), messages.newQuote(), messages.newInvoice(),
+			messages.receivedPayment(), messages.newCashSale(),
+			messages.newCreditsAndRefunds(), messages.creditCardProcessing() };
 
 	final String[] custFindLabels = {
 			Accounter.messages().payees(Global.get().Customer()),

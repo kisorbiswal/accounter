@@ -21,7 +21,6 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxItemRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
@@ -106,7 +105,8 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
+									.equals(context.getPreferences()
+											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}
@@ -141,20 +141,14 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new AccountRequirement(ADJUSTMENT_ACCOUNT,
-				getMessages()
-						.pleaseEnterName(
-								getMessages().adjustmentAccount(
-										Global.get().Account())), getMessages()
-						.adjustmentAccount(Global.get().Account()), false,
-				true, null) {
+		list.add(new AccountRequirement(ADJUSTMENT_ACCOUNT, getMessages()
+				.pleaseEnterName(getMessages().adjustmentAccount()),
+				getMessages().adjustmentAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(
-								getMessages().adjustmentAccount(
-										Global.get().Account()));
+				return getMessages().hasSelected(
+						getMessages().adjustmentAccount());
 			}
 
 			@Override
@@ -179,10 +173,8 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages()
-						.youDontHaveAny(
-								getMessages().adjustmentAccount(
-										Global.get().Account()));
+				return getMessages().youDontHaveAny(
+						getMessages().adjustmentAccount());
 			}
 
 			@Override

@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -154,15 +153,15 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		decAmount.setRequired(false);
 		decAmount.setWidth(100);
 
-		budgetAddForm = UIUtils.form(Accounter.messages()
-				.chartOfAccountsInformation(Global.get().Account()));
+		budgetAddForm = UIUtils.form(messages
+				.chartOfAccountsInformation());
 		budgetAddForm.setWidth("100%");
 		budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
 				mayAmount, junAmount, julAmount, augAmount, septAmount,
 				octAmount, novAmount, decAmount);
 
-		budgetInfoForm = UIUtils.form(Accounter.messages()
-				.chartOfAccountsInformation(Global.get().Account()));
+		budgetInfoForm = UIUtils.form(messages
+				.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
 		budgetInfoForm.setFields(budgetAddBy);

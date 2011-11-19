@@ -71,18 +71,17 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel
-				.setText(Accounter.messages().reviewIncomeAndExpensesAccounts(
-						accounterMessages.Accounts()));
+		headerLabel.setText(Accounter.messages()
+				.reviewIncomeAndExpensesAccounts());
 
-		expensesInfo.setText(accounterMessages.doyouWantToUseStatements());
-		recommendedInfo.setHTML("<b>" + accounterMessages.noteColon() + "</b>"
-				+ accounterMessages.recommendedAccounts() + "<br>"
-				+ accounterMessages.recommendedAccountsComment());
-		restoreButton.setText(accounterMessages.restoreRecommendations());
-		expensesLink.setHTML(accounterMessages.whyshoudIUseRecommended());
-		expensesNote.setHTML(accounterMessages.recommendedNote());
-		selectAllButton.setText(accounterMessages.selectAll());
+		expensesInfo.setText(messages.doyouWantToUseStatements());
+		recommendedInfo.setHTML("<b>" + messages.noteColon() + "</b>"
+				+ messages.recommendedAccounts() + "<br>"
+				+ messages.recommendedAccountsComment());
+		restoreButton.setText(messages.restoreRecommendations());
+		expensesLink.setHTML(messages.whyshoudIUseRecommended());
+		expensesNote.setHTML(messages.recommendedNote());
+		selectAllButton.setText(messages.selectAll());
 		restoreButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -216,7 +215,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterMessages.Accounts();
+		return messages.Accounts();
 	}
 
 }

@@ -5,11 +5,9 @@ import java.util.List;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -53,7 +51,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	public WriteOffDialog(List<ClientAccount> allAccounts,
 			ClientTransactionReceivePayment record, boolean canEdit,
 			ClientAccount clientAccount, ICurrencyProvider currencyProvider) {
-		super(messages.writeOff(), Accounter.messages()
+		super(messages.writeOff(), messages
 				.writeOffPleaseAddDetails());
 		this.currencyProvider = currencyProvider;
 		this.record = record;
@@ -68,7 +66,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public WriteOffDialog() {
-		super(messages.cashDiscount(), Accounter.messages()
+		super(messages.cashDiscount(), messages
 				.writeOffPleaseAddDetails());
 
 		createControls();
@@ -76,8 +74,8 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 
 	private void createControls() {
 
-		discAccSelect = new OtherAccountsCombo(Accounter.messages()
-				.writeOffAccount(Global.get().Account()), false);
+		discAccSelect = new OtherAccountsCombo(messages
+				.writeOffAccount(), false);
 		discAccSelect.initCombo(allAccounts);
 		discAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {

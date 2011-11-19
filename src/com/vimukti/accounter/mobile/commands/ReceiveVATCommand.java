@@ -18,7 +18,6 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.ReceiveVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -43,9 +42,8 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new AccountRequirement(DEPOSIT_TO, getMessages().pleaseSelect(
-				getMessages().depositAccount(Global.get().Account())),
-				getMessages().depositAccount(Global.get().Account()), false,
-				true, null) {
+				getMessages().depositAccount()),
+				getMessages().depositAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -78,7 +76,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 
 			@Override
@@ -88,19 +86,18 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getMessages().paymentMethod()),
-				getMessages().paymentMethod(), false, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getMessages().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override

@@ -215,14 +215,12 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(
-						getMessages().bankAccount(Global.get().Account())),
-				getMessages().bankAccount(Global.get().Account()), false,
-				false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(Global.get().account());
+				return getMessages().hasSelected(getMessages().account());
 			}
 
 			@Override
@@ -248,7 +246,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 
 			@Override

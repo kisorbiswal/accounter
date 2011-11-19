@@ -32,7 +32,7 @@ public abstract class AbstractFinaneReport<R> extends
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
 
-	public AccounterMessages messages;
+	protected AccounterMessages messages=getMessages();
 	
 	protected List<Integer> columnstoHide = new ArrayList<Integer>();
 

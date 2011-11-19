@@ -180,7 +180,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	long trackFinanceDate;
 	private int referCustomers;
 	private int referVendors;
-	private int referAccounts;
 
 	private long preferencesFlag;
 
@@ -873,14 +872,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setReferVendors(int referSuplliers) {
 		this.referVendors = referSuplliers;
-	}
-
-	public int getReferAccounts() {
-		return referAccounts;
-	}
-
-	public void setReferAccounts(int referAccounts) {
-		this.referAccounts = referAccounts;
 	}
 
 	public boolean isDoyouwantEstimates() {

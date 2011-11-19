@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -89,16 +88,16 @@ public class SoldAndDisposedItemsListGrid extends
 					.getDateByCompanyType(new ClientFinanceDate(date)) : "";
 
 		case 4:
-			return DataUtils.amountAsStringWithCurrency(asset.getSalePrice(), getCompany()
-					.getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(asset.getSalePrice(),
+					getCompany().getPrimaryCurrency());
 		case 5:
-			return DataUtils.amountAsStringWithCurrency(asset.getLossOrGain(), getCompany()
-					.getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(asset.getLossOrGain(),
+					getCompany().getPrimaryCurrency());
 
 		case 6:
-			return Accounter.messages().showHistory();
+			return messages.showHistory();
 		case 7:
-			return Accounter.messages().addNote();
+			return messages.addNote();
 		case 8:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -141,18 +140,19 @@ public class SoldAndDisposedItemsListGrid extends
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.messages().fixedAssetsPendingItemsList();
+		action.catagory = messages.fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.messages().addNote(), "");
+		noteDialog = new NoteDialog(messages.addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
 			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString() : "";
+						.getValue().toString()
+						: "";
 				// setAttribute("note", note, currentRow);
 				if (note.length() != 0)
 					executeUpdate(asset, note);
@@ -184,13 +184,10 @@ public class SoldAndDisposedItemsListGrid extends
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().item(),
-				Accounter.messages().assetNumber(), Global.get().account(),
-				Accounter.messages().disposalDate(),
-				Accounter.messages().disposalPrice(),
-				Accounter.messages().gainsOrLosses(),
-				Accounter.messages().showHistory(),
-				Accounter.messages().addNote(), "" };
+		return new String[] { messages.item(), messages.assetNumber(),
+				messages.account(), messages.disposalDate(),
+				messages.disposalPrice(), messages.gainsOrLosses(),
+				messages.showHistory(), messages.addNote(), "" };
 	}
 
 	@Override
@@ -209,10 +206,10 @@ public class SoldAndDisposedItemsListGrid extends
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(
-					obj1.getSoldOrDisposedDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(
-					obj2.getSoldOrDisposedDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(obj1
+					.getSoldOrDisposedDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(obj2
+					.getSoldOrDisposedDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;

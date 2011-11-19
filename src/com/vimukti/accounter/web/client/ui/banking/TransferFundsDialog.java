@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -58,8 +57,8 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 	public boolean isValidatedTransferAmount = false;
 
 	public TransferFundsDialog(Object data) {
-		super(Accounter.messages().transferFunds(), Accounter.messages()
-				.toTransferFunds(Global.get().account()));
+		super(messages.transferFunds(), messages
+				.toTransferFunds());
 		createControls();
 		addAccountsNameToList();
 		addAccountsName2ToList();
@@ -118,7 +117,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		// Transfer From
 
 		accountComboFrom = new IncomeAndExpensesAccountCombo(Accounter
-				.messages().fromAccount(Global.get().Account()));
+				.messages().fromAccount());
 
 		accountComboFrom.setRequired(true);
 		// accountComboFrom.setWidth("*");
@@ -139,7 +138,8 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 
 				});
 
-		balanceFromText = new AmountField(messages.balance(), this,getBaseCurrency());
+		balanceFromText = new AmountField(messages.balance(), this,
+				getBaseCurrency());
 		balanceFromText.setDisabled(Boolean.TRUE);
 		memoText = new TextItem(messages.memo());
 
@@ -156,8 +156,8 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 
 		// Transfer To
 
-		accountComboTo = new IncomeAndExpensesAccountCombo(Accounter.messages()
-				.toAccount(Global.get().Account()));
+		accountComboTo = new IncomeAndExpensesAccountCombo(messages
+				.toAccount());
 		// accountComboTo.setAddNewCaptionTitle(CustomCombo.addNewBankAccount);
 
 		accountComboTo.setRequired(true);
@@ -181,10 +181,11 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 					}
 
 				});
-		balanceToText = new AmountField(messages.balance(), this,getBaseCurrency());
+		balanceToText = new AmountField(messages.balance(), this,
+				getBaseCurrency());
 		balanceToText.setDisabled(Boolean.TRUE);
 
-		amountText = new AmountField(messages.amount(), this,getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amountText.setRequired(true);
 		amountText.setAmount(0.00);
 		amountText.addBlurHandler(new BlurHandler() {
@@ -195,12 +196,12 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 						transferAmount = amountText.getAmount();
 						if (DecimalUtil.isLessThan(transferAmount, 0D)) {
 							transferAmount = 0D;
-							Accounter.showError(Accounter.messages()
+							Accounter.showError(messages
 									.amountShouldNotBeNegative());
 						}
 
 					} catch (Exception e) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.invalidAmount());
 						transferAmount = 0D;
 					} finally {
@@ -219,8 +220,8 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		transferToForm.setGroupTitle(messages.transferTo());
 
 		transferToForm.setFields(accountComboTo, balanceToText, amountText);
-		okbtn.setTitle(Accounter.messages().transfer());
-		cancelBtn.setTitle(Accounter.messages().cancel());
+		okbtn.setTitle(messages.transfer());
+		cancelBtn.setTitle(messages.cancel());
 
 		HorizontalPanel hlay = new HorizontalPanel();
 		hlay.setWidth("100%");
@@ -228,7 +229,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		hlay.add(transferFromForm);
 		hlay.add(transferToForm);
 		editButton = new Button();
-		editButton.setText(Accounter.messages().edit());
+		editButton.setText(messages.edit());
 		editButton.setVisible(false);
 
 		editButton.addClickHandler(new ClickHandler() {
@@ -261,7 +262,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		result.add(transferToForm.validate());
 
 		if (!AccounterValidator.validate_TransferFunds(accountFrom, accountTo)) {
-			result.addError(accountFrom, Accounter.messages().transferFunds());
+			result.addError(accountFrom, messages.transferFunds());
 
 		} else if (isValidatedTransferAmount == false) {
 			if (AccounterValidator.validate_TransferFromAccount(accountFrom,

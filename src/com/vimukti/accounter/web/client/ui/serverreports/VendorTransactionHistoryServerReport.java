@@ -40,10 +40,9 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { messages.vendor1099(Global.get().vendor()),
-				getMessages().date(), getMessages().type(),
-				getMessages().no(),
+				messages.date(), messages.type(), messages.no(),
 				// FinanceApplication.constants().reference(),
-				Global.get().account(), messages.amount()
+				messages.account(), messages.amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),
@@ -114,7 +113,6 @@ public class VendorTransactionHistoryServerReport extends
 					.getPaidAmount()
 					: record.getInvoicedAmount();
 
-
 		}
 		return null;
 	}
@@ -122,7 +120,7 @@ public class VendorTransactionHistoryServerReport extends
 	public void processRecord(TransactionHistory record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-		// getMessages().total() }, new int[] { 5 });
+		// messages.total() }, new int[] { 5 });
 		// } else
 		if (sectionDepth == 0) {
 			// First time
@@ -160,7 +158,7 @@ public class VendorTransactionHistoryServerReport extends
 	int getType(TransactionHistory record) {
 		if (record.getType() == 11) {
 			return (record.getMemo() != null && record.getMemo().equals(
-					getMessages().payeePrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+					messages.payeePrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
 					: ClientTransaction.TYPE_PAY_BILL;
 		}
 
@@ -209,8 +207,8 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.payeeName(Global.get().vendor()),
-				getMessages().date(), getMessages().type(),
-				getMessages().no(), Global.get().account(), messages.amount() };
+				messages.date(), messages.type(), messages.no(),
+				messages.account(), messages.amount() };
 	}
 
 }

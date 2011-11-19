@@ -113,8 +113,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AmountField createBalanceText(ClientCurrency currency) {
 
-		AmountField balText = new AmountField(Accounter.messages().balance(),
-				this, currency);
+		AmountField balText = new AmountField(messages.balance(), this,
+				currency);
 		// balText.setWidth("*");
 
 		balText.setDisabled(isInViewMode());
@@ -125,7 +125,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Global.get().Accounts(), Accounter.messages()
+		setMenuItems(button, messages.Accounts(), messages
 				.productOrServiceItem());
 		// FinanceApplication.constants().comment());
 
@@ -133,8 +133,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AmountField createAmountText(ClientCurrency currency) {
 
-		AmountField amtText = new AmountField(Accounter.messages().amount(),
-				this, currency);
+		AmountField amtText = new AmountField(messages.amount(), this, currency);
 		// amtText.setWidth("*");
 
 		amtText.setColSpan(1);
@@ -149,8 +148,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.messages().tax(),
-				this, currency);
+		AmountField amountItem = new AmountField(messages.tax(), this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -159,7 +157,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.messages().tax());
+		AmountLabel amountItem = new AmountLabel(messages.tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -199,8 +197,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.messages()
-				.billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
 
 		addressCombo.setHelpInformation(true);
 
@@ -279,8 +276,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.messages()
-				.tax(), false);
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages.tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 
@@ -306,8 +302,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected AmountField createTransactionTotalNonEditableItem(
 			ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.messages().total(),
-				this, currency);
+		AmountField amountItem = new AmountField(messages.total(), this,
+				currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -317,7 +313,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected AmountLabel createTransactionTotalNonEditableLabel(
 			ClientCurrency clientCurrency) {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.messages()
+		AmountLabel amountLabel = new AmountLabel(messages
 				.currencyTotal(clientCurrency.getFormalName()));
 
 		return amountLabel;
@@ -350,12 +346,11 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(Global.get().Accounts())) {
+		if (menuItem.equals(messages.Accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			transactionItem.setTaxCode(getPreferences().getDefaultTaxCode());
 
-		} else if (menuItem
-				.equals(Accounter.messages().productOrServiceItem())) {
+		} else if (menuItem.equals(messages.productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getPreferences().isTrackTax()) {
 				transactionItem

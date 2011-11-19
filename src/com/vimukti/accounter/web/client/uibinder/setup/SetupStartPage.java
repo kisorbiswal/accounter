@@ -72,13 +72,13 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		this.headerLabel.setText(accounterMessages.welcomeToStartup());
-		this.startButton.setText(accounterMessages.startSetup());
-		this.skipButton.setText(accounterMessages.skipSetup());
-		this.cancelBtn.setText(accounterMessages.cancel());
-		this.setupInfo.setHTML(accounterMessages.userGuidelinesMessage());
-		this.startSetupInfo.setHTML(accounterMessages.startSetupInfo());
-		this.skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
+		this.headerLabel.setText(messages.welcomeToStartup());
+		this.startButton.setText(messages.startSetup());
+		this.skipButton.setText(messages.skipSetup());
+		this.cancelBtn.setText(messages.cancel());
+		this.setupInfo.setHTML(messages.userGuidelinesMessage());
+		this.startSetupInfo.setHTML(messages.startSetupInfo());
+		this.skipSetupInfo.setHTML(messages.skipSetupInfo());
 
 		startButton.addClickHandler(new ClickHandler() {
 
@@ -125,7 +125,7 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterMessages.startSetup();
+		return messages.startSetup();
 	}
 
 }

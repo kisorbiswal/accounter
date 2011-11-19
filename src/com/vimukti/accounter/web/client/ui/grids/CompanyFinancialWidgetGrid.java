@@ -4,18 +4,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
-	String[] keys = { Accounter.messages().grossProfit(),
-			Accounter.messages().netProfit(),
-			Accounter.messages().bankAccount(Global.get().Accounts()) };
+	String[] keys = { messages.grossProfit(),
+			messages.netProfit(),
+			messages.bankAccounts() };
 
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 	private Double rowTotal = 0.0;
@@ -122,7 +120,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colArray[index] = "";
 				break;
 			case 1:
-				colArray[index] = Accounter.messages().currentMonth();
+				colArray[index] = messages.currentMonth();
 				colsMap.put(1, getKeyValue(0));
 				break;
 			case 2:
@@ -146,7 +144,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colsMap.put(6, getKeyValue(5));
 				break;
 			case 7:
-				colArray[index] = Accounter.messages().yearToDate();
+				colArray[index] = messages.yearToDate();
 				break;
 			default:
 				break;
@@ -162,34 +160,34 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return Accounter.messages().jan();
+			return messages.jan();
 		case 1:
-			return Accounter.messages().feb();
+			return messages.feb();
 		case 2:
-			return Accounter.messages().mar();
+			return messages.mar();
 		case 3:
-			return Accounter.messages().apr();
+			return messages.apr();
 		case 4:
-			return Accounter.messages().may();
+			return messages.may();
 		case 5:
-			return Accounter.messages().jun();
+			return messages.jun();
 		case 6:
-			return Accounter.messages().jul();
+			return messages.jul();
 		case 7:
 		case -5:
-			return Accounter.messages().aug();
+			return messages.aug();
 		case 8:
 		case -4:
-			return Accounter.messages().sept();
+			return messages.sept();
 		case 9:
 		case -3:
-			return Accounter.messages().oct();
+			return messages.oct();
 		case 10:
 		case -2:
-			return Accounter.messages().nov();
+			return messages.nov();
 		case 11:
 		case -1:
-			return Accounter.messages().dec();
+			return messages.dec();
 
 		}
 		return "";

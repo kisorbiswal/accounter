@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
@@ -20,7 +19,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AdjustmentVATItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -51,7 +49,6 @@ public class AdjustTAXView extends
 	private AmountField amount;
 	private TextAreaItem memo;
 	private DynamicForm vatform;
-	AccounterMessages messages = Accounter.messages();
 	// private ClientTAXItem clientVATItem;
 	private ClientTAXAgency clientTAXAgency;
 
@@ -84,29 +81,27 @@ public class AdjustTAXView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
-		infoLabel = new Label(Accounter.messages().taxAdjustment());
+		infoLabel = new Label(messages.taxAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
-		infoLabel.setStyleName(Accounter.messages().labelTitle());
+		infoLabel.setStyleName(messages.labelTitle());
 		// infoLabel.setHeight("35px");
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
 		// adjustDate.setWidth(100);
 
-		entryNo = new IntegerField(this, Accounter.messages().no());
-		entryNo.setToolTip(Accounter.messages().giveNoTo(
-				this.getAction().getViewName()));
+		entryNo = new IntegerField(this, messages.no());
+		entryNo.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.messages().taxAgency());
+		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 
-		vatItemCombo = new AdjustmentVATItemCombo(Accounter.messages()
-				.taxItem(), taxAgency);
+		vatItemCombo = new AdjustmentVATItemCombo(messages.taxItem(), taxAgency);
 		vatItemCombo.setHelpInformation(true);
 		vatItemCombo.initCombo(vatItemCombo.getVATItmesByVATAgncy(taxAgency));
 		// vatItemCombo.setWidth(100);
@@ -116,11 +111,10 @@ public class AdjustTAXView extends
 		}
 
 		vatLine = new LabelItem();
-		vatLine.setValue(Accounter.messages().taxLine());
+		vatLine.setValue(messages.taxLine());
 
 		vatAccount = new LabelItem();
-		vatAccount.setValue(Accounter.messages().taxAccount(
-				Global.get().Account()));
+		vatAccount.setValue(messages.taxAccount());
 
 		vatLinetxt = new LabelItem();
 		vatAccounttxt = new LabelItem();
@@ -182,7 +176,7 @@ public class AdjustTAXView extends
 		vatItemCombo.setRequired(true);
 
 		adjustAccountCombo = new OtherAccountsCombo(messages
-				.adjustmentAccount(Global.get().Account()));
+				.adjustmentAccount());
 		adjustAccountCombo.setHelpInformation(true);
 		// adjustAccountCombo.setWidth(100);
 		adjustAccountCombo.setPopupWidth("600px");
@@ -199,8 +193,7 @@ public class AdjustTAXView extends
 
 		salesTypeRadio = new RadioGroupItem();
 		salesTypeRadio.setGroupName(messages.type());
-		salesTypeRadio
-				.setValue(messages.salesType(), messages.purchaseType());
+		salesTypeRadio.setValue(messages.salesType(), messages.purchaseType());
 		salesTypeRadio.setDefaultValue(messages.salesType());
 
 		memo = new TextAreaItem(messages.memo());
@@ -260,8 +253,7 @@ public class AdjustTAXView extends
 		AccounterAsyncCallback<String> transactionNumberCallback = new AccounterAsyncCallback<String>() {
 
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
-						.failedToGetTransactionNumber());
+				Accounter.showError(messages.failedToGetTransactionNumber());
 			}
 
 			public void onResultSuccess(String result) {
@@ -357,11 +349,11 @@ public class AdjustTAXView extends
 		// return true;
 		// case 3:
 		if (AccounterValidator.isZeroAmount(amount.getAmount())) {
-			result.addError(amount, Accounter.messages().shouldNotbeZero(
-					amount.getName()));
+			result.addError(amount, messages.shouldNotbeZero(amount.getName()));
 		} else if (AccounterValidator.isNegativeAmount(amount.getAmount())) {
-			result.addError(amount, Accounter.messages().shouldBePositive(
-					amount.getName()));
+			result
+					.addError(amount, messages.shouldBePositive(amount
+							.getName()));
 		}
 
 		// case 2:
@@ -408,8 +400,7 @@ public class AdjustTAXView extends
 						.getID());
 
 		data.setTotal(getAmountInBaseCurrency(amount.getAmount()));
-		if (typeRadio.getValue()
-				.equals(Accounter.messages().increaseVATLine()))
+		if (typeRadio.getValue().equals(messages.increaseVATLine()))
 			data.setIncreaseVATLine(true);
 		else
 			data.setIncreaseVATLine(false);
@@ -450,7 +441,7 @@ public class AdjustTAXView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().taxAdjustment();
+		return messages.taxAdjustment();
 	}
 
 	private void settabIndexes() {

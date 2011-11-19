@@ -38,8 +38,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-
-		return Global.get().Account();
+		return messages.Account();
 	}
 
 	public void init() {

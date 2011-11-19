@@ -52,11 +52,11 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		// Creating Title for View
 		Label label = new Label();
 		label.removeStyleName("gwt-Label");
-		label.addStyleName(Accounter.messages().labelTitle());
+		label.addStyleName(messages.labelTitle());
 		label.setText(messages.Reconciliation());
 
 		bankaccountLabel = new LabelItem();
-		bankaccountLabel.setTitle(messages.bankAccount(Global.get().Account()));
+		bankaccountLabel.setTitle(messages.bankAccount());
 		bankaccountLabel.setValue(data.getAccount().getName());
 
 		closebalanceLable = new AmountLabel(messages.ClosingBalance());
@@ -267,8 +267,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 			@Override
 			public void onException(AccounterException exception) {
-				Accounter.showError(messages.unableToGet(messages
-						.openBalance()));
+				Accounter.showError(messages
+						.unableToGet(messages.openBalance()));
 			}
 
 			@Override

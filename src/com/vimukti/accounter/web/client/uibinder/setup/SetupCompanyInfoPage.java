@@ -123,11 +123,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterMessages.enterYourCompanyInfo());
+		headerLabel.setText(messages.enterYourCompanyInfo());
 
 		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
-		taxIDLabel.setText(accounterMessages.taxId());
+		taxIDLabel.setText(messages.taxId());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK) {
 		// taxIDLabel.setText(messages.vatNo());
@@ -137,22 +137,22 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		// Global.get().Account()));
 		// }
 
-		displayNameLabel.setText(accounterMessages.companyName());
-		legalNameLabel.setText(accounterMessages.legalName());
-		streetAddress2Label.setText(accounterMessages.streetAddress2());
-		streetAdreess1Label.setText(accounterMessages.streetAddress1());
-		cityLabel.setText(accounterMessages.city());
-		stateLabel.setText(accounterMessages.state());
-		zipLabel.setText(accounterMessages.zipCode());
-		countryLabel.setText(accounterMessages.country());
-		phoneLabel.setText(accounterMessages.phone());
+		displayNameLabel.setText(messages.companyName());
+		legalNameLabel.setText(messages.legalName());
+		streetAddress2Label.setText(messages.streetAddress2());
+		streetAdreess1Label.setText(messages.streetAddress1());
+		cityLabel.setText(messages.city());
+		stateLabel.setText(messages.state());
+		zipLabel.setText(messages.zipCode());
+		countryLabel.setText(messages.country());
+		phoneLabel.setText(messages.phone());
 		phone.setTitle(Accounter.messages().phoneNumberOf(
 				Accounter.messages().company()));
-		faxLabel.setText(accounterMessages.fax());
-		emailAdressLabel.setText(accounterMessages.emailId());
-		webSiteLabel.setText(accounterMessages.webSite());
+		faxLabel.setText(messages.fax());
+		emailAdressLabel.setText(messages.emailId());
+		webSiteLabel.setText(messages.webSite());
 		useFormat.setHTML("");
-		timezone.setText(accounterMessages.timezone());
+		timezone.setText(messages.timezone());
 
 		countries = CoreUtils.getCountriesAsList();
 		for (int i = 0; i < countries.size(); i++) {
@@ -363,7 +363,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			return true;
 
 		} else {
-			Accounter.showError(accounterMessages.pleaseEnter(displayNameLabel
+			Accounter.showError(messages.pleaseEnter(displayNameLabel
 					.getText()));
 			return false;
 		}
@@ -372,7 +372,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterMessages.setCompanyInfo();
+		return messages.setCompanyInfo();
 	}
 
 }

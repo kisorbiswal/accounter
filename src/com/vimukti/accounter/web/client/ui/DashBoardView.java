@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class DashBoardView extends BaseHomeView {
@@ -64,17 +63,13 @@ public class DashBoardView extends BaseHomeView {
 		//
 		// getAddableWidgets(widgetOnSectionPage);
 
-		gettingStartedPortlet = new GettingStartedPortlet(Accounter.messages()
+		gettingStartedPortlet = new GettingStartedPortlet(messages
 				.gettingStartedusingAccounter());
 
-		bankingPortlet = new BankingPortlet(Accounter.messages().bankAccount(
-				Global.get().Accounts()));
-		moneyComingPortlet = new MoneyComingPortlet(Accounter.messages()
-				.moneyComingIn());
-		moneyGoingPortlet = new MoneyGoingPortlet(Accounter.messages()
-				.moneyGoingOut());
-		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter.messages()
-				.expenseClaims());
+		bankingPortlet = new BankingPortlet(messages.bankAccount());
+		moneyComingPortlet = new MoneyComingPortlet(messages.moneyComingIn());
+		moneyGoingPortlet = new MoneyGoingPortlet(messages.moneyGoingOut());
+		expenseClaimsPortlet = new ExpenseClaimPortlet(messages.expenseClaims());
 		FlexTable fTable = new FlexTable();
 
 		fTable.setWidget(0, 0, bankingPortlet);
@@ -83,10 +78,10 @@ public class DashBoardView extends BaseHomeView {
 		fTable.setWidget(1, 0, expenseClaimsPortlet);
 
 		try {
-			bankingPortlet.getElement().getParentElement()
-					.setClassName("banking-portlet");
-			expenseClaimsPortlet.getElement().getParentElement()
-					.setClassName("expense_claim_portlet");
+			bankingPortlet.getElement().getParentElement().setClassName(
+					"banking-portlet");
+			expenseClaimsPortlet.getElement().getParentElement().setClassName(
+					"expense_claim_portlet");
 		} catch (Exception e) {
 			System.err.println("Exception :" + e);
 		}

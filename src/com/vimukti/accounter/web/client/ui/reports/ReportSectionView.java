@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -26,7 +25,7 @@ public class ReportSectionView extends BaseHomeView {
 	private VerticalPanel createControl() {
 		VerticalPanel mainLayout = new VerticalPanel();
 		BalanceSheetReport report = new BalanceSheetReport();
-//		report.setSize("80%", "80%");
+		// report.setSize("80%", "80%");
 		// report.setParentLayout(mainLayout);
 		// report.initReportType();
 		// report.generateReport(FinanceApplication.getStartDate(), new Date());
@@ -49,18 +48,18 @@ public class ReportSectionView extends BaseHomeView {
 
 		// Form for Company & Financial type reports
 
-		Label reportLabel = new Label(Accounter.messages().reports());
+		Label reportLabel = new Label(messages.reports());
 		// reportLabel.setHeight(20);
 		mainLayout.add(reportLabel);
 
-		DynamicForm companyAndFinancialForm = UIUtils.form(Accounter
-				.messages().companyAndFinancial());
+		DynamicForm companyAndFinancialForm = UIUtils.form(messages
+				.companyAndFinancial());
 		companyAndFinancialForm.setWidth("50%");
 		companyAndFinancialForm.setHeight("40%");
 		companyAndFinancialForm.setNumCols(1);
 
 		LinkItem profitAndLossLink = new LinkItem();
-		profitAndLossLink.setLinkTitle(Accounter.messages().profitAndLoss());
+		profitAndLossLink.setLinkTitle(messages.profitAndLoss());
 		profitAndLossLink.setShowTitle(false);
 		profitAndLossLink.addClickHandler(new ClickHandler() {
 
@@ -72,7 +71,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem balanceSheetLink = new LinkItem();
-		balanceSheetLink.setLinkTitle(Accounter.messages().balanceSheet());
+		balanceSheetLink.setLinkTitle(messages.balanceSheet());
 		balanceSheetLink.setShowTitle(false);
 		balanceSheetLink.addClickHandler(new ClickHandler() {
 
@@ -84,7 +83,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem cashFlowLink = new LinkItem();
-		cashFlowLink.setLinkTitle(Accounter.messages().cashFlowStatement());
+		cashFlowLink.setLinkTitle(messages.cashFlowStatement());
 		cashFlowLink.setShowTitle(false);
 		cashFlowLink.addClickHandler(new ClickHandler() {
 
@@ -97,7 +96,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem trailBalanceLink = new LinkItem();
-		trailBalanceLink.setLinkTitle(Accounter.messages().trialBalance());
+		trailBalanceLink.setLinkTitle(messages.trialBalance());
 		trailBalanceLink.setShowTitle(false);
 		trailBalanceLink.addClickHandler(new ClickHandler() {
 
@@ -109,8 +108,8 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem transactionDetailsByAccountsLink = new LinkItem();
-		transactionDetailsByAccountsLink.setLinkTitle(Accounter.messages()
-				.transactionDetailsByAccount(Global.get().account()));
+		transactionDetailsByAccountsLink.setLinkTitle(messages
+				.transactionDetailsByAccount());
 		transactionDetailsByAccountsLink.setShowTitle(false);
 		transactionDetailsByAccountsLink.addClickHandler(new ClickHandler() {
 
@@ -130,13 +129,13 @@ public class ReportSectionView extends BaseHomeView {
 
 		// Form for Sales type reports
 
-		DynamicForm salesForm = UIUtils.form(Accounter.messages().sales());
+		DynamicForm salesForm = UIUtils.form(messages.sales());
 		salesForm.setWidth("50%");
 		salesForm.setHeight("40%");
 		salesForm.setNumCols(1);
 
 		LinkItem salesByCustomerSummaryLink = new LinkItem();
-		salesByCustomerSummaryLink.setLinkTitle(Accounter.messages()
+		salesByCustomerSummaryLink.setLinkTitle(messages
 				.salesByCustomerSummary(Global.get().customer()));
 		salesByCustomerSummaryLink.setShowTitle(false);
 		salesByCustomerSummaryLink.addClickHandler(new ClickHandler() {
@@ -150,7 +149,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem salesByCustomerDetailLink = new LinkItem();
-		salesByCustomerDetailLink.setLinkTitle(Accounter.messages()
+		salesByCustomerDetailLink.setLinkTitle(messages
 				.salesByCustomerDetail(Global.get().Customer()));
 		salesByCustomerDetailLink.setShowTitle(false);
 		salesByCustomerDetailLink.addClickHandler(new ClickHandler() {
@@ -164,7 +163,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem salesByItemSummaryLink = new LinkItem();
-		salesByItemSummaryLink.setLinkTitle(Accounter.messages()
+		salesByItemSummaryLink.setLinkTitle(messages
 				.salesByItemSummary());
 		salesByItemSummaryLink.setShowTitle(false);
 		salesByItemSummaryLink.addClickHandler(new ClickHandler() {
@@ -178,7 +177,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem salesByItemDetailLink = new LinkItem();
-		salesByItemDetailLink.setLinkTitle(Accounter.messages()
+		salesByItemDetailLink.setLinkTitle(messages
 				.salesByItemDetail());
 		salesByItemDetailLink.setShowTitle(false);
 		salesByItemDetailLink.addClickHandler(new ClickHandler() {
@@ -199,14 +198,14 @@ public class ReportSectionView extends BaseHomeView {
 
 		// Form for purchase type reports
 
-		DynamicForm purchaseForm = UIUtils.form(Accounter.messages()
-				.purchase());
+		DynamicForm purchaseForm = UIUtils
+				.form(messages.purchase());
 		purchaseForm.setWidth("50%");
 		purchaseForm.setHeight("40%");
 		purchaseForm.setNumCols(1);
 
 		LinkItem purchaseBySupplierSummaryLink = new LinkItem();
-		purchaseBySupplierSummaryLink.setLinkTitle(Accounter.messages()
+		purchaseBySupplierSummaryLink.setLinkTitle(messages
 				.purchaseByVendorSummary(Global.get().vendor()));
 		purchaseBySupplierSummaryLink.setShowTitle(false);
 		purchaseBySupplierSummaryLink.addClickHandler(new ClickHandler() {
@@ -220,7 +219,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem purchaseBySupplierDetailLink = new LinkItem();
-		purchaseBySupplierDetailLink.setLinkTitle(Accounter.messages()
+		purchaseBySupplierDetailLink.setLinkTitle(messages
 				.purchaseByVendorDetail(Global.get().vendor()));
 		purchaseBySupplierDetailLink.setShowTitle(false);
 		purchaseBySupplierDetailLink.addClickHandler(new ClickHandler() {
@@ -234,7 +233,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem purchaseByItemSummaryLink = new LinkItem();
-		purchaseByItemSummaryLink.setLinkTitle(Accounter.messages()
+		purchaseByItemSummaryLink.setLinkTitle(messages
 				.purchaseByItemSummary());
 		purchaseByItemSummaryLink.setShowTitle(false);
 		purchaseByItemSummaryLink.addClickHandler(new ClickHandler() {
@@ -248,7 +247,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem purchaseByItemDetailLink = new LinkItem();
-		purchaseByItemDetailLink.setLinkTitle(Accounter.messages()
+		purchaseByItemDetailLink.setLinkTitle(messages
 				.purchaseByItemDetail());
 		purchaseByItemDetailLink.setShowTitle(false);
 		purchaseByItemDetailLink.addClickHandler(new ClickHandler() {
@@ -268,13 +267,13 @@ public class ReportSectionView extends BaseHomeView {
 
 		// Form for Other type reports
 
-		DynamicForm otherForm = UIUtils.form(Accounter.messages().other());
+		DynamicForm otherForm = UIUtils.form(messages.other());
 		otherForm.setWidth("50%");
 		otherForm.setHeight("40%");
 		otherForm.setNumCols(1);
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
-		customerTransactionHistoryLink.setLinkTitle(Accounter.messages()
+		customerTransactionHistoryLink.setLinkTitle(messages
 				.payeeTransactionHistory(Global.get().Customer()));
 		customerTransactionHistoryLink.setShowTitle(false);
 		customerTransactionHistoryLink.addClickHandler(new ClickHandler() {
@@ -288,7 +287,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem arAgingLink = new LinkItem();
-		arAgingLink.setLinkTitle(Accounter.messages().arAgeing());
+		arAgingLink.setLinkTitle(messages.arAgeing());
 		arAgingLink.setShowTitle(false);
 		arAgingLink.addClickHandler(new ClickHandler() {
 
@@ -300,7 +299,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem apAgingLink = new LinkItem();
-		apAgingLink.setLinkTitle(Accounter.messages().apAging());
+		apAgingLink.setLinkTitle(messages.apAging());
 		apAgingLink.setShowTitle(false);
 		apAgingLink.addClickHandler(new ClickHandler() {
 
@@ -314,7 +313,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem supplierTransactionHistoryLink = new LinkItem();
-		supplierTransactionHistoryLink.setLinkTitle(Accounter.messages()
+		supplierTransactionHistoryLink.setLinkTitle(messages
 				.payeeTransactionHistory(Global.get().Vendor()));
 		supplierTransactionHistoryLink.setShowTitle(false);
 		supplierTransactionHistoryLink.addClickHandler(new ClickHandler() {
@@ -328,7 +327,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem mostProfitableCustomerLink = new LinkItem();
-		mostProfitableCustomerLink.setLinkTitle(Accounter.messages()
+		mostProfitableCustomerLink.setLinkTitle(messages
 				.mostProfitableCustomer(Global.get().Customer()));
 		mostProfitableCustomerLink.setShowTitle(false);
 		mostProfitableCustomerLink.addClickHandler(new ClickHandler() {

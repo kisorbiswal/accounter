@@ -203,14 +203,14 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
-				getMessages().bankName()), getMessages().bankName(), true, true));
+		list
+				.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
+						getMessages().bankName()), getMessages().bankName(),
+						true, true));
 
-		list.add(new NumberRequirement(BANK_ACCOUNT_NUM,
-				getMessages().pleaseEnter(
-						getMessages().bankAccount(Global.get().Account())),
-				getMessages().bankAccountNumber(Global.get().Account()), true,
-				true));
+		list.add(new NumberRequirement(BANK_ACCOUNT_NUM, getMessages()
+				.pleaseEnter(getMessages().bankAccount()), getMessages()
+				.bankAccountNumber(), true, true));
 
 		list.add(new NameRequirement(BANK_BRANCH, getMessages().pleaseEnter(
 				getMessages().bankBranch()), getMessages().bankBranch(), true,
@@ -330,20 +330,23 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-				getMessages().payeeNumber(Global.get().Customer())),
-				getMessages().payeeNumber(Global.get().Customer()), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax()
-						&& context.getCompany().getCountryPreferences()
-								.isSalesTaxAvailable()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		list
+				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+						getMessages().payeeNumber(Global.get().Customer())),
+						getMessages().payeeNumber(Global.get().Customer()),
+						true, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getPreferences().isTrackTax()
+								&& context.getCompany().getCountryPreferences()
+										.isSalesTaxAvailable()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+				});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getMessages().serviceTax()), getMessages()
@@ -536,15 +539,15 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a Customer to update.");
 				return "Customers";
 			}
-			ClientPayee customerByName = CommandUtils.getPayeeByName(
-					context.getCompany(), string);
+			ClientPayee customerByName = CommandUtils.getPayeeByName(context
+					.getCompany(), string);
 			if (customerByName == null) {
 				long numberFromString = getNumberFromString(string);
 				if (numberFromString != 0) {
 					string = String.valueOf(numberFromString);
 				}
-				customerByName = CommandUtils.getCustomerByNumber(
-						context.getCompany(), string);
+				customerByName = CommandUtils.getCustomerByNumber(context
+						.getCompany(), string);
 				if (customerByName == null) {
 					addFirstMessage(context, "Select a Customer to update.");
 					return "Customers " + string.trim();

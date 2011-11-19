@@ -42,14 +42,14 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			return accRegister.getNumber();
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
-				return DataUtils.amountAsStringWithCurrency(accRegister.getAmount(),
-						currency);
+				return DataUtils.amountAsStringWithCurrency(accRegister
+						.getAmount(), currency);
 			else
 				return DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
-				return DataUtils.amountAsStringWithCurrency(-1 * accRegister.getAmount(),
-						currency);
+				return DataUtils.amountAsStringWithCurrency(-1
+						* accRegister.getAmount(), currency);
 			else
 				return DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 5:
@@ -57,8 +57,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		case 6:
 			return accRegister.getMemo();
 		case 7:
-			return DataUtils.amountAsStringWithCurrency(getBalanceValue(accRegister),
-					currency);
+			return DataUtils.amountAsStringWithCurrency(
+					getBalanceValue(accRegister), currency);
 
 		case 8:
 			if (!accRegister.isVoided())
@@ -90,13 +90,10 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().date(),
-				Accounter.messages().type(), Accounter.messages().docNo(),
-				Accounter.messages().increase(),
-				Accounter.messages().reduce(), Global.get().account(),
-				Accounter.messages().memo(),
-				Accounter.messages().currentBalance(),
-				Accounter.messages().isVoided() };
+		return new String[] { Accounter.messages().date(), messages.type(),
+				Accounter.messages().docNo(), messages.increase(),
+				messages.reduce(), messages.account(), messages.memo(),
+				messages.currentBalance(), messages.isVoided() };
 	}
 
 	@Override
@@ -186,8 +183,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 			case 6:
 				if (obj1.getMemo() != null && obj2.getMemo() != null)
-					return obj1.getMemo().toLowerCase()
-							.compareTo(obj2.getMemo().toLowerCase());
+					return obj1.getMemo().toLowerCase().compareTo(
+							obj2.getMemo().toLowerCase());
 				break;
 			case 7:
 				Double bal1 = getBalanceValue(obj1);
@@ -227,8 +224,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	protected void voidTransaction(final AccountRegister obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getTransactionId());
 	}
 
 	public AccounterCoreType getType() {

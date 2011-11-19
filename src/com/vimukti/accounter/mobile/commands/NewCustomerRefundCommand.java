@@ -103,8 +103,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CUSTOMER_REFUNDS,
-						context.getCompany()));
+						ClientTransaction.TYPE_CUSTOMER_REFUNDS, context
+								.getCompany()));
 		get(CURRENCY).setDefaultValue(null);
 		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 
@@ -190,9 +190,9 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
-		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getMessages().transferTo()),
-				getMessages().transferTo(), false, false, null) {
+		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
+				getMessages().transferTo()), getMessages().transferTo(), false,
+				false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -221,8 +221,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getMessages().bankAccount(Global.get().Account()));
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
 			}
 
 			@Override

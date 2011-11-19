@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -53,18 +52,17 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 		makeResult.add(actions);
 
 		result = accountRequirement(context, list, BANKACCOUNT, getMessages()
-				.bankAccount(Global.get().Account()),
-				new ListFilter<Account>() {
+				.bankAccount(), new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(Account e) {
-						if (e.getType() == ClientAccount.TYPE_BANK) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				});
+			@Override
+			public boolean filter(Account e) {
+				if (e.getType() == ClientAccount.TYPE_BANK) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
 
 		if (result != null) {
 			return result;

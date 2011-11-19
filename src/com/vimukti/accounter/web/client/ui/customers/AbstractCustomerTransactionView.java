@@ -298,7 +298,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Global.get().Accounts(), Accounter.messages()
+		setMenuItems(button, messages.Accounts(), messages
 				.productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
@@ -345,7 +345,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(Accounter.messages()
+		ContactCombo contactCombo = new ContactCombo(messages
 				.contact(), true);
 		contactCombo.setDisabled(true);
 		contactCombo.setHelpInformation(true);
@@ -391,7 +391,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 							.equals(contact.getDisplayName())
 					&& clientContacts.get(j).getBusinessPhone()
 							.equals(contact.getBusinessPhone())) {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(messages
 						.youHaveEnteredduplicateContacts());
 				return;
 			}
@@ -414,7 +414,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.messages()
+		AddressCombo addressCombo = new AddressCombo(messages
 				.billTo(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
@@ -505,7 +505,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public AddressCombo createShipToComboItem() {
 
-		AddressCombo shipToCombo = new AddressCombo(Accounter.messages()
+		AddressCombo shipToCombo = new AddressCombo(messages
 				.shipTo());
 		shipToCombo.setHelpInformation(true);
 		shipToCombo
@@ -557,7 +557,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			final AmountField endBalText) {
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
-				Accounter.messages().depositIn());
+				messages.depositIn());
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -585,7 +585,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected ShippingMethodsCombo createShippingMethodCombo() {
 
 		ShippingMethodsCombo shippingMethodsCombo = new ShippingMethodsCombo(
-				Accounter.messages().shippingMethod());
+				messages.shippingMethod());
 		shippingMethodsCombo.setHelpInformation(true);
 		shippingMethodsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -607,10 +607,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(Accounter.messages()
+		final DateField dateItem = new DateField(messages
 				.deliveryDate());
 		dateItem.setHelpInformation(true);
-		dateItem.setTitle(Accounter.messages().deliveryDate());
+		dateItem.setTitle(messages.deliveryDate());
 		dateItem.setColSpan(1);
 
 		dateItem.setDisabled(isInViewMode());
@@ -623,7 +623,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.messages()
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages
 				.tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
@@ -705,7 +705,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.messages()
+		AmountField amountItem = new AmountField(messages
 				.salesTax(), this, currency);
 		amountItem.setDisabled(true);
 
@@ -715,7 +715,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.messages().tax());
+		AmountLabel amountLabel = new AmountLabel(messages.tax());
 
 		return amountLabel;
 
@@ -724,7 +724,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected AmountField createTransactionTotalNonEditableItem(
 			ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.messages().total(),
+		AmountField amountItem = new AmountField(messages.total(),
 				this, currency);
 		amountItem.setDisabled(true);
 
@@ -734,7 +734,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountLabel createTransactionTotalNonEditableLabel(
 			ClientCurrency currecny) {
-		AmountLabel amountLabel = new AmountLabel(Accounter.messages()
+		AmountLabel amountLabel = new AmountLabel(messages
 				.currencyTotal(currecny.getFormalName()));
 		return amountLabel;
 
@@ -742,7 +742,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.messages().tax(),
+		AmountField amountItem = new AmountField(messages.tax(),
 				this, currency);
 		amountItem.setDisabled(true);
 
@@ -751,7 +751,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
-		AmountLabel amountLabel = new AmountLabel(Accounter.messages().tax());
+		AmountLabel amountLabel = new AmountLabel(messages.tax());
 
 		return amountLabel;
 	}
@@ -870,14 +870,14 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	// }
 	protected void onAddNew(String item) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (item.equals(Global.get().Accounts())) {
+		if (item.equals(messages.Accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			long ztaxCodeid = getPreferences().getDefaultTaxCode();
 			transactionItem
 					.setTaxCode(getCustomer() != null ? (getCustomer()
 							.getTAXCode() > 0 ? getCustomer().getTAXCode()
 							: ztaxCodeid) : ztaxCodeid);
-		} else if (item.equals(Accounter.messages().productOrServiceItem())) {
+		} else if (item.equals(messages.productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			long staxCodeid = getPreferences().getDefaultTaxCode();
 			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()

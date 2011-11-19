@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -133,13 +132,12 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		notesArea = new TextAreaItem();
 		notesArea.setWidth(100);
 		notesArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName())
-				.replace(Accounter.messages().comments(),
-						Accounter.messages().notes()));
+				this.getAction().getViewName()).replace(
+				Accounter.messages().comments(), Accounter.messages().notes()));
 		notesArea.setTitle(Accounter.messages().notes());
 
 		textAreaForm = new DynamicForm();
-//		textAreaForm.setWidth("100%");
+		// textAreaForm.setWidth("100%");
 		textAreaForm.setFields(notesArea);
 		textAreaForm.setStyleName("align-form");
 
@@ -184,7 +182,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		accountCombo.setRequired(true);
 
 		salepriceText = new AmountField(Accounter.messages()
-				.salepriceExcludingTax(), this,getBaseCurrency());
+				.salepriceExcludingTax(), this, getBaseCurrency());
 		salepriceText.setRequired(true);
 		salepriceText.setWidth(100);
 		DynamicForm detailForm = new DynamicForm();
@@ -562,7 +560,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	private DebitAccountCombo createDebitAccountCombo() {
 		DebitAccountCombo accountCombo = new DebitAccountCombo(Accounter
-				.messages().accountToDebitForSale(Global.get().Account()));
+				.messages().accountToDebitForSale());
 
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -608,7 +606,6 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		super.fitToSize(height, width);
 
 	}
-
 
 	@Override
 	public void onEdit() {

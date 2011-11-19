@@ -16,7 +16,6 @@ import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.IssuePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
@@ -116,10 +115,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AccountRequirement(ACCOUNT, getMessages()
-				.pleaseSelectPayFromAccount(
-						getMessages().bankAccount(Global.get().Account())),
-				getMessages().bankAccount(Global.get().Account()), false,
-				false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -365,7 +362,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				break;
 			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 				record.setCustomerPrepayment(entry.getTransactionId());
-				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				record
+						.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 				break;
 
 			}

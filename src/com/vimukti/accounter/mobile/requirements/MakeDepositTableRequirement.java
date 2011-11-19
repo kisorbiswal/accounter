@@ -36,15 +36,12 @@ public class MakeDepositTableRequirement extends
 		list.add(receivedFrom);
 
 		AccountRequirement account = new AccountRequirement(ACCOUNT_FROM,
-				getMessages().pleaseEnter(
-						getMessages().payeeFrom(Global.get().Account())),
-				getMessages().payeeFrom(Global.get().Account()), false, true,
-				null) {
+				getMessages().pleaseEnter(getMessages().accountFrom()),
+				getMessages().accountFrom(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().payeeFrom(Global.get().Account()));
+				return getMessages().hasSelected(getMessages().accountFrom());
 			}
 
 			@Override
@@ -70,7 +67,7 @@ public class MakeDepositTableRequirement extends
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Account());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 		};
 		list.add(account);
@@ -130,7 +127,7 @@ public class MakeDepositTableRequirement extends
 		Record record = new Record(t);
 		record.add("", getMessages().receivedFrom());
 		record.add("", getReceivedFrom(t));
-		record.add("", getMessages().payeeFrom(Global.get().Account()));
+		record.add("", getMessages().accountFrom());
 		record.add("", account == null ? "" : account.getName());
 		record.add("", getMessages().reference());
 		record.add("", t.getReference());
@@ -164,7 +161,7 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(Global.get().Accounts());
+		return getMessages().addMore(getMessages().Accounts());
 	}
 
 }

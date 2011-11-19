@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -81,7 +80,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		other = new RadioButton(messages.organisation(), messages.otherNone());
 
 		Label organizeText = new Label(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().Accounts()));
+				.howIsYourCompanyOrganizedDesc());
 		Label uninCorporated = new Label(messages.soleProprietorshipDesc());
 		Label morePartners = new Label(messages.partnershipOrLLPDesc());
 		Label lLCText = new Label(messages.LLCDesc());

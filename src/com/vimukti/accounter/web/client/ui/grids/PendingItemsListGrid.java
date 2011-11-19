@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -52,12 +51,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().item(),
-				Accounter.messages().assetNumber(), Global.get().account(),
-				Accounter.messages().purchaseDate(),
-				Accounter.messages().purchasePrice(),
-				Accounter.messages().showHistory(),
-				Accounter.messages().addNote(), "" };
+		return new String[] { messages.item(),
+				messages.assetNumber(), messages.account(),
+				messages.purchaseDate(),
+				messages.purchasePrice(),
+				messages.showHistory(),
+				messages.addNote(), "" };
 	}
 
 	/*
@@ -84,9 +83,9 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return DataUtils.amountAsStringWithCurrency(asset.getPurchasePrice(), getCompany()
 					.getPrimaryCurrency());
 		case 5:
-			return Accounter.messages().showHistory();
+			return messages.showHistory();
 		case 6:
-			return Accounter.messages().addNote();
+			return messages.addNote();
 		case 7:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -133,12 +132,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.messages().fixedAssetsPendingItemsList();
+		action.catagory = messages.fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.messages().addNote(), "");
+		noteDialog = new NoteDialog(messages.addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -226,7 +225,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	protected void validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		throw new InvalidEntryException(Accounter.messages()
+		throw new InvalidEntryException(messages
 				.pleaseenterthenote());
 
 	}

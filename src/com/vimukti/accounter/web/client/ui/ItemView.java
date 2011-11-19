@@ -143,8 +143,8 @@ public class ItemView extends BaseView<ClientItem> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab1 = new Label(Accounter.messages().newProduct());
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		Label lab1 = new Label(messages.newProduct());
+		lab1.setStyleName(messages.labelTitle());
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);
@@ -152,7 +152,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// nameText = new TextItem(FinanceApplication.messages()
 		// .itemName());
 		nameText = new TextItem(this.type == TYPE_SERVICE ? Accounter
-				.messages().serviceName() : Accounter.messages()
+				.messages().serviceName() : messages
 				.productName());
 		nameText.setValue(itemName);
 		nameText.setHelpInformation(true);
@@ -160,7 +160,7 @@ public class ItemView extends BaseView<ClientItem> {
 		nameText.setRequired(true);
 		nameText.setDisabled(isInViewMode());
 
-		// isservice = new CheckboxItem(Accounter.messages().isService());
+		// isservice = new CheckboxItem(messages.isService());
 		// isservice.setValue(true);
 		// isservice.setDisabled(true);
 		// isservice.setDisabled(isInViewMode());
@@ -174,34 +174,34 @@ public class ItemView extends BaseView<ClientItem> {
 		skuText = new TextItem();// new FormFieldItem("UPC/SKU",
 		skuText.setHelpInformation(true);
 		skuText.setWidth(100);
-		skuText.setTitle(Accounter.messages().upcsku());
+		skuText.setTitle(messages.upcsku());
 		skuText.setDisabled(isInViewMode());
 
-		weightText = new IntegerField(this, Accounter.messages().weight());
+		weightText = new IntegerField(this, messages.weight());
 		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
 		weightText.setDisabled(isInViewMode());
 		weightText.setValidators(integerRangeValidator);
-		commodityCode = new ItemGroupCombo(Accounter.messages()
+		commodityCode = new ItemGroupCombo(messages
 				.commodityCode());
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		// itemForm.setWidth("98%");
 		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
-		itemForm.setGroupTitle(Accounter.messages().item());
+		itemForm.setGroupTitle(messages.item());
 		if (isInViewMode()) {
 			this.type = data.getType();
 		}
 		if (type == ClientItem.TYPE_SERVICE) {
-			lab1.setText(Accounter.messages().newService());
+			lab1.setText(messages.newService());
 			// if (getCompany().getAccountingType() == 1)
 			// itemForm.getCellFormatter().setWidth(0, 0, "42%");
 			itemForm.setFields(nameText/* , isservice */);
 
 			// itemForm.setFields(nameText, /* isservice, */skuText);
 		} else {
-			lab1.setText(Accounter.messages().newProduct());
+			lab1.setText(messages.newProduct());
 			// if (getCompany().getAccountingType() == 1)
 			itemForm.setFields(nameText, weightText);
 			// itemForm.getCellFormatter().setWidth(0, 0, "42%");
@@ -212,16 +212,16 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
-		salesDescArea.setTitle(Accounter.messages().salesDescription());
+		salesDescArea.setTitle(messages.salesDescription());
 
 		salesDescArea.setDisabled(isInViewMode());
 
 		salesDescArea.setToolTip(Accounter
 				.messages()
 				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(Accounter.messages().comments(),
-						Accounter.messages().salesDescription()));
-		salesPriceText = new AmountField(Accounter.messages().salesPrice(),
+				.replace(messages.comments(),
+						messages.salesDescription()));
+		salesPriceText = new AmountField(messages.salesPrice(),
 				this, getBaseCurrency());
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
@@ -230,8 +230,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesPriceText.setValidators(floatRangeValidator);
 		// salesPriceText.setValidateOnChange(true);
 
-		accountCombo = new SalesItemCombo(Accounter.messages().incomeAccount(
-				Global.get().Account()));
+		accountCombo = new SalesItemCombo(messages.incomeAccount(
+				));
 		accountCombo.setHelpInformation(true);
 		accountCombo.setDisabled(isInViewMode());
 		// accountCombo.setWidth(100);
@@ -258,16 +258,16 @@ public class ItemView extends BaseView<ClientItem> {
 						}
 					}
 				});
-		itemTaxCheck = new CheckboxItem(Accounter.messages().taxable());
+		itemTaxCheck = new CheckboxItem(messages.taxable());
 		itemTaxCheck.setValue(true);
 		itemTaxCheck.setDisabled(true);
 
-		comCheck = new CheckboxItem(Accounter.messages().commissionItem());
+		comCheck = new CheckboxItem(messages.commissionItem());
 
-		salesInfoForm = UIUtils.form(Accounter.messages().salesInformation());
+		salesInfoForm = UIUtils.form(messages.salesInformation());
 		// salesInfoForm.setWidth("98%");
 
-		stdCostText = new AmountField(Accounter.messages().standardCost(),
+		stdCostText = new AmountField(messages.standardCost(),
 				this, getBaseCurrency());
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
@@ -284,7 +284,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
 		// .messages().itemGroup());
-		itemGroupCombo = new ItemGroupCombo(Accounter.messages().itemGroup());
+		itemGroupCombo = new ItemGroupCombo(messages.itemGroup());
 		itemGroupCombo.setHelpInformation(true);
 		itemGroupCombo.setDisabled(isInViewMode());
 		// itemGroupCombo.setWidth(100);
@@ -311,17 +311,17 @@ public class ItemView extends BaseView<ClientItem> {
 				selectTaxCode = selectItem;
 			}
 		});
-		taxCode.setDefaultValue(Accounter.messages().ztozeroperc());
-		activeCheck = new CheckboxItem(Accounter.messages().active());
+		taxCode.setDefaultValue(messages.ztozeroperc());
+		activeCheck = new CheckboxItem(messages.active());
 		activeCheck.setValue(true);
 		activeCheck.setDisabled(isInViewMode());
 		purchaseDescArea = new TextAreaItem();
 		purchaseDescArea.setHelpInformation(true);
 		purchaseDescArea.setWidth(100);
-		purchaseDescArea.setTitle(Accounter.messages().purchaseDescription());
+		purchaseDescArea.setTitle(messages.purchaseDescription());
 		purchaseDescArea.setDisabled(isInViewMode());
 
-		purchasePriceTxt = new AmountField(Accounter.messages()
+		purchasePriceTxt = new AmountField(messages
 				.purchasePrice(), this, getBaseCurrency());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
@@ -330,8 +330,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// purchasePriceTxt.setValidators(floatRangeValidator);
 		// purchasePriceTxt.setValidateOnChange(true);
 
-		expAccCombo = new PurchaseItemCombo(Accounter.messages()
-				.expenseAccount(Global.get().Account()));
+		expAccCombo = new PurchaseItemCombo(messages
+				.expenseAccount());
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
 		expAccCombo.setDisabled(isInViewMode());
@@ -379,8 +379,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// isellCheck = new CheckboxItem(FinanceApplication
 		// .messages().iSellThisItem());
 		isellCheck = new CheckboxItem(
-				this.type == ClientItem.TYPE_SERVICE ? Accounter.messages()
-						.isellthisservice() : Accounter.messages()
+				this.type == ClientItem.TYPE_SERVICE ? messages
+						.isellthisservice() : messages
 						.isellthisproduct());
 		isellCheck.setDisabled(isInViewMode());
 
@@ -397,8 +397,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// CheckboxItem(FinanceApplication.messages()
 		// .iBuyThisItem());
 		ibuyCheck = new CheckboxItem(
-				this.type == ClientItem.TYPE_SERVICE ? Accounter.messages()
-						.ibuythisservice() : Accounter.messages()
+				this.type == ClientItem.TYPE_SERVICE ? messages
+						.ibuythisservice() : messages
 						.ibuythisproduct());
 		// ibuyCheck.setDisabled(isGeneratedFromCustomer);
 
@@ -435,7 +435,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesInfoForm.getCellFormatter().setWidth(0, 0, "42%");
 		// salesInfoForm.getCellFormatter().setWidth(3, 0, "25%");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		itemInfoForm = UIUtils.form(Accounter.messages().itemInformation());
+		itemInfoForm = UIUtils.form(messages.itemInformation());
 		// itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
 		// itemInfoForm.setWidth("97%");
 		if (getPreferences().isTrackTax()
@@ -444,7 +444,7 @@ public class ItemView extends BaseView<ClientItem> {
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
 		// itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
-		purchaseInfoForm = UIUtils.form(Accounter.messages()
+		purchaseInfoForm = UIUtils.form(messages
 				.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
@@ -532,7 +532,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (getData() != null) {
 			nameText.setValue(data.getName());
 			name = data.getName();
-			System.out.println(name + Accounter.messages().beforesaving());
+			System.out.println(name + messages.beforesaving());
 			stdCostText.setAmount(data.getStandardCost());
 			// if (getCompany().getAccountingType() ==
 			// ClientCompany.ACCOUNTING_TYPE_US)
@@ -598,7 +598,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 	private VerticalPanel getStockPanel_2() {
 		VerticalPanel measurementPanel = new VerticalPanel();
-		measurement = new MeasurementCombo(Accounter.messages().measurement());
+		measurement = new MeasurementCombo(messages.measurement());
 		measurement.setDisabled(isInViewMode());
 
 		DynamicForm dynamicForm = new DynamicForm();
@@ -614,9 +614,9 @@ public class ItemView extends BaseView<ClientItem> {
 		VerticalPanel stockPanel = new VerticalPanel();
 		DynamicForm stockForm = new DynamicForm();
 
-		wareHouse = new WarehouseCombo(Accounter.messages().wareHouse());
+		wareHouse = new WarehouseCombo(messages.wareHouse());
 
-		openingBalTxt = new AmountField(Accounter.messages().openingBalance(),
+		openingBalTxt = new AmountField(messages.openingBalance(),
 				this, getBaseCurrency());
 		openingBalTxt.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
@@ -742,7 +742,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		// addError(this, this.type != ClientItem.TYPE_SERVICE ?
-		// Accounter.messages()
+		// messages
 		// .duplicationofProductnamearenotallowed3dots() : Accounter
 		// .messages().duplicationofServicenamearenotallowed3dots());
 		AccounterException accounterException = exception;
@@ -751,9 +751,9 @@ public class ItemView extends BaseView<ClientItem> {
 		Accounter.showError(errorString);
 
 		updateItem();
-		if (exceptionMessage.contains(Accounter.messages().failed())) {
+		if (exceptionMessage.contains(messages.failed())) {
 			data.setName(name);
-			System.out.println(name + Accounter.messages().aftersaving());
+			System.out.println(name + messages.aftersaving());
 		}
 
 	}
@@ -905,9 +905,9 @@ public class ItemView extends BaseView<ClientItem> {
 				// defaultExpAccount = getDefaultAccount(company
 				// .getUkServiceItemDefaultExpenseAccount());
 				// } else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-				defaultIncomeAccount = getDefaultAccount(Accounter.messages()
+				defaultIncomeAccount = getDefaultAccount(messages
 						.incomeandDistribution());
-				defaultExpAccount = getDefaultAccount(Accounter.messages()
+				defaultExpAccount = getDefaultAccount(messages
 						.cashDiscountTaken());
 				// }
 				selectAccount = defaultIncomeAccount;
@@ -922,9 +922,9 @@ public class ItemView extends BaseView<ClientItem> {
 				// defaultExpAccount = getDefaultAccount(company
 				// .getUkNonInventoryItemDefaultExpenseAccount());
 				// } else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-				defaultIncomeAccount = getDefaultAccount(Accounter.messages()
+				defaultIncomeAccount = getDefaultAccount(messages
 						.incomeandDistribution());
-				defaultExpAccount = getDefaultAccount(Accounter.messages()
+				defaultExpAccount = getDefaultAccount(messages
 						.cashDiscountTaken());
 
 				// }
@@ -968,7 +968,7 @@ public class ItemView extends BaseView<ClientItem> {
 		ClientItem clientItem = company.getItemByName(name);
 		if (clientItem != null
 				&& !(this.getData().getID() == clientItem.getID())) {
-			result.addError(nameText, Accounter.messages()
+			result.addError(nameText, messages
 					.anItemAlreadyExistswiththisname());
 			return result;
 		}
@@ -1112,7 +1112,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().item();
+		return messages.item();
 	}
 
 	public void setItemName(String itemName) {

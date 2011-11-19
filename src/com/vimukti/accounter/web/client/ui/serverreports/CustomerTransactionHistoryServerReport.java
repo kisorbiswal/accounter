@@ -45,7 +45,7 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				Global.get().account(), getMessages().amount() };
+				getMessages().Account(), getMessages().amount() };
 
 	}
 
@@ -222,7 +222,7 @@ public class CustomerTransactionHistoryServerReport extends
 
 		return new String[] { Global.get().customer(), getMessages().date(),
 				getMessages().type(), getMessages().noDot(),
-				Global.get().account(), getMessages().amount() };
+				getMessages().Account(), getMessages().amount() };
 
 	}
 

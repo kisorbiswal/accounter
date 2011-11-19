@@ -36,15 +36,15 @@ public class CopyBudgetDialogue extends BaseDialog {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		setWidth("400px");
 
-		selectBudget = new SelectCombo(Accounter.messages().copy()
-				+ " from existing " + Accounter.messages().budget() + " :");
+		selectBudget = new SelectCombo(messages.copy() + " from existing "
+				+ messages.budget() + " :");
 		selectBudget.setHelpInformation(true);
 
 		for (ClientBudget budget : budgetList) {
 			selectBudget.addComboItem(budget.getBudgetName());
 		}
 		if (budgetList.size() < 1) {
-			selectBudget.addComboItem(Accounter.messages().emptyValue());
+			selectBudget.addComboItem(messages.emptyValue());
 		}
 
 		selectBudget
@@ -64,8 +64,8 @@ public class CopyBudgetDialogue extends BaseDialog {
 
 				});
 
-		DynamicForm budgetInfoForm = UIUtils.form(Accounter.messages()
-				.chartOfAccountsInformation(Global.get().Account()));
+		DynamicForm budgetInfoForm = UIUtils.form(messages
+				.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
 		budgetInfoForm.setFields(selectBudget);
@@ -82,7 +82,6 @@ public class CopyBudgetDialogue extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-
 		getCallback().actionResult(budgetName);
 		return true;
 	}

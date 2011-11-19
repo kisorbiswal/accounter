@@ -15,7 +15,6 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
@@ -63,13 +62,13 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected void addRequirement(List<Requirement> list) {
 				list.add(new AccountRequirement(ACCOUNT, getMessages()
-						.pleaseEnterNameOrNumber(Global.get().Account()),
-						Global.get().Account(), false, true, null) {
+						.pleaseEnterNameOrNumber(getMessages().Account()),
+						getMessages().Account(), false, true, null) {
 
 					@Override
 					protected String getSetMessage() {
 						return getMessages()
-								.hasSelected(Global.get().Account());
+								.hasSelected(getMessages().Account());
 					}
 
 					@Override
@@ -92,7 +91,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					protected String getEmptyString() {
 						return getMessages().youDontHaveAny(
-								Global.get().Accounts());
+								getMessages().Accounts());
 					}
 				});
 
@@ -162,7 +161,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected Record createFullRecord(ClientEntry t) {
 				Record record = new Record(t);
-				record.add(Global.get().Account(),
+				record.add(getMessages().Account(),
 						((ClientAccount) CommandUtils.getClientObjectById(
 								t.getAccount(), AccounterCoreType.ACCOUNT,
 								getCompanyId())).getDisplayName());

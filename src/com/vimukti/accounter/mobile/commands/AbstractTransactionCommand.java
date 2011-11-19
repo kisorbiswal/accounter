@@ -285,23 +285,19 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			if (selection != null) {
 				if (selection.equals(QUANTITY)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, QUANTITY);
-					return amount(context,
-							getMessages()
-									.pleaseEnter(getMessages().quantity()),
-							transactionItem.getQuantity().getValue());
+					return amount(context, getMessages().pleaseEnter(
+							getMessages().quantity()), transactionItem
+							.getQuantity().getValue());
 				} else if (selection.equals(UNIT_PRICE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
-					return amount(
-							context,
-							getMessages().pleaseEnter(
-									getMessages().unitPrice()),
-							transactionItem.getUnitPrice());
+					return amount(context, getMessages().pleaseEnter(
+							getMessages().unitPrice()), transactionItem
+							.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(context,
-							getMessages()
-									.pleaseEnter(getMessages().discount()),
-							transactionItem.getDiscount());
+					return amount(context, getMessages().pleaseEnter(
+							getMessages().discount()), transactionItem
+							.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, TAXCODE);
 					return taxCode(context, null);
@@ -309,22 +305,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				} else if (selection.equals(DESCRIPTION)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, DESCRIPTION);
-					return number(
-							context,
-							getMessages().pleaseEnter(
-									getMessages().description()),
-							transactionItem.getDescription());
+					return number(context, getMessages().pleaseEnter(
+							getMessages().description()), transactionItem
+							.getDescription());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
 				if (selection == ActionNames.FINISH_ITEM) {
 					if (transactionItem.getUnitPrice() == 0) {
 						context.setAttribute(ITEM_PROPERTY_ATTR, UNIT_PRICE);
-						return amount(
-								context,
-								getMessages().pleaseEnter(
-										getMessages().unitPrice()),
-								transactionItem.getUnitPrice());
+						return amount(context, getMessages().pleaseEnter(
+								getMessages().unitPrice()), transactionItem
+								.getUnitPrice());
 					} else if (context.getCompany().getPreferences()
 							.isTrackTax()
 							&& context.getCompany().getPreferences()
@@ -363,10 +355,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			record = new Record(TAXCODE);
 			record.add("", getMessages().taxCode());
 			if (transactionItem.getTaxCode() != 0) {
-				record.add(
-						"",
-						getClientCompany().getTAXCode(
-								transactionItem.getTaxCode()).getName());
+				record.add("", getClientCompany().getTAXCode(
+						transactionItem.getTaxCode()).getName());
 			} else {
 				record.add("", "");
 			}
@@ -418,7 +408,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result transactionAccountItem(Context context,
 			ClientTransactionItem transactionItem) {
 		context.setAttribute(PROCESS_ATTR, TRANSACTION_ACCOUNT_ITEM_PROCESS);
-		context.setAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR, transactionItem);
+		context
+				.setAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR,
+						transactionItem);
 
 		String lineAttr = (String) context
 				.getAttribute(ACCOUNT_ITEM_PROPERTY_ATTR);
@@ -449,15 +441,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			if (selection != null) {
 				if (selection.equals(AMOUNT)) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, AMOUNT);
-					return amount(context,
-							getMessages().pleaseEnter(getMessages().amount()),
-							transactionItem.getUnitPrice());
+					return amount(context, getMessages().pleaseEnter(
+							getMessages().amount()), transactionItem
+							.getUnitPrice());
 				} else if (selection.equals(DISCOUNT)) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, DISCOUNT);
-					return amount(context,
-							getMessages()
-									.pleaseEnter(getMessages().discount()),
-							transactionItem.getDiscount());
+					return amount(context, getMessages().pleaseEnter(
+							getMessages().discount()), transactionItem
+							.getDiscount());
 				} else if (selection.equals(TAXCODE)) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, TAXCODE);
 					return taxCode(context, null);
@@ -466,22 +457,20 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				} else if (selection.equals(DESCRIPTION)) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR,
 							DESCRIPTION);
-					return number(
-							context,
-							getMessages().pleaseEnter(
-									getMessages().description()),
-							transactionItem.getDescription());
+					return number(context, getMessages().pleaseEnter(
+							getMessages().description()), transactionItem
+							.getDescription());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
 				if (selection == ActionNames.FINISH_ITEM) {
 					if (transactionItem.getUnitPrice() == 0) {
-						context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, AMOUNT);
-						return amount(
-								context,
-								getMessages().pleaseEnter(
-										getMessages().amount()),
-								transactionItem.getUnitPrice());
+						context
+								.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR,
+										AMOUNT);
+						return amount(context, getMessages().pleaseEnter(
+								getMessages().amount()), transactionItem
+								.getUnitPrice());
 					} else if (context.getCompany().getPreferences()
 							.isTrackTax()
 							&& context.getCompany().getPreferences()
@@ -548,12 +537,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 						.getDiscount()) / 100);
 		transactionItem.setLineTotal(lineTotal);
 		Result result = context.makeResult();
-		result.add(getMessages().payeeDetails(Global.get().Account()));
+		result.add(getMessages().payeeDetails(getMessages().Account()));
 		ClientAccount account = (ClientAccount) CommandUtils
 				.getClientObjectById(transactionItem.getAccount(),
 						AccounterCoreType.ACCOUNT, context.getCompany().getId());
 		if (account != null) {
-			result.add(getMessages().payeeName(Global.get().Account())
+			result.add(getMessages().payeeName(getMessages().Account())
 					+ account.getName());
 		}
 		double lt = transactionItem.getUnitPrice();
@@ -592,8 +581,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (selection != null)
 			if (selection == SHIP_TO) {
 				context.setAttribute(INPUT_ATTR, SHIP_TO);
-				return address(context, getMessages().shipTo(), SHIP_TO,
-						shipTo);
+				return address(context, getMessages().shipTo(), SHIP_TO, shipTo);
 			}
 		shipTo = req.getValue();
 
@@ -705,10 +693,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		int size = customerList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append(getMessages().pleaseSelect(Global.get().Customer()));
+			message
+					.append(getMessages()
+							.pleaseSelect(getMessages().Customer()));
 		}
 		CommandList commandList = new CommandList();
-		commandList.add(getMessages().create(Global.get().Customer()));
+		commandList.add(getMessages().create(getMessages().Customer()));
 
 		result.add(message.toString());
 		result.add(customerList);
@@ -741,8 +731,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		Record paymentTermRecord = new Record(PAYMENT_TERMS);
 		paymentTermRecord.add("", getMessages().paymentTerms());
-		paymentTermRecord.add("",
-				paymentTerm == null ? "" : paymentTerm.getName());
+		paymentTermRecord.add("", paymentTerm == null ? "" : paymentTerm
+				.getName());
 
 		list.add(paymentTermRecord);
 		return null;
@@ -953,11 +943,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Record createAccountRecord(Account last) {
 		Record record = new Record(last);
-		record.add("", getMessages().payeeNumber(Global.get().Account()));
+		record.add("", getMessages().payeeNumber(getMessages().Account()));
 		record.add("", last.getNumber());
-		record.add("", getMessages().payeeName(Global.get().Account()));
+		record.add("", getMessages().payeeName(getMessages().Account()));
 		record.add("", last.getName());
-		record.add("", getMessages().accountType(Global.get().Account()));
+		record.add("", getMessages().accountType());
 		record.add("", getAccountTypeString(last.getType()));
 		record.add("", getMessages().balance());
 		record.add("", last.getTotalBalance());
@@ -1081,8 +1071,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			message.append(getMessages().pleaseSelect(getMessages().payee()));
 		}
 		CommandList commandList = new CommandList();
-		commandList.add(getMessages().create(Global.get().Customer()));
-		commandList.add(getMessages().create(Global.get().Vendor()));
+		commandList.add(getMessages().create(getMessages().Customer()));
+		commandList.add(getMessages().create(getMessages().Vendor()));
 
 		result.add(message.toString());
 		result.add(payeeList);
@@ -1173,8 +1163,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		List<ClientTransactionItem> accountTransItems = transItemsReq
 				.getValue();
 		ResultList accountItems = new ResultList(ACCOUNT_ITEMS);
-		result.add(getMessages()
-				.accountTransactionItems(Global.get().Account()));
+		result.add(getMessages().accountTransactionItems());
 		for (ClientTransactionItem item : accountTransItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("", getClientCompany().getAccount(item.getAccount())
@@ -1187,7 +1176,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(accountItems);
 
 		Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
-		moreItems.add("", getMessages().addMore(Global.get().Accounts()));
+		moreItems.add("", getMessages().addMore(getMessages().Accounts()));
 		actions.add(moreItems);
 		return null;
 	}
@@ -1231,14 +1220,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add(getMessages().pleaseSelect(Global.get().Account()));
+			result.add(getMessages().pleaseSelect(getMessages().Account()));
 		} else {
-			result.add(getMessages().youDontHaveAny(Global.get().Accounts()));
+			result.add(getMessages().youDontHaveAny(getMessages().Accounts()));
 		}
 
 		result.add(list);
 		CommandList commands = new CommandList();
-		commands.add(getMessages().addMore(Global.get().Accounts()));
+		commands.add(getMessages().addMore(getMessages().Accounts()));
 		result.add(commands);
 		return result;
 	}
@@ -1393,8 +1382,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 			return openRecs;
 
-		} else if (text.equalsIgnoreCase(Accounter.messages()
-				.voided())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().voided())) {
 			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -1405,8 +1393,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 			return voidedRecs;
 
-		} else if (text.equalsIgnoreCase(Accounter.messages()
-				.overDue())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().overDue())) {
 			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -1565,8 +1552,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			lineTotal += lineTotalAmt;
 
 			if (record != null && record.isTaxable()) {
-				double taxAmount = getVATAmount(transaction,
-						record.getTaxCode(), record, isSales);
+				double taxAmount = getVATAmount(transaction, record
+						.getTaxCode(), record, isSales);
 				if (transaction.isAmountsIncludeVAT()) {
 					lineTotal -= taxAmount;
 				}
@@ -1590,8 +1577,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				// Checking the selected object is VATItem or VATGroup.
 				// If it is VATItem,the we should get 'VATRate',otherwise
 				// 'GroupRate
-				vatRate = UIUtils.getVATItemRate(
-						getClientCompany().getTAXCode(TAXCodeID), isSales);
+				vatRate = UIUtils.getVATItemRate(getClientCompany().getTAXCode(
+						TAXCodeID), isSales);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

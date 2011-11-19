@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -118,7 +117,6 @@ public class MakeDepositView extends
 	private TextItem transNumber;
 
 	// private VerticalPanel botRightPanel;
-
 
 	private boolean locationTrackingEnabled;
 
@@ -222,8 +220,7 @@ public class MakeDepositView extends
 				if (DecimalUtil.isLessThan(cashBackAmount, 0.00)
 						|| DecimalUtil.isGreaterThan(cashBackAmount,
 								calculatedTotal)) {
-					Accounter.showError(messages
-							.cashBackAmountErrorMsg());
+					Accounter.showError(messages.cashBackAmountErrorMsg());
 					cashBackAmount = 0.00;
 					// cashBackAmountText.setValue("$0.00");
 					cashBackAmountText
@@ -261,8 +258,7 @@ public class MakeDepositView extends
 		AccounterAsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<List<ClientTransactionMakeDeposit>>() {
 
 			public void onException(AccounterException caught) {
-				Accounter.showError(messages
-						.makeDepostTransationsListFailed());
+				Accounter.showError(messages.makeDepostTransationsListFailed());
 				gridView.removeAllRecords();
 			}
 
@@ -279,8 +275,7 @@ public class MakeDepositView extends
 
 				} else if (!isInViewMode()) {
 					gridView.removeAllRecords();
-					Accounter.showError(messages
-							.noDepositsToShow());
+					Accounter.showError(messages.noDepositsToShow());
 					// gridView.addEmptyMessage("No records to show");
 				}
 
@@ -361,8 +356,7 @@ public class MakeDepositView extends
 		// FIXME-- check the condition,there is no possiblity of type/account to
 		// be '0'
 		if (rec.getType() == 0 || (rec.getAccount() == 0)) {
-			Accounter.showError(Accounter.messages().pleaseChooseAnAccount(
-					Global.get().account()));
+			Accounter.showError(messages.pleaseChooseAnAccount());
 			return false;
 		}
 		return true;
@@ -400,8 +394,7 @@ public class MakeDepositView extends
 			if (DecimalUtil.isLessThan(enteredAmount, -1000000000000.00)
 					|| DecimalUtil.isGreaterThan(enteredAmount,
 							1000000000000.00)) {
-				Accounter.showError(messages
-						.amountExceedsTheLimit());
+				Accounter.showError(messages.amountExceedsTheLimit());
 				enteredAmount = 0.00;
 			} else
 				selectedRecord.setAmount(enteredAmount);
@@ -736,8 +729,7 @@ public class MakeDepositView extends
 		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 		currencyWidget = createCurrencyFactorWidget();
 
-		depositInSelect = new MakeDepositAccountCombo(messages
-				.depositIn());
+		depositInSelect = new MakeDepositAccountCombo(messages.depositIn());
 		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
 		// depositInSelect.setWidth(100);
@@ -753,8 +745,7 @@ public class MakeDepositView extends
 
 				});
 
-		depositFromSelect = new MakeDepositAccountCombo(messages
-				.depositFrom());
+		depositFromSelect = new MakeDepositAccountCombo(messages.depositFrom());
 		depositFromSelect.setHelpInformation(true);
 		depositFromSelect.setRequired(true);
 		depositFromSelect.setWidth(100);
@@ -799,8 +790,7 @@ public class MakeDepositView extends
 
 					}
 				});
-		amtText = new AmountField(messages.amount(), this,
-				getBaseCurrency());
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amtText.setDisabled(isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
 
@@ -853,8 +843,8 @@ public class MakeDepositView extends
 			}
 		});
 
-		cashBackAccountSelect = new CashBackAccountsCombo(Accounter.messages()
-				.cashBackAccount(Global.get().Account()));
+		cashBackAccountSelect = new CashBackAccountsCombo(messages
+				.cashBackAccount());
 		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
@@ -877,8 +867,8 @@ public class MakeDepositView extends
 		// form1.getCellFormatter().setWidth(0, 0, "180px");
 		form1.setWidth("70%");
 
-		cashBackAmountText = new AmountField(messages
-				.cashBackAmount(), this, getBaseCurrency());
+		cashBackAmountText = new AmountField(messages.cashBackAmount(), this,
+				getBaseCurrency());
 		cashBackAmountText.setHelpInformation(true);
 		cashBackAmountText.setWidth(100);
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
@@ -895,7 +885,7 @@ public class MakeDepositView extends
 		totalTextinBaseCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
 		totalTextInTransactionCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
-//		totalTextinBaseCurrency.setWidth("100px");
+		// totalTextinBaseCurrency.setWidth("100px");
 		totalTextinBaseCurrency.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + "0.00");
 		totalTextinBaseCurrency.setDisabled(true);
@@ -910,7 +900,7 @@ public class MakeDepositView extends
 		}
 
 		form2.addStyleName("textbold");
-//		form2.setWidth("50%");
+		// form2.setWidth("50%");
 		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -1034,8 +1024,7 @@ public class MakeDepositView extends
 		super.setData(data);
 		if (isInViewMode() && (!transaction.isMakeDeposit()))
 			try {
-				throw new Exception(messages
-						.unabletoLoadTheRequiredDeposit());
+				throw new Exception(messages.unabletoLoadTheRequiredDeposit());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1084,8 +1073,7 @@ public class MakeDepositView extends
 		// messages.invalidateTransactionDate());
 		// }
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, messages
-					.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 
 		// result.add(depoForm.validate());
@@ -1244,8 +1232,8 @@ public class MakeDepositView extends
 		// transactionObject = null;
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		
-		if(isMultiCurrencyEnabled()){
+
+		if (isMultiCurrencyEnabled()) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 	}
@@ -1428,10 +1416,9 @@ public class MakeDepositView extends
 			totalTextInTransactionCurrency.hide();
 		} else {
 			totalTextInTransactionCurrency.show();
-			totalTextInTransactionCurrency.setTitle(Accounter.messages()
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+			totalTextInTransactionCurrency.setTitle(messages
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 }

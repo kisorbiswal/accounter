@@ -144,8 +144,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -202,8 +202,10 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getMessages().phoneNumber()), getMessages().phone(), true, true));
+		list
+				.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+						getMessages().phoneNumber()), getMessages().phone(),
+						true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -235,10 +237,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(
-						getMessages().bankAccount(Global.get().Account())),
-				getMessages().bankAccount(Global.get().Account()), false,
-				false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -268,7 +268,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 
 			@Override

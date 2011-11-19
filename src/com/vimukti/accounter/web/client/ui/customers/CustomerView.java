@@ -285,37 +285,37 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			if (customer.getName().equalsIgnoreCase(old.getName())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getNumber().equals(old2.getNumber())) {
-						error = Accounter.messages()
+						error = messages
 								.objAlreadyExistsWithNameAndNo(
 										Global.get().customer());
 						break;
 					}
 				}
-				return Accounter.messages().objAlreadyExistsWithName(
+				return messages.objAlreadyExistsWithName(
 						Global.get().customer());
 			} else if (customer.getNumber().equals(old.getNumber())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getName().equalsIgnoreCase(old2.getName())) {
-						error = Accounter.messages()
+						error = messages
 								.objAlreadyExistsWithNameAndNo(
 										Global.get().customer());
 						break;
 					}
 				}
-				return Accounter.messages().objAlreadyExistsWithNumber(
+				return messages.objAlreadyExistsWithNumber(
 						Global.get().customer());
 			} else if (customer.getNumber() == null
 					|| customer.getNumber().trim().length() == 0) {
-				error = Accounter.messages()
+				error = messages
 						.pleaseEnterVendorNumberItShouldNotBeEmpty(
 								Global.get().Customer());
 				break;
 			} else if (checkIfNotNumber(customer.getNumber())) {
-				error = Accounter.messages().payeeNumberShouldBeNumber(
+				error = messages.payeeNumberShouldBeNumber(
 						Global.get().customer());
 				break;
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				error = Accounter.messages().payeeNumberShouldBePos(
+				error = messages.payeeNumberShouldBePos(
 						Global.get().customer());
 				break;
 			}
@@ -377,7 +377,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		gridView.validate(result);
 
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
-			result.addError(balanceDate, Accounter.messages().priorasOfDate());
+			result.addError(balanceDate, messages.priorasOfDate());
 		}
 		data.setName(custNameText.getValue().toString());
 
@@ -575,21 +575,21 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private VerticalPanel getGeneralTab() {
 
-		custNameText = new TextItem(Accounter.messages().payeeName(
+		custNameText = new TextItem(messages.payeeName(
 				Global.get().Customer()));
 		TextBox t = new TextBox();
 		if (quickAddText != null) {
 			custNameText.setValue(quickAddText);
 		}
 
-		custNameText.setToolTip(Accounter.messages().payeeMeaning(
+		custNameText.setToolTip(messages.payeeMeaning(
 				Global.get().customer()));
 		custNameText.setHelpInformation(true);
 		custNameText.setRequired(true);
 		// custNameText.setWidth(100);
 		custNameText.setDisabled(isInViewMode());
 
-		custNoText = new TextItem(Accounter.messages().payeeNumber(
+		custNoText = new TextItem(messages.payeeNumber(
 				Global.get().Customer()));
 		custNoText.setHelpInformation(true);
 		custNoText.setRequired(true);
@@ -626,8 +626,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
-		accInfoForm.setGroupTitle(Accounter.messages().payeeInformation(
-				Global.get().Account()));
+		accInfoForm.setGroupTitle(messages.payeeInformation(
+				messages.Account()));
 
 		balanceForm = new DynamicForm();
 
@@ -635,7 +635,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		customerSinceDate = new DateField(Accounter.messages().payeeSince(
+		customerSinceDate = new DateField(messages.payeeSince(
 				Global.get().Customer()));
 		customerSinceDate.setHelpInformation(true);
 		customerSinceDate.setDisabled(isInViewMode());
@@ -694,7 +694,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		currencyCombo.setDisabled(isInViewMode());
 		accInfoForm.setFields(statusCheck, customerSinceDate);
 		balanceForm.setFields(openingBalText, balanceDate, balanceText);
-		Label l1 = new Label(Accounter.messages().contacts());
+		Label l1 = new Label(messages.contacts());
 		addButton = new AddButton(this);
 
 		addButton.addClickHandler(new ClickHandler() {
@@ -745,7 +745,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		memoArea = new TextAreaItem();
 		// memoArea.setWidth("400px");
 		memoArea.setTitle(messages.memo());
-		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
+		memoArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()));
 		// Button addLinksButt = new Button("AddLinks");
 		// linksText = new TextItem("");
@@ -916,15 +916,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		bankAccountSelect = new TextItem(Accounter.messages().bankAccountNo(
-				Global.get().Account()));
+		bankAccountSelect = new TextItem(messages.bankAccountNo(
+				));
 		bankAccountSelect.setHelpInformation(true);
 		bankNameSelect = new TextItem(messages.bankName());
 		bankNameSelect.setHelpInformation(true);
 		bankBranchSelect = new TextItem(messages.bankBranch());
 		bankBranchSelect.setHelpInformation(true);
-		panNumberText = new TextItem(Accounter.messages().panNumber(
-				Global.get().Account()));
+		panNumberText = new TextItem(messages.panNumber(
+				));
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(messages.cstNumber());
 		cstNumberText.setHelpInformation(true);
@@ -995,7 +995,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		custGroupSelect = new CustomerGroupCombo(Accounter.messages()
+		custGroupSelect = new CustomerGroupCombo(messages
 				.payeeGroup(Global.get().Customer()));
 		custGroupSelect.setHelpInformation(true);
 		custGroupSelect
@@ -1009,7 +1009,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		vatregno = new TextItem(Accounter.messages().taxRegNo());
+		vatregno = new TextItem(messages.taxRegNo());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
 		custTaxCode = new TAXCodeCombo(messages.taxCode(), true);
@@ -1382,7 +1382,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().customer();
+		return messages.customer();
 	}
 
 	protected CurrencyComboWidget createCurrencyComboWidget() {

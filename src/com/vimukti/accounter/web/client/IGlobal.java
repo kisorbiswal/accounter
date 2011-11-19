@@ -13,10 +13,6 @@ public interface IGlobal {
 
 	public String customer();
 
-	public String Account();
-
-	public String account();
-
 	public String Vendor();
 
 	public String vendor();
@@ -24,7 +20,5 @@ public interface IGlobal {
 	public String Location();
 
 	public String toCurrencyFormat(double amount);
-
-	public String Accounts();
 
 }

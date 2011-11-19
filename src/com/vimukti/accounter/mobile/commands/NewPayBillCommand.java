@@ -164,10 +164,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(
-						getMessages().bankAccount(Global.get().Account())),
-				getMessages().bankAccount(Global.get().Account()), false,
-				false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -176,8 +174,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(
-						getMessages().bankAccount(Global.get().Account())));
+				list.add(getMessages().create(getMessages().bankAccount()));
 			}
 
 			@Override
@@ -203,8 +200,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getMessages().bankAccount(Global.get().Account()));
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
 			}
 
 			@Override

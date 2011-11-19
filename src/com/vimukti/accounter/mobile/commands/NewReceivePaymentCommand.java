@@ -105,13 +105,13 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), getMessages()
-				.depositAccount(Global.get().Account()), false, true, null) {
+				.pleaseEnterNameOrNumber(getMessages().Account()), getMessages()
+				.depositAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().depositAccount(Global.get().Account()));
+						getMessages().depositAccount());
 			}
 
 			@Override
@@ -140,7 +140,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 		});
 

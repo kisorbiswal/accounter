@@ -225,14 +225,16 @@ public class VendorView extends BaseView<ClientVendor> {
 		ClientCustomer customerByName = company.getCustomerByName(name);
 
 		if (customerByName != null) {
-			result.addError(vendorNameText, Accounter.messages()
-					.alreadyExist());
+			result
+					.addError(vendorNameText, Accounter.messages()
+							.alreadyExist());
 			return result;
 		}
 		if (vendorByName != null
 				&& !(this.getData().getID() == vendorByName.getID())) {
-			result.addError(vendorNameText, Accounter.messages()
-					.alreadyExist());
+			result
+					.addError(vendorNameText, Accounter.messages()
+							.alreadyExist());
 			return result;
 		}
 		data.setName(name);
@@ -253,8 +255,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				ClientTAXItem selectedValue = vendorTDSTaxCode
 						.getSelectedValue();
 				if (selectedValue == null) {
-					result.addError(vendorTDSTaxCode,
-							messages.pleaseSelectTDS());
+					result.addError(vendorTDSTaxCode, messages
+							.pleaseSelectTDS());
 				}
 			}
 		}
@@ -373,8 +375,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
-		accInfoForm.setGroupTitle(messages.payeeInformation(Global.get()
-				.Account()));
+		accInfoForm
+				.setGroupTitle(messages.payeeInformation(messages.Account()));
 
 		statusCheck = new CheckboxItem(messages.active());
 		statusCheck.setValue(true);
@@ -389,8 +391,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		openingBalText = new AmountField(
-				Accounter.messages().openingBalance(), this, getBaseCurrency());
+		openingBalText = new AmountField(Accounter.messages().openingBalance(),
+				this, getBaseCurrency());
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
@@ -588,7 +590,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label lab = new Label(Global.get().Vendor());
 
-		expenseAccountsSelect = new OtherAccountsCombo(Global.get().account());
+		expenseAccountsSelect = new OtherAccountsCombo(messages.account());
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -604,8 +606,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		creditLimitText.setWidth(100);
 		creditLimitText.setDisabled(isInViewMode());
 
-		preferredShippingSelect = new ShippingMethodsCombo(Accounter
-				.messages().preferredShippingMethod());
+		preferredShippingSelect = new ShippingMethodsCombo(Accounter.messages()
+				.preferredShippingMethod());
 		preferredShippingSelect.setHelpInformation(true);
 		preferredShippingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -640,7 +642,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 		payTermsSelect.setDisabled(isInViewMode());
-		accountText = new TextItem(messages.payeeNumber(Global.get().Account()));
+		accountText = new TextItem(messages.accountNumber());
 		accountText.setHelpInformation(true);
 		accountText.setDisabled(isInViewMode());
 		bankNameText = new TextItem(Accounter.messages().bankName());
@@ -724,8 +726,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		});
 		isTDS.setDisabled(isInViewMode());
-		panNumberText = new TextItem(Accounter.messages().panNumber(
-				Global.get().Account()));
+		panNumberText = new TextItem(Accounter.messages().panNumber());
 		panNumberText.setHelpInformation(true);
 		panNumberText.setWidth(100);
 		panNumberText.setDisabled(isInViewMode());
@@ -911,8 +912,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting data from General Tab
 
 		// Setting Vendor Name
-		data.setName(vendorNameText.getValue().toString() != null ? vendorNameText
-				.getValue().toString() : "");
+		data
+				.setName(vendorNameText.getValue().toString() != null ? vendorNameText
+						.getValue().toString()
+						: "");
 
 		data.setVendorNumber(vendorNoText.getValue().toString());
 
@@ -1015,8 +1018,9 @@ public class VendorView extends BaseView<ClientVendor> {
 				.getID(selectShippingMethodFromDetailsTab));
 
 		// Setting Preferred Payment Method
-		data.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
-				: preferredPaymentSelect.getSelectedValue());
+		data
+				.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
+						: preferredPaymentSelect.getSelectedValue());
 		// Setting Preferred Payment Terms
 		data.setPaymentTerms(Utility.getID(selectPaymentTermFromDetailsTab));
 
@@ -1033,14 +1037,16 @@ public class VendorView extends BaseView<ClientVendor> {
 			// }
 			if (getCountryPreferences().isServiceTaxAvailable()) {
 				if (serviceTaxRegisterationNumber.getValue() != null) {
-					data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
-							.getValue().toString());
+					data
+							.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+									.getValue().toString());
 				}
 			}
 			if (getCountryPreferences().isVatAvailable()) {
 				if (vatRegistrationNumber != null) {
 					String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
-							.getValue().toString() : "";
+							.getValue().toString()
+							: "";
 					data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
 							: null);
 				}
@@ -1219,8 +1225,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		// accountText.setValue(takenVendor.getBankAccountNo());
 
 		// Setting Balance
-		openingBalText.setAmount(getAmountInPayeeCurrency(
-				data.getOpeningBalance(), data.getCurrencyFactor()));
+		openingBalText.setAmount(getAmountInPayeeCurrency(data
+				.getOpeningBalance(), data.getCurrencyFactor()));
 		balanceText.setAmount(data.getBalance());
 
 		// Setting Balance as of

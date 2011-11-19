@@ -12,7 +12,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.web.client.Global;
 
 /**
  * 
@@ -94,7 +93,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getMessages().payeesList(Global.get().Accounts());
+				return getMessages().payeesList(getMessages().Accounts());
 			}
 
 			@Override

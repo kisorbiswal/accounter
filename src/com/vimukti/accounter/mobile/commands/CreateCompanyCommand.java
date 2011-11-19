@@ -738,10 +738,8 @@ public class CreateCompanyCommand extends AbstractCommand {
 		preferences.setOrganizationType(organizationRefer);
 		Integer customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
 		Integer supplierTerm = get(SUPPLIER_TERMINOLOGY).getValue();
-		Integer accountTerm = get(ACCOUNT_TERMINOLOGY).getValue();
 		preferences.setReferCustomers(customerTerm);
 		preferences.setReferVendors(supplierTerm);
-		preferences.setReferAccounts(accountTerm);
 		Integer servProBoth = get(SERVICE_PRODUCTS).getValue();
 		if (servProBoth == 1) {
 			preferences.setSellServices(true);

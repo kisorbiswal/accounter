@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
@@ -45,9 +44,9 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	private final int FOOTER = 25;
 	private final int BORDER = 20;
 
-	String[] dateRangeArray = { Accounter.messages().all(),
-			Accounter.messages().today(), Accounter.messages().last30Days(),
-			Accounter.messages().last45Days() };
+	String[] dateRangeArray = { messages.all(),
+			messages.today(), messages.last30Days(),
+			messages.last45Days() };
 	private List<String> listOfDateRanges;
 
 	private ClientFinanceDate endDate;
@@ -56,13 +55,13 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		super();
 		this.takenaccount = account2;
 
-		selectedDateRange = Accounter.messages().today();
-		selectedOption = Accounter.messages().all();
+		selectedDateRange = messages.today();
+		selectedOption = messages.all();
 	}
 
 	protected void createControls() {
 
-		showTransactionSelect = new SelectCombo(Accounter.messages()
+		showTransactionSelect = new SelectCombo(messages
 				.showTransactions());
 		listOfDateRanges = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -78,7 +77,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (!showTransactionSelect.getSelectedValue().equals(
-								Accounter.messages().custom()))
+								messages.custom()))
 							dateRangeChanged();
 
 					}
@@ -90,10 +89,9 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		hlayTop.add(form);
 		hlayTop.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 
-		lab1 = new Label(Accounter.messages().accountRegister(
-				Global.get().Account())
-				+ " - " + takenaccount.getName());
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1 = new Label(messages.accountRegister() + " - "
+				+ takenaccount.getName());
+		lab1.setStyleName(messages.labelTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
 		lableHpanel.add(lab1);
@@ -118,7 +116,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		gridLayout.add(grid);
 
 		totalLabel = new Label();
-		totalLabel.setText(Accounter.messages().totalEndingBalance()
+		totalLabel.setText(messages.totalEndingBalance()
 				+ DataUtils.getAmountAsString(total));
 		mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
@@ -136,31 +134,29 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
 		selectedOption = showTransactionSelect.getSelectedValue();
-		if (!selectedDateRange.equals(Accounter.messages().all())
-				&& selectedOption.equals(Accounter.messages().all())) {
+		if (!selectedDateRange.equals(messages.all())
+				&& selectedOption.equals(messages.all())) {
 			startDate = new ClientFinanceDate(0);
 			endDate = new ClientFinanceDate(0);
-			selectedDateRange = Accounter.messages().all();
+			selectedDateRange = messages.all();
 
-		} else if (!selectedDateRange.equals(Accounter.messages().today())
-				&& selectedOption.equals(Accounter.messages().today())) {
+		} else if (!selectedDateRange.equals(messages.today())
+				&& selectedOption.equals(messages.today())) {
 			startDate = todaydate;
 			endDate = todaydate;
-			selectedDateRange = Accounter.messages().today();
+			selectedDateRange = messages.today();
 
-		} else if (!selectedDateRange
-				.equals(Accounter.messages().last30Days())
-				&& selectedOption.equals(Accounter.messages().last30Days())) {
-			selectedDateRange = Accounter.messages().last30Days();
+		} else if (!selectedDateRange.equals(messages.last30Days())
+				&& selectedOption.equals(messages.last30Days())) {
+			selectedDateRange = messages.last30Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
 					.getMonth() - 1, todaydate.getDay());
 			endDate = todaydate;
 
-		} else if (!selectedDateRange
-				.equals(Accounter.messages().last45Days())
-				&& selectedOption.equals(Accounter.messages().last45Days())) {
+		} else if (!selectedDateRange.equals(messages.last45Days())
+				&& selectedOption.equals(messages.last45Days())) {
 
-			selectedDateRange = Accounter.messages().last45Days();
+			selectedDateRange = messages.last45Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
 					.getMonth() - 2, todaydate.getDay() + 16);
 			endDate = todaydate;
@@ -182,10 +178,10 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 				// this.total += accRegister.getBalance();
 			}
 			if (accountRegister.size() == 0) {
-				grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+				grid.addEmptyMessage(messages.noRecordsToShow());
 			}
 		} else {
-			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 		// grid.updateFooterValues(FinanceApplication.constants()
 		// .endingbalance(), 6);
@@ -208,9 +204,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.failedtoGetListofAccounts(
-										Global.get().Accounts(),
 										takenaccount.getName()));
 
 					}

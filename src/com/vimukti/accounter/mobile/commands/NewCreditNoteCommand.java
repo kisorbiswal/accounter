@@ -139,8 +139,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -187,8 +187,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -313,8 +313,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get("CreditNumber").setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
-						context.getCompany()));
+						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, context
+								.getCompany()));
 		get(CONTACT).setDefaultValue(null);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		get(CURRENCY).setDefaultValue(null);

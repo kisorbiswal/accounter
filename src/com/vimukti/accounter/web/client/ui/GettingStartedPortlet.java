@@ -32,19 +32,15 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// <li><a href=''><font color='green'>Create a budget</font></a> for
 		// your organisation so that you can compare with actual expenditure
 		// throughout the year.
-		accountReceivable = getAnchor(Accounter.messages().accountReceivable(
-				Global.get().Account()));
-		accountPayable = getAnchor(Accounter.messages().accountPayable(
-				Global.get().Account()));
-		banking = getAnchor(Accounter.messages().bankingTransactions());
-		expences = getAnchor(Accounter.messages().expenseClaims());
-		customer = getAnchor(Accounter.messages().payees(
-				Global.get().Customer()));
-		vendor = getAnchor(Accounter.messages().payees(Global.get().Vendor()));
-		inviteUser = getAnchor(Accounter.messages().inviteOtherUser());
-		createBankAcc = getAnchor(Accounter.messages()
-				.createanyadditionalbankaccounts(Global.get().Accounts()));
-		accounts = getAnchor(Global.get().Accounts());
+		accountReceivable = getAnchor(messages.accountReceivable());
+		accountPayable = getAnchor(messages.accountPayable());
+		banking = getAnchor(messages.bankingTransactions());
+		expences = getAnchor(messages.expenseClaims());
+		customer = getAnchor(messages.payees(Global.get().Customer()));
+		vendor = getAnchor(messages.payees(Global.get().Vendor()));
+		inviteUser = getAnchor(messages.inviteOtherUser());
+		createBankAcc = getAnchor(messages.createanyadditionalbankaccounts());
+		accounts = getAnchor(messages.Accounts());
 		// minHtml = new HTML(
 		// "<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href='http://help.accounter.com'><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li>Add "
 		// + accountReceivable
@@ -62,7 +58,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// HorizontalPanel hPanel3 = new HorizontalPanel();
 		// HorizontalPanel hPanel4 = new HorizontalPanel();
 		// HorizontalPanel hPanel5 = new HorizontalPanel();
-		allHtml = new HTML(Accounter.messages().allHTML());
+		allHtml = new HTML(messages.allHTML());
 		// hPanel1.add(new HTML("<li>Add "));
 		// if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 		// hPanel1.add(accountReceivable);
@@ -148,7 +144,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.messages().hideGettingStarted();
+		return messages.hideGettingStarted();
 	}
 
 	@Override
@@ -172,36 +168,31 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				if (title.equals(Accounter.messages().accountReceivable(
-						Global.get().Account()))) {
+				if (title.equals(messages.accountReceivable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getNewInvoiceAction().run(null, true);
-				} else if (title.equals(Accounter.messages().accountPayable(
-						Global.get().Account()))) {
+				} else if (title.equals(messages.accountPayable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getEnterBillsAction().run(null, true);
-				} else if (title.equals(Accounter.messages()
-						.bankingTransactions()))
+				} else if (title.equals(messages.bankingTransactions()))
 					ActionFactory.getChartOfAccountsAction(
 							ClientAccount.TYPE_BANK).run(null, true);
-				else if (title.equals(Accounter.messages().expenseClaims())) {
+				else if (title.equals(messages.expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getExpensesAction(null).run(null, true);
-				} else if (title.equals(Accounter.messages().payees(
-						Global.get().Customer())))
+				} else if (title.equals(messages
+						.payees(Global.get().Customer())))
 					ActionFactory.getNewCustomerAction().run(null, true);
-				else if (title.equals(Accounter.messages().payees(
-						Global.get().Vendor())))
+				else if (title.equals(messages.payees(Global.get().Vendor())))
 					ActionFactory.getNewVendorAction().run(null, true);
-				else if (title.equals(Accounter.messages().inviteOtherUser())) {
+				else if (title.equals(messages.inviteOtherUser())) {
 					if (Accounter.getUser().isCanDoUserManagement())
 						ActionFactory.getInviteUserAction().run(null, true);
-				} else if (title.equals(Accounter.messages()
-						.createanyadditionalbankaccounts(
-								Global.get().Accounts().toLowerCase()))) {
+				} else if (title.equals(messages
+						.createanyadditionalbankaccounts())) {
 					if (Accounter.getUser().canDoBanking())
 						ActionFactory.getNewBankAccountAction().run(null, true);
-				} else if (title.equals(Global.get().Accounts())) {
+				} else if (title.equals(messages.Accounts())) {
 					if (Accounter.getUser().canSeeInvoiceTransactions())
 						ActionFactory.getChartOfAccountsAction()
 								.run(null, true);

@@ -31,12 +31,10 @@ public class SalesByLocationDetailsServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", Global.get().messages().date(),
-				Global.get().messages().type(),
-				Global.get().messages().number(), Global.get().Account(),
-				Global.get().messages().prouductOrService(),
-				Global.get().messages().amount(),
-				Global.get().messages().balance() };
+		return new String[] { "", messages.date(), messages.type(),
+				messages.number(), messages.Account(),
+				messages.prouductOrService(), messages.amount(),
+				messages.balance() };
 	}
 
 	@Override
@@ -50,12 +48,10 @@ public class SalesByLocationDetailsServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Global.get().messages().date(),
-				Global.get().messages().type(),
-				Global.get().messages().number(), Global.get().Account(),
-				Global.get().messages().prouductOrService(),
-				Global.get().messages().amount(),
-				Global.get().messages().balance() };
+		return new String[] { "", messages.date(), messages.type(),
+				messages.number(), messages.Account(),
+				messages.prouductOrService(), messages.amount(),
+				messages.balance() };
 	}
 
 	@Override

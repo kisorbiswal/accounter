@@ -58,15 +58,15 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterMessages.doyouHaveEmployees());
+		headerLabel.setText(messages.doyouHaveEmployees());
 
-		w2Employees.setText(accounterMessages.wehavW2Employes());
-		contractors.setText(accounterMessages.wehavContractors());
-		trackExpenses.setText(accounterMessages.trackEmployeeExpenses());
-		trackEmployeeYes.setText(accounterMessages.yes());
-		trackEmployeeNo.setText(accounterMessages.no());
-		trackEmployeeExpenseYes.setText(accounterMessages.yes());
-		trackEmployeeExpenseNo.setText(accounterMessages.no());
+		w2Employees.setText(messages.wehavW2Employes());
+		contractors.setText(messages.wehavContractors());
+		trackExpenses.setText(messages.trackEmployeeExpenses());
+		trackEmployeeYes.setText(messages.yes());
+		trackEmployeeNo.setText(messages.no());
+		trackEmployeeExpenseYes.setText(messages.yes());
+		trackEmployeeExpenseNo.setText(messages.no());
 
 		if (!trackEmployeeExpenseYes.getValue()) {
 			// if (trackPanel.isAttached())
@@ -140,13 +140,13 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	protected boolean validate() {
 		if (trackEmployeeYes.getValue()) {
 			if (!(w2Employees.getValue() || contractors.getValue())) {
-				Accounter.showError(accounterMessages
-						.pleaseselectvalidtransactionGrid(accounterMessages
+				Accounter.showError(messages
+						.pleaseselectvalidtransactionGrid(messages
 								.employeeType()));
 				return false;
 			} else if (!(trackEmployeeExpenseYes.getValue() || trackEmployeeExpenseNo
 					.getValue())) {
-				Accounter.showError(accounterMessages.trackEmployeeExpenses());
+				Accounter.showError(messages.trackEmployeeExpenses());
 				return false;
 			} else {
 				return true;
@@ -158,6 +158,6 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterMessages.trackEmployeeExpenses();
+		return messages.trackEmployeeExpenses();
 	}
 }

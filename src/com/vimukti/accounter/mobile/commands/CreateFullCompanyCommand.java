@@ -59,38 +59,42 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		list.add(new CountryRequirement(COUNTRY, true, true, null));
 
-		list.add(new StringListRequirement(STATE, getMessages().pleaseEnter(
-				getMessages().state()), getMessages().state(), true, true,
-				null) {
+		list
+				.add(new StringListRequirement(STATE, getMessages()
+						.pleaseEnter(getMessages().state()), getMessages()
+						.state(), true, true, null) {
 
-			@Override
-			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().state());
-			}
+					@Override
+					protected String getSetMessage() {
+						return getMessages().hasSelected(getMessages().state());
+					}
 
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(getMessages().state());
-			}
+					@Override
+					protected String getSelectString() {
+						return getMessages()
+								.pleaseSelect(getMessages().state());
+					}
 
-			@Override
-			protected List<String> getLists(Context context) {
-				return getStatesList((String) get(COUNTRY).getValue());
-			}
+					@Override
+					protected List<String> getLists(Context context) {
+						return getStatesList((String) get(COUNTRY).getValue());
+					}
 
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-		});
+					@Override
+					protected String getEmptyString() {
+						return null;
+					}
+				});
 
-		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
-				getMessages().address1()), getMessages().address1(), true,
-				true));
+		list
+				.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
+						getMessages().address1()), getMessages().address1(),
+						true, true));
 
-		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
-				getMessages().address2()), getMessages().address2(), true,
-				true));
+		list
+				.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
+						getMessages().address2()), getMessages().address2(),
+						true, true));
 
 		list.add(new NameRequirement(CITY, getMessages().pleaseEnter(
 				getMessages().city()), getMessages().city(), true, true));
@@ -196,14 +200,16 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY, getMessages()
 				.pleaseEnter(
-						getMessages().payeeTerminology(getMessages().customer())),
+						getMessages()
+								.payeeTerminology(getMessages().customer())),
 				getMessages().payeeTerminology(getMessages().customer()), true,
 				true, null) {
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getMessages().payeeTerminology(getMessages().customer()));
+						getMessages()
+								.payeeTerminology(getMessages().customer()));
 			}
 
 			@Override
@@ -214,7 +220,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().payeeTerminology(getMessages().Customer()));
+						getMessages()
+								.payeeTerminology(getMessages().Customer()));
 			}
 
 			@Override
@@ -223,34 +230,38 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new StringListRequirement(SUPPLIER_TERMINOLOGY,
-				getMessages().pleaseEnter(
-						getMessages().payeeTerminology(getMessages().vendor())),
-				getMessages().payeeTerminology(getMessages().vendor()), true, true,
-				null) {
+		list
+				.add(new StringListRequirement(SUPPLIER_TERMINOLOGY,
+						getMessages().pleaseEnter(
+								getMessages().payeeTerminology(
+										getMessages().vendor())), getMessages()
+								.payeeTerminology(getMessages().vendor()),
+						true, true, null) {
 
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().payeeTerminology(getMessages().Vendor()));
-			}
+					@Override
+					protected String getSelectString() {
+						return getMessages().pleaseSelect(
+								getMessages().payeeTerminology(
+										getMessages().Vendor()));
+					}
 
-			@Override
-			protected List<String> getLists(Context context) {
-				return getSupplierTerminologies();
-			}
+					@Override
+					protected List<String> getLists(Context context) {
+						return getSupplierTerminologies();
+					}
 
-			@Override
-			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().payeeTerminology(getMessages().Vendor()));
-			}
+					@Override
+					protected String getSetMessage() {
+						return getMessages().hasSelected(
+								getMessages().payeeTerminology(
+										getMessages().Vendor()));
+					}
 
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-		});
+					@Override
+					protected String getEmptyString() {
+						return null;
+					}
+				});
 
 		list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
 				.payeeTerminology(getMessages().Account()), getMessages()
@@ -258,8 +269,10 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().payeeTerminology(getMessages().Account()));
+				return getMessages()
+						.pleaseSelect(
+								getMessages().payeeTerminology(
+										getMessages().Account()));
 			}
 
 			@Override
@@ -269,8 +282,10 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().payeeTerminology(getMessages().Account()));
+				return getMessages()
+						.hasSelected(
+								getMessages().payeeTerminology(
+										getMessages().Account()));
 			}
 
 			@Override
@@ -279,9 +294,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new StringListRequirement(SERVICE_PRODUCTS_BOTH,
-				getMessages().productAndService(), getMessages()
-						.productAndService(), true, true, null) {
+		list.add(new StringListRequirement(SERVICE_PRODUCTS_BOTH, getMessages()
+				.productAndService(), getMessages().productAndService(), true,
+				true, null) {
 
 			@Override
 			protected String getSelectString() {
@@ -426,8 +441,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new TemplateAccountRequirement(ACCOUNTS, getMessages()
-				.pleaseSelect(getMessages().account()), getMessages()
-				.account(), true, true) {
+				.pleaseSelect(getMessages().account()),
+				getMessages().account(), true, true) {
 
 			@Override
 			protected int getIndustryType() {
@@ -526,14 +541,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				organizationRefer));
 		String customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
 		String supplierTerm = get(SUPPLIER_TERMINOLOGY).getValue();
-		String accountTerm = get(ACCOUNT_TERMINOLOGY).getValue();
 
 		preferences.setReferCustomers(getCustomerTerminologies().indexOf(
 				customerTerm));
 		preferences.setReferVendors(getSupplierTerminologies().indexOf(
 				supplierTerm));
-		preferences.setReferAccounts(getAccountTerminologies().indexOf(
-				accountTerm));
 		String serviceProductBoth = get(SERVICE_PRODUCTS_BOTH).getValue();
 		Integer servProBoth = getServiceProductBothList().indexOf(
 				serviceProductBoth);

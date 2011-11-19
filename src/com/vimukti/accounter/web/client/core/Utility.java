@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -138,7 +137,7 @@ public class Utility implements IsSerializable, Serializable {
 			itemTypeName = Accounter.messages().productOrServiceItem();
 			break;
 		case ClientTransactionItem.TYPE_ACCOUNT:
-			itemTypeName = Global.get().Account();
+			itemTypeName = Accounter.messages().Account();
 			break;
 		default:
 			break;
@@ -906,9 +905,8 @@ public class Utility implements IsSerializable, Serializable {
 			numberInWords += readNumber(subString);
 		}
 		if (!rhs.equals(""))
-			numberInWords = new StringBuilder().append(numberInWords)
-					.append(" and ").append(rhs).append("/100 DOLLARS")
-					.toString();
+			numberInWords = new StringBuilder().append(numberInWords).append(
+					" and ").append(rhs).append("/100 DOLLARS").toString();
 		System.out.println(numberInWords);
 
 		return numberInWords;
@@ -1108,7 +1106,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_APPLIED);
@@ -1186,7 +1185,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_APPLIED);
@@ -1200,7 +1200,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_APPLIED);
@@ -1258,7 +1259,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_NOT_INVOICED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_INVOICED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_INVOICED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_INVOICED);
@@ -1271,7 +1273,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_NOT_RECEIVED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_RECEIVED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_RECEIVED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_RECEIVED);

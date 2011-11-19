@@ -148,8 +148,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -184,19 +184,18 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getMessages().paymentMethod()),
-				getMessages().paymentMethod(), false, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getMessages().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -234,23 +233,22 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getMessages().phoneNumber()), getMessages().phone(), true,
-				true));
+		list
+				.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+						getMessages().phoneNumber()), getMessages().phone(),
+						true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
-				.pleaseEnterNameOrNumber(
-						getMessages().depositAccount(Global.get().Account())),
-				getMessages().depositAccount(Global.get().Account()), false,
-				true, null) {
+				.pleaseEnterNameOrNumber(getMessages().depositAccount()),
+				getMessages().depositAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().depositAccount(Global.get().Account()));
+				return getMessages()
+						.hasSelected(getMessages().depositAccount());
 			}
 
 			@Override
@@ -274,7 +272,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Account());
+				return getMessages().youDontHaveAny(getMessages().Account());
 			}
 
 			@Override
@@ -285,8 +283,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, new ChangeListner<TAXCode>() {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				new ChangeListner<TAXCode>() {
 
 					@Override
 					public void onSelection(TAXCode value) {
@@ -376,8 +374,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new ShippingMethodRequirement(SHIPPING_METHODS, getMessages()
-				.pleaseEnterName(getMessages().shippingMethod()),
-				getMessages().shippingMethod(), true, true, null) {
+				.pleaseEnterName(getMessages().shippingMethod()), getMessages()
+				.shippingMethod(), true, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -390,8 +388,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().shippingMethod());
+				return getMessages()
+						.hasSelected(getMessages().shippingMethod());
 			}
 
 			@Override

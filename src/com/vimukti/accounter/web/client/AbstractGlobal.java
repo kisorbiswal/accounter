@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client;
 
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -57,51 +56,6 @@ public abstract class AbstractGlobal implements IGlobal {
 			return messages().patient().trim();
 		default:
 			return messages().customer().trim();
-		}
-	}
-
-	@Override
-	public String Account() {
-		int referCustomers = preferences().getReferAccounts();
-		switch (referCustomers) {
-		case ClientAccount.ACCOUNT:
-			return messages().Account().trim();
-		case ClientAccount.LEGAND:
-			return messages().Ledger().trim();
-		case ClientAccount.CATEGORY:
-			return messages().Category().trim();
-		default:
-			return messages().Account().trim();
-		}
-	}
-
-	@Override
-	public String Accounts() {
-		int referCustomers = preferences().getReferAccounts();
-		switch (referCustomers) {
-		case ClientAccount.ACCOUNT:
-			return messages().Accounts().trim();
-		case ClientAccount.LEGAND:
-			return messages().Ledgers().trim();
-		case ClientAccount.CATEGORY:
-			return messages().Categories().trim();
-		default:
-			return messages().Accounts().trim();
-		}
-	}
-
-	@Override
-	public String account() {
-		int referCustomers = preferences().getReferAccounts();
-		switch (referCustomers) {
-		case ClientAccount.ACCOUNT:
-			return messages().account().trim();
-		case ClientAccount.LEGAND:
-			return messages().ledger().trim();
-		case ClientAccount.CATEGORY:
-			return messages().category().trim();
-		default:
-			return messages().account().trim();
 		}
 	}
 

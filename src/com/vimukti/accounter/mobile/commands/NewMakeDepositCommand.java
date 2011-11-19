@@ -17,7 +17,6 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.MakeDepositTableRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -82,7 +81,8 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 				if (get(CURRENCY).getValue() != null) {
 					if (context.getPreferences().isEnableMultiCurrency()
 							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
+									.equals(context.getPreferences()
+											.getPrimaryCurrency())) {
 						return super.run(context, makeResult, list, actions);
 					}
 				}
@@ -92,15 +92,13 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
-				.pleaseEnterName(
-						getMessages().depositAccount(Global.get().Account())),
-				getMessages().depositAccount(Global.get().Account()), false,
-				true, null) {
+				.pleaseEnterName(getMessages().depositAccount()), getMessages()
+				.depositAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().depositAccount(Global.get().Account()));
+				return getMessages()
+						.hasSelected(getMessages().depositAccount());
 			}
 
 			@Override
@@ -113,7 +111,8 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 						public boolean filter(Account e) {
 							return e.getIsActive()
 									&& (Arrays
-											.asList(Account.TYPE_OTHER_CURRENT_ASSET,
+											.asList(
+													Account.TYPE_OTHER_CURRENT_ASSET,
 													Account.TYPE_OTHER_CURRENT_LIABILITY,
 													Account.TYPE_BANK,
 													Account.TYPE_EQUITY)
@@ -128,12 +127,12 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 		});
 
-		list.add(new MakeDepositTableRequirement(TRANSFERED_ACCOUNT, "", Global
-				.get().Accounts()));
+		list.add(new MakeDepositTableRequirement(TRANSFERED_ACCOUNT, "",
+				getMessages().Accounts()));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));

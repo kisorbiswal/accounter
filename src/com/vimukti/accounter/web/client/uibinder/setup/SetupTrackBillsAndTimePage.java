@@ -72,21 +72,20 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterMessages.managingBills());
+		headerLabel.setText(messages.managingBills());
 
 		// trackOfBillsText.setHTML(messages.doyouwantTrackTime());
 		// trackOfBillsList.setHTML(accounterMessages.trackTimeList());
-		managingList.setHTML("<ui><li>" + accounterMessages.managingList1()
-				+ "</li><li>" + accounterMessages.managingList2() + "</li><li>"
-				+ accounterMessages.managingList3() + "</li></ui>");
+		managingList.setHTML("<ui><li>" + messages.managingList1()
+				+ "</li><li>" + messages.managingList2() + "</li><li>"
+				+ messages.managingList3() + "</li></ui>");
 		// trackTimeText.setHTML(messages.doyouwantTrackBills());
-		managingYes.setText(accounterMessages.yes());
+		managingYes.setText(messages.yes());
 		// trackingTimeYes.setText(messages.yes());
-		managingNo.setText(accounterMessages.no());
+		managingNo.setText(messages.no());
 		// trackingNo.setText(messages.no());
 		// trackingTimeDes.setHTML(messages.timetrackingdescription());
-		managingInfo.setHTML(accounterMessages
-				.billstrackingdescription(accounterMessages.Accounts()));
+		managingInfo.setHTML(messages.billstrackingdescription());
 		// track_time_head.setText(accounterMessages.trackingtimehead());
 
 	}
@@ -125,17 +124,16 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	protected boolean validate() {
 		if ((!(managingYes.getValue() || managingNo.getValue()))
 		/* && (!(trackingTimeYes.getValue() || trackingNo.getValue()) */) {
-			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterMessages.details()));
+			Accounter.showError(messages.pleaseEnter(messages.details()));
 			return false;
 		} else if (!(managingYes.getValue() || managingNo.getValue())) {
-			Accounter.showMessage(accounterMessages.managingBills());
+			Accounter.showMessage(messages.managingBills());
 			return false;
 			/*
 			 * } else if (!(trackingTimeYes.getValue() ||
 			 * trackingNo.getValue())) {
-			 * Accounter.showMessage(messages.doyouwantTrackBills());
-			 * return false;
+			 * Accounter.showMessage(messages.doyouwantTrackBills()); return
+			 * false;
 			 */
 		} else {
 			return true;
@@ -144,6 +142,6 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterMessages.setBillTracking();
+		return messages.setBillTracking();
 	}
 }

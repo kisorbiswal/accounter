@@ -23,7 +23,6 @@ import com.vimukti.accounter.mobile.requirements.PayeeRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -123,15 +122,12 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		// });
 
 		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()
-				.pleaseEnterNameOrNumber(
-						getMessages().bankAccount(Global.get().Account())),
-				getMessages().bankAccount(Global.get().Account()), false, true,
-				null) {
+				.pleaseEnterNameOrNumber(getMessages().bankAccount()),
+				getMessages().bankAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().bankAccount(Global.get().Account()));
+				return getMessages().hasSelected(getMessages().bankAccount());
 			}
 
 			@Override
@@ -156,8 +152,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getMessages().bankAccount(Global.get().Account()));
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
 			}
 
 			@Override
@@ -168,8 +164,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
