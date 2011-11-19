@@ -27,7 +27,8 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 	private static final String TRANSFERED_ACCOUNT = "transferedAccount";
-	private static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
+	private static final String DEPOSIT_OR_TRANSFER_FROM = "depositOrTransferFrom";
+	private static final String DEPOSIT_OR_TRANSFER_TO = "DepositOrTransferTo";
 
 	@Override
 	public String getId() {
@@ -43,51 +44,94 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getConstants().number()), getConstants().number(), true, false));
+		//
+		// list.add(new CurrencyRequirement(CURRENCY,
+		// getMessages().pleaseSelect(
+		// getConstants().currency()), getConstants().currency(), true,
+		// true, null) {
+		// @Override
+		// public Result run(Context context, Result makeResult,
+		// ResultList list, ResultList actions) {
+		// if (context.getPreferences().isEnableMultiCurrency()) {
+		// return super.run(context, makeResult, list, actions);
+		// } else {
+		// return null;
+		// }
+		// }
+		//
+		// @Override
+		// protected List<Currency> getLists(Context context) {
+		// return new ArrayList<Currency>(context.getCompany()
+		// .getCurrencies());
+		// }
+		// });
+		//
+		// list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		// .pleaseSelect(getConstants().currency()), getConstants()
+		// .currency(), true, true) {
+		// @Override
+		// protected String getDisplayValue(Double value) {
+		// ClientCurrency primaryCurrency = getPreferences()
+		// .getPrimaryCurrency();
+		// Currency selc = get(CURRENCY).getValue();
+		// return "1 " + selc.getFormalName() + " = " + value + " "
+		// + primaryCurrency.getFormalName();
+		// }
+		//
+		// @Override
+		// public Result run(Context context, Result makeResult,
+		// ResultList list, ResultList actions) {
+		// if (get(CURRENCY).getValue() != null) {
+		// if (context.getPreferences().isEnableMultiCurrency()
+		// && !((Currency) get(CURRENCY).getValue())
+		// .equals(context.getPreferences()
+		// .getPrimaryCurrency())) {
+		// return super.run(context, makeResult, list, actions);
+		// }
+		// }
+		// return null;
+		//
+		// }
+		// });
 
-		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getConstants().currency()), getConstants().currency(), true,
+		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_FROM, getMessages()
+				.pleaseEnterName(
+						getMessages().depositAccount(Global.get().Account())),
+				getMessages().depositAccount(Global.get().Account()), false,
 				true, null) {
+
 			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (context.getPreferences().isEnableMultiCurrency()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
+			protected String getSetMessage() {
+				return getMessages().hasSelected(
+						getMessages().depositAccount(Global.get().Account()));
 			}
 
 			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
-			}
-		});
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getConstants().currency()), getConstants()
-				.currency(), true, true) {
-			@Override
-			protected String getDisplayValue(Double value) {
-				ClientCurrency primaryCurrency = getPreferences()
-						.getPrimaryCurrency();
-				Currency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency.getFormalName();
-			}
-
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (get(CURRENCY).getValue() != null) {
-					if (context.getPreferences().isEnableMultiCurrency()
-							&& !((Currency) get(CURRENCY).getValue())
-									.equals(context.getPreferences().getPrimaryCurrency())) {
-						return super.run(context, makeResult, list, actions);
+						@Override
+						public boolean filter(Account e) {
+							return e.getIsActive()
+									&& (Arrays
+											.asList(Account.TYPE_OTHER_CURRENT_ASSET,
+													Account.TYPE_OTHER_CURRENT_LIABILITY,
+													Account.TYPE_BANK,
+													Account.TYPE_EQUITY)
+											.contains(e.getType()));
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
 					}
 				}
-				return null;
+				return filteredList;
+			}
 
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(Global.get().Accounts());
 			}
 		});
 
@@ -132,8 +176,11 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new MakeDepositTableRequirement(TRANSFERED_ACCOUNT, "", Global
-				.get().Accounts()));
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getConstants().amount()), getConstants().amount(), false, true));
+		// list.add(new MakeDepositTableRequirement(TRANSFERED_ACCOUNT, "",
+		// Global
+		// .get().Accounts()));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
@@ -171,40 +218,38 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate date = get(DATE).getValue();
 		makeDeposit.setDate(date.getDate());
 
-		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
-
 		String number = get(NUMBER).getValue();
 		makeDeposit.setNumber(number);
 
-		Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
-		makeDeposit.setDepositIn(account.getID());
+		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
 
-		List<ClientTransactionMakeDeposit> list = get(TRANSFERED_ACCOUNT)
+		Account depositOrTransferToAccount = get(DEPOSIT_OR_TRANSFER_TO)
 				.getValue();
+		makeDeposit.setDepositIn(depositOrTransferToAccount.getID());
 
-		makeDeposit.setTransactionMakeDeposit(list);
+		Account depositOrTransferFromAccount = get(DEPOSIT_OR_TRANSFER_FROM)
+				.getValue();
+		makeDeposit.setDepositFrom(depositOrTransferFromAccount.getID());
 
-		makeDeposit.setCashBackAccount(0);
-		makeDeposit.setCashBackMemo("");
-		makeDeposit.setCashBackAmount(0);
+		double amount = get(AMOUNT).getValue();
+		makeDeposit.setCashBackAmount(amount);
+
+		makeDeposit.setTotal(amount);
 
 		String memo = get(MEMO).getValue();
 		makeDeposit.setMemo(memo);
-		caluclateTotals(makeDeposit);
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : list) {
-			clientTransactionMakeDeposit.setID(0);
-			clientTransactionMakeDeposit.setMakeDeposit(makeDeposit);
-		}
 
-		if (context.getPreferences().isEnableMultiCurrency()) {
-			Currency currency = get(CURRENCY).getValue();
-			if (currency != null) {
-				makeDeposit.setCurrency(currency.getID());
-			}
+		// caluclateTotals(makeDeposit);
 
-			double factor = get(CURRENCY_FACTOR).getValue();
-			makeDeposit.setCurrencyFactor(factor);
-		}
+		// if (context.getPreferences().isEnableMultiCurrency()) {
+		// Currency currency = get(CURRENCY).getValue();
+		// if (currency != null) {
+		// makeDeposit.setCurrency(currency.getID());
+		// }
+		//
+		// double factor = get(CURRENCY_FACTOR).getValue();
+		// makeDeposit.setCurrencyFactor(factor);
+		// }
 		create(makeDeposit, context);
 
 		return null;
@@ -231,8 +276,8 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue("1");
 		get(MEMO).setDefaultValue("");
-		get(CURRENCY).setDefaultValue(null);
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		// get(CURRENCY).setDefaultValue(null);
+		// get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	@Override
