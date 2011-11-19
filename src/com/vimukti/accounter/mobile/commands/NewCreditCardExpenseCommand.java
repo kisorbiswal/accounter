@@ -371,7 +371,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Credit Expense to update.");
-				return "Expenses List";
+				return "Credit Card Expenses List ,"
+						+ getConstants().creditCard();
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -382,7 +383,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 							AccounterCoreType.CREDITCARDCHARGE);
 			if (transactionByNum == null) {
 				addFirstMessage(context, "Select a Credit Expense to update.");
-				return "Expenses List " + string;
+				return "Credit Card Expenses List " + string + " ,"
+						+ getConstants().creditCard();
 			}
 			creditCardCharge = transactionByNum;
 			setValues();

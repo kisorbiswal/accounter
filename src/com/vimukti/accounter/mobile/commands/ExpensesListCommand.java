@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -21,14 +22,28 @@ import com.vimukti.accounter.web.server.FinanceTool;
  */
 public class ExpensesListCommand extends NewAbstractCommand {
 
-	protected static final String ALL = "all";
-	protected static final String CREDIT_CARD = "Creditcard";
-	protected static final String VOIDED = "voided";
-	protected static final String CASH = "cash";
 	protected static final String CURRENT_VIEW = "currentView";
+	String type = " ";
+
+	String name = "";
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+
+		String[] split = string.split(",");
+
+		if (split.length > 0) {
+			name = split[0];
+			context.setString(name);
+		}
+		if (split.length > 1) {
+			type = split[1];
+		}
+		if (type.isEmpty()) {
+			type = getConstants().all();
+		}
+		get(CURRENT_VIEW).setDefaultValue(type);
 		return null;
 	}
 
@@ -66,6 +81,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(BillsList value) {
+
 				return null;
 			}
 
@@ -105,25 +121,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<BillsList> getLists(Context context) {
-				List<BillsList> list = new ArrayList<BillsList>();
-				List<BillsList> completeList = getExpenses(context);
-				String type = ExpensesListCommand.this.get(CURRENT_VIEW)
-						.getValue();
-				for (BillsList order : completeList) {
-					if (type.equals(getConstants().all())) {
-						list.add(order);
-					}
-					if (type.equals(getConstants().cash())) {
-						list.add(order);
-					}
-					if (type.equals(getConstants().creditCard())) {
-						list.add(order);
-					}
-					if (type.equals(getConstants().voided())) {
-						list.add(order);
-					}
-				}
-				return list;
+				return filterList(context);
 			}
 
 		});
@@ -156,6 +154,54 @@ public class ExpensesListCommand extends NewAbstractCommand {
 			e.printStackTrace();
 		}
 		return null;
+
+	}
+
+	protected List<BillsList> filterList(Context context) {
+		List<BillsList> initialRecords = getExpenses(context);
+		String text = ExpensesListCommand.this.get(CURRENT_VIEW).getValue();
+		if (text.equalsIgnoreCase(getConstants().employee())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getConstants().cash())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getConstants().creditCard())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getConstants().employee())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getConstants().Voided())) {
+			List<BillsList> voidedRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if (rec.isVoided() && !rec.isDeleted()) {
+					voidedRecs.add(rec);
+				}
+			}
+			return voidedRecs;
+
+		} else if (text.equalsIgnoreCase(getConstants().all())) {
+			return initialRecords;
+		}
+		return new ArrayList<BillsList>();
 
 	}
 

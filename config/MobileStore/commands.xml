@@ -323,6 +323,8 @@
 
 	<command clazz="ExpensesListCommand" name="Expenses List">
 		<alias>Expenses Claims</alias>
+		<alias>Cash Expenses List</alias>
+		<alias>Credit Card Expenses List</alias>
 		<alias>Expenses</alias>
 	</command>
 
