@@ -19,9 +19,11 @@ import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -44,11 +46,31 @@ public class AuthenticationCommand extends Command {
 	}
 
 	@Override
+	public String getTitle() {
+		return "Login";
+	}
+
+	@Override
 	public Result run(Context context) {
+		Result makeResult = context.makeResult();
+		String name = (String) context.getAttribute("select");
+		String selection = context.getSelection("authentication");
+		if (name == null && selection == null) {
+			ResultList list = new ResultList("authentication");
+			Record record = new Record("signin");
+			record.add("", "Signin");
+			list.add(record);
+			makeResult.add(list);
+			CommandList commandList = new CommandList();
+			commandList.add("Signup");
+			makeResult.add(commandList);
+			return makeResult;
+		}
+		context.setAttribute("select", "procede");
 		int networkType = context.getNetworkType();
 		// MOBILE
 		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
-			Result makeResult = context.makeResult();
+
 			String string = context.getString();
 			if (string.isEmpty()) {
 				string = (String) context.getLast(RequirementType.STRING);
@@ -67,10 +89,7 @@ public class AuthenticationCommand extends Command {
 				}
 				if (!isDone()) {
 					context.setAttribute("input", "userName");
-					makeResult.add("Please enter email,华语/華語    or Sign1up");
-					CommandList commandList = new CommandList();
-					commandList.add("Signup");
-					makeResult.add(commandList);
+					makeResult.add("Please enter email.");
 					makeResult.setCookie(context.getNetworkId());
 					return makeResult;
 				}
@@ -103,17 +122,18 @@ public class AuthenticationCommand extends Command {
 
 			if (attribute.equals("password")) {
 				String userName = (String) context.getAttribute("userName");
+				context.setAttribute("input", "userName");
 				String password = HexUtil.bytesToHex(Security.makeHash(userName
 						+ string));
 				client = getClient(userName);
 				if (client == null || !client.getPassword().equals(password)) {
 					context.setAttribute("userName", null);
 					makeResult
-							.add("There is no account found with given Email Id and Password");
-					makeResult
-							.add("Please Enter valid Accounter Email Id. Or press Signup");
+							.add("There is no account found with given Email Id and Password.");
+					makeResult.add("Please enter valid accounter email.");
 					CommandList commandList = new CommandList();
-					commandList.add("Signup");
+					commandList.add(new UserCommand("signup",
+							"I don't have an account, create", ""));
 					makeResult.add(commandList);
 					return makeResult;
 				}
@@ -133,7 +153,6 @@ public class AuthenticationCommand extends Command {
 		// CHATTING AND CONSOLE
 		IMUser imUser = getIMUser(context.getNetworkId(),
 				context.getNetworkType());
-		Result makeResult = context.makeResult();
 		if (imUser == null) {
 			IMActivation activation = getImActivationByTocken(context
 					.getString());
@@ -150,14 +169,13 @@ public class AuthenticationCommand extends Command {
 						sendActivationMail(context.getNetworkId(),
 								client.getEmailId());
 						makeResult
-								.add("Activation code has been sent to your email Id. Enter Activation code");
+								.add("Activation code has been sent to your email Id.");
 					} else {
 						if (!context.getString().isEmpty()) {
 							makeResult
 									.add("There is no account found with given Email Id");
 						}
-						makeResult
-								.add("Enter valid Accounter Email Id. Or Signup");
+						makeResult.add("Please enter valid accounter email.");
 						CommandList commandList = new CommandList();
 						commandList.add("Signup");
 						commandList.add(new UserCommand("Signup",

@@ -41,14 +41,42 @@ public class SignupCommand extends NewCommand {
 	}
 
 	@Override
+	public String getTitle() {
+		return "Signup";
+	}
+
+	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(FIRST_NAME, "Enter First Name",
-				"First Name", false, true));
+				"First Name", false, true) {
+			@Override
+			public void setValue(Object value) {
+				String v = (String) value;
+				v.replaceFirst(String.valueOf(v.charAt(0)),
+						String.valueOf(v.charAt(0)).toUpperCase());
+				super.setValue(v);
+			}
+		});
 
 		list.add(new NameRequirement(LAST_NAME, "Enter Last Name", "Last Name",
-				false, true));
+				false, true) {
+			@Override
+			public void setValue(Object value) {
+				String v = (String) value;
+				v.replaceFirst(String.valueOf(v.charAt(0)),
+						String.valueOf(v.charAt(0)).toUpperCase());
+				super.setValue(v);
+			}
+		});
 
-		list.add(new NameRequirement(EMAIL, "Enter Email", "Email", false, true));
+		list.add(new NameRequirement(EMAIL, "Enter Email", "Email", false, true) {
+			@Override
+			public void setValue(Object value) {
+				String v = (String) value;
+				v = v.toLowerCase();
+				super.setValue(v);
+			}
+		});
 
 		list.add(new NameRequirement(PASSOWRD,
 				"Enter password. This is used to login in accounter",

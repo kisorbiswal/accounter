@@ -28,17 +28,19 @@ public class CancelCommand extends Command {
 		context.getIOSession().refreshCurrentCommand();
 		Command currentCommand = context.getIOSession().getCurrentCommand();
 		if (currentCommand != null) {
-			makeResult.add("Your Previous command has been canceled");
+			makeResult.add("Your Previous work has been canceled");
 			currentCommand.markDone();
 			context.getIOSession().refreshCurrentCommand();
 		} else {
 			makeResult.add("There is no commands to cancel.");
 		}
 
-		currentCommand = context.getIOSession().getCurrentCommand();
-		if (currentCommand == null) {
-			makeResult.add("There are no pending commands");
-		}
+		// currentCommand = context.getIOSession().getCurrentCommand();
+		// if (currentCommand != null) {
+		// makeResult.setTitle(currentCommand.getTitle());
+		// } else {
+		// makeResult.setTitle("Accounter");
+		// }
 		return makeResult;
 	}
 
