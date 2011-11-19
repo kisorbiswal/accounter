@@ -573,6 +573,7 @@
 
 	<command clazz="NewBankAccountCommand" name="New BankAccount">
 		<alias>Add BankAccount</alias>
+		<alias>New Bank Account</alias>
 		<alias>Create Bank Account</alias>
 		<alias>Edit BankAccount</alias>
 		<alias>Update BankAccount</alias>
@@ -696,6 +697,8 @@
 
 	<command clazz="NewSalesOrderCommand" name="New Sales Order">
 		<alias>New SalesOrder</alias>
+		<alias>Add Sales Order</alias>
+		<alias>Sales Order</alias>
 		<alias>Create SalesOrder</alias>
 		<alias>Create Sales Order</alias>
 	</command>
@@ -722,6 +725,7 @@
 
 	<command clazz="WriteCheckCommand" name="New WriteCheck">
 		<alias>Create Write Check</alias>
+		<alias>Write Check</alias>
 		<alias>Add Write Check</alias>
 		<alias>Update Write Check</alias>
 		<alias>Modify Write Check</alias>
