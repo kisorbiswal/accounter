@@ -3,7 +3,11 @@
 
 	<command clazz="MyCommand" name="my com">
 	</command>
+	<command clazz="LogoutCommand" name="logout">
+		<alias>Sign out</alias>
+	</command>
 	<command clazz="AuthenticationCommand" name="authenticate">
+		<alias>Signin</alias>
 	</command>
 
 	<command clazz="CancelCommand" name="Cancel">
