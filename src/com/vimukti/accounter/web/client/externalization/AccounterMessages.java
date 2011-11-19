@@ -4418,4 +4418,6 @@ public interface AccounterMessages extends Messages {
 	
 	public String taxList();
 
+	public String factorsShouldNotbeZero();
+
 }

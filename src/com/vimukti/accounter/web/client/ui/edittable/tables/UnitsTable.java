@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
@@ -120,14 +121,22 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 		} else if (defaultUnit == null) {
 			result.addError(this, Accounter.messages()
 					.pleaseSelectDefaultUnit());
-		} else if (defaultUnit.getFactor() == 0) {
-			result.addError(this, Accounter.messages()
-					.factorForDefaultUnitShouldNotbeZero());
-		} else {
+		}
+		// else if (defaultUnit.getFactor() == 0) {
+		// result.addError(this, Accounter.messages()
+		// .factorForDefaultUnitShouldNotbeZero());
+		// }
+		else {
 			for (ClientUnit unit : getRecords()) {
 				if (unit.getName() == null || unit.getName().isEmpty()) {
-					result.addError(this, Accounter.messages().pleaseEnter(
-							Accounter.messages().unitName()));
+					result.addError(
+							this,
+							Accounter.messages().pleaseEnter(
+									Accounter.messages().unitName()));
+					break;
+				} else if (DecimalUtil.isEquals(unit.getFactor(), 0)) {
+					result.addError(this, Accounter.messages()
+							.factorsShouldNotbeZero());
 					break;
 				}
 			}

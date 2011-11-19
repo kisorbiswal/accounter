@@ -535,7 +535,9 @@
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
 		<alias>Receive Payment</alias>
+		<alias>Payment Receive</alias>
 		<alias>Create ReceivePayment</alias>
+		<alias>Customer Payment</alias>
 		<alias>Create Receive Payment</alias>
 		<alias>Add ReceivePayment</alias>
 		<alias>Create Receive Payment</alias>
@@ -583,7 +585,7 @@
 	</command>
 
 	<command clazz="CustomerListCommand" name="Customers">
-		<alias>Customers List</alias>
+		<alias>Customer Lists</alias>
 	</command>
 
 	<command clazz="NewClassCommand" name="New Class">
@@ -614,6 +616,9 @@
 
 	<command clazz="InvoiceListCommand" name="Invoices List">
 		<alias>Invoices</alias>
+		<alias>Invoice Lists</alias>
+		<alias>Invoices List</alias>
+		<alias>List of all Invoices</alias>
 	</command>
 
 	<command clazz="SalesOrderListCommand" name="Sales Order List">
@@ -623,10 +628,13 @@
 	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
 		<alias>Received Payments</alias>
 		<alias>Received Payments List</alias>
+		<alias>Payments Received</alias>
+		<alias>Customer Payments</alias>
 	</command>
 
 	<command clazz="PurchaseOrderListCommand" name="Purchase Order List">
 		<alias>Purchase Orders</alias>
+		<alias>Purchase Order List</alias>
 	</command>
 
 	<command clazz="NewInviteAUserCommand" name="Invite User">
@@ -694,6 +702,7 @@
 
 	<command clazz="NewPurchaseOrderCommand" name="New Purchase Order">
 		<alias>New PurchaseOrder</alias>
+		<alias>Purchase Order</alias>
 		<alias>Create PurchaseOrder</alias>
 		<alias>Add PurchaseOrder</alias>
 		<alias>Create Purchase Order</alias>

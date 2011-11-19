@@ -433,6 +433,17 @@ public class Invoice extends Transaction implements Lifecycle {
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
+		if (this.total < 0) {
+			if (creditsAndPayments != null
+					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
+							0.0d)) {
+				creditsAndPayments.update(this);
+			} else {
+				creditsAndPayments = new CreditsAndPayments(this);
+			}
+			this.setCreditsAndPayments(creditsAndPayments);
+			session.save(creditsAndPayments);
+		}
 		doCreateEffect(session);
 		return false;
 
@@ -887,7 +898,20 @@ public class Invoice extends Transaction implements Lifecycle {
 				|| (this.isDeleted() && !invoice.isDeleted() && !this.isVoid)) {
 			doVoidEffect(session, this);
 		} else if (!invoice.equals(this)) {
+			if (this.total < 0) {
+				if (this.creditsAndPayments != null) {
+					session.delete(creditsAndPayments);
+				}
+				creditsAndPayments = new CreditsAndPayments(this);
 
+				this.setCreditsAndPayments(creditsAndPayments);
+				session.save(creditsAndPayments);
+			} else if (this.creditsAndPayments != null) {
+				this.creditsAndPayments.transaction = null;
+				this.creditsAndPayments.payee = null;
+				this.creditsAndPayments = null;
+				session.delete(invoice.creditsAndPayments);
+			}
 			this.cleanTransactionitems(this);
 			if (!this.customer.equals(invoice.customer)) {
 				doVoidEffect(session, invoice);
@@ -899,12 +923,12 @@ public class Invoice extends Transaction implements Lifecycle {
 				return;
 			}
 			if (!DecimalUtil.isEquals(this.total, invoice.total)) {
-				if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
-					Customer customer = (Customer) session.get(Customer.class,
-							invoice.customer.id);
-					customer.updateBalance(session, this, invoice.total);
-					this.customer.updateBalance(session, this, -this.total);
-				}
+				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
+				Customer customer = (Customer) session.get(Customer.class,
+						invoice.customer.id);
+				customer.updateBalance(session, this, invoice.total);
+				this.customer.updateBalance(session, this, -this.total);
+				// }
 			}
 			this.updateTransactionReceivepayments();
 			doUpdateEffectEstiamtes(this, invoice, session);

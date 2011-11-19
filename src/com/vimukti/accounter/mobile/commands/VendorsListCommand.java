@@ -58,6 +58,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 			protected Record createRecord(PayeeList value) {
 				Record record = new Record(value);
 				record.add("", value.getPayeeName());
+				record.add("", value.getBalance());
 				return record;
 			}
 

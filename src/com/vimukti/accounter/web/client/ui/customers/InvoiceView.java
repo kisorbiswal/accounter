@@ -814,7 +814,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
-
+		transaction.setEstimates(new ArrayList<ClientEstimate>());
+		transaction.setSalesOrders(new ArrayList<ClientSalesOrder>());
 		getEstimatesAndSalesOrder();
 
 	}
@@ -1258,6 +1259,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		ClientCustomer previousCustomer = getCustomer();
 
 		if (getCustomer() != null && getCustomer() != previousCustomer) {
+			transaction.setEstimates(new ArrayList<ClientEstimate>());
+			transaction.setSalesOrders(new ArrayList<ClientSalesOrder>());
 			getEstimatesAndSalesOrder();
 		}
 		// result.add(super.validate());
