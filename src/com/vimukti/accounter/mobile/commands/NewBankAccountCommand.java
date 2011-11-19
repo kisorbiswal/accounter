@@ -131,11 +131,12 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
-		if (string.isEmpty()) {
-			if (!isUpdate) {
-				bankAccount = new ClientBankAccount();
-				return null;
+		if (!isUpdate) {
+			bankAccount = new ClientBankAccount();
+			if (!string.isEmpty()) {
+				get(ACCOUNT_TYPE).setValue(string);
 			}
+			return null;
 		}
 
 		bankAccount = (ClientBankAccount) CommandUtils.getAccountByName(
