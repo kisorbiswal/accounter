@@ -425,6 +425,8 @@
 
 	<command clazz="NewCreditCardExpenseCommand" name="New CreditCardExpense">
 		<alias>New CreditCard Expense</alias>
+		<alias>CreditCard Expense</alias>
+		<alias>Credit Card Expense</alias>
 		<alias>New Credit Card Expense</alias>
 		<alias>Add Credit Card Expense</alias>
 		<alias>Edit Credit Card Expense</alias>
