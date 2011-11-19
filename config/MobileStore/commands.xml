@@ -419,7 +419,7 @@
 
 	<command clazz="NewCreditCardExpenseCommand" name="New CreditCardExpense">
 		<alias>New CreditCard Expense</alias>
-		<alias>Credit Card Expense</alias>
+		<alias>New Credit Card Expense</alias>
 		<alias>Add Credit Card Expense</alias>
 		<alias>Edit Credit Card Expense</alias>
 		<alias>Modify Credit Card Expense</alias>
@@ -439,6 +439,7 @@
 	</command>
 	<command clazz="NewCashExpenseCommand" name="New CashExpense">
 		<alias>Add Cash Expense</alias>
+		<alias>New Cash Expense</alias>
 		<alias>Cash Expense</alias>
 		<alias>Edit Cash Expense</alias>
 		<alias>Update Cash Expense</alias>
@@ -478,7 +479,7 @@
 		<alias>Add Supplier Credit Memo</alias>
 		<alias>Create Supplier Credit Memo</alias>
 		<alias>Create Vendor Credit</alias>
-		<alias>Vedor Credit</alias>
+		<alias>Vendor Credit</alias>
 	</command>
 
 	<command clazz="NewShippingMethodCommand" name="New Shipping Method">
@@ -725,6 +726,7 @@
 
 	<command clazz="WriteCheckCommand" name="New WriteCheck">
 		<alias>Create Write Check</alias>
+		<alias>New Check</alias>
 		<alias>Write Check</alias>
 		<alias>Add Write Check</alias>
 		<alias>Update Write Check</alias>

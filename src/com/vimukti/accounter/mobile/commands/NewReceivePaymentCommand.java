@@ -163,7 +163,12 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected List<String> getLists(Context context) {
 				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().check() };
+						getConstants().cash(), getConstants().creditCard(),
+						getConstants().check(), getConstants().directDebit(),
+						getConstants().masterCard(),
+						getConstants().onlineBanking(),
+						getConstants().standingOrder(),
+						getConstants().switchMaestro() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
