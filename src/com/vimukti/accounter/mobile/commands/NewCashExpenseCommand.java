@@ -300,27 +300,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
-		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
-		allrecords.addAll(items);
-		allrecords.addAll(accounts);
-		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			TAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : allrecords) {
-				if (taxCode != null) {
-					item.setTaxCode(taxCode.getID());
-				}
-			}
-		}
-
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		double[] result = getTransactionTotal(context, isVatInclusive,
-				allrecords, true);
-		makeResult.add("Net Amount: " + result[0]);
-		if (context.getPreferences().isTrackTax()) {
-			makeResult.add("Total Tax: " + result[1]);
-		}
-		makeResult.add("Total: " + (result[0] + result[1]));
+		super.beforeFinishing(context, makeResult);
 	}
 
 	@Override

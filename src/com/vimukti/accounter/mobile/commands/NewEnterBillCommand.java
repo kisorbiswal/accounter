@@ -367,6 +367,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
+		super.beforeFinishing(context, makeResult);
 	}
 
 	@Override

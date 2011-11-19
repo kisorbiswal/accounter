@@ -471,14 +471,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
-		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
-		allrecords.addAll(items);
-		allrecords.addAll(accounts);
-		double[] result = getTransactionTotal(context, false, allrecords, true);
-		makeResult.add("Net Amount: " + result[0]);
-		if (context.getPreferences().isTrackTax()) {
-			makeResult.add("Total Tax: " + result[1]);
-		}
-		makeResult.add("Total: " + (result[0] + result[1]));
+		super.beforeFinishing(context, makeResult);
 	}
 }

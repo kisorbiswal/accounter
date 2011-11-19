@@ -322,35 +322,6 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 	}
 
 	@Override
-	public void beforeFinishing(Context context, Result makeResult) {
-		// TODO
-		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
-		List<ClientTransactionItem> itemRecords = get(ITEMS).getValue();
-		allrecords.addAll(itemRecords);
-		List<ClientTransactionItem> accountItems = get(ACCOUNTS).getValue();
-		for (ClientTransactionItem clientTransactionItem : accountItems) {
-			allrecords.add(clientTransactionItem);
-		}
-		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			TAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : allrecords) {
-				if (taxCode != null) {
-					item.setTaxCode(taxCode.getID());
-				}
-			}
-		}
-
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		double[] result = getTransactionTotal(context, isVatInclusive,
-				allrecords, true);
-		if (context.getPreferences().isTrackTax()) {
-			makeResult.add("Total Tax: " + result[1]);
-		}
-		makeResult.add("Total: " + (result[0] + result[1]));
-	}
-
-	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientCompanyPreferences preferences = context.getPreferences();
 		creditMemo.setType(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);

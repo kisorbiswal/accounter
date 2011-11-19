@@ -336,29 +336,6 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	}
 
 	@Override
-	public void beforeFinishing(Context context, Result makeResult) {
-		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
-		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			TAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : allrecords) {
-				if (taxCode != null) {
-					item.setTaxCode(taxCode.getID());
-				}
-			}
-		}
-
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		double[] result = getTransactionTotal(context, isVatInclusive,
-				allrecords, true);
-		makeResult.add("Net Amount: " + result[0]);
-		if (context.getPreferences().isTrackTax()) {
-			makeResult.add("Total Tax: " + result[1]);
-		}
-		makeResult.add("Total: " + (result[0] + result[1]));
-	}
-
-	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 
 		if (isUpdate) {
