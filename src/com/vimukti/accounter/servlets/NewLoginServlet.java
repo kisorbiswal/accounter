@@ -19,13 +19,11 @@ import org.hibernate.Transaction;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
-import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.News;
 import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 
 public class NewLoginServlet extends BaseServlet {
@@ -47,7 +45,7 @@ public class NewLoginServlet extends BaseServlet {
 		try {
 			transaction = session.beginTransaction();
 			Client client = doLogin(request, response);
-			if (client != null) {
+			if (client != null && !client.isDeleted()) {
 				// if valid credentials are there we redirect to <dest> param or
 				// /companies
 
@@ -163,6 +161,7 @@ public class NewLoginServlet extends BaseServlet {
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession(true);
 
+		String parameter = request.getParameter("message");
 		String activationType = (String) httpSession
 				.getAttribute(ACTIVATION_TYPE);
 		if (activationType != null && activationType.equals("resetpassword")) {
@@ -224,7 +223,7 @@ public class NewLoginServlet extends BaseServlet {
 				query.setParameter(EMAIL_ID, emailID);
 
 				Client client = (Client) query.uniqueResult();
-				if (client != null) {
+				if (client != null && !client.isDeleted()) {
 					if (client.isActive()) {
 						if (client.isRequirePasswordReset()) {
 							// If session is there and he has to reset the
@@ -252,33 +251,35 @@ public class NewLoginServlet extends BaseServlet {
 						// not activated so resend the activation mail
 						// Generate Token and create Activation and save. then
 						// send
-//						String token = SecureUtils.createID();
-//
-//						// get activation object by email id
-//
-//						query = session
-//								.getNamedQuery("get.activation.by.emailid");
-//						query.setParameter(EMAIL_ID, emailID);
-//						Activation activation = (Activation) query
-//								.uniqueResult();
-//						Transaction transaction = session.beginTransaction();
-//						// reset the activation code and save it
-//						activation.setToken(token);
-//						try {
-//							saveEntry(activation);
-//
-//							// resend activation mail
-//							sendActivationEmail(token, client);
-//							transaction.commit();
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//							transaction.rollback();
-//						}
-						String message = "?message="+ACT_FROM_RESET;
-						redirectExternal(request, response,
-								ACTIVATION_URL+ message);
+						// String token = SecureUtils.createID();
+						//
+						// // get activation object by email id
+						//
+						// query = session
+						// .getNamedQuery("get.activation.by.emailid");
+						// query.setParameter(EMAIL_ID, emailID);
+						// Activation activation = (Activation) query
+						// .uniqueResult();
+						// Transaction transaction = session.beginTransaction();
+						// // reset the activation code and save it
+						// activation.setToken(token);
+						// try {
+						// saveEntry(activation);
+						//
+						// // resend activation mail
+						// sendActivationEmail(token, client);
+						// transaction.commit();
+						// } catch (Exception e) {
+						// e.printStackTrace();
+						// transaction.rollback();
+						// }
+						String message = "?message=" + ACT_FROM_RESET;
+						redirectExternal(request, response, ACTIVATION_URL
+								+ message);
 						return;
 					}
+				} else {
+					showLogin(request, response);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

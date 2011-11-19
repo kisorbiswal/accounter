@@ -1893,11 +1893,16 @@
 	<class name="MaintananceInfoUser" table="MAINTANANCE_USER">
 		<id name="userEmail" column="USER_EMAIL"></id>
 	</class>
+	
+	<class name="DeleteReason" table="DELETE_REASON">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="deletedDate" column="DELETED_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="emailID" column="EMAIL_ID"></property>
+		<property name="reason" column="REASON" type="text"></property>
 
-	<!--<class name="DeleteReason" table="DELETE_REASON"> <id name="id" column="ID"> 
-		<generator class="identity" /> </id> <property name="deletedDate" column="TIME_STAMP"></property> 
-		<property name="emailID" column="EMAIL_ID"></property> <property name="reason" 
-		column="REASON"></property> </class> -->
-
+	</class>
+	
 </hibernate-mapping>
 

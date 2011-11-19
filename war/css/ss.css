@@ -967,5 +967,12 @@ a#fdbk_tab:hover {
 	width:48px;
 	height:48px;
 }
+.delete-account-description{
+	height: 100px;
+    width: 280px;
+}
+.delete-account-options input[type="checkbox"]{
+	margin:5px;
+}
 
 /* End of the new Login and forgot password page*/

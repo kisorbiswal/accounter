@@ -30,6 +30,7 @@ public class CompaniesServlet extends BaseServlet {
 
 	private static final String DELETE_SUCCESS = "Your company is deleted successfully.";
 	private static final String DELETE_FAIL = "Company Deletion failed.";
+	private static final String ACCOUNT_DELETE_FAIL = "Account Deletion failed.";
 	private static final String MIGRATION_VIEW = "/WEB-INF/companyMigration.jsp";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
@@ -167,6 +168,14 @@ public class CompaniesServlet extends BaseServlet {
 			}
 			httpSession.removeAttribute("DeletionFailureMessage");
 			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
+		}
+
+		String accountDeleteStatus = (String) httpSession
+				.getAttribute(ACCOUNT_DELETION_STATUS);
+		if (accountDeleteStatus != null) {
+			req.setAttribute("message", ACCOUNT_DELETE_FAIL);
+			httpSession.removeAttribute("DeletionFailureMessage");
+			httpSession.removeAttribute(ACCOUNT_DELETION_STATUS);
 		}
 
 	}

@@ -25,6 +25,7 @@ public class Client {
 	private boolean isRequirePasswordReset = false;
 	private int loginCount;
 	private long lastLoginTime;
+	private boolean isDeleted;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -168,6 +169,14 @@ public class Client {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }
