@@ -7,7 +7,6 @@ public class Gibraltar extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -19,7 +19,6 @@ public class Portugal extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

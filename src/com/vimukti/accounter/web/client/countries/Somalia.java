@@ -3,32 +3,31 @@ package com.vimukti.accounter.web.client.countries;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Angola extends AbstractCountryPreferences {
+public class Somalia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Bengo", "Benguela", "Bie", "Cabinda",
-				"Cuando-Cubango", "Cuanza-Norte", "Cuanza-Sul", "Cunene",
-				"Huambo", "Huila", "Luanda", "Lunda Norte", "Lunda Sul",
-				"Malanje", "Moxico", "Namibe", "Uige", "Zaire" };
+		String[] states = { "Awdaal", "Baakool", "Baarii", "Baay", "Banaadir",
+				"Gaalguuduud", "Gedoo", "Hiiraan", "Jubbada Dhexe",
+				"Jubbada Hoose", "Mudug", "Nuugaal", "Sanaag",
+				"Shabeellaha Dhexe", "Shabeellaha Hoose", "Sool", "Togdeer",
+				"Woqooyi Galbeed" };
 		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		return "AOK";
+		return "SOS";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-
 		return Accounter.constants().january();
 	}
-
+	
 }

@@ -15,7 +15,6 @@ public class Australia extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-
 		return "AUD";
 	}
 

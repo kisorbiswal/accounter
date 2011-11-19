@@ -1944,7 +1944,7 @@ public class CoreUtils {
 			new ClientCurrency("Tajikistani Somoni", "TJS", "somoni"),
 			new ClientCurrency("Tanzanian Shilling", "TZS", "x/y"),
 			new ClientCurrency("Thai Baht", "THB", "฿"),
-			new ClientCurrency("Tongan Pa?anga", "TOP", ""),
+			new ClientCurrency("Tongan Pa?anga", "TOP", "T$"),
 			new ClientCurrency("TrinidadandTobago Dollar", "TTD", "TT$"),
 			new ClientCurrency("Tunisian Dinar", "TND", "DT"),
 			new ClientCurrency("Turkmenistani Manat", "TMT", "m"),
@@ -1968,7 +1968,8 @@ public class CoreUtils {
 			new ClientCurrency("Swedish Krona", "SEK", "kr"),
 			new ClientCurrency("Czech koruna", "CZK", "Kč"),
 			new ClientCurrency("West African CFA franc", "XOF", "Kč"),
-			new ClientCurrency("Macanese pataca", "MOP", "MOP$") };
+			new ClientCurrency("Macanese pataca", "MOP", "MOP$"),
+			new ClientCurrency("Sudanese pound", "SDG", "SDP") };
 
 	/*
 	 * private static String[] currencyNames = new String[] {
