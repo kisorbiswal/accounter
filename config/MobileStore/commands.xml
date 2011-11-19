@@ -468,6 +468,7 @@
 		<alias>Location</alias>
 		<alias>Create Location</alias>
 		<alias>Update Location</alias>
+		<alias>New Location</alias>
 		<alias>Edit Location</alias>
 		<alias>Modify Location</alias>
 	</command>
