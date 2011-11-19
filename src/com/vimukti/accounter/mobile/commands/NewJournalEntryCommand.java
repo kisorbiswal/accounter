@@ -21,6 +21,8 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
@@ -209,8 +211,19 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		double totalDebits = 0;
 		double totalCredits = 0;
+		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 		List<ClientEntry> transItems = get(VOUCHER).getValue();
 		for (ClientEntry item : transItems) {
+			ClientTransactionItem transactionItem = new ClientTransactionItem();
+			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
+			transactionItem.setAccount(item.getAccount());
+			if (item.getCredit() != 0.0) {
+				transactionItem.setLineTotal(-item.getCredit());
+			} else if (item.getDebit() != 0.0) {
+				transactionItem.setLineTotal(item.getDebit());
+			}
+			transactionItem.setDescription(item.getMemo());
+			transactionItems.add(transactionItem);
 			totalCredits += item.getCredit();
 			totalDebits += item.getDebit();
 		}
@@ -228,6 +241,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 		}
 
 		ClientJournalEntry entry = new ClientJournalEntry();
+		entry.setTransactionItems(transactionItems);
+		entry.setType(ClientTransaction.TYPE_JOURNAL_ENTRY);
 		ClientFinanceDate date = get(DATE).getValue();
 		entry.setTransactionDate(date.getDate());
 
