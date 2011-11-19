@@ -7,7 +7,6 @@
 		<alias>Sign out</alias>
 	</command>
 	<command clazz="AuthenticationCommand" name="authenticate">
-		<alias>Signin</alias>
 	</command>
 
 	<command clazz="CancelCommand" name="Cancel">
@@ -323,8 +322,6 @@
 
 	<command clazz="ExpensesListCommand" name="Expenses List">
 		<alias>Expenses Claims</alias>
-		<alias>Cash Expenses List</alias>
-		<alias>Credit Card Expenses List</alias>
 		<alias>Expenses</alias>
 	</command>
 
@@ -433,8 +430,8 @@
 		<alias>Modify Credit Card Expense</alias>
 		<alias>Update Credit Card Expense</alias>
 		<alias>Create Credit Card Expense</alias>
-		<alias>CreditCardExpense</alias>
 		<alias>Credit Card Expense</alias>
+		<alias>New Credit Card Expense</alias>
 	</command>
 
 	<command clazz="NewCustomerCreditMemoCommand" name="New CustomerCreditMemo">
@@ -454,7 +451,8 @@
 		<alias>Update Cash Expense</alias>
 		<alias>Modify Cash Expense</alias>
 		<alias>Create Cash Expense</alias>
-		<alias>CashExpense</alias>
+		<alias>Cash Expense</alias>
+		<alias>New Cash Expense</alias>
 	</command>
 
 	<command clazz="NewMakeDepositCommand" name="New MakeDeposit">
@@ -462,10 +460,8 @@
 		<alias>Add Make Deposit</alias>
 		<alias>New Transfer Funds</alias>
 		<alias>Add Transfer Funds</alias>
-		<alias>Deposits And TransferFunds</alias>
 		<alias>New Deposits And TransferFunds</alias>
-		<alias>Deposit / Transfer Funds</alias>
-		<alias>Deposits / Transfer Fund</alias>
+		<alias>Deposit and Transfer Funds</alias>
 		<alias>Deposits and Transfer Funds</alias>
 	</command>
 
@@ -473,7 +469,6 @@
 		<alias>Location</alias>
 		<alias>Create Location</alias>
 		<alias>Update Location</alias>
-		<alias>New Location</alias>
 		<alias>Edit Location</alias>
 		<alias>Modify Location</alias>
 	</command>
@@ -532,6 +527,7 @@
 		<alias>Update Credit Rating</alias>
 		<alias>Modify Credit Rating</alias>
 		<alias>Edit Credit Rating</alias>
+		<alias>Create CreditRating</alias>
 	</command>
 
 	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
@@ -542,7 +538,7 @@
 		<alias>Edit Customer Prepayment</alias>
 		<alias>Update Customer Prepayment</alias>
 		<alias>Modify Customer Prepayment</alias>
-		<alias>Cusotmer Prepayment</alias>
+		<alias>Customer Prepayment</alias>
 	</command>
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
