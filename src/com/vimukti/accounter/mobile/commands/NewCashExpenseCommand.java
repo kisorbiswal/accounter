@@ -221,6 +221,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
+
 							if (e.getType() == Account.TYPE_BANK
 									|| e.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
 								return true;
