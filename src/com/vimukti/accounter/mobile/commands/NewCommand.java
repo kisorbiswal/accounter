@@ -39,7 +39,8 @@ public abstract class NewCommand extends Command {
 			String nextCommandString = initObject(
 					context,
 					lowerCase.startsWith("update")
-							|| lowerCase.startsWith("edit"));
+							|| (lowerCase.charAt(0) == 'e' && lowerCase
+									.startsWith("edit")));
 			if (nextCommandString != null) {
 				Result result = new Result();
 				result.setNextCommand(nextCommandString);
