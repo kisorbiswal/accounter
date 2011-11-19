@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +13,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Customer extends Payee implements IAccounterServerCore,
@@ -23,7 +23,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 
 	String number;
 
@@ -119,7 +118,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
 
 	/**
 	 * @return the salesPerson
@@ -334,7 +332,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		return false;
 	}
 
-
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		if (isOnSaveProccessed)
@@ -351,7 +348,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		return onUpdate(session);
 	}
 
-	
 	@Override
 	public Account getAccount() {
 		return getCompany().getAccountsReceivableAccount();
@@ -440,8 +436,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		this.customerGroup = customerGroup;
 	}
 
-
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -517,6 +511,11 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		// }
 		return true;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.CUSTOMER;
 	}
 
 }

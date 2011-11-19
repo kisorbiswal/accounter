@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +12,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -345,5 +345,11 @@ public class Vendor extends Payee {
 
 	public void setTdsApplicable(boolean tdsApplicable) {
 		this.tdsApplicable = tdsApplicable;
+	}
+
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.VENDOR;
 	}
 }

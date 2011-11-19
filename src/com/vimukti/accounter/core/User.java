@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class User extends CreatableObject implements IAccounterServerCore,
@@ -268,5 +269,10 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.USER;
 	}
 }

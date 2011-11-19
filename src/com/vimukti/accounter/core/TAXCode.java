@@ -12,6 +12,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -24,7 +25,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class TAXCode extends CreatableObject implements IAccounterServerCore,
-		Lifecycle {
+		INamedObject, Lifecycle {
 
 	/**
 	 * 
@@ -292,5 +293,10 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	public void setPurchaseTaxRate(double purchaseTaxRate) {
 		this.purchaseTaxRate = purchaseTaxRate;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXCODE;
 	}
 }

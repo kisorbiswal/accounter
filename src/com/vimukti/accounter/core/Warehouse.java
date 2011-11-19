@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -39,11 +40,11 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private String name;
 	private String warehouseCode;
 	private Contact contact;
-	
+
 	private boolean isDefaultWarehouse;
 	private String DDINumber;
 	private String mobileNumber;
-	
+
 	private transient boolean isOnSaveProccessed;
 
 	public Warehouse(String warehouseCode, String name, Address address,
@@ -224,5 +225,10 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.WAREHOUSE;
 	}
 }

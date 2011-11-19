@@ -18,6 +18,36 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public interface IAccounterCore extends IsSerializable, Serializable,
 		Cloneable, IVersionable {
 
+	public static final int ACCOUNT = 51;
+	public static final int CUSTOMER = 52;
+	public static final int VENDOR = 53;
+	public static final int TAXAGENCY = 54;
+	public static final int ITEM = 55;
+	public static final int BANK = 56;
+	public static final int BRANDING_THEME = 57;
+	public static final int CREDIT_RATING = 58;
+	public static final int CURRENCY = 59;
+	public static final int CUSTOMER_GROUP = 60;
+	public static final int EMPLOYEE = 61;
+	public static final int ITEM_GROUP = 62;
+	public static final int LOCATION = 63;
+	public static final int MEASUREMENT = 64;
+	public static final int PAYMENT_TERMS = 65;
+	public static final int PRICE_LEVEL = 66;
+	public static final int SALES_PERSON = 67;
+	public static final int SHIPPING_METHOD = 68;
+	public static final int SHIPPING_TERMS = 69;
+	public static final int USER = 70;
+	public static final int VENDOR_GROUP = 71;
+	public static final int WAREHOUSE = 72;
+	public static final int TAXITEM = 73;
+	public static final int TAXGROUP = 74;
+	public static final int TAXCODE = 75;
+	public static final int STOCK_ADJUSTMENT = 76;
+	public static final int STOCK_TRANSFER = 77;
+	public static final int ACCOUNTER_CLASS = 78;
+	public static final int BANK_ACCOUNT = 79;
+
 	String getName();
 
 	// Display name as in Combo

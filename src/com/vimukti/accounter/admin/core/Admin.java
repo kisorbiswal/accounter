@@ -70,4 +70,10 @@ public class Admin implements IAccounterServerCore,INamedObject {
 		return emailID;
 	}
 
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

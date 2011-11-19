@@ -2,15 +2,15 @@ package com.vimukti.accounter.core;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class MaintananceInfoUser  extends CreatableObject implements IAccounterServerCore,
-INamedObject  {
+public class MaintananceInfoUser extends CreatableObject implements
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String userEmail;
-	
+
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
@@ -19,7 +19,6 @@ INamedObject  {
 		return userEmail;
 	}
 
-	
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -36,7 +35,13 @@ INamedObject  {
 	@Override
 	public void setName(String name) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -66,4 +66,7 @@ public class ClientBankAccount extends ClientAccount {
 
 	}
 
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.BANK_ACCOUNT;
+	};
 }

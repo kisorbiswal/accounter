@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class AccounterClass extends CreatableObject implements
@@ -35,5 +36,10 @@ public class AccounterClass extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		this.className = name;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.ACCOUNTER_CLASS;
 	}
 }

@@ -1,29 +1,55 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCreditRating;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
+import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
+import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.core.ClientShippingMethod;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
+import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
+import com.vimukti.accounter.web.client.core.ClientVendorGroup;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -185,6 +211,114 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
 			initCallBack(new ClientTAXAdjustment(),
 					ActionFactory.getAdjustTaxAction(), transactionId);
+			break;
+
+		// These cases were included to open the views other than transactions.
+		case IAccounterCore.ACCOUNT:
+			initCallBack(new ClientAccount(),
+					ActionFactory.getNewAccountAction(), transactionId);
+			break;
+		case IAccounterCore.TAXGROUP:
+			initCallBack(new ClientTAXGroup(),
+					ActionFactory.getManageSalesTaxGroupsAction(),
+					transactionId);
+			break;
+		case IAccounterCore.TAXITEM:
+			initCallBack(new ClientTAXItem(),
+					ActionFactory.getNewVatItemAction(), transactionId);
+			break;
+		case IAccounterCore.TAXAGENCY:
+			initCallBack(new ClientTAXAgency(),
+					ActionFactory.getNewTAXAgencyAction(), transactionId);
+			break;
+		case IAccounterCore.CUSTOMER_GROUP:
+			initCallBack(new ClientCustomerGroup(),
+					ActionFactory.getCustomerGroupListAction(), transactionId);
+			break;
+		case IAccounterCore.VENDOR_GROUP:
+			initCallBack(new ClientVendorGroup(),
+					ActionFactory.getVendorGroupListAction(), transactionId);
+			break;
+		case IAccounterCore.PAYMENT_TERMS:
+			initCallBack(new ClientPaymentTerms(),
+					ActionFactory.getPaymentTermListAction(), transactionId);
+			break;
+		case IAccounterCore.SHIPPING_METHOD:
+			initCallBack(new ClientShippingMethod(),
+					ActionFactory.getShippingMethodListAction(), transactionId);
+			break;
+		case IAccounterCore.SHIPPING_TERMS:
+			initCallBack(new ClientShippingTerms(),
+					ActionFactory.getShippingTermListAction(), transactionId);
+			break;
+		case IAccounterCore.ITEM_GROUP:
+			initCallBack(new ClientItemGroup(),
+					ActionFactory.getItemGroupListAction(), transactionId);
+			break;
+		case IAccounterCore.CREDIT_RATING:
+			initCallBack(new ClientCreditRating(),
+					ActionFactory.getCreditRatingListAction(), transactionId);
+			break;
+		case IAccounterCore.CURRENCY:
+			initCallBack(new ClientCurrency(),
+					ActionFactory.getCurrencyGroupListAction(), transactionId);
+			break;
+		case IAccounterCore.ITEM:
+			initCallBack(new ClientItem(),
+					ActionFactory.getNewItemAction(true), transactionId);
+			break;
+		case IAccounterCore.VENDOR:
+			initCallBack(new ClientVendor(),
+					ActionFactory.getNewVendorAction(), transactionId);
+			break;
+		case IAccounterCore.CUSTOMER:
+			initCallBack(new ClientCustomer(),
+					ActionFactory.getNewCustomerAction(), transactionId);
+			break;
+		case IAccounterCore.SALES_PERSON:
+			initCallBack(new ClientSalesPerson(),
+					ActionFactory.getNewSalesperSonAction(), transactionId);
+			break;
+		case IAccounterCore.TAXCODE:
+			initCallBack(new ClientTAXCode(),
+					ActionFactory.getNewTAXCodeAction(), transactionId);
+			break;
+		case IAccounterCore.STOCK_ADJUSTMENT:
+			initCallBack(new ClientStockAdjustment(),
+					ActionFactory.getStockAdjustmentAction(), transactionId);
+			break;
+		case IAccounterCore.WAREHOUSE:
+			initCallBack(new ClientWarehouse(),
+					ActionFactory.getWareHouseViewAction(), transactionId);
+			break;
+		case IAccounterCore.STOCK_TRANSFER:
+			initCallBack(new ClientStockTransfer(),
+					ActionFactory.getWareHouseTransferAction(), transactionId);
+			break;
+		case IAccounterCore.MEASUREMENT:
+			initCallBack(new ClientMeasurement(),
+					ActionFactory.getAddMeasurementAction(), transactionId);
+			break;
+		case IAccounterCore.USER:
+			initCallBack(new ClientUser(), ActionFactory.getInviteUserAction(),
+					transactionId);
+			break;
+		case IAccounterCore.BRANDING_THEME:
+			initCallBack(new ClientBrandingTheme(),
+					ActionFactory.getInvoiceBrandingAction(), transactionId);
+			break;
+		case IAccounterCore.LOCATION:
+			initCallBack(new ClientLocation(),
+					ActionFactory.getLocationGroupListAction(), transactionId);
+			break;
+		case IAccounterCore.ACCOUNTER_CLASS:
+			initCallBack(new ClientAccounterClass(),
+					ActionFactory.getAccounterClassGroupListAction(),
+					transactionId);
+			break;
+		case IAccounterCore.BANK_ACCOUNT:
+			initCallBack(new ClientBankAccount(),
+					ActionFactory.getNewBankAccountAction(), transactionId);
 			break;
 		}
 

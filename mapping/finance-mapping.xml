@@ -1813,6 +1813,7 @@
 		<property name="time" column="TIME_STAMP"></property>
 		<property name="userName" column="USER_NAME"></property>
 		<property name="activityType" column="ACTIVITY_TYPE" access="property"></property>
+		<property name="objType" column="OBJECT_TYPE"></property>
 		<property name="name" column="NAME"></property>
 		<property name="transactionDate" type="com.vimukti.accounter.core.LongUseType"
 			column="TRANSACTION_DATE"></property>

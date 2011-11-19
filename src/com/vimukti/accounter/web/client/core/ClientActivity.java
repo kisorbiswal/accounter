@@ -30,6 +30,8 @@ public class ClientActivity implements IAccounterCore {
 
 	private int activityType;
 
+	private int objType;
+
 	private String description;
 
 	public long getId() {
@@ -153,5 +155,13 @@ public class ClientActivity implements IAccounterCore {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public int getObjType() {
+		return objType;
+	}
+
+	public void setObjType(int objType) {
+		this.objType = objType;
 	}
 }

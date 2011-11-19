@@ -21,6 +21,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -1341,6 +1342,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	public String getPaypalType() {
 		return paypalType;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.ACCOUNT;
 	}
 
 }

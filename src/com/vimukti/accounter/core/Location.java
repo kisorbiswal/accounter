@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -81,6 +82,11 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void setName(String name) {
 		this.locationName = name;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.LOCATION;
 	}
 
 }

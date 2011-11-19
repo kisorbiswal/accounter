@@ -6,6 +6,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -15,7 +16,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class StockTransfer extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -114,5 +115,22 @@ public class StockTransfer extends CreatableObject implements
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.STOCK_TRANSFER;
 	}
 }

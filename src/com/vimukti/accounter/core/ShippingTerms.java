@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ShippingTerms extends CreatableObject implements
@@ -125,5 +126,10 @@ public class ShippingTerms extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.SHIPPING_TERMS;
 	}
 }

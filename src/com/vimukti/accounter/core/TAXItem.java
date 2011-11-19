@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
  * A VATItem is a sub class of VATItemGroup. It consists of VATagency, VAT
@@ -219,6 +220,11 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public String toString() {
 		return this.getName();
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXITEM;
 	}
 
 }

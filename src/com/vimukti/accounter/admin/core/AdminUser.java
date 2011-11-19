@@ -91,4 +91,10 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore ,
 		this.status = clientuser.getStatus();
 
 	}
+
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
