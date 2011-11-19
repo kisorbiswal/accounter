@@ -301,7 +301,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().checkNo()), getConstants().checkNo(), true, true) {
+				getConstants().chequeNo()), getConstants().chequeNo(), true,
+				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
