@@ -182,8 +182,9 @@
 
 	<pattern>
 		<input>Banking</input>
+		<input>Bank</input>
 		<output>
-			<command>New Account</command>
+			<command>New Bank Account</command>
 			<command>Write Check</command>
 			<command>Deposit / Transfer Funds</command>
 			<command>Pay Bill</command>
@@ -225,16 +226,6 @@
 			<text>Invoice is a Transaction</text>
 			<command>Create New Invoice</command>
 			<command>List of All Invoices</command>
-		</output>
-	</pattern>
-
-	<pattern>
-		<input>Bank</input>
-		<input>Banking</input>
-		<output>
-			<command>Bank Accounts</command>
-			<command>Create Bank Account</command>
-			<command>Deposits and Transfer Funds</command>
 		</output>
 	</pattern>
 
