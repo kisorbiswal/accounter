@@ -251,6 +251,8 @@ public interface AccounterMessages extends Messages {
 
 	public String depositAccount(String account);
 
+	public String creditAccount(String account);
+
 	public String depreciationAccount(String depreciationAccountString);
 
 	public String details(String name);

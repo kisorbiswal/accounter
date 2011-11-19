@@ -162,7 +162,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 		get(ACCOUNT_NUMBER).setValue(bankAccount.getNumber());
 		get(ACCOUNT_NUMBER).setEditable(false);
-
+		get(BANK_ACCOUNT_NUMBER).setValue(bankAccount.getBankAccountNumber());
 		get(OPENINGBALANCE).setValue(bankAccount.getOpeningBalance());
 		get(ACTIVE).setValue(bankAccount.getIsActive());
 		get(ASOF).setValue(new ClientFinanceDate(bankAccount.getAsOf()));
