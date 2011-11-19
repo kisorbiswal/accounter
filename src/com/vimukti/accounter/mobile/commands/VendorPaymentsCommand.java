@@ -147,7 +147,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 						result.add(list);
 					}
 				} else if (currentView.equalsIgnoreCase(getConstants().all())) {
-					result.addAll(paymentsLists);
+					result.add(list);
 				}
 			}
 			return result;
