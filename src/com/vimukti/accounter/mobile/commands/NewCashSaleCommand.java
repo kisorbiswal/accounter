@@ -14,10 +14,12 @@ import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
@@ -227,6 +229,17 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 						getMessages().depositAccount(Global.get().Account())),
 				getMessages().depositAccount(Global.get().Account()), false,
 				true, null) {
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("Create BankAccount", "Bank"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create Other CurrentAsset Account",
+						"Other Current Asset"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create CreditAccount", "CreditAccount"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create FixedAsset Account", "FixedAsset"));
+			}
 
 			@Override
 			protected String getSetMessage() {
