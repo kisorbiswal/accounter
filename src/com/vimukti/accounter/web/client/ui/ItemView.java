@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -462,8 +463,8 @@ public class ItemView extends BaseView<ClientItem> {
 		HorizontalPanel itemHPanel = new HorizontalPanel();
 		// itemHPanel.setWidth("90%");
 
-		itemHPanel.setCellHorizontalAlignment(itemForm, ALIGN_RIGHT);
-		salesVPanel.setCellHorizontalAlignment(itemHPanel, ALIGN_RIGHT);
+		itemHPanel.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
+		salesVPanel.setCellHorizontalAlignment(itemHPanel, ALIGN_LEFT);
 
 		// itemHPanel.add(itemForm);
 
@@ -487,9 +488,11 @@ public class ItemView extends BaseView<ClientItem> {
 		topPanel1.setHorizontalAlignment(ALIGN_RIGHT);
 		topPanel1.setWidth("100%");
 		topPanel1.add(itemForm);
+		topPanel1.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
 		topPanel1.setStyleName("service-item-group");
 		topPanel1.setCellHorizontalAlignment(itemInfoPanel, ALIGN_LEFT);
 		topPanel1.add(itemInfoForm);
+		topPanel1.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
 		topPanel1.setCellWidth(itemForm, "50%");
 		topPanel1.setCellWidth(itemInfoForm, "50%");
 		VerticalPanel topHLay = new VerticalPanel();
