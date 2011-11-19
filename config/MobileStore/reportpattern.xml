@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <patterns>
+	<!-- <pattern> <input>Report</input> <input>Reports</input> <input>How to 
+		see the Reports</input> <output> <text>"Report is a formatted and organized 
+		presentation of your company data. </text> <command value="Company &amp; 
+		Financial Reports">Company &amp; Financial Reports</command> <command value="Customers 
+		and Receivables Reports">Customers and Receivables Reports</command> <command 
+		value="Sales Reports">Sales Reports</command> <command value="Suppliers and 
+		Payables Reports">Suppliers and Payable Reports</command> <command value="Purchases 
+		Reports">Purchases Reports</command> <command value="VAT Reports">VAT Reports</command> 
+		</output> </pattern> -->
+
 	<pattern>
-		<input>Report</input>
 		<input>Reports</input>
-		<input>How to see the Reports</input>
 		<output>
-			<text>"Report is a formatted and organized presentation of your
-				company data.</text>
-			<command value="Company  &amp; Financial Reports">Company &amp; Financial Reports</command>
-			<command value="Customers and Receivables Reports">Customers and Receivables Reports</command>
-			<command value="Sales Reports">Sales Reports</command>
-			<command value="Suppliers and Payables Reports">Suppliers and Payable Reports</command>
-			<command value="Purchases Reports">Purchases Reports</command>
-			<command value="VAT Reports">VAT Reports</command>
+			<command>Company &amp; Financial Reports</command>
+			<command>Customers and Receivables Reports</command>
+			<command>Sales Reports</command>
+			<command>Suppliers and Payable Reports</command>
+			<command>Purchases Reports</command>
+			<command>VAT Reports</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>Company &amp; Financial Reports</input>
 		<output>
@@ -27,6 +34,7 @@
 			<command>Expense Report</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>Customers and Receivable</input>
 		<input>customer reports</input>
@@ -38,6 +46,7 @@
 			<command>Customer Transaction History</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>Sales Reports</input>
 		<output>
@@ -49,6 +58,7 @@
 			<command>Sales Order Report</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>Suppliers and Payables Reports</input>
 		<input>Vendors and Payables Reports</input>
@@ -61,6 +71,7 @@
 			<command>Supplier Transaction History</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>Purchases Reports</input>
 		<output>
@@ -72,6 +83,7 @@
 			<command>Purchase Order Report</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>VAT Reports</input>
 		<input>TAX Reports</input>
@@ -85,6 +97,7 @@
 			<command>EC Sales List</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>dateRanges</input>
 		<output>
@@ -102,6 +115,7 @@
 			<command value="Custom">Custom</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>status</input>
 		<output>
@@ -112,6 +126,7 @@
 			<command value="All">All</command>
 		</output>
 	</pattern>
+
 	<pattern>
 		<input>expenceType</input>
 		<output>

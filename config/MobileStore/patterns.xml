@@ -227,7 +227,6 @@
 			<command>Create New Invoice</command>
 			<command>List of All Invoices</command>
 		</output>
-
 	</pattern>
 
 	<pattern>
@@ -532,5 +531,41 @@
 			<command>Delete Journal Entry</command>
 		</output>
 	</pattern>
+
+	<pattern>
+		<input>Settings</input>
+		<output>
+			<command>Company Settings</command>
+			<command>Users</command>
+			<command>Invoice Branding</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Users</input>
+		<output>
+			<command>Invite user</command>
+			<command>Users List</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Inventory</input>
+		<output>
+			<command>Stock Settings View</command>
+			<command>Inventory Lists</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Inventory Lists</input>
+		<output>
+			<command>Inventory Items</command>
+			<command>Stock Adjustments</command>
+			<command>Warehouse List</command>
+			<command>Measurements List</command>
+		</output>
+	</pattern>
+
 </patterns>
 
