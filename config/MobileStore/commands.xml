@@ -430,6 +430,7 @@
 		<alias>Update Credit Card Expense</alias>
 		<alias>Create Credit Card Expense</alias>
 		<alias>CreditCardExpense</alias>
+		<alias>Credit Card Expense</alias>
 	</command>
 
 	<command clazz="NewCustomerCreditMemoCommand" name="New CustomerCreditMemo">
