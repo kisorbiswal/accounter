@@ -459,6 +459,7 @@
 		<alias>Add Transfer Funds</alias>
 		<alias>Deposits And TransferFunds</alias>
 		<alias>New Deposits And TransferFunds</alias>
+		<alias>Deposit / Transfer Funds</alias>
 		<alias>Deposits / Transfer Fund</alias>
 		<alias>Deposits and Transfer Funds</alias>
 	</command>
