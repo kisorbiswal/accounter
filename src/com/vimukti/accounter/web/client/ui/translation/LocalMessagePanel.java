@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
+import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -40,8 +40,9 @@ public class LocalMessagePanel extends HorizontalPanel {
 	}
 
 	private void createControls() {
-
-		createApprovePanel();
+		if (canApprove) {
+			createApprovePanel();
+		}
 		createVotePanel();
 		createMessagePanel();
 
@@ -101,12 +102,10 @@ public class LocalMessagePanel extends HorizontalPanel {
 			}
 		});
 
-		if (canApprove) {
-			approvePanel.add(approveButton);
-			this.add(approvePanel);
-			approvePanel.getElement().getParentElement().addClassName(
-					"approve-img");
-		}
+		approvePanel.add(approveButton);
+		this.add(approvePanel);
+		approvePanel.getElement().getParentElement()
+				.addClassName("approve-img");
 	}
 
 	protected void approveMessage() {

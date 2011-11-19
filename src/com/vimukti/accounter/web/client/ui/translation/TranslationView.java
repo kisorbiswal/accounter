@@ -42,7 +42,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private void createControls() {
 		optionsList = new ArrayList<String>();
 		optionsList.add(messages.untranslated());
-		optionsList.add(messages.all2());
+		optionsList.add(messages.all());
 		optionsList.add(messages.myTranslations());
 		optionsList.add(messages.unConfirmed());
 
@@ -223,7 +223,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private int getStatus(String statusMessage) {
 		if (statusMessage.equals(messages.untranslated())) {
 			return ClientMessage.UNTRANSLATED;
-		} else if (statusMessage.equals(messages.all2())) {
+		} else if (statusMessage.equals(messages.all())) {
 			return ClientMessage.ALL;
 		} else if (statusMessage.equals(messages.myTranslations())) {
 			return ClientMessage.MYTRANSLATIONS;

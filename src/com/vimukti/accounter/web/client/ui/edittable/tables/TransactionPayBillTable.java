@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
-import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends

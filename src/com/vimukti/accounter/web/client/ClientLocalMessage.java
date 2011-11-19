@@ -1,6 +1,8 @@
-package com.vimukti.accounter.web.client.translate;
+package com.vimukti.accounter.web.client;
 
 import java.io.Serializable;
+
+import com.vimukti.accounter.web.client.translate.ClientMessage;
 
 public class ClientLocalMessage implements Serializable {
 	/**

@@ -101,12 +101,8 @@ public class SignupServlet extends BaseServlet {
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
-				saveEntry(client);
-				Query languageQuery = hibernateSession.getNamedQuery(
-						"getLanguageById").setParameter("code", "eng");
-				Language language = (Language) languageQuery.uniqueResult();
+				
 				HashSet<Language> languages = new HashSet<Language>();
-				languages.add(language);
 
 				Query languageQuery1 = hibernateSession.getNamedQuery(
 						"getLanguageById").setParameter("code", "tel");
@@ -118,7 +114,7 @@ public class SignupServlet extends BaseServlet {
 				Language language2 = (Language) languageQuery2.uniqueResult();
 				languages.add(language2);
 				client.setLanguages(languages);
-
+				saveEntry(client);
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View

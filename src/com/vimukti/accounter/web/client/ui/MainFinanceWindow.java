@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
@@ -621,7 +620,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getAccountRegisterAction().getHistoryToken(),
 				ActionFactory.getAccountRegisterAction());
 		actions.put("overDueInvoices",
-				ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE));
+				ActionFactory.getInvoicesAction(Accounter.messages().overDue()));
 		actions.put(ActionFactory.getUserDetailsAction().getHistoryToken(),
 				ActionFactory.getUserDetailsAction());
 		actions.put(ActionFactory.getPrepare1099MISCAction().getHistoryToken(),

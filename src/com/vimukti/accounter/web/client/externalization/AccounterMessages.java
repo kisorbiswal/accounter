@@ -4404,20 +4404,20 @@ public interface AccounterMessages extends Messages {
 
 	public String ztozeroperc();
 
-	public String taxFiledDate();
-
 	public String searchHere();
 
 	public String translateNote();
 
 	public String pleaseEnterTheWordsAsItis();
 
-	public String taxFillings();
+	public String factorsShouldNotbeZero();
 
-	public String all2();
-	
 	public String taxList();
 
-	public String factorsShouldNotbeZero();
+	public String addNewCredit();
+
+	public String taxFiledDate();
+
+	public String taxFillings();
 
 }

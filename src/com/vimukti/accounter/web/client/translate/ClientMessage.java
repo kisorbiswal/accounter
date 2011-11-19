@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.translate;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.vimukti.accounter.web.client.ClientLocalMessage;
+
 public class ClientMessage implements Serializable {
 
 	public static final int UNTRANSLATED = 1;

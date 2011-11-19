@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.ClientLocalMessage;
 
 public interface TranslateServiceAsync {
 

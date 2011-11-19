@@ -80,6 +80,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -108,7 +109,6 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
-import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
@@ -2866,24 +2866,23 @@ public class FinanceTool {
 	}
 
 	public boolean canApprove(String userEmail, String lang) {
-		// Session session = null;
-		// try {
-		// session = HibernateUtil.openSession();
-		// Client client = getUserManager().getClient(userEmail);
-		// for (Language language : client.getLanguages()) {
-		// if (language.getLanguageCode().equals(lang)) {
-		// return true;
-		// }
-		// }
-		// return false;
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// return false;
-		// } finally {
-		// if (session != null) {
-		// session.close();
-		// }
-		// }
-		return false;
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Client client = getUserManager().getClient(userEmail);
+			for (Language language : client.getLanguages()) {
+				if (language.getLanguageCode().equals(lang)) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 }
