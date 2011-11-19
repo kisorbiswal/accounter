@@ -103,7 +103,7 @@
 		<input>Customer</input>
 		<output>
 			<command>Customer New</command>
-			<command>Cusotmer Prepayment</command>
+			<command>Customer Prepayment</command>
 			<command>Receive Payment</command>
 			<command>Customer Refund</command>
 			<command>Customer Lists</command>
