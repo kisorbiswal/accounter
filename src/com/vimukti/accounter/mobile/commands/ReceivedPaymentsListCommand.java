@@ -15,9 +15,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 	private static final int NO_OF_RECORDS_TO_SHOW = 10;
-	private static final int STATUS_UNAPPLIED = 0;
-	private static final int STATUS_PARTIALLY_APPLIED = 1;
-	private static final int STATUS_APPLIED = 2;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
@@ -63,10 +60,8 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
 				list.add(getConstants().all());
-				list.add(getConstants().open());
-				list.add(getConstants().fullyApplied());
+				list.add(getConstants().paid());
 				list.add(getConstants().voided());
-
 				return list;
 			}
 		});
@@ -126,8 +121,6 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 	}
 
 	protected List<ReceivePaymentsList> getListData(Context context) {
-
-		String currentView = get(VIEW_BY).getValue();
 		FinanceTool tool = new FinanceTool();
 		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
 		try {
@@ -135,36 +128,34 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 					.getCustomerManager().getReceivePaymentsList(
 							context.getCompany().getID());
 			if (receivePaymentsLists != null) {
-				for (ReceivePaymentsList recievePayment : receivePaymentsLists) {
-					if (currentView.equals(getConstants().open())) {
-						if ((recievePayment.getStatus() == STATUS_UNAPPLIED || recievePayment
-								.getStatus() == STATUS_PARTIALLY_APPLIED)
-								&& (!recievePayment.isVoided()))
-							result.add(recievePayment);
-						continue;
-					}
-					if (currentView.equals(getConstants().fullyApplied())) {
-						if (recievePayment.getStatus() == STATUS_APPLIED
-								&& !recievePayment.isVoided())
-							result.add(recievePayment);
-						continue;
-					}
-					if (currentView.equals(getConstants().voided())) {
-						if (recievePayment.isVoided()
-								&& !recievePayment.isDeleted())
-							result.add(recievePayment);
-						continue;
-					}
-					if (currentView.equals(getConstants().all())) {
-						result.add(recievePayment);
-					}
-				}
+				result = filterList(receivePaymentsLists);
 			}
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private List<ReceivePaymentsList> filterList(
+			List<ReceivePaymentsList> listOfRecievePayments) {
+		String text = get(VIEW_BY).getValue();
+		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
+		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
+			if (text.equals(getConstants().paid())) {
+				if (!recievePayment.isVoided()) {
+					result.add(recievePayment);
+				}
+			} else if (text.equals(getConstants().voided())) {
+				if (recievePayment.isVoided() && !recievePayment.isDeleted()) {
+					result.add(recievePayment);
+				}
+				continue;
+			} else if (text.equals(getConstants().all())) {
+				result.add(recievePayment);
+			}
+		}
+		return result;
 	}
 
 }
