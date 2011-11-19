@@ -100,7 +100,7 @@ public class Header extends HorizontalPanel {
 				});
 			}
 		}
-		userName.setWidth("100%");
+//		userName.setWidth("100%");
 		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
@@ -150,12 +150,12 @@ public class Header extends HorizontalPanel {
 		headerLinks.addStyleName("header_links");
 
 		panel3 = new VerticalPanel();
-		panel3.setWidth("100%");
+//		panel3.setWidth("100%");
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
 		panel3.add(help);
 		panel3.add(logout);
-		panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
+//		panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 
 		this.add(panel1);
 		this.setCellHorizontalAlignment(panel1, ALIGN_LEFT);
@@ -164,10 +164,11 @@ public class Header extends HorizontalPanel {
 		this.setCellHorizontalAlignment(panel2, ALIGN_CENTER);
 		this.setCellWidth(panel2, "50%");
 		headerLinks.add(panel3);
+		this.setCellHorizontalAlignment(headerLinks, ALIGN_RIGHT);
+		
 		this.add(headerLinks);
-		this.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
-		this.setCellWidth(panel3, "25%");
-
+		this.setCellWidth(headerLinks, "25%");
+		
 		// Element spanEle = DOM.createSpan();
 		// spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
 		// spanEle.addClassName("vimutki-text");
