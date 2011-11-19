@@ -1255,6 +1255,8 @@ public interface AccounterConstants extends Constants {
 	public String factor();
 
 	public String factorForDefaultUnitShouldNotbeZero();
+	
+	public String factorsShouldNotbeZero();
 
 	public String failed();
 
