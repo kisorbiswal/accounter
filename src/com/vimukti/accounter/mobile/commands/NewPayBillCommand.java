@@ -341,7 +341,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		ClientPayBill paybill = new ClientPayBill();
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
-		paybill.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
+		paybill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
 		paybill.setAccountsPayable(context.getCompany()
 				.getAccountsPayableAccount().getID());
 		Vendor vendor = get(VENDOR).getValue();
