@@ -312,7 +312,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 						@Override
 						public boolean filter(Account e) {
 							if (e.getType() == Account.TYPE_BANK
-									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+									|| e.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
 								return true;
 							}
 							return false;
@@ -341,8 +341,15 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				true) {
 			@Override
 			public List<Account> getAccounts(Context context) {
-				return new ArrayList<Account>(context.getCompany()
-						.getAccounts());
+				Set<Account> accounts = context.getCompany().getAccounts();
+				ArrayList<Account> arrayList = new ArrayList<Account>();
+				for (Account account : accounts) {
+					if (filter(account)) {
+						arrayList.add(account);
+					}
+				}
+				return arrayList;
+
 			}
 		});
 
@@ -511,4 +518,23 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
+	public boolean filter(Account account) {
+
+		if (account.getType() != Account.TYPE_CASH
+				&& account.getType() != Account.TYPE_BANK
+				&& account.getType() != Account.TYPE_INVENTORY_ASSET
+				&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+				&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+				&& account.getType() != Account.TYPE_INCOME
+				&& account.getType() != Account.TYPE_OTHER_INCOME
+				&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+				&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+				&& account.getType() != Account.TYPE_OTHER_ASSET
+				&& account.getType() != Account.TYPE_EQUITY
+				&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
