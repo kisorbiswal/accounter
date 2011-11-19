@@ -186,7 +186,7 @@
 		<output>
 			<command>New Bank Account</command>
 			<command>Write Check</command>
-			<command>Deposit / Transfer Funds</command>
+			<command>Deposit and Transfer Funds</command>
 			<command>Pay Bill</command>
 			<command>New Credit Card Charge</command>
 			<command>Reconciliations History </command>
