@@ -92,6 +92,7 @@ public class MessagePanel extends VerticalPanel {
 						} else {
 							showValidationError();
 						}
+						addNewMessageBox.setValue("");
 					}
 
 				});
