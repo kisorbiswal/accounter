@@ -37,11 +37,17 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 				if (string.isEmpty()) {
 					System.out.println();
 				}
-				Channel channel = e.getChannel();
-				ByteBuffer buffer = ByteBuffer.allocate(string.length() + 4);
+				ChannelBuffer copiedBuffer = ChannelBuffers.copiedBuffer(
+						string, Charset.forName("UTF-8"));
+
+				ByteBuffer buffer = ByteBuffer.allocate(copiedBuffer
+						.writerIndex() + 4);
 				buffer.putInt(string.length());
-				buffer.put(string.getBytes());
-				channel.write(ChannelBuffers.wrappedBuffer(buffer));
+				copiedBuffer.getBytes(0, buffer);
+				buffer.flip();
+				ChannelBuffer wrappedBuffer = ChannelBuffers
+						.wrappedBuffer(buffer);
+				e.getChannel().write(wrappedBuffer);
 			}
 
 			@Override
@@ -71,6 +77,9 @@ class MobileDecoder extends FrameDecoder {
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel arg1,
 			ChannelBuffer buff) throws Exception {
+		if (buff.writerIndex() == 0) {
+			return "";
+		}
 		ByteBuffer allocate = ByteBuffer.allocate(4);
 		buff.readBytes(allocate);
 		String string = buff.toString(Charset.forName("UTF-8"));
