@@ -112,7 +112,7 @@ public class PatternStore {
 						commands.add(s);
 					}
 				}
-				result.setCommands(commands);
+				result.add(commands);
 				if (pattern.inputs != null) {
 					for (String input : pattern.inputs) {
 						patterns.put(input.toLowerCase(), result);
