@@ -37,11 +37,11 @@ public class AccountsListCommand extends NewAbstractCommand {
 			protected void setSelectCommands(CommandList commandList,
 					Account value) {
 				if (destType == null) {
+					commandList.add(new UserCommand("Bank Registers", value
+							.getName()));
 					commandList.add(new UserCommand("Edit account", value
 							.getName()));
 					commandList.add(new UserCommand("Delete account", value
-							.getName()));
-					commandList.add(new UserCommand("Register account", value
 							.getName()));
 				}
 			}
