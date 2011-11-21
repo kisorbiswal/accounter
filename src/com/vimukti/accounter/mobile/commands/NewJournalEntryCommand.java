@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AbstractTableRequirement;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
@@ -102,9 +103,19 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						if (currentValue != null) {
+						if (value != null && currentValue != null) {
+							currentValue.setCredit((Double) value);
 							currentValue.setDebit(0.0d);
 						}
+					}
+
+					@Override
+					public Double getValue() {
+						return currentValue.getCredit();
+					}
+
+					@Override
+					protected void createRecord(ResultList list) {
 					}
 				});
 
@@ -114,9 +125,24 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						if (currentValue != null) {
+						if (value != null && currentValue != null) {
+							currentValue.setDebit((Double) value);
 							currentValue.setCredit(0.0d);
 						}
+					}
+
+					@Override
+					public Double getValue() {
+						return currentValue.getDebit();
+					}
+
+					@Override
+					protected void createRecord(ResultList list) {
+						Record nameRecord = new Record(CREDITS);
+						nameRecord.add(getConstants().credit(),
+								currentValue.getCredit());
+						list.add(nameRecord);
+						super.createRecord(list);
 					}
 				});
 
@@ -135,12 +161,12 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			protected void getRequirementsValues(ClientEntry obj) {
 				Account account = get(ACCOUNT).getValue();
 				String memo = get(MEMO).getValue();
-				double debits = get(DEBITS).getValue();
-				double credits = get(CREDITS).getValue();
+				// double debits = get(DEBITS).getValue();
+				// double credits = get(CREDITS).getValue();
 				obj.setAccount(account.getID());
 				obj.setMemo(memo);
-				obj.setDebit(debits);
-				obj.setCredit(credits);
+				// obj.setDebit(debits);
+				// obj.setCredit(credits);
 			}
 
 			@Override

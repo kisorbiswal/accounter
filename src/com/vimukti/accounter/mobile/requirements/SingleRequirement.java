@@ -38,11 +38,7 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 						getMessages().youCantEdit(getRecordName()));
 			}
 		}
-
-		T customerName = getValue();
-		Record nameRecord = new Record(getName());
-		nameRecord.add(getRecordName(), getDisplayValue(customerName));
-		list.add(nameRecord);
+		createRecord(list);
 		return null;
 	}
 
@@ -50,4 +46,10 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 
 	protected abstract T getInputFromContext(Context context);
 
+	protected void createRecord(ResultList list) {
+		T customerName = getValue();
+		Record nameRecord = new Record(getName());
+		nameRecord.add(getRecordName(), getDisplayValue(customerName));
+		list.add(nameRecord);
+	}
 }
