@@ -100,11 +100,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				actions.add(record);
 				result.add(actions);
 				if (isDone()) {
-					ResultList customerList = new ResultList(getName());
-					Record back = new Record("Back");
-					back.add("", "Back");
-					customerList.add(back);
-					result.add(customerList);
+					result.setShowBack(true);
 				}
 				return result;
 			}
@@ -184,9 +180,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			message.append(getEmptyString());
 		}
 		if (isDone()) {
-			Record back = new Record("Back");
-			back.add("", "Back");
-			customerList.add(back);
+			result.setShowBack(true);
 		}
 		result.add(message.toString());
 		result.add(customerList);
