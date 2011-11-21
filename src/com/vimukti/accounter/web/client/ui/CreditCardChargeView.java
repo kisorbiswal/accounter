@@ -662,7 +662,7 @@ public class CreditCardChargeView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (isTrackTax()) {
+		if (isTrackPaidTax()) {
 			if (isMultiCurrencyEnabled()) {
 				totalForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalBaseCurrencyText,
