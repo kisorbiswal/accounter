@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.Date;
 
 public class DeleteReason extends CreatableObject {
 

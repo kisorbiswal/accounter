@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;

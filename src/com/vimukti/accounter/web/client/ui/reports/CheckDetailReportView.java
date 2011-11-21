@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.ArrayList;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
