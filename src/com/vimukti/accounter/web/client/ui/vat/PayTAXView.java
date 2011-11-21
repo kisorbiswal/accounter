@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
-import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -56,10 +55,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private TransactionPayTAXGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
-	protected List<ClientPayTAXEntries> entries;
 	private double endingBalance;
-	private ArrayList<ClientPayTAXEntries> filterList;
-	private ArrayList<ClientPayTAXEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
 	private TextItem transNumber;
 
@@ -84,8 +80,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		transNumber = createTransactionNumberItem();
 		transNumber.setTitle(messages.no());
-		transNumber.setToolTip(messages.giveNoTo(
-				this.getAction().getViewName()));
+		transNumber.setToolTip(messages
+				.giveNoTo(this.getAction().getViewName()));
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
 		payFromAccCombo.setHelpInformation(true);
@@ -134,7 +130,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			public void onDateValueChange(ClientFinanceDate date) {
 				if (transaction == null) {
 					dueDateOnOrBefore = date;
-					filterGrid();
+					filterGridByDueDate();
 				}
 			}
 		});
@@ -146,7 +142,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					@Override
 					public void selectedComboBoxItem(ClientTAXAgency selectItem) {
 						selectedTAXAgency = selectItem;
-						filterlistbyVATAgency(selectItem);
+						filterlistbyTAXAgency(selectItem);
 
 					}
 				});
@@ -171,14 +167,13 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(messages.amount(), this,
-				getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(messages.bankBalance(),
-				this, getBaseCurrency());
+		endingBalanceText = new AmountField(messages.bankBalance(), this,
+				getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
@@ -279,25 +274,19 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		cancelButton.setTabIndex(11);
 	}
 
-	protected void filterGrid() {
-		filterList = new ArrayList<ClientPayTAXEntries>();
-		tempList = new ArrayList<ClientPayTAXEntries>();
-
-		filterList.addAll(entries);
+	protected void filterGridByDueDate() {
+		List<ClientTransactionPayTAX> filterList = new ArrayList<ClientTransactionPayTAX>();
 
 		if (dueDateOnOrBefore != null) {
-			for (ClientPayTAXEntries cont : filterList) {
+			for (ClientTransactionPayTAX cont : records) {
 				ClientTAXReturn clientVATReturn = Accounter.getCompany()
-						.getVatReturn(cont.getVatReturn());
+						.getVatReturn(cont.getTAXReturn());
 				ClientFinanceDate date = new ClientFinanceDate(
 						clientVATReturn.getPeriodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
-					tempList.add(cont);
+					filterList.add(cont);
 			}
-			filterList.clear();
-			filterList.addAll(tempList);
-			tempList.clear();
 		}
 
 		loadData(filterList);
@@ -321,21 +310,16 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 	}
 
-	protected void filterlistbyVATAgency(ClientTAXAgency selectedVATAgency) {
+	protected void filterlistbyTAXAgency(ClientTAXAgency selectedVATAgency) {
 
-		grid.removeAllRecords();
 		List<ClientTransactionPayTAX> filterRecords = new ArrayList<ClientTransactionPayTAX>();
-		String selectedagency = selectedVATAgency.getName();
-		if (records != null) {
-			for (ClientTransactionPayTAX payVAT : records) {
-				String taxAgencyname = getCompany().getTaxAgency(
-						payVAT.getTaxAgency()).getName();
-				if (taxAgencyname.equals(selectedagency))
-					filterRecords.add(payVAT);
+		for (ClientTransactionPayTAX tpt : records) {
+			if (tpt.getTaxAgency() == selectedVATAgency.getID()) {
+				filterRecords.add(tpt);
 			}
-
-			grid.setRecords(filterRecords);
 		}
+
+		loadData(filterRecords);
 	}
 
 	// initializes the grid.
@@ -448,66 +432,39 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private void fillGrid() {
 		// grid.addLoadingImagePanel();
 		rpcUtilService
-				.getPayVATEntries(new AccounterAsyncCallback<ArrayList<ClientPayTAXEntries>>() {
+				.getPayTAXEntries(new AccounterAsyncCallback<List<ClientTransactionPayTAX>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
 						Accounter.showError(messages
 								.failedtogettheTransactionPayVATList());
-						grid.addEmptyMessage(messages
-								.noFiledTaxEntriesToPay());
+						grid.addEmptyMessage(messages.noFiledTaxEntriesToPay());
 
 					}
 
 					@Override
 					public void onResultSuccess(
-							ArrayList<ClientPayTAXEntries> result) {
-						if (result == null) {
-
-							onException(null);
-						}
-						entries = result;
-						if (result.size() == 0) {
-							// Accounter.showInformation("No PayVAT list to show");
+							List<ClientTransactionPayTAX> result) {
+						if (result == null || result.isEmpty()) {
 							grid.addEmptyMessage(messages
 									.noFiledTaxEntriesToPay());
-						} else {
-
-							// loadData(getfilterRecordsByDate(billsDue
-							// .getEnteredDate(), entries));
-							loadData(entries);
-
+							return;
 						}
-
+						records = result;
+						loadData(records);
 					}
 				});
 
 	}
 
 	// fills the list grid with data.
-	protected void loadData(List<ClientPayTAXEntries> result) {
-
-		records = new ArrayList<ClientTransactionPayTAX>();
-		for (ClientPayTAXEntries entry : result) {
-			ClientTransactionPayTAX clientEntry = new ClientTransactionPayTAX();
-
-			clientEntry.setTaxAgency(entry.getVatAgency());
-			clientEntry.setVatReturn(entry.getVatReturn());
-			double total = entry.getAmount();
-			double balance = entry.getBalance();
-			// clientEntry
-			// .setTaxDue(total - balance > 0.0 ? total - balance : 0.0);
-			clientEntry.setTaxDue(balance);
-			clientEntry.setFiledDate(entry.getTaxReturnDate());
-			records.add(clientEntry);
+	protected void loadData(List<ClientTransactionPayTAX> result) {
+		grid.removeAllRecords();
+		if (result == null || result.isEmpty()) {
+			grid.addEmptyMessage(messages.noFiledTaxEntriesToPay());
+		} else {
+			grid.setRecords(result);
 		}
-		// setFilterByDateList(records);
-		// if (selectedTaxAgency == null)
-		// grid.setRecords(records);
-
-		// else
-		// filterlistbyTaxAgency(selectedTaxAgency);
-
 	}
 
 	protected void initTransactionNumber() {
@@ -550,16 +507,22 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					messages.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 		result.add(mainform.validate());
 
 		if (grid == null || grid.getRecords().isEmpty()) {
-			result.addError(grid, messages
-					.youdonthaveanyfiledVATentriestoselect());
+			result.addError(grid,
+					messages.youdonthaveanyfiledVATentriestoselect());
 		} else {
 			result.add(grid.validateGrid());
+		}
+
+		if (taxAgencyCombo != null) {
+			if (taxAgencyCombo.getSelectedValue() == null) {
+				result.addError(taxAgencyCombo,
+						messages.pleaseSelectTAXAgencyToPayTAX());
+			}
 		}
 		// ClientAccount bankAccount = payFromAccCombo.getSelectedValue();
 		// // check if the currency of accounts is valid or not
@@ -613,14 +576,13 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// List<ClientTransactionPayVAT> payVATList = new
 		// ArrayList<ClientTransactionPayVAT>();
 		//
-		// for (ClientTransactionPayVAT rec : grid.getSelectedRecords()) {
-		// // rec.setTransaction(paySalesTax);
-		// rec.setVatReturn(vatReturn)
-		// payVATList.add(rec);
-		//
-		// }
+		List<ClientTransactionPayTAX> selectedRecords = grid
+				.getSelectedRecords();
+		for (ClientTransactionPayTAX rec : selectedRecords) {
+			rec.setID(0);
+		}
 
-		return grid.getSelectedRecords();
+		return selectedRecords;
 	}
 
 	/*
@@ -641,13 +603,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			double toBeSetEndingBalance = 0.0;
 			if (selectedPayFromAccount.isIncrease())
 				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
-
 						+ DataUtils.getBalance(
 								getAmountInBaseCurrency(amountText.getAmount())
 										.toString()).doubleValue();
 			else
 				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
-
 						- DataUtils.getBalance(
 								getAmountInBaseCurrency(amountText.getAmount())
 										.toString()).doubleValue();

@@ -633,24 +633,15 @@ public class MakeDepositView extends
 		if (transaction == null) {
 			setData(new ClientMakeDeposit());
 		} else {
-			ClientCurrency currency1 = getCurrency(getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getDepositFrom())
-					.getCurrency());
-			ClientCurrency currency2 = getCurrency(getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getDepositIn())
-					.getCurrency());
+			selectedDepositFromAccount = getCompany().getAccount(
+					transaction.getDepositFrom());
+			selectedDepositInAccount = getCompany().getAccount(
+					transaction.getDepositIn());
 			if (currencyWidget != null) {
-				if (transaction.getCurrency() > 0) {
-					this.currency = getCompany().getCurrency(
-							transaction.getCurrency());
-				} else {
-					this.currency = getCompany().getPrimaryCurrency();
-				}
+				setCurrency(transaction.getCurrency() != 0 ? getCurrency(transaction
+						.getCurrency()) : getCompany().getPrimaryCurrency());
+				checkForCurrencyType();
 				this.currencyFactor = transaction.getCurrencyFactor();
-				if (this.currency != null) {
-					currencyWidget.compareCurrency(currency2, currency1);
-				}
-				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
@@ -668,12 +659,19 @@ public class MakeDepositView extends
 			// .setValue(DataUtils
 			// .getAmountAsString(getAmountInTransactionCurrency(transaction
 			// .getTotal())));
-			amtText.setAmount(getAmountInTransactionCurrency(transaction
-					.getTotal()));
-			amtText.setCurrency(getCurrency(transaction.getCurrency()));
+			if (transaction.getCurrency() == selectedDepositFromAccount
+					.getCurrency()) {
+				amtText.setAmount(getAmountInTransactionCurrency(transaction
+						.getTotal()));
+			} else {
+				amtText.setAmount(transaction.getTotal());
+			}
+			amtText.setCurrency(getCurrency(selectedDepositFromAccount
+					.getCurrency()));
 			gridView.setRecords(transaction.getTransactionMakeDeposit());
 			initAccounterClass();
 			// gridView.setCanEdit(false);
+			updateTotals();
 		}
 		// FIXME--need to implement this feature
 		// gridView.setEnableMenu(false);
@@ -684,12 +682,12 @@ public class MakeDepositView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if (isMultiCurrencyEnabled()) {
-			modifyForeignCurrencyTotalWidget();
-			totalTextInTransactionCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
-		}
+		// if (isMultiCurrencyEnabled()) {
+		// modifyForeignCurrencyTotalWidget();
+		// totalTextInTransactionCurrency
+		// .setAmount(getAmountInTransactionCurrency(transaction
+		// .getTotal()));
+		// }
 		super.initTransactionViewData();
 
 	}
@@ -796,13 +794,7 @@ public class MakeDepositView extends
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				Double amount = amtText.getAmount();
-				totalTextinBaseCurrency.setAmount(amount);
-				if (isMultiCurrencyEnabled()) {
-					totalTextInTransactionCurrency
-							.setAmount(getAmountInTransactionCurrency(amount));
-				}
-
+				updateTotals();
 			}
 		});
 		memoText = new TextAreaItem(messages.memo());
@@ -1012,6 +1004,23 @@ public class MakeDepositView extends
 			modifyForeignCurrencyTotalWidget();
 		}
 
+	}
+
+	protected void updateTotals() {
+		Double amount = amtText.getAmount();
+		if (selectedDepositFromAccount.getCurrency() != getBaseCurrency()
+				.getID()) {
+			totalTextinBaseCurrency.setAmount(getAmountInBaseCurrency(amount));
+			if (isMultiCurrencyEnabled()) {
+				totalTextInTransactionCurrency.setAmount(amount);
+			}
+		} else {
+			totalTextinBaseCurrency.setAmount(amount);
+			if (isMultiCurrencyEnabled()) {
+				totalTextInTransactionCurrency
+						.setAmount(getAmountInTransactionCurrency(amount));
+			}
+		}
 	}
 
 	private void initFianancialAccounts() {
@@ -1353,30 +1362,39 @@ public class MakeDepositView extends
 		if (selectedDepositInAccount != null
 				&& selectedDepositFromAccount != null) {
 
-			long currency1 = selectedDepositInAccount.getCurrency();
-			long currency2 = selectedDepositFromAccount.getCurrency();
+			long toCurrencyID = selectedDepositInAccount.getCurrency();
+			long fromCurrencyID = selectedDepositFromAccount.getCurrency();
 
-			ClientCurrency clientCurrency1 = getCompany()
-					.getCurrency(currency1);
-			ClientCurrency clientCurrency2 = getCompany()
-					.getCurrency(currency2);
+			ClientCurrency toCurrency = getCompany().getCurrency(toCurrencyID);
+			ClientCurrency fromCurrency = getCompany().getCurrency(
+					fromCurrencyID);
 
 			if (selectedDepositInAccount == selectedDepositFromAccount) {
-				Accounter
-						.showError("Deposit account and Transfer account need to be differ");
+				Accounter.showError(messages
+						.dipositAccountAndTransferAccountShouldBeDiff());
 				depositInSelect.setComboItem(null);
 			}
-			if (clientCurrency1 != getBaseCurrency()
-					&& clientCurrency2 != getBaseCurrency()) {
-				Accounter
-						.showError("One of the account currency should be primary currency");
+			if (toCurrency != getBaseCurrency()
+					&& fromCurrency != getBaseCurrency()) {
+				Accounter.showError(messages
+						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
 				depositInSelect.setComboItem(null);
 			} else {
-				currencyWidget
-						.compareCurrency(clientCurrency1, clientCurrency2);
-				amtText.setCurrency(currencyWidget.getSelectedCurrency());
+				if (toCurrencyID != fromCurrencyID) {
+					if (toCurrencyID != getBaseCurrency().getID()) {
+						currencyWidget.setSelectedCurrency(toCurrency);
+						setCurrency(toCurrency);
+					} else {
+						currencyWidget.setSelectedCurrency(fromCurrency);
+						setCurrency(fromCurrency);
+					}
+				} else {
+					currencyWidget.setSelectedCurrency(toCurrency);
+					setCurrency(toCurrency);
+				}
+				amtText.setCurrency(fromCurrency);
 			}
-
+			updateTotals();
 		}
 		modifyForeignCurrencyTotalWidget();
 	}
@@ -1402,13 +1420,7 @@ public class MakeDepositView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		modifyForeignCurrencyTotalWidget();
-		Double amount = amtText.getAmount();
-		totalTextinBaseCurrency.setAmount(amount);
-		if (isMultiCurrencyEnabled()) {
-			totalTextInTransactionCurrency
-					.setAmount(getAmountInTransactionCurrency(amount));
-		}
-
+		updateTotals();
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {

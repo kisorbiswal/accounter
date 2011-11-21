@@ -129,8 +129,8 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 				.isTDSAvailable());
 		enableTDSdecs.setVisible(getCompany().getCountryPreferences()
 				.isTDSAvailable());
-		enableTaxTdsCheckbox.setVisible(false);
-		enableTDSdecs.setVisible(false);
+		// enableTaxTdsCheckbox.setVisible(false);
+		// enableTDSdecs.setVisible(false);
 	}
 
 	@Override
@@ -145,10 +145,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		getCompanyPreferences().setTaxPerDetailLine(
 				oneperdetaillineRadioButton.getValue());
 		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
-		// if (getCompany().getCountryPreferences().isTDSAvailable()) {
-		// getCompanyPreferences().setTDSEnabled(
-		// enableTaxTdsCheckbox.getValue());
-		// }
+		if (getCompany().getCountryPreferences().isTDSAvailable()) {
+			getCompanyPreferences().setTDSEnabled(
+					enableTaxTdsCheckbox.getValue());
+		}
 	}
 
 	@Override

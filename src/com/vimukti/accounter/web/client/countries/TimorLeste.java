@@ -6,14 +6,12 @@ public class TimorLeste extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
+		return "USD";
 	}
 
 	@Override

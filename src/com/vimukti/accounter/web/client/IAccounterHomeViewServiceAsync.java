@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
-import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -33,6 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -309,8 +309,8 @@ public interface IAccounterHomeViewServiceAsync {
 	// public void getPaySalesTaxEntries(long transactionDate,
 	// AsyncCallback<ArrayList<ClientFileTAXEntry>> callBack);
 
-	public void getPayVATEntries(
-			AsyncCallback<ArrayList<ClientPayTAXEntries>> callBack);
+	public void getPayTAXEntries(
+			AsyncCallback<List<ClientTransactionPayTAX>> callBack);
 
 	public void getPayeeList(int transactionCategory,
 			AsyncCallback<ArrayList<PayeeList>> callBack);

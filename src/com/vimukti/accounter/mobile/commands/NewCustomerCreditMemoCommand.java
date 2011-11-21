@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
@@ -17,11 +16,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
-import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -33,7 +30,6 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -70,10 +66,11 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 						context.getCompany()));
-		get(CURRENCY).setDefaultValue(null);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
 
 	}
 
@@ -109,54 +106,39 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 
-		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getMessages().currency()), getMessages().currency(), true,
-				true, null) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isEnableMultiCurrency()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
-			}
-		});
-
-		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getMessages().currency()), getMessages()
-				.currency(), false, true) {
-			@Override
-			protected String getDisplayValue(Double value) {
-				ClientCurrency primaryCurrency = getPreferences()
-						.getPrimaryCurrency();
-				Currency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency.getFormalName();
-			}
-
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (get(CURRENCY).getValue() != null) {
-					if (getPreferences().isEnableMultiCurrency()
-							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getPreferences()
-											.getPrimaryCurrency())) {
-						return super.run(context, makeResult, list, actions);
-					}
-				}
-				return null;
-
-			}
-		});
-
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
+		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
+		 * actions); } } return null;
+		 * 
+		 * } });
+		 */
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().creditNoteNo()), getMessages().creditNoteNo(),
 				true, true));
@@ -280,22 +262,6 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().reasonForIssue()), getMessages()
 				.reasonForIssue(), true, true));
-		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getMessages().currency()), getMessages().currency(), true,
-				true, new ChangeListner<Currency>() {
-
-					@Override
-					public void onSelection(Currency value) {
-
-					}
-				}) {
-
-			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
-			}
-		});
 	}
 
 	@Override
@@ -336,15 +302,14 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		Customer customer = get(CUSTOMER).getValue();
 		creditMemo.setCustomer(customer.getID());
 
-		if (context.getPreferences().isEnableMultiCurrency()) {
-			Currency currency = get(CURRENCY).getValue();
-			if (currency != null) {
-				creditMemo.setCurrency(currency.getID());
-			}
-
-			double factor = get(CURRENCY_FACTOR).getValue();
-			creditMemo.setCurrencyFactor(factor);
-		}
+		/*
+		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
+		 * currency = get(CURRENCY).getValue(); if (currency != null) {
+		 * creditMemo.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * creditMemo.setCurrencyFactor(factor); }
+		 */
 
 		String memo = get(MEMO).getValue();
 		creditMemo.setMemo(memo);
@@ -410,7 +375,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		get(CUSTOMER).setValue(
 				CommandUtils.getServerObjectById(creditMemo.getCustomer(),
 						AccounterCoreType.CUSTOMER));
-		get(CURRENCY_FACTOR).setValue(creditMemo.getCurrencyFactor());
+		/* get(CURRENCY_FACTOR).setValue(creditMemo.getCurrencyFactor()); */
 		get(MEMO).setValue(creditMemo.getMemo());
 	}
 
@@ -424,5 +389,6 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
+		super.beforeFinishing(context, makeResult);
 	}
 }

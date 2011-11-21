@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.Global;
 
 public class ClientCompanyPreferences implements IAccounterCore {
@@ -117,6 +118,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public static int VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC = 1;
 	public static int VAT_REP_ENDPERIOD_APR_JUL_OCT_JAN = 2;
 	public static int VAT_REP_ENDPERIOD_MAY_AUG_NOV_FEB = 3;
+
+	private static final long DONT_INCLUDE_ESTIMATES = 0x10000000000000L;
+	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
+	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
 
 	private static ClientCompanyPreferences preferences;
 
@@ -1236,5 +1241,31 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public boolean isInventoryEnabled() {
 		return get(INVENTORY_ENABLED);
+	}
+
+	public boolean isDontIncludeEstimates() {
+		return get(DONT_INCLUDE_ESTIMATES);
+	}
+
+	public void setDontIncludeEstimates(boolean dontIncludeEstimates) {
+		this.set(DONT_INCLUDE_ESTIMATES, dontIncludeEstimates);
+	}
+
+	public boolean isIncludeAcceptedEstimates() {
+		return get(INCLUDE_ACCEPTED_ESTIMATES);
+	}
+
+	public void setIncludeAcceptedEstimates(boolean includeAcceptedEstimates) {
+		this.set(INCLUDE_ACCEPTED_ESTIMATES, includeAcceptedEstimates);
+	}
+
+	public boolean isIncludePendingAcceptedEstimates() {
+		return get(INCLUDE_PENDING_ACCEPTED_ESTIMATES);
+	}
+
+	public void setIncludePendingAcceptedEstimates(
+			boolean includePendingAcceptedEstimates) {
+		this.set(INCLUDE_PENDING_ACCEPTED_ESTIMATES,
+				includePendingAcceptedEstimates);
 	}
 }

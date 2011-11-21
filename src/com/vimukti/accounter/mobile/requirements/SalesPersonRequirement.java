@@ -28,7 +28,7 @@ public abstract class SalesPersonRequirement extends
 
 	@Override
 	protected String getDisplayValue(SalesPerson value) {
-		return value != null ? value.getName() : "";
+		return value != null ? value.getFirstName() : "";
 	}
 
 	@Override

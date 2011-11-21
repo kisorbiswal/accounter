@@ -196,8 +196,10 @@ public class Manager {
 					.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");
 			query2.setParameter("id", t.getID()).setEntity("company", company);
 			List<?> list = query2.list();
-			if (list != null && list.size() > 0)
+			if (list != null && !list.isEmpty()
+					&& t instanceof ClientTransaction) {
 				((ClientTransaction) t).setCanEdit(false);
+			}
 			// }
 			return t;
 

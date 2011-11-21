@@ -55,10 +55,10 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="AccountTransaction" />
 		</set>
-		<set name="payVATEntriesList" inverse="true" cascade="save-update">
+		<!-- <set name="payVATEntriesList" inverse="true" cascade="save-update">
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="PayTAXEntries" />
-		</set>
+		</set> -->
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
 			column="CREDITS_AND_PAYMENTS_ID" cascade="delete" lazy="false">
 		</many-to-one>
@@ -963,7 +963,7 @@
 			<property name="balance" column="BALANCE"></property>
 			<property name="totalTAXAmount" column="TAX_TOTAL"></property>
 
-			<list name="taxReturnEntries" cascade="save-update" lazy="false">
+			<list name="taxReturnEntries" cascade="save-update,delete-orphan" lazy="false">
 				<key column="TAX_RETURN_ID" />
 				<list-index column="TEI" />
 				<one-to-many class="TAXReturnEntry" />
@@ -1310,7 +1310,7 @@
 		<property name="version" column="VERSION"></property>
 		<property name="isTAXGroupEntry" column="IS_TAX_GROUP_ENTRY"></property>
 	</class>
-	<class name="PayTAXEntries" table="PAY_TAX_ENTRIES">
+	<!-- <class name="PayTAXEntries" table="PAY_TAX_ENTRIES">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
@@ -1326,7 +1326,7 @@
 		<property name="amount" column="AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
 		<property name="version" column="VERSION"></property>
-	</class>
+	</class> -->
 	<class name="TransactionMakeDepositEntries" table="TRANSACTION_MAKE_DEPOSIT_ENTRIES">
 		<id name="id" column="ID">
 			<generator class="identity" />

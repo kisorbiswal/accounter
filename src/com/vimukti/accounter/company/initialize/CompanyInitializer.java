@@ -214,6 +214,9 @@ public abstract class CompanyInitializer {
 		depreciationStartDateCal.set(fiscalYearStartDate);
 		this.preferences.setDepreciationStartDate(depreciationStartDateCal);
 		this.company.setPreferences(this.preferences);
+		if (preferences.isDoyouwantEstimates()) {
+			this.preferences.setIncludePendingAcceptedEstimates(true);
+		}
 
 		PaymentTerms dueOnReceipt = new PaymentTerms(company,
 				AccounterServerConstants.PM_DUE_ON_RECEIPT,

@@ -21,7 +21,6 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
-import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
@@ -49,7 +48,6 @@ import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
-import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -58,6 +56,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -1398,32 +1397,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientPayTAXEntries> getPayVATEntries()
+	public List<ClientTransactionPayTAX> getPayTAXEntries()
 			throws AccounterException {
-
-		ArrayList<ClientPayTAXEntries> clientEntries = new ArrayList<ClientPayTAXEntries>();
-
 		FinanceTool tool = getFinanceTool();
 		if (tool == null)
-			return clientEntries;
-		List<PayTAXEntries> entries = tool.getTaxManager().getPayVATEntries(
-				getCompanyId());
-		for (PayTAXEntries entry : entries) {
-			ClientPayTAXEntries clientEntry = new ClientPayTAXEntries();
-			// VATReturn vatReturn =(VATReturn) entry.getTransaction();
-			// ClientVATReturn clientVATReturn = new
-			// ClientConvertUtil().toClientObject(vatReturn,ClientVATReturn.class);
-			clientEntry.setVatReturn(entry.getTransaction().getID());
-			clientEntry.setVatAgency(entry.getTaxAgency() != null ? entry
-					.getTaxAgency().getID() : null);
-			clientEntry.setBalance(entry.getBalance());
-			clientEntry.setAmount(entry.getAmount());
-			clientEntry.setTaxReturnDate(entry.getTaxReturnDate()
-					.toClientFinanceDate());
-			clientEntries.add(clientEntry);
-		}
-		return clientEntries;
-
+			return null;
+		return tool.getTaxManager().getPayTAXEntries(getCompanyId());
 	}
 
 	@Override

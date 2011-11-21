@@ -58,7 +58,7 @@ public class NewItemAction extends Action<ClientItem> {
 				boolean sellProducts = company.getPreferences()
 						.isSellProducts();
 				if (sellProducts && sellServices) {
-					if (type == 0) {
+					if (type == 0 && data == null) {
 						SelectItemTypeDialog dialog = new SelectItemTypeDialog(
 								forCustomer);
 						dialog.setDependent(isDependent);
@@ -66,6 +66,7 @@ public class NewItemAction extends Action<ClientItem> {
 						dialog.setItemname(itemName);
 						dialog.show();
 					} else {
+						type = data.getType();
 						ItemView view = new ItemView(type, forCustomer);
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,

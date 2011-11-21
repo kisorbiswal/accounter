@@ -23,7 +23,6 @@ public class Algeria extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-
 		return "DZD";
 	}
 

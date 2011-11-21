@@ -104,16 +104,16 @@ public class ClientTransactionPayTAX implements IAccounterCore {
 	/**
 	 * @return the vatReturn
 	 */
-	public long getVatReturn() {
+	public long getTAXReturn() {
 		return taxReturn;
 	}
 
 	/**
-	 * @param vatReturn
+	 * @param taxReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(long vatReturn) {
-		this.taxReturn = vatReturn;
+	public void setTAXReturn(long taxReturn) {
+		this.taxReturn = taxReturn;
 	}
 
 	/**

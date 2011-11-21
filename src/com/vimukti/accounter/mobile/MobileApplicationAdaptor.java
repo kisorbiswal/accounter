@@ -18,6 +18,9 @@ public class MobileApplicationAdaptor implements MobileAdaptor {
 	public String postProcess(Result result) {
 		JResult jResult = new JResult();
 		jResult.cookie = result.getCookie();
+		jResult.title = result.getTitle();
+		jResult.hideCancel = result.isHideCancel();
+		jResult.showBack = result.isShowBack();
 		jResult.addAll(result.resultParts);
 		String json = new Gson().toJson(jResult);
 		return json + "\n";

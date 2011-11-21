@@ -41,6 +41,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 		initData();
 	}
 
+	@Override
 	public void initData() {
 		companyEmailTextBox.setText(getCompanyPreferences().getCompanyEmail());
 	}
@@ -52,10 +53,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		if (UIUtils.isValidEmail(companyEmailTextBox.getValue()))
-			getCompanyPreferences().setCompanyEmail(
-					companyEmailTextBox.getValue());
-
+		getCompanyPreferences().setCompanyEmail(companyEmailTextBox.getValue());
 	}
 
 	@Override

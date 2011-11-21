@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -39,7 +41,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new StringRequirement(TAX_CODE, getMessages().pleaseEnter(
-				getMessages().taxCode()), "Tax code", false, true));
+				"Tax code name"), "Tax code", false, true));
 
 		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
 				getMessages().taxCode()), "Descripiton", true, true));
@@ -86,8 +88,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				// TODO Auto-generated method stub
-				return null;
+				return getMessages().youDontHaveAny(
+						getMessages().vatItemsList());
 			}
 
 			@Override
@@ -126,13 +128,13 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<TAXItemGroup> getLists(Context context) {
-				return getVATItmes(context);
+				return getFilteredVATItems(context, true);
 			}
 		});
 
-		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_PURCHASE,
-				getMessages()
-						.pleaseSelect(getMessages().taxItemForPurchases()),
+		list.add(new ListRequirement<TAXItemGroup>(
+				VATITEM_FOR_PURCHASE,
+				getMessages().pleaseSelect(getMessages().taxItemForPurchases()),
 				"Vat item or Group for Purchases", false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -188,41 +190,11 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<TAXItemGroup> getLists(Context context) {
-				return getVATItmes(context);
+				return getFilteredVATItems(context, false);
 			}
 		});
 
 	}
-
-	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
-	private List<TAXItemGroup> getVATItmes(Context contex) {
-		List<TAXItemGroup> vatItmsList = new ArrayList<TAXItemGroup>();
-		Set<TAXItemGroup> taxItemGroups = contex.getCompany()
-				.getTaxItemGroups();
-		taxItemGroups.addAll(contex.getCompany().getTaxItems());
-
-		for (TAXItemGroup vatItem : taxItemGroups) {
-			if (!vatItem.isPercentage()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
-	}
-
-	// /* VATItmes whose 'isPercentage' is true, only allowed into the list */
-	// public List<TAXItemGroup> getFilteredVATItems() {
-	// List<TAXItemGroup> vatItmsList = new
-	// ArrayList<TAXItemGroup>();
-	// ArrayList<TAXItemGroup> taxItemGroups = getCompany()
-	// .getTaxItemGroups();
-	// taxItemGroups.addAll(getCompany().getTaxItems());
-	// for (TAXItemGroup vatItem : getCompany().getTaxItems()) {
-	// if (vatItem.isPercentage()) {
-	// vatItmsList.add(vatItem);
-	// }
-	// }
-	// return vatItmsList;
-	// }
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
@@ -236,16 +208,10 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		taxCode.setTaxable(isTaxable);
 		taxCode.setActive(isActive);
 		if (isTaxable) {
-			if (context.getPreferences().isTrackPaidTax()) {
-				TAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
-				TAXItemGroup purchaseVatItem = get(VATITEM_FOR_PURCHASE)
-						.getValue();
-				taxCode.setTAXItemGrpForSales(salesVatItem.getID());
-				taxCode.setTAXItemGrpForPurchases(purchaseVatItem.getID());
-			} else {
-				TAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
-				taxCode.setTAXItemGrpForSales(salesVatItem.getID());
-			}
+			TAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
+			TAXItemGroup purchaseVatItem = get(VATITEM_FOR_PURCHASE).getValue();
+			taxCode.setTAXItemGrpForSales(salesVatItem.getID());
+			taxCode.setTAXItemGrpForPurchases(purchaseVatItem.getID());
 		}
 
 		create(taxCode, context);
@@ -318,5 +284,37 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	public String getSuccessMessage() {
 		return taxCode.getID() == 0 ? "New vat code commond is created successfully"
 				: "VAT Code updated successfully";
+	}
+
+	private List<TAXItemGroup> getFilteredVATItems(Context context,
+			boolean salesItems) {
+		List<TAXItemGroup> vatItmsList = new ArrayList<TAXItemGroup>();
+		Set<TAXItemGroup> taxItemGroups = context.getCompany()
+				.getTaxItemGroups();
+		Set<TAXItem> taxItems = context.getCompany().getTaxItems();
+		List<TAXItem> activeItems = new ArrayList<TAXItem>();
+		for (TAXItem taxItem : taxItems) {
+			if (taxItem.isActive()) {
+				activeItems.add(taxItem);
+			}
+		}
+		taxItemGroups.addAll(activeItems);
+		for (TAXItem vatItem : activeItems) {
+			if (vatItem.isPercentage()) {
+				TAXAgency taxAgency = vatItem.getTaxAgency();
+				if (salesItems) {
+					if (taxAgency.getSalesLiabilityAccount() != null) {
+						vatItmsList.add(vatItem);
+					}
+				}
+				if (!salesItems) {
+					if (taxAgency.getPurchaseLiabilityAccount() != null) {
+						vatItmsList.add(vatItem);
+					}
+				}
+			}
+		}
+
+		return vatItmsList;
 	}
 }

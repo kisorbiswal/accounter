@@ -57,7 +57,8 @@
 	  </div>
     </div>
     <div class="form-bottom-options">
-      <a href="/main/logout">Logout</a>
+      <a style="float:left" href="/main/logout">Logout</a>
+      <a style="float:right" href="/main/deleteAccount">Delete Account</a>
     </div>
    </div>
    

@@ -66,4 +66,10 @@ public class UnitOfMeasure extends CreatableObject implements
 		this.name = name;
 	}
 
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

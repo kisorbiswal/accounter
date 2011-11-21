@@ -27,7 +27,8 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
  * 
  */
 public class NewBankAccountCommand extends NewAbstractCommand {
-
+	private static final int BANK_CAT_BEGIN_NO = 1100;
+	private static final int BANK_CAT_END_NO = 1179;
 	private static final String ACCOUNT_NUMBER = "Account Number";
 	private static final String ACCOUNT_NAME = "Account Name";
 	private static final String OPENINGBALANCE = "Opening Balance";
@@ -48,7 +49,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 				"Account Type", false, true));
 
 		list.add(new NumberRequirement(ACCOUNT_NUMBER,
-				"Please Enter Account number", "Account Number", false, true));
+				"Please Enter Account number", "Account Number", true, true));
 
 		list.add(new NameRequirement(ACCOUNT_NAME, "Please Enter Account Name",
 				"Account Name", false, true));
@@ -75,29 +76,8 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		list.add(new StringRequirement(COMMENTS, "Please Enter Comment",
 				"Comment", true, true));
 
-		list.add(new StringListRequirement(BANK_NAME, "Please Enter Bank Name",
-				"Bank Name", true, true, null) {
-
-			@Override
-			protected String getSetMessage() {
-				return "Bank Name has been Selected";
-			}
-
-			@Override
-			protected String getSelectString() {
-				return "Select Bank Name";
-			}
-
-			@Override
-			protected List<String> getLists(Context context) {
-				return getBankNameList(context);
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-		});
+		list.add(new StringRequirement(BANK_NAME, "Please Enter Bank Name",
+				"Bank Name", true, true));
 
 		list.add(new StringListRequirement(BANK_ACCOUNT_TYPE,
 				"Please Enter Bank Account Type", "Bank Account Type", false,
@@ -126,7 +106,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 		list.add(new NumberRequirement(BANK_ACCOUNT_NUMBER,
 				"Please Enter  Bank Account number", "Bank Account Number",
-				true, true));
+				false, true));
 
 	}
 
@@ -151,11 +131,12 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
-		if (string.isEmpty()) {
-			if (!isUpdate) {
-				bankAccount = new ClientBankAccount();
-				return null;
+		if (!isUpdate) {
+			bankAccount = new ClientBankAccount();
+			if (!string.isEmpty()) {
+				get(ACCOUNT_TYPE).setValue(string);
 			}
+			return null;
 		}
 
 		bankAccount = (ClientBankAccount) CommandUtils.getAccountByName(
@@ -181,7 +162,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 		get(ACCOUNT_NUMBER).setValue(bankAccount.getNumber());
 		get(ACCOUNT_NUMBER).setEditable(false);
-
+		get(BANK_ACCOUNT_NUMBER).setValue(bankAccount.getBankAccountNumber());
 		get(OPENINGBALANCE).setValue(bankAccount.getOpeningBalance());
 		get(ACTIVE).setValue(bankAccount.getIsActive());
 		get(ASOF).setValue(new ClientFinanceDate(bankAccount.getAsOf()));
@@ -212,6 +193,10 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		get(ACCOUNT_TYPE).setDefaultValue("Bank");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(ASOF).setDefaultValue(new ClientFinanceDate());
+		get(ACCOUNT_NUMBER).setDefaultValue(
+				autoGenerateAccountnumber(context, BANK_CAT_BEGIN_NO,
+						BANK_CAT_END_NO));
+
 	}
 
 	@Override
@@ -260,5 +245,24 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		else
 			return Account.BANK_ACCCOUNT_TYPE_NONE;
 
+	}
+
+	public String autoGenerateAccountnumber(Context context, int range1,
+			int range2) {
+		// TODO::: add a filter to filter the accounts based on the account type
+		Set<Account> accounts = context.getCompany().getAccounts();
+		Long number = null;
+		if (number == null) {
+			number = (long) range1;
+			for (Account account : accounts) {
+				while (number.toString().equals(account.getNumber())) {
+					number++;
+					if (number >= range2) {
+						number = (long) range1;
+					}
+				}
+			}
+		}
+		return number.toString();
 	}
 }

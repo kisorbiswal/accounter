@@ -1400,11 +1400,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		openingBalText.setDisabled(isInViewMode());
 		balanceDate.setDisabled(isInViewMode());
 		expenseAccountsSelect.setDisabled(isInViewMode());
-		currencyWidget.setDisabled(isInViewMode());
-		if (!selectCurrency.equals(getCompany().getPreferences()
-				.getPrimaryCurrency())) {
-			currencyWidget.disabledFactorField(false);
-		}
+		currencyWidget.setDisabled(true);
+		// if (!selectCurrency.equals(getCompany().getPreferences()
+		// .getPrimaryCurrency())) {
+		// currencyWidget.disabledFactorField(false);
+		// }
 		creditLimitText.setDisabled(isInViewMode());
 		preferredShippingSelect.setDisabled(isInViewMode());
 		preferredPaymentSelect.setDisabled(isInViewMode());

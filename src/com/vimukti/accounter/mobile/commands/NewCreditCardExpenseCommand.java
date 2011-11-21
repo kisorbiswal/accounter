@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
@@ -15,11 +14,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
-import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -33,7 +30,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -72,53 +68,23 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getMessages().currency()), getMessages().currency(), true,
-				true, null) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isEnableMultiCurrency()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
-			}
-		});
-
-		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getMessages().currency()), getMessages()
-				.currency(), false, true) {
-			@Override
-			protected String getDisplayValue(Double value) {
-				ClientCurrency primaryCurrency = getPreferences()
-						.getPrimaryCurrency();
-				Currency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency.getFormalName();
-			}
-
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (get(CURRENCY).getValue() != null) {
-					if (getPreferences().isEnableMultiCurrency()
-							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getPreferences()
-											.getPrimaryCurrency())) {
-						return super.run(context, makeResult, list, actions);
-					}
-				}
-				return null;
-
-			}
-		});
+		/*
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); return value + " " +
+		 * primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } return null;
+		 * 
+		 * } });
+		 */
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -155,22 +121,11 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account account) {
-							if (account.getType() != Account.TYPE_CASH
-									&& account.getType() != Account.TYPE_BANK
-									&& account.getType() != Account.TYPE_INVENTORY_ASSET
-									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-									&& account.getType() != Account.TYPE_INCOME
-									&& account.getType() != Account.TYPE_OTHER_INCOME
-									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-									&& account.getType() != Account.TYPE_OTHER_ASSET
-									&& account.getType() != Account.TYPE_EQUITY
-									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+							if (account.getType() == Account.TYPE_BANK
+									|| account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
 								return true;
-							} else {
-								return false;
 							}
+							return false;
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -372,15 +327,11 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		if (preferences.isEnableMultiCurrency()) {
-			Currency currency = get(CURRENCY).getValue();
-			if (currency != null) {
-				creditCardCharge.setCurrency(currency.getID());
-			}
-
-			double factor = get(CURRENCY_FACTOR).getValue();
-			creditCardCharge.setCurrencyFactor(factor);
-		}
+		/*
+		 * if (preferences.isEnableMultiCurrency()) { double factor =
+		 * get(CURRENCY_FACTOR).getValue();
+		 * creditCardCharge.setCurrencyFactor(factor); }
+		 */
 
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
@@ -416,7 +367,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Credit Expense to update.");
-				return "Expenses List";
+				return "Credit Card Expenses List ,"
+						+ getMessages().creditCard();
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -427,7 +379,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 							AccounterCoreType.CREDITCARDCHARGE);
 			if (transactionByNum == null) {
 				addFirstMessage(context, "Select a Credit Expense to update.");
-				return "Expenses List " + string;
+				return "Credit Card Expenses List " + string + " ,"
+						+ getMessages().creditCard();
 			}
 			creditCardCharge = transactionByNum;
 			setValues();
@@ -468,7 +421,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get("deliveryDate").setValue(
 				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
 		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());
-		get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor());
+		/* get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor()); */
 		get(MEMO).setValue(creditCardCharge.getMemo());
 	}
 
@@ -498,8 +451,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().creditCard());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		get(CURRENCY).setDefaultValue(null);
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		/* get(CURRENCY_FACTOR).setDefaultValue(1.0); */
 	}
 
 	@Override
@@ -519,14 +471,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 					context,
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
-		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
-		allrecords.addAll(items);
-		allrecords.addAll(accounts);
-		double[] result = getTransactionTotal(context, false, allrecords, true);
-		makeResult.add("Net Amount: " + result[0]);
-		if (context.getPreferences().isTrackTax()) {
-			makeResult.add("Total Tax: " + result[1]);
-		}
-		makeResult.add("Total: " + (result[0] + result[1]));
+		super.beforeFinishing(context, makeResult);
 	}
 }

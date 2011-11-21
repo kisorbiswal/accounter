@@ -202,13 +202,10 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		double taxRate = get(TAX_RATE).getValue();
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
+				VAT_RETURN_BOX).getValue();
+		taxItem.setVatReturnBox(vatReturnBox == null ? 0 : vatReturnBox.getID());
 		taxItem.setPercentage(true);
-		if (context.getPreferences().isTrackTax()) {
-			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) get(
-					VAT_RETURN_BOX).getValue();
-			taxItem.setVatReturnBox(vatReturnBox == null ? 0 : vatReturnBox
-					.getID());
-		}
 		taxItem.setName(name);
 		taxItem.setDescription(description);
 		taxItem.setTaxRate(taxRate);

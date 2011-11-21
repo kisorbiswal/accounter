@@ -235,7 +235,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		payFrom.updateCurrentBalance(this, -total, this.currencyFactor);
 		session.saveOrUpdate(payFrom);
-		session.saveOrUpdate(payFrom);
 		if (this.transactionPayTAX != null) {
 			transactionPayTAX.clear();
 		}

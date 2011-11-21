@@ -26,6 +26,7 @@ public abstract class NewCommand extends Command {
 		for (String f : first) {
 			result.add(0, f);
 		}
+		// result.setTitle(getTitle());
 		return result;
 	}
 
@@ -36,8 +37,10 @@ public abstract class NewCommand extends Command {
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
 			String lowerCase = context.getCommandString().toLowerCase();
-			String nextCommandString = initObject(context,
-					lowerCase.contains("update") || lowerCase.contains("edit"));
+			String nextCommandString = initObject(
+					context,
+					lowerCase.startsWith("update")
+							|| lowerCase.startsWith("edit"));
 			if (nextCommandString != null) {
 				Result result = new Result();
 				result.setNextCommand(nextCommandString);

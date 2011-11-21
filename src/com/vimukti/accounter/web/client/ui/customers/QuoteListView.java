@@ -29,7 +29,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	private static String ACCEPTED = messages.accepted();
 	private static String EXPIRED = messages.expired();
 	private static String ALL = messages.all();
-	// private static String DELETED = "Deleted";
+	private static String CLOSE = messages.close();
+	private static String APPLIED = messages.applied();
 
 	public static final int STATUS_OPEN = 0;
 	public static final int STATUS_REJECTED = 1;
@@ -119,6 +120,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		listOfTypes.add(REJECTED);
 		listOfTypes.add(ACCEPTED);
 		listOfTypes.add(EXPIRED);
+		listOfTypes.add(APPLIED);
+		listOfTypes.add(CLOSE);
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
 
@@ -152,17 +155,17 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 		for (ClientEstimate estimate : listOfEstimates) {
 			if (text.equals(OPEN)) {
-				if (estimate.getStatus() == STATUS_OPEN)
+				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					grid.addData(estimate);
 				continue;
 			}
 			if (text.equals(REJECTED)) {
-				if (estimate.getStatus() == STATUS_REJECTED)
+				if (estimate.getStatus() == ClientEstimate.STATUS_REJECTED)
 					grid.addData(estimate);
 				continue;
 			}
 			if (text.equals(ACCEPTED)) {
-				if (estimate.getStatus() == STATUS_ACCECPTED)
+				if (estimate.getStatus() == ClientEstimate.STATUS_ACCECPTED)
 					grid.addData(estimate);
 				continue;
 			}
@@ -173,11 +176,16 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 					grid.addData(estimate);
 				continue;
 			}
-			// if (text.equals(DELETED)) {
-			// if (estimate.getStatus() == ClientTransaction.STATUS_DELETED)
-			// grid.addData(estimate);
-			// continue;
-			// }
+			if (text.equals(APPLIED)) {
+				if (estimate.getStatus() == ClientEstimate.STATUS_APPLIED)
+					grid.addData(estimate);
+				continue;
+			}
+			if (text.equals(CLOSE)) {
+				if (estimate.getStatus() == ClientEstimate.STATUS_CLOSE)
+					grid.addData(estimate);
+				continue;
+			}
 			if (text.equals(ALL)) {
 				grid.addData(estimate);
 			}

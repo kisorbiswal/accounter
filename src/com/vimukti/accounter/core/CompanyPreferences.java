@@ -106,6 +106,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long PRODUCT_AND_SERVICES_TRACKING_CUSTOMER = 0x2000000000000L;
 	private static final long WAREHOUSE = 0x4000000000000L;
 	private static final long INVENTORY_ENABLED = 0x8000000000000L;
+
+	private static final long DONT_INCLUDE_ESTIMATES = 0x10000000000000L;
+	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
+	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -166,6 +171,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private int referCustomers;
 	private int referVendors;
 	private int industryType;
+
 	// for select fiscal year in setup
 
 	int fiscalYearFirstMonth;
@@ -1416,5 +1422,31 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public boolean isInventoryEnabled() {
 		return get(INVENTORY_ENABLED);
+	}
+
+	public boolean isDontIncludeEstimates() {
+		return get(DONT_INCLUDE_ESTIMATES);
+	}
+
+	public void setDontIncludeEstimates(boolean dontIncludeEstimates) {
+		this.set(DONT_INCLUDE_ESTIMATES, dontIncludeEstimates);
+	}
+
+	public boolean isIncludeAcceptedEstimates() {
+		return get(INCLUDE_ACCEPTED_ESTIMATES);
+	}
+
+	public void setIncludeAcceptedEstimates(boolean includeAcceptedEstimates) {
+		this.set(INCLUDE_ACCEPTED_ESTIMATES, includeAcceptedEstimates);
+	}
+
+	public boolean isIncludePendingAcceptedEstimates() {
+		return get(INCLUDE_PENDING_ACCEPTED_ESTIMATES);
+	}
+
+	public void setIncludePendingAcceptedEstimates(
+			boolean includePendingAcceptedEstimates) {
+		this.set(INCLUDE_PENDING_ACCEPTED_ESTIMATES,
+				includePendingAcceptedEstimates);
 	}
 }

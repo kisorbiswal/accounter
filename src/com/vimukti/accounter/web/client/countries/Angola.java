@@ -16,7 +16,6 @@ public class Angola extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-
 		return "AOK";
 	}
 

@@ -1347,11 +1347,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setDisabled(isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
-		currencyCombo.setDisabled(isInViewMode());
-		if (!selectCurrency.equals(getCompany().getPreferences()
-				.getPrimaryCurrency())) {
-			currencyCombo.disabledFactorField(false);
-		}
+		currencyCombo.setDisabled(true);
+		// if (!selectCurrency.equals(getCompany().getPreferences()
+		// .getPrimaryCurrency())) {
+		// currencyCombo.disabledFactorField(false);
+		// }
 		bankAccountSelect.setDisabled(isInViewMode());
 		bankNameSelect.setDisabled(isInViewMode());
 		bankBranchSelect.setDisabled(isInViewMode());

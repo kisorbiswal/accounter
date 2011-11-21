@@ -9,10 +9,10 @@ import com.vimukti.accounter.mobile.ResultList;
 public class JResultList {
 	List<JRecord> records = new ArrayList<JRecord>();
 	boolean isMultiSelection;
-	String name;
+	String title;
 
 	public int addAll(ResultList object, int code) {
-		name = object.getName();
+		title = object.getTitle();
 		isMultiSelection = object.isMultiSelection();
 		for (Record record : object) {
 			record.setCode(code++);

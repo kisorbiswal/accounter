@@ -40,9 +40,11 @@ public class BaseServlet extends HttpServlet {
 	public static final String PASSWORD = "password";
 	protected static final String COMPANY_CREATION_STATUS = "comCreationStatus";
 	protected static final String COMPANY_DELETION_STATUS = "deleteCompanyStatus";
+	protected static final String ACCOUNT_DELETION_STATUS = "accountCompanyStatus";
 
 	protected static final String COMPANY_DELETING = "Deleting";
 	protected static final String COMPANY_CREATING = "Creating";
+	protected static final String ACCOUNT_DELETING = "AccountDeleting";
 
 	protected static final String PARAM_DESTINATION = "destination";
 	protected static final String PARAM_SERVER_COMPANY_ID = "serverCompanyId";
@@ -52,7 +54,7 @@ public class BaseServlet extends HttpServlet {
 	protected static final String PARAM_LAST_NAME = "lastName";
 	protected static final String PARAM_COUNTRY = "country";
 	protected static final String PARAM_PH_NO = "phNo";
-	
+
 	protected static final String IS_TOUCH = "isTouch";
 
 	protected static final String ATTR_MESSAGE = "message";
@@ -70,12 +72,11 @@ public class BaseServlet extends HttpServlet {
 	protected static final String CREATE_COMPANY_URL = "/main/createcompany";
 	protected static final String DELETE_COMPANY_URL = "/main/deletecompany";
 	protected String COMPANY_STATUS_URL = "/main/companystatus";
-	
-	
-	public static final String ACT_FROM_SIGNUP="108";
-	public static final String ACT_FROM_RESET="109";
-	public static final String ACT_FROM_RESEND="110";
-	public static final String ACT_FROM_LOGIN="111";
+
+	public static final String ACT_FROM_SIGNUP = "108";
+	public static final String ACT_FROM_RESET = "109";
+	public static final String ACT_FROM_RESEND = "110";
+	public static final String ACT_FROM_LOGIN = "111";
 
 	/**
 	 * 

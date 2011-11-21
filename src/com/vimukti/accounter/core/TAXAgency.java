@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -147,13 +148,13 @@ public class TAXAgency extends Payee {
 	 * @param transactionCategory
 	 * @param amount
 	 */
-	public void updateVATAgencyAccount(Session session,
-			Transaction transaction, int transactionCategory, double amount) {
-
+	public void updateTAXAgencyAccount(Session session,
+			Transaction transaction, double amount) {
+		updateBalance(session, transaction, amount);
 		Account account = null;
-		if (transactionCategory == Transaction.CATEGORY_CUSTOMER) {
+		if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 			account = this.salesLiabilityAccount;
-		} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
+		} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
 			account = this.purchaseLiabilityAccount;
 		}
 		if (account != null) {
@@ -267,6 +268,11 @@ public class TAXAgency extends Payee {
 	 */
 	public void setLastTAXReturnDate(FinanceDate lastTAXReturnDate) {
 		this.lastTAXReturnDate = lastTAXReturnDate;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXAGENCY;
 	}
 
 }

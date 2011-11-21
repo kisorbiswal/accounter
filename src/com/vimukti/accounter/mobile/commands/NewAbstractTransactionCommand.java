@@ -3,9 +3,12 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -172,5 +175,43 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 						companyId);
 		return new ArrayList<ReceivePaymentTransactionList>(
 				receivePaymentTransactionList);
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		// TODO
+		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
+		if (get(ITEMS) != null) {
+			List<ClientTransactionItem> itemReqValue = get(ITEMS).getValue();
+			allrecords.addAll(itemReqValue);
+		}
+		if (get(ACCOUNTS) != null) {
+			List<ClientTransactionItem> accountReqValue = get(ACCOUNTS)
+					.getValue();
+			allrecords.addAll(accountReqValue);
+		}
+
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (!allrecords.isEmpty() && preferences.isTrackTax()
+				&& !preferences.isTaxPerDetailLine()) {
+			TAXCode taxCode = (TAXCode) (get(TAXCODE) == null ? null : get(
+					TAXCODE).getValue());
+			if (taxCode != null) {
+				for (ClientTransactionItem item : allrecords) {
+					item.setTaxCode(taxCode.getID());
+				}
+			}
+		}
+
+		Boolean isVatInclusive = false;
+		if (get(IS_VAT_INCLUSIVE) != null) {
+			isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		}
+		double[] result = getTransactionTotal(context, isVatInclusive,
+				allrecords, true);
+		if (context.getPreferences().isTrackTax()) {
+			makeResult.add("Total Tax: " + result[1]);
+		}
+		makeResult.add("Total: " + (result[0] + result[1]));
 	}
 }

@@ -21,6 +21,7 @@
 		<property name="loginCount" column="LOGIN_COUNT" update="true"></property>
 		<property name="lastLoginTime" column="LAST_LOGIN_TIME"
 			update="true"></property>
+		<property name="isDeleted" column="IS_DELETED" />
 		<set name="users" inverse="true">
 			<key column="CLIENT_ID"></key>
 			<one-to-many class="User" />

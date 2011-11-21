@@ -36,13 +36,12 @@ public class CurrencyFactorWidget extends DynamicForm {
 	}
 
 	private void factorFieldChagned(double factor) {
-		this.factor=factor;
-		if(factor == 0.0){
+		this.factor = factor;
+		if (factor == 0.0) {
 			factor = 1.0;
-			currencyForm.changeTextField(factor);	
+			currencyForm.changeTextField(factor);
 		}
-		
-			
+
 		if (listener != null) {
 			listener.currencyChanged(selectedCurrencyItem, factor);
 		}
@@ -97,25 +96,25 @@ public class CurrencyFactorWidget extends DynamicForm {
 		selectedCurrencyItem = clientCurrency;
 		showFactorField(showFactorField);
 	}
-	
-	public void compareCurrency(ClientCurrency clientCurrency1,ClientCurrency clientCurrency2) {
+
+	public void compareCurrency(ClientCurrency clientCurrency1,
+			ClientCurrency clientCurrency2) {
 		setShowFactorField(clientCurrency1.equals(clientCurrency2));
-		
-		if(!clientCurrency1.equals(baseCurrency)){
+
+		if (!clientCurrency1.equals(baseCurrency)) {
 			selectedCurrencyItem = clientCurrency1;
-		}else {
+		} else {
 			selectedCurrencyItem = clientCurrency2;
 		}
 		showFactorField(showFactorField);
-		}
-
+	}
 
 	public ClientCurrency getSelectedCurrency() {
 		return selectedCurrencyItem;
 	}
 
 	public void setCurrencyFactor(double factor) {
-		this.factor=factor;
+		this.factor = factor;
 		currencyForm.setValue(String.valueOf(factor));
 	}
 

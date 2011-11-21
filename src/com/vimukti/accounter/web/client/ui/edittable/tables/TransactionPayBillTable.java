@@ -290,7 +290,6 @@ public abstract class TransactionPayBillTable extends
 				return selectedValues.contains(indexOf(row));
 			}
 
-			
 		});
 
 		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
@@ -315,7 +314,6 @@ public abstract class TransactionPayBillTable extends
 				return selectedValues.contains(indexOf(row));
 			}
 
-			
 		});
 
 		if (canEdit) {
@@ -352,9 +350,8 @@ public abstract class TransactionPayBillTable extends
 				protected void setAmount(ClientTransactionPayBill row,
 						double value) {
 					value = currencyProvider.getAmountInBaseCurrency(value);
-					onSelectionChanged(row, true);
 					row.setPayment(value);
-					updateTotals(row, value);
+					updateValue(row);
 					adjustAmountAndEndingBalance();
 					updateFootervalues(row, canEdit);
 					update(row);
@@ -824,7 +821,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected double getAmount(ClientTransactionPayBill row) {
-					return row.getTdsAmount();
+					return currencyProvider.getAmountInTransactionCurrency(row
+							.getTdsAmount());
 				}
 
 				@Override
@@ -843,8 +841,7 @@ public abstract class TransactionPayBillTable extends
 		}
 		this.tdsCode = item;
 		for (ClientTransactionPayBill bill : getSelectedRecords()) {
-			updatesAmounts(bill);
-			update(bill);
+			updateValue(bill);
 		}
 	}
 
@@ -1176,26 +1173,10 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	private void updatesAmounts(ClientTransactionPayBill bill) {
-		double amountToPay = currencyProvider.getAmountInBaseCurrency(bill
-				.getAmountDue())
-				- bill.getAppliedCredits()
-				- bill.getCashDiscount();
-		double tdsToPay = calculateTDS(amountToPay);
-		double payment = amountToPay - tdsToPay;
-
-		bill.setPayment(payment);
+		double tdsToPay;
+		tdsToPay = calculateTDS(bill.getPayment());
 		bill.setTdsAmount(tdsToPay);
-	}
 
-	private void updateTotals(ClientTransactionPayBill bill, double payment) {
-		double amountToPay = currencyProvider.getAmountInBaseCurrency(bill
-				.getAmountDue())
-				- bill.getAppliedCredits()
-				- bill.getCashDiscount();
-		double tdsToPay = calculateTDS(amountToPay);
-		tdsToPay = (payment / (amountToPay - tdsToPay)) * tdsToPay;
-		tdsToPay = DecimalUtil.round(tdsToPay);
-		bill.setTdsAmount(tdsToPay);
 	}
 
 	public void showTDS(boolean value) {

@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 
 public class TAXItemGroup extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -131,7 +131,8 @@ public class TAXItemGroup extends CreatableObject implements
 		// session.createQuery("from VATItemGroup V where V.name =: name")
 		// .setParameter("name", vatItemGroup.name);
 		Query query = session.getNamedQuery("getTaxItemGroupWithSameName")
-				.setParameter("name", this.getName()).setParameter("id", this.id)
+				.setParameter("name", this.getName())
+				.setParameter("id", this.id)
 				.setParameter("companyId", taxItemGroup.getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
@@ -155,5 +156,11 @@ public class TAXItemGroup extends CreatableObject implements
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

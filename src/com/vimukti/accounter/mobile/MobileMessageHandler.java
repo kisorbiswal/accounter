@@ -72,9 +72,11 @@ public class MobileMessageHandler extends Thread {
 		Session openSession = HibernateUtil.openSession();
 		try {
 			MobileSession session = sessions.get(networkId);
-			if (session == null) {
+			if (session == null || session.isExpired()) {
+				sessions.remove(networkId);
 				session = sessions.get(message);
 				if (session != null) {
+					networkId = message;
 					context.changeNetworkId(message);
 					return session.getLastReply();
 				}
@@ -105,6 +107,7 @@ public class MobileMessageHandler extends Thread {
 				if (result.getCookie() == null) {
 					result.setCookie(cookie);
 				}
+				result.setHideCancel(oldResult.isHideCancel());
 			}
 			boolean hasNextCommand = true;
 			if (command != null && command.isDone()) {
@@ -131,12 +134,33 @@ public class MobileMessageHandler extends Thread {
 				return processMessage(networkId, nextCommand, adaptorType,
 						networkType, result, context);
 			}
+
 			if (!hasNextCommand) {
 				return processMessage(networkId, "menu", adaptorType,
 						networkType, result, context);
 			}
+
+			Command currentCommand = session.getCurrentCommand();
+			if (currentCommand == null) {
+				result.setHideCancel(true);
+			} else {
+				if (currentCommand instanceof AuthenticationCommand) {
+					if (currentCommand.getAttribute("select") == null) {
+						result.setHideCancel(true);
+					}
+				}
+			}
+
+			if (result.isHideCancel()) {
+				result.setTitle("Accounter");
+			} else {
+				result.setTitle(currentCommand.getTitle());
+			}
 			String postProcess = adoptor.postProcess(result);
 			session.setLastReply(postProcess);
+			if (session.isExpired()) {
+				sessions.remove(networkId);
+			}
 			return postProcess;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -171,6 +195,12 @@ public class MobileMessageHandler extends Thread {
 		}
 
 		if (command == null && !session.isAuthenticated()) {
+			// Result result = PatternStore.INSTANCE.find("login");
+			// if (result != null) {
+			// userMessage.setType(Type.HELP);
+			// userMessage.setResult(result);
+			// return userMessage;
+			// }
 			command = new AuthenticationCommand();
 			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
 				userMessage.setOriginalMsg("");// To know it is first

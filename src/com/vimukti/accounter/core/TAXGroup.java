@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
  * A VATGroup is a sub class of VATItemGroup. It consists of list of VATItems
@@ -135,5 +136,10 @@ public class TAXGroup extends TAXItemGroup {
 		ChangeTracker.put(accounterCore);
 
 		return super.onDelete(arg0);
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXGROUP;
 	}
 }

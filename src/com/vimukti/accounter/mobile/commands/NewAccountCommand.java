@@ -121,27 +121,23 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	protected List<String> getAccountTypes() {
 		List<String> list = new ArrayList<String>();
-		list.add("Cash");
-		list.add("Bank");
-		list.add("Account Receivable");
-		list.add("Other Current Asset");
-		list.add("Inventory Asset");
-		list.add("Fixed Assets");
-		list.add("OtherAssets");
-		list.add("Account Payable");
-		list.add("Other Current Liability");
-		list.add("CreditCard");
-		list.add("Payroll Liability");
-		list.add("Long Term Liability");
-		list.add("Equity");
-		list.add("Income");
-		list.add("CostOfGoodSold");
-		list.add("Expense");
-		list.add("OtherIncome");
-		list.add("OtherExpense");
-		list.add("Liability");
-		list.add("Asset");
 
+		list.add("Income");
+		list.add("Other Income");
+		list.add("Expense");
+		list.add("Other Expense");
+		list.add("Cost of Goods Sold");
+		list.add("cash");
+		list.add("Other current Asset");
+		list.add("Inventory Asset");
+		list.add("Other Asset");
+		list.add("Fixted Asset");
+		list.add("Credit card");
+		list.add("Payroll Liability");
+		list.add("current Liability");
+		list.add("Long Term Liability");
+		list.add("	Equity");
+		list.add("Paypal");
 		return list;
 	}
 

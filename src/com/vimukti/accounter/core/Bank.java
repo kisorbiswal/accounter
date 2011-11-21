@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Bank extends CreatableObject implements IAccounterServerCore,
@@ -82,6 +83,11 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.BANK;
 	}
 
 }

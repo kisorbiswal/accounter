@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -77,6 +78,11 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.CURRENCY;
 	}
 
 }

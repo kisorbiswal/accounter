@@ -6,8 +6,10 @@ public class Mozambique extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Gaza", "Inhambane", "Manica",
-				"Maputo", "Nampula", "Sofala", "Tete", "Zambézia" };
+		String[] states = new String[] { "Cabo Delgado", "Gaza", "Inhambane",
+				"Manica", "Maputo", "Maputo Provincia", "Nampula", "Niassa",
+				"Sofala", "Tete", "Zambezia" };
+
 		return states;
 	}
 

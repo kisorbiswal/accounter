@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientStockAdjustmentItem;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -211,5 +212,22 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		wareHouseCombo.setDisabled(!getCompany().getPreferences()
 				.iswareHouseEnabled() || isInViewMode());
 		table.setDisabled(isInViewMode());
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (table.getAllRows().isEmpty()) {
+			result.addError(this,
+					messages.transactiontotalcannotbe0orlessthan0());
+		}
+		for (ClientStockAdjustmentItem item : table.getAllRows()) {
+			if (item.getAdjustmentQty().getValue() <= 0
+					|| item.getAdjustmentQty().getUnit() <= 0) {
+				result.addError(this,
+						messages.pleaseSelectAnyOneOfTheTransactions());
+			}
+		}
+		return result;
 	}
 }

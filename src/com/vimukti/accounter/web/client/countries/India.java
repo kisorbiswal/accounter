@@ -82,8 +82,7 @@ public class India extends AbstractCountryPreferences {
 
 	@Override
 	public boolean isTDSAvailable() {
-		// FOR THIS RELEASE OLNY
-		return false;
+		return true;
 	}
 
 	@Override

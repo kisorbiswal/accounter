@@ -1002,6 +1002,8 @@ public interface AccounterMessages extends Messages {
 	public String date29();
 
 	public String date30();
+	
+	public String creditAccount();
 
 	public String date31();
 

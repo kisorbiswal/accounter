@@ -4,20 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.PayTAXEntries;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
-import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
@@ -81,54 +75,39 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new CurrencyRequirement(CURRENCY, getMessages().pleaseSelect(
-				getMessages().currency()), getMessages().currency(), true,
-				true, null) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isEnableMultiCurrency()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-			@Override
-			protected List<Currency> getLists(Context context) {
-				return new ArrayList<Currency>(context.getCompany()
-						.getCurrencies());
-			}
-		});
-
-		list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseSelect(getMessages().currency()), getMessages()
-				.currency(), false, true) {
-			@Override
-			protected String getDisplayValue(Double value) {
-				ClientCurrency primaryCurrency = getPreferences()
-						.getPrimaryCurrency();
-				Currency selc = get(CURRENCY).getValue();
-				return "1 " + selc.getFormalName() + " = " + value + " "
-						+ primaryCurrency;
-			}
-
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (get(CURRENCY).getValue() != null) {
-					if (getPreferences().isEnableMultiCurrency()
-							&& !((Currency) get(CURRENCY).getValue())
-									.equals(getPreferences()
-											.getPrimaryCurrency())) {
-						return super.run(context, makeResult, list, actions);
-					}
-				}
-				return null;
-
-			}
-		});
-
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency; }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
+		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
+		 * actions); } } return null;
+		 * 
+		 * } });
+		 */
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
 				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), false, true, null) {
@@ -198,15 +177,14 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		payVAT.setDate(transactionDate.getDate());
 		payVAT.setNumber(orderNo);
 
-		if (context.getPreferences().isEnableMultiCurrency()) {
-			Currency currency = get(CURRENCY).getValue();
-			if (currency != null) {
-				payVAT.setCurrency(currency.getID());
-			}
-
-			double factor = get(CURRENCY_FACTOR).getValue();
-			payVAT.setCurrencyFactor(factor);
-		}
+		/*
+		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
+		 * currency = get(CURRENCY).getValue(); if (currency != null) {
+		 * payVAT.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * payVAT.setCurrencyFactor(factor); }
+		 */
 
 		create(payVAT, context);
 
@@ -215,24 +193,9 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	private List<ClientTransactionPayTAX> getTransactionPayVatBills() {
 
-		List<ClientTransactionPayTAX> result = new ArrayList<ClientTransactionPayTAX>();
-		ArrayList<PayTAXEntries> payVATEntries = new FinanceTool()
-				.getTaxManager().getPayVATEntries(getCompanyId());
+		return new FinanceTool().getTaxManager().getPayTAXEntries(
+				getCompanyId());
 
-		for (PayTAXEntries payTAXEntrie : payVATEntries) {
-			ClientTransactionPayTAX clientTransactionPayTAX = new ClientTransactionPayTAX();
-			clientTransactionPayTAX.setID(payTAXEntrie.getID());
-			clientTransactionPayTAX.setTaxAgency(payTAXEntrie.getTaxAgency()
-					.getID());
-			clientTransactionPayTAX.setAmountToPay(payTAXEntrie.getAmount());
-			clientTransactionPayTAX.setTaxDue(payTAXEntrie.getAmount());
-			clientTransactionPayTAX.setVatReturn(payTAXEntrie.getTransaction()
-					.getID());
-			result.add(clientTransactionPayTAX);
-
-		}
-
-		return result;
 	}
 
 	@Override
@@ -255,8 +218,10 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	protected void setDefaultValues(Context context) {
 		get(VAT_RETURN_END_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(CURRENCY).setDefaultValue(null);
-		get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
 	}
 
 	@Override

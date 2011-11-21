@@ -28,6 +28,7 @@ public class Client {
 	private int loginCount;
 	private long lastLoginTime;
 	private Set<Language> languages;
+	private boolean isDeleted;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -179,6 +180,14 @@ public class Client {
 
 	public Set<Language> getLanguages() {
 		return languages;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

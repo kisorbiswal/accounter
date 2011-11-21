@@ -79,6 +79,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
+	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
 	public static final int STATUS_APPROVE = 202;
@@ -211,7 +212,6 @@ public abstract class Transaction extends CreatableObject implements
 	/**
 	 * Not using now, this property has been shifted to Comapny.
 	 */
-	Set<PayTAXEntries> payVATEntriesList = new HashSet<PayTAXEntries>();
 	Set<ReceiveVATEntries> receiveVATEntriesList = new HashSet<ReceiveVATEntries>();
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
@@ -281,14 +281,6 @@ public abstract class Transaction extends CreatableObject implements
 	public void setAccountTransactionEntriesList(
 			Set<AccountTransaction> accountTransactionEntriesList) {
 		this.accountTransactionEntriesList = accountTransactionEntriesList;
-	}
-
-	public Set<PayTAXEntries> getPayVATEntriesList() {
-		return payVATEntriesList;
-	}
-
-	public void setPayVATEntriesList(Set<PayTAXEntries> payVATEntriesList) {
-		this.payVATEntriesList = payVATEntriesList;
 	}
 
 	public Set<ReceiveVATEntries> getReceiveVATEntriesList() {
@@ -935,9 +927,6 @@ public abstract class Transaction extends CreatableObject implements
 		if (transaction.accountTransactionEntriesList != null) {
 			transaction.accountTransactionEntriesList.clear();
 		}
-		if (transaction.payVATEntriesList != null) {
-			transaction.payVATEntriesList.clear();
-		}
 
 	}
 
@@ -1045,11 +1034,13 @@ public abstract class Transaction extends CreatableObject implements
 
 		if (taxItemGroup instanceof TAXItem) {
 			TAXItem vatItem = ((TAXItem) taxItemGroup);
-			setVatItemVRC(vatItem, transactionItem, false);
+			addTAXRateCalculation(vatItem, transactionItem.getLineTotal(),
+					false);
 		} else {
 			TAXGroup vatGroup = (TAXGroup) taxItemGroup;
 			for (TAXItem taxItem : vatGroup.getTAXItems()) {
-				setVatItemVRC(taxItem, transactionItem, true);
+				addTAXRateCalculation(taxItem, transactionItem.getLineTotal(),
+						true);
 			}
 		}
 
@@ -1064,11 +1055,20 @@ public abstract class Transaction extends CreatableObject implements
 	 * @param transactionItem
 	 * @param session
 	 */
-	private void setVatItemVRC(TAXItem vatItem,
-			TransactionItem transactionItem, boolean isGroup) {
+	public void addTAXRateCalculation(TAXItem vatItem, double lineTotal,
+			boolean isGroup) {
+		/**
+		 * Line total will be positive for all receiving money and negative for
+		 * paying money. But for TDS line total is always positive.
+		 */
+		if (!isPositiveTransaction()
+				&& vatItem.getTaxAgency().getTaxType() != TAXAgency.TAX_TYPE_TDS) {
+			lineTotal = -lineTotal;
+		}
+
 
 		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this,
-				transactionItem.getLineTotal());
+				lineTotal);
 
 		vc.setVATGroupEntry(isGroup);
 

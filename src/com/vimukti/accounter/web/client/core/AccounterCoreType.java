@@ -13,6 +13,8 @@ public enum AccounterCoreType implements IsSerializable {
 
 	ACCOUNT("ClientAccount", "Account"),
 
+	BANK_ACCOUNT("ClientBankAccount", "BankAccount"),
+
 	VENDOR("ClientVendor", "Vendor"),
 
 	TAXAGENCY("ClientTAXAgency", "TAXAgency"),

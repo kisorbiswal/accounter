@@ -5,6 +5,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -14,7 +15,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class StockAdjustment extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -82,5 +83,21 @@ public class StockAdjustment extends CreatableObject implements
 			item.setWarehouse(wareHouse);
 		}
 		return super.onUpdate(session);
+	}
+
+	@Override
+	public String getName() {
+		return wareHouse.getName();
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.STOCK_ADJUSTMENT;
 	}
 }

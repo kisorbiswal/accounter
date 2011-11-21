@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+
 public class BankAccount extends Account {
 
 	/**
@@ -71,6 +73,8 @@ public class BankAccount extends Account {
 		this.lastReconcilationDate = lastReconcilationDate;
 	}
 
-	
-
+	@Override
+	public int getObjType() {
+		return IAccounterCore.BANK_ACCOUNT;
+	}
 }

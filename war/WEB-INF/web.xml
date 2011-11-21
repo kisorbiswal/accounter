@@ -242,6 +242,28 @@
 		</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>deleteAccount</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.DeleteAccountServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deleteAccount</servlet-name>
+		<url-pattern>/main/deleteAccount
+		</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>cancelform</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.CancelAccountServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cancelform</servlet-name>
+		<url-pattern>/main/cancelform
+		</url-pattern>
+	</servlet-mapping>
+
 	<!-- the comet servlet for streaming messages to the client -->
 	<servlet>
 		<servlet-name>comet</servlet-name>

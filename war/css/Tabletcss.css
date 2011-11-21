@@ -796,14 +796,12 @@ iframe,.address div {
     background-color:#918C8C;
 }
 .image-button{
-    background-position: 5px center;
-    padding:0 5px 5px 27px;
-    padding:0 5px 0 27px\0 !important;
+    background-position: 10px center;
+    padding:0px 10px 1px 34px;
     background-color: #C4C0C0;
 	border: 1px solid #918C8C;
-	line-height: 1.8;
 	color: black;
-	border-radius: 5px;
+	border-radius: 11px;
 }
 .accounter-button-seperater,.image-button,.recounciliation_grid thead th{
 	 height: 25px;
@@ -819,7 +817,7 @@ iframe,.address div {
 	width:30px;
 }
 .cancle-Btn{
-    padding-left:22px;
+    padding-left:30px;
 }
 .cancle-Btn:hover,.cancle-Btn-hover{
 	background-color:#A0A0A0 !important;
@@ -1079,7 +1077,7 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 .custom-combo{
 	width:155px;
 }
-.gwt-TextBox{
+.fields-panel .gwt-TextBox,.datenumber-panel .gwt-TextBox{
 	width:172px !important;
 }
 input[type="text"]{
@@ -1097,7 +1095,7 @@ input[type="text"]{
 	  -moz-border-radius:0 5px 0 0;
 	  margin-left:-2px;
 }
-.editTable .gwt-TextBox{
+.editTable .gwt-TextBox,.editTable .gwt-TextArea{
 	-webkit-appearance: caret;
 }
 .editTable .downarrow-button{
@@ -1242,4 +1240,15 @@ input.date-field-textbox{
 }
 .history_links a{
    margin-right: 20px;
+}
+.gwt-DisclosurePanel .header{
+	 color: #3299A4;
+}
+.sales_tax_buttons .image-button{
+	 float:none;
+}
+.user-html,.company-settings-html,.general-main-class tr:last-child td:last-child tr:FIRST-CHILD .gwt-HTML{
+	color: #3D3D3D;
+    font-size: 18px;
+    font-weight: bold;
 }

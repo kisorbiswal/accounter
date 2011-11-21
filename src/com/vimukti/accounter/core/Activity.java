@@ -2,16 +2,13 @@ package com.vimukti.accounter.core;
 
 import java.sql.Timestamp;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-
-public class Activity extends CreatableObject implements IAccounterCore {
+public class Activity extends CreatableObject {
 
 	private User user;
 
-	private ActivityType type;
-
 	private int activityType;
+
+	private int objType;
 
 	private Timestamp time;
 
@@ -34,7 +31,6 @@ public class Activity extends CreatableObject implements IAccounterCore {
 
 	public Activity(Company company, User user, ActivityType type) {
 		this.user = user;
-		this.type = type;
 		this.userName = user.getClient().getFullName();
 		this.time = new Timestamp(System.currentTimeMillis());
 		setActivityType(type.getValue());
@@ -56,22 +52,16 @@ public class Activity extends CreatableObject implements IAccounterCore {
 			if (payee != null) {
 				this.name = payee.getName();
 			}
-			this.setObjectType(Utility.getTransactionName(tr.getType()));
+			this.setDataType(Utility.getTransactionName(tr.getType()));
+			this.setObjType(tr.getType());
 		} else {
 			if (obj instanceof INamedObject) {
 				this.name = ((INamedObject) obj).getName();
+				this.objType = ((INamedObject) obj).getObjType();
 			}
-			this.setObjectType(obj.getClass().getSimpleName());
+			this.setDataType(obj.getClass().getSimpleName());
 		}
 		this.objectID = obj.getID();
-	}
-
-	public ActivityType getType() {
-		return type;
-	}
-
-	public void setType(ActivityType type) {
-		this.type = type;
 	}
 
 	public Timestamp getTime() {
@@ -124,30 +114,6 @@ public class Activity extends CreatableObject implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getDisplayName() {
-		return null;
-	}
-
-	@Override
-	public void setID(long id) {
-
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
-
-	@Override
-	public AccounterCoreType getObjectType() {
-		return null;
-	}
-
-	public void setObjectType(String objectType) {
-		this.setDataType(objectType);
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -189,6 +155,14 @@ public class Activity extends CreatableObject implements IAccounterCore {
 	 */
 	public void setDescription(String details) {
 		this.description = details;
+	}
+
+	public int getObjType() {
+		return objType;
+	}
+
+	public void setObjType(int objType) {
+		this.objType = objType;
 	}
 
 }

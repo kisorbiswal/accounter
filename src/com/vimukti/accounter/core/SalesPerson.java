@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class SalesPerson extends CreatableObject implements
@@ -326,6 +327,11 @@ public class SalesPerson extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		this.firstName = name;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.SALES_PERSON;
 	}
 
 }
