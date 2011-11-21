@@ -58,6 +58,7 @@ public class Result {
 	}
 
 	public void add(String message) {
+		this.resultParts.remove(message);
 		this.resultParts.add(message);
 	}
 
@@ -94,5 +95,9 @@ public class Result {
 
 	public void add(InputType inputType) {
 		resultParts.add(inputType);
+	}
+
+	public void remove(String string) {
+		resultParts.remove(string);
 	}
 }
