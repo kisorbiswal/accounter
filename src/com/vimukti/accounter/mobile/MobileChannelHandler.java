@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 import org.jboss.netty.buffer.ChannelBuffer;
@@ -37,10 +38,10 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 					System.out.println();
 				}
 				Channel channel = e.getChannel();
-
-				ChannelBuffer buffer = ChannelBuffers.copiedBuffer(string,
-						Charset.forName("UTF-8"));
-				channel.write(buffer);
+				ByteBuffer buffer = ByteBuffer.allocate(string.length() + 4);
+				buffer.putInt(string.length());
+				buffer.put(string.getBytes());
+				channel.write(ChannelBuffers.wrappedBuffer(buffer));
 			}
 
 			@Override
@@ -70,6 +71,8 @@ class MobileDecoder extends FrameDecoder {
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel arg1,
 			ChannelBuffer buff) throws Exception {
+		ByteBuffer allocate = ByteBuffer.allocate(4);
+		buff.readBytes(allocate);
 		String string = buff.toString(Charset.forName("UTF-8"));
 		System.out.println(string);
 		buff.readerIndex(buff.writerIndex());
