@@ -44,6 +44,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 					reply.append(commandList.get(x));
 					reply.append('\n');
 				}
+			} else if (part instanceof InputType) {
+				// TODO
 			} else {
 				reply.append((String) part);
 			}
