@@ -132,7 +132,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 	private IMenu getSettingsMenu() {
 		IMenu settingsMenuBar = factory.createMenu();
 		settingsMenuBar.addMenuItem(ActionFactory.getGeneralSettingsAction());
-
+		settingsMenuBar.addMenuItem(ActionFactory.getTranslationAction());
 		// settingsMenuBar.addItem(ActionFactory.getChartOfAccountsAction());
 		return settingsMenuBar;
 	}
@@ -782,7 +782,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 		// companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());
 		companyListMenuBar.addMenuItem(ActionFactory
 				.getUsersActivityListAction());
-		companyListMenuBar.addMenuItem(ActionFactory.getTranslationAction());
+		
 		return companyListMenuBar;
 	}
 
