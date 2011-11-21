@@ -267,9 +267,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a Tax Agency to update.");
 				return "vendors " + string;
 			}
-			taxAgency = (ClientTAXAgency) CommandUtils.getClientObjectById(
-					vendorByName.getID(), AccounterCoreType.TAXAGENCY, context
-							.getCompany().getId());
+			taxAgency = (ClientTAXAgency) vendorByName;
 			setValues();
 		} else {
 			taxAgency = new ClientTAXAgency();
