@@ -68,8 +68,11 @@ public abstract class TemplateAccountRequirement extends
 			} else if (actionName == ActionNames.CLOSE) {
 				context.setAttribute(INPUT_ATTR, "");
 				Record record = new Record("accountsNumber");
-				record.add("", values.size()
-						+ getMessages().hasSelected(getMessages().Account()));
+				record.add(
+						"",
+						values.size()
+								+ getMessages().hasSelected(
+										getMessages().Account()));
 				list.add(record);
 				return null;
 			}
@@ -91,9 +94,9 @@ public abstract class TemplateAccountRequirement extends
 		selection = context.getSelection(ACCOUNTS_LIST);
 		if (selection != null) {
 			values.remove(selection);
-			addFirstMessage(context, "'"
-					+ ((TemplateAccount) selection).getName()
-					+ "' has been removed from below list");
+			addFirstMessage(context,
+					"'" + ((TemplateAccount) selection).getName()
+							+ "' has been removed from below list");
 			return showSlectedAccounts();
 		}
 		if (values.size() == 0
@@ -103,8 +106,10 @@ public abstract class TemplateAccountRequirement extends
 		}
 
 		Record record = new Record("accountsNumber");
-		record.add("", values.size()
-				+ getMessages().hasSelected(getMessages().Account()));
+		record.add(
+				"",
+				values.size()
+						+ getMessages().hasSelected(getMessages().Account()));
 		list.add(record);
 
 		if (valuesSelection == "accountsNumber") {
@@ -116,7 +121,7 @@ public abstract class TemplateAccountRequirement extends
 
 	private Result showSlectedAccounts() {
 		Result result = new Result();
-		result.add(getMessages().Accounts());
+		result.setTitle(getMessages().Accounts());
 		ResultList actions = new ResultList(ACTIONS);
 		ResultList itemsList = new ResultList(ACCOUNTS_LIST);
 		List<TemplateAccount> values = getValue();
