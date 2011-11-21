@@ -57,8 +57,8 @@ public abstract class NewCommand extends Command {
 			setAttribute("input", "");
 		}
 
-		makeResult.add(getDetailsMessage());
 		ResultList list = new ResultList("values");
+		list.setTitle(getDetailsMessage());
 		ResultList actions = new ResultList("actions");
 
 		makeResult.add(list);
