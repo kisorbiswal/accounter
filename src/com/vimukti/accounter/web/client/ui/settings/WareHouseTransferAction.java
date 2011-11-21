@@ -50,7 +50,7 @@ public class WareHouseTransferAction extends Action<ClientStockTransfer> {
 
 	@Override
 	public String getHelpToken() {
-		return "warehouse";
+		return "wareHouseTransfer";
 	}
 
 }
