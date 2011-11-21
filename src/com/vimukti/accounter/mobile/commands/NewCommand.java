@@ -30,7 +30,7 @@ public abstract class NewCommand extends Command {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
 	public Result process(Context context) {
 		context.setAttribute("firstMessage", new ArrayList<String>());
 		setDefaultValues(context);
@@ -47,11 +47,11 @@ public abstract class NewCommand extends Command {
 				markDone();
 				return result;
 			}
-			String welcomeMessage = getWelcomeMessage();
-			if (welcomeMessage != null) {
-				((List<String>) context.getAttribute("firstMessage"))
-						.add(welcomeMessage);
-			}
+			// String welcomeMessage = getWelcomeMessage();
+			// if (welcomeMessage != null) {
+			// ((List<String>) context.getAttribute("firstMessage"))
+			// .add(welcomeMessage);
+			// }
 			setAttribute("input", "");
 		}
 
