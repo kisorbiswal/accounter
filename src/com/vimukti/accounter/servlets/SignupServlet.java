@@ -126,18 +126,6 @@ public class SignupServlet extends BaseServlet {
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 
-				HashSet<Language> languages = new HashSet<Language>();
-
-				Query languageQuery1 = hibernateSession.getNamedQuery(
-						"getLanguageById").setParameter("code", "tel");
-				Language language1 = (Language) languageQuery1.uniqueResult();
-				languages.add(language1);
-
-				Query languageQuery2 = hibernateSession.getNamedQuery(
-						"getLanguageById").setParameter("code", "hin");
-				Language language2 = (Language) languageQuery2.uniqueResult();
-				languages.add(language2);
-				client.setLanguages(languages);
 				client.setDeleted(false);
 				saveEntry(client);
 				// Email to that user.
