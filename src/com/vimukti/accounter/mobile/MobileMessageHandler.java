@@ -154,7 +154,7 @@ public class MobileMessageHandler extends Thread {
 			if (result.isHideCancel()) {
 				result.setTitle("Accounter");
 			} else {
-				result.setTitle(currentCommand.getTitle());
+				result.setTitle(userMessage.getCommandString());
 			}
 			String postProcess = adoptor.postProcess(result);
 			session.setLastReply(postProcess);
@@ -205,14 +205,14 @@ public class MobileMessageHandler extends Thread {
 			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
 				userMessage.setOriginalMsg("");// To know it is first
 				message = "";
-				userMessage.setCommandString("");
+				userMessage.setCommandString("Login");
 			}
 		}
 		if (command == null) {
 			long companyId = session.getCompanyID();
 			if (companyId == 0) {
 				command = new SelectCompanyCommand();
-				userMessage.setCommandString("");
+				userMessage.setCommandString("Company Selection");
 			}
 		}
 
@@ -239,11 +239,13 @@ public class MobileMessageHandler extends Thread {
 				userMessage.setOriginalMsg(message);
 				command = matchedCommand;
 				userMessage.setCommandString(commandString.trim());
+
 			} else {
 				Result result = PatternStore.INSTANCE.find(message);
 				if (result != null) {
 					userMessage.setType(Type.HELP);
 					userMessage.setResult(result);
+					userMessage.setCommandString(message);
 					return userMessage;
 				}
 			}
@@ -254,12 +256,18 @@ public class MobileMessageHandler extends Thread {
 				.getResult();
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
-			Result result = getPatternResult(patternResult.getCommands(),
-					message);
-			if (result != null) {
-				userMessage.setType(Type.HELP);
-				userMessage.setResult(result);
-				return userMessage;
+
+			String commandString = getPatternResultString(
+					patternResult.getCommands(), message);
+
+			if (commandString != null) {
+				Result result = PatternStore.INSTANCE.find(commandString);
+				if (result != null) {
+					userMessage.setType(Type.HELP);
+					userMessage.setResult(result);
+					userMessage.setCommandString(commandString);
+					return userMessage;
+				}
 			}
 		}
 
@@ -302,7 +310,7 @@ public class MobileMessageHandler extends Thread {
 		return userMessage;
 	}
 
-	private Result getPatternResult(CommandList commands, String input) {
+	private String getPatternResultString(CommandList commands, String input) {
 		// Getting the First Character of the Input
 		if (input == null || input.isEmpty() || input.length() > 1) {
 			return null;
@@ -318,7 +326,7 @@ public class MobileMessageHandler extends Thread {
 		if (commandString == null) {
 			return null;
 		}
-		return PatternStore.INSTANCE.find(commandString);
+		return commandString;
 	}
 
 	private Command getCommand(CommandList commands, String input,
