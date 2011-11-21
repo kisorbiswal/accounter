@@ -1683,6 +1683,7 @@ public class ClientCompany implements IAccounterCore {
 			switch (accounterCoreObject.getObjectType()) {
 
 			case ACCOUNT:
+			case BANK_ACCOUNT:
 
 				ClientAccount account = (ClientAccount) accounterCoreObject;
 
