@@ -46,16 +46,13 @@ public class AuthenticationCommand extends Command {
 	}
 
 	@Override
-	public String getTitle() {
-		return "Login";
-	}
-
-	@Override
 	public Result run(Context context) {
 		Result makeResult = context.makeResult();
 		String name = (String) context.getAttribute("select");
 		String selection = context.getSelection("authentication");
-		if (name == null && selection == null) {
+
+		if (name == null && selection == null
+				&& context.getLast(RequirementType.STRING) == null) {
 			ResultList list = new ResultList("authentication");
 			Record record = new Record("signin");
 			record.add("", "Signin");
@@ -74,6 +71,7 @@ public class AuthenticationCommand extends Command {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				string = (String) context.getLast(RequirementType.STRING);
+				context.setAttribute("input", "userName");
 			}
 			Object attribute = context.getAttribute("input");
 			Client client = null;
@@ -137,8 +135,14 @@ public class AuthenticationCommand extends Command {
 					makeResult.add(commandList);
 					return makeResult;
 				}
-				createMobileCookie(context.getNetworkId(), client);
-				markDone();
+				if (client.isActive()) {
+					createMobileCookie(context.getNetworkId(), client);
+					markDone();
+				} else {
+					context.setAttribute("input", "activation");
+					makeResult.add("Please Enter Activation Code");
+					return makeResult;
+				}
 			}
 
 			if (isDone()) {
