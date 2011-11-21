@@ -48,7 +48,7 @@ public class Activity extends CreatableObject {
 			Transaction tr = (Transaction) obj;
 			this.amount = tr.getTotal();
 			this.transactionDate = tr.getDate();
-			Payee payee = tr.getPayee();
+			Payee payee = tr.getInvolvedPayee();
 			if (payee != null) {
 				this.name = payee.getName();
 			}

@@ -305,7 +305,7 @@ public class ReportsRPC {
 			break;
 		case IAccounterCore.BRANDING_THEME:
 			initCallBack(new ClientBrandingTheme(),
-					ActionFactory.getInvoiceBrandingAction(), transactionId);
+					ActionFactory.getNewBrandThemeAction(), transactionId);
 			break;
 		case IAccounterCore.LOCATION:
 			initCallBack(new ClientLocation(),

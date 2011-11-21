@@ -303,7 +303,7 @@ public class CompanyManager extends Manager {
 			User user1 = cmp.getUserByUserEmail(userID);
 
 			Activity activity = new Activity(cmp, user1,
-					ActivityType.UPDATE_PREFERENCE, cmp);
+					ActivityType.UPDATE_PREFERENCE);
 			session.save(activity);
 			session.update(cmp);
 
