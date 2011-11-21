@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -11,6 +12,7 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 	public InventoryItemsAction(String text) {
 		super(text);
+		this.catagory = Accounter.messages().inventory();
 	}
 
 	@Override
