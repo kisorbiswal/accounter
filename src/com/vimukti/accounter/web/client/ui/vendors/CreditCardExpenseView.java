@@ -54,7 +54,6 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransac
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CreditCardExpenseView extends
@@ -86,7 +85,7 @@ public class CreditCardExpenseView extends
 	// protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
 
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
@@ -188,7 +187,7 @@ public class CreditCardExpenseView extends
 				Accounter.constants().switchMaestro() };
 
 		if (isInViewMode()) {
-			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transaction;
+			ClientCreditCardCharge creditCardCharge = transaction;
 			vendorCombo.setComboItem(getCompany().getVendor(
 					creditCardCharge.getVendor()));
 			vendorCombo.setDisabled(true);
@@ -232,6 +231,7 @@ public class CreditCardExpenseView extends
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientContact selectItem) {
 
 						contactSelected(selectItem);
@@ -465,12 +465,14 @@ public class CreditCardExpenseView extends
 		bottompanel.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
 		if (isTrackTax()) {
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalBaseCurrencyText);
-
-			if (isMultiCurrencyEnabled())
-				totalForm.setFields(transactionTotalTransactionCurrencyText);
-
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalBaseCurrencyText,
+						transactionTotalTransactionCurrencyText);
+			} else {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalBaseCurrencyText);
+			}
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -878,8 +880,7 @@ public class CreditCardExpenseView extends
 			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
 		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 		}
 
 		// setting delivery date
@@ -909,7 +910,7 @@ public class CreditCardExpenseView extends
 	}
 
 	public void createAlterObject() {
-		saveOrUpdate((ClientCreditCardCharge) transaction);
+		saveOrUpdate(transaction);
 
 	}
 
@@ -994,6 +995,7 @@ public class CreditCardExpenseView extends
 				.productOrServiceItem());
 	}
 
+	@Override
 	public void saveAndUpdateView() {
 
 		updateTransaction();
@@ -1029,8 +1031,7 @@ public class CreditCardExpenseView extends
 	protected void initMemoAndReference() {
 		if (isInViewMode()) {
 			memoTextAreaItem.setDisabled(true);
-			setMemoTextAreaItem(((ClientCreditCardCharge) transaction)
-					.getMemo());
+			setMemoTextAreaItem(transaction.getMemo());
 		}
 	}
 
@@ -1051,20 +1052,14 @@ public class CreditCardExpenseView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
+		transactionTotalBaseCurrencyText.setAmount(grandTotal);
+		transactionTotalTransactionCurrencyText
+				.setAmount(getAmountInTransactionCurrency(grandTotal));
+		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (getPreferences().isTrackPaidTax()) {
-			transactionTotalBaseCurrencyText.setAmount(grandTotal);
-
-			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
-			transactionTotalTransactionCurrencyText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
-
-		} else {
-			transactionTotalBaseCurrencyText.setAmount(grandTotal);
-			transactionTotalTransactionCurrencyText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 
 	}
@@ -1090,10 +1085,12 @@ public class CreditCardExpenseView extends
 		selectedVendor.addContact(contact);
 		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				caught.printStackTrace();
 			}
 
+			@Override
 			public void onResultSuccess(Long result) {
 				selectedVendor.setVersion(selectedVendor.getVersion() + 1);
 				contactSelected(contact);
