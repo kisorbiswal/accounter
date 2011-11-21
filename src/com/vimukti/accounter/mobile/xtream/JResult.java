@@ -19,7 +19,8 @@ public class JResult {
 		int resultIndex = 1;
 		for (Object object : resultParts) {
 			if (object instanceof String) {
-				this.resultParts.add(object);
+				Message message = new Message(object.toString());
+				this.resultParts.add(message);
 			} else if (object instanceof ResultList) {
 				ResultList res = (ResultList) object;
 				if (res.isEmpty()) {
