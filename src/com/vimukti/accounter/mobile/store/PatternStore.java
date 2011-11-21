@@ -36,7 +36,13 @@ public class PatternStore {
 		if (pattern.isEmpty()) {
 			return null;
 		}
-		return patterns.get(pattern.toLowerCase().trim());
+		Result result = patterns.get(pattern.toLowerCase().trim());
+		if (result == null) {
+			return null;
+		}
+		Result result2 = new PatternResult();
+		result2.addAll(0, result.getResultParts());
+		return result2;
 	}
 
 	public void reload() throws AccounterMobileException {
