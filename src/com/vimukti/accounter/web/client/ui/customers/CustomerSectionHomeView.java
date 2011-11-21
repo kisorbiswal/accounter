@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -195,8 +196,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		listGrid = new CustomerListGrid();
 		listGrid.init();
 
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_CUSTOMER,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
@@ -204,8 +204,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 						listGrid.clear();
 						listGrid.addRecords(result);
 						if (listGrid.getRecords().isEmpty())
-							listGrid
-									.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+							listGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 					}
 
 					@Override
@@ -270,8 +269,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public void setPrevoiusOutput(Object preObject) {
 
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_CUSTOMER,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
@@ -280,8 +278,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 						listGrid.addRecords(result);
 
 						if (listGrid.getRecords().isEmpty())
-							listGrid
-									.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+							listGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 					}
 
 					@Override

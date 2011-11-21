@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
@@ -79,8 +80,8 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_CUSTOMER, this);
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+				this);
 
 	}
 

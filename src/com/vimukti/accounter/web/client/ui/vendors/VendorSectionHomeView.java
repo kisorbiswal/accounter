@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -182,8 +183,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		listGrid = new VendorListGrid(false);
 		listGrid.init();
 		// listGrid.setHeight("400px");
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_VENDOR,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
@@ -260,8 +260,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 	}
 
 	public void setPrevoiusOutput(Object preObject) {
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_VENDOR,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
