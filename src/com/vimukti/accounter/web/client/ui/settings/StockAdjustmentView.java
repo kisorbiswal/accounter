@@ -178,11 +178,18 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 	public void initData() {
 		if (data == null) {
 			setData(new ClientStockAdjustment());
+			table.addEmptyMessage(messages.noRecordsToShow());
 		} else {
 			ClientWarehouse warehouse = getCompany().getWarehouse(
 					data.getWareHouse());
 			wareHouseCombo.setComboItem(warehouse);
-			table.setAllRows(data.getStockAdjustmentItems());
+			List<ClientStockAdjustmentItem> stockAdjustmentItems = data
+					.getStockAdjustmentItems();
+			if (!stockAdjustmentItems.isEmpty()) {
+				table.setAllRows(stockAdjustmentItems);
+			} else {
+				table.addEmptyMessage(messages.noRecordsToShow());
+			}
 		}
 	}
 
