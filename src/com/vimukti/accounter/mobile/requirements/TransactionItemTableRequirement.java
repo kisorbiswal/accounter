@@ -169,15 +169,7 @@ public abstract class TransactionItemTableRequirement extends
 				AccounterCoreType.ITEM);
 		get(ITEM).setValue(item);
 		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
-		if (item != null) {
-			if (isSales()) {
-				get(UNITPTICE).setValue(item.getSalesPrice());
-			} else {
-				get(UNITPTICE).setValue(item.getPurchasePrice());
-			}
-		} else {
-			get(UNITPTICE).setValue(obj.getUnitPrice());
-		}
+		get(UNITPTICE).setValue(obj.getUnitPrice());
 
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
 		if (getPreferences().isTrackTax()
