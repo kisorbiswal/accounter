@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
@@ -66,4 +67,8 @@ public class CountryRequirement extends ListRequirement<String> {
 		return countries;
 	}
 
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_STRING);
+	}
 }
