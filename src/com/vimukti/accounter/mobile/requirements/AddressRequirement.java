@@ -84,9 +84,9 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 			if (selection != null) {
 				if (selection == ADDRESS1) {
 					context.setAttribute(ADDRESS_LINE_ATTR, ADDRESS1);
-					return show(context,
-							getMessages()
-									.pleaseEnter(getMessages().address1()),
+					return show(
+							context,
+							getMessages().pleaseEnter(getMessages().address1()),
 							oldAddress.getAddress1(), oldAddress.getAddress1());
 				} else if (selection == CITY) {
 					context.setAttribute(ADDRESS_LINE_ATTR, CITY);
