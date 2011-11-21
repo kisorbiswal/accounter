@@ -14,12 +14,13 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class NewCommand extends Command {
 	private long companyId;
+	private Company company;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Result run(Context context) {
-		Company company = context.getCompany();
-		companyId = company == null ? 0 : company.getID();
+		setCompany(context.getCompany());
+		companyId = getCompany() == null ? 0 : getCompany().getID();
 		Result result = process(context);
 		List<String> first = (List<String>) context
 				.getAttribute("firstMessage");
@@ -143,5 +144,13 @@ public abstract class NewCommand extends Command {
 
 	public long getCompanyId() {
 		return companyId;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }
