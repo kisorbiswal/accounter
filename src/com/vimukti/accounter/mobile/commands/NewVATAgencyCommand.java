@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class NewVATAgencyCommand extends NewAbstractCommand {
 
@@ -46,6 +48,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	private static final String VAT_RETURN = "Vat Return";
 	private static final String ADREESS = "address";
 	private static final String CONTACTS = "contact";
+	private static final String TAX_TYPE = "taxType";
 	ClientTAXAgency taxAgency;
 
 	@Override
@@ -86,6 +89,42 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			}
 		});
 
+		list.add(new StringListRequirement(TAX_TYPE, getMessages()
+				.pleaseSelect(getMessages().taxType()),
+				getMessages().taxType(), false, true,
+				new ChangeListner<String>() {
+
+					@Override
+					public void onSelection(String value) {
+						taxTypeSelected(value);
+					}
+				}) {
+
+			@Override
+			protected String getSetMessage() {
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getMessages().taxType());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				String[] types = new String[] { getMessages().salesTax(),
+						getMessages().vat(), getMessages().serviceTax(),
+						getMessages().tds(), getMessages().other() };
+				return Arrays.asList(types);
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+
 		list.add(new StringListRequirement(VAT_RETURN, getMessages()
 				.pleaseSelect(getMessages().taxReturn()), "Vat Return", false,
 				true, new ChangeListner<String>() {
@@ -96,7 +135,6 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 					}
 				}) {
-
 			@Override
 			protected String getSetMessage() {
 				return null;
@@ -113,9 +151,22 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			}
 
 			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getPreferences().isTrackPaidTax()) {
+					if (context.getCompany().getCountry()
+							.equals(CountryPreferenceFactory.UNITED_KINGDOM)) {
+						return super.run(context, makeResult, list, actions);
+					}
+				}
+				return null;
+			}
+
+			@Override
 			protected String getEmptyString() {
 				return null;
 			}
+
 		});
 
 		list.add(new AccountRequirement(SALES_ACCOUNT, getMessages()
@@ -360,7 +411,8 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		taxAgency.setName(name);
 		taxAgency.setPaymentTerm(paymentTerm.getID());
-		taxAgency.setSalesLiabilityAccount(salesAccount.getID());
+		taxAgency.setSalesLiabilityAccount(salesAccount == null ? 0
+				: salesAccount.getID());
 		// taxAgency.setAddress(addresses);
 		taxAgency.setPhoneNo(phone);
 		taxAgency.setFaxNo(fax);
@@ -377,7 +429,8 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		if (context.getPreferences().isTrackPaidTax()) {
 			Account purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
 			String vatReturn = get(VAT_RETURN).getValue();
-			taxAgency.setPurchaseLiabilityAccount(purchaseAccount.getID());
+			taxAgency.setPurchaseLiabilityAccount(purchaseAccount == null ? 0
+					: purchaseAccount.getID());
 			if (vatReturn == "") {
 				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
 			} else if (vatReturn == "UK VAT") {
@@ -386,7 +439,8 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
 			}
 		}
-
+		String taxType = get(TAX_TYPE).getValue();
+		taxAgency.setTaxType(getTaxType(taxType));
 		create(taxAgency, context);
 
 		markDone();
@@ -394,11 +448,64 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	}
 
 	private List<String> getVatReturns() {
-
 		ArrayList<String> vatReturnList = new ArrayList<String>();
 		vatReturnList.add("UK VAT");
 		vatReturnList.add("VAT 3(Ireland)");
-
 		return vatReturnList;
+	}
+
+	private void taxTypeSelected(String selectedType) {
+		int type = getTaxType(selectedType);
+		if (type == ClientTAXAgency.TAX_TYPE_SERVICETAX
+				|| type == ClientTAXAgency.TAX_TYPE_VAT) {
+			get(SALES_ACCOUNT).setOptional(false);
+			get(PURCHASE_ACCOUNT).setOptional(false);
+			get(PURCHASE_ACCOUNT).setEditable(true);
+		} else if (type == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+			get(SALES_ACCOUNT).setOptional(false);
+			get(PURCHASE_ACCOUNT).setOptional(true);
+			get(PURCHASE_ACCOUNT).setEditable(false);
+			get(PURCHASE_ACCOUNT).setValue(null);
+		} else if (type == ClientTAXAgency.TAX_TYPE_TDS) {
+			get(SALES_ACCOUNT).setOptional(false);
+			get(PURCHASE_ACCOUNT).setOptional(true);
+			get(PURCHASE_ACCOUNT).setEditable(false);
+			get(PURCHASE_ACCOUNT).setValue(null);
+		} else {
+			get(SALES_ACCOUNT).setOptional(false);
+			get(PURCHASE_ACCOUNT).setOptional(false);
+			get(PURCHASE_ACCOUNT).setEditable(true);
+		}
+
+		if (type != ClientTAXAgency.TAX_TYPE_VAT) {
+			get(VAT_RETURN).setOptional(true);
+			get(VAT_RETURN).setEditable(false);
+			get(VAT_RETURN).setValue("");
+		} else {
+			if (getCompany().getCountry().equals(
+					CountryPreferenceFactory.UNITED_KINGDOM)) {
+				get(VAT_RETURN).setOptional(false);
+				get(VAT_RETURN).setEditable(true);
+			}
+		}
+	}
+
+	private int getTaxType(String taxType) {
+		if (taxType == null) {
+			return 0;
+		}
+		if (taxType.equals(getMessages().salesTax())) {
+			return 1;
+		} else if (taxType.equals(getMessages().vat())) {
+			return 2;
+		} else if (taxType.equals(getMessages().serviceTax())) {
+			return 3;
+		} else if (taxType.equals(getMessages().tds())) {
+			return 4;
+		} else if (taxType.equals(getMessages().other())) {
+			return 5;
+		} else {
+			return 0;
+		}
 	}
 }
