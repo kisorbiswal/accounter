@@ -25,11 +25,21 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		}
 		List<Object> resultParts = result.getResultParts();
 		StringBuffer reply = new StringBuffer();
+		String resultTitle = result.getTitle();
+		if (resultTitle != null) {
+			reply.append(result.getTitle());
+			reply.append('\n');
+		}
 		int recordsCount = 1;
 		int commandIndex = 97;
 		for (Object part : resultParts) {
 			if (part instanceof ResultList) {
 				ResultList resultList = (ResultList) part;
+				String resultListTile = resultList.getTitle();
+				if (resultListTile != null) {
+					reply.append(resultListTile);
+					reply.append('\n');
+				}
 				for (int x = 0; x < resultList.size(); x++, recordsCount++) {
 					Record record = resultList.get(x);
 					record.setCode(recordsCount);
