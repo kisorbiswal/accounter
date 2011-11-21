@@ -346,6 +346,9 @@ public class SalesManager extends Manager {
 
 		List l;
 
+		if (locationName == null) {
+			locationName = "";
+		}
 		if (isLocation) {
 			l = ((Query) session
 					.getNamedQuery("getSalesByLocationDetailForLocation")
