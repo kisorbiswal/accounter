@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.translation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
@@ -19,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.combo.LanguageCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private LanguageCombo languageCombo;
@@ -31,6 +34,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	public boolean hasMoreRecords;
 	private FlowPanel notePanel;
 	private boolean canApprove;
+	private TextItem searchItem;
 
 	// private TextItem searchItem;
 
@@ -73,15 +77,15 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 						updateListData();
 					}
 				});
-		// searchItem = new TextItem(messages.searchHere());
-		// searchItem.addChangeHandler(new ChangeHandler() {
-		//
-		// @Override
-		// public void onChange(ChangeEvent event) {
-		// searchItem.getValue();
-		//
-		// }
-		// });
+		searchItem = new TextItem(messages.searchHere());
+		searchItem.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				searchItem.getValue();
+				updateListData();
+			}
+		});
 
 		selectedLanguageLabel = new Label();
 		if (languageCombo.getSelectedValue() != null) {
@@ -102,8 +106,8 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		updateListData();
 
 		DynamicForm combosForm = new DynamicForm();
-		combosForm.setNumCols(4);
-		combosForm.setFields(languageCombo, optionsCombo);
+		combosForm.setNumCols(6);
+		combosForm.setFields(languageCombo, optionsCombo, searchItem);
 
 		mainPanel = new VerticalPanel();
 		mainPanel.add(combosForm);
@@ -152,37 +156,41 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 					.selectedTranslated(languageCombo.getSelectedValue()
 							.getLanguageTooltip()));
 
-			Accounter.createTranslateService().getMessages(
-					languageCombo.getSelectedValue().getLanguageCode(),
-					getStatus(optionsCombo.getSelectedValue()),
-					pager.getStart(), pager.getRange() + 1, "",
-					new AsyncCallback<ArrayList<ClientMessage>>() {
-
-						@Override
-						public void onSuccess(ArrayList<ClientMessage> result) {
-							if (result.size() != 0) {
-								result = setCorrectResult(result);
-								createNewDataPanel();
-								pager.updateData(result);
-								for (int i = 0; i < result.size(); i++) {
-									addMessageToMessagePanel(result.get(i),
-											canApprove);
-								}
-							} else {
-								if (!isHaveRecords()) {
-									addEmptyMsg();
-								}
-							}
-						}
-
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
-						}
-					});
+			addMessagesToView();
 
 		}
+	}
+
+	private void addMessagesToView() {
+		Accounter.createTranslateService().getMessages(
+				languageCombo.getSelectedValue().getLanguageCode(),
+				getStatus(optionsCombo.getSelectedValue()), pager.getStart(),
+				pager.getRange() + 1, searchItem.getValue(),
+				new AsyncCallback<ArrayList<ClientMessage>>() {
+
+					@Override
+					public void onSuccess(ArrayList<ClientMessage> result) {
+						if (result.size() != 0) {
+							result = setCorrectResult(result);
+							createNewDataPanel();
+							pager.updateData(result);
+							for (int i = 0; i < result.size(); i++) {
+								addMessageToMessagePanel(result.get(i),
+										canApprove);
+							}
+						} else {
+							if (!isHaveRecords()) {
+								addEmptyMsg();
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	protected ArrayList<ClientMessage> setCorrectResult(
