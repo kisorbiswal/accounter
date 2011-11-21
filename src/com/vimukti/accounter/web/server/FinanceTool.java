@@ -58,6 +58,7 @@ import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
@@ -1397,8 +1398,8 @@ public class FinanceTool {
 				.setParameter("companyId", companyId).executeUpdate();
 	}
 
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory,
-			long companyId) throws AccounterException {
+	public ArrayList<PayeeList> getPayeeList(int category, long companyId)
+			throws AccounterException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
@@ -1492,7 +1493,7 @@ public class FinanceTool {
 
 			Query query = null;
 
-			if (transactionCategory == Transaction.CATEGORY_CUSTOMER) {
+			if (category == Payee.TYPE_CUSTOMER) {
 
 				query = session
 						.getNamedQuery("getCustomersList")
@@ -1546,10 +1547,63 @@ public class FinanceTool {
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
 
-			} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
+			} else if (category == Payee.TYPE_VENDOR) {
 
 				query = session
 						.getNamedQuery("getVendorsList")
+						.setParameter("companyId", companyId)
+						.setParameter(
+								"currentMonthStartDateCal",
+								new FinanceDate(currentMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"currentMonthEndDateCal",
+								new FinanceDate(currentMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthStartDateCal",
+								new FinanceDate(previousFirstMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthEndDateCal",
+								new FinanceDate(previousFirstMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthStartDateCal",
+								new FinanceDate(previousSecondMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthEndDateCal",
+								new FinanceDate(previousSecondMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousThirdMonthStartDateCal",
+								new FinanceDate(previousThirdMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousThirdMonthEndDateCal",
+								new FinanceDate(previousThirdMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFourthMonthStartDateCal",
+								new FinanceDate(previousFourthMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFourthMonthEndDateCal",
+								new FinanceDate(previousFourthMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFifthMonthStartDateCal",
+								new FinanceDate(previousFifthMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFifthMonthEndDateCal",
+								new FinanceDate(previousFifthMonthEndDateCal
+										.getTime()).getDate());
+			} else if (category == Payee.TYPE_TAX_AGENCY) {
+
+				query = session
+						.getNamedQuery("getTAXAgencyList")
 						.setParameter("companyId", companyId)
 						.setParameter(
 								"currentMonthStartDateCal",
