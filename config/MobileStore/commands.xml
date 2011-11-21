@@ -590,6 +590,7 @@
 
 	<command clazz="AccountRegisterCommand" name="AccountRegister">
 		<alias>Account Register</alias>
+		<alias>Bank Registers</alias>
 	</command>
 
 	<command clazz="CustomerListCommand" name="Customers">
