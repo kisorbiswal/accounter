@@ -25,7 +25,8 @@ public class ServerSideMessages {
 			int index = 0;
 
 			for (Class<?> type : method.getParameterTypes()) {
-				msg = msg.replace("{.+?}", String.valueOf(args[index++]));
+				String value=String.valueOf(args[index++]);
+				msg = msg.replaceFirst("\\{.+?\\}", value);
 			}
 			return msg;
 		}
