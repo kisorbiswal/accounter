@@ -1,7 +1,8 @@
 package com.vimukti.accounter.web.client.externalization;
 
-import com.google.gwt.i18n.client.Messages;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.i18n.Messages;
 
 public interface AccounterMessages extends Messages {
 
@@ -1009,8 +1010,6 @@ public interface AccounterMessages extends Messages {
 	public String daily();
 
 	public String dashBoard();
-
-	public String dataTimeFormat();
 
 	public String date();
 

@@ -284,8 +284,7 @@ public class UIUtils {
 		try {
 			// SimpleDateFormat new
 			ClientFinanceDate date = new ClientFinanceDate(new Date(longFormat));
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.messages().dataTimeFormat());
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat("MMM dd, yyyy hh:mm a");
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} catch (Exception e) {
