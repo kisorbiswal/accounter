@@ -1133,11 +1133,6 @@ public abstract class TransactionPayBillTable extends
 		clear();
 	}
 
-	public void addEmptyMessage(String noRecordsToShow) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void addLoadingImagePanel() {
 		// TODO Auto-generated method stub
 

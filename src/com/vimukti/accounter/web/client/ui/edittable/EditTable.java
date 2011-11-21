@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -244,6 +245,14 @@ public abstract class EditTable<R> extends SimplePanel {
 		for (EditColumn<R> column : columns) {
 			column.updateHeader();
 		}
+	}
+
+	public void addEmptyMessage(String emptyMessage) {
+		this.table.getFlexCellFormatter().setColSpan(1, 0, columns.size());
+		this.table.setText(1, 0, emptyMessage);
+		this.table.addStyleName("no_records");
+		this.cellFormatter.setHorizontalAlignment(1, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
 	}
 
 	protected abstract boolean isInViewMode();

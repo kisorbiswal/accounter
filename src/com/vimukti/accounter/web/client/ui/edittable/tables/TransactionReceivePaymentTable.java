@@ -764,7 +764,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void setTranReceivePayments(
 			List<ClientTransactionReceivePayment> recievePayments) {
-		for(ClientTransactionReceivePayment payment:recievePayments){
+		for (ClientTransactionReceivePayment payment : recievePayments) {
 			payment.setID(0);
 		}
 		this.tranReceivePayments = recievePayments;
@@ -983,11 +983,6 @@ public abstract class TransactionReceivePaymentTable extends
 	protected abstract void setAmountRecieved(double toBeSetAmount);
 
 	public void addLoadingImagePanel() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void addEmptyMessage(String noRecordsToShow) {
 		// TODO Auto-generated method stub
 
 	}

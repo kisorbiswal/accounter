@@ -136,7 +136,6 @@ public class ReceivePaymentView extends
 			getTransactionReceivePayments(selectedCustomer);
 		}
 
-
 		paymentMethodCombo.setComboItem(selectedCustomer.getPaymentMethod());
 
 		this.paymentMethod = selectedCustomer.getPaymentMethod();
@@ -503,16 +502,15 @@ public class ReceivePaymentView extends
 
 		initListGrid();
 
-		unUsedCreditsText = new AmountLabel(Accounter.messages().unusedCreditsWithCurrencyName(
-				getCompany().getPrimaryCurrency()
-						.getFormalName()));
+		unUsedCreditsText = new AmountLabel(Accounter.messages()
+				.unusedCreditsWithCurrencyName(
+						getCompany().getPrimaryCurrency().getFormalName()));
 		unUsedCreditsText.setHelpInformation(true);
 		unUsedCreditsText.setDisabled(true);
 
 		unUsedPaymentsText = new AmountLabel(Accounter.messages()
 				.unusedPayments(
-						getCompany().getPrimaryCurrency()
-								.getFormalName()));
+						getCompany().getPrimaryCurrency().getFormalName()));
 		unUsedPaymentsText.setHelpInformation(true);
 		unUsedPaymentsText.setDisabled(true);
 
@@ -764,7 +762,11 @@ public class ReceivePaymentView extends
 					&& classListCombo != null) {
 				classListCombo.setComboItem(this.getClientAccounterClass());
 			}
-			gridView.setTranReceivePayments(tranReceivePaymnetsList);
+			if (!tranReceivePaymnetsList.isEmpty()) {
+				gridView.setTranReceivePayments(tranReceivePaymnetsList);
+			} else {
+				gridView.addEmptyMessage(messages.noRecordsToShow());
+			}
 		}
 		initTransactionNumber();
 		initAccounterClass();
@@ -843,8 +845,7 @@ public class ReceivePaymentView extends
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					messages.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
@@ -986,8 +987,8 @@ public class ReceivePaymentView extends
 		amtText.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		if (paymentMethod != null
-				&& paymentMethod.equalsIgnoreCase(Accounter.messages()
-						.cheque())) {
+				&& paymentMethod
+						.equalsIgnoreCase(Accounter.messages().cheque())) {
 			checkNo.setDisabled(false);
 		}
 
@@ -1114,8 +1115,9 @@ public class ReceivePaymentView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 
-		unUsedCreditsText.setTitle(Accounter.messages().unusedCreditsWithCurrencyName(
-				currencyWidget.getSelectedCurrency().getFormalName()));
+		unUsedCreditsText.setTitle(Accounter.messages()
+				.unusedCreditsWithCurrencyName(
+						currencyWidget.getSelectedCurrency().getFormalName()));
 		unUsedPaymentsText.setTitle(Accounter.messages().unusedPayments(
 				currencyWidget.getSelectedCurrency().getFormalName()));
 		amtText.setTitle(Accounter.messages().amountReceivedWithCurrencyName(
