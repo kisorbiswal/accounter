@@ -62,8 +62,7 @@ public class ItemsCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Product Item");
-				list.add("Create Service Item");
+				list.add("Add a New Item");
 			}
 
 			@Override
