@@ -13,10 +13,12 @@
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
 </head>
 <body>
-  <div id="commanContainer" style="width:400px">
+  <div id="commanContainer" style="width:420px">
    <div class="maintanance_subcont">
     <img src="/images/Accounter_logo_title.png" class="accounterLogo" />
-    <form id="cancelform" name="cancelform" method="post" action="/main/cancelform">
+    <form id="cancelform" name="cancelform" method="post" action="/main/cancelform" style="height:200px">
+      <h3 style="color:#28757D;text-align:center">Cancel Account</h3>
+      <h3>The following companies will be delete permanently if you cancel the Account.</h3>
 		<div>
 			<ul>
 				<li>
