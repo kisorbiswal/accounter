@@ -16,7 +16,7 @@ import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.PrintTemplete;
 
 public class Converter {
-	private Dimension dimension;
+	private final Dimension dimension;
 
 	// public static void main(String[] args) throws Exception {
 	// Converter converter = new Converter();
@@ -143,7 +143,6 @@ public class Converter {
 			pd4ml.enableTableBreaks(true);
 			pd4ml.enableDebugInfo();
 
-			
 			PD4PageMark footer = new PD4PageMark();
 			footer.setHtmlTemplate("<html><p align ='center'>"
 					+ template.getFooter() + "</p></html>");
@@ -153,8 +152,8 @@ public class Converter {
 
 			pd4ml.setPageFooter(footer);
 
-			pd4ml.render(reader, fos);
-//			pd4ml.render(reader, outputStream == null ? fos : outputStream);
+			// pd4ml.render(reader, fos);
+			pd4ml.render(reader, outputStream == null ? fos : outputStream);
 		} catch (Exception e) {
 			System.err.println("error occured");
 			e.printStackTrace();
@@ -197,8 +196,8 @@ public class Converter {
 
 	public File getPdfFile(PrintTemplete printTemplete, InputStreamReader reader)
 			throws Exception {
-		File pdfTempFile = File.createTempFile(printTemplete.getFileName().replace(" ", ""),
-				".pdf");
+		File pdfTempFile = File.createTempFile(printTemplete.getFileName()
+				.replace(" ", ""), ".pdf");
 		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
 		try {
 
@@ -210,7 +209,6 @@ public class Converter {
 			pd4ml.enableTableBreaks(true);
 			pd4ml.enableDebugInfo();
 
-			
 			PD4PageMark footer = new PD4PageMark();
 			footer.setHtmlTemplate("<html><p align ='center'>"
 					+ printTemplete.getFooter() + "</p></html>");
