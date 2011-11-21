@@ -343,6 +343,7 @@
 		<input>Add Item</input>
 		<input>New Item</input>
 		<input>Create Item</input>
+		<input>Add a New Item</input>
 		<output>
 			<command>Create New Service Item</command>
 			<command>Create New NonInventory Item</command>
