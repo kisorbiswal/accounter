@@ -18,7 +18,7 @@ public interface TranslateService extends RemoteService {
 	boolean vote(long localMessageId);
 
 	ArrayList<ClientMessage> getMessages(String lang, int status, int from,
-			int to);
+			int to, String searchTerm);
 
 	boolean setApprove(long localMessageId, boolean isApprove);
 

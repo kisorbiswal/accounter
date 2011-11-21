@@ -155,7 +155,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 			Accounter.createTranslateService().getMessages(
 					languageCombo.getSelectedValue().getLanguageCode(),
 					getStatus(optionsCombo.getSelectedValue()),
-					pager.getStart(), pager.getRange() + 1,
+					pager.getStart(), pager.getRange() + 1, "",
 					new AsyncCallback<ArrayList<ClientMessage>>() {
 
 						@Override

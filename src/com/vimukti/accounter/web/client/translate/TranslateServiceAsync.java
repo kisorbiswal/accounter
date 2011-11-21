@@ -20,7 +20,7 @@ public interface TranslateServiceAsync {
 	void vote(long localMessageId, AsyncCallback<Boolean> callback);
 
 	void getMessages(String lang, int status, int from, int to,
-			AsyncCallback<ArrayList<ClientMessage>> callback);
+			String searchTerm, AsyncCallback<ArrayList<ClientMessage>> callback);
 
 	public void setApprove(long localMessageId, boolean isApprove,
 			AsyncCallback<Boolean> callback);
