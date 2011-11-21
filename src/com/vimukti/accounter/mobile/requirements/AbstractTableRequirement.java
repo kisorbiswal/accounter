@@ -59,6 +59,8 @@ public abstract class AbstractTableRequirement<T> extends
 			if (res != null) {
 				return res;
 			}
+			currentValue = null;
+			context.removeSelection(ACTIONS);
 		}
 		List<T> values = getValue();
 

@@ -137,7 +137,6 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				String memo = get(MEMO).getValue();
 				double debits = get(DEBITS).getValue();
 				double credits = get(CREDITS).getValue();
-
 				obj.setAccount(account.getID());
 				obj.setMemo(memo);
 				obj.setDebit(debits);
@@ -162,10 +161,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected Record createFullRecord(ClientEntry t) {
 				Record record = new Record(t);
-				record.add(Global.get().Account(),
-						((ClientAccount) CommandUtils.getClientObjectById(
-								t.getAccount(), AccounterCoreType.ACCOUNT,
-								getCompanyId())).getDisplayName());
+				ClientAccount account = ((ClientAccount) CommandUtils
+						.getClientObjectById(t.getAccount(),
+								AccounterCoreType.ACCOUNT, getCompanyId()));
+				record.add(Global.get().Account(), account == null ? ""
+						: account.getDisplayName());
 				record.add(getConstants().credit(), t.getCredit());
 				record.add(getConstants().debit(), t.getDebit());
 				record.add(getConstants().memo(), t.getMemo());
@@ -187,6 +187,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				return getConstants().add();
 			}
 
+			@Override
+			public boolean isDone() {
+				List<ClientEntry> values = getValue();
+				return values.size() >= 2;
+			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getConstants().memo()), getConstants().memo(), true, true));
