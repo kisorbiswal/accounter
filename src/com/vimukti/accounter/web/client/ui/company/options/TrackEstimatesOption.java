@@ -75,9 +75,9 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 			}
 		});
 
-		dontInclude.setText(constants.dontWantToIncludeEstimates());
-		includeAccepted.setText(constants.includeAcceptedEstimates());
-		includePendingAndAccepted.setText(constants
+		dontInclude.setText(messages.dontWantToIncludeEstimates());
+		includeAccepted.setText(messages.includeAcceptedEstimates());
+		includePendingAndAccepted.setText(messages
 				.includePendingAndAcceptedEstimates());
 	}
 

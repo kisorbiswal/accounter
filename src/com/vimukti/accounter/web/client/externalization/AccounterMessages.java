@@ -1,9 +1,10 @@
 package com.vimukti.accounter.web.client.externalization;
 
+import com.google.gwt.i18n.client.Messages;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.i18n.Messages;
 
 public interface AccounterMessages extends Messages {
+
 	public String a2Code();
 
 	public String a3Code();
@@ -18,9 +19,9 @@ public interface AccounterMessages extends Messages {
 
 	public String Accounnumbers();
 
-	public String Account();
-
 	public String account();
+
+	public String Account();
 
 	public String accountDescription();
 
@@ -36,6 +37,12 @@ public interface AccounterMessages extends Messages {
 
 	public String accountervalidatorError();
 
+	public String accountFrom();
+
+	public String accountName();
+
+	public String accountNumber();
+
 	public String accountNumberToolTipDesc(String startingRange,
 			String endingRange);
 
@@ -48,6 +55,8 @@ public interface AccounterMessages extends Messages {
 	public String Accounts();
 
 	public String accountsSelected();
+
+	public String accountTo();
 
 	public String accountToDebitForSale();
 
@@ -295,6 +304,8 @@ public interface AccounterMessages extends Messages {
 
 	public String apAging();
 
+	public String applied();
+
 	public String appliedCredits();
 
 	public String applyCreditsandPayments();
@@ -386,6 +397,8 @@ public interface AccounterMessages extends Messages {
 	public String bankAccountNo();
 
 	public String bankAccountNumber();
+
+	public String bankAccounts();
 
 	public String bankAccountType();
 
@@ -721,11 +734,13 @@ public interface AccounterMessages extends Messages {
 
 	public String clickToAddItem(String transactionName);
 
-	public String client();
-
 	public String Client();
 
+	public String client();
+
 	public String close();
+
+	public String closed();
 
 	public String closeFiscalYear();
 
@@ -871,6 +886,8 @@ public interface AccounterMessages extends Messages {
 
 	public String credit();
 
+	public String creditAccount();
+
 	public String creditAmount();
 
 	public String creditAndRefunds();
@@ -1002,8 +1019,6 @@ public interface AccounterMessages extends Messages {
 	public String date29();
 
 	public String date30();
-	
-	public String creditAccount();
 
 	public String date31();
 
@@ -1155,6 +1170,8 @@ public interface AccounterMessages extends Messages {
 
 	public String differenceValidate();
 
+	public String dipositAccountAndTransferAccountShouldBeDiff();
+
 	public String directDebit();
 
 	public String directProductsAndMaterialCostsTotal();
@@ -1204,6 +1221,8 @@ public interface AccounterMessages extends Messages {
 	public String dontTrackPaymentsFor1099();
 
 	public String dontWantToCreateEstimates();
+
+	public String dontWantToIncludeEstimates();
 
 	public String doyouHaveEmployees();
 
@@ -1707,9 +1726,9 @@ public interface AccounterMessages extends Messages {
 
 	public String group();
 
-	public String Guest();
-
 	public String guest();
+
+	public String Guest();
 
 	public String gwtListBox();
 
@@ -1788,6 +1807,10 @@ public interface AccounterMessages extends Messages {
 	public String inActive();
 
 	public String inch();
+
+	public String includeAcceptedEstimates();
+
+	public String includePendingAndAcceptedEstimates();
 
 	public String includeUnbilledCharges();
 
@@ -2345,6 +2368,8 @@ public interface AccounterMessages extends Messages {
 
 	public String new1();
 
+	public String newAccount();
+
 	public String newAsset();
 
 	public String newBank();
@@ -2565,6 +2590,8 @@ public interface AccounterMessages extends Messages {
 
 	public String oldPassword();
 
+	public String oneOfTheAccountCurrencyShouldBePrimaryCurrency();
+
 	public String oneperDescription();
 
 	public String oneperDetailDescription();
@@ -2713,6 +2740,8 @@ public interface AccounterMessages extends Messages {
 
 	public String payeeMeaning(String payee);
 
+	public String payeeMergeDescription(String payee);
+
 	public String payeeName(String payee);
 
 	public String payeeNumber(String payee);
@@ -2758,6 +2787,8 @@ public interface AccounterMessages extends Messages {
 	public String paymentDocuments();
 
 	public String paymentFrom();
+
+	public String paymentIncludeTDS();
 
 	public String paymentInformation();
 
@@ -2896,6 +2927,8 @@ public interface AccounterMessages extends Messages {
 	public String pleaseSelectPayFromAccount();
 
 	public String pleaseSelectReportsOfSameType();
+
+	public String pleaseSelectTAXAgencyToPayTAX();
 
 	public String pleaseSelectTaxType();
 
@@ -3436,9 +3469,9 @@ public interface AccounterMessages extends Messages {
 
 	public String selectSalesOrder();
 
-	public String selectTaxAgency();
-
 	public String selectTAXAgency();
+
+	public String selectTaxAgency();
 
 	public String selectTaxGroup();
 
@@ -3680,9 +3713,9 @@ public interface AccounterMessages extends Messages {
 
 	public String sunday();
 
-	public String supplier();
-
 	public String Supplier();
+
+	public String supplier();
 
 	public String sureToDelete(String brandingThemeName);
 
@@ -3800,9 +3833,9 @@ public interface AccounterMessages extends Messages {
 
 	public String templates();
 
-	public String tenant();
-
 	public String Tenant();
+
+	public String tenant();
 
 	public String terminology();
 
@@ -4278,9 +4311,9 @@ public interface AccounterMessages extends Messages {
 
 	public String viewVATItems();
 
-	public String voided();
-
 	public String Voided();
+
+	public String voided();
 
 	public String voidedPayments();
 
@@ -4418,19 +4451,5 @@ public interface AccounterMessages extends Messages {
 	public String zipCode();
 
 	public String ztozeroperc();
-
-	public String accountFrom();
-
-	public String accountTo();
-
-	public String accountNumber();
-
-	public String payeeMergeDescription(String payee);
-
-	public String bankAccounts();
-
-	public String accountName();
-
-	public String newAccount();
 
 }

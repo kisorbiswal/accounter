@@ -182,7 +182,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getMessages().transferTo()),
+				.pleaseSelect(getMessages().transferTo()),
 				getMessages().transferTo(), false, false, null) {
 
 			@Override
