@@ -187,6 +187,7 @@ import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 import com.vimukti.accounter.web.client.ui.vat.PayTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
+import com.vimukti.accounter.web.client.ui.vat.TAXAgencyListAction;
 import com.vimukti.accounter.web.client.ui.vat.TaxHistoryAction;
 import com.vimukti.accounter.web.client.ui.vat.VatItemListAction;
 import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationAction;
@@ -282,8 +283,8 @@ public class ActionFactory {
 
 	public static WareHouseItemsListAction getWareHouseItemsListAction(
 			long wareHouse) {
-		return new WareHouseItemsListAction(wareHouse, messages
-				.wareHouseItems());
+		return new WareHouseItemsListAction(wareHouse,
+				messages.wareHouseItems());
 	}
 
 	public static WarehouseTransferListAction getWarehouseTransferListAction() {
@@ -386,8 +387,8 @@ public class ActionFactory {
 	}
 
 	public static IntegrateWithBusinessContactManagerAction getIntegrateWithBusinessContactManagerAction() {
-		return new IntegrateWithBusinessContactManagerAction(messages
-				.integrateWithBusinessContactManager());
+		return new IntegrateWithBusinessContactManagerAction(
+				messages.integrateWithBusinessContactManager());
 	}
 
 	public static NewJournalEntryAction getNewJournalEntryAction() {
@@ -395,8 +396,8 @@ public class ActionFactory {
 	}
 
 	public static NewCashBasisJournalEntryAction getNewCashBasisJournalEntryAction() {
-		return new NewCashBasisJournalEntryAction(messages
-				.newCashBasisJournalEntry());
+		return new NewCashBasisJournalEntryAction(
+				messages.newCashBasisJournalEntry());
 	}
 
 	public static NewAccountAction getNewAccountAction() {
@@ -418,8 +419,8 @@ public class ActionFactory {
 	}
 
 	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
-		return new MergeFinancialAccountsAction(messages
-				.mergeFinancialAccounts());
+		return new MergeFinancialAccountsAction(
+				messages.mergeFinancialAccounts());
 	}
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
@@ -773,8 +774,8 @@ public class ActionFactory {
 	}
 
 	public static DisposingRegisteredItemAction getDiposingRegisteredItemAction() {
-		return new DisposingRegisteredItemAction(messages
-				.disposingRegisteredItem());
+		return new DisposingRegisteredItemAction(
+				messages.disposingRegisteredItem());
 	}
 
 	public static PendingItemsListAction getPendingItemsListAction() {
@@ -787,8 +788,8 @@ public class ActionFactory {
 	}
 
 	public static SoldDisposedFixedAssetsListAction getSoldDisposedListAction() {
-		return new SoldDisposedFixedAssetsListAction(messages
-				.soldDisposedItems());
+		return new SoldDisposedFixedAssetsListAction(
+				messages.soldDisposedItems());
 	}
 
 	public static HistoryListAction getHistoryListAction() {
@@ -816,8 +817,13 @@ public class ActionFactory {
 	}
 
 	public static VendorsListAction getVendorListAction() {
-		return new VendorsListAction(Global.get().messages().payeesList(
-				Global.get().Vendor()));
+		return new VendorsListAction(Global.get().messages()
+				.payeesList(Global.get().Vendor()));
+	}
+
+	public static TAXAgencyListAction getTAXAgencyListAction() {
+		return new TAXAgencyListAction(
+				messages.payeesList(messages.taxAgency()));
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
@@ -833,8 +839,8 @@ public class ActionFactory {
 	}
 
 	public static TransactionDetailByAccountAction getTransactionDetailByAccountAction() {
-		return new TransactionDetailByAccountAction(messages
-				.transactionDetailByAccount());
+		return new TransactionDetailByAccountAction(
+				messages.transactionDetailByAccount());
 	}
 
 	public static GLReportAction getGlReportAction() {
@@ -846,8 +852,8 @@ public class ActionFactory {
 	}
 
 	public static TransactionDetailByTaxItemAction getTransactionDetailByTaxItemAction() {
-		return new TransactionDetailByTaxItemAction(messages
-				.transactionDetailByTaxItem());
+		return new TransactionDetailByTaxItemAction(
+				messages.transactionDetailByTaxItem());
 	}
 
 	// public static YtdProfitComparedToLastYearAction
@@ -860,23 +866,23 @@ public class ActionFactory {
 	}
 
 	public static CustomerTransactionHistoryAction getCustomerTransactionHistoryAction() {
-		return new CustomerTransactionHistoryAction(messages
-				.payeeTransactionHistory(Global.get().Customer()));
+		return new CustomerTransactionHistoryAction(
+				messages.payeeTransactionHistory(Global.get().Customer()));
 	}
 
 	public static MostProfitableCustomersAction getMostProfitableCustomersAction() {
-		return new MostProfitableCustomersAction(messages
-				.mostProfitableCustomers(Global.get().customer()));
+		return new MostProfitableCustomersAction(
+				messages.mostProfitableCustomers(Global.get().customer()));
 	}
 
 	public static SalesByCustomerSummaryAction getSalesByCustomerSummaryAction() {
-		return new SalesByCustomerSummaryAction(messages
-				.salesByCustomerSummary(Global.get().customer()));
+		return new SalesByCustomerSummaryAction(
+				messages.salesByCustomerSummary(Global.get().customer()));
 	}
 
 	public static SalesByCustomerDetailAction getSalesByCustomerDetailAction() {
-		return new SalesByCustomerDetailAction(messages
-				.salesByCustomerDetail(Global.get().Customer()));
+		return new SalesByCustomerDetailAction(
+				messages.salesByCustomerDetail(Global.get().Customer()));
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummmaryAction() {
@@ -961,8 +967,8 @@ public class ActionFactory {
 	}
 
 	public static VATUncategorisedAmountsReportAction getVATUncategorisedAmountsReportAction() {
-		return new VATUncategorisedAmountsReportAction(messages
-				.uncategorisedVATAmounts());
+		return new VATUncategorisedAmountsReportAction(
+				messages.uncategorisedVATAmounts());
 	}
 
 	public static VATItemSummaryReportAction getVATItemSummaryReportAction() {
@@ -982,8 +988,8 @@ public class ActionFactory {
 	}
 
 	public static ReverseChargeListDetailAction getReverseChargeListDetailAction() {
-		return new ReverseChargeListDetailAction(messages
-				.reverseChargeListDetailReport());
+		return new ReverseChargeListDetailAction(
+				messages.reverseChargeListDetailReport());
 	}
 
 	public static VaTItemDetailAction getVaTItemDetailAction() {
@@ -1086,19 +1092,19 @@ public class ActionFactory {
 	}
 
 	public static VendorsHomeAction getVendorsHomeAction() {
-		return new VendorsHomeAction(Global.get().messages().payeesHome(
-				Global.get().Vendor().trim()));
+		return new VendorsHomeAction(Global.get().messages()
+				.payeesHome(Global.get().Vendor().trim()));
 	}
 
 	public static NewVendorAction getNewVendorAction() {
-		return new NewVendorAction(Global.get().messages().newPayee(
-				Global.get().Vendor()));
+		return new NewVendorAction(Global.get().messages()
+				.newPayee(Global.get().Vendor()));
 	}
 
 	public static NewVendorAction getNewVendorAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
-		return new NewVendorAction(Global.get().messages().newPayee(
-				Global.get().Vendor()));
+		return new NewVendorAction(Global.get().messages()
+				.newPayee(Global.get().Vendor()));
 	}
 
 	public static PurchaseItemsAction getPurchaseItemsAction() {
@@ -1128,8 +1134,8 @@ public class ActionFactory {
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
-		return new NewCreditMemoAction(Global.get().messages().payeeCredit(
-				Global.get().Vendor()));
+		return new NewCreditMemoAction(Global.get().messages()
+				.payeeCredit(Global.get().Vendor()));
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction(
@@ -1173,8 +1179,8 @@ public class ActionFactory {
 	}
 
 	public static VendorsListAction getVendorsAction() {
-		return new VendorsListAction(Global.get().messages().payees(
-				Global.get().Vendor()));
+		return new VendorsListAction(Global.get().messages()
+				.payees(Global.get().Vendor()));
 	}
 
 	// public static Item getItemAction() {
@@ -1324,8 +1330,9 @@ public class ActionFactory {
 	}
 
 	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {
-		return new MISC1099TransactionDetailAction(messages
-				.MISC1099TransactionDetailByVendor(Global.get().Vendor()));
+		return new MISC1099TransactionDetailAction(
+				messages.MISC1099TransactionDetailByVendor(Global.get()
+						.Vendor()));
 	}
 
 	public static StockSettingsAction getStockSettingsAction() {
@@ -1369,8 +1376,8 @@ public class ActionFactory {
 	}
 
 	public static TAXItemExceptionDetailReport getTaxItemExceptionDetailReportAction() {
-		return new TAXItemExceptionDetailReport(messages
-				.taxItemExceptionDetailReport());
+		return new TAXItemExceptionDetailReport(
+				messages.taxItemExceptionDetailReport());
 	}
 
 	public static TranslationAction getTranslationAction() {
