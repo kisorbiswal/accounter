@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 
 public class NumberRequirement extends SingleRequirement<String> {
 
@@ -20,4 +21,8 @@ public class NumberRequirement extends SingleRequirement<String> {
 		return context.getString();
 	}
 
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_NUMBER);
+	}
 }

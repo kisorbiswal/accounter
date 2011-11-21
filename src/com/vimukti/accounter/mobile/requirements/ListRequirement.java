@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
@@ -252,6 +253,11 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				return ListRequirement.this.filter(e, name);
 			}
 		}, getLists(context));
+	}
+
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_STRING);
 	}
 
 	/**

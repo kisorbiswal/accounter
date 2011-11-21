@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -85,7 +86,7 @@ public abstract class AbstractTableRequirement<T> extends
 		}
 		if (!values.isEmpty()) {
 			ResultList resultList = new ResultList(getName());
-			makeResult.add(getRecordName());
+			resultList.setTitle(getRecordName());
 			for (T t : values) {
 				resultList.add(createRecord(t));
 			}
@@ -202,6 +203,11 @@ public abstract class AbstractTableRequirement<T> extends
 			requirement.setValue(null);
 			requirement.setDefaultValue(null);
 		}
+	}
+
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_NONE);
 	}
 
 	public void setOtherFields(ResultList list, T obj) {

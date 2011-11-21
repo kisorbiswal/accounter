@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -19,6 +20,16 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public static final String VALUES = "values";
 	public static final String ACTIONS = "actions";
 	public static final String FIRST_MESSAGE = "firstMessage";
+
+	public static final int INPUT_TYPE_NONE = 0;
+	public static final int INPUT_TYPE_STRING = 1;
+	public static final int INPUT_TYPE_NUMBER = 2;
+	public static final int INPUT_TYPE_AMOUNT = 3;
+	public static final int INPUT_TYPE_PASSWORD = 4;
+	public static final int INPUT_TYPE_EMAIL = 5;
+	public static final int INPUT_TYPE_PHONE = 6;
+	public static final int INPUT_TYPE_URL = 7;
+	public static final int INPUT_TYPE_DATE = 8;
 
 	private IGlobal global;
 	private AccounterMessages messages;
@@ -71,6 +82,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 			list.add(record);
 			result.add(list);
 		}
+		result.add(getInputType());
 		return result;
 	}
 
@@ -100,4 +112,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+
+	public abstract InputType getInputType();
 }

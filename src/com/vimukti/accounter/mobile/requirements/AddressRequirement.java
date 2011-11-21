@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -164,5 +165,10 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 		finish.add(record);
 		result.add(finish);
 		return result;
+	}
+
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_STRING);
 	}
 }

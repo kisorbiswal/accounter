@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -29,5 +30,10 @@ public class TermsAndCunditionsRequirement extends AbstractRequirement<Boolean> 
 								: "Please read the Terms and Conditions (https://www.accounterlive.com/site/termsandconditions). And Accept");
 		list.add(isActiveRecord);
 		return null;
+	}
+
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_NONE);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -356,5 +357,10 @@ public abstract class TemplateAccountRequirement extends
 		int industryType = getIndustryType();
 		AccountsTemplate accountsTemplate = allAccounts.get(industryType);
 		return accountsTemplate.getAccounts();
+	}
+
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_STRING);
 	}
 }

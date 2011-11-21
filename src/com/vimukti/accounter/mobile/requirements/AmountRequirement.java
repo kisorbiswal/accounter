@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 
 public class AmountRequirement extends SingleRequirement<Double> {
 
@@ -28,6 +29,11 @@ public class AmountRequirement extends SingleRequirement<Double> {
 	@Override
 	protected Double getInputFromContext(Context context) {
 		return context.getDouble();
+	}
+
+	@Override
+	public InputType getInputType() {
+		return new InputType(INPUT_TYPE_AMOUNT);
 	}
 
 }

@@ -224,5 +224,5 @@ public abstract class TransactionItemTableRequirement extends
 		List<ClientTransactionItem> items = getValue();
 		return items.isEmpty() ? "Add Items" : getMessages().addMore(
 				getMessages().items());
-	}
+	}	
 }
