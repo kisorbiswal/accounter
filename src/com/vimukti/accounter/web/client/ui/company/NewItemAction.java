@@ -66,7 +66,9 @@ public class NewItemAction extends Action<ClientItem> {
 						dialog.setItemname(itemName);
 						dialog.show();
 					} else {
-						type = data.getType();
+						if (data != null) {
+							type = data.getType();
+						}
 						ItemView view = new ItemView(type, forCustomer);
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
